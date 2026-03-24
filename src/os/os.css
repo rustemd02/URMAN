@@ -66,10 +66,10 @@ body::before {
 #pc-screen {
     user-select: none;
     background: #008080;
-    width: 50.5%; 
-    height: 44.5%;
+    width: 73.5%; /* Вернул нормальную ширину */
+    height: 68.5%; /* Вернул нормальную высоту */
     position: absolute;
-    top: 40.8%;
+    top: 44.8%; /* Вернул нормальную позицию */
     left: 50%;
     transform: translate(-50%, -50%) perspective(1200px) rotateX(0.5deg);
     overflow: hidden;

@@ -52,8 +52,9 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   const resizeObserver = new ResizeObserver(entries => {
     for (let entry of entries) {
       const { width, height } = entry.contentRect;
-      // Используем реальные размеры контейнера (примерно 250x380)
-      const scale = Math.min(width / 250, height / 380, 1);
+      // Масштабируем так, чтобы игра всегда влезала в окно
+      // Базовый размер контейнера игры примерно 240x360
+      const scale = Math.min(width / 240, height / 360, 1);
       gameContainer.style.transform = `scale(${scale})`;
     }
   });
