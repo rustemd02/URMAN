@@ -123,16 +123,16 @@ export class DedOS {
         
         win.style.zIndex = (++this.zIndex).toString();
         
-        // Изначально маленькие адаптивные окна
-        win.style.width = '280px';
-        win.style.height = '200px';
+        // Изначально маленькие адаптивные окна для компактного экрана
+        win.style.width = '180px';
+        win.style.height = '140px';
         
         if (item.id === 'chat') {
-            win.style.width = '320px';
-            win.style.height = '240px';
+            win.style.width = '220px';
+            win.style.height = '160px';
         } else if (item.id === 'minesweeper') {
-            win.style.width = '240px';
-            win.style.height = '340px';
+            win.style.width = '160px';
+            win.style.height = '220px';
         }
 
         // Позиционирование
