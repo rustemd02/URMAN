@@ -1,5 +1,5 @@
 export const renderMinesweeper = () => `
-  <div class="t-app" style="display:flex;align-items:center;justify-content:center;height:100%;background:#c0c0c0;font-family:Tahoma,sans-serif;overflow:hidden;">
+  <div class="t-app" style="display:flex;align-items:center;justify-content:center;height:100%;background:#c0c0c0;font-family:Tahoma,sans-serif;overflow:hidden;padding:10px;">
     <div class="t-container" style="border:2px outset #fff; background:#c0c0c0; padding:4px; box-shadow:2px 2px 0 #808080; transform-origin: center center; display: flex; flex-direction: column; align-items: center;">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:4px;margin-bottom:4px;border:2px inset #fff;padding:4px;background:#c0c0c0;width:100%;box-sizing:border-box;">
         <div style="background:#000;color:#f00;font-family:Courier New,monospace;font-weight:bold;padding:2px 4px;min-width:50px;text-align:right;font-size:14px;" id="t-score">0000</div>
@@ -52,7 +52,8 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   const resizeObserver = new ResizeObserver(entries => {
     for (let entry of entries) {
       const { width, height } = entry.contentRect;
-      const scale = Math.min(width / 180, height / 280, 1);
+      // Используем реальные размеры контейнера (примерно 250x380)
+      const scale = Math.min(width / 250, height / 380, 1);
       gameContainer.style.transform = `scale(${scale})`;
     }
   });
@@ -65,7 +66,7 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
 
   const COLS = 10;
   const ROWS = 20;
-  const SIZE = 16; // Уменьшили размер ячейки для компактности
+  const SIZE = 16; 
 
   const pieces: Record<string, number[][]> = {
     I: [[1, 1, 1, 1]],
@@ -143,22 +144,30 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
 
   const cellColor = (v: string) => palette[v] || '#000';
 
-  const drawCell = (cx: CanvasRenderingContext2D, x: number, y: number, color: string) => {
+  const drawCell = (cx: CanvasRenderingContext2D, x: number, y: number, color: string, alpha = 1) => {
+    cx.globalAlpha = alpha;
     cx.fillStyle = color;
     cx.fillRect(x * SIZE, y * SIZE, SIZE, SIZE);
-    cx.strokeStyle = '#e8e8e8';
-    cx.lineWidth = 1;
-    cx.beginPath();
-    cx.moveTo(x * SIZE, y * SIZE + SIZE);
-    cx.lineTo(x * SIZE, y * SIZE);
-    cx.lineTo(x * SIZE + SIZE, y * SIZE);
-    cx.stroke();
-    cx.strokeStyle = '#555';
-    cx.beginPath();
-    cx.moveTo(x * SIZE + SIZE, y * SIZE);
-    cx.lineTo(x * SIZE + SIZE, y * SIZE + SIZE);
-    cx.lineTo(x * SIZE, y * SIZE + SIZE);
-    cx.stroke();
+    
+    if (alpha === 1) {
+      cx.strokeStyle = '#e8e8e8';
+      cx.lineWidth = 1;
+      cx.beginPath();
+      cx.moveTo(x * SIZE, y * SIZE + SIZE);
+      cx.lineTo(x * SIZE, y * SIZE);
+      cx.lineTo(x * SIZE + SIZE, y * SIZE);
+      cx.stroke();
+      cx.strokeStyle = '#555';
+      cx.beginPath();
+      cx.moveTo(x * SIZE + SIZE, y * SIZE);
+      cx.lineTo(x * SIZE + SIZE, y * SIZE + SIZE);
+      cx.lineTo(x * SIZE, y * SIZE + SIZE);
+      cx.stroke();
+    } else {
+      cx.strokeStyle = color;
+      cx.strokeRect(x * SIZE + 0.5, y * SIZE + 0.5, SIZE - 1, SIZE - 1);
+    }
+    cx.globalAlpha = 1;
   };
 
   const drawBoardBg = () => {
@@ -189,6 +198,21 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
     }
   };
 
+  const drawGhost = () => {
+    if (!active || !ctx) return;
+    let ghostY = active.y;
+    while (!collide(active, 0, ghostY - active.y + 1)) {
+      ghostY++;
+    }
+    for (let y = 0; y < active.matrix.length; y++) {
+      for (let x = 0; x < active.matrix[y].length; x++) {
+        if (active.matrix[y][x]) {
+          drawCell(ctx, active.x + x, ghostY + y, cellColor(active.type), 0.3);
+        }
+      }
+    }
+  };
+
   const drawPiece = (p: Piece | null) => {
     if (!p || !ctx) return;
     for (let y = 0; y < p.matrix.length; y++) {
@@ -206,7 +230,7 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
 
     if (!next) return;
 
-    const previewSize = 16;
+    const previewSize = 12; 
     const mw = next.matrix[0].length;
     const mh = next.matrix.length;
     const ox = ((nextCanvas.width - mw * previewSize) / 2) | 0;
@@ -310,7 +334,7 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
     drawNext();
     if (collide(active, 0, 0)) {
       over = true;
-      resetBtn.textContent = '☹';
+      if (resetBtn) resetBtn.textContent = '☹';
     }
   };
 
@@ -364,6 +388,7 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
     if (!collide(active, 1, 0, r)) {
       active.x++;
       active.matrix = r;
+      return;
     }
   };
 
@@ -371,17 +396,18 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
     if (!ctx) return;
     drawBoardBg();
     drawGrid();
+    drawGhost(); 
     drawPiece(active);
 
     if (over) {
       ctx.fillStyle = 'rgba(192,192,192,0.92)';
-      ctx.fillRect(20, 160, 160, 80);
+      ctx.fillRect(20, 120, 120, 60);
       ctx.strokeStyle = '#fff';
-      ctx.strokeRect(20, 160, 160, 80);
+      ctx.strokeRect(20, 120, 120, 60);
       ctx.fillStyle = '#000';
-      ctx.font = 'bold 18px Tahoma';
+      ctx.font = 'bold 14px Tahoma';
       ctx.textAlign = 'center';
-      ctx.fillText('GAME OVER', 100, 205);
+      ctx.fillText('GAME OVER', 80, 155);
     }
   };
 
@@ -493,7 +519,7 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
     else if (e.key === ' ') hardDrop();
   };
 
-  resetBtn.addEventListener('click', reset);
+  if (resetBtn) resetBtn.addEventListener('click', reset);
   window.addEventListener('keydown', onKey);
 
   reset();

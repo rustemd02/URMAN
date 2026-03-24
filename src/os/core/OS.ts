@@ -131,8 +131,8 @@ export class DedOS {
             win.style.width = '240px';
             win.style.height = '180px';
         } else if (item.id === 'minesweeper') {
-            win.style.width = '180px';
-            win.style.height = '240px';
+            win.style.width = '260px'; // Увеличено с 180
+            win.style.height = '380px'; // Увеличено с 240
         }
 
         // Позиционирование
