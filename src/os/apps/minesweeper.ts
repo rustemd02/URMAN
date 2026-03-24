@@ -52,7 +52,7 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   const resizeObserver = new ResizeObserver(entries => {
     for (let entry of entries) {
       const { width, height } = entry.contentRect;
-      // В системе 800x600 базовый размер Тетриса фиксирован
+      // В системе 640x480 базовый размер Тетриса фиксирован
       const scale = Math.min(width / 300, (height - 20) / 460, 1);
       gameContainer.style.transform = `scale(${scale})`;
     }
@@ -104,20 +104,20 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   let shown = false;
 
   const msgData = [
-    '0JrQsNCx0LXRgCDRgtCw0YjQu9Cw0YDRiyDQvNC40qPCwCDQvdC40LTQtdGAINGBө0LnQu9C4',
-    '0Jv5p9C60LjQvSDQsdC10YDQvdC4INCw0ZvQu9Cw0LzRi9C50L0=',
-    '0Z7QtdC/IMOp0LfQtdC70LP5p9C9LCDRgtC10Lsg0Y7Qs9Cw0LvQs9Cw0L0=',
+    '0JrQsNCx0LXRgCDRgtCw0YjQu9Cw0YDRiyDQvNC40Z3QsCDQvdC40LTQtdGAINGB06ls0LvQuA==',
+    '0Jv5p9C60LjQvSDQsdC10YDQvdC4INCw0Z3Qu9Cw0LzRi9C50L0=',
+    '0Z7QtdC/IMOp0LfQtdC70LP5p9C9LCDRgtC10Lsg0Y7Qs9Cw0LvQsNC9',
     '0KPQutGL0L8g0LHRg9C70LAg0YLQuNC6INCx0LXRgCDQs9C10L3Tmcgc0YHQsNC9LCDQsdC10YAg0LPQtdC90Y8gc0YHQsNC9'
   ];
 
   const decode = (s: string) => {
     try {
-      // Чистый способ декодирования UTF-8 из Base64
-      return decodeURIComponent(atob(s).split('').map(c => {
+      // b64DecodeUnicode: корректный способ для кириллицы и татарских букв
+      return decodeURIComponent(atob(s).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
     } catch (e) { 
-      return "Ошибка данных"; 
+      return "Укып булмый..."; 
     }
   };
 

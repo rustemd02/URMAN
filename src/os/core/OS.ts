@@ -109,13 +109,13 @@ export class DedOS {
         const bar = document.createElement('div');
         bar.id = 'taskbar';
         bar.innerHTML = `
-            <button class="start-btn">
+            <button class="start-btn" title="Пуск (Җибәр)">
                 <span style="font-size: 12px; margin-right: 2px;">💻</span>
                 Җибәр
             </button>
             <div class="taskbar-apps"></div>
-            <button class="win98-btn fs-btn" style="height:16px; padding:0 4px; margin-right:4px; font-size:8px;">[ ]</button>
-            <div id="clock">00:00</div>
+            <button class="win98-btn fs-btn" title="Полный экран" style="height:16px; padding:0 4px; margin-right:4px; font-size:8px;">[ ]</button>
+            <div id="clock" title="Вакыт (Время)">00:00</div>
         `;
         if (wrapper) wrapper.appendChild(bar);
         else this.screen.appendChild(bar);
