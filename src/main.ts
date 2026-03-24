@@ -1,7 +1,8 @@
-import './style.css';
-import { DedOS } from './core/OS';
+import './os/os.css';
+import { Game } from './game/Game';
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("URMAN: Инициализация системы Бабая...");
-    new DedOS();
+    console.log("URMAN: Запуск игры...");
+    const game = new Game();
+    game.start();
 });
