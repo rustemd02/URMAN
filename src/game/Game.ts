@@ -16,7 +16,7 @@ export class Game {
     }
 
     public start() {
-        // Начинаем с компьютерной сцены (или интро)
-        this.scenes.switchScene('computer');
+        // Начинаем с интро
+        this.scenes.switchScene('intro');
     }
 }
