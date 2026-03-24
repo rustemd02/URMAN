@@ -215,13 +215,13 @@ async function loadPoemFromSource(meta: TukayPoemMeta): Promise<{ title: string;
 function winButton(label: string, cls = ''): string {
   return `
     <button class="win-btn ${cls}" style="
-      height:22px;
-      min-width:58px;
-      border:2px outset #fff;
+      height:16px;
+      min-width:40px;
+      border:1px outset #fff;
       background:#c0c0c0;
-      font-size:11px;
+      font-size:9px;
       cursor:pointer;
-      padding:0 8px;
+      padding:0 4px;
     ">${label}</button>
   `;
 }
@@ -518,8 +518,8 @@ export const renderBrowser = () => `
     <div class="browser-toolbar" style="
       display:flex;
       align-items:center;
-      gap:4px;
-      padding:4px;
+      gap:2px;
+      padding:2px;
       border-bottom:1px solid #808080;
       box-shadow:inset 1px 1px #fff;
       background:#c0c0c0;
@@ -533,11 +533,11 @@ export const renderBrowser = () => `
         display:flex;
         align-items:center;
         background:#fff;
-        border:2px solid;
+        border:1px solid;
         border-color:#808080 #fff #fff #808080;
-        padding:1px 4px;
+        padding:0 2px;
       ">
-        <input id="browser-address" type="text" value="about:home" style="flex:1; border:none; font-size:11px; outline:none;">
+        <input id="browser-address" type="text" value="about:home" style="flex:1; border:none; font-size:9px; outline:none; height:14px;">
       </div>
 
       ${winButton('Go', 'browser-go')}
@@ -546,18 +546,19 @@ export const renderBrowser = () => `
     <div style="
       display:flex;
       align-items:center;
-      gap:4px;
-      padding:4px;
+      gap:2px;
+      padding:2px;
       background:#d6d6d6;
       border-bottom:1px solid #9b9b9b;
     ">
       <input id="browser-search-input" type="text" placeholder="Поиск в Яндэк..." style="
         flex:1;
-        border:2px solid;
+        border:1px solid;
         border-color:#808080 #fff #fff #808080;
-        padding:2px 4px;
-        font-size:11px;
+        padding:1px 3px;
+        font-size:9px;
         background:#fff;
+        height:14px;
       ">
       ${winButton('Искать', 'browser-search-btn')}
     </div>

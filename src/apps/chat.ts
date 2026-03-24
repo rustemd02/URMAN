@@ -124,14 +124,14 @@ export const renderChat = () => `
         Нажми на татарское слово, чтобы увидеть перевод.
       </div>
 
-      <div style="display:flex; gap:6px; padding:8px; background:#dcdcdc; border-top:2px solid #8a8a8a;">
+      <div style="display:flex; gap:4px; padding:4px; background:#dcdcdc; border-top:2px solid #8a8a8a;">
         <input
           type="text"
-          style="flex:1; border:2px inset #fff; padding:4px; font-family:Tahoma, sans-serif;"
+          style="flex:1; border:1px inset #fff; padding:2px; font-family:Tahoma, sans-serif; font-size:10px;"
           placeholder="Сообщение..."
         />
         <button
-          style="border:2px outset #fff; padding:4px 12px; background:#efefef; cursor:pointer;"
+          style="border:1px outset #fff; padding:2px 8px; background:#efefef; cursor:pointer; font-size:10px;"
         >
           Отправить
         </button>

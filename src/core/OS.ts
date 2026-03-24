@@ -90,13 +90,24 @@ export class DedOS {
         bar.id = 'taskbar';
         bar.innerHTML = `
             <button class="start-btn">
-                <span style="font-size: 16px; margin-right: 4px;">💻</span>
+                <span style="font-size: 12px; margin-right: 2px;">💻</span>
                 Җибәр
             </button>
             <div class="taskbar-apps"></div>
+            <button class="win98-btn fs-btn" style="height:16px; padding:0 4px; margin-right:4px; font-size:8px;">[ ]</button>
             <div id="clock">00:00</div>
         `;
         this.screen.appendChild(bar);
+
+        bar.querySelector('.fs-btn')?.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        });
     }
 
     public openWindow(item: SystemItem) {

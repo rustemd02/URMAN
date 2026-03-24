@@ -3,9 +3,9 @@
     --win-border-light: #ffffff;
     --win-border-dark: #808080;
     --win-border-black: #000000;
-    --taskbar-height: 22px;
-    --font-size-small: 9px;
-    --font-size-normal: 10px;
+    --taskbar-height: 20px; /* Еще меньше */
+    --font-size-small: 8px;
+    --font-size-normal: 9px;
 }
 
 body {
@@ -22,6 +22,17 @@ body {
     position: relative;
     image-rendering: pixelated;
 }
+
+/* Fullscreen toggle button style */
+.fs-toggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 10000;
+    opacity: 0.3;
+    transition: opacity 0.3s;
+}
+.fs-toggle:hover { opacity: 1; }
 
 /* Задний фон с блюром */
 body::before {
@@ -100,10 +111,10 @@ body::before {
 
 .desktop-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 55px);
-    grid-template-rows: repeat(auto-fill, 60px);
-    gap: 8px;
-    padding: 12px;
+    grid-template-columns: repeat(auto-fill, 50px);
+    grid-template-rows: repeat(auto-fill, 55px);
+    gap: 5px;
+    padding: 8px;
     height: calc(100% - var(--taskbar-height));
     align-content: start;
 }
@@ -116,7 +127,7 @@ body::before {
     cursor: pointer;
     color: white;
     text-align: center;
-    padding: 4px;
+    padding: 2px;
 }
 
 .desktop-icon:hover {
@@ -124,16 +135,16 @@ body::before {
 }
 
 .desktop-icon .icon-img {
-    font-size: 24px;
-    margin-bottom: 2px;
+    font-size: 20px;
+    margin-bottom: 1px;
     filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
 }
 
 .desktop-icon .icon-text {
-    font-size: 8px;
+    font-size: 7px;
     line-height: 1.1;
     word-wrap: break-word;
-    max-width: 50px;
+    max-width: 45px;
     text-shadow: 1px 1px 1px #000;
 }
 
@@ -154,14 +165,14 @@ body::before {
 .window-title {
     background: #808080;
     color: #c0c0c0;
-    padding: 1px 2px;
+    padding: 0 2px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
-    font-size: 9px;
+    font-size: 8px;
     cursor: default;
-    height: 16px;
+    height: 14px;
 }
 
 .window.active {
@@ -176,12 +187,12 @@ body::before {
 .title-info {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 2px;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.title-icon { font-size: 10px; }
+.title-icon { font-size: 9px; }
 
 .title-controls {
     display: flex;
@@ -189,13 +200,13 @@ body::before {
 }
 
 .win-btn {
-    width: 14px;
-    height: 12px;
+    width: 12px;
+    height: 10px;
     background: #c0c0c0;
     border: 1px solid #fff;
     border-right-color: #000;
     border-bottom-color: #000;
-    font-size: 8px;
+    font-size: 7px;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -245,16 +256,16 @@ body::before {
 }
 
 .start-btn {
-    height: 18px;
+    height: 16px;
     background: #c0c0c0;
     border: 1px outset #fff;
     font-weight: bold;
-    font-size: 9px;
+    font-size: 8px;
     display: flex;
     align-items: center;
-    padding: 0 4px;
+    padding: 0 3px;
     cursor: pointer;
-    gap: 3px;
+    gap: 2px;
 }
 
 .start-btn:active {
@@ -265,27 +276,30 @@ body::before {
     margin-left: auto;
     background: #c0c0c0;
     border: 1px inset #fff;
-    padding: 1px 4px;
-    font-size: 9px;
+    padding: 0 3px;
+    font-size: 8px;
     color: #000;
+    height: 16px;
+    display: flex;
+    align-items: center;
 }
 
 .taskbar-apps {
     flex: 1;
-    margin: 0 4px;
+    margin: 0 3px;
     display: flex;
     gap: 2px;
 }
 
 .taskbar-item {
-    width: 80px;
-    height: 18px;
+    width: 70px;
+    height: 16px;
     border: 1px outset #fff;
-    font-size: 8px;
-    padding: 0 3px;
+    font-size: 7px;
+    padding: 0 2px;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 2px;
     background: #c0c0c0;
     overflow: hidden;
     white-space: nowrap;
