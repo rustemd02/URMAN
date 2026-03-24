@@ -7,6 +7,7 @@ type BrowserPage =
   | 'tukay'
   | 'news'
   | 'forum'
+  | 'thread'
   | 'maps'
   | 'poem';
 
@@ -215,13 +216,16 @@ async function loadPoemFromSource(meta: TukayPoemMeta): Promise<{ title: string;
 function winButton(label: string, cls = ''): string {
   return `
     <button class="win-btn ${cls}" style="
-      height:16px;
-      min-width:40px;
+      height:18px;
+      min-width:32px;
       border:1px outset #fff;
       background:#c0c0c0;
       font-size:9px;
       cursor:pointer;
       padding:0 4px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     ">${label}</button>
   `;
 }
@@ -229,7 +233,7 @@ function winButton(label: string, cls = ''): string {
 function renderHomePage(): string {
   return `
     <div style="background: #ffcc00; padding: 15px 10px; font-weight: bold; font-size: 32px; color: red; letter-spacing: -2px; border-bottom: 2px solid #000;">
-        ЯНДЭК <span style="font-size: 12px; color: black; font-weight: normal; letter-spacing: 0; vertical-align: middle; margin-left: 10px;">Найдется всё (если Урман отдаст)</span>
+        ЯНДЭК <span style="font-size: 12px; color: black; font-weight: normal; letter-spacing: 0; vertical-align: middle; margin-left: 10px;">Найдется всё</span>
     </div>
     <div style="padding:16px;">
       <div style="display:flex; align-items:baseline; gap:10px;">
@@ -411,19 +415,40 @@ function renderNewsPage(): string {
 }
 
 function renderForumPage(): string {
+  const threads = (webContent as any).forum?.threads || [];
   return `
     <div style="padding:16px;">
       <div style="font-size:24px; font-weight:bold;">Форум</div>
       <div style="margin-top:18px;">
-        ${FORUM_THREADS.map(
-          (thread) => `
-          <div style="border:1px solid #ccc; background:#fafafa; padding:8px 10px; margin-bottom:6px;">
-            <div style="font-size:14px; color:#003399; text-decoration:underline; cursor:pointer;">${thread.title}</div>
-            <div style="font-size:11px; color:#666; margin-top:2px;">Автор: ${thread.author} • Ответов: ${thread.replies}</div>
+        ${threads.map(
+          (thread: any) => `
+          <div style="border:1px solid #ccc; background:#fafafa; padding:8px 10px; margin-bottom:6px; cursor:pointer;" class="forum-thread-link" data-thread-id="${thread.id}">
+            <div style="font-size:14px; color:#003399; text-decoration:underline;">${thread.title}</div>
+            <div style="font-size:11px; color:#666; margin-top:2px;">Автор: ${thread.author} • Ответов: ${thread.replies.length}</div>
           </div>
         `
         ).join('')}
       </div>
+    </div>
+  `;
+}
+
+function renderThreadPage(threadId: string): string {
+  const thread = (webContent as any).forum?.threads.find((t: any) => t.id === threadId);
+  if (!thread) return 'Thread not found';
+  
+  return `
+    <div style="padding:16px;">
+      <div style="font-size:18px; font-weight:bold; color:#003399; margin-bottom:15px;">${thread.title}</div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        ${thread.replies.map((r: any) => `
+          <div style="border:1px solid #ddd; padding:8px; background:#fff;">
+            <div style="font-weight:bold; font-size:12px; color:#555; margin-bottom:4px;">${r.author}</div>
+            <div style="font-size:13px;">${r.text}</div>
+          </div>
+        `).join('')}
+      </div>
+      <button class="win98-btn" data-open-page="forum" style="margin-top:15px;">Назад к списку</button>
     </div>
   `;
 }
@@ -536,8 +561,9 @@ export const renderBrowser = () => `
         border:1px solid;
         border-color:#808080 #fff #fff #808080;
         padding:0 2px;
+        height:18px;
       ">
-        <input id="browser-address" type="text" value="about:home" style="flex:1; border:none; font-size:9px; outline:none; height:14px;">
+        <input id="browser-address" type="text" value="about:home" style="flex:1; border:none; font-size:9px; outline:none; height:14px; background:transparent;">
       </div>
 
       ${winButton('Go', 'browser-go')}
@@ -558,7 +584,7 @@ export const renderBrowser = () => `
         padding:1px 3px;
         font-size:9px;
         background:#fff;
-        height:14px;
+        height:18px;
       ">
       ${winButton('Искать', 'browser-search-btn')}
     </div>
@@ -679,6 +705,17 @@ export const initBrowser = (root: ParentNode = document) => {
     } else if (page === 'forum') {
       contentEl.innerHTML = renderForumPage();
       setStatus('Форум открыт');
+      
+      // Биндим клики по тредам
+      contentEl.querySelectorAll('.forum-thread-link').forEach(el => {
+        el.addEventListener('click', () => {
+          const tid = (el as HTMLElement).dataset.threadId;
+          openPage('thread', { threadId: tid });
+        });
+      });
+    } else if (page === 'thread') {
+      contentEl.innerHTML = renderThreadPage(payload?.threadId);
+      setStatus('Просмотр темы');
     } else if (page === 'maps') {
       contentEl.innerHTML = renderMapsPage();
       setStatus('Карты открыты');

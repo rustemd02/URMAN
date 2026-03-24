@@ -52,9 +52,8 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   const resizeObserver = new ResizeObserver(entries => {
     for (let entry of entries) {
       const { width, height } = entry.contentRect;
-      // Масштабируем так, чтобы игра всегда влезала в окно
-      // Базовый размер контейнера игры примерно 240x360
-      const scale = Math.min(width / 240, height / 360, 1);
+      // В системе 800x600 базовый размер Тетриса фиксирован
+      const scale = Math.min(width / 300, (height - 20) / 460, 1);
       gameContainer.style.transform = `scale(${scale})`;
     }
   });
@@ -105,21 +104,22 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   let shown = false;
 
   const msgData = [
-    '0JrQsNCx0LXRgCDRgtCw0YjQu9Cw0YDRiyDQvNC40qPCwINC90LjQtNC10YAg0YHө0Lli',
-    '0JvTmc60LjQvNC40YAg0LHQtdGA0L3QuCDQsNGj0LvQsNC80YvQvQ==',
-    '0Җ0L/Qv9GB0LTRhdC80LDQvSwgdNC10Lsg0Y7Qs9Cw0LvQsNC9',
-    '0KPQutGL0L8g0LHRg9C70LAg0YLQuNC6INCx0LXRgCDQs9C10L3Tmcgc0YHQsNC9LCDQsdC10YAg0LPQtdC90Y8gc0YHQsNC9',
-    '0KLQuNC6INCx0LXRgCwg0LHRgNC90LAg0LPQtdC90Y8gc0YHQsNC90LCDQsdC10YAg0LPQtdC90Y8gc0YHQsNC9',
-    '0KLQuNC6INCx0LXRgCwg0LHRgNC90LAg0LPQtdC90Y8gc0YHQsNC9LCDRgtC40Log0LHRgNC90LAg0LPQtdC90Y8gc0YHQsNC9',
-    '0JHQtdGAINCz0LXQvdCwIOGB0LDQvSwg0LHRgNC90LAg0LPQtdC90Y8gc0YHQsNC9',
-    '0JHQtdGAINCz0LXQvdCwIOGB0LDQvSwg0LHRgNC90LAg0LPQtdC90Y8gc0YHQsNC9LCAxNTUy',
-    'MTU1MiwgMTU1Miwgw6fÓ™0YLQtdGA0LXQvNC0w50gMTU1Mg=='
+    '0KPRgNC80LDQvCDRgtGL0L3Qu9GL0LPRi9C90LTQsC4uLg==',
+    '0JrQsNCx0LXRgNC7053RgCDQsNGA0LDRgdGL0L3QtNCwLi4u',
+    '0KjZpNGA053Qu9C1INC606ls0Z3QtCDQuNGI0LXRgtC10LvQuC4=',
+    '0J/QsNC60YIg0LHQvtC30YvQu9C00Ysu',
+    'MTU1MiDQtdC70LTQsNC9INCx0LQu0YDQu9C1Li4u'
   ];
 
   const decode = (s: string) => {
     try {
-      return decodeURIComponent(atob(s).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-    } catch (e) { return s; }
+      // Чистый способ декодирования UTF-8 из Base64
+      return decodeURIComponent(atob(s).split('').map(c => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+    } catch (e) { 
+      return "Ошибка данных"; 
+    }
   };
 
   const getText = () => msgData.map(decode).join('\n');

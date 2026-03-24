@@ -32,5 +32,63 @@
         "Анда йөрсәң — йөрәгеңә ут каба."
       ]
     }
+  },
+  "forum": {
+    "threads": [
+      {
+        "id": "t1",
+        "title": "Кто-нибудь знает норм сайт со стихами Тукая?",
+        "author": "Aidar_16",
+        "replies": [
+          {"author": "Admin", "text": "Попробуй gabdullatukay.ru, там самый полный архив."},
+          {"author": "Aidar_16", "text": "Спасибо, гляну!"},
+          {"author": "User99", "text": "Там еще и биография хорошая есть."},
+          {"author": "Marat", "text": "А есть аудиоверсии?"},
+          {"author": "Admin", "text": "Да, в разделе мультимедиа."},
+          {"author": "Guest", "text": "Тукай - это база."},
+          {"author": "Aidar_16", "text": "Нашел, всё работает!"},
+          {"author": "Lily", "text": "А на русском переводы там есть?"},
+          {"author": "Admin", "text": "Да, почти все основные стихи переведены."},
+          {"author": "Aidar_16", "text": "Кстати, интерфейс сайта немного устаревший, но контент топ."},
+          {"author": "User99", "text": "Главное - тексты."},
+          {"author": "Marat", "text": "Согласен."},
+          {"author": "Guest", "text": "А кто ваш любимый поэт кроме Тукая?"},
+          {"author": "Admin", "text": "Давайте не оффтопить."},
+          {"author": "Lily", "text": "Ок, сорри."},
+          {"author": "Aidar_16", "text": "Еще раз спасибо всем!"},
+          {"author": "User99", "text": "Удачи в изучении."},
+          {"author": "Marat", "text": "Пиши если что."},
+          {"author": "Admin", "text": "Тема закрыта."},
+          {"author": "System", "text": "Thread archived."}
+        ]
+      },
+      {
+        "id": "t2",
+        "title": "Почему в старых стихах столько слов, которые без словаря не понять",
+        "author": "alsu_k",
+        "replies": [
+          {"author": "Philolog", "text": "Много заимствований из арабского и персидского."},
+          {"author": "alsu_k", "text": "Но это же усложняет чтение..."},
+          {"author": "Philolog", "text": "Это культурный пласт того времени."},
+          {"author": "Student", "text": "Зато звучит красиво!"},
+          {"author": "alsu_k", "text": "Красиво, но непонятно."},
+          {"author": "Philolog", "text": "Советую словарь Иске Имля."},
+          {"author": "Marat", "text": "Я тоже мучаюсь иногда."},
+          {"author": "Admin", "text": "У нас на сайте есть глоссарий."},
+          {"author": "alsu_k", "text": "О, спасибо, поищу."},
+          {"author": "Philolog", "text": "Если что, спрашивай тут."},
+          {"author": "Student", "text": "А я люблю эти старые слова."},
+          {"author": "alsu_k", "text": "Почему?"},
+          {"author": "Student", "text": "В них магия какая-то."},
+          {"author": "Marat", "text": "Магия боли при чтении?"},
+          {"author": "Student", "text": "Ну типа того)"},
+          {"author": "Admin", "text": "Ребята, серьезнее."},
+          {"author": "alsu_k", "text": "Всё, я поняла, буду учить."},
+          {"author": "Philolog", "text": "Правильный настрой!"},
+          {"author": "Marat", "text": "Удачи..."},
+          {"author": "alsu_k", "text": "Рәхмәт!"}
+        ]
+      }
+    ]
   }
 }

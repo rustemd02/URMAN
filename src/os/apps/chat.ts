@@ -64,26 +64,34 @@ export const renderChat = () => `
           <div style="margin-bottom:8px;"><span style="color:#b85c00; font-weight:bold;">[08:33] Babay77:</span> я не про это. следы были. длинные. будто пальцы</div>
           <div style="margin-bottom:8px;"><span style="color:#0000ff; font-weight:bold;">[08:34] Ilfat_87:</span> опять началось</div>
           <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[08:36] Aigul:</span> <span class="tt-word" data-translation="не говори / молчи">әйтмә</span> здесь такое вслух</div>
+          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[08:40] Gayaz_Admin:</span> <span class="tt-word" data-translation="завтра">иртәгә</span> собрание в 10:00. Всем быть.</div>
+          <div style="margin-bottom:8px;"><span style="color:#008000; font-weight:bold;">[08:42] Rafis:</span> Опять про налоги? <span class="tt-word" data-translation="надоело">туйдырды</span> уже.</div>
+          <div style="margin-bottom:8px;"><span style="color:#4444aa; font-weight:bold;">[08:45] Aidar:</span> Нет, говорят про <span class="tt-word" data-translation="лес">урман</span> будут решать.</div>
+          <div style="margin-bottom:8px;"><span style="color:#990000; font-weight:bold;">[08:47] Rustem:</span> <span class="tt-word" data-translation="правда">дөрес</span>, пора уже порядок навести.</div>
+          <div style="margin-bottom:8px;"><span style="color:#008080; font-weight:bold;">[08:50] Zuleiha:</span> Лишь бы <span class="tt-word" data-translation="война">сугыш</span> не было, а остальное переживем.</div>
+          <div style="margin-bottom:8px;"><span style="color:#ff00aa; font-weight:bold;">[08:52] Ilgizar:</span> Какая война, Зулейха апа, <span class="tt-word" data-translation="успокойся">тынычлан</span>.</div>
+          <div style="margin-bottom:8px;"><span style="color:#b85c00; font-weight:bold;">[08:55] Babay77:</span> <span class="tt-word" data-translation="слушайте">тыңлагыз</span> меня, лес шутить не любит.</div>
+          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[08:57] Alina_Kzn:</span> Опять Бабай за своё. <span class="tt-word" data-translation="хватит">җитәр</span> уже пугать.</div>
+          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[09:05] Gayaz_Admin:</span> <span class="tt-word" data-translation="понимаете">аңлыйсызмы</span>, нам нужны инвестиции.</div>
+          <div style="margin-bottom:8px;"><span style="color:#0000ff; font-weight:bold;">[09:10] Ilfat_87:</span> Инвестиции это хорошо, но <span class="tt-word" data-translation="где">кайда</span> они будут строить?</div>
+          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[09:12] Aigul:</span> Говорят, за старым оврагом.</div>
+          <div style="margin-bottom:8px;"><span style="color:#b85c00; font-weight:bold;">[09:15] Babay77:</span> <span class="tt-word" data-translation="нельзя">ярамый</span>! Там их земля.</div>
+          <div style="margin-bottom:8px;"><span style="color:#008000; font-weight:bold;">[09:18] Rafis:</span> Бабай, <span class="tt-word" data-translation="чей">кемнеке</span>? Лес общий.</div>
+          <div style="margin-bottom:8px;"><span style="color:#b85c00; font-weight:bold;">[09:20] Babay77:</span> <span class="tt-word" data-translation="увидите">күрерсез</span>... скоро сами всё увидите.</div>
           <div class="chat-system-msg">Gayaz_Admin закрепил сообщение: “После заката детям в сторону леса не ходить”.</div>
         </div>
 
         <!-- АЛСУ -->
         <div class="chat-panel" data-chat-panel="alsu" style="display:none;">
-          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:02] You:</span> Ты вчера что хотела сказать про мост?</div>
-          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[21:17] Alsu:</span> неважно уже</div>
-          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:19] You:</span> Это связано с лесом?</div>
-          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[21:24] Alsu:</span> может да может нет</div>
-          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:25] You:</span> Ты видела кого-то?</div>
-          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[21:29] Alsu:</span> <span class="tt-word" data-translation="не знаю">белмим</span></div>
-          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:31] You:</span> Алсу, нормально скажи.</div>
-          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[21:38] Alsu:</span> если я скажу ты все равно не поверишь</div>
-          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:40] You:</span> Попробуй.</div>
-          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[21:47] Alsu:</span> <span class="tt-word" data-translation="не ходи">барма</span> туда ночью</div>
-          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:48] You:</span> Куда именно?</div>
-          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[21:56] Alsu:</span> ты сам поймешь</div>
-          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:58] You:</span> Это человек или нет?</div>
-          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[22:12] Alsu:</span> <span class="tt-word" data-translation="иногда">кайчак</span> хуже человека</div>
-          <div class="chat-system-msg">Alsu была в сети 18 сек. Сообщение не удалено.</div>
+          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:02] You:</span> Привет! Ты сегодня будешь у клуба?</div>
+          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[21:05] Alsu:</span> Привет. Не знаю пока, дел много по дому.</div>
+          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:06] You:</span> Бабай говорит, в лес ходить нельзя сейчас. Что там происходит?</div>
+          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[21:10] Alsu:</span> <span class="tt-word" data-translation="старики">картлар</span> всегда пугают. Но в чем-то он прав.</div>
+          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:12] You:</span> А ты сама веришь в эти сказки про Шурале?</div>
+          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[21:15] Alsu:</span> В деревне сказки быстро становятся <span class="tt-word" data-translation="правдой">дөреслек</span>. Будь осторожен, Айдар.</div>
+          <div style="margin-bottom:8px;"><span style="color:#ff0000; font-weight:bold;">[21:17] You:</span> Ты вчера что хотела сказать про мост?</div>
+          <div style="margin-bottom:8px;"><span style="color:#6a00aa; font-weight:bold;">[21:20] Alsu:</span> Там <span class="tt-word" data-translation="опасно">куркыныч</span> ночью. Просто не ходи туда один.</div>
+          <div class="chat-system-msg">Alsu была в сети 18 сек.</div>
         </div>
 
         <!-- ХАЗРӘТ -->

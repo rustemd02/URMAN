@@ -7,6 +7,8 @@ import { renderNotepad } from '../apps/notepad';
 import { renderPlayer } from '../apps/player';
 import { renderTerminal } from '../apps/terminal';
 
+import { renderWord } from '../apps/word';
+
 export class DedOS {
     private screen: HTMLElement;
     private windowsContainer!: HTMLElement;
@@ -28,13 +30,25 @@ export class DedOS {
 
     private initOS() {
         this.applyMonitorStyles();
-        // Сначала создаем структуру слоев
         this.createLayers();
-        // Потом наполняем
         this.renderDesktop();
         this.renderTaskbar();
         this.initGlobalEvents();
         this.updateClock();
+        this.handleResize(); // Начальное масштабирование
+        window.addEventListener('resize', () => this.handleResize());
+    }
+
+    private handleResize() {
+        const wrapper = this.screen.querySelector('.screen-content-wrapper') as HTMLElement;
+        if (!wrapper) return;
+
+        const screenW = this.screen.clientWidth;
+        const screenH = this.screen.clientHeight;
+        
+        // Масштабируем 640x480 под реальный размер #pc-screen
+        const scale = Math.min(screenW / 640, screenH / 480);
+        wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
     private applyMonitorStyles() {
@@ -51,15 +65,20 @@ export class DedOS {
     private createLayers() {
         this.screen.innerHTML = '';
         
+        // Обертка для контента с фильтрами
+        const wrapper = document.createElement('div');
+        wrapper.className = 'screen-content-wrapper';
+        this.screen.appendChild(wrapper);
+
         // Слой иконок
         const grid = document.createElement('div');
         grid.className = 'desktop-grid';
-        this.screen.appendChild(grid);
+        wrapper.appendChild(grid);
 
         // Слой окон
         this.windowsContainer = document.createElement('div');
         this.windowsContainer.id = 'windows-container';
-        this.screen.appendChild(this.windowsContainer);
+        wrapper.appendChild(this.windowsContainer);
     }
 
     private renderDesktop() {
@@ -86,6 +105,7 @@ export class DedOS {
     }
 
     private renderTaskbar() {
+        const wrapper = this.screen.querySelector('.screen-content-wrapper');
         const bar = document.createElement('div');
         bar.id = 'taskbar';
         bar.innerHTML = `
@@ -97,7 +117,8 @@ export class DedOS {
             <button class="win98-btn fs-btn" style="height:16px; padding:0 4px; margin-right:4px; font-size:8px;">[ ]</button>
             <div id="clock">00:00</div>
         `;
-        this.screen.appendChild(bar);
+        if (wrapper) wrapper.appendChild(bar);
+        else this.screen.appendChild(bar);
 
         bar.querySelector('.fs-btn')?.addEventListener('click', () => {
             if (!document.fullscreenElement) {
@@ -123,16 +144,19 @@ export class DedOS {
         
         win.style.zIndex = (++this.zIndex).toString();
         
-        // Изначально маленькие адаптивные окна для компактного экрана
-        win.style.width = '180px';
-        win.style.height = '140px';
+        // Изначально удобные окна для разрешения 640x480
+        win.style.width = '300px';
+        win.style.height = '220px';
         
         if (item.id === 'chat') {
-            win.style.width = '220px';
-            win.style.height = '160px';
+            win.style.width = '450px';
+            win.style.height = '350px';
+        } else if (item.id === 'browser') {
+            win.style.width = '580px';
+            win.style.height = '420px';
         } else if (item.id === 'minesweeper') {
-            win.style.width = '160px';
-            win.style.height = '220px';
+            win.style.width = '240px';
+            win.style.height = '380px';
         }
 
         // Позиционирование
@@ -160,6 +184,10 @@ export class DedOS {
         `;
 
         win.addEventListener('mousedown', () => this.bringToFront(win));
+        
+        win.querySelector('.close-btn')?.addEventListener('mousedown', (e) => {
+            e.stopPropagation(); // Предотвращаем drag при клике на закрытие
+        });
         
         win.querySelector('.close-btn')?.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -190,7 +218,6 @@ export class DedOS {
     }
 
     private getAppContent(item: SystemItem): string {
-        // Добавь проверку, что функции импортированы корректно
         try {
             switch (item.id) {
                 case 'chat': return renderChat();
@@ -201,8 +228,8 @@ export class DedOS {
                 case 'terminal': return renderTerminal ? renderTerminal() : "Ошибка модуля";
                 default: 
                     if (item.type === 'folder') return this.renderFolder(item);
-                    if (item.type === 'doc') return renderNotepad ? renderNotepad(item.content as string) : item.content as string;
-                    if (item.type === 'image') return `<div style="background:#000; height:100%; display:flex; align-items:center;"><img src="${item.content}" style="width:100%; display:block;"></div>`;
+                    if (item.type === 'doc') return renderWord(item.content as string);
+                    if (item.type === 'image') return `<div style="background:#000; height:100%; display:flex; align-items:center; justify-content:center;"><img src="${item.content}" style="max-width:100%; max-height:100%; object-fit:contain;"></div>`;
                     return `<div style="padding: 20px;">Система хатасы: ${item.name}</div>`;
             }
         } catch (e) {
