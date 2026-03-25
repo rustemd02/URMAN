@@ -7,6 +7,8 @@ import { MainMenuScene } from '../scenes/MainMenuScene';
 import { ChapterScene } from '../scenes/ChapterScene';
 import { VillageScene } from '../scenes/VillageScene';
 import { BaseScene } from '../scenes/BaseScene';
+import { MosqueScene } from '../scenes/MosqueScene';
+import { BridgeScene } from '../scenes/BridgeScene';
 
 export class SceneManager {
     private game: Game;
@@ -49,6 +51,12 @@ export class SceneManager {
             case 'village':
                 this.currentScene = new VillageScene(this.game);
                 break;
+            case 'mosque':
+                this.currentScene = new MosqueScene(this.game);
+                break;
+            case 'bridge':
+                this.currentScene = new BridgeScene(this.game);
+                break;
             default:
                 console.error(`Scene ${sceneId} not found`);
                 return;
@@ -56,7 +64,7 @@ export class SceneManager {
 
         const game = this.game;
         if (game.inventoryUI) {
-            const isGameplay = ['village', 'forest', 'house'].includes(sceneId);
+            const isGameplay = ['village', 'forest', 'house', 'mosque', 'bridge'].includes(sceneId);
             game.inventoryUI.setVisible(isGameplay);
         }
 

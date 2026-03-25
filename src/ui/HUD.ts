@@ -10,34 +10,36 @@ export class HUD {
         this.element.id = 'hud-container';
         this.element.style.cssText = `
             position: fixed;
-            top: 20px;
+            bottom: 100px;
             left: 20px;
             z-index: 10002;
             pointer-events: none;
             color: #fff;
-            font-family: 'Verdana', sans-serif;
-            text-transform: uppercase;
+            font-family: 'Tahoma', sans-serif;
             font-size: 11px;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 0px #000;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            display: none;
         `;
         document.body.appendChild(this.element);
+        this.element.style.display = 'block';
         this.update();
-        
-        // Перехватываем изменения в GameState (можно в будущем добавить ивенты сюда)
-        setInterval(() => this.update(), 1000);
+        setInterval(() => this.update(), 500);
     }
 
     public update() {
-        const { flashlight, tatarKnowledge } = this.game.state;
+        const s = this.game.state;
+        const bar = (val: number, color: string) => {
+            const pct = Math.min(100, Math.max(0, val));
+            return `<span style="display:inline-block;vertical-align:middle;width:50px;height:5px;background:rgba(0,0,0,0.3);border-radius:3px;overflow:hidden;margin-left:3px;">
+                <span style="display:block;width:${pct}%;height:100%;background:${color};"></span></span>`;
+        };
         this.element.innerHTML = `
-            <span style="display: flex; align-items: center; gap: 8px;">
-                <span style="opacity: 0.8;">🔋 ФОНАРЬ:</span> 
-                <span style="font-weight: bold; color: ${flashlight < 20 ? '#ff4d4d' : '#88ff88'}">${flashlight}%</span>
-                <span style="margin: 0 15px; opacity: 0.3;">|</span>
-                <span style="opacity: 0.8;">ЗНАНИЕ ТАТАРСКОГО:</span> 
-                <span style="font-weight: bold; color: #4db8ff;">${tatarKnowledge}%</span>
-            </span>
+            <div style="background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);padding:8px 12px;border-radius:8px;display:flex;flex-direction:column;gap:3px;min-width:180px;">
+                <div>💰 <b>${s.money}₽</b></div>
+                <div>📖 Татарча ${bar(s.tatarKnowledge, '#4db8ff')} ${s.tatarKnowledge}%</div>
+                <div>😨 Страх ${bar(s.fear, '#ff4444')}  💪 Сила ${bar(s.strength, '#88cc44')}</div>
+                <div>❤️ Алсу ${bar(s.alsuRelation, '#ff69b4')}  🔦 ${s.flashlight}%</div>
+            </div>
         `;
     }
 }

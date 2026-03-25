@@ -1,4 +1,5 @@
 import { BaseScene } from './BaseScene';
+import { AssetLoader } from '../utils/AssetLoader';
 
 // =========================================================
 // Isometric 2.5D Village Scene — Polished Daylight Edition
@@ -8,143 +9,132 @@ const TW = 96;
 const TH = 48;
 const GRID_W = 64;
 const GRID_H = 64;
-
-// Village center (all roads converge here)
 const VILLAGE_CX = 32;
 const VILLAGE_CY = 32;
 
 function toScreen(gx: number, gy: number): [number, number] {
-    return [
-        (gx - gy) * (TW / 2),
-        (gx + gy) * (TH / 2),
-    ];
+    return [(gx - gy) * (TW / 2), (gx + gy) * (TH / 2)];
 }
-
 function toGrid(sx: number, sy: number): [number, number] {
-    return [
-        (sx / (TW / 2) + sy / (TH / 2)) / 2,
-        (sy / (TH / 2) - sx / (TW / 2)) / 2,
-    ];
+    return [(sx / (TW/2) + sy / (TH/2)) / 2, (sy / (TH/2) - sx / (TW/2)) / 2];
 }
 
-// Tile types (for collision logic)
-const T_GRASS = 0;
-const T_ROAD  = 1;
-const T_WATER = 3;
-const T_FOREST = 4;
-
-// --- Spline Geography ---
+const T_GRASS = 0, T_ROAD = 1, T_WATER = 3, T_FOREST = 4;
 interface Point { x: number; y: number; }
 interface RoadDef { points: Point[]; width: number; name: string; }
 
-// Main highway: straight with very gentle curves
+const CX = VILLAGE_CX, CY = VILLAGE_CY;
 const MAIN_ROAD: RoadDef = {
-    name: 'Трасса (ул. Хәбибуллина)',
-    width: 5,
-    points: [
-        { x: 32, y: 6 },   // bridge approach from north
-        { x: 32, y: 12 },
-        { x: 32, y: 20 },
-        { x: 32, y: 30 },
-        { x: 32, y: 40 },
-        { x: 32, y: 50 },
-        { x: 32, y: 60 },
-    ]
+    name: 'Трасса', width: 6.5,
+    // Curves gently south-to-north with organic bends
+    points: [{x:CX+2,y:-90},{x:CX+1,y:CY-18},{x:CX-1,y:CY-5},{x:CX+2,y:CY+8},{x:CX-2,y:CY+22},{x:CX+1,y:140}]
 };
-
-// Side streets branch off the main road
 const SIDE_ROADS: RoadDef[] = [
-    { name: 'ул. Ленина',   width: 2.8, points: [{ x: 12, y: 20 }, { x: 22, y: 20 }, { x: 32, y: 20 }, { x: 42, y: 20 }, { x: 52, y: 20 }] },
-    { name: 'ул. Мира',     width: 2.8, points: [{ x: 12, y: 34 }, { x: 22, y: 34 }, { x: 32, y: 34 }, { x: 42, y: 34 }, { x: 52, y: 34 }] },
-    { name: 'ул. Гагарина', width: 2.5, points: [{ x: 14, y: 48 }, { x: 24, y: 48 }, { x: 32, y: 48 }, { x: 42, y: 48 }, { x: 50, y: 48 }] },
+    // ул. Ленина: gently curves, wide end, connects to main road at CX
+    {name:'ул. Ленина',  width:2.8, points:[{x:7,y:CY-11},{x:CX-10,y:CY-12},{x:CX-4,y:CY-10},{x:CX+0.5,y:CY-10}]},
+    {name:'ул. Ленина E',width:2.8, points:[{x:CX+0.5,y:CY-10},{x:CX+9,y:CY-11},{x:CX+18,y:CY-9},{x:57,y:CY-10}]},
+    // ул. Мира: offset slightly so it curves into main road
+    {name:'ул. Мира',    width:2.8, points:[{x:7,y:CY+5},{x:CX-9,y:CY+4},{x:CX-2,y:CY+5},{x:CX+1,y:CY+5}]},
+    {name:'ул. Мира E',  width:2.8, points:[{x:CX+1,y:CY+5},{x:CX+10,y:CY+6},{x:CX+20,y:CY+4},{x:57,y:CY+5}]},
+    // ул. Гагарина: lower, with curve
+    {name:'ул. Гагарина',width:2.4, points:[{x:9,y:CY+17},{x:CX-7,y:CY+18},{x:CX-1,y:CY+17},{x:CX+1,y:CY+17}]},
+    {name:'ул. Гагарина E',width:2.4, points:[{x:CX+1,y:CY+17},{x:CX+11,y:CY+18},{x:CX+22,y:CY+16},{x:55,y:CY+17}]},
+    // пер. Кривой: winding alley
+    {name:'пер. Кривой', width:1.6, points:[{x:CX-2,y:CY-5},{x:CX+6,y:CY-2},{x:CX+10,y:CY-9},{x:CX+14,y:CY-13}]},
+];
+const RIVER_PATH: Point[] = [{x:-80,y:9},{x:15,y:8},{x:CX,y:9},{x:50,y:10},{x:140,y:9}];
+
+const TEXTURE_ASSETS = [
+    {id:'grass',url:'/assets/grass_tex.jpg'},{id:'road',url:'/assets/road_tex.jpg'},
+    {id:'wall_log',url:'/assets/wall_log.jpg'},{id:'roof_metal',url:'/assets/roof_metal.jpg'},
+    {id:'hero_idle',url:'/assets/hero_idle.png'},{id:'hero_walk',url:'/assets/hero_walk.png'},
 ];
 
-// River runs east–west, gently curved, north of village
-const RIVER_PATH: Point[] = [
-    { x: -5, y: 9 }, { x: 15, y: 8 }, { x: 25, y: 9 }, { x: 32, y: 9 },
-    { x: 40, y: 10 }, { x: 55, y: 9 }, { x: 70, y: 10 }
-];
-
-// --- Buildings ---
 interface Building {
-    id: string; name: string;
-    gx: number; gy: number; gw: number; gh: number;
+    id: string; name: string; gx: number; gy: number; gw: number; gh: number;
     wallColor: string; roofColor: string; wallDark: string;
     desc: string; actions: { label: string; fn: () => void }[];
+    textureId?: string; invisible?: boolean;
 }
-interface PlotDef { gx: number; gy: number; gw: number; gh: number; livestock?: string; }
+interface PlotDef {
+    gx: number; gy: number; gw: number; gh: number;
+    livestock?: string; hasBanya?: boolean; hasGarage?: boolean; hasCar?: boolean;
+    trees?: number; // palissadnik trees count
+}
 
-// Buildings are placed ALONG roads realistically
-const BUILDINGS: Building[] = [
-    // === On main road ===
-    { id: 'store', name: 'Авыл кибете', gx: 35, gy: 25, gw: 3, gh: 2,
-      wallColor: '#4a7aaa', roofColor: '#2a5580', wallDark: '#305a7a',
-      desc: 'Сельский магазин.',
-      actions: [{ label: 'Зайти', fn: () => alert('Магазин закрыт на обед.') }] },
-    { id: 'house-council', name: 'Сельсовет', gx: 26, gy: 26, gw: 4, gh: 3,
-      wallColor: '#c06030', roofColor: '#8a2020', wallDark: '#904020',
-      desc: 'Здание администрации.',
-      actions: [{ label: 'Постучаться', fn: () => alert('Никого нет.') }] },
-    { id: 'clinic', name: 'Медпункт (ФАП)', gx: 35, gy: 38, gw: 3, gh: 2,
-      wallColor: '#e8e8e8', roofColor: '#cc2222', wallDark: '#c0c0c0',
-      desc: 'Фельдшерско-акушерский пункт.',
-      actions: [{ label: 'Войти', fn: () => alert('Закрыто.') }] },
+const B: Building[] = [
+ // Bridge
+ {id:'bridge',name:'Старый мост',gx:30,gy:7,gw:4,gh:3,wallColor:'',roofColor:'',wallDark:'',invisible:true,
+  desc:'Старый мост через реку.',actions:[{label:'Осмотреть',fn:()=>alert('Тихий плеск воды.')}]},
+ // Mosque
+ {id:'mosque',name:'Мечеть',gx:25,gy:13,gw:4,gh:4,wallColor:'#f0f0e0',roofColor:'#4a8aba',wallDark:'#c0c0b0',
+  desc:'Деревенская мечеть.',actions:[{label:'Войти',fn:()=>{}}]},
+ // Public
+ {id:'store',name:'Авыл кибете',gx:36,gy:24,gw:3,gh:2,wallColor:'#4a7aaa',roofColor:'#2a5580',wallDark:'#305a7a',
+  desc:'Сельский магазин.',actions:[{label:'Зайти',fn:()=>alert('Магазин закрыт.')}]},
+ {id:'council',name:'Сельсовет',gx:25,gy:27,gw:4,gh:3,wallColor:'#c06030',roofColor:'#8a2020',wallDark:'#904020',
+  desc:'Здание администрации.',actions:[{label:'Постучаться',fn:()=>alert('Никого нет.')}]},
+ {id:'clinic',name:'Медпункт',gx:36,gy:37,gw:3,gh:2,wallColor:'#e8e8e8',roofColor:'#cc2222',wallDark:'#c0c0c0',
+  desc:'ФАП.',actions:[{label:'Войти',fn:()=>alert('Закрыто.')}]},
+ // ул. Ленина left — offset from grid for organic feel
+ {id:'house-baba',name:'Дом Бабая',gx:15,gy:16,gw:3,gh:3,wallColor:'#c99040',roofColor:'#3a8a25',wallDark:'#8a6020',
+  desc:'Родной дом.',actions:[
+   {label:'Компьютер бабая',fn:()=>{}},{label:'Бабай',fn:()=>alert('Бабай смотрит телевизор.')},
+   {label:'Әби',fn:()=>alert('Әби готовит эчпочмаки.')}]},
+ {id:'house-alsu',name:'Дом Алсу',gx:14,gy:23,gw:2,gh:2,wallColor:'#d8a0b0',roofColor:'#8a4060',wallDark:'#a07080',
+  desc:'Дом Алсу. Из окна доносится музыка.',actions:[
+   {label:'Постучать',fn:()=>alert('Алсу: «Кем анда? Ааа, син...»')},
+   {label:'Подарить конфеты',fn:()=>alert('Алсу улыбается. ❤️')}]},
+ // ул. Ленина right — slightly staggered
+ {id:'house-zarifa',name:'Дом Зарифы апы',gx:44,gy:16,gw:2,gh:2,wallColor:'#b09040',roofColor:'#2a7020',wallDark:'#806020',
+  desc:'Дом зарифы.',actions:[{label:'Постучать',fn:()=>alert('Тихо.')}]},
+ {id:'house-fanis',name:'Дом Фаниса абый',gx:45,gy:23,gw:3,gh:2,wallColor:'#8a7a60',roofColor:'#4a4a30',wallDark:'#5a5040',
+  desc:'Дом Фаниса. Во дворе ВАЗ-2106.',actions:[{label:'Постучать',fn:()=>alert('Фанис: «Кил, бала!»')}]},
+ // ул. Мира left — offset back from street
+ {id:'house-ildar',name:'Дом Ильдара',gx:14,gy:30,gw:2,gh:2,wallColor:'#a08040',roofColor:'#1a6020',wallDark:'#704020',
+  desc:'Дом Ильдара.',actions:[{label:'Постучать',fn:()=>alert('Ильдар на поле.')}]},
+ {id:'house-gulnara',name:'Дом Гульнары',gx:15,gy:37,gw:2,gh:2,wallColor:'#c0a070',roofColor:'#2a8040',wallDark:'#907050',
+  desc:'Дом Гульнары. Палисадник.',actions:[{label:'Постучать',fn:()=>alert('Гульнара поливает цветы.')}]},
+ // ул. Мира right
+ {id:'house-mansur',name:'Дом Мансура',gx:44,gy:30,gw:2,gh:2,wallColor:'#b08040',roofColor:'#2a8020',wallDark:'#806020',
+  desc:'Дом Мансура.',actions:[{label:'Постучать',fn:()=>alert('🐕 Собака лает.')}]},
+ {id:'house-rashid',name:'Дом Рашида',gx:45,gy:37,gw:2,gh:2,wallColor:'#907050',roofColor:'#3a5030',wallDark:'#604030',
+  desc:'У Рашида гараж.',actions:[{label:'Постучать',fn:()=>alert('Рашид в гараже.')}]},
+ // ул. Гагарина left
+ {id:'house-abandoned',name:'Заброшенный дом',gx:15,gy:43,gw:2,gh:2,wallColor:'#706858',roofColor:'#3a3828',wallDark:'#4a4038',
+  desc:'Жутковато...',actions:[{label:'Заглянуть',fn:()=>alert('Жутковато...')}]},
+ {id:'house-nail',name:'Дом Наиля',gx:14,gy:50,gw:2,gh:2,wallColor:'#a09060',roofColor:'#2a5020',wallDark:'#706040',
+  desc:'Дом Наиля. Трактор.',actions:[{label:'Постучать',fn:()=>alert('Наиль: «Сәлам!»')}]},
+ // ул. Гагарина right
+ {id:'house-rushania',name:'Дом Рушании',gx:44,gy:43,gw:2,gh:2,wallColor:'#c09050',roofColor:'#3a7020',wallDark:'#906030',
+  desc:'Дом Рушании.',actions:[{label:'Постучать',fn:()=>alert('Рушания: «Кем?»')}]},
+ {id:'house-razilya',name:'Дом Разили',gx:45,gy:50,gw:2,gh:2,wallColor:'#b0a070',roofColor:'#4a7030',wallDark:'#808050',
+  desc:'Дом Разили.',actions:[{label:'Постучать',fn:()=>alert('Разиля: «Исәнмесез!»')}]},
+ // Near river
+ {id:'banya-common',name:'Общая баня',gx:38,gy:13,gw:2,gh:2,wallColor:'#6a3a1a',roofColor:'#1a2a0a',wallDark:'#4a2a0a',
+  desc:'Баня на берегу.',actions:[{label:'Заглянуть',fn:()=>alert('Баня топится.')}]},
+];
+const BUILDINGS = B;
 
-    // === ул. Ленина (верхняя) ===
-    { id: 'house-baba', name: 'Дом Бабая', gx: 20, gy: 17, gw: 3, gh: 3,
-      wallColor: '#c99040', roofColor: '#3a8a25', wallDark: '#8a6020',
-      desc: 'Родной дом бабушки и дедушки.',
-      actions: [
-          { label: 'Компьютер бабая', fn: () => {} },
-          { label: 'Поговорить с бабаем', fn: () => alert('Бабай смотрит телевизор.') },
-          { label: 'Поговорить с әби', fn: () => alert('Әби готовит эчпочмаки.') },
-      ] },
-    { id: 'house-1', name: 'Дом Зарифы апы', gx: 42, gy: 17, gw: 2, gh: 2,
-      wallColor: '#b09040', roofColor: '#2a7020', wallDark: '#806020',
-      desc: 'Дом соседки.',
-      actions: [{ label: 'Постучать', fn: () => alert('Тихо.') }] },
-
-    // === ул. Мира (средняя) ===
-    { id: 'house-2', name: 'Дом Ильдара', gx: 20, gy: 31, gw: 2, gh: 2,
-      wallColor: '#a08040', roofColor: '#1a6020', wallDark: '#704020',
-      desc: 'Дом друга Ильдара.',
-      actions: [{ label: 'Постучать', fn: () => alert('Ильдар на поле.') }] },
-    { id: 'house-4', name: 'Дом Мансура', gx: 42, gy: 31, gw: 2, gh: 2,
-      wallColor: '#b08040', roofColor: '#2a8020', wallDark: '#806020',
-      desc: 'Дом Мансура.',
-      actions: [{ label: 'Постучать', fn: () => alert('Слышен лай собаки.') }] },
-
-    // === ул. Гагарина (нижняя) ===
-    { id: 'house-3', name: 'Заброшенный дом', gx: 20, gy: 45, gw: 2, gh: 2,
-      wallColor: '#706858', roofColor: '#3a3828', wallDark: '#4a4038',
-      desc: 'Старый заброшенный дом.',
-      actions: [{ label: 'Заглянуть', fn: () => alert('Жутковато...') }] },
-    { id: 'house-5', name: 'Дом Рушании', gx: 42, gy: 45, gw: 2, gh: 2,
-      wallColor: '#c09050', roofColor: '#3a7020', wallDark: '#906030',
-      desc: 'Дом Рушании.',
-      actions: [{ label: 'Постучать', fn: () => alert('Сейчас не может говорить.') }] },
-
-    // === Near river ===
-    { id: 'mosque', name: 'Мечеть', gx: 26, gy: 13, gw: 3, gh: 3,
-      wallColor: '#f0f0e0', roofColor: '#4a8aba', wallDark: '#c0c0b0',
-      desc: 'Деревенская мечеть. Слышен азан.',
-      actions: [{ label: 'Войти', fn: () => alert('Мечеть открыта.') }] },
-    { id: 'banya', name: 'Баня у реки', gx: 38, gy: 13, gw: 2, gh: 2,
-      wallColor: '#6a3a1a', roofColor: '#1a2a0a', wallDark: '#4a2a0a',
-      desc: 'Деревенская баня на берегу.',
-      actions: [{ label: 'Заглянуть', fn: () => alert('Баня топится.') }] },
+const PLOTS: PlotDef[] = [
+  // Each plot lines up with its house, no overlaps with roads
+  {gx:12,gy:14,gw:9,gh:7,livestock:'🐔',hasBanya:true,trees:3},       // Бабай
+  {gx:11,gy:21,gw:8,gh:7,livestock:'🐈',trees:4},                     // Алсу
+  {gx:41,gy:14,gw:9,gh:7,livestock:'🐄',hasBanya:true,hasCar:true,trees:2}, // Зарифа
+  {gx:42,gy:21,gw:9,gh:7,hasGarage:true,hasCar:true,trees:1},         // Фанис
+  {gx:11,gy:28,gw:8,gh:7,livestock:'🐓',hasBanya:true,trees:2},       // Ильдар
+  {gx:12,gy:35,gw:8,gh:7,livestock:'🌻',trees:5},                     // Гульнара
+  {gx:41,gy:28,gw:9,gh:7,livestock:'🐕',hasBanya:true,trees:1},       // Мансур
+  {gx:42,gy:35,gw:9,gh:7,hasGarage:true,trees:2},                     // Рашид
+  {gx:12,gy:41,gw:8,gh:7,trees:0},                                     // Заброшенный
+  {gx:11,gy:48,gw:8,gh:7,livestock:'🚜',hasBanya:true,trees:2},       // Наиль
+  {gx:41,gy:41,gw:9,gh:7,livestock:'🐑',hasBanya:true,trees:3},       // Рушания
+  {gx:42,gy:48,gw:9,gh:7,hasBanya:true,trees:2},                      // Разиля
 ];
 
-const PLOTS: PlotDef[] = BUILDINGS.map(b => ({
-    gx: b.gx - 1, gy: b.gy - 1, gw: b.gw + 2, gh: b.gh + 3,
-    livestock: Math.random() > 0.7 ? (Math.random() > 0.5 ? '🐄' : '🐓') : undefined
-}));
-
 const LABELS = [
-    { gx: 36, gy: 14, text: 'трасса на КАЗАНЬ ↑' },
-    { gx: 14, gy: 20, text: 'ул. Ленина' },
-    { gx: 14, gy: 34, text: 'ул. Мира' },
-    { gx: 16, gy: 48, text: 'ул. Гагарина' },
+  {gx:36,gy:3,text:'трасса на КАЗАНЬ ↑'},{gx:8,gy:21,text:'ул. Ленина'},
+  {gx:8,gy:35,text:'ул. Мира'},{gx:8,gy:49,text:'ул. Гагарина'},
 ];
 
 // =========================================================
@@ -212,16 +202,20 @@ export class VillageScene extends BaseScene {
 
         // Wire dynamic action
         BUILDINGS.find(b => b.id === 'house-baba')!.actions[0].fn = () => this.game.scenes.switchScene('computer');
+        BUILDINGS.find(b => b.id === 'mosque')!.actions[0].fn = () => this.game.scenes.switchScene('mosque');
 
         // Compute world bounds (iso screen coords farthest corners)
         const corners = [toScreen(0, 0), toScreen(GRID_W, 0), toScreen(0, GRID_H), toScreen(GRID_W, GRID_H)];
-        this.worldMinSX = Math.min(...corners.map(c => c[0])) - 200;
-        this.worldMinSY = Math.min(...corners.map(c => c[1])) - 200;
-        this.worldMaxSX = Math.max(...corners.map(c => c[0])) + 200;
-        this.worldMaxSY = Math.max(...corners.map(c => c[1])) + 200;
+        this.worldMinSX = Math.min(...corners.map(c => c[0])) - 300;
+        this.worldMinSY = Math.min(...corners.map(c => c[1])) - 300;
+        this.worldMaxSX = Math.max(...corners.map(c => c[0])) + 300;
+        this.worldMaxSY = Math.max(...corners.map(c => c[1])) + 300;
 
         this.buildForestDots();
 
+        // Load textures (async)
+        AssetLoader.loadAll(TEXTURE_ASSETS).catch(() => console.log('Asset loading skipped - using procedural fallback.'));
+        
         const resize = () => {
             this.canvas.width  = window.innerWidth;
             this.canvas.height = window.innerHeight;
@@ -324,15 +318,15 @@ export class VillageScene extends BaseScene {
         // River
         if (this.distToPath(gx, gy, RIVER_PATH) < 2.0) return T_WATER;
         // Bridge area — passable
-        if (Math.abs(gx - 32) < 3 && Math.abs(gy - 9) < 2.5) return T_ROAD;
+        if (Math.abs(gx - VILLAGE_CX) < 3 && Math.abs(gy - (VILLAGE_CY-23)) < 2.5) return T_ROAD;
         // Main road
         if (this.distToPath(gx, gy, MAIN_ROAD.points) < MAIN_ROAD.width / 2) return T_ROAD;
         // Side roads
         for (const r of SIDE_ROADS) {
             if (this.distToPath(gx, gy, r.points) < r.width / 2) return T_ROAD;
         }
-        // Forest boundary
-        if (gy < 7 || gy > 55 || gx < 8 || gx > 56) return T_FOREST;
+        // Forest boundary (matched to buildForestDots)
+        if (gy < 5 || gy > 58 || gx < 8 || gx > 56) return T_FOREST;
         return T_GRASS;
     }
 
@@ -382,18 +376,39 @@ export class VillageScene extends BaseScene {
         ctx.translate(this.camX, this.camY);
         ctx.scale(this.scale, this.scale);
 
-        // 1. Background grass
-        ctx.fillStyle = '#4a8a38';
-        const pad = 600;
-        ctx.fillRect(this.worldMinSX - pad, this.worldMinSY - pad,
-                     this.worldMaxSX - this.worldMinSX + pad * 2,
-                     this.worldMaxSY - this.worldMinSY + pad * 2);
+        // 0. No relief — flat village
 
-        // 2. Geography
+        // 1. Background grass
+        const grassTex = AssetLoader.get('grass');
+        if (grassTex) {
+            const pattern = ctx.createPattern(grassTex, 'repeat');
+            if (pattern) {
+                ctx.fillStyle = pattern;
+                ctx.save();
+                ctx.scale(1/this.scale, 1/this.scale); // Keep pattern size consistent
+                ctx.fillRect((this.worldMinSX - 600) * this.scale, (this.worldMinSY - 600) * this.scale,
+                             (this.worldMaxSX - this.worldMinSX + 1200) * this.scale,
+                             (this.worldMaxSY - this.worldMinSY + 1200) * this.scale);
+                ctx.restore();
+            }
+        } else {
+            ctx.fillStyle = '#4a8a38';
+            const pad = 600;
+            ctx.fillRect(this.worldMinSX - pad, this.worldMinSY - pad,
+                         this.worldMaxSX - this.worldMinSX + pad * 2,
+                         this.worldMaxSY - this.worldMinSY + pad * 2);
+        }
+
+        // 2. Grid
+        this.drawGrid();
+
+        // 3. Geography
         this.drawRiver();
         this.drawRoads();
+        this.drawPaths();
 
-        // 3. Forest boundary ring
+        // 3. Forest boundary ring and Cemetery
+        this.drawCemetery();
         this.drawForest();
 
         // 4. Sorted world objects
@@ -431,6 +446,64 @@ export class VillageScene extends BaseScene {
         this.drawEdgeFade();
     }
 
+    // ------ Isometric grid ------
+    private drawGrid() {
+        const { ctx } = this;
+        ctx.strokeStyle = 'rgba(0,0,0,0.08)';
+        ctx.lineWidth = 0.5;
+        // Draw grid lines for visible area only
+        for (let gx = 0; gx <= GRID_W; gx++) {
+            const [ax, ay] = toScreen(gx, 0);
+            const [bx, by] = toScreen(gx, GRID_H);
+            ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+        }
+        for (let gy = 0; gy <= GRID_H; gy++) {
+            const [ax, ay] = toScreen(0, gy);
+            const [bx, by] = toScreen(GRID_W, gy);
+            ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+        }
+    }
+
+    // ------ Dirt paths from houses to nearest street ------
+    private drawPaths() {
+        const { ctx } = this;
+        ctx.setLineDash([]);
+        for (const b of BUILDINGS) {
+            if (b.invisible) continue;
+            // Find nearest side-road Y or main-road X
+            const bCX = b.gx + b.gw / 2;
+            const bCY = b.gy + b.gh / 2;
+            // Determine nearest street connection point
+            let nearX = CX, nearY = bCY;
+            let minDist = 999;
+            // Check each street's points for closest approach
+            const allRoads = [MAIN_ROAD, ...SIDE_ROADS];
+            for (const road of allRoads) {
+                for (const pt of road.points) {
+                    const d = Math.hypot(pt.x - bCX, pt.y - bCY);
+                    if (d < minDist) { minDist = d; nearX = pt.x; nearY = pt.y; }
+                }
+            }
+            // Draw from building edge toward road
+            const [fromX, fromY] = toScreen(bCX, bCY);
+            const [toX, toY2] = toScreen(nearX, nearY);
+            // Only draw short paths (avoid drawing across map)
+            if (minDist < 10) {
+                ctx.beginPath();
+                ctx.moveTo(fromX, fromY);
+                ctx.lineTo(toX, toY2);
+                ctx.lineWidth = 18;
+                ctx.strokeStyle = 'rgba(120,88,50,0.5)';
+                ctx.lineCap = 'round';
+                ctx.stroke();
+                ctx.lineWidth = 10;
+                ctx.strokeStyle = 'rgba(150,110,65,0.4)';
+                ctx.stroke();
+            }
+        }
+    }
+
+
     // ------ River ------
     private drawRiver() {
         const { ctx } = this;
@@ -461,41 +534,55 @@ export class VillageScene extends BaseScene {
         ctx.stroke();
         ctx.restore();
 
-        // Bridge planks
+        // Bridge planks (or 3D model)
         this.drawBridge();
     }
 
     private drawBridge() {
         const { ctx } = this;
         const [bx, by] = toScreen(32, 9);
-        // Wooden planks
-        ctx.fillStyle = '#6a4a2a';
-        ctx.fillRect(bx - 30, by - 8, 60, 16);
-        ctx.strokeStyle = '#4a3018';
-        ctx.lineWidth = 1;
-        for (let i = -28; i < 28; i += 8) {
-            ctx.beginPath(); ctx.moveTo(bx + i, by - 8); ctx.lineTo(bx + i, by + 8); ctx.stroke();
+        
+        // Better procedural bridge with polygons
+        // Main deck (shadow/base)
+        ctx.fillStyle = '#4a3018';
+        ctx.fillRect(bx - 32, by - 12, 64, 24);
+        
+        // Wooden planks across the deck
+        for (let i = -28; i < 30; i += 6) {
+            ctx.fillStyle = i % 12 === 0 ? '#6a4a2a' : '#5a3a1a';
+            ctx.fillRect(bx + i, by - 10, 4, 20);
         }
-        // Railings
-        ctx.strokeStyle = '#5a3a1a';
-        ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(bx - 30, by - 8); ctx.lineTo(bx + 30, by - 8); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(bx - 30, by + 8); ctx.lineTo(bx + 30, by + 8); ctx.stroke();
+        
+        // Railing posts
+        ctx.fillStyle = '#3a2010';
+        for (let x of [-28, -10, 10, 28]) {
+            ctx.fillRect(bx + x - 2, by - 14, 4, 3); // top post
+            ctx.fillRect(bx + x - 2, by + 11, 4, 3); // bottom post
+        }
+        
+        // Railing lines
+        ctx.strokeStyle = '#4a2a10';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(bx - 32, by - 13); ctx.lineTo(bx + 32, by - 13); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(bx - 32, by + 13); ctx.lineTo(bx + 32, by + 13); ctx.stroke();
     }
 
     // ------ Roads ------
     private drawRoads() {
-        // Main highway — wider, with shoulder
-        this.drawSmoothPath(MAIN_ROAD.points, MAIN_ROAD.width + 1, '#3a3a30'); // shoulder
-        this.drawSmoothPath(MAIN_ROAD.points, MAIN_ROAD.width, '#383838');
-        // Center line dashes
-        this.drawSmoothPath(MAIN_ROAD.points, 0.15, 'rgba(255,255,200,0.2)', [12, 24]);
-
-        // Side streets
+        // Pass 1: Draw all shoulders (merged background)
+        this.drawSmoothPath(MAIN_ROAD.points, MAIN_ROAD.width + 1.5, '#3a3a30');
         for (const r of SIDE_ROADS) {
-            this.drawSmoothPath(r.points, r.width + 0.5, '#3a3a30');
+            this.drawSmoothPath(r.points, r.width + 0.8, '#3a3a30');
+        }
+
+        // Pass 2: Draw all asphalt (merged surface)
+        this.drawSmoothPath(MAIN_ROAD.points, MAIN_ROAD.width, '#383838');
+        for (const r of SIDE_ROADS) {
             this.drawSmoothPath(r.points, r.width, '#404040');
         }
+
+        // Pass 3: Markings
+        this.drawSmoothPath(MAIN_ROAD.points, 0.18, 'rgba(255,255,220,0.25)', [12, 24]);
     }
 
     private drawSmoothPath(points: Point[], width: number, color: string, dash: number[] = []) {
@@ -530,6 +617,32 @@ export class VillageScene extends BaseScene {
     }
 
     // ------ Forest ring ------
+    private drawCemetery() {
+        const { ctx } = this;
+        const gxOff = 54, gyOff = 2;
+        const [fx, fy] = toScreen(gxOff, gyOff);
+        // Dark ground patch
+        ctx.fillStyle = 'rgba(40,50,30,0.5)';
+        ctx.beginPath(); ctx.ellipse(fx, fy, 160, 60, 0, 0, Math.PI*2); ctx.fill();
+        // Iron fence
+        ctx.strokeStyle = '#3a3a3a'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.ellipse(fx, fy, 160, 60, 0, 0, Math.PI*2); ctx.stroke();
+        // Tombstones
+        let seed = 42;
+        const rng = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+        for (let i = 0; i < 25; i++) {
+            const rx = gxOff - 2 + rng() * 5, ry = gyOff - 1.5 + rng() * 4;
+            const [sx, sy] = toScreen(rx, ry);
+            // Tombstone shape (rounded top)
+            ctx.fillStyle = '#8a908a';
+            ctx.fillRect(sx - 2, sy - 8, 5, 10);
+            ctx.beginPath(); ctx.arc(sx + 0.5, sy - 8, 2.5, Math.PI, 0); ctx.fill();
+            ctx.fillStyle = '#666'; ctx.fillRect(sx - 2, sy - 8, 2, 10); // shadow
+        }
+        ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.font = '11px Tahoma';
+        ctx.textAlign = 'center'; ctx.fillText('Зират', fx, fy - 50);
+    }
+
     private drawForest() {
         const { ctx } = this;
         for (const dot of this.forestDots) {
@@ -547,100 +660,144 @@ export class VillageScene extends BaseScene {
             toScreen(p.gx, p.gy), toScreen(p.gx + p.gw, p.gy),
             toScreen(p.gx + p.gw, p.gy + p.gh), toScreen(p.gx, p.gy + p.gh)
         ];
+        // Garden ground
         ctx.beginPath();
         ctx.moveTo(corners[0][0], corners[0][1]);
         for (let i = 1; i < 4; i++) ctx.lineTo(corners[i][0], corners[i][1]);
         ctx.closePath();
-        ctx.fillStyle = 'rgba(90,130,55,0.35)';
+        ctx.fillStyle = 'rgba(80,120,50,0.25)';
         ctx.fill();
-        ctx.strokeStyle = '#3a5a20';
-        ctx.lineWidth = 1;
+        // Wooden fence (brown posts along perimeter)
+        ctx.strokeStyle = '#5a3a1a'; ctx.lineWidth = 1.5;
         ctx.stroke();
-
+        // Fence posts
+        const allPts = [corners[0], corners[1], corners[2], corners[3], corners[0]];
+        for (let i = 0; i < allPts.length - 1; i++) {
+            const steps = 5;
+            for (let s = 0; s <= steps; s++) {
+                const t = s / steps;
+                const fx = allPts[i][0] + (allPts[i+1][0] - allPts[i][0]) * t;
+                const fy = allPts[i][1] + (allPts[i+1][1] - allPts[i][1]) * t;
+                ctx.fillStyle = '#4a2a0a';
+                ctx.fillRect(fx - 1, fy - 6, 2, 6);
+            }
+        }
         // Garden rows
-        ctx.strokeStyle = 'rgba(60,40,20,0.15)';
+        ctx.strokeStyle = 'rgba(60,40,20,0.12)';
         for (let ry = p.gy + 0.5; ry < p.gy + p.gh; ry += 0.7) {
             const [ax, ay] = toScreen(p.gx + 0.3, ry);
             const [bx, by] = toScreen(p.gx + p.gw - 0.3, ry);
             ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
         }
-
+        // Banya (small shed in back)
+        if (p.hasBanya) {
+            const [bx, by] = toScreen(p.gx + p.gw - 2, p.gy + p.gh - 2);
+            ctx.fillStyle = '#5a3010'; ctx.fillRect(bx, by - 18, 20, 18);
+            ctx.fillStyle = '#3a1a08'; ctx.fillRect(bx, by - 22, 20, 5); // roof
+        }
+        // Garage
+        if (p.hasGarage) {
+            const [gx, gy] = toScreen(p.gx + p.gw - 2, p.gy + p.gh - 2);
+            ctx.fillStyle = '#666'; ctx.fillRect(gx, gy - 22, 24, 22);
+            ctx.fillStyle = '#444'; ctx.fillRect(gx, gy - 26, 24, 5);
+        }
+        // Car
+        if (p.hasCar) {
+            const [cx, cy] = toScreen(p.gx + p.gw - 3, p.gy + 1);
+            ctx.fillStyle = '#345'; ctx.fillRect(cx, cy - 6, 16, 8);
+            ctx.fillStyle = '#222'; ctx.fillRect(cx + 1, cy - 9, 10, 4); // roof
+        }
+        // Palissadnik trees (in front of house)
+        if (p.trees && p.trees > 0) {
+            for (let t = 0; t < p.trees; t++) {
+                const tx = p.gx + 0.5 + t * 1.2;
+                const ty = p.gy + 0.5;
+                const [sx2, sy2] = toScreen(tx, ty);
+                ctx.fillStyle = '#1a5010'; ctx.beginPath(); ctx.arc(sx2, sy2 - 12, 8, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#3a2010'; ctx.fillRect(sx2 - 1, sy2 - 5, 2, 5);
+            }
+        }
+        // Livestock emoji
         if (p.livestock) {
-            const [ex, ey] = toScreen(p.gx + p.gw - 1, p.gy + p.gh - 0.5);
-            ctx.font = `${TH * 0.6}px serif`;
-            ctx.textAlign = 'center';
+            const [ex, ey] = toScreen(p.gx + p.gw / 2, p.gy + p.gh - 1);
+            ctx.font = `${TH * 0.5}px serif`; ctx.textAlign = 'center';
             ctx.fillText(p.livestock, ex, ey);
         }
     }
 
     private drawBuilding(b: Building) {
+        if (b.invisible) return;
         const { ctx } = this;
-        const H = TH * 1.5;
-        const tl = toScreen(b.gx, b.gy);
-        const tr = toScreen(b.gx + b.gw, b.gy);
-        const br = toScreen(b.gx + b.gw, b.gy + b.gh);
-        const bl = toScreen(b.gx, b.gy + b.gh);
 
-        // Shadow
-        ctx.fillStyle = 'rgba(0,0,0,0.15)';
-        ctx.beginPath();
-        ctx.moveTo(tl[0] + 6, tl[1] + H + 6);
-        ctx.lineTo(tr[0] + 6, tr[1] + H + 6);
-        ctx.lineTo(br[0] + 6, br[1] + H + 6);
-        ctx.lineTo(bl[0] + 6, bl[1] + H + 6);
-        ctx.closePath(); ctx.fill();
+        // Tiny deterministic jitter based on building id
+        let seed = 0;
+        for (let i = 0; i < b.id.length; i++) seed = (seed * 31 + b.id.charCodeAt(i)) & 0xFFFF;
+        const jx = ((seed % 100) - 50) / 100 * 0.6; // ±0.3 grid units
+        const jy = (((seed >> 4) % 100) - 50) / 100 * 0.6;
+        const gx = b.gx + jx, gy = b.gy + jy;
 
-        // Left wall
+        const tl = toScreen(gx, gy);
+        const tr = toScreen(gx + b.gw, gy);
+        const br = toScreen(gx + b.gw, gy + b.gh);
+        const bl = toScreen(gx, gy + b.gh);
+        const H = TH * 1.2; // Height of block
+
+        // Drop shadow
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,0.3)';
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetX = 4;
+        ctx.shadowOffsetY = 4;
+
+        // Top face (the visible roof/top)
         ctx.beginPath();
-        ctx.moveTo(tl[0], tl[1]); ctx.lineTo(bl[0], bl[1]);
-        ctx.lineTo(bl[0], bl[1] + H); ctx.lineTo(tl[0], tl[1] + H);
+        ctx.moveTo(tl[0], tl[1]);
+        ctx.lineTo(tr[0], tr[1]);
+        ctx.lineTo(br[0], br[1]);
+        ctx.lineTo(bl[0], bl[1]);
         ctx.closePath();
-        ctx.fillStyle = b.wallColor; ctx.fill();
-        ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.fillStyle = b.roofColor;
+        ctx.fill();
+        ctx.shadowBlur = 0; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+        ctx.strokeStyle = 'rgba(0,0,0,0.25)'; ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.restore();
 
-        // Right wall
+        // Left side face
         ctx.beginPath();
-        ctx.moveTo(bl[0], bl[1]); ctx.lineTo(br[0], br[1]);
-        ctx.lineTo(br[0], br[1] + H); ctx.lineTo(bl[0], bl[1] + H);
+        ctx.moveTo(bl[0], bl[1]);
+        ctx.lineTo(tl[0], tl[1]);
+        ctx.lineTo(tl[0], tl[1] + H);
+        ctx.lineTo(bl[0], bl[1] + H);
         ctx.closePath();
-        ctx.fillStyle = b.wallDark; ctx.fill();
-        ctx.strokeStyle = 'rgba(0,0,0,0.4)'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.fillStyle = this.darken(b.roofColor, 0.35);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.lineWidth = 1;
+        ctx.stroke();
 
-        // Window on left wall
-        const lwx = (tl[0] + bl[0]) / 2, lwy = (tl[1] + bl[1]) / 2 + H * 0.25;
-        ctx.fillStyle = '#f0d040';
-        ctx.fillRect(lwx - 6, lwy, 10, 8);
-        ctx.strokeStyle = '#7a5a10'; ctx.lineWidth = 0.7;
-        ctx.strokeRect(lwx - 6, lwy, 10, 8);
-
-        // Window on right wall
-        const rwx = (br[0] + bl[0]) / 2, rwy = (br[1] + bl[1]) / 2 + H * 0.25;
-        ctx.fillStyle = '#d4b020';
-        ctx.fillRect(rwx - 5, rwy, 9, 7);
-        ctx.strokeRect(rwx - 5, rwy, 9, 7);
-
-        // Roof (iso top face)
-        const roofGrad = ctx.createLinearGradient(
-            (tl[0] + tr[0]) / 2, tl[1], (bl[0] + br[0]) / 2, bl[1]
-        );
-        roofGrad.addColorStop(0, b.roofColor);
-        roofGrad.addColorStop(1, this.darken(b.roofColor, 0.25));
+        // Right side face
         ctx.beginPath();
-        ctx.moveTo(tl[0], tl[1]); ctx.lineTo(tr[0], tr[1]);
-        ctx.lineTo(br[0], br[1]); ctx.lineTo(bl[0], bl[1]);
+        ctx.moveTo(br[0], br[1]);
+        ctx.lineTo(bl[0], bl[1]);
+        ctx.lineTo(bl[0], bl[1] + H);
+        ctx.lineTo(br[0], br[1] + H);
         ctx.closePath();
-        ctx.fillStyle = roofGrad; ctx.fill();
-        ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.fillStyle = this.darken(b.roofColor, 0.5);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.lineWidth = 1;
+        ctx.stroke();
 
-        // Name
+        // Label on top
         const midX = (tl[0] + tr[0] + bl[0] + br[0]) / 4;
+        const midY = (tl[1] + tr[1] + bl[1] + br[1]) / 4;
         ctx.fillStyle = '#fff';
-        ctx.font = 'bold 10px Tahoma, sans-serif';
+        ctx.font = 'bold 10px Tahoma,sans-serif';
         ctx.textAlign = 'center';
         ctx.shadowColor = '#000'; ctx.shadowBlur = 3;
-        ctx.fillText(b.name, midX, tl[1] - 8);
+        ctx.fillText(b.name, midX, midY);
         ctx.shadowBlur = 0;
     }
+
 
     // ------ Player character (animated) ------
     private drawPlayer() {
@@ -652,43 +809,27 @@ export class VillageScene extends BaseScene {
         ctx.fillStyle = 'rgba(0,0,0,0.2)';
         ctx.beginPath(); ctx.ellipse(sx, sy + 2, 11, 4, 0, 0, Math.PI * 2); ctx.fill();
 
-        // Legs (animated!)
-        ctx.fillStyle = '#1a1a3a';
-        ctx.fillRect(sx - 6, sy - 12, 5, 14 + leg);    // left leg
-        ctx.fillRect(sx + 1, sy - 12, 5, 14 - leg);    // right leg
-
-        // Shoes
-        ctx.fillStyle = '#2a1a0a';
-        ctx.fillRect(sx - 7, sy + 1 + leg, 6, 3);
-        ctx.fillRect(sx + 1, sy + 1 - leg, 6, 3);
-
-        // Body (torso)
-        ctx.fillStyle = '#c03030';
-        const bodyTop = sy - 30;
-        ctx.fillRect(sx - 7, bodyTop, 14, 20);
-        // Side highlight
-        ctx.fillStyle = '#a02020';
-        ctx.fillRect(sx + 5, bodyTop + 2, 3, 16);
-
-        // Arms
-        const armSwing = this.walking ? Math.sin(this.legPhase + Math.PI) * 3 : 0;
-        ctx.fillStyle = '#c03030';
-        ctx.fillRect(sx - 10, bodyTop + 3 + armSwing, 4, 12);  // left arm
-        ctx.fillRect(sx + 7, bodyTop + 3 - armSwing, 4, 12);   // right arm
-
-        // Head
-        ctx.fillStyle = '#f5cba7';
-        ctx.beginPath(); ctx.arc(sx, bodyTop - 8, 9, 0, Math.PI * 2); ctx.fill();
-        ctx.strokeStyle = '#c8a078'; ctx.lineWidth = 0.8; ctx.stroke();
-
-        // Hair
-        ctx.fillStyle = '#2a1a0a';
-        ctx.beginPath(); ctx.arc(sx, bodyTop - 12, 9, Math.PI, 2 * Math.PI); ctx.fill();
-
-        // Eyes
-        ctx.fillStyle = '#222';
-        ctx.fillRect(sx - 4, bodyTop - 10, 2.5, 2.5);
-        ctx.fillRect(sx + 2, bodyTop - 10, 2.5, 2.5);
+        const heroTex = AssetLoader.get(this.walking ? 'hero_walk' : 'hero_idle');
+        if (heroTex) {
+            // Draw sprite if loaded
+            ctx.drawImage(heroTex, sx - 20, sy - 50, 40, 50);
+        } else {
+            // Procedural character (legs, body, head)
+            // Legs (animated!)
+            ctx.fillStyle = '#1a1a3a';
+            ctx.fillRect(sx - 6, sy - 12, 5, 14 + leg);    // left leg
+            ctx.fillRect(sx + 1, sy - 12, 5, 14 - leg);    // right leg
+            // Shoes
+            ctx.fillStyle = '#2a1a0a';
+            ctx.fillRect(sx - 7, sy + 1 + leg, 6, 3);
+            ctx.fillRect(sx + 1, sy + 1 - leg, 6, 3);
+            // Body (torso)
+            ctx.fillStyle = '#c03030'; const bodyTop = sy - 30; ctx.fillRect(sx - 7, bodyTop, 14, 20);
+            // Head
+            ctx.fillStyle = '#f5cba7'; ctx.beginPath(); ctx.arc(sx, bodyTop - 8, 9, 0, Math.PI * 2); ctx.fill();
+            // Hair
+            ctx.fillStyle = '#2a1a0a'; ctx.beginPath(); ctx.arc(sx, bodyTop - 12, 9, Math.PI, 2 * Math.PI); ctx.fill();
+        }
     }
 
     // ------ Bridge sign / Kazan ------
@@ -717,35 +858,20 @@ export class VillageScene extends BaseScene {
     // ------ Edge vignette (light, soft) ------
     private drawEdgeFade() {
         const { ctx, canvas } = this;
-        const cw = canvas.width, ch = canvas.height;
-
-        // Top edge
-        let grad = ctx.createLinearGradient(0, 0, 0, 60);
-        grad.addColorStop(0, 'rgba(20,35,15,0.5)');
-        grad.addColorStop(1, 'rgba(20,35,15,0)');
+        const cw = canvas.width;
+        const ch = canvas.height;
+        
+        // Deep edge vignette to hide the "end of the world"
+        const grad = ctx.createRadialGradient(
+            cw / 2, ch / 2, Math.min(cw, ch) * 0.2, 
+            cw / 2, ch / 2, Math.max(cw, ch) * 0.75
+        );
+        grad.addColorStop(0, 'rgba(0,0,0,0)');
+        grad.addColorStop(0.5, 'rgba(20,35,15,0.1)'); // Hint of forest green-brown
+        grad.addColorStop(1, 'rgba(5,10,0,0.8)');   // Deep dark boundary
+        
         ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, cw, 60);
-
-        // Bottom edge
-        grad = ctx.createLinearGradient(0, ch - 60, 0, ch);
-        grad.addColorStop(0, 'rgba(20,35,15,0)');
-        grad.addColorStop(1, 'rgba(20,35,15,0.5)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, ch - 60, cw, 60);
-
-        // Left edge
-        grad = ctx.createLinearGradient(0, 0, 60, 0);
-        grad.addColorStop(0, 'rgba(20,35,15,0.5)');
-        grad.addColorStop(1, 'rgba(20,35,15,0)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, 60, ch);
-
-        // Right edge
-        grad = ctx.createLinearGradient(cw - 60, 0, cw, 0);
-        grad.addColorStop(0, 'rgba(20,35,15,0)');
-        grad.addColorStop(1, 'rgba(20,35,15,0.5)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(cw - 60, 0, 60, ch);
+        ctx.fillRect(0, 0, cw, ch);
     }
 
     // ------ Forest dot generation ------
@@ -757,34 +883,26 @@ export class VillageScene extends BaseScene {
 
         const colors = ['#13240e', '#1a3010', '#1e3814', '#0e1a08', '#223a16'];
 
-        // North forest (above river)
-        for (let i = 0; i < 500; i++) {
-            const gx = rng() * GRID_W;
-            const gy = rng() * 8 - 2;
-            const [sx, sy] = toScreen(gx, gy);
-            this.forestDots.push({ x: sx, y: sy, r: 14 + rng() * 30, c: colors[Math.floor(rng() * colors.length)] });
-        }
-        // South forest
-        for (let i = 0; i < 400; i++) {
-            const gx = rng() * GRID_W;
-            const gy = 54 + rng() * 14;
-            const [sx, sy] = toScreen(gx, gy);
-            this.forestDots.push({ x: sx, y: sy, r: 12 + rng() * 25, c: colors[Math.floor(rng() * colors.length)] });
-        }
-        // West forest
-        for (let i = 0; i < 200; i++) {
-            const gx = -4 + rng() * 14;
-            const gy = 8 + rng() * 48;
-            const [sx, sy] = toScreen(gx, gy);
-            this.forestDots.push({ x: sx, y: sy, r: 10 + rng() * 22, c: colors[Math.floor(rng() * colors.length)] });
-        }
-        // East forest
-        for (let i = 0; i < 200; i++) {
-            const gx = 52 + rng() * 16;
-            const gy = 8 + rng() * 48;
-            const [sx, sy] = toScreen(gx, gy);
-            this.forestDots.push({ x: sx, y: sy, r: 10 + rng() * 22, c: colors[Math.floor(rng() * colors.length)] });
-        }
+        // Helper to add forest chunk
+        const addChunk = (count: number, xMin: number, xMax: number, yMin: number, yMax: number, rMin: number, rMax: number) => {
+            for (let i = 0; i < count; i++) {
+                const gx = xMin + rng() * (xMax - xMin);
+                const gy = yMin + rng() * (yMax - yMin);
+                const [sx, sy] = toScreen(gx, gy);
+                this.forestDots.push({ x: sx, y: sy, r: rMin + rng() * rMax, c: colors[Math.floor(rng() * colors.length)] });
+            }
+        };
+
+        // Surround village with very wide forest — far beyond visible area
+        addChunk(800, -20, GRID_W+20, -20, 5, 16, 35);     // North
+        addChunk(800, -20, GRID_W+20, 58, GRID_H+20, 16, 35); // South
+        addChunk(500, -20, 8, 5, 58, 14, 28);               // West
+        addChunk(500, 56, GRID_W+20, 5, 58, 14, 28);        // East
+        // Extra density in corners
+        addChunk(300, -20, 14, -20, 14, 18, 40);  // NW corner
+        addChunk(300, 50, GRID_W+20, -20, 14, 18, 40); // NE corner
+        addChunk(300, -20, 14, 50, GRID_H+20, 18, 40); // SW corner
+        addChunk(300, 50, GRID_W+20, 50, GRID_H+20, 18, 40); // SE corner
     }
 
     private darken(hex: string, amount: number): string {

@@ -82,10 +82,19 @@ export class InventoryUI {
 
     public setVisible(show: boolean) {
         this.isOpen = show;
-        this.element.style.display = show ? 'flex' : 'none';
-        this.itemsList.style.display = show ? 'flex' : 'none';
-        if (!show) {
+        // Button always stays visible; only the items list toggles
+        if (show) {
+            this.itemsList.style.display = 'flex';
+            this.itemsList.style.pointerEvents = 'auto';
+            requestAnimationFrame(() => {
+                this.itemsList.style.opacity = '1';
+                this.itemsList.style.transform = 'translateY(0)';
+            });
+        } else {
             this.itemsList.style.opacity = '0';
+            this.itemsList.style.transform = 'translateY(20px)';
+            this.itemsList.style.pointerEvents = 'none';
+            setTimeout(() => { this.itemsList.style.display = 'none'; }, 300);
             this.notebook.close();
         }
     }
