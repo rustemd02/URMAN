@@ -5,10 +5,10 @@ import { HouseScene } from '../scenes/HouseScene';
 import { IntroScene } from '../scenes/IntroScene';
 import { MainMenuScene } from '../scenes/MainMenuScene';
 import { ChapterScene } from '../scenes/ChapterScene';
-import { VillageScene } from '../scenes/VillageScene';
+import { MainMapScene } from '../MainMap/MainMapScene';
 import { BaseScene } from '../scenes/BaseScene';
 import { MosqueScene } from '../scenes/MosqueScene';
-import { BridgeScene } from '../scenes/BridgeScene';
+import { ZiratMiniGame } from '../scenes/ZiratMiniGame';
 
 export class SceneManager {
     private game: Game;
@@ -49,23 +49,25 @@ export class SceneManager {
                 this.currentScene = new HouseScene(this.game);
                 break;
             case 'village':
-                this.currentScene = new VillageScene(this.game);
+                this.currentScene = new MainMapScene(this.game);
                 break;
             case 'mosque':
                 this.currentScene = new MosqueScene(this.game);
                 break;
-            case 'bridge':
-                this.currentScene = new BridgeScene(this.game);
+            case 'zirat':
+                this.currentScene = new ZiratMiniGame(this.game);
                 break;
             default:
                 console.error(`Scene ${sceneId} not found`);
                 return;
         }
 
-        const game = this.game;
-        if (game.inventoryUI) {
-            const isGameplay = ['village', 'forest', 'house', 'mosque', 'bridge'].includes(sceneId);
-            game.inventoryUI.setVisible(isGameplay);
+        const isGameplay = ['village', 'forest', 'house', 'mosque', 'zirat'].includes(sceneId);
+        if (this.game.inventoryUI) {
+            this.game.inventoryUI.setVisible(isGameplay);
+        }
+        if (this.game.hud) {
+            this.game.hud.setVisible(isGameplay);
         }
 
         if (this.currentScene) {

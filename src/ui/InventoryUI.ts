@@ -77,13 +77,9 @@ export class InventoryUI {
     }
 
     public toggle() {
-        this.setVisible(!this.isOpen);
-    }
-
-    public setVisible(show: boolean) {
-        this.isOpen = show;
-        // Button always stays visible; only the items list toggles
-        if (show) {
+        if (this.element.style.display === 'none') return; // Cannot toggle if hidden
+        this.isOpen = !this.isOpen;
+        if (this.isOpen) {
             this.itemsList.style.display = 'flex';
             this.itemsList.style.pointerEvents = 'auto';
             requestAnimationFrame(() => {
@@ -94,7 +90,18 @@ export class InventoryUI {
             this.itemsList.style.opacity = '0';
             this.itemsList.style.transform = 'translateY(20px)';
             this.itemsList.style.pointerEvents = 'none';
-            setTimeout(() => { this.itemsList.style.display = 'none'; }, 300);
+            setTimeout(() => { if (!this.isOpen) this.itemsList.style.display = 'none'; }, 300);
+            this.notebook.close();
+        }
+    }
+
+    public setVisible(show: boolean) {
+        this.element.style.display = show ? 'flex' : 'none';
+        if (!show) {
+            this.isOpen = false;
+            this.itemsList.style.display = 'none';
+            this.itemsList.style.opacity = '0';
+            this.itemsList.style.pointerEvents = 'none';
             this.notebook.close();
         }
     }

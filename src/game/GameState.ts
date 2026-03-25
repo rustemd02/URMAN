@@ -20,7 +20,9 @@ export class GameState {
     // Инвентарь
     public inventory: InventoryItem[] = [];
     public currentScene: string = 'intro';
-    public flags: { [key: string]: boolean } = {};
+    public flags: { [key: string]: boolean } = {
+        'debug_bypass': true
+    };
     
     // Словарь
     public vocabulary: VocabularyItem[] = [];

@@ -4,7 +4,7 @@ export const renderChat = () => {
   const contacts = getActiveChats();
   
   return `
-    <div class="chat-root" style="display:flex; height:100%; background:#cfcfcf; color:#000; font-family:Tahoma, sans-serif; font-size:13px;">
+    <div class="chat-root" style="display:flex; height:100%; background:#cfcfcf; color:#000; font-family:'Tahoma', 'MS Sans Serif', sans-serif; font-size:13px;">
       
       <div class="chat-sidebar" style="width:160px; border-right:2px solid #8a8a8a; background:#dcdcdc; display:flex; flex-direction:column; flex-shrink: 0; overflow-y:auto;">
         <div style="padding:6px; font-weight:bold; border-bottom:2px solid #8a8a8a; background:#efefef; font-size: 11px;">ICQ Contacts</div>

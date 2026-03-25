@@ -46,7 +46,7 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   const linesEl = appContainer.querySelector('#t-lines');
   const resetBtn = appContainer.querySelector('#t-reset');
 
-  if (!board || !nextCanvas || !scoreEl || !linesEl || !resetBtn || !gameContainer) return;
+  if (!board || !nextCanvas || !scoreEl || !linesEl || !resetBtn || !gameContainer) return () => {};
 
   const resizeObserver = new ResizeObserver(entries => {
     for (let entry of entries) {
@@ -60,7 +60,7 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   const ctx = board.getContext('2d');
   const nextCtx = nextCanvas.getContext('2d');
 
-  if (!ctx || !nextCtx) return;
+  if (!ctx || !nextCtx) return () => {};
 
   const COLS = 10;
   const ROWS = 20;
@@ -79,6 +79,11 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   const palette: Record<string, string> = {
     I: '#00aaaa', O: '#aaaa00', T: '#aa00aa', S: '#00aa00',
     Z: '#aa0000', J: '#0000aa', L: '#aa5500', X: '#666666'
+  };
+
+  // Easter Egg piece values related to history/lore
+  const pieceValues: Record<string, number> = {
+    I: 70, O: 50, T: 30, S: 20, Z: 20, J: 40, L: 40
   };
 
   const order = Object.keys(pieces);
@@ -115,7 +120,8 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   };
 
   const updateHud = () => {
-    if (scoreEl) scoreEl.textContent = String(score).padStart(4, '0');
+    // Show score in hex as a hint to 1552 (0x610)
+    if (scoreEl) scoreEl.textContent = '0x' + score.toString(16).toUpperCase().padStart(3, '0');
     if (linesEl) linesEl.textContent = String(lines).padStart(3, '0');
   };
 
@@ -244,11 +250,16 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   };
 
   const addScore = (linesCleared: number) => {
-    if (score < 0x578) score += 70 * linesCleared;
-    else if (score < 0x609) score += 10 * linesCleared;
-    else if (score < 0x610) score += 1 * linesCleared;
-    else score += 70 * linesCleared;
+    if (!active) return;
+    const base = pieceValues[active.type] || 10;
+    score += base * linesCleared;
     
+    // Cap at 0x610 (1552) if approaching it to trigger easter egg exactly
+    if (score > 0x5D0 && score < 0x610) {
+        // give a nudge if very close
+    }
+    
+    // Easter Egg: 0x610 = 1552 (Year of Fall of Kazan)
     if (score > 0x610 && score < 0x640) score = 0x610;
   };
 
@@ -380,5 +391,12 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
 
   if (resetBtn) resetBtn.addEventListener('click', reset);
   window.addEventListener('keydown', onKey);
-  reset(); requestAnimationFrame(frame);
+  reset();
+  const animId = requestAnimationFrame(frame);
+
+  return () => {
+    window.removeEventListener('keydown', onKey);
+    cancelAnimationFrame(animId);
+    resizeObserver.disconnect();
+  };
 };

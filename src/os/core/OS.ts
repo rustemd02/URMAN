@@ -37,6 +37,35 @@ export class DedOS {
         this.updateClock();
         this.handleResize(); // Начальное масштабирование
         window.addEventListener('resize', () => this.handleResize());
+        
+        this.showBootScreen();
+    }
+
+    private showBootScreen() {
+        const bootOverlay = document.createElement('div');
+        bootOverlay.style.cssText = `
+            position: absolute; inset: 0; background: #000; z-index: 100000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #c0c0c0; font-family: 'Tahoma', 'MS Sans Serif', sans-serif; font-size: 14px;
+        `;
+        bootOverlay.innerHTML = `
+            <div style="font-size: 32px; font-weight: bold; font-style: italic; color: #fff;">
+                <span style="color: #008080;">Тәрәзәләр</span> 98
+            </div>
+            <div style="margin-top: 10px; font-size: 10px;">Йөкләү... (Загрузка...)</div>
+            <div style="width: 150px; height: 6px; border: 1px solid #808080; margin-top: 5px; padding: 1px;">
+                <div style="background: #000080; height: 100%; width: 0%; animation: bootBar 2s ease-in-out forwards;"></div>
+            </div>
+            <style>
+                @keyframes bootBar { 0% { width: 0%; } 50% { width: 40%; } 100% { width: 100%; } }
+            </style>
+        `;
+        this.screen.appendChild(bootOverlay);
+        setTimeout(() => {
+            bootOverlay.style.transition = 'opacity 0.2s';
+            bootOverlay.style.opacity = '0';
+            setTimeout(() => bootOverlay.remove(), 200);
+        }, 2200);
     }
 
     private handleResize() {
@@ -109,9 +138,9 @@ export class DedOS {
         const bar = document.createElement('div');
         bar.id = 'taskbar';
         bar.innerHTML = `
-            <button class="start-btn" title="Пуск (Җибәр)">
+            <button class="start-btn" style="font-family: 'Tahoma', 'MS Sans Serif', sans-serif;" title="Пуск">
                 <span style="font-size: 12px; margin-right: 2px;">💻</span>
-                Җибәр
+                <b>Тәрәзәләр</b>
             </button>
             <div class="taskbar-apps"></div>
             <button class="win98-btn fs-btn" title="Полный экран" style="height:16px; padding:0 4px; margin-right:4px; font-size:8px;">[ ]</button>
@@ -171,7 +200,7 @@ export class DedOS {
         win.style.top = `${startY}px`;
 
         win.innerHTML = `
-            <div class="window-title">
+            <div class="window-title" style="font-family: 'Tahoma', 'MS Sans Serif', sans-serif;">
                 <div class="title-info">
                     <span class="title-icon">${item.icon}</span>
                     <span class="title-text">${item.name}</span>
@@ -196,6 +225,7 @@ export class DedOS {
 
         win.querySelector('.close-btn')?.addEventListener('click', (e) => {
             e.stopPropagation();
+            if ((win as any)._cleanup) (win as any)._cleanup();
             win.remove();
         });
 
@@ -212,13 +242,19 @@ export class DedOS {
             import('../apps/chat').then(m => m.initChatInteractions(win));
         }
         if (item.id === 'minesweeper') {
-            import('../apps/minesweeper').then(m => m.initMinesweeper(win));
+            import('../apps/minesweeper').then(m => {
+                (win as any)._cleanup = m.initMinesweeper(win);
+            });
         }
         if (item.id === 'browser') {
-            import('../apps/browser').then(m => m.initBrowser(win));
+            import('../apps/browser').then(m => {
+                (win as any)._cleanup = m.initBrowser(win);
+            });
         }
         if (item.id === 'notepad' || item.type === 'doc') {
-            import('../apps/notepad').then(m => m.initNotepad(win, item.type === 'doc' ? (item.content as string) : undefined));
+            import('../apps/notepad').then(m => {
+                (win as any)._cleanup = m.initNotepad(win, item.type === 'doc' ? (item.content as string) : undefined);
+            });
         }
     }
 
