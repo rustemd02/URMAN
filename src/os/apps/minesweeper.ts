@@ -48,11 +48,9 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
 
   if (!board || !nextCanvas || !scoreEl || !linesEl || !resetBtn || !gameContainer) return;
 
-  // Адаптивность контента через масштабирование
   const resizeObserver = new ResizeObserver(entries => {
     for (let entry of entries) {
       const { width, height } = entry.contentRect;
-      // В системе 640x480 базовый размер Тетриса фиксирован
       const scale = Math.min(width / 300, (height - 20) / 460, 1);
       gameContainer.style.transform = `scale(${scale})`;
     }
@@ -79,14 +77,8 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   };
 
   const palette: Record<string, string> = {
-    I: '#00aaaa',
-    O: '#aaaa00',
-    T: '#aa00aa',
-    S: '#00aa00',
-    Z: '#aa0000',
-    J: '#0000aa',
-    L: '#aa5500',
-    X: '#666666'
+    I: '#00aaaa', O: '#aaaa00', T: '#aa00aa', S: '#00aa00',
+    Z: '#aa0000', J: '#0000aa', L: '#aa5500', X: '#666666'
   };
 
   const order = Object.keys(pieces);
@@ -103,25 +95,10 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   let speed = 550;
   let shown = false;
 
-  const msgData = [
-    '0JrQsNCx0LXRgCDRgtCw0YjQu9Cw0YDRiyDQvNC40Z3QsCDQvdC40LTQtdGAINGB06ls0LvQuA==',
-    '0Jv5p9C60LjQvSDQsdC10YDQvdC4INCw0Z3Qu9Cw0LzRi9C50L0=',
-    '0Z7QtdC/IMOp0LfQtdC70LP5p9C9LCDRgtC10Lsg0Y7Qs9Cw0LvQsNC9',
-    '0KPQutGL0L8g0LHRg9C70LAg0YLQuNC6INCx0LXRgCDQs9C10L3Tmcgc0YHQsNC9LCDQsdC10YAg0LPQtdC90Y8gc0YHQsNC9'
-  ];
-
-  const decode = (s: string) => {
-    try {
-      // b64DecodeUnicode: корректный способ для кириллицы и татарских букв
-      return decodeURIComponent(atob(s).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-    } catch (e) { 
-      return "Укып булмый..."; 
-    }
-  };
-
-  const getText = () => msgData.map(decode).join('\n');
+  const poemText = `Кабер ташлары миңа нидер сөйли
+Ләкин берни аңламыйм
+Җеп өзелгән, тел югалган
+Укып була тик бер генә сан, бер генә сан`;
 
   const emptyGrid = (): string[][] => Array.from({ length: ROWS }, () => Array(COLS).fill(''));
 
@@ -163,9 +140,6 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
       cx.lineTo(x * SIZE + SIZE, y * SIZE + SIZE);
       cx.lineTo(x * SIZE, y * SIZE + SIZE);
       cx.stroke();
-    } else {
-      cx.strokeStyle = color;
-      cx.strokeRect(x * SIZE + 0.5, y * SIZE + 0.5, SIZE - 1, SIZE - 1);
     }
     cx.globalAlpha = 1;
   };
@@ -176,16 +150,10 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
     ctx.fillRect(0, 0, board.width, board.height);
     ctx.strokeStyle = '#a2a2a2';
     for (let x = 0; x <= COLS; x++) {
-      ctx.beginPath();
-      ctx.moveTo(x * SIZE, 0);
-      ctx.lineTo(x * SIZE, board.height);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x * SIZE, 0); ctx.lineTo(x * SIZE, board.height); ctx.stroke();
     }
     for (let y = 0; y <= ROWS; y++) {
-      ctx.beginPath();
-      ctx.moveTo(0, y * SIZE);
-      ctx.lineTo(board.width, y * SIZE);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, y * SIZE); ctx.lineTo(board.width, y * SIZE); ctx.stroke();
     }
   };
 
@@ -201,14 +169,10 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   const drawGhost = () => {
     if (!active || !ctx) return;
     let ghostY = active.y;
-    while (!collide(active, 0, ghostY - active.y + 1)) {
-      ghostY++;
-    }
+    while (!collide(active, 0, ghostY - active.y + 1)) ghostY++;
     for (let y = 0; y < active.matrix.length; y++) {
       for (let x = 0; x < active.matrix[y].length; x++) {
-        if (active.matrix[y][x]) {
-          drawCell(ctx, active.x + x, ghostY + y, cellColor(active.type), 0.3);
-        }
+        if (active.matrix[y][x]) drawCell(ctx, active.x + x, ghostY + y, cellColor(active.type), 0.3);
       }
     }
   };
@@ -229,7 +193,6 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
     nextCtx.fillRect(0, 0, nextCanvas.width, nextCanvas.height);
 
     if (!next) return;
-
     const previewSize = 12; 
     const mw = next.matrix[0].length;
     const mh = next.matrix.length;
@@ -241,18 +204,6 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
         if (!next.matrix[y][x]) continue;
         nextCtx.fillStyle = cellColor(next.type);
         nextCtx.fillRect(ox + x * previewSize, oy + y * previewSize, previewSize, previewSize);
-        nextCtx.strokeStyle = '#e8e8e8';
-        nextCtx.beginPath();
-        nextCtx.moveTo(ox + x * previewSize, oy + y * previewSize + previewSize);
-        nextCtx.lineTo(ox + x * previewSize, oy + y * previewSize);
-        nextCtx.lineTo(ox + x * previewSize + previewSize, oy + y * previewSize);
-        nextCtx.stroke();
-        nextCtx.strokeStyle = '#555';
-        nextCtx.beginPath();
-        nextCtx.moveTo(ox + x * previewSize + previewSize, oy + y * previewSize);
-        nextCtx.lineTo(ox + x * previewSize + previewSize, oy + y * previewSize + previewSize);
-        nextCtx.lineTo(ox + x * previewSize, oy + y * previewSize + previewSize);
-        nextCtx.stroke();
       }
     }
   };
@@ -271,13 +222,10 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   };
 
   const rotate = (mat: number[][]) => {
-    const h = mat.length;
-    const w = mat[0].length;
+    const h = mat.length; const w = mat[0].length;
     const out = Array.from({ length: w }, () => Array(h).fill(0));
     for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        out[x][h - 1 - y] = mat[y][x];
-      }
+      for (let x = 0; x < w; x++) out[x][h - 1 - y] = mat[y][x];
     }
     return out;
   };
@@ -296,15 +244,10 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   };
 
   const addScore = (linesCleared: number) => {
-    if (score < 0x578) {
-      score += 70 * linesCleared;
-    } else if (score < 0x609) {
-      score += 10 * linesCleared;
-    } else if (score < 0x610) {
-      score += 1 * linesCleared;
-    } else {
-      score += 70 * linesCleared;
-    }
+    if (score < 0x578) score += 70 * linesCleared;
+    else if (score < 0x609) score += 10 * linesCleared;
+    else if (score < 0x610) score += 1 * linesCleared;
+    else score += 70 * linesCleared;
     
     if (score > 0x610 && score < 0x640) score = 0x610;
   };
@@ -313,15 +256,12 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
     let removed = 0;
     for (let y = ROWS - 1; y >= 0; y--) {
       if (grid[y].every(cell => !!cell)) {
-        grid.splice(y, 1);
-        grid.unshift(Array(COLS).fill(''));
-        removed++;
-        y++;
+        grid.splice(y, 1); grid.unshift(Array(COLS).fill(''));
+        removed++; y++;
       }
     }
     if (removed > 0) {
-      lines += removed;
-      addScore(removed);
+      lines += removed; addScore(removed);
       if (speed > 120) speed -= removed * 8;
     }
   };
@@ -339,14 +279,10 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
   };
 
   const lockAndNext = () => {
-    merge();
-    clearRows();
-    updateHud();
+    merge(); clearRows(); updateHud();
     if (score === 0x610 && !shown) {
-      shown = true;
-      paused = true;
-      showOverlay();
-      return;
+      shown = true; paused = true;
+      showOverlay(); return;
     }
     spawn();
   };
@@ -358,160 +294,83 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
 
   const drop = () => {
     if (over || paused || !active) return;
-    if (!collide(active, 0, 1)) {
-      active.y++;
-    } else {
-      lockAndNext();
-    }
+    if (!collide(active, 0, 1)) active.y++;
+    else lockAndNext();
     dropCounter = 0;
   };
 
   const hardDrop = () => {
     if (over || paused || !active) return;
     while (!collide(active, 0, 1)) active.y++;
-    lockAndNext();
-    dropCounter = 0;
+    lockAndNext(); dropCounter = 0;
   };
 
   const turn = () => {
     if (over || paused || !active) return;
     const r = rotate(active.matrix);
-    if (!collide(active, 0, 0, r)) {
-      active.matrix = r;
-      return;
-    }
-    if (!collide(active, -1, 0, r)) {
-      active.x--;
-      active.matrix = r;
-      return;
-    }
-    if (!collide(active, 1, 0, r)) {
-      active.x++;
-      active.matrix = r;
-      return;
-    }
+    if (!collide(active, 0, 0, r)) active.matrix = r;
+    else if (!collide(active, -1, 0, r)) { active.x--; active.matrix = r; }
+    else if (!collide(active, 1, 0, r)) { active.x++; active.matrix = r; }
   };
 
   const draw = () => {
     if (!ctx) return;
-    drawBoardBg();
-    drawGrid();
-    drawGhost(); 
-    drawPiece(active);
-
+    drawBoardBg(); drawGrid(); drawGhost(); drawPiece(active);
     if (over) {
-      ctx.fillStyle = 'rgba(192,192,192,0.92)';
-      ctx.fillRect(20, 120, 120, 60);
-      ctx.strokeStyle = '#fff';
-      ctx.strokeRect(20, 120, 120, 60);
-      ctx.fillStyle = '#000';
-      ctx.font = 'bold 14px Tahoma';
-      ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(192,192,192,0.92)'; ctx.fillRect(20, 120, 120, 60);
+      ctx.strokeStyle = '#fff'; ctx.strokeRect(20, 120, 120, 60);
+      ctx.fillStyle = '#000'; ctx.font = 'bold 14px Tahoma'; ctx.textAlign = 'center';
       ctx.fillText('GAME OVER', 80, 155);
     }
   };
 
   const frame = (t = 0) => {
-    const dt = t - lastTime;
-    lastTime = t;
-
+    const dt = t - lastTime; lastTime = t;
     if (!over && !paused) {
       dropCounter += dt;
       if (dropCounter >= speed) drop();
     }
-
-    draw();
-    requestAnimationFrame(frame);
+    draw(); requestAnimationFrame(frame);
   };
 
   const showOverlay = () => {
     const box = document.createElement('div');
-    box.style.position = 'absolute';
-    box.style.inset = '0';
-    box.style.display = 'flex';
-    box.style.alignItems = 'center';
-    box.style.justifyContent = 'center';
-    box.style.background = 'rgba(0,0,0,0.25)';
-    box.style.zIndex = '99999';
+    box.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.25);z-index:99999;';
 
     const win = document.createElement('div');
-    win.style.width = '480px';
-    win.style.maxWidth = '95%';
-    win.style.background = '#c0c0c0';
-    win.style.border = '2px outset #fff';
-    win.style.boxShadow = '2px 2px 0 #808080';
-    win.style.padding = '2px';
+    win.style.cssText = 'width:480px;max-width:95%;background:#c0c0c0;border:2px outset #fff;box-shadow:2px 2px 0 #808080;padding:2px;';
 
     const bar = document.createElement('div');
-    bar.style.background = '#000080';
-    bar.style.color = '#fff';
-    bar.style.padding = '3px 6px';
-    bar.style.font = 'bold 12px Tahoma';
+    bar.style.cssText = 'background:#000080;color:#fff;padding:3px 6px;font:bold(12px) Tahoma;';
     bar.textContent = 'Message';
 
     const body = document.createElement('div');
-    body.style.marginTop = '2px';
-    body.style.border = '2px inset #fff';
-    body.style.background = '#fff';
-    body.style.padding = '12px';
-    body.style.whiteSpace = 'pre-line';
-    body.style.font = '14px Tahoma';
-    body.style.lineHeight = '1.55';
-    body.style.color = '#000';
-    body.textContent = getText();
+    body.style.cssText = 'margin-top:2px;border:2px inset #fff;background:#fff;padding:12px;white-space:pre-line;font:14px Tahoma;line-height:1.55;color:#000;';
+    body.textContent = poemText;
 
     const row = document.createElement('div');
-    row.style.display = 'flex';
-    row.style.justifyContent = 'center';
-    row.style.padding = '8px';
+    row.style.cssText = 'display:flex;justify-content:center;padding:8px;';
 
     const btn = document.createElement('button');
     btn.textContent = 'OK';
-    btn.style.border = '2px outset #fff';
-    btn.style.background = '#c0c0c0';
-    btn.style.padding = '4px 18px';
-    btn.style.cursor = 'pointer';
-    btn.style.font = '12px Tahoma';
+    btn.style.cssText = 'border:2px outset #fff;background:#c0c0c0;padding:4px 18px;cursor:pointer;font:12px Tahoma;';
 
-    btn.addEventListener('click', () => {
-      box.remove();
-      paused = false;
-      spawn();
-    });
+    btn.addEventListener('click', () => { box.remove(); paused = false; spawn(); });
 
-    row.appendChild(btn);
-    win.appendChild(bar);
-    win.appendChild(body);
-    win.appendChild(row);
-    box.appendChild(win);
-
+    row.appendChild(btn); win.appendChild(bar); win.appendChild(body); win.appendChild(row); box.appendChild(win);
     const app = root.querySelector('.t-app') as HTMLElement;
-    if (app) {
-      app.style.position = 'relative';
-      app.appendChild(box);
-    }
+    if (app) { app.style.position = 'relative'; app.appendChild(box); }
   };
 
   const reset = () => {
-    grid = emptyGrid();
-    score = 0;
-    lines = 0;
-    over = false;
-    paused = false;
-    shown = false;
-    dropCounter = 0;
-    lastTime = 0;
-    speed = 550;
+    grid = emptyGrid(); score = 0; lines = 0; over = false; paused = false; shown = false;
+    dropCounter = 0; lastTime = 0; speed = 550;
     if (resetBtn) resetBtn.textContent = '🙂';
-    updateHud();
-    spawn();
-    draw();
+    updateHud(); spawn(); draw();
   };
 
   const onKey = (e: KeyboardEvent) => {
-    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '].includes(e.key)) {
-      e.preventDefault();
-    }
+    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '].includes(e.key)) e.preventDefault();
     if (e.key === 'ArrowLeft') move(-1);
     else if (e.key === 'ArrowRight') move(1);
     else if (e.key === 'ArrowUp') turn();
@@ -521,7 +380,5 @@ export const initMinesweeper = (root: HTMLElement | Document = document) => {
 
   if (resetBtn) resetBtn.addEventListener('click', reset);
   window.addEventListener('keydown', onKey);
-
-  reset();
-  requestAnimationFrame(frame);
+  reset(); requestAnimationFrame(frame);
 };

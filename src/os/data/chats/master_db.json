@@ -1,0 +1,26 @@
+{
+  "contacts": [
+    { "id": "selsovet", "name": "Сельсовет", "sub": "Общий чат", "icon": "📁" },
+    { "id": "alsu", "name": "Алсу", "sub": "Online", "icon": "👤" },
+    { "id": "sushi", "name": "Суши 🍣", "sub": "Казань", "icon": "🍱" }
+  ],
+  "messages": [
+    {
+      "chatId": "selsovet",
+      "user": "Babay77",
+      "text": "Урман серләрне саклый.",
+      "time": "09:45",
+      "unlocked": true,
+      "trans": { "word": "серләрне", "mean": "тайны / секреты" }
+    },
+    {
+      "chatId": "alsu",
+      "user": "Alsu",
+      "text": "Син шәүлә күрдеңме?",
+      "time": "23:15",
+      "unlocked": true,
+      "id": "saw_ghost_forest",
+      "trans": { "word": "шәүлә", "mean": "призрак / тень / силуэт" }
+    }
+  ]
+}

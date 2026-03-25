@@ -348,4 +348,43 @@ export class DedOS {
         tick(); 
         setInterval(tick, 1000);
     }
+
+    public showSystemMessage(title: string, message: string) {
+        const wrapper = this.screen.querySelector('.screen-content-wrapper') || this.screen;
+        const win = document.createElement('div');
+        win.className = 'window system-alert';
+        win.style.cssText = `
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 320px; z-index: 9999; background: var(--win-bg); border: 2px outset #fff;
+        `;
+        
+        win.innerHTML = `
+            <div class="window-title" style="background: #808080;">
+                <span>${title}</span>
+                <button class="win-btn close-btn">X</button>
+            </div>
+            <div style="padding: 15px; background: var(--win-bg); color: #000; font-size: 12px; line-height: 1.5;">
+                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="font-size: 24px;">⚠️</span>
+                    <div>${message.replace(/\n/g, '<br>')}</div>
+                </div>
+                <center style="margin-top: 15px;">
+                    <button class="win-btn ok-btn" style="width: 60px;">OK</button>
+                </center>
+            </div>
+        `;
+
+        const closeBtn = win.querySelector('.close-btn');
+        const okBtn = win.querySelector('.ok-btn');
+        
+        const close = (e: Event) => {
+            e.stopPropagation();
+            win.remove();
+        };
+
+        closeBtn?.addEventListener('mousedown', close);
+        okBtn?.addEventListener('mousedown', close);
+
+        wrapper.appendChild(win);
+    }
 }

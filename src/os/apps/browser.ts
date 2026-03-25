@@ -232,34 +232,33 @@ function winButton(label: string, cls = ''): string {
 
 function renderHomePage(): string {
   return `
-    <div style="background: #ffcc00; padding: 15px 10px; font-weight: bold; font-size: 32px; color: red; letter-spacing: -2px; border-bottom: 2px solid #000;">
-        ЯНДЭК <span style="font-size: 12px; color: black; font-weight: normal; letter-spacing: 0; vertical-align: middle; margin-left: 10px;">Найдется всё</span>
-    </div>
+   <div style="background: #ffcc00; height: 60px; border-bottom: 2px solid #000; display: flex; align-items: center; padding: 0 15px; gap: 15px; overflow: visible;">
+    <img src="/assets/yangir.png" 
+         style="height: 200%; width: auto; padding: 5px 0; object-fit: contain;" 
+         alt="Yangir">
+    
+    <span style="font-size: 13px; color: black;">Барысы да явачак</span>
+</div>
     <div style="padding:16px;">
       <div style="display:flex; align-items:baseline; gap:10px;">
         <div style="font-size:30px; color:#0b45b5; font-weight:bold; letter-spacing:-1px;">TatarNet</div>
-        <div style="font-size:12px; color:#444;">локальный каталог сайтов</div>
       </div>
 
       <div style="margin-top:16px; display:grid; grid-template-columns:repeat(2, minmax(220px,1fr)); gap:12px;">
         <div class="browser-link-card" data-open-page="tatarwiki" style="border:2px outset #fff; background:#efefef; padding:12px; cursor:pointer;">
           <div style="font-weight:bold; color:#003399;">ТатарВики</div>
-          <div style="font-size:12px; color:#333; margin-top:6px;">Энциклопедия: фольклор, литература, культурные понятия.</div>
         </div>
 
         <div class="browser-link-card" data-open-page="tukay" style="border:2px outset #fff; background:#efefef; padding:12px; cursor:pointer;">
           <div style="font-weight:bold; color:#003399;">Стихи Тукая</div>
-          <div style="font-size:12px; color:#333; margin-top:6px;">Каталог стихов с загрузкой текста.</div>
         </div>
 
         <div class="browser-link-card" data-open-page="news" style="border:2px outset #fff; background:#efefef; padding:12px; cursor:pointer;">
           <div style="font-weight:bold; color:#003399;">Новости</div>
-          <div style="font-size:12px; color:#333; margin-top:6px;">Культурная лента, локальные события.</div>
         </div>
 
         <div class="browser-link-card" data-open-page="forum" style="border:2px outset #fff; background:#efefef; padding:12px; cursor:pointer;">
           <div style="font-weight:bold; color:#003399;">Форум</div>
-          <div style="font-size:12px; color:#333; margin-top:6px;">Треды, поиски источников.</div>
         </div>
       </div>
     </div>
@@ -311,8 +310,9 @@ function renderSearchPage(query: string): string {
   });
 
   return `
-    <div style="background: #ffcc00; padding: 15px 10px; font-weight: bold; font-size: 32px; color: red; letter-spacing: -2px; border-bottom: 2px solid #000;">
-        ЯНДЭК <span style="font-size: 12px; color: black; font-weight: normal; letter-spacing: 0; vertical-align: middle; margin-left: 10px;">Найдется всё</span>
+    <div style="background: #ffcc00; padding: 10px; border-bottom: 2px solid #000; display: flex; align-items: center; gap: 15px;">
+        <img src="/assets/yangir.png" style="height: 30px; width: auto; max-width: 100%; object-fit: contain;" alt="Yangir">
+        <span style="font-size: 11px; color: black; font-weight: normal;">Найдется всё</span>
     </div>
     <div style="padding:16px;">
       <div style="font-size:12px; color:#666; margin-bottom:16px;">
