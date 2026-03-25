@@ -6,6 +6,14 @@ export interface InventoryItem {
     icon: string;
 }
 
+export interface VocabularyItem {
+    id: string;
+    tatar: string;
+    russian: string;
+    count: number;
+    learned: boolean;
+}
+
 export class GameState {
     private events: EventEmitter;
     
@@ -13,6 +21,11 @@ export class GameState {
     public inventory: InventoryItem[] = [];
     public currentScene: string = 'intro';
     public flags: { [key: string]: boolean } = {};
+    
+    // Новые статы
+    public flashlight: number = 84;
+    public tatarKnowledge: number = 12;
+    public vocabulary: VocabularyItem[] = [];
     
     // Сюжетные переменные
     public day: number = 1;

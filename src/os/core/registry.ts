@@ -17,6 +17,7 @@ export const SYSTEM_REGISTRY: SystemItem[] = [
     { id: 'notepad', name: 'Заметки Айдара', type: 'app', icon: '📝', parentId: null },
     { id: 'player', name: 'Winamp', type: 'app', icon: '📻', parentId: null },
     { id: 'terminal', name: 'MS-DOS', type: 'app', icon: '💻', parentId: null },
+    { id: 'village', name: 'Отойти от компьютера', type: 'app', icon: '🚪', parentId: null },
     
     // Folders
     { id: 'my_docs', name: 'Документлар', type: 'folder', icon: '📁', parentId: null, content: ['pact_1999', 'forest_plan', 'missing_report'] },

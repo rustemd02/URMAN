@@ -13,7 +13,7 @@ export class DedOS {
     private screen: HTMLElement;
     private windowsContainer!: HTMLElement;
     private zIndex: number = 100;
-    
+
     private activeWindow: HTMLElement | null = null;
     private resizingWindow: HTMLElement | null = null;
     private dragOffset = { x: 0, y: 0 };
@@ -24,7 +24,7 @@ export class DedOS {
         const el = document.getElementById('pc-screen');
         if (!el) throw new Error("Элемент #pc-screen не найден! Проверь index.html");
         this.screen = el;
-        
+
         this.initOS();
     }
 
@@ -45,7 +45,7 @@ export class DedOS {
 
         const screenW = this.screen.clientWidth;
         const screenH = this.screen.clientHeight;
-        
+
         // Масштабируем 640x480 под реальный размер #pc-screen
         const scale = Math.min(screenW / 640, screenH / 480);
         wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
@@ -64,7 +64,7 @@ export class DedOS {
 
     private createLayers() {
         this.screen.innerHTML = '';
-        
+
         // Обертка для контента с фильтрами
         const wrapper = document.createElement('div');
         wrapper.className = 'screen-content-wrapper';
@@ -86,7 +86,7 @@ export class DedOS {
         if (!grid) return;
 
         const desktopItems = SYSTEM_REGISTRY.filter(item => item.parentId === null);
-        
+
         grid.innerHTML = desktopItems.map(item => `
             <div class="desktop-icon" data-id="${item.id}" title="${item.id === 'minesweeper' ? 'Размер: 1552 КБ' : ''}">
                 <div class="icon-img">${item.icon}</div>
@@ -132,6 +132,11 @@ export class DedOS {
     }
 
     public openWindow(item: SystemItem) {
+        if (item.id === 'village') {
+            (window as any).URMAN.scenes.switchScene('village');
+            return;
+        }
+
         const existing = document.getElementById(`win-${item.id}`);
         if (existing) {
             this.bringToFront(existing);
@@ -141,13 +146,13 @@ export class DedOS {
         const win = document.createElement('div');
         win.id = `win-${item.id}`;
         win.className = 'window active';
-        
+
         win.style.zIndex = (++this.zIndex).toString();
-        
+
         // Изначально удобные окна для разрешения 640x480
         win.style.width = '300px';
         win.style.height = '220px';
-        
+
         if (item.id === 'chat') {
             win.style.width = '450px';
             win.style.height = '350px';
@@ -164,7 +169,7 @@ export class DedOS {
         const startY = 30 + Math.random() * 30;
         win.style.left = `${startX}px`;
         win.style.top = `${startY}px`;
-        
+
         win.innerHTML = `
             <div class="window-title">
                 <div class="title-info">
@@ -184,11 +189,11 @@ export class DedOS {
         `;
 
         win.addEventListener('mousedown', () => this.bringToFront(win));
-        
+
         win.querySelector('.close-btn')?.addEventListener('mousedown', (e) => {
             e.stopPropagation(); // Предотвращаем drag при клике на закрытие
         });
-        
+
         win.querySelector('.close-btn')?.addEventListener('click', (e) => {
             e.stopPropagation();
             win.remove();
@@ -226,7 +231,7 @@ export class DedOS {
                 case 'notepad': return renderNotepad ? renderNotepad() : "Ошибка модуля";
                 case 'player': return renderPlayer ? renderPlayer() : "Ошибка модуля";
                 case 'terminal': return renderTerminal ? renderTerminal() : "Ошибка модуля";
-                default: 
+                default:
                     if (item.type === 'folder') return this.renderFolder(item);
                     if (item.type === 'doc') return renderWord(item.content as string);
                     if (item.type === 'image') return `<div style="background:#000; height:100%; display:flex; align-items:center; justify-content:center;"><img src="${item.content}" style="max-width:100%; max-height:100%; object-fit:contain;"></div>`;
@@ -263,10 +268,10 @@ export class DedOS {
         this.activeWindow = win;
         this.screenRect = this.screen.getBoundingClientRect();
         const winRect = win.getBoundingClientRect();
-        
+
         this.dragOffset.x = e.clientX - winRect.left;
         this.dragOffset.y = e.clientY - winRect.top;
-        
+
         this.bringToFront(win);
         e.preventDefault();
     }
@@ -303,10 +308,10 @@ export class DedOS {
             if (this.resizingWindow) {
                 const dw = e.clientX - this.resizeStart.x;
                 const dh = e.clientY - this.resizeStart.y;
-                
+
                 const newW = Math.max(200, this.resizeStart.w + dw);
                 const newH = Math.max(150, this.resizeStart.h + dh);
-                
+
                 // Ограничение по размеру экрана
                 const maxWidth = this.screen.clientWidth - this.resizingWindow.offsetLeft;
                 const maxHeight = this.screen.clientHeight - this.resizingWindow.offsetTop - 28;
@@ -342,10 +347,10 @@ export class DedOS {
 
     private updateClock() {
         const el = document.getElementById('clock');
-        const tick = () => { 
-            if(el) el.innerText = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); 
+        const tick = () => {
+            if (el) el.innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         };
-        tick(); 
+        tick();
         setInterval(tick, 1000);
     }
 
@@ -357,7 +362,7 @@ export class DedOS {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 320px; z-index: 9999; background: var(--win-bg); border: 2px outset #fff;
         `;
-        
+
         win.innerHTML = `
             <div class="window-title" style="background: #808080;">
                 <span>${title}</span>
@@ -376,7 +381,7 @@ export class DedOS {
 
         const closeBtn = win.querySelector('.close-btn');
         const okBtn = win.querySelector('.ok-btn');
-        
+
         const close = (e: Event) => {
             e.stopPropagation();
             win.remove();

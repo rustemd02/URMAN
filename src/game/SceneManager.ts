@@ -3,11 +3,14 @@ import { ComputerScene } from '../scenes/ComputerScene';
 import { ForestScene } from '../scenes/ForestScene';
 import { HouseScene } from '../scenes/HouseScene';
 import { IntroScene } from '../scenes/IntroScene';
+import { MainMenuScene } from '../scenes/MainMenuScene';
+import { ChapterScene } from '../scenes/ChapterScene';
+import { VillageScene } from '../scenes/VillageScene';
 import { BaseScene } from '../scenes/BaseScene';
 
 export class SceneManager {
     private game: Game;
-    private currentScene: BaseScene | null = null;
+    public currentScene: BaseScene | null = null;
     private container: HTMLElement;
 
     constructor(game: Game) {
@@ -25,6 +28,12 @@ export class SceneManager {
         this.container.innerHTML = '';
 
         switch (sceneId) {
+            case 'mainMenu':
+                this.currentScene = new MainMenuScene(this.game);
+                break;
+            case 'chapter1':
+                this.currentScene = new ChapterScene(this.game);
+                break;
             case 'intro':
                 this.currentScene = new IntroScene(this.game);
                 break;
@@ -37,11 +46,22 @@ export class SceneManager {
             case 'house':
                 this.currentScene = new HouseScene(this.game);
                 break;
+            case 'village':
+                this.currentScene = new VillageScene(this.game);
+                break;
             default:
                 console.error(`Scene ${sceneId} not found`);
                 return;
         }
 
-        this.currentScene.init(this.container);
+        const game = this.game;
+        if (game.inventoryUI) {
+            const isGameplay = ['village', 'forest', 'house'].includes(sceneId);
+            game.inventoryUI.setVisible(isGameplay);
+        }
+
+        if (this.currentScene) {
+            this.currentScene.init(this.container);
+        }
     }
 }

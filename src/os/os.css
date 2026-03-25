@@ -3,7 +3,8 @@
     --win-border-light: #ffffff;
     --win-border-dark: #808080;
     --win-border-black: #000000;
-    --taskbar-height: 20px; /* Еще меньше */
+    --taskbar-height: 20px;
+    /* Еще меньше */
     --font-size-small: 8px;
     --font-size-normal: 9px;
 }
@@ -32,7 +33,10 @@ body {
     opacity: 0.3;
     transition: opacity 0.3s;
 }
-.fs-toggle:hover { opacity: 1; }
+
+.fs-toggle:hover {
+    opacity: 1;
+}
 
 /* Задний фон с блюром */
 body::before {
@@ -51,7 +55,8 @@ body::before {
 
 #monitor-wrapper {
     position: relative;
-    height: 123.5vh; /* Увеличено на 130% (95vh * 1.3) */
+    height: 123.5vh;
+    /* Увеличено на 130% (95vh * 1.3) */
     aspect-ratio: 4 / 3;
     display: flex;
     justify-content: center;
@@ -60,14 +65,15 @@ body::before {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    filter: drop-shadow(0 0 60px rgba(0,0,0,0.9));
-    margin-top: 10vh; /* Опустил на 10% высоты вьюпорта */
+    filter: drop-shadow(0 0 60px rgba(0, 0, 0, 0.9));
+    margin-top: 10vh;
+    /* Опустил на 10% высоты вьюпорта */
 }
 
 #pc-screen {
     user-select: none;
     background: #008080;
-    width: 50.5%; 
+    width: 50.5%;
     height: 44.5%;
     position: absolute;
     top: 40.8%;
@@ -78,10 +84,10 @@ body::before {
     box-shadow: none !important;
     border: none !important;
     outline: none !important;
-    
+
     /* Добавляем SVG маску для идеального скругления и обрезки */
     clip-path: url(#monitor-mask);
-    
+
     /* Устанавливаем базовое разрешение для всех вложенных элементов */
     font-size: 10px;
 }
@@ -92,7 +98,8 @@ body::before {
 }
 
 .screen-content-wrapper {
-    width: 640px; /* Классическое разрешение 640x480 для Win98 */
+    width: 640px;
+    /* Классическое разрешение 640x480 для Win98 */
     height: 480px;
     position: absolute;
     top: 50%;
@@ -112,11 +119,13 @@ body::before {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 50px; /* Увеличил высоту тени */
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
+    height: 50px;
+    /* Увеличил высоту тени */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 40%, transparent 100%);
     pointer-events: none;
     z-index: 9998;
-    filter: blur(4px); /* Добавил размытие тени */
+    filter: blur(4px);
+    /* Добавил размытие тени */
 }
 
 /* Слой сканирующих линий */
@@ -127,9 +136,9 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
+    background:
         linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.03) 0%, transparent 50%);
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
     background-size: 100% 2px, 100% 100%;
     pointer-events: none;
     z-index: 10000;
@@ -138,8 +147,10 @@ body::before {
 
 .desktop-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 70px); /* Увеличено с 50px */
-    grid-template-rows: repeat(auto-fill, 75px); /* Увеличено с 55px */
+    grid-template-columns: repeat(auto-fill, 70px);
+    /* Увеличено с 50px */
+    grid-template-rows: repeat(auto-fill, 75px);
+    /* Увеличено с 55px */
     gap: 10px;
     padding: 15px;
     height: calc(100% - var(--taskbar-height));
@@ -162,13 +173,15 @@ body::before {
 }
 
 .desktop-icon .icon-img {
-    font-size: 32px; /* Увеличено с 20px */
+    font-size: 32px;
+    /* Увеличено с 20px */
     margin-bottom: 4px;
-    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
 .desktop-icon .icon-text {
-    font-size: 10px; /* Увеличено с 7px */
+    font-size: 10px;
+    /* Увеличено с 7px */
     line-height: 1.1;
     word-wrap: break-word;
     max-width: 65px;
@@ -187,6 +200,18 @@ body::before {
     box-shadow: 1px 1px 0 #000;
     min-width: 120px;
     min-height: 80px;
+    animation: windowOpen 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes windowOpen {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .window-title {
@@ -203,7 +228,7 @@ body::before {
 }
 
 .window.active {
-    box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
 
 .window.active .window-title {
@@ -219,7 +244,9 @@ body::before {
     white-space: nowrap;
 }
 
-.title-icon { font-size: 9px; }
+.title-icon {
+    font-size: 9px;
+}
 
 .title-controls {
     display: flex;
@@ -279,9 +306,10 @@ body::before {
     border-top: 1px solid #fff;
     display: flex;
     align-items: center;
-    padding: 1px 5px 5px 5px; /* Уменьшил боковые отступы, чтобы расширить полезную площадь */
+    padding: 1px 5px 5px 5px;
+    /* Уменьшил боковые отступы, чтобы расширить полезную площадь */
     z-index: 9999;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .start-btn {
@@ -292,10 +320,12 @@ body::before {
     font-size: 8px;
     display: flex;
     align-items: center;
-    padding: 0 6px; /* Чуть больше паддинг для кнопки */
+    padding: 0 6px;
+    /* Чуть больше паддинг для кнопки */
     cursor: pointer;
     gap: 2px;
-    margin-left: 10px; /* Сдвиг от самого края кинескопа */
+    margin-left: 10px;
+    /* Сдвиг от самого края кинескопа */
 }
 
 .start-btn {
@@ -358,14 +388,17 @@ body::before {
     width: 12px;
     height: 12px;
 }
+
 ::-webkit-scrollbar-track {
     background: #dfdfdf;
     box-shadow: inset 1px 1px #808080;
 }
+
 ::-webkit-scrollbar-thumb {
     background: #c0c0c0;
     border: 1px outset #fff;
 }
+
 ::-webkit-scrollbar-button {
     background: #c0c0c0;
     border: 1px outset #fff;

@@ -3,25 +3,25 @@ import { BaseScene } from './BaseScene';
 export class IntroScene extends BaseScene {
     private profiles: Record<string, any> = {
         "Тимур (ИТИС)": {
-            avatar: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?q=80&w=200&h=200&auto=format&fit=crop",
+            avatar: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?w=200&h=200&fit=crop",
             status: "Senior Pomidor 🍅",
             bio: "ИТИС 552. В поисках идеального стака.",
             posts: ["Купил мак на м3, теперь доширак мой лучший друг", "Кто пойдет в качалку после пар?"]
         },
         "Диана": {
-            avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&h=200&auto=format&fit=crop",
+            avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop",
             status: "Beach mode: ON 🏖️",
             bio: "Life is too short for bad code. Анталья, жди!",
             posts: ["Чемоданы собраны, билеты в кармане!", "Почему в аэропорту такой дорогой кофе?"]
         },
         "Руслан": {
-            avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&h=200&auto=format&fit=crop",
+            avatar: "https://images.unsplash.com/photo-1528892952291-009c663ce843?w=200&h=200&fit=crop",
             status: "Тракторист на полставки 🚜",
             bio: "JS is my passion. Сельское хозяйство — моё призвание (нет).",
             posts: ["Вчера кодил до 4 утра, сегодня не чувствую ног", "Где лучшие тусовки? У нас в общаге!"]
         },
         "Булат (Староста)": {
-            avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&h=200&auto=format&fit=crop",
+            avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
             status: "Сдаем лабы вовремя! 📋",
             bio: "Главный по дедлайнам. Не пишите мне после 22:00.",
             posts: ["Список должников обновлен. Спойлер: там все.", "Методичка по курсачу в закрепе."]
@@ -50,9 +50,9 @@ export class IntroScene extends BaseScene {
                     to { transform: translateX(0); }
                 }
                 .kfu-background {
-                    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                    background: url('/assets/background_house.jpg') center/cover no-repeat;
-                    filter: brightness(0.5);
+                    position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
+                    background: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&h=900&fit=crop') center/cover no-repeat;
+                    filter: brightness(0.4) blur(3px);
                     z-index: 1;
                 }
                 .iphone-frame {
@@ -128,6 +128,15 @@ export class IntroScene extends BaseScene {
                         Ехать в деревню
                     </button>
                 </div>
+                
+                <!-- Skip button -->
+                <button id="skip-intro-btn" style="
+                    position: absolute; top: 14px; right: 14px; z-index: 200;
+                    background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7);
+                    border: 1px solid rgba(255,255,255,0.2); border-radius: 20px;
+                    padding: 6px 16px; font-size: 12px; cursor: pointer;
+                    backdrop-filter: blur(4px); transition: all 0.2s;
+                " onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">Пропустить ↩</button>
             </div>
         `;
 
@@ -142,7 +151,11 @@ export class IntroScene extends BaseScene {
         });
 
         container.querySelector('.start-game-btn')?.addEventListener('click', () => {
-            this.game.scenes.switchScene('computer');
+            this.game.scenes.switchScene('village');
+        });
+
+        container.querySelector('#skip-intro-btn')?.addEventListener('click', () => {
+            this.game.scenes.switchScene('village');
         });
     }
 

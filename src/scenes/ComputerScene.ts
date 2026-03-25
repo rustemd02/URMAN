@@ -76,4 +76,10 @@ export class ComputerScene extends BaseScene {
         super.destroy();
         this.os = null;
     }
+
+    onOSMessage(title: string, message: string) {
+        if (this.os) {
+            this.os.showSystemMessage(title, message);
+        }
+    }
 }

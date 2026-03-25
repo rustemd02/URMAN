@@ -15,4 +15,7 @@ export abstract class BaseScene {
             this.container.innerHTML = '';
         }
     }
+
+    // Опциональный метод для системных уведомлений
+    onOSMessage?(title: string, message: string): void;
 }
