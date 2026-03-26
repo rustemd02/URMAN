@@ -8,7 +8,6 @@ import { WORLD_CONFIG } from './config';
 
 /**
  * MainMapScene - Responsibility: Orchestrates the Tatar Village Map.
- * Glue layer between Engine (Data), Renderer (Visual), and Input (UI).
  */
 export class MainMapScene extends BaseScene {
     private canvas!: HTMLCanvasElement;
@@ -35,6 +34,7 @@ export class MainMapScene extends BaseScene {
     private lastDragY = 0;
     private lastTs = 0;
     private rafId = 0;
+    private keys = new Set<string>();
 
     init(container: HTMLElement) {
         this.container = container;
@@ -43,7 +43,7 @@ export class MainMapScene extends BaseScene {
             <canvas id="mc" style="display:block; cursor:crosshair; width:100%; height:100%; touch-action:none;"></canvas>
             <div id="hud" style="position:absolute; top:12px; left:12px; color:white; font-family:Philosopher,serif; pointer-events:none; text-shadow:1px 1px 4px black;">
                 <h3 style="margin:0">Кара-Урман</h3>
-                <p style="margin:0; opacity:0.75; font-size:12px;">Тяните — камера · Мышь — ходить / зум</p>
+                <p style="margin:0; opacity:0.75; font-size:12px;">Тяните — камера · WASD — движение · Колесо — зум</p>
             </div>
             <div id="m-ov" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; z-index:100; font-family:Philosopher,serif;">
                <div style="background:#1a1a24; border:2px solid #5a4a2a; border-radius:12px; padding:24px; color:white; min-width:280px; box-shadow:0 12px 48px rgba(0,0,0,0.8);">
@@ -60,30 +60,31 @@ export class MainMapScene extends BaseScene {
         this.modal = container.querySelector('#m-ov')!;
         container.querySelector('#m-cls')!.addEventListener('click', () => this.modal.style.display = 'none');
 
-        // 1. Generate World Data
         const engine = new WorldEngine();
         this.world = engine.generate();
 
-        // 2. Setup Camera
         this.camera.scale = 1.0;
         this.centerOn(this.px, this.py);
 
-        // 3. Bind Input
         this.bindEvents();
-
-        // 4. Start Loop
         this.rafId = requestAnimationFrame(t => this.loop(t));
     }
 
     private bindEvents() {
-        // Zoom
         this.canvas.addEventListener('wheel', (e) => {
             e.preventDefault();
             const factor = e.deltaY < 0 ? 1.15 : 0.85;
-            this.camera.zoomAt(factor, e.clientX, e.clientY);
+
+            const worldX = (e.clientX - this.camera.x) / this.camera.scale;
+            const worldY = (e.clientY - this.camera.y) / this.camera.scale;
+
+            const nextScale = Math.max(0.4, Math.min(4.0, this.camera.scale * factor));
+
+            this.camera.x = e.clientX - worldX * nextScale;
+            this.camera.y = e.clientY - worldY * nextScale;
+            this.camera.scale = nextScale;
         }, { passive: false });
 
-        // Pan & Click
         this.canvas.addEventListener('pointerdown', (e) => {
             this.isDragging = true;
             this.dragMoved = false;
@@ -107,24 +108,24 @@ export class MainMapScene extends BaseScene {
             if (!this.dragMoved) this.handleWorldClick(e.clientX, e.clientY);
         });
 
+        window.addEventListener('keydown', (e) => this.keys.add(e.code));
+        window.addEventListener('keyup', (e) => this.keys.delete(e.code));
+
         window.addEventListener('resize', () => {
-             this.canvas.width = window.innerWidth;
-             this.canvas.height = window.innerHeight;
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
         });
         window.dispatchEvent(new Event('resize'));
     }
 
     private handleWorldClick(cx: number, cy: number) {
-        // Unproject mouse to local world pos
         const worldPos = this.camera.unproject(cx, cy);
-        // Map world pos to grid pos
         const { gx, gy } = IsoProjection.toGrid(worldPos.wx, worldPos.wy);
-        
+
         const targetX = Math.floor(gx);
         const targetY = Math.floor(gy);
 
-        // 1. Check for entity interaction FIRST
-        const entity = this.world.entities.find(e => 
+        const entity = this.world.entities.find(e =>
             targetX >= e.gx && targetX < e.gx + e.gw &&
             targetY >= e.gy && targetY < e.gy + e.gh
         );
@@ -134,7 +135,6 @@ export class MainMapScene extends BaseScene {
             return;
         }
 
-        // 2. Otherwise: Walk to position
         this.tx = gx;
         this.ty = gy;
         this.isWalking = true;
@@ -148,14 +148,14 @@ export class MainMapScene extends BaseScene {
         btns.innerHTML = '';
 
         e.actions?.forEach(act => {
-             const btn = document.createElement('button');
-             btn.innerText = act.label;
-             btn.style.cssText = `display:block; width:100%; padding:10px; margin:8px 0; background:#252530; border:1px solid #4a4a5a; color:white; border-radius:6px; cursor:pointer;`;
-             btn.onclick = () => {
-                 this.modal.style.display = 'none';
-                 if (act.sceneTarget) this.game.scenes.switchScene(act.sceneTarget);
-             };
-             btns.appendChild(btn);
+            const btn = document.createElement('button');
+            btn.innerText = act.label;
+            btn.style.cssText = `display:block; width:100%; padding:10px; margin:8px 0; background:#252530; border:1px solid #4a4a5a; color:white; border-radius:6px; cursor:pointer;`;
+            btn.onclick = () => {
+                this.modal.style.display = 'none';
+                if (act.sceneTarget) this.game.scenes.switchScene(act.sceneTarget);
+            };
+            btns.appendChild(btn);
         });
 
         this.modal.style.display = 'flex';
@@ -170,6 +170,14 @@ export class MainMapScene extends BaseScene {
     }
 
     private update(dt: number) {
+        const camSpeed = 15 / this.camera.scale;
+        if (this.keys.has('KeyW')) this.camera.y += camSpeed;
+        if (this.keys.has('KeyS')) this.camera.y -= camSpeed;
+        if (this.keys.has('KeyA')) this.camera.x += camSpeed;
+        if (this.keys.has('KeyD')) this.camera.x -= camSpeed;
+
+        this.clampCamera();
+
         if (!this.isWalking) {
             this.walkPhase = 0;
             return;
@@ -184,7 +192,7 @@ export class MainMapScene extends BaseScene {
             return;
         }
 
-        const move = Math.min(5.0 * dt, d); // constant walk speed
+        const move = Math.min(5.0 * dt, d);
         this.px += (dx / d) * move;
         this.py += (dy / d) * move;
         this.walkPhase = (this.walkPhase + dt * 2) % 1;
@@ -194,6 +202,25 @@ export class MainMapScene extends BaseScene {
         const { sx, sy } = IsoProjection.toScreen(gx, gy);
         this.camera.x = window.innerWidth / 2 - sx * this.camera.scale;
         this.camera.y = window.innerHeight / 2 - sy * this.camera.scale;
+    }
+
+    private clampCamera() {
+        const HW = WORLD_CONFIG.TILE_W / 2;
+        const HH = WORLD_CONFIG.TILE_H / 2;
+        const scale = this.camera.scale;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        const leftBound = -WORLD_CONFIG.GRID_H * HW * scale;
+        const rightBound = WORLD_CONFIG.GRID_W * HW * scale;
+        const topBound = 0;
+        const bottomBound = (WORLD_CONFIG.GRID_W + WORLD_CONFIG.GRID_H) * HH * scale;
+
+        const padX = w * 0.78;
+        const padY = h * 0.78;
+
+        this.camera.x = Math.max(w - padX - rightBound, Math.min(this.camera.x, padX - leftBound));
+        this.camera.y = Math.max(h - padY - bottomBound, Math.min(this.camera.y, padY - topBound));
     }
 
     destroy() {

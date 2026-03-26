@@ -17,8 +17,8 @@ export const WORLD_CONFIG = {
     CORE_Y: 32,
 
     // Radii for procedural zones
-    CLEARING_RADIUS: 18, 
-    FOREST_START: 28,    
+    CLEARING_RADIUS: 14, 
+    FOREST_START: 22,    
 
     // River placement (logical left-to-right flow)
     RIVER_Y_BAND: 10,    
@@ -46,17 +46,25 @@ export const AUTHORED_LAYOUT = {
     // Structured as [x, y] point arrays
     roads: {
         main: [
-            [32, 12], [32, 18], [33, 25], [32, 35], [31, 45], [32, 55], [32, 63]
+            [32, 0], [32, 63]
         ],
         secondary: [
             [22, 16], [21, 24], [22, 32], [21, 44], [20, 52]
+        ],
+        extra_west: [
+            [10, 10], [10, 55]
+        ],
+        extra_east: [
+            [54, 10], [54, 55]
         ],
         lanes: [
             [[22, 20], [32, 20]], // Connection 1
             [[22, 38], [32, 38]], // Connection 2
             [[32, 30], [42, 30]], // Lane A
             [[32, 50], [42, 50]], // Lane B
-            [[21, 48], [12, 48]]  // Lane C
+            [[21, 48], [12, 48]], // Lane C
+            [[10, 20], [22, 20]], // West connect
+            [[42, 30], [54, 30]]  // East connect
         ]
     },
 
@@ -68,14 +76,14 @@ export const AUTHORED_LAYOUT = {
         clinic:   { x: 27, y: 40, w: 3, h: 3 }
     },
 
-    // 3. Sacred Ground
-    zirat: { x: 8, y: 20, w: 7, h: 7 },
+    // 3. Sacred Ground (Southwest corner)
+    zirat: { x: 5, y: 50, w: 6, h: 6 },
 
     // 4. Resident Lot Anchors (15 houses)
     lots: [
-        [36, 18], [36, 26], [36, 38], [36, 52], [36, 58], // Along Main (Right)
-        [28, 16], [28, 28], [28, 35], [28, 48], [27, 56], // Along Main (Left)
-        [16, 22], [16, 32], [16, 42], [15, 52], [46, 30]  // Secondary / Lanes
+        [37, 18], [37, 26], [37, 38], [37, 52], [37, 58], // Along Main (Right, shifted from 36)
+        [27, 16], [27, 28], [27, 35], [27, 48], [26, 56], // Along Main (Left, shifted from 28/27)
+        [16, 22], [16, 32], [15, 42], [14, 52], [47, 30]  // Secondary / Lanes (further out)
     ]
 } as const;
 

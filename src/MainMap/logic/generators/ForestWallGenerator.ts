@@ -38,11 +38,13 @@ export function generateForestWall(
 
             let treeProbability = 0;
             if (isNorthForest) {
-                treeProbability = 0.8 + noise * 0.3; // Very thick/variable woods across the river
+                treeProbability = 0.9 + noise * 0.1; // Maximum density across the river
+            } else if (distToCore > 30) {
+                treeProbability = 0.95; // Absolute wall at map edges
             } else if (isFarEdge) {
-                treeProbability = 0.5 + noise * 0.3; // Chunked perimeter wall
-            } else if (!isNearClearing && noise > 0.1) {
-                treeProbability = 0.15; // Small scattered clumps in transition zone
+                treeProbability = 0.75 + noise * 0.25; // Dense perimeter wall
+            } else if (!isNearClearing && noise > 0) {
+                treeProbability = 0.3; // More scattered trees in buffer
             }
 
             // Deterministic check based on coordinate seed

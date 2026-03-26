@@ -27,7 +27,6 @@ export class ObjectLayer {
 
     /**
      * Renders a batch of trees. 
-     * Expects trees to be pre-sorted by Y for efficiency.
      */
     public renderForest(
         ctx: CanvasRenderingContext2D,
@@ -38,73 +37,106 @@ export class ObjectLayer {
         }
     }
 
-    /**
-     * Internal: Basic isometric box / sprite rendering for buildings.
-     */
     private drawEntity(ctx: CanvasRenderingContext2D, e: MapEntity): void {
-        const { sx, sy } = IsoProjection.toScreen(e.gx + e.gw / 2, e.gy + e.gh / 2);
-        
-        const pxX = Math.round(sx);
-        const pxY = Math.round(sy);
+        if (e.subType === 'fence') {
+            this.drawFence(ctx, e);
+            return;
+        }
 
-        // Visual properties
+        const { sx, sy } = IsoProjection.toScreen(e.gx, e.gy);
+        const HW = 32;
+        const HH = 16;
+        const bHeight = e.style?.height || 22;
         const wallColor = e.style?.wallColor || '#c9a050';
         const roofColor = e.style?.roofColor || '#3a6b3a';
-        const bHeight = e.style?.height || 22;
 
-        const halfPW = Math.round((e.gw * 32) / 2); 
-        const halfPH = Math.round((e.gh * 16) / 2); 
+        const centerX = sx + (e.gw * HW) - (e.gh * HW);
+        const bottomY = sy + (e.gw * HH) + (e.gh * HH);
 
         // 1. Shadow
-        ctx.fillStyle = 'rgba(0,0,0,0.1)';
+        ctx.fillStyle = 'rgba(0,0,0,0.15)';
         ctx.beginPath();
-        ctx.ellipse(pxX, pxY, halfPW, halfPH, 0, 0, Math.PI * 2);
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(sx + e.gw * HW, sy + e.gw * HH);
+        ctx.lineTo(centerX, bottomY);
+        ctx.lineTo(sx - e.gh * HW, sy + e.gh * HH);
+        ctx.closePath();
         ctx.fill();
 
-        // 2. Walls
+        // 2. Left Wall
+        ctx.fillStyle = this.adjustColor(wallColor, -20);
+        ctx.beginPath();
+        ctx.moveTo(sx - e.gh * HW, sy + e.gh * HH);
+        ctx.lineTo(centerX, bottomY);
+        ctx.lineTo(centerX, bottomY - bHeight);
+        ctx.lineTo(sx - e.gh * HW, sy + e.gh * HH - bHeight);
+        ctx.closePath();
+        ctx.fill();
+
+        // 3. Right Wall
         ctx.fillStyle = wallColor;
         ctx.beginPath();
-        ctx.moveTo(pxX - halfPW, pxY);
-        ctx.lineTo(pxX, pxY + halfPH);
-        ctx.lineTo(pxX + halfPW, pxY);
-        ctx.lineTo(pxX + halfPW, pxY - bHeight);
-        ctx.lineTo(pxX, pxY + halfPH - bHeight);
-        ctx.lineTo(pxX - halfPW, pxY - bHeight);
+        ctx.moveTo(sx + e.gw * HW, sy + e.gw * HH);
+        ctx.lineTo(centerX, bottomY);
+        ctx.lineTo(centerX, bottomY - bHeight);
+        ctx.lineTo(sx + e.gw * HW, sy + e.gw * HH - bHeight);
         ctx.closePath();
         ctx.fill();
 
-        // 3. Roof
+        // 4. Roof
         ctx.fillStyle = roofColor;
         ctx.beginPath();
-        ctx.moveTo(pxX - halfPW, pxY - bHeight);
-        ctx.lineTo(pxX, pxY + halfPH - bHeight);
-        ctx.lineTo(pxX + halfPW, pxY - bHeight);
-        ctx.lineTo(pxX, pxY - halfPH - bHeight - 6);
+        ctx.moveTo(sx, sy - bHeight);
+        ctx.lineTo(sx + e.gw * HW, sy + e.gw * HH - bHeight);
+        ctx.lineTo(centerX, bottomY - bHeight);
+        ctx.lineTo(sx - e.gh * HW, sy + e.gh * HH - bHeight);
         ctx.closePath();
         ctx.fill();
 
-        // 4. Label
-        if (e.name) {
-            ctx.fillStyle = 'rgba(255,255,255,0.8)';
-            ctx.font = '10px Philosopher, serif';
+        // 5. Label
+        if (e.name && e.subType !== 'fence') {
+            ctx.fillStyle = 'white';
+            ctx.font = '12px Philosopher, serif';
             ctx.textAlign = 'center';
-            ctx.fillText(e.name, pxX, pxY - bHeight - 12);
+            ctx.fillText(e.name, centerX, sy - 15);
         }
     }
 
-    /**
-     * Internal: Basic tree drawing.
-     */
+    private drawFence(ctx: CanvasRenderingContext2D, e: MapEntity): void {
+        const { sx, sy } = IsoProjection.toScreen(e.gx, e.gy);
+        const HW = 32;
+        const HH = 16;
+        
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1;
+        
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(sx + e.gw * HW, sy + e.gw * HH);
+        ctx.lineTo(sx + e.gw * HW - e.gh * HW, sy + e.gw * HH + e.gh * HH);
+        ctx.lineTo(sx - e.gh * HW, sy + e.gh * HH);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+
+    private adjustColor(color: string, amount: number): string {
+        const clamp = (val: number) => Math.min(Math.max(val, 0), 255);
+        if (!color.startsWith('#')) return color;
+        const num = parseInt(color.slice(1), 16);
+        let r = (num >> 16) + amount;
+        let g = ((num >> 8) & 0x00FF) + amount;
+        let b = (num & 0x0000FF) + amount;
+        return "#" + (0x1000000 + clamp(r) * 0x10000 + clamp(g) * 0x100 + clamp(b)).toString(16).slice(1);
+    }
+
     public drawTree(ctx: CanvasRenderingContext2D, t: ForestDot): void {
         const { sx, sy } = IsoProjection.toScreen(t.x, t.y);
-        const pxX = Math.round(sx);
-        const pxY = Math.round(sy);
-
         ctx.save();
-        ctx.translate(pxX, pxY);
+        ctx.translate(Math.round(sx), Math.round(sy));
         ctx.scale(t.scale, t.scale);
 
-        // 1. Shadow
         ctx.fillStyle = 'rgba(0,0,0,0.15)';
         ctx.beginPath();
         ctx.ellipse(0, 0, 8, 3, 0, 0, Math.PI * 2);
@@ -113,31 +145,12 @@ export class ObjectLayer {
         if (t.variant === 'pine') {
             ctx.fillStyle = '#114411';
             ctx.beginPath();
-            ctx.moveTo(0, -25);
-            ctx.lineTo(-8, -5);
-            ctx.lineTo(8, -5);
+            ctx.moveTo(0, -25); ctx.lineTo(-8, -5); ctx.lineTo(8, -5);
             ctx.fill();
-            ctx.beginPath();
-            ctx.moveTo(0, -35);
-            ctx.lineTo(-6, -15);
-            ctx.lineTo(6, -15);
-            ctx.fill();
-        } else if (t.variant === 'oak') {
-            ctx.fillStyle = '#1a4a14';
-            ctx.beginPath();
-            ctx.arc(0, -20, 10, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#3a2a1a'; // trunk
-            ctx.fillRect(-1.5, -10, 3, 10);
         } else {
-            ctx.fillStyle = '#2a2a2a';
-            ctx.beginPath();
-            ctx.moveTo(0, -10);
-            ctx.lineTo(-4, 0);
-            ctx.lineTo(4, 0);
-            ctx.fill();
+            ctx.fillStyle = '#1a4a14';
+            ctx.beginPath(); ctx.arc(0, -20, 10, 0, Math.PI * 2); ctx.fill();
         }
-
         ctx.restore();
     }
 }

@@ -35,9 +35,16 @@ export function generateMainStreet(map: MapCell[][]): {
                     type: TileType.ROAD, 
                     variant: isAsphalt ? 10 : 0 // 10 = asphalt visually, 0 = dirt
                 };
-                // Make it slightly wider
-                if (y0 + 1 < WORLD_CONFIG.GRID_H) map[x0][y0+1] = map[x0][y0];
-                if (x0 + 1 < WORLD_CONFIG.GRID_W) map[x0+1][y0] = map[x0][y0];
+                // Make it wider
+                const width = isAsphalt ? 3 : 1;
+                for (let i = -Math.floor(width/2); i <= Math.floor(width/2); i++) {
+                    if (y0 + i >= 0 && y0 + i < WORLD_CONFIG.GRID_H) {
+                        map[x0][y0+i] = { type: TileType.ROAD, variant: map[x0][y0].variant };
+                    }
+                    if (x0 + i >= 0 && x0 + i < WORLD_CONFIG.GRID_W) {
+                        map[x0+i][y0] = { type: TileType.ROAD, variant: map[x0][y0].variant };
+                    }
+                }
                 
                 spine.push([x0, y0]);
             }
@@ -62,6 +69,14 @@ export function generateMainStreet(map: MapCell[][]): {
     // 3. Draw Side Lanes
     for (const lane of AUTHORED_LAYOUT.roads.lanes) {
         drawRoad(lane[0] as any, lane[1] as any, false);
+    }
+
+    // 4. Draw Extra West/East roads
+    for (let i = 0; i < (AUTHORED_LAYOUT.roads as any).extra_west.length - 1; i++) {
+        drawRoad((AUTHORED_LAYOUT.roads as any).extra_west[i], (AUTHORED_LAYOUT.roads as any).extra_west[i+1], false);
+    }
+    for (let i = 0; i < (AUTHORED_LAYOUT.roads as any).extra_east.length - 1; i++) {
+        drawRoad((AUTHORED_LAYOUT.roads as any).extra_east[i], (AUTHORED_LAYOUT.roads as any).extra_east[i+1], false);
     }
 
     // 4. Return fixed anchors for civic buildings
