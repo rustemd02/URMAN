@@ -4,6 +4,7 @@ import { EventEmitter } from './EventEmitter';
 import { VocabularySystem } from '../systems/VocabularySystem';
 import { HUD } from '../ui/HUD';
 import { InventoryUI } from '../ui/InventoryUI';
+import { AudioSystem } from '../systems/AudioSystem';
 
 export class Game {
     public state: GameState;
@@ -12,6 +13,7 @@ export class Game {
     public hud!: HUD;
     public inventoryUI!: InventoryUI;
     public vocabularySystem!: VocabularySystem;
+    public audio!: AudioSystem;
 
     constructor() {
         this.events = new EventEmitter();
@@ -20,6 +22,7 @@ export class Game {
         this.hud = new HUD(this);
         this.vocabularySystem = new VocabularySystem(this);
         this.inventoryUI = new InventoryUI(this);
+        this.audio = new AudioSystem(this);
         
         // Initial items
         this.state.addItem({

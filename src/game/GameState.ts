@@ -40,6 +40,10 @@ export class GameState {
     public day: number = 1;
     public time: string = '20:00';
 
+    // Языковая система (LAS)
+    public langLevel: 'beginner' | 'intermediate' | 'native' = 'beginner';
+    public learnedWords: Record<string, { count: number, discovered: boolean, dictionaryUnlocked: boolean }> = {};
+
     constructor(events: EventEmitter) {
         this.events = events;
         this.initStarterInventory();

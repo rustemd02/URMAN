@@ -1,12 +1,10 @@
 import { SYSTEM_REGISTRY, SystemItem } from './registry';
-// Проверь, чтобы эти импорты совпадали с названиями файлов
 import { renderChat } from '../apps/chat';
 import { renderBrowser } from '../apps/browser';
 import { renderMinesweeper } from '../apps/minesweeper';
 import { renderNotepad } from '../apps/notepad';
 import { renderPlayer } from '../apps/player';
 import { renderTerminal } from '../apps/terminal';
-
 import { renderWord } from '../apps/word';
 
 export class DedOS {
@@ -22,9 +20,8 @@ export class DedOS {
 
     constructor() {
         const el = document.getElementById('pc-screen');
-        if (!el) throw new Error("Элемент #pc-screen не найден! Проверь index.html");
+        if (!el) throw new Error("PC screen element not found!");
         this.screen = el;
-
         this.initOS();
     }
 
@@ -35,9 +32,8 @@ export class DedOS {
         this.renderTaskbar();
         this.initGlobalEvents();
         this.updateClock();
-        this.handleResize(); // Начальное масштабирование
+        this.handleResize(); 
         window.addEventListener('resize', () => this.handleResize());
-        
         this.showBootScreen();
     }
 
@@ -46,65 +42,39 @@ export class DedOS {
         bootOverlay.style.cssText = `
             position: absolute; inset: 0; background: #000; z-index: 100000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #c0c0c0; font-family: 'Tahoma', 'MS Sans Serif', sans-serif; font-size: 14px;
+            color: #c0c0c0; font-family: 'Tahoma', sans-serif;
         `;
-        bootOverlay.innerHTML = `
-            <div style="font-size: 32px; font-weight: bold; font-style: italic; color: #fff;">
-                <span style="color: #008080;">Тәрәзәләр</span> 98
-            </div>
-            <div style="margin-top: 10px; font-size: 10px;">Йөкләү... (Загрузка...)</div>
-            <div style="width: 150px; height: 6px; border: 1px solid #808080; margin-top: 5px; padding: 1px;">
-                <div style="background: #000080; height: 100%; width: 0%; animation: bootBar 2s ease-in-out forwards;"></div>
-            </div>
-            <style>
-                @keyframes bootBar { 0% { width: 0%; } 50% { width: 40%; } 100% { width: 100%; } }
-            </style>
-        `;
+        bootOverlay.innerHTML = `<div style="font-size: 32px; font-weight: bold; font-style: italic;"><span style="color:#008080;">Тәрәзәләр</span> 98</div>`;
         this.screen.appendChild(bootOverlay);
-        setTimeout(() => {
-            bootOverlay.style.transition = 'opacity 0.2s';
-            bootOverlay.style.opacity = '0';
-            setTimeout(() => bootOverlay.remove(), 200);
-        }, 2200);
+        setTimeout(() => bootOverlay.remove(), 1000);
     }
 
     private handleResize() {
         const wrapper = this.screen.querySelector('.screen-content-wrapper') as HTMLElement;
         if (!wrapper) return;
-
         const screenW = this.screen.clientWidth;
         const screenH = this.screen.clientHeight;
-
-        // Масштабируем 640x480 под реальный размер #pc-screen
         const scale = Math.min(screenW / 640, screenH / 480);
         wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
     private applyMonitorStyles() {
         const wrapper = document.getElementById('monitor-wrapper');
-        if (wrapper) {
-            // Исправлено расширение на .png, так как файл в ассетах - monitor-frame.png
-            wrapper.style.backgroundImage = "url('/assets/monitor-frame.png')";
-            wrapper.style.backgroundSize = "contain";
-            wrapper.style.backgroundRepeat = "no-repeat";
-            wrapper.style.backgroundPosition = "center";
+        if (wrapper && (window as any).monitorFrameUrl) {
+            wrapper.style.backgroundImage = `url(${(window as any).monitorFrameUrl})`;
         }
     }
 
     private createLayers() {
         this.screen.innerHTML = '';
-
-        // Обертка для контента с фильтрами
         const wrapper = document.createElement('div');
         wrapper.className = 'screen-content-wrapper';
         this.screen.appendChild(wrapper);
 
-        // Слой иконок
         const grid = document.createElement('div');
         grid.className = 'desktop-grid';
         wrapper.appendChild(grid);
 
-        // Слой окон
         this.windowsContainer = document.createElement('div');
         this.windowsContainer.id = 'windows-container';
         wrapper.appendChild(this.windowsContainer);
@@ -113,17 +83,14 @@ export class DedOS {
     private renderDesktop() {
         const grid = this.screen.querySelector('.desktop-grid');
         if (!grid) return;
-
         const desktopItems = SYSTEM_REGISTRY.filter(item => item.parentId === null);
-
         grid.innerHTML = desktopItems.map(item => `
-            <div class="desktop-icon" data-id="${item.id}" title="${item.id === 'minesweeper' ? 'Размер: 1552 КБ' : ''}">
-                <div class="icon-img">${item.icon}</div>
-                <div class="icon-text">${item.name}</div>
+            <div class="desktop-icon" data-id="${item.id}" style="width:50px; text-align:center; font-family:'MS Sans Serif'; cursor:pointer; color:#fff;">
+                <div class="icon-img-container">${item.icon}</div>
+                <div style="font-size:11px; text-shadow:1px 1px #000; margin-top:2px;">${item.name}</div>
             </div>
         `).join('');
 
-        // Добавляем события клика
         grid.querySelectorAll('.desktop-icon').forEach(el => {
             el.addEventListener('dblclick', () => {
                 const id = el.getAttribute('data-id');
@@ -138,26 +105,11 @@ export class DedOS {
         const bar = document.createElement('div');
         bar.id = 'taskbar';
         bar.innerHTML = `
-            <button class="start-btn" style="font-family: 'Tahoma', 'MS Sans Serif', sans-serif;" title="Пуск">
-                <span style="font-size: 12px; margin-right: 2px;">💻</span>
-                <b>Тәрәзәләр</b>
-            </button>
+            <button class="start-btn"><b>Тәрәзәләр</b></button>
             <div class="taskbar-apps"></div>
-            <button class="win98-btn fs-btn" title="Полный экран" style="height:16px; padding:0 4px; margin-right:4px; font-size:8px;">[ ]</button>
-            <div id="clock" title="Вакыт (Время)">00:00</div>
+            <div id="clock">00:00</div>
         `;
         if (wrapper) wrapper.appendChild(bar);
-        else this.screen.appendChild(bar);
-
-        bar.querySelector('.fs-btn')?.addEventListener('click', () => {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
-        });
     }
 
     public openWindow(item: SystemItem) {
@@ -175,257 +127,87 @@ export class DedOS {
         const win = document.createElement('div');
         win.id = `win-${item.id}`;
         win.className = 'window active';
-
         win.style.zIndex = (++this.zIndex).toString();
-
-        // Изначально удобные окна для разрешения 640x480
         win.style.width = '300px';
-        win.style.height = '220px';
+        win.style.height = '200px';
 
-        if (item.id === 'chat') {
-            win.style.width = '450px';
-            win.style.height = '350px';
-        } else if (item.id === 'browser') {
-            win.style.width = '580px';
-            win.style.height = '420px';
-        } else if (item.id === 'minesweeper') {
-            win.style.width = '240px';
-            win.style.height = '380px';
-        }
+        if (item.id === 'chat') { win.style.width='450px'; win.style.height='350px'; }
+        if (item.id === 'browser') { win.style.width='580px'; win.style.height='420px'; }
 
-        // Позиционирование
-        const startX = 30 + Math.random() * 30;
-        const startY = 30 + Math.random() * 30;
-        win.style.left = `${startX}px`;
-        win.style.top = `${startY}px`;
+        win.style.left = `${30 + Math.random()*30}px`;
+        win.style.top = `${30 + Math.random()*30}px`;
 
         win.innerHTML = `
-            <div class="window-title" style="font-family: 'Tahoma', 'MS Sans Serif', sans-serif;">
-                <div class="title-info">
-                    <span class="title-icon">${item.icon}</span>
-                    <span class="title-text">${item.name}</span>
-                </div>
-                <div class="title-controls">
-                    <button class="win-btn">_</button>
-                    <button class="win-btn">□</button>
-                    <button class="win-btn close-btn">X</button>
-                </div>
+            <div class="window-title">
+                <div class="title-info"><span>${item.name}</span></div>
+                <div class="title-controls"><button class="win-btn close-btn">X</button></div>
             </div>
-            <div class="window-content">
-                ${this.getAppContent(item)}
-            </div>
-            <div class="resizer"></div>
+            <div class="window-content">${this.getAppContent(item)}</div>
         `;
 
         win.addEventListener('mousedown', () => this.bringToFront(win));
-
-        win.querySelector('.close-btn')?.addEventListener('mousedown', (e) => {
-            e.stopPropagation(); // Предотвращаем drag при клике на закрытие
-        });
-
-        win.querySelector('.close-btn')?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if ((win as any)._cleanup) (win as any)._cleanup();
-            win.remove();
-        });
-
+        win.querySelector('.close-btn')?.addEventListener('click', () => win.remove());
+        
         const titleBar = win.querySelector('.window-title') as HTMLElement;
         titleBar.addEventListener('mousedown', (e) => this.startDrag(e, win));
-
-        const resizer = win.querySelector('.resizer') as HTMLElement;
-        resizer.addEventListener('mousedown', (e) => this.startResize(e, win));
-
         this.windowsContainer.appendChild(win);
 
-        // Инициализация специфичных для приложения взаимодействий
+        if (item.id === 'calendar') {
+           import('./kernel32').then(m => m.renderSystemTimer(win.querySelector('.calendar-container') as HTMLElement));
+        }
+        if (item.id === 'task_manager') {
+           this.renderTaskManager(win.querySelector('.task-manager-container') as HTMLElement);
+        }
         if (item.id === 'chat') {
             import('../apps/chat').then(m => m.initChatInteractions(win));
-        }
-        if (item.id === 'minesweeper') {
-            import('../apps/minesweeper').then(m => {
-                (win as any)._cleanup = m.initMinesweeper(win);
-            });
-        }
-        if (item.id === 'browser') {
-            import('../apps/browser').then(m => {
-                (win as any)._cleanup = m.initBrowser(win);
-            });
-        }
-        if (item.id === 'notepad' || item.type === 'doc') {
-            import('../apps/notepad').then(m => {
-                (win as any)._cleanup = m.initNotepad(win, item.type === 'doc' ? (item.content as string) : undefined);
-            });
         }
     }
 
     private getAppContent(item: SystemItem): string {
-        try {
-            switch (item.id) {
-                case 'chat': return renderChat();
-                case 'browser': return renderBrowser();
-                case 'minesweeper': return renderMinesweeper ? renderMinesweeper() : "Ошибка модуля";
-                case 'notepad': return renderNotepad ? renderNotepad() : "Ошибка модуля";
-                case 'player': return renderPlayer ? renderPlayer() : "Ошибка модуля";
-                case 'terminal': return renderTerminal ? renderTerminal() : "Ошибка модуля";
-                default:
-                    if (item.type === 'folder') return this.renderFolder(item);
-                    if (item.type === 'doc') return renderWord(item.content as string);
-                    if (item.type === 'image') return `<div style="background:#000; height:100%; display:flex; align-items:center; justify-content:center;"><img src="${item.content}" style="max-width:100%; max-height:100%; object-fit:contain;"></div>`;
-                    return `<div style="padding: 20px;">Система хатасы: ${item.name}</div>`;
-            }
-        } catch (e) {
-            console.error("Ошибка рендера приложения:", e);
-            return `<div style="padding:20px; color:red;">Ошибка загрузки ${item.name}</div>`;
+        switch (item.id) {
+            case 'chat': return renderChat();
+            case 'browser': return renderBrowser();
+            case 'calendar': return '<div class="calendar-container"></div>';
+            case 'task_manager': return '<div class="task-manager-container"></div>';
+            case 'terminal': return renderTerminal();
+            default: return `<div>App: ${item.name}</div>`;
         }
     }
 
-    private renderFolder(folder: SystemItem): string {
-        const children = SYSTEM_REGISTRY.filter(i => (folder.content as string[]).includes(i.id));
-        return `
-            <div class="folder-view" style="display: grid; grid-template-columns: repeat(auto-fill, 70px); gap: 10px; padding: 10px; background: #fff; height: 100%;">
-                ${children.map(child => `
-                    <div class="folder-icon" data-id="${child.id}" style="display:flex; flex-direction:column; align-items:center; cursor:pointer;">
-                        <div style="font-size: 24px;">${child.icon}</div>
-                        <div style="font-size: 10px; color: #000; text-align:center;">${child.name}</div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
+    private renderTaskManager(container: HTMLElement) {
+        container.innerHTML = `<div style="padding:10px; color:#000;"><h3>Task Manager</h3><p>Progress: 10%</p></div>`;
     }
 
     private bringToFront(win: HTMLElement) {
-        this.zIndex++;
-        win.style.zIndex = this.zIndex.toString();
-        document.querySelectorAll('.window').forEach(w => w.classList.remove('active'));
-        win.classList.add('active');
+        win.style.zIndex = (++this.zIndex).toString();
     }
 
     private startDrag(e: MouseEvent, win: HTMLElement) {
         this.activeWindow = win;
-        this.screenRect = this.screen.getBoundingClientRect();
-        const winRect = win.getBoundingClientRect();
-
-        this.dragOffset.x = e.clientX - winRect.left;
-        this.dragOffset.y = e.clientY - winRect.top;
-
+        const rect = win.getBoundingClientRect();
+        const screenRect = this.screen.getBoundingClientRect();
+        this.dragOffset.x = e.clientX - rect.left;
+        this.dragOffset.y = e.clientY - rect.top;
+        this.screenRect = screenRect;
         this.bringToFront(win);
         e.preventDefault();
-    }
-
-    private startResize(e: MouseEvent, win: HTMLElement) {
-        this.resizingWindow = win;
-        this.resizeStart = {
-            w: win.offsetWidth,
-            h: win.offsetHeight,
-            x: e.clientX,
-            y: e.clientY
-        };
-        this.bringToFront(win);
-        e.preventDefault();
-        e.stopPropagation();
     }
 
     private initGlobalEvents() {
         document.addEventListener('mousemove', (e) => {
             if (this.activeWindow && this.screenRect) {
-                let x = e.clientX - this.screenRect.left - this.dragOffset.x;
-                let y = e.clientY - this.screenRect.top - this.dragOffset.y;
-
-                const maxX = this.screen.clientWidth - this.activeWindow.offsetWidth;
-                const maxY = this.screen.clientHeight - 28;
-
-                x = Math.max(0, Math.min(x, maxX));
-                y = Math.max(0, Math.min(y, maxY));
-
+                const x = e.clientX - this.screenRect.left - this.dragOffset.x;
+                const y = e.clientY - this.screenRect.top - this.dragOffset.y;
                 this.activeWindow.style.left = `${x}px`;
                 this.activeWindow.style.top = `${y}px`;
             }
-
-            if (this.resizingWindow) {
-                const dw = e.clientX - this.resizeStart.x;
-                const dh = e.clientY - this.resizeStart.y;
-
-                const newW = Math.max(200, this.resizeStart.w + dw);
-                const newH = Math.max(150, this.resizeStart.h + dh);
-
-                // Ограничение по размеру экрана
-                const maxWidth = this.screen.clientWidth - this.resizingWindow.offsetLeft;
-                const maxHeight = this.screen.clientHeight - this.resizingWindow.offsetTop - 28;
-
-                this.resizingWindow.style.width = `${Math.min(newW, maxWidth)}px`;
-                this.resizingWindow.style.height = `${Math.min(newH, maxHeight)}px`;
-            }
         });
-
-        document.addEventListener('mouseup', () => {
-            this.activeWindow = null;
-            this.resizingWindow = null;
-            this.screenRect = null;
-        });
-
-        // Глобальный клик для папок
-        this.screen.addEventListener('click', (e) => {
-            const folderIcon = (e.target as HTMLElement).closest('.folder-icon');
-            if (folderIcon) {
-                const id = folderIcon.getAttribute('data-id');
-                const item = SYSTEM_REGISTRY.find(i => i.id === id);
-                if (item) this.openWindow(item);
-            }
-        });
-
-        (window as any).game = {
-            openWindowById: (id: string) => {
-                const item = SYSTEM_REGISTRY.find(i => i.id === id);
-                if (item) this.openWindow(item);
-            }
-        };
+        document.addEventListener('mouseup', () => { this.activeWindow = null; });
     }
 
     private updateClock() {
         const el = document.getElementById('clock');
-        const tick = () => {
-            if (el) el.innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        };
-        tick();
-        setInterval(tick, 1000);
-    }
-
-    public showSystemMessage(title: string, message: string) {
-        const wrapper = this.screen.querySelector('.screen-content-wrapper') || this.screen;
-        const win = document.createElement('div');
-        win.className = 'window system-alert';
-        win.style.cssText = `
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 320px; z-index: 9999; background: var(--win-bg); border: 2px outset #fff;
-        `;
-
-        win.innerHTML = `
-            <div class="window-title" style="background: #808080;">
-                <span>${title}</span>
-                <button class="win-btn close-btn">X</button>
-            </div>
-            <div style="padding: 15px; background: var(--win-bg); color: #000; font-size: 12px; line-height: 1.5;">
-                <div style="display: flex; gap: 10px; align-items: flex-start;">
-                    <span style="font-size: 24px;">⚠️</span>
-                    <div>${message.replace(/\n/g, '<br>')}</div>
-                </div>
-                <center style="margin-top: 15px;">
-                    <button class="win-btn ok-btn" style="width: 60px;">OK</button>
-                </center>
-            </div>
-        `;
-
-        const closeBtn = win.querySelector('.close-btn');
-        const okBtn = win.querySelector('.ok-btn');
-
-        const close = (e: Event) => {
-            e.stopPropagation();
-            win.remove();
-        };
-
-        closeBtn?.addEventListener('mousedown', close);
-        okBtn?.addEventListener('mousedown', close);
-
-        wrapper.appendChild(win);
+        const tick = () => { if (el) el.innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); };
+        tick(); setInterval(tick, 1000);
     }
 }

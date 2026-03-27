@@ -19,10 +19,10 @@ export class MainMapScene extends BaseScene {
     private renderer = new MapRenderer();
 
     // Player State
-    private px = WORLD_CONFIG.CORE_X;
-    private py = WORLD_CONFIG.CORE_Y;
-    private tx = WORLD_CONFIG.CORE_X;
-    private ty = WORLD_CONFIG.CORE_Y;
+    private px: number = WORLD_CONFIG.CORE_X;
+    private py: number = WORLD_CONFIG.CORE_Y;
+    private tx: number = WORLD_CONFIG.CORE_X;
+    private ty: number = WORLD_CONFIG.CORE_Y;
     private isWalking = false;
     private walkPhase = 0;
     private isFacingRight = true;
@@ -67,7 +67,21 @@ export class MainMapScene extends BaseScene {
         this.centerOn(this.px, this.py);
 
         this.bindEvents();
+        this.setupAmbientAudio();
         this.rafId = requestAnimationFrame(t => this.loop(t));
+    }
+
+    private setupAmbientAudio() {
+        setInterval(() => {
+            const hourStr = (this.game.state as any).timeOfDay || "12:00";
+            const hour = parseInt(hourStr.split(':')[0]);
+            
+            if (hour >= 18 || hour <= 6) { // Evening or night
+                if (Math.random() > 0.4) {
+                    this.game.audio?.play('wolf_howl', 0.15);
+                }
+            }
+        }, 15000); // Check every 15s
     }
 
     private bindEvents() {
