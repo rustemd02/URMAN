@@ -1,0 +1,251 @@
+{
+  "version": 1,
+  "asset_pack": "urman_mvp_first10",
+  "coordinate_system": "normalized [x, y, width, height]",
+  "principle": "Static PNG base plus controlled overlay layers; no baked video loops by default.",
+  "global_limits": {
+    "default_loop_style": "slow, subtle, non-attention-grabbing",
+    "max_regular_motion_level": 1,
+    "pressure_motion_requires_flag": true,
+    "do_not_animate": ["full creature reveal", "glowing eyes", "blood/gore", "jump scare motion"]
+  },
+  "assets": [
+    {
+      "asset_id": "char_aidar_portrait_neutral",
+      "file_name": "char_aidar_portrait_neutral.png",
+      "animation_slots": [
+        {
+          "id": "dialogue_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent portrait",
+          "normalized_rect": [0.14, 0.03, 0.68, 0.88],
+          "behavior": "0.5-1.0 px vertical breathing drift over 5-7 s; optional and disabled during tense text beats",
+          "creepiness_level": 0
+        },
+        {
+          "id": "eye_blink_optional",
+          "type": "future_overlay",
+          "target": "eyes",
+          "normalized_rect": [0.38, 0.22, 0.24, 0.08],
+          "behavior": "rare blink, 8-14 s interval, only if a painted blink overlay is later produced",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_aidar_portrait_thinking",
+      "file_name": "char_aidar_portrait_thinking.png",
+      "animation_slots": [
+        {
+          "id": "dialogue_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent portrait",
+          "normalized_rect": [0.16, 0.04, 0.70, 0.88],
+          "behavior": "0.5-1.0 px vertical breathing drift over 5-7 s",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_aidar_portrait_worried",
+      "file_name": "char_aidar_portrait_worried.png",
+      "animation_slots": [
+        {
+          "id": "dialogue_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent portrait",
+          "normalized_rect": [0.17, 0.04, 0.70, 0.88],
+          "behavior": "slightly uneven 0.5-1.2 px breathing drift; do not exaggerate fear",
+          "creepiness_level": 1
+        }
+      ]
+    },
+    {
+      "asset_id": "char_aidar_portrait_pressure",
+      "file_name": "char_aidar_portrait_pressure.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_shadow",
+          "type": "transparent_overlay",
+          "target": "portrait edges and jacket shadow",
+          "normalized_rect": [0.12, 0.05, 0.72, 0.88],
+          "behavior": "slow opacity fade 0-18% tied to pressure flag; no face distortion",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "char_aidar_avatar_small",
+      "file_name": "char_aidar_avatar_small.png",
+      "animation_slots": [
+        {
+          "id": "ui_attention_pulse",
+          "type": "ui_mask",
+          "target": "avatar rim only",
+          "normalized_rect": [0.05, 0.05, 0.90, 0.90],
+          "behavior": "optional journal/dialogue selection pulse, 6-8% opacity, not horror-coded",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_aidar_portrait_contact_sheet",
+      "file_name": "char_aidar_portrait_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Contact sheet is a production reference, not runtime animation source."
+    },
+    {
+      "asset_id": "route_main_street_entry_day",
+      "file_name": "route_main_street_entry_day.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds",
+          "type": "transparent_overlay_sprite",
+          "target": "open sky above village roofs",
+          "normalized_rect": [0.33, 0.04, 0.50, 0.18],
+          "behavior": "2-3 tiny dark birds crossing slowly every 20-35 s; optional, level 0-1 only",
+          "creepiness_level": 0
+        },
+        {
+          "id": "watched_window_glimmer",
+          "type": "light_overlay",
+          "target": "small warm distant window near road center",
+          "normalized_rect": [0.445, 0.490, 0.027, 0.043],
+          "behavior": "very slow warm opacity pulse 0-14% over 5-8 s; no face silhouette",
+          "creepiness_level": 1
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "mask_or_displacement",
+          "target": "bottom foreground dry grass",
+          "normalized_rect": [0.00, 0.73, 1.00, 0.27],
+          "behavior": "sub-pixel sway, rare gusts only",
+          "creepiness_level": 0
+        },
+        {
+          "id": "pressure_edge_ink",
+          "type": "pressure_overlay",
+          "target": "screen edges and fence shadows",
+          "normalized_rect": [0.00, 0.00, 1.00, 1.00],
+          "behavior": "fade in only after social pressure flag; 0-20% opacity",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "ui_old_pc_desktop_base",
+      "file_name": "ui_old_pc_desktop_base.png",
+      "animation_slots": [
+        {
+          "id": "crt_scanline",
+          "type": "shader_overlay",
+          "target": "CRT screen area",
+          "normalized_rect": [0.288, 0.123, 0.462, 0.526],
+          "behavior": "very faint horizontal scanline drift; must not reduce text readability",
+          "creepiness_level": 0
+        },
+        {
+          "id": "crt_glow",
+          "type": "light_overlay",
+          "target": "screen bloom and plastic bezel",
+          "normalized_rect": [0.275, 0.105, 0.486, 0.580],
+          "behavior": "slow luminance breathing 3-6%; normal PC hum",
+          "creepiness_level": 0
+        },
+        {
+          "id": "power_led",
+          "type": "light_overlay",
+          "target": "small green LED on monitor",
+          "normalized_rect": [0.672, 0.718, 0.014, 0.020],
+          "behavior": "steady glow; optional single blink during boot",
+          "creepiness_level": 0
+        },
+        {
+          "id": "ui_cursor_blink",
+          "type": "ui_overlay",
+          "target": "active window body",
+          "normalized_rect": [0.420, 0.306, 0.247, 0.235],
+          "behavior": "standard old-PC cursor blink when text/search is active",
+          "creepiness_level": 0
+        },
+        {
+          "id": "archive_pressure_flicker",
+          "type": "pressure_overlay",
+          "target": "screen only",
+          "normalized_rect": [0.288, 0.123, 0.462, 0.526],
+          "behavior": "rare 1-frame luminance dip on dangerous file open; not a glitch storm",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_marat_medical_record_bg",
+      "file_name": "doc_marat_medical_record_bg.png",
+      "animation_slots": [
+        {
+          "id": "document_focus_highlight",
+          "type": "ui_overlay",
+          "target": "main table / clue phrase region",
+          "normalized_rect": [0.115, 0.424, 0.772, 0.219],
+          "behavior": "soft paper-colored highlight fade for selected clue; no neon marker",
+          "creepiness_level": 0
+        },
+        {
+          "id": "scan_noise",
+          "type": "shader_overlay",
+          "target": "whole document",
+          "normalized_rect": [0.06, 0.03, 0.88, 0.93],
+          "behavior": "optional static scanner grain, extremely low opacity",
+          "creepiness_level": 0
+        },
+        {
+          "id": "dangerous_phrase_pressure",
+          "type": "pressure_overlay",
+          "target": "notes box and signature area",
+          "normalized_rect": [0.114, 0.655, 0.620, 0.260],
+          "behavior": "edge darkening or slight paper-shadow fade after re-read unlock",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "route_kara_urman_forest_edge_pressure",
+      "file_name": "route_kara_urman_forest_edge_pressure.png",
+      "animation_slots": [
+        {
+          "id": "branch_sway_foreground",
+          "type": "mask_or_displacement",
+          "target": "right and upper branches",
+          "normalized_rect": [0.50, 0.03, 0.48, 0.48],
+          "behavior": "barely perceptible uneven sway; avoid creature-like deliberate motion",
+          "creepiness_level": 2
+        },
+        {
+          "id": "cold_forest_breath",
+          "type": "light_overlay",
+          "target": "dark path entrance",
+          "normalized_rect": [0.39, 0.30, 0.31, 0.47],
+          "behavior": "slow cold opacity pulse 0-12%; feels like air, not a visible entity",
+          "creepiness_level": 3
+        },
+        {
+          "id": "distant_village_lights",
+          "type": "light_overlay",
+          "target": "tiny far lights at left horizon",
+          "normalized_rect": [0.005, 0.485, 0.100, 0.050],
+          "behavior": "almost static; 2-4% shimmer to show distance",
+          "creepiness_level": 1
+        },
+        {
+          "id": "pressure_shadow_mismatch",
+          "type": "pressure_overlay",
+          "target": "path center and tree shadows",
+          "normalized_rect": [0.26, 0.24, 0.58, 0.65],
+          "behavior": "fade only during Marat voice beat; no full silhouette, no eyes",
+          "creepiness_level": 3
+        }
+      ]
+    }
+  ]
+}
+

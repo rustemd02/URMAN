@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "asset_pack": "urman_mvp_first10",
+  "notes": "Coordinates are normalized [x, y, width, height]. Text should be rendered by the game/UI layer, not baked into the PNG. Controlled ambience and pressure motion is specified separately in animation_layers.json.",
+  "layers": [
+    {
+      "asset_id": "route_main_street_entry_day",
+      "file_name": "route_main_street_entry_day.png",
+      "editable_text_regions": [
+        {
+          "id": "sign_top",
+          "purpose": "diegetic direction label, suggested text: мәчет",
+          "normalized_rect": [0.123, 0.297, 0.131, 0.087]
+        },
+        {
+          "id": "sign_bottom",
+          "purpose": "diegetic direction label, suggested text: ФАП / сельмаг",
+          "normalized_rect": [0.122, 0.409, 0.123, 0.074]
+        }
+      ],
+      "suggested_passes": ["background", "midground_route", "foreground_grass", "light_overlay", "pressure_overlay"]
+    },
+    {
+      "asset_id": "ui_old_pc_desktop_base",
+      "file_name": "ui_old_pc_desktop_base.png",
+      "editable_text_regions": [
+        {
+          "id": "taskbar_start",
+          "purpose": "localized start/menu label or leave icon-only",
+          "normalized_rect": [0.299, 0.616, 0.040, 0.025]
+        },
+        {
+          "id": "desktop_icon_labels",
+          "purpose": "folder/file labels; support ә, ө, ү, җ, ң, һ",
+          "normalized_rect": [0.300, 0.170, 0.065, 0.350]
+        },
+        {
+          "id": "active_window_title",
+          "purpose": "active archive window title",
+          "normalized_rect": [0.414, 0.270, 0.249, 0.031]
+        },
+        {
+          "id": "active_window_body",
+          "purpose": "archive list, metadata, search results",
+          "normalized_rect": [0.418, 0.305, 0.250, 0.238]
+        }
+      ],
+      "suggested_passes": ["crt_hardware", "desktop_base", "screen_glow_overlay", "scanline_overlay", "ui_text_overlay"]
+    },
+    {
+      "asset_id": "doc_marat_medical_record_bg",
+      "file_name": "doc_marat_medical_record_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "header_left",
+          "purpose": "clinic / ФАП heading",
+          "normalized_rect": [0.107, 0.091, 0.247, 0.070]
+        },
+        {
+          "id": "patient_summary",
+          "purpose": "patient name, date, short medical summary",
+          "normalized_rect": [0.116, 0.205, 0.765, 0.160]
+        },
+        {
+          "id": "main_table",
+          "purpose": "observations, ambiguous phrase, contradiction clue",
+          "normalized_rect": [0.115, 0.424, 0.772, 0.219]
+        },
+        {
+          "id": "notes_box",
+          "purpose": "redacted or evasive note",
+          "normalized_rect": [0.114, 0.655, 0.520, 0.135]
+        },
+        {
+          "id": "signature_area",
+          "purpose": "signature/date/metadata overlay",
+          "normalized_rect": [0.260, 0.845, 0.460, 0.070]
+        }
+      ],
+      "suggested_passes": ["paper_bg", "document_text_overlay", "highlight_overlay", "metadata_panel"]
+    },
+    {
+      "asset_id": "route_kara_urman_forest_edge_pressure",
+      "file_name": "route_kara_urman_forest_edge_pressure.png",
+      "editable_text_regions": [
+        {
+          "id": "warning_sign",
+          "purpose": "optional old warning/place-name overlay, e.g. Кара-Урман",
+          "normalized_rect": [0.116, 0.287, 0.145, 0.084]
+        }
+      ],
+      "suggested_passes": ["background_forest", "midground_path", "foreground_fence", "cold_light_overlay", "pressure_shadow_overlay"]
+    }
+  ]
+}

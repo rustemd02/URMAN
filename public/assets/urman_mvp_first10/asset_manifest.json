@@ -1,0 +1,108 @@
+{
+  "asset_pack": "urman_mvp_first10",
+  "generated_on": "2026-05-16",
+  "style": "ink-wash storybook, hand-drawn black ink line, muted watercolor wash, visible paper grain",
+  "controlled_animation": "Animation is handled by documented overlay slots, masks, shader passes or engine transforms; base PNGs remain static.",
+  "assets": [
+    {
+      "asset_id": "char_aidar_portrait_neutral",
+      "file_name": "char_aidar_portrait_neutral.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": ["neutral"],
+      "related_character_location": "Айдар",
+      "consistency_anchors": "Same face, haircut, hoodie/jacket, slim young silhouette."
+    },
+    {
+      "asset_id": "char_aidar_portrait_thinking",
+      "file_name": "char_aidar_portrait_thinking.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": ["thinking"],
+      "related_character_location": "Айдар",
+      "consistency_anchors": "Same identity; only hand pose and gaze change."
+    },
+    {
+      "asset_id": "char_aidar_portrait_worried",
+      "file_name": "char_aidar_portrait_worried.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": ["worried"],
+      "related_character_location": "Айдар",
+      "consistency_anchors": "Same identity; expression and head angle change."
+    },
+    {
+      "asset_id": "char_aidar_portrait_pressure",
+      "file_name": "char_aidar_portrait_pressure.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": ["fear/pressure"],
+      "related_character_location": "Айдар",
+      "consistency_anchors": "Same identity; pressure is facial tension, not monsterization."
+    },
+    {
+      "asset_id": "char_aidar_avatar_small",
+      "file_name": "char_aidar_avatar_small.png",
+      "asset_type": "UI avatar",
+      "dimensions": "512x512",
+      "transparent_background": true,
+      "variants_included": ["small avatar"],
+      "related_character_location": "Айдар",
+      "consistency_anchors": "Cropped from the same controlled portrait set."
+    },
+    {
+      "asset_id": "char_aidar_portrait_contact_sheet",
+      "file_name": "char_aidar_portrait_contact_sheet.png",
+      "asset_type": "Character contact sheet",
+      "dimensions": "1536x1024",
+      "transparent_background": true,
+      "variants_included": ["neutral", "thinking", "worried", "pressure", "resolve", "avatar source"],
+      "related_character_location": "Айдар",
+      "consistency_anchors": "Single controlled set to prevent redesign drift."
+    },
+    {
+      "asset_id": "route_main_street_entry_day",
+      "file_name": "route_main_street_entry_day.png",
+      "asset_type": "Route navigation screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": ["day"],
+      "related_character_location": "Главная улица Кырлая",
+      "consistency_anchors": "First-person route segment, clear forward road and right turn, blank diegetic sign for editable text."
+    },
+    {
+      "asset_id": "ui_old_pc_desktop_base",
+      "file_name": "ui_old_pc_desktop_base.png",
+      "asset_type": "Old PC UI / prop frame",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": ["desktop base"],
+      "related_character_location": "Старый ПК Мансура",
+      "consistency_anchors": "Restrained Win98-like CRT frame with overlay-ready labels."
+    },
+    {
+      "asset_id": "doc_marat_medical_record_bg",
+      "file_name": "doc_marat_medical_record_bg.png",
+      "asset_type": "Document background",
+      "dimensions": "1463x2048",
+      "transparent_background": false,
+      "variants_included": ["scan background"],
+      "related_character_location": "Медсправка Марата",
+      "consistency_anchors": "Blank form background; evidence text stays editable."
+    },
+    {
+      "asset_id": "route_kara_urman_forest_edge_pressure",
+      "file_name": "route_kara_urman_forest_edge_pressure.png",
+      "asset_type": "Pressure route/location screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": ["pressure"],
+      "related_character_location": "Кромка Кара-Урмана",
+      "consistency_anchors": "Creepiness level 3; branches and stillness imply presence without a full creature reveal."
+    }
+  ]
+}
