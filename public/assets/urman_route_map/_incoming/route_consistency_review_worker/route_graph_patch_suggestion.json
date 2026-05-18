@@ -1,0 +1,54 @@
+{
+  "worker": "route_consistency_review_worker",
+  "date": "2026-05-18",
+  "status": "suggestion_only_do_not_apply_blindly",
+  "rationale": "Current node backgrounds are covered, but the route graph has unreachable route nodes and the core spine does not reach the forest/Kara-Urman route screens through route-map nodes.",
+  "suggested_changes": [
+    {
+      "priority": "P0",
+      "type": "exit_update",
+      "node_id": "zirat_road_forward_evening",
+      "current": {
+        "exits.forward": "zirat_general_late_evening"
+      },
+      "suggested": {
+        "exits.forward": "forest_approach_evening"
+      },
+      "note": "Keeps the MVP route spine playable from crossroad to zirat road to forest approach. If zirat_general_late_evening is required as an investigation beat, add it as an explicit route/interior node and then connect it to forest_approach_evening."
+    },
+    {
+      "priority": "P0",
+      "type": "reachability_decision",
+      "node_ids": [
+        "bridge_river_turn_day",
+        "alsu_meeting_spot_day",
+        "admin_archive_corner_day",
+        "unsafe_path_blocked_evening"
+      ],
+      "suggested": "Either add incoming exits from discrete crossroad/side-facing nodes, or mark these nodes disabled_optional_until_stretch_integration.",
+      "note": "These nodes are currently present and have back exits, but no route node enters them."
+    },
+    {
+      "priority": "P0",
+      "type": "node_modeling_after_assets",
+      "missing_asset_ids": [
+        "route_mansur_house_back_to_street_day",
+        "route_selsmag_fap_lane_back_day",
+        "route_mosque_sign_back_day",
+        "route_forest_approach_back_evening"
+      ],
+      "suggested": "After generation, either create explicit back-facing nodes for these assets or document that back actions use reverse transitions without entering a back-facing node.",
+      "note": "The art spec lists these as minimum facing/back views, but the current graph jumps directly back to prior forward nodes."
+    },
+    {
+      "priority": "P1",
+      "type": "asset_id_disambiguation",
+      "asset_ids": [
+        "route_kara_urman_edge_rinat_interruption",
+        "route_kara_urman_rinat_interruption"
+      ],
+      "suggested": "Keep route_kara_urman_edge_rinat_interruption as the graph-referenced canonical asset; annotate or rename route_kara_urman_rinat_interruption as an alternate/unused state.",
+      "note": "No exact duplicate ID exists, but the names are close enough to invite integration mistakes."
+    }
+  ]
+}

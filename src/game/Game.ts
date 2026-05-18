@@ -35,13 +35,9 @@ export class Game {
     }
 
     public start() {
-        // Начинаем с интро
-        this.scenes.switchScene('mainMenu');
+        const sceneFromUrl = new URLSearchParams(window.location.search).get('scene');
+        const allowedScenes = new Set(['mainMenu', 'chapter1', 'intro', 'computer', 'forest', 'house', 'village', 'villageGreybox', 'mosque', 'zirat']);
+        this.scenes.switchScene(sceneFromUrl && allowedScenes.has(sceneFromUrl) ? sceneFromUrl : 'mainMenu');
 
-        // Для теста добавим сразу пару слов
-        setTimeout(() => {
-            this.vocabularySystem.discoverWord('Тэрэзе', 'Окно');
-            this.vocabularySystem.discoverWord('Өй', 'Дом');
-        }, 3000);
     }
 }

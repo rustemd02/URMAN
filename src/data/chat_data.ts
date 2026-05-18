@@ -23,8 +23,8 @@ export interface Contact {
 export const CHAT_CONTACTS: Contact[] = [
     { id: 'selsovet', name: 'Сельсовет', sub: 'Общий чат (24 участника)', icon: '📁' },
     { id: 'alsu', name: 'Алсу', sub: 'Online', icon: '👤' },
-    { id: 'babay', name: 'Бабай (Гаяз)', sub: 'Online', icon: '👴' },
-    { id: 'abi', name: 'Эби (Зухра)', sub: 'Last seen yesterday', icon: '👵' },
+    { id: 'babay', name: 'Бабай (Мансур)', sub: 'Online', icon: '👴' },
+    { id: 'abi', name: 'Әби (Гөлсинә)', sub: 'Last seen yesterday', icon: '👵' },
     { id: 'family', name: 'Семья Шакировых', sub: 'Группа', icon: '🏘️' },
     { id: 'fanis', name: 'Фанис (Механик)', sub: 'Online', icon: '👨‍🔧' },
     { id: 'sushi', name: 'Суши 🍣 Казань', sub: 'Бот-доставка', icon: '🍱' },
@@ -65,7 +65,7 @@ export const CHAT_MESSAGES: ChatMessage[] = [
     },
     {
         chatId: 'selsovet',
-        user: 'Mansiur_Guard',
+        user: 'Salakh_Guard',
         text: 'Кемнең сыеры минем будка янында йоклый?! Карат өрә-өрә тавышы калмады инде.',
         time: '11:15',
         unlocked: true,
@@ -74,7 +74,7 @@ export const CHAT_MESSAGES: ChatMessage[] = [
     {
         chatId: 'selsovet',
         user: 'RashidGarage',
-        text: 'Мансур, ул сыер түгел, ул Фанисның яңа «Нива»сы, просто төсе ошаган.',
+        text: 'Салах, ул сыер түгел, ул Фанисның яңа «Нива»сы, просто төсе ошаган.',
         time: '11:20',
         unlocked: true
     },
@@ -139,7 +139,7 @@ export const CHAT_MESSAGES: ChatMessage[] = [
     // --- СЕМЬЯ (Хаос) ---
     {
         chatId: 'family',
-        user: 'Zukhra_Abi',
+        user: 'Gulsina_Abi',
         text: '[Голосовое сообщение 0:45]: «Айдар, бәбкәм, кайттыгызмы? Чәй кайнады, бабай пицца көтеп утыра, жинни...»',
         time: '18:00',
         unlocked: true,
@@ -148,7 +148,7 @@ export const CHAT_MESSAGES: ChatMessage[] = [
     {
         chatId: 'family',
         user: 'Babay77',
-        text: 'Зухра, монда язма, мин пиццаны интернеттан үзем алам!',
+        text: 'Гөлсинә, монда язма, мин пиццаны интернеттан үзем алам!',
         time: '18:05',
         unlocked: true
     },

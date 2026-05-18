@@ -97,6 +97,12 @@ mindmap
           Фиксированный шаг вперёд
           Физические указатели
           Неполная схема в журнале
+          Route graph pack generated [MVP][TECH]
+          Runtime route scene implemented [MVP][TECH]
+          32 route nodes
+          41 route-map PNG assets
+          Controlled animation metadata
+          Editable sign and journal text regions
         Ограниченное перемещение
         Interface investigation
       Исследование [MVP]
@@ -124,11 +130,25 @@ mindmap
         Чаты жителей
       ПК бабая [MVP][TECH][ASSET]
         Главный документальный хаб [NARRATIVE]
+        Runtime prototype implemented 2026-05-18 [TECH]
         Сюжетно-критичный доступ
+        Доступен всегда из дома
+        Безымянная Win98-like оболочка
+        Mouse-driven desktop and windows
+        Data-driven content loader
         Татарвики
         Архив
         Документы Марата
-        Старые письма
+        Сохранённые сообщения
+        Реестр домов и семей
+        Нарушения и компенсации
+        Кара-Урман
+        Повреждённые файлы
+        Gated-документы
+        Local clue saving
+        Journal integration gap [OPEN][TECH]
+        Техническая метадата не clue
+        Старые письма и бытовые папки ограниченно
         Внутренний учёт Кырлая
       Лес [NARRATIVE][ASSET]
         Запретные границы
@@ -199,6 +219,8 @@ mindmap
         Facing views
         Turn and step transitions
         Diegetic signs
+        Generated route-map integration pack
+        Runtime scene consumes graph and metadata
       Art reference Искатель [ASSET]
       Персонажи [MVP]
       Локации [MVP]
@@ -255,6 +277,14 @@ mindmap
       Save system [MVP]
       Localization [LANG]
       Clue graph [MVP]
+      Old PC authoring [MVP][TECH]
+        Markdown плюс frontmatter
+        content/old_pc
+        10 runtime files
+        Reliability status
+        Canon status
+        Search index
+        Validator
     Risks [RISK]
       Сюжет
         Слишком большой лор
@@ -266,6 +296,7 @@ mindmap
       Scope creep [MVP]
         Полная игра вместо среза
         Тьюринг-полный ПК до проверки MVP loop
+        ПК как отдельная ОС вместо document hub
       Cultural accuracy
         Татарский фольклор
         Ислам

@@ -45,8 +45,8 @@
 - 1 локационный маршрут: дом → улица / кладбище → архив / ПК → Ринат.
 - 3–5 NPC или placeholder speakers.
 - 8–12 clues.
-- 3–5 документов.
-- Old PC shell with search, «Татарвики», one saved message and metadata clues.
+- 10+ prototype documents / records across old PC and journal graph.
+- Old PC shell implemented with search, «Татарвики», saved messages, gated/corrupted fragment, document-mark clues and local clue saving.
 - 5–7 татарских слов.
 - Черновой journal / clue graph.
 

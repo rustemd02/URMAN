@@ -1,0 +1,69 @@
+{
+  "asset_pack": "urman_route_map",
+  "worker_scope": "public/assets/urman_route_map/_incoming/transition_kit_worker",
+  "generated_on": "2026-05-18",
+  "status": "draft_ready_for_controller_integration",
+  "style": "URMAN controlled ink-wash transition/support overlays",
+  "assets": [
+    {
+      "asset_id": "transition_step_forward_occlusion",
+      "file_name": "transition_step_forward_occlusion.png",
+      "asset_type": "Controlled transition overlay",
+      "dimensions": "2048x1152",
+      "transparent_background": true,
+      "variants_included": [
+        "step_forward_foreground_occlusion"
+      ],
+      "related_character_location": "Route navigation / reusable forward movement",
+      "consistency_anchors": "Blurred near-foreground fence, grass, and coat-edge forms; hides route node swaps without fake 3D camera motion.",
+      "source_prompt_summary": "Foreground occlusion pass for 500-800 ms step forward transition, transparent chroma-key cleanup.",
+      "animation_slot_ids": [
+        "transition_step_forward_occlusion"
+      ],
+      "editable_text_region_ids": [],
+      "notes": "No UI text, arrows, creature imagery, or full-map information."
+    },
+    {
+      "asset_id": "transition_forest_pressure_edge",
+      "file_name": "transition_forest_pressure_edge.png",
+      "asset_type": "Controlled pressure transition overlay",
+      "dimensions": "2048x1152",
+      "transparent_background": true,
+      "variants_included": [
+        "kara_urman_boundary_paper_wash"
+      ],
+      "related_character_location": "Kara-Urman boundary / forest approach",
+      "consistency_anchors": "Darker edge paper-wash and branch pressure, used rarely for Kara-Urman boundary transitions; no creature reveal.",
+      "source_prompt_summary": "Darker paper-wash transition overlay for movement toward Kara-Urman, transparent chroma-key cleanup.",
+      "animation_slot_ids": [
+        "transition_forest_pressure_edge"
+      ],
+      "editable_text_region_ids": [],
+      "notes": "Designed for alpha or multiply-style compositing over route screens."
+    },
+    {
+      "asset_id": "journal_route_sketch_update",
+      "file_name": "journal_route_sketch_update.png",
+      "asset_type": "Journal support overlay",
+      "dimensions": "2048x1152",
+      "transparent_background": true,
+      "variants_included": [
+        "ink_line_draw_on_update"
+      ],
+      "related_character_location": "Journal route sketch support layer",
+      "consistency_anchors": "Sparse route strokes, node dots, and pin/cross marks only; incomplete support layer rather than full village map.",
+      "source_prompt_summary": "Simple ink-line journal update overlay with no readable text and no full-map reveal.",
+      "animation_slot_ids": [
+        "journal_route_sketch_draw_on"
+      ],
+      "editable_text_region_ids": [],
+      "notes": "Runtime should reveal/draw this as a short overlay pass when new route nodes are discovered."
+    }
+  ],
+  "qa": {
+    "dimensions_verified": true,
+    "alpha_verified": true,
+    "contact_sheet": "contact_sheet.jpg",
+    "chroma_sources": "chroma_sources/"
+  }
+}

@@ -4,7 +4,7 @@ import { MapEntity, ReservedZone, Point } from '../../types';
 /**
  * generateCivicCore - Places Mosque, Selsoviet, Club, and Clinic at hand-authored coordinates.
  */
-export function generateCivicCore(anchors: {
+export function generateCivicCore(_anchors: {
     mosque: Point;
     club: Point;
     council: Point;

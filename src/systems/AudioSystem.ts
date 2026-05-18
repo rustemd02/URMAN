@@ -1,12 +1,10 @@
 import { Game } from '../game/Game';
 
 export class AudioSystem {
-    private game: Game;
     private sounds: Map<string, HTMLAudioElement> = new Map();
     private ambientWind: HTMLAudioElement | null = null;
 
-    constructor(game: Game) {
-        this.game = game;
+    constructor(_game: Game) {
         this.init();
     }
 

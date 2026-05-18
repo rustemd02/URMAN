@@ -9,6 +9,7 @@ import { MainMapScene } from '../MainMap/MainMapScene';
 import { BaseScene } from '../scenes/BaseScene';
 import { MosqueScene } from '../scenes/MosqueScene';
 import { ZiratMiniGame } from '../scenes/ZiratMiniGame';
+import { RouteNavigationScene } from '../scenes/RouteNavigationScene';
 
 export class SceneManager {
     private game: Game;
@@ -49,6 +50,9 @@ export class SceneManager {
                 this.currentScene = new HouseScene(this.game);
                 break;
             case 'village':
+                this.currentScene = new RouteNavigationScene(this.game);
+                break;
+            case 'villageGreybox':
                 this.currentScene = new MainMapScene(this.game);
                 break;
             case 'mosque':
@@ -62,7 +66,7 @@ export class SceneManager {
                 return;
         }
 
-        const isGameplay = ['village', 'forest', 'house', 'mosque', 'zirat'].includes(sceneId);
+        const isGameplay = ['village', 'villageGreybox', 'forest', 'house', 'mosque', 'zirat'].includes(sceneId);
         if (this.game.inventoryUI) {
             this.game.inventoryUI.setVisible(isGameplay);
         }

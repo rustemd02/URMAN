@@ -96,6 +96,8 @@ Document viewer должен поддерживать:
 
 Accepted MVP direction: старый ПК бабая — основной document hub / документальный хаб расследования и отдельная оболочка поверх тех же data-driven сущностей, что journal, documents, clues and vocabulary.
 
+Product lock: `old_pc.md`.
+
 Core surfaces:
 
 - folders;
@@ -105,7 +107,7 @@ Core surfaces:
 - local documents;
 - saved messages;
 - possibly corrupted files;
-- file metadata clues;
+- document marks and registry contradictions;
 - search by keywords;
 - vocabulary-sensitive re-read.
 
@@ -115,9 +117,53 @@ Data requirements:
 - Search index should connect documents, vocabulary, clues, dates, characters and locations.
 - PC entries should be able to unlock `KnowledgeKey` ids and update the journal graph.
 - Татарские terms discovered elsewhere should be usable as PC search terms.
-- Some files can be gated by story flags, passwords, damaged filenames or recovered metadata, but MVP should avoid complex freeform hacking.
+- Some files can be gated by story flags, passwords, damaged text or recovered fragments, but MVP should avoid complex freeform hacking.
+- Technical metadata must not be the main clue type. Use document marks such as stamps, registry dates, case numbers, crossed-out lines and repeated classifications.
+- PC shell should be unnamed Win98-like UI, not a canon-branded OS.
 
 Он должен быть дешёвым production hub: много сюжета через UI вместо дорогих катсцен. Full programmability / Turing-complete behavior is explicitly post-MVP.
+
+## Old PC Authoring Model
+
+Source of truth for old PC content is Markdown with frontmatter under `content/old_pc/`. Runtime currently imports those files directly through Vite raw imports in `src/os/data/oldPcContent.ts`; generated JSON can still be added later if another engine/runtime needs it.
+
+Required authoring fields:
+
+- `id`
+- `type`
+- `title`
+- `pcSection`
+- `canonStatus`
+- `reliability`
+- `searchTerms`
+- `reveals`
+- `requires`
+- `unlocks`
+- `relatedCharacters`
+- `relatedLocations`
+- `dangerLevel`
+- `mvp`
+
+Allowed reliability values:
+
+- `official_lie`
+- `partial_truth`
+- `personal_memory`
+- `village_record`
+- `pact_record`
+- `folklore_mask`
+- `corrupted`
+- `unverified`
+
+Allowed canon statuses:
+
+- `canon`
+- `soft_canon`
+- `hypothesis`
+- `proposal`
+- `in_world_lie`
+
+Runtime validator exists at `scripts/validate-old-pc-content.mjs`. It checks unique IDs, required fields, allowed reliability / canon statuses, array fields, body presence and broken `requires` against known item IDs / unlockable keys. Future expansion should connect this to the shared clue graph validator so orphan clues, character/location IDs and canon contradictions are checked across the whole project.
 
 ## Messenger Interface
 
@@ -213,6 +259,15 @@ Movement transitions should be reusable assets / configs:
 - special transitions only for major reveals such as first zirat approach or Кара-Урман boundary.
 
 The journal map is a derived support view from route discovery and clue state. It must not become the primary overworld for MVP.
+
+Current prototype implementation, 2026-05-18:
+
+- `src/scenes/RouteNavigationScene.ts` is the first runtime implementation of this model.
+- `public/assets/urman_route_map/route_graph.json` is the source of truth for route nodes, exits and route state transitions.
+- `public/assets/urman_route_map/asset_manifest.json` maps route asset IDs to PNG files.
+- `public/assets/urman_route_map/animation_layers.json` and `editable_layers.json` drive runtime overlays / editable text regions.
+- `SceneManager` maps `village` to `RouteNavigationScene`; the old procedural/isometric map is preserved only as `villageGreybox`.
+- `GameState` stores route node progress and journal sketch state for the current session.
 
 ## Save / Load
 

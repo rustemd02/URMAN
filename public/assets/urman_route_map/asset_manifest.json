@@ -1,0 +1,1465 @@
+{
+  "asset_pack": "urman_route_map",
+  "generated_on": "2026-05-18",
+  "source_packs": [
+    "public/assets/urman_mvp_first10",
+    "public/assets/urman_mvp_remaining"
+  ],
+  "status": "generated_validated",
+  "style": "URMAN ink-wash storybook route navigation",
+  "assets": [
+    {
+      "asset_id": "journal_route_sketch_update",
+      "file_name": "journal_route_sketch_update.png",
+      "asset_type": "Journal route update overlay",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": true,
+      "variants_included": [
+        "journal route sketch draw-on update"
+      ],
+      "related_character_location": "Aidar journal / route support",
+      "consistency_anchors": "Simple ink route-line/pin update overlay; support layer only, not full map.",
+      "source_prompt_summary": "Generated journal route sketch update overlay.",
+      "inventory_rows_covered": [
+        23
+      ],
+      "source_pack": "public/assets/urman_route_map/_incoming/transition_kit_worker",
+      "animation_slot_ids": [
+        "journal_ink_draw_on"
+      ],
+      "editable_text_region_ids": [],
+      "editable_layer_metadata": null,
+      "notes": "Generated journal route sketch update overlay.",
+      "production_status": "generated_by_subagent"
+    },
+    {
+      "asset_id": "loc_arrival_vehicle_interior_dusk",
+      "file_name": "loc_arrival_vehicle_interior_dusk.png",
+      "asset_type": "Static location node",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "vehicle_interior_dusk"
+      ],
+      "related_character_location": "Приезд / дорога к Кырлаю",
+      "consistency_anchors": "Grounded everyday location variant in ink-wash/watercolor style; pressure only through controlled overlays and ordinary withheld access.",
+      "source_prompt_summary": "Aidar POV from a modest bus or old car interior at dusk, first quiet village glimpse through the window, no real logos or readable text.",
+      "batch": "batch_4_small_location_gaps",
+      "inventory_rows_covered": [
+        17
+      ],
+      "animation_slot_ids": [
+        "window_light_pulse",
+        "dust_motes",
+        "arrival_edge_pressure"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "blank_roadside_sign"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated from completed small-location gaps worker.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "overlay_ink_smear_transition",
+      "file_name": "overlay_ink_smear_transition.png",
+      "asset_type": "Controlled transition overlay",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": true,
+      "variants_included": [
+        "ink_smear_transition"
+      ],
+      "related_character_location": "UI / icons / controlled VFX overlays",
+      "consistency_anchors": "Ink wash edge motion, not fake 3D rotation.",
+      "source_prompt_summary": "Transparent ink-smear transition texture for route turn/step transitions.",
+      "batch": "batch_4_icons_vfx_local",
+      "inventory_rows_covered": [
+        23,
+        50
+      ],
+      "animation_slot_ids": [
+        "transition_ink_smear"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [],
+      "editable_layer_metadata": null,
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_admin_archive_corner_day",
+      "file_name": "route_admin_archive_corner_day.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "administration/archive route corner day"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Walking-height route view, clear road direction/turn affordance, grounded landmarks; no top-down map, no fake 3D rotation, no monster reveal.",
+      "source_prompt_summary": "Route-pressure worker generated administration/archive route corner day.",
+      "batch": "batch_4_route_pressure",
+      "inventory_rows_covered": [
+        23,
+        32
+      ],
+      "animation_slot_ids": [
+        "dust_motes_sparse",
+        "paper_focus_highlight"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "admin_notice_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as route/state variant; text remains runtime-editable.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_alsu_meeting_spot_day",
+      "file_name": "route_alsu_meeting_spot_day.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "Alsu meeting spot day / water-route clue"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Walking-height route view, clear road direction/turn affordance, grounded landmarks; no top-down map, no fake 3D rotation, no monster reveal.",
+      "source_prompt_summary": "Route-pressure worker generated Alsu meeting spot day / water-route clue.",
+      "batch": "batch_4_route_pressure",
+      "inventory_rows_covered": [
+        23,
+        8
+      ],
+      "animation_slot_ids": [
+        "water_near_static_shimmer",
+        "reed_shadow_pressure"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "route_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as route/state variant; text remains runtime-editable.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_bridge_river_turn_day",
+      "file_name": "route_bridge_river_turn_day.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "bridge / river turn day"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Walking-height route view, clear road direction/turn affordance, grounded landmarks; no top-down map, no fake 3D rotation, no monster reveal.",
+      "source_prompt_summary": "Route-pressure worker generated bridge / river turn day.",
+      "batch": "batch_4_route_pressure",
+      "inventory_rows_covered": [
+        23,
+        30
+      ],
+      "animation_slot_ids": [
+        "water_near_static_shimmer",
+        "reed_shadow_pressure"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "river_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as route/state variant; text remains runtime-editable.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_bridge_river_turn_dusk_pressure",
+      "file_name": "route_bridge_river_turn_dusk_pressure.png",
+      "asset_type": "Navigation / route pressure screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "bridge / river turn dusk pressure"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Walking-height route view, clear road direction/turn affordance, grounded landmarks; no top-down map, no fake 3D rotation, no monster reveal.",
+      "source_prompt_summary": "Route-pressure worker generated bridge / river turn dusk pressure.",
+      "batch": "batch_4_route_pressure",
+      "inventory_rows_covered": [
+        23,
+        30
+      ],
+      "animation_slot_ids": [
+        "water_near_static_shimmer",
+        "reed_shadow_pressure"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "river_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as route/state variant; text remains runtime-editable.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_forest_approach_back_evening",
+      "file_name": "route_forest_approach_back_evening.png",
+      "asset_type": "Route facing view",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "back toward village from forest approach"
+      ],
+      "related_character_location": "Forest approach / zirat road",
+      "consistency_anchors": "Back-facing retreat view from forest approach, preserving discrete navigation and retreat affordance.",
+      "source_prompt_summary": "Generated forest approach back-facing route view.",
+      "inventory_rows_covered": [
+        23,
+        31
+      ],
+      "source_pack": "public/assets/urman_route_map/_incoming/zirat_forest_views_worker",
+      "animation_slot_ids": [
+        "pressure_edge_darkening",
+        "branch_stillness_drift"
+      ],
+      "editable_text_region_ids": [
+        "old_warning_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Generated forest approach back-facing route view.",
+      "production_status": "generated_by_subagent"
+    },
+    {
+      "asset_id": "route_forest_approach_evening",
+      "file_name": "route_forest_approach_evening.png",
+      "asset_type": "Route navigation screen",
+      "variants_included": [
+        "evening_approach"
+      ],
+      "related_character_location": "Village route navigation kit / approach to Kara-Urman",
+      "consistency_anchors": "Last ordinary road before forest: village road, warning sign, thinning fences, dark tree line; branches almost suggest form but no creature.",
+      "source_prompt_summary": "Evening forest approach route screen before Kara-Urman edge; sign text left editable.",
+      "batch": "batch_2_p0_route_locations",
+      "inventory_rows_covered": [
+        23,
+        31
+      ],
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "animation_slot_ids": [
+        "warning_sign_focus",
+        "branch_pressure_stillness",
+        "grass_branch_micro_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "kara_urman_warning_label"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_forest_approach_pressure_silence",
+      "file_name": "route_forest_approach_pressure_silence.png",
+      "asset_type": "route_navigation_screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "pressure_silence"
+      ],
+      "related_character_location": "Inventory #23, Кромка Кара-Урмана",
+      "consistency_anchors": "Ink-wash village realism first; muted watercolor, paper grain, clear navigation/readability, pressure only as subtle stillness.",
+      "source_prompt_summary": "Pressure/silence route approach with clear forward path, blank sign and no creature reveal.",
+      "batch": "batch_2_locations_completion",
+      "inventory_rows_covered": [
+        23,
+        31
+      ],
+      "animation_slot_ids": [
+        "warning_sign_hover",
+        "branch_drift",
+        "path_darkness_breath",
+        "step_occlusion_ready"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "warning_sign_label"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Pressure/silence route approach with clear forward path, blank sign and no creature reveal.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_forest_approach_voice_lock",
+      "file_name": "route_forest_approach_voice_lock.png",
+      "asset_type": "Navigation / route pressure screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "forest approach voice-lock state"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Walking-height route view, clear road direction/turn affordance, grounded landmarks; no top-down map, no fake 3D rotation, no monster reveal.",
+      "source_prompt_summary": "Route-pressure worker generated forest approach voice-lock state.",
+      "batch": "batch_4_route_pressure",
+      "inventory_rows_covered": [
+        23,
+        31
+      ],
+      "animation_slot_ids": [
+        "pressure_edge_darkening",
+        "branch_grass_tiny_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "forest_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as route/state variant; text remains runtime-editable.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_kara_urman_edge_rinat_interruption",
+      "file_name": "route_kara_urman_edge_rinat_interruption.png",
+      "asset_type": "Navigation / route pressure screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "Kara-Urman edge with Rinat interruption"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Walking-height route view, clear road direction/turn affordance, grounded landmarks; no top-down map, no fake 3D rotation, no monster reveal.",
+      "source_prompt_summary": "Route-pressure worker generated Kara-Urman edge with Rinat interruption.",
+      "batch": "batch_4_route_pressure",
+      "inventory_rows_covered": [
+        31
+      ],
+      "animation_slot_ids": [
+        "pressure_edge_darkening",
+        "branch_grass_tiny_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "forest_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as route/state variant; text remains runtime-editable.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_kara_urman_edge_voice_moment",
+      "file_name": "route_kara_urman_edge_voice_moment.png",
+      "asset_type": "route_navigation_cliffhanger_screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "voice_moment"
+      ],
+      "related_character_location": "Inventory #23, Кромка Кара-Урмана",
+      "consistency_anchors": "Ink-wash village realism first; muted watercolor, paper grain, clear navigation/readability, pressure only as subtle stillness.",
+      "source_prompt_summary": "Audio-first cliffhanger screen: empty forest edge, blank sign, branches almost forming attention without a full creature.",
+      "batch": "batch_2_locations_completion",
+      "inventory_rows_covered": [
+        23,
+        31
+      ],
+      "animation_slot_ids": [
+        "warning_sign_hover",
+        "branch_almost_figure_mask",
+        "voice_silence_overlay",
+        "rinat_interruption_space"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "warning_sign_label"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Audio-first cliffhanger screen: empty forest edge, blank sign, branches almost forming attention without a full creature.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_kara_urman_forest_edge_pressure",
+      "file_name": "route_kara_urman_forest_edge_pressure.png",
+      "asset_type": "Pressure route/location screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "pressure"
+      ],
+      "related_character_location": "Кромка Кара-Урмана",
+      "consistency_anchors": "Creepiness level 3; branches and stillness imply presence without a full creature reveal.",
+      "source_prompt_summary": "First10 route asset reused in route map pack.",
+      "inventory_rows_covered": [
+        23
+      ],
+      "source_pack": "public/assets/urman_mvp_first10",
+      "animation_slot_ids": [
+        "distant_birds",
+        "foreground_grass_drift",
+        "window_glow_optional",
+        "pressure_wrong_shadow_optional"
+      ],
+      "editable_text_region_ids": [
+        "diegetic_sign_runtime"
+      ],
+      "notes": "Copied from first10 as locked route-map baseline.",
+      "production_status": "reused_from_first10",
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json"
+    },
+    {
+      "asset_id": "route_kara_urman_rinat_interruption",
+      "file_name": "route_kara_urman_rinat_interruption.png",
+      "asset_type": "Navigation / route pressure screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "Kara-Urman Rinat interruption alternate"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Route/admin gap variant keeps ordinary village geography and social pressure; no creature reveal or baked UI text.",
+      "source_prompt_summary": "Route/admin gap worker generated Kara-Urman Rinat interruption alternate.",
+      "batch": "batch_4_route_admin_gaps",
+      "inventory_rows_covered": [
+        31
+      ],
+      "animation_slot_ids": [
+        "pressure_edge_darkening",
+        "branch_grass_tiny_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "forest_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as additional route/admin state variant. Alternate Rinat interruption composition; graph canonical asset is route_kara_urman_edge_rinat_interruption.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "usage_status": "alternate_not_graph_canonical",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_main_street_empty_evening",
+      "file_name": "route_main_street_empty_evening.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "main street empty evening alternate"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Route/admin gap variant keeps ordinary village geography and social pressure; no creature reveal or baked UI text.",
+      "source_prompt_summary": "Route/admin gap worker generated main street empty evening alternate.",
+      "batch": "batch_4_route_admin_gaps",
+      "inventory_rows_covered": [
+        22,
+        23
+      ],
+      "animation_slot_ids": [
+        "distant_birds_sparse",
+        "foreground_grass_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "main_street_blank_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as additional route/admin state variant.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_main_street_entry_day",
+      "file_name": "route_main_street_entry_day.png",
+      "asset_type": "Route navigation screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "day"
+      ],
+      "related_character_location": "Главная улица Кырлая",
+      "consistency_anchors": "First-person route segment, clear forward road and right turn, blank diegetic sign for editable text.",
+      "source_prompt_summary": "First10 route asset reused in route map pack.",
+      "inventory_rows_covered": [
+        23
+      ],
+      "source_pack": "public/assets/urman_mvp_first10",
+      "animation_slot_ids": [
+        "distant_birds",
+        "foreground_grass_drift",
+        "window_glow_optional",
+        "pressure_wrong_shadow_optional"
+      ],
+      "editable_text_region_ids": [
+        "diegetic_sign_runtime"
+      ],
+      "notes": "Copied from first10 as locked route-map baseline.",
+      "production_status": "reused_from_first10",
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json"
+    },
+    {
+      "asset_id": "route_main_street_entry_evening",
+      "file_name": "route_main_street_entry_evening.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "main street entry evening"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Walking-height route view, clear road direction/turn affordance, grounded landmarks; no top-down map, no fake 3D rotation, no monster reveal.",
+      "source_prompt_summary": "Route-pressure worker generated main street entry evening.",
+      "batch": "batch_4_route_pressure",
+      "inventory_rows_covered": [
+        22,
+        23
+      ],
+      "animation_slot_ids": [
+        "distant_birds_sparse",
+        "foreground_grass_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "main_street_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as route/state variant; text remains runtime-editable.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_main_street_entry_pressure_watchers",
+      "file_name": "route_main_street_entry_pressure_watchers.png",
+      "asset_type": "Navigation / route pressure screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "main street entry pressure watchers"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Walking-height route view, clear road direction/turn affordance, grounded landmarks; no top-down map, no fake 3D rotation, no monster reveal.",
+      "source_prompt_summary": "Route-pressure worker generated main street entry pressure watchers.",
+      "batch": "batch_4_route_pressure",
+      "inventory_rows_covered": [
+        22,
+        23
+      ],
+      "animation_slot_ids": [
+        "pressure_edge_darkening",
+        "branch_grass_tiny_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "main_street_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as route/state variant; text remains runtime-editable.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_main_street_watchers_pressure",
+      "file_name": "route_main_street_watchers_pressure.png",
+      "asset_type": "Navigation / route pressure screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "main street watchers pressure alternate"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Route/admin gap variant keeps ordinary village geography and social pressure; no creature reveal or baked UI text.",
+      "source_prompt_summary": "Route/admin gap worker generated main street watchers pressure alternate.",
+      "batch": "batch_4_route_admin_gaps",
+      "inventory_rows_covered": [
+        22,
+        23
+      ],
+      "animation_slot_ids": [
+        "pressure_edge_darkening",
+        "branch_grass_tiny_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "blank_notice_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as additional route/admin state variant. Alternate pressure/watchers composition; graph canonical pressure asset is route_main_street_entry_pressure_watchers.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "usage_status": "alternate_pressure_variant",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_mansur_house_back_to_street_day",
+      "file_name": "route_mansur_house_back_to_street_day.png",
+      "asset_type": "Route facing view",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "back to main street from Mansur house turn"
+      ],
+      "related_character_location": "Mansur house turn / main street",
+      "consistency_anchors": "Back-facing walking-height view; supports discrete 90-degree turn/back navigation without fake rotation.",
+      "source_prompt_summary": "Generated core back view for route graph: Mansur house turn back toward main street.",
+      "inventory_rows_covered": [
+        23,
+        21
+      ],
+      "source_pack": "public/assets/urman_route_map/_incoming/core_back_views_worker",
+      "animation_slot_ids": [
+        "distant_birds_sparse",
+        "foreground_grass_drift"
+      ],
+      "editable_text_region_ids": [
+        "diegetic_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Generated core back view for route graph: Mansur house turn back toward main street.",
+      "production_status": "generated_by_subagent"
+    },
+    {
+      "asset_id": "route_mansur_house_turn_day",
+      "file_name": "route_mansur_house_turn_day.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "day route to Mansur house / old Niva landmark"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "First-person walking-height route segment, clear forward/turn affordance, grounded village signage, no top-down map or fake 3D rotation.",
+      "source_prompt_summary": "Route-kit worker generated day route to Mansur house / old Niva landmark.",
+      "batch": "batch_2_route_kit_integration",
+      "inventory_rows_covered": [
+        23,
+        21
+      ],
+      "animation_slot_ids": [
+        "distant_birds_sparse",
+        "foreground_grass_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [],
+      "editable_layer_metadata": null,
+      "notes": "Integrated from route-kit incoming PNG before worker manifest was available; controller generated metadata.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_mansur_house_turn_evening",
+      "file_name": "route_mansur_house_turn_evening.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "evening route to Mansur house / lit window"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "First-person walking-height route segment, clear forward/turn affordance, grounded village signage, no top-down map or fake 3D rotation.",
+      "source_prompt_summary": "Route-kit worker generated evening route to Mansur house / lit window.",
+      "batch": "batch_2_route_kit_integration",
+      "inventory_rows_covered": [
+        23,
+        21
+      ],
+      "animation_slot_ids": [
+        "window_glow_shimmer",
+        "evening_edge_hold"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [],
+      "editable_layer_metadata": null,
+      "notes": "Integrated from route-kit incoming PNG before worker manifest was available; controller generated metadata.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_mosque_sign_back_day",
+      "file_name": "route_mosque_sign_back_day.png",
+      "asset_type": "Route facing view",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "back to crossroad from mosque sign"
+      ],
+      "related_character_location": "Mosque sign / village crossroad",
+      "consistency_anchors": "Back-facing walking-height view; mosque remains safe landmark behind/side.",
+      "source_prompt_summary": "Generated core back view for route graph: mosque path back toward crossroad.",
+      "inventory_rows_covered": [
+        23,
+        25
+      ],
+      "source_pack": "public/assets/urman_route_map/_incoming/core_back_views_worker",
+      "animation_slot_ids": [
+        "distant_birds_sparse",
+        "foreground_grass_drift"
+      ],
+      "editable_text_region_ids": [
+        "diegetic_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Generated core back view for route graph: mosque path back toward crossroad.",
+      "production_status": "generated_by_subagent"
+    },
+    {
+      "asset_id": "route_mosque_sign_day",
+      "file_name": "route_mosque_sign_day.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "day route sign toward mosque"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "First-person walking-height route segment, clear forward/turn affordance, grounded village signage, no top-down map or fake 3D rotation.",
+      "source_prompt_summary": "Route-kit worker generated day route sign toward mosque.",
+      "batch": "batch_2_route_kit_integration",
+      "inventory_rows_covered": [
+        23,
+        25
+      ],
+      "animation_slot_ids": [
+        "distant_birds_sparse",
+        "foreground_grass_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "mosque_sign_text"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated from route-kit incoming PNG before worker manifest was available; controller generated metadata.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_mosque_sign_evening",
+      "file_name": "route_mosque_sign_evening.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "evening route sign toward mosque"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "First-person walking-height route segment, clear forward/turn affordance, grounded village signage, no top-down map or fake 3D rotation.",
+      "source_prompt_summary": "Route-kit worker generated evening route sign toward mosque.",
+      "batch": "batch_2_route_kit_integration",
+      "inventory_rows_covered": [
+        23,
+        25
+      ],
+      "animation_slot_ids": [
+        "window_glow_shimmer",
+        "evening_edge_hold"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "mosque_sign_text"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated from route-kit incoming PNG before worker manifest was available; controller generated metadata.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_back_day",
+      "file_name": "route_selsmag_fap_lane_back_day.png",
+      "asset_type": "Route facing view",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "back to crossroad from FAP/selsmag lane"
+      ],
+      "related_character_location": "FAP / Selsmag lane / village crossroad",
+      "consistency_anchors": "Back-facing walking-height view; keeps FAP/shop landmarks at side/back and crossroad ahead.",
+      "source_prompt_summary": "Generated core back view for route graph: FAP/selsmag lane back toward crossroad.",
+      "inventory_rows_covered": [
+        23,
+        24,
+        27
+      ],
+      "source_pack": "public/assets/urman_route_map/_incoming/core_back_views_worker",
+      "animation_slot_ids": [
+        "distant_birds_sparse",
+        "foreground_grass_drift"
+      ],
+      "editable_text_region_ids": [
+        "diegetic_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Generated core back view for route graph: FAP/selsmag lane back toward crossroad.",
+      "production_status": "generated_by_subagent"
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_day",
+      "file_name": "route_selsmag_fap_lane_day.png",
+      "asset_type": "Route navigation screen",
+      "variants_included": [
+        "day"
+      ],
+      "related_character_location": "Village route navigation kit / ФАП + сельмаг lane",
+      "consistency_anchors": "Low rural FAP/shop lane, blank diegetic signs, muddy road, watched window; practical village service buildings.",
+      "source_prompt_summary": "Route lane showing FAP and selsmag landmarks with editable sign areas.",
+      "batch": "batch_2_p0_route_locations",
+      "inventory_rows_covered": [
+        23,
+        27
+      ],
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "animation_slot_ids": [
+        "sign_focus_highlight",
+        "watched_window_overlay",
+        "grass_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "fap_plaque_label",
+        "selsmag_sign_label"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_evening",
+      "file_name": "route_selsmag_fap_lane_evening.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "evening lane between selsmag and FAP"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "First-person walking-height route segment, clear forward/turn affordance, grounded village signage, no top-down map or fake 3D rotation.",
+      "source_prompt_summary": "Route-kit worker generated evening lane between selsmag and FAP.",
+      "batch": "batch_2_route_kit_integration",
+      "inventory_rows_covered": [
+        23,
+        24,
+        27
+      ],
+      "animation_slot_ids": [
+        "window_glow_shimmer",
+        "evening_edge_hold"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "shop_or_fap_sign_text"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated from route-kit incoming PNG before worker manifest was available; controller generated metadata.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_pressure",
+      "file_name": "route_selsmag_fap_lane_pressure.png",
+      "asset_type": "Navigation / route pressure screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "pressure lane between selsmag and FAP"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "First-person walking-height route segment, clear forward/turn affordance, grounded village signage, no top-down map or fake 3D rotation.",
+      "source_prompt_summary": "Route-kit worker generated pressure lane between selsmag and FAP.",
+      "batch": "batch_2_route_kit_integration",
+      "inventory_rows_covered": [
+        23,
+        24,
+        27
+      ],
+      "animation_slot_ids": [
+        "watched_window_shadow",
+        "branch_grass_wrong_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "fap_notice_or_shop_sign_text"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated from route-kit incoming PNG before worker manifest was available; controller generated metadata.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_unsafe_path_blocked_evening",
+      "file_name": "route_unsafe_path_blocked_evening.png",
+      "asset_type": "Navigation / route restriction screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "unsafe path blocked evening"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Route/admin gap variant keeps ordinary village geography and social pressure; no creature reveal or baked UI text.",
+      "source_prompt_summary": "Route/admin gap worker generated unsafe path blocked evening.",
+      "batch": "batch_4_route_admin_gaps",
+      "inventory_rows_covered": [
+        23
+      ],
+      "animation_slot_ids": [
+        "pressure_edge_darkening",
+        "branch_grass_tiny_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "blocked_path_notice_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as additional route/admin state variant.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_village_crossroad_day",
+      "file_name": "route_village_crossroad_day.png",
+      "asset_type": "Route navigation screen",
+      "variants_included": [
+        "day"
+      ],
+      "related_character_location": "Village route navigation kit / small crossroad",
+      "consistency_anchors": "Walking-height road fork with physical signboards and village landmarks; no top-down map or floating quest markers.",
+      "source_prompt_summary": "Small village crossroad route screen with forward, left and right affordances; sign text left editable.",
+      "batch": "batch_2_p0_route_locations",
+      "inventory_rows_covered": [
+        23
+      ],
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "animation_slot_ids": [
+        "sign_focus_highlight",
+        "grass_drift",
+        "watched_window_optional"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "signpost_labels",
+        "notice_board_text"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_village_crossroad_pressure",
+      "file_name": "route_village_crossroad_pressure.png",
+      "asset_type": "Navigation / route pressure screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "main village crossroad pressure"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "First-person walking-height route segment, clear forward/turn affordance, grounded village signage, no top-down map or fake 3D rotation.",
+      "source_prompt_summary": "Route-kit worker generated main village crossroad pressure.",
+      "batch": "batch_2_route_kit_integration",
+      "inventory_rows_covered": [
+        22,
+        23
+      ],
+      "animation_slot_ids": [
+        "watched_window_shadow",
+        "branch_grass_wrong_drift"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "crossroad_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated from route-kit incoming PNG before worker manifest was available; controller generated metadata.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_zirat_road_day",
+      "file_name": "route_zirat_road_day.png",
+      "asset_type": "Route screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "day baseline zirat road"
+      ],
+      "related_character_location": "Zirat road",
+      "consistency_anchors": "Day baseline route to zirat; ordinary first, dry grass and placeholder sign, no monster reveal.",
+      "source_prompt_summary": "Generated day baseline zirat road route view.",
+      "inventory_rows_covered": [
+        23,
+        28
+      ],
+      "source_pack": "public/assets/urman_route_map/_incoming/zirat_forest_views_worker",
+      "animation_slot_ids": [
+        "distant_birds_sparse",
+        "foreground_grass_drift"
+      ],
+      "editable_text_region_ids": [
+        "diegetic_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Generated day baseline zirat road route view.",
+      "production_status": "generated_by_subagent"
+    },
+    {
+      "asset_id": "route_zirat_road_evening",
+      "file_name": "route_zirat_road_evening.png",
+      "asset_type": "Route navigation screen",
+      "variants_included": [
+        "evening"
+      ],
+      "related_character_location": "Village route navigation kit / road to zirat",
+      "consistency_anchors": "Walking-height road to cemetery, blank zirat sign, dry grass, tree line and distant cemetery; no monster reveal.",
+      "source_prompt_summary": "Evening route segment toward zirat with editable sign label.",
+      "batch": "batch_2_p0_route_locations",
+      "inventory_rows_covered": [
+        23,
+        28
+      ],
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "animation_slot_ids": [
+        "sign_focus_highlight",
+        "grass_wind_micro_drift",
+        "pressure_edge_shadow"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "zirat_sign_label"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "route_zirat_road_pressure",
+      "file_name": "route_zirat_road_pressure.png",
+      "asset_type": "Route pressure screen",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "pressure zirat road"
+      ],
+      "related_character_location": "Zirat road",
+      "consistency_anchors": "Pressure variant narrows road and darkens branches without creature reveal.",
+      "source_prompt_summary": "Generated zirat road pressure route view.",
+      "inventory_rows_covered": [
+        23,
+        28
+      ],
+      "source_pack": "public/assets/urman_route_map/_incoming/zirat_forest_views_worker",
+      "animation_slot_ids": [
+        "pressure_edge_darkening",
+        "branch_stillness_drift"
+      ],
+      "editable_text_region_ids": [
+        "diegetic_sign_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Generated zirat road pressure route view.",
+      "production_status": "generated_by_subagent"
+    },
+    {
+      "asset_id": "transition_forest_pressure_edge",
+      "file_name": "transition_forest_pressure_edge.png",
+      "asset_type": "Route transition overlay",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": true,
+      "variants_included": [
+        "forest pressure edge transition"
+      ],
+      "related_character_location": "Route transition kit / Kara-Urman",
+      "consistency_anchors": "Rare darker paper-wash transition toward forest boundary; no creature/eyes.",
+      "source_prompt_summary": "Generated special forest pressure edge transition overlay.",
+      "inventory_rows_covered": [
+        23,
+        31,
+        50
+      ],
+      "source_pack": "public/assets/urman_route_map/_incoming/transition_kit_worker",
+      "animation_slot_ids": [
+        "transition_alpha_or_multiply"
+      ],
+      "editable_text_region_ids": [],
+      "editable_layer_metadata": null,
+      "notes": "Generated special forest pressure edge transition overlay.",
+      "production_status": "generated_by_subagent"
+    },
+    {
+      "asset_id": "transition_step_forward_occlusion",
+      "file_name": "transition_step_forward_occlusion.png",
+      "asset_type": "Route transition overlay",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": true,
+      "variants_included": [
+        "step forward occlusion"
+      ],
+      "related_character_location": "Route transition kit",
+      "consistency_anchors": "Reusable foreground occlusion for step-forward; does not fake 3D rotation.",
+      "source_prompt_summary": "Generated reusable step-forward occlusion overlay for 500-800 ms walking transition.",
+      "inventory_rows_covered": [
+        23,
+        50
+      ],
+      "source_pack": "public/assets/urman_route_map/_incoming/transition_kit_worker",
+      "animation_slot_ids": [
+        "transition_alpha_or_multiply"
+      ],
+      "editable_text_region_ids": [],
+      "editable_layer_metadata": null,
+      "notes": "Generated reusable step-forward occlusion overlay for 500-800 ms walking transition.",
+      "production_status": "generated_by_subagent"
+    },
+    {
+      "asset_id": "transition_turn_90_ink_smear",
+      "file_name": "transition_turn_90_ink_smear.png",
+      "asset_type": "Route transition overlay",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": true,
+      "variants_included": [
+        "90-degree ink-smear transition overlay"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "First-person walking-height route segment, clear forward/turn affordance, grounded village signage, no top-down map or fake 3D rotation.",
+      "source_prompt_summary": "Route-kit worker generated 90-degree ink-smear transition overlay.",
+      "batch": "batch_2_route_kit_integration",
+      "inventory_rows_covered": [
+        23,
+        50
+      ],
+      "animation_slot_ids": [
+        "ink_smear_alpha_or_multiply"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [],
+      "editable_layer_metadata": null,
+      "notes": "Integrated from route-kit incoming PNG before worker manifest was available; controller generated metadata.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "ui_journal_route_sketch_base",
+      "file_name": "ui_journal_route_sketch_base.png",
+      "asset_type": "Journal route support layer",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "incomplete journal route sketch"
+      ],
+      "related_character_location": "Village route navigation kit",
+      "consistency_anchors": "Route/admin gap variant keeps ordinary village geography and social pressure; no creature reveal or baked UI text.",
+      "source_prompt_summary": "Route/admin gap worker generated incomplete journal route sketch.",
+      "batch": "batch_4_route_admin_gaps",
+      "inventory_rows_covered": [
+        23
+      ],
+      "animation_slot_ids": [
+        "pencil_focus_highlight"
+      ],
+      "animation_metadata": "docs/urman_knowledge_base/asset_pack_remaining/animation_layers.json",
+      "editable_text_region_ids": [
+        "route_labels_runtime"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Integrated as additional route/admin state variant.",
+      "source_pack": "public/assets/urman_mvp_remaining",
+      "production_status": "reused_from_remaining"
+    },
+    {
+      "asset_id": "ui_journal_route_sketch_pressure",
+      "file_name": "ui_journal_route_sketch_pressure.png",
+      "asset_type": "Journal route support view",
+      "dimensions": [
+        2048,
+        1152
+      ],
+      "transparent_background": false,
+      "variants_included": [
+        "pressure incomplete journal route sketch"
+      ],
+      "related_character_location": "Aidar journal / route navigation support",
+      "consistency_anchors": "Support view only; incomplete, clue-aware, no full GPS map and no complete village reveal. Runtime text remains editable.",
+      "source_prompt_summary": "pressure-state incomplete journal sketch with unsafe route marks, clue pins, old place-name blanks, and editable label/note regions",
+      "inventory_rows_covered": [
+        23
+      ],
+      "source_pack": "public/assets/urman_route_map/_incoming/journal_pressure_worker",
+      "animation_slot_ids": [
+        "journal_pressure_static_base",
+        "unsafe_route_mark_reveal",
+        "forest_pressure_note_reveal",
+        "clue_pin_pulse_soft_shadow",
+        "route_line_focus_reveal",
+        "unsafe_mark_focus"
+      ],
+      "editable_text_region_ids": [
+        "note_top_left_route_label",
+        "pin_note_left_page_upper",
+        "warning_note_left_page_lower",
+        "large_round_note_bottom_left",
+        "crossroad_small_note",
+        "note_top_right_place_name_blank",
+        "pin_note_right_page_center",
+        "forest_edge_old_place_name_blank_a",
+        "forest_edge_old_place_name_blank_b",
+        "bottom_right_warning_note"
+      ],
+      "editable_layer_metadata": "public/assets/urman_route_map/editable_layers.json",
+      "notes": "Generated by journal_pressure_worker; important labels are editable placeholders.",
+      "production_status": "generated_by_subagent"
+    }
+  ],
+  "missing_required_assets": [],
+  "generated_gap_assets": [
+    {
+      "asset_id": "route_mansur_house_back_to_street_day",
+      "purpose": "Back/facing view from Mansur turn toward main street",
+      "priority": "P0",
+      "route_nodes": [
+        "mansur_turn_forward_day"
+      ],
+      "integration_plan": "create explicit back-facing graph node after asset is generated",
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_back_day",
+      "purpose": "Back/facing view from FAP/selsmag lane toward crossroad",
+      "priority": "P0",
+      "route_nodes": [
+        "selsmag_fap_lane_day"
+      ],
+      "integration_plan": "create explicit back-facing graph node after asset is generated",
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "route_mosque_sign_back_day",
+      "purpose": "Back/facing view from mosque sign path toward crossroad",
+      "priority": "P0",
+      "route_nodes": [
+        "mosque_sign_day"
+      ],
+      "integration_plan": "create explicit back-facing graph node after asset is generated",
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "route_zirat_road_day",
+      "purpose": "Day baseline for zirat road before evening/pressure",
+      "priority": "P0",
+      "route_nodes": [
+        "zirat_road_forward_day"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "route_zirat_road_pressure",
+      "purpose": "Pressure variant for zirat route",
+      "priority": "P0",
+      "route_nodes": [
+        "zirat_road_pressure"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "route_forest_approach_back_evening",
+      "purpose": "Back/facing view from forest approach toward village/zirat road",
+      "priority": "P0",
+      "route_nodes": [
+        "forest_approach_evening"
+      ],
+      "integration_plan": "create explicit back-facing graph node after asset is generated",
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "transition_step_forward_occlusion",
+      "purpose": "Reusable 500-800 ms step-forward occlusion pass",
+      "priority": "P0",
+      "route_nodes": [
+        "all_step_forward"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "transition_forest_pressure_edge",
+      "purpose": "Special darker transition to Kara-Urman boundary",
+      "priority": "P0",
+      "route_nodes": [
+        "forest_approach_pressure",
+        "kara_urman_edge_pressure"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "journal_route_sketch_update",
+      "purpose": "Simple ink draw-on update overlay for newly discovered route lines",
+      "priority": "P0",
+      "route_nodes": [
+        "journal_updates"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "ui_journal_route_sketch_pressure",
+      "purpose": "Journal sketch with unsafe route marks and old place names, still incomplete",
+      "priority": "P1",
+      "route_nodes": [
+        "unsafe_path_blocked_evening",
+        "forest_approach_pressure"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    }
+  ],
+  "validation_summary": {
+    "validated_on": "2026-05-18",
+    "png_files": 41,
+    "manifest_assets": 41,
+    "controlled_animation_entries": 41,
+    "editable_layer_entries": 34,
+    "route_graph_nodes": 32,
+    "state_transitions": 10,
+    "support_view_transitions": 1,
+    "external_location_nodes": 8,
+    "reachable_nodes": "32/32 from arrival_vehicle_dusk",
+    "generated_gap_assets": 10,
+    "missing_required_assets": 0,
+    "validation_errors": 0,
+    "route_graph": "public/assets/urman_route_map/route_graph.json"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "asset_pack": "urman_route_map",
+  "worker": "core_back_views_worker",
+  "notes": "Important diegetic text remains runtime-editable until Tatar proofing. Generated PNGs intentionally avoid readable final labels.",
+  "coordinate_system": "normalized_rect",
+  "layers": [
+    {
+      "asset_id": "route_mansur_house_back_to_street_day",
+      "file_name": "route_mansur_house_back_to_street_day.png",
+      "editable_text_regions": [
+        {
+          "id": "mansur_return_sign_runtime",
+          "purpose": "optional editable house/street return sign text",
+          "normalized_rect": [
+            0.14,
+            0.28,
+            0.16,
+            0.08
+          ],
+          "max_lines": 1,
+          "align": "center"
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_back_day",
+      "file_name": "route_selsmag_fap_lane_back_day.png",
+      "editable_text_regions": [
+        {
+          "id": "fap_back_sign_runtime",
+          "purpose": "editable FAP plaque if needed",
+          "normalized_rect": [
+            0.08,
+            0.28,
+            0.12,
+            0.1
+          ],
+          "max_lines": 1,
+          "align": "center"
+        },
+        {
+          "id": "selsmag_back_sign_runtime",
+          "purpose": "editable shop sign if needed",
+          "normalized_rect": [
+            0.72,
+            0.17,
+            0.18,
+            0.08
+          ],
+          "max_lines": 1,
+          "align": "center"
+        },
+        {
+          "id": "crossroad_notice_runtime",
+          "purpose": "editable notice-board papers at crossroad return",
+          "normalized_rect": [
+            0.55,
+            0.34,
+            0.1,
+            0.14
+          ],
+          "max_lines": 4,
+          "align": "left"
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_mosque_sign_back_day",
+      "file_name": "route_mosque_sign_back_day.png",
+      "editable_text_regions": [
+        {
+          "id": "mosque_back_sign_runtime",
+          "purpose": "editable mosque direction sign if controller keeps it active",
+          "normalized_rect": [
+            0.43,
+            0.36,
+            0.13,
+            0.12
+          ],
+          "max_lines": 1,
+          "align": "center"
+        },
+        {
+          "id": "crossroad_notice_runtime",
+          "purpose": "editable notice-board papers at crossroad return",
+          "normalized_rect": [
+            0.56,
+            0.34,
+            0.13,
+            0.14
+          ],
+          "max_lines": 4,
+          "align": "left"
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "mosque_safe_light_overlay"
+      ]
+    }
+  ]
+}

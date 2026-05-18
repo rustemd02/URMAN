@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "asset_pack": "urman_route_map",
+  "worker_scope": "public/assets/urman_route_map/_incoming/transition_kit_worker",
+  "notes": "These transition/support overlays contain no baked UI text or readable labels. No runtime text regions are required.",
+  "layers": [
+    {
+      "asset_id": "transition_step_forward_occlusion",
+      "file_name": "transition_step_forward_occlusion.png",
+      "editable_text_regions": [],
+      "suggested_passes": [
+        "route_base",
+        "transition_step_forward_occlusion",
+        "route_node_swap"
+      ]
+    },
+    {
+      "asset_id": "transition_forest_pressure_edge",
+      "file_name": "transition_forest_pressure_edge.png",
+      "editable_text_regions": [],
+      "suggested_passes": [
+        "route_base",
+        "forest_pressure_edge_overlay",
+        "route_node_swap"
+      ]
+    },
+    {
+      "asset_id": "journal_route_sketch_update",
+      "file_name": "journal_route_sketch_update.png",
+      "editable_text_regions": [],
+      "suggested_passes": [
+        "journal_paper_base",
+        "journal_route_sketch_update",
+        "runtime_masked_draw_on"
+      ]
+    }
+  ]
+}

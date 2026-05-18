@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "asset_pack": "urman_route_map",
+  "worker_scope": "public/assets/urman_route_map/_incoming/transition_kit_worker",
+  "coordinate_system": "normalized_rect",
+  "assets": [
+    {
+      "asset_id": "transition_step_forward_occlusion",
+      "file_name": "transition_step_forward_occlusion.png",
+      "animation_slots": [
+        {
+          "id": "transition_step_forward_occlusion",
+          "type": "transition_overlay",
+          "target": "full screen",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "500-800 ms forward-step foreground pass; slide or fade across frame while route node swaps underneath.",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Controlled runtime transition only; does not imply continuous 3D movement."
+    },
+    {
+      "asset_id": "transition_forest_pressure_edge",
+      "file_name": "transition_forest_pressure_edge.png",
+      "animation_slots": [
+        {
+          "id": "transition_forest_pressure_edge",
+          "type": "pressure_transition_overlay",
+          "target": "full screen / edges",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Rare 700-1000 ms darker edge wash for routes toward Kara-Urman boundary; fade or multiply over node swap.",
+          "creepiness_level": 3
+        }
+      ],
+      "notes": "Use sparingly for forest-boundary pressure; no monster/eye reveal."
+    },
+    {
+      "asset_id": "journal_route_sketch_update",
+      "file_name": "journal_route_sketch_update.png",
+      "animation_slots": [
+        {
+          "id": "journal_route_sketch_draw_on",
+          "type": "journal_draw_on_overlay",
+          "target": "journal sketch surface",
+          "normalized_rect": [
+            0.17,
+            0.12,
+            0.62,
+            0.7
+          ],
+          "behavior": "300-700 ms masked ink draw-on for newly discovered short route lines, node dots, and pins.",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Support layer only; reveal in small pieces if journal state needs partial discovery."
+    }
+  ]
+}

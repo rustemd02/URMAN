@@ -1,0 +1,103 @@
+{
+  "asset_pack": "urman_route_map",
+  "worker": "zirat_forest_views_worker",
+  "generated_on": "2026-05-18",
+  "status": "draft_for_controller_integration",
+  "animation_layers": [
+    {
+      "asset_id": "route_zirat_road_day",
+      "file_name": "route_zirat_road_day.png",
+      "slots": [
+        {
+          "id": "grass_branch_micro_drift",
+          "type": "subtle_loop_overlay",
+          "target": "foreground dry grass and thin branches",
+          "recommended_motion": "very low amplitude lateral drift, 8-12s loop",
+          "priority": "optional"
+        },
+        {
+          "id": "zirat_sign_focus_day",
+          "type": "inspect_highlight",
+          "target": "blank sign placeholder at left foreground",
+          "recommended_motion": "slight contrast/ink-line confidence on hover only",
+          "priority": "recommended"
+        },
+        {
+          "id": "path_forward_affordance_soft",
+          "type": "focus_ramp",
+          "target": "road center line toward distant zirat fence",
+          "recommended_motion": "soft local contrast lift on forward focus",
+          "priority": "optional"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_zirat_road_pressure",
+      "file_name": "route_zirat_road_pressure.png",
+      "slots": [
+        {
+          "id": "pressure_vignette_low",
+          "type": "pressure_overlay",
+          "target": "frame edges and overhead branches",
+          "recommended_motion": "almost-static vignette breathing at 14-18s loop",
+          "priority": "recommended"
+        },
+        {
+          "id": "branch_pressure_stillness",
+          "type": "stillness_layer",
+          "target": "crowding branches along top and sides",
+          "recommended_motion": "hold nearly motionless; no creature shape animation",
+          "priority": "recommended"
+        },
+        {
+          "id": "zirat_sign_hard_to_read_focus",
+          "type": "inspect_highlight",
+          "target": "weathered sign face",
+          "recommended_motion": "hover reveals sign region but keeps text runtime-editable and uncertain",
+          "priority": "recommended"
+        },
+        {
+          "id": "path_darkness_breath_subtle",
+          "type": "pressure_overlay",
+          "target": "narrow road center",
+          "recommended_motion": "low opacity dark wash pulse, no directional arrow",
+          "priority": "optional"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_forest_approach_back_evening",
+      "file_name": "route_forest_approach_back_evening.png",
+      "slots": [
+        {
+          "id": "forest_edge_static_frame",
+          "type": "pressure_hold",
+          "target": "dark forest trunks and branches framing the sides",
+          "recommended_motion": "near-static hold to imply forest weight behind player",
+          "priority": "recommended"
+        },
+        {
+          "id": "evening_sky_wash_hold",
+          "type": "ambient_overlay",
+          "target": "evening sky and distant village horizon",
+          "recommended_motion": "slow watercolor luminance drift, 12-20s loop",
+          "priority": "optional"
+        },
+        {
+          "id": "retreat_path_focus_soft",
+          "type": "focus_ramp",
+          "target": "path leading forward toward village/zirat road",
+          "recommended_motion": "soft contrast lift on back/retreat action focus",
+          "priority": "recommended"
+        },
+        {
+          "id": "foreground_branch_occlusion_ready",
+          "type": "transition_occlusion_region",
+          "target": "foreground side branches and grass",
+          "recommended_motion": "usable as mask/occlusion during step-back transition",
+          "priority": "optional"
+        }
+      ]
+    }
+  ]
+}

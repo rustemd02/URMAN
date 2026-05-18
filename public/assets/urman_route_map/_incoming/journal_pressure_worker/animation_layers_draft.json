@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "worker": "journal_pressure_worker",
+  "generated_on": "2026-05-18",
+  "asset_id": "ui_journal_route_sketch_pressure",
+  "canvas": {
+    "width": 2048,
+    "height": 1152
+  },
+  "layers": [
+    {
+      "id": "journal_pressure_static_base",
+      "type": "static_bitmap",
+      "asset": "ui_journal_route_sketch_pressure.png",
+      "z": 0,
+      "behavior": "visible as the pressure-state journal support view"
+    },
+    {
+      "id": "unsafe_route_mark_reveal",
+      "type": "mask_reveal_region",
+      "z": 10,
+      "region": {
+        "x": 1120,
+        "y": 785,
+        "width": 430,
+        "height": 210
+      },
+      "duration_ms": 450,
+      "easing": "ink_smudge",
+      "behavior": "optional reveal for crossed-out unsafe side route"
+    },
+    {
+      "id": "forest_pressure_note_reveal",
+      "type": "mask_reveal_region",
+      "z": 11,
+      "region": {
+        "x": 1650,
+        "y": 515,
+        "width": 245,
+        "height": 190
+      },
+      "duration_ms": 500,
+      "easing": "paper_fade",
+      "behavior": "optional reveal for forest-edge old place-name blanks and warning notes"
+    },
+    {
+      "id": "clue_pin_pulse_soft_shadow",
+      "type": "runtime_overlay_slot",
+      "z": 20,
+      "anchor_points": [
+        {
+          "id": "pin_left_note",
+          "x": 255,
+          "y": 660
+        },
+        {
+          "id": "pin_crossroad",
+          "x": 855,
+          "y": 535
+        },
+        {
+          "id": "pin_forest_edge",
+          "x": 1500,
+          "y": 350
+        }
+      ],
+      "behavior": "subtle hover/inspect emphasis only; no glow or supernatural effect"
+    }
+  ],
+  "non_goals": [
+    "No full route drawing animation that reveals the whole village.",
+    "No magical glow, creature mark, compass, or GPS-style panning."
+  ]
+}

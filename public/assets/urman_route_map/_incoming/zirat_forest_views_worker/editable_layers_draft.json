@@ -1,0 +1,71 @@
+{
+  "asset_pack": "urman_route_map",
+  "worker": "zirat_forest_views_worker",
+  "generated_on": "2026-05-18",
+  "status": "draft_for_controller_integration",
+  "coordinate_space": {
+    "width": 2048,
+    "height": 1152,
+    "units": "pixels",
+    "origin": "top_left"
+  },
+  "editable_layers": [
+    {
+      "asset_id": "route_zirat_road_day",
+      "file_name": "route_zirat_road_day.png",
+      "regions": [
+        {
+          "id": "zirat_sign_label_runtime",
+          "type": "diegetic_sign_text",
+          "placeholder_text": "зират",
+          "language_status": "placeholder_requires_tatar_proofing",
+          "bounds": {
+            "x": 230,
+            "y": 485,
+            "width": 460,
+            "height": 150
+          },
+          "integration_notes": "Use runtime text or localized texture overlay; source image sign is intentionally blank/weathered."
+        }
+      ]
+    },
+    {
+      "asset_id": "route_zirat_road_pressure",
+      "file_name": "route_zirat_road_pressure.png",
+      "regions": [
+        {
+          "id": "zirat_sign_label_runtime_pressure",
+          "type": "diegetic_sign_text",
+          "placeholder_text": "зират",
+          "language_status": "placeholder_requires_tatar_proofing",
+          "bounds": {
+            "x": 340,
+            "y": 455,
+            "width": 360,
+            "height": 135
+          },
+          "integration_notes": "Pressure readability should remain degraded. Existing faint marks are non-final placeholder texture; overlay final text only after proofing."
+        }
+      ]
+    },
+    {
+      "asset_id": "route_forest_approach_back_evening",
+      "file_name": "route_forest_approach_back_evening.png",
+      "regions": [
+        {
+          "id": "forest_warning_sign_back_optional",
+          "type": "diegetic_sign_back_or_optional_text",
+          "placeholder_text": "",
+          "language_status": "no_final_text_baked",
+          "bounds": {
+            "x": 225,
+            "y": 565,
+            "width": 330,
+            "height": 135
+          },
+          "integration_notes": "This sign is primarily a back/oblique board shape; avoid adding readable forward-facing text unless controller chooses to reuse it as an inspectable."
+        }
+      ]
+    }
+  ]
+}

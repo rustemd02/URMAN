@@ -23,7 +23,7 @@ export function generateHomesteads(
     // Ordered list of residents for the 15 lots
     const residents = [
         'babay', 'fanis', 'zarifa', 'ildar', 'gulnara', 
-        'mansur', 'rashid', 'nail', 'rushania', 'razilya',
+        'karat_guard', 'rashid', 'nail', 'rushania', 'razilya',
         'alsu', 'neighbor_1', 'neighbor_2', 'neighbor_3', 'neighbor_4'
     ];
 

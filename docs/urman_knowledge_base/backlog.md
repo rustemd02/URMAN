@@ -44,7 +44,7 @@
   Priority: High
   Depends on: accepted ink-wash route style
   Output: 3–4 connected route segments with forward, left/right turn, inspect and journal sketch update.
-  Notes: Проверить, что вариант A работает как in-world navigation: физические указатели, скрытый масштаб деревни, reusable turn/step transitions без fake 3D rotation.
+  Notes: Content side is ready in `public/assets/urman_route_map/`: 41 PNG, 32 route nodes, 10 route-node state transitions, 1 journal support transition, controlled animation and editable text metadata. Remaining work is runtime integration / playability test: consume `route_graph.json`, render turn/step transitions, hotspots and journal updates.
 
 - [ ] Task: Описать reaction levels для NPC.
   Type: Gameplay
@@ -76,12 +76,40 @@
   Output: script/check for broken links and orphan clues.
   Notes: Проверять source, reveals, unlocks.
 
-- [ ] Task: Сделать prototype old PC document hub.
+- [x] Task: Сделать prototype old PC document hub.
   Type: Tech
   Priority: High
   Depends on: first Marat documents, document data
-  Output: старый ПК с поиском, 3–5 документами, «Татарвики», сохранённым сообщением, metadata clues and one vocabulary re-read.
-  Notes: Это центральный production shortcut и основной доступ к документам MVP. Не делать в первом прототипе полноценную ОС или свободное программирование.
+  Output: старый ПК с поиском, 10 валидируемыми content files, «Татарвики», сохранёнными сообщениями, gated/corrupted fragments, подсказанными терминами and local clue saving.
+  Notes: Implemented 2026-05-18 in `src/os/apps/oldPcHub.ts`, `src/os/data/oldPcContent.ts`, `content/old_pc/` and `HouseScene`. Remaining work: connect saved clues to full journal/dialogue key graph and route navigation runtime.
+
+- [x] Task: Интегрировать route navigation graph в runtime.
+  Type: Tech / Gameplay
+  Priority: High
+  Depends on: `public/assets/urman_route_map/route_graph.json`
+  Output: playable node navigation with forward, back, 90-degree left/right turns, inspect hotspots, state transitions and journal sketch updates.
+  Notes: First playable runtime integration exists in `src/scenes/RouteNavigationScene.ts`; `village` now opens it and old `MainMapScene` remains as `villageGreybox`. Build passed. Remaining follow-up: replace placeholder external handoffs with real location scenes and playtest orientation clarity.
+
+- [ ] Task: Провести playtest route navigation на ориентацию.
+  Type: Gameplay / UX
+  Priority: High
+  Depends on: runtime route navigation scene
+  Output: notes on whether the player understands forward/back/90-degree turns, diegetic signs, journal sketch updates and external handoffs.
+  Notes: Проверить особенно main street -> Mansur turn -> crossroad -> FAP/mosque/zirat and whether the journal helps without becoming a full top-down map.
+
+- [x] Task: Создать old PC content validator.
+  Type: Tech / Narrative Tools
+  Priority: High
+  Depends on: `content/old_pc/README.md`, old PC authoring schema
+  Output: проверка required fields, unique IDs, broken links, invalid reliability/canon statuses, orphan clues and search terms.
+  Notes: Implemented as `scripts/validate-old-pc-content.mjs`. Current validator covers required fields, unique IDs, allowed statuses, basic arrays, body presence and `requires` links. Orphan clues/search terms should move to the shared clue graph validator.
+
+- [ ] Task: Интегрировать saved clues из ПК в journal/dialogue key graph.
+  Type: Tech / Gameplay
+  Priority: High
+  Depends on: old PC prototype, journal UI, clue graph schema
+  Output: документы ПК создают reusable knowledge keys, меняют журнал и дают проверяемые dialogue topics.
+  Notes: Сейчас ПК сохраняет улики локально внутри archive hub. Это хорошо для MVP-прототипа, но не заменяет общую систему evidence inventory.
 
 - [ ] Task: Сделать save/load model.
   Type: Tech

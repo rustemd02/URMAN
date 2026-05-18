@@ -1,0 +1,1308 @@
+{
+  "version": 1,
+  "generated_on": "2026-05-18",
+  "product_defaults": {
+    "scope": "MVP spine plus existing stretch branches",
+    "topology": "small looped village with route restrictions",
+    "asset_strategy": "reuse existing route assets and generate missing facing/transition views",
+    "state_strategy": "baseline playable graph first, pressure/evening selectively",
+    "journal_strategy": "incomplete clue-aware support map",
+    "output_pack": "public/assets/urman_route_map"
+  },
+  "nodes": [
+    {
+      "id": "admin_archive_corner_day",
+      "locationId": "admin_archive_corner",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "toward_admin",
+      "backgroundAssetId": "route_admin_archive_corner_day",
+      "availableActions": [
+        "inspect",
+        "back"
+      ],
+      "exits": {
+        "back": "village_crossroad_forward_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_notice_board",
+          "target": "admin_archive_corner_day",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "soviet notice board",
+        "office door"
+      ],
+      "ambienceId": "admin_day",
+      "journalSketchUpdate": "journal_add_admin",
+      "status": "stretch_branch_enabled"
+    },
+    {
+      "id": "alsu_meeting_spot_day",
+      "locationId": "alsu_meeting_spot",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "toward_water_bench",
+      "backgroundAssetId": "route_alsu_meeting_spot_day",
+      "availableActions": [
+        "back",
+        "inspect",
+        "talk"
+      ],
+      "exits": {
+        "back": "bridge_river_turn_day"
+      },
+      "diegeticSigns": [],
+      "landmarks": [
+        "bench",
+        "water edge",
+        "field fence"
+      ],
+      "ambienceId": "alsu_spot_day",
+      "journalSketchUpdate": "journal_add_alsu_spot",
+      "status": "stretch_branch_enabled"
+    },
+    {
+      "id": "arrival_vehicle_dusk",
+      "locationId": "arrival_road",
+      "timePhase": "dusk",
+      "pressureVariant": "normal",
+      "facing": "vehicle_window_to_village",
+      "backgroundAssetId": "loc_arrival_vehicle_interior_dusk",
+      "availableActions": [
+        "forward",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "main_entry_forward_evening"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_roadside_sign",
+          "target": "main_entry_forward_evening",
+          "language": "placeholder",
+          "visibility": "through_window_or_after_arrival"
+        }
+      ],
+      "landmarks": [
+        "vehicle window",
+        "first village glimpse",
+        "roadside sign"
+      ],
+      "ambienceId": "arrival_vehicle_dusk",
+      "journalSketchUpdate": "journal_add_arrival"
+    },
+    {
+      "id": "bridge_river_turn_day",
+      "locationId": "bridge_river_turn",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "river_turn",
+      "backgroundAssetId": "route_bridge_river_turn_day",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "river_bank_day",
+        "back": "village_crossroad_forward_day",
+        "inspectAlsuSpot": "alsu_meeting_spot_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "су / bridge",
+          "target": "river_bank_day",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "bridge",
+        "reeds",
+        "cold water light"
+      ],
+      "ambienceId": "river_day",
+      "journalSketchUpdate": "journal_add_river",
+      "status": "stretch_branch_enabled"
+    },
+    {
+      "id": "crossroad_to_admin_day",
+      "locationId": "village_crossroad",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "side_to_admin_archive",
+      "backgroundAssetId": "route_admin_archive_corner_day",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "admin_archive_corner_day",
+        "back": "village_crossroad_forward_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_admin_notice",
+          "target": "admin_archive_corner_day",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "notice board",
+        "administration door"
+      ],
+      "ambienceId": "admin_route_day",
+      "journalSketchUpdate": "journal_add_admin_branch",
+      "status": "stretch_branch_enabled"
+    },
+    {
+      "id": "crossroad_to_river_day",
+      "locationId": "village_crossroad",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "side_to_bridge_river",
+      "backgroundAssetId": "route_bridge_river_turn_day",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "bridge_river_turn_day",
+        "back": "village_crossroad_forward_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "су / bridge",
+          "target": "bridge_river_turn_day",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "river turn sign",
+        "reeds",
+        "bridge road"
+      ],
+      "ambienceId": "river_route_day",
+      "journalSketchUpdate": "journal_add_river_branch",
+      "status": "stretch_branch_enabled"
+    },
+    {
+      "id": "crossroad_unsafe_blocked_evening",
+      "locationId": "village_crossroad",
+      "timePhase": "evening",
+      "pressureVariant": "restricted",
+      "facing": "blocked_side_path",
+      "backgroundAssetId": "route_unsafe_path_blocked_evening",
+      "availableActions": [
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "back": "village_crossroad_pressure",
+        "inspectBlockedPath": "unsafe_path_blocked_evening"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_blocked_notice",
+          "target": "unsafe_path_blocked_evening",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "blocked side path",
+        "bicycle",
+        "blank notice"
+      ],
+      "ambienceId": "unsafe_route_evening",
+      "journalSketchUpdate": "journal_mark_unsafe_route",
+      "status": "restricted_branch"
+    },
+    {
+      "id": "forest_approach_back_evening",
+      "locationId": "forest_approach",
+      "timePhase": "evening",
+      "pressureVariant": "evening",
+      "facing": "back_to_village",
+      "backgroundAssetId": "route_forest_approach_back_evening",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "zirat_road_forward_evening",
+        "back": "forest_approach_evening"
+      },
+      "diegeticSigns": [
+        {
+          "label": "old_warning_or_zirat_back",
+          "target": "zirat_road_forward_evening",
+          "language": "placeholder",
+          "visibility": "weathered"
+        }
+      ],
+      "landmarks": [
+        "retreat road",
+        "forest edge behind/side"
+      ],
+      "ambienceId": "forest_retreat_evening",
+      "journalSketchUpdate": "journal_confirm_forest_back_route"
+    },
+    {
+      "id": "forest_approach_evening",
+      "locationId": "forest_approach",
+      "timePhase": "evening",
+      "pressureVariant": "evening",
+      "facing": "forward_to_forest",
+      "backgroundAssetId": "route_forest_approach_evening",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "kara_urman_edge_pressure",
+        "back": "forest_approach_back_evening"
+      },
+      "diegeticSigns": [
+        {
+          "label": "Кара-Урман",
+          "target": "kara_urman_edge_pressure",
+          "language": "placeholder_tatar",
+          "visibility": "weathered"
+        }
+      ],
+      "landmarks": [
+        "forest line",
+        "old warning sign"
+      ],
+      "ambienceId": "forest_silence_entering",
+      "journalSketchUpdate": "journal_add_forest_approach"
+    },
+    {
+      "id": "forest_approach_pressure",
+      "locationId": "forest_approach",
+      "timePhase": "evening",
+      "pressureVariant": "pressure",
+      "facing": "forward_to_forest",
+      "backgroundAssetId": "route_forest_approach_pressure_silence",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "kara_urman_edge_voice_moment",
+        "back": "zirat_road_forward_evening"
+      },
+      "diegeticSigns": [
+        {
+          "label": "Кара-Урман",
+          "target": "kara_urman_edge_voice_moment",
+          "language": "placeholder_tatar",
+          "visibility": "hard_to_read"
+        }
+      ],
+      "landmarks": [
+        "too-still trees",
+        "narrow road"
+      ],
+      "ambienceId": "forest_silence_pressure",
+      "journalSketchUpdate": "journal_pressure_mark_forest"
+    },
+    {
+      "id": "forest_approach_voice_lock",
+      "locationId": "forest_approach",
+      "timePhase": "evening",
+      "pressureVariant": "voice_lock",
+      "facing": "forward_to_forest",
+      "backgroundAssetId": "route_forest_approach_voice_lock",
+      "availableActions": [
+        "inspect",
+        "back"
+      ],
+      "exits": {
+        "back": "forest_approach_pressure"
+      },
+      "diegeticSigns": [
+        {
+          "label": "old_place_name",
+          "target": "kara_urman_edge_voice_moment",
+          "language": "placeholder",
+          "visibility": "scripted"
+        }
+      ],
+      "landmarks": [
+        "silent road",
+        "warning sign"
+      ],
+      "ambienceId": "marat_voice_far",
+      "journalSketchUpdate": "journal_voice_lock"
+    },
+    {
+      "id": "kara_urman_edge_pressure",
+      "locationId": "kara_urman_edge",
+      "timePhase": "evening",
+      "pressureVariant": "pressure",
+      "facing": "forest_edge",
+      "backgroundAssetId": "route_kara_urman_forest_edge_pressure",
+      "availableActions": [
+        "inspect",
+        "back"
+      ],
+      "exits": {
+        "back": "forest_approach_evening"
+      },
+      "diegeticSigns": [
+        {
+          "label": "Кара-Урман",
+          "target": "kara_urman_edge_pressure",
+          "language": "placeholder_tatar",
+          "visibility": "weathered"
+        }
+      ],
+      "landmarks": [
+        "forest edge",
+        "almost-human branches"
+      ],
+      "ambienceId": "forest_presence_low",
+      "journalSketchUpdate": "journal_add_kara_urman_edge"
+    },
+    {
+      "id": "kara_urman_edge_rinat_interruption",
+      "locationId": "kara_urman_edge",
+      "timePhase": "evening",
+      "pressureVariant": "cliffhanger",
+      "facing": "forest_edge_with_rinat",
+      "backgroundAssetId": "route_kara_urman_edge_rinat_interruption",
+      "availableActions": [
+        "inspect"
+      ],
+      "exits": {
+        "scripted": "mvp_end_cliffhanger"
+      },
+      "diegeticSigns": [],
+      "landmarks": [
+        "Rinat interruption",
+        "forest boundary"
+      ],
+      "ambienceId": "rinat_ne_otvechai",
+      "journalSketchUpdate": "journal_rinat_warning"
+    },
+    {
+      "id": "kara_urman_edge_voice_moment",
+      "locationId": "kara_urman_edge",
+      "timePhase": "evening",
+      "pressureVariant": "cliffhanger",
+      "facing": "forest_edge",
+      "backgroundAssetId": "route_kara_urman_edge_voice_moment",
+      "availableActions": [
+        "inspect"
+      ],
+      "exits": {
+        "scripted": "kara_urman_edge_rinat_interruption"
+      },
+      "diegeticSigns": [
+        {
+          "label": "old_place_name",
+          "target": "kara_urman_edge_voice_moment",
+          "language": "placeholder",
+          "visibility": "scripted"
+        }
+      ],
+      "landmarks": [
+        "voice from forest",
+        "branches almost form figure"
+      ],
+      "ambienceId": "marat_voice_near",
+      "journalSketchUpdate": "journal_voice_moment"
+    },
+    {
+      "id": "main_entry_forward_day",
+      "locationId": "main_street_entry",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "forward",
+      "backgroundAssetId": "route_main_street_entry_day",
+      "availableActions": [
+        "forward",
+        "turnRight",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "village_crossroad_forward_day",
+        "turnRight": "mansur_turn_forward_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_mansur_house_sign",
+          "target": "mansur_turn_forward_day",
+          "language": "placeholder",
+          "visibility": "approach_or_hover"
+        }
+      ],
+      "landmarks": [
+        "wooden fences",
+        "distant mosque minaret",
+        "utility pole"
+      ],
+      "ambienceId": "street_day",
+      "journalSketchUpdate": "journal_add_main_street"
+    },
+    {
+      "id": "main_entry_forward_evening",
+      "locationId": "main_street_entry",
+      "timePhase": "evening",
+      "pressureVariant": "evening",
+      "facing": "forward",
+      "backgroundAssetId": "route_main_street_entry_evening",
+      "availableActions": [
+        "forward",
+        "turnRight",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "village_crossroad_forward_day",
+        "turnRight": "mansur_turn_evening",
+        "back": "arrival_vehicle_dusk"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_mansur_house_sign",
+          "target": "mansur_turn_evening",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "lit windows",
+        "distant minaret"
+      ],
+      "ambienceId": "street_evening",
+      "journalSketchUpdate": "journal_main_street_evening"
+    },
+    {
+      "id": "main_entry_pressure_watchers",
+      "locationId": "main_street_entry",
+      "timePhase": "evening",
+      "pressureVariant": "pressure",
+      "facing": "forward",
+      "backgroundAssetId": "route_main_street_entry_pressure_watchers",
+      "availableActions": [
+        "forward",
+        "turnRight",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "village_crossroad_pressure",
+        "turnRight": "mansur_turn_evening"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_street_sign",
+          "target": "village_crossroad_pressure",
+          "language": "placeholder",
+          "visibility": "hard_to_read"
+        }
+      ],
+      "landmarks": [
+        "watched windows",
+        "narrow road"
+      ],
+      "ambienceId": "street_pressure_silence",
+      "journalSketchUpdate": "journal_pressure_mark_main_street"
+    },
+    {
+      "id": "mansur_house_back_to_street_day",
+      "locationId": "mansur_house_turn",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "back_to_street",
+      "backgroundAssetId": "route_mansur_house_back_to_street_day",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "main_entry_forward_day",
+        "back": "mansur_turn_forward_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_main_street_marker",
+          "target": "main_entry_forward_day",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "main street road",
+        "distant minaret",
+        "yard edge behind"
+      ],
+      "ambienceId": "yard_day_back_view",
+      "journalSketchUpdate": "journal_confirm_mansur_back_route"
+    },
+    {
+      "id": "mansur_turn_evening",
+      "locationId": "mansur_house_turn",
+      "timePhase": "evening",
+      "pressureVariant": "evening",
+      "facing": "right_to_mansur",
+      "backgroundAssetId": "route_mansur_house_turn_evening",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "mansur_house_exterior_evening",
+        "back": "main_entry_forward_evening"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_house_marker",
+          "target": "mansur_house_exterior_evening",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "old Niva",
+        "lit window"
+      ],
+      "ambienceId": "yard_evening",
+      "journalSketchUpdate": "journal_mansur_house_evening"
+    },
+    {
+      "id": "mansur_turn_forward_day",
+      "locationId": "mansur_house_turn",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "right_to_mansur",
+      "backgroundAssetId": "route_mansur_house_turn_day",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "mansur_house_exterior_day",
+        "back": "mansur_house_back_to_street_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_house_marker",
+          "target": "mansur_house_exterior_day",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "old Niva",
+        "gate",
+        "warm house window"
+      ],
+      "ambienceId": "yard_day",
+      "journalSketchUpdate": "journal_add_mansur_house"
+    },
+    {
+      "id": "mosque_sign_back_day",
+      "locationId": "mosque_sign",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "back_to_crossroad",
+      "backgroundAssetId": "route_mosque_sign_back_day",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "village_crossroad_forward_day",
+        "back": "mosque_sign_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_crossroad_marker",
+          "target": "village_crossroad_forward_day",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "crossroad ahead",
+        "mosque behind side"
+      ],
+      "ambienceId": "mosque_route_back_view",
+      "journalSketchUpdate": "journal_confirm_mosque_back_route"
+    },
+    {
+      "id": "mosque_sign_day",
+      "locationId": "mosque_sign",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "right_to_mosque",
+      "backgroundAssetId": "route_mosque_sign_day",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "mosque_exterior_day",
+        "back": "mosque_sign_back_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "мәчет",
+          "target": "mosque_exterior_day",
+          "language": "placeholder_tatar",
+          "visibility": "visible"
+        }
+      ],
+      "landmarks": [
+        "mosque silhouette",
+        "cleaner path"
+      ],
+      "ambienceId": "mosque_route_day",
+      "journalSketchUpdate": "journal_add_mosque"
+    },
+    {
+      "id": "mosque_sign_evening",
+      "locationId": "mosque_sign",
+      "timePhase": "evening",
+      "pressureVariant": "evening",
+      "facing": "right_to_mosque",
+      "backgroundAssetId": "route_mosque_sign_evening",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "mosque_exterior_evening_safe",
+        "back": "village_crossroad_pressure"
+      },
+      "diegeticSigns": [
+        {
+          "label": "мәчет",
+          "target": "mosque_exterior_evening_safe",
+          "language": "placeholder_tatar",
+          "visibility": "visible"
+        }
+      ],
+      "landmarks": [
+        "safe mosque light"
+      ],
+      "ambienceId": "mosque_route_evening",
+      "journalSketchUpdate": "journal_mosque_safe_light"
+    },
+    {
+      "id": "selsmag_fap_lane_back_day",
+      "locationId": "selsmag_fap_lane",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "back_to_crossroad",
+      "backgroundAssetId": "route_selsmag_fap_lane_back_day",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "village_crossroad_forward_day",
+        "back": "selsmag_fap_lane_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_crossroad_marker",
+          "target": "village_crossroad_forward_day",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "crossroad ahead",
+        "FAP/shop behind side"
+      ],
+      "ambienceId": "lane_day_back_view",
+      "journalSketchUpdate": "journal_confirm_fap_back_route"
+    },
+    {
+      "id": "selsmag_fap_lane_day",
+      "locationId": "selsmag_fap_lane",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "left_to_fap_selsmag",
+      "backgroundAssetId": "route_selsmag_fap_lane_day",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "fap_waiting_room_day",
+        "back": "selsmag_fap_lane_back_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "ФАП",
+          "target": "fap_waiting_room_day",
+          "language": "placeholder_russian",
+          "visibility": "hover"
+        },
+        {
+          "label": "сельмаг",
+          "target": "selsmag_counter_interior",
+          "language": "placeholder_tatar_russian",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "FAP building",
+        "shop window"
+      ],
+      "ambienceId": "lane_day",
+      "journalSketchUpdate": "journal_add_fap_selsmag"
+    },
+    {
+      "id": "selsmag_fap_lane_pressure",
+      "locationId": "selsmag_fap_lane",
+      "timePhase": "evening",
+      "pressureVariant": "pressure",
+      "facing": "left_to_fap_selsmag",
+      "backgroundAssetId": "route_selsmag_fap_lane_pressure",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "fap_pressure_document_desk",
+        "back": "village_crossroad_pressure"
+      },
+      "diegeticSigns": [
+        {
+          "label": "ФАП / notice",
+          "target": "fap_pressure_document_desk",
+          "language": "placeholder",
+          "visibility": "hard_to_read"
+        }
+      ],
+      "landmarks": [
+        "watching window",
+        "closed door"
+      ],
+      "ambienceId": "lane_pressure",
+      "journalSketchUpdate": "journal_pressure_mark_fap"
+    },
+    {
+      "id": "unsafe_path_blocked_evening",
+      "locationId": "unsafe_path",
+      "timePhase": "evening",
+      "pressureVariant": "restricted",
+      "facing": "blocked_path",
+      "backgroundAssetId": "route_unsafe_path_blocked_evening",
+      "availableActions": [
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "back": "village_crossroad_pressure"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blocked_notice",
+          "target": "unsafe_path_blocked_evening",
+          "language": "placeholder",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "blocked road",
+        "bicycle",
+        "blank sign"
+      ],
+      "ambienceId": "unsafe_route_evening",
+      "journalSketchUpdate": "journal_mark_unsafe_route",
+      "status": "stretch_branch_enabled"
+    },
+    {
+      "id": "village_crossroad_forward_day",
+      "locationId": "village_crossroad",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "forward",
+      "backgroundAssetId": "route_village_crossroad_day",
+      "availableActions": [
+        "forward",
+        "turnLeft",
+        "turnRight",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "zirat_road_forward_day",
+        "turnLeft": "selsmag_fap_lane_day",
+        "turnRight": "mosque_sign_day",
+        "back": "main_entry_forward_day",
+        "inspectRiverSign": "crossroad_to_river_day",
+        "inspectAdminNotice": "crossroad_to_admin_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "ФАП / сельмаг",
+          "target": "selsmag_fap_lane_day",
+          "language": "placeholder_tatar_russian",
+          "visibility": "hover"
+        },
+        {
+          "label": "мәчет",
+          "target": "mosque_sign_day",
+          "language": "placeholder_tatar",
+          "visibility": "hover"
+        },
+        {
+          "label": "зират",
+          "target": "zirat_road_forward_evening",
+          "language": "placeholder_tatar",
+          "visibility": "hover"
+        }
+      ],
+      "landmarks": [
+        "notice board",
+        "forked road",
+        "signpost"
+      ],
+      "ambienceId": "crossroad_day",
+      "journalSketchUpdate": "journal_add_crossroad"
+    },
+    {
+      "id": "village_crossroad_pressure",
+      "locationId": "village_crossroad",
+      "timePhase": "evening",
+      "pressureVariant": "pressure",
+      "facing": "forward",
+      "backgroundAssetId": "route_village_crossroad_pressure",
+      "availableActions": [
+        "forward",
+        "turnLeft",
+        "turnRight",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "zirat_road_forward_evening",
+        "turnLeft": "selsmag_fap_lane_pressure",
+        "turnRight": "mosque_sign_evening",
+        "back": "main_entry_pressure_watchers",
+        "inspectBlockedPath": "crossroad_unsafe_blocked_evening"
+      },
+      "diegeticSigns": [
+        {
+          "label": "blank_worse_signs",
+          "target": "multiple",
+          "language": "placeholder",
+          "visibility": "hard_to_read"
+        }
+      ],
+      "landmarks": [
+        "notice board",
+        "watching windows"
+      ],
+      "ambienceId": "crossroad_pressure",
+      "journalSketchUpdate": "journal_pressure_mark_crossroad"
+    },
+    {
+      "id": "zirat_road_forward_day",
+      "locationId": "zirat_road",
+      "timePhase": "day",
+      "pressureVariant": "normal",
+      "facing": "forward_to_zirat",
+      "backgroundAssetId": "route_zirat_road_day",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "zirat_road_forward_evening",
+        "back": "village_crossroad_forward_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "зират",
+          "target": "zirat_road_forward_evening",
+          "language": "placeholder_tatar",
+          "visibility": "visible"
+        }
+      ],
+      "landmarks": [
+        "dry grass",
+        "cemetery sign",
+        "dense trees"
+      ],
+      "ambienceId": "zirat_day",
+      "journalSketchUpdate": "journal_add_zirat_day_route"
+    },
+    {
+      "id": "zirat_road_forward_evening",
+      "locationId": "zirat_road",
+      "timePhase": "evening",
+      "pressureVariant": "evening",
+      "facing": "forward_to_zirat",
+      "backgroundAssetId": "route_zirat_road_evening",
+      "availableActions": [
+        "back",
+        "forward",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "forest_approach_evening",
+        "back": "village_crossroad_forward_day"
+      },
+      "diegeticSigns": [
+        {
+          "label": "зират",
+          "target": "zirat_general_late_evening",
+          "language": "placeholder_tatar",
+          "visibility": "visible"
+        }
+      ],
+      "landmarks": [
+        "dry grass",
+        "denser trees",
+        "cemetery sign"
+      ],
+      "ambienceId": "zirat_wind_low",
+      "journalSketchUpdate": "journal_add_zirat_and_forest_route"
+    },
+    {
+      "id": "zirat_road_pressure",
+      "locationId": "zirat_road",
+      "timePhase": "evening",
+      "pressureVariant": "pressure",
+      "facing": "forward_to_zirat",
+      "backgroundAssetId": "route_zirat_road_pressure",
+      "availableActions": [
+        "forward",
+        "back",
+        "inspect"
+      ],
+      "exits": {
+        "forward": "forest_approach_pressure",
+        "back": "village_crossroad_pressure"
+      },
+      "diegeticSigns": [
+        {
+          "label": "зират",
+          "target": "forest_approach_pressure",
+          "language": "placeholder_tatar",
+          "visibility": "hard_to_read"
+        }
+      ],
+      "landmarks": [
+        "narrow road",
+        "too-still branches",
+        "hard-to-read sign"
+      ],
+      "ambienceId": "zirat_pressure",
+      "journalSketchUpdate": "journal_pressure_mark_zirat"
+    }
+  ],
+  "transitions": {
+    "turn_90_default": {
+      "durationMs": [
+        250,
+        450
+      ],
+      "assetId": "transition_turn_90_ink_smear",
+      "overlayAssetId": "overlay_ink_smear_transition",
+      "behavior": "foreground parallax + ink-smear edge darkening; input locked until final third"
+    },
+    "step_forward_default": {
+      "durationMs": [
+        500,
+        800
+      ],
+      "assetId": "transition_step_forward_occlusion",
+      "behavior": "footsteps, slight vertical bob, foreground occlusion, then snap to next discrete node",
+      "status": "asset_generated_integrated"
+    },
+    "forest_pressure_edge": {
+      "durationMs": [
+        650,
+        950
+      ],
+      "assetId": "transition_forest_pressure_edge",
+      "behavior": "rare darker paper wash before Kara-Urman boundary; no creature reveal",
+      "status": "asset_generated_integrated"
+    },
+    "journal_route_update": {
+      "durationMs": [
+        300,
+        600
+      ],
+      "assetId": "journal_route_sketch_update",
+      "behavior": "simple ink line draw-on in journal support view",
+      "status": "asset_generated_integrated"
+    }
+  },
+  "missing_required_assets": [],
+  "non_goals": [
+    "no top-down overworld as main navigation",
+    "no free isometric movement",
+    "no fake continuous 3D rotation",
+    "no full creature reveal"
+  ],
+  "stateTransitions": [
+    {
+      "from": "main_entry_forward_evening",
+      "to": "main_entry_pressure_watchers",
+      "trigger": "village_pressure_2",
+      "notes": "social pressure variant of main street"
+    },
+    {
+      "from": "village_crossroad_forward_day",
+      "to": "village_crossroad_pressure",
+      "trigger": "village_pressure_2_or_evening_return",
+      "notes": "pressure variant of crossroad"
+    },
+    {
+      "from": "selsmag_fap_lane_day",
+      "to": "selsmag_fap_lane_pressure",
+      "trigger": "medical_contradiction_key_used",
+      "notes": "pressure variant of FAP/selsmag lane"
+    },
+    {
+      "from": "mosque_sign_day",
+      "to": "mosque_sign_evening",
+      "trigger": "time_phase_evening",
+      "notes": "safe evening mosque route"
+    },
+    {
+      "from": "forest_approach_evening",
+      "to": "forest_approach_pressure",
+      "trigger": "forest_pressure_flag",
+      "notes": "silent pressure variant before Kara-Urman"
+    },
+    {
+      "from": "forest_approach_pressure",
+      "to": "forest_approach_voice_lock",
+      "trigger": "marat_voice_trigger",
+      "notes": "scripted voice-lock state"
+    },
+    {
+      "from": "kara_urman_edge_pressure",
+      "to": "kara_urman_edge_voice_moment",
+      "trigger": "marat_voice_trigger",
+      "notes": "cliffhanger voice moment"
+    },
+    {
+      "from": "kara_urman_edge_voice_moment",
+      "to": "kara_urman_edge_rinat_interruption",
+      "trigger": "rinat_interrupts_answer",
+      "notes": "Rinat stops Aidar before answer"
+    },
+    {
+      "from": "zirat_road_forward_day",
+      "to": "zirat_road_forward_evening",
+      "trigger": "time_phase_evening_or_after_grave_clue",
+      "notes": "evening zirat route state"
+    },
+    {
+      "from": "zirat_road_forward_evening",
+      "to": "zirat_road_pressure",
+      "trigger": "cemetery_contradiction_or_pressure_2",
+      "notes": "pressure zirat route state"
+    }
+  ],
+  "navigation_contract": {
+    "movement_model": "discrete_first_person_route_nodes",
+    "camera_rule": "no free camera and no fake continuous 3D rotation",
+    "turn_rule": "turnLeft and turnRight always resolve to separate painted facing views through turn_90_default",
+    "action_transition_defaults": {
+      "forward": {
+        "turnDegrees": 0,
+        "transitionId": "step_forward_default",
+        "notes": "Fixed step to the next route node; never an arbitrary in-between camera position."
+      },
+      "back": {
+        "turnDegrees": 180,
+        "transitionId": "step_forward_default",
+        "notes": "Returns to a known previous/back-facing node; implementation may keep facing if the target node already represents the back view."
+      },
+      "turnLeft": {
+        "turnDegrees": -90,
+        "transitionId": "turn_90_default",
+        "notes": "Pseudo-smooth 250-450 ms turn into a pre-painted left-facing node."
+      },
+      "turnRight": {
+        "turnDegrees": 90,
+        "transitionId": "turn_90_default",
+        "notes": "Pseudo-smooth 250-450 ms turn into a pre-painted right-facing node."
+      },
+      "inspect": {
+        "turnDegrees": 0,
+        "transitionId": null,
+        "notes": "No movement; opens hotspot, sign, document, or journal support interaction."
+      },
+      "talk": {
+        "turnDegrees": 0,
+        "transitionId": null,
+        "notes": "No movement; enters dialogue or character interaction."
+      }
+    }
+  },
+  "externalLocationNodes": [
+    "fap_pressure_document_desk",
+    "fap_waiting_room_day",
+    "mansur_house_exterior_day",
+    "mansur_house_exterior_evening",
+    "mosque_exterior_day",
+    "mosque_exterior_evening_safe",
+    "mvp_end_cliffhanger",
+    "river_bank_day"
+  ],
+  "generated_gap_assets": [
+    {
+      "asset_id": "route_mansur_house_back_to_street_day",
+      "purpose": "Back/facing view from Mansur turn toward main street",
+      "priority": "P0",
+      "route_nodes": [
+        "mansur_turn_forward_day"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_back_day",
+      "purpose": "Back/facing view from FAP/selsmag lane toward crossroad",
+      "priority": "P0",
+      "route_nodes": [
+        "selsmag_fap_lane_day"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "route_mosque_sign_back_day",
+      "purpose": "Back/facing view from mosque sign path toward crossroad",
+      "priority": "P0",
+      "route_nodes": [
+        "mosque_sign_day"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "route_zirat_road_day",
+      "purpose": "Day baseline for zirat road before evening/pressure",
+      "priority": "P0",
+      "route_nodes": [
+        "zirat_road_forward_day"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "route_zirat_road_pressure",
+      "purpose": "Pressure variant for zirat route",
+      "priority": "P0",
+      "route_nodes": [
+        "zirat_road_pressure"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "route_forest_approach_back_evening",
+      "purpose": "Back/facing view from forest approach toward village/zirat road",
+      "priority": "P0",
+      "route_nodes": [
+        "forest_approach_evening"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "transition_step_forward_occlusion",
+      "purpose": "Reusable 500-800 ms step-forward occlusion pass",
+      "priority": "P0",
+      "route_nodes": [
+        "all_step_forward"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "transition_forest_pressure_edge",
+      "purpose": "Special darker transition to Kara-Urman boundary",
+      "priority": "P0",
+      "route_nodes": [
+        "forest_approach_pressure",
+        "kara_urman_edge_pressure"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "journal_route_sketch_update",
+      "purpose": "Simple ink draw-on update overlay for newly discovered route lines",
+      "priority": "P0",
+      "route_nodes": [
+        "journal_updates"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    },
+    {
+      "asset_id": "ui_journal_route_sketch_pressure",
+      "purpose": "Journal sketch with unsafe route marks and old place names, still incomplete",
+      "priority": "P1",
+      "route_nodes": [
+        "unsafe_path_blocked_evening",
+        "forest_approach_pressure"
+      ],
+      "status": "generated_integrated",
+      "output_pack": "public/assets/urman_route_map"
+    }
+  ],
+  "supportViewTransitions": [
+    {
+      "from": "ui_journal_route_sketch_base",
+      "to": "ui_journal_route_sketch_pressure",
+      "trigger": "unsafe_route_or_forest_pressure_discovered",
+      "notes": "journal support state update"
+    }
+  ],
+  "startNodeId": "arrival_vehicle_dusk",
+  "validation_summary": {
+    "validated_on": "2026-05-18",
+    "png_files": 41,
+    "manifest_assets": 41,
+    "controlled_animation_entries": 41,
+    "editable_layer_entries": 34,
+    "route_graph_nodes": 32,
+    "state_transitions": 10,
+    "support_view_transitions": 1,
+    "external_location_nodes": 8,
+    "reachable_nodes": "32/32 from arrival_vehicle_dusk",
+    "generated_gap_assets": 10,
+    "missing_required_assets": 0,
+    "validation_errors": 0,
+    "route_graph": "public/assets/urman_route_map/route_graph.json"
+  }
+}

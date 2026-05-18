@@ -39,6 +39,14 @@ export class GameState {
     // Сюжетные переменные
     public day: number = 1;
     public time: string = '20:00';
+    public timeOfDay: string = 'вечер';
+    public locationName: string = 'Кырлай';
+
+    // Route navigation state
+    public routeCurrentNodeId: string = 'arrival_vehicle_dusk';
+    public routeDiscoveredNodeIds: string[] = [];
+    public routeJournalUpdateIds: string[] = [];
+    public routeJournalPressure: boolean = false;
 
     // Языковая система (LAS)
     public langLevel: 'beginner' | 'intermediate' | 'native' = 'beginner';
@@ -77,5 +85,24 @@ export class GameState {
     modifyStat(stat: 'money' | 'tatarKnowledge' | 'fear' | 'noise' | 'strength' | 'alsuRelation', delta: number) {
         (this as any)[stat] = Math.max(0, Math.min(100, (this as any)[stat] + delta));
         this.events.emit('stat_changed', { stat, value: (this as any)[stat] });
+    }
+
+    rememberRouteVisit(nodeId: string, journalUpdateId?: string, pressureVariant?: string) {
+        this.routeCurrentNodeId = nodeId;
+        if (!this.routeDiscoveredNodeIds.includes(nodeId)) {
+            this.routeDiscoveredNodeIds.push(nodeId);
+        }
+        if (journalUpdateId && !this.routeJournalUpdateIds.includes(journalUpdateId)) {
+            this.routeJournalUpdateIds.push(journalUpdateId);
+        }
+        if (pressureVariant && !['normal', 'evening'].includes(pressureVariant)) {
+            this.routeJournalPressure = true;
+        }
+        this.events.emit('route_updated', {
+            currentNodeId: this.routeCurrentNodeId,
+            discoveredNodeIds: this.routeDiscoveredNodeIds,
+            journalUpdateIds: this.routeJournalUpdateIds,
+            journalPressure: this.routeJournalPressure,
+        });
     }
 }

@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "worker": "journal_pressure_worker",
+  "generated_on": "2026-05-18",
+  "write_scope": "public/assets/urman_route_map/_incoming/journal_pressure_worker/",
+  "assets": [
+    {
+      "asset_id": "ui_journal_route_sketch_pressure",
+      "filename": "ui_journal_route_sketch_pressure.png",
+      "kind": "ui_support_view",
+      "width": 2048,
+      "height": 1152,
+      "format": "png",
+      "alpha": false,
+      "priority": "P1",
+      "route_nodes": [
+        "unsafe_path_blocked_evening",
+        "forest_approach_pressure"
+      ],
+      "source_reference": "public/assets/urman_route_map/ui_journal_route_sketch_base.png",
+      "intended_use": "pressure-state incomplete journal sketch with unsafe route marks, clue pins, old place-name blanks, and editable label/note regions",
+      "integration_notes": [
+        "Support view only; not a playable top-down map.",
+        "Keep runtime text overlays editable until Tatar/Russian proofing.",
+        "Use with pressure journal state after unsafe path or forest pressure journal updates."
+      ],
+      "qa": {
+        "non_transparent": true,
+        "incomplete_route_sketch": true,
+        "no_full_gps_map": true,
+        "no_monster_symbols": true,
+        "readable_text_baked": false
+      }
+    },
+    {
+      "asset_id": "ui_journal_route_sketch_pressure_contact_sheet",
+      "filename": "contact_sheet.jpg",
+      "kind": "contact_sheet",
+      "width": 2048,
+      "height": 1152,
+      "format": "jpg",
+      "alpha": false
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "asset_pack": "urman_route_map",
+  "worker": "core_back_views_worker",
+  "generated_on": "2026-05-18",
+  "status": "draft_for_controller_integration",
+  "style": "URMAN ink-wash storybook route navigation",
+  "assets": [
+    {
+      "asset_id": "route_mansur_house_back_to_street_day",
+      "file_name": "route_mansur_house_back_to_street_day.png",
+      "asset_type": "Navigation / route back-facing screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": [
+        "day back view toward main street"
+      ],
+      "related_character_location": "Mansur house turn / main street return",
+      "route_nodes": [
+        "mansur_turn_forward_day"
+      ],
+      "consistency_anchors": "Walking-height muddy village route, Mansur yard/gate at edge, clear road returning to main street, no top-down map or fake 3D rotation.",
+      "source_prompt_summary": "Back/facing view from Mansur house turn toward main street; old Niva/yard treated as edge landmark; blank sign placeholders only.",
+      "animation_slot_ids": [
+        "foreground_grass_micro_drift",
+        "puddle_static_shimmer",
+        "edge_gate_focus"
+      ],
+      "editable_text_region_ids": [
+        "mansur_return_sign_runtime"
+      ],
+      "notes": "Generated as a P0 missing core back view. No readable final sign text baked into the image."
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_back_day",
+      "file_name": "route_selsmag_fap_lane_back_day.png",
+      "asset_type": "Navigation / route back-facing screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": [
+        "day back view toward crossroad"
+      ],
+      "related_character_location": "FAP / selsmag lane return to village crossroad",
+      "route_nodes": [
+        "selsmag_fap_lane_day"
+      ],
+      "consistency_anchors": "Walking-height lane view, FAP/shop on side/back edges, notice board and signpost ahead at crossroad, no creature reveal.",
+      "source_prompt_summary": "Back/facing view from FAP/selsmag lane toward the small village crossroad; FAP and shop remain side landmarks; blank editable signs.",
+      "animation_slot_ids": [
+        "foreground_grass_micro_drift",
+        "puddle_static_shimmer",
+        "notice_board_focus"
+      ],
+      "editable_text_region_ids": [
+        "fap_back_sign_runtime",
+        "selsmag_back_sign_runtime",
+        "crossroad_notice_runtime"
+      ],
+      "notes": "Generated as a P0 missing core back view. The notice board and building signs should receive runtime text overlays after proofing."
+    },
+    {
+      "asset_id": "route_mosque_sign_back_day",
+      "file_name": "route_mosque_sign_back_day.png",
+      "asset_type": "Navigation / route back-facing screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": [
+        "day back view toward crossroad"
+      ],
+      "related_character_location": "Mosque sign path return to village crossroad",
+      "route_nodes": [
+        "mosque_sign_day"
+      ],
+      "consistency_anchors": "Walking-height path view, mosque safe presence at side/behind edge, road returns to crossroad signs and notice board, no horror props.",
+      "source_prompt_summary": "Back/facing view from mosque sign path toward village crossroad; mosque remains a calm side landmark; blank editable sign placeholders.",
+      "animation_slot_ids": [
+        "foreground_grass_micro_drift",
+        "puddle_static_shimmer",
+        "mosque_safe_light_subtle"
+      ],
+      "editable_text_region_ids": [
+        "mosque_back_sign_runtime",
+        "crossroad_notice_runtime"
+      ],
+      "notes": "Generated as a P0 missing core back view. Mosque remains culturally safe and calm, not anti-folklore or horror-coded."
+    }
+  ]
+}

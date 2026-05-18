@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "asset_pack": "urman_route_map",
+  "worker": "core_back_views_worker",
+  "coordinate_system": "normalized_rect",
+  "assets": [
+    {
+      "asset_id": "route_mansur_house_back_to_street_day",
+      "file_name": "route_mansur_house_back_to_street_day.png",
+      "animation_slots": [
+        {
+          "id": "foreground_grass_micro_drift",
+          "type": "environment_overlay",
+          "target": "grass and fence-edge plants",
+          "normalized_rect": [
+            0.0,
+            0.58,
+            1.0,
+            0.42
+          ],
+          "behavior": "Very sparse slow drift; keep the route screen essentially static.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "puddle_static_shimmer",
+          "type": "environment_overlay",
+          "target": "mud road puddles",
+          "normalized_rect": [
+            0.2,
+            0.55,
+            0.65,
+            0.38
+          ],
+          "behavior": "Near-static dull daylight shimmer, no supernatural pulse.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "edge_gate_focus",
+          "type": "focus_overlay",
+          "target": "Mansur yard edge landmark",
+          "normalized_rect": [
+            0.76,
+            0.2,
+            0.22,
+            0.62
+          ],
+          "behavior": "Optional soft focus highlight when the player backs out from Mansur turn.",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route base; runtime transition handles movement."
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_back_day",
+      "file_name": "route_selsmag_fap_lane_back_day.png",
+      "animation_slots": [
+        {
+          "id": "foreground_grass_micro_drift",
+          "type": "environment_overlay",
+          "target": "grass along fences and road edges",
+          "normalized_rect": [
+            0.0,
+            0.55,
+            1.0,
+            0.45
+          ],
+          "behavior": "Very sparse slow drift; no pressure-state movement by default.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "puddle_static_shimmer",
+          "type": "environment_overlay",
+          "target": "lane puddles",
+          "normalized_rect": [
+            0.22,
+            0.58,
+            0.58,
+            0.34
+          ],
+          "behavior": "Near-static daylight shimmer.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "notice_board_focus",
+          "type": "focus_overlay",
+          "target": "crossroad notice board ahead",
+          "normalized_rect": [
+            0.47,
+            0.34,
+            0.16,
+            0.22
+          ],
+          "behavior": "Soft inspect/focus highlight for crossroad return landmark.",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route base; controller can reuse turn_90_default or step_forward_default."
+    },
+    {
+      "asset_id": "route_mosque_sign_back_day",
+      "file_name": "route_mosque_sign_back_day.png",
+      "animation_slots": [
+        {
+          "id": "foreground_grass_micro_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass and fence plants",
+          "normalized_rect": [
+            0.0,
+            0.56,
+            1.0,
+            0.44
+          ],
+          "behavior": "Subtle ordinary village breeze.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "puddle_static_shimmer",
+          "type": "environment_overlay",
+          "target": "mud road puddles",
+          "normalized_rect": [
+            0.2,
+            0.58,
+            0.62,
+            0.34
+          ],
+          "behavior": "Near-static daylight shimmer.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "mosque_safe_light_subtle",
+          "type": "light_overlay",
+          "target": "mosque edge / safe side landmark",
+          "normalized_rect": [
+            0.77,
+            0.0,
+            0.23,
+            0.48
+          ],
+          "behavior": "Extremely soft calm daylight lift; not supernatural glow.",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Mosque presence should remain safe and calm."
+    }
+  ]
+}

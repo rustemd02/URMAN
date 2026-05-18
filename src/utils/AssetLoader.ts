@@ -37,7 +37,7 @@ export class AssetLoader {
                 this.loadingPromises.delete(id);
                 resolve(img);
             };
-            img.onerror = (e) => {
+            img.onerror = () => {
                 this.loadingPromises.delete(id);
                 reject(new Error(`Failed to load image at ${url}`));
             };

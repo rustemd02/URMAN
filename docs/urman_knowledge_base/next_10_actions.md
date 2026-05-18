@@ -18,8 +18,8 @@
 6. **Сделать language mechanic prototype на 5–7 словах.**
    Слово должно менять расследование: открыть документ, изменить реплику NPC или дать новый search term.
 
-7. **Сделать old PC document hub prototype.**
-   Минимум: поиск, 3–5 документов, «Татарвики», сохранённое сообщение, metadata clues, один документ с re-read после vocabulary unlock. Не делать полноценную ОС до проверки этого loop.
+7. **Интегрировать old PC clues с journal/dialogue graph.**
+   Old PC prototype уже есть: поиск, 10 content files, «Татарвики», сохранённые сообщения, gated/corrupted fragment и local clue saving. Следующий шаг — чтобы найденные документы становились общими knowledge keys для журнала и диалогов.
 
 8. **Создать data schema и clue graph validator.**
    Characters, clues, documents, dialogues, vocabulary. Валидатор должен ловить broken links, orphan clues and missing unlocks.

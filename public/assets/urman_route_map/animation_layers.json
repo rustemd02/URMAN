@@ -1,0 +1,1539 @@
+{
+  "version": 1,
+  "asset_pack": "urman_route_map",
+  "coordinate_system": "normalized_rect",
+  "assets": [
+    {
+      "asset_id": "journal_route_sketch_update",
+      "file_name": "journal_route_sketch_update.png",
+      "animation_slots": [
+        {
+          "id": "journal_ink_draw_on",
+          "type": "ui_overlay",
+          "target": "route line/pin marks",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "300-600 ms ink draw-on reveal for newly discovered route lines",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Route-map generated asset; use controlled runtime overlays only."
+    },
+    {
+      "asset_id": "loc_arrival_vehicle_interior_dusk",
+      "file_name": "loc_arrival_vehicle_interior_dusk.png",
+      "animation_slots": [
+        {
+          "id": "window_light_pulse",
+          "type": "soft_light_overlay",
+          "target": "vehicle window and dusk sky reflection",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Very slow low-amplitude dusk light shift; keep village view readable.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "dust_motes",
+          "type": "particle_overlay",
+          "target": "dark vehicle interior foreground",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Sparse floating dust, almost static.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "arrival_edge_pressure",
+          "type": "pressure_overlay",
+          "target": "outer frame edges and seat silhouettes",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Optional slight ink darkening when arrival anxiety is flagged.",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static support-location base; animation is runtime slot metadata only."
+    },
+    {
+      "asset_id": "overlay_ink_smear_transition",
+      "file_name": "overlay_ink_smear_transition.png",
+      "animation_slots": [
+        {
+          "id": "transition_ink_smear",
+          "type": "transition_overlay",
+          "target": "full screen",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "250-800 ms route transition edge smear; not continuous fake 3D",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "route_admin_archive_corner_day",
+      "file_name": "route_admin_archive_corner_day.png",
+      "animation_slots": [
+        {
+          "id": "dust_motes_sparse",
+          "type": "environment_overlay",
+          "target": "window light / desk air",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.75,
+            0.62
+          ],
+          "behavior": "rare dust motes in light; no constant spooky pulse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "paper_focus_highlight",
+          "type": "ui_overlay",
+          "target": "documents/notices",
+          "normalized_rect": [
+            0.2,
+            0.45,
+            0.55,
+            0.35
+          ],
+          "behavior": "soft focus highlight when inspected",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_alsu_meeting_spot_day",
+      "file_name": "route_alsu_meeting_spot_day.png",
+      "animation_slots": [
+        {
+          "id": "water_near_static_shimmer",
+          "type": "water_overlay",
+          "target": "river surface",
+          "normalized_rect": [
+            0.0,
+            0.28,
+            1.0,
+            0.46
+          ],
+          "behavior": "near-static water shimmer, sparse and slow",
+          "creepiness_level": 1
+        },
+        {
+          "id": "reed_shadow_pressure",
+          "type": "pressure_overlay",
+          "target": "reeds/road edge",
+          "normalized_rect": [
+            0.0,
+            0.32,
+            1.0,
+            0.5
+          ],
+          "behavior": "pressure-flag-only ambiguous reflection/edge darkening",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_bridge_river_turn_day",
+      "file_name": "route_bridge_river_turn_day.png",
+      "animation_slots": [
+        {
+          "id": "water_near_static_shimmer",
+          "type": "water_overlay",
+          "target": "river surface",
+          "normalized_rect": [
+            0.0,
+            0.28,
+            1.0,
+            0.46
+          ],
+          "behavior": "near-static water shimmer, sparse and slow",
+          "creepiness_level": 1
+        },
+        {
+          "id": "reed_shadow_pressure",
+          "type": "pressure_overlay",
+          "target": "reeds/road edge",
+          "normalized_rect": [
+            0.0,
+            0.32,
+            1.0,
+            0.5
+          ],
+          "behavior": "pressure-flag-only ambiguous reflection/edge darkening",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_bridge_river_turn_dusk_pressure",
+      "file_name": "route_bridge_river_turn_dusk_pressure.png",
+      "animation_slots": [
+        {
+          "id": "water_near_static_shimmer",
+          "type": "water_overlay",
+          "target": "river surface",
+          "normalized_rect": [
+            0.0,
+            0.28,
+            1.0,
+            0.46
+          ],
+          "behavior": "near-static water shimmer, sparse and slow",
+          "creepiness_level": 1
+        },
+        {
+          "id": "reed_shadow_pressure",
+          "type": "pressure_overlay",
+          "target": "reeds/road edge",
+          "normalized_rect": [
+            0.0,
+            0.32,
+            1.0,
+            0.5
+          ],
+          "behavior": "pressure-flag-only ambiguous reflection/edge darkening",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_forest_approach_back_evening",
+      "file_name": "route_forest_approach_back_evening.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / road narrowing",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening; no pulse, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_stillness_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/sign edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "very small asymmetric drift, sparse",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Route-map generated asset; use controlled runtime overlays only."
+    },
+    {
+      "asset_id": "route_forest_approach_evening",
+      "file_name": "route_forest_approach_evening.png",
+      "animation_slots": [
+        {
+          "id": "warning_sign_focus",
+          "type": "ui_overlay",
+          "target": "blank warning sign",
+          "normalized_rect": [
+            0.06,
+            0.22,
+            0.28,
+            0.28
+          ],
+          "behavior": "soft focus for editable Кара-Урман label",
+          "creepiness_level": 0
+        },
+        {
+          "id": "branch_pressure_stillness",
+          "type": "pressure_overlay",
+          "target": "tree line and branches",
+          "normalized_rect": [
+            0.36,
+            0.0,
+            0.62,
+            0.72
+          ],
+          "behavior": "pressure flag makes tree line too still and subtly darker; no creature shape completion",
+          "creepiness_level": 2
+        },
+        {
+          "id": "grass_branch_micro_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "foreground grass/branches",
+          "normalized_rect": [
+            0.0,
+            0.48,
+            1.0,
+            0.48
+          ],
+          "behavior": "tiny drift that can stop during silence state",
+          "creepiness_level": 1
+        }
+      ]
+    },
+    {
+      "asset_id": "route_forest_approach_pressure_silence",
+      "file_name": "route_forest_approach_pressure_silence.png",
+      "animation_slots": [
+        {
+          "id": "warning_sign_hover",
+          "type": "light_overlay",
+          "target": "warning_sign_hover",
+          "normalized_rect": [
+            0.0977,
+            0.2865,
+            0.21,
+            0.1736
+          ],
+          "behavior": "interactive hover/focus only",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.14
+          ]
+        },
+        {
+          "id": "branch_drift",
+          "type": "environment_overlay",
+          "target": "branch_drift",
+          "normalized_rect": [
+            0.5322,
+            0.0,
+            0.4395,
+            0.4514
+          ],
+          "behavior": "near-still 1 px branch drift; disable during hard cut",
+          "creepiness_level": 1,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            0.1
+          ]
+        },
+        {
+          "id": "path_darkness_breath",
+          "type": "environment_overlay",
+          "target": "path_darkness_breath",
+          "normalized_rect": [
+            0.3369,
+            0.2691,
+            0.4395,
+            0.5903
+          ],
+          "behavior": "slow darkness breath tied to pressure flag",
+          "creepiness_level": 1,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.18
+          ]
+        },
+        {
+          "id": "step_occlusion_ready",
+          "type": "environment_overlay",
+          "target": "step_occlusion_ready",
+          "normalized_rect": [
+            0.0,
+            0.6337,
+            1.0,
+            0.3663
+          ],
+          "behavior": "reserved for route step transition occlusion",
+          "creepiness_level": 1,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "notes": "Static base; use sparse controlled overlays only, no baked loop/video."
+    },
+    {
+      "asset_id": "route_forest_approach_voice_lock",
+      "file_name": "route_forest_approach_voice_lock.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_kara_urman_edge_rinat_interruption",
+      "file_name": "route_kara_urman_edge_rinat_interruption.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_kara_urman_edge_voice_moment",
+      "file_name": "route_kara_urman_edge_voice_moment.png",
+      "animation_slots": [
+        {
+          "id": "warning_sign_hover",
+          "type": "light_overlay",
+          "target": "warning_sign_hover",
+          "normalized_rect": [
+            0.1709,
+            0.3429,
+            0.2124,
+            0.178
+          ],
+          "behavior": "interactive hover/focus only",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.14
+          ]
+        },
+        {
+          "id": "branch_almost_figure_mask",
+          "type": "environment_overlay",
+          "target": "branch_almost_figure_mask",
+          "normalized_rect": [
+            0.6299,
+            0.0,
+            0.3223,
+            0.4861
+          ],
+          "behavior": "pressure-only emphasis; must not form a face, eyes or full body",
+          "creepiness_level": 1,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.13
+          ]
+        },
+        {
+          "id": "voice_silence_overlay",
+          "type": "environment_overlay",
+          "target": "voice_silence_overlay",
+          "normalized_rect": [
+            0.3711,
+            0.2431,
+            0.3711,
+            0.5903
+          ],
+          "behavior": "single slow hush/darken cue when Marat voice plays in audio",
+          "creepiness_level": 1,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.18
+          ]
+        },
+        {
+          "id": "rinat_interruption_space",
+          "type": "environment_overlay",
+          "target": "rinat_interruption_space",
+          "normalized_rect": [
+            0.0,
+            0.5295,
+            0.2734,
+            0.4167
+          ],
+          "behavior": "reserved for later Rinat cutout/composite, not part of this base",
+          "creepiness_level": 1,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "notes": "Static base; use sparse controlled overlays only, no baked loop/video."
+    },
+    {
+      "asset_id": "route_kara_urman_forest_edge_pressure",
+      "file_name": "route_kara_urman_forest_edge_pressure.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0.05,
+            0.02,
+            0.7,
+            0.18
+          ],
+          "behavior": "rare distant birds; optional in daytime only",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass and branches",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.45
+          ],
+          "behavior": "tiny sparse drift; no creature motion",
+          "creepiness_level": 0
+        },
+        {
+          "id": "window_glow_optional",
+          "type": "light_overlay",
+          "target": "house windows",
+          "normalized_rect": [
+            0.2,
+            0.16,
+            0.5,
+            0.22
+          ],
+          "behavior": "subtle warm window shimmer when state changes",
+          "creepiness_level": 0
+        },
+        {
+          "id": "pressure_wrong_shadow_optional",
+          "type": "pressure_overlay",
+          "target": "road/edge shadows",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening / wrong shadow; no monster reveal",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "First10 route baseline copied into route map pack."
+    },
+    {
+      "asset_id": "route_kara_urman_rinat_interruption",
+      "file_name": "route_kara_urman_rinat_interruption.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route/admin base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_main_street_empty_evening",
+      "file_name": "route_main_street_empty_evening.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.25
+          ],
+          "behavior": "rare tiny birds only",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.45
+          ],
+          "behavior": "tiny intermittent drift",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route/admin base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_main_street_entry_day",
+      "file_name": "route_main_street_entry_day.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0.05,
+            0.02,
+            0.7,
+            0.18
+          ],
+          "behavior": "rare distant birds; optional in daytime only",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass and branches",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.45
+          ],
+          "behavior": "tiny sparse drift; no creature motion",
+          "creepiness_level": 0
+        },
+        {
+          "id": "window_glow_optional",
+          "type": "light_overlay",
+          "target": "house windows",
+          "normalized_rect": [
+            0.2,
+            0.16,
+            0.5,
+            0.22
+          ],
+          "behavior": "subtle warm window shimmer when state changes",
+          "creepiness_level": 0
+        },
+        {
+          "id": "pressure_wrong_shadow_optional",
+          "type": "pressure_overlay",
+          "target": "road/edge shadows",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening / wrong shadow; no monster reveal",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "First10 route baseline copied into route map pack."
+    },
+    {
+      "asset_id": "route_main_street_entry_evening",
+      "file_name": "route_main_street_entry_evening.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.25
+          ],
+          "behavior": "rare tiny birds only",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.45
+          ],
+          "behavior": "tiny intermittent drift",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_main_street_entry_pressure_watchers",
+      "file_name": "route_main_street_entry_pressure_watchers.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_main_street_watchers_pressure",
+      "file_name": "route_main_street_watchers_pressure.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route/admin base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_mansur_house_back_to_street_day",
+      "file_name": "route_mansur_house_back_to_street_day.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.24
+          ],
+          "behavior": "rare distant birds only in calm/day state",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass/fence edges",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.5
+          ],
+          "behavior": "tiny sparse drift; no fake movement",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Route-map generated asset; use controlled runtime overlays only."
+    },
+    {
+      "asset_id": "route_mansur_house_turn_day",
+      "file_name": "route_mansur_house_turn_day.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.28
+          ],
+          "behavior": "rare distant birds, slow and sparse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.45
+          ],
+          "behavior": "tiny intermittent grass/branch drift",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_mansur_house_turn_evening",
+      "file_name": "route_mansur_house_turn_evening.png",
+      "animation_slots": [
+        {
+          "id": "window_glow_shimmer",
+          "type": "light_overlay",
+          "target": "lit windows/sign area",
+          "normalized_rect": [
+            0.15,
+            0.12,
+            0.7,
+            0.45
+          ],
+          "behavior": "subtle warm window shimmer, 8-14s",
+          "creepiness_level": 0
+        },
+        {
+          "id": "evening_edge_hold",
+          "type": "pressure_overlay",
+          "target": "edge vignette",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "static evening edge darkening, no pulse",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_mosque_sign_back_day",
+      "file_name": "route_mosque_sign_back_day.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.24
+          ],
+          "behavior": "rare distant birds only in calm/day state",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass/fence edges",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.5
+          ],
+          "behavior": "tiny sparse drift; no fake movement",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Route-map generated asset; use controlled runtime overlays only."
+    },
+    {
+      "asset_id": "route_mosque_sign_day",
+      "file_name": "route_mosque_sign_day.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.28
+          ],
+          "behavior": "rare distant birds, slow and sparse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.45
+          ],
+          "behavior": "tiny intermittent grass/branch drift",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_mosque_sign_evening",
+      "file_name": "route_mosque_sign_evening.png",
+      "animation_slots": [
+        {
+          "id": "window_glow_shimmer",
+          "type": "light_overlay",
+          "target": "lit windows/sign area",
+          "normalized_rect": [
+            0.15,
+            0.12,
+            0.7,
+            0.45
+          ],
+          "behavior": "subtle warm window shimmer, 8-14s",
+          "creepiness_level": 0
+        },
+        {
+          "id": "evening_edge_hold",
+          "type": "pressure_overlay",
+          "target": "edge vignette",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "static evening edge darkening, no pulse",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_back_day",
+      "file_name": "route_selsmag_fap_lane_back_day.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.24
+          ],
+          "behavior": "rare distant birds only in calm/day state",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass/fence edges",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.5
+          ],
+          "behavior": "tiny sparse drift; no fake movement",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Route-map generated asset; use controlled runtime overlays only."
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_day",
+      "file_name": "route_selsmag_fap_lane_day.png",
+      "animation_slots": [
+        {
+          "id": "sign_focus_highlight",
+          "type": "ui_overlay",
+          "target": "FAP/shop blank plaques",
+          "normalized_rect": [
+            0.16,
+            0.18,
+            0.72,
+            0.34
+          ],
+          "behavior": "soft focus highlight for editable signs",
+          "creepiness_level": 0
+        },
+        {
+          "id": "watched_window_overlay",
+          "type": "pressure_overlay",
+          "target": "shop/FAP windows",
+          "normalized_rect": [
+            0.32,
+            0.22,
+            0.56,
+            0.32
+          ],
+          "behavior": "pressure flag adds subtle watched-window warmth, no silhouette",
+          "creepiness_level": 1
+        },
+        {
+          "id": "grass_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "foreground road grass",
+          "normalized_rect": [
+            0.0,
+            0.58,
+            1.0,
+            0.36
+          ],
+          "behavior": "tiny sparse drift",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_evening",
+      "file_name": "route_selsmag_fap_lane_evening.png",
+      "animation_slots": [
+        {
+          "id": "window_glow_shimmer",
+          "type": "light_overlay",
+          "target": "lit windows/sign area",
+          "normalized_rect": [
+            0.15,
+            0.12,
+            0.7,
+            0.45
+          ],
+          "behavior": "subtle warm window shimmer, 8-14s",
+          "creepiness_level": 0
+        },
+        {
+          "id": "evening_edge_hold",
+          "type": "pressure_overlay",
+          "target": "edge vignette",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "static evening edge darkening, no pulse",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_pressure",
+      "file_name": "route_selsmag_fap_lane_pressure.png",
+      "animation_slots": [
+        {
+          "id": "watched_window_shadow",
+          "type": "pressure_overlay",
+          "target": "windows/signs/road edges",
+          "normalized_rect": [
+            0,
+            0.08,
+            1,
+            0.84
+          ],
+          "behavior": "pressure-flag-only darkening; suggests social pressure without visible watcher reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_wrong_drift",
+          "type": "environment_overlay",
+          "target": "branches and grass",
+          "normalized_rect": [
+            0,
+            0.0,
+            1,
+            1
+          ],
+          "behavior": "rare slight drift with asymmetry, not creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_unsafe_path_blocked_evening",
+      "file_name": "route_unsafe_path_blocked_evening.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route/admin base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_village_crossroad_day",
+      "file_name": "route_village_crossroad_day.png",
+      "animation_slots": [
+        {
+          "id": "sign_focus_highlight",
+          "type": "ui_overlay",
+          "target": "blank signposts / notice board",
+          "normalized_rect": [
+            0.02,
+            0.22,
+            0.36,
+            0.38
+          ],
+          "behavior": "soft ink focus/contrast when hovered; no glowing marker",
+          "creepiness_level": 0
+        },
+        {
+          "id": "grass_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0.0,
+            0.55,
+            1.0,
+            0.38
+          ],
+          "behavior": "tiny irregular drift under 1 px",
+          "creepiness_level": 0
+        },
+        {
+          "id": "watched_window_optional",
+          "type": "pressure_overlay",
+          "target": "distant house windows",
+          "normalized_rect": [
+            0.45,
+            0.2,
+            0.4,
+            0.28
+          ],
+          "behavior": "pressure flag can add weak still window glow",
+          "creepiness_level": 1
+        }
+      ]
+    },
+    {
+      "asset_id": "route_village_crossroad_pressure",
+      "file_name": "route_village_crossroad_pressure.png",
+      "animation_slots": [
+        {
+          "id": "watched_window_shadow",
+          "type": "pressure_overlay",
+          "target": "windows/signs/road edges",
+          "normalized_rect": [
+            0,
+            0.08,
+            1,
+            0.84
+          ],
+          "behavior": "pressure-flag-only darkening; suggests social pressure without visible watcher reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_wrong_drift",
+          "type": "environment_overlay",
+          "target": "branches and grass",
+          "normalized_rect": [
+            0,
+            0.0,
+            1,
+            1
+          ],
+          "behavior": "rare slight drift with asymmetry, not creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_zirat_road_day",
+      "file_name": "route_zirat_road_day.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.24
+          ],
+          "behavior": "rare distant birds only in calm/day state",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass/fence edges",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.5
+          ],
+          "behavior": "tiny sparse drift; no fake movement",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Route-map generated asset; use controlled runtime overlays only."
+    },
+    {
+      "asset_id": "route_zirat_road_evening",
+      "file_name": "route_zirat_road_evening.png",
+      "animation_slots": [
+        {
+          "id": "sign_focus_highlight",
+          "type": "ui_overlay",
+          "target": "blank zirat sign",
+          "normalized_rect": [
+            0.03,
+            0.16,
+            0.32,
+            0.28
+          ],
+          "behavior": "soft focus for editable sign label",
+          "creepiness_level": 0
+        },
+        {
+          "id": "grass_wind_micro_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0.0,
+            0.5,
+            1.0,
+            0.44
+          ],
+          "behavior": "tiny evening drift, irregular",
+          "creepiness_level": 1
+        },
+        {
+          "id": "pressure_edge_shadow",
+          "type": "pressure_overlay",
+          "target": "tree line/path edges",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "deepens silence and narrows path under pressure flag",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "route_zirat_road_pressure",
+      "file_name": "route_zirat_road_pressure.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / road narrowing",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening; no pulse, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_stillness_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/sign edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "very small asymmetric drift, sparse",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Route-map generated asset; use controlled runtime overlays only."
+    },
+    {
+      "asset_id": "transition_forest_pressure_edge",
+      "file_name": "transition_forest_pressure_edge.png",
+      "animation_slots": [
+        {
+          "id": "transition_alpha_or_multiply",
+          "type": "transition_overlay",
+          "target": "full screen",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "runtime transition overlay only; not a loop",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Route-map generated asset; use controlled runtime overlays only."
+    },
+    {
+      "asset_id": "transition_step_forward_occlusion",
+      "file_name": "transition_step_forward_occlusion.png",
+      "animation_slots": [
+        {
+          "id": "transition_alpha_or_multiply",
+          "type": "transition_overlay",
+          "target": "full screen",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "runtime transition overlay only; not a loop",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Route-map generated asset; use controlled runtime overlays only."
+    },
+    {
+      "asset_id": "transition_turn_90_ink_smear",
+      "file_name": "transition_turn_90_ink_smear.png",
+      "animation_slots": [
+        {
+          "id": "ink_smear_alpha_or_multiply",
+          "type": "transition_overlay",
+          "target": "full screen",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "250-450 ms route turn transition overlay; use as mask/multiply, not a loop",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "ui_journal_route_sketch_base",
+      "file_name": "ui_journal_route_sketch_base.png",
+      "animation_slots": [
+        {
+          "id": "pencil_focus_highlight",
+          "type": "ui_overlay",
+          "target": "route pins and blank labels",
+          "normalized_rect": [
+            0.04,
+            0.04,
+            0.92,
+            0.86
+          ],
+          "behavior": "soft clue focus highlight on selected route/pin",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route/admin base; controlled overlays only."
+    },
+    {
+      "asset_id": "ui_journal_route_sketch_pressure",
+      "file_name": "ui_journal_route_sketch_pressure.png",
+      "animation_slots": [
+        {
+          "id": "journal_pressure_static_base",
+          "type": "static_bitmap",
+          "target": "ui_journal_route_sketch_pressure.png",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "visible as the pressure-state journal support view",
+          "creepiness_level": 1
+        },
+        {
+          "id": "unsafe_route_mark_reveal",
+          "type": "mask_reveal_region",
+          "target": "ui_journal_route_sketch_pressure.png",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional reveal for crossed-out unsafe side route",
+          "creepiness_level": 0
+        },
+        {
+          "id": "forest_pressure_note_reveal",
+          "type": "mask_reveal_region",
+          "target": "ui_journal_route_sketch_pressure.png",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional reveal for forest-edge old place-name blanks and warning notes",
+          "creepiness_level": 1
+        },
+        {
+          "id": "clue_pin_pulse_soft_shadow",
+          "type": "runtime_overlay_slot",
+          "target": "ui_journal_route_sketch_pressure.png",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "subtle hover/inspect emphasis only; no glow or supernatural effect",
+          "creepiness_level": 0
+        },
+        {
+          "id": "route_line_focus_reveal",
+          "type": "ui_overlay",
+          "target": "route line/pin regions",
+          "normalized_rect": [
+            0.05,
+            0.08,
+            0.86,
+            0.78
+          ],
+          "behavior": "soft ink focus reveal when route/clue selected; no glow pulse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "unsafe_mark_focus",
+          "type": "pressure_overlay",
+          "target": "crossed/unsafe marks",
+          "normalized_rect": [
+            0.35,
+            0.55,
+            0.44,
+            0.26
+          ],
+          "behavior": "pressure-state focus darkening on unsafe routes; slow and sparse",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static journal support view with runtime focus/reveal overlays only."
+    }
+  ]
+}

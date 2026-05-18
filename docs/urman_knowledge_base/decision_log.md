@@ -179,3 +179,30 @@ Context: The remaining asset generation pass produced game-ready PNG bases, tran
 Decision: Mark `public/assets/urman_mvp_remaining/` as the validated visual asset pack. Keep #50 partial for authored audio/voice production while counting the visual overlay/VFX PNGs as complete visual coverage.
 Consequences: Runtime can start integrating the visual pack using `asset_manifest.json`, `animation_layers.json` and `editable_layers.json`. A separate audio pass is still required for home ambience, street silence, old PC hum, mosque calm, cemetery wind, water stillness, forest presence, Marat voice and Rinat's «Не отвечай».
 Linked files: `asset_inventory_50.md`, `asset_pack_remaining/README.md`, `asset_pack_remaining/generation_log.md`, `public/assets/urman_mvp_remaining/asset_manifest.json`
+
+## 2026-05-18 — Lock бабай old PC product concept and authoring model
+
+Status: Accepted
+
+Context: Старый ПК бабая уже принят как главный документальный хаб MVP, но его продуктовая граница, разделы, puzzle-box элементы и data-driven authoring model были не зафиксированы достаточно конкретно. Без lock ПК легко расползётся в отдельную ОС или начнёт противоречить линии Марата и пакта.
+Decision: Делать ПК Мансура в MVP как документальный хаб расследования с ограниченными puzzle-box элементами. Основные разделы: архивный поиск, документы Марата, «Татарвики», сохранённые сообщения, внутренний учёт Кырлая, реестр домов / семей, нарушения / компенсации, Кара-Урман, повреждённые / скрытые файлы и ограниченные бытовые папки. ПК доступен всегда из дома; первый доступ мотивирован бытовой просьбой бабая, но позже может читаться как скрытое допущение. Оболочка безымянная Win98-like, не каноническая «ОС». Техническая метадата не является основной уликой; важны документальные отметки. Контент ПК пишется как Markdown + frontmatter в `content/old_pc/`, чтобы сценарист или LLM-ассистент могли безопасно добавлять документы.
+Consequences: Реализация ПК должна идти от content graph и валидируемых authoring-файлов, а не от захардкоженных окон. Первый прототип должен включать 3-5 источников: официальный документ о смерти Марата, противоречащий реестр, сохранённое сообщение, статью «Татарвики» и повреждённую запись внутреннего учёта. Текущий кодовый drift с именами Гаяз / Зухра / отдельный Мансур надо исправить перед серьёзной интеграцией ПК.
+Linked files: `old_pc.md`, `gameplay.md`, `technical_architecture.md`, `backlog.md`, `mindmap.md`, `content/old_pc/README.md`
+
+## 2026-05-18 — Generate route-map graph and asset integration pack
+
+Status: Accepted
+
+Context: Route navigation was already accepted as the MVP village movement model, but the world map still needed a concrete node/facing graph, production questions, reusable transition rules and game-ready route imagery with controlled animation slots.
+Decision: Create a separate route-map integration pack in `public/assets/urman_route_map/`, reuse the existing first10 / remaining route PNGs, generate only missing facing views and transition/support overlays, and keep the journal sketch as an incomplete support view rather than a full top-down map. The route graph uses discrete first-person nodes, `turnLeft = -90`, `turnRight = 90`, fixed step-forward movement and explicit external handoff nodes for interiors / special scenes.
+Consequences: Runtime integration can start from `route_graph.json`, `asset_manifest.json`, `animation_layers.json` and `editable_layers.json`. The pack currently validates at 41 PNG assets, 32 route nodes, 10 route-node state transitions, 1 journal support transition, 34 editable-layer entries and 0 missing route-map assets. The next task is engine/runtime implementation, not more random route image generation.
+Linked files: `route_navigation_product_lock.md`, `route_navigation_graph.md`, `../../public/assets/urman_route_map/route_graph.json`, `../../public/assets/urman_route_map/asset_manifest.json`
+
+## 2026-05-18 — Implement бабай old PC MVP prototype
+
+Status: Accepted
+
+Context: Product lock for the old PC was accepted, but runtime still used a hardcoded experimental shell with canon drift, no content validator and no serious mouse-driven investigation loop.
+Decision: Implement the old PC as a Win98-like interactive document hub backed by Markdown/frontmatter content from `content/old_pc/`. The prototype includes direct home access, desktop icons, draggable windows, taskbar, archive search, sections, suggested search terms, document reader, gated/corrupted unlocks, local clue saving and a validator script. The old experimental browser surface is retired behind the same `renderBrowser/initBrowser` API.
+Consequences: ПК now proves the MVP archive loop without becoming a full programmable OS. `babay` / `abi` naming drift is fixed in code. Remaining production work is to connect PC clues into the shared journal/dialogue knowledge graph and to integrate the final route-navigation path to the house.
+Linked files: `old_pc.md`, `technical_architecture.md`, `backlog.md`, `mindmap.md`, `../../src/os/apps/oldPcHub.ts`, `../../src/os/data/oldPcContent.ts`, `../../scripts/validate-old-pc-content.mjs`, `../../content/old_pc/`

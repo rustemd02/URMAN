@@ -1,0 +1,109 @@
+{
+  "asset_pack": "urman_route_map",
+  "worker": "zirat_forest_views_worker",
+  "generated_on": "2026-05-18",
+  "status": "incoming_ready_for_controller_review",
+  "write_scope": "public/assets/urman_route_map/_incoming/zirat_forest_views_worker/",
+  "source_mode": "built_in_imagegen",
+  "style": "URMAN ink-wash storybook route navigation, muted watercolor, visible paper grain",
+  "assets": [
+    {
+      "asset_id": "route_zirat_road_day",
+      "file_name": "route_zirat_road_day.png",
+      "asset_type": "Navigation / route screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": [
+        "day_baseline"
+      ],
+      "related_character_location": "Village route navigation kit / road to zirat",
+      "consistency_anchors": "Walking-height road to zirat, dry grass, denser trees, blank/editable zirat sign, distant cemetery hint, no creature reveal.",
+      "source_prompt_summary": "Day baseline zirat road with ordinary-first mood, clear forward route, editable sign placeholder for zirat.",
+      "inventory_rows_covered": [
+        23
+      ],
+      "animation_slot_ids": [
+        "grass_branch_micro_drift",
+        "zirat_sign_focus_day",
+        "path_forward_affordance_soft"
+      ],
+      "editable_text_region_ids": [
+        "zirat_sign_label_runtime"
+      ],
+      "sha256": "e8f095a074e4b668bc52094fe2a1fd1ad2436e7348c68d9c3f3e1c0dae14af8d",
+      "notes": "Sign face is intentionally blank/weathered for runtime text; not a final Tatar typography proof."
+    },
+    {
+      "asset_id": "route_zirat_road_pressure",
+      "file_name": "route_zirat_road_pressure.png",
+      "asset_type": "Navigation / route pressure screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": [
+        "pressure"
+      ],
+      "related_character_location": "Village route navigation kit / road to zirat",
+      "consistency_anchors": "Same route logic as zirat road, narrower-feeling path, still branches, harder-to-read sign, no monster/no glowing eyes.",
+      "source_prompt_summary": "Pressure variant of zirat road with crowding branches, reduced readability and no direct supernatural reveal.",
+      "inventory_rows_covered": [
+        23
+      ],
+      "animation_slot_ids": [
+        "pressure_vignette_low",
+        "branch_pressure_stillness",
+        "zirat_sign_hard_to_read_focus",
+        "path_darkness_breath_subtle"
+      ],
+      "editable_text_region_ids": [
+        "zirat_sign_label_runtime_pressure"
+      ],
+      "sha256": "5ac36c5a8d0052fca9e9de1e1b7b77f02e361e647bd01b04ce7560d36fa01d4b",
+      "notes": "Contains faint unreadable placeholder-like marks on the sign; final text must be runtime/editable, not treated as baked final copy."
+    },
+    {
+      "asset_id": "route_forest_approach_back_evening",
+      "file_name": "route_forest_approach_back_evening.png",
+      "asset_type": "Navigation / route back-facing screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": [
+        "back_evening"
+      ],
+      "related_character_location": "Village route navigation kit / forest approach back toward zirat road",
+      "consistency_anchors": "Back-facing retreat view from forest approach, forest frames edges, village/zirat road visible ahead, no dead-end and no creature reveal.",
+      "source_prompt_summary": "Evening back view from forest approach toward village/zirat road with clear retreat path and editable/blank sign back.",
+      "inventory_rows_covered": [
+        23
+      ],
+      "animation_slot_ids": [
+        "forest_edge_static_frame",
+        "evening_sky_wash_hold",
+        "retreat_path_focus_soft",
+        "foreground_branch_occlusion_ready"
+      ],
+      "editable_text_region_ids": [
+        "forest_warning_sign_back_optional"
+      ],
+      "sha256": "00edddb0581486d737b884868722c790db844b144157c7b93b1319eb1f203632",
+      "notes": "Designed as a retreat/back facing view, not a forward push deeper into Kara-Urman."
+    }
+  ],
+  "support_files": [
+    {
+      "file_name": "contact_sheet.jpg",
+      "purpose": "Controller visual review sheet for the three generated route views."
+    },
+    {
+      "file_name": "animation_layers_draft.json",
+      "purpose": "Draft animation slots for route-map integration."
+    },
+    {
+      "file_name": "editable_layers_draft.json",
+      "purpose": "Draft runtime/editable text regions and notes."
+    },
+    {
+      "file_name": "generation_notes.md",
+      "purpose": "Prompt, QA, and integration notes."
+    }
+  ]
+}
