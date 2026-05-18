@@ -125,7 +125,7 @@ export class MainMenuScene extends BaseScene {
             <div class="main-menu-bg"></div>
             <div class="main-menu-content">
                 <div class="main-title">URMAN</div>
-                <div class="sub-title">Horror Quest</div>
+                <div class="sub-title">мистический детектив</div>
                 
                 <div class="menu-form">
                     <input type="text" id="username-input" class="menu-input" 

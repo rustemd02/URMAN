@@ -98,7 +98,7 @@ export const CHAT_MESSAGES: ChatMessage[] = [
     {
         chatId: 'babay',
         user: 'Babay77',
-        text: 'Казанда «Додо» дигәннәр, алар Кара-Урманга китерәләрме? Бабайның ашыйсы килә.',
+        text: 'Казанда «Додо» дигәннәр, алар Кырлайга китерәләрме? Бабайның ашыйсы килә.',
         time: '14:22',
         unlocked: true
     },
@@ -130,10 +130,10 @@ export const CHAT_MESSAGES: ChatMessage[] = [
     {
         chatId: 'alsu',
         user: 'alsu_k',
-        text: 'Минем туган көнемне тапсаң — сер ачылыр. 1926...',
+        text: 'Документларда ялгыш даталар була. Барысына да ышанма.',
         time: '01:15',
         unlocked: false,
-        id: 'alsu_hint_1926'
+        id: 'alsu_false_date_warning'
     },
 
     // --- СЕМЬЯ (Хаос) ---
@@ -167,7 +167,7 @@ export const CHAT_MESSAGES: ChatMessage[] = [
     {
         chatId: 'sushi',
         user: 'SushiBot',
-        text: 'Заказ успешно принят! Доставка в Кара-Урман... ОШИБКА: Расстояние более 150 км. Попробуйте наш филиал в Арске.',
+        text: 'Заказ успешно принят! Доставка в Кырлай... ОШИБКА: расстояние более 150 км. Попробуйте наш филиал в Арске.',
         time: '14:40',
         unlocked: true
     },

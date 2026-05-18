@@ -141,8 +141,8 @@ export class InventoryUI {
             });
 
             el.addEventListener('click', () => {
-                this.handleItemClick(item);
                 this.toggle();
+                this.handleItemClick(item);
             });
 
             this.itemsList.appendChild(el);

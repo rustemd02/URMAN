@@ -67,6 +67,8 @@ export class SceneManager {
         }
 
         const isGameplay = ['village', 'villageGreybox', 'forest', 'house', 'mosque', 'zirat'].includes(sceneId);
+        this.game.state.currentScene = sceneId;
+
         if (this.game.inventoryUI) {
             this.game.inventoryUI.setVisible(isGameplay);
         }

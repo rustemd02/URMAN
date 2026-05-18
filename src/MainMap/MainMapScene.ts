@@ -42,7 +42,7 @@ export class MainMapScene extends BaseScene {
         <div id="urman-scene" style="position:relative; width:100vw; height:100vh; overflow:hidden; background:#0a1408;">
             <canvas id="mc" style="display:block; cursor:crosshair; width:100%; height:100%; touch-action:none;"></canvas>
             <div id="hud" style="position:absolute; top:12px; left:12px; color:white; font-family:Philosopher,serif; pointer-events:none; text-shadow:1px 1px 4px black;">
-                <h3 style="margin:0">Кара-Урман</h3>
+                <h3 style="margin:0">Кырлай greybox</h3>
                 <p style="margin:0; opacity:0.75; font-size:12px;">Тяните — камера · WASD — движение · Колесо — зум</p>
             </div>
             <div id="m-ov" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; z-index:100; font-family:Philosopher,serif;">
@@ -78,7 +78,7 @@ export class MainMapScene extends BaseScene {
             
             if (hour >= 18 || hour <= 6) { // Evening or night
                 if (Math.random() > 0.4) {
-                    this.game.audio?.play('wolf_howl', 0.15);
+                    this.game.audio?.playCue('forest_presence', 0.08);
                 }
             }
         }, 15000); // Check every 15s

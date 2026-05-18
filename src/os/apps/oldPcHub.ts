@@ -161,6 +161,34 @@ function unlockFromItem(state: OldPcState, item: OldPcItem) {
     }
 }
 
+function syncSharedOpen(item: OldPcItem) {
+    const game = (window as any).URMAN;
+    game?.investigation?.registerOldPcOpen({
+        id: item.id,
+        title: item.title,
+        dangerLevel: item.dangerLevel,
+        reveals: item.reveals,
+        contradicts: item.contradicts,
+        unlocks: item.unlocks,
+        vocabulary: item.vocabulary,
+    });
+    game?.saveSystem?.save();
+}
+
+function syncSharedSave(item: OldPcItem) {
+    const game = (window as any).URMAN;
+    game?.investigation?.saveOldPcEvidence({
+        id: item.id,
+        title: item.title,
+        dangerLevel: item.dangerLevel,
+        reveals: item.reveals,
+        contradicts: item.contradicts,
+        unlocks: item.unlocks,
+        vocabulary: item.vocabulary,
+    });
+    game?.saveSystem?.save();
+}
+
 function renderSectionTabs(activeSection: OldPcSection) {
     return SECTION_ORDER.map((section) => `
         <button class="oldpc-section ${section === activeSection ? 'active' : ''}" data-section="${section}">
@@ -360,9 +388,11 @@ export const initOldPcHub = (root: HTMLElement | Document = document, initialSec
 
         if (saveButton?.dataset.saveClue) {
             const id = saveButton.dataset.saveClue;
+            const item = OLD_PC_ITEMS.find((candidate) => candidate.id === id);
             state.savedClues = [...new Set([...state.savedClues, id])];
             state.unlockedKeys = [...new Set([...state.unlockedKeys, `saved_${id}`])];
-            addEvent(state, `Улика сохранена: ${OLD_PC_ITEMS.find((item) => item.id === id)?.title ?? id}`);
+            if (item) syncSharedSave(item);
+            addEvent(state, `Улика сохранена: ${item?.title ?? id}`);
             saveAndRender();
             return;
         }
@@ -373,6 +403,7 @@ export const initOldPcHub = (root: HTMLElement | Document = document, initialSec
             state.activeItemId = item.id;
             if (isOldPcItemUnlocked(item, new Set(state.unlockedKeys))) {
                 unlockFromItem(state, item);
+                syncSharedOpen(item);
             } else {
                 addEvent(state, `Файл пока закрыт: ${item.title}`);
             }

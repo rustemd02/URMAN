@@ -36,8 +36,8 @@ export class AudioDebugPanel {
             <button id="ad-wind-off" style="background:#222; border:1px solid #ff4d4d; color:white; padding:5px; cursor:pointer;">Ветер: ВЫКЛ</button>
             <div style="height:1px; background:#ff4d4d; opacity:0.3;"></div>
             <button class="ad-play" data-s="footsteps" style="background:#222; border:1px solid #4db8ff; color:white; padding:5px; cursor:pointer;">👣 Шаги (footsteps.mp3)</button>
-            <button class="ad-play" data-s="wolf_howl" style="background:#222; border:1px solid #4db8ff; color:white; padding:5px; cursor:pointer;">🐺 Вой (forest_howl.mp3)</button>
-            <button class="ad-play" data-s="cattle" style="background:#222; border:1px solid #4db8ff; color:white; padding:5px; cursor:pointer;">🐄 Скот (cattle.mp3)</button>
+            <button class="ad-play" data-s="forest_presence" style="background:#222; border:1px solid #4db8ff; color:white; padding:5px; cursor:pointer;">Лесное присутствие</button>
+            <button class="ad-play" data-s="home_ambience" style="background:#222; border:1px solid #4db8ff; color:white; padding:5px; cursor:pointer;">Домашняя тишина</button>
             <button class="ad-play" data-s="door_creak" style="background:#222; border:1px solid #4db8ff; color:white; padding:5px; cursor:pointer;">🚪 Дверь (door_creak.mp3)</button>
         `;
 

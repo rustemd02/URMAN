@@ -69,10 +69,12 @@ export class ComputerScene extends BaseScene {
 
         // Инициализируем DedOS
         this.os = new DedOS();
+        this.game.audio?.startAmbience('old_pc_hum');
         console.log("Computer Scene Initialized with SVG Mask and Power Button");
     }
 
     destroy() {
+        this.game.audio?.stopAmbience('old_pc_hum');
         super.destroy();
         this.os = null;
     }

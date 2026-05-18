@@ -398,7 +398,7 @@ export class IntroScene extends BaseScene {
                                     <div class="ticket-value">Казань, АВ "Столичный"</div>
 
                                     <div class="ticket-label">КУДА</div>
-                                    <div class="ticket-value">Кара Урман (поворот)</div>
+                                    <div class="ticket-value">Кырлай (поворот у старой лесной дороги)</div>
 
                                     <div class="ticket-card">
                                         <div class="ticket-title">БИЛЕТ НА АВТОБУС</div>

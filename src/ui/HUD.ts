@@ -83,7 +83,7 @@ export class HUD {
                     gap:10px;
                     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
                 ">
-                    <span style="font-size:16px;">🌲</span>
+                    <span style="font-size:16px;">К</span>
                     <b>День ${day}</b>
                     <span>${hour}</span>
                     <span>❤️ ${this.bar(health, '#ff6b6b', 40)}</span>
@@ -116,7 +116,7 @@ export class HUD {
                     padding-bottom:6px;
                     margin-bottom:4px;
                 ">
-                    <div style="font-weight:bold; letter-spacing:1px; color:#4db8ff;">КАРА-УРМАН</div>
+                    <div style="font-weight:bold; letter-spacing:1px; color:#d9c38c;">КЫРЛАЙ</div>
                     <div style="font-size:10px; opacity:0.5;">[свернуть]</div>
                 </div>
 
@@ -125,13 +125,13 @@ export class HUD {
                 </div>
                 
                 <div>❤️ Жизнь ${this.bar(health, '#ff6b6b')} ${health}%</div>
-                <div>😨 Страх ${this.bar(fear, '#ff5a5a')} ${fear}%</div>
+                <div>Давление ${this.bar(s.pressureLevel * 33, '#d9c38c')} ${s.pressureLevel || 0}/3</div>
                 <div>📖 Татарча ${this.bar(s.tatarKnowledge || 0, '#4db8ff')}</div>
                 
                 <div style="font-size:11px; margin-top:5px; padding-top:5px; border-top:1px solid rgba(255,255,255,0.05); display:grid; grid-template-columns: 1fr 1fr; gap:4px; opacity:0.8;">
-                    <span>📍 ${s.locationName || 'Урман'}</span>
-                    <span style="text-align:right;">🕰️ ${hour}</span>
-                    <span>🌫️ ${s.weather || 'Ясно'}</span>
+                    <span>Место: ${s.locationName || 'Кырлай'}</span>
+                    <span style="text-align:right;">Время: ${hour}</span>
+                    <span>Состояние: ${fear > 40 ? 'тревожно' : 'тихо'}</span>
                     <span style="text-align:right;">📅 День ${day}</span>
                 </div>
                 

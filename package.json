@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "validate:old-pc": "node scripts/validate-old-pc-content.mjs",
+    "validate:clue-graph": "node scripts/validate-clue-graph.mjs",
+    "validate:route-graph": "node scripts/validate-route-graph.mjs",
+    "validate:content": "node scripts/validate-content.mjs"
   },
   "devDependencies": {
     "@types/three": "^0.183.1",

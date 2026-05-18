@@ -18,7 +18,7 @@ export class ZiratMiniGame extends BaseScene {
     private errors = 0;
     private currentLetterIndex = 0;
 
-    private targetText = "ӘЛСҮ БИРЕДӘ ЯТА 1926";
+    private targetText = "МЕТКА СБИТА 1926";
     private decodedText = "";
 
     private boundOnKeyDown: (e: KeyboardEvent) => void;
@@ -55,6 +55,7 @@ export class ZiratMiniGame extends BaseScene {
 
         window.addEventListener('keydown', this.boundOnKeyDown);
         window.addEventListener('resize', this.boundOnResize);
+        this.game.audio?.startAmbience('zirat_wind');
     }
 
     private handleResize() {
@@ -321,11 +322,12 @@ export class ZiratMiniGame extends BaseScene {
         
         ctx.fillStyle = '#ff4444';
         ctx.font = '20px "Philosopher", sans-serif';
-        ctx.fillText("Алсу Биредэ Ята. 1926.", w / 2, h / 2);
+        ctx.fillText("1926 — сбитая метка. Не доказательство.", w / 2, h / 2);
         
         ctx.fillStyle = '#888';
         ctx.font = '16px "Philosopher", sans-serif';
-        ctx.fillText("Но кто же тогда присылает тебе сообщения сейчас?", w / 2, h / 2 + 50);
+        ctx.fillText("Зират не даёт ответа про Алсу.", w / 2, h / 2 + 46);
+        ctx.fillText("Он только показывает: архивам нельзя верить вслепую.", w / 2, h / 2 + 72);
         
         ctx.fillStyle = '#e6b34b';
         ctx.fillText("[ ESC — БЕЖАТЬ В ДЕРЕВНЮ ]", w / 2, h / 2 + 120);
@@ -334,6 +336,7 @@ export class ZiratMiniGame extends BaseScene {
     public destroy() {
         window.removeEventListener('keydown', this.boundOnKeyDown);
         window.removeEventListener('resize', this.boundOnResize);
+        this.game.audio?.stopAmbience('zirat_wind');
         super.destroy();
     }
 }

@@ -99,7 +99,8 @@ type EditableTextRegion = Readonly<{
 type ModalState =
     | { type: 'inspect'; nodeId: string }
     | { type: 'journal' }
-    | { type: 'external'; targetId: string; fromNodeId: string };
+    | { type: 'external'; targetId: string; fromNodeId: string }
+    | { type: 'dialogue'; nodeId: string; lineId: string; label: string; text: string; dangerous: boolean };
 
 type ActiveTransition = Readonly<{
     action: string;
@@ -155,6 +156,28 @@ const TIME_LABELS: Record<string, string> = {
     evening: 'вечер',
 };
 
+const FACING_LABELS: Record<string, string> = {
+    back_to_crossroad: 'назад к перекрёстку',
+    back_to_street: 'назад к улице',
+    back_to_village: 'назад к Кырлаю',
+    blocked_path: 'закрытая тропа',
+    blocked_side_path: 'закрытая боковая тропа',
+    forest_edge: 'кромка леса',
+    forest_edge_with_rinat: 'кромка леса, Ринат рядом',
+    forward: 'вперёд',
+    forward_to_forest: 'к лесу',
+    forward_to_zirat: 'к зирату',
+    left_to_fap_selsmag: 'налево к ФАПу и сельмагу',
+    right_to_mansur: 'направо к дому Мансура',
+    right_to_mosque: 'направо к мечети',
+    river_turn: 'поворот к реке',
+    side_to_admin_archive: 'к администрации',
+    side_to_bridge_river: 'к мосту и реке',
+    toward_admin: 'к администрации',
+    toward_water_bench: 'к воде',
+    vehicle_window_to_village: 'из автобуса к деревне',
+};
+
 const STATE_TRANSITION_LABELS: Record<string, string> = {
     village_pressure_2: 'Оглянуться на окна',
     village_pressure_2_or_evening_return: 'Оглянуться ещё раз',
@@ -165,6 +188,17 @@ const STATE_TRANSITION_LABELS: Record<string, string> = {
     rinat_interrupts_answer: 'Не отвечать',
     time_phase_evening_or_after_grave_clue: 'Идти дальше к вечеру',
     cemetery_contradiction_or_pressure_2: 'Сверить дату в голове',
+};
+
+const STATE_TRANSITION_REQUIREMENTS: Record<string, string> = {
+    village_pressure_2: 'pressure_2',
+    village_pressure_2_or_evening_return: 'pressure_2',
+    medical_contradiction_key_used: 'rinat_internal_register_dialogue',
+    forest_pressure_flag: 'route_kara_urman_edge_hint',
+    marat_voice_trigger: 'route_kara_urman_edge_hint',
+    rinat_interrupts_answer: 'clue_do_not_answer_rule',
+    time_phase_evening_or_after_grave_clue: 'contradiction_marat_official_vs_internal',
+    cemetery_contradiction_or_pressure_2: 'contradiction_and_pressure_2',
 };
 
 const SIGN_LABEL_OVERRIDES: Record<string, string> = {
@@ -236,6 +270,23 @@ const EXTERNAL_HANDOFFS: Record<string, { title: string; description: string; sc
         description: 'Камыш почти не шевелится. Вода отражает небо чуть темнее, чем оно есть.',
         imagePath: '/assets/urman_mvp_remaining/loc_river_bank_day.png',
     },
+    selsmag_counter_interior: {
+        title: 'Сельмаг',
+        description: 'Витрина и разговоры пока остаются боковым направлением. Для MVP это ориентир у ФАПа, а не отдельная обязательная сцена.',
+        imagePath: '/assets/urman_mvp_remaining/loc_selsmag_counter_interior.png',
+    },
+    zirat_general_late_evening: {
+        title: 'Зират',
+        description: 'Указатель к зирату подтверждает маршрут за кладбище. Полная сцена зират-осмотра пока не нужна для прохождения к кромке.',
+        sceneId: 'zirat',
+        imagePath: '/assets/urman_mvp_remaining/loc_zirat_general_late_evening.png',
+        actionLabel: 'Осмотреть зират',
+    },
+    multiple: {
+        title: 'Старые указатели',
+        description: 'Надписи сбились: ФАП, мечеть, зират и старая лесная дорога читаются хуже, когда деревня уже насторожилась.',
+        imagePath: '/assets/urman_route_map/route_village_crossroad_pressure.png',
+    },
 };
 
 export class RouteNavigationScene extends BaseScene {
@@ -271,6 +322,7 @@ export class RouteNavigationScene extends BaseScene {
             window.clearTimeout(timeout);
         }
         this.timeouts.clear();
+        this.game.audio?.stopAmbience();
         super.destroy();
     }
 
@@ -332,10 +384,42 @@ export class RouteNavigationScene extends BaseScene {
             return;
         }
 
+        const dialogueLine = rawTarget.closest('[data-dialogue-line]') as HTMLElement | null;
+        if (dialogueLine) {
+            this.useDialogueLine(dialogueLine.dataset.dialogueLine ?? '');
+            return;
+        }
+
         const modalAction = rawTarget.closest('[data-modal-action]') as HTMLElement | null;
         if (modalAction) {
-            this.executeModalAction(modalAction.dataset.modalAction ?? '');
+            if (modalAction.dataset.modalAction === 'external-scene' && modalAction.dataset.sceneId) {
+                if (modalAction.dataset.targetId === 'mvp_end_cliffhanger') {
+                    this.game.state.setFlag('route_final_cliffhanger_handoff_used', true);
+                }
+                this.game.scenes.switchScene(modalAction.dataset.sceneId);
+                return;
+            }
+            this.executeModalAction(
+                modalAction.dataset.modalAction ?? '',
+                modalAction.dataset.sceneId,
+                modalAction.dataset.targetId,
+            );
         }
+    }
+
+    private useDialogueLine(lineId: string): void {
+        const line = this.game.dialogue.useLine(lineId);
+        if (!line) return;
+        this.game.saveSystem?.save();
+        this.modal = {
+            type: 'dialogue',
+            nodeId: this.currentNodeId,
+            lineId: line.id,
+            label: line.label,
+            text: line.text,
+            dangerous: Boolean(line.dangerous),
+        };
+        this.render();
     }
 
     private handleKeydown(event: KeyboardEvent): void {
@@ -397,6 +481,9 @@ export class RouteNavigationScene extends BaseScene {
             this.moveToNode(targetId, action);
             return;
         }
+        if (targetId === 'mvp_end_cliffhanger') {
+            this.game.state.setFlag('route_final_cliffhanger_handoff_ready', true);
+        }
         this.modal = { type: 'external', targetId, fromNodeId: this.currentNodeId };
         this.render();
     }
@@ -446,10 +533,13 @@ export class RouteNavigationScene extends BaseScene {
         const transition = this.getAvailableStateTransitions()[index];
         const targetId = transition ? transition.to ?? transition.toNodeId : undefined;
         if (!targetId) return;
+        if (transition.trigger) {
+            this.game.state.setFlag(`route_trigger_${transition.trigger}`, true);
+        }
         this.goToTarget(targetId, 'forward');
     }
 
-    private executeModalAction(action: string): void {
+    private executeModalAction(action: string, sceneIdOverride?: string, targetIdOverride?: string): void {
         if (action === 'close') {
             this.modal = null;
             this.render();
@@ -461,9 +551,12 @@ export class RouteNavigationScene extends BaseScene {
             return;
         }
         if (action === 'external-scene') {
-            const targetId = this.modal?.type === 'external' ? this.modal.targetId : '';
-            const sceneId = EXTERNAL_HANDOFFS[targetId]?.sceneId;
+            const targetId = targetIdOverride ?? (this.modal?.type === 'external' ? this.modal.targetId : '');
+            const sceneId = sceneIdOverride ?? EXTERNAL_HANDOFFS[targetId]?.sceneId;
             if (sceneId) {
+                if (targetId === 'mvp_end_cliffhanger') {
+                    this.game.state.setFlag('route_final_cliffhanger_handoff_used', true);
+                }
                 this.game.scenes.switchScene(sceneId);
             }
         }
@@ -476,6 +569,9 @@ export class RouteNavigationScene extends BaseScene {
         this.game.state.rememberRouteVisit(node.id, node.journalSketchUpdate, node.pressureVariant);
         this.game.state.locationName = this.getLocationLabel(node);
         this.game.state.timeOfDay = TIME_LABELS[node.timePhase] ?? node.timePhase;
+        if (node.ambienceId) {
+            this.game.audio?.startAmbience(node.ambienceId);
+        }
     }
 
     private getCurrentNode(): RouteNode | undefined {
@@ -486,12 +582,41 @@ export class RouteNavigationScene extends BaseScene {
         const transitions = this.graph?.stateTransitions ?? [];
         return transitions.filter((transition) => {
             const from = transition.from ?? transition.fromNodeId;
-            return from === this.currentNodeId;
+            return from === this.currentNodeId && this.canApplyStateTransition(transition);
         });
+    }
+
+    private canApplyStateTransition(transition: RouteStateTransition): boolean {
+        const trigger = transition.trigger;
+        if (!trigger) return true;
+        switch (STATE_TRANSITION_REQUIREMENTS[trigger]) {
+            case undefined:
+                return true;
+            case 'pressure_2':
+                return this.game.state.pressureLevel >= 2;
+            case 'rinat_internal_register_dialogue':
+                return this.game.state.completedBeats.includes('dialogue_rinat_internal_register_used')
+                    || this.game.state.npcStates.char_rinat?.flags.includes('medical_contradiction_key_used') === true;
+            case 'route_kara_urman_edge_hint':
+                return this.game.state.hasKnowledgeKey('route_kara_urman_edge_hint');
+            case 'clue_do_not_answer_rule':
+                return this.game.state.hasKnowledgeKey('clue_do_not_answer_rule');
+            case 'contradiction_marat_official_vs_internal':
+                return this.game.state.hasKnowledgeKey('contradiction_marat_official_vs_internal');
+            case 'contradiction_and_pressure_2':
+                return this.game.state.pressureLevel >= 2
+                    && this.game.state.hasKnowledgeKey('contradiction_marat_official_vs_internal');
+            default:
+                return false;
+        }
     }
 
     private getLocationLabel(node: RouteNode): string {
         return LOCATION_LABELS[node.locationId] ?? node.locationId.replaceAll('_', ' ');
+    }
+
+    private getFacingLabel(facing: string): string {
+        return FACING_LABELS[facing] ?? facing.replaceAll('_', ' ');
     }
 
     private assetUrl(assetId: string): string {
@@ -532,7 +657,7 @@ export class RouteNavigationScene extends BaseScene {
                 <section class="route-topbar">
                     <div>
                         <div class="route-place">${this.escape(this.getLocationLabel(node))}</div>
-                        <div class="route-subline">${this.escape(TIME_LABELS[node.timePhase] ?? node.timePhase)} · ${this.escape(node.facing.replaceAll('_', ' '))}</div>
+                        <div class="route-subline">${this.escape(TIME_LABELS[node.timePhase] ?? node.timePhase)} · ${this.escape(this.getFacingLabel(node.facing))}</div>
                     </div>
                     <button class="route-journal-btn" data-modal-action="journal">Журнал</button>
                 </section>
@@ -649,6 +774,7 @@ export class RouteNavigationScene extends BaseScene {
         if (!this.modal) return '';
         if (this.modal.type === 'journal') return this.renderJournalModal();
         if (this.modal.type === 'external') return this.renderExternalModal(this.modal.targetId);
+        if (this.modal.type === 'dialogue') return this.renderDialogueModal(this.modal);
         return this.renderInspectModal(this.modal.nodeId);
     }
 
@@ -658,6 +784,7 @@ export class RouteNavigationScene extends BaseScene {
         const signs = node.diegeticSigns ?? [];
         const landmarks = node.landmarks ?? [];
         const transitions = this.getAvailableStateTransitions();
+        const scriptedTarget = node.exits.scripted;
         return `
             <section class="route-modal-backdrop">
                 <div class="route-modal route-modal-narrow">
@@ -670,11 +797,55 @@ export class RouteNavigationScene extends BaseScene {
                             ${signs.map((sign) => `<button data-route-target="${this.escape(sign.target)}">${this.escape(this.cleanSignLabel(sign.label))}</button>`).join('')}
                         </div>
                     ` : ''}
+                    ${scriptedTarget ? `
+                        <div class="modal-actions scripted">
+                            <button data-route-target="${this.escape(scriptedTarget)}">${this.escape(this.scriptedActionLabel(node, scriptedTarget))}</button>
+                        </div>
+                    ` : ''}
                     ${transitions.length ? `
                         <div class="modal-actions muted">
                             ${transitions.map((transition, index) => `<button data-state-transition="${index}">${this.escape(this.stateTransitionLabel(transition))}</button>`).join('')}
                         </div>
                     ` : ''}
+                    ${this.renderRinatDialogueActions(node)}
+                </div>
+            </section>
+        `;
+    }
+
+    private renderRinatDialogueActions(node: RouteNode): string {
+        if (!this.isRinatReachable(node)) return '';
+        const lines = this.game.dialogue.getAvailableLines('char_rinat');
+        if (!lines.length) return '';
+        return `
+            <div class="route-dialogue-picker">
+                <h3>Ринат</h3>
+                <p>Он держится рядом с дорогой, будто случайно. Выбери, какой найденный ключ использовать.</p>
+                <div class="modal-actions">
+                    ${lines.map((line) => `
+                        <button class="${line.dangerous ? 'dangerous-dialogue' : ''}" data-dialogue-line="${this.escape(line.id)}">
+                            ${this.escape(line.label)}
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    private renderDialogueModal(line: Extract<ModalState, { type: 'dialogue' }>): string {
+        return `
+            <section class="route-modal-backdrop">
+                <div class="route-modal route-modal-narrow ${line.dangerous ? 'dialogue-danger' : ''}">
+                    <button class="route-modal-close" data-modal-action="close">×</button>
+                    <h2>${this.escape(line.label)}</h2>
+                    <p>${this.escape(line.text)}</p>
+                    <div class="journal-note">
+                        <span>Давление: ${this.game.state.pressureLevel}/3</span>
+                        <span>${this.escape(line.dangerous ? 'опасный ключ' : 'разговор отмечен')}</span>
+                    </div>
+                    <div class="modal-actions">
+                        <button data-modal-action="close">Вернуться к дороге</button>
+                    </div>
                 </div>
             </section>
         `;
@@ -708,7 +879,7 @@ export class RouteNavigationScene extends BaseScene {
         };
         const image = handoff.imagePath ? `<img class="external-preview" src="${handoff.imagePath}" alt="${this.escape(handoff.title)}">` : '';
         const sceneButton = handoff.sceneId
-            ? `<button data-modal-action="external-scene">${this.escape(handoff.actionLabel ?? 'Перейти')}</button>`
+            ? `<button data-modal-action="external-scene" data-scene-id="${this.escape(handoff.sceneId)}" data-target-id="${this.escape(targetId)}" onclick="window.URMAN?.scenes?.switchScene('${this.escape(handoff.sceneId)}')">${this.escape(handoff.actionLabel ?? 'Перейти')}</button>`
             : '';
         return `
             <section class="route-modal-backdrop">
@@ -739,6 +910,13 @@ export class RouteNavigationScene extends BaseScene {
         return STATE_TRANSITION_LABELS[trigger] ?? 'Проверить это место ещё раз';
     }
 
+    private scriptedActionLabel(node: RouteNode, targetId: string): string {
+        if (node.id === 'kara_urman_edge_voice_moment') return 'Не отвечать сразу';
+        if (node.id === 'kara_urman_edge_rinat_interruption' || targetId === 'mvp_end_cliffhanger') return 'Остаться у леса';
+        if (targetId.includes('rinat')) return 'Замереть';
+        return 'Продолжить';
+    }
+
     private cleanSignLabel(label: string): string {
         const override = SIGN_LABEL_OVERRIDES[label];
         if (override) return override;
@@ -752,6 +930,17 @@ export class RouteNavigationScene extends BaseScene {
 
     private isPressureNode(node: RouteNode): boolean {
         return !['normal', 'evening'].includes(node.pressureVariant);
+    }
+
+    private isRinatReachable(node: RouteNode): boolean {
+        return [
+            'main_street_entry',
+            'mansur_house_turn',
+            'village_crossroad',
+            'forest_approach',
+            'kara_urman_edge',
+            'zirat_road',
+        ].includes(node.locationId);
     }
 
     private rectStyle(rect: readonly number[]): string {
@@ -1086,7 +1275,7 @@ export class RouteNavigationScene extends BaseScene {
                 .route-modal-backdrop {
                     position: absolute;
                     inset: 0;
-                    z-index: 80;
+                    z-index: 10004;
                     display: grid;
                     place-items: center;
                     padding: 24px;
@@ -1160,6 +1349,34 @@ export class RouteNavigationScene extends BaseScene {
                 .modal-actions.muted {
                     padding-top: 12px;
                     border-top: 1px solid rgba(241, 234, 216, 0.12);
+                }
+
+                .modal-actions.scripted {
+                    padding-top: 12px;
+                    border-top: 1px solid rgba(217, 195, 140, 0.18);
+                }
+
+                .modal-actions.scripted button {
+                    border-color: rgba(217, 195, 140, 0.48);
+                    background: rgba(54, 42, 27, 0.78);
+                }
+
+                .route-dialogue-picker {
+                    margin-top: 18px;
+                    padding-top: 14px;
+                    border-top: 1px solid rgba(217, 195, 140, 0.18);
+                }
+
+                .route-dialogue-picker h3 {
+                    margin: 0 0 6px;
+                    font-size: 20px;
+                    font-weight: 600;
+                }
+
+                .dangerous-dialogue,
+                .dialogue-danger .modal-actions button {
+                    border-color: rgba(188, 74, 56, 0.58);
+                    background: rgba(72, 34, 25, 0.78);
                 }
 
                 .modal-actions button {
