@@ -1,0 +1,230 @@
+{
+  "version": 1,
+  "status": "draft_incoming_worker",
+  "asset_pack": "urman_mvp_remaining",
+  "worker_folder": "public/assets/urman_mvp_remaining/_incoming/batch4_p1_portraits_worker",
+  "generated_on": "2026-05-18",
+  "do_not_merge_automatically": true,
+  "notes": [
+    "Draft manifest only. Shared asset_manifest.json was not edited.",
+    "Contact sheets were generated on chroma-key backgrounds and converted to alpha PNGs with remove_chroma_key.py.",
+    "Final cropped portrait variants are 1024x1024 RGBA transparent PNGs."
+  ],
+  "style": "ink-wash storybook, hand-drawn black ink line, muted watercolor wash, visible paper grain, grounded contemporary Tatar village details",
+  "source_files": [
+    "_source/char_timur_hazrat_portrait_contact_sheet_key.png",
+    "_source/char_naila_portrait_contact_sheet_key.png",
+    "_source/char_razilya_portrait_contact_sheet_key.png"
+  ],
+  "assets": [
+    {
+      "asset_id": "char_timur_hazrat_portrait_contact_sheet",
+      "file_name": "char_timur_hazrat_portrait_contact_sheet.png",
+      "asset_type": "Character portrait contact sheet",
+      "dimensions": "1536x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "calm",
+        "direct",
+        "concerned",
+        "prayerful_restraint"
+      ],
+      "related_character_location": "Тимур хәзрәт",
+      "inventory_rows_covered": [
+        11
+      ],
+      "source_prompt_summary": "Controlled Timur hazrat P1 portrait set; safe-zone imam, moral and cultural support, never sinister."
+    },
+    {
+      "asset_id": "char_timur_hazrat_portrait_calm",
+      "file_name": "char_timur_hazrat_portrait_calm.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "calm"
+      ],
+      "related_character_location": "Тимур хәзрәт",
+      "inventory_rows_covered": [
+        11
+      ]
+    },
+    {
+      "asset_id": "char_timur_hazrat_portrait_direct",
+      "file_name": "char_timur_hazrat_portrait_direct.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "direct"
+      ],
+      "related_character_location": "Тимур хәзрәт",
+      "inventory_rows_covered": [
+        11
+      ]
+    },
+    {
+      "asset_id": "char_timur_hazrat_portrait_concerned",
+      "file_name": "char_timur_hazrat_portrait_concerned.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "concerned"
+      ],
+      "related_character_location": "Тимур хәзрәт",
+      "inventory_rows_covered": [
+        11
+      ]
+    },
+    {
+      "asset_id": "char_timur_hazrat_portrait_prayerful_restraint",
+      "file_name": "char_timur_hazrat_portrait_prayerful_restraint.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "prayerful_restraint"
+      ],
+      "related_character_location": "Тимур хәзрәт",
+      "inventory_rows_covered": [
+        11
+      ]
+    },
+    {
+      "asset_id": "char_naila_portrait_contact_sheet",
+      "file_name": "char_naila_portrait_contact_sheet.png",
+      "asset_type": "Character portrait contact sheet",
+      "dimensions": "1536x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "professional",
+        "evasive",
+        "alarmed"
+      ],
+      "related_character_location": "Наиля",
+      "inventory_rows_covered": [
+        14
+      ],
+      "source_prompt_summary": "Controlled Naila P1 portrait set; practical medpunkt professional, document-folder posture, not horror nurse."
+    },
+    {
+      "asset_id": "char_naila_portrait_professional",
+      "file_name": "char_naila_portrait_professional.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "professional"
+      ],
+      "related_character_location": "Наиля",
+      "inventory_rows_covered": [
+        14
+      ]
+    },
+    {
+      "asset_id": "char_naila_portrait_evasive",
+      "file_name": "char_naila_portrait_evasive.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "evasive"
+      ],
+      "related_character_location": "Наиля",
+      "inventory_rows_covered": [
+        14
+      ]
+    },
+    {
+      "asset_id": "char_naila_portrait_alarmed",
+      "file_name": "char_naila_portrait_alarmed.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "alarmed"
+      ],
+      "related_character_location": "Наиля",
+      "inventory_rows_covered": [
+        14
+      ]
+    },
+    {
+      "asset_id": "char_razilya_portrait_contact_sheet",
+      "file_name": "char_razilya_portrait_contact_sheet.png",
+      "asset_type": "Character portrait contact sheet",
+      "dimensions": "1536x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "gossip_friendly",
+        "cautious",
+        "pressure"
+      ],
+      "related_character_location": "Разиля",
+      "inventory_rows_covered": [
+        15
+      ],
+      "source_prompt_summary": "Controlled Razilya P1 portrait set; selsmag social gossip node, friendly but cautious, not comic relief."
+    },
+    {
+      "asset_id": "char_razilya_portrait_gossip_friendly",
+      "file_name": "char_razilya_portrait_gossip_friendly.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "gossip_friendly"
+      ],
+      "related_character_location": "Разиля",
+      "inventory_rows_covered": [
+        15
+      ]
+    },
+    {
+      "asset_id": "char_razilya_portrait_cautious",
+      "file_name": "char_razilya_portrait_cautious.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "cautious"
+      ],
+      "related_character_location": "Разиля",
+      "inventory_rows_covered": [
+        15
+      ]
+    },
+    {
+      "asset_id": "char_razilya_portrait_pressure",
+      "file_name": "char_razilya_portrait_pressure.png",
+      "asset_type": "Character portrait",
+      "dimensions": "1024x1024",
+      "transparent_background": true,
+      "variants_included": [
+        "pressure"
+      ],
+      "related_character_location": "Разиля",
+      "inventory_rows_covered": [
+        15
+      ]
+    },
+    {
+      "asset_id": "batch4_p1_portraits_contact_sheet_preview",
+      "file_name": "contact_sheet.jpg",
+      "asset_type": "Batch preview contact sheet",
+      "dimensions": "1536x1024",
+      "transparent_background": false,
+      "variants_included": [
+        "timur_hazrat",
+        "naila",
+        "razilya"
+      ],
+      "inventory_rows_covered": [
+        11,
+        14,
+        15
+      ]
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "asset_pack": "batch4_route_admin_gaps_worker",
+  "generated_on": "2026-05-18",
+  "generator": "built-in image_gen",
+  "scope": "public/assets/urman_mvp_remaining/_incoming/batch4_route_admin_gaps_worker/",
+  "style": "ink-wash storybook, hand-drawn black ink line, muted watercolor wash, visible paper grain",
+  "controlled_animation": "Base PNGs are static; movement is intended only through later overlay layers.",
+  "assets": [
+    {
+      "asset_id": "route_main_street_empty_evening",
+      "file_name": "route_main_street_empty_evening.png",
+      "asset_type": "Route navigation screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [22],
+      "variants_included": ["empty_evening"],
+      "related_character_location": "Главная улица Кырлая",
+      "source_prompt_summary": "Empty evening main street, ordinary but too still, with clear forward route and blank diegetic sign.",
+      "animation_slot_ids": ["window_light_pulse", "distant_birds", "grass_drift", "pressure_edge_overlay"],
+      "editable_text_region_ids": ["blank_notice_board_left"]
+    },
+    {
+      "asset_id": "route_main_street_watchers_pressure",
+      "file_name": "route_main_street_watchers_pressure.png",
+      "asset_type": "Route navigation screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [22],
+      "variants_included": ["watchers_pressure"],
+      "related_character_location": "Главная улица Кырлая",
+      "source_prompt_summary": "Main street pressure variant using curtains, windows and distant silhouettes as social pressure; no monster reveal.",
+      "animation_slot_ids": ["curtain_shimmer", "window_light_pulse", "foreground_grass_drift", "pressure_edge_overlay"],
+      "editable_text_region_ids": ["blank_notice_board_mid_left"]
+    },
+    {
+      "asset_id": "ui_journal_route_sketch_base",
+      "file_name": "ui_journal_route_sketch_base.png",
+      "asset_type": "Journal support layer",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [23],
+      "variants_included": ["incomplete_route_sketch_base"],
+      "related_character_location": "Айдар journal route sketch",
+      "source_prompt_summary": "Open notebook with incomplete route fragments, blank labels, blank pins and forest-edge hint; not a full village map.",
+      "animation_slot_ids": ["document_focus_highlight", "route_line_draw_on", "page_shadow_shift"],
+      "editable_text_region_ids": ["blank_label_top_left", "blank_label_top_right", "blank_label_bottom_left", "blank_label_bottom_right", "blank_pin_notes"]
+    },
+    {
+      "asset_id": "route_unsafe_path_blocked_evening",
+      "file_name": "route_unsafe_path_blocked_evening.png",
+      "asset_type": "Route navigation screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [23],
+      "variants_included": ["unsafe_path_blocked_evening"],
+      "related_character_location": "Village restricted route",
+      "source_prompt_summary": "Evening route with physical/diegetic side-path blockage and distant villagers creating social restriction, without UI overlay.",
+      "animation_slot_ids": ["rope_shadow_pressure", "grass_drift", "window_light_pulse", "pressure_edge_overlay"],
+      "editable_text_region_ids": ["blank_notice_board_right"]
+    },
+    {
+      "asset_id": "route_kara_urman_rinat_interruption",
+      "file_name": "route_kara_urman_rinat_interruption.png",
+      "asset_type": "Route/location cliffhanger screen",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [31, 23],
+      "variants_included": ["rinat_interruption"],
+      "related_character_location": "Кромка Кара-Урмана / Ринат",
+      "source_prompt_summary": "Kara-Urman edge with small grounded human Rinat interruption near blank warning sign; no creature reveal.",
+      "animation_slot_ids": ["forest_edge_pressure", "foreground_branch_drift", "rinat_subtle_idle", "sign_focus"],
+      "editable_text_region_ids": ["blank_warning_sign"]
+    },
+    {
+      "asset_id": "loc_admin_archive_denied_access",
+      "file_name": "loc_admin_archive_denied_access.png",
+      "asset_type": "Static investigation location",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [32],
+      "variants_included": ["denied_access"],
+      "related_character_location": "Администрация / архивный угол",
+      "source_prompt_summary": "Rural administration archive denied-access state with locked cabinet, closed door, desk and blank paperwork.",
+      "animation_slot_ids": ["fluorescent_light_flicker", "document_focus_highlight", "cabinet_lock_focus", "pressure_edge_overlay"],
+      "editable_text_region_ids": ["blank_notice_board", "blank_folder_labels", "blank_desktop_forms"]
+    },
+    {
+      "asset_id": "loc_niva_closeup_tool_detail",
+      "file_name": "loc_niva_closeup_tool_detail.png",
+      "asset_type": "Prop/location detail",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [21],
+      "variants_included": ["niva_closeup_tool_detail"],
+      "related_character_location": "Двор / сарай / старая Нива",
+      "source_prompt_summary": "Old Niva close-up with practical tools, rope, toolbox and shed details; optional row #21 support.",
+      "animation_slot_ids": ["grass_drift", "shed_light_pulse", "tool_focus_highlight"],
+      "editable_text_region_ids": ["blank_tool_tag"]
+    }
+  ],
+  "support_files": [
+    "contact_sheet.jpg",
+    "animation_layers_draft.json",
+    "editable_layers_draft.json",
+    "generation_notes.md"
+  ]
+}

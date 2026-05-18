@@ -170,3 +170,12 @@ Context: Static-node hybrid scenes should not feel dead, but uncontrolled animat
 Decision: Treat animation as controlled overlay slots on top of static PNG bases: light pulse, CRT glow, birds, dust, grass/branch drift, document highlights and pressure overlays. Do not bake loops into base images by default.
 Consequences: Future asset prompts must reserve animation-safe regions. Runtime animation should be slow, sparse and tied to scene state / pressure flags. Full creature motion, glowing eyes, jump-scare movement and heavy glitch remain forbidden for MVP.
 Linked files: `asset_pack_first10/controlled_animation.md`, `asset_pack_first10/animation_layers.json`, `asset_pack_first10/style_bible.md`
+
+## 2026-05-18 — Treat the remaining MVP pack as visual-complete, with audio separated
+
+Status: Accepted
+
+Context: The remaining asset generation pass produced game-ready PNG bases, transparent character cutouts, route screens, document/UI backgrounds, icon sheets and visual overlay/VFX states for the 50-row inventory. Row #50 includes authored audio and voice assets, which should not be faked by empty files or generic placeholders.
+Decision: Mark `public/assets/urman_mvp_remaining/` as the validated visual asset pack. Keep #50 partial for authored audio/voice production while counting the visual overlay/VFX PNGs as complete visual coverage.
+Consequences: Runtime can start integrating the visual pack using `asset_manifest.json`, `animation_layers.json` and `editable_layers.json`. A separate audio pass is still required for home ambience, street silence, old PC hum, mosque calm, cemetery wind, water stillness, forest presence, Marat voice and Rinat's «Не отвечай».
+Linked files: `asset_inventory_50.md`, `asset_pack_remaining/README.md`, `asset_pack_remaining/generation_log.md`, `public/assets/urman_mvp_remaining/asset_manifest.json`

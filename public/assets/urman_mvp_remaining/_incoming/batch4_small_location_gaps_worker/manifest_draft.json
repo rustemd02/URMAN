@@ -1,0 +1,68 @@
+{
+  "batch": "batch4_small_location_gaps_worker",
+  "generated_on": "2026-05-18",
+  "style": "ink-wash storybook, hand-drawn black ink line, muted watercolor wash, visible paper grain",
+  "notes": "Worker-local draft only. Controller should integrate into the root manifest after review.",
+  "assets": [
+    {
+      "asset_id": "loc_arrival_vehicle_interior_dusk",
+      "file_name": "loc_arrival_vehicle_interior_dusk.png",
+      "asset_type": "Static location node",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [17],
+      "related_character_location": "Приезд / дорога к Кырлаю",
+      "variants_included": ["vehicle_interior_dusk"],
+      "creepiness_level": 1,
+      "source_prompt_summary": "Aidar POV from a modest bus or old car interior at dusk, first quiet village glimpse through the window, no real logos or readable text.",
+      "animation_slot_ids": ["window_light_pulse", "dust_motes", "arrival_edge_pressure"],
+      "animation_metadata": "animation_layers_draft.json",
+      "editable_text_region_ids": ["blank_roadside_sign"]
+    },
+    {
+      "asset_id": "loc_niva_closeup_tool_detail",
+      "file_name": "loc_niva_closeup_tool_detail.png",
+      "asset_type": "Static location node / prop detail",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [21],
+      "related_character_location": "Двор / сарай / старая Нива",
+      "variants_included": ["niva_tool_shed_closeup"],
+      "creepiness_level": 1,
+      "source_prompt_summary": "Close-up of an old unbranded Niva-like vehicle, tools, shed bench, gloves and rope, emphasizing family practicality and repair culture.",
+      "animation_slot_ids": ["shed_dust_motes", "tool_focus_highlight", "subtle_corner_pressure"],
+      "animation_metadata": "animation_layers_draft.json",
+      "editable_text_region_ids": ["blank_tin_label"]
+    },
+    {
+      "asset_id": "loc_mosque_tea_office_serious_talk",
+      "file_name": "loc_mosque_tea_office_serious_talk.png",
+      "asset_type": "Static location node",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [26],
+      "related_character_location": "Мечеть — чай / кабинет Тимура",
+      "variants_included": ["serious_talk"],
+      "creepiness_level": 2,
+      "source_prompt_summary": "Respectful mosque office / community room for serious private counsel, tea table, books, modest prayer details, serious but safe lighting.",
+      "animation_slot_ids": ["lamp_warmth", "window_dust", "notebook_focus", "serious_talk_edge_pressure"],
+      "animation_metadata": "animation_layers_draft.json",
+      "editable_text_region_ids": ["blank_notebook_pages", "blank_book_spines"]
+    },
+    {
+      "asset_id": "loc_admin_archive_denied_access",
+      "file_name": "loc_admin_archive_denied_access.png",
+      "asset_type": "Static location node",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "inventory_rows_covered": [32],
+      "related_character_location": "Администрация / архивный угол",
+      "variants_included": ["denied_access"],
+      "creepiness_level": 2,
+      "source_prompt_summary": "Rural administration office denied-access state: locked metal cabinets, archive door, visitor chair, blank notices and bureaucratic pressure.",
+      "animation_slot_ids": ["fluorescent_light_pulse", "paper_focus_highlight", "admin_edge_pressure"],
+      "animation_metadata": "animation_layers_draft.json",
+      "editable_text_region_ids": ["blank_notice_on_door", "blank_file_labels", "blank_forms_on_desk"]
+    }
+  ]
+}

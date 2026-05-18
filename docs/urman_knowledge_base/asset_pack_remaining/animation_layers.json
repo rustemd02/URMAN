@@ -1,0 +1,5619 @@
+{
+  "version": 1,
+  "asset_pack": "urman_mvp_remaining",
+  "coordinate_system": "normalized [x, y, width, height]",
+  "principle": "Static PNG bases plus controlled overlay layers; no baked video loops by default.",
+  "global_limits": {
+    "default_loop_style": "slow, subtle, non-attention-grabbing",
+    "max_regular_motion_level": 1,
+    "pressure_motion_requires_flag": true,
+    "do_not_animate": [
+      "full creature reveal",
+      "glowing eyes",
+      "blood/gore",
+      "jump scare motion",
+      "heavy glitch that harms readability"
+    ]
+  },
+  "assets": [
+    {
+      "asset_id": "char_aidar_sprite_contact_sheet",
+      "file_name": "char_aidar_sprite_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not intended as runtime animation source."
+    },
+    {
+      "asset_id": "char_aidar_sprite_forest_tint",
+      "file_name": "char_aidar_sprite_forest_tint.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_shadow",
+          "type": "transparent_overlay",
+          "target": "character silhouette / edges",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.9,
+            0.9
+          ],
+          "behavior": "slow opacity fade 0-18% tied to pressure flag; no face distortion and no monsterization",
+          "creepiness_level": 2
+        },
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_aidar_sprite_idle",
+      "file_name": "char_aidar_sprite_idle.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_aidar_sprite_walk_01",
+      "file_name": "char_aidar_sprite_walk_01.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_aidar_sprite_walk_02",
+      "file_name": "char_aidar_sprite_walk_02.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_alsu_cutout_evening",
+      "file_name": "char_alsu_cutout_evening.png",
+      "animation_slots": [
+        {
+          "id": "cutout_idle_breath_optional",
+          "type": "sprite_overlay",
+          "target": "full cutout",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional 1-2 px idle shift/breath, disabled in serious scenes unless requested",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_alsu_cutout_street",
+      "file_name": "char_alsu_cutout_street.png",
+      "animation_slots": [
+        {
+          "id": "cutout_idle_breath_optional",
+          "type": "sprite_overlay",
+          "target": "full cutout",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional 1-2 px idle shift/breath, disabled in serious scenes unless requested",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_alsu_cutout_water_edge",
+      "file_name": "char_alsu_cutout_water_edge.png",
+      "animation_slots": [
+        {
+          "id": "cutout_idle_breath_optional",
+          "type": "sprite_overlay",
+          "target": "full cutout",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional 1-2 px idle shift/breath, disabled in serious scenes unless requested",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_alsu_portrait_contact_sheet",
+      "file_name": "char_alsu_portrait_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not intended as runtime animation source."
+    },
+    {
+      "asset_id": "char_alsu_portrait_guarded",
+      "file_name": "char_alsu_portrait_guarded.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_alsu_portrait_helpful",
+      "file_name": "char_alsu_portrait_helpful.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_alsu_portrait_ironic",
+      "file_name": "char_alsu_portrait_ironic.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_alsu_portrait_neutral_ref",
+      "file_name": "char_alsu_portrait_neutral_ref.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_alsu_portrait_withheld_truth",
+      "file_name": "char_alsu_portrait_withheld_truth.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_alsu_portrait_worried",
+      "file_name": "char_alsu_portrait_worried.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_ambient_villagers_abiylar_silhouettes",
+      "file_name": "char_ambient_villagers_abiylar_silhouettes.png",
+      "animation_slots": [
+        {
+          "id": "crowd_pressure_hold",
+          "type": "pressure_overlay",
+          "target": "silhouette edges / opacity",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "subtle pressure-state opacity/darkening; no independent creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_ambient_villagers_babushki_silhouettes",
+      "file_name": "char_ambient_villagers_babushki_silhouettes.png",
+      "animation_slots": [
+        {
+          "id": "crowd_pressure_hold",
+          "type": "pressure_overlay",
+          "target": "silhouette edges / opacity",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "subtle pressure-state opacity/darkening; no independent creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_ambient_villagers_group_contact_sheet",
+      "file_name": "char_ambient_villagers_group_contact_sheet.png",
+      "animation_slots": [
+        {
+          "id": "crowd_pressure_hold",
+          "type": "pressure_overlay",
+          "target": "silhouette edges / opacity",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "subtle pressure-state opacity/darkening; no independent creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_ambient_villagers_street_watchers",
+      "file_name": "char_ambient_villagers_street_watchers.png",
+      "animation_slots": [
+        {
+          "id": "crowd_pressure_hold",
+          "type": "pressure_overlay",
+          "target": "silhouette edges / opacity",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "subtle pressure-state opacity/darkening; no independent creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_cutouts_crowd_contact_sheet",
+      "file_name": "char_cutouts_crowd_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Contact sheet only; not a runtime animated asset."
+    },
+    {
+      "asset_id": "char_gulsina_cutout_cooking_tea",
+      "file_name": "char_gulsina_cutout_cooking_tea.png",
+      "animation_slots": [
+        {
+          "id": "cutout_idle_breath_optional",
+          "type": "sprite_overlay",
+          "target": "full cutout",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional 1-2 px idle shift/breath, disabled in serious scenes unless requested",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_gulsina_cutout_night_talk_tint",
+      "file_name": "char_gulsina_cutout_night_talk_tint.png",
+      "animation_slots": [
+        {
+          "id": "cutout_idle_breath_optional",
+          "type": "sprite_overlay",
+          "target": "full cutout",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional 1-2 px idle shift/breath, disabled in serious scenes unless requested",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_gulsina_cutout_seated",
+      "file_name": "char_gulsina_cutout_seated.png",
+      "animation_slots": [
+        {
+          "id": "cutout_idle_breath_optional",
+          "type": "sprite_overlay",
+          "target": "full cutout",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional 1-2 px idle shift/breath, disabled in serious scenes unless requested",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_gulsina_portrait_contact_sheet",
+      "file_name": "char_gulsina_portrait_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not intended as runtime animation source."
+    },
+    {
+      "asset_id": "char_gulsina_portrait_hidden_knowledge",
+      "file_name": "char_gulsina_portrait_hidden_knowledge.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_gulsina_portrait_quiet_warning",
+      "file_name": "char_gulsina_portrait_quiet_warning.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_gulsina_portrait_warm",
+      "file_name": "char_gulsina_portrait_warm.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_gulsina_portrait_worried",
+      "file_name": "char_gulsina_portrait_worried.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_mansur_cutout_near_pc",
+      "file_name": "char_mansur_cutout_near_pc.png",
+      "animation_slots": [
+        {
+          "id": "cutout_idle_breath_optional",
+          "type": "sprite_overlay",
+          "target": "full cutout",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional 1-2 px idle shift/breath, disabled in serious scenes unless requested",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_mansur_cutout_seated_table",
+      "file_name": "char_mansur_cutout_seated_table.png",
+      "animation_slots": [
+        {
+          "id": "cutout_idle_breath_optional",
+          "type": "sprite_overlay",
+          "target": "full cutout",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional 1-2 px idle shift/breath, disabled in serious scenes unless requested",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_mansur_cutout_standing_yard",
+      "file_name": "char_mansur_cutout_standing_yard.png",
+      "animation_slots": [
+        {
+          "id": "cutout_idle_breath_optional",
+          "type": "sprite_overlay",
+          "target": "full cutout",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "optional 1-2 px idle shift/breath, disabled in serious scenes unless requested",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "char_mansur_portrait_almost_confession",
+      "file_name": "char_mansur_portrait_almost_confession.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_mansur_portrait_contact_sheet",
+      "file_name": "char_mansur_portrait_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not intended as runtime animation source."
+    },
+    {
+      "asset_id": "char_mansur_portrait_evasive",
+      "file_name": "char_mansur_portrait_evasive.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_mansur_portrait_neutral_ref",
+      "file_name": "char_mansur_portrait_neutral_ref.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_mansur_portrait_pressure",
+      "file_name": "char_mansur_portrait_pressure.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_shadow",
+          "type": "transparent_overlay",
+          "target": "character silhouette / edges",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.9,
+            0.9
+          ],
+          "behavior": "slow opacity fade 0-18% tied to pressure flag; no face distortion and no monsterization",
+          "creepiness_level": 2
+        },
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_mansur_portrait_stern",
+      "file_name": "char_mansur_portrait_stern.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_mansur_portrait_warm",
+      "file_name": "char_mansur_portrait_warm.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_marat_evidence_contact_sheet",
+      "file_name": "char_marat_evidence_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not intended as runtime animation source."
+    },
+    {
+      "asset_id": "char_marat_evidence_diary_silhouette",
+      "file_name": "char_marat_evidence_diary_silhouette.png",
+      "animation_slots": [
+        {
+          "id": "evidence_focus_highlight",
+          "type": "ui_overlay",
+          "target": "photo/evidence card surface",
+          "normalized_rect": [
+            0.06,
+            0.06,
+            0.88,
+            0.88
+          ],
+          "behavior": "soft paper-colored focus fade when selected; no neon marker",
+          "creepiness_level": 0
+        },
+        {
+          "id": "scan_noise_optional",
+          "type": "shader_overlay",
+          "target": "whole evidence image",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "extremely low opacity scanner grain or metadata-review flicker",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_marat_evidence_forest_memory_silhouette",
+      "file_name": "char_marat_evidence_forest_memory_silhouette.png",
+      "animation_slots": [
+        {
+          "id": "evidence_focus_highlight",
+          "type": "ui_overlay",
+          "target": "photo/evidence card surface",
+          "normalized_rect": [
+            0.06,
+            0.06,
+            0.88,
+            0.88
+          ],
+          "behavior": "soft paper-colored focus fade when selected; no neon marker",
+          "creepiness_level": 0
+        },
+        {
+          "id": "scan_noise_optional",
+          "type": "shader_overlay",
+          "target": "whole evidence image",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "extremely low opacity scanner grain or metadata-review flicker",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_marat_evidence_old_photo",
+      "file_name": "char_marat_evidence_old_photo.png",
+      "animation_slots": [
+        {
+          "id": "evidence_focus_highlight",
+          "type": "ui_overlay",
+          "target": "photo/evidence card surface",
+          "normalized_rect": [
+            0.06,
+            0.06,
+            0.88,
+            0.88
+          ],
+          "behavior": "soft paper-colored focus fade when selected; no neon marker",
+          "creepiness_level": 0
+        },
+        {
+          "id": "scan_noise_optional",
+          "type": "shader_overlay",
+          "target": "whole evidence image",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "extremely low opacity scanner grain or metadata-review flicker",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_naila_portrait_alarmed",
+      "file_name": "char_naila_portrait_alarmed.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during static evidence review",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Generic portrait idle layer."
+    },
+    {
+      "asset_id": "char_naila_portrait_contact_sheet",
+      "file_name": "char_naila_portrait_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not runtime."
+    },
+    {
+      "asset_id": "char_naila_portrait_evasive",
+      "file_name": "char_naila_portrait_evasive.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during static evidence review",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Generic portrait idle layer."
+    },
+    {
+      "asset_id": "char_naila_portrait_professional",
+      "file_name": "char_naila_portrait_professional.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during static evidence review",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Generic portrait idle layer."
+    },
+    {
+      "asset_id": "char_razilya_portrait_cautious",
+      "file_name": "char_razilya_portrait_cautious.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during static evidence review",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Generic portrait idle layer."
+    },
+    {
+      "asset_id": "char_razilya_portrait_contact_sheet",
+      "file_name": "char_razilya_portrait_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not runtime."
+    },
+    {
+      "asset_id": "char_razilya_portrait_gossip_friendly",
+      "file_name": "char_razilya_portrait_gossip_friendly.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during static evidence review",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Generic portrait idle layer."
+    },
+    {
+      "asset_id": "char_razilya_portrait_pressure",
+      "file_name": "char_razilya_portrait_pressure.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_shadow",
+          "type": "transparent_overlay",
+          "target": "character silhouette / edges",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.9,
+            0.9
+          ],
+          "behavior": "slow opacity fade 0-18% tied to pressure flag; no face distortion",
+          "creepiness_level": 2
+        },
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during static evidence review",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Generic portrait idle layer."
+    },
+    {
+      "asset_id": "char_rinat_forest_edge_cutout_contact_sheet",
+      "file_name": "char_rinat_forest_edge_cutout_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not intended as runtime animation source."
+    },
+    {
+      "asset_id": "char_rinat_forest_edge_cutout_distant",
+      "file_name": "char_rinat_forest_edge_cutout_distant.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_shadow",
+          "type": "transparent_overlay",
+          "target": "character silhouette / edges",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.9,
+            0.9
+          ],
+          "behavior": "slow opacity fade 0-18% tied to pressure flag; no face distortion and no monsterization",
+          "creepiness_level": 2
+        },
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_rinat_forest_edge_cutout_hard_cut",
+      "file_name": "char_rinat_forest_edge_cutout_hard_cut.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_shadow",
+          "type": "transparent_overlay",
+          "target": "character silhouette / edges",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.9,
+            0.9
+          ],
+          "behavior": "slow opacity fade 0-18% tied to pressure flag; no face distortion and no monsterization",
+          "creepiness_level": 2
+        },
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_rinat_forest_edge_cutout_interruption",
+      "file_name": "char_rinat_forest_edge_cutout_interruption.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_shadow",
+          "type": "transparent_overlay",
+          "target": "character silhouette / edges",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.9,
+            0.9
+          ],
+          "behavior": "slow opacity fade 0-18% tied to pressure flag; no face distortion and no monsterization",
+          "creepiness_level": 2
+        },
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_rinat_portrait_contact_sheet",
+      "file_name": "char_rinat_portrait_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not intended as runtime animation source."
+    },
+    {
+      "asset_id": "char_rinat_portrait_fear",
+      "file_name": "char_rinat_portrait_fear.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_shadow",
+          "type": "transparent_overlay",
+          "target": "character silhouette / edges",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.9,
+            0.9
+          ],
+          "behavior": "slow opacity fade 0-18% tied to pressure flag; no face distortion and no monsterization",
+          "creepiness_level": 2
+        },
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_rinat_portrait_irritated",
+      "file_name": "char_rinat_portrait_irritated.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_rinat_portrait_official_deflect",
+      "file_name": "char_rinat_portrait_official_deflect.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_rinat_portrait_practical_warning",
+      "file_name": "char_rinat_portrait_practical_warning.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during hard cuts or static evidence review",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "char_timur_hazrat_portrait_calm",
+      "file_name": "char_timur_hazrat_portrait_calm.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during static evidence review",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Generic portrait idle layer."
+    },
+    {
+      "asset_id": "char_timur_hazrat_portrait_concerned",
+      "file_name": "char_timur_hazrat_portrait_concerned.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during static evidence review",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Generic portrait idle layer."
+    },
+    {
+      "asset_id": "char_timur_hazrat_portrait_contact_sheet",
+      "file_name": "char_timur_hazrat_portrait_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not runtime."
+    },
+    {
+      "asset_id": "char_timur_hazrat_portrait_direct",
+      "file_name": "char_timur_hazrat_portrait_direct.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during static evidence review",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Generic portrait idle layer."
+    },
+    {
+      "asset_id": "char_timur_hazrat_portrait_prayerful_restraint",
+      "file_name": "char_timur_hazrat_portrait_prayerful_restraint.png",
+      "animation_slots": [
+        {
+          "id": "character_idle_breath",
+          "type": "engine_transform",
+          "target": "whole transparent character asset",
+          "normalized_rect": [
+            0.05,
+            0.03,
+            0.9,
+            0.94
+          ],
+          "behavior": "0.5-1.0 px breathing drift over 5-8 s; disable during static evidence review",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Generic portrait idle layer."
+    },
+    {
+      "asset_id": "doc_cemetery_registry_journal_evidence_card",
+      "file_name": "doc_cemetery_registry_journal_evidence_card.png",
+      "animation_slots": [
+        {
+          "id": "focus_highlight",
+          "type": "ui_overlay",
+          "target": "registry crop and date clue",
+          "normalized_rect": [
+            0.06,
+            0.14,
+            0.64,
+            0.48
+          ],
+          "behavior": "soft clue highlight when selected",
+          "creepiness_level": 0
+        },
+        {
+          "id": "pressure_shadow",
+          "type": "pressure_overlay",
+          "target": "lower notes area",
+          "normalized_rect": [
+            0.05,
+            0.68,
+            0.9,
+            0.24
+          ],
+          "behavior": "pressure-flag-only shadow, does not obscure text",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static document derivative; runtime overlays only."
+    },
+    {
+      "asset_id": "doc_cemetery_registry_line_crop_bg",
+      "file_name": "doc_cemetery_registry_line_crop_bg.png",
+      "animation_slots": [
+        {
+          "id": "line_crop_focus",
+          "type": "ui_overlay",
+          "target": "central registry row",
+          "normalized_rect": [
+            0.05,
+            0.3,
+            0.9,
+            0.42
+          ],
+          "behavior": "short clue selection fade, no marker-neon effect",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_cemetery_registry_photo_bg",
+      "file_name": "doc_cemetery_registry_photo_bg.png",
+      "animation_slots": [
+        {
+          "id": "registry_row_highlight",
+          "type": "ui_overlay",
+          "target": "Marat registry row",
+          "normalized_rect": [
+            0.12,
+            0.43,
+            0.78,
+            0.08
+          ],
+          "behavior": "soft warm highlight fade when date clue is selected",
+          "creepiness_level": 0
+        },
+        {
+          "id": "archive_shadow_pressure",
+          "type": "pressure_overlay",
+          "target": "folder edge and document margins",
+          "normalized_rect": [
+            0.04,
+            0.03,
+            0.92,
+            0.94
+          ],
+          "behavior": "slow edge-darkening after contradiction is found",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_marat_diary_angry_note_bg",
+      "file_name": "doc_marat_diary_angry_note_bg.png",
+      "animation_slots": [
+        {
+          "id": "graphite_pressure_shadow",
+          "type": "pressure_overlay",
+          "target": "crossout/smudge regions",
+          "normalized_rect": [
+            0.12,
+            0.16,
+            0.76,
+            0.68
+          ],
+          "behavior": "very slight opacity swell on smudge shadows during pressure state",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_marat_diary_damaged_page_bg",
+      "file_name": "doc_marat_diary_damaged_page_bg.png",
+      "animation_slots": [
+        {
+          "id": "scan_noise",
+          "type": "shader_overlay",
+          "target": "whole damaged page",
+          "normalized_rect": [
+            0.04,
+            0.03,
+            0.92,
+            0.94
+          ],
+          "behavior": "low scanner grain/noise",
+          "creepiness_level": 0
+        },
+        {
+          "id": "damage_focus",
+          "type": "ui_overlay",
+          "target": "smear/torn readable gaps",
+          "normalized_rect": [
+            0.08,
+            0.2,
+            0.82,
+            0.62
+          ],
+          "behavior": "clue focus reveals runtime text snippets, never animates damage itself",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static document derivative; runtime overlays only."
+    },
+    {
+      "asset_id": "doc_marat_diary_early_note_bg",
+      "file_name": "doc_marat_diary_early_note_bg.png",
+      "animation_slots": [
+        {
+          "id": "paper_focus_highlight",
+          "type": "ui_overlay",
+          "target": "main writing area",
+          "normalized_rect": [
+            0.14,
+            0.24,
+            0.7,
+            0.58
+          ],
+          "behavior": "soft off-white focus overlay for selected line",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_marat_diary_forest_route_note_bg",
+      "file_name": "doc_marat_diary_forest_route_note_bg.png",
+      "animation_slots": [
+        {
+          "id": "route_sketch_focus",
+          "type": "ui_overlay",
+          "target": "sketch and route labels",
+          "normalized_rect": [
+            0.12,
+            0.1,
+            0.76,
+            0.36
+          ],
+          "behavior": "soft highlight on selected route segment",
+          "creepiness_level": 1
+        },
+        {
+          "id": "forest_edge_pressure_wash",
+          "type": "pressure_overlay",
+          "target": "dark tree-line wash only",
+          "normalized_rect": [
+            0.12,
+            0.06,
+            0.76,
+            0.22
+          ],
+          "behavior": "slow cold shadow opacity 0-10% after route clue is unlocked",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_marat_medical_record_metadata_card",
+      "file_name": "doc_marat_medical_record_metadata_card.png",
+      "animation_slots": [
+        {
+          "id": "metadata_selection_pulse",
+          "type": "ui_overlay",
+          "target": "selected metadata row",
+          "normalized_rect": [
+            0.48,
+            0.22,
+            0.42,
+            0.5
+          ],
+          "behavior": "subtle 4-8% opacity paper highlight; not neon",
+          "creepiness_level": 0
+        },
+        {
+          "id": "old_pc_scanline",
+          "type": "shader_overlay",
+          "target": "whole card",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "optional faint CRT scan softness when displayed inside old PC",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_marat_medical_record_redacted_bg",
+      "file_name": "doc_marat_medical_record_redacted_bg.png",
+      "animation_slots": [
+        {
+          "id": "scan_noise",
+          "type": "shader_overlay",
+          "target": "whole document",
+          "normalized_rect": [
+            0.06,
+            0.03,
+            0.88,
+            0.94
+          ],
+          "behavior": "extremely low-opacity static scanner grain; does not obscure overlay text",
+          "creepiness_level": 0
+        },
+        {
+          "id": "redaction_focus",
+          "type": "ui_overlay",
+          "target": "redacted rows and notes area",
+          "normalized_rect": [
+            0.1,
+            0.35,
+            0.8,
+            0.38
+          ],
+          "behavior": "soft paper-colored clue highlight fade when selected",
+          "creepiness_level": 1
+        },
+        {
+          "id": "dangerous_phrase_pressure",
+          "type": "pressure_overlay",
+          "target": "lower note/signature region",
+          "normalized_rect": [
+            0.12,
+            0.62,
+            0.68,
+            0.27
+          ],
+          "behavior": "edge shadow fades in only after re-read unlock",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_marat_saved_messages_base",
+      "file_name": "doc_marat_saved_messages_base.png",
+      "animation_slots": [
+        {
+          "id": "crt_scanline",
+          "type": "shader_overlay",
+          "target": "whole message window",
+          "normalized_rect": [
+            0.06,
+            0.08,
+            0.88,
+            0.82
+          ],
+          "behavior": "faint horizontal scanline drift; must not reduce text readability",
+          "creepiness_level": 0
+        },
+        {
+          "id": "cursor_blink",
+          "type": "ui_overlay",
+          "target": "input/status bar",
+          "normalized_rect": [
+            0.29,
+            0.82,
+            0.55,
+            0.06
+          ],
+          "behavior": "standard old-PC cursor blink when message log is active",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_marat_saved_messages_warning_state",
+      "file_name": "doc_marat_saved_messages_warning_state.png",
+      "animation_slots": [
+        {
+          "id": "warning_message_pulse",
+          "type": "ui_overlay",
+          "target": "last message region",
+          "normalized_rect": [
+            0.36,
+            0.58,
+            0.48,
+            0.18
+          ],
+          "behavior": "slow amber/cold highlight pulse 0-12% tied to dangerous message state",
+          "creepiness_level": 2
+        },
+        {
+          "id": "attachment_missing_flicker",
+          "type": "pressure_overlay",
+          "target": "missing attachment placeholder",
+          "normalized_rect": [
+            0.42,
+            0.48,
+            0.22,
+            0.12
+          ],
+          "behavior": "rare one-frame dim; no heavy glitch storm",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_pact_folder_compensation_note_bg",
+      "file_name": "doc_pact_folder_compensation_note_bg.png",
+      "animation_slots": [
+        {
+          "id": "compensation_fields_focus",
+          "type": "ui_overlay",
+          "target": "amount/recipient/note fields",
+          "normalized_rect": [
+            0.18,
+            0.24,
+            0.64,
+            0.52
+          ],
+          "behavior": "soft clue highlight over selected fields",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_pact_folder_household_list_bg",
+      "file_name": "doc_pact_folder_household_list_bg.png",
+      "animation_slots": [
+        {
+          "id": "household_row_focus",
+          "type": "ui_overlay",
+          "target": "selected household row",
+          "normalized_rect": [
+            0.12,
+            0.38,
+            0.78,
+            0.08
+          ],
+          "behavior": "soft paper highlight when a household clue is selected",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_pact_folder_incident_log_bg",
+      "file_name": "doc_pact_folder_incident_log_bg.png",
+      "animation_slots": [
+        {
+          "id": "incident_entry_focus",
+          "type": "ui_overlay",
+          "target": "central incident row",
+          "normalized_rect": [
+            0.12,
+            0.4,
+            0.76,
+            0.12
+          ],
+          "behavior": "soft focus highlight for selected entry",
+          "creepiness_level": 1
+        },
+        {
+          "id": "archive_pressure_edge",
+          "type": "pressure_overlay",
+          "target": "page and folder margins",
+          "normalized_rect": [
+            0.04,
+            0.04,
+            0.92,
+            0.92
+          ],
+          "behavior": "slow edge-shadow after pact-system clue becomes active",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static document base; scan/focus/pressure effects are runtime-controlled and sparse."
+    },
+    {
+      "asset_id": "doc_pact_folder_pakt_1999_replacement_bg",
+      "file_name": "doc_pact_folder_pakt_1999_replacement_bg.png",
+      "animation_slots": [
+        {
+          "id": "scan_noise",
+          "type": "shader_overlay",
+          "target": "whole pact document",
+          "normalized_rect": [
+            0.04,
+            0.03,
+            0.92,
+            0.94
+          ],
+          "behavior": "low scanner grain/noise",
+          "creepiness_level": 0
+        },
+        {
+          "id": "pact_focus_shadow",
+          "type": "pressure_overlay",
+          "target": "replacement title and incident rows",
+          "normalized_rect": [
+            0.08,
+            0.07,
+            0.82,
+            0.76
+          ],
+          "behavior": "slow pressure-flag-only edge darkening; no symbols/creatures",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static document derivative; runtime overlays only."
+    },
+    {
+      "asset_id": "loc_admin_archive_corner_day",
+      "file_name": "loc_admin_archive_corner_day.png",
+      "animation_slots": [
+        {
+          "id": "window_light_drift",
+          "type": "light_overlay",
+          "target": "window / practical lamp",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.55,
+            0.4
+          ],
+          "behavior": "very slow daylight or lamp shimmer",
+          "creepiness_level": 0
+        },
+        {
+          "id": "paper_dust_hold",
+          "type": "environment_overlay",
+          "target": "desk and papers",
+          "normalized_rect": [
+            0,
+            0.35,
+            1,
+            0.55
+          ],
+          "behavior": "near-static dust/paper-grain hold",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static support-location base; controlled animation slots are subtle and sparse."
+    },
+    {
+      "asset_id": "loc_admin_archive_denied_access",
+      "file_name": "loc_admin_archive_denied_access.png",
+      "animation_slots": [
+        {
+          "id": "fluorescent_light_pulse",
+          "type": "soft_light_overlay",
+          "target": "ceiling light and cabinet tops",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Low-amplitude fluorescent hum / pulse.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "paper_focus_highlight",
+          "type": "focus_highlight",
+          "target": "desk forms, notice, cabinet labels",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Small highlight for denied-access interactables.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "admin_edge_pressure",
+          "type": "pressure_overlay",
+          "target": "door, locked cabinet, visitor chair",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Social pressure overlay; no supernatural or horror props.",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static support-location base; animation is runtime slot metadata only."
+    },
+    {
+      "asset_id": "loc_arrival_road_to_kyrlay_dusk",
+      "file_name": "loc_arrival_road_to_kyrlay_dusk.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "upper sky",
+          "normalized_rect": [
+            0.05,
+            0.02,
+            0.75,
+            0.24
+          ],
+          "behavior": "1-3 tiny distant birds crossing rarely, 18-30s apart",
+          "creepiness_level": 0
+        },
+        {
+          "id": "road_dust_hold",
+          "type": "environment_overlay",
+          "target": "road edge",
+          "normalized_rect": [
+            0.0,
+            0.55,
+            1.0,
+            0.35
+          ],
+          "behavior": "near-static dusk dust/grain shimmer only during arrival pause",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static support-location base with subtle runtime ambience slots only."
+    },
+    {
+      "asset_id": "loc_arrival_road_to_kyrlay_dusk_bus_stop",
+      "file_name": "loc_arrival_road_to_kyrlay_dusk_bus_stop.png",
+      "animation_slots": [
+        {
+          "id": "window_glow_shimmer",
+          "type": "light_overlay",
+          "target": "lit windows/sign area",
+          "normalized_rect": [
+            0.15,
+            0.12,
+            0.7,
+            0.45
+          ],
+          "behavior": "subtle warm window shimmer, 8-14s",
+          "creepiness_level": 0
+        },
+        {
+          "id": "evening_edge_hold",
+          "type": "pressure_overlay",
+          "target": "edge vignette",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "static evening edge darkening, no pulse",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static support-location base; controlled animation slots are subtle and sparse."
+    },
+    {
+      "asset_id": "loc_arrival_vehicle_interior_dusk",
+      "file_name": "loc_arrival_vehicle_interior_dusk.png",
+      "animation_slots": [
+        {
+          "id": "window_light_pulse",
+          "type": "soft_light_overlay",
+          "target": "vehicle window and dusk sky reflection",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Very slow low-amplitude dusk light shift; keep village view readable.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "dust_motes",
+          "type": "particle_overlay",
+          "target": "dark vehicle interior foreground",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Sparse floating dust, almost static.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "arrival_edge_pressure",
+          "type": "pressure_overlay",
+          "target": "outer frame edges and seat silhouettes",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Optional slight ink darkening when arrival anxiety is flagged.",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static support-location base; animation is runtime slot metadata only."
+    },
+    {
+      "asset_id": "loc_fap_cabinet_document_desk_day",
+      "file_name": "loc_fap_cabinet_document_desk_day.png",
+      "animation_slots": [
+        {
+          "id": "fluorescent_micro_flicker",
+          "type": "light_overlay",
+          "target": "ceiling light/medical room",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            0.5
+          ],
+          "behavior": "flat cold light shifts 1-3%, not horror flicker",
+          "creepiness_level": 1
+        },
+        {
+          "id": "document_focus_highlight",
+          "type": "ui_overlay",
+          "target": "documents on desk",
+          "normalized_rect": [
+            0.12,
+            0.58,
+            0.48,
+            0.22
+          ],
+          "behavior": "soft paper-colored focus fade when selected",
+          "creepiness_level": 0
+        },
+        {
+          "id": "cabinet_pressure_shadow",
+          "type": "pressure_overlay",
+          "target": "metal cabinet/door edge",
+          "normalized_rect": [
+            0.55,
+            0.14,
+            0.36,
+            0.58
+          ],
+          "behavior": "pressure flag darkens edges, no figure",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_fap_pressure_document_desk",
+      "file_name": "loc_fap_pressure_document_desk.png",
+      "animation_slots": [
+        {
+          "id": "desk_lamp_glow",
+          "type": "light_overlay",
+          "target": "desk_lamp_glow",
+          "normalized_rect": [
+            0.0195,
+            0.3168,
+            0.166,
+            0.3342
+          ],
+          "behavior": "slow practical lamp glow",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.05,
+            0.15
+          ]
+        },
+        {
+          "id": "document_focus_highlight",
+          "type": "light_overlay",
+          "target": "document_focus_highlight",
+          "normalized_rect": [
+            0.1685,
+            0.5946,
+            0.4053,
+            0.2127
+          ],
+          "behavior": "focus highlight on clue/document interaction",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.25
+          ]
+        },
+        {
+          "id": "window_shadow_pressure",
+          "type": "pressure_overlay",
+          "target": "window_shadow_pressure",
+          "normalized_rect": [
+            0.6128,
+            0.2214,
+            0.2856,
+            0.3559
+          ],
+          "behavior": "pressure flag only, slow shadow creep",
+          "creepiness_level": 2,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.2
+          ]
+        },
+        {
+          "id": "fluorescent_hum",
+          "type": "light_overlay",
+          "target": "fluorescent_hum",
+          "normalized_rect": [
+            0.4956,
+            0.0304,
+            0.3101,
+            0.0694
+          ],
+          "behavior": "barely perceptible irregular hum",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.1
+          ]
+        }
+      ],
+      "notes": "Static base; use sparse controlled overlays only, no baked loop/video."
+    },
+    {
+      "asset_id": "loc_fap_waiting_room_day",
+      "file_name": "loc_fap_waiting_room_day.png",
+      "animation_slots": [
+        {
+          "id": "window_daylight_dust",
+          "type": "light_overlay",
+          "target": "window_daylight_dust",
+          "normalized_rect": [
+            0.5542,
+            0.1345,
+            0.2148,
+            0.3733
+          ],
+          "behavior": "slow dust motes in window light",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.04,
+            0.12
+          ]
+        },
+        {
+          "id": "fluorescent_hum",
+          "type": "light_overlay",
+          "target": "fluorescent_hum",
+          "normalized_rect": [
+            0.4932,
+            0.0191,
+            0.3027,
+            0.0694
+          ],
+          "behavior": "barely perceptible irregular hum",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.08
+          ]
+        },
+        {
+          "id": "curtain_drift",
+          "type": "environment_overlay",
+          "target": "curtain_drift",
+          "normalized_rect": [
+            0.5737,
+            0.1042,
+            0.1636,
+            0.3733
+          ],
+          "behavior": "1-2 px cloth drift, calm only",
+          "creepiness_level": 1,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            0.1
+          ]
+        },
+        {
+          "id": "bench_hover",
+          "type": "light_overlay",
+          "target": "bench_hover",
+          "normalized_rect": [
+            0.3516,
+            0.4991,
+            0.3809,
+            0.1476
+          ],
+          "behavior": "interactive hover or focus only",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.14
+          ]
+        }
+      ],
+      "notes": "Static base; use sparse controlled overlays only, no baked loop/video."
+    },
+    {
+      "asset_id": "loc_kitchen_first_dinner_night_talk",
+      "file_name": "loc_kitchen_first_dinner_night_talk.png",
+      "animation_slots": [
+        {
+          "id": "bulb_breath",
+          "type": "light_overlay",
+          "target": "bulb_breath",
+          "normalized_rect": [
+            0.4492,
+            0.0608,
+            0.1758,
+            0.1997
+          ],
+          "behavior": "slow weak amber bulb pulse, 7-11s",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.04,
+            0.16
+          ]
+        },
+        {
+          "id": "window_cold_light",
+          "type": "light_overlay",
+          "target": "window_cold_light",
+          "normalized_rect": [
+            0.603,
+            0.1519,
+            0.1904,
+            0.3038
+          ],
+          "behavior": "very slow cold blue night shimmer",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.03,
+            0.1
+          ]
+        },
+        {
+          "id": "hallway_pressure_shadow",
+          "type": "pressure_overlay",
+          "target": "hallway_pressure_shadow",
+          "normalized_rect": [
+            0.0,
+            0.1042,
+            0.2441,
+            0.7118
+          ],
+          "behavior": "single slow darkening tied to pressure flag",
+          "creepiness_level": 2,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.18
+          ]
+        },
+        {
+          "id": "tea_steam_optional",
+          "type": "light_overlay",
+          "target": "tea_steam_optional",
+          "normalized_rect": [
+            0.3174,
+            0.5208,
+            0.3711,
+            0.1649
+          ],
+          "behavior": "optional thin steam drift only in calm/night-talk state",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.08
+          ]
+        }
+      ],
+      "notes": "Static base; use sparse controlled overlays only, no baked loop/video."
+    },
+    {
+      "asset_id": "loc_kitchen_first_dinner_tense_silence",
+      "file_name": "loc_kitchen_first_dinner_tense_silence.png",
+      "animation_slots": [
+        {
+          "id": "weak_bulb_pulse",
+          "type": "light_overlay",
+          "target": "ceiling bulb/table light",
+          "normalized_rect": [
+            0.3,
+            0.02,
+            0.36,
+            0.34
+          ],
+          "behavior": "dim warm pulse 2-4%, can pause during tense dialogue",
+          "creepiness_level": 1
+        },
+        {
+          "id": "doorway_pressure_shadow",
+          "type": "pressure_overlay",
+          "target": "dark doorway/hall",
+          "normalized_rect": [
+            0.72,
+            0.18,
+            0.22,
+            0.58
+          ],
+          "behavior": "pressure-flag-only shadow thickening; no figure reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "tea_steam_overlay",
+          "type": "transparent_overlay",
+          "target": "table tea area",
+          "normalized_rect": [
+            0.3,
+            0.42,
+            0.42,
+            0.24
+          ],
+          "behavior": "steam fades or disappears under tension",
+          "creepiness_level": 1
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_kitchen_first_dinner_warm",
+      "file_name": "loc_kitchen_first_dinner_warm.png",
+      "animation_slots": [
+        {
+          "id": "weak_bulb_pulse",
+          "type": "light_overlay",
+          "target": "ceiling bulb/table light",
+          "normalized_rect": [
+            0.32,
+            0.02,
+            0.34,
+            0.34
+          ],
+          "behavior": "barely visible warm pulse 2-5% over 10-16 s",
+          "creepiness_level": 0
+        },
+        {
+          "id": "tea_steam_overlay",
+          "type": "transparent_overlay",
+          "target": "kettle/cups on table",
+          "normalized_rect": [
+            0.32,
+            0.42,
+            0.36,
+            0.22
+          ],
+          "behavior": "optional thin steam wisps, slow and sparse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "curtain_micro_drift",
+          "type": "mask_overlay",
+          "target": "window curtain",
+          "normalized_rect": [
+            0.45,
+            0.18,
+            0.32,
+            0.28
+          ],
+          "behavior": "1 px fabric drift over 8-12 s",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_mansur_house_exterior_day",
+      "file_name": "loc_mansur_house_exterior_day.png",
+      "animation_slots": [
+        {
+          "id": "sky_distant_birds",
+          "type": "engine_overlay_sprites",
+          "target": "upper sky above house roofline",
+          "normalized_rect": [
+            0.08,
+            0.02,
+            0.84,
+            0.2
+          ],
+          "behavior": "one or two tiny distant bird silhouettes crossing rarely over 18-30 s; disable during dialogue focus",
+          "creepiness_level": 0
+        },
+        {
+          "id": "yard_grass_branch_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "foreground grass, shrubs and small branches near fence",
+          "normalized_rect": [
+            0.0,
+            0.58,
+            1.0,
+            0.36
+          ],
+          "behavior": "near-static drift under 1 px, irregular and sparse; never constant swaying",
+          "creepiness_level": 0
+        },
+        {
+          "id": "window_curtain_micro_drift",
+          "type": "mask_overlay",
+          "target": "house window curtains",
+          "normalized_rect": [
+            0.48,
+            0.34,
+            0.35,
+            0.2
+          ],
+          "behavior": "optional 2-4% opacity shift as curtain/light variation; ordinary daytime only",
+          "creepiness_level": 1
+        },
+        {
+          "id": "pressure_wrong_shadow_optional",
+          "type": "pressure_overlay",
+          "target": "open gate, fence gaps and under-eaves shadows",
+          "normalized_rect": [
+            0.2,
+            0.22,
+            0.68,
+            0.58
+          ],
+          "behavior": "pressure-flag-only edge darkening and slightly too-still shadow; no figure, eyes or creature silhouette",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Day base remains ordinary; pressure behavior must be driven by flags or variant overlays, not by default ambience."
+    },
+    {
+      "asset_id": "loc_mansur_house_exterior_evening",
+      "file_name": "loc_mansur_house_exterior_evening.png",
+      "animation_slots": [
+        {
+          "id": "window_warm_shimmer",
+          "type": "light_overlay",
+          "target": "lit house window",
+          "normalized_rect": [
+            0.45,
+            0.34,
+            0.38,
+            0.18
+          ],
+          "behavior": "warm opacity shimmer 3-8% over 8-14 s; sparse and domestic",
+          "creepiness_level": 1
+        },
+        {
+          "id": "yard_grass_branch_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "foreground grass and branches",
+          "normalized_rect": [
+            0.0,
+            0.58,
+            1.0,
+            0.36
+          ],
+          "behavior": "near-static drift under 1 px, irregular and sparse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "sky_distant_birds",
+          "type": "engine_overlay_sprites",
+          "target": "upper sky",
+          "normalized_rect": [
+            0.06,
+            0.0,
+            0.88,
+            0.2
+          ],
+          "behavior": "rare tiny bird silhouettes, 18-30 s interval",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_mansur_house_exterior_pressure_night",
+      "file_name": "loc_mansur_house_exterior_pressure_night.png",
+      "animation_slots": [
+        {
+          "id": "window_wrong_time_glow",
+          "type": "light_overlay",
+          "target": "single lit window",
+          "normalized_rect": [
+            0.48,
+            0.32,
+            0.28,
+            0.18
+          ],
+          "behavior": "slow 4-10% warm shimmer tied to pressure flag",
+          "creepiness_level": 2
+        },
+        {
+          "id": "pressure_wrong_shadow",
+          "type": "pressure_overlay",
+          "target": "gate, fence gaps, eaves",
+          "normalized_rect": [
+            0.12,
+            0.18,
+            0.78,
+            0.66
+          ],
+          "behavior": "edge darkening and slightly misaligned shadow; no figure or eyes",
+          "creepiness_level": 2
+        },
+        {
+          "id": "grass_branch_micro_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "foreground grass and branches",
+          "normalized_rect": [
+            0.0,
+            0.56,
+            1.0,
+            0.38
+          ],
+          "behavior": "very sparse drift; pressure can freeze it completely",
+          "creepiness_level": 1
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_mansur_pc_room_off",
+      "file_name": "loc_mansur_pc_room_off.png",
+      "animation_slots": [
+        {
+          "id": "lamp_faint_pulse",
+          "type": "light_overlay",
+          "target": "desk lamp/window daylight",
+          "normalized_rect": [
+            0.0,
+            0.08,
+            0.42,
+            0.52
+          ],
+          "behavior": "very subtle ambient shift, 2-4%",
+          "creepiness_level": 0
+        },
+        {
+          "id": "dust_motes",
+          "type": "shader_overlay",
+          "target": "desk/monitor air",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "rare dust specks drifting slowly, optional",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_mansur_pc_room_on",
+      "file_name": "loc_mansur_pc_room_on.png",
+      "animation_slots": [
+        {
+          "id": "crt_glow",
+          "type": "light_overlay",
+          "target": "CRT screen and desk spill",
+          "normalized_rect": [
+            0.28,
+            0.18,
+            0.28,
+            0.28
+          ],
+          "behavior": "muted turquoise glow shimmer 3-7%",
+          "creepiness_level": 0
+        },
+        {
+          "id": "crt_scanline_overlay",
+          "type": "shader_overlay",
+          "target": "CRT screen",
+          "normalized_rect": [
+            0.3,
+            0.2,
+            0.24,
+            0.22
+          ],
+          "behavior": "low opacity scanline layer, slow roll optional",
+          "creepiness_level": 0
+        },
+        {
+          "id": "cursor_blink_slot",
+          "type": "ui_overlay",
+          "target": "CRT composited UI layer",
+          "normalized_rect": [
+            0.3,
+            0.2,
+            0.24,
+            0.22
+          ],
+          "behavior": "separate UI cursor blink; never baked into bitmap",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_mansur_pc_room_search_pressure_late_night",
+      "file_name": "loc_mansur_pc_room_search_pressure_late_night.png",
+      "animation_slots": [
+        {
+          "id": "crt_pressure_glow",
+          "type": "light_overlay",
+          "target": "CRT screen and desk spill",
+          "normalized_rect": [
+            0.28,
+            0.18,
+            0.3,
+            0.28
+          ],
+          "behavior": "uneven muted CRT glow tied to search/pressure state, 3-9%",
+          "creepiness_level": 2
+        },
+        {
+          "id": "crt_scanline_overlay",
+          "type": "shader_overlay",
+          "target": "CRT screen",
+          "normalized_rect": [
+            0.3,
+            0.2,
+            0.26,
+            0.23
+          ],
+          "behavior": "low opacity scanline, no heavy glitch",
+          "creepiness_level": 1
+        },
+        {
+          "id": "room_edge_pressure_shadow",
+          "type": "pressure_overlay",
+          "target": "room edges and wall photos",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "slow vignette and wrong shadow, no face/figure reveal",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_marat_grave_closeup_cleaned_readable_base",
+      "file_name": "loc_marat_grave_closeup_cleaned_readable_base.png",
+      "animation_slots": [
+        {
+          "id": "inscription_focus_highlight",
+          "type": "ui_overlay",
+          "target": "cleaned inscription panel",
+          "normalized_rect": [
+            0.31,
+            0.18,
+            0.38,
+            0.28
+          ],
+          "behavior": "focus highlight under editable name/date text",
+          "creepiness_level": 0
+        },
+        {
+          "id": "date_clue_highlight",
+          "type": "ui_overlay",
+          "target": "date/name overlay region",
+          "normalized_rect": [
+            0.32,
+            0.22,
+            0.36,
+            0.18
+          ],
+          "behavior": "soft clue highlight when date contradiction is discovered",
+          "creepiness_level": 1
+        },
+        {
+          "id": "grass_micro_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "grass/leaves near grave",
+          "normalized_rect": [
+            0.0,
+            0.56,
+            1.0,
+            0.4
+          ],
+          "behavior": "small wind drift",
+          "creepiness_level": 1
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_marat_grave_closeup_journal_crop",
+      "file_name": "loc_marat_grave_closeup_journal_crop.png",
+      "animation_slots": [
+        {
+          "id": "inscription_focus_highlight",
+          "type": "light_overlay",
+          "target": "inscription_focus_highlight",
+          "normalized_rect": [
+            0.2173,
+            0.2127,
+            0.4492,
+            0.3385
+          ],
+          "behavior": "focus sweep or clue highlight on readable overlay",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.24
+          ]
+        },
+        {
+          "id": "journal_vignette",
+          "type": "environment_overlay",
+          "target": "journal_vignette",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "static evidence-review vignette",
+          "creepiness_level": 1,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.16
+          ]
+        },
+        {
+          "id": "dust_moss_overlay",
+          "type": "environment_overlay",
+          "target": "dust_moss_overlay",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "optional slow dust/moss texture in evidence view",
+          "creepiness_level": 1,
+          "blend": "overlay",
+          "opacity_range": [
+            0.0,
+            0.08
+          ]
+        },
+        {
+          "id": "brush_hover",
+          "type": "light_overlay",
+          "target": "brush_hover",
+          "normalized_rect": [
+            0.5469,
+            0.7248,
+            0.2051,
+            0.1606
+          ],
+          "behavior": "interactive hover/focus only",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.16
+          ]
+        }
+      ],
+      "notes": "Static base; use sparse controlled overlays only, no baked loop/video."
+    },
+    {
+      "asset_id": "loc_marat_grave_closeup_mossy",
+      "file_name": "loc_marat_grave_closeup_mossy.png",
+      "animation_slots": [
+        {
+          "id": "inscription_focus_highlight",
+          "type": "ui_overlay",
+          "target": "grave inscription panel",
+          "normalized_rect": [
+            0.31,
+            0.18,
+            0.38,
+            0.28
+          ],
+          "behavior": "soft paper-grey focus highlight before cleaning",
+          "creepiness_level": 0
+        },
+        {
+          "id": "cleaning_overlay_slot",
+          "type": "transparent_overlay",
+          "target": "moss/leaves/stone face",
+          "normalized_rect": [
+            0.22,
+            0.16,
+            0.56,
+            0.52
+          ],
+          "behavior": "interactive cleaning mask/progress; not a baked animation",
+          "creepiness_level": 0
+        },
+        {
+          "id": "grass_micro_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "grass/leaves near grave",
+          "normalized_rect": [
+            0.0,
+            0.56,
+            1.0,
+            0.4
+          ],
+          "behavior": "small wind drift",
+          "creepiness_level": 1
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_mosque_exterior_day_safe_light",
+      "file_name": "loc_mosque_exterior_day_safe_light.png",
+      "animation_slots": [
+        {
+          "id": "safe_window_light",
+          "type": "light_overlay",
+          "target": "mosque windows/entry",
+          "normalized_rect": [
+            0.3,
+            0.18,
+            0.42,
+            0.32
+          ],
+          "behavior": "slow calm safe-zone warmth, never eerie pulse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "tree_leaf_drift",
+          "type": "environment_overlay",
+          "target": "trees and grass",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "rare tiny wind movement",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static support-location base with subtle runtime ambience slots only."
+    },
+    {
+      "asset_id": "loc_mosque_tea_office_serious_talk",
+      "file_name": "loc_mosque_tea_office_serious_talk.png",
+      "animation_slots": [
+        {
+          "id": "lamp_warmth",
+          "type": "soft_light_overlay",
+          "target": "wall lamp, tea table, chair backs",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Stable warm lamp with barely perceptible breathing.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "window_dust",
+          "type": "particle_overlay",
+          "target": "window light column",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Slow sparse dust; safe-zone calm, not horror.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "notebook_focus",
+          "type": "focus_highlight",
+          "target": "open notebook and tea table",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Gentle focus for dialogue clue or vocabulary prompt.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "serious_talk_edge_pressure",
+          "type": "pressure_overlay",
+          "target": "room edges and curtain shadows",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Very restrained darkening for serious conversation only; never sinister religious framing.",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static support-location base; animation is runtime slot metadata only."
+    },
+    {
+      "asset_id": "loc_mosque_tea_office_timur_calm",
+      "file_name": "loc_mosque_tea_office_timur_calm.png",
+      "animation_slots": [
+        {
+          "id": "window_light_drift",
+          "type": "light_overlay",
+          "target": "window / practical lamp",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.55,
+            0.4
+          ],
+          "behavior": "very slow daylight or lamp shimmer",
+          "creepiness_level": 0
+        },
+        {
+          "id": "paper_dust_hold",
+          "type": "environment_overlay",
+          "target": "desk and papers",
+          "normalized_rect": [
+            0,
+            0.35,
+            1,
+            0.55
+          ],
+          "behavior": "near-static dust/paper-grain hold",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static support-location base; controlled animation slots are subtle and sparse."
+    },
+    {
+      "asset_id": "loc_niva_closeup_tool_detail",
+      "file_name": "loc_niva_closeup_tool_detail.png",
+      "animation_slots": [
+        {
+          "id": "shed_dust_motes",
+          "type": "particle_overlay",
+          "target": "shed light and tool bench",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Sparse dust in the light; no dramatic motion.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "tool_focus_highlight",
+          "type": "focus_highlight",
+          "target": "tools, glove, rope, screw tin",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Small paper-wash highlight for interactable prop focus.",
+          "creepiness_level": 0
+        },
+        {
+          "id": "subtle_corner_pressure",
+          "type": "pressure_overlay",
+          "target": "shed corner shadows",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "Only use if investigation pressure flag is active; no creature cue.",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static support-location base; animation is runtime slot metadata only."
+    },
+    {
+      "asset_id": "loc_river_bank_day",
+      "file_name": "loc_river_bank_day.png",
+      "animation_slots": [
+        {
+          "id": "water_near_static_shimmer",
+          "type": "water_overlay",
+          "target": "water surface",
+          "normalized_rect": [
+            0,
+            0.32,
+            1,
+            0.42
+          ],
+          "behavior": "very slow sparse shimmer",
+          "creepiness_level": 1
+        },
+        {
+          "id": "reed_reflection_hint",
+          "type": "pressure_overlay",
+          "target": "reeds/reflection edge",
+          "normalized_rect": [
+            0.08,
+            0.32,
+            0.84,
+            0.38
+          ],
+          "behavior": "pressure-flag-only false Su Anasy hint; no body/face/eyes",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static support-location base; controlled animation slots are subtle and sparse."
+    },
+    {
+      "asset_id": "loc_river_bank_dusk_still_water",
+      "file_name": "loc_river_bank_dusk_still_water.png",
+      "animation_slots": [
+        {
+          "id": "water_near_static_shimmer",
+          "type": "water_overlay",
+          "target": "river surface",
+          "normalized_rect": [
+            0.0,
+            0.42,
+            1.0,
+            0.42
+          ],
+          "behavior": "near-static water shimmer, very slow and sparse",
+          "creepiness_level": 1
+        },
+        {
+          "id": "false_su_anasy_hint_shadow",
+          "type": "pressure_overlay",
+          "target": "reed/water reflection edge",
+          "normalized_rect": [
+            0.12,
+            0.34,
+            0.7,
+            0.34
+          ],
+          "behavior": "pressure-flag-only ambiguous reflection; no body, face or glowing eyes",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static support-location base with subtle runtime ambience slots only."
+    },
+    {
+      "asset_id": "loc_selsmag_counter_interior",
+      "file_name": "loc_selsmag_counter_interior.png",
+      "animation_slots": [
+        {
+          "id": "window_light_drift",
+          "type": "light_overlay",
+          "target": "window / practical lamp",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.55,
+            0.4
+          ],
+          "behavior": "very slow daylight or lamp shimmer",
+          "creepiness_level": 0
+        },
+        {
+          "id": "paper_dust_hold",
+          "type": "environment_overlay",
+          "target": "desk and papers",
+          "normalized_rect": [
+            0,
+            0.35,
+            1,
+            0.55
+          ],
+          "behavior": "near-static dust/paper-grain hold",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static support-location base; controlled animation slots are subtle and sparse."
+    },
+    {
+      "asset_id": "loc_selsmag_exterior_day",
+      "file_name": "loc_selsmag_exterior_day.png",
+      "animation_slots": [
+        {
+          "id": "shop_window_glow_optional",
+          "type": "light_overlay",
+          "target": "shop window",
+          "normalized_rect": [
+            0.34,
+            0.22,
+            0.32,
+            0.24
+          ],
+          "behavior": "subtle warm indoor light shimmer when open/evening",
+          "creepiness_level": 0
+        },
+        {
+          "id": "street_watch_pressure_shadow",
+          "type": "pressure_overlay",
+          "target": "road edges / window line",
+          "normalized_rect": [
+            0.0,
+            0.1,
+            1.0,
+            0.82
+          ],
+          "behavior": "pressure-flag-only social stillness darkening, no figure reveal",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static support-location base with subtle runtime ambience slots only."
+    },
+    {
+      "asset_id": "loc_yard_shed_niva_day",
+      "file_name": "loc_yard_shed_niva_day.png",
+      "animation_slots": [
+        {
+          "id": "grass_branch_drift",
+          "type": "environment_overlay",
+          "target": "yard grass and shed edges",
+          "normalized_rect": [
+            0.0,
+            0.42,
+            1.0,
+            0.5
+          ],
+          "behavior": "tiny intermittent grass/branch drift, not constant",
+          "creepiness_level": 0
+        },
+        {
+          "id": "window_warm_glow_optional",
+          "type": "light_overlay",
+          "target": "house/shed windows",
+          "normalized_rect": [
+            0.12,
+            0.12,
+            0.28,
+            0.24
+          ],
+          "behavior": "optional warm window shimmer for evening conversion",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static support-location base with subtle runtime ambience slots only."
+    },
+    {
+      "asset_id": "loc_yard_shed_niva_evening",
+      "file_name": "loc_yard_shed_niva_evening.png",
+      "animation_slots": [
+        {
+          "id": "window_glow_shimmer",
+          "type": "light_overlay",
+          "target": "lit windows/sign area",
+          "normalized_rect": [
+            0.15,
+            0.12,
+            0.7,
+            0.45
+          ],
+          "behavior": "subtle warm window shimmer, 8-14s",
+          "creepiness_level": 0
+        },
+        {
+          "id": "evening_edge_hold",
+          "type": "pressure_overlay",
+          "target": "edge vignette",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "static evening edge darkening, no pulse",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static support-location base; controlled animation slots are subtle and sparse."
+    },
+    {
+      "asset_id": "loc_zirat_general_day",
+      "file_name": "loc_zirat_general_day.png",
+      "animation_slots": [
+        {
+          "id": "grass_wind_micro_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "dry grass and branches",
+          "normalized_rect": [
+            0.0,
+            0.48,
+            1.0,
+            0.46
+          ],
+          "behavior": "very slow grass drift, sparse",
+          "creepiness_level": 1
+        },
+        {
+          "id": "path_focus_highlight",
+          "type": "ui_overlay",
+          "target": "cemetery path / sign area",
+          "normalized_rect": [
+            0.14,
+            0.2,
+            0.42,
+            0.52
+          ],
+          "behavior": "soft focus when route/interactable selected",
+          "creepiness_level": 0
+        },
+        {
+          "id": "pressure_edge_shadow",
+          "type": "pressure_overlay",
+          "target": "cemetery edges/tree line",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "flag-only edge darkening and too-still branch feel",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "loc_zirat_general_late_evening",
+      "file_name": "loc_zirat_general_late_evening.png",
+      "animation_slots": [
+        {
+          "id": "dusk_overlay",
+          "type": "environment_overlay",
+          "target": "dusk_overlay",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "static or very slow dusk deepening",
+          "creepiness_level": 1,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.12
+          ]
+        },
+        {
+          "id": "distant_house_lights",
+          "type": "light_overlay",
+          "target": "distant_house_lights",
+          "normalized_rect": [
+            0.3857,
+            0.3602,
+            0.2734,
+            0.0825
+          ],
+          "behavior": "very slow distant practical light pulse",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.03,
+            0.12
+          ]
+        },
+        {
+          "id": "grass_drift",
+          "type": "environment_overlay",
+          "target": "grass_drift",
+          "normalized_rect": [
+            0.0,
+            0.6597,
+            1.0,
+            0.3125
+          ],
+          "behavior": "subtle grass overlay drift",
+          "creepiness_level": 1,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            0.08
+          ]
+        },
+        {
+          "id": "sign_hover",
+          "type": "light_overlay",
+          "target": "sign_hover",
+          "normalized_rect": [
+            0.0244,
+            0.2604,
+            0.2539,
+            0.1997
+          ],
+          "behavior": "interactive hover/focus only",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.14
+          ]
+        }
+      ],
+      "notes": "Static base; use sparse controlled overlays only, no baked loop/video."
+    },
+    {
+      "asset_id": "loc_zirat_general_wind_pressure",
+      "file_name": "loc_zirat_general_wind_pressure.png",
+      "animation_slots": [
+        {
+          "id": "wind_leaf_streaks",
+          "type": "environment_overlay",
+          "target": "wind_leaf_streaks",
+          "normalized_rect": [
+            0.2979,
+            0.0781,
+            0.5273,
+            0.2214
+          ],
+          "behavior": "sparse leaves crossing with pressure wind flag",
+          "creepiness_level": 1,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            0.16
+          ]
+        },
+        {
+          "id": "grass_wind_drift",
+          "type": "environment_overlay",
+          "target": "grass_wind_drift",
+          "normalized_rect": [
+            0.0,
+            0.599,
+            1.0,
+            0.3733
+          ],
+          "behavior": "directional wind overlay, low amplitude",
+          "creepiness_level": 1,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            0.13
+          ]
+        },
+        {
+          "id": "sign_hover",
+          "type": "light_overlay",
+          "target": "sign_hover",
+          "normalized_rect": [
+            0.0269,
+            0.2648,
+            0.2539,
+            0.204
+          ],
+          "behavior": "interactive hover/focus only",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.14
+          ]
+        },
+        {
+          "id": "sky_pressure_overlay",
+          "type": "pressure_overlay",
+          "target": "sky_pressure_overlay",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            0.3038
+          ],
+          "behavior": "single pressure darken, not looping constantly",
+          "creepiness_level": 2,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.15
+          ]
+        }
+      ],
+      "notes": "Static base; use sparse controlled overlays only, no baked loop/video."
+    },
+    {
+      "asset_id": "overlay_branch_grass_drift_mask",
+      "file_name": "overlay_branch_grass_drift_mask.png",
+      "animation_slots": [
+        {
+          "id": "branch_grass_drift_mask",
+          "type": "alpha_mask",
+          "target": "foreground branch/grass areas",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "mask for tiny branch/grass drift; can freeze under pressure",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "overlay_crt_scanline",
+      "file_name": "overlay_crt_scanline.png",
+      "animation_slots": [
+        {
+          "id": "crt_scanline_roll_optional",
+          "type": "shader_overlay",
+          "target": "CRT screen region",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "low opacity scanlines; optional slow vertical phase",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "overlay_document_focus_highlight",
+      "file_name": "overlay_document_focus_highlight.png",
+      "animation_slots": [
+        {
+          "id": "document_focus_highlight",
+          "type": "ui_overlay",
+          "target": "selected document region",
+          "normalized_rect": [
+            0.16,
+            0.18,
+            0.68,
+            0.64
+          ],
+          "behavior": "soft paper highlight when selected; keeps text readable",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "overlay_dust_motes",
+      "file_name": "overlay_dust_motes.png",
+      "animation_slots": [
+        {
+          "id": "dust_motes_slow",
+          "type": "transparent_overlay",
+          "target": "interior/document air",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "rare slow dust drift, optional",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "overlay_ink_smear_transition",
+      "file_name": "overlay_ink_smear_transition.png",
+      "animation_slots": [
+        {
+          "id": "transition_ink_smear",
+          "type": "transition_overlay",
+          "target": "full screen",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "250-800 ms route transition edge smear; not continuous fake 3D",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "overlay_pressure_edge_darkening",
+      "file_name": "overlay_pressure_edge_darkening.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "transparent_overlay",
+          "target": "full screen",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only opacity 0-45%; slow fade, no pulsing by default",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "overlay_water_near_static_shimmer",
+      "file_name": "overlay_water_near_static_shimmer.png",
+      "animation_slots": [
+        {
+          "id": "water_shimmer_slow",
+          "type": "transparent_overlay",
+          "target": "water surface mask target",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "slow sparse line shimmer, low opacity",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "overlay_window_warm_glow",
+      "file_name": "overlay_window_warm_glow.png",
+      "animation_slots": [
+        {
+          "id": "window_warm_glow_shimmer",
+          "type": "transparent_overlay",
+          "target": "window/candle mask target",
+          "normalized_rect": [
+            0.25,
+            0.25,
+            0.5,
+            0.5
+          ],
+          "behavior": "slow warm opacity shimmer 3-8% over 8-14 s",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "photo_aidar_marat_childhood_clean",
+      "file_name": "photo_aidar_marat_childhood_clean.png",
+      "animation_slots": [
+        {
+          "id": "evidence_focus_highlight",
+          "type": "ui_overlay",
+          "target": "photo/evidence card surface",
+          "normalized_rect": [
+            0.06,
+            0.06,
+            0.88,
+            0.88
+          ],
+          "behavior": "soft paper-colored focus fade when selected; no neon marker",
+          "creepiness_level": 0
+        },
+        {
+          "id": "scan_noise_optional",
+          "type": "shader_overlay",
+          "target": "whole evidence image",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "extremely low opacity scanner grain or metadata-review flicker",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "photo_aidar_marat_childhood_contact_sheet",
+      "file_name": "photo_aidar_marat_childhood_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Production reference contact sheet; not intended as runtime animation source."
+    },
+    {
+      "asset_id": "photo_aidar_marat_childhood_damaged",
+      "file_name": "photo_aidar_marat_childhood_damaged.png",
+      "animation_slots": [
+        {
+          "id": "evidence_focus_highlight",
+          "type": "ui_overlay",
+          "target": "photo/evidence card surface",
+          "normalized_rect": [
+            0.06,
+            0.06,
+            0.88,
+            0.88
+          ],
+          "behavior": "soft paper-colored focus fade when selected; no neon marker",
+          "creepiness_level": 0
+        },
+        {
+          "id": "scan_noise_optional",
+          "type": "shader_overlay",
+          "target": "whole evidence image",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "extremely low opacity scanner grain or metadata-review flicker",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "photo_aidar_marat_childhood_journal_thumb",
+      "file_name": "photo_aidar_marat_childhood_journal_thumb.png",
+      "animation_slots": [
+        {
+          "id": "evidence_focus_highlight",
+          "type": "ui_overlay",
+          "target": "photo/evidence card surface",
+          "normalized_rect": [
+            0.06,
+            0.06,
+            0.88,
+            0.88
+          ],
+          "behavior": "soft paper-colored focus fade when selected; no neon marker",
+          "creepiness_level": 0
+        },
+        {
+          "id": "scan_noise_optional",
+          "type": "shader_overlay",
+          "target": "whole evidence image",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "extremely low opacity scanner grain or metadata-review flicker",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "route_admin_archive_corner_day",
+      "file_name": "route_admin_archive_corner_day.png",
+      "animation_slots": [
+        {
+          "id": "dust_motes_sparse",
+          "type": "environment_overlay",
+          "target": "window light / desk air",
+          "normalized_rect": [
+            0.05,
+            0.05,
+            0.75,
+            0.62
+          ],
+          "behavior": "rare dust motes in light; no constant spooky pulse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "paper_focus_highlight",
+          "type": "ui_overlay",
+          "target": "documents/notices",
+          "normalized_rect": [
+            0.2,
+            0.45,
+            0.55,
+            0.35
+          ],
+          "behavior": "soft focus highlight when inspected",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_alsu_meeting_spot_day",
+      "file_name": "route_alsu_meeting_spot_day.png",
+      "animation_slots": [
+        {
+          "id": "water_near_static_shimmer",
+          "type": "water_overlay",
+          "target": "river surface",
+          "normalized_rect": [
+            0.0,
+            0.28,
+            1.0,
+            0.46
+          ],
+          "behavior": "near-static water shimmer, sparse and slow",
+          "creepiness_level": 1
+        },
+        {
+          "id": "reed_shadow_pressure",
+          "type": "pressure_overlay",
+          "target": "reeds/road edge",
+          "normalized_rect": [
+            0.0,
+            0.32,
+            1.0,
+            0.5
+          ],
+          "behavior": "pressure-flag-only ambiguous reflection/edge darkening",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_bridge_river_turn_day",
+      "file_name": "route_bridge_river_turn_day.png",
+      "animation_slots": [
+        {
+          "id": "water_near_static_shimmer",
+          "type": "water_overlay",
+          "target": "river surface",
+          "normalized_rect": [
+            0.0,
+            0.28,
+            1.0,
+            0.46
+          ],
+          "behavior": "near-static water shimmer, sparse and slow",
+          "creepiness_level": 1
+        },
+        {
+          "id": "reed_shadow_pressure",
+          "type": "pressure_overlay",
+          "target": "reeds/road edge",
+          "normalized_rect": [
+            0.0,
+            0.32,
+            1.0,
+            0.5
+          ],
+          "behavior": "pressure-flag-only ambiguous reflection/edge darkening",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_bridge_river_turn_dusk_pressure",
+      "file_name": "route_bridge_river_turn_dusk_pressure.png",
+      "animation_slots": [
+        {
+          "id": "water_near_static_shimmer",
+          "type": "water_overlay",
+          "target": "river surface",
+          "normalized_rect": [
+            0.0,
+            0.28,
+            1.0,
+            0.46
+          ],
+          "behavior": "near-static water shimmer, sparse and slow",
+          "creepiness_level": 1
+        },
+        {
+          "id": "reed_shadow_pressure",
+          "type": "pressure_overlay",
+          "target": "reeds/road edge",
+          "normalized_rect": [
+            0.0,
+            0.32,
+            1.0,
+            0.5
+          ],
+          "behavior": "pressure-flag-only ambiguous reflection/edge darkening",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_forest_approach_evening",
+      "file_name": "route_forest_approach_evening.png",
+      "animation_slots": [
+        {
+          "id": "warning_sign_focus",
+          "type": "ui_overlay",
+          "target": "blank warning sign",
+          "normalized_rect": [
+            0.06,
+            0.22,
+            0.28,
+            0.28
+          ],
+          "behavior": "soft focus for editable Кара-Урман label",
+          "creepiness_level": 0
+        },
+        {
+          "id": "branch_pressure_stillness",
+          "type": "pressure_overlay",
+          "target": "tree line and branches",
+          "normalized_rect": [
+            0.36,
+            0.0,
+            0.62,
+            0.72
+          ],
+          "behavior": "pressure flag makes tree line too still and subtly darker; no creature shape completion",
+          "creepiness_level": 2
+        },
+        {
+          "id": "grass_branch_micro_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "foreground grass/branches",
+          "normalized_rect": [
+            0.0,
+            0.48,
+            1.0,
+            0.48
+          ],
+          "behavior": "tiny drift that can stop during silence state",
+          "creepiness_level": 1
+        }
+      ]
+    },
+    {
+      "asset_id": "route_forest_approach_pressure_silence",
+      "file_name": "route_forest_approach_pressure_silence.png",
+      "animation_slots": [
+        {
+          "id": "warning_sign_hover",
+          "type": "light_overlay",
+          "target": "warning_sign_hover",
+          "normalized_rect": [
+            0.0977,
+            0.2865,
+            0.21,
+            0.1736
+          ],
+          "behavior": "interactive hover/focus only",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.14
+          ]
+        },
+        {
+          "id": "branch_drift",
+          "type": "environment_overlay",
+          "target": "branch_drift",
+          "normalized_rect": [
+            0.5322,
+            0.0,
+            0.4395,
+            0.4514
+          ],
+          "behavior": "near-still 1 px branch drift; disable during hard cut",
+          "creepiness_level": 1,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            0.1
+          ]
+        },
+        {
+          "id": "path_darkness_breath",
+          "type": "environment_overlay",
+          "target": "path_darkness_breath",
+          "normalized_rect": [
+            0.3369,
+            0.2691,
+            0.4395,
+            0.5903
+          ],
+          "behavior": "slow darkness breath tied to pressure flag",
+          "creepiness_level": 1,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.18
+          ]
+        },
+        {
+          "id": "step_occlusion_ready",
+          "type": "environment_overlay",
+          "target": "step_occlusion_ready",
+          "normalized_rect": [
+            0.0,
+            0.6337,
+            1.0,
+            0.3663
+          ],
+          "behavior": "reserved for route step transition occlusion",
+          "creepiness_level": 1,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "notes": "Static base; use sparse controlled overlays only, no baked loop/video."
+    },
+    {
+      "asset_id": "route_forest_approach_voice_lock",
+      "file_name": "route_forest_approach_voice_lock.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_kara_urman_edge_rinat_interruption",
+      "file_name": "route_kara_urman_edge_rinat_interruption.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_kara_urman_edge_voice_moment",
+      "file_name": "route_kara_urman_edge_voice_moment.png",
+      "animation_slots": [
+        {
+          "id": "warning_sign_hover",
+          "type": "light_overlay",
+          "target": "warning_sign_hover",
+          "normalized_rect": [
+            0.1709,
+            0.3429,
+            0.2124,
+            0.178
+          ],
+          "behavior": "interactive hover/focus only",
+          "creepiness_level": 1,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.14
+          ]
+        },
+        {
+          "id": "branch_almost_figure_mask",
+          "type": "environment_overlay",
+          "target": "branch_almost_figure_mask",
+          "normalized_rect": [
+            0.6299,
+            0.0,
+            0.3223,
+            0.4861
+          ],
+          "behavior": "pressure-only emphasis; must not form a face, eyes or full body",
+          "creepiness_level": 1,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.13
+          ]
+        },
+        {
+          "id": "voice_silence_overlay",
+          "type": "environment_overlay",
+          "target": "voice_silence_overlay",
+          "normalized_rect": [
+            0.3711,
+            0.2431,
+            0.3711,
+            0.5903
+          ],
+          "behavior": "single slow hush/darken cue when Marat voice plays in audio",
+          "creepiness_level": 1,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.18
+          ]
+        },
+        {
+          "id": "rinat_interruption_space",
+          "type": "environment_overlay",
+          "target": "rinat_interruption_space",
+          "normalized_rect": [
+            0.0,
+            0.5295,
+            0.2734,
+            0.4167
+          ],
+          "behavior": "reserved for later Rinat cutout/composite, not part of this base",
+          "creepiness_level": 1,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "notes": "Static base; use sparse controlled overlays only, no baked loop/video."
+    },
+    {
+      "asset_id": "route_kara_urman_rinat_interruption",
+      "file_name": "route_kara_urman_rinat_interruption.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route/admin base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_main_street_empty_evening",
+      "file_name": "route_main_street_empty_evening.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.25
+          ],
+          "behavior": "rare tiny birds only",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.45
+          ],
+          "behavior": "tiny intermittent drift",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route/admin base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_main_street_entry_evening",
+      "file_name": "route_main_street_entry_evening.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.25
+          ],
+          "behavior": "rare tiny birds only",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.45
+          ],
+          "behavior": "tiny intermittent drift",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_main_street_entry_pressure_watchers",
+      "file_name": "route_main_street_entry_pressure_watchers.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_main_street_watchers_pressure",
+      "file_name": "route_main_street_watchers_pressure.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route/admin base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_mansur_house_turn_day",
+      "file_name": "route_mansur_house_turn_day.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.28
+          ],
+          "behavior": "rare distant birds, slow and sparse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.45
+          ],
+          "behavior": "tiny intermittent grass/branch drift",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_mansur_house_turn_evening",
+      "file_name": "route_mansur_house_turn_evening.png",
+      "animation_slots": [
+        {
+          "id": "window_glow_shimmer",
+          "type": "light_overlay",
+          "target": "lit windows/sign area",
+          "normalized_rect": [
+            0.15,
+            0.12,
+            0.7,
+            0.45
+          ],
+          "behavior": "subtle warm window shimmer, 8-14s",
+          "creepiness_level": 0
+        },
+        {
+          "id": "evening_edge_hold",
+          "type": "pressure_overlay",
+          "target": "edge vignette",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "static evening edge darkening, no pulse",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_mosque_sign_day",
+      "file_name": "route_mosque_sign_day.png",
+      "animation_slots": [
+        {
+          "id": "distant_birds_sparse",
+          "type": "sky_overlay",
+          "target": "sky",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            0.28
+          ],
+          "behavior": "rare distant birds, slow and sparse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "foreground_grass_drift",
+          "type": "environment_overlay",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0,
+            0.45,
+            1,
+            0.45
+          ],
+          "behavior": "tiny intermittent grass/branch drift",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_mosque_sign_evening",
+      "file_name": "route_mosque_sign_evening.png",
+      "animation_slots": [
+        {
+          "id": "window_glow_shimmer",
+          "type": "light_overlay",
+          "target": "lit windows/sign area",
+          "normalized_rect": [
+            0.15,
+            0.12,
+            0.7,
+            0.45
+          ],
+          "behavior": "subtle warm window shimmer, 8-14s",
+          "creepiness_level": 0
+        },
+        {
+          "id": "evening_edge_hold",
+          "type": "pressure_overlay",
+          "target": "edge vignette",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "static evening edge darkening, no pulse",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_day",
+      "file_name": "route_selsmag_fap_lane_day.png",
+      "animation_slots": [
+        {
+          "id": "sign_focus_highlight",
+          "type": "ui_overlay",
+          "target": "FAP/shop blank plaques",
+          "normalized_rect": [
+            0.16,
+            0.18,
+            0.72,
+            0.34
+          ],
+          "behavior": "soft focus highlight for editable signs",
+          "creepiness_level": 0
+        },
+        {
+          "id": "watched_window_overlay",
+          "type": "pressure_overlay",
+          "target": "shop/FAP windows",
+          "normalized_rect": [
+            0.32,
+            0.22,
+            0.56,
+            0.32
+          ],
+          "behavior": "pressure flag adds subtle watched-window warmth, no silhouette",
+          "creepiness_level": 1
+        },
+        {
+          "id": "grass_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "foreground road grass",
+          "normalized_rect": [
+            0.0,
+            0.58,
+            1.0,
+            0.36
+          ],
+          "behavior": "tiny sparse drift",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_evening",
+      "file_name": "route_selsmag_fap_lane_evening.png",
+      "animation_slots": [
+        {
+          "id": "window_glow_shimmer",
+          "type": "light_overlay",
+          "target": "lit windows/sign area",
+          "normalized_rect": [
+            0.15,
+            0.12,
+            0.7,
+            0.45
+          ],
+          "behavior": "subtle warm window shimmer, 8-14s",
+          "creepiness_level": 0
+        },
+        {
+          "id": "evening_edge_hold",
+          "type": "pressure_overlay",
+          "target": "edge vignette",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "static evening edge darkening, no pulse",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_pressure",
+      "file_name": "route_selsmag_fap_lane_pressure.png",
+      "animation_slots": [
+        {
+          "id": "watched_window_shadow",
+          "type": "pressure_overlay",
+          "target": "windows/signs/road edges",
+          "normalized_rect": [
+            0,
+            0.08,
+            1,
+            0.84
+          ],
+          "behavior": "pressure-flag-only darkening; suggests social pressure without visible watcher reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_wrong_drift",
+          "type": "environment_overlay",
+          "target": "branches and grass",
+          "normalized_rect": [
+            0,
+            0.0,
+            1,
+            1
+          ],
+          "behavior": "rare slight drift with asymmetry, not creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_unsafe_path_blocked_evening",
+      "file_name": "route_unsafe_path_blocked_evening.png",
+      "animation_slots": [
+        {
+          "id": "pressure_edge_darkening",
+          "type": "pressure_overlay",
+          "target": "screen edges / windows / forest edge",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "pressure-flag-only edge darkening, no pulsing, no creature reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_tiny_drift",
+          "type": "environment_overlay",
+          "target": "branches/grass/curtains",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "tiny sparse drift only, never full creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route/admin base; controlled overlays only."
+    },
+    {
+      "asset_id": "route_village_crossroad_day",
+      "file_name": "route_village_crossroad_day.png",
+      "animation_slots": [
+        {
+          "id": "sign_focus_highlight",
+          "type": "ui_overlay",
+          "target": "blank signposts / notice board",
+          "normalized_rect": [
+            0.02,
+            0.22,
+            0.36,
+            0.38
+          ],
+          "behavior": "soft ink focus/contrast when hovered; no glowing marker",
+          "creepiness_level": 0
+        },
+        {
+          "id": "grass_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0.0,
+            0.55,
+            1.0,
+            0.38
+          ],
+          "behavior": "tiny irregular drift under 1 px",
+          "creepiness_level": 0
+        },
+        {
+          "id": "watched_window_optional",
+          "type": "pressure_overlay",
+          "target": "distant house windows",
+          "normalized_rect": [
+            0.45,
+            0.2,
+            0.4,
+            0.28
+          ],
+          "behavior": "pressure flag can add weak still window glow",
+          "creepiness_level": 1
+        }
+      ]
+    },
+    {
+      "asset_id": "route_village_crossroad_pressure",
+      "file_name": "route_village_crossroad_pressure.png",
+      "animation_slots": [
+        {
+          "id": "watched_window_shadow",
+          "type": "pressure_overlay",
+          "target": "windows/signs/road edges",
+          "normalized_rect": [
+            0,
+            0.08,
+            1,
+            0.84
+          ],
+          "behavior": "pressure-flag-only darkening; suggests social pressure without visible watcher reveal",
+          "creepiness_level": 2
+        },
+        {
+          "id": "branch_grass_wrong_drift",
+          "type": "environment_overlay",
+          "target": "branches and grass",
+          "normalized_rect": [
+            0,
+            0.0,
+            1,
+            1
+          ],
+          "behavior": "rare slight drift with asymmetry, not creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "route_zirat_road_evening",
+      "file_name": "route_zirat_road_evening.png",
+      "animation_slots": [
+        {
+          "id": "sign_focus_highlight",
+          "type": "ui_overlay",
+          "target": "blank zirat sign",
+          "normalized_rect": [
+            0.03,
+            0.16,
+            0.32,
+            0.28
+          ],
+          "behavior": "soft focus for editable sign label",
+          "creepiness_level": 0
+        },
+        {
+          "id": "grass_wind_micro_drift",
+          "type": "mask_overlay_or_vertex_drift",
+          "target": "roadside grass",
+          "normalized_rect": [
+            0.0,
+            0.5,
+            1.0,
+            0.44
+          ],
+          "behavior": "tiny evening drift, irregular",
+          "creepiness_level": 1
+        },
+        {
+          "id": "pressure_edge_shadow",
+          "type": "pressure_overlay",
+          "target": "tree line/path edges",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "deepens silence and narrows path under pressure flag",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "transition_turn_90_ink_smear",
+      "file_name": "transition_turn_90_ink_smear.png",
+      "animation_slots": [
+        {
+          "id": "ink_smear_alpha_or_multiply",
+          "type": "transition_overlay",
+          "target": "full screen",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "250-450 ms route turn transition overlay; use as mask/multiply, not a loop",
+          "creepiness_level": 1
+        }
+      ],
+      "notes": "Static route base; route motion should use short transitions and foreground/parallax overlays, not continuous fake camera rotation."
+    },
+    {
+      "asset_id": "ui_archive_search_empty",
+      "file_name": "ui_archive_search_empty.png",
+      "animation_slots": [
+        {
+          "id": "crt_glow",
+          "type": "ui_overlay",
+          "target": "crt_glow",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "very slow breathing glow",
+          "creepiness_level": 0
+        },
+        {
+          "id": "search_cursor_blink",
+          "type": "ui_overlay",
+          "target": "search_cursor_blink",
+          "normalized_rect": [
+            0.2563,
+            0.2708,
+            0.0117,
+            0.0451
+          ],
+          "behavior": "blink 0.8s on/off",
+          "creepiness_level": 0
+        },
+        {
+          "id": "empty_result_highlight",
+          "type": "ui_overlay",
+          "target": "empty_result_highlight",
+          "normalized_rect": [
+            0.0918,
+            0.4097,
+            0.2959,
+            0.0295
+          ],
+          "behavior": "optional idle row pulse",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "ui_archive_search_results",
+      "file_name": "ui_archive_search_results.png",
+      "animation_slots": [
+        {
+          "id": "crt_glow",
+          "type": "ui_overlay",
+          "target": "crt_glow",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "very slow breathing glow",
+          "creepiness_level": 0
+        },
+        {
+          "id": "selected_result_pulse",
+          "type": "ui_overlay",
+          "target": "selected_result_pulse",
+          "normalized_rect": [
+            0.0879,
+            0.3932,
+            0.7266,
+            0.0408
+          ],
+          "behavior": "subtle 2.5s pulse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "metadata_clue_flash",
+          "type": "ui_overlay",
+          "target": "metadata_clue_flash",
+          "normalized_rect": [
+            0.8398,
+            0.1345,
+            0.1172,
+            0.0382
+          ],
+          "behavior": "single reveal flash",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "ui_chat_ambient_villagers_avatars",
+      "file_name": "ui_chat_ambient_villagers_avatars.png",
+      "animation_slots": [
+        {
+          "id": "crowd_pressure_hold",
+          "type": "pressure_overlay",
+          "target": "silhouette edges / opacity",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "subtle pressure-state opacity/darkening; no independent creature motion",
+          "creepiness_level": 2
+        }
+      ],
+      "notes": "Transparent cutout/sheet; keep motion minimal and controlled by scene flags."
+    },
+    {
+      "asset_id": "ui_clue_type_icon_set",
+      "file_name": "ui_clue_type_icon_set.png",
+      "animation_slots": [
+        {
+          "id": "icon_hover_focus_optional",
+          "type": "ui_tint_overlay",
+          "target": "individual icon cells",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "2-5% paper focus when selected; no neon glow",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "ui_clue_type_icons_contact_sheet",
+      "file_name": "ui_clue_type_icons_contact_sheet.png",
+      "animation_slots": [
+        {
+          "id": "icon_hover_overlay",
+          "type": "ui_overlay",
+          "target": "icon_hover_overlay",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "runtime should apply per cropped icon, not to the source sheet",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "ui_dialogue_key_picker_base",
+      "file_name": "ui_dialogue_key_picker_base.png",
+      "animation_slots": [
+        {
+          "id": "key_hover_glow",
+          "type": "ui_overlay",
+          "target": "key_hover_glow",
+          "normalized_rect": [
+            0.0342,
+            0.599,
+            0.2905,
+            0.0642
+          ],
+          "behavior": "interactive hover",
+          "creepiness_level": 0
+        },
+        {
+          "id": "dangerous_key_warning",
+          "type": "ui_overlay",
+          "target": "dangerous_key_warning",
+          "normalized_rect": [
+            0.2944,
+            0.6207,
+            0.0195,
+            0.0347
+          ],
+          "behavior": "slow warning pulse",
+          "creepiness_level": 1
+        },
+        {
+          "id": "dialogue_cursor_blink",
+          "type": "ui_overlay",
+          "target": "dialogue_cursor_blink",
+          "normalized_rect": [
+            0.3369,
+            0.8377,
+            0.0117,
+            0.0469
+          ],
+          "behavior": "blink 0.8s on/off",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "ui_document_viewer_template",
+      "file_name": "ui_document_viewer_template.png",
+      "animation_slots": [
+        {
+          "id": "crt_glow",
+          "type": "ui_overlay",
+          "target": "crt_glow",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "very slow breathing glow",
+          "creepiness_level": 0
+        },
+        {
+          "id": "document_highlight",
+          "type": "ui_overlay",
+          "target": "document_highlight",
+          "normalized_rect": [
+            0.3418,
+            0.5816,
+            0.1465,
+            0.0347
+          ],
+          "behavior": "highlight pulse on term focus",
+          "creepiness_level": 0
+        },
+        {
+          "id": "metadata_clue_flash",
+          "type": "ui_overlay",
+          "target": "metadata_clue_flash",
+          "normalized_rect": [
+            0.7129,
+            0.3299,
+            0.2051,
+            0.0955
+          ],
+          "behavior": "single reveal flash",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "ui_icons_vfx_contact_sheet",
+      "file_name": "ui_icons_vfx_contact_sheet.png",
+      "animation_slots": [],
+      "notes": "Local deterministic icon/VFX pack."
+    },
+    {
+      "asset_id": "ui_inventory_evidence_icon_set",
+      "file_name": "ui_inventory_evidence_icon_set.png",
+      "animation_slots": [
+        {
+          "id": "icon_hover_focus_optional",
+          "type": "ui_tint_overlay",
+          "target": "individual icon cells",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "behavior": "2-5% paper focus when selected; no neon glow",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Controlled runtime slot texture."
+    },
+    {
+      "asset_id": "ui_journal_clue_graph_base",
+      "file_name": "ui_journal_clue_graph_base.png",
+      "animation_slots": [
+        {
+          "id": "paper_shadow_drift",
+          "type": "ui_overlay",
+          "target": "paper_shadow_drift",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "slow imperfect paper shadow",
+          "creepiness_level": 0
+        },
+        {
+          "id": "dangerous_clue_mark",
+          "type": "ui_overlay",
+          "target": "dangerous_clue_mark",
+          "normalized_rect": [
+            0.6055,
+            0.6181,
+            0.0342,
+            0.0608
+          ],
+          "behavior": "short warning pulse only on dangerous clue",
+          "creepiness_level": 1
+        },
+        {
+          "id": "node_hover",
+          "type": "ui_overlay",
+          "target": "node_hover",
+          "normalized_rect": [
+            0.4932,
+            0.4167,
+            0.1074,
+            0.1128
+          ],
+          "behavior": "interactive hover",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "ui_journal_route_sketch_base",
+      "file_name": "ui_journal_route_sketch_base.png",
+      "animation_slots": [
+        {
+          "id": "pencil_focus_highlight",
+          "type": "ui_overlay",
+          "target": "route pins and blank labels",
+          "normalized_rect": [
+            0.04,
+            0.04,
+            0.92,
+            0.86
+          ],
+          "behavior": "soft clue focus highlight on selected route/pin",
+          "creepiness_level": 0
+        }
+      ],
+      "notes": "Static route/admin base; controlled overlays only."
+    },
+    {
+      "asset_id": "ui_old_pc_active_window_base",
+      "file_name": "ui_old_pc_active_window_base.png",
+      "animation_slots": [
+        {
+          "id": "search_result_highlight",
+          "type": "crt_overlay",
+          "target": "search_result_highlight",
+          "normalized_rect": [
+            0.42,
+            0.33,
+            0.22,
+            0.32
+          ],
+          "behavior": "subtle search result highlight controlled overlay",
+          "creepiness_level": 0,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            0.35
+          ]
+        },
+        {
+          "id": "document_scroll_hint",
+          "type": "crt_overlay",
+          "target": "document_scroll_hint",
+          "normalized_rect": [
+            0.61,
+            0.27,
+            0.02,
+            0.34
+          ],
+          "behavior": "subtle document scroll hint controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.2
+          ]
+        }
+      ],
+      "notes": "Static UI/hardware base; CRT/phone effects belong to runtime overlay slots, not baked GIF/video."
+    },
+    {
+      "asset_id": "ui_old_pc_crt_boot",
+      "file_name": "ui_old_pc_crt_boot.png",
+      "animation_slots": [
+        {
+          "id": "crt_boot_glow",
+          "type": "crt_overlay",
+          "target": "crt_boot_glow",
+          "normalized_rect": [
+            0.26,
+            0.12,
+            0.45,
+            0.54
+          ],
+          "behavior": "subtle crt boot glow controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.05,
+            0.25
+          ]
+        },
+        {
+          "id": "boot_progress_fill",
+          "type": "crt_overlay",
+          "target": "boot_progress_fill",
+          "normalized_rect": [
+            0.42,
+            0.47,
+            0.18,
+            0.025
+          ],
+          "behavior": "subtle boot progress fill controlled overlay",
+          "creepiness_level": 0,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "notes": "Static UI/hardware base; CRT/phone effects belong to runtime overlay slots, not baked GIF/video."
+    },
+    {
+      "asset_id": "ui_old_pc_crt_close_crop",
+      "file_name": "ui_old_pc_crt_close_crop.png",
+      "animation_slots": [
+        {
+          "id": "close_crop_scanline",
+          "type": "crt_overlay",
+          "target": "close_crop_scanline",
+          "normalized_rect": [
+            0.22,
+            0.18,
+            0.56,
+            0.56
+          ],
+          "behavior": "subtle close crop scanline controlled overlay",
+          "creepiness_level": 0,
+          "blend": "overlay",
+          "opacity_range": [
+            0.0,
+            0.12
+          ]
+        },
+        {
+          "id": "glass_reflection_sweep",
+          "type": "crt_overlay",
+          "target": "glass_reflection_sweep",
+          "normalized_rect": [
+            0.18,
+            0.14,
+            0.64,
+            0.62
+          ],
+          "behavior": "subtle glass reflection sweep controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.1
+          ]
+        }
+      ],
+      "notes": "Static UI/hardware base; CRT/phone effects belong to runtime overlay slots, not baked GIF/video."
+    },
+    {
+      "asset_id": "ui_old_pc_crt_off",
+      "file_name": "ui_old_pc_crt_off.png",
+      "animation_slots": [
+        {
+          "id": "screen_reflection_soft",
+          "type": "crt_overlay",
+          "target": "screen_reflection_soft",
+          "normalized_rect": [
+            0.28,
+            0.18,
+            0.39,
+            0.48
+          ],
+          "behavior": "subtle screen reflection soft controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.08
+          ]
+        },
+        {
+          "id": "power_led_idle",
+          "type": "crt_overlay",
+          "target": "power_led_idle",
+          "normalized_rect": [
+            0.57,
+            0.75,
+            0.02,
+            0.03
+          ],
+          "behavior": "subtle power led idle controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.25
+          ]
+        }
+      ],
+      "notes": "Static UI/hardware base; CRT/phone effects belong to runtime overlay slots, not baked GIF/video."
+    },
+    {
+      "asset_id": "ui_old_pc_crt_power_off",
+      "file_name": "ui_old_pc_crt_power_off.png",
+      "animation_slots": [
+        {
+          "id": "collapse_line",
+          "type": "crt_overlay",
+          "target": "collapse_line",
+          "normalized_rect": [
+            0.29,
+            0.38,
+            0.34,
+            0.04
+          ],
+          "behavior": "subtle collapse line controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.6
+          ]
+        }
+      ],
+      "notes": "Static UI/hardware base; CRT/phone effects belong to runtime overlay slots, not baked GIF/video."
+    },
+    {
+      "asset_id": "ui_old_pc_error_corrupt_file_base",
+      "file_name": "ui_old_pc_error_corrupt_file_base.png",
+      "animation_slots": [
+        {
+          "id": "error_icon_pulse",
+          "type": "crt_overlay",
+          "target": "error_icon_pulse",
+          "normalized_rect": [
+            0.43,
+            0.42,
+            0.04,
+            0.05
+          ],
+          "behavior": "subtle error icon pulse controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.18
+          ]
+        },
+        {
+          "id": "dialog_shadow_pressure",
+          "type": "crt_overlay",
+          "target": "dialog_shadow_pressure",
+          "normalized_rect": [
+            0.36,
+            0.32,
+            0.28,
+            0.24
+          ],
+          "behavior": "subtle dialog shadow pressure controlled overlay",
+          "creepiness_level": 1,
+          "blend": "multiply",
+          "opacity_range": [
+            0.0,
+            0.12
+          ]
+        }
+      ],
+      "notes": "Static UI/hardware base; CRT/phone effects belong to runtime overlay slots, not baked GIF/video."
+    },
+    {
+      "asset_id": "ui_old_pc_folder_view_base",
+      "file_name": "ui_old_pc_folder_view_base.png",
+      "animation_slots": [
+        {
+          "id": "selected_file_highlight",
+          "type": "crt_overlay",
+          "target": "selected_file_highlight",
+          "normalized_rect": [
+            0.42,
+            0.45,
+            0.27,
+            0.22
+          ],
+          "behavior": "subtle selected file highlight controlled overlay",
+          "creepiness_level": 0,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            0.45
+          ]
+        },
+        {
+          "id": "crt_flicker",
+          "type": "crt_overlay",
+          "target": "crt_flicker",
+          "normalized_rect": [
+            0.27,
+            0.15,
+            0.4,
+            0.55
+          ],
+          "behavior": "subtle crt flicker controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.08
+          ]
+        }
+      ],
+      "notes": "Static UI/hardware base; CRT/phone effects belong to runtime overlay slots, not baked GIF/video."
+    },
+    {
+      "asset_id": "ui_phone_aidar_intro_chat_base",
+      "file_name": "ui_phone_aidar_intro_chat_base.png",
+      "animation_slots": [
+        {
+          "id": "phone_screen_glow",
+          "type": "phone_screen_overlay",
+          "target": "phone_screen_glow",
+          "normalized_rect": [
+            0.34,
+            0.06,
+            0.36,
+            0.87
+          ],
+          "behavior": "subtle phone screen glow controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.12
+          ]
+        },
+        {
+          "id": "unread_vibration_nudge",
+          "type": "phone_screen_overlay",
+          "target": "unread_vibration_nudge",
+          "normalized_rect": [
+            0.42,
+            0.3,
+            0.24,
+            0.36
+          ],
+          "behavior": "subtle unread vibration nudge controlled overlay",
+          "creepiness_level": 0,
+          "blend": null,
+          "opacity_range": null
+        },
+        {
+          "id": "translation_popup_highlight",
+          "type": "phone_screen_overlay",
+          "target": "translation_popup_highlight",
+          "normalized_rect": [
+            0.42,
+            0.57,
+            0.2,
+            0.16
+          ],
+          "behavior": "subtle translation popup highlight controlled overlay",
+          "creepiness_level": 0,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            0.35
+          ]
+        }
+      ],
+      "notes": "Static UI/hardware base; CRT/phone effects belong to runtime overlay slots, not baked GIF/video."
+    },
+    {
+      "asset_id": "ui_phone_mother_chat_base",
+      "file_name": "ui_phone_mother_chat_base.png",
+      "animation_slots": [
+        {
+          "id": "phone_mother_screen_glow",
+          "type": "phone_screen_glow",
+          "target": "phone_screen_glow",
+          "normalized_rect": [
+            0.442,
+            0.12,
+            0.26,
+            0.765
+          ],
+          "behavior": "phone_screen_glow controlled by runtime; amplitude very_low, cycle [5.0, 8.0]",
+          "creepiness_level": 0,
+          "opacity_range": null
+        }
+      ],
+      "notes": "Static comms/UI base; CRT/phone glow, scanline and cursor effects are runtime-controlled and subtle."
+    },
+    {
+      "asset_id": "ui_phone_ticket_purchase_base",
+      "file_name": "ui_phone_ticket_purchase_base.png",
+      "animation_slots": [
+        {
+          "id": "phone_ticket_screen_glow",
+          "type": "phone_screen_glow",
+          "target": "phone_screen_glow",
+          "normalized_rect": [
+            0.385,
+            0.14,
+            0.242,
+            0.76
+          ],
+          "behavior": "phone_screen_glow controlled by runtime; amplitude very_low, cycle [5.0, 8.0]",
+          "creepiness_level": 0,
+          "opacity_range": null
+        }
+      ],
+      "notes": "Static comms/UI base; CRT/phone glow, scanline and cursor effects are runtime-controlled and subtle."
+    },
+    {
+      "asset_id": "ui_phone_translation_popup_base",
+      "file_name": "ui_phone_translation_popup_base.png",
+      "animation_slots": [
+        {
+          "id": "phone_translation_screen_glow",
+          "type": "phone_screen_glow",
+          "target": "phone_screen_glow",
+          "normalized_rect": [
+            0.376,
+            0.03,
+            0.312,
+            0.93
+          ],
+          "behavior": "phone_screen_glow controlled by runtime; amplitude very_low, cycle [5.0, 8.0]",
+          "creepiness_level": 0,
+          "opacity_range": null
+        }
+      ],
+      "notes": "Static comms/UI base; CRT/phone glow, scanline and cursor effects are runtime-controlled and subtle."
+    },
+    {
+      "asset_id": "ui_tatarwiki_article_template",
+      "file_name": "ui_tatarwiki_article_template.png",
+      "animation_slots": [
+        {
+          "id": "crt_glow",
+          "type": "ui_overlay",
+          "target": "crt_glow",
+          "normalized_rect": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "behavior": "very slow breathing glow",
+          "creepiness_level": 0
+        },
+        {
+          "id": "term_highlight",
+          "type": "ui_overlay",
+          "target": "term_highlight",
+          "normalized_rect": [
+            0.1553,
+            0.5816,
+            0.3857,
+            0.0764
+          ],
+          "behavior": "highlight appears on vocabulary unlock",
+          "creepiness_level": 0
+        },
+        {
+          "id": "survival_note_reveal",
+          "type": "ui_overlay",
+          "target": "survival_note_reveal",
+          "normalized_rect": [
+            0.1538,
+            0.8767,
+            0.3638,
+            0.0747
+          ],
+          "behavior": "fade in after re-read",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "ui_vocabulary_cards_base",
+      "file_name": "ui_vocabulary_cards_base.png",
+      "animation_slots": [
+        {
+          "id": "selected_card_glow",
+          "type": "ui_overlay",
+          "target": "selected_card_glow",
+          "normalized_rect": [
+            0.5957,
+            0.1311,
+            0.2871,
+            0.3003
+          ],
+          "behavior": "interactive hover or selected state",
+          "creepiness_level": 0
+        },
+        {
+          "id": "confirmed_word_tick",
+          "type": "ui_overlay",
+          "target": "confirmed_word_tick",
+          "normalized_rect": [
+            0.21,
+            0.6684,
+            0.0264,
+            0.0469
+          ],
+          "behavior": "brief confirm pulse",
+          "creepiness_level": 0
+        },
+        {
+          "id": "reread_unlock_glow",
+          "type": "ui_overlay",
+          "target": "reread_unlock_glow",
+          "normalized_rect": [
+            0.5996,
+            0.467,
+            0.2949,
+            0.1215
+          ],
+          "behavior": "fade in after word unlock",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "ui_yalkyn_dm_alsu_base",
+      "file_name": "ui_yalkyn_dm_alsu_base.png",
+      "animation_slots": [
+        {
+          "id": "yalkyn_dm_crt_glow",
+          "type": "crt_glow",
+          "target": "crt_glow",
+          "normalized_rect": [
+            0.035,
+            0.035,
+            0.93,
+            0.875
+          ],
+          "behavior": "crt_glow controlled by runtime; amplitude very_low, cycle [4.0, 7.0]",
+          "creepiness_level": 0,
+          "opacity_range": null
+        },
+        {
+          "id": "yalkyn_dm_scanline",
+          "type": "scanline_overlay",
+          "target": "scanline_overlay",
+          "normalized_rect": [
+            0.05,
+            0.055,
+            0.9,
+            0.805
+          ],
+          "behavior": "scanline_overlay controlled by runtime; amplitude low, cycle slow",
+          "creepiness_level": 0,
+          "opacity_range": [
+            0.03,
+            0.08
+          ]
+        },
+        {
+          "id": "yalkyn_dm_cursor_blink",
+          "type": "cursor_blink",
+          "target": "cursor_blink",
+          "normalized_rect": [
+            0.333,
+            0.763,
+            0.011,
+            0.052
+          ],
+          "behavior": "cursor_blink controlled by runtime; amplitude low, cycle [0.8, 1.1]",
+          "creepiness_level": 0,
+          "opacity_range": null
+        },
+        {
+          "id": "yalkyn_dm_window_shimmer",
+          "type": "window_shimmer",
+          "target": "window_shimmer",
+          "normalized_rect": [
+            0.3,
+            0.095,
+            0.63,
+            0.69
+          ],
+          "behavior": "window_shimmer controlled by runtime; amplitude very_low, cycle [6.0, 10.0]",
+          "creepiness_level": 0,
+          "opacity_range": null
+        }
+      ],
+      "notes": "Static comms/UI base; CRT/phone glow, scanline and cursor effects are runtime-controlled and subtle."
+    },
+    {
+      "asset_id": "ui_yalkyn_group_chat_base",
+      "file_name": "ui_yalkyn_group_chat_base.png",
+      "animation_slots": [
+        {
+          "id": "yalkyn_group_crt_glow",
+          "type": "crt_glow",
+          "target": "crt_glow",
+          "normalized_rect": [
+            0.035,
+            0.035,
+            0.93,
+            0.875
+          ],
+          "behavior": "crt_glow controlled by runtime; amplitude very_low, cycle [4.0, 7.0]",
+          "creepiness_level": 0,
+          "opacity_range": null
+        },
+        {
+          "id": "yalkyn_group_scanline",
+          "type": "scanline_overlay",
+          "target": "scanline_overlay",
+          "normalized_rect": [
+            0.05,
+            0.055,
+            0.9,
+            0.805
+          ],
+          "behavior": "scanline_overlay controlled by runtime; amplitude low, cycle slow",
+          "creepiness_level": 0,
+          "opacity_range": [
+            0.03,
+            0.08
+          ]
+        },
+        {
+          "id": "yalkyn_group_cursor_blink",
+          "type": "cursor_blink",
+          "target": "cursor_blink",
+          "normalized_rect": [
+            0.338,
+            0.765,
+            0.011,
+            0.05
+          ],
+          "behavior": "cursor_blink controlled by runtime; amplitude low, cycle [0.8, 1.1]",
+          "creepiness_level": 0,
+          "opacity_range": null
+        },
+        {
+          "id": "yalkyn_group_window_shimmer",
+          "type": "window_shimmer",
+          "target": "window_shimmer",
+          "normalized_rect": [
+            0.3,
+            0.09,
+            0.63,
+            0.69
+          ],
+          "behavior": "window_shimmer controlled by runtime; amplitude very_low, cycle [6.0, 10.0]",
+          "creepiness_level": 0,
+          "opacity_range": null
+        }
+      ],
+      "notes": "Static comms/UI base; CRT/phone glow, scanline and cursor effects are runtime-controlled and subtle."
+    },
+    {
+      "asset_id": "ui_yalkyn_messenger_contacts_base",
+      "file_name": "ui_yalkyn_messenger_contacts_base.png",
+      "animation_slots": [
+        {
+          "id": "unread_status_dot",
+          "type": "crt_overlay",
+          "target": "unread_status_dot",
+          "normalized_rect": [
+            0.38,
+            0.37,
+            0.04,
+            0.28
+          ],
+          "behavior": "subtle unread status dot controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.3
+          ]
+        },
+        {
+          "id": "selected_contact_highlight",
+          "type": "crt_overlay",
+          "target": "selected_contact_highlight",
+          "normalized_rect": [
+            0.37,
+            0.33,
+            0.2,
+            0.06
+          ],
+          "behavior": "subtle selected contact highlight controlled overlay",
+          "creepiness_level": 0,
+          "blend": "normal",
+          "opacity_range": [
+            0.0,
+            0.4
+          ]
+        }
+      ],
+      "notes": "Static UI/hardware base; CRT/phone effects belong to runtime overlay slots, not baked GIF/video."
+    },
+    {
+      "asset_id": "ui_yalkyn_messenger_saved_marat_log_base",
+      "file_name": "ui_yalkyn_messenger_saved_marat_log_base.png",
+      "animation_slots": [
+        {
+          "id": "message_reveal_highlight",
+          "type": "crt_overlay",
+          "target": "message_reveal_highlight",
+          "normalized_rect": [
+            0.4,
+            0.27,
+            0.22,
+            0.34
+          ],
+          "behavior": "subtle message reveal highlight controlled overlay",
+          "creepiness_level": 0,
+          "blend": "screen",
+          "opacity_range": [
+            0.0,
+            0.18
+          ]
+        },
+        {
+          "id": "missing_attachment_glitch",
+          "type": "crt_overlay",
+          "target": "missing_attachment_glitch",
+          "normalized_rect": [
+            0.41,
+            0.48,
+            0.1,
+            0.12
+          ],
+          "behavior": "subtle missing attachment glitch controlled overlay",
+          "creepiness_level": 1,
+          "blend": "overlay",
+          "opacity_range": [
+            0.0,
+            0.16
+          ]
+        }
+      ],
+      "notes": "Static UI/hardware base; CRT/phone effects belong to runtime overlay slots, not baked GIF/video."
+    },
+    {
+      "asset_id": "ui_yalkyn_unread_danger_message",
+      "file_name": "ui_yalkyn_unread_danger_message.png",
+      "animation_slots": [
+        {
+          "id": "yalkyn_danger_crt_glow",
+          "type": "crt_glow",
+          "target": "crt_glow",
+          "normalized_rect": [
+            0.035,
+            0.035,
+            0.93,
+            0.875
+          ],
+          "behavior": "crt_glow controlled by runtime; amplitude very_low, cycle [4.0, 7.0]",
+          "creepiness_level": 1,
+          "opacity_range": null
+        },
+        {
+          "id": "yalkyn_danger_scanline",
+          "type": "scanline_overlay",
+          "target": "scanline_overlay",
+          "normalized_rect": [
+            0.05,
+            0.055,
+            0.9,
+            0.805
+          ],
+          "behavior": "scanline_overlay controlled by runtime; amplitude low, cycle slow",
+          "creepiness_level": 1,
+          "opacity_range": [
+            0.03,
+            0.08
+          ]
+        },
+        {
+          "id": "yalkyn_danger_unread_pulse",
+          "type": "unread_badge_pulse",
+          "target": "unread_badge_pulse",
+          "normalized_rect": [
+            0.145,
+            0.566,
+            0.02,
+            0.035
+          ],
+          "behavior": "unread_badge_pulse controlled by runtime; amplitude very_low, cycle [2.5, 4.5]",
+          "creepiness_level": 1,
+          "opacity_range": null
+        },
+        {
+          "id": "yalkyn_danger_window_shimmer",
+          "type": "window_shimmer",
+          "target": "window_shimmer",
+          "normalized_rect": [
+            0.6,
+            0.478,
+            0.3,
+            0.205
+          ],
+          "behavior": "window_shimmer controlled by runtime; amplitude very_low, cycle [6.0, 10.0]",
+          "creepiness_level": 1,
+          "opacity_range": null
+        }
+      ],
+      "notes": "Static comms/UI base; CRT/phone glow, scanline and cursor effects are runtime-controlled and subtle."
+    }
+  ]
+}

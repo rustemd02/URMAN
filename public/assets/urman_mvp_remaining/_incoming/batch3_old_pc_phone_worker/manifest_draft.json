@@ -1,0 +1,132 @@
+{
+  "batch_id": "batch3_old_pc_phone_worker",
+  "project": "URMAN",
+  "created_date": "2026-05-18",
+  "source_mode": "built_in_imagegen_tool",
+  "output_dir": "public/assets/urman_mvp_remaining/_incoming/batch3_old_pc_phone_worker",
+  "common_manifest_modified": false,
+  "style_refs": [
+    "docs/urman_knowledge_base/design_style.md",
+    "docs/urman_knowledge_base/asset_pack_first10/style_bible.md",
+    "public/assets/urman_mvp_first10/ui_old_pc_desktop_base.png",
+    "public/assets/urman_mvp_remaining/loc_mansur_pc_room_off.png",
+    "public/assets/urman_mvp_remaining/loc_mansur_pc_room_on.png",
+    "public/assets/urman_mvp_remaining/loc_mansur_pc_room_search_pressure_late_night.png"
+  ],
+  "global_constraints": {
+    "style": "ink-wash storybook, muted watercolor wash, visible paper grain",
+    "old_pc_ui": "Win98-like, muted CRT, grey/turquoise, not meme-like",
+    "avoid": [
+      "cyberpunk",
+      "neon",
+      "glossy 3D render",
+      "pixel art",
+      "horror jump-scare UI",
+      "readable baked story text"
+    ],
+    "text_policy": "Important text is reserved for editable overlays. Bitmap bases use blank fields, blank bubbles, placeholder bars, or non-content icons."
+  },
+  "assets": [
+    {
+      "asset_id": "ui_old_pc_crt_off",
+      "inventory_refs": ["#33"],
+      "filename": "ui_old_pc_crt_off.png",
+      "dimensions": {"width": 2048, "height": 1152},
+      "type": "ui_prop_base",
+      "state": "crt_off",
+      "status": "draft_generated_base",
+      "notes": "Powered-off CRT hardware on Mansur desk; screen left dark for reflection/glow overlays."
+    },
+    {
+      "asset_id": "ui_old_pc_crt_boot",
+      "inventory_refs": ["#33"],
+      "filename": "ui_old_pc_crt_boot.png",
+      "dimensions": {"width": 2048, "height": 1152},
+      "type": "ui_prop_base",
+      "state": "crt_boot",
+      "status": "draft_generated_base",
+      "notes": "Muted boot screen with blank status/progress regions."
+    },
+    {
+      "asset_id": "ui_old_pc_crt_power_off",
+      "inventory_refs": ["#33"],
+      "filename": "ui_old_pc_crt_power_off.png",
+      "dimensions": {"width": 2048, "height": 1152},
+      "type": "ui_prop_base",
+      "state": "crt_power_off",
+      "status": "draft_generated_base",
+      "notes": "Power-off collapse-line base; line should be animated or masked in runtime if used."
+    },
+    {
+      "asset_id": "ui_old_pc_crt_close_crop",
+      "inventory_refs": ["#33"],
+      "filename": "ui_old_pc_crt_close_crop.png",
+      "dimensions": {"width": 1536, "height": 1536},
+      "type": "ui_prop_close_crop",
+      "state": "crt_close_crop",
+      "status": "draft_generated_base",
+      "notes": "Square close crop of CRT face and bezel for overlays/cut-ins."
+    },
+    {
+      "asset_id": "ui_old_pc_folder_view_base",
+      "inventory_refs": ["#34"],
+      "filename": "ui_old_pc_folder_view_base.png",
+      "dimensions": {"width": 2048, "height": 1152},
+      "type": "old_pc_ui_base",
+      "state": "folder_view",
+      "status": "draft_generated_base",
+      "notes": "Folder view shell with blank file/folder labels and editable list regions."
+    },
+    {
+      "asset_id": "ui_old_pc_active_window_base",
+      "inventory_refs": ["#34"],
+      "filename": "ui_old_pc_active_window_base.png",
+      "dimensions": {"width": 2048, "height": 1152},
+      "type": "old_pc_ui_base",
+      "state": "active_window",
+      "status": "draft_generated_base",
+      "notes": "Generic active window/document app base with blank panels for archive/document overlays."
+    },
+    {
+      "asset_id": "ui_old_pc_error_corrupt_file_base",
+      "inventory_refs": ["#34"],
+      "filename": "ui_old_pc_error_corrupt_file_base.png",
+      "dimensions": {"width": 2048, "height": 1152},
+      "type": "old_pc_ui_base",
+      "state": "corrupt_file_error",
+      "status": "draft_generated_base",
+      "notes": "Corrupt-file modal over old desktop; message and button labels are overlay zones."
+    },
+    {
+      "asset_id": "ui_yalkyn_messenger_contacts_base",
+      "inventory_refs": ["#37"],
+      "filename": "ui_yalkyn_messenger_contacts_base.png",
+      "dimensions": {"width": 2048, "height": 1152},
+      "type": "messenger_ui_base",
+      "state": "contacts",
+      "status": "draft_generated_base",
+      "notes": "Old messenger contact-list base with blank rows, avatars, and status dots."
+    },
+    {
+      "asset_id": "ui_yalkyn_messenger_saved_marat_log_base",
+      "inventory_refs": ["#37", "#48"],
+      "filename": "ui_yalkyn_messenger_saved_marat_log_base.png",
+      "dimensions": {"width": 2048, "height": 1152},
+      "type": "messenger_ui_base",
+      "state": "saved_marat_log",
+      "status": "draft_generated_base",
+      "notes": "Saved messenger log base with blank transcript bubbles and missing-attachment region."
+    },
+    {
+      "asset_id": "ui_phone_aidar_intro_chat_base",
+      "inventory_refs": ["#38"],
+      "filename": "ui_phone_aidar_intro_chat_base.png",
+      "dimensions": {"width": 2048, "height": 1152},
+      "type": "phone_ui_base",
+      "state": "aidar_intro_chat",
+      "status": "draft_generated_base",
+      "notes": "Modern phone chat base for Kazan/Kyrlay intro context; all chat copy stays editable."
+    }
+  ],
+  "contact_sheet": "contact_sheet.jpg"
+}

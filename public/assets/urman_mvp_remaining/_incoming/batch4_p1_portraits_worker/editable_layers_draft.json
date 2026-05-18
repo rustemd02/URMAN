@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "status": "draft_incoming_worker",
+  "asset_pack": "urman_mvp_remaining",
+  "worker_folder": "public/assets/urman_mvp_remaining/_incoming/batch4_p1_portraits_worker",
+  "notes": [
+    "No baked readable text or editable text regions in these portrait assets."
+  ],
+  "layers": []
+}

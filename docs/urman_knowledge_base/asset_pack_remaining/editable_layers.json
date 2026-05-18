@@ -1,0 +1,3659 @@
+{
+  "version": 1,
+  "asset_pack": "urman_mvp_remaining",
+  "notes": "Coordinates are normalized [x, y, width, height]. Important text must be rendered by game/UI layers, not baked into PNGs.",
+  "layers": [
+    {
+      "asset_id": "char_marat_evidence_diary_silhouette",
+      "file_name": "char_marat_evidence_diary_silhouette.png",
+      "editable_text_regions": [
+        {
+          "id": "metadata_overlay",
+          "purpose": "diary source label, confidence state, or unlocked clue annotation; render as editable UI text",
+          "normalized_rect": [
+            0.06,
+            0.78,
+            0.88,
+            0.16
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "paper_photo_base",
+        "metadata_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "char_marat_evidence_forest_memory_silhouette",
+      "file_name": "char_marat_evidence_forest_memory_silhouette.png",
+      "editable_text_regions": [
+        {
+          "id": "metadata_overlay",
+          "purpose": "memory/source label and unlocked clue annotation; render as editable UI text",
+          "normalized_rect": [
+            0.06,
+            0.78,
+            0.88,
+            0.16
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "paper_photo_base",
+        "metadata_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "char_marat_evidence_old_photo",
+      "file_name": "char_marat_evidence_old_photo.png",
+      "editable_text_regions": [
+        {
+          "id": "metadata_overlay",
+          "purpose": "journal metadata, date/source notes, or clue annotation; render as editable UI text",
+          "normalized_rect": [
+            0.06,
+            0.78,
+            0.88,
+            0.16
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "paper_photo_base",
+        "metadata_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_cemetery_registry_journal_evidence_card",
+      "file_name": "doc_cemetery_registry_journal_evidence_card.png",
+      "editable_text_regions": [
+        {
+          "id": "date_clue_overlay",
+          "purpose": "editable date/death-record clue text",
+          "normalized_rect": [
+            0.06,
+            0.69,
+            0.44,
+            0.08
+          ]
+        },
+        {
+          "id": "journal_note_overlay",
+          "purpose": "editable Aidar journal note and contradiction text",
+          "normalized_rect": [
+            0.06,
+            0.79,
+            0.84,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "document_bitmap_base",
+        "runtime_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_cemetery_registry_line_crop_bg",
+      "file_name": "doc_cemetery_registry_line_crop_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "crop_name_cell",
+          "purpose": "name overlay",
+          "normalized_rect": [
+            0.07,
+            0.35,
+            0.27,
+            0.24
+          ]
+        },
+        {
+          "id": "crop_date_cell",
+          "purpose": "date overlay",
+          "normalized_rect": [
+            0.36,
+            0.35,
+            0.2,
+            0.24
+          ]
+        },
+        {
+          "id": "crop_place_cell",
+          "purpose": "plot/place overlay",
+          "normalized_rect": [
+            0.58,
+            0.35,
+            0.17,
+            0.24
+          ]
+        },
+        {
+          "id": "crop_note_cell",
+          "purpose": "short note / contradiction overlay",
+          "normalized_rect": [
+            0.77,
+            0.35,
+            0.16,
+            0.24
+          ]
+        },
+        {
+          "id": "crop_caption",
+          "purpose": "journal/evidence caption",
+          "normalized_rect": [
+            0.06,
+            0.76,
+            0.64,
+            0.11
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_cemetery_registry_photo_bg",
+      "file_name": "doc_cemetery_registry_photo_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "registry_title",
+          "purpose": "registry/document heading",
+          "normalized_rect": [
+            0.12,
+            0.08,
+            0.62,
+            0.08
+          ]
+        },
+        {
+          "id": "table_header",
+          "purpose": "column labels",
+          "normalized_rect": [
+            0.12,
+            0.23,
+            0.78,
+            0.07
+          ]
+        },
+        {
+          "id": "registry_rows",
+          "purpose": "names, dates, plot references",
+          "normalized_rect": [
+            0.12,
+            0.3,
+            0.78,
+            0.36
+          ]
+        },
+        {
+          "id": "marat_row",
+          "purpose": "primary contradiction row",
+          "normalized_rect": [
+            0.12,
+            0.43,
+            0.78,
+            0.08
+          ]
+        },
+        {
+          "id": "margin_note",
+          "purpose": "archive note / source metadata",
+          "normalized_rect": [
+            0.13,
+            0.72,
+            0.55,
+            0.12
+          ]
+        },
+        {
+          "id": "stamp_signature",
+          "purpose": "stamp/date/signature overlay",
+          "normalized_rect": [
+            0.55,
+            0.8,
+            0.34,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_marat_diary_angry_note_bg",
+      "file_name": "doc_marat_diary_angry_note_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "date_or_context",
+          "purpose": "optional date/context overlay",
+          "normalized_rect": [
+            0.15,
+            0.11,
+            0.44,
+            0.07
+          ]
+        },
+        {
+          "id": "angry_note_body",
+          "purpose": "pressed/urgent Marat text",
+          "normalized_rect": [
+            0.14,
+            0.22,
+            0.72,
+            0.46
+          ]
+        },
+        {
+          "id": "crossout_overlay_zone",
+          "purpose": "editable struck-through phrase or withheld line",
+          "normalized_rect": [
+            0.15,
+            0.68,
+            0.68,
+            0.12
+          ]
+        },
+        {
+          "id": "bottom_clue",
+          "purpose": "short dangerous clue line",
+          "normalized_rect": [
+            0.16,
+            0.82,
+            0.6,
+            0.08
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_marat_diary_damaged_page_bg",
+      "file_name": "doc_marat_diary_damaged_page_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "surviving_lines_overlay",
+          "purpose": "editable surviving diary fragments",
+          "normalized_rect": [
+            0.12,
+            0.2,
+            0.74,
+            0.54
+          ]
+        },
+        {
+          "id": "metadata_overlay",
+          "purpose": "editable source/confidence metadata",
+          "normalized_rect": [
+            0.12,
+            0.78,
+            0.68,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "document_bitmap_base",
+        "runtime_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_marat_diary_early_note_bg",
+      "file_name": "doc_marat_diary_early_note_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "date_or_context",
+          "purpose": "optional date/context overlay",
+          "normalized_rect": [
+            0.16,
+            0.12,
+            0.4,
+            0.07
+          ]
+        },
+        {
+          "id": "main_note_body",
+          "purpose": "Marat diary text",
+          "normalized_rect": [
+            0.15,
+            0.24,
+            0.7,
+            0.52
+          ]
+        },
+        {
+          "id": "bottom_reflection",
+          "purpose": "short closing line / clue phrase",
+          "normalized_rect": [
+            0.16,
+            0.78,
+            0.64,
+            0.08
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_marat_diary_forest_route_note_bg",
+      "file_name": "doc_marat_diary_forest_route_note_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "route_label_top",
+          "purpose": "route title / context overlay",
+          "normalized_rect": [
+            0.16,
+            0.09,
+            0.5,
+            0.06
+          ]
+        },
+        {
+          "id": "map_label_boxes",
+          "purpose": "place labels on route sketch",
+          "normalized_rect": [
+            0.16,
+            0.18,
+            0.66,
+            0.24
+          ]
+        },
+        {
+          "id": "route_note_body",
+          "purpose": "Marat route note body",
+          "normalized_rect": [
+            0.15,
+            0.48,
+            0.7,
+            0.32
+          ]
+        },
+        {
+          "id": "bottom_warning_line",
+          "purpose": "short clue/warning phrase",
+          "normalized_rect": [
+            0.16,
+            0.83,
+            0.62,
+            0.08
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_marat_medical_record_metadata_card",
+      "file_name": "doc_marat_medical_record_metadata_card.png",
+      "editable_text_regions": [
+        {
+          "id": "card_title",
+          "purpose": "evidence card title",
+          "normalized_rect": [
+            0.08,
+            0.07,
+            0.6,
+            0.08
+          ]
+        },
+        {
+          "id": "document_thumbnail_label",
+          "purpose": "thumbnail caption/status",
+          "normalized_rect": [
+            0.1,
+            0.63,
+            0.36,
+            0.08
+          ]
+        },
+        {
+          "id": "metadata_rows",
+          "purpose": "source, created/modified date, access path",
+          "normalized_rect": [
+            0.5,
+            0.2,
+            0.4,
+            0.45
+          ]
+        },
+        {
+          "id": "clue_tags",
+          "purpose": "clue tags and contradiction state",
+          "normalized_rect": [
+            0.14,
+            0.76,
+            0.72,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_marat_medical_record_redacted_bg",
+      "file_name": "doc_marat_medical_record_redacted_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "header_left",
+          "purpose": "ФАП/clinic heading",
+          "normalized_rect": [
+            0.1,
+            0.08,
+            0.32,
+            0.08
+          ]
+        },
+        {
+          "id": "header_right_metadata",
+          "purpose": "document id/date/source metadata",
+          "normalized_rect": [
+            0.58,
+            0.07,
+            0.3,
+            0.08
+          ]
+        },
+        {
+          "id": "patient_summary",
+          "purpose": "patient name, age, date, visit reason",
+          "normalized_rect": [
+            0.11,
+            0.2,
+            0.78,
+            0.14
+          ]
+        },
+        {
+          "id": "redacted_table_rows",
+          "purpose": "observations and ambiguous redacted phrase",
+          "normalized_rect": [
+            0.11,
+            0.39,
+            0.78,
+            0.23
+          ]
+        },
+        {
+          "id": "notes_box",
+          "purpose": "evasive note/re-read diff",
+          "normalized_rect": [
+            0.12,
+            0.65,
+            0.56,
+            0.13
+          ]
+        },
+        {
+          "id": "signature_area",
+          "purpose": "signature/date/stamp overlay",
+          "normalized_rect": [
+            0.25,
+            0.84,
+            0.52,
+            0.08
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_marat_saved_messages_base",
+      "file_name": "doc_marat_saved_messages_base.png",
+      "editable_text_regions": [
+        {
+          "id": "window_title",
+          "purpose": "archive/messenger window title",
+          "normalized_rect": [
+            0.12,
+            0.09,
+            0.42,
+            0.05
+          ]
+        },
+        {
+          "id": "contact_list",
+          "purpose": "contact names and statuses",
+          "normalized_rect": [
+            0.12,
+            0.18,
+            0.18,
+            0.58
+          ]
+        },
+        {
+          "id": "message_thread",
+          "purpose": "message bubbles and timestamps",
+          "normalized_rect": [
+            0.34,
+            0.18,
+            0.52,
+            0.55
+          ]
+        },
+        {
+          "id": "attachment_row",
+          "purpose": "attachment metadata / missing file label",
+          "normalized_rect": [
+            0.38,
+            0.66,
+            0.34,
+            0.1
+          ]
+        },
+        {
+          "id": "status_bar",
+          "purpose": "file path, source, local time metadata",
+          "normalized_rect": [
+            0.12,
+            0.82,
+            0.74,
+            0.06
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_marat_saved_messages_warning_state",
+      "file_name": "doc_marat_saved_messages_warning_state.png",
+      "editable_text_regions": [
+        {
+          "id": "window_title",
+          "purpose": "archive/messenger window title",
+          "normalized_rect": [
+            0.12,
+            0.09,
+            0.42,
+            0.05
+          ]
+        },
+        {
+          "id": "contact_list",
+          "purpose": "contact names and statuses",
+          "normalized_rect": [
+            0.12,
+            0.18,
+            0.18,
+            0.58
+          ]
+        },
+        {
+          "id": "message_thread",
+          "purpose": "message bubbles and timestamps",
+          "normalized_rect": [
+            0.34,
+            0.18,
+            0.52,
+            0.55
+          ]
+        },
+        {
+          "id": "warning_message",
+          "purpose": "selected warning message overlay",
+          "normalized_rect": [
+            0.36,
+            0.58,
+            0.48,
+            0.18
+          ]
+        },
+        {
+          "id": "missing_attachment",
+          "purpose": "missing attachment filename/status overlay",
+          "normalized_rect": [
+            0.4,
+            0.45,
+            0.3,
+            0.13
+          ]
+        },
+        {
+          "id": "status_bar",
+          "purpose": "file path/source metadata",
+          "normalized_rect": [
+            0.12,
+            0.82,
+            0.74,
+            0.06
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_pact_folder_compensation_note_bg",
+      "file_name": "doc_pact_folder_compensation_note_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "memo_title",
+          "purpose": "compensation note title, rendered by UI",
+          "normalized_rect": [
+            0.18,
+            0.13,
+            0.52,
+            0.07
+          ]
+        },
+        {
+          "id": "recipient_fields",
+          "purpose": "recipient/name/date fields",
+          "normalized_rect": [
+            0.18,
+            0.24,
+            0.62,
+            0.16
+          ]
+        },
+        {
+          "id": "amount_reason_fields",
+          "purpose": "amount/reason table",
+          "normalized_rect": [
+            0.18,
+            0.42,
+            0.64,
+            0.22
+          ]
+        },
+        {
+          "id": "short_note",
+          "purpose": "short explanation / re-read diff",
+          "normalized_rect": [
+            0.18,
+            0.66,
+            0.62,
+            0.12
+          ]
+        },
+        {
+          "id": "signature_stamp",
+          "purpose": "signature/stamp/date overlay",
+          "normalized_rect": [
+            0.4,
+            0.8,
+            0.38,
+            0.1
+          ]
+        },
+        {
+          "id": "folder_context_label",
+          "purpose": "folder tab/context label",
+          "normalized_rect": [
+            0.52,
+            0.05,
+            0.3,
+            0.06
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_pact_folder_household_list_bg",
+      "file_name": "doc_pact_folder_household_list_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "document_title",
+          "purpose": "internal list title, rendered by UI",
+          "normalized_rect": [
+            0.12,
+            0.08,
+            0.58,
+            0.08
+          ]
+        },
+        {
+          "id": "table_header",
+          "purpose": "column labels",
+          "normalized_rect": [
+            0.12,
+            0.22,
+            0.78,
+            0.07
+          ]
+        },
+        {
+          "id": "household_rows",
+          "purpose": "household names, dates, obligations, notes",
+          "normalized_rect": [
+            0.12,
+            0.3,
+            0.78,
+            0.43
+          ]
+        },
+        {
+          "id": "selected_household_row",
+          "purpose": "key clue row",
+          "normalized_rect": [
+            0.12,
+            0.38,
+            0.78,
+            0.08
+          ]
+        },
+        {
+          "id": "folder_tab_label",
+          "purpose": "folder tab / archive label",
+          "normalized_rect": [
+            0.58,
+            0.04,
+            0.28,
+            0.06
+          ]
+        },
+        {
+          "id": "footer_metadata",
+          "purpose": "source/signature/update note",
+          "normalized_rect": [
+            0.14,
+            0.82,
+            0.62,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_pact_folder_incident_log_bg",
+      "file_name": "doc_pact_folder_incident_log_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "document_title",
+          "purpose": "incident log title, rendered by UI",
+          "normalized_rect": [
+            0.12,
+            0.08,
+            0.58,
+            0.08
+          ]
+        },
+        {
+          "id": "table_header",
+          "purpose": "entry/date/place/status columns",
+          "normalized_rect": [
+            0.12,
+            0.22,
+            0.76,
+            0.07
+          ]
+        },
+        {
+          "id": "incident_rows",
+          "purpose": "incident entries and short notes",
+          "normalized_rect": [
+            0.12,
+            0.3,
+            0.76,
+            0.42
+          ]
+        },
+        {
+          "id": "selected_incident",
+          "purpose": "central clue entry",
+          "normalized_rect": [
+            0.12,
+            0.4,
+            0.76,
+            0.12
+          ]
+        },
+        {
+          "id": "margin_flags",
+          "purpose": "status tags / dangerous-key marker",
+          "normalized_rect": [
+            0.08,
+            0.31,
+            0.08,
+            0.42
+          ]
+        },
+        {
+          "id": "footer_metadata",
+          "purpose": "source/signature/update note",
+          "normalized_rect": [
+            0.14,
+            0.8,
+            0.62,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "scanned_document_base",
+        "runtime_text_overlay",
+        "metadata_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "doc_pact_folder_pakt_1999_replacement_bg",
+      "file_name": "doc_pact_folder_pakt_1999_replacement_bg.png",
+      "editable_text_regions": [
+        {
+          "id": "replacement_title_overlay",
+          "purpose": "editable placeholder replacement title / архив label",
+          "normalized_rect": [
+            0.1,
+            0.07,
+            0.54,
+            0.06
+          ]
+        },
+        {
+          "id": "household_rows_overlay",
+          "purpose": "editable pact accounting rows",
+          "normalized_rect": [
+            0.12,
+            0.18,
+            0.74,
+            0.55
+          ]
+        },
+        {
+          "id": "stamp_metadata_overlay",
+          "purpose": "editable source/stamp metadata",
+          "normalized_rect": [
+            0.12,
+            0.77,
+            0.6,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "document_bitmap_base",
+        "runtime_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_admin_archive_corner_day",
+      "file_name": "loc_admin_archive_corner_day.png",
+      "editable_text_regions": [
+        {
+          "id": "notice_board_runtime",
+          "purpose": "editable notice/cabinet labels",
+          "normalized_rect": [
+            0.62,
+            0.16,
+            0.22,
+            0.26
+          ]
+        },
+        {
+          "id": "desk_document_runtime",
+          "purpose": "editable desk document clue overlay",
+          "normalized_rect": [
+            0.32,
+            0.68,
+            0.34,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_base",
+        "runtime_text_overlay",
+        "hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_admin_archive_denied_access",
+      "file_name": "loc_admin_archive_denied_access.png",
+      "editable_text_regions": [
+        {
+          "id": "blank_notice_on_door",
+          "purpose": "runtime editable text",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "blank_file_labels",
+          "purpose": "runtime editable text",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "blank_forms_on_desk",
+          "purpose": "runtime editable text",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_arrival_road_to_kyrlay_dusk",
+      "file_name": "loc_arrival_road_to_kyrlay_dusk.png",
+      "editable_text_regions": [
+        {
+          "id": "village_sign_optional",
+          "purpose": "editable diegetic village sign / route label if needed",
+          "normalized_rect": [
+            0.62,
+            0.38,
+            0.24,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_diegetic_sign_text"
+      ]
+    },
+    {
+      "asset_id": "loc_arrival_road_to_kyrlay_dusk_bus_stop",
+      "file_name": "loc_arrival_road_to_kyrlay_dusk_bus_stop.png",
+      "editable_text_regions": [
+        {
+          "id": "arrival_sign_runtime",
+          "purpose": "editable village/route sign",
+          "normalized_rect": [
+            0.38,
+            0.3,
+            0.22,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_base",
+        "runtime_text_overlay",
+        "hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_arrival_vehicle_interior_dusk",
+      "file_name": "loc_arrival_vehicle_interior_dusk.png",
+      "editable_text_regions": [
+        {
+          "id": "blank_roadside_sign",
+          "purpose": "runtime editable text",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_fap_cabinet_document_desk_day",
+      "file_name": "loc_fap_cabinet_document_desk_day.png",
+      "editable_text_regions": [
+        {
+          "id": "desk_document_overlay",
+          "purpose": "medical record/document text layer, readable and editable",
+          "normalized_rect": [
+            0.12,
+            0.58,
+            0.48,
+            0.22
+          ]
+        },
+        {
+          "id": "wall_notice_overlay",
+          "purpose": "optional editable clinic notice/calendar text",
+          "normalized_rect": [
+            0.12,
+            0.18,
+            0.24,
+            0.22
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_fap_pressure_document_desk",
+      "file_name": "loc_fap_pressure_document_desk.png",
+      "editable_text_regions": [
+        {
+          "id": "desk_document_overlay",
+          "purpose": "medical_form_text",
+          "normalized_rect": [
+            0.1782,
+            0.599,
+            0.4053,
+            0.217
+          ],
+          "max_lines": 9,
+          "align": "left"
+        },
+        {
+          "id": "open_ledger_overlay",
+          "purpose": "ledger_text",
+          "normalized_rect": [
+            0.0464,
+            0.6684,
+            0.1929,
+            0.178
+          ],
+          "max_lines": 6,
+          "align": "left"
+        },
+        {
+          "id": "wall_notice_overlay",
+          "purpose": "notice_text",
+          "normalized_rect": [
+            0.7031,
+            0.2865,
+            0.1245,
+            0.217
+          ],
+          "max_lines": 6,
+          "align": "center"
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_or_hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_fap_waiting_room_day",
+      "file_name": "loc_fap_waiting_room_day.png",
+      "editable_text_regions": [
+        {
+          "id": "left_notice_blank",
+          "purpose": "notice_text",
+          "normalized_rect": [
+            0.1465,
+            0.2561,
+            0.1123,
+            0.217
+          ],
+          "max_lines": 7,
+          "align": "left"
+        },
+        {
+          "id": "door_notice_blank",
+          "purpose": "door_label",
+          "normalized_rect": [
+            0.3052,
+            0.217,
+            0.1123,
+            0.217
+          ],
+          "max_lines": 5,
+          "align": "center"
+        },
+        {
+          "id": "right_notice_board_blank",
+          "purpose": "notice_board_text",
+          "normalized_rect": [
+            0.7861,
+            0.2344,
+            0.1611,
+            0.2561
+          ],
+          "max_lines": 10,
+          "align": "left"
+        },
+        {
+          "id": "registration_paper_stack",
+          "purpose": "form_text",
+          "normalized_rect": [
+            0.8105,
+            0.6337,
+            0.1562,
+            0.1562
+          ],
+          "max_lines": 6,
+          "align": "left"
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_or_hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_kitchen_first_dinner_night_talk",
+      "file_name": "loc_kitchen_first_dinner_night_talk.png",
+      "editable_text_regions": [
+        {
+          "id": "wall_note_or_calendar_blank",
+          "purpose": "optional_text",
+          "normalized_rect": [
+            0.835,
+            0.23,
+            0.0928,
+            0.2604
+          ],
+          "max_lines": 5,
+          "align": "center"
+        },
+        {
+          "id": "table_note_optional",
+          "purpose": "small_note_text",
+          "normalized_rect": [
+            0.6738,
+            0.5642,
+            0.1001,
+            0.0799
+          ],
+          "max_lines": 3,
+          "align": "left"
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_or_hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_mansur_pc_room_on",
+      "file_name": "loc_mansur_pc_room_on.png",
+      "editable_text_regions": [
+        {
+          "id": "crt_ui_composite_region",
+          "purpose": "old PC desktop/window UI must be composited as editable UI text, not baked",
+          "normalized_rect": [
+            0.3,
+            0.2,
+            0.24,
+            0.22
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_mansur_pc_room_search_pressure_late_night",
+      "file_name": "loc_mansur_pc_room_search_pressure_late_night.png",
+      "editable_text_regions": [
+        {
+          "id": "crt_ui_composite_region",
+          "purpose": "archive/search UI and corrupt/error states must be editable/composited",
+          "normalized_rect": [
+            0.3,
+            0.2,
+            0.26,
+            0.23
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_marat_grave_closeup_cleaned_readable_base",
+      "file_name": "loc_marat_grave_closeup_cleaned_readable_base.png",
+      "editable_text_regions": [
+        {
+          "id": "grave_inscription_readable",
+          "purpose": "editable name/date inscription; supports Tatar letters ә ө ү җ ң һ",
+          "normalized_rect": [
+            0.31,
+            0.18,
+            0.38,
+            0.28
+          ]
+        },
+        {
+          "id": "date_clue_overlay",
+          "purpose": "separate clue highlight / journal extraction for date contradiction",
+          "normalized_rect": [
+            0.32,
+            0.22,
+            0.36,
+            0.18
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_marat_grave_closeup_journal_crop",
+      "file_name": "loc_marat_grave_closeup_journal_crop.png",
+      "editable_text_regions": [
+        {
+          "id": "grave_inscription_journal_overlay",
+          "purpose": "grave_inscription",
+          "normalized_rect": [
+            0.2246,
+            0.23,
+            0.4346,
+            0.3125
+          ],
+          "max_lines": 5,
+          "align": "center"
+        },
+        {
+          "id": "date_clue_overlay",
+          "purpose": "clue_highlight_text",
+          "normalized_rect": [
+            0.2539,
+            0.2995,
+            0.3784,
+            0.1345
+          ],
+          "max_lines": 2,
+          "align": "center"
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_or_hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_marat_grave_closeup_mossy",
+      "file_name": "loc_marat_grave_closeup_mossy.png",
+      "editable_text_regions": [
+        {
+          "id": "grave_inscription_hidden",
+          "purpose": "inscription/name/date remains editable and partly obscured before cleaning",
+          "normalized_rect": [
+            0.31,
+            0.18,
+            0.38,
+            0.28
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_mosque_exterior_day_safe_light",
+      "file_name": "loc_mosque_exterior_day_safe_light.png",
+      "editable_text_regions": [
+        {
+          "id": "mosque_sign_runtime",
+          "purpose": "editable sign text / place label",
+          "normalized_rect": [
+            0.38,
+            0.55,
+            0.25,
+            0.08
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_diegetic_sign_text"
+      ]
+    },
+    {
+      "asset_id": "loc_mosque_tea_office_serious_talk",
+      "file_name": "loc_mosque_tea_office_serious_talk.png",
+      "editable_text_regions": [
+        {
+          "id": "blank_notebook_pages",
+          "purpose": "runtime editable text",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "blank_book_spines",
+          "purpose": "runtime editable text",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_mosque_tea_office_timur_calm",
+      "file_name": "loc_mosque_tea_office_timur_calm.png",
+      "editable_text_regions": [
+        {
+          "id": "tea_office_note_runtime",
+          "purpose": "editable note / dialogue clue label",
+          "normalized_rect": [
+            0.62,
+            0.24,
+            0.22,
+            0.18
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_base",
+        "runtime_text_overlay",
+        "hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_niva_closeup_tool_detail",
+      "file_name": "loc_niva_closeup_tool_detail.png",
+      "editable_text_regions": [
+        {
+          "id": "blank_tin_label",
+          "purpose": "runtime editable text",
+          "normalized_rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_selsmag_counter_interior",
+      "file_name": "loc_selsmag_counter_interior.png",
+      "editable_text_regions": [
+        {
+          "id": "price_or_notice_runtime",
+          "purpose": "editable shop counter notices/prices",
+          "normalized_rect": [
+            0.46,
+            0.16,
+            0.22,
+            0.16
+          ]
+        },
+        {
+          "id": "counter_clue_label_runtime",
+          "purpose": "editable clue hover label",
+          "normalized_rect": [
+            0.34,
+            0.62,
+            0.28,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_base",
+        "runtime_text_overlay",
+        "hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_selsmag_exterior_day",
+      "file_name": "loc_selsmag_exterior_day.png",
+      "editable_text_regions": [
+        {
+          "id": "selsmag_sign_runtime",
+          "purpose": "editable sign text for сельмаг / shop hours",
+          "normalized_rect": [
+            0.36,
+            0.12,
+            0.28,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_diegetic_sign_text"
+      ]
+    },
+    {
+      "asset_id": "loc_zirat_general_day",
+      "file_name": "loc_zirat_general_day.png",
+      "editable_text_regions": [
+        {
+          "id": "zirat_sign_label",
+          "purpose": "editable cemetery/zират label after language review",
+          "normalized_rect": [
+            0.12,
+            0.18,
+            0.28,
+            0.16
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_zirat_general_late_evening",
+      "file_name": "loc_zirat_general_late_evening.png",
+      "editable_text_regions": [
+        {
+          "id": "zirat_sign_label",
+          "purpose": "route_or_place_label",
+          "normalized_rect": [
+            0.0381,
+            0.2865,
+            0.2222,
+            0.1519
+          ],
+          "max_lines": 2,
+          "align": "center"
+        },
+        {
+          "id": "small_notice_label",
+          "purpose": "optional_notice_text",
+          "normalized_rect": [
+            0.5933,
+            0.5122,
+            0.1196,
+            0.1389
+          ],
+          "max_lines": 4,
+          "align": "center"
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_or_hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "loc_zirat_general_wind_pressure",
+      "file_name": "loc_zirat_general_wind_pressure.png",
+      "editable_text_regions": [
+        {
+          "id": "zirat_sign_label",
+          "purpose": "route_or_place_label",
+          "normalized_rect": [
+            0.04,
+            0.2951,
+            0.2197,
+            0.1476
+          ],
+          "max_lines": 2,
+          "align": "center"
+        },
+        {
+          "id": "small_notice_label",
+          "purpose": "optional_notice_text",
+          "normalized_rect": [
+            0.5933,
+            0.5122,
+            0.1196,
+            0.1389
+          ],
+          "max_lines": 4,
+          "align": "center"
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_or_hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "photo_aidar_marat_childhood_clean",
+      "file_name": "photo_aidar_marat_childhood_clean.png",
+      "editable_text_regions": [
+        {
+          "id": "metadata_overlay",
+          "purpose": "journal metadata, date/source notes, or clue annotation; render as editable UI text",
+          "normalized_rect": [
+            0.06,
+            0.78,
+            0.88,
+            0.16
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "paper_photo_base",
+        "metadata_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "photo_aidar_marat_childhood_damaged",
+      "file_name": "photo_aidar_marat_childhood_damaged.png",
+      "editable_text_regions": [
+        {
+          "id": "metadata_overlay",
+          "purpose": "journal metadata, date/source notes, or clue annotation; render as editable UI text",
+          "normalized_rect": [
+            0.06,
+            0.78,
+            0.88,
+            0.16
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "paper_photo_base",
+        "metadata_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "photo_aidar_marat_childhood_journal_thumb",
+      "file_name": "photo_aidar_marat_childhood_journal_thumb.png",
+      "editable_text_regions": [
+        {
+          "id": "metadata_overlay",
+          "purpose": "journal thumbnail caption or clue-state label; render as editable UI text",
+          "normalized_rect": [
+            0.06,
+            0.78,
+            0.88,
+            0.16
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "paper_photo_base",
+        "metadata_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_admin_archive_corner_day",
+      "file_name": "route_admin_archive_corner_day.png",
+      "editable_text_regions": [
+        {
+          "id": "admin_notice_runtime",
+          "purpose": "editable notice/sign text",
+          "normalized_rect": [
+            0.28,
+            0.28,
+            0.24,
+            0.18
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_alsu_meeting_spot_day",
+      "file_name": "route_alsu_meeting_spot_day.png",
+      "editable_text_regions": [
+        {
+          "id": "route_sign_runtime",
+          "purpose": "editable route sign text",
+          "normalized_rect": [
+            0.46,
+            0.22,
+            0.18,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_bridge_river_turn_day",
+      "file_name": "route_bridge_river_turn_day.png",
+      "editable_text_regions": [
+        {
+          "id": "river_sign_runtime",
+          "purpose": "editable bridge/river sign text",
+          "normalized_rect": [
+            0.08,
+            0.18,
+            0.22,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_bridge_river_turn_dusk_pressure",
+      "file_name": "route_bridge_river_turn_dusk_pressure.png",
+      "editable_text_regions": [
+        {
+          "id": "river_sign_runtime",
+          "purpose": "editable bridge/river sign text",
+          "normalized_rect": [
+            0.05,
+            0.2,
+            0.22,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_forest_approach_evening",
+      "file_name": "route_forest_approach_evening.png",
+      "editable_text_regions": [
+        {
+          "id": "kara_urman_warning_label",
+          "purpose": "editable warning sign / Кара-Урман label after review",
+          "normalized_rect": [
+            0.06,
+            0.22,
+            0.28,
+            0.28
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_forest_approach_pressure_silence",
+      "file_name": "route_forest_approach_pressure_silence.png",
+      "editable_text_regions": [
+        {
+          "id": "warning_sign_label",
+          "purpose": "route_warning_label",
+          "normalized_rect": [
+            0.1099,
+            0.3255,
+            0.2002,
+            0.1432
+          ],
+          "max_lines": 2,
+          "align": "center"
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_or_hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_forest_approach_voice_lock",
+      "file_name": "route_forest_approach_voice_lock.png",
+      "editable_text_regions": [
+        {
+          "id": "forest_sign_runtime",
+          "purpose": "editable forest sign / old place-name",
+          "normalized_rect": [
+            0.34,
+            0.34,
+            0.22,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_kara_urman_edge_rinat_interruption",
+      "file_name": "route_kara_urman_edge_rinat_interruption.png",
+      "editable_text_regions": [
+        {
+          "id": "forest_sign_runtime",
+          "purpose": "editable forest-edge sign label",
+          "normalized_rect": [
+            0.64,
+            0.31,
+            0.18,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_kara_urman_edge_voice_moment",
+      "file_name": "route_kara_urman_edge_voice_moment.png",
+      "editable_text_regions": [
+        {
+          "id": "warning_sign_label",
+          "purpose": "route_warning_label",
+          "normalized_rect": [
+            0.1831,
+            0.3689,
+            0.2026,
+            0.1389
+          ],
+          "max_lines": 2,
+          "align": "center"
+        }
+      ],
+      "suggested_passes": [
+        "painted_location_base",
+        "runtime_text_or_hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_kara_urman_rinat_interruption",
+      "file_name": "route_kara_urman_rinat_interruption.png",
+      "editable_text_regions": [
+        {
+          "id": "forest_sign_runtime",
+          "purpose": "editable forest sign / warning label",
+          "normalized_rect": [
+            0.55,
+            0.25,
+            0.2,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_or_journal_base",
+        "runtime_text_overlay",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_main_street_empty_evening",
+      "file_name": "route_main_street_empty_evening.png",
+      "editable_text_regions": [
+        {
+          "id": "main_street_blank_sign_runtime",
+          "purpose": "editable sign/route label",
+          "normalized_rect": [
+            0.04,
+            0.53,
+            0.2,
+            0.13
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_or_journal_base",
+        "runtime_text_overlay",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_main_street_entry_evening",
+      "file_name": "route_main_street_entry_evening.png",
+      "editable_text_regions": [
+        {
+          "id": "main_street_sign_runtime",
+          "purpose": "editable street/route sign text",
+          "normalized_rect": [
+            0.12,
+            0.24,
+            0.22,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_main_street_entry_pressure_watchers",
+      "file_name": "route_main_street_entry_pressure_watchers.png",
+      "editable_text_regions": [
+        {
+          "id": "main_street_sign_runtime",
+          "purpose": "editable street/route sign text",
+          "normalized_rect": [
+            0.13,
+            0.24,
+            0.22,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_painted_base",
+        "runtime_diegetic_sign_text",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_main_street_watchers_pressure",
+      "file_name": "route_main_street_watchers_pressure.png",
+      "editable_text_regions": [
+        {
+          "id": "blank_notice_runtime",
+          "purpose": "editable blank notice/sign",
+          "normalized_rect": [
+            0.35,
+            0.24,
+            0.16,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_or_journal_base",
+        "runtime_text_overlay",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_mosque_sign_day",
+      "file_name": "route_mosque_sign_day.png",
+      "editable_text_regions": [
+        {
+          "id": "mosque_sign_text",
+          "purpose": "editable diegetic sign text",
+          "normalized_rect": [
+            0.32,
+            0.25,
+            0.18,
+            0.11
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_base",
+        "runtime_text_overlay",
+        "hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_mosque_sign_evening",
+      "file_name": "route_mosque_sign_evening.png",
+      "editable_text_regions": [
+        {
+          "id": "mosque_sign_text",
+          "purpose": "editable diegetic sign text",
+          "normalized_rect": [
+            0.22,
+            0.26,
+            0.22,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_base",
+        "runtime_text_overlay",
+        "hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_day",
+      "file_name": "route_selsmag_fap_lane_day.png",
+      "editable_text_regions": [
+        {
+          "id": "fap_plaque_label",
+          "purpose": "editable ФАП sign text",
+          "normalized_rect": [
+            0.18,
+            0.18,
+            0.28,
+            0.16
+          ]
+        },
+        {
+          "id": "selsmag_sign_label",
+          "purpose": "editable сельмаг sign text",
+          "normalized_rect": [
+            0.55,
+            0.16,
+            0.32,
+            0.16
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_evening",
+      "file_name": "route_selsmag_fap_lane_evening.png",
+      "editable_text_regions": [
+        {
+          "id": "shop_or_fap_sign_text",
+          "purpose": "editable diegetic signs / route labels",
+          "normalized_rect": [
+            0.52,
+            0.22,
+            0.22,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_base",
+        "runtime_text_overlay",
+        "hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_selsmag_fap_lane_pressure",
+      "file_name": "route_selsmag_fap_lane_pressure.png",
+      "editable_text_regions": [
+        {
+          "id": "fap_notice_or_shop_sign_text",
+          "purpose": "editable notice/sign text",
+          "normalized_rect": [
+            0.16,
+            0.32,
+            0.23,
+            0.14
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_base",
+        "runtime_text_overlay",
+        "hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_unsafe_path_blocked_evening",
+      "file_name": "route_unsafe_path_blocked_evening.png",
+      "editable_text_regions": [
+        {
+          "id": "blocked_path_notice_runtime",
+          "purpose": "editable diegetic blocked-path note/sign",
+          "normalized_rect": [
+            0.76,
+            0.38,
+            0.16,
+            0.14
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_or_journal_base",
+        "runtime_text_overlay",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_village_crossroad_day",
+      "file_name": "route_village_crossroad_day.png",
+      "editable_text_regions": [
+        {
+          "id": "signpost_labels",
+          "purpose": "editable route labels for ФАП, сельмаг, мәчет after language review",
+          "normalized_rect": [
+            0.02,
+            0.22,
+            0.36,
+            0.38
+          ]
+        },
+        {
+          "id": "notice_board_text",
+          "purpose": "optional editable notice board snippets, not baked",
+          "normalized_rect": [
+            0.74,
+            0.24,
+            0.18,
+            0.24
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_village_crossroad_pressure",
+      "file_name": "route_village_crossroad_pressure.png",
+      "editable_text_regions": [
+        {
+          "id": "crossroad_sign_runtime",
+          "purpose": "editable route sign text",
+          "normalized_rect": [
+            0.16,
+            0.25,
+            0.24,
+            0.12
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "painted_base",
+        "runtime_text_overlay",
+        "hotspot_overlay"
+      ]
+    },
+    {
+      "asset_id": "route_zirat_road_evening",
+      "file_name": "route_zirat_road_evening.png",
+      "editable_text_regions": [
+        {
+          "id": "zirat_sign_label",
+          "purpose": "editable зират route sign label",
+          "normalized_rect": [
+            0.04,
+            0.16,
+            0.3,
+            0.22
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_archive_search_empty",
+      "file_name": "ui_archive_search_empty.png",
+      "editable_text_regions": [
+        {
+          "id": "window_title",
+          "purpose": "text",
+          "normalized_rect": [
+            0.1538,
+            0.0694,
+            0.5615,
+            0.0365
+          ]
+        },
+        {
+          "id": "search_query",
+          "purpose": "text_input",
+          "normalized_rect": [
+            0.0967,
+            0.2708,
+            0.2344,
+            0.0503
+          ]
+        },
+        {
+          "id": "column_headers",
+          "purpose": "text",
+          "normalized_rect": [
+            0.0928,
+            0.4097,
+            0.2979,
+            0.0278
+          ]
+        },
+        {
+          "id": "empty_state_or_rows",
+          "purpose": "list_text",
+          "normalized_rect": [
+            0.0928,
+            0.4514,
+            0.2881,
+            0.2648
+          ]
+        },
+        {
+          "id": "metadata_sidebar",
+          "purpose": "key_value_text",
+          "normalized_rect": [
+            0.3735,
+            0.3863,
+            0.0693,
+            0.3125
+          ]
+        },
+        {
+          "id": "status_bar",
+          "purpose": "text",
+          "normalized_rect": [
+            0.0879,
+            0.8767,
+            0.2661,
+            0.0347
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_archive_search_results",
+      "file_name": "ui_archive_search_results.png",
+      "editable_text_regions": [
+        {
+          "id": "window_title",
+          "purpose": "text",
+          "normalized_rect": [
+            0.1587,
+            0.0538,
+            0.6104,
+            0.0382
+          ]
+        },
+        {
+          "id": "search_query",
+          "purpose": "text_input",
+          "normalized_rect": [
+            0.0952,
+            0.2222,
+            0.6177,
+            0.0503
+          ]
+        },
+        {
+          "id": "results_table_headers",
+          "purpose": "text",
+          "normalized_rect": [
+            0.0869,
+            0.3125,
+            0.7178,
+            0.0295
+          ]
+        },
+        {
+          "id": "results_rows",
+          "purpose": "table_text",
+          "normalized_rect": [
+            0.0869,
+            0.3559,
+            0.7178,
+            0.2708
+          ]
+        },
+        {
+          "id": "selected_result_preview",
+          "purpose": "text",
+          "normalized_rect": [
+            0.2368,
+            0.6554,
+            0.5078,
+            0.0677
+          ]
+        },
+        {
+          "id": "metadata_panel",
+          "purpose": "key_value_text",
+          "normalized_rect": [
+            0.8398,
+            0.1302,
+            0.1162,
+            0.2812
+          ]
+        },
+        {
+          "id": "metadata_notes",
+          "purpose": "text",
+          "normalized_rect": [
+            0.8472,
+            0.5556,
+            0.0928,
+            0.0642
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_chat_ambient_villagers_avatars",
+      "file_name": "ui_chat_ambient_villagers_avatars.png",
+      "editable_text_regions": [
+        {
+          "id": "avatar_name_runtime",
+          "purpose": "editable chat avatar/name labels",
+          "normalized_rect": [
+            0.02,
+            0.02,
+            0.96,
+            0.96
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "transparent_cutout_base",
+        "runtime_hover_label_or_dialogue_anchor"
+      ]
+    },
+    {
+      "asset_id": "ui_dialogue_key_picker_base",
+      "file_name": "ui_dialogue_key_picker_base.png",
+      "editable_text_regions": [
+        {
+          "id": "filter_tabs",
+          "purpose": "tab_text",
+          "normalized_rect": [
+            0.0317,
+            0.0391,
+            0.271,
+            0.0538
+          ]
+        },
+        {
+          "id": "key_list_items",
+          "purpose": "list_text",
+          "normalized_rect": [
+            0.04,
+            0.1736,
+            0.2637,
+            0.4557
+          ]
+        },
+        {
+          "id": "selected_key_warning",
+          "purpose": "text",
+          "normalized_rect": [
+            0.04,
+            0.6111,
+            0.2344,
+            0.0573
+          ]
+        },
+        {
+          "id": "npc_reaction_status",
+          "purpose": "key_value_text",
+          "normalized_rect": [
+            0.5688,
+            0.2648,
+            0.1147,
+            0.204
+          ]
+        },
+        {
+          "id": "dialogue_body",
+          "purpose": "dialogue_text",
+          "normalized_rect": [
+            0.3369,
+            0.7899,
+            0.5225,
+            0.1285
+          ]
+        },
+        {
+          "id": "input_prompt",
+          "purpose": "text_input",
+          "normalized_rect": [
+            0.0464,
+            0.9115,
+            0.1514,
+            0.0347
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_document_viewer_template",
+      "file_name": "ui_document_viewer_template.png",
+      "editable_text_regions": [
+        {
+          "id": "window_title",
+          "purpose": "text",
+          "normalized_rect": [
+            0.1562,
+            0.0538,
+            0.5664,
+            0.0365
+          ]
+        },
+        {
+          "id": "toolbar_labels",
+          "purpose": "button_text",
+          "normalized_rect": [
+            0.083,
+            0.1155,
+            0.6348,
+            0.0434
+          ]
+        },
+        {
+          "id": "document_header",
+          "purpose": "heading",
+          "normalized_rect": [
+            0.2661,
+            0.2474,
+            0.3271,
+            0.0608
+          ]
+        },
+        {
+          "id": "document_body_text",
+          "purpose": "body_text",
+          "normalized_rect": [
+            0.2539,
+            0.3125,
+            0.3296,
+            0.4905
+          ]
+        },
+        {
+          "id": "document_highlight_text",
+          "purpose": "body_text_highlight",
+          "normalized_rect": [
+            0.3369,
+            0.5773,
+            0.1611,
+            0.0417
+          ]
+        },
+        {
+          "id": "metadata_panel",
+          "purpose": "key_value_text",
+          "normalized_rect": [
+            0.708,
+            0.2648,
+            0.2148,
+            0.2951
+          ]
+        },
+        {
+          "id": "metadata_notes",
+          "purpose": "body_text",
+          "normalized_rect": [
+            0.7104,
+            0.6467,
+            0.2002,
+            0.1649
+          ]
+        },
+        {
+          "id": "status_bar",
+          "purpose": "text",
+          "normalized_rect": [
+            0.1758,
+            0.9028,
+            0.4395,
+            0.0365
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_journal_clue_graph_base",
+      "file_name": "ui_journal_clue_graph_base.png",
+      "editable_text_regions": [
+        {
+          "id": "journal_page_title",
+          "purpose": "heading",
+          "normalized_rect": [
+            0.2734,
+            0.0938,
+            0.2051,
+            0.0434
+          ]
+        },
+        {
+          "id": "central_clue_label",
+          "purpose": "text",
+          "normalized_rect": [
+            0.4443,
+            0.4601,
+            0.1465,
+            0.0469
+          ]
+        },
+        {
+          "id": "clue_node_labels",
+          "purpose": "repeated_text",
+          "normalized_rect": [
+            0.2197,
+            0.191,
+            0.4736,
+            0.5339
+          ]
+        },
+        {
+          "id": "timeline_labels",
+          "purpose": "repeated_text",
+          "normalized_rect": [
+            0.2539,
+            0.8455,
+            0.4883,
+            0.0417
+          ]
+        },
+        {
+          "id": "right_details_title",
+          "purpose": "heading",
+          "normalized_rect": [
+            0.7852,
+            0.1302,
+            0.1392,
+            0.0434
+          ]
+        },
+        {
+          "id": "right_details_body",
+          "purpose": "body_text",
+          "normalized_rect": [
+            0.7754,
+            0.2865,
+            0.1611,
+            0.2691
+          ]
+        },
+        {
+          "id": "right_details_notes",
+          "purpose": "body_text",
+          "normalized_rect": [
+            0.7646,
+            0.6771,
+            0.1855,
+            0.1997
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_journal_route_sketch_base",
+      "file_name": "ui_journal_route_sketch_base.png",
+      "editable_text_regions": [
+        {
+          "id": "route_labels_runtime",
+          "purpose": "editable incomplete route labels and clue pins",
+          "normalized_rect": [
+            0.08,
+            0.08,
+            0.82,
+            0.76
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "route_or_journal_base",
+        "runtime_text_overlay",
+        "pressure_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_old_pc_active_window_base",
+      "file_name": "ui_old_pc_active_window_base.png",
+      "editable_text_regions": [
+        {
+          "id": "window_title",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.34,
+            0.27,
+            0.24,
+            0.04
+          ]
+        },
+        {
+          "id": "toolbar_or_search_fields",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.34,
+            0.32,
+            0.28,
+            0.07
+          ]
+        },
+        {
+          "id": "left_sidebar_rows",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.34,
+            0.4,
+            0.09,
+            0.27
+          ]
+        },
+        {
+          "id": "main_document_or_results",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.43,
+            0.4,
+            0.22,
+            0.27
+          ]
+        },
+        {
+          "id": "bottom_status_buttons",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.35,
+            0.68,
+            0.28,
+            0.04
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_old_pc_crt_boot",
+      "file_name": "ui_old_pc_crt_boot.png",
+      "editable_text_regions": [
+        {
+          "id": "boot_status_panel",
+          "purpose": "text_or_logo_overlay",
+          "normalized_rect": [
+            0.41,
+            0.24,
+            0.21,
+            0.16
+          ]
+        },
+        {
+          "id": "boot_progress_label",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.4,
+            0.45,
+            0.23,
+            0.07
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_old_pc_crt_close_crop",
+      "file_name": "ui_old_pc_crt_close_crop.png",
+      "editable_text_regions": [
+        {
+          "id": "close_crop_screen_overlay",
+          "purpose": "ui_overlay",
+          "normalized_rect": [
+            0.22,
+            0.18,
+            0.56,
+            0.56
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_old_pc_crt_off",
+      "file_name": "ui_old_pc_crt_off.png",
+      "editable_text_regions": [
+        {
+          "id": "future_screen_reflection_or_prompt",
+          "purpose": "optional_overlay",
+          "normalized_rect": [
+            0.28,
+            0.18,
+            0.39,
+            0.48
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_old_pc_crt_power_off",
+      "file_name": "ui_old_pc_crt_power_off.png",
+      "editable_text_regions": [
+        {
+          "id": "power_off_caption_optional",
+          "purpose": "optional_text_overlay",
+          "normalized_rect": [
+            0.31,
+            0.18,
+            0.31,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_old_pc_error_corrupt_file_base",
+      "file_name": "ui_old_pc_error_corrupt_file_base.png",
+      "editable_text_regions": [
+        {
+          "id": "error_dialog_title",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.39,
+            0.35,
+            0.2,
+            0.04
+          ]
+        },
+        {
+          "id": "error_message",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.42,
+            0.4,
+            0.16,
+            0.08
+          ]
+        },
+        {
+          "id": "error_buttons",
+          "purpose": "button_label_overlay",
+          "normalized_rect": [
+            0.42,
+            0.5,
+            0.16,
+            0.05
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_old_pc_folder_view_base",
+      "file_name": "ui_old_pc_folder_view_base.png",
+      "editable_text_regions": [
+        {
+          "id": "desktop_icon_labels",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.29,
+            0.2,
+            0.06,
+            0.4
+          ]
+        },
+        {
+          "id": "folder_window_title",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.35,
+            0.29,
+            0.24,
+            0.04
+          ]
+        },
+        {
+          "id": "left_folder_tree",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.35,
+            0.4,
+            0.08,
+            0.24
+          ]
+        },
+        {
+          "id": "file_icon_labels",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.43,
+            0.41,
+            0.23,
+            0.22
+          ]
+        },
+        {
+          "id": "status_bar",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.35,
+            0.66,
+            0.29,
+            0.04
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_phone_aidar_intro_chat_base",
+      "file_name": "ui_phone_aidar_intro_chat_base.png",
+      "editable_text_regions": [
+        {
+          "id": "phone_chat_header",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.44,
+            0.08,
+            0.2,
+            0.1
+          ]
+        },
+        {
+          "id": "phone_message_bubbles",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.42,
+            0.28,
+            0.24,
+            0.36
+          ]
+        },
+        {
+          "id": "ticket_or_purchase_card",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.42,
+            0.56,
+            0.22,
+            0.16
+          ]
+        },
+        {
+          "id": "phone_input_bar",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.39,
+            0.82,
+            0.26,
+            0.08
+          ]
+        },
+        {
+          "id": "translation_popup_optional",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.45,
+            0.62,
+            0.18,
+            0.1
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_phone_mother_chat_base",
+      "file_name": "ui_phone_mother_chat_base.png",
+      "editable_text_regions": [
+        {
+          "id": "mother_contact_name",
+          "purpose": "mother contact header",
+          "normalized_rect": [
+            0.5,
+            0.158,
+            0.09,
+            0.032
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "mother_chat_messages",
+          "purpose": "mother chat bubbles",
+          "normalized_rect": [
+            0.472,
+            0.225,
+            0.195,
+            0.455
+          ],
+          "align": "mixed",
+          "repeat_hint": 6
+        },
+        {
+          "id": "mother_timestamps",
+          "purpose": "message timestamps",
+          "normalized_rect": [
+            0.575,
+            0.285,
+            0.07,
+            0.36
+          ],
+          "align": "right",
+          "repeat_hint": null
+        },
+        {
+          "id": "mother_input_bar",
+          "purpose": "phone composer text",
+          "normalized_rect": [
+            0.485,
+            0.793,
+            0.15,
+            0.045
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "mother_status_labels",
+          "purpose": "small status labels if needed",
+          "normalized_rect": [
+            0.468,
+            0.122,
+            0.22,
+            0.04
+          ],
+          "align": "mixed",
+          "repeat_hint": null
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_phone_ticket_purchase_base",
+      "file_name": "ui_phone_ticket_purchase_base.png",
+      "editable_text_regions": [
+        {
+          "id": "ticket_route_fields",
+          "purpose": "origin/destination fields",
+          "normalized_rect": [
+            0.43,
+            0.222,
+            0.145,
+            0.155
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "ticket_date_time_fields",
+          "purpose": "date/time chips",
+          "normalized_rect": [
+            0.43,
+            0.41,
+            0.16,
+            0.075
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "ticket_price_payment_fields",
+          "purpose": "fare/payment summary",
+          "normalized_rect": [
+            0.43,
+            0.67,
+            0.17,
+            0.09
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "ticket_button_label",
+          "purpose": "confirm/action button",
+          "normalized_rect": [
+            0.425,
+            0.8,
+            0.175,
+            0.055
+          ],
+          "align": "center",
+          "repeat_hint": null
+        },
+        {
+          "id": "ticket_status_labels",
+          "purpose": "top status/header labels",
+          "normalized_rect": [
+            0.415,
+            0.145,
+            0.19,
+            0.055
+          ],
+          "align": "mixed",
+          "repeat_hint": null
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_phone_translation_popup_base",
+      "file_name": "ui_phone_translation_popup_base.png",
+      "editable_text_regions": [
+        {
+          "id": "translation_source_word",
+          "purpose": "source Tatar word",
+          "normalized_rect": [
+            0.455,
+            0.33,
+            0.19,
+            0.055
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "translation_pronunciation",
+          "purpose": "pronunciation / grammar note",
+          "normalized_rect": [
+            0.455,
+            0.45,
+            0.19,
+            0.058
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "translation_body",
+          "purpose": "translation and explanation lines",
+          "normalized_rect": [
+            0.455,
+            0.56,
+            0.195,
+            0.13
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "translation_buttons",
+          "purpose": "popup action buttons",
+          "normalized_rect": [
+            0.455,
+            0.745,
+            0.195,
+            0.06
+          ],
+          "align": "center",
+          "repeat_hint": null
+        },
+        {
+          "id": "translation_background_chat_lines",
+          "purpose": "dim background UI text if needed",
+          "normalized_rect": [
+            0.394,
+            0.12,
+            0.275,
+            0.78
+          ],
+          "align": "mixed",
+          "repeat_hint": null
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_tatarwiki_article_template",
+      "file_name": "ui_tatarwiki_article_template.png",
+      "editable_text_regions": [
+        {
+          "id": "browser_title",
+          "purpose": "text",
+          "normalized_rect": [
+            0.1538,
+            0.0538,
+            0.5322,
+            0.0365
+          ]
+        },
+        {
+          "id": "address_or_search",
+          "purpose": "text_input",
+          "normalized_rect": [
+            0.293,
+            0.1207,
+            0.3809,
+            0.0365
+          ]
+        },
+        {
+          "id": "left_navigation",
+          "purpose": "list_text",
+          "normalized_rect": [
+            0.083,
+            0.2569,
+            0.1201,
+            0.6181
+          ]
+        },
+        {
+          "id": "article_title",
+          "purpose": "heading",
+          "normalized_rect": [
+            0.2324,
+            0.2561,
+            0.3223,
+            0.0573
+          ]
+        },
+        {
+          "id": "article_body",
+          "purpose": "body_text",
+          "normalized_rect": [
+            0.2246,
+            0.3472,
+            0.4541,
+            0.3342
+          ]
+        },
+        {
+          "id": "highlighted_term_body",
+          "purpose": "body_text_highlight",
+          "normalized_rect": [
+            0.2256,
+            0.5764,
+            0.3809,
+            0.0833
+          ]
+        },
+        {
+          "id": "infobox",
+          "purpose": "key_value_text",
+          "normalized_rect": [
+            0.7119,
+            0.2734,
+            0.1807,
+            0.3863
+          ]
+        },
+        {
+          "id": "reread_note_panel",
+          "purpose": "body_text",
+          "normalized_rect": [
+            0.2139,
+            0.8637,
+            0.4785,
+            0.0799
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_vocabulary_cards_base",
+      "file_name": "ui_vocabulary_cards_base.png",
+      "editable_text_regions": [
+        {
+          "id": "tab_labels",
+          "purpose": "tab_text",
+          "normalized_rect": [
+            0.2197,
+            0.0399,
+            0.3711,
+            0.0469
+          ]
+        },
+        {
+          "id": "word_card_grid",
+          "purpose": "repeated_card_text",
+          "normalized_rect": [
+            0.21,
+            0.1562,
+            0.3198,
+            0.5816
+          ]
+        },
+        {
+          "id": "selected_word",
+          "purpose": "heading",
+          "normalized_rect": [
+            0.6079,
+            0.1545,
+            0.2612,
+            0.0608
+          ]
+        },
+        {
+          "id": "selected_translation",
+          "purpose": "body_text",
+          "normalized_rect": [
+            0.6055,
+            0.2865,
+            0.2734,
+            0.0972
+          ]
+        },
+        {
+          "id": "reread_unlock",
+          "purpose": "body_text",
+          "normalized_rect": [
+            0.603,
+            0.4948,
+            0.2759,
+            0.1085
+          ]
+        },
+        {
+          "id": "example_sentence",
+          "purpose": "body_text",
+          "normalized_rect": [
+            0.6055,
+            0.6901,
+            0.2783,
+            0.0729
+          ]
+        },
+        {
+          "id": "bottom_status",
+          "purpose": "text",
+          "normalized_rect": [
+            0.2222,
+            0.8941,
+            0.376,
+            0.0347
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "bitmap_base",
+        "editable_text_overlay",
+        "focus_highlight_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_yalkyn_dm_alsu_base",
+      "file_name": "ui_yalkyn_dm_alsu_base.png",
+      "editable_text_regions": [
+        {
+          "id": "dm_contact_name",
+          "purpose": "Alsu name/contact header",
+          "normalized_rect": [
+            0.34,
+            0.15,
+            0.24,
+            0.045
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "dm_contact_rows",
+          "purpose": "contact list names/statuses",
+          "normalized_rect": [
+            0.1,
+            0.17,
+            0.16,
+            0.59
+          ],
+          "align": "left",
+          "repeat_hint": 10
+        },
+        {
+          "id": "dm_chat_messages",
+          "purpose": "direct-message bubbles",
+          "normalized_rect": [
+            0.32,
+            0.22,
+            0.61,
+            0.465
+          ],
+          "align": "mixed",
+          "repeat_hint": 5
+        },
+        {
+          "id": "dm_timestamps",
+          "purpose": "message timestamps",
+          "normalized_rect": [
+            0.475,
+            0.22,
+            0.445,
+            0.465
+          ],
+          "align": "right",
+          "repeat_hint": null
+        },
+        {
+          "id": "dm_input_bar",
+          "purpose": "message composer text",
+          "normalized_rect": [
+            0.335,
+            0.763,
+            0.42,
+            0.052
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "dm_toolbar_labels",
+          "purpose": "optional toolbar labels/tooltips",
+          "normalized_rect": [
+            0.09,
+            0.105,
+            0.78,
+            0.04
+          ],
+          "align": "left",
+          "repeat_hint": null
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_yalkyn_group_chat_base",
+      "file_name": "ui_yalkyn_group_chat_base.png",
+      "editable_text_regions": [
+        {
+          "id": "group_title",
+          "purpose": "window title / group name",
+          "normalized_rect": [
+            0.31,
+            0.112,
+            0.25,
+            0.045
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "group_contact_rows",
+          "purpose": "contact list names/statuses",
+          "normalized_rect": [
+            0.1,
+            0.17,
+            0.16,
+            0.59
+          ],
+          "align": "left",
+          "repeat_hint": 10
+        },
+        {
+          "id": "group_chat_messages",
+          "purpose": "group chat message bubbles",
+          "normalized_rect": [
+            0.31,
+            0.185,
+            0.6,
+            0.5
+          ],
+          "align": "mixed",
+          "repeat_hint": 7
+        },
+        {
+          "id": "group_timestamps",
+          "purpose": "message and contact timestamps",
+          "normalized_rect": [
+            0.26,
+            0.17,
+            0.66,
+            0.56
+          ],
+          "align": "right",
+          "repeat_hint": null
+        },
+        {
+          "id": "group_input_bar",
+          "purpose": "message composer text",
+          "normalized_rect": [
+            0.34,
+            0.765,
+            0.41,
+            0.05
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "group_toolbar_labels",
+          "purpose": "optional toolbar labels/tooltips",
+          "normalized_rect": [
+            0.09,
+            0.105,
+            0.78,
+            0.04
+          ],
+          "align": "left",
+          "repeat_hint": null
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_yalkyn_messenger_contacts_base",
+      "file_name": "ui_yalkyn_messenger_contacts_base.png",
+      "editable_text_regions": [
+        {
+          "id": "messenger_title",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.35,
+            0.26,
+            0.23,
+            0.04
+          ]
+        },
+        {
+          "id": "contact_group_headers",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.37,
+            0.32,
+            0.19,
+            0.1
+          ]
+        },
+        {
+          "id": "contact_rows",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.37,
+            0.38,
+            0.2,
+            0.28
+          ]
+        },
+        {
+          "id": "status_footer",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.37,
+            0.66,
+            0.2,
+            0.04
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_yalkyn_messenger_saved_marat_log_base",
+      "file_name": "ui_yalkyn_messenger_saved_marat_log_base.png",
+      "editable_text_regions": [
+        {
+          "id": "saved_log_title",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.34,
+            0.25,
+            0.25,
+            0.04
+          ]
+        },
+        {
+          "id": "left_contact_names",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.34,
+            0.32,
+            0.09,
+            0.33
+          ]
+        },
+        {
+          "id": "chat_message_bubbles",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.43,
+            0.32,
+            0.21,
+            0.31
+          ]
+        },
+        {
+          "id": "missing_attachment_caption",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.41,
+            0.48,
+            0.1,
+            0.12
+          ]
+        },
+        {
+          "id": "input_or_saved_status",
+          "purpose": "text_overlay",
+          "normalized_rect": [
+            0.42,
+            0.64,
+            0.21,
+            0.04
+          ]
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    },
+    {
+      "asset_id": "ui_yalkyn_unread_danger_message",
+      "file_name": "ui_yalkyn_unread_danger_message.png",
+      "editable_text_regions": [
+        {
+          "id": "danger_contact_rows",
+          "purpose": "contact list names/statuses",
+          "normalized_rect": [
+            0.1,
+            0.17,
+            0.16,
+            0.59
+          ],
+          "align": "left",
+          "repeat_hint": 10
+        },
+        {
+          "id": "danger_notification_title",
+          "purpose": "unread notification sender/title",
+          "normalized_rect": [
+            0.655,
+            0.505,
+            0.21,
+            0.04
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "danger_notification_body",
+          "purpose": "unread warning message body",
+          "normalized_rect": [
+            0.655,
+            0.555,
+            0.23,
+            0.065
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "danger_notification_button",
+          "purpose": "notification action button",
+          "normalized_rect": [
+            0.795,
+            0.635,
+            0.1,
+            0.038
+          ],
+          "align": "center",
+          "repeat_hint": null
+        },
+        {
+          "id": "danger_input_bar",
+          "purpose": "message composer text",
+          "normalized_rect": [
+            0.335,
+            0.765,
+            0.42,
+            0.052
+          ],
+          "align": "left",
+          "repeat_hint": null
+        },
+        {
+          "id": "danger_timestamps",
+          "purpose": "contact/message timestamps",
+          "normalized_rect": [
+            0.235,
+            0.17,
+            0.67,
+            0.56
+          ],
+          "align": "right",
+          "repeat_hint": null
+        }
+      ],
+      "suggested_passes": [
+        "ui_bitmap_base",
+        "runtime_editable_text",
+        "screen_glow_overlay"
+      ]
+    }
+  ]
+}

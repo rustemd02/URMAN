@@ -1,0 +1,205 @@
+{
+  "pack_id": "urman_mvp_remaining_batch3_ui_systems_worker",
+  "status": "draft",
+  "coordinate_space": "pixel",
+  "notes": [
+    "Base PNGs are static. Animation should be sparse overlay work, tied to state flags.",
+    "Do not animate important text baked into the bitmap; text should remain editable overlays above these bases.",
+    "Pressure animation should stay subtle and readable."
+  ],
+  "global_overlay_suggestions": {
+    "crt_scan_noise": {
+      "blend": "screen_or_overlay",
+      "opacity_range": [0.04, 0.10],
+      "speed": "slow_irregular",
+      "applies_to": [
+        "ui_archive_search_empty",
+        "ui_archive_search_results",
+        "ui_tatarwiki_article_template",
+        "ui_document_viewer_template"
+      ]
+    },
+    "pressure_vignette": {
+      "blend": "multiply",
+      "opacity_range": [0.00, 0.18],
+      "trigger": "village_pressure_2_or_dangerous_key",
+      "applies_to": [
+        "ui_journal_clue_graph_base",
+        "ui_dialogue_key_picker_base",
+        "ui_document_viewer_template"
+      ]
+    }
+  },
+  "assets": {
+    "ui_archive_search_empty": [
+      {
+        "layer_id": "crt_glow",
+        "bounds": [0, 0, 2048, 1152],
+        "blend": "screen",
+        "opacity_range": [0.08, 0.18],
+        "animation": "very slow breathing glow"
+      },
+      {
+        "layer_id": "search_cursor_blink",
+        "bounds": [525, 312, 24, 52],
+        "blend": "normal",
+        "opacity_range": [0.0, 1.0],
+        "animation": "blink 0.8s on/off"
+      },
+      {
+        "layer_id": "empty_result_highlight",
+        "bounds": [188, 472, 606, 34],
+        "blend": "screen",
+        "opacity_range": [0.00, 0.12],
+        "animation": "optional idle row pulse"
+      }
+    ],
+    "ui_archive_search_results": [
+      {
+        "layer_id": "crt_glow",
+        "bounds": [0, 0, 2048, 1152],
+        "blend": "screen",
+        "opacity_range": [0.08, 0.18],
+        "animation": "very slow breathing glow"
+      },
+      {
+        "layer_id": "selected_result_pulse",
+        "bounds": [180, 453, 1488, 47],
+        "blend": "screen",
+        "opacity_range": [0.04, 0.15],
+        "animation": "subtle 2.5s pulse"
+      },
+      {
+        "layer_id": "metadata_clue_flash",
+        "bounds": [1720, 155, 240, 44],
+        "blend": "screen",
+        "opacity_range": [0.0, 0.22],
+        "animation": "single reveal flash"
+      }
+    ],
+    "ui_tatarwiki_article_template": [
+      {
+        "layer_id": "crt_glow",
+        "bounds": [0, 0, 2048, 1152],
+        "blend": "screen",
+        "opacity_range": [0.06, 0.15],
+        "animation": "very slow breathing glow"
+      },
+      {
+        "layer_id": "term_highlight",
+        "bounds": [318, 670, 790, 88],
+        "blend": "screen",
+        "opacity_range": [0.08, 0.26],
+        "animation": "highlight appears on vocabulary unlock"
+      },
+      {
+        "layer_id": "survival_note_reveal",
+        "bounds": [315, 1010, 745, 86],
+        "blend": "normal",
+        "opacity_range": [0.0, 1.0],
+        "animation": "fade in after re-read"
+      }
+    ],
+    "ui_journal_clue_graph_base": [
+      {
+        "layer_id": "paper_shadow_drift",
+        "bounds": [0, 0, 2048, 1152],
+        "blend": "multiply",
+        "opacity_range": [0.02, 0.08],
+        "animation": "slow imperfect paper shadow"
+      },
+      {
+        "layer_id": "dangerous_clue_mark",
+        "bounds": [1240, 712, 70, 70],
+        "blend": "screen",
+        "opacity_range": [0.12, 0.35],
+        "animation": "short warning pulse only on dangerous clue"
+      },
+      {
+        "layer_id": "node_hover",
+        "bounds": [1010, 480, 220, 130],
+        "blend": "screen",
+        "opacity_range": [0.00, 0.20],
+        "animation": "interactive hover"
+      }
+    ],
+    "ui_dialogue_key_picker_base": [
+      {
+        "layer_id": "key_hover_glow",
+        "bounds": [70, 690, 595, 74],
+        "blend": "screen",
+        "opacity_range": [0.00, 0.20],
+        "animation": "interactive hover"
+      },
+      {
+        "layer_id": "dangerous_key_warning",
+        "bounds": [603, 715, 40, 40],
+        "blend": "screen",
+        "opacity_range": [0.05, 0.30],
+        "animation": "slow warning pulse"
+      },
+      {
+        "layer_id": "dialogue_cursor_blink",
+        "bounds": [690, 965, 24, 54],
+        "blend": "normal",
+        "opacity_range": [0.0, 1.0],
+        "animation": "blink 0.8s on/off"
+      }
+    ],
+    "ui_vocabulary_cards_base": [
+      {
+        "layer_id": "selected_card_glow",
+        "bounds": [1220, 151, 588, 346],
+        "blend": "screen",
+        "opacity_range": [0.00, 0.18],
+        "animation": "interactive hover or selected state"
+      },
+      {
+        "layer_id": "confirmed_word_tick",
+        "bounds": [430, 770, 54, 54],
+        "blend": "screen",
+        "opacity_range": [0.0, 0.28],
+        "animation": "brief confirm pulse"
+      },
+      {
+        "layer_id": "reread_unlock_glow",
+        "bounds": [1228, 538, 604, 140],
+        "blend": "screen",
+        "opacity_range": [0.0, 0.24],
+        "animation": "fade in after word unlock"
+      }
+    ],
+    "ui_document_viewer_template": [
+      {
+        "layer_id": "crt_glow",
+        "bounds": [0, 0, 2048, 1152],
+        "blend": "screen",
+        "opacity_range": [0.07, 0.16],
+        "animation": "very slow breathing glow"
+      },
+      {
+        "layer_id": "document_highlight",
+        "bounds": [700, 670, 300, 40],
+        "blend": "screen",
+        "opacity_range": [0.05, 0.30],
+        "animation": "highlight pulse on term focus"
+      },
+      {
+        "layer_id": "metadata_clue_flash",
+        "bounds": [1460, 380, 420, 110],
+        "blend": "screen",
+        "opacity_range": [0.0, 0.22],
+        "animation": "single reveal flash"
+      }
+    ],
+    "ui_clue_type_icons_contact_sheet": [
+      {
+        "layer_id": "icon_hover_overlay",
+        "bounds": [0, 0, 2048, 1024],
+        "blend": "screen",
+        "opacity_range": [0.00, 0.18],
+        "animation": "runtime should apply per cropped icon, not to the source sheet"
+      }
+    ]
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "status": "draft_incoming_worker",
+  "asset_pack": "urman_mvp_remaining",
+  "worker_folder": "public/assets/urman_mvp_remaining/_incoming/batch4_route_pressure_worker",
+  "generated_on": "2026-05-18",
+  "do_not_merge_automatically": true,
+  "notes": [
+    "Draft manifest only. Shared asset_manifest.json was not edited.",
+    "All route bases are 2048x1152 RGB PNGs generated as static gameplay backgrounds.",
+    "Text/sign surfaces were kept blank or illegible so final wording can be added as editable overlays.",
+    "No full creature reveal, glowing eyes, top-down map or quest markers are intentionally present."
+  ],
+  "style": "ink-wash storybook, hand-drawn black ink line, muted watercolor wash, visible paper grain, grounded contemporary Tatar village route screens",
+  "source_generation_folder": "/Users/unterlantas/.codex/generated_images/019e3afd-0c84-78a0-b623-c2d5f3a436ec",
+  "assets": [
+    {
+      "asset_id": "route_main_street_entry_evening",
+      "file_name": "route_main_street_entry_evening.png",
+      "asset_type": "Static route screen base",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "route_state": "evening",
+      "related_location": "Главная улица Кырлая",
+      "inventory_rows_covered": [
+        22,
+        23
+      ],
+      "source_prompt_summary": "Evening main street entry: muddy village road, fences, distant mosque/minaret, editable blank signs, weak amber windows, clear forward and turn affordances."
+    },
+    {
+      "asset_id": "route_main_street_entry_pressure_watchers",
+      "file_name": "route_main_street_entry_pressure_watchers.png",
+      "asset_type": "Static route screen pressure base",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "route_state": "pressure_watchers",
+      "related_location": "Главная улица Кырлая",
+      "inventory_rows_covered": [
+        22,
+        23
+      ],
+      "source_prompt_summary": "Pressure/watchers main street: distant ordinary silhouettes and watched windows only, blank signs, no supernatural reveal."
+    },
+    {
+      "asset_id": "route_bridge_river_turn_day",
+      "file_name": "route_bridge_river_turn_day.png",
+      "asset_type": "Static route screen base",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "route_state": "day",
+      "related_location": "Поворот к мосту / реке",
+      "inventory_rows_covered": [
+        23,
+        30
+      ],
+      "source_prompt_summary": "Day bridge/river turn: rural lane curving toward a simple bridge and still water, reeds and blank signs, no water creature."
+    },
+    {
+      "asset_id": "route_bridge_river_turn_dusk_pressure",
+      "file_name": "route_bridge_river_turn_dusk_pressure.png",
+      "asset_type": "Static route screen pressure base",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "route_state": "dusk_pressure",
+      "related_location": "Поворот к мосту / реке",
+      "inventory_rows_covered": [
+        23,
+        30
+      ],
+      "source_prompt_summary": "Dusk pressure bridge/river turn: cold water stillness, reeds, distant village lights, social pressure without Су Анасы or creature reveal."
+    },
+    {
+      "asset_id": "route_alsu_meeting_spot_day",
+      "file_name": "route_alsu_meeting_spot_day.png",
+      "asset_type": "Static route/location screen base",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "route_state": "day",
+      "related_location": "Точка Алсу",
+      "inventory_rows_covered": [
+        23,
+        30
+      ],
+      "source_prompt_summary": "Alsu meeting spot: bench by fence near water/open field, empty dialogue-safe route node with space for character cutout."
+    },
+    {
+      "asset_id": "route_admin_archive_corner_day",
+      "file_name": "route_admin_archive_corner_day.png",
+      "asset_type": "Static route/location screen base",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "route_state": "day",
+      "related_location": "Администрация / архивный угол",
+      "inventory_rows_covered": [
+        23,
+        32
+      ],
+      "source_prompt_summary": "Village administration/archive corner: modest rural office exterior, notice board, blank signage, muddy return path."
+    },
+    {
+      "asset_id": "route_forest_approach_voice_lock",
+      "file_name": "route_forest_approach_voice_lock.png",
+      "asset_type": "Static route screen pressure base",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "route_state": "voice_lock",
+      "related_location": "Последний участок перед Кара-Урманом",
+      "inventory_rows_covered": [
+        23,
+        31
+      ],
+      "source_prompt_summary": "Forest approach voice lock: road narrows into dense forest, branch/shadow/silence pressure only, no creature body or face."
+    },
+    {
+      "asset_id": "route_kara_urman_edge_rinat_interruption",
+      "file_name": "route_kara_urman_edge_rinat_interruption.png",
+      "asset_type": "Static route screen cliffhanger base",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "route_state": "rinat_interruption",
+      "related_location": "Кромка Кара-Урмана",
+      "inventory_rows_covered": [
+        13,
+        23,
+        31
+      ],
+      "source_prompt_summary": "Kara-Urman edge cliffhanger: ordinary human Rinat silhouette interrupts the path, forest boundary pressure, no monster reveal."
+    },
+    {
+      "asset_id": "batch4_route_pressure_contact_sheet_preview",
+      "file_name": "contact_sheet.jpg",
+      "asset_type": "Batch preview contact sheet",
+      "dimensions": "1056x1304",
+      "transparent_background": false,
+      "variants_included": [
+        "main_street_evening",
+        "main_street_pressure_watchers",
+        "bridge_day",
+        "bridge_dusk_pressure",
+        "alsu_meeting_day",
+        "admin_archive_day",
+        "forest_voice_lock",
+        "kara_urman_rinat_interruption"
+      ],
+      "inventory_rows_covered": [
+        13,
+        22,
+        23,
+        30,
+        31,
+        32
+      ]
+    }
+  ]
+}

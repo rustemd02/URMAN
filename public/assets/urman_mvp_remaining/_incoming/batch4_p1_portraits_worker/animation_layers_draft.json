@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "status": "draft_incoming_worker",
+  "asset_pack": "urman_mvp_remaining",
+  "worker_folder": "public/assets/urman_mvp_remaining/_incoming/batch4_p1_portraits_worker",
+  "notes": [
+    "No bespoke animation layers were authored in this worker batch.",
+    "If merged into the runtime pack, cropped portraits can optionally reuse the existing generic character_idle_breath engine transform."
+  ],
+  "assets": []
+}

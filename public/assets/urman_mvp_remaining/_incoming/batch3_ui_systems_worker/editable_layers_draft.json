@@ -1,0 +1,111 @@
+{
+  "pack_id": "urman_mvp_remaining_batch3_ui_systems_worker",
+  "status": "draft",
+  "coordinate_space": "pixel",
+  "text_policy": {
+    "important_text_is_runtime_editable": true,
+    "supported_tatar_letters": ["ә", "ө", "ү", "җ", "ң", "һ"],
+    "recommended_fonts": ["Noto Sans", "Noto Serif", "PT Serif", "system fallback with Tatar Cyrillic support"],
+    "do_not_bake": ["clue names", "NPC names", "dates", "place names", "document body text", "Tatar vocabulary", "dialogue lines"]
+  },
+  "assets": {
+    "ui_archive_search_empty": {
+      "file": "ui_archive_search_empty.png",
+      "regions": [
+        { "id": "window_title", "kind": "text", "bounds": [315, 80, 1150, 42], "align": "left", "max_lines": 1 },
+        { "id": "search_query", "kind": "text_input", "bounds": [198, 312, 480, 58], "align": "left", "max_lines": 1 },
+        { "id": "column_headers", "kind": "text", "bounds": [190, 472, 610, 32], "align": "left", "max_lines": 1 },
+        { "id": "empty_state_or_rows", "kind": "list_text", "bounds": [190, 520, 590, 305], "align": "left", "max_lines": 11 },
+        { "id": "metadata_sidebar", "kind": "key_value_text", "bounds": [765, 445, 142, 360], "align": "left", "max_lines": 9 },
+        { "id": "status_bar", "kind": "text", "bounds": [180, 1010, 545, 40], "align": "left", "max_lines": 1 }
+      ]
+    },
+    "ui_archive_search_results": {
+      "file": "ui_archive_search_results.png",
+      "regions": [
+        { "id": "window_title", "kind": "text", "bounds": [325, 62, 1250, 44], "align": "left", "max_lines": 1 },
+        { "id": "search_query", "kind": "text_input", "bounds": [195, 256, 1265, 58], "align": "left", "max_lines": 1 },
+        { "id": "results_table_headers", "kind": "text", "bounds": [178, 360, 1470, 34], "align": "left", "max_lines": 1 },
+        { "id": "results_rows", "kind": "table_text", "bounds": [178, 410, 1470, 312], "align": "left", "max_lines": 8 },
+        { "id": "selected_result_preview", "kind": "text", "bounds": [485, 755, 1040, 78], "align": "left", "max_lines": 3 },
+        { "id": "metadata_panel", "kind": "key_value_text", "bounds": [1720, 150, 238, 324], "align": "left", "max_lines": 8 },
+        { "id": "metadata_notes", "kind": "text", "bounds": [1735, 640, 190, 74], "align": "left", "max_lines": 3 }
+      ]
+    },
+    "ui_tatarwiki_article_template": {
+      "file": "ui_tatarwiki_article_template.png",
+      "regions": [
+        { "id": "browser_title", "kind": "text", "bounds": [315, 62, 1090, 42], "align": "left", "max_lines": 1 },
+        { "id": "address_or_search", "kind": "text_input", "bounds": [600, 139, 780, 42], "align": "left", "max_lines": 1 },
+        { "id": "left_navigation", "kind": "list_text", "bounds": [170, 296, 246, 712], "align": "left", "max_lines": 18 },
+        { "id": "article_title", "kind": "heading", "bounds": [476, 295, 660, 66], "align": "left", "max_lines": 1 },
+        { "id": "article_body", "kind": "body_text", "bounds": [460, 400, 930, 385], "align": "left", "max_lines": 12 },
+        { "id": "highlighted_term_body", "kind": "body_text_highlight", "bounds": [462, 664, 780, 96], "align": "left", "max_lines": 3 },
+        { "id": "infobox", "kind": "key_value_text", "bounds": [1458, 315, 370, 445], "align": "left", "max_lines": 12 },
+        { "id": "reread_note_panel", "kind": "body_text", "bounds": [438, 995, 980, 92], "align": "left", "max_lines": 3 }
+      ]
+    },
+    "ui_journal_clue_graph_base": {
+      "file": "ui_journal_clue_graph_base.png",
+      "regions": [
+        { "id": "journal_page_title", "kind": "heading", "bounds": [560, 108, 420, 50], "align": "left", "max_lines": 1 },
+        { "id": "central_clue_label", "kind": "text", "bounds": [910, 530, 300, 54], "align": "center", "max_lines": 2 },
+        { "id": "clue_node_labels", "kind": "repeated_text", "bounds": [450, 220, 970, 615], "align": "center", "max_lines": 2 },
+        { "id": "timeline_labels", "kind": "repeated_text", "bounds": [520, 974, 1000, 48], "align": "center", "max_lines": 1 },
+        { "id": "right_details_title", "kind": "heading", "bounds": [1608, 150, 285, 50], "align": "left", "max_lines": 1 },
+        { "id": "right_details_body", "kind": "body_text", "bounds": [1588, 330, 330, 310], "align": "left", "max_lines": 9 },
+        { "id": "right_details_notes", "kind": "body_text", "bounds": [1566, 780, 380, 230], "align": "left", "max_lines": 7 }
+      ]
+    },
+    "ui_dialogue_key_picker_base": {
+      "file": "ui_dialogue_key_picker_base.png",
+      "regions": [
+        { "id": "filter_tabs", "kind": "tab_text", "bounds": [65, 45, 555, 62], "align": "center", "max_lines": 1 },
+        { "id": "key_list_items", "kind": "list_text", "bounds": [82, 200, 540, 525], "align": "left", "max_lines": 7 },
+        { "id": "selected_key_warning", "kind": "text", "bounds": [82, 704, 480, 66], "align": "left", "max_lines": 2 },
+        { "id": "npc_reaction_status", "kind": "key_value_text", "bounds": [1165, 305, 235, 235], "align": "left", "max_lines": 5 },
+        { "id": "dialogue_body", "kind": "dialogue_text", "bounds": [690, 910, 1070, 148], "align": "left", "max_lines": 4 },
+        { "id": "input_prompt", "kind": "text_input", "bounds": [95, 1050, 310, 40], "align": "left", "max_lines": 1 }
+      ]
+    },
+    "ui_vocabulary_cards_base": {
+      "file": "ui_vocabulary_cards_base.png",
+      "regions": [
+        { "id": "tab_labels", "kind": "tab_text", "bounds": [450, 46, 760, 54], "align": "center", "max_lines": 1 },
+        { "id": "word_card_grid", "kind": "repeated_card_text", "bounds": [430, 180, 655, 670], "align": "center", "max_lines": 4 },
+        { "id": "selected_word", "kind": "heading", "bounds": [1245, 178, 535, 70], "align": "left", "max_lines": 1 },
+        { "id": "selected_translation", "kind": "body_text", "bounds": [1240, 330, 560, 112], "align": "left", "max_lines": 4 },
+        { "id": "reread_unlock", "kind": "body_text", "bounds": [1235, 570, 565, 125], "align": "left", "max_lines": 4 },
+        { "id": "example_sentence", "kind": "body_text", "bounds": [1240, 795, 570, 84], "align": "left", "max_lines": 3 },
+        { "id": "bottom_status", "kind": "text", "bounds": [455, 1030, 770, 40], "align": "left", "max_lines": 1 }
+      ]
+    },
+    "ui_document_viewer_template": {
+      "file": "ui_document_viewer_template.png",
+      "regions": [
+        { "id": "window_title", "kind": "text", "bounds": [320, 62, 1160, 42], "align": "left", "max_lines": 1 },
+        { "id": "toolbar_labels", "kind": "button_text", "bounds": [170, 133, 1300, 50], "align": "center", "max_lines": 1 },
+        { "id": "document_header", "kind": "heading", "bounds": [545, 285, 670, 70], "align": "left", "max_lines": 2 },
+        { "id": "document_body_text", "kind": "body_text", "bounds": [520, 360, 675, 565], "align": "left", "max_lines": 16 },
+        { "id": "document_highlight_text", "kind": "body_text_highlight", "bounds": [690, 665, 330, 48], "align": "left", "max_lines": 1 },
+        { "id": "metadata_panel", "kind": "key_value_text", "bounds": [1450, 305, 440, 340], "align": "left", "max_lines": 10 },
+        { "id": "metadata_notes", "kind": "body_text", "bounds": [1455, 745, 410, 190], "align": "left", "max_lines": 6 },
+        { "id": "status_bar", "kind": "text", "bounds": [360, 1040, 900, 42], "align": "left", "max_lines": 1 }
+      ]
+    },
+    "ui_clue_type_icons_contact_sheet": {
+      "file": "ui_clue_type_icons_contact_sheet.png",
+      "text_regions": [],
+      "icon_cells": [
+        { "id": "clue_name", "bounds": [0, 0, 512, 512], "recommended_crop_padding": 70 },
+        { "id": "clue_date", "bounds": [512, 0, 512, 512], "recommended_crop_padding": 70 },
+        { "id": "clue_place", "bounds": [1024, 0, 512, 512], "recommended_crop_padding": 70 },
+        { "id": "clue_document", "bounds": [1536, 0, 512, 512], "recommended_crop_padding": 70 },
+        { "id": "clue_word", "bounds": [0, 512, 512, 512], "recommended_crop_padding": 70 },
+        { "id": "clue_photo", "bounds": [512, 512, 512, 512], "recommended_crop_padding": 70 },
+        { "id": "clue_contradiction", "bounds": [1024, 512, 512, 512], "recommended_crop_padding": 70 },
+        { "id": "clue_danger", "bounds": [1536, 512, 512, 512], "recommended_crop_padding": 70 }
+      ]
+    }
+  }
+}

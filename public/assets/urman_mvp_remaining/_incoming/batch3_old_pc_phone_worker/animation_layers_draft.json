@@ -1,0 +1,168 @@
+{
+  "batch_id": "batch3_old_pc_phone_worker",
+  "coordinate_system": "normalized_0_to_1_approximate",
+  "note": "Regions are draft masks for runtime overlays; verify visually before final integration.",
+  "shared_layers": [
+    {
+      "name": "paper_grain_hold",
+      "purpose": "Static base texture; do not animate globally unless pressure state calls for it.",
+      "recommended_blend": "normal"
+    },
+    {
+      "name": "pressure_shadow",
+      "purpose": "Subtle edge darkening or watched-room pressure overlay.",
+      "recommended_blend": "multiply",
+      "opacity_range": [0.0, 0.18],
+      "speed": "slow"
+    }
+  ],
+  "assets": {
+    "ui_old_pc_crt_off.png": [
+      {
+        "name": "screen_reflection_soft",
+        "region": [0.28, 0.18, 0.39, 0.48],
+        "recommended_blend": "screen",
+        "opacity_range": [0.0, 0.08]
+      },
+      {
+        "name": "power_led_idle",
+        "region": [0.57, 0.75, 0.02, 0.03],
+        "recommended_blend": "screen",
+        "opacity_range": [0.0, 0.25]
+      }
+    ],
+    "ui_old_pc_crt_boot.png": [
+      {
+        "name": "crt_boot_glow",
+        "region": [0.26, 0.12, 0.45, 0.54],
+        "recommended_blend": "screen",
+        "opacity_range": [0.05, 0.25],
+        "speed": "slow flicker"
+      },
+      {
+        "name": "boot_progress_fill",
+        "region": [0.42, 0.47, 0.18, 0.025],
+        "recommended_blend": "normal",
+        "opacity_range": [0.0, 1.0]
+      }
+    ],
+    "ui_old_pc_crt_power_off.png": [
+      {
+        "name": "collapse_line",
+        "region": [0.29, 0.38, 0.34, 0.04],
+        "recommended_blend": "screen",
+        "opacity_range": [0.0, 0.6],
+        "speed": "150-350ms power-off pulse"
+      }
+    ],
+    "ui_old_pc_crt_close_crop.png": [
+      {
+        "name": "close_crop_scanline",
+        "region": [0.22, 0.18, 0.56, 0.56],
+        "recommended_blend": "overlay",
+        "opacity_range": [0.0, 0.12]
+      },
+      {
+        "name": "glass_reflection_sweep",
+        "region": [0.18, 0.14, 0.64, 0.62],
+        "recommended_blend": "screen",
+        "opacity_range": [0.0, 0.1],
+        "speed": "very slow"
+      }
+    ],
+    "ui_old_pc_folder_view_base.png": [
+      {
+        "name": "selected_file_highlight",
+        "region": [0.42, 0.45, 0.27, 0.22],
+        "recommended_blend": "normal",
+        "opacity_range": [0.0, 0.45]
+      },
+      {
+        "name": "crt_flicker",
+        "region": [0.27, 0.15, 0.40, 0.55],
+        "recommended_blend": "screen",
+        "opacity_range": [0.0, 0.08]
+      }
+    ],
+    "ui_old_pc_active_window_base.png": [
+      {
+        "name": "search_result_highlight",
+        "region": [0.42, 0.33, 0.22, 0.32],
+        "recommended_blend": "normal",
+        "opacity_range": [0.0, 0.35]
+      },
+      {
+        "name": "document_scroll_hint",
+        "region": [0.61, 0.27, 0.02, 0.34],
+        "recommended_blend": "screen",
+        "opacity_range": [0.0, 0.2]
+      }
+    ],
+    "ui_old_pc_error_corrupt_file_base.png": [
+      {
+        "name": "error_icon_pulse",
+        "region": [0.43, 0.42, 0.04, 0.05],
+        "recommended_blend": "screen",
+        "opacity_range": [0.0, 0.18],
+        "speed": "slow"
+      },
+      {
+        "name": "dialog_shadow_pressure",
+        "region": [0.36, 0.32, 0.28, 0.24],
+        "recommended_blend": "multiply",
+        "opacity_range": [0.0, 0.12]
+      }
+    ],
+    "ui_yalkyn_messenger_contacts_base.png": [
+      {
+        "name": "unread_status_dot",
+        "region": [0.38, 0.37, 0.04, 0.28],
+        "recommended_blend": "screen",
+        "opacity_range": [0.0, 0.3],
+        "speed": "rare pulse"
+      },
+      {
+        "name": "selected_contact_highlight",
+        "region": [0.37, 0.33, 0.20, 0.06],
+        "recommended_blend": "normal",
+        "opacity_range": [0.0, 0.4]
+      }
+    ],
+    "ui_yalkyn_messenger_saved_marat_log_base.png": [
+      {
+        "name": "message_reveal_highlight",
+        "region": [0.40, 0.27, 0.22, 0.34],
+        "recommended_blend": "screen",
+        "opacity_range": [0.0, 0.18]
+      },
+      {
+        "name": "missing_attachment_glitch",
+        "region": [0.41, 0.48, 0.10, 0.12],
+        "recommended_blend": "overlay",
+        "opacity_range": [0.0, 0.16],
+        "speed": "single short disturbance"
+      }
+    ],
+    "ui_phone_aidar_intro_chat_base.png": [
+      {
+        "name": "phone_screen_glow",
+        "region": [0.34, 0.06, 0.36, 0.87],
+        "recommended_blend": "screen",
+        "opacity_range": [0.0, 0.12],
+        "speed": "slow"
+      },
+      {
+        "name": "unread_vibration_nudge",
+        "region": [0.42, 0.30, 0.24, 0.36],
+        "recommended_transform": "1-2px horizontal shake, max 120ms",
+        "use_only_on_event": true
+      },
+      {
+        "name": "translation_popup_highlight",
+        "region": [0.42, 0.57, 0.20, 0.16],
+        "recommended_blend": "normal",
+        "opacity_range": [0.0, 0.35]
+      }
+    ]
+  }
+}

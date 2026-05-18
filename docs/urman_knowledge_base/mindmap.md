@@ -179,6 +179,13 @@ mindmap
         Old PC frame
         Medical record template
         Kara-Urman forest edge pressure screen
+      Remaining asset pack [MVP][ASSET][RISK]
+        Visual coverage generated
+        179 PNG assets
+        Manifest-driven coverage for 50 rows
+        Editable text metadata
+        Controlled animation metadata
+        Audio row #50 still separate [RISK]
       Controlled animation slots [MVP][ASSET][TECH]
         Static PNG base
         Overlay masks

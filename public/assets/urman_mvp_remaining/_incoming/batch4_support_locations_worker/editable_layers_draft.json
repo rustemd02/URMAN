@@ -1,0 +1,78 @@
+{
+  "pack_id": "urman_mvp_remaining_batch4_support_locations_worker",
+  "status": "draft",
+  "coordinate_space": "pixel",
+  "text_policy": {
+    "important_text_is_runtime_editable": true,
+    "supported_tatar_letters": ["ә", "ө", "ү", "җ", "ң", "һ"],
+    "recommended_fonts": ["Noto Sans", "Noto Serif", "PT Serif", "system fallback with Tatar Cyrillic support"],
+    "do_not_bake": [
+      "names",
+      "dates",
+      "place names",
+      "route signs",
+      "village sign",
+      "store prices",
+      "archive labels",
+      "folder names",
+      "dialogue lines",
+      "Tatar vocabulary"
+    ],
+    "bitmap_noise_note": "Small generated product labels, binder marks and paper marks are texture only. Production text should be placed using these editable regions."
+  },
+  "assets": {
+    "loc_yard_shed_niva_evening": {
+      "file": "loc_yard_shed_niva_evening.png",
+      "regions": [
+        { "id": "yard_mailbox_label", "kind": "optional_small_label", "bounds": [70, 590, 150, 105], "align": "center", "max_lines": 2 },
+        { "id": "niva_plate_blank", "kind": "vehicle_plate_noncanonical", "bounds": [1220, 630, 190, 50], "align": "center", "max_lines": 1 },
+        { "id": "shed_notice_optional", "kind": "optional_notice_text", "bounds": [1088, 418, 155, 115], "align": "center", "max_lines": 3 }
+      ]
+    },
+    "loc_selsmag_counter_interior": {
+      "file": "loc_selsmag_counter_interior.png",
+      "regions": [
+        { "id": "main_notice_board_blank", "kind": "notice_board_text", "bounds": [882, 110, 365, 360], "align": "left", "max_lines": 10 },
+        { "id": "counter_receipt_overlay", "kind": "small_receipt_or_clue", "bounds": [1080, 505, 120, 130], "align": "left", "max_lines": 5 },
+        { "id": "price_label_overlays", "kind": "small_price_tags", "bounds": [1265, 360, 750, 375], "align": "center", "max_lines": 1 },
+        { "id": "left_wall_notice_blank", "kind": "small_notice_text", "bounds": [210, 300, 95, 210], "align": "center", "max_lines": 5 }
+      ]
+    },
+    "loc_mosque_tea_office_timur_calm": {
+      "file": "loc_mosque_tea_office_timur_calm.png",
+      "regions": [
+        { "id": "right_notice_board_blank", "kind": "notice_board_text", "bounds": [1760, 120, 265, 330], "align": "left", "max_lines": 8 },
+        { "id": "small_wall_card_blank", "kind": "small_card_text", "bounds": [890, 260, 95, 135], "align": "center", "max_lines": 4 },
+        { "id": "book_spine_overlays", "kind": "optional_book_spines", "bounds": [1185, 185, 410, 300], "align": "center", "max_lines": 1 },
+        { "id": "table_note_optional", "kind": "optional_table_note", "bounds": [1270, 620, 245, 130], "align": "left", "max_lines": 4 }
+      ],
+      "notes": "Use restrained text only. Avoid turning religious materials into exposition dumps or ominous props."
+    },
+    "loc_river_bank_day": {
+      "file": "loc_river_bank_day.png",
+      "regions": [
+        { "id": "river_sign_label_blank", "kind": "route_or_place_label", "bounds": [150, 205, 285, 175], "align": "center", "max_lines": 2 },
+        { "id": "path_note_optional", "kind": "optional_small_notice", "bounds": [45, 430, 125, 190], "align": "center", "max_lines": 4 }
+      ],
+      "notes": "Do not add text or overlays that confirm Su Anasy. Keep water clue ambiguous."
+    },
+    "loc_admin_archive_corner_day": {
+      "file": "loc_admin_archive_corner_day.png",
+      "regions": [
+        { "id": "cabinet_label_overlays", "kind": "archive_drawer_labels", "bounds": [600, 355, 385, 455], "align": "center", "max_lines": 1 },
+        { "id": "binder_spine_overlays", "kind": "binder_spine_labels", "bounds": [1135, 190, 420, 475], "align": "center", "max_lines": 1 },
+        { "id": "notice_board_blank", "kind": "notice_board_text", "bounds": [1695, 210, 300, 405], "align": "left", "max_lines": 9 },
+        { "id": "ledger_text_overlay", "kind": "ledger_text", "bounds": [1135, 805, 500, 210], "align": "left", "max_lines": 7 },
+        { "id": "folder_label_overlays", "kind": "folder_labels", "bounds": [1580, 705, 320, 150], "align": "left", "max_lines": 3 }
+      ]
+    },
+    "loc_arrival_road_to_kyrlay_dusk_alt_if_needed": {
+      "file": "loc_arrival_road_to_kyrlay_dusk_alt_if_needed.png",
+      "regions": [
+        { "id": "village_sign_blank", "kind": "route_or_village_label", "bounds": [610, 430, 405, 225], "align": "center", "max_lines": 2 },
+        { "id": "bus_stop_notice_blank", "kind": "small_notice_text", "bounds": [205, 525, 105, 180], "align": "center", "max_lines": 5 }
+      ],
+      "notes": "Arrival caption, if any, should be UI/runtime text, not baked into the bitmap."
+    }
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "version": 1,
+  "status": "draft_incoming_worker",
+  "asset_pack": "urman_mvp_remaining",
+  "worker_folder": "public/assets/urman_mvp_remaining/_incoming/batch4_route_pressure_worker",
+  "coordinate_space": "pixel",
+  "base_dimensions": "2048x1152",
+  "notes": [
+    "Editable regions are approximate draft boxes for localization/sign overlays.",
+    "All in-world sign text should remain runtime/editable and needs Tatar-language review before production lock.",
+    "Do not treat illegible paper texture in bases as final readable text."
+  ],
+  "layers": [
+    {
+      "asset_id": "route_main_street_entry_evening",
+      "editable_regions": [
+        {
+          "region_id": "foreground_sign_top",
+          "kind": "wooden_direction_sign",
+          "bounds": {
+            "x": 320,
+            "y": 285,
+            "width": 340,
+            "height": 110
+          },
+          "suggested_text_role": "route label placeholder"
+        },
+        {
+          "region_id": "foreground_sign_bottom",
+          "kind": "wooden_direction_sign",
+          "bounds": {
+            "x": 300,
+            "y": 425,
+            "width": 360,
+            "height": 105
+          },
+          "suggested_text_role": "route label placeholder"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_main_street_entry_pressure_watchers",
+      "editable_regions": [
+        {
+          "region_id": "foreground_sign_top",
+          "kind": "wooden_direction_sign",
+          "bounds": {
+            "x": 305,
+            "y": 285,
+            "width": 335,
+            "height": 110
+          },
+          "suggested_text_role": "route label placeholder"
+        },
+        {
+          "region_id": "foreground_sign_bottom",
+          "kind": "wooden_direction_sign",
+          "bounds": {
+            "x": 285,
+            "y": 425,
+            "width": 360,
+            "height": 105
+          },
+          "suggested_text_role": "route label placeholder"
+        },
+        {
+          "region_id": "right_notice_board",
+          "kind": "paper_notice_board",
+          "bounds": {
+            "x": 1730,
+            "y": 510,
+            "width": 210,
+            "height": 250
+          },
+          "suggested_text_role": "optional pressure notice overlay"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_bridge_river_turn_day",
+      "editable_regions": [
+        {
+          "region_id": "left_direction_sign",
+          "kind": "wooden_direction_sign",
+          "bounds": {
+            "x": 250,
+            "y": 350,
+            "width": 310,
+            "height": 120
+          },
+          "suggested_text_role": "river or bridge route placeholder"
+        },
+        {
+          "region_id": "small_notice_box",
+          "kind": "small_notice_board",
+          "bounds": {
+            "x": 885,
+            "y": 460,
+            "width": 160,
+            "height": 135
+          },
+          "suggested_text_role": "optional inspection text"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_bridge_river_turn_dusk_pressure",
+      "editable_regions": [
+        {
+          "region_id": "left_direction_sign",
+          "kind": "wooden_direction_sign",
+          "bounds": {
+            "x": 220,
+            "y": 540,
+            "width": 315,
+            "height": 110
+          },
+          "suggested_text_role": "river or bridge route placeholder"
+        },
+        {
+          "region_id": "right_notice_board",
+          "kind": "paper_notice_board",
+          "bounds": {
+            "x": 1770,
+            "y": 405,
+            "width": 200,
+            "height": 310
+          },
+          "suggested_text_role": "optional warning/closure overlay"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_alsu_meeting_spot_day",
+      "editable_regions": [
+        {
+          "region_id": "fence_notice_board",
+          "kind": "small_notice_board",
+          "bounds": {
+            "x": 1000,
+            "y": 425,
+            "width": 185,
+            "height": 180
+          },
+          "suggested_text_role": "optional local notice overlay"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_admin_archive_corner_day",
+      "editable_regions": [
+        {
+          "region_id": "building_header_sign",
+          "kind": "building_sign",
+          "bounds": {
+            "x": 910,
+            "y": 300,
+            "width": 410,
+            "height": 85
+          },
+          "suggested_text_role": "administration sign placeholder"
+        },
+        {
+          "region_id": "right_notice_board",
+          "kind": "paper_notice_board",
+          "bounds": {
+            "x": 1710,
+            "y": 455,
+            "width": 255,
+            "height": 330
+          },
+          "suggested_text_role": "archive notices and office hours overlay"
+        },
+        {
+          "region_id": "left_wall_plaque",
+          "kind": "small_wall_plaque",
+          "bounds": {
+            "x": 650,
+            "y": 520,
+            "width": 105,
+            "height": 120
+          },
+          "suggested_text_role": "optional building plaque"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_forest_approach_voice_lock",
+      "editable_regions": [
+        {
+          "region_id": "warning_sign",
+          "kind": "wooden_warning_sign",
+          "bounds": {
+            "x": 310,
+            "y": 425,
+            "width": 340,
+            "height": 145
+          },
+          "suggested_text_role": "Kara-Urman warning placeholder"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_kara_urman_edge_rinat_interruption",
+      "editable_regions": [
+        {
+          "region_id": "warning_sign",
+          "kind": "wooden_warning_sign",
+          "bounds": {
+            "x": 1485,
+            "y": 430,
+            "width": 340,
+            "height": 145
+          },
+          "suggested_text_role": "Kara-Urman warning placeholder"
+        }
+      ]
+    }
+  ]
+}

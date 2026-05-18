@@ -122,12 +122,19 @@
   Output: locked minimum asset list.
   Notes: Отдельно отметить placeholders.
 
+- [x] Task: Довести remaining MVP visual asset pack до полного покрытия inventory.
+  Type: Assets
+  Priority: High
+  Depends on: `asset_inventory_50.md`, first10 asset pack
+  Output: `public/assets/urman_mvp_remaining/` + manifest/animation/editable metadata.
+  Notes: Visual coverage generated and validated: 179 PNG, 179 manifest entries, 179 animation entries, 92 editable entries. #50 remains partial only for authored audio/voice production.
+
 - [ ] Task: Добавлять animation slots ко всем новым локациям, UI и документам.
   Type: Assets / Tech
   Priority: High
   Depends on: controlled animation spec
   Output: overlay-slot metadata for each generated asset.
-  Notes: Не делать baked GIF/video по умолчанию. Для каждого ассета отмечать зоны под light pulse, CRT glow, birds/dust, grass/branch drift, document highlight and pressure overlay where relevant. Текущий first batch уже имеет `animation_layers.json`.
+  Notes: Не делать baked GIF/video по умолчанию. Для каждого ассета отмечать зоны под light pulse, CRT glow, birds/dust, grass/branch drift, document highlight and pressure overlay where relevant. First10 and remaining visual pack have `animation_layers.json`.
 
 - [ ] Task: Сделать key art / style frame для дома, улицы и старого ПК.
   Type: Assets

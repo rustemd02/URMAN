@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "status": "draft_incoming_worker",
+  "asset_pack": "urman_mvp_remaining",
+  "worker_folder": "public/assets/urman_mvp_remaining/_incoming/batch4_route_pressure_worker",
+  "notes": [
+    "No separate transparent animation overlays were authored in this worker batch.",
+    "The entries below describe recommended runtime overlay slots for merge/implementation.",
+    "Animation should stay slow, sparse and pressure-flag driven; no glowing eyes, jump scare motion or creature reveal."
+  ],
+  "assets": [
+    {
+      "asset_id": "route_main_street_entry_evening",
+      "recommended_layers": [
+        {
+          "layer_id": "window_warmth_pulse",
+          "type": "light_overlay",
+          "motion": "very slow opacity drift, 0.04-0.08 amplitude",
+          "region": "small house windows only"
+        },
+        {
+          "layer_id": "puddle_sheen",
+          "type": "shader_or_overlay",
+          "motion": "subtle wet-road shimmer, low contrast",
+          "region": "muddy road puddles"
+        },
+        {
+          "layer_id": "foreground_grass_parallax",
+          "type": "foreground_transform",
+          "motion": "minimal parallax during step/turn transitions",
+          "region": "bottom and side grasses/fence edges"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_main_street_entry_pressure_watchers",
+      "recommended_layers": [
+        {
+          "layer_id": "pressure_edge_wash",
+          "type": "pressure_overlay",
+          "motion": "static or slow 4-6 second opacity swell",
+          "region": "outer 15 percent of frame"
+        },
+        {
+          "layer_id": "watched_window_hold",
+          "type": "light_overlay",
+          "motion": "no flicker; hold stillness, optional tiny opacity drift",
+          "region": "lit windows only"
+        },
+        {
+          "layer_id": "distant_watcher_presence",
+          "type": "state_toggle",
+          "motion": "toggle only; do not animate walking",
+          "region": "distant fence/window silhouettes"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_bridge_river_turn_day",
+      "recommended_layers": [
+        {
+          "layer_id": "reed_drift",
+          "type": "environment_overlay",
+          "motion": "slow low-amplitude sway",
+          "region": "foreground reeds"
+        },
+        {
+          "layer_id": "water_stillness_sheen",
+          "type": "water_overlay",
+          "motion": "barely visible horizontal shimmer",
+          "region": "river surface"
+        },
+        {
+          "layer_id": "bridge_step_occlusion",
+          "type": "transition_occlusion",
+          "motion": "500-800 ms foreground pass for step forward",
+          "region": "road edge and reeds"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_bridge_river_turn_dusk_pressure",
+      "recommended_layers": [
+        {
+          "layer_id": "river_pressure_hold",
+          "type": "pressure_overlay",
+          "motion": "reduce water motion rather than increase it",
+          "region": "river surface"
+        },
+        {
+          "layer_id": "dusk_edge_wash",
+          "type": "pressure_overlay",
+          "motion": "slow vignette opacity drift",
+          "region": "outer frame and reeds"
+        },
+        {
+          "layer_id": "distant_window_lights",
+          "type": "light_overlay",
+          "motion": "very weak warm pulse",
+          "region": "far village lights"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_alsu_meeting_spot_day",
+      "recommended_layers": [
+        {
+          "layer_id": "dialogue_sprite_clearance",
+          "type": "layout_slot",
+          "motion": "reserved; no baked animation",
+          "region": "open midground near bench/fence"
+        },
+        {
+          "layer_id": "reeds_and_grass_drift",
+          "type": "environment_overlay",
+          "motion": "slow low-amplitude sway",
+          "region": "waterline and foreground grass"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_admin_archive_corner_day",
+      "recommended_layers": [
+        {
+          "layer_id": "paper_notice_flutter",
+          "type": "environment_overlay",
+          "motion": "rare small paper edge movement",
+          "region": "notice board only"
+        },
+        {
+          "layer_id": "archive_window_stale_light",
+          "type": "light_overlay",
+          "motion": "static or almost imperceptible opacity drift",
+          "region": "archive/office window"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_forest_approach_voice_lock",
+      "recommended_layers": [
+        {
+          "layer_id": "forest_silence_pressure",
+          "type": "pressure_overlay",
+          "motion": "slow edge darkening tied to voice-lock flag",
+          "region": "forest entrance and frame edges"
+        },
+        {
+          "layer_id": "branch_shadow_breath",
+          "type": "shadow_overlay",
+          "motion": "barely perceptible, never creature-like",
+          "region": "upper branches and path mouth"
+        },
+        {
+          "layer_id": "step_forward_lock",
+          "type": "navigation_state",
+          "motion": "blocks forward route until script advances",
+          "region": "center path"
+        }
+      ]
+    },
+    {
+      "asset_id": "route_kara_urman_edge_rinat_interruption",
+      "recommended_layers": [
+        {
+          "layer_id": "rinat_baked_presence_note",
+          "type": "merge_note",
+          "motion": "Rinat is baked into this base; regenerate/cut separate overlay if show-hide control is needed",
+          "region": "human silhouette at path edge"
+        },
+        {
+          "layer_id": "kara_urman_pressure_edge",
+          "type": "pressure_overlay",
+          "motion": "slow edge wash, no creature movement",
+          "region": "forest mouth and frame edges"
+        },
+        {
+          "layer_id": "distant_village_light",
+          "type": "light_overlay",
+          "motion": "weak static amber hold",
+          "region": "far background only"
+        }
+      ]
+    }
+  ]
+}

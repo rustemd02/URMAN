@@ -1,0 +1,71 @@
+{
+  "pack_id": "urman_mvp_remaining_batch2_locations_completion_worker",
+  "status": "draft",
+  "coordinate_space": "pixel",
+  "text_policy": {
+    "important_text_is_runtime_editable": true,
+    "supported_tatar_letters": ["ә", "ө", "ү", "җ", "ң", "һ"],
+    "recommended_fonts": ["Noto Sans", "Noto Serif", "PT Serif", "system fallback with Tatar Cyrillic support"],
+    "do_not_bake": ["names", "dates", "place names", "medical record body text", "grave inscription", "warning signs", "dialogue lines", "Tatar vocabulary"]
+  },
+  "assets": {
+    "loc_kitchen_first_dinner_night_talk": {
+      "file": "loc_kitchen_first_dinner_night_talk.png",
+      "regions": [
+        { "id": "wall_note_or_calendar_blank", "kind": "optional_text", "bounds": [1710, 265, 190, 300], "align": "center", "max_lines": 5 },
+        { "id": "table_note_optional", "kind": "small_note_text", "bounds": [1380, 650, 205, 92], "align": "left", "max_lines": 3 }
+      ]
+    },
+    "loc_fap_waiting_room_day": {
+      "file": "loc_fap_waiting_room_day.png",
+      "regions": [
+        { "id": "left_notice_blank", "kind": "notice_text", "bounds": [300, 295, 230, 250], "align": "left", "max_lines": 7 },
+        { "id": "door_notice_blank", "kind": "door_label", "bounds": [625, 250, 230, 250], "align": "center", "max_lines": 5 },
+        { "id": "right_notice_board_blank", "kind": "notice_board_text", "bounds": [1610, 270, 330, 295], "align": "left", "max_lines": 10 },
+        { "id": "registration_paper_stack", "kind": "form_text", "bounds": [1660, 730, 320, 180], "align": "left", "max_lines": 6 }
+      ]
+    },
+    "loc_fap_pressure_document_desk": {
+      "file": "loc_fap_pressure_document_desk.png",
+      "regions": [
+        { "id": "desk_document_overlay", "kind": "medical_form_text", "bounds": [365, 690, 830, 250], "align": "left", "max_lines": 9 },
+        { "id": "open_ledger_overlay", "kind": "ledger_text", "bounds": [95, 770, 395, 205], "align": "left", "max_lines": 6 },
+        { "id": "wall_notice_overlay", "kind": "notice_text", "bounds": [1440, 330, 255, 250], "align": "center", "max_lines": 6 }
+      ]
+    },
+    "loc_zirat_general_late_evening": {
+      "file": "loc_zirat_general_late_evening.png",
+      "regions": [
+        { "id": "zirat_sign_label", "kind": "route_or_place_label", "bounds": [78, 330, 455, 175], "align": "center", "max_lines": 2 },
+        { "id": "small_notice_label", "kind": "optional_notice_text", "bounds": [1215, 590, 245, 160], "align": "center", "max_lines": 4 }
+      ]
+    },
+    "loc_zirat_general_wind_pressure": {
+      "file": "loc_zirat_general_wind_pressure.png",
+      "regions": [
+        { "id": "zirat_sign_label", "kind": "route_or_place_label", "bounds": [82, 340, 450, 170], "align": "center", "max_lines": 2 },
+        { "id": "small_notice_label", "kind": "optional_notice_text", "bounds": [1215, 590, 245, 160], "align": "center", "max_lines": 4 }
+      ]
+    },
+    "loc_marat_grave_closeup_journal_crop": {
+      "file": "loc_marat_grave_closeup_journal_crop.png",
+      "regions": [
+        { "id": "grave_inscription_journal_overlay", "kind": "grave_inscription", "bounds": [460, 265, 890, 360], "align": "center", "max_lines": 5 },
+        { "id": "date_clue_overlay", "kind": "clue_highlight_text", "bounds": [520, 345, 775, 155], "align": "center", "max_lines": 2 }
+      ]
+    },
+    "route_forest_approach_pressure_silence": {
+      "file": "route_forest_approach_pressure_silence.png",
+      "regions": [
+        { "id": "warning_sign_label", "kind": "route_warning_label", "bounds": [225, 375, 410, 165], "align": "center", "max_lines": 2 }
+      ]
+    },
+    "route_kara_urman_edge_voice_moment": {
+      "file": "route_kara_urman_edge_voice_moment.png",
+      "regions": [
+        { "id": "warning_sign_label", "kind": "route_warning_label", "bounds": [375, 425, 415, 160], "align": "center", "max_lines": 2 }
+      ],
+      "notes": "Do not bake Marat voice text into this bitmap. Voice/subtitle/caption, if any, belongs in dialogue/audio UI."
+    }
+  }
+}

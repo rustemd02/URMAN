@@ -1,0 +1,137 @@
+{
+  "version": 1,
+  "asset_pack": "urman_mvp_remaining_batch3_documents_worker_draft",
+  "generated_on": "2026-05-18",
+  "worker_output_dir": "public/assets/urman_mvp_remaining/_incoming/batch3_documents_worker",
+  "style": "ink-wash storybook, scanned paper, muted watercolor wash, old PC/document hub, real village bureaucracy",
+  "text_policy": "Runtime-critical text must be rendered as editable overlays. Base PNGs intentionally contain no readable baked text, only blank fields, abstract marks, grid lines, stamps and paper damage. Overlay fonts must support Tatar letters: ә ө ү җ ң һ.",
+  "constraints": [
+    "No shared manifest or shared metadata edited.",
+    "No gore, blood, horror props, obvious monsters or full creature reveal.",
+    "No supernatural proof baked into bitmap bases.",
+    "No readable baked Cyrillic, Latin, dates, names or numbers intended as clues."
+  ],
+  "assets": [
+    {
+      "asset_id": "doc_marat_medical_record_redacted_bg",
+      "file_name": "doc_marat_medical_record_redacted_bg.png",
+      "inventory_ref": "#45",
+      "asset_type": "Document background",
+      "dimensions": "1463x2048",
+      "transparent_background": false,
+      "variants_included": ["redacted/ambiguous phrase background"],
+      "runtime_role": "Medical record redacted state; actual diagnosis, dates and contradiction text are overlays.",
+      "notes": "Generated as a redaction variant visually aligned with the existing first10 medical record background."
+    },
+    {
+      "asset_id": "doc_marat_medical_record_metadata_card",
+      "file_name": "doc_marat_medical_record_metadata_card.png",
+      "inventory_ref": "#45",
+      "asset_type": "Evidence metadata card",
+      "dimensions": "1024x1024",
+      "transparent_background": false,
+      "variants_included": ["metadata card"],
+      "runtime_role": "Old PC/document hub card for source, modified date, access status and clue tags."
+    },
+    {
+      "asset_id": "doc_cemetery_registry_photo_bg",
+      "file_name": "doc_cemetery_registry_photo_bg.png",
+      "inventory_ref": "#46",
+      "asset_type": "Document/photo background",
+      "dimensions": "1536x2048",
+      "transparent_background": false,
+      "variants_included": ["cemetery registry photo"],
+      "runtime_role": "Full photographed registry sheet; grave/date/player clue text is overlay-driven."
+    },
+    {
+      "asset_id": "doc_cemetery_registry_line_crop_bg",
+      "file_name": "doc_cemetery_registry_line_crop_bg.png",
+      "inventory_ref": "#46",
+      "asset_type": "Evidence crop",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": ["registry line crop"],
+      "runtime_role": "Close crop of one registry row for readable clue presentation."
+    },
+    {
+      "asset_id": "doc_marat_diary_early_note_bg",
+      "file_name": "doc_marat_diary_early_note_bg.png",
+      "inventory_ref": "#47",
+      "asset_type": "Diary page background",
+      "dimensions": "1463x2048",
+      "transparent_background": false,
+      "variants_included": ["early note"],
+      "runtime_role": "Calmer early diary note; Marat's actual voice is overlay text."
+    },
+    {
+      "asset_id": "doc_marat_diary_angry_note_bg",
+      "file_name": "doc_marat_diary_angry_note_bg.png",
+      "inventory_ref": "#47",
+      "asset_type": "Diary page background",
+      "dimensions": "1463x2048",
+      "transparent_background": false,
+      "variants_included": ["angry note"],
+      "runtime_role": "Pressure diary state with heavier pencil traces; meaningful writing remains editable overlay."
+    },
+    {
+      "asset_id": "doc_marat_diary_forest_route_note_bg",
+      "file_name": "doc_marat_diary_forest_route_note_bg.png",
+      "inventory_ref": "#47",
+      "asset_type": "Diary/map note background",
+      "dimensions": "1463x2048",
+      "transparent_background": false,
+      "variants_included": ["forest route note"],
+      "runtime_role": "Route sketch page with blank label boxes; route labels and notes are overlays."
+    },
+    {
+      "asset_id": "doc_marat_saved_messages_base",
+      "file_name": "doc_marat_saved_messages_base.png",
+      "inventory_ref": "#48",
+      "asset_type": "Old PC messenger evidence base",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": ["last normal message base"],
+      "runtime_role": "Saved message log UI base; contacts, timestamps and message text are overlays."
+    },
+    {
+      "asset_id": "doc_marat_saved_messages_warning_state",
+      "file_name": "doc_marat_saved_messages_warning_state.png",
+      "inventory_ref": "#48",
+      "asset_type": "Old PC messenger warning state",
+      "dimensions": "2048x1152",
+      "transparent_background": false,
+      "variants_included": ["warning message", "missing attachment state"],
+      "runtime_role": "Pressure variant for dangerous saved message; warning text and metadata are overlays."
+    },
+    {
+      "asset_id": "doc_pact_folder_household_list_bg",
+      "file_name": "doc_pact_folder_household_list_bg.png",
+      "inventory_ref": "#49",
+      "asset_type": "Internal accounting document background",
+      "dimensions": "1536x2048",
+      "transparent_background": false,
+      "variants_included": ["household list"],
+      "runtime_role": "Mundane household ledger page; pact/system meaning is not baked."
+    },
+    {
+      "asset_id": "doc_pact_folder_incident_log_bg",
+      "file_name": "doc_pact_folder_incident_log_bg.png",
+      "inventory_ref": "#49",
+      "asset_type": "Internal accounting document background",
+      "dimensions": "1463x2048",
+      "transparent_background": false,
+      "variants_included": ["incident log"],
+      "runtime_role": "Incident log page; entries, dates, locations and statuses are overlays."
+    },
+    {
+      "asset_id": "doc_pact_folder_compensation_note_bg",
+      "file_name": "doc_pact_folder_compensation_note_bg.png",
+      "inventory_ref": "#49",
+      "asset_type": "Internal accounting note background",
+      "dimensions": "1463x2048",
+      "transparent_background": false,
+      "variants_included": ["compensation note"],
+      "runtime_role": "Receipt/memo base; amount, recipient, reason and signature are overlays."
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "asset_pack": "urman_mvp_remaining_batch3_documents_worker_draft",
+  "coordinate_system": "normalized [x, y, width, height]",
+  "principle": "Static PNG base plus controlled overlay layers. Animation is subtle document/UI treatment only; no baked loops.",
+  "global_limits": {
+    "default_loop_style": "slow, sparse, low-amplitude",
+    "pressure_motion_requires_flag": true,
+    "do_not_animate": ["full creature reveal", "glowing eyes", "blood/gore", "jump scare motion", "heavy glitch storm"]
+  },
+  "assets": [
+    {
+      "asset_id": "doc_marat_medical_record_redacted_bg",
+      "file_name": "doc_marat_medical_record_redacted_bg.png",
+      "animation_slots": [
+        {
+          "id": "scan_noise",
+          "type": "shader_overlay",
+          "target": "whole document",
+          "normalized_rect": [0.06, 0.03, 0.88, 0.94],
+          "behavior": "extremely low-opacity static scanner grain; does not obscure overlay text",
+          "creepiness_level": 0
+        },
+        {
+          "id": "redaction_focus",
+          "type": "ui_overlay",
+          "target": "redacted rows and notes area",
+          "normalized_rect": [0.10, 0.35, 0.80, 0.38],
+          "behavior": "soft paper-colored clue highlight fade when selected",
+          "creepiness_level": 1
+        },
+        {
+          "id": "dangerous_phrase_pressure",
+          "type": "pressure_overlay",
+          "target": "lower note/signature region",
+          "normalized_rect": [0.12, 0.62, 0.68, 0.27],
+          "behavior": "edge shadow fades in only after re-read unlock",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_marat_medical_record_metadata_card",
+      "file_name": "doc_marat_medical_record_metadata_card.png",
+      "animation_slots": [
+        {
+          "id": "metadata_selection_pulse",
+          "type": "ui_overlay",
+          "target": "selected metadata row",
+          "normalized_rect": [0.48, 0.22, 0.42, 0.50],
+          "behavior": "subtle 4-8% opacity paper highlight; not neon",
+          "creepiness_level": 0
+        },
+        {
+          "id": "old_pc_scanline",
+          "type": "shader_overlay",
+          "target": "whole card",
+          "normalized_rect": [0.00, 0.00, 1.00, 1.00],
+          "behavior": "optional faint CRT scan softness when displayed inside old PC",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_cemetery_registry_photo_bg",
+      "file_name": "doc_cemetery_registry_photo_bg.png",
+      "animation_slots": [
+        {
+          "id": "registry_row_highlight",
+          "type": "ui_overlay",
+          "target": "Marat registry row",
+          "normalized_rect": [0.12, 0.43, 0.78, 0.08],
+          "behavior": "soft warm highlight fade when date clue is selected",
+          "creepiness_level": 0
+        },
+        {
+          "id": "archive_shadow_pressure",
+          "type": "pressure_overlay",
+          "target": "folder edge and document margins",
+          "normalized_rect": [0.04, 0.03, 0.92, 0.94],
+          "behavior": "slow edge-darkening after contradiction is found",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_cemetery_registry_line_crop_bg",
+      "file_name": "doc_cemetery_registry_line_crop_bg.png",
+      "animation_slots": [
+        {
+          "id": "line_crop_focus",
+          "type": "ui_overlay",
+          "target": "central registry row",
+          "normalized_rect": [0.05, 0.30, 0.90, 0.42],
+          "behavior": "short clue selection fade, no marker-neon effect",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_marat_diary_early_note_bg",
+      "file_name": "doc_marat_diary_early_note_bg.png",
+      "animation_slots": [
+        {
+          "id": "paper_focus_highlight",
+          "type": "ui_overlay",
+          "target": "main writing area",
+          "normalized_rect": [0.14, 0.24, 0.70, 0.58],
+          "behavior": "soft off-white focus overlay for selected line",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_marat_diary_angry_note_bg",
+      "file_name": "doc_marat_diary_angry_note_bg.png",
+      "animation_slots": [
+        {
+          "id": "graphite_pressure_shadow",
+          "type": "pressure_overlay",
+          "target": "crossout/smudge regions",
+          "normalized_rect": [0.12, 0.16, 0.76, 0.68],
+          "behavior": "very slight opacity swell on smudge shadows during pressure state",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_marat_diary_forest_route_note_bg",
+      "file_name": "doc_marat_diary_forest_route_note_bg.png",
+      "animation_slots": [
+        {
+          "id": "route_sketch_focus",
+          "type": "ui_overlay",
+          "target": "sketch and route labels",
+          "normalized_rect": [0.12, 0.10, 0.76, 0.36],
+          "behavior": "soft highlight on selected route segment",
+          "creepiness_level": 1
+        },
+        {
+          "id": "forest_edge_pressure_wash",
+          "type": "pressure_overlay",
+          "target": "dark tree-line wash only",
+          "normalized_rect": [0.12, 0.06, 0.76, 0.22],
+          "behavior": "slow cold shadow opacity 0-10% after route clue is unlocked",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_marat_saved_messages_base",
+      "file_name": "doc_marat_saved_messages_base.png",
+      "animation_slots": [
+        {
+          "id": "crt_scanline",
+          "type": "shader_overlay",
+          "target": "whole message window",
+          "normalized_rect": [0.06, 0.08, 0.88, 0.82],
+          "behavior": "faint horizontal scanline drift; must not reduce text readability",
+          "creepiness_level": 0
+        },
+        {
+          "id": "cursor_blink",
+          "type": "ui_overlay",
+          "target": "input/status bar",
+          "normalized_rect": [0.29, 0.82, 0.55, 0.06],
+          "behavior": "standard old-PC cursor blink when message log is active",
+          "creepiness_level": 0
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_marat_saved_messages_warning_state",
+      "file_name": "doc_marat_saved_messages_warning_state.png",
+      "animation_slots": [
+        {
+          "id": "warning_message_pulse",
+          "type": "ui_overlay",
+          "target": "last message region",
+          "normalized_rect": [0.36, 0.58, 0.48, 0.18],
+          "behavior": "slow amber/cold highlight pulse 0-12% tied to dangerous message state",
+          "creepiness_level": 2
+        },
+        {
+          "id": "attachment_missing_flicker",
+          "type": "pressure_overlay",
+          "target": "missing attachment placeholder",
+          "normalized_rect": [0.42, 0.48, 0.22, 0.12],
+          "behavior": "rare one-frame dim; no heavy glitch storm",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_pact_folder_household_list_bg",
+      "file_name": "doc_pact_folder_household_list_bg.png",
+      "animation_slots": [
+        {
+          "id": "household_row_focus",
+          "type": "ui_overlay",
+          "target": "selected household row",
+          "normalized_rect": [0.12, 0.38, 0.78, 0.08],
+          "behavior": "soft paper highlight when a household clue is selected",
+          "creepiness_level": 1
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_pact_folder_incident_log_bg",
+      "file_name": "doc_pact_folder_incident_log_bg.png",
+      "animation_slots": [
+        {
+          "id": "incident_entry_focus",
+          "type": "ui_overlay",
+          "target": "central incident row",
+          "normalized_rect": [0.12, 0.40, 0.76, 0.12],
+          "behavior": "soft focus highlight for selected entry",
+          "creepiness_level": 1
+        },
+        {
+          "id": "archive_pressure_edge",
+          "type": "pressure_overlay",
+          "target": "page and folder margins",
+          "normalized_rect": [0.04, 0.04, 0.92, 0.92],
+          "behavior": "slow edge-shadow after pact-system clue becomes active",
+          "creepiness_level": 2
+        }
+      ]
+    },
+    {
+      "asset_id": "doc_pact_folder_compensation_note_bg",
+      "file_name": "doc_pact_folder_compensation_note_bg.png",
+      "animation_slots": [
+        {
+          "id": "compensation_fields_focus",
+          "type": "ui_overlay",
+          "target": "amount/recipient/note fields",
+          "normalized_rect": [0.18, 0.24, 0.64, 0.52],
+          "behavior": "soft clue highlight over selected fields",
+          "creepiness_level": 1
+        }
+      ]
+    }
+  ]
+}

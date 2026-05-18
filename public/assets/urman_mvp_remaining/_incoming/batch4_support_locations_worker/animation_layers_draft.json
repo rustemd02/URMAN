@@ -1,0 +1,74 @@
+{
+  "pack_id": "urman_mvp_remaining_batch4_support_locations_worker",
+  "status": "draft",
+  "coordinate_space": "pixel",
+  "notes": [
+    "Base PNGs are static. Animation should be sparse overlays, masks or small engine transforms tied to scene state.",
+    "Important text must remain editable runtime/UI overlays above these bitmap bases.",
+    "Pressure motion must stay slow and subtle; no glowing eyes, jump scare motion, gore, full creature motion or heavy glitch.",
+    "Mosque/Timur scene must remain calm and safe; do not apply pressure treatment that makes the religious space sinister.",
+    "River Su-Anasy hint is indirect water behavior only; do not add woman/creature/face/hand overlays."
+  ],
+  "global_overlay_suggestions": {
+    "paper_grain_breath": {
+      "blend": "overlay",
+      "opacity_range": [0.0, 0.05],
+      "trigger": "optional_idle",
+      "applies_to": ["all_assets"]
+    },
+    "pressure_vignette": {
+      "blend": "multiply",
+      "opacity_range": [0.0, 0.18],
+      "trigger": "village_pressure_1_or_2",
+      "applies_to": [
+        "loc_yard_shed_niva_evening",
+        "loc_selsmag_counter_interior",
+        "loc_admin_archive_corner_day",
+        "loc_arrival_road_to_kyrlay_dusk_alt_if_needed"
+      ]
+    }
+  },
+  "assets": {
+    "loc_yard_shed_niva_evening": [
+      { "layer_id": "window_warm_glow", "bounds": [0, 190, 255, 240], "blend": "screen", "opacity_range": [0.04, 0.16], "animation": "slow weak domestic light pulse, 8-12s" },
+      { "layer_id": "puddle_shimmer", "bounds": [470, 720, 690, 340], "blend": "screen", "opacity_range": [0.0, 0.10], "animation": "very subtle puddle shimmer, idle only" },
+      { "layer_id": "grass_drift", "bounds": [0, 760, 2048, 360], "blend": "normal", "opacity_range": [0.0, 0.08], "animation": "1-2 px slow grass drift" },
+      { "layer_id": "niva_metal_glint", "bounds": [1160, 470, 500, 265], "blend": "screen", "opacity_range": [0.0, 0.08], "animation": "rare practical glint on Niva body, not a light source" },
+      { "layer_id": "pressure_vignette", "bounds": [0, 0, 2048, 1152], "blend": "multiply", "opacity_range": [0.0, 0.16], "animation": "single slow edge darken tied to pressure flag" }
+    ],
+    "loc_selsmag_counter_interior": [
+      { "layer_id": "window_daylight_dust", "bounds": [0, 120, 360, 520], "blend": "screen", "opacity_range": [0.04, 0.12], "animation": "slow dust motes in side window light" },
+      { "layer_id": "fluorescent_hum", "bounds": [560, 0, 940, 90], "blend": "screen", "opacity_range": [0.0, 0.08], "animation": "barely perceptible irregular hum" },
+      { "layer_id": "counter_focus_highlight", "bounds": [350, 570, 760, 150], "blend": "screen", "opacity_range": [0.0, 0.20], "animation": "focus highlight on counter clue or dialogue object" },
+      { "layer_id": "back_room_curtain_drift", "bounds": [1220, 210, 270, 470], "blend": "normal", "opacity_range": [0.0, 0.10], "animation": "subtle cloth drift, disable in high pressure" },
+      { "layer_id": "pressure_vignette", "bounds": [0, 0, 2048, 1152], "blend": "multiply", "opacity_range": [0.0, 0.18], "animation": "social pressure edge darkening" }
+    ],
+    "loc_mosque_tea_office_timur_calm": [
+      { "layer_id": "safe_window_light", "bounds": [360, 135, 380, 490], "blend": "screen", "opacity_range": [0.04, 0.14], "animation": "steady gentle daylight, no flicker" },
+      { "layer_id": "tea_steam", "bounds": [735, 575, 360, 190], "blend": "screen", "opacity_range": [0.0, 0.10], "animation": "thin calm steam drift, 10-14s" },
+      { "layer_id": "dust_motes", "bounds": [275, 120, 620, 560], "blend": "screen", "opacity_range": [0.0, 0.08], "animation": "slow dust motes in safe light" },
+      { "layer_id": "table_focus_highlight", "bounds": [520, 590, 820, 260], "blend": "screen", "opacity_range": [0.0, 0.14], "animation": "interactive focus only, soft warm highlight" }
+    ],
+    "loc_river_bank_day": [
+      { "layer_id": "water_stillness_mask", "bounds": [920, 430, 1030, 520], "blend": "multiply", "opacity_range": [0.0, 0.08], "animation": "near-static calm patch; never form figure/face" },
+      { "layer_id": "subtle_water_shimmer", "bounds": [760, 395, 1288, 620], "blend": "screen", "opacity_range": [0.0, 0.09], "animation": "slow low-amplitude shimmer except stillness patch" },
+      { "layer_id": "reed_drift", "bounds": [0, 570, 2048, 520], "blend": "normal", "opacity_range": [0.0, 0.08], "animation": "small reed/grass drift" },
+      { "layer_id": "sign_hover", "bounds": [130, 185, 315, 210], "blend": "screen", "opacity_range": [0.0, 0.12], "animation": "interactive hover/focus only" },
+      { "layer_id": "light_pressure_vignette", "bounds": [0, 0, 2048, 1152], "blend": "multiply", "opacity_range": [0.0, 0.10], "animation": "optional false-lead hush, not constant" }
+    ],
+    "loc_admin_archive_corner_day": [
+      { "layer_id": "window_daylight_dust", "bounds": [45, 125, 475, 515], "blend": "screen", "opacity_range": [0.04, 0.12], "animation": "slow dust in window light" },
+      { "layer_id": "locked_drawer_pressure_shadow", "bounds": [585, 355, 405, 520], "blend": "multiply", "opacity_range": [0.0, 0.18], "animation": "single slow darken on denied-access state" },
+      { "layer_id": "ledger_focus_highlight", "bounds": [1125, 805, 520, 210], "blend": "screen", "opacity_range": [0.0, 0.22], "animation": "focus sweep/highlight on ledger interaction" },
+      { "layer_id": "fluorescent_hum", "bounds": [210, 0, 620, 90], "blend": "screen", "opacity_range": [0.0, 0.08], "animation": "barely perceptible irregular hum" },
+      { "layer_id": "pressure_vignette", "bounds": [0, 0, 2048, 1152], "blend": "multiply", "opacity_range": [0.0, 0.18], "animation": "bureaucratic pressure edge darkening" }
+    ],
+    "loc_arrival_road_to_kyrlay_dusk_alt_if_needed": [
+      { "layer_id": "dusk_deepening", "bounds": [0, 0, 2048, 520], "blend": "multiply", "opacity_range": [0.0, 0.12], "animation": "static or very slow dusk deepening" },
+      { "layer_id": "puddle_shimmer", "bounds": [680, 675, 800, 360], "blend": "screen", "opacity_range": [0.0, 0.10], "animation": "subtle road puddle shimmer" },
+      { "layer_id": "weak_window_light", "bounds": [1210, 475, 520, 155], "blend": "screen", "opacity_range": [0.03, 0.12], "animation": "very slow distant house light pulse" },
+      { "layer_id": "grass_drift", "bounds": [0, 690, 2048, 420], "blend": "normal", "opacity_range": [0.0, 0.08], "animation": "low-amplitude roadside grass drift" },
+      { "layer_id": "arrival_pressure_vignette", "bounds": [0, 0, 2048, 1152], "blend": "multiply", "opacity_range": [0.0, 0.14], "animation": "opening unease edge darken, optional" }
+    ]
+  }
+}

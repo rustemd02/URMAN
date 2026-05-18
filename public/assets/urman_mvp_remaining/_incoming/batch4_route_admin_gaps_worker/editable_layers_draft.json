@@ -1,0 +1,34 @@
+{
+  "generated_on": "2026-05-18",
+  "coordinate_space": "2048x1152",
+  "policy": "All important text is intentionally blank or illegible in the bitmap and should be rendered by the game/UI layer after language review.",
+  "assets": {
+    "route_main_street_empty_evening.png": [
+      {"id": "blank_notice_board_left", "type": "diegetic_sign", "content_status": "blank_placeholder"}
+    ],
+    "route_main_street_watchers_pressure.png": [
+      {"id": "blank_notice_board_mid_left", "type": "diegetic_sign", "content_status": "blank_placeholder"}
+    ],
+    "ui_journal_route_sketch_base.png": [
+      {"id": "blank_label_top_left", "type": "journal_label", "content_status": "blank_placeholder"},
+      {"id": "blank_label_top_right", "type": "journal_label", "content_status": "blank_placeholder"},
+      {"id": "blank_label_bottom_left", "type": "journal_label", "content_status": "blank_placeholder"},
+      {"id": "blank_label_bottom_right", "type": "journal_label", "content_status": "blank_placeholder"},
+      {"id": "blank_pin_notes", "type": "journal_pin_or_clue", "content_status": "blank_placeholder"}
+    ],
+    "route_unsafe_path_blocked_evening.png": [
+      {"id": "blank_notice_board_right", "type": "diegetic_notice", "content_status": "blank_placeholder"}
+    ],
+    "route_kara_urman_rinat_interruption.png": [
+      {"id": "blank_warning_sign", "type": "diegetic_warning_sign", "content_status": "blank_placeholder"}
+    ],
+    "loc_admin_archive_denied_access.png": [
+      {"id": "blank_notice_board", "type": "office_notice", "content_status": "blank_placeholder"},
+      {"id": "blank_folder_labels", "type": "folder_label", "content_status": "blank_placeholder"},
+      {"id": "blank_desktop_forms", "type": "document_form", "content_status": "blank_or_illegible_placeholder"}
+    ],
+    "loc_niva_closeup_tool_detail.png": [
+      {"id": "blank_tool_tag", "type": "small_prop_tag", "content_status": "blank_placeholder"}
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "batch": "batch4_small_location_gaps_worker",
+  "policy": "Important text should be rendered by UI/data systems above the bitmap. Generated assets intentionally keep signs, labels, forms, notices, and book spines blank or abstract.",
+  "editable_regions": [
+    {
+      "region_id": "blank_roadside_sign",
+      "asset_id": "loc_arrival_vehicle_interior_dusk",
+      "suggested_use": "Optional diegetic village/route sign, localized outside bitmap."
+    },
+    {
+      "region_id": "blank_tin_label",
+      "asset_id": "loc_niva_closeup_tool_detail",
+      "suggested_use": "Optional tiny prop label if needed; better left blank for MVP."
+    },
+    {
+      "region_id": "blank_notebook_pages",
+      "asset_id": "loc_mosque_tea_office_serious_talk",
+      "suggested_use": "Dialogue clue note or vocabulary prompt rendered as UI overlay."
+    },
+    {
+      "region_id": "blank_book_spines",
+      "asset_id": "loc_mosque_tea_office_serious_talk",
+      "suggested_use": "Do not bake religious or book text into the art; localize separately if ever needed."
+    },
+    {
+      "region_id": "blank_notice_on_door",
+      "asset_id": "loc_admin_archive_denied_access",
+      "suggested_use": "Denied-access notice, office hours, or procedural refusal text rendered by UI."
+    },
+    {
+      "region_id": "blank_file_labels",
+      "asset_id": "loc_admin_archive_denied_access",
+      "suggested_use": "Archive categories or years rendered externally."
+    },
+    {
+      "region_id": "blank_forms_on_desk",
+      "asset_id": "loc_admin_archive_denied_access",
+      "suggested_use": "Form text, stamp labels, and clue words rendered externally."
+    }
+  ]
+}

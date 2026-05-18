@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "asset_pack": "urman_mvp_remaining_batch3_documents_worker_draft",
+  "coordinate_system": "normalized [x, y, width, height]",
+  "text_policy": {
+    "rendering": "All player-readable text must be rendered by the game/UI layer above these bitmap bases.",
+    "required_glyphs": ["ә", "ө", "ү", "җ", "ң", "һ"],
+    "avoid_baked_text": true
+  },
+  "layers": [
+    {
+      "asset_id": "doc_marat_medical_record_redacted_bg",
+      "file_name": "doc_marat_medical_record_redacted_bg.png",
+      "editable_text_regions": [
+        {"id": "header_left", "purpose": "ФАП/clinic heading", "normalized_rect": [0.10, 0.08, 0.32, 0.08]},
+        {"id": "header_right_metadata", "purpose": "document id/date/source metadata", "normalized_rect": [0.58, 0.07, 0.30, 0.08]},
+        {"id": "patient_summary", "purpose": "patient name, age, date, visit reason", "normalized_rect": [0.11, 0.20, 0.78, 0.14]},
+        {"id": "redacted_table_rows", "purpose": "observations and ambiguous redacted phrase", "normalized_rect": [0.11, 0.39, 0.78, 0.23]},
+        {"id": "notes_box", "purpose": "evasive note/re-read diff", "normalized_rect": [0.12, 0.65, 0.56, 0.13]},
+        {"id": "signature_area", "purpose": "signature/date/stamp overlay", "normalized_rect": [0.25, 0.84, 0.52, 0.08]}
+      ],
+      "suggested_passes": ["paper_bg", "form_lines", "redaction_marks", "document_text_overlay", "highlight_overlay", "pressure_overlay"]
+    },
+    {
+      "asset_id": "doc_marat_medical_record_metadata_card",
+      "file_name": "doc_marat_medical_record_metadata_card.png",
+      "editable_text_regions": [
+        {"id": "card_title", "purpose": "evidence card title", "normalized_rect": [0.08, 0.07, 0.60, 0.08]},
+        {"id": "document_thumbnail_label", "purpose": "thumbnail caption/status", "normalized_rect": [0.10, 0.63, 0.36, 0.08]},
+        {"id": "metadata_rows", "purpose": "source, created/modified date, access path", "normalized_rect": [0.50, 0.20, 0.40, 0.45]},
+        {"id": "clue_tags", "purpose": "clue tags and contradiction state", "normalized_rect": [0.14, 0.76, 0.72, 0.12]}
+      ],
+      "suggested_passes": ["ui_card_base", "thumbnail_bg", "metadata_text_overlay", "selection_overlay"]
+    },
+    {
+      "asset_id": "doc_cemetery_registry_photo_bg",
+      "file_name": "doc_cemetery_registry_photo_bg.png",
+      "editable_text_regions": [
+        {"id": "registry_title", "purpose": "registry/document heading", "normalized_rect": [0.12, 0.08, 0.62, 0.08]},
+        {"id": "table_header", "purpose": "column labels", "normalized_rect": [0.12, 0.23, 0.78, 0.07]},
+        {"id": "registry_rows", "purpose": "names, dates, plot references", "normalized_rect": [0.12, 0.30, 0.78, 0.36]},
+        {"id": "marat_row", "purpose": "primary contradiction row", "normalized_rect": [0.12, 0.43, 0.78, 0.08]},
+        {"id": "margin_note", "purpose": "archive note / source metadata", "normalized_rect": [0.13, 0.72, 0.55, 0.12]},
+        {"id": "stamp_signature", "purpose": "stamp/date/signature overlay", "normalized_rect": [0.55, 0.80, 0.34, 0.10]}
+      ],
+      "suggested_passes": ["paper_photo_bg", "registry_text_overlay", "date_clue_highlight", "metadata_overlay"]
+    },
+    {
+      "asset_id": "doc_cemetery_registry_line_crop_bg",
+      "file_name": "doc_cemetery_registry_line_crop_bg.png",
+      "editable_text_regions": [
+        {"id": "crop_name_cell", "purpose": "name overlay", "normalized_rect": [0.07, 0.35, 0.27, 0.24]},
+        {"id": "crop_date_cell", "purpose": "date overlay", "normalized_rect": [0.36, 0.35, 0.20, 0.24]},
+        {"id": "crop_place_cell", "purpose": "plot/place overlay", "normalized_rect": [0.58, 0.35, 0.17, 0.24]},
+        {"id": "crop_note_cell", "purpose": "short note / contradiction overlay", "normalized_rect": [0.77, 0.35, 0.16, 0.24]},
+        {"id": "crop_caption", "purpose": "journal/evidence caption", "normalized_rect": [0.06, 0.76, 0.64, 0.11]}
+      ],
+      "suggested_passes": ["line_crop_bg", "text_overlay", "focus_highlight"]
+    },
+    {
+      "asset_id": "doc_marat_diary_early_note_bg",
+      "file_name": "doc_marat_diary_early_note_bg.png",
+      "editable_text_regions": [
+        {"id": "date_or_context", "purpose": "optional date/context overlay", "normalized_rect": [0.16, 0.12, 0.40, 0.07]},
+        {"id": "main_note_body", "purpose": "Marat diary text", "normalized_rect": [0.15, 0.24, 0.70, 0.52]},
+        {"id": "bottom_reflection", "purpose": "short closing line / clue phrase", "normalized_rect": [0.16, 0.78, 0.64, 0.08]}
+      ],
+      "suggested_passes": ["notebook_bg", "diary_text_overlay", "line_focus_overlay"]
+    },
+    {
+      "asset_id": "doc_marat_diary_angry_note_bg",
+      "file_name": "doc_marat_diary_angry_note_bg.png",
+      "editable_text_regions": [
+        {"id": "date_or_context", "purpose": "optional date/context overlay", "normalized_rect": [0.15, 0.11, 0.44, 0.07]},
+        {"id": "angry_note_body", "purpose": "pressed/urgent Marat text", "normalized_rect": [0.14, 0.22, 0.72, 0.46]},
+        {"id": "crossout_overlay_zone", "purpose": "editable struck-through phrase or withheld line", "normalized_rect": [0.15, 0.68, 0.68, 0.12]},
+        {"id": "bottom_clue", "purpose": "short dangerous clue line", "normalized_rect": [0.16, 0.82, 0.60, 0.08]}
+      ],
+      "suggested_passes": ["notebook_bg", "diary_text_overlay", "crossout_overlay", "pressure_shadow_overlay"]
+    },
+    {
+      "asset_id": "doc_marat_diary_forest_route_note_bg",
+      "file_name": "doc_marat_diary_forest_route_note_bg.png",
+      "editable_text_regions": [
+        {"id": "route_label_top", "purpose": "route title / context overlay", "normalized_rect": [0.16, 0.09, 0.50, 0.06]},
+        {"id": "map_label_boxes", "purpose": "place labels on route sketch", "normalized_rect": [0.16, 0.18, 0.66, 0.24]},
+        {"id": "route_note_body", "purpose": "Marat route note body", "normalized_rect": [0.15, 0.48, 0.70, 0.32]},
+        {"id": "bottom_warning_line", "purpose": "short clue/warning phrase", "normalized_rect": [0.16, 0.83, 0.62, 0.08]}
+      ],
+      "suggested_passes": ["notebook_map_bg", "route_text_overlay", "route_segment_highlight", "pressure_overlay"]
+    },
+    {
+      "asset_id": "doc_marat_saved_messages_base",
+      "file_name": "doc_marat_saved_messages_base.png",
+      "editable_text_regions": [
+        {"id": "window_title", "purpose": "archive/messenger window title", "normalized_rect": [0.12, 0.09, 0.42, 0.05]},
+        {"id": "contact_list", "purpose": "contact names and statuses", "normalized_rect": [0.12, 0.18, 0.18, 0.58]},
+        {"id": "message_thread", "purpose": "message bubbles and timestamps", "normalized_rect": [0.34, 0.18, 0.52, 0.55]},
+        {"id": "attachment_row", "purpose": "attachment metadata / missing file label", "normalized_rect": [0.38, 0.66, 0.34, 0.10]},
+        {"id": "status_bar", "purpose": "file path, source, local time metadata", "normalized_rect": [0.12, 0.82, 0.74, 0.06]}
+      ],
+      "suggested_passes": ["old_pc_ui_bg", "message_text_overlay", "timestamp_overlay", "cursor_overlay"]
+    },
+    {
+      "asset_id": "doc_marat_saved_messages_warning_state",
+      "file_name": "doc_marat_saved_messages_warning_state.png",
+      "editable_text_regions": [
+        {"id": "window_title", "purpose": "archive/messenger window title", "normalized_rect": [0.12, 0.09, 0.42, 0.05]},
+        {"id": "contact_list", "purpose": "contact names and statuses", "normalized_rect": [0.12, 0.18, 0.18, 0.58]},
+        {"id": "message_thread", "purpose": "message bubbles and timestamps", "normalized_rect": [0.34, 0.18, 0.52, 0.55]},
+        {"id": "warning_message", "purpose": "selected warning message overlay", "normalized_rect": [0.36, 0.58, 0.48, 0.18]},
+        {"id": "missing_attachment", "purpose": "missing attachment filename/status overlay", "normalized_rect": [0.40, 0.45, 0.30, 0.13]},
+        {"id": "status_bar", "purpose": "file path/source metadata", "normalized_rect": [0.12, 0.82, 0.74, 0.06]}
+      ],
+      "suggested_passes": ["old_pc_ui_bg", "warning_text_overlay", "timestamp_overlay", "warning_highlight", "pressure_overlay"]
+    },
+    {
+      "asset_id": "doc_pact_folder_household_list_bg",
+      "file_name": "doc_pact_folder_household_list_bg.png",
+      "editable_text_regions": [
+        {"id": "document_title", "purpose": "internal list title, rendered by UI", "normalized_rect": [0.12, 0.08, 0.58, 0.08]},
+        {"id": "table_header", "purpose": "column labels", "normalized_rect": [0.12, 0.22, 0.78, 0.07]},
+        {"id": "household_rows", "purpose": "household names, dates, obligations, notes", "normalized_rect": [0.12, 0.30, 0.78, 0.43]},
+        {"id": "selected_household_row", "purpose": "key clue row", "normalized_rect": [0.12, 0.38, 0.78, 0.08]},
+        {"id": "folder_tab_label", "purpose": "folder tab / archive label", "normalized_rect": [0.58, 0.04, 0.28, 0.06]},
+        {"id": "footer_metadata", "purpose": "source/signature/update note", "normalized_rect": [0.14, 0.82, 0.62, 0.10]}
+      ],
+      "suggested_passes": ["folder_bg", "ledger_text_overlay", "row_highlight", "metadata_overlay"]
+    },
+    {
+      "asset_id": "doc_pact_folder_incident_log_bg",
+      "file_name": "doc_pact_folder_incident_log_bg.png",
+      "editable_text_regions": [
+        {"id": "document_title", "purpose": "incident log title, rendered by UI", "normalized_rect": [0.12, 0.08, 0.58, 0.08]},
+        {"id": "table_header", "purpose": "entry/date/place/status columns", "normalized_rect": [0.12, 0.22, 0.76, 0.07]},
+        {"id": "incident_rows", "purpose": "incident entries and short notes", "normalized_rect": [0.12, 0.30, 0.76, 0.42]},
+        {"id": "selected_incident", "purpose": "central clue entry", "normalized_rect": [0.12, 0.40, 0.76, 0.12]},
+        {"id": "margin_flags", "purpose": "status tags / dangerous-key marker", "normalized_rect": [0.08, 0.31, 0.08, 0.42]},
+        {"id": "footer_metadata", "purpose": "source/signature/update note", "normalized_rect": [0.14, 0.80, 0.62, 0.10]}
+      ],
+      "suggested_passes": ["folder_bg", "incident_text_overlay", "entry_highlight", "pressure_overlay"]
+    },
+    {
+      "asset_id": "doc_pact_folder_compensation_note_bg",
+      "file_name": "doc_pact_folder_compensation_note_bg.png",
+      "editable_text_regions": [
+        {"id": "memo_title", "purpose": "compensation note title, rendered by UI", "normalized_rect": [0.18, 0.13, 0.52, 0.07]},
+        {"id": "recipient_fields", "purpose": "recipient/name/date fields", "normalized_rect": [0.18, 0.24, 0.62, 0.16]},
+        {"id": "amount_reason_fields", "purpose": "amount/reason table", "normalized_rect": [0.18, 0.42, 0.64, 0.22]},
+        {"id": "short_note", "purpose": "short explanation / re-read diff", "normalized_rect": [0.18, 0.66, 0.62, 0.12]},
+        {"id": "signature_stamp", "purpose": "signature/stamp/date overlay", "normalized_rect": [0.40, 0.80, 0.38, 0.10]},
+        {"id": "folder_context_label", "purpose": "folder tab/context label", "normalized_rect": [0.52, 0.05, 0.30, 0.06]}
+      ],
+      "suggested_passes": ["folder_bg", "memo_text_overlay", "field_highlight", "metadata_overlay"]
+    }
+  ]
+}

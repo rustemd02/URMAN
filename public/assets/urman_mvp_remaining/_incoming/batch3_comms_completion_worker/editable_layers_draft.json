@@ -1,0 +1,78 @@
+{
+  "batch_id": "batch3_comms_completion_worker",
+  "coordinate_space": {
+    "width": 2048,
+    "height": 1152,
+    "region_format": "normalized_xywh"
+  },
+  "text_policy": {
+    "bitmap_text": "Do not treat generated micro-marks as canonical text.",
+    "runtime_text": "Render all names, messages, timestamps, buttons, labels, route details, and vocabulary entries as editable overlays.",
+    "supported_letters": ["ә", "ө", "ү", "җ", "ң", "һ"]
+  },
+  "assets": [
+    {
+      "asset_id": "ui_yalkyn_group_chat_base",
+      "regions": [
+        { "id": "group_title", "purpose": "window title / group name", "region": [0.310, 0.112, 0.250, 0.045], "alignment": "left" },
+        { "id": "group_contact_rows", "purpose": "contact list names/statuses", "region": [0.100, 0.170, 0.160, 0.590], "alignment": "left", "repeat_hint": 10 },
+        { "id": "group_chat_messages", "purpose": "group chat message bubbles", "region": [0.310, 0.185, 0.600, 0.500], "alignment": "mixed", "repeat_hint": 7 },
+        { "id": "group_timestamps", "purpose": "message and contact timestamps", "region": [0.260, 0.170, 0.660, 0.560], "alignment": "right" },
+        { "id": "group_input_bar", "purpose": "message composer text", "region": [0.340, 0.765, 0.410, 0.050], "alignment": "left" },
+        { "id": "group_toolbar_labels", "purpose": "optional toolbar labels/tooltips", "region": [0.090, 0.105, 0.780, 0.040], "alignment": "left" }
+      ]
+    },
+    {
+      "asset_id": "ui_yalkyn_dm_alsu_base",
+      "regions": [
+        { "id": "dm_contact_name", "purpose": "Alsu name/contact header", "region": [0.340, 0.150, 0.240, 0.045], "alignment": "left" },
+        { "id": "dm_contact_rows", "purpose": "contact list names/statuses", "region": [0.100, 0.170, 0.160, 0.590], "alignment": "left", "repeat_hint": 10 },
+        { "id": "dm_chat_messages", "purpose": "direct-message bubbles", "region": [0.320, 0.220, 0.610, 0.465], "alignment": "mixed", "repeat_hint": 5 },
+        { "id": "dm_timestamps", "purpose": "message timestamps", "region": [0.475, 0.220, 0.445, 0.465], "alignment": "right" },
+        { "id": "dm_input_bar", "purpose": "message composer text", "region": [0.335, 0.763, 0.420, 0.052], "alignment": "left" },
+        { "id": "dm_toolbar_labels", "purpose": "optional toolbar labels/tooltips", "region": [0.090, 0.105, 0.780, 0.040], "alignment": "left" }
+      ]
+    },
+    {
+      "asset_id": "ui_yalkyn_unread_danger_message",
+      "regions": [
+        { "id": "danger_contact_rows", "purpose": "contact list names/statuses", "region": [0.100, 0.170, 0.160, 0.590], "alignment": "left", "repeat_hint": 10 },
+        { "id": "danger_notification_title", "purpose": "unread notification sender/title", "region": [0.655, 0.505, 0.210, 0.040], "alignment": "left" },
+        { "id": "danger_notification_body", "purpose": "unread warning message body", "region": [0.655, 0.555, 0.230, 0.065], "alignment": "left" },
+        { "id": "danger_notification_button", "purpose": "notification action button", "region": [0.795, 0.635, 0.100, 0.038], "alignment": "center" },
+        { "id": "danger_input_bar", "purpose": "message composer text", "region": [0.335, 0.765, 0.420, 0.052], "alignment": "left" },
+        { "id": "danger_timestamps", "purpose": "contact/message timestamps", "region": [0.235, 0.170, 0.670, 0.560], "alignment": "right" }
+      ]
+    },
+    {
+      "asset_id": "ui_phone_mother_chat_base",
+      "regions": [
+        { "id": "mother_contact_name", "purpose": "mother contact header", "region": [0.500, 0.158, 0.090, 0.032], "alignment": "left" },
+        { "id": "mother_chat_messages", "purpose": "mother chat bubbles", "region": [0.472, 0.225, 0.195, 0.455], "alignment": "mixed", "repeat_hint": 6 },
+        { "id": "mother_timestamps", "purpose": "message timestamps", "region": [0.575, 0.285, 0.070, 0.360], "alignment": "right" },
+        { "id": "mother_input_bar", "purpose": "phone composer text", "region": [0.485, 0.793, 0.150, 0.045], "alignment": "left" },
+        { "id": "mother_status_labels", "purpose": "small status labels if needed", "region": [0.468, 0.122, 0.220, 0.040], "alignment": "mixed" }
+      ]
+    },
+    {
+      "asset_id": "ui_phone_ticket_purchase_base",
+      "regions": [
+        { "id": "ticket_route_fields", "purpose": "origin/destination fields", "region": [0.430, 0.222, 0.145, 0.155], "alignment": "left" },
+        { "id": "ticket_date_time_fields", "purpose": "date/time chips", "region": [0.430, 0.410, 0.160, 0.075], "alignment": "left" },
+        { "id": "ticket_price_payment_fields", "purpose": "fare/payment summary", "region": [0.430, 0.670, 0.170, 0.090], "alignment": "left" },
+        { "id": "ticket_button_label", "purpose": "confirm/action button", "region": [0.425, 0.800, 0.175, 0.055], "alignment": "center" },
+        { "id": "ticket_status_labels", "purpose": "top status/header labels", "region": [0.415, 0.145, 0.190, 0.055], "alignment": "mixed" }
+      ]
+    },
+    {
+      "asset_id": "ui_phone_translation_popup_base",
+      "regions": [
+        { "id": "translation_source_word", "purpose": "source Tatar word", "region": [0.455, 0.330, 0.190, 0.055], "alignment": "left" },
+        { "id": "translation_pronunciation", "purpose": "pronunciation / grammar note", "region": [0.455, 0.450, 0.190, 0.058], "alignment": "left" },
+        { "id": "translation_body", "purpose": "translation and explanation lines", "region": [0.455, 0.560, 0.195, 0.130], "alignment": "left" },
+        { "id": "translation_buttons", "purpose": "popup action buttons", "region": [0.455, 0.745, 0.195, 0.060], "alignment": "center" },
+        { "id": "translation_background_chat_lines", "purpose": "dim background UI text if needed", "region": [0.394, 0.120, 0.275, 0.780], "alignment": "mixed" }
+      ]
+    }
+  ]
+}

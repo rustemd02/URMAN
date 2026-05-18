@@ -1,0 +1,148 @@
+{
+  "pack_id": "urman_mvp_remaining_batch2_locations_completion_worker",
+  "status": "draft_generated",
+  "generated_at": "2026-05-18",
+  "worker_scope": "public/assets/urman_mvp_remaining/_incoming/batch2_locations_completion_worker/",
+  "do_not_merge_directly": true,
+  "source_style_references": [
+    "AGENTS.md",
+    "docs/urman_knowledge_base/asset_inventory_50.md",
+    "docs/urman_knowledge_base/design_style.md",
+    "docs/urman_knowledge_base/village_route_art_spec.md",
+    "docs/urman_knowledge_base/asset_pack_first10/style_bible.md",
+    "public/assets/urman_mvp_remaining/loc_kitchen_first_dinner_warm.png",
+    "public/assets/urman_mvp_remaining/loc_kitchen_first_dinner_tense_silence.png",
+    "public/assets/urman_mvp_remaining/loc_fap_cabinet_document_desk_day.png",
+    "public/assets/urman_mvp_remaining/loc_zirat_general_day.png",
+    "public/assets/urman_mvp_remaining/loc_marat_grave_closeup_mossy.png",
+    "public/assets/urman_mvp_remaining/loc_marat_grave_closeup_cleaned_readable_base.png",
+    "public/assets/urman_mvp_remaining/route_forest_approach_evening.png",
+    "public/assets/urman_mvp_first10/route_kara_urman_forest_edge_pressure.png"
+  ],
+  "production_constraints": {
+    "visual_direction": "ink-wash storybook, muted watercolor, visible paper grain, ordinary first with subtle wrongness",
+    "forbidden": [
+      "full creature reveal",
+      "obvious monster",
+      "glowing eyes",
+      "blood",
+      "gore",
+      "skulls",
+      "jump-scare framing",
+      "important baked text"
+    ],
+    "editable_text_policy": "Important text must be rendered by runtime/editable overlays. Bitmap bases use blank signs, blank forms, blank inscription panels and illegible texture only.",
+    "dimensions": {
+      "width": 2048,
+      "height": 1152
+    }
+  },
+  "assets": [
+    {
+      "asset_inventory_ref": "#19 Kitchen / first dinner",
+      "asset_id": "loc_kitchen_first_dinner_night_talk",
+      "priority": "P0",
+      "type": "static_location_node",
+      "state": "night_talk",
+      "file": "loc_kitchen_first_dinner_night_talk.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-ef5d-74a1-a994-0565a1d330be/ig_04f92b6eedf4d768016a0af9c8839c8191bd4c52fd3fc00a79.png",
+      "animation_layer_ids": ["bulb_breath", "window_cold_light", "hallway_pressure_shadow", "tea_steam_optional", "pressure_vignette"],
+      "editable_layer_ids": ["wall_note_or_calendar_blank", "table_note_optional"],
+      "notes": "Night domestic talk variant matching the existing kitchen composition; cleared table, weak bulb, dark hall pressure pocket."
+    },
+    {
+      "asset_inventory_ref": "#27 Medpunkt / FAP",
+      "asset_id": "loc_fap_waiting_room_day",
+      "priority": "P0",
+      "type": "static_location_node",
+      "state": "waiting_room_day",
+      "file": "loc_fap_waiting_room_day.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-ef5d-74a1-a994-0565a1d330be/ig_04f92b6eedf4d768016a0afa28af2481918c1e2d5fa1360528.png",
+      "animation_layer_ids": ["window_daylight_dust", "fluorescent_hum", "curtain_drift", "bench_hover", "pressure_vignette"],
+      "editable_layer_ids": ["left_notice_blank", "door_notice_blank", "right_notice_board_blank", "registration_paper_stack"],
+      "notes": "Quiet empty FAP waiting room with benches, cabinet door and blank notice surfaces."
+    },
+    {
+      "asset_inventory_ref": "#27 Medpunkt / FAP",
+      "asset_id": "loc_fap_pressure_document_desk",
+      "priority": "P0",
+      "type": "static_location_node",
+      "state": "pressure_document_desk",
+      "file": "loc_fap_pressure_document_desk.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-ef5d-74a1-a994-0565a1d330be/ig_04f92b6eedf4d768016a0afa875964819196843dc7d096c700.png",
+      "animation_layer_ids": ["desk_lamp_glow", "document_focus_highlight", "window_shadow_pressure", "fluorescent_hum", "pressure_vignette"],
+      "editable_layer_ids": ["desk_document_overlay", "open_ledger_overlay", "wall_notice_overlay"],
+      "notes": "Pressure state for the medical contradiction loop; blank forms and ledger remain editable."
+    },
+    {
+      "asset_inventory_ref": "#28 Zirat general view",
+      "asset_id": "loc_zirat_general_late_evening",
+      "priority": "P0",
+      "type": "static_location_node",
+      "state": "late_evening",
+      "file": "loc_zirat_general_late_evening.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-ef5d-74a1-a994-0565a1d330be/ig_04f92b6eedf4d768016a0afaea7b4c8191a520c13e1de467a6.png",
+      "animation_layer_ids": ["dusk_overlay", "distant_house_lights", "grass_drift", "sign_hover", "pressure_vignette"],
+      "editable_layer_ids": ["zirat_sign_label", "small_notice_label"],
+      "notes": "Late-evening cemetery view, respectful rather than gothic, with path and blank cemetery sign."
+    },
+    {
+      "asset_inventory_ref": "#28 Zirat general view",
+      "asset_id": "loc_zirat_general_wind_pressure",
+      "priority": "P0",
+      "type": "static_location_node",
+      "state": "wind_pressure",
+      "file": "loc_zirat_general_wind_pressure.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-ef5d-74a1-a994-0565a1d330be/ig_04f92b6eedf4d768016a0afb5e867881918bbbf0a799201888.png",
+      "animation_layer_ids": ["wind_leaf_streaks", "grass_wind_drift", "sign_hover", "sky_pressure_overlay", "pressure_vignette"],
+      "editable_layer_ids": ["zirat_sign_label", "small_notice_label"],
+      "notes": "Wind-pressure cemetery variant; motion should be handled as sparse overlay, not constant spectacle."
+    },
+    {
+      "asset_inventory_ref": "#29 Marat grave close-up",
+      "asset_id": "loc_marat_grave_closeup_journal_crop",
+      "priority": "P0",
+      "type": "static_closeup_evidence",
+      "state": "journal_crop",
+      "file": "loc_marat_grave_closeup_journal_crop.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-ef5d-74a1-a994-0565a1d330be/ig_04f92b6eedf4d768016a0afc2b0f7481918521037e7babc92e.png",
+      "animation_layer_ids": ["inscription_focus_highlight", "journal_vignette", "dust_moss_overlay", "brush_hover"],
+      "editable_layer_ids": ["grave_inscription_journal_overlay", "date_clue_overlay"],
+      "notes": "Journal/evidence crop with large blank inscription panel for runtime name/date text."
+    },
+    {
+      "asset_inventory_ref": "#31 Kara-Urman edge / #23 route kit",
+      "asset_id": "route_forest_approach_pressure_silence",
+      "priority": "P0",
+      "type": "route_navigation_screen",
+      "state": "pressure_silence",
+      "file": "route_forest_approach_pressure_silence.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-ef5d-74a1-a994-0565a1d330be/ig_04f92b6eedf4d768016a0afc93214c8191b38df6cb8e869638.png",
+      "animation_layer_ids": ["warning_sign_hover", "branch_drift", "path_darkness_breath", "step_occlusion_ready", "pressure_vignette"],
+      "editable_layer_ids": ["warning_sign_label"],
+      "notes": "Pressure/silence route approach with clear forward path, blank sign and no creature reveal."
+    },
+    {
+      "asset_inventory_ref": "#31 Kara-Urman edge / #23 route kit",
+      "asset_id": "route_kara_urman_edge_voice_moment",
+      "priority": "P0",
+      "type": "route_navigation_cliffhanger_screen",
+      "state": "voice_moment",
+      "file": "route_kara_urman_edge_voice_moment.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-ef5d-74a1-a994-0565a1d330be/ig_04f92b6eedf4d768016a0afcef330c81918a98b454849b8ff0.png",
+      "animation_layer_ids": ["warning_sign_hover", "branch_almost_figure_mask", "voice_silence_overlay", "rinat_interruption_space", "pressure_vignette"],
+      "editable_layer_ids": ["warning_sign_label"],
+      "qa_flags": ["Upper-right branch form is intentionally near-figure but has no face, eyes or full body; review for subtlety before production lock."],
+      "notes": "Audio-first cliffhanger screen: empty forest edge, blank sign, branches almost forming attention without a full creature."
+    }
+  ],
+  "review_contact_sheet": "contact_sheet.jpg"
+}

@@ -1,0 +1,126 @@
+{
+  "pack_id": "urman_mvp_remaining_batch3_ui_systems_worker",
+  "status": "draft_generated",
+  "generated_at": "2026-05-18",
+  "worker_scope": "public/assets/urman_mvp_remaining/_incoming/batch3_ui_systems_worker/",
+  "do_not_merge_directly": true,
+  "source_style_references": [
+    "AGENTS.md",
+    "docs/urman_knowledge_base/asset_inventory_50.md",
+    "docs/urman_knowledge_base/design_style.md",
+    "docs/urman_knowledge_base/asset_pack_first10/style_bible.md",
+    "public/assets/urman_mvp_first10/ui_old_pc_desktop_base.png"
+  ],
+  "production_constraints": {
+    "visual_direction": "ink-wash storybook, muted watercolor, visible paper grain",
+    "ui_direction": "Win98-like old PC where appropriate; paper-investigation for journal/dialogue/vocabulary",
+    "forbidden": [
+      "meme UI",
+      "neon",
+      "cyberpunk",
+      "generic monster horror",
+      "full creature reveal",
+      "important baked text"
+    ],
+    "editable_text_policy": "Important text, including Tatar letters, must be rendered by runtime/editable overlays. Bitmap bases use blank fields, placeholder bars and symbolic icons only."
+  },
+  "assets": [
+    {
+      "asset_inventory_ref": "#35 Archive search app",
+      "asset_id": "ui_archive_search_empty",
+      "priority": "P0",
+      "type": "ui_bitmap_base",
+      "state": "empty_search",
+      "file": "ui_archive_search_empty.png",
+      "raw_file": "ui_archive_search_empty.raw.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-efaa-7d70-981d-cf033b5e130f/ig_0aafcc7eeef60a2e016a0af9005c908191a5813f10a0676341.png",
+      "notes": "Old PC archive window with blank search field, empty results table and metadata sidebar."
+    },
+    {
+      "asset_inventory_ref": "#35 Archive search app",
+      "asset_id": "ui_archive_search_results",
+      "priority": "P0",
+      "type": "ui_bitmap_base",
+      "state": "results",
+      "file": "ui_archive_search_results.png",
+      "raw_file": "ui_archive_search_results.raw.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-efaa-7d70-981d-cf033b5e130f/ig_0aafcc7eeef60a2e016a0af94a13788191aa0429d06e56b26b.png",
+      "notes": "Archive results state with selected row, blank details panel and preview strip."
+    },
+    {
+      "asset_inventory_ref": "#36 Tatarwiki page template",
+      "asset_id": "ui_tatarwiki_article_template",
+      "priority": "P0",
+      "type": "ui_bitmap_base",
+      "state": "article_template",
+      "file": "ui_tatarwiki_article_template.png",
+      "raw_file": "ui_tatarwiki_article_template.raw.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-efaa-7d70-981d-cf033b5e130f/ig_0aafcc7eeef60a2e016a0af99ca19881918554fb228965a864.png",
+      "notes": "Old browser/wiki page frame with navigation column, article placeholder, infobox and reveal panel."
+    },
+    {
+      "asset_inventory_ref": "#39 Journal / clue graph",
+      "asset_id": "ui_journal_clue_graph_base",
+      "priority": "P0",
+      "type": "ui_bitmap_base",
+      "state": "clue_graph",
+      "file": "ui_journal_clue_graph_base.png",
+      "raw_file": "ui_journal_clue_graph_base.raw.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-efaa-7d70-981d-cf033b5e130f/ig_0aafcc7eeef60a2e016a0afa12e0148191bc7f5ddda439c5aa.png",
+      "notes": "Notebook-style clue graph with blank nodes, connected evidence cards, timeline strip and details panel."
+    },
+    {
+      "asset_inventory_ref": "#40 Dialogue key picker",
+      "asset_id": "ui_dialogue_key_picker_base",
+      "priority": "P0",
+      "type": "ui_bitmap_base",
+      "state": "key_picker",
+      "file": "ui_dialogue_key_picker_base.png",
+      "raw_file": "ui_dialogue_key_picker_base.raw.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-efaa-7d70-981d-cf033b5e130f/ig_0aafcc7eeef60a2e016a0afaddaaa48191a4c548f852238b05.png",
+      "notes": "Dialogue key picker with blank key list, warning state, dialogue text box and neutral silhouette reaction frame."
+    },
+    {
+      "asset_inventory_ref": "#41 Vocabulary / татарский карточки",
+      "asset_id": "ui_vocabulary_cards_base",
+      "priority": "P0",
+      "type": "ui_bitmap_base",
+      "state": "cards",
+      "file": "ui_vocabulary_cards_base.png",
+      "raw_file": "ui_vocabulary_cards_base.raw.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-efaa-7d70-981d-cf033b5e130f/ig_0aafcc7eeef60a2e016a0afb4af8c48191b6517b0e2049d356.png",
+      "notes": "Paper vocabulary cards for unknown, guessed, confirmed and re-read-unlocked states; no baked Tatar letters."
+    },
+    {
+      "asset_inventory_ref": "#42 Document viewer template",
+      "asset_id": "ui_document_viewer_template",
+      "priority": "P0",
+      "type": "ui_bitmap_base",
+      "state": "document_viewer",
+      "file": "ui_document_viewer_template.png",
+      "raw_file": "ui_document_viewer_template.raw.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-efaa-7d70-981d-cf033b5e130f/ig_0aafcc7eeef60a2e016a0afbbc8da8819190971a6f31ffca25.png",
+      "notes": "Scanned-page viewer with metadata panel, toolbar, highlight slot and editable document text lanes."
+    },
+    {
+      "asset_inventory_ref": "#43 Clue type icon set",
+      "asset_id": "ui_clue_type_icons_contact_sheet",
+      "priority": "P0",
+      "type": "ui_icon_contact_sheet",
+      "state": "8_icon_cells",
+      "file": "ui_clue_type_icons_contact_sheet.png",
+      "raw_file": "ui_clue_type_icons_contact_sheet.raw.png",
+      "dimensions": { "width": 2048, "height": 1024 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3ada-efaa-7d70-981d-cf033b5e130f/ig_0aafcc7eeef60a2e016a0afc263d708191bd1054298b0e0a8e.png",
+      "notes": "4x2 icon contact sheet on blank paper background. Crop coordinates are drafted in editable_layers_draft.json."
+    }
+  ],
+  "review_contact_sheet": "contact_sheet.jpg"
+}

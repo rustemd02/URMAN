@@ -1,0 +1,97 @@
+{
+  "batch": "batch4_small_location_gaps_worker",
+  "policy": "Base PNGs are static. Animation should be implemented as subtle overlays, masks, shader passes, or engine transforms only when the narrative/gameplay flag is active.",
+  "layers": [
+    {
+      "slot_id": "window_light_pulse",
+      "asset_id": "loc_arrival_vehicle_interior_dusk",
+      "type": "soft_light_overlay",
+      "region": "vehicle window and dusk sky reflection",
+      "behavior": "Very slow low-amplitude dusk light shift; keep village view readable."
+    },
+    {
+      "slot_id": "dust_motes",
+      "asset_id": "loc_arrival_vehicle_interior_dusk",
+      "type": "particle_overlay",
+      "region": "dark vehicle interior foreground",
+      "behavior": "Sparse floating dust, almost static."
+    },
+    {
+      "slot_id": "arrival_edge_pressure",
+      "asset_id": "loc_arrival_vehicle_interior_dusk",
+      "type": "pressure_overlay",
+      "region": "outer frame edges and seat silhouettes",
+      "behavior": "Optional slight ink darkening when arrival anxiety is flagged."
+    },
+    {
+      "slot_id": "shed_dust_motes",
+      "asset_id": "loc_niva_closeup_tool_detail",
+      "type": "particle_overlay",
+      "region": "shed light and tool bench",
+      "behavior": "Sparse dust in the light; no dramatic motion."
+    },
+    {
+      "slot_id": "tool_focus_highlight",
+      "asset_id": "loc_niva_closeup_tool_detail",
+      "type": "focus_highlight",
+      "region": "tools, glove, rope, screw tin",
+      "behavior": "Small paper-wash highlight for interactable prop focus."
+    },
+    {
+      "slot_id": "subtle_corner_pressure",
+      "asset_id": "loc_niva_closeup_tool_detail",
+      "type": "pressure_overlay",
+      "region": "shed corner shadows",
+      "behavior": "Only use if investigation pressure flag is active; no creature cue."
+    },
+    {
+      "slot_id": "lamp_warmth",
+      "asset_id": "loc_mosque_tea_office_serious_talk",
+      "type": "soft_light_overlay",
+      "region": "wall lamp, tea table, chair backs",
+      "behavior": "Stable warm lamp with barely perceptible breathing."
+    },
+    {
+      "slot_id": "window_dust",
+      "asset_id": "loc_mosque_tea_office_serious_talk",
+      "type": "particle_overlay",
+      "region": "window light column",
+      "behavior": "Slow sparse dust; safe-zone calm, not horror."
+    },
+    {
+      "slot_id": "notebook_focus",
+      "asset_id": "loc_mosque_tea_office_serious_talk",
+      "type": "focus_highlight",
+      "region": "open notebook and tea table",
+      "behavior": "Gentle focus for dialogue clue or vocabulary prompt."
+    },
+    {
+      "slot_id": "serious_talk_edge_pressure",
+      "asset_id": "loc_mosque_tea_office_serious_talk",
+      "type": "pressure_overlay",
+      "region": "room edges and curtain shadows",
+      "behavior": "Very restrained darkening for serious conversation only; never sinister religious framing."
+    },
+    {
+      "slot_id": "fluorescent_light_pulse",
+      "asset_id": "loc_admin_archive_denied_access",
+      "type": "soft_light_overlay",
+      "region": "ceiling light and cabinet tops",
+      "behavior": "Low-amplitude fluorescent hum / pulse."
+    },
+    {
+      "slot_id": "paper_focus_highlight",
+      "asset_id": "loc_admin_archive_denied_access",
+      "type": "focus_highlight",
+      "region": "desk forms, notice, cabinet labels",
+      "behavior": "Small highlight for denied-access interactables."
+    },
+    {
+      "slot_id": "admin_edge_pressure",
+      "asset_id": "loc_admin_archive_denied_access",
+      "type": "pressure_overlay",
+      "region": "door, locked cabinet, visitor chair",
+      "behavior": "Social pressure overlay; no supernatural or horror props."
+    }
+  ]
+}

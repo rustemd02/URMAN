@@ -1,0 +1,47 @@
+{
+  "generated_on": "2026-05-18",
+  "coordinate_space": "2048x1152",
+  "notes": "Regions are approximate integration hints. Use engine overlays/masks; do not convert these bases to GIF/video.",
+  "assets": {
+    "route_main_street_empty_evening.png": [
+      {"id": "window_light_pulse", "type": "light_overlay", "region_hint": "right house windows", "motion": "slow 4-8s weak amber pulse"},
+      {"id": "distant_birds", "type": "environment_overlay", "region_hint": "upper sky", "motion": "rare small silhouettes crossing"},
+      {"id": "grass_drift", "type": "environment_overlay", "region_hint": "roadside dry grass", "motion": "low-amplitude drift"},
+      {"id": "pressure_edge_overlay", "type": "pressure_overlay", "region_hint": "frame edges", "motion": "rare fade-in only under pressure flag"}
+    ],
+    "route_main_street_watchers_pressure.png": [
+      {"id": "curtain_shimmer", "type": "environment_overlay", "region_hint": "lit windows on both houses", "motion": "tiny curtain movement, non-loop-obvious"},
+      {"id": "window_light_pulse", "type": "light_overlay", "region_hint": "watcher windows", "motion": "very slow weak pulse"},
+      {"id": "foreground_grass_drift", "type": "environment_overlay", "region_hint": "fence and grass edges", "motion": "subtle drift"},
+      {"id": "pressure_edge_overlay", "type": "pressure_overlay", "region_hint": "upper corners and fence edges", "motion": "slow darkening under social pressure flag"}
+    ],
+    "ui_journal_route_sketch_base.png": [
+      {"id": "document_focus_highlight", "type": "document_overlay", "region_hint": "active route fragment or clue pin", "motion": "static/brief focus wash"},
+      {"id": "route_line_draw_on", "type": "document_overlay", "region_hint": "ink route lines", "motion": "short draw-on when a route is discovered"},
+      {"id": "page_shadow_shift", "type": "ambient_overlay", "region_hint": "page edges", "motion": "barely perceptible shadow shift"}
+    ],
+    "route_unsafe_path_blocked_evening.png": [
+      {"id": "rope_shadow_pressure", "type": "pressure_overlay", "region_hint": "blocked side path and rope/sawhorse", "motion": "slight deepening under restriction state"},
+      {"id": "grass_drift", "type": "environment_overlay", "region_hint": "right fence and path edges", "motion": "low-amplitude drift"},
+      {"id": "window_light_pulse", "type": "light_overlay", "region_hint": "left house window", "motion": "slow weak pulse"},
+      {"id": "pressure_edge_overlay", "type": "pressure_overlay", "region_hint": "forest-side and frame edges", "motion": "slow fade-in"}
+    ],
+    "route_kara_urman_rinat_interruption.png": [
+      {"id": "forest_edge_pressure", "type": "pressure_overlay", "region_hint": "tree wall behind Rinat", "motion": "slow dark wash/fade"},
+      {"id": "foreground_branch_drift", "type": "environment_overlay", "region_hint": "right foreground branches and dry grass", "motion": "small drift"},
+      {"id": "rinat_subtle_idle", "type": "character_overlay", "region_hint": "small human figure near sign", "motion": "optional tiny posture/breath; no dramatic gesture"},
+      {"id": "sign_focus", "type": "interactable_overlay", "region_hint": "blank warning sign", "motion": "static focus highlight only"}
+    ],
+    "loc_admin_archive_denied_access.png": [
+      {"id": "fluorescent_light_flicker", "type": "light_overlay", "region_hint": "window/office light", "motion": "very subtle irregular pulse"},
+      {"id": "document_focus_highlight", "type": "document_overlay", "region_hint": "desk papers and folders", "motion": "brief readable focus wash"},
+      {"id": "cabinet_lock_focus", "type": "interactable_overlay", "region_hint": "locked cabinet handle/padlock", "motion": "static highlight"},
+      {"id": "pressure_edge_overlay", "type": "pressure_overlay", "region_hint": "door/cabinet side shadows", "motion": "slow bureaucratic pressure fade"}
+    ],
+    "loc_niva_closeup_tool_detail.png": [
+      {"id": "grass_drift", "type": "environment_overlay", "region_hint": "lower yard grass", "motion": "tiny drift"},
+      {"id": "shed_light_pulse", "type": "light_overlay", "region_hint": "shed doorway/shadow", "motion": "very weak ambient change"},
+      {"id": "tool_focus_highlight", "type": "interactable_overlay", "region_hint": "toolbox/tools/rope", "motion": "static focus highlight"}
+    ]
+  }
+}

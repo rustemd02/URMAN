@@ -1,0 +1,84 @@
+{
+  "pack_id": "urman_mvp_remaining_batch2_locations_completion_worker",
+  "status": "draft",
+  "coordinate_space": "pixel",
+  "notes": [
+    "Base PNGs are static. Animation should be sparse overlays, masks or small engine transforms tied to scene state.",
+    "Important text must remain editable runtime/UI overlays above these bitmap bases.",
+    "Pressure motion must stay slow and subtle; no glowing eyes, jump scare motion, gore, full creature motion or heavy glitch."
+  ],
+  "global_overlay_suggestions": {
+    "pressure_vignette": {
+      "blend": "multiply",
+      "opacity_range": [0.0, 0.22],
+      "trigger": "village_pressure_2_or_dangerous_key",
+      "applies_to": [
+        "loc_kitchen_first_dinner_night_talk",
+        "loc_fap_waiting_room_day",
+        "loc_fap_pressure_document_desk",
+        "loc_zirat_general_late_evening",
+        "loc_zirat_general_wind_pressure",
+        "route_forest_approach_pressure_silence",
+        "route_kara_urman_edge_voice_moment"
+      ]
+    },
+    "paper_grain_breath": {
+      "blend": "overlay",
+      "opacity_range": [0.0, 0.05],
+      "trigger": "optional_idle",
+      "applies_to": [
+        "all_assets"
+      ]
+    }
+  },
+  "assets": {
+    "loc_kitchen_first_dinner_night_talk": [
+      { "layer_id": "bulb_breath", "bounds": [920, 70, 360, 230], "blend": "screen", "opacity_range": [0.04, 0.16], "animation": "slow weak amber bulb pulse, 7-11s" },
+      { "layer_id": "window_cold_light", "bounds": [1235, 175, 390, 350], "blend": "screen", "opacity_range": [0.03, 0.10], "animation": "very slow cold blue night shimmer" },
+      { "layer_id": "hallway_pressure_shadow", "bounds": [0, 120, 500, 820], "blend": "multiply", "opacity_range": [0.0, 0.18], "animation": "single slow darkening tied to pressure flag" },
+      { "layer_id": "tea_steam_optional", "bounds": [650, 600, 760, 190], "blend": "screen", "opacity_range": [0.0, 0.08], "animation": "optional thin steam drift only in calm/night-talk state" }
+    ],
+    "loc_fap_waiting_room_day": [
+      { "layer_id": "window_daylight_dust", "bounds": [1135, 155, 440, 430], "blend": "screen", "opacity_range": [0.04, 0.12], "animation": "slow dust motes in window light" },
+      { "layer_id": "fluorescent_hum", "bounds": [1010, 22, 620, 80], "blend": "screen", "opacity_range": [0.0, 0.08], "animation": "barely perceptible irregular hum" },
+      { "layer_id": "curtain_drift", "bounds": [1175, 120, 335, 430], "blend": "normal", "opacity_range": [0.0, 0.10], "animation": "1-2 px cloth drift, calm only" },
+      { "layer_id": "bench_hover", "bounds": [720, 575, 780, 170], "blend": "screen", "opacity_range": [0.0, 0.14], "animation": "interactive hover or focus only" }
+    ],
+    "loc_fap_pressure_document_desk": [
+      { "layer_id": "desk_lamp_glow", "bounds": [40, 365, 340, 385], "blend": "screen", "opacity_range": [0.05, 0.15], "animation": "slow practical lamp glow" },
+      { "layer_id": "document_focus_highlight", "bounds": [345, 685, 830, 245], "blend": "screen", "opacity_range": [0.0, 0.25], "animation": "focus highlight on clue/document interaction" },
+      { "layer_id": "window_shadow_pressure", "bounds": [1255, 255, 585, 410], "blend": "multiply", "opacity_range": [0.0, 0.20], "animation": "pressure flag only, slow shadow creep" },
+      { "layer_id": "fluorescent_hum", "bounds": [1015, 35, 635, 80], "blend": "screen", "opacity_range": [0.0, 0.10], "animation": "barely perceptible irregular hum" }
+    ],
+    "loc_zirat_general_late_evening": [
+      { "layer_id": "dusk_overlay", "bounds": [0, 0, 2048, 1152], "blend": "multiply", "opacity_range": [0.0, 0.12], "animation": "static or very slow dusk deepening" },
+      { "layer_id": "distant_house_lights", "bounds": [790, 415, 560, 95], "blend": "screen", "opacity_range": [0.03, 0.12], "animation": "very slow distant practical light pulse" },
+      { "layer_id": "grass_drift", "bounds": [0, 760, 2048, 360], "blend": "normal", "opacity_range": [0.0, 0.08], "animation": "subtle grass overlay drift" },
+      { "layer_id": "sign_hover", "bounds": [50, 300, 520, 230], "blend": "screen", "opacity_range": [0.0, 0.14], "animation": "interactive hover/focus only" }
+    ],
+    "loc_zirat_general_wind_pressure": [
+      { "layer_id": "wind_leaf_streaks", "bounds": [610, 90, 1080, 255], "blend": "normal", "opacity_range": [0.0, 0.16], "animation": "sparse leaves crossing with pressure wind flag" },
+      { "layer_id": "grass_wind_drift", "bounds": [0, 690, 2048, 430], "blend": "normal", "opacity_range": [0.0, 0.13], "animation": "directional wind overlay, low amplitude" },
+      { "layer_id": "sign_hover", "bounds": [55, 305, 520, 235], "blend": "screen", "opacity_range": [0.0, 0.14], "animation": "interactive hover/focus only" },
+      { "layer_id": "sky_pressure_overlay", "bounds": [0, 0, 2048, 350], "blend": "multiply", "opacity_range": [0.0, 0.15], "animation": "single pressure darken, not looping constantly" }
+    ],
+    "loc_marat_grave_closeup_journal_crop": [
+      { "layer_id": "inscription_focus_highlight", "bounds": [445, 245, 920, 390], "blend": "screen", "opacity_range": [0.0, 0.24], "animation": "focus sweep or clue highlight on readable overlay" },
+      { "layer_id": "journal_vignette", "bounds": [0, 0, 2048, 1152], "blend": "multiply", "opacity_range": [0.0, 0.16], "animation": "static evidence-review vignette" },
+      { "layer_id": "dust_moss_overlay", "bounds": [0, 0, 2048, 1152], "blend": "overlay", "opacity_range": [0.0, 0.08], "animation": "optional slow dust/moss texture in evidence view" },
+      { "layer_id": "brush_hover", "bounds": [1120, 835, 420, 185], "blend": "screen", "opacity_range": [0.0, 0.16], "animation": "interactive hover/focus only" }
+    ],
+    "route_forest_approach_pressure_silence": [
+      { "layer_id": "warning_sign_hover", "bounds": [200, 330, 430, 200], "blend": "screen", "opacity_range": [0.0, 0.14], "animation": "interactive hover/focus only" },
+      { "layer_id": "branch_drift", "bounds": [1090, 0, 900, 520], "blend": "normal", "opacity_range": [0.0, 0.10], "animation": "near-still 1 px branch drift; disable during hard cut" },
+      { "layer_id": "path_darkness_breath", "bounds": [690, 310, 900, 680], "blend": "multiply", "opacity_range": [0.0, 0.18], "animation": "slow darkness breath tied to pressure flag" },
+      { "layer_id": "step_occlusion_ready", "bounds": [0, 730, 2048, 422], "blend": "normal", "opacity_range": [0.0, 1.0], "animation": "reserved for route step transition occlusion" }
+    ],
+    "route_kara_urman_edge_voice_moment": [
+      { "layer_id": "warning_sign_hover", "bounds": [350, 395, 435, 205], "blend": "screen", "opacity_range": [0.0, 0.14], "animation": "interactive hover/focus only" },
+      { "layer_id": "branch_almost_figure_mask", "bounds": [1290, 0, 660, 560], "blend": "multiply", "opacity_range": [0.0, 0.13], "animation": "pressure-only emphasis; must not form a face, eyes or full body" },
+      { "layer_id": "voice_silence_overlay", "bounds": [760, 280, 760, 680], "blend": "multiply", "opacity_range": [0.0, 0.18], "animation": "single slow hush/darken cue when Marat voice plays in audio" },
+      { "layer_id": "rinat_interruption_space", "bounds": [0, 610, 560, 480], "blend": "normal", "opacity_range": [0.0, 1.0], "animation": "reserved for later Rinat cutout/composite, not part of this base" }
+    ]
+  }
+}

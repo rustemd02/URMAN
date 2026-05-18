@@ -1,0 +1,121 @@
+{
+  "pack_id": "urman_mvp_remaining_batch4_support_locations_worker",
+  "status": "draft_generated",
+  "generated_at": "2026-05-18",
+  "worker_scope": "public/assets/urman_mvp_remaining/_incoming/batch4_support_locations_worker/",
+  "do_not_merge_directly": true,
+  "shared_manifest_edited": false,
+  "source_style_references": [
+    "AGENTS.md",
+    "docs/urman_knowledge_base/asset_inventory_50.md",
+    "docs/urman_knowledge_base/design_style.md",
+    "docs/urman_knowledge_base/village_route_art_spec.md",
+    "docs/urman_knowledge_base/asset_pack_first10/style_bible.md",
+    "public/assets/urman_mvp_remaining/_incoming/batch2_route_kit_worker/route_mansur_house_turn_evening.png",
+    "public/assets/urman_mvp_remaining/route_selsmag_fap_lane_day.png",
+    "public/assets/urman_mvp_remaining/_incoming/batch2_route_kit_worker/route_mosque_sign_day.png",
+    "public/assets/urman_mvp_remaining/_incoming/batch2_locations_completion_worker/loc_fap_waiting_room_day.png"
+  ],
+  "production_constraints": {
+    "visual_direction": "ink-wash storybook, muted watercolor, visible paper grain, ordinary first with subtle wrongness",
+    "dimensions": {
+      "width": 2048,
+      "height": 1152
+    },
+    "editable_text_policy": "Important text must be rendered by runtime/editable overlays. Bitmap bases use blank signs, blank labels, blank notice boards and illegible product/archival texture only.",
+    "forbidden": [
+      "full creature reveal",
+      "obvious monster",
+      "woman or creature reveal in river scene",
+      "glowing eyes",
+      "blood",
+      "gore",
+      "skulls",
+      "jump-scare framing",
+      "sinister mosque or anti-Islamic framing",
+      "important baked text"
+    ]
+  },
+  "assets": [
+    {
+      "asset_inventory_ref": "#21 Yard / shed / old Niva",
+      "asset_id": "loc_yard_shed_niva_evening",
+      "priority": "P1",
+      "type": "static_location_node",
+      "state": "evening_yard",
+      "file": "loc_yard_shed_niva_evening.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3b06-2749-73a3-987f-fd7017fa6780/ig_03785b1e7dc0f548016a0b043358a481918027be12efc58da0.png",
+      "animation_layer_ids": ["window_warm_glow", "puddle_shimmer", "grass_drift", "niva_metal_glint", "pressure_vignette"],
+      "editable_layer_ids": ["yard_mailbox_label", "niva_plate_blank", "shed_notice_optional"],
+      "notes": "Practical family yard with shed, firewood and old Niva; creepiness kept to quiet evening stillness."
+    },
+    {
+      "asset_inventory_ref": "#24 Selsmag",
+      "asset_id": "loc_selsmag_counter_interior",
+      "priority": "P1",
+      "type": "static_location_node",
+      "state": "counter_interior",
+      "file": "loc_selsmag_counter_interior.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3b06-2749-73a3-987f-fd7017fa6780/ig_03785b1e7dc0f548016a0b047ee8008191b28dcb2e5919a31d.png",
+      "animation_layer_ids": ["window_daylight_dust", "fluorescent_hum", "counter_focus_highlight", "back_room_curtain_drift", "pressure_vignette"],
+      "editable_layer_ids": ["main_notice_board_blank", "counter_receipt_overlay", "price_label_overlays", "left_wall_notice_blank"],
+      "notes": "Interior counter view for Razilya/gossip pressure. Product labels are texture only and must not be treated as readable canon text."
+    },
+    {
+      "asset_inventory_ref": "#26 Mosque tea / Timur office",
+      "asset_id": "loc_mosque_tea_office_timur_calm",
+      "priority": "P1",
+      "type": "static_location_node",
+      "state": "timur_calm_safe_light",
+      "file": "loc_mosque_tea_office_timur_calm.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3b06-2749-73a3-987f-fd7017fa6780/ig_03785b1e7dc0f548016a0b04d248a0819188f7a601304d8ae7.png",
+      "animation_layer_ids": ["safe_window_light", "tea_steam", "dust_motes", "table_focus_highlight"],
+      "editable_layer_ids": ["right_notice_board_blank", "small_wall_card_blank", "book_spine_overlays", "table_note_optional"],
+      "notes": "Calm, humane mosque-adjacent tea office. This should stay safe and non-sinister; use for Timur hazrat dialogue breathing room."
+    },
+    {
+      "asset_inventory_ref": "#30 River / bank",
+      "asset_id": "loc_river_bank_day",
+      "priority": "P1",
+      "type": "static_location_node",
+      "state": "day_water_still_false_su_anasy_hint",
+      "file": "loc_river_bank_day.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3b06-2749-73a3-987f-fd7017fa6780/ig_03785b1e7dc0f548016a0b052231948191ab068321ef1b136a.png",
+      "animation_layer_ids": ["water_stillness_mask", "subtle_water_shimmer", "reed_drift", "sign_hover", "light_pressure_vignette"],
+      "editable_layer_ids": ["river_sign_label_blank", "path_note_optional"],
+      "notes": "False Su-Anasy clue is indirect only: still water/ripple without creature, woman, face or hand reveal."
+    },
+    {
+      "asset_inventory_ref": "#32 Administration / archive corner",
+      "asset_id": "loc_admin_archive_corner_day",
+      "priority": "P1",
+      "type": "static_location_node",
+      "state": "archive_corner_day",
+      "file": "loc_admin_archive_corner_day.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3b06-2749-73a3-987f-fd7017fa6780/ig_03785b1e7dc0f548016a0b056ef31481919ca70b0b69a41614.png",
+      "animation_layer_ids": ["window_daylight_dust", "locked_drawer_pressure_shadow", "ledger_focus_highlight", "fluorescent_hum", "pressure_vignette"],
+      "editable_layer_ids": ["cabinet_label_overlays", "binder_spine_overlays", "notice_board_blank", "ledger_text_overlay", "folder_label_overlays"],
+      "notes": "Bureaucratic archive corner for denied-access/document clue states. Binder and drawer labels are blank/texture only."
+    },
+    {
+      "asset_inventory_ref": "#17 Arrival / road to Kyrlay",
+      "asset_id": "loc_arrival_road_to_kyrlay_dusk_alt_if_needed",
+      "priority": "P1",
+      "type": "static_location_node",
+      "state": "dusk_alt_if_needed",
+      "file": "loc_arrival_road_to_kyrlay_dusk_alt_if_needed.png",
+      "dimensions": { "width": 2048, "height": 1152 },
+      "source_generation": "/Users/unterlantas/.codex/generated_images/019e3b06-2749-73a3-987f-fd7017fa6780/ig_03785b1e7dc0f548016a0b05bdc3c08191b18021df9dda74cc.png",
+      "animation_layer_ids": ["dusk_deepening", "puddle_shimmer", "weak_window_light", "grass_drift", "arrival_pressure_vignette"],
+      "editable_layer_ids": ["village_sign_blank", "bus_stop_notice_blank"],
+      "qa_flags": ["Generated because no loc_arrival* target was present under public/assets/urman_mvp_remaining at worker start."],
+      "notes": "Opening arrival road frame: first glimpse of Kyrlay, blank signboard, no KFU standalone scene."
+    }
+  ],
+  "review_contact_sheet": "contact_sheet.jpg"
+}

@@ -1,0 +1,208 @@
+{
+  "batch_id": "batch3_old_pc_phone_worker",
+  "coordinate_system": "normalized_0_to_1_approximate",
+  "note": "Draft editable text/image regions for engine overlay. Coordinates are approximate because imagegen composition is painterly; validate against final UI layout before shipping.",
+  "text_policy": "All story, file, chat, title, button, timestamp, and vocabulary text should be rendered by data-driven UI above these bitmap bases.",
+  "assets": {
+    "ui_old_pc_crt_off.png": {
+      "editable_regions": [
+        {
+          "id": "future_screen_reflection_or_prompt",
+          "kind": "optional_overlay",
+          "bbox": [0.28, 0.18, 0.39, 0.48]
+        }
+      ]
+    },
+    "ui_old_pc_crt_boot.png": {
+      "editable_regions": [
+        {
+          "id": "boot_status_panel",
+          "kind": "text_or_logo_overlay",
+          "bbox": [0.41, 0.24, 0.21, 0.16]
+        },
+        {
+          "id": "boot_progress_label",
+          "kind": "text_overlay",
+          "bbox": [0.40, 0.45, 0.23, 0.07]
+        }
+      ]
+    },
+    "ui_old_pc_crt_power_off.png": {
+      "editable_regions": [
+        {
+          "id": "power_off_caption_optional",
+          "kind": "optional_text_overlay",
+          "bbox": [0.31, 0.18, 0.31, 0.10]
+        }
+      ]
+    },
+    "ui_old_pc_crt_close_crop.png": {
+      "editable_regions": [
+        {
+          "id": "close_crop_screen_overlay",
+          "kind": "ui_overlay",
+          "bbox": [0.22, 0.18, 0.56, 0.56]
+        }
+      ]
+    },
+    "ui_old_pc_folder_view_base.png": {
+      "editable_regions": [
+        {
+          "id": "desktop_icon_labels",
+          "kind": "text_overlay",
+          "bbox": [0.29, 0.20, 0.06, 0.40]
+        },
+        {
+          "id": "folder_window_title",
+          "kind": "text_overlay",
+          "bbox": [0.35, 0.29, 0.24, 0.04]
+        },
+        {
+          "id": "left_folder_tree",
+          "kind": "text_overlay",
+          "bbox": [0.35, 0.40, 0.08, 0.24]
+        },
+        {
+          "id": "file_icon_labels",
+          "kind": "text_overlay",
+          "bbox": [0.43, 0.41, 0.23, 0.22]
+        },
+        {
+          "id": "status_bar",
+          "kind": "text_overlay",
+          "bbox": [0.35, 0.66, 0.29, 0.04]
+        }
+      ]
+    },
+    "ui_old_pc_active_window_base.png": {
+      "editable_regions": [
+        {
+          "id": "window_title",
+          "kind": "text_overlay",
+          "bbox": [0.34, 0.27, 0.24, 0.04]
+        },
+        {
+          "id": "toolbar_or_search_fields",
+          "kind": "text_overlay",
+          "bbox": [0.34, 0.32, 0.28, 0.07]
+        },
+        {
+          "id": "left_sidebar_rows",
+          "kind": "text_overlay",
+          "bbox": [0.34, 0.40, 0.09, 0.27]
+        },
+        {
+          "id": "main_document_or_results",
+          "kind": "text_overlay",
+          "bbox": [0.43, 0.40, 0.22, 0.27]
+        },
+        {
+          "id": "bottom_status_buttons",
+          "kind": "text_overlay",
+          "bbox": [0.35, 0.68, 0.28, 0.04]
+        }
+      ]
+    },
+    "ui_old_pc_error_corrupt_file_base.png": {
+      "editable_regions": [
+        {
+          "id": "error_dialog_title",
+          "kind": "text_overlay",
+          "bbox": [0.39, 0.35, 0.20, 0.04]
+        },
+        {
+          "id": "error_message",
+          "kind": "text_overlay",
+          "bbox": [0.42, 0.40, 0.16, 0.08]
+        },
+        {
+          "id": "error_buttons",
+          "kind": "button_label_overlay",
+          "bbox": [0.42, 0.50, 0.16, 0.05]
+        }
+      ]
+    },
+    "ui_yalkyn_messenger_contacts_base.png": {
+      "editable_regions": [
+        {
+          "id": "messenger_title",
+          "kind": "text_overlay",
+          "bbox": [0.35, 0.26, 0.23, 0.04]
+        },
+        {
+          "id": "contact_group_headers",
+          "kind": "text_overlay",
+          "bbox": [0.37, 0.32, 0.19, 0.10]
+        },
+        {
+          "id": "contact_rows",
+          "kind": "text_overlay",
+          "bbox": [0.37, 0.38, 0.20, 0.28]
+        },
+        {
+          "id": "status_footer",
+          "kind": "text_overlay",
+          "bbox": [0.37, 0.66, 0.20, 0.04]
+        }
+      ]
+    },
+    "ui_yalkyn_messenger_saved_marat_log_base.png": {
+      "editable_regions": [
+        {
+          "id": "saved_log_title",
+          "kind": "text_overlay",
+          "bbox": [0.34, 0.25, 0.25, 0.04]
+        },
+        {
+          "id": "left_contact_names",
+          "kind": "text_overlay",
+          "bbox": [0.34, 0.32, 0.09, 0.33]
+        },
+        {
+          "id": "chat_message_bubbles",
+          "kind": "text_overlay",
+          "bbox": [0.43, 0.32, 0.21, 0.31]
+        },
+        {
+          "id": "missing_attachment_caption",
+          "kind": "text_overlay",
+          "bbox": [0.41, 0.48, 0.10, 0.12]
+        },
+        {
+          "id": "input_or_saved_status",
+          "kind": "text_overlay",
+          "bbox": [0.42, 0.64, 0.21, 0.04]
+        }
+      ]
+    },
+    "ui_phone_aidar_intro_chat_base.png": {
+      "editable_regions": [
+        {
+          "id": "phone_chat_header",
+          "kind": "text_overlay",
+          "bbox": [0.44, 0.08, 0.20, 0.10]
+        },
+        {
+          "id": "phone_message_bubbles",
+          "kind": "text_overlay",
+          "bbox": [0.42, 0.28, 0.24, 0.36]
+        },
+        {
+          "id": "ticket_or_purchase_card",
+          "kind": "text_overlay",
+          "bbox": [0.42, 0.56, 0.22, 0.16]
+        },
+        {
+          "id": "phone_input_bar",
+          "kind": "text_overlay",
+          "bbox": [0.39, 0.82, 0.26, 0.08]
+        },
+        {
+          "id": "translation_popup_optional",
+          "kind": "text_overlay",
+          "bbox": [0.45, 0.62, 0.18, 0.10]
+        }
+      ]
+    }
+  }
+}
