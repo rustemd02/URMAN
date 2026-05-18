@@ -1,5 +1,23 @@
 # Weak Points
 
+## MVP-прототипы не связаны в одну игру
+
+Слабое место: route navigation и old PC уже работают как сильные отдельные прототипы, но общая игра пока не доказывает главный detective loop. Old PC сохраняет улики локально, route pressure живёт отдельно, vocabulary живёт отдельно, dialogue / quest / save systems пустые.
+
+Путь решения: сначала создать shared knowledge source of truth и связать цепочку `old PC clue -> journal -> dialogue reaction -> vocabulary re-read -> pressure -> route/cliffhanger`. Это P0 до новых ассетов, новых лорных веток и внешнего MVP-плейтеста. Главный документ: `mvp_completion_handoff.md`.
+
+## Визуальный пакет опережает runtime
+
+Слабое место: `public/assets/urman_mvp_remaining/` visually covers most MVP categories, but runtime still uses HTML stubs, a 3D mosque placeholder, old prototype PC framing and partial handoff previews.
+
+Путь решения: интегрировать существующие ink-wash assets into HouseScene, MosqueScene, ForestScene, document viewer, journal and dialogue UI before generating more images. Route visuals are currently the healthiest runtime slice.
+
+## Плейтест полного MVP пока преждевременен
+
+Слабое место: полный путь «приезд -> клиффхэнгер» ещё нельзя честно тестировать как цельную главу. Можно тестировать route orientation, old PC search loop and narrative comprehension, but not final external MVP experience.
+
+Путь решения: использовать `playtest_plan.md`: сначала internal smoke, route, old PC, language and narrative tests. Full first-time MVP playtest only after shared journal/dialogue graph, house scene and final cliffhanger path exist.
+
 ## Gameplay core loop не доказан
 
 Слабое место: detective loop принят как главное действие игрока, но пока не доказано прототипом, что это интересно каждую минуту.

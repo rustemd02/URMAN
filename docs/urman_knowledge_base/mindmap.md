@@ -50,6 +50,10 @@ mindmap
         Кромка Кара-Урмана
         Голос Марата
         Ринат: «Не отвечай»
+      Completion Handoff [MVP][TECH]
+        mvp_completion_handoff.md
+        P0 shared evidence chain
+        playtest_plan.md
       Игровой цикл [MVP][OPEN][RISK]
         Найти ключ
         Проверить у NPC
@@ -117,6 +121,7 @@ mindmap
         Имя
         Документ
         Татарское слово [LANG]
+        Rinat first prototype [OPEN][MVP]
       Архивы [MVP][TECH]
         Поиск
         Документы
@@ -147,6 +152,7 @@ mindmap
         Gated-документы
         Local clue saving
         Journal integration gap [OPEN][TECH]
+        Shared evidence bridge needed [MVP][TECH][RISK]
         Техническая метадата не clue
         Старые письма и бытовые папки ограниченно
         Внутренний учёт Кырлая
@@ -270,6 +276,14 @@ mindmap
         Clues
         Documents
         Vocabulary
+      Shared Evidence Chain [MVP][TECH][RISK]
+        Old PC clue
+        Knowledge key
+        Journal card
+        Dialogue reaction
+        Vocabulary re-read
+        Pressure state
+        Cliffhanger route
       Quest system [MVP]
       Dialogue system [MVP]
       Knowledge keys [MVP]
@@ -291,8 +305,13 @@ mindmap
         Слабый первый крючок
       Геймплей [OPEN]
         Minute-to-minute не доказан
+        Прототипы не связаны в один loop
+        Old PC clues локальны
+        Journal dialogue vocabulary pressure save/load раздельны
       Ассеты [ASSET]
         Нет точного минимума
+        Visual pack ahead of runtime
+        House Mosque Forest still placeholders
       Scope creep [MVP]
         Полная игра вместо среза
         Тьюринг-полный ПК до проверки MVP loop

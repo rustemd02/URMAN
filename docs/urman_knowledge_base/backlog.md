@@ -1,5 +1,70 @@
 # Backlog
 
+## MVP Completion Audit — P0 Integration
+
+- [ ] Task: Выполнить `mvp_completion_handoff.md` как главный P0-план до заявления "MVP готов".
+  Type: Production / Integration
+  Priority: Critical
+  Depends on: current old PC and route prototypes
+  Output: playable arrival-to-cliffhanger vertical slice with shared evidence state, journal, dialogue key, vocabulary re-read, pressure and save/load.
+  Notes: Не начинать с новых ассетов или новой лорной ветки. Главный blocker: old PC, journal, vocabulary, dialogue, pressure and save/load живут раздельно.
+
+- [ ] Task: Создать shared knowledge source of truth.
+  Type: Tech / Gameplay
+  Priority: Critical
+  Depends on: `technical_architecture.md`, `mvp_completion_handoff.md`
+  Output: `KnowledgeKey`, `VocabularyEntry`, dialogue, quest and village pressure data that old PC, journal, dialogue, route and save/load can all consume.
+  Notes: Начать с TS data modules: `src/data/knowledge_keys.ts`, `src/data/vocabulary_data.ts`, `src/data/dialogue_data.ts`, `src/data/quests.ts`, plus shared state in `GameState`.
+
+- [ ] Task: Связать old PC clues с общим journal/dialogue graph.
+  Type: Tech / Gameplay
+  Priority: Critical
+  Depends on: shared knowledge source of truth
+  Output: opening/saving old PC documents adds shared keys, vocabulary, contradictions and pressure effects.
+  Notes: Сейчас old PC loop локальный. MVP начинается только когда `clue_marat_official_death_version` changes journal and Rinat dialogue.
+
+- [ ] Task: Реализовать investigation journal вместо vocabulary-only notebook.
+  Type: UI / Gameplay
+  Priority: Critical
+  Depends on: shared knowledge keys
+  Output: journal tabs for clues, contradictions, Marat timeline, vocabulary and route sketch support.
+  Notes: `NotebookUI` currently shows only татарский vocabulary.
+
+- [ ] Task: Реализовать first dialogue-key prototype with Ринат.
+  Type: Gameplay / UI
+  Priority: Critical
+  Depends on: shared knowledge keys, journal
+  Output: `DialogueSystem`, `DialogueUI`, `dialogue_data.ts` and a Rinat topic where clues change reaction level.
+  Notes: NPC must lie differently, fear, or partially admit; no exposition dump.
+
+- [ ] Task: Закрыть runtime canon/style drift.
+  Type: Narrative / Tech
+  Priority: High
+  Depends on: canon.md, decision_log.md
+  Output: active runtime text no longer treats Кара-Урман as village, Алсу 1926 as plain truth, or Шүрәле as generic monster.
+  Notes: Check `characters.ts`, `chat_data.ts`, `MainMenuScene.ts`, `IntroScene.ts`, `HUD.ts`.
+
+- [ ] Task: Replace MVP scene stubs with existing ink-wash assets.
+  Type: Tech / Assets / Narrative
+  Priority: High
+  Depends on: `public/assets/urman_mvp_remaining/`
+  Output: real house, mosque and forest/cliffhanger scenes using existing visual pack.
+  Notes: `HouseScene` and `ForestScene` are stubs; `MosqueScene` uses an Al-Aqsa 3D placeholder that does not fit MVP.
+
+- [ ] Task: Add route and clue graph validators.
+  Type: Tech / QA
+  Priority: High
+  Depends on: shared data files
+  Output: `scripts/validate-clue-graph.mjs`, `scripts/validate-route-graph.mjs`, package scripts and release gate.
+  Notes: Keep old PC validator; expand cross-reference validation instead of replacing the authoring model.
+
+- [ ] Task: Run internal smoke and targeted playtests from `playtest_plan.md`.
+  Type: QA / Production
+  Priority: High
+  Depends on: first connected loop
+  Output: recorded route, old PC, narrative, language and cliffhanger findings with pass/fail thresholds.
+  Notes: Full external first-time MVP playtest is premature until shared journal/dialogue graph and final cliffhanger exist.
+
 ## Narrative
 
 - [ ] Task: Написать beat sheet первого дня Айдара в Кырлае.

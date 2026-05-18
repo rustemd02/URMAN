@@ -21,6 +21,7 @@
 - `project_brief.md` — короткий high-level бриф.
 - `canon.md` — hard canon, soft canon, гипотезы и противоречия.
 - `mvp_scope.md` — вертикальный срез MVP.
+- `mvp_completion_handoff.md` — главный handoff-документ: что именно не хватает до полноценного MVP и в каком порядке это добивать.
 - `gameplay.md` — core loop, расследование, диалоги, язык, интерфейсы.
 - `old_pc.md` — продуктовый и сценарный lock старого ПК бабая.
 - `narrative.md` — сюжетная архитектура.
@@ -36,6 +37,7 @@
 - `open_questions.md` — нерешённые вопросы.
 - `weak_points.md` — честные слабые места и пути решения.
 - `roadmap.md` — путь до MVP.
+- `playtest_plan.md` — матрица плейтестов, ручные сценарии, метрики и release gate для MVP.
 - `backlog.md` — задачи.
 - `decision_log.md` — решения.
 - `glossary.md` — словарь терминов.
@@ -76,4 +78,4 @@ mindmap
 
 ## Текущее состояние
 
-Проект уже имеет сильный сюжетный и лорный фундамент, но слабее определены gameplay minute-to-minute, визуальный стиль, MVP-ассеты и конкретная механика изучения татарского. Эти зоны нельзя сглаживать в разговорах: их нужно закрывать прототипами и решениями.
+Проект уже имеет сильный сюжетный и лорный фундамент, working route-navigation prototype, old PC document hub and a visually broad MVP asset pack. Главный текущий blocker до полноценного MVP — не нехватка лора или картинок, а отсутствие общей сцепки `old PC clue -> shared knowledge key -> journal -> dialogue reaction -> vocabulary re-read -> pressure -> cliffhanger`. Сначала смотреть `mvp_completion_handoff.md`, затем `playtest_plan.md`.

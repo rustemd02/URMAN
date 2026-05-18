@@ -206,3 +206,12 @@ Context: Product lock for the old PC was accepted, but runtime still used a hard
 Decision: Implement the old PC as a Win98-like interactive document hub backed by Markdown/frontmatter content from `content/old_pc/`. The prototype includes direct home access, desktop icons, draggable windows, taskbar, archive search, sections, suggested search terms, document reader, gated/corrupted unlocks, local clue saving and a validator script. The old experimental browser surface is retired behind the same `renderBrowser/initBrowser` API.
 Consequences: ПК now proves the MVP archive loop without becoming a full programmable OS. `babay` / `abi` naming drift is fixed in code. Remaining production work is to connect PC clues into the shared journal/dialogue knowledge graph and to integrate the final route-navigation path to the house.
 Linked files: `old_pc.md`, `technical_architecture.md`, `backlog.md`, `mindmap.md`, `../../src/os/apps/oldPcHub.ts`, `../../src/os/data/oldPcContent.ts`, `../../scripts/validate-old-pc-content.mjs`, `../../content/old_pc/`
+
+## 2026-05-18 — Treat shared evidence integration as the next MVP blocker
+
+Status: Proposed
+
+Context: Audit after route navigation and old PC prototypes found that visual assets, route graph and old PC content are ahead of the integrated gameplay loop. The old PC can produce local unlocks, and route navigation can move through Кырлай, but journal, dialogue keys, vocabulary re-read, pressure, save/load and final cliffhanger are not connected through a shared source of truth.
+Decision: Prioritize shared evidence integration before adding more lore branches or generating more visual assets. The required chain is: old PC clue -> shared knowledge key -> journal card -> dialogue reaction -> vocabulary re-read -> pressure change -> route/cliffhanger progression.
+Consequences: Next implementation work should follow `mvp_completion_handoff.md` and validate through `playtest_plan.md`. Full external MVP playtest is premature until this chain works at least once with Марат / Ринат / `tt_urman` / Кара-Урман.
+Linked files: `mvp_completion_handoff.md`, `playtest_plan.md`, `technical_architecture.md`, `old_pc.md`, `backlog.md`, `weak_points.md`

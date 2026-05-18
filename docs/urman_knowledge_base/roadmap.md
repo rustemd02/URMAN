@@ -64,6 +64,10 @@
 - Старый ПК открывает или переосмысляет один критичный clue по Марату.
 - Есть первый мистический след без полного показа существа.
 
+### 2026-05-18 Audit Update
+
+Current route navigation and old PC prototypes satisfy parts of Phase 1, but they are still separate loops. Phase 1 is not complete until shared knowledge state connects old PC clues, journal, dialogue reactions, vocabulary re-read, pressure and route/cliffhanger progression. Use `mvp_completion_handoff.md` for the exact P0 sequence and `playtest_plan.md` for smoke/targeted tests.
+
 ## Phase 2 — Vertical Slice
 
 ### Goals
@@ -95,6 +99,10 @@
 - Игрок понимает Марата как эмоциональный центр.
 - Игрок понимает, что татарский язык полезен.
 - Игрок получает доказательство старой системы, но не полное объяснение.
+
+### Vertical Slice Gate
+
+Do not call Phase 2 complete until a fresh browser can play from menu to cliffhanger without direct URL jumps, and at least one old PC clue changes journal state, NPC dialogue and vocabulary/re-read state.
 
 ## Phase 3 — MVP Content
 
