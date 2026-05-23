@@ -1,0 +1,31 @@
+# Dependencies and build outputs
+node_modules/
+dist/
+build/
+
+# Graphify generated local state
+graphify-out/
+
+# OS and IDE noise
+.DS_Store
+.git/
+.idea/
+.vscode/
+
+# Asset production scratch/source folders.
+# Keep manifests and runtime asset metadata indexable, but skip worker notes
+# and source dumps that drown out project architecture.
+public/assets/**/_incoming/
+public/assets/**/_incoming/**
+public/assets/**/_source/
+public/assets/**/_source/**
+
+# Binary media is represented by manifests and metadata.
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.mp3
+*.wav
+*.glb

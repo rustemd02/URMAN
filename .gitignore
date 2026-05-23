@@ -18,3 +18,8 @@ Thumbs.db
 
 # Build artifacts
 *.tsbuildinfo
+
+# Graphify local state
+graphify-out/manifest.json
+graphify-out/cost.json
+graphify-out/cache/
