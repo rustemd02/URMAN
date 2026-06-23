@@ -67,19 +67,19 @@
 
 ## Narrative
 
-- [ ] Task: Написать beat sheet первого дня Айдара в Кырлае.
+- [x] Task: Написать beat sheet первого дня Айдара в Кырлае.
   Type: Narrative
   Priority: High
   Depends on: MVP scope
   Output: 10–15 beat sequence from arrival to first night.
-  Notes: Начать с приезда / дороги / дома, без отдельной КФУ-сцены. Держать Марата как первый крючок.
+  Notes: Completed 2026-05-23 as `chapter1_mvp_campaign.md`: 40–60-minute chapter spine from road / home to «Не отвечай», with scene cards, clue graph and red-team fixes.
 
-- [ ] Task: Выбрать конкретный cliffhanger MVP.
+- [x] Task: Выбрать конкретный cliffhanger MVP.
   Type: Narrative
   Priority: High
   Depends on: gameplay prototype
   Output: accepted working scene.
-  Notes: Accepted: кромка Кара-Урмана → голос Марата → Ринат говорит «Не отвечай». Дальше нужен beat sheet, не новый выбор.
+  Notes: Completed 2026-05-23 in `chapter1_mvp_campaign.md`. Keep final as audio-first: voice of Marat, Aidar almost answers, Rinat says «Не отвечай», hard cut; no full creature reveal or explanatory monologue.
 
 - [ ] Task: Написать пакет документов о Марате.
   Type: Narrative

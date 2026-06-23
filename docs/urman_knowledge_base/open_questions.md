@@ -68,6 +68,14 @@
   Suggested next step: Написать beat sheet сцены без монолога Рината: путь к кромке, звуковая пауза, голос Марата, вмешательство Рината, hard cut.
   Priority: High
 
+- Question: Какая личная фраза Марата звучит в финале?
+  Context: `chapter1_mvp_campaign.md` требует, чтобы голос у кромки использовал детскую / личную деталь, показанную раньше через фото или сообщение.
+  Why it matters: Без этой фразы финал станет generic «голос зовёт из леса». С ней игрок хочет ответить эмоционально, а не потому что игра просит нажать кнопку.
+  Status: Partially resolved 2026-05-23 — temporary production default in `chapter1_mvp_campaign.md`.
+  Decision: Use «Казанский, не отставай» as the temporary personal marker: it appears in an early photo/message and returns in the final voice with a wrong pause. This can be replaced during dialogue polish, but the final scene must not be left without a personal marker.
+  Suggested next step: Написать 3–5 более тонких вариантов фразы Марат / Айдар during dialogue polish and keep or replace the temporary default. Any татарская or русско-татарская form still needs consultant review.
+  Priority: High
+
 ## MVP
 
 - Question: Включать ли КФУ-интро?
@@ -130,8 +138,16 @@
 - Question: Какой первый playable татарский mechanic?
   Context: Есть варианты vocabulary unlock, context guess, archive re-read.
   Why it matters: Без этого язык останется темой, а не системой.
-  Suggested next step: Прототип на 5–7 словах и одном документе.
+  Status: Resolved 2026-05-23 — real татарские words through русско-татарская mixed speech.
+  Decision: Использовать среднюю плотность татарских вставок: сначала русская речь с отдельными татарскими словами, дальше татарского больше через повторение и узнавание. Не вводить пословицы, сложную грамматику и большие татарские монологи как обязательную механику MVP.
+  Suggested next step: Прототип на 5–7 словах: бытовая сцена, документ / указатель, диалоговый ключ, re-read старой улики и короткий фрагмент татароязычного NPC без блокировки основного прогресса.
   Priority: High
+
+- Question: Кто будет татароязычным NPC?
+  Context: Принято, что один NPC может говорить только или почти только по-татарски как маркер прогресса понимания.
+  Why it matters: Нужен персонаж, который не ломает основной прогресс и не превращает язык в стену.
+  Suggested next step: Выбрать кандидата из MVP cast или ambient NPC: пожилой сосед, старая әби у окна, дед у кладбища, ребёнок-повторитель или другой локальный персонаж.
+  Priority: Medium
 
 - Question: Кто проверяет татарский язык?
   Context: Ошибки будут культурно заметны и вредны.

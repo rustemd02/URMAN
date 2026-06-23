@@ -54,6 +54,18 @@ mindmap
         mvp_completion_handoff.md
         P0 shared evidence chain
         playtest_plan.md
+      Chapter 1 Campaign Lock [MVP][NARRATIVE]
+        chapter1_mvp_campaign.md
+        Road arrival to home
+        Alsu route guide
+        Old PC official death doc
+        FAP and Rinat contradiction
+        Tatarwiki re-read
+        Timur moral safe zone
+        Evening route past zirat
+        Kara-Urman edge cliffhanger
+        Hint before finale not rule
+        Rinat confirms Не отвечай
       Игровой цикл [MVP][OPEN][RISK]
         Найти ключ
         Проверить у NPC
@@ -167,27 +179,37 @@ mindmap
     Language Learning [LANG][MVP][RISK]
       Татарские слова
         Урман
+        Су
+        Юл
+        Өй
         Әби
         Бабай
+        Ярамый
+        Җавап
+        Тавыш
         Шүрәле
       Контекст
+        Русская речь с татарскими вставками
+        Средняя плотность [MVP]
         Бытовые фразы
         Запреты
         Документы
       Диалоги
         Непонятые реплики
-        Уточняющие вопросы
+        Слова как dialogue keys
+        Один татароязычный NPC [OPEN]
       Документы
         Частичные переводы
-        Архивный язык
-      Прогрессия A1-C1 [OPEN]
-        Быт
-        Расследование
-        Архив
-        Иске Имля
+        Re-read старых улик
+        Поиск по татарским словам
+      Прогрессия [MVP][LANG]
+        Stage 1 отдельные слова
+        Stage 2 слова-запреты
+        Stage 3 короткие формулы
+        Stage 4 татароязычный NPC
       Механики перевода [TECH][OPEN]
         Vocabulary unlock
-        Semantic guess
+        Context guess
         Re-read old evidence
     Assets [ASSET][RISK]
       Static-node scenes [MVP][ASSET]

@@ -22,6 +22,7 @@
 - `canon.md` — hard canon, soft canon, гипотезы и противоречия.
 - `mvp_scope.md` — вертикальный срез MVP.
 - `mvp_completion_handoff.md` — главный handoff-документ: что именно не хватает до полноценного MVP и в каком порядке это добивать.
+- `chapter1_mvp_campaign.md` — сценарный lock 40–60-минутной первой главы / MVP vertical slice: акты, сцены, clue graph, NPC reactions, татарский язык, fear escalation и финал «Не отвечай».
 - `gameplay.md` — core loop, расследование, диалоги, язык, интерфейсы.
 - `old_pc.md` — продуктовый и сценарный lock старого ПК бабая.
 - `narrative.md` — сюжетная архитектура.

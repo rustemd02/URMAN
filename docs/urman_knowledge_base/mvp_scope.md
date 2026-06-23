@@ -2,6 +2,8 @@
 
 MVP УРМАНА — не вся игра, а вертикальный срез, который доказывает тон, core loop и главный эмоциональный крючок.
 
+Detailed first-chapter scenario lock: `chapter1_mvp_campaign.md`. It is the current canonical handoff for the 40–60-minute MVP campaign structure and should be used before expanding broader full-game arcs.
+
 Формула MVP:
 
 > Айдар возвращается в Кырлай, начинает разбираться в судьбе Марата, учится читать деревню через факты и татарские слова, а в финале понимает, что за человеческой ложью стоит старая система сосуществования с иным.

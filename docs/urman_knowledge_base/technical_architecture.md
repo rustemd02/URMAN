@@ -191,6 +191,16 @@ Runtime validator exists at `scripts/validate-old-pc-content.mjs`. It checks uni
 - old document re-render after unlock;
 - words as dialogue keys.
 
+Accepted content direction, 2026-05-23: vocabulary entries describe real татарские words used inside русско-татарская mixed speech. Dialogue data should support Russian lines with татарские inserted tokens, increasing татарский density by story phase without requiring complex grammar. At least one NPC may be configured as татароязычный / mostly татароязычный, but core progression must not depend on fully understanding long татарский lines.
+
+Useful authoring fields for vocabulary / dialogue:
+
+- `densityStage`: 1 | 2 | 3 | 4;
+- `firstContext`: dialogue, route sign, document, old PC search, NPC-only line;
+- `repeatContexts`: source ids where the word appears again;
+- `applicationTargets`: dialogue topics, search terms, re-read targets or route hints unlocked by the word;
+- `requiresConsultantReview`: boolean.
+
 Не делать language system отдельным «учебником». Она должна быть связана с evidence.
 
 ## Character State

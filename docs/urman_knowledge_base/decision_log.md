@@ -215,3 +215,30 @@ Context: Audit after route navigation and old PC prototypes found that visual as
 Decision: Prioritize shared evidence integration before adding more lore branches or generating more visual assets. The required chain is: old PC clue -> shared knowledge key -> journal card -> dialogue reaction -> vocabulary re-read -> pressure change -> route/cliffhanger progression.
 Consequences: Next implementation work should follow `mvp_completion_handoff.md` and validate through `playtest_plan.md`. Full external MVP playtest is premature until this chain works at least once with Марат / Ринат / `tt_urman` / Кара-Урман.
 Linked files: `mvp_completion_handoff.md`, `playtest_plan.md`, `technical_architecture.md`, `old_pc.md`, `backlog.md`, `weak_points.md`
+
+## 2026-05-23 — Use real татарские words through русско-татарская mixed speech
+
+Status: Accepted
+
+Context: The language mechanic was drifting toward broad «Chants of Sennaar»-style semantic deduction, which risks making татарский feel like a fictional code or a complex linguistic puzzle. The desired direction is simpler and more grounded: the player learns real татарские words that local NPCs naturally insert into Russian speech.
+Decision: Use medium татарский density for MVP: early NPC lines are mostly Russian with individual татарские word insertions; later scenes can contain more татарский because the player has learned repeated words and short formulas. Do not make proverbs, complex grammar, large untranslated monologues, literary register or Иске Имля mandatory MVP mechanics. One mostly татароязычный NPC is allowed as a marker of comprehension progress, but must not fully block the main story path.
+Consequences: Vocabulary entries must teach real words and connect each word to gameplay use: dialogue key, old PC / archive search, document re-read, route sign or pressure scene. Each new MVP word should appear in several contexts before it is required. Татарский text needs consultant review before production lock.
+Linked files: `language_learning.md`, `gameplay.md`, `technical_architecture.md`, `open_questions.md`, `mindmap.md`
+
+## 2026-05-23 — Lock Chapter 1 / MVP campaign structure
+
+Status: Accepted
+
+Context: The MVP needed a 40–60-minute first chapter that is more than a content list: a playable narrative spine with route navigation, old PC investigation, journal, dialogue keys, татарский re-read, pressure and an audio-first cliffhanger. A red-team pass found that early confirmation of «do not answer», a PC-only structure and an unexplained Rinat arrival would weaken the chapter.
+Decision: Use `chapter1_mvp_campaign.md` as the canonical first-chapter scenario lock. The chapter starts near the road / arrival, not with playable Kazan or KFU. The spine is: road -> home -> Alsu / village route -> old PC official document -> FAP / Rinat / internal register contradiction -> Tatarwiki re-read -> Timur -> evening route past zirat -> edge of Kara-Urman -> Marat voice -> Rinat says «Не отвечай» -> hard cut. Before the finale the player may only infer `clue_voice_answer_is_dangerous_hint`; `clue_do_not_answer_rule` is confirmed only by Rinat's action at the cliffhanger.
+Consequences: Future scene, dialogue, quest and data work should implement this chapter before expanding to broader full-game lore. Do not add a full creature reveal, pact exposition, playable Kazan intro, mystical Alsu reveal or direct «answer / do not answer» branch to this MVP ending without a new decision.
+Linked files: `chapter1_mvp_campaign.md`, `narrative.md`, `mvp_scope.md`, `gameplay.md`, `old_pc.md`, `language_learning.md`, `playtest_plan.md`, `mindmap.md`, `weak_points.md`
+
+## 2026-05-23 — Strengthen Chapter 1 handoff after subagent review
+
+Status: Accepted
+
+Context: Five independent subagent reviewers found no P0 canon drift, but raised P1 handoff risks: route unlock depended too much on journal inference, Rinat's arrival needed clearer causality, Marat lacked a concrete personal marker, terminology mixed clues/keys/cards/flags, and the chapter did not state a save/load state contract.
+Decision: Update `chapter1_mvp_campaign.md` with a handoff glossary, location glossary, 40-minute critical path, concrete route source (`doc_kara_urman_edge_sketch` plus `rinat_alerted`), Rinat causality beat, temporary Marat personal marker «Казанский, не отставай», state/save table and stricter language that Татарвики gives only a hypothesis before the final «Не отвечай».
+Consequences: Downstream LLMs should no longer invent route unlocks from the journal alone, treat side flags as journal clues, copy unchecked татарские phrases as production text, or leave Marat's final voice generic. The personal marker remains replaceable during dialogue polish.
+Linked files: `chapter1_mvp_campaign.md`, `open_questions.md`

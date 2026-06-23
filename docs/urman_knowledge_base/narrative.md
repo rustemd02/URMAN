@@ -49,6 +49,8 @@
 
 ## MVP Narrative
 
+Detailed scenario lock: `chapter1_mvp_campaign.md` fixes the 40–60-minute first chapter / MVP vertical slice. Use it as the primary structure for scene, dialogue, quest and data authoring until a new decision supersedes it.
+
 1. Приезд в Кырлай / дорога к дому.
 2. Дом бабая и әби: тепло + тревожный зазор.
 3. Первые жители: молчание и странная согласованность.
