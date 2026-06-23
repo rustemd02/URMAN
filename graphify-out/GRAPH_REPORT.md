@@ -1,16 +1,16 @@
-# Graph Report - URMAN  (2026-05-23)
+# Graph Report - URMAN  (2026-06-23)
 
 ## Corpus Check
-- 142 files · ~144,718 words
+- 143 files · ~154,223 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1882 nodes · 2279 edges · 172 communities (136 shown, 36 thin omitted)
+- 1998 nodes · 2394 edges · 175 communities (143 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `384d5555`
+- Built from commit: `acfb4c8e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -181,18 +181,21 @@
 - [[_COMMUNITY_Community 163|Community 163]]
 - [[_COMMUNITY_Community 164|Community 164]]
 - [[_COMMUNITY_Community 165|Community 165]]
+- [[_COMMUNITY_Community 172|Community 172]]
+- [[_COMMUNITY_Community 173|Community 173]]
+- [[_COMMUNITY_Community 174|Community 174]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `RouteNavigationScene` - 47 edges
 2. `Glossary` - 38 edges
-3. `Decision Log` - 26 edges
+3. `Decision Log` - 28 edges
 4. `AudioSystem` - 25 edges
-5. `GameState` - 21 edges
-6. `Weak Points` - 21 edges
-7. `Technical Architecture` - 21 edges
+5. `Weak Points` - 22 edges
+6. `Technical Architecture` - 21 edges
+7. `GameState` - 21 edges
 8. `УРМАН — полный контекст проекта для Codex / Mindmap` - 20 edges
-9. `DedOS` - 19 edges
-10. `Gameplay` - 19 edges
+9. `Gameplay` - 19 edges
+10. `DedOS` - 19 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `renderInline()` --calls--> `makeQueryKey()`  [EXTRACTED]
@@ -206,7 +209,7 @@
 - `renderShell()` --calls--> `searchOldPcItems()`  [EXTRACTED]
   src/os/apps/oldPcHub.ts → src/os/data/oldPcContent.ts
 
-## Communities (172 total, 36 thin omitted)
+## Communities (175 total, 32 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.08
@@ -246,23 +249,27 @@ Nodes (26): ACTION_LABELS, ACTION_MARKS, ACTION_ORDER, ActiveTransition, Animati
 
 ### Community 10 - "Community 10"
 Cohesion: 0.07
-Nodes (26): 2026-05-16 — Add controlled animation slots to visual assets, 2026-05-16 — Do not fully reveal creatures in MVP by default, 2026-05-16 — Exclude KFU intro from MVP, 2026-05-16 — Keep engine choice open, 2026-05-16 — Lock first generated asset test batch, 2026-05-16 — Make бабай's old PC the MVP document hub, 2026-05-16 — MVP centers on Marat, not the logging/corruption plot, 2026-05-16 — MVP cliffhanger at the edge of Кара-Урман (+18 more)
+Nodes (28): 2026-05-16 — Add controlled animation slots to visual assets, 2026-05-16 — Do not fully reveal creatures in MVP by default, 2026-05-16 — Exclude KFU intro from MVP, 2026-05-16 — Keep engine choice open, 2026-05-16 — Lock first generated asset test batch, 2026-05-16 — Make бабай's old PC the MVP document hub, 2026-05-16 — MVP centers on Marat, not the logging/corruption plot, 2026-05-16 — MVP cliffhanger at the edge of Кара-Урман (+20 more)
 
 ### Community 11 - "Community 11"
 Cohesion: 0.08
 Nodes (25): Classic Zelda-like, code:text (Исследуешь место →), Core Loop, Dialogue Key System, Documents, Gameplay, Hybrid, Interface-heavy (+17 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.15
-Nodes (21): addEvent(), escapeHtml(), itemUnlockText(), markdownToHtml(), OldPcState, RELIABILITY_HINTS, renderBlock(), renderDocPanel() (+13 more)
+Cohesion: 0.08
+Nodes (41): initBrowser(), renderBrowser(), addEvent(), escapeHtml(), initOldPcHub(), itemUnlockText(), markdownToHtml(), normalizeState() (+33 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.08
 Nodes (23): asset_pack, assets, generated_gap_assets, generated_on, missing_required_assets, source_packs, status, style (+15 more)
 
+### Community 14 - "Community 14"
+Cohesion: 0.11
+Nodes (12): ActiveGeneratedLayer, AMBIENCE_ALIASES, AUDIO_FILES, AudioLayer, AudioSystem, CUE_DEFINITIONS, CueDefinition, FileLayer (+4 more)
+
 ### Community 15 - "Community 15"
-Cohesion: 0.15
-Nodes (10): BaseScene, ChapterScene, FOREST_BACKGROUNDS, ForestPhase, HOUSE_ASSETS, HouseView, MainMenuScene, MOSQUE_ASSETS (+2 more)
+Cohesion: 0.10
+Nodes (15): BaseScene, ChapterScene, ComputerScene, FOREST_BACKGROUNDS, ForestPhase, HOUSE_ASSETS, HouseView, BoundElements (+7 more)
 
 ### Community 16 - "Community 16"
 Cohesion: 0.09
@@ -270,15 +277,15 @@ Nodes (22): Asset Registry, Character State, Clue Graph, code:text (/data), Cont
 
 ### Community 17 - "Community 17"
 Cohesion: 0.09
-Nodes (21): Gameplay core loop не доказан, MVP может расползтись, MVP-прототипы не связаны в одну игру, Weak Points, Ассеты не зафиксированы как минимум, Бабай как действующий глава в 80 лет, Визуальный пакет опережает runtime, Визуальный стиль принят, но не доказан production-тестом (+13 more)
+Nodes (22): Gameplay core loop не доказан, MVP может расползтись, MVP-прототипы не связаны в одну игру, Weak Points, Ассеты не зафиксированы как минимум, Бабай как действующий глава в 80 лет, Визуальный пакет опережает runtime, Визуальный стиль принят, но не доказан production-тестом (+14 more)
 
 ### Community 18 - "Community 18"
 Cohesion: 0.10
 Nodes (19): Audit Of Existing First10 Batch, Batch 1 Plan — Remaining P0 Characters, Batch 1 Result, Batch 1 Started, Batch 2/4 Route And Support Location Integration, Batch 2 Started — P0 Route / Location Screens, Batch 3 Comms UI Completion, Batch 3 Integrated — UI Systems (+11 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.15
-Nodes (11): initMinesweeper(), Piece, renderMinesweeper(), renderPlayer(), renderTerminal(), renderWord(), SystemTimer, FileType (+3 more)
+Cohesion: 0.07
+Nodes (24): initChatInteractions(), renderChat(), initMinesweeper(), Piece, renderMinesweeper(), createDefaultNotepadState(), escapeHtml(), initNotepad() (+16 more)
 
 ### Community 20 - "Community 20"
 Cohesion: 0.10
@@ -320,9 +327,13 @@ Nodes (17): Emotional Payoffs, Full Game Narrative, Key Twists, Missing Scenes, 
 Cohesion: 0.11
 Nodes (17): Acceptance Checklist, code:text (route_<place>_<function>_<state>), Diegetic Signs, Explicit Non-goals, Facing Views, First Art Batch, Frame Format, Interaction Affordances (+9 more)
 
+### Community 31 - "Community 31"
+Cohesion: 0.12
+Nodes (16): 4.10. Внутренний реестр (`rec_marat_case_register_conflict`), 4.11. Мечеть / Тимур хәзрәт, 4.12. Вечерний маршрут, 4.13. Зират или проход мимо зират, 4.14. Кромка Кара-Урмана, 4.15. Финал «Не отвечай», 4.1. Дорога / приезд, 4.2. Дом Мансура и Гөлсинә (+8 more)
+
 ### Community 32 - "Community 32"
-Cohesion: 0.16
-Nodes (5): EventEmitter, Game, InventoryItem, SceneManager, game
+Cohesion: 0.15
+Nodes (4): EventEmitter, SceneManager, game, HUD
 
 ### Community 33 - "Community 33"
 Cohesion: 0.12
@@ -333,8 +344,8 @@ Cohesion: 0.12
 Nodes (15): 1. Слово в русско-татарской речи, 2. Vocabulary Unlock, 3. Word as Dialogue Key, 4. Archive / Route Re-read, 5. Татароязычный NPC, Language Learning, Required Next Step, Зачем татарский нужен в игре (+7 more)
 
 ### Community 35 - "Community 35"
-Cohesion: 0.20
-Nodes (10): QUESTS, VocabularyItem, EvidenceRecord, GameSnapshot, KnowledgeKeyType, NpcState, OldPcProgress, PressureLevel (+2 more)
+Cohesion: 0.11
+Nodes (21): KNOWLEDGE_KEY_BY_ID, KNOWLEDGE_KEYS, QUESTS, VOCABULARY_BY_ID, VOCABULARY_ENTRIES, Game, InventoryItem, VocabularyItem (+13 more)
 
 ### Community 37 - "Community 37"
 Cohesion: 0.13
@@ -342,11 +353,11 @@ Nodes (15): validation_summary, controlled_animation_entries, editable_layer_ent
 
 ### Community 38 - "Community 38"
 Cohesion: 0.15
-Nodes (13): arrayFields, OLD_PC_BOOT_KEYS, OLD_PC_ITEMS, OLD_PC_ITEMS_BY_ID, OLD_PC_SECTION_LABELS, OldPcCanonStatus, OldPcItem, OldPcItemType (+5 more)
+Nodes (13): 10. Логическая проверка, Достаточно ли игрок понимает Марата эмоционально?, Есть ли игровые действия, а не только чтение?, Есть ли причина, почему Айдар идёт к кромке леса?, Есть ли причина, почему Ринат оказывается там?, Есть ли страх до финала?, Не назван ли Кара-Урман деревней?, Не превратился ли Шүрәле в обычного монстра? (+5 more)
 
 ### Community 40 - "Community 40"
 Cohesion: 0.15
-Nodes (14): minLength, type, searchTerms, suggestedTerms, unlocks, vocabulary, items, type (+6 more)
+Nodes (14): minLength, type, reveals, searchTerms, suggestedTerms, vocabulary, items, type (+6 more)
 
 ### Community 41 - "Community 41"
 Cohesion: 0.14
@@ -362,7 +373,7 @@ Nodes (10): allowed, contentRoot, files, ids, items, parseFrontmatter(), parseSc
 
 ### Community 46 - "Community 46"
 Cohesion: 0.22
-Nodes (9): KNOWLEDGE_KEY_BY_ID, KNOWLEDGE_KEYS, VOCABULARY_BY_ID, VOCABULARY_ENTRIES, InvestigationSourcePayload, KnowledgeKey, VocabularyEntry, JournalTab (+1 more)
+Nodes (9): 0–5 минут — Дорога из Казани, 10–20 минут — Алсу, улица, первые версии Марата, 20–30 минут — Старый ПК и официальная версия, 2. Пошаговый тайминг на 40–60 минут, 30–40 минут — ФАП / Наиля / Ринат / внутренний реестр, 40–50 минут — Татарвики, re-read, Тимур хәзрәт, 50–60 минут — Вечерний маршрут и «Не отвечай», 5–10 минут — Дом Мансура и Гөлсинә (+1 more)
 
 ### Community 47 - "Community 47"
 Cohesion: 0.15
@@ -381,8 +392,8 @@ Cohesion: 0.17
 Nodes (11): Ambient Villagers, URMAN Character Identity Sheets, Айдар, Алсу, Гөлсинә / Әби, Мансур Бабай, Марат, Наиля (+3 more)
 
 ### Community 51 - "Community 51"
-Cohesion: 0.17
-Nodes (11): ActiveGeneratedLayer, AMBIENCE_ALIASES, AUDIO_FILES, AudioLayer, CUE_DEFINITIONS, CueDefinition, FileLayer, GeneratedLayer (+3 more)
+Cohesion: 0.22
+Nodes (9): 12. Итоговый production handoff, Запреты, Обязательные knowledge keys, Обязательные NPC, Обязательные татарские слова, Открытые вопросы, которые нельзя решать без отдельного решения, Список актов, Список сцен (+1 more)
 
 ### Community 52 - "Community 52"
 Cohesion: 0.17
@@ -417,8 +428,8 @@ Cohesion: 0.18
 Nodes (10): Build And Deploy, Compatibility Boundaries, Contract Inventory, Dependency Direction, Initial Baseline Snapshot, Known Anti-Patterns, Ownership Mapping, Project Structure (+2 more)
 
 ### Community 60 - "Community 60"
-Cohesion: 0.29
-Nodes (8): initChatInteractions(), renderChat(), CHAT_CONTACTS, CHAT_MESSAGES, ChatMessage, Contact, getActiveChats(), getMessagesForChat()
+Cohesion: 0.22
+Nodes (9): 1. Приписка у указателя, 2. Домашнее `ярамый`, 3. Официальная справка рядом с бытовым хламом, 4. «Граница / ответил», 5. Ринат пугается, а не злится, 6. Татарвики становится инструкцией, 7. Ринат виден до финала, 8. Голос Марата почти получает ответ (+1 more)
 
 ### Community 62 - "Community 62"
 Cohesion: 0.18
@@ -541,8 +552,8 @@ Cohesion: 0.25
 Nodes (7): code:text (Leave clean animation-safe regions for later overlay layers:), Controlled Animation Spec, Current Batch Slots, Forbidden Motion, Motion Rules, Principle, Production Requirement For Future Image Prompts
 
 ### Community 93 - "Community 93"
-Cohesion: 0.39
-Nodes (5): createDefaultNotepadState(), escapeHtml(), initNotepad(), readNotepadState(), renderNotepad()
+Cohesion: 0.25
+Nodes (8): 1. Какие факты канона обязательны, 2. Где есть риск логических несостыковок, 3. Где сценарий может скатиться в generic horror, 4. Где нужен страх уже до финала, 5. Где игрок может запутаться, 6. Какие механики обязаны появиться, Выбор подхода, Предварительный аудит вводных
 
 ### Community 95 - "Community 95"
 Cohesion: 0.36
@@ -577,8 +588,8 @@ Cohesion: 0.29
 Nodes (6): 1. Architecture Defect, 2. Architecture Drift, 3. Baseline Check Protocol, 4. Architecture Review, 5. Hard Boundaries, Baseline Governance
 
 ### Community 105 - "Community 105"
-Cohesion: 0.38
-Nodes (6): initBrowser(), renderBrowser(), initOldPcHub(), normalizeState(), readState(), renderOldPcHub()
+Cohesion: 0.25
+Nodes (8): 1. Ранняя тревога, 2. Домашний запрет, 3. Социальное давление, 4. Документальная тревога, 5. Языковое переосмысление, 6. Звуковая тревога, 7. Финальный страх ответа, 8. Fear escalation
 
 ### Community 106 - "Community 106"
 Cohesion: 0.29
@@ -595,6 +606,10 @@ Nodes (7): 10.1. Айдар, 10.2. Бабай, 10.3. Әби / Гөлсинә а�
 ### Community 111 - "Community 111"
 Cohesion: 0.33
 Nodes (5): asset_pack, assets, controlled_animation, generated_on, style
+
+### Community 113 - "Community 113"
+Cohesion: 0.25
+Nodes (8): 6. Диалоги и реакции NPC, Алсу, Гөлсинә әби, Мансур бабай, Наиля, Ринат, След Марата, Тимур хәзрәт
 
 ### Community 114 - "Community 114"
 Cohesion: 0.33
@@ -633,8 +648,8 @@ Cohesion: 0.40
 Nodes (4): asset_pack, assets, coordinate_system, version
 
 ### Community 123 - "Community 123"
-Cohesion: 0.40
-Nodes (4): BoundElements, btn, DIALOGUE, DialogueMessage
+Cohesion: 0.29
+Nodes (6): 11. Версия после усиления, Chapter 1 MVP Campaign — «Возвращение в Кырлай», code:text (0–5 дорога и фото Марата), Локационный глоссарий, Правило татарских фраз, Термины handoff-а
 
 ### Community 125 - "Community 125"
 Cohesion: 0.40
@@ -663,6 +678,10 @@ Nodes (5): 15. Backlog до MVP, Could Have, Must Have, Not For MVP, Should Have
 ### Community 131 - "Community 131"
 Cohesion: 0.40
 Nodes (5): 9. Лор деревни Кырлай, Двойная система должностей, Ключевые параметры, Не религия, Пакт
+
+### Community 132 - "Community 132"
+Cohesion: 0.29
+Nodes (7): 3. Подробная структура актов первой главы, Акт 1. «Дорога назад», Акт 2. «Дом, который помнит», Акт 3. «Деревня даёт разные версии», Акт 4. «Архив вместо ответа», Акт 5. «Знание становится опасным», Акт 6. «Граница ответа»
 
 ### Community 133 - "Community 133"
 Cohesion: 0.50
@@ -713,8 +732,8 @@ Cohesion: 0.67
 Nodes (3): requires, items, type
 
 ### Community 147 - "Community 147"
-Cohesion: 0.67
-Nodes (3): reveals, items, type
+Cohesion: 0.29
+Nodes (7): 7. Татарский язык как gameplay, `зират`, `тавыш`, `урман`, `Шүрәле`, `ярамый`, `җавап`
 
 ### Community 148 - "Community 148"
 Cohesion: 0.67
@@ -728,22 +747,34 @@ Nodes (3): **`Мать`**, **`Отец`**, **`Родители Айдара`**
 Cohesion: 0.67
 Nodes (3): **`Как они выглядят`**, **`Кто они`**, `Шурале`
 
+### Community 172 - "Community 172"
+Cohesion: 0.33
+Nodes (6): 1. Короткая формула главы, Главный вопрос главы, Дуга игрока, Логлайн, Финальный крючок, Эмоциональная дуга Айдара
+
+### Community 173 - "Community 173"
+Cohesion: 0.33
+Nodes (6): 5. Clue graph, code:text (doc_marat_official_death_notice), Key table, Main chain, State / save contract для реализации, Vocabulary chain
+
+### Community 174 - "Community 174"
+Cohesion: 0.67
+Nodes (3): unlocks, items, type
+
 ## Knowledge Gaps
-- **1127 isolated node(s):** `name`, `version`, `type`, `dev`, `build` (+1122 more)
+- **1226 isolated node(s):** `Как пользоваться`, `Файлы`, `code:mermaid (mindmap)`, `Правило фактов`, `Текущее состояние` (+1221 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **36 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `RouteNavigationScene` connect `Community 2` to `Community 9`, `Community 15`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
-- **Why does `Game` connect `Community 32` to `Community 35`, `Community 68`, `Community 46`, `Community 15`, `Community 51`, `Community 124`?**
+  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+- **Why does `ZiratMiniGame` connect `Community 43` to `Community 15`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `AudioSystem` connect `Community 14` to `Community 32`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Why does `Characters` connect `Community 165` to `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 79`, `Community 80`, `Community 81`, `Community 82`, `Community 83`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 88`, `Community 89`, `Community 90`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **What connects `name`, `version`, `type` to the rest of the system?**
-  _1127 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `Как пользоваться`, `Файлы`, `code:mermaid (mindmap)` to the rest of the system?**
+  _1226 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.07836538461538461 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
