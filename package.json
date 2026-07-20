@@ -6,10 +6,15 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "validate:old-pc": "node scripts/validate-old-pc-content.mjs",
-    "validate:clue-graph": "node scripts/validate-clue-graph.mjs",
-    "validate:route-graph": "node scripts/validate-route-graph.mjs",
-    "validate:content": "node scripts/validate-content.mjs"
+    "content:check": "node scripts/content/content-cli.mjs check",
+    "content:compile": "node scripts/content/content-cli.mjs compile",
+    "content:types": "node scripts/content/generate-content-types.mjs",
+    "content:types:check": "node scripts/content/generate-content-types.mjs --check",
+    "test:content": "node --test 'tests/content/**/*.test.mjs'",
+    "test:runtime": "node --test 'tests/runtime/**/*.test.mjs'",
+    "test:architecture": "node --test 'tests/architecture/**/*.test.mjs'",
+    "test:e2e": "node --test 'tests/e2e/**/*.test.mjs'",
+    "test:unit": "npm run test:content && npm run test:runtime"
   },
   "devDependencies": {
     "@types/three": "^0.183.1",

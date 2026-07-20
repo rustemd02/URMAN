@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/document.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "title", "format", "sourceFile", "assetRefs", "knowledgeRefs", "accessConditions", "openEffects"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "title": { "$ref": "common.schema.json#/$defs/LocalizedText" },
+    "format": { "enum": ["markdown", "plain-text", "structured-record"] },
+    "sourceFile": { "$ref": "common.schema.json#/$defs/FileReference" },
+    "bodyMarkdown": { "type": "string", "minLength": 1 },
+    "oldPc": {
+      "type": "object",
+      "required": ["type", "pcSection", "canonStatus", "reliability", "searchTerms", "suggestedTerms"],
+      "properties": {
+        "type": {
+          "enum": ["document", "record", "message", "tatarwiki_article", "folder_note", "corrupted_fragment"]
+        },
+        "pcSection": {
+          "enum": [
+            "archive_search",
+            "documents_marat",
+            "tatarwiki",
+            "saved_messages",
+            "internal_accounting",
+            "household_registry",
+            "violations_compensation",
+            "kara_urman",
+            "damaged_hidden",
+            "household_misc"
+          ]
+        },
+        "canonStatus": {
+          "enum": ["canon", "soft_canon", "hypothesis", "proposal", "in_world_lie"]
+        },
+        "reliability": {
+          "enum": ["official_lie", "partial_truth", "personal_memory", "village_record", "pact_record", "folklore_mask", "corrupted", "unverified"]
+        },
+        "searchTerms": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "suggestedTerms": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "assetRefs": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "knowledgeRefs": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "accessConditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+    "openEffects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } }
+  },
+  "additionalProperties": false
+}

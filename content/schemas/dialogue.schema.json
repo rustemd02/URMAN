@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/dialogue.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "participantRoles", "startNodeId", "nodes"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "participantRoles": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" } },
+    "startNodeId": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "speakerRole", "textId", "conditions", "effects", "choices"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+          "speakerRole": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+          "textId": { "$ref": "common.schema.json#/$defs/ContentId" },
+          "conditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+          "effects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "textId", "conditions", "effects", "nextNodeId"],
+              "properties": {
+                "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+                "textId": { "$ref": "common.schema.json#/$defs/ContentId" },
+                "conditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+                "effects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+                "nextNodeId": { "type": ["string", "null"], "pattern": "^[a-z][a-z0-9._-]*$" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

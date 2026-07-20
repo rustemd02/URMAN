@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "canary.amber",
+  "exactVersion": "1.0.0",
+  "entrypoint": "canary.core:scene/landing",
+  "modules": [
+    { "moduleId": "canary.core", "exactVersion": "1.0.0" },
+    { "moduleId": "canary.route", "exactVersion": "1.0.0" }
+  ],
+  "roleBindings": { "guide": "canary.core:character/guide-amber" },
+  "capabilityRequirements": [{ "protocolId": "canary.core:capability/signal", "exactVersion": "1.0.0" }],
+  "narrativeOrder": [
+    "canary.core:scene/landing",
+    "canary.core:quest/tune-signal",
+    "canary.route:quest/read-marker"
+  ],
+  "invariants": [{
+    "id": "canary.core:invariant/landing-reachable",
+    "description": "Landing must be reachable.",
+    "severity": "error",
+    "kind": "required-reachable",
+    "targetId": "canary.core:scene/landing"
+  }]
+}

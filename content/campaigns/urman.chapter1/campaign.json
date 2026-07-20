@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "id": "urman.chapter1",
+  "exactVersion": "1.0.0",
+  "entrypoint": "urman.chapter1:scene/arrival_vehicle_dusk",
+  "modules": [
+    { "moduleId": "urman.core", "exactVersion": "1.0.0" },
+    { "moduleId": "urman.chapter1", "exactVersion": "1.0.0" },
+    { "moduleId": "urman.oldpc", "exactVersion": "1.0.0" }
+  ],
+  "roleBindings": {
+    "aidar": "urman.chapter1:character/aidar",
+    "alsu": "urman.chapter1:character/alsu",
+    "gulsina": "urman.chapter1:character/gulsina",
+    "mansur": "urman.chapter1:character/mansur",
+    "marat": "urman.chapter1:character/marat",
+    "naila": "urman.chapter1:character/naila",
+    "rinat": "urman.chapter1:character/rinat",
+    "timur-hazrat": "urman.chapter1:character/timur_hazrat"
+  },
+  "capabilityRequirements": [
+    { "protocolId": "urman.oldpc:capability/archive-hub", "exactVersion": "1.0.0" }
+  ],
+  "narrativeOrder": [
+    "urman.chapter1:scene/arrival_vehicle_dusk",
+    "urman.chapter1:scene/house",
+    "urman.chapter1:scene/crossroad_signs_inspect",
+    "urman.chapter1:scene/fap_waiting_room_day",
+    "urman.chapter1:scene/fap_pressure_document_desk",
+    "urman.chapter1:scene/evidence-official-death",
+    "urman.chapter1:scene/evidence-internal-register",
+    "urman.chapter1:dialogue/rinat_internal_register",
+    "urman.chapter1:scene/evidence-saved-message",
+    "urman.chapter1:scene/evidence-tatarwiki-boundary",
+    "urman.chapter1:scene/evidence-tatarwiki-reread",
+    "urman.chapter1:scene/evidence-edge-sketch",
+    "urman.chapter1:scene/zirat-road",
+    "urman.chapter1:beat/rinat_do_not_answer",
+    "urman.chapter1:scene/forest",
+    "urman.chapter1:knowledge/clue_do_not_answer_rule"
+  ],
+  "invariants": [
+    {
+      "id": "urman.chapter1:invariant/cliffhanger-reachable",
+      "description": "The Chapter 1 cliffhanger remains reachable from the arrival entrypoint.",
+      "severity": "error",
+      "kind": "required-reachable",
+      "targetId": "urman.chapter1:scene/forest"
+    },
+    {
+      "id": "urman.chapter1:invariant/do-not-answer-after-rinat",
+      "description": "The final rule is confirmed only after Rinat interrupts at the forest edge.",
+      "severity": "error",
+      "kind": "reveal-not-before",
+      "subjectId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
+      "afterId": "urman.chapter1:beat/rinat_do_not_answer"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "canary.route:text/marker-title",
+    "value": { "default": "Read the marker", "translations": { "ru": "Прочитать метку" } },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.route:text/marker-objective",
+    "value": { "default": "Inspect the marker.", "translations": { "ru": "Осмотреть метку." } },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.route:scene/workshop",
+    "sceneType": "static",
+    "title": { "default": "Workshop", "translations": { "ru": "Мастерская" } },
+    "assetRefs": [],
+    "textRefs": ["canary.route:text/marker-title"],
+    "entryConditions": [],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.route:quest/read-marker",
+    "titleTextId": "canary.route:text/marker-title",
+    "stages": [{
+      "id": "read",
+      "objectives": [{
+        "id": "inspect-marker",
+        "titleTextId": "canary.route:text/marker-objective",
+        "optional": false,
+        "startConditions": [],
+        "completionConditions": [],
+        "completionEffects": [],
+        "failureEffects": []
+      }],
+      "composition": { "mode": "all", "objectiveIds": ["inspect-marker"] }
+    }],
+    "outcomes": { "success": [], "optional": [], "failure": [] },
+    "retryPolicy": { "mode": "none", "maximumAttempts": 1 },
+    "checkpointPolicy": { "mode": "objective" },
+    "cancelPolicy": { "allowed": true, "effects": [] }
+  }
+]

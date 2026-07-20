@@ -35,6 +35,7 @@
 - `assets.md` — инвентаризация ассетов.
 - `asset_inventory_50.md` — 50 ключевых production-ассетов MVP с вариациями.
 - `technical_architecture.md` — engine-neutral архитектура систем.
+- `content_authoring_guide.md` — пошаговое руководство для ЛЛМ: как менять кампанию, квесты, диалоги, роли, документы и ассеты через portable modules.
 - `open_questions.md` — нерешённые вопросы.
 - `weak_points.md` — честные слабые места и пути решения.
 - `roadmap.md` — путь до MVP.
@@ -79,4 +80,4 @@ mindmap
 
 ## Текущее состояние
 
-Проект уже имеет сильный сюжетный и лорный фундамент, working route-navigation prototype, old PC document hub and a visually broad MVP asset pack. Главный текущий blocker до полноценного MVP — не нехватка лора или картинок, а отсутствие общей сцепки `old PC clue -> shared knowledge key -> journal -> dialogue reaction -> vocabulary re-read -> pressure -> cliffhanger`. Сначала смотреть `mvp_completion_handoff.md`, затем `playtest_plan.md`.
+Проект имеет завершённую modular architecture: portable campaign modules, transactional kernel, capability providers, Content Lab и retired legacy owners. Это готовность достраивать MVP, а не заявление «MVP готов». Главный product blocker — довести и проверить целостный опыт игрока, ассеты, звук, UX и плейтестовый release gate. Сначала смотреть `chapter1_mvp_campaign.md`, затем `mvp_completion_handoff.md` и `playtest_plan.md`; старые runtime paths в historical sections не восстанавливать.

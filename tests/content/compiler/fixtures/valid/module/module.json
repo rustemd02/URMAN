@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "urman.compiler-fixture",
+  "exactVersion": "1.0.0",
+  "sourceFiles": ["definitions.json"],
+  "assets": [],
+  "dependencies": [],
+  "provides": [
+    "urman.compiler-fixture:scene/arrival",
+    "urman.compiler-fixture:text/arrival-title"
+  ],
+  "requires": []
+}

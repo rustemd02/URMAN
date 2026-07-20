@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/common.schema.json",
+  "schemaVersion": 1,
+  "$defs": {
+    "SchemaVersion": { "type": "integer", "const": 1 },
+    "ModuleId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$"
+    },
+    "CampaignId": {
+      "$ref": "#/$defs/ModuleId"
+    },
+    "ContentId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*:[a-z][a-z0-9-]*/[a-z0-9][a-z0-9._-]*$"
+    },
+    "ExactVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "FileReference": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?![A-Za-z][A-Za-z0-9+.-]*:)[A-Za-z0-9._/-]+$"
+    },
+    "SchemaReference": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?![A-Za-z][A-Za-z0-9+.-]*:)[A-Za-z0-9._/-]+\\.schema\\.json(?:#(?:/[^/~]*(?:~[01][^/~]*)*)*)?$"
+    },
+    "LocalizedText": {
+      "type": "object",
+      "required": ["default", "translations"],
+      "properties": {
+        "default": { "type": "string", "minLength": 1 },
+        "translations": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$" },
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Dependency": {
+      "type": "object",
+      "required": ["moduleId", "exactVersion"],
+      "properties": {
+        "moduleId": { "$ref": "#/$defs/ModuleId" },
+        "exactVersion": { "$ref": "#/$defs/ExactVersion" }
+      },
+      "additionalProperties": false
+    },
+    "CapabilityRequirement": {
+      "type": "object",
+      "required": ["protocolId", "exactVersion"],
+      "properties": {
+        "protocolId": { "$ref": "#/$defs/ContentId" },
+        "exactVersion": { "$ref": "#/$defs/ExactVersion" }
+      },
+      "additionalProperties": false
+    },
+    "RequiredReachableInvariant": {
+      "type": "object",
+      "required": ["id", "description", "severity", "kind", "targetId"],
+      "properties": {
+        "id": { "$ref": "#/$defs/ContentId" },
+        "description": { "type": "string", "minLength": 1 },
+        "severity": { "enum": ["error", "warning"] },
+        "kind": { "const": "required-reachable" },
+        "targetId": { "$ref": "#/$defs/ContentId" }
+      },
+      "additionalProperties": false
+    },
+    "RevealNotBeforeInvariant": {
+      "type": "object",
+      "required": ["id", "description", "severity", "kind", "subjectId", "afterId"],
+      "properties": {
+        "id": { "$ref": "#/$defs/ContentId" },
+        "description": { "type": "string", "minLength": 1 },
+        "severity": { "enum": ["error", "warning"] },
+        "kind": { "const": "reveal-not-before" },
+        "subjectId": { "$ref": "#/$defs/ContentId" },
+        "afterId": { "$ref": "#/$defs/ContentId" }
+      },
+      "additionalProperties": false
+    },
+    "NarrativeInvariant": {
+      "oneOf": [
+        { "$ref": "#/$defs/RequiredReachableInvariant" },
+        { "$ref": "#/$defs/RevealNotBeforeInvariant" }
+      ]
+    },
+    "ResourceClaim": {
+      "type": "object",
+      "required": ["resourceId", "mode"],
+      "properties": {
+        "resourceId": { "$ref": "#/$defs/ContentId" },
+        "mode": { "enum": ["exclusive", "shared"] }
+      },
+      "additionalProperties": false
+    },
+    "JsonValue": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "boolean" },
+        { "type": "number" },
+        { "type": "string" },
+        { "type": "array", "items": { "$ref": "#/$defs/JsonValue" } },
+        { "type": "object", "additionalProperties": { "$ref": "#/$defs/JsonValue" } }
+      ]
+    }
+  }
+}

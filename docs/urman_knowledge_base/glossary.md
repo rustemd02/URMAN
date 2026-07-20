@@ -147,3 +147,23 @@ Markdown-файл с frontmatter, из которого строится кон�
 ## MVP
 
 Вертикальный срез: приезд Айдара, Марат, первые ключи, старый ПК, татарский mechanic, первый мистический след и cliffhanger.
+
+## Portable content module
+
+Переносимый JSON/Markdown-пакет сценарных данных: персонажей, сцен, квестов, диалогов, документов, текстов и logical asset refs. Он проходит JSON Schema и semantic preflight; обычный квест на уже существующих механиках добавляется таким пакетом без правки ядра.
+
+## CampaignManifest
+
+Явный состав и порядок модулей одного прохождения: entrypoint, role bindings, capability versions и обязательные narrative-инварианты. Его resolved SHA-256 fingerprint замораживается в `GameSnapshotV2`; заменить кампанию можно только при начале нового прохождения.
+
+## RuntimeKernel
+
+Единственный владелец игрового состояния и транзакций. Внешние адаптеры читают только immutable query/select-проекции и передают `Command`; reducer ядра либо фиксирует весь batch эффектов, либо не фиксирует ничего.
+
+## Capability provider
+
+Изолированный провайдер уникальной механики — например, старого ПК. Он объявляется в content catalog с точной версией и проходит lifecycle `register → validate → create → restore → start → handle → snapshot → stop/dispose`; после dispose не оставляет timer, subscription или job.
+
+## GameSnapshotV2
+
+Строгий JSON-снимок прохождения с campaign lock, state/event log и capability snapshots. Он обеспечивает детерминированное восстановление и отсеивает повтор команд по стабильному occurrence ID; старые pre-MVP saves к нему не мигрируются.

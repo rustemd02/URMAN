@@ -292,6 +292,26 @@ mindmap
         Письма наружу
         Ложные версии смерти
     Technical [TECH]
+      Modular migration complete [MVP][TECH]
+        Portable JSON Markdown content
+        CampaignManifest composition
+        RuntimeKernel single state writer
+        Immutable claim query before capability teardown
+        Capability providers for unique mechanics
+        Campaign fingerprint locked per run
+        V2 persistence gateway in production boot [TECH]
+          Exact v1 reset with one-time notice
+          Incompatible V2 requires explicit reset
+          Username, preferences and Content Lab stay separate
+        Content Lab dev-only
+        Authoring guide for LLMs [TECH]
+          Data-only quests, dialogues, roles and assets
+          Content check and isolated Lab runs
+        Legacy owners retired after migration
+        Unowned DedOS chat retired; archive remains sole narrative PC owner
+        Atomic scene→dialogue handoff commits start effects once [TECH][NARRATIVE]
+        Architecture ready to build MVP, not MVP release [MVP][RISK]
+        Task packet docs/modular_migration
       Data model
         Characters
         Locations
@@ -338,6 +358,7 @@ mindmap
         Полная игра вместо среза
         Тьюринг-полный ПК до проверки MVP loop
         ПК как отдельная ОС вместо document hub
+        Универсальный движок вместо минимальных capability contracts
       Cultural accuracy
         Татарский фольклор
         Ислам

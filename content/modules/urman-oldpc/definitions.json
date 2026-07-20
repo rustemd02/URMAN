@@ -1,0 +1,170 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:text/archive-search-art-alt",
+    "value": { "default": "Old computer archive search interface", "translations": { "ru": "Интерфейс архивного поиска на старом компьютере" } },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:text/corrupted-record-art-alt",
+    "value": { "default": "Corrupted archive record window", "translations": { "ru": "Окно повреждённой архивной записи" } },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:text/document-viewer-art-alt",
+    "value": { "default": "Old computer document viewer", "translations": { "ru": "Просмотрщик документа на старом компьютере" } },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:text/marat-medical-record-art-alt",
+    "value": { "default": "Scanned medical record form for Marat with an editable text overlay", "translations": { "ru": "Скан бланка медсправки Марата с редактируемым текстовым слоем" } },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:text/old-pc-desktop-art-alt",
+    "value": { "default": "Mansur's old computer desktop", "translations": { "ru": "Рабочий стол старого компьютера Мансура" } },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:text/saved-marat-message-art-alt",
+    "value": { "default": "Saved archive message window from Marat", "translations": { "ru": "Окно сохранённого архивного сообщения от Марата" } },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:text/tatarwiki-article-art-alt",
+    "value": { "default": "TatarWiki article template with an editable text overlay", "translations": { "ru": "Шаблон статьи Татарвики с редактируемым текстовым слоем" } },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/doc-marat-medical-record-bg",
+    "kind": "image",
+    "file": "logical/doc-marat-medical-record-bg.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/marat-medical-record-art-alt" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-archive-search-empty",
+    "kind": "image",
+    "file": "logical/ui-archive-search-empty.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": true }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-archive-search-results",
+    "kind": "image",
+    "file": "logical/ui-archive-search-results.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/archive-search-art-alt" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-document-viewer-template",
+    "kind": "image",
+    "file": "logical/ui-document-viewer-template.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/document-viewer-art-alt" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-old-pc-active-window-base",
+    "kind": "image",
+    "file": "logical/ui-old-pc-active-window-base.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": true }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-old-pc-crt-boot",
+    "kind": "image",
+    "file": "logical/ui-old-pc-crt-boot.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": true }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-old-pc-crt-close-crop",
+    "kind": "image",
+    "file": "logical/ui-old-pc-crt-close-crop.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": true }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-old-pc-crt-off",
+    "kind": "image",
+    "file": "logical/ui-old-pc-crt-off.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": true }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-old-pc-crt-power-off",
+    "kind": "image",
+    "file": "logical/ui-old-pc-crt-power-off.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": true }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui_old_pc_desktop_base",
+    "kind": "image",
+    "file": "logical/ui_old_pc_desktop_base.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/old-pc-desktop-art-alt" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-old-pc-error-corrupt-file-base",
+    "kind": "image",
+    "file": "logical/ui-old-pc-error-corrupt-file-base.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/corrupted-record-art-alt" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-old-pc-folder-view-base",
+    "kind": "image",
+    "file": "logical/ui-old-pc-folder-view-base.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": true }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-tatarwiki-article-template",
+    "kind": "image",
+    "file": "logical/ui-tatarwiki-article-template.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/tatarwiki-article-art-alt" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:asset/ui-yalkyn-messenger-saved-marat-log",
+    "kind": "image",
+    "file": "logical/ui-yalkyn-messenger-saved-marat-log.ref",
+    "mediaType": "application/vnd.urman.logical-asset-ref",
+    "variants": [],
+    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/saved-marat-message-art-alt" }
+  }
+]

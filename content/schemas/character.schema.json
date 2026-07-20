@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/character.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "displayName", "roleTags", "assetIds"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "displayName": { "$ref": "common.schema.json#/$defs/LocalizedText" },
+    "roleTags": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" } },
+    "assetIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "accessibilityDescription": { "$ref": "common.schema.json#/$defs/LocalizedText" }
+  },
+  "additionalProperties": false
+}

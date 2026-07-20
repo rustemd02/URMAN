@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "canary.core",
+  "exactVersion": "1.0.0",
+  "sourceFiles": ["definitions.json"],
+  "assets": [
+    "canary.core:asset/guide-amber",
+    "canary.core:asset/guide-indigo",
+    "canary.core:asset/lantern",
+    "canary.core:asset/signal-tone"
+  ],
+  "dependencies": [],
+  "provides": [
+    "canary.core:asset/guide-amber",
+    "canary.core:asset/guide-indigo",
+    "canary.core:asset/lantern",
+    "canary.core:asset/signal-tone",
+    "canary.core:capability/signal-provider",
+    "canary.core:character/guide-amber",
+    "canary.core:character/guide-indigo",
+    "canary.core:dialogue/greeting",
+    "canary.core:knowledge/signal",
+    "canary.core:quest/tune-signal",
+    "canary.core:scene/landing",
+    "canary.core:text/guide-line",
+    "canary.core:text/guide-name-amber",
+    "canary.core:text/guide-name-indigo",
+    "canary.core:text/landing-alt",
+    "canary.core:text/landing-title",
+    "canary.core:text/signal-caption",
+    "canary.core:text/signal-transcript",
+    "canary.core:text/tune-objective",
+    "canary.core:text/tune-title",
+    "canary.core:vocabulary/lantern"
+  ],
+  "requires": []
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "urman.compiler-fixture",
+  "exactVersion": "1.0.0",
+  "entrypoint": "urman.compiler-fixture:scene/arrival",
+  "modules": [
+    {
+      "moduleId": "urman.compiler-fixture",
+      "exactVersion": "1.0.0"
+    }
+  ],
+  "roleBindings": {},
+  "capabilityRequirements": [],
+  "narrativeOrder": ["urman.compiler-fixture:scene/arrival"],
+  "invariants": []
+}

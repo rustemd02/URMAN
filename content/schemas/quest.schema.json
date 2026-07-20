@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/quest.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "titleTextId", "stages", "outcomes", "retryPolicy", "checkpointPolicy", "cancelPolicy"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "titleTextId": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "stages": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/Stage" } },
+    "outcomes": { "$ref": "#/$defs/Outcomes" },
+    "retryPolicy": { "$ref": "#/$defs/RetryPolicy" },
+    "checkpointPolicy": { "$ref": "#/$defs/CheckpointPolicy" },
+    "cancelPolicy": { "$ref": "#/$defs/CancelPolicy" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Stage": {
+      "type": "object",
+      "required": ["id", "objectives", "composition"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+        "objectives": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/Objective" } },
+        "composition": { "$ref": "#/$defs/Composition" }
+      },
+      "additionalProperties": false
+    },
+    "Objective": {
+      "type": "object",
+      "required": ["id", "titleTextId", "optional", "startConditions", "completionConditions", "completionEffects", "failureEffects"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+        "titleTextId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "optional": { "type": "boolean" },
+        "startConditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+        "completionConditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+        "completionEffects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+        "failureEffects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+        "capability": { "$ref": "#/$defs/CapabilityObjective" }
+      },
+      "additionalProperties": false
+    },
+    "CapabilityObjective": {
+      "type": "object",
+      "required": ["protocolId", "exactVersion", "configRef", "outcomeSchemaRef"],
+      "properties": {
+        "protocolId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "exactVersion": { "$ref": "common.schema.json#/$defs/ExactVersion" },
+        "configRef": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "outcomeSchemaRef": { "$ref": "common.schema.json#/$defs/SchemaReference" }
+      },
+      "additionalProperties": false
+    },
+    "Composition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["mode", "objectiveIds"],
+          "properties": {
+            "mode": { "enum": ["all", "any"] },
+            "objectiveIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" } }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["mode", "objectiveIds", "threshold"],
+          "properties": {
+            "mode": { "const": "threshold" },
+            "objectiveIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" } },
+            "threshold": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Outcomes": {
+      "type": "object",
+      "required": ["success", "optional", "failure"],
+      "properties": {
+        "success": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+        "optional": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+        "failure": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } }
+      },
+      "additionalProperties": false
+    },
+    "RetryPolicy": {
+      "type": "object",
+      "required": ["mode", "maximumAttempts"],
+      "properties": {
+        "mode": { "enum": ["none", "stage", "quest"] },
+        "maximumAttempts": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "CheckpointPolicy": {
+      "type": "object",
+      "required": ["mode"],
+      "properties": { "mode": { "enum": ["none", "stage", "objective"] } },
+      "additionalProperties": false
+    },
+    "CancelPolicy": {
+      "type": "object",
+      "required": ["allowed", "effects"],
+      "properties": {
+        "allowed": { "type": "boolean" },
+        "effects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } }
+      },
+      "additionalProperties": false
+    }
+  }
+}

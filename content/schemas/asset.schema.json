@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/asset.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "kind", "file", "mediaType", "variants", "accessibility"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "kind": { "enum": ["image", "audio", "video", "font", "data"] },
+    "file": { "$ref": "common.schema.json#/$defs/FileReference" },
+    "mediaType": { "type": "string", "pattern": "^[a-z0-9.+-]+/[a-z0-9.+-]+$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "file"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+          "file": { "$ref": "common.schema.json#/$defs/FileReference" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "required": ["decorative"],
+      "properties": {
+        "decorative": { "type": "boolean" },
+        "altTextId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "captionTextId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "audioDescriptionTextId": { "$ref": "common.schema.json#/$defs/ContentId" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

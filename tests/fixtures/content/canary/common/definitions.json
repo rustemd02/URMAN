@@ -1,0 +1,206 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:text/landing-title",
+    "value": { "default": "Landing", "translations": { "ru": "Площадка", "tt": "Мәйдан" } },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:text/landing-alt",
+    "value": { "default": "A quiet landing with one lantern.", "translations": { "ru": "Тихая площадка с одним фонарём." } },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:text/guide-name-amber",
+    "value": { "default": "Amber guide", "translations": { "ru": "Янтарный проводник" } },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:text/guide-name-indigo",
+    "value": { "default": "Indigo guide", "translations": { "ru": "Индиговый проводник" } },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:text/guide-line",
+    "value": { "default": "Follow the {{term}}.", "translations": { "ru": "Следуй за {{term}}.", "tt": "{{term}} артыннан бар." } },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:text/tune-title",
+    "value": { "default": "Tune the signal", "translations": { "ru": "Настроить сигнал" } },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:text/tune-objective",
+    "value": { "default": "Match the pulse.", "translations": { "ru": "Совместить пульс." } },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:text/signal-caption",
+    "value": { "default": "A low signal pulse.", "translations": { "ru": "Низкий импульс сигнала." } },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:text/signal-transcript",
+    "value": { "default": "The console pulse confirms the signal.", "translations": { "ru": "Импульс консоли подтверждает сигнал." } },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:vocabulary/lantern",
+    "term": "фонарь",
+    "language": "ru",
+    "meaning": { "default": "a portable light", "translations": { "ru": "переносной источник света" } },
+    "initialStatus": "unknown",
+    "rereadTargets": [],
+    "applicationTargets": [],
+    "consultantReview": { "status": "pending", "reviewer": null, "notes": "" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:asset/guide-amber",
+    "kind": "image",
+    "file": "assets/guide-amber.svg",
+    "mediaType": "image/svg+xml",
+    "variants": [],
+    "accessibility": { "decorative": false, "altTextId": "canary.core:text/guide-name-amber" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:asset/guide-indigo",
+    "kind": "image",
+    "file": "assets/guide-indigo.svg",
+    "mediaType": "image/svg+xml",
+    "variants": [],
+    "accessibility": { "decorative": false, "altTextId": "canary.core:text/guide-name-indigo" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:asset/lantern",
+    "kind": "image",
+    "file": "assets/lantern.svg",
+    "mediaType": "image/svg+xml",
+    "variants": [{ "id": "dim", "file": "assets/lantern-dim.svg" }],
+    "accessibility": { "decorative": false, "altTextId": "canary.core:text/landing-alt" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:asset/signal-tone",
+    "kind": "audio",
+    "file": "assets/signal-tone.ogg",
+    "mediaType": "audio/ogg",
+    "variants": [],
+    "accessibility": {
+      "decorative": false,
+      "captionTextId": "canary.core:text/signal-caption",
+      "audioDescriptionTextId": "canary.core:text/signal-transcript"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:character/guide-amber",
+    "displayName": { "default": "Amber guide", "translations": { "ru": "Янтарный проводник" } },
+    "roleTags": ["guide"],
+    "assetIds": ["canary.core:asset/guide-amber"],
+    "accessibilityDescription": { "default": "A guide in warm colors.", "translations": { "ru": "Проводник в тёплых цветах." } }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:character/guide-indigo",
+    "displayName": { "default": "Indigo guide", "translations": { "ru": "Индиговый проводник" } },
+    "roleTags": ["guide"],
+    "assetIds": ["canary.core:asset/guide-indigo"],
+    "accessibilityDescription": { "default": "A guide in cool colors.", "translations": { "ru": "Проводник в холодных цветах." } }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:dialogue/greeting",
+    "participantRoles": ["guide"],
+    "startNodeId": "welcome",
+    "nodes": [{
+      "id": "welcome",
+      "speakerRole": "guide",
+      "textId": "canary.core:text/guide-line",
+      "conditions": [],
+      "effects": [],
+      "choices": []
+    }]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:scene/landing",
+    "sceneType": "static",
+    "title": { "default": "Landing", "translations": { "ru": "Площадка" } },
+    "assetRefs": ["canary.core:asset/lantern"],
+    "textRefs": ["canary.core:text/landing-title"],
+    "entryConditions": [],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:knowledge/signal",
+    "kind": "clue",
+    "title": { "default": "Signal", "translations": { "ru": "Сигнал" } },
+    "summary": { "default": "A repeatable pulse.", "translations": { "ru": "Повторяющийся импульс." } },
+    "initialStatus": "hidden",
+    "sourceIds": ["canary.core:asset/signal-tone"],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:capability/signal-provider",
+    "protocolId": "canary.core:capability/signal",
+    "exactVersion": "1.0.0",
+    "stateSchemaVersion": 1,
+    "configSchemaRef": "common.schema.json",
+    "stateSchemaRef": "common.schema.json",
+    "commandSchemaRef": "common.schema.json",
+    "eventSchemaRef": "common.schema.json",
+    "outcomeSchemaRef": "common.schema.json",
+    "requiredAssets": ["canary.core:asset/lantern"],
+    "requiredAudio": ["canary.core:asset/signal-tone"],
+    "resourceClaims": [{ "resourceId": "canary.core:resource/signal-console", "mode": "exclusive" }],
+    "accessibility": { "alternativeInput": true, "reducedMotion": true, "captions": true, "equivalentOutcomeId": "canary.core:outcome/signal-resolved" },
+    "lifecycle": { "supportsRestore": true, "supportsSnapshot": true, "supportsReset": true, "idempotentStop": true, "idempotentDispose": true }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "canary.core:quest/tune-signal",
+    "titleTextId": "canary.core:text/tune-title",
+    "stages": [{
+      "id": "tune",
+      "objectives": [{
+        "id": "match-pulse",
+        "titleTextId": "canary.core:text/tune-objective",
+        "optional": false,
+        "startConditions": [],
+        "completionConditions": [],
+        "completionEffects": [{ "op": "knowledge.set-status", "knowledgeId": "canary.core:knowledge/signal", "status": "confirmed" }],
+        "failureEffects": [],
+        "capability": {
+          "protocolId": "canary.core:capability/signal",
+          "exactVersion": "1.0.0",
+          "configRef": "canary.core:text/tune-objective",
+          "outcomeSchemaRef": "common.schema.json"
+        }
+      }],
+      "composition": { "mode": "all", "objectiveIds": ["match-pulse"] }
+    }],
+    "outcomes": { "success": [], "optional": [], "failure": [] },
+    "retryPolicy": { "mode": "none", "maximumAttempts": 1 },
+    "checkpointPolicy": { "mode": "objective" },
+    "cancelPolicy": { "allowed": true, "effects": [] }
+  }
+]

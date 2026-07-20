@@ -2,6 +2,24 @@
 
 Архитектура должна оставаться engine-neutral, пока движок не выбран. Ни Unity, ни Godot, ни Unreal не фиксируются как решение. Главное требование: narrative content должен быть data-driven.
 
+## Текущая модульная архитектура — 2026-07-18
+
+Миграция `docs/modular_migration/MM-00`–`MM-80` завершает архитектурную подготовку к достройке MVP, но не объявляет MVP готовым. Production Chapter 1 — заменяемая compiled campaign, а не встроенный сценарий.
+
+- Portable source of truth — JSON/Markdown в `content/modules/**` и campaign manifests; compiler создаёт immutable `CompiledContentPack` и блокирует duplicate ID, неизвестные opcode, недостижимые обязательные точки, missing assets/providers и раннее раскрытие улики.
+- `RuntimeKernel` — единственный writer progression state и occurrence ledger. Обычный квест/персонаж/диалог/asset меняется данными; уникальная механика приходит capability provider с exact version.
+- `CampaignManifest` фиксирует ordered modules, role bindings, capability requirements и entrypoint. `GameSnapshotV2` хранит campaign lock/fingerprint; несовпадение не делает partial load и требует явный reset.
+- `main` — единственный browser composition root. Он собирает `RuntimeBootstrap` и named persistence gateway; `Game` получает только presentation facade, без kernel, registry, capability host, raw storage или story IDs.
+- Gateway — единственная production storage boundary. Он один раз удаляет четыре pre-MVP v1 keys, сохраняет username/preferences и Content Lab namespace, а current V2 save удаляет только после exact typed reset proposal.
+- `Content Lab` и legacy MainMap остаются development-only. Old PC/DedOS — отдельный capability module; production не подключает legacy paths без явной campaign registration.
+- Практический authoring flow и data-only side quest example закреплены в `content_authoring_guide.md`; это entrypoint для следующей ЛЛМ, а schema/contract authority остаётся в `content/schemas/**` и `docs/modular_migration/**`.
+
+Не входят в v1: live hot-swap активного run, пользовательские моды, универсальный scripting framework, ECS и Unity importer. После reload presentation открывает campaign entrypoint без повторного entry effect; точное восстановление экранной позиции потребует отдельного расширения snapshot contract.
+
+## Исторические planning notes
+
+Разделы ниже сохраняют engine-neutral product ideas. Они не являются списком действующих runtime owners: legacy `GameState`, `SceneManager`, `RouteNavigationScene`, `SaveSystem`, `src/data/**` и regex validators удалены и не должны восстанавливаться.
+
 ## Content Layout Proposal
 
 ```text
@@ -125,7 +143,7 @@ Data requirements:
 
 ## Old PC Authoring Model
 
-Source of truth for old PC content is Markdown with frontmatter under `content/old_pc/`. Runtime currently imports those files directly through Vite raw imports in `src/os/data/oldPcContent.ts`; generated JSON can still be added later if another engine/runtime needs it.
+Source of truth for old PC content — portable Markdown/JSON definitions модуля `urman.oldpc` под `content/modules/**`. Runtime получает их только из compiled content pack; прямого Vite raw import или отдельного parser нет. Другой engine сможет читать ту же portable границу, но Unity importer не входит в v1.
 
 Required authoring fields:
 
@@ -163,7 +181,7 @@ Allowed canon statuses:
 - `proposal`
 - `in_world_lie`
 
-Runtime validator exists at `scripts/validate-old-pc-content.mjs`. It checks unique IDs, required fields, allowed reliability / canon statuses, array fields, body presence and broken `requires` against known item IDs / unlockable keys. Future expansion should connect this to the shared clue graph validator so orphan clues, character/location IDs and canon contradictions are checked across the whole project.
+Semantic compiler (`npm run content:check`) проверяет IDs, schema, typed refs, reachability, capability requirements и narrative timing. Отдельный regex validator `validate-old-pc-content` удалён; новый validator нельзя возвращать «на всякий случай».
 
 ## Messenger Interface
 

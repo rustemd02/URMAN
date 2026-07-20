@@ -1,6 +1,5 @@
 import { AUTHORED_LAYOUT } from '../../config';
-import { MapCell, MapEntity, ReservedZone, Point } from '../../types';
-import { CHARACTERS } from '../../../data/characters';
+import { MapCell, MapEntity, ReservedZone, Point, MainMapPresentationLabels, MainMapResidentBinding } from '../../types';
 
 /**
  * generateHomesteads - Places residential lots for identified characters.
@@ -8,7 +7,9 @@ import { CHARACTERS } from '../../../data/characters';
 export function generateHomesteads(
     _map: MapCell[][], 
     _roadSpine: readonly Point[],
-    _activeZones: ReservedZone[]
+    _activeZones: ReservedZone[],
+    residents: readonly MainMapResidentBinding[],
+    labels: MainMapPresentationLabels,
 ): {
     entities: MapEntity[];
     houseZones: ReservedZone[];
@@ -20,39 +21,19 @@ export function generateHomesteads(
     const lw = 6;
     const lh = 8;
 
-    // Ordered list of residents for the 15 lots
-    const residents = [
-        'babay', 'fanis', 'zarifa', 'ildar', 'gulnara', 
-        'karat_guard', 'rashid', 'nail', 'rushania', 'razilya',
-        'alsu', 'neighbor_1', 'neighbor_2', 'neighbor_3', 'neighbor_4'
-    ];
+    const residentByLot = new Map(residents.map((resident) => [resident.lotIndex, resident]));
 
     AUTHORED_LAYOUT.lots.forEach((anchor, i) => {
         const [gx, gy] = anchor;
         const variant = (gx + gy * 7) % 4;
-        const residentId = residents[i];
-        const character = CHARACTERS[residentId];
-        
-        const isMainHouse = residentId === 'babay';
-        const houseName = isMainHouse ? 'Дом Әби и Бабая' : (character ? `Дом: ${character.fullName}` : `Дом #${i + 1}`);
+        const resident = residentByLot.get(i);
+        const isPrimaryResidence = resident?.isPrimaryResidence === true;
+        const houseName = resident?.label ?? `${labels.unnamedResidencePrefix} ${i + 1}`;
 
         // 1. The Main House (Smaller: 2x2 or 2x3)
-        const houseId = `house_${residentId || i}`;
-        const curGw = isMainHouse ? 4 : ((variant % 2 === 0) ? 2 : 3);
-        const curGh = isMainHouse ? 3 : 2;
-
-        const actions: { label: string; sceneTarget?: string }[] = [];
-        if (isMainHouse) {
-            actions.push(
-                { label: 'Поговорить с Бабаем', sceneTarget: 'dialogue_babay' },
-                { label: 'Поговорить с Әби', sceneTarget: 'dialogue_abi' },
-                { label: 'Компьютер Бабая', sceneTarget: 'computer' }
-            );
-        } else if (character) {
-            actions.push({ label: `Поговорить с: ${character.fullName.split(' ')[0]}`, sceneTarget: `dialogue_${residentId}` });
-        } else {
-            actions.push({ label: 'Постучать', sceneTarget: 'knock_door' });
-        }
+        const houseId = resident?.entityId ?? `greybox-house-${i}`;
+        const curGw = isPrimaryResidence ? 4 : ((variant % 2 === 0) ? 2 : 3);
+        const curGh = isPrimaryResidence ? 3 : 2;
 
         entities.push({
             id: houseId,
@@ -61,11 +42,11 @@ export function generateHomesteads(
             name: houseName,
             gx, gy, gw: curGw, gh: curGh,
             style: {
-                wallColor: isMainHouse ? '#5a4a2a' : (['#c9a050', '#8eb8b0', '#a07040', '#9c9c9c'][variant]),
-                roofColor: isMainHouse ? '#7a3a3a' : (['#3a6b3a', '#7a3a3a', '#1a3a1a', '#4a4a4a'][variant]),
-                height: isMainHouse ? 30 : (20 + (variant * 2))
+                wallColor: isPrimaryResidence ? '#5a4a2a' : (['#c9a050', '#8eb8b0', '#a07040', '#9c9c9c'][variant]),
+                roofColor: isPrimaryResidence ? '#7a3a3a' : (['#3a6b3a', '#7a3a3a', '#1a3a1a', '#4a4a4a'][variant]),
+                height: isPrimaryResidence ? 30 : (20 + (variant * 2))
             },
-            actions
+            actions: resident?.actions ?? []
         });
 
         // 2. Secondary Buildings - back of the lot
@@ -73,7 +54,7 @@ export function generateHomesteads(
             id: `bath_${i}`,
             type: 'building',
             subType: 'bathhouse',
-            name: 'Баня',
+            name: labels.bathhouse,
             gx: gx, gy: gy + lh - 3, gw: 1.5, gh: 1.5,
             style: { wallColor: '#5a4a35', roofColor: '#3a3a3a', height: 10 }
         });
@@ -82,7 +63,7 @@ export function generateHomesteads(
             id: `shed_${i}`,
             type: 'building',
             subType: 'shed',
-            name: 'Сарай',
+            name: labels.shed,
             gx: gx + 2, gy: gy + lh - 3, gw: 1.5, gh: 2,
             style: { wallColor: '#4a3a25', roofColor: '#2a2a2a', height: 12 }
         });

@@ -127,6 +127,34 @@
 
 ## Tech
 
+- [x] Epic: Выполнить модульную миграцию по `docs/modular_migration/`.
+  Type: Tech / Architecture / Production
+  Priority: Critical
+  Depends on: architecture freeze `MM-03`, current green content/build baseline
+  Output: portable campaign modules, transactional runtime kernel, capability providers, Content Lab и удалённые legacy owners.
+  Notes: Принято 2026-07-18 после final verification. Chapter 1 остаётся заменяемым production baseline; архитектурная готовность не означает MVP release.
+
+- [x] Task: Заморозить portable content, runtime и snapshot contracts.
+  Type: Tech / Architecture
+  Priority: Critical
+  Depends on: `docs/modular_migration/01_ARCHITECTURE_CONTRACT.md`, stress matrix
+  Output: frozen ID/version, `CompiledContentPack`, `RuntimeContext`, capability lifecycle и `GameSnapshotV2` contracts.
+  Notes: Кодовая миграция не начинается, пока 12 stress fixtures не пройдут review gate `MM-03`; capability teardown допускается только после immutable kernel claim query подтверждает owner release.
+
+- [x] Task: Перенести campaign, active runtime, old PC/DedOS и MainMap отдельными leaf-пакетами.
+  Type: Tech / Migration
+  Priority: Critical
+  Depends on: foundation canary `MM-45`
+  Output: четыре изолированных handoff для единого composition-root cutover `MM-54`.
+  Notes: Параллельная работа разрешена только в отдельных worktree и без совместного владения `Game`, `GameState`, `SceneManager` или `main`.
+
+- [x] Task: Закрыть migration gates и удалить legacy owners.
+  Type: Tech / QA / Retirement
+  Priority: Critical
+  Depends on: composition root `MM-54`
+  Output: whole-pack closure, Content Lab, clean save reset, static architecture checks и итоговый KB handoff.
+  Notes: Permanent adapters, duplicate state owners, raw gameplay `localStorage`, production `window.URMAN` и regex validators не остаются.
+
 - [ ] Task: Создать data schema для characters, clues, documents, dialogues, vocabulary.
   Type: Tech
   Priority: High

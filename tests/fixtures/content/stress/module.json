@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "stress.matrix",
+  "exactVersion": "1.0.0",
+  "sourceFiles": ["proposals.json"],
+  "assets": [],
+  "dependencies": [],
+  "provides": [
+    "stress.matrix:scene/entry",
+    "stress.matrix:text/spatial-placement", "stress.matrix:text/spatial-audio-probe", "stress.matrix:text/crafting", "stress.matrix:text/scheduler-window",
+    "stress.matrix:text/role-binding", "stress.matrix:text/evidence-compare", "stress.matrix:text/timed-choice", "stress.matrix:text/custody-transfer",
+    "stress.matrix:text/audio-workbench", "stress.matrix:text/environment-sim", "stress.matrix:text/stealth-space", "stress.matrix:text/content-instantiator",
+    "stress.matrix:capability/spatial-placement-provider", "stress.matrix:capability/spatial-audio-probe-provider", "stress.matrix:capability/crafting-provider", "stress.matrix:capability/scheduler-window-provider",
+    "stress.matrix:capability/role-binding-provider", "stress.matrix:capability/evidence-compare-provider", "stress.matrix:capability/timed-choice-provider", "stress.matrix:capability/custody-transfer-provider",
+    "stress.matrix:capability/audio-workbench-provider", "stress.matrix:capability/environment-sim-provider", "stress.matrix:capability/stealth-space-provider", "stress.matrix:capability/content-instantiator-provider",
+    "stress.matrix:quest/spatial-placement", "stress.matrix:quest/spatial-audio-probe", "stress.matrix:quest/crafting", "stress.matrix:quest/scheduler-window",
+    "stress.matrix:quest/role-binding", "stress.matrix:quest/evidence-compare", "stress.matrix:quest/timed-choice", "stress.matrix:quest/custody-transfer",
+    "stress.matrix:quest/audio-workbench", "stress.matrix:quest/environment-sim", "stress.matrix:quest/stealth-space", "stress.matrix:quest/content-instantiator"
+  ],
+  "requires": []
+}

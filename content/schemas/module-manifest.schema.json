@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/module-manifest.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "moduleId", "exactVersion", "sourceFiles", "assets", "dependencies", "provides", "requires"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "moduleId": { "$ref": "common.schema.json#/$defs/ModuleId" },
+    "exactVersion": { "$ref": "common.schema.json#/$defs/ExactVersion" },
+    "sourceFiles": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/FileReference" } },
+    "assets": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "dependencies": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/Dependency" } },
+    "provides": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "requires": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/CapabilityRequirement" } }
+  },
+  "additionalProperties": false
+}

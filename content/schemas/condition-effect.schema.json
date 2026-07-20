@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/condition-effect.schema.json",
+  "schemaVersion": 1,
+  "$ref": "#/$defs/Condition",
+  "$defs": {
+    "Condition": {
+      "oneOf": [
+        { "$ref": "#/$defs/AllCondition" },
+        { "$ref": "#/$defs/AnyCondition" },
+        { "$ref": "#/$defs/NotCondition" },
+        { "$ref": "#/$defs/KnowledgeCondition" },
+        { "$ref": "#/$defs/VocabularyCondition" },
+        { "$ref": "#/$defs/QuestCondition" },
+        { "$ref": "#/$defs/BeatCondition" },
+        { "$ref": "#/$defs/NpcCondition" },
+        { "$ref": "#/$defs/InventoryCondition" },
+        { "$ref": "#/$defs/PressureCondition" },
+        { "$ref": "#/$defs/TimeCondition" },
+        { "$ref": "#/$defs/LocationCondition" }
+      ]
+    },
+    "Effect": {
+      "oneOf": [
+        { "$ref": "#/$defs/KnowledgeEffect" },
+        { "$ref": "#/$defs/VocabularyEffect" },
+        { "$ref": "#/$defs/NpcEffect" },
+        { "$ref": "#/$defs/QuestEffect" },
+        { "$ref": "#/$defs/BeatEffect" },
+        { "$ref": "#/$defs/ItemTransactionEffect" },
+        { "$ref": "#/$defs/PressureEffect" },
+        { "$ref": "#/$defs/RouteUnlockEffect" },
+        { "$ref": "#/$defs/LocationUnlockEffect" },
+        { "$ref": "#/$defs/SceneRequestEffect" },
+        { "$ref": "#/$defs/AudioRequestEffect" }
+      ]
+    },
+    "AllCondition": {
+      "type": "object",
+      "required": ["op", "conditions"],
+      "properties": {
+        "op": { "const": "all" },
+        "conditions": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/Condition" } }
+      },
+      "additionalProperties": false
+    },
+    "AnyCondition": {
+      "type": "object",
+      "required": ["op", "conditions"],
+      "properties": {
+        "op": { "const": "any" },
+        "conditions": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/Condition" } }
+      },
+      "additionalProperties": false
+    },
+    "NotCondition": {
+      "type": "object",
+      "required": ["op", "condition"],
+      "properties": {
+        "op": { "const": "not" },
+        "condition": { "$ref": "#/$defs/Condition" }
+      },
+      "additionalProperties": false
+    },
+    "KnowledgeCondition": {
+      "type": "object",
+      "required": ["op", "knowledgeId", "status"],
+      "properties": {
+        "op": { "const": "knowledge.status" },
+        "knowledgeId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "status": { "enum": ["hidden", "hypothesis", "confirmed", "contradicted"] }
+      },
+      "additionalProperties": false
+    },
+    "VocabularyCondition": {
+      "type": "object",
+      "required": ["op", "vocabularyId", "status"],
+      "properties": {
+        "op": { "const": "vocabulary.status" },
+        "vocabularyId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "status": { "enum": ["unknown", "guessed", "confirmed"] }
+      },
+      "additionalProperties": false
+    },
+    "QuestCondition": {
+      "type": "object",
+      "required": ["op", "questId", "status"],
+      "properties": {
+        "op": { "const": "quest.status" },
+        "questId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "status": { "enum": ["inactive", "active", "completed", "failed", "cancelled"] }
+      },
+      "additionalProperties": false
+    },
+    "BeatCondition": {
+      "type": "object",
+      "required": ["op", "beatId", "state"],
+      "properties": {
+        "op": { "const": "beat.state" },
+        "beatId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "state": { "enum": ["locked", "available", "completed"] }
+      },
+      "additionalProperties": false
+    },
+    "NpcCondition": {
+      "type": "object",
+      "required": ["op", "characterId", "stateKey", "value"],
+      "properties": {
+        "op": { "const": "npc.state" },
+        "characterId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "stateKey": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+        "value": { "$ref": "common.schema.json#/$defs/JsonValue" }
+      },
+      "additionalProperties": false
+    },
+    "InventoryCondition": {
+      "type": "object",
+      "required": ["op", "itemId", "minimumQuantity"],
+      "properties": {
+        "op": { "const": "inventory.has" },
+        "itemId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "minimumQuantity": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "PressureCondition": {
+      "type": "object",
+      "required": ["op", "minimum"],
+      "properties": {
+        "op": { "const": "pressure.at-least" },
+        "minimum": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "TimeCondition": {
+      "type": "object",
+      "required": ["op", "phase"],
+      "properties": {
+        "op": { "const": "time.phase" },
+        "phase": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" }
+      },
+      "additionalProperties": false
+    },
+    "LocationCondition": {
+      "type": "object",
+      "required": ["op", "locationId"],
+      "properties": {
+        "op": { "const": "location.is" },
+        "locationId": { "$ref": "common.schema.json#/$defs/ContentId" }
+      },
+      "additionalProperties": false
+    },
+    "KnowledgeEffect": {
+      "type": "object",
+      "required": ["op", "knowledgeId", "status"],
+      "properties": {
+        "op": { "const": "knowledge.set-status" },
+        "knowledgeId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "status": { "enum": ["hypothesis", "confirmed", "contradicted"] }
+      },
+      "additionalProperties": false
+    },
+    "VocabularyEffect": {
+      "type": "object",
+      "required": ["op", "vocabularyId", "status"],
+      "properties": {
+        "op": { "const": "vocabulary.set-status" },
+        "vocabularyId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "status": { "enum": ["guessed", "confirmed"] }
+      },
+      "additionalProperties": false
+    },
+    "NpcEffect": {
+      "type": "object",
+      "required": ["op", "characterId", "stateKey", "value"],
+      "properties": {
+        "op": { "const": "npc.set-state" },
+        "characterId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "stateKey": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+        "value": { "$ref": "common.schema.json#/$defs/JsonValue" }
+      },
+      "additionalProperties": false
+    },
+    "QuestEffect": {
+      "type": "object",
+      "required": ["op", "questId", "status"],
+      "properties": {
+        "op": { "const": "quest.set-status" },
+        "questId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "status": { "enum": ["active", "completed", "failed", "cancelled"] }
+      },
+      "additionalProperties": false
+    },
+    "BeatEffect": {
+      "type": "object",
+      "required": ["op", "beatId", "state"],
+      "properties": {
+        "op": { "const": "beat.set-state" },
+        "beatId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "state": { "enum": ["available", "completed"] }
+      },
+      "additionalProperties": false
+    },
+    "ItemTransactionEffect": {
+      "type": "object",
+      "required": ["op", "transactions"],
+      "properties": {
+        "op": { "const": "item.transaction" },
+        "transactions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["itemId", "quantityDelta"],
+            "properties": {
+              "itemId": { "$ref": "common.schema.json#/$defs/ContentId" },
+              "quantityDelta": { "type": "integer" },
+              "fromCustodianId": { "$ref": "common.schema.json#/$defs/ContentId" },
+              "toCustodianId": { "$ref": "common.schema.json#/$defs/ContentId" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "PressureEffect": {
+      "type": "object",
+      "required": ["op", "delta"],
+      "properties": { "op": { "const": "pressure.change" }, "delta": { "type": "number" } },
+      "additionalProperties": false
+    },
+    "RouteUnlockEffect": {
+      "type": "object",
+      "required": ["op", "routeNodeId"],
+      "properties": { "op": { "const": "route.unlock" }, "routeNodeId": { "$ref": "common.schema.json#/$defs/ContentId" } },
+      "additionalProperties": false
+    },
+    "LocationUnlockEffect": {
+      "type": "object",
+      "required": ["op", "locationId"],
+      "properties": { "op": { "const": "location.unlock" }, "locationId": { "$ref": "common.schema.json#/$defs/ContentId" } },
+      "additionalProperties": false
+    },
+    "SceneRequestEffect": {
+      "type": "object",
+      "required": ["op", "sceneId"],
+      "properties": { "op": { "const": "scene.request" }, "sceneId": { "$ref": "common.schema.json#/$defs/ContentId" } },
+      "additionalProperties": false
+    },
+    "AudioRequestEffect": {
+      "type": "object",
+      "required": ["op", "assetId"],
+      "properties": { "op": { "const": "audio.request" }, "assetId": { "$ref": "common.schema.json#/$defs/ContentId" } },
+      "additionalProperties": false
+    }
+  }
+}

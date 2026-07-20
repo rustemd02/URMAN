@@ -1,10 +1,24 @@
 # MVP Completion Handoff
 
-Status: audit and execution handoff, 2026-05-18.
+Status: product execution handoff. Architecture baseline updated 2026-07-18.
 
-Purpose: this is the working list of what is still missing before УРМАН can be called a full MVP vertical slice. It is written for a future LLM or developer who may have zero context. Follow this file from top to bottom; do not start by adding more lore or more assets.
+Purpose: this is the working list of what is still missing before УРМАН can be called a full MVP vertical slice. It is written for a future LLM or developer who may have zero context. Follow the current campaign and playtest gate; do not revive legacy runtime owners described in the historical audit below.
 
-## Executive Verdict
+## Architecture baseline — 2026-07-18
+
+The modular migration is complete and independently reviewed. Chapter 1 runs as compiled portable content through `RuntimeKernel`; scenes/dialogues/quests/assets are campaign data, old PC is a capability module, and production persistence uses `GameSnapshotV2` through one named gateway. This removes the former product blocker of shared state ownership, but does not prove MVP quality, final audio/assets or player comprehension.
+
+The sections that name `GameState`, `SceneManager`, `RouteNavigationScene`, `SaveSystem`, `src/data/**`, direct old-PC imports or legacy validators are a historical 2026-05-18 audit only. Do not execute their file lists. For new work use `docs/modular_migration/80_FINAL_VERIFICATION_KB_HANDOFF.md`, `chapter1_mvp_campaign.md`, `playtest_plan.md` and the current compiled content modules.
+
+## Current product execution — 2026-07-18
+
+The architecture foundation is ready for MVP construction, but the game is not yet an MVP release. The active work is to author, compile and playtest the Chapter 1 campaign through the portable content contracts — not to restore any legacy runtime owner. Start with the current campaign data and acceptance gates in `chapter1_mvp_campaign.md`, `playtest_plan.md`, `backlog.md` and `docs/modular_migration/80_FINAL_VERIFICATION_KB_HANDOFF.md`.
+
+## Historical audit archive — 2026-05-18 (reference only; do not execute)
+
+The remainder of this file is preserved evidence from the pre-migration audit. Its file lists, commands, system names, completeness assessments and suggested order predate the modular architecture baseline. They must not be used as implementation instructions; current ownership is defined by the modular-migration package.
+
+### Executive Verdict (historical)
 
 УРМАН already has a strong canon, a clear MVP identity, a validated old PC content prototype, a generated route-navigation asset pack and a working route runtime. The project is not blocked by lack of ideas.
 
@@ -16,7 +30,7 @@ old PC clue -> shared knowledge key -> journal card -> dialogue reaction -> voca
 
 Right now the old PC can prove a local document loop, and the route scene can prove a movement loop. The MVP promise requires those loops to become one detective loop. Until a clue from the old PC can change Rinat's dialogue, appear in the investigation journal, unlock/reframe a татарский word, raise village pressure and survive reload, the game is still a collection of strong prototypes.
 
-## Evidence Snapshot
+### Evidence Snapshot (historical)
 
 Verified locally during this audit:
 
@@ -39,7 +53,7 @@ Important current facts:
 - `public/assets/urman_mvp_remaining/` contains broad visual coverage, but most of it is not runtime-integrated.
 - `public/assets/audio/cattle.mp3` and `public/assets/audio/forest_howl.mp3` are not valid authored MVP audio assets; do not rely on them as final.
 
-## Non-Negotiable MVP Acceptance
+### Non-Negotiable MVP Acceptance (historical product target)
 
 The MVP is done only when a first-time player can complete this arc:
 
@@ -59,7 +73,7 @@ The MVP is done only when a first-time player can complete this arc:
 
 If any of these fail, call the build a prototype, not an MVP.
 
-## Current Playable Spine
+### Current Playable Spine (historical)
 
 This is what currently exists:
 
@@ -76,7 +90,7 @@ Main menu
 
 The strongest pieces are route navigation and old PC. The weakest pieces are shared evidence state, dialogue, journal, scene content, final cliffhanger, audio and save/load.
 
-## End-to-End MVP Beat Sheet
+### End-to-End MVP Beat Sheet (historical)
 
 This is the canonical target path. Build toward this sequence before adding optional branches.
 
@@ -97,11 +111,11 @@ This is the canonical target path. Build toward this sequence before adding opti
 | 12 | Final route cause | Clues unlock route toward Кара-Урман | Route assets exist | Connect `route_kara_urman_edge_hint`/clues to route state; no random unlock | Player understands why Айдар goes there |
 | 13 | Cliffhanger | Voice of Марат, Ринат interrupts, hard cut | Forest placeholder; scripted route exit not executed | Implement scripted route/final scene, audio cues, end screen | Player says "old system exists", not "monster showed up" |
 
-## P0 Implementation Sequence
+### P0 Implementation Sequence (historical; superseded)
 
 Do these in order. Later steps depend on earlier shared state.
 
-### P0.1 Canon And Runtime Drift Cleanup
+#### P0.1 Canon And Runtime Drift Cleanup
 
 Goal: stop the runtime from teaching players the wrong canon.
 
@@ -137,7 +151,7 @@ rg -n "Кара-Урман|Kara|Алсу|Шүрәле|debug_bypass" src docs/urm
 npm run build
 ```
 
-### P0.2 Shared Knowledge Source Of Truth
+#### P0.2 Shared Knowledge Source Of Truth
 
 Goal: create the common data layer that all systems use.
 
@@ -235,7 +249,7 @@ Verification:
 npm run build
 ```
 
-### P0.3 Bridge Old PC To Shared State
+#### P0.3 Bridge Old PC To Shared State
 
 Goal: old PC discoveries must affect the game, not only the old PC window.
 
@@ -276,7 +290,7 @@ Manual:
 4. Open journal.
 5. Confirm the clue appears outside old PC.
 
-### P0.4 Investigation Journal
+#### P0.4 Investigation Journal
 
 Goal: replace the current vocabulary-only notebook with the player's external detective brain.
 
@@ -311,7 +325,7 @@ Acceptance:
 - Journal does not expose hidden future truth before the player earns it.
 - It supports татарские glyphs: `ә`, `ө`, `ү`, `җ`, `ң`, `һ`.
 
-### P0.5 Dialogue Key Prototype
+#### P0.5 Dialogue Key Prototype
 
 Goal: prove "knowledge as key" through one real NPC before expanding.
 
@@ -344,7 +358,7 @@ Acceptance:
 - Dangerous key raises pressure or changes availability.
 - NPCs do not dump exposition.
 
-### P0.6 First Vocabulary/Re-read Loop
+#### P0.6 First Vocabulary/Re-read Loop
 
 Goal: татарский becomes gameplay, not flavor.
 
@@ -381,7 +395,7 @@ Acceptance:
 - Tester does not say "language is pretty but unnecessary".
 - At least one old document changes meaning after a word is confirmed.
 
-### P0.7 Scene Integration: House, Zirat/FAP, Mosque, Forest
+#### P0.7 Scene Integration: House, Zirat/FAP, Mosque, Forest
 
 Goal: replace stubs and tech demos with MVP scenes that use existing assets.
 
@@ -466,7 +480,7 @@ Tasks:
 
 Acceptance: final player takeaway is "there is an old system with rules", not "a monster is in the woods".
 
-### P0.8 Route Graph Finalization
+#### P0.8 Route Graph Finalization
 
 Goal: ensure every route exit used by the MVP is deliberate and playable.
 
@@ -488,7 +502,7 @@ Acceptance:
 - No route action silently dead-ends.
 - Player can reach house, FAP/selsmag, mosque, zirat/forest and final handoff.
 
-### P0.9 Save/Load
+#### P0.9 Save/Load
 
 Goal: a player can leave and resume without losing the detective graph.
 
@@ -516,7 +530,7 @@ Acceptance:
 - Reload.
 - Journal, Rinat dialogue availability, vocabulary and route state still match.
 
-### P0.10 Validators And QA Tools
+#### P0.10 Validators And QA Tools
 
 Goal: prevent narrative graph rot.
 
@@ -549,7 +563,7 @@ npm run validate:content
 
 Both pass before any MVP handoff.
 
-## P1 Work After P0 Loop Works
+### P1 Work After P0 Loop Works (historical)
 
 Do these after one full detective loop works.
 
@@ -562,7 +576,7 @@ Do these after one full detective loop works.
 - Add playtest instrumentation and observer hotkeys.
 - Add first-time player playtest build.
 
-## P2 / Post-MVP Restraints
+### P2 / Post-MVP Restraints (historical)
 
 Do not spend MVP time here unless P0/P1 are already green.
 
@@ -576,7 +590,7 @@ Do not spend MVP time here unless P0/P1 are already green.
 - Full top-down map.
 - Complex village simulation.
 
-## Content Files To Create
+### Content Files To Create (historical)
 
 The current code uses TypeScript modules plus Markdown. Use that style first; do not start by inventing a separate engine pipeline.
 
@@ -615,7 +629,7 @@ status: draft
 ---
 ```
 
-## MVP Clue Graph Minimum
+### MVP Clue Graph Minimum (historical)
 
 This is the minimum graph another LLM should implement before expanding.
 
@@ -663,7 +677,7 @@ Rinat dialogue
 
 Add more clues only after every edge above has one source and one use.
 
-## Audio Requirements
+### Audio Requirements (historical)
 
 Audio is not optional for the accepted MVP tone.
 
@@ -688,7 +702,7 @@ Rules:
 - Rinat's line must be short and practical, not trailer-acting.
 - Audio must support silence and pauses; constant horror bed is wrong for УРМАН.
 
-## Runtime Asset Integration Requirements
+### Runtime Asset Integration Requirements (historical)
 
 The visual asset pack is ahead of runtime. Integrate existing assets before generating more.
 
@@ -705,7 +719,7 @@ Acceptance:
 - The first 10 minutes of play are visually coherent with `design_style.md`.
 - Runtime no longer looks like a mix of Vite prototype, 3D tech demo and generated route art.
 
-## Definition Of Done For MVP
+### Definition Of Done For MVP (historical)
 
 MVP is complete when all are true:
 
@@ -723,7 +737,7 @@ MVP is complete when all are true:
 - First-time comprehension test reaches the pass thresholds in `playtest_plan.md`.
 - Татарский/cultural/religious review has no unresolved blocker or serious issue.
 
-## Suggested Work Order For Next LLM
+### Suggested Work Order For Next LLM (historical)
 
 1. Read `AGENTS.md`, this file, `playtest_plan.md`, `mvp_scope.md`, `old_pc.md`, `route_navigation_graph.md`, `technical_architecture.md`.
 2. Run `node scripts/validate-old-pc-content.mjs` and `npm run build`.
@@ -739,4 +753,3 @@ MVP is complete when all are true:
 12. Add validators P0.10.
 13. Run internal smoke playtest from `playtest_plan.md`.
 14. Only then polish content, audio and optional branches.
-

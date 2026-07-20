@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/capability.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "protocolId", "exactVersion", "stateSchemaVersion", "configSchemaRef", "stateSchemaRef", "commandSchemaRef", "eventSchemaRef", "outcomeSchemaRef", "requiredAssets", "requiredAudio", "resourceClaims", "accessibility", "lifecycle"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "protocolId": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "exactVersion": { "$ref": "common.schema.json#/$defs/ExactVersion" },
+    "stateSchemaVersion": { "type": "integer", "minimum": 1 },
+    "configSchemaRef": { "$ref": "common.schema.json#/$defs/SchemaReference" },
+    "stateSchemaRef": { "$ref": "common.schema.json#/$defs/SchemaReference" },
+    "commandSchemaRef": { "$ref": "common.schema.json#/$defs/SchemaReference" },
+    "eventSchemaRef": { "$ref": "common.schema.json#/$defs/SchemaReference" },
+    "outcomeSchemaRef": { "$ref": "common.schema.json#/$defs/SchemaReference" },
+    "requiredAssets": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "requiredAudio": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "resourceClaims": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ResourceClaim" } },
+    "accessibility": {
+      "type": "object",
+      "required": ["alternativeInput", "reducedMotion", "captions", "equivalentOutcomeId"],
+      "properties": {
+        "alternativeInput": { "type": "boolean" },
+        "reducedMotion": { "type": "boolean" },
+        "captions": { "type": "boolean" },
+        "equivalentOutcomeId": { "$ref": "common.schema.json#/$defs/ContentId" }
+      },
+      "additionalProperties": false
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": ["supportsRestore", "supportsSnapshot", "supportsReset", "idempotentStop", "idempotentDispose"],
+      "properties": {
+        "supportsRestore": { "type": "boolean" },
+        "supportsSnapshot": { "type": "boolean" },
+        "supportsReset": { "type": "boolean" },
+        "idempotentStop": { "const": true },
+        "idempotentDispose": { "const": true }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

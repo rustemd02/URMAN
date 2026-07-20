@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/capabilities/urman.oldpc/v1/state.schema.json",
+  "type": "object",
+  "required": ["activeDocumentId", "activeSection", "nextActionSequence", "query", "savedDocumentIds"],
+  "properties": {
+    "activeDocumentId": { "type": ["string", "null"] },
+    "activeSection": { "type": "string", "minLength": 1 },
+    "nextActionSequence": { "type": "integer", "minimum": 1 },
+    "query": { "type": "string" },
+    "savedDocumentIds": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+  },
+  "additionalProperties": false
+}

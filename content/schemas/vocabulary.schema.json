@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/vocabulary.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "term", "language", "meaning", "initialStatus", "rereadTargets", "applicationTargets", "consultantReview"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "term": { "type": "string", "minLength": 1 },
+    "language": { "type": "string", "pattern": "^[a-z]{2,3}$" },
+    "meaning": { "$ref": "common.schema.json#/$defs/LocalizedText" },
+    "initialStatus": { "enum": ["unknown", "guessed", "confirmed"] },
+    "rereadTargets": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "applicationTargets": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "consultantReview": {
+      "type": "object",
+      "required": ["status", "reviewer", "notes"],
+      "properties": {
+        "status": { "enum": ["pending", "reviewed", "changes-required"] },
+        "reviewer": { "type": ["string", "null"] },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

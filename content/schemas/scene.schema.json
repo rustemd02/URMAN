@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/scene.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "sceneType", "assetRefs", "textRefs", "entryConditions", "onEnter", "onExit", "interactions"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "sceneType": { "enum": ["static", "scripted", "route", "presentation", "capability"] },
+    "title": { "$ref": "common.schema.json#/$defs/LocalizedText" },
+    "assetRefs": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "textRefs": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "entryConditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+    "onEnter": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+    "onExit": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+    "interactions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "labelTextId", "conditions", "effects"],
+        "properties": {
+          "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+          "labelTextId": { "$ref": "common.schema.json#/$defs/ContentId" },
+          "conditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+          "effects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+          "targetSceneId": { "$ref": "common.schema.json#/$defs/ContentId" },
+          "targetDialogueId": { "$ref": "common.schema.json#/$defs/ContentId" }
+        },
+        "additionalProperties": false,
+        "allOf": [
+          { "not": { "required": ["targetSceneId", "targetDialogueId"] } }
+        ]
+      }
+    },
+    "capabilityConfigRef": { "$ref": "common.schema.json#/$defs/ContentId" }
+  },
+  "additionalProperties": false
+}

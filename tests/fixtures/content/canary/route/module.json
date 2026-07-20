@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "canary.route",
+  "exactVersion": "1.0.0",
+  "sourceFiles": ["definitions.json"],
+  "assets": [],
+  "dependencies": [{ "moduleId": "canary.core", "exactVersion": "1.0.0" }],
+  "provides": [
+    "canary.route:quest/read-marker",
+    "canary.route:scene/workshop",
+    "canary.route:text/marker-objective",
+    "canary.route:text/marker-title"
+  ],
+  "requires": []
+}

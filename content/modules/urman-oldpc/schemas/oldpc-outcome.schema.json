@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/capabilities/urman.oldpc/v1/outcome.schema.json",
+  "type": "object",
+  "required": ["status", "actionOccurrenceId", "command"],
+  "properties": {
+    "status": { "const": "pending" },
+    "actionOccurrenceId": { "type": "string", "minLength": 1 },
+    "command": { "$ref": "oldpc-command.schema.json" }
+  },
+  "additionalProperties": false
+}

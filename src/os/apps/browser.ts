@@ -1,8 +1,5 @@
-import { initOldPcHub, renderOldPcHub } from './oldPcHub';
-import { OldPcSection } from '../data/oldPcContent';
+import { initOldPcHub, OldPcHubController, renderOldPcHub } from './oldPcHub';
 
-export const renderBrowser = (initialSection: OldPcSection = 'archive_search') => renderOldPcHub(initialSection);
+export const renderBrowser = () => renderOldPcHub();
 
-export const initBrowser = (root: HTMLElement | Document = document, initialSection?: OldPcSection) => {
-    initOldPcHub(root, initialSection);
-};
+export const initBrowser = (root: HTMLElement, controller: OldPcHubController) => initOldPcHub(root, controller);

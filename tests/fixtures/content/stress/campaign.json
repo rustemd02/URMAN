@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "stress.matrix",
+  "exactVersion": "1.0.0",
+  "entrypoint": "stress.matrix:scene/entry",
+  "modules": [{ "moduleId": "stress.matrix", "exactVersion": "1.0.0" }],
+  "roleBindings": {},
+  "capabilityRequirements": [
+    { "protocolId": "stress.matrix:capability/spatial-placement", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/spatial-audio-probe", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/crafting", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/scheduler-window", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/role-binding", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/evidence-compare", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/timed-choice", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/custody-transfer", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/audio-workbench", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/environment-sim", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/stealth-space", "exactVersion": "1.0.0" },
+    { "protocolId": "stress.matrix:capability/content-instantiator", "exactVersion": "1.0.0" }
+  ],
+  "narrativeOrder": [
+    "stress.matrix:scene/entry",
+    "stress.matrix:quest/spatial-placement", "stress.matrix:quest/spatial-audio-probe", "stress.matrix:quest/crafting", "stress.matrix:quest/scheduler-window",
+    "stress.matrix:quest/role-binding", "stress.matrix:quest/evidence-compare", "stress.matrix:quest/timed-choice", "stress.matrix:quest/custody-transfer",
+    "stress.matrix:quest/audio-workbench", "stress.matrix:quest/environment-sim", "stress.matrix:quest/stealth-space", "stress.matrix:quest/content-instantiator"
+  ],
+  "invariants": [{
+    "id": "stress.matrix:invariant/entry-reachable",
+    "description": "Synthetic Proposal entry remains reachable.",
+    "severity": "error",
+    "kind": "required-reachable",
+    "targetId": "stress.matrix:scene/entry"
+  }]
+}

@@ -1,5 +1,4 @@
-const NOTEPAD_STORAGE_KEY = 'game.notepad.files.v1';
-const NOTEPAD_ACTIVE_FILE_KEY = 'game.notepad.activeFile.v1';
+let inMemoryNotepadState: ReturnType<typeof createDefaultNotepadState> | null = null;
 
 function escapeHtml(value = '') {
   return String(value)
@@ -27,38 +26,14 @@ function createDefaultNotepadState(initialContent = 'Новая заметка..
 }
 
 function readNotepadState(initialContent = 'Новая заметка...') {
-  try {
-    const raw = localStorage.getItem(NOTEPAD_STORAGE_KEY);
-    if (!raw) {
-      const state = createDefaultNotepadState(initialContent);
-      localStorage.setItem(NOTEPAD_STORAGE_KEY, JSON.stringify(state));
-      localStorage.setItem(NOTEPAD_ACTIVE_FILE_KEY, state.activeFileId);
-      return state;
-    }
-
-    const parsed = JSON.parse(raw);
-    if (!parsed || !Array.isArray(parsed.files) || !parsed.files.length) {
-      const fallback = createDefaultNotepadState(initialContent);
-      localStorage.setItem(NOTEPAD_STORAGE_KEY, JSON.stringify(fallback));
-      localStorage.setItem(NOTEPAD_ACTIVE_FILE_KEY, fallback.activeFileId);
-      return fallback;
-    }
-
-    const savedActive = localStorage.getItem(NOTEPAD_ACTIVE_FILE_KEY);
-    parsed.activeFileId = savedActive || parsed.activeFileId || parsed.files[0].id;
-
-    return parsed;
-  } catch (err) {
-    const fallback = createDefaultNotepadState(initialContent);
-    localStorage.setItem(NOTEPAD_STORAGE_KEY, JSON.stringify(fallback));
-    localStorage.setItem(NOTEPAD_ACTIVE_FILE_KEY, fallback.activeFileId);
-    return fallback;
+  if (!inMemoryNotepadState || !Array.isArray(inMemoryNotepadState.files) || !inMemoryNotepadState.files.length) {
+    inMemoryNotepadState = createDefaultNotepadState(initialContent);
   }
+  return inMemoryNotepadState;
 }
 
 function writeNotepadState(state) {
-  localStorage.setItem(NOTEPAD_STORAGE_KEY, JSON.stringify(state));
-  localStorage.setItem(NOTEPAD_ACTIVE_FILE_KEY, state.activeFileId);
+  inMemoryNotepadState = state;
 }
 
 function formatTimestamp(ts) {
@@ -213,7 +188,7 @@ export const renderNotepad = (content = 'Новая заметка...') => {
 
 export const initNotepad = (root: HTMLElement | Document = document, initialContent = 'Новая заметка...') => {
   const app = (root instanceof HTMLElement) ? root : root.querySelector('.notepad-app');
-  if (!app) return;
+  if (!app) return () => undefined;
 
   let state = readNotepadState(initialContent);
 
@@ -229,7 +204,7 @@ export const initNotepad = (root: HTMLElement | Document = document, initialCont
   const deleteBtn = app.querySelector('.notepad-delete-btn');
 
   if (!editor || !filesList || !fileTitle || !pathEl || !saveStatus || !charCount || !lineCount) {
-    return;
+    return () => undefined;
   }
 
   let saveTimer: any = null;
@@ -388,10 +363,11 @@ export const initNotepad = (root: HTMLElement | Document = document, initialCont
     renderActiveFile();
   };
 
-  editor.addEventListener('input', () => {
+  const inputListener = () => {
     updateCounters();
     scheduleSave();
-  });
+  };
+  editor.addEventListener('input', inputListener);
 
   editor.addEventListener('blur', forceSave);
 
@@ -399,12 +375,23 @@ export const initNotepad = (root: HTMLElement | Document = document, initialCont
   renameBtn?.addEventListener('click', renameFile);
   deleteBtn?.addEventListener('click', deleteFile);
 
-  document.addEventListener('visibilitychange', () => {
+  const visibilityListener = () => {
     if (document.hidden) forceSave();
-  });
-
-  window.addEventListener('beforeunload', forceSave);
+  };
+  const beforeUnloadListener = () => forceSave();
+  document.addEventListener('visibilitychange', visibilityListener);
+  window.addEventListener('beforeunload', beforeUnloadListener);
 
   renderFilesList();
   renderActiveFile();
+  return () => {
+    if (saveTimer) clearTimeout(saveTimer);
+    editor.removeEventListener('input', inputListener);
+    editor.removeEventListener('blur', forceSave);
+    newBtn?.removeEventListener('click', createFile);
+    renameBtn?.removeEventListener('click', renameFile);
+    deleteBtn?.removeEventListener('click', deleteFile);
+    document.removeEventListener('visibilitychange', visibilityListener);
+    window.removeEventListener('beforeunload', beforeUnloadListener);
+  };
 };

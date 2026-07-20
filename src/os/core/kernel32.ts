@@ -5,7 +5,7 @@ export class SystemTimer {
     private readonly END_DATE = new Date(2104, 0, 1).getTime();
 
     public render(container: HTMLElement) {
-        if (!container) return;
+        if (!container) return () => undefined;
 
         const updateCounter = () => {
             const now = new Date().getTime();
@@ -71,6 +71,7 @@ export class SystemTimer {
         };
 
         updateCounter();
-        setInterval(updateCounter, 3600000);
+        const interval = window.setInterval(updateCounter, 3600000);
+        return () => window.clearInterval(interval);
     }
 }

@@ -169,6 +169,29 @@
   Suggested next step: Написать validator: orphan clues, missing sources, broken unlocks.
   Priority: Medium
 
+## Modular migration follow-ups
+
+- Question: Какие legacy ambient character rows реально входят в production Chapter 1 campaign?
+  Context: MM-10 found `fanis`, `zarifa`, `ildar`, `gulnara`, `karat_guard`, `rashid`, `nail`, `rushania` and `razilya` in the old `CHARACTERS` array, but the accepted Chapter 1 active cast is narrower.
+  Why it matters: Presence in a legacy array must not silently add NPCs, portraits, dialogue obligations or canon to the campaign.
+  Status: Deferred, non-blocking for MM-20. MM-50 includes only explicitly referenced/accepted records; all others remain out of the campaign until a content decision.
+  Suggested next step: During MM-50, report the explicit production character list and leave unreferenced ambient rows unmigrated rather than inventing roles.
+  Priority: Medium
+
+- Question: Should Су Анасы and Убыр receive future module IDs?
+  Context: Legacy `characters.ts` models `shurale`, `su_anasy` and `ubyr` as ordinary character rows. Chapter 1 only needs Шүрәле as vocabulary/knowledge and must not turn mythological beings into mobs/NPCs.
+  Why it matters: Assigning character IDs now would silently choose a future ontology and campaign scope.
+  Status: Deferred; not part of MM-50 Chapter 1 migration. No new canon decision.
+  Suggested next step: Define a mythology/lore module only when a future accepted campaign needs these entities.
+  Priority: Low
+
+- Question: Есть ли дополнительные user preference keys, которые должен сохранить MM-70?
+  Context: MM-10 found `urman_username` but no other current preference keys. The exact four gameplay/UI keys are authorized for reset.
+  Why it matters: The reset must preserve user choices without retaining gameplay state or deleting unrelated origin data.
+  Status: Resolved 2026-07-18. Audit found only `urman_username`; reset deletes exactly four v1 gameplay keys and never performs broad clear. Unknown origin keys and the isolated Content Lab namespace remain untouched.
+  Suggested next step: Classify any future preference key explicitly before adding it to reset behaviour; keep the named gateway as the sole storage owner.
+  Priority: Low
+
 ## Production
 
 - Question: Кто владелец canon updates?

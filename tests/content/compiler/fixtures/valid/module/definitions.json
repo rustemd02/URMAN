@@ -1,0 +1,28 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "urman.compiler-fixture:text/arrival-title",
+    "value": {
+      "default": "Arrival",
+      "translations": {
+        "ru": "Приезд"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.compiler-fixture:scene/arrival",
+    "sceneType": "static",
+    "title": {
+      "default": "Arrival",
+      "translations": {}
+    },
+    "assetRefs": [],
+    "textRefs": ["urman.compiler-fixture:text/arrival-title"],
+    "entryConditions": [],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": []
+  }
+]

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/compiled-content-pack.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "packVersion", "campaign", "registries", "dependencyGraph", "moduleFingerprints", "campaignFingerprint"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "packVersion": { "$ref": "common.schema.json#/$defs/ExactVersion" },
+    "campaign": {
+      "type": "object",
+      "required": ["id", "exactVersion", "entrypoint", "orderedModules", "roleBindings", "capabilityRequirements", "narrativeOrder", "invariants"],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/CampaignId" },
+        "exactVersion": { "$ref": "common.schema.json#/$defs/ExactVersion" },
+        "entrypoint": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "orderedModules": { "type": "array", "minItems": 1, "items": { "$ref": "common.schema.json#/$defs/Dependency" } },
+        "roleBindings": { "type": "object", "propertyNames": { "pattern": "^[a-z][a-z0-9._-]*$" }, "additionalProperties": { "$ref": "common.schema.json#/$defs/ContentId" } },
+        "capabilityRequirements": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/CapabilityRequirement" } },
+        "narrativeOrder": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+        "invariants": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/NarrativeInvariant" } }
+      },
+      "additionalProperties": false
+    },
+    "registries": {
+      "type": "object",
+      "required": ["characters", "scenes", "dialogues", "quests", "knowledge", "vocabulary", "documents", "assets", "texts", "capabilities"],
+      "properties": {
+        "characters": { "type": "array", "items": { "$ref": "character.schema.json" } },
+        "scenes": { "type": "array", "items": { "$ref": "scene.schema.json" } },
+        "dialogues": { "type": "array", "items": { "$ref": "dialogue.schema.json" } },
+        "quests": { "type": "array", "items": { "$ref": "quest.schema.json" } },
+        "knowledge": { "type": "array", "items": { "$ref": "knowledge.schema.json" } },
+        "vocabulary": { "type": "array", "items": { "$ref": "vocabulary.schema.json" } },
+        "documents": { "type": "array", "items": { "$ref": "document.schema.json" } },
+        "assets": { "type": "array", "items": { "$ref": "asset.schema.json" } },
+        "texts": { "type": "array", "items": { "$ref": "text.schema.json" } },
+        "capabilities": { "type": "array", "items": { "$ref": "capability.schema.json" } }
+      },
+      "additionalProperties": false
+    },
+    "dependencyGraph": {
+      "type": "object",
+      "required": ["nodes", "edges"],
+      "properties": {
+        "nodes": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ModuleId" } },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from", "to"],
+            "properties": {
+              "from": { "$ref": "common.schema.json#/$defs/ModuleId" },
+              "to": { "$ref": "common.schema.json#/$defs/ModuleId" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "moduleFingerprints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["moduleId", "exactVersion", "sha256"],
+        "properties": {
+          "moduleId": { "$ref": "common.schema.json#/$defs/ModuleId" },
+          "exactVersion": { "$ref": "common.schema.json#/$defs/ExactVersion" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "campaignFingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "additionalProperties": false
+}

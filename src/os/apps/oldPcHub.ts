@@ -1,48 +1,31 @@
-import {
-    collectSuggestedTerms,
-    isOldPcItemUnlocked,
-    makeQueryKey,
-    normalizeOldPcTerm,
-    OLD_PC_BOOT_KEYS,
-    OLD_PC_ITEMS,
-    OLD_PC_SECTION_LABELS,
-    OldPcItem,
-    OldPcSection,
-    searchOldPcItems,
-} from '../data/oldPcContent';
+export type OldPcSection = string;
 
-const STORAGE_KEY = 'urman.oldPcHub.state.v1';
-
-interface OldPcState {
-    activeSection: OldPcSection;
-    activeItemId: string | null;
-    query: string;
-    unlockedKeys: string[];
-    savedClues: string[];
-    recentEvents: string[];
+export interface OldPcHubDocument {
+    id: string;
+    title: string;
+    bodyMarkdown: string;
+    oldPc: {
+        pcSection: string;
+        type: string;
+        reliability: string;
+        suggestedTerms: readonly string[];
+    };
 }
 
-const SECTION_ORDER = Object.keys(OLD_PC_SECTION_LABELS) as OldPcSection[];
+export interface OldPcHubModel {
+    activeDocumentId: string | null;
+    activeSection: string;
+    query: string;
+    savedDocumentIds: readonly string[];
+    results: readonly OldPcHubDocument[];
+    suggestedTerms: readonly string[];
+}
 
-const TYPE_LABELS: Record<OldPcItem['type'], string> = {
-    document: 'документ',
-    record: 'реестр',
-    message: 'сообщение',
-    tatarwiki_article: 'Татарвики',
-    folder_note: 'заметка',
-    corrupted_fragment: 'повреждено',
-};
-
-const RELIABILITY_HINTS: Record<OldPcItem['reliability'], string> = {
-    official_lie: 'официальная версия',
-    partial_truth: 'частичная запись',
-    personal_memory: 'личная память',
-    village_record: 'деревенский учет',
-    pact_record: 'внутренний учет',
-    folklore_mask: 'фольклорная маска',
-    corrupted: 'поврежденный источник',
-    unverified: 'непроверено',
-};
+export interface OldPcHubController {
+    render(): OldPcHubModel;
+    handle(input: { type: 'search' | 'open' | 'save' | 'section'; query?: string; documentId?: string; section?: string }): unknown;
+    subscribe?(listener: (model: OldPcHubModel) => void): { dispose(): void };
+}
 
 function escapeHtml(value = '') {
     return String(value)
@@ -53,39 +36,9 @@ function escapeHtml(value = '') {
         .replaceAll("'", '&#039;');
 }
 
-function normalizeState(raw?: Partial<OldPcState>): OldPcState {
-    const unlocked = new Set([...(raw?.unlockedKeys ?? []), ...OLD_PC_BOOT_KEYS]);
-    return {
-        activeSection: raw?.activeSection && SECTION_ORDER.includes(raw.activeSection) ? raw.activeSection : 'archive_search',
-        activeItemId: raw?.activeItemId ?? null,
-        query: raw?.query ?? '',
-        unlockedKeys: [...unlocked],
-        savedClues: raw?.savedClues ?? [],
-        recentEvents: raw?.recentEvents ?? ['Компьютер включился. Архив доступен из дома Мансура.'],
-    };
-}
-
-function readState(initialSection: OldPcSection): OldPcState {
-    try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const parsed = raw ? JSON.parse(raw) : {};
-        const state = normalizeState(parsed);
-        state.activeSection = initialSection;
-        return state;
-    } catch {
-        return normalizeState({ activeSection: initialSection });
-    }
-}
-
-function writeState(state: OldPcState) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-
-function markdownToHtml(body: string, unlockedKeys: Set<string>) {
-    const lines = body.split('\n');
+function markdownToHtml(body: string) {
     let inTable = false;
-
-    const html = lines.map((line) => {
+    const lines = body.split('\n').map((line) => {
         const trimmed = line.trim();
         if (!trimmed) {
             if (inTable) {
@@ -94,349 +47,129 @@ function markdownToHtml(body: string, unlockedKeys: Set<string>) {
             }
             return '';
         }
-
         if (trimmed.startsWith('|')) {
             const cells = trimmed.split('|').slice(1, -1).map((cell) => cell.trim());
             if (cells.every((cell) => /^-+$/.test(cell.replaceAll(' ', '')))) return '';
-            const row = `<tr>${cells.map((cell) => `<td>${renderInline(cell, unlockedKeys)}</td>`).join('')}</tr>`;
+            const row = `<tr>${cells.map((cell) => `<td>${escapeHtml(cell)}</td>`).join('')}</tr>`;
             if (!inTable) {
                 inTable = true;
                 return `<table class="oldpc-doc-table">${row}`;
             }
             return row;
         }
-
         if (inTable) {
             inTable = false;
-            return `</table>${renderBlock(trimmed, unlockedKeys)}`;
+            return `</table>${renderBlock(trimmed)}`;
         }
-
-        return renderBlock(trimmed, unlockedKeys);
+        return renderBlock(trimmed);
     });
-
-    if (inTable) html.push('</table>');
-    return html.join('');
+    if (inTable) lines.push('</table>');
+    return lines.join('');
 }
 
-function renderBlock(line: string, unlockedKeys: Set<string>) {
-    if (line.startsWith('# ')) return `<h2>${renderInline(line.slice(2), unlockedKeys)}</h2>`;
-    if (line.startsWith('- ')) return `<div class="oldpc-bullet">■ ${renderInline(line.slice(2), unlockedKeys)}</div>`;
-    return `<p>${renderInline(line, unlockedKeys)}</p>`;
+function renderBlock(line: string) {
+    if (line.startsWith('# ')) return `<h2>${escapeHtml(line.slice(2))}</h2>`;
+    if (line.startsWith('- ')) return `<div class="oldpc-bullet">■ ${escapeHtml(line.slice(2))}</div>`;
+    return `<p>${escapeHtml(line)}</p>`;
 }
 
-function renderInline(text: string, unlockedKeys: Set<string>) {
-    const escaped = escapeHtml(text);
-    return escaped
-        .replace(/`([^`]+)`/g, '<code>$1</code>')
-        .replace(/\b(урман|тавыш|җавап|Шүрәле|Кара-Урман|Марат|Ринат)\b/giu, (match) => {
-            const key = makeQueryKey(match);
-            const knownClass = unlockedKeys.has(key) ? ' known' : '';
-            return `<button class="oldpc-inline-term${knownClass}" data-term="${escapeHtml(match)}">${escapeHtml(match)}</button>`;
-        });
+function sectionLabel(section: string) {
+    return section.replaceAll('_', ' ');
 }
 
-function itemUnlockText(item: OldPcItem, unlockedKeys: Set<string>) {
-    const missing = item.requires.filter((key) => !unlockedKeys.has(key));
-    if (!missing.length) return '';
-    return `Требуется: ${missing.map((key) => key.replace(/^clue_/, 'улика: ').replace(/^tt_/, 'слово: ').replace(/^query_/, 'поиск: ')).join(', ')}`;
+function reliabilityLabel(reliability: string) {
+    return reliability.replaceAll('_', ' ');
 }
 
-function addEvent(state: OldPcState, text: string) {
-    state.recentEvents = [text, ...state.recentEvents.filter((event) => event !== text)].slice(0, 6);
+function allSections(model: OldPcHubModel) {
+    return [...new Set(model.results.map((item) => item.oldPc.pcSection).concat([model.activeSection]))].sort();
 }
 
-function unlockFromItem(state: OldPcState, item: OldPcItem) {
-    const keys = new Set(state.unlockedKeys);
-    const before = keys.size;
-    keys.add(item.id);
-    item.reveals.forEach((key) => keys.add(key));
-    item.unlocks.forEach((key) => keys.add(key));
-    item.vocabulary.forEach((key) => keys.add(key));
-    item.searchTerms.forEach((term) => keys.add(makeQueryKey(term)));
-    item.suggestedTerms.forEach((term) => keys.add(makeQueryKey(term)));
-    state.unlockedKeys = [...keys];
-
-    if (keys.size > before) {
-        addEvent(state, `Новые ключи из файла: ${item.title}`);
+function renderResults(model: OldPcHubModel) {
+    if (!model.results.length) {
+        return '<div class="oldpc-empty">Ничего не найдено. Попробуй имя, место или термин из документа.</div>';
     }
-}
-
-function syncSharedOpen(item: OldPcItem) {
-    const game = (window as any).URMAN;
-    game?.investigation?.registerOldPcOpen({
-        id: item.id,
-        title: item.title,
-        dangerLevel: item.dangerLevel,
-        reveals: item.reveals,
-        contradicts: item.contradicts,
-        unlocks: item.unlocks,
-        vocabulary: item.vocabulary,
-    });
-    game?.saveSystem?.save();
-}
-
-function syncSharedSave(item: OldPcItem) {
-    const game = (window as any).URMAN;
-    game?.investigation?.saveOldPcEvidence({
-        id: item.id,
-        title: item.title,
-        dangerLevel: item.dangerLevel,
-        reveals: item.reveals,
-        contradicts: item.contradicts,
-        unlocks: item.unlocks,
-        vocabulary: item.vocabulary,
-    });
-    game?.saveSystem?.save();
-}
-
-function renderSectionTabs(activeSection: OldPcSection) {
-    return SECTION_ORDER.map((section) => `
-        <button class="oldpc-section ${section === activeSection ? 'active' : ''}" data-section="${section}">
-            <span>${escapeHtml(OLD_PC_SECTION_LABELS[section])}</span>
-            <strong>${OLD_PC_ITEMS.filter((item) => item.pcSection === section).length}</strong>
-        </button>
-    `).join('');
-}
-
-function renderResults(items: OldPcItem[], state: OldPcState, unlockedKeys: Set<string>) {
-    if (!items.length) {
-        return `<div class="oldpc-empty">Ничего не найдено. Попробуй имя, место, татарское слово или термин из документа.</div>`;
-    }
-
-    return items.map((item) => {
-        const unlocked = isOldPcItemUnlocked(item, unlockedKeys);
-        const active = state.activeItemId === item.id;
-        const danger = '●'.repeat(item.dangerLevel) || '○';
-        const lockText = unlocked ? '' : itemUnlockText(item, unlockedKeys);
-
+    return model.results.map((item) => {
+        const active = item.id === model.activeDocumentId;
         return `
-            <button class="oldpc-result ${active ? 'active' : ''} ${unlocked ? '' : 'locked'}" data-item-id="${escapeHtml(item.id)}">
-                <span class="oldpc-result-top">
-                    <strong>${escapeHtml(item.title)}</strong>
-                    <em>${escapeHtml(TYPE_LABELS[item.type])}</em>
-                </span>
-                <span class="oldpc-result-meta">
-                    ${escapeHtml(OLD_PC_SECTION_LABELS[item.pcSection])} · ${escapeHtml(RELIABILITY_HINTS[item.reliability])} · риск ${danger}
-                </span>
-                ${lockText ? `<span class="oldpc-lock">${escapeHtml(lockText)}</span>` : ''}
+            <button class="oldpc-result ${active ? 'active' : ''}" data-item-id="${escapeHtml(item.id)}">
+                <span class="oldpc-result-top"><strong>${escapeHtml(item.title)}</strong><em>${escapeHtml(item.oldPc.type)}</em></span>
+                <span class="oldpc-result-meta">${escapeHtml(sectionLabel(item.oldPc.pcSection))} · ${escapeHtml(reliabilityLabel(item.oldPc.reliability))}</span>
             </button>
         `;
     }).join('');
 }
 
-function renderDocPanel(item: OldPcItem | undefined, unlockedKeys: Set<string>, savedClues: Set<string>) {
-    if (!item) {
-        return `
-            <div class="oldpc-doc-placeholder">
-                <div class="oldpc-crt-mark">C:\\KYRLAY\\ARCHIVE</div>
-                <h2>Выбери файл</h2>
-                <p>ПК Мансура хранит бытовые папки, старые сообщения и внутренний учет деревни. Начни с поиска по имени Марата или открой видимый раздел слева.</p>
-            </div>
-        `;
+function renderReader(model: OldPcHubModel) {
+    const document = model.results.find((item) => item.id === model.activeDocumentId);
+    if (!document) {
+        return '<div class="oldpc-doc-placeholder"><div class="oldpc-crt-mark">C:\\KYRLAY\\ARCHIVE</div><h2>Выбери файл</h2><p>Архив отображает только content records, разрешённые runtime-ядром.</p></div>';
     }
-
-    const unlocked = isOldPcItemUnlocked(item, unlockedKeys);
-    if (!unlocked) {
-        return `
-            <div class="oldpc-doc-locked">
-                <div class="oldpc-lock-icon">▣</div>
-                <h2>${escapeHtml(item.title)}</h2>
-                <p>${escapeHtml(itemUnlockText(item, unlockedKeys))}</p>
-                <p>Файл есть в индексе, но старый архив не показывает содержимое без нужного слова, документа или разговора.</p>
-            </div>
-        `;
-    }
-
+    const saved = model.savedDocumentIds.includes(document.id);
     return `
         <article class="oldpc-document">
             <header>
-                <div>
-                    <div class="oldpc-path">C:\\KYRLAY\\${escapeHtml(item.pcSection)}\\${escapeHtml(item.id)}.txt</div>
-                    <h2>${escapeHtml(item.title)}</h2>
-                </div>
-                <button class="oldpc-save-clue ${savedClues.has(item.id) ? 'saved' : ''}" data-save-clue="${escapeHtml(item.id)}">
-                    ${savedClues.has(item.id) ? 'Улика сохранена' : 'Сохранить улику'}
-                </button>
+                <div><div class="oldpc-path">C:\\KYRLAY\\${escapeHtml(document.oldPc.pcSection)}\\${escapeHtml(document.id)}.txt</div><h2>${escapeHtml(document.title)}</h2></div>
+                <button class="oldpc-save-clue ${saved ? 'saved' : ''}" data-save-clue="${escapeHtml(document.id)}">${saved ? 'Улика сохранена' : 'Сохранить улику'}</button>
             </header>
-
-            <div class="oldpc-stamps">
-                <span>${escapeHtml(item.inWorldSource ?? 'локальный архив')}</span>
-                <span>${escapeHtml(RELIABILITY_HINTS[item.reliability])}</span>
-                <span>опасность ${item.dangerLevel}/3</span>
-            </div>
-
-            <div class="oldpc-doc-body">
-                ${markdownToHtml(item.body, unlockedKeys)}
-            </div>
-
-            <footer class="oldpc-doc-footer">
-                ${item.reveals.map((key) => `<button class="oldpc-key" data-key="${escapeHtml(key)}">${escapeHtml(key.replace(/^clue_/, 'улика: '))}</button>`).join('')}
-                ${item.suggestedTerms.map((term) => `<button class="oldpc-term" data-term="${escapeHtml(term)}">${escapeHtml(term)}</button>`).join('')}
-            </footer>
+            <div class="oldpc-stamps"><span>${escapeHtml(reliabilityLabel(document.oldPc.reliability))}</span></div>
+            <div class="oldpc-doc-body">${markdownToHtml(document.bodyMarkdown)}</div>
+            <footer class="oldpc-doc-footer">${document.oldPc.suggestedTerms.map((term) => `<button class="oldpc-term" data-term="${escapeHtml(term)}">${escapeHtml(term)}</button>`).join('')}</footer>
         </article>
     `;
 }
 
-function renderSavedClues(state: OldPcState) {
-    if (!state.savedClues.length) return '<div class="oldpc-muted">Пока пусто. Сохраняй сильные документы как улики.</div>';
-
-    return state.savedClues.map((id) => {
-        const item = OLD_PC_ITEMS.find((candidate) => candidate.id === id);
-        return `<button class="oldpc-saved-clue" data-item-id="${escapeHtml(id)}">${escapeHtml(item?.title ?? id)}</button>`;
-    }).join('');
-}
-
-function renderShell(root: HTMLElement, state: OldPcState) {
-    const unlockedKeys = new Set(state.unlockedKeys);
-    const results = searchOldPcItems(state.query, unlockedKeys, state.activeSection);
-    const activeItem = OLD_PC_ITEMS.find((item) => item.id === state.activeItemId);
-    const suggestedTerms = collectSuggestedTerms(OLD_PC_ITEMS, unlockedKeys);
-
+function renderShell(root: HTMLElement, model: OldPcHubModel) {
+    const sections = allSections(model);
     root.innerHTML = `
         <div class="oldpc-hub">
             <aside class="oldpc-sidebar">
-                <div class="oldpc-brand">
-                    <strong>Кырлай архив</strong>
-                    <span>дом Мансура · локальная копия</span>
-                </div>
-                <nav>${renderSectionTabs(state.activeSection)}</nav>
-                <div class="oldpc-clues">
-                    <h3>Сохраненные улики</h3>
-                    ${renderSavedClues(state)}
-                </div>
+                <div class="oldpc-brand"><strong>Кырлай архив</strong><span>локальная копия</span></div>
+                <nav>${sections.map((section) => `<button class="oldpc-section ${section === model.activeSection ? 'active' : ''}" data-section="${escapeHtml(section)}"><span>${escapeHtml(sectionLabel(section))}</span></button>`).join('')}</nav>
+                <div class="oldpc-clues"><h3>Сохранённые улики</h3><span>${model.savedDocumentIds.length}</span></div>
             </aside>
-
             <main class="oldpc-main">
-                <section class="oldpc-searchbar">
-                    <input class="oldpc-search-input" value="${escapeHtml(state.query)}" placeholder="Поиск: Марат, реестр, урман, граница..." />
-                    <button class="oldpc-search-btn">Искать</button>
-                    <button class="oldpc-reset-btn">Сбросить сессию</button>
-                </section>
-
-                <section class="oldpc-suggested">
-                    ${suggestedTerms.map((term) => `<button class="oldpc-term" data-term="${escapeHtml(term)}">${escapeHtml(term)}</button>`).join('')}
-                </section>
-
-                <div class="oldpc-workspace">
-                    <section class="oldpc-results">
-                        <div class="oldpc-panel-title">
-                            <strong>${escapeHtml(OLD_PC_SECTION_LABELS[state.activeSection])}</strong>
-                            <span>${results.length} файлов</span>
-                        </div>
-                        ${renderResults(results, state, unlockedKeys)}
-                    </section>
-
-                    <section class="oldpc-reader">
-                        ${renderDocPanel(activeItem, unlockedKeys, new Set(state.savedClues))}
-                    </section>
-                </div>
-
-                <section class="oldpc-events">
-                    ${state.recentEvents.map((event) => `<span>${escapeHtml(event)}</span>`).join('')}
-                </section>
+                <section class="oldpc-searchbar"><input class="oldpc-search-input" value="${escapeHtml(model.query)}" placeholder="Поиск: Марат, реестр, урман, граница..." /><button class="oldpc-search-btn">Искать</button></section>
+                <section class="oldpc-suggested">${model.suggestedTerms.map((term) => `<button class="oldpc-term" data-term="${escapeHtml(term)}">${escapeHtml(term)}</button>`).join('')}</section>
+                <div class="oldpc-workspace"><section class="oldpc-results"><div class="oldpc-panel-title"><strong>${escapeHtml(sectionLabel(model.activeSection))}</strong><span>${model.results.length} файлов</span></div>${renderResults(model)}</section><section class="oldpc-reader">${renderReader(model)}</section></div>
             </main>
         </div>
     `;
 }
 
-export const renderOldPcHub = (initialSection: OldPcSection = 'archive_search') => `
-    <div class="oldpc-hub-root" data-initial-section="${initialSection}"></div>
-`;
+export const renderOldPcHub = () => '<div class="oldpc-hub-root"></div>';
 
-export const initOldPcHub = (root: HTMLElement | Document = document, initialSection?: OldPcSection) => {
-    const app = root instanceof HTMLElement
-        ? root.querySelector('.oldpc-hub-root') as HTMLElement
-        : document.querySelector('.oldpc-hub-root') as HTMLElement;
-
-    if (!app) return;
-
-    const startSection = initialSection ?? (app.dataset.initialSection as OldPcSection | undefined) ?? 'archive_search';
-    let state = readState(startSection);
-
-    const saveAndRender = () => {
-        writeState(state);
-        renderShell(app, state);
-    };
-
-    app.addEventListener('click', (event) => {
+/** Browser-only renderer. The controller is a capability adapter; it owns neither records nor progression. */
+export const initOldPcHub = (root: HTMLElement, controller: OldPcHubController) => {
+    const app = root.querySelector('.oldpc-hub-root') as HTMLElement | null;
+    if (!app) return () => undefined;
+    const render = (model = controller.render()) => renderShell(app, model);
+    const click = (event: Event) => {
         const target = event.target as HTMLElement;
-        const sectionButton = target.closest<HTMLButtonElement>('.oldpc-section');
-        const termButton = target.closest<HTMLButtonElement>('[data-term]');
-        const resultButton = target.closest<HTMLButtonElement>('[data-item-id]');
-        const saveButton = target.closest<HTMLButtonElement>('[data-save-clue]');
-        const resetButton = target.closest<HTMLButtonElement>('.oldpc-reset-btn');
+        const section = target.closest<HTMLButtonElement>('[data-section]')?.dataset.section;
+        const term = target.closest<HTMLButtonElement>('[data-term]')?.dataset.term;
+        const itemId = target.closest<HTMLButtonElement>('[data-item-id]')?.dataset.itemId;
+        const saveId = target.closest<HTMLButtonElement>('[data-save-clue]')?.dataset.saveClue;
         const searchButton = target.closest<HTMLButtonElement>('.oldpc-search-btn');
-
-        if (sectionButton?.dataset.section) {
-            state.activeSection = sectionButton.dataset.section as OldPcSection;
-            state.query = '';
-            state.activeItemId = null;
-            addEvent(state, `Открыт раздел: ${OLD_PC_SECTION_LABELS[state.activeSection]}`);
-            saveAndRender();
-            return;
-        }
-
-        if (termButton?.dataset.term) {
-            const term = termButton.dataset.term;
-            state.query = term;
-            state.activeSection = 'archive_search';
-            state.unlockedKeys = [...new Set([...state.unlockedKeys, makeQueryKey(term), `term_${normalizeOldPcTerm(term)}`])];
-            addEvent(state, `Поиск по термину: ${term}`);
-            saveAndRender();
-            return;
-        }
-
-        if (saveButton?.dataset.saveClue) {
-            const id = saveButton.dataset.saveClue;
-            const item = OLD_PC_ITEMS.find((candidate) => candidate.id === id);
-            state.savedClues = [...new Set([...state.savedClues, id])];
-            state.unlockedKeys = [...new Set([...state.unlockedKeys, `saved_${id}`])];
-            if (item) syncSharedSave(item);
-            addEvent(state, `Улика сохранена: ${item?.title ?? id}`);
-            saveAndRender();
-            return;
-        }
-
-        if (resultButton?.dataset.itemId) {
-            const item = OLD_PC_ITEMS.find((candidate) => candidate.id === resultButton.dataset.itemId);
-            if (!item) return;
-            state.activeItemId = item.id;
-            if (isOldPcItemUnlocked(item, new Set(state.unlockedKeys))) {
-                unlockFromItem(state, item);
-                syncSharedOpen(item);
-            } else {
-                addEvent(state, `Файл пока закрыт: ${item.title}`);
-            }
-            saveAndRender();
-            return;
-        }
-
-        if (resetButton) {
-            localStorage.removeItem(STORAGE_KEY);
-            state = normalizeState({ activeSection: startSection });
-            saveAndRender();
-            return;
-        }
-
-        if (searchButton) {
-            const input = app.querySelector<HTMLInputElement>('.oldpc-search-input');
-            state.query = input?.value ?? '';
-            state.activeSection = 'archive_search';
-            state.unlockedKeys = [...new Set([...state.unlockedKeys, makeQueryKey(state.query)])];
-            addEvent(state, `Поиск: ${state.query || 'все файлы'}`);
-            saveAndRender();
-        }
-    });
-
-    app.addEventListener('keydown', (event) => {
-        const target = event.target as HTMLElement;
-        if (!target.classList.contains('oldpc-search-input') || event.key !== 'Enter') return;
-        state.query = (target as HTMLInputElement).value;
-        state.activeSection = 'archive_search';
-        state.unlockedKeys = [...new Set([...state.unlockedKeys, makeQueryKey(state.query)])];
-        addEvent(state, `Поиск: ${state.query || 'все файлы'}`);
-        saveAndRender();
-    });
-
-    saveAndRender();
+        if (section) controller.handle({ type: 'section', section });
+        else if (term) controller.handle({ type: 'search', query: term });
+        else if (itemId) controller.handle({ type: 'open', documentId: itemId });
+        else if (saveId) controller.handle({ type: 'save', documentId: saveId });
+        else if (searchButton) controller.handle({ type: 'search', query: (app.querySelector('.oldpc-search-input') as HTMLInputElement | null)?.value ?? '' });
+        render();
+    };
+    const keydown = (event: KeyboardEvent) => {
+        if (event.key !== 'Enter' || !(event.target instanceof HTMLInputElement) || !event.target.classList.contains('oldpc-search-input')) return;
+        controller.handle({ type: 'search', query: event.target.value });
+        render();
+    };
+    app.addEventListener('click', click);
+    app.addEventListener('keydown', keydown);
+    const subscription = controller.subscribe?.((model) => render(model));
+    render();
+    return () => {
+        subscription?.dispose();
+        app.removeEventListener('click', click);
+        app.removeEventListener('keydown', keydown);
+    };
 };

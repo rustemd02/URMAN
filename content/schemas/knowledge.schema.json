@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/knowledge.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "kind", "title", "summary", "initialStatus", "sourceIds", "reveals", "contradicts", "unlocks"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "kind": { "enum": ["clue", "contradiction", "route", "pressure", "hypothesis", "fact"] },
+    "title": { "$ref": "common.schema.json#/$defs/LocalizedText" },
+    "summary": { "$ref": "common.schema.json#/$defs/LocalizedText" },
+    "initialStatus": { "enum": ["hidden", "hypothesis", "confirmed", "contradicted"] },
+    "sourceIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "reveals": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "contradicts": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "unlocks": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } }
+  },
+  "additionalProperties": false
+}

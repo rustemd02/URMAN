@@ -242,3 +242,133 @@ Context: Five independent subagent reviewers found no P0 canon drift, but raised
 Decision: Update `chapter1_mvp_campaign.md` with a handoff glossary, location glossary, 40-minute critical path, concrete route source (`doc_kara_urman_edge_sketch` plus `rinat_alerted`), Rinat causality beat, temporary Marat personal marker «Казанский, не отставай», state/save table and stricter language that Татарвики gives only a hypothesis before the final «Не отвечай».
 Consequences: Downstream LLMs should no longer invent route unlocks from the journal alone, treat side flags as journal clues, copy unchecked татарские phrases as production text, or leave Marat's final voice generic. The personal marker remains replaceable during dialogue polish.
 Linked files: `chapter1_mvp_campaign.md`, `open_questions.md`
+
+## 2026-07-17 — Use campaign modules, transactional kernel and capability providers
+
+Status: Accepted
+
+Context: Итоговый сценарий и путь игрока ещё не зафиксированы. Текущий prototype уже содержит полезные data-driven островки — Markdown старого ПК, route graph, asset manifests и shared knowledge keys, — но сцены, переходы, эффекты, состояние и сохранения распределены между hardcoded владельцами. При таком устройстве новая сюжетная арка или уникальный квест требуют менять общий runtime.
+
+Decision: Провести поэтапную модульную миграцию по пакету `../modular_migration/`. Portable-граница — JSON/Markdown, JSON Schema, immutable namespaced IDs и capability protocols. `CampaignManifest` компонует заменяемые модули сценария, персонажей, диалогов, квестов и ассетов. Runtime kernel становится единственным владельцем транзакций состояния; уникальные механики подключаются через изолированные capability providers. Активный run фиксирует exact module versions и campaign fingerprint; live hot-swap, implicit overrides и silent save fallback запрещены. Текущая Chapter 1 остаётся production baseline, но не зашивается в архитектуру навсегда.
+
+Consequences: Сначала замораживаются контракты и проходят synthetic canary tests, затем отдельно мигрируются campaign data, активные сцены, old PC/DedOS и legacy MainMap. Pre-MVP gameplay saves сбрасываются при cutover, а имя пользователя и классифицированные preferences сохраняются. Стресс-квесты из пакета имеют статус `Proposal` и не меняют канон. Завершение миграции означает готовность архитектуры к достройке MVP, но не статус MVP.
+
+Linked files: `../modular_migration/00_ORCHESTRATOR_README.md`, `../modular_migration/01_ARCHITECTURE_CONTRACT.md`, `../modular_migration/02_QUEST_STRESS_MATRIX.md`, `mindmap.md`, `backlog.md`, `technical_architecture.md`
+
+## 2026-07-17 — Freeze MM-10 authority, canonical IDs and retirement baseline
+
+Status: Accepted
+
+Context: Before portable schemas can be implemented, current content/state/persistence owners need an explicit one-owner target and retirement packet. The audit also found mixed character tokens (`babay`, `char_babay`, `abi`, `char_abi`, `char_gulsina`), missing Chapter 1 character records and runtime reveal-timing drift that must not be copied into portable content.
+
+Decision: Use the authority and retirement matrix in `../modular_migration/10_AUTHORITY_IDS_RETIREMENT_BASELINE.md`. Final runtime IDs use `moduleId:kind/localId` and have no legacy aliases. The one-time character normalization includes `babay → char_babay → urman.chapter1:character/mansur` and `abi/char_abi → char_gulsina → urman.chapter1:character/gulsina`. MM-50 must create accepted records for Айдар, Марат, Ринат, Наиля and Тимур хәзрәт; `rushania` is not silently merged with Наиля. Named campaign characters stay outside `urman.core`.
+
+Decision: Internal duplicate owners retire delete-first in their assigned packets. The old route graph and asset manifests may remain only as rebuildable dev/provenance artifacts after production imports are removed. No permanent parser, alias, state or persistence fallback is allowed.
+
+Decision: Close the remaining ID families deterministically. Every current `externalLocationNodes` token is rewritten directly to the explicit namespaced `SceneRef` listed in MM-10; no parallel handoff entity or runtime alias is introduced. The launch behavior migrates to a direct host launch of campaign `urman.chapter1` at its declared arrival/road entrypoint, while the hardcoded `chapter1` scene token and `ChapterScene` splash are deleted without a scene alias. Stale knowledge refs `dialogue_rinat_internal_register` and `dialogue_gulsina_home_words` are one-time rewrites to the actual dialogue IDs `rinat_internal_register` and `gulsina_yaramyy`, with no aliases.
+
+Decision: Close the three additional inline route targets without aliases: `selsmag_counter_interior` becomes optional scene `urman.chapter1:scene/selsmag_counter_interior`; `zirat_general_late_evening` resolves to typed scene `urman.chapter1:scene/zirat` with route transition context; `multiple` is semantically renamed to `urman.chapter1:scene/crossroad_signs_inspect`. MM-50 owns these definitions/reference rewrites and MM-51 owns only their generic providers. The registered `ZiratMiniGame` is deleted unconditionally by MM-54 and is not a source for accepted zirat data or behavior.
+
+Decision: The route-map, first10 and remaining asset manifests are provenance inventories, not ownership boundaries. Logical ownership follows the authored consumer: old-PC-only app/document/UI assets belong to `urman.oldpc`; accepted campaign route/location/character/journal/dialogue/vocabulary/phone/evidence assets belong to `urman.chapter1`; MainMap-only assets remain dev-only under `urman.legacy.mainmap`. `urman.core` requires an explicit content-neutral shared definition rather than a filename inference. Cross-module consumers reference the single owner's ID.
+
+Decision: MM-70 is authorized to remove exactly `urman.mvp.save.v1`, `urman.oldPcHub.state.v1`, `game.notepad.files.v1` and `game.notepad.activeFile.v1` once, while preserving `urman_username` and explicitly classified user preferences. Broad `localStorage.clear()` is forbidden for production reset.
+
+Consequences: Current early unlocks of `clue_do_not_answer_rule` are implementation drift, not canon. Portable Chapter 1 must keep only `clue_voice_answer_is_dangerous_hint` before the cliffhanger and confirm the rule only after Ринат acts. MM-20 may start only after the MM-10 verification record is green.
+
+Linked files: `../modular_migration/10_AUTHORITY_IDS_RETIREMENT_BASELINE.md`, `chapter1_mvp_campaign.md`, `technical_architecture.md`, `open_questions.md`, `weak_points.md`
+
+## 2026-07-18 — Connect the V2 persistence gateway through the only composition root
+
+Status: Accepted bounded amendment
+
+Context: MM-70 proved strict `GameSnapshotV2` persistence, one-time retirement of the four audited v1 keys and typed mismatch handling in isolation. Independent acceptance found that production boot still created only `Game → RuntimeBootstrap`; it never instantiated the gateway, therefore never applied the reset, restored V2 or presented the player with the required reset choice. Adding a storage side effect to the gateway would violate the one-owner composition boundary.
+
+Decision: Reopen only the MM-54 composition seam. `main` injects the browser global into a named persistence-boundary factory; `Game` receives the resulting gateway, not raw storage. At boot it applies the exact v1 reset and displays its one-time notice, then validates V2 through the gateway before replacing the active runtime. A malformed, fingerprint-mismatched or provider-incompatible V2 snapshot shows a typed reset proposal; deleting the current V2 save requires an explicit player action. RuntimeBootstrap may supply only the codec inputs needed by the gateway and remains the owner of live runtime assembly. Static architecture checking permits browser storage access only inside that named boundary and rejects it everywhere else.
+
+Consequences: No v1 parser, silent partial load, broad clear, secondary store or story-specific persistence branch is introduced. Username, explicitly classified preferences and Content Lab storage stay outside gameplay reset. This is technical wiring only: campaign data, canon, snapshot schema and capability protocols do not change.
+
+Linked files: `../modular_migration/54_COMPOSITION_ROOT_CUTOVER.md`, `../modular_migration/70_LEGACY_PERSISTENCE_RETIREMENT.md`, `../modular_migration/55_WHOLE_PACK_CLOSURE_GATE.md`
+
+## 2026-07-18 — Accept the modular migration architecture baseline
+
+Status: Accepted
+
+Context: MM-80 final verification follows the completion of portable schemas/compiler, kernel/capabilities, campaign migration, composition cutover, Content Lab, persistence retirement and their independent reviews. The final review required main-only browser assembly, a closed presentation facade, proposal-gated V2 deletion and a static factory-caller closure before acceptance.
+
+Decision: Treat the modular architecture as the current production baseline. Portable JSON/Markdown modules and `CampaignManifest` own campaign content; `RuntimeKernel` owns progression state; unique mechanics use exact-version capability providers; `GameSnapshotV2` locks campaign fingerprint; `main` alone assembles the browser runtime/persistence boundary. Content Lab and MainMap remain dev-only. Old state/storage/parser paths are retired without aliases or fallback.
+
+Consequences: New arcs, side quests, NPCs, dialogue and assets on existing mechanics are data-only changes. A new mechanic requires a capability package and catalog entry, not a kernel change. This records architecture readiness to build the MVP; it does not change canon or assert product/MVP release readiness.
+
+Linked files: `../modular_migration/00_ORCHESTRATOR_README.md`, `../modular_migration/80_FINAL_VERIFICATION_KB_HANDOFF.md`, `technical_architecture.md`, `mvp_completion_handoff.md`, `mindmap.md`, `backlog.md`
+
+## 2026-07-17 — Amend portable compiler contracts after MM-30 review
+
+Status: Accepted
+
+Context: Independent MM-30 spec review found that the frozen schemas could not represent compile-time reveal order, composition-time capability resource conflicts, or the Markdown body that must reach the browser pack. Implementing these as compiler heuristics would create hidden narrative and mechanic hardcode.
+
+Decision: Reopen only the affected MM-01/MM-20 seams. Campaigns require unique `narrativeOrder` and closed `required-reachable` / `reveal-not-before` invariants. Selected capability providers declare typed `resourceClaims`; any selected collision with an exclusive claim is fatal. Markdown definitions retain normalized non-empty `bodyMarkdown` in the compiled `DocumentDefinition`. Compiler reference traversal follows resolved schema `ContentId` fields with explicit declaration semantics, and missing explicit module selection is fatal. MM-30 remains blocked until an independent bounded MM-03 re-freeze passes.
+
+Consequences: Chapter 1 will eventually encode beat `rinat_do_not_answer` before the final clue in `narrativeOrder`; this records existing canon timing and does not introduce a new plot decision. No general scripting, resource ECS, runtime glob, or separate ResourceDefinition is added.
+
+Linked files: `../modular_migration/01_ARCHITECTURE_CONTRACT.md`, `../modular_migration/03_ARCHITECTURE_FREEZE_GATE.md`, `../modular_migration/20_PORTABLE_CONTENT_SCHEMAS.md`, `../modular_migration/30_CONTENT_COMPILER_WEB_ADAPTER.md`
+
+## 2026-07-17 — Add immutable RuntimeContext claim query for capability cleanup proof
+
+Status: Accepted
+
+Context: MM-40 quality review proved that a capability host cannot treat a generic `CommandResult.status === committed` as evidence that its kernel-owned resource claims were actually released. A cleanup handler can commit a different plan; stopping the provider in that state would leave a dead capability as a resource owner. Creating a local claim registry would violate the single-writer and single-owner boundaries.
+
+Decision: Amend the frozen runtime contract with exactly one read-only seam: `RuntimeContext.query(readModelSelector)`. It receives an immutable snapshot containing only `state` and the kernel-owned claim projection. `select` remains state-only; query exposes no mutable store, occurrence ledger, provider session, new command/effect type or direct state write. Capability cleanup must query that its `capabilityInstanceId` has no remaining claims after the cleanup transaction commits and before `stop/dispose`. The MM-03 12-fixture gate is rerun before the amended contract becomes frozen again.
+
+Consequences: Capability cleanup can prove release without a second source of truth. The query seam is generic and content-neutral; it changes no Chapter 1 canon, campaign/module data, snapshot payload, composition root or legacy behavior. Future expansion of the runtime read model requires a new recorded decision and re-freeze.
+
+Linked files: `../modular_migration/01_ARCHITECTURE_CONTRACT.md`, `../modular_migration/03_ARCHITECTURE_FREEZE_GATE.md`, `../modular_migration/31_RUNTIME_KERNEL_REGISTRIES.md`, `../modular_migration/40_QUEST_WORLD_CAPABILITIES.md`, `mindmap.md`
+
+## 2026-07-17 — Portable old-PC document metadata
+
+Status: Accepted bounded amendment; `MM-03 OLDPC REFREEZE PASS`.
+
+Context: MM-52 must replace the old frontmatter parser with normal `ContentRegistry` records, but the portable document contract previously retained only authoring body and canonical conditions/effects.
+
+Decision: `DocumentDefinition.oldPc` is an optional closed object containing exactly `type`, `pcSection`, `canonStatus`, `reliability`, `searchTerms`, `suggestedTerms`, derived from current authored old-PC records. `accessConditions` and `openEffects` remain the only canonical progression fields. Provenance/UI-only fields such as `sourceKind`, `inWorldSource`, `dangerLevel` and layout are not portable metadata. `urman.oldpc` is the sole full Markdown/search owner; Chapter 1 keeps only its existing evidence presentations.
+
+Consequences: No new parser, legacy alias, state owner or narrative decision is introduced. MM-52 remains gated until independent schema/architecture review confirms the amendment and generic runtime stays browser-free.
+
+Linked files: `../modular_migration/20_PORTABLE_CONTENT_SCHEMAS.md`, `../modular_migration/03_ARCHITECTURE_FREEZE_GATE.md`, `../modular_migration/52_OLD_PC_DEDOS_MIGRATION.md`
+
+## 2026-07-17 — Close legacy compile graph and expose capability presentation through a bounded port
+
+Status: Accepted bounded integration amendment; re-freeze required before MM-54 wires it.
+
+Context: MM-54 inventory showed that dead legacy scenes, UI and systems still import the old `GameState`, `SceneManager` and `src/data/**`; excluding them from TypeScript would conceal a second implementation instead of retiring it. The same inventory showed that `CapabilityHost` correctly owns the old-PC session lifecycle but exposes only `handle` and snapshot APIs, while the web-only DedOS adapter requires a read model and a disposable subscription.
+
+Decision: MM-54 deletes the explicit stale compile closure listed in its task contract together with the old owners; it does not add a `Game` façade or tsconfig exclusion. `MM-70` remains responsible for the reset/storage gateway and validators, even if some obsolete UI/system files no longer exist. Add one generic capability presentation port: only a started exact session that explicitly implements it may expose immutable render data, typed input forwarding through the host, and disposable subscriptions. The host never exposes a raw provider session, runtime context, kernel state or a direct state writer. The old-PC provider is the first consumer; the seam is content-neutral and optional for other capabilities.
+
+Consequences: Production old PC can be injected from the composition root without a second UI/progression owner. A capability session stays terminal after host stop/dispose; presentation handles must then reject and subscriptions must not survive. This is an implementation-boundary change only: it changes no campaign data, canon timing, asset or quest mechanics.
+
+Linked files: `../modular_migration/03_ARCHITECTURE_FREEZE_GATE.md`, `../modular_migration/40_QUEST_WORLD_CAPABILITIES.md`, `../modular_migration/52_OLD_PC_DEDOS_MIGRATION.md`, `../modular_migration/54_COMPOSITION_ROOT_CUTOVER.md`, `mindmap.md`
+
+## 2026-07-18 — Retire unowned legacy DedOS chat
+
+Status: Accepted bounded retirement.
+
+Context: The old DedOS chat stored contacts, messages, татарский glosses and plot hints directly in `src/data/chat_data.ts` and a separate unused JSON payload. It was not represented by the portable schemas, had no selected module or campaign owner, and its hardcoded story/language text had not passed the canonical Chapter 1 route or language-review gates.
+
+Decision: Delete the chat data, provider, renderer, unused JSON payload, exact DedOS launcher and exact app descriptor. Do not migrate, alias, hide or replace it. The compiled `urman.oldpc` archive capability remains the sole production old-PC narrative owner; generic communication UI can be introduced only later through a separately authored portable module and an explicit decision.
+
+Consequences: This removes a second narrative/language source and lets MM-54 retire the remaining `src/data/**` closure without a chat consumer. It changes no Chapter 1 canon, clue timing, asset contract or persistent user data.
+
+Linked files: `../modular_migration/52_OLD_PC_DEDOS_MIGRATION.md`, `../modular_migration/54_COMPOSITION_ROOT_CUTOVER.md`, `mindmap.md`
+
+## 2026-07-18 — Atomic portable scene-to-dialogue handoff
+
+Status: Accepted bounded amendment; independent MM-03 re-freeze pending.
+
+Context: The Chapter 1 register defined Ринат's causal dialogue but had no portable, typed edge to start it. A direct host/campaign branch would split the scene transaction and make the dialogue start effects replayable.
+
+Decision: A scene interaction may target exactly one `targetSceneId` or `targetDialogueId`. For a dialogue target, the generic scene provider resolves the dialogue start node and commits its conditions/effects in the originating atomic action; only a successful commit emits `{ fromSceneId, targetDialogueId, entryAlreadyCommitted: true }`. The generic dialogue provider then renders that node without a second entry dispatch. Chapter 1 uses this only for internal register → Ринат and gates the subsequent saved-message edge on `rinat.alerted`.
+
+Consequences: The first register visit is allowed through typed `not npc.state(alerted)`; replay is blocked without an implicit hidden-state assumption. The early dialogue may establish only the existing hypothesis, never the final «Не отвечай» rule, which remains forest-only. This adds no canonical lore, campaign-ID branch, alias, direct state write or kernel change.
+
+Linked files: `../modular_migration/01_ARCHITECTURE_CONTRACT.md`, `../modular_migration/03_ARCHITECTURE_FREEZE_GATE.md`, `../modular_migration/20_PORTABLE_CONTENT_SCHEMAS.md`, `../modular_migration/30_CONTENT_COMPILER_WEB_ADAPTER.md`, `../modular_migration/50_CAMPAIGN_DATA_MIGRATION.md`, `../modular_migration/51_ACTIVE_RUNTIME_MIGRATION.md`, `mindmap.md`, `backlog.md`

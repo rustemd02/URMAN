@@ -125,3 +125,23 @@
 Слабое место: прямое утверждение, что деревня / существа повлияли на смерть Тукая, может звучать грубо.
 
 Путь решения: держать как спорный архивный документ, локальную интерпретацию или фан-теорию внутри мира, не как подтверждённый факт.
+
+## Runtime несколько источников истины до cutover — закрыто 2026-07-18
+
+Бывший риск: `GameState`, `SceneManager`, TypeScript arrays, custom old-PC parser, localStorage owners и `window.URMAN` одновременно несли content, progression, navigation и persistence.
+
+Решение: production теперь использует compiled content pack, `RuntimeKernel`, capability providers и named persistence gateway; old owners/validators удалены, а static gate проверяет 88 production source files. Legacy MainMap/Content Lab изолированы как dev-only. Permanent fallback и второй owner не допускаются.
+
+Остаточный риск: `GameSnapshotV2` не хранит текущую presentation-position, поэтому после reload показывается entrypoint без replay entry effects. Это не меняет progression outcome; точное экранное продолжение требует отдельного snapshot amendment.
+
+## Current runtime спойлерит «Не отвечай» раньше accepted финала
+
+Слабое место: текущие `dialogue_data.ts`, `knowledge_keys.ts` and `quests.ts` могут unlock/require `clue_do_not_answer_rule` до действия Рината, хотя accepted Chapter 1 разрешает только hypothesis `clue_voice_answer_is_dangerous_hint` до cliffhanger.
+
+Путь решения: MM-50 не копирует текущие unlock edges. Narrative invariant test должен доказывать отсутствие/неподтверждённость `clue_do_not_answer_rule` до финального outcome и confirmation только после реплики Рината.
+
+## Character IDs и records не замкнуты
+
+Слабое место: legacy array использует `babay`/`abi`, другие data use `char_babay`/`char_abi`/`char_gulsina`, а обязательные Айдар, Марат, Ринат, Наиля and Тимур records отсутствуют. `rushania` нельзя молча принять за Наилю.
+
+Путь решения: применить one-time mapping MM-10 без runtime aliases; MM-50 создаёт пять missing records из accepted authority, а ambient legacy characters подключает только явно через campaign manifest.

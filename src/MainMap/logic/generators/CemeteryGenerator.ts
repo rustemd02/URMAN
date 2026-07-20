@@ -1,24 +1,26 @@
 import { AUTHORED_LAYOUT } from '../../config';
-import { MapEntity, ReservedZone } from '../../types';
+import { MainMapLandmarkBinding, MapEntity, ReservedZone } from '../../types';
 
 /**
  * generateCemetery - Places the 'Zirat' (village cemetery) atauthored coordinates.
  * Moved to the village side (south of the river) as per new authored layout.
  */
-export function generateCemetery(): {
+export function generateCemetery(landmarkBindings: readonly MainMapLandmarkBinding[]): {
     entity: MapEntity;
     zone: ReservedZone;
 } {
     const { x, y, w, h } = AUTHORED_LAYOUT.zirat;
+    const binding = landmarkBindings.find((candidate) => candidate.slot === 'zirat');
+    if (!binding) throw new Error('MainMap dev config is missing zirat landmark binding.');
 
     const entity: MapEntity = {
-        id: 'zirat',
+        id: binding.entityId,
         type: 'special',
         subType: 'zirat',
-        name: 'Зират',
-        desc: 'Старое сельское кладбище. Тихий шелест травы и запах полыни.',
+        name: binding.label,
+        desc: binding.description,
         gx: x, gy: y, gw: w, gh: h,
-        actions: [{ label: 'Зайти', sceneTarget: 'zirat' }]
+        actions: binding.actions
     };
 
     const zone: ReservedZone = {

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/text.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "value", "purpose"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "value": { "$ref": "common.schema.json#/$defs/LocalizedText" },
+    "purpose": { "enum": ["ui", "dialogue", "document", "caption", "accessibility"] }
+  },
+  "additionalProperties": false
+}
