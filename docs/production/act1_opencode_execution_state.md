@@ -7,12 +7,50 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: GAME-010 committed. Next P0 cluster: SAVE-003
-  (Continue/New Game lifecycle API) -> TEST-006 (save-recovery focused tests)
-  -> TEST-007 (static sole-writer assertions). WAVE 4-5 zone tasks (Z01-Z08)
-  and WAVE 6-7 substantive slices stay REWORK/OPEN pending the
-  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below);
-  receipts-style evidence for them already lives in MAP-/ART- receipts.
+- Current task/slice: SAVE-003 committed (`b341042`). Next queue:
+  1) TEST-006 (P0): corruption/recovery cases as engine-independent Core
+     tests in `tests-dotnet` (AtomicSaveGameStore: interrupted write, malformed
+     JSON, schema mismatch, missing primary + valid backup) — note the Godot
+     aggregator's fail-closed `^ERROR:` log gate forbids expected-error lines
+     in Godot smokes, so keep corruption matrices in xunit; plus a focused
+     Godot multi-beat restore case without expected errors. Then TEST-007
+     static sole-writer assertions (STATE-001 audit done; STATE-005 fixtures
+     still open).
+  2) UIUX-001 (P1 CREATE, dependencies BASE-003 + SAVE-003 now CLOSED):
+     main menu overlay (`game/scenes/ui/main_menu_ui.tscn` +
+     `MainMenuUi.cs`) using SAVE-003 lifecycle APIs, New Game/Continue/Settings
+     disabled-before-choice input, then UIUX-005 pause shell.
+  3) STATE-005 / GAME-009 (P0): final-state fixtures + interruption matrix
+     extension.
+  WAVE 4-7 substantive art/narrative slices stay REWORK/OPEN pending the
+  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+
+## Completed
+
+- SAVE-003 (P0): New Game/Continue lifecycle 2026-09-03 (commit `b341042`).
+  - `RuntimeBridge.StartNewGameAsync` (reset via existing CreateNewSession,
+    entrypoint re-applied, canonical arrival spawn, live user settings
+    preserved, slots never deleted) + `HasLoadableSlot` query.
+  - New `Act1SaveLifecycleSmokeTest` in the aggregator: reset, settings
+    preservation, slot preservation, missing-slot gate. verify-godot exit 0
+    (aggregator incl. two new tests), verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/save003-verify-{godot,dotnet}-PASS.txt`.
+  - Authoring note: Godot aggregator fails on ANY `^ERROR:` log line, so
+    expected-error paths (corrupt load) must live in tests-dotnet, not in
+    Godot smokes.
+
+- STATE-001 (P0): repo-wide sole-writer caller audit 2026-09-03
+  (commit `2365d0c`). Zero unauthorized write paths: only user:// writer is
+  the bridge-owned AtomicSaveGameStore; kernel never leaks outside
+  RuntimeBridge; QuestRuntimeCoordinator dispatches only kernel-mediated,
+  content-gated, deterministically idempotent reconciliation commands invoked
+  by the bridge. Evidence:
+  `evidence/act1_repo_baseline/state001_caller_audit.md`.
+
+- GAME-010 (P0): no-combat sweep clean 2026-09-03 (commit `8590fcc`): zero
+  combat-verb matches across game/scripts, project.godot input map, chapter 1
+  content and src-dotnet (fullgame excluded). Evidence:
+  `evidence/act1_repo_baseline/game010_no_combat_audit.md`.
 
 ## Completed
 
@@ -353,11 +391,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: STATE-001 P0 repo-wide RuntimeBridge sole-writer caller audit
-  (rg + ledger, `evidence/act1_repo_baseline/state001_caller_audit.md`), then
-  GAME-010 P0 no-combat audit, then SAVE-003 (lifecycle API) / TEST-007
-  (static assertions) as their dependencies close. WAVE 4-5 zone art stays
-  open pending the CAPTURE-003/004/006 evidence cycle (human).
+- Immediate: TEST-006 (P0, corruption/recovery in tests-dotnet + focused
+  Godot restore), then UIUX-001 (main menu via SAVE-003 APIs), then
+  UIUX-005, STATE-005, GAME-009, TEST-007.
 
 ## External gates
 
@@ -369,10 +405,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at STATE-001 — run
-  `rg -n 'DispatchAsync|ApplySnapshot|RuntimeKernel|SaveGameV3|SetWorldLocation' game/scripts src-dotnet`,
-  classify every caller as authorized RuntimeBridge-owned write vs
-  reader/presenter, write
-  `evidence/act1_repo_baseline/state001_caller_audit.md`, then GAME-010
-  `rg -n -i 'attack|weapon|damage|health|combat' game content src-dotnet --glob '!**/fullgame*'`
-  manual classification ledger.
+- If interrupted now: resume at TEST-006 — add xunit corruption/recovery
+  cases for `src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore` in
+  `tests-dotnet` (run via `./eng/verify-dotnet.sh`), verify with
+  `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
+  `task(TEST-006): ...`. Then UIUX-001 main menu using
+  `RuntimeBridge.StartNewGameAsync/HasLoadableSlot/LoadSlotAsync`.
