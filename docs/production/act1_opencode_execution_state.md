@@ -7,10 +7,23 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: AUDIO-002 committed. Next queue: NARR-016 storytelling
-  matrix doc, UIUX-003/004 polish, then remaining automatable slices. WAVE
+- Current task/slice: NARR-016 committed. Next queue: UIUX-003/004 polish,
+  then remaining automatable slices (P2s need explicit accept/defer). WAVE
   4-7 substantive art/narrative slices stay REWORK/OPEN pending the
   CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+
+## Completed
+
+- NARR-016 (P2 CREATE): environmental storytelling matrix 2026-09-04.
+  - New `docs/urman_knowledge_base/art/act1_environmental_storytelling_matrix.md`:
+    per space (8 zones, 2 interiors, mosque, road, final beat) — intended
+    inference, kit-component prop owners, clue-vs-atmosphere split aligned
+    with `definitions.json` beat/interaction IDs, false-positive controls
+    (blank boards, no invented signage/epitaphs, no second screen, no
+    creature silhouettes). Rule added: new props add a matrix row in the same
+    change; unresolved rows block zone readiness.
+  - Human remainder: inference readability review (CAPTURE-006, PLAYTEST-003).
+  - Docs-only slice; suites unchanged-green.
 
 ## Completed
 
@@ -548,8 +561,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: NARR-016 storytelling matrix doc, UIUX-003/004 polish, then
-  the next dependency-ready automatable slices.
+- Immediate: UIUX-003/004 polish, then the next dependency-ready
+  automatable slices (reassess queue against all 228 IDs).
 
 ## External gates
 
@@ -561,8 +574,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at NARR-016 — create
-  `docs/urman_knowledge_base/art/act1_environmental_storytelling_matrix.md`
-  (per zone/room: intended inference, prop owner, false-positive risk,
-  clue-vs-atmosphere, aligned with definitions.json beats); verify docs-only
-  (suites unchanged green), commit `task(NARR-016): ...`. Then UIUX-003/004.
+- If interrupted now: resume at UIUX-003/004 (interaction prompt clarity +
+  affordance contrast) — inspect `FirstPersonController` prompt path and
+  first_person_player HUD, make the minimal deltas with a focused matrix
+  smoke; verify `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
+  `task(UIUX-003)/task(UIUX-004): ...`. Then reassess the full queue.
