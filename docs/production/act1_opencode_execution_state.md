@@ -7,9 +7,32 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: BASE-006 committed; next MAP-002 metric labels.
+- Current task/slice: BASE-004 committed; next MAP-003 connector inspection.
 
 ## Completed
+
+- BASE-004: REWORK slice done 2026-09-03 (include/exclude decision manifest).
+  - Authored `docs/production/act1_package_include_exclude.md`: grounded in the
+    current debug presets (`export_filter="all_resources"`, empty filters,
+    `game/export_presets.cfg:9-12,50-53`); fixes the Act I include list
+    (launch chain scenes/scripts, 5 logical zone scenes, Act I kits,
+    production textures, ambient manifest + Act I stems, chapter1 compiled
+    pack) and the exclusion list (fullgame campaign + compiled fullgame pack,
+    dev campaigns, fullgame scenes, candidate-texture provenance, retired
+    candidates, test-only scenes) with an explicit no-deletion enforcement
+    boundary.
+  - PCK/resource-level comparison remains NEW VERIFICATION REQUIRED behind
+    RELEASE-001/RELEASE-003 (no release preset exists yet); no packaging code
+    changed in this slice.
+
+- MAP-002: REWORK slice done 2026-09-03 (metric separation).
+  - `act1-first-person-walkthrough` PASS line now carries
+    `mode=physical-characterbody-walk`; capture PASS line carries
+    `mode=presentation-waypoint-audit`; `playtest_plan.md` gained the MAP-002
+    rule that 135,49 m (physical walk) and 242,50 m (waypoint audit) are
+    different measurements and the audit never counts as gameplay completion.
+  - `./eng/verify-godot.sh` exit 0; walkthrough PASS with new label
+    (`evidence/act1_repo_baseline/map002-verify-godot-PASS.txt`).
 
 - BASE-006: REWORK slice done 2026-09-03 (queue authority repointed).
   - `execution_backlog.json`: `authority` now names the repo-grounded tracker
@@ -201,19 +224,20 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate (WAVE 2): BASE-006 (execution_backlog.json repoint), MAP-002
-  (metric labels), BASE-004 (package manifest), then MAP-003+.
+- Immediate (WAVE 2 route contract): MAP-003 (seven-connector inspection +
+  ground envelope evidence), then MAP-004..MAP-012 in tracker order.
 
 ## External gates
 
-- ART-005 remainder: 360° in-engine review + specialist religious/local
-  sign-off — BLOCKED_EXTERNAL (needs human reviewer; evidence package
-  prepared in `game/assets/models/act1/urman_zirat_roadside_kit_manifest.md`
-  and `evidence/act1_repo_baseline/art005-export-reproducible-PASS.txt`).
+- ART-005 remainder: specialist religious/local sign-off + 360 in-engine
+  review — BLOCKED_EXTERNAL.
 - ART-006 remainder: human 360/lateral-density art review — BLOCKED_EXTERNAL.
+- MAP-003..MAP-008 human traversal/video components stay with their owning
+  tasks; automatable inspection/verification slices proceed first.
 
 ## Resume point
 
-- If interrupted now: resume at BASE-006 (`docs/urman_knowledge_base/
-  execution_backlog.json` + `backlog.md`: mark old full tracker superseded,
-  point active queue at the repo-grounded tracker; JSON parse check).
+- If interrupted now: resume at MAP-003 (`Act1Connectors`/shared ground
+  construction in `game/scripts/Act1ConnectedWorld.cs` + connector placements
+  in `Act1WorldLayout.cs`; run `./eng/verify-godot.sh` ground-envelope smoke
+  and record the per-connector inspection receipt).
