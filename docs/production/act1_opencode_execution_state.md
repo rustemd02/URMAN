@@ -7,9 +7,33 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: BASE-007 committed; next ART-002 wet-road authored rework.
+- Current task/slice: ART-002 committed; next ART-005 zirat roadside kit rework.
 
 ## Completed
+
+- ART-002: REWORK slice done 2026-09-03 (authored variant road modules + integration).
+  - Gap: MainStreet/ReturnStreet/ReturnTransition all placed literal clones of
+    the single `RoadCrown_SunkenWet` strip → visible tile rhythm; FAP branch had
+    no authored road segment.
+  - Generator (`urman_wet_village_road_kit.py`): added two authored variant
+    modules — `RoadCrown_BranchWet` (narrower 2.5 m muddier branch strip,
+    off-centre crown, 2 puddles, worn patch) and `RoadCrown_ApproachWorn`
+    (worn 3.0 m approach strip, 3 clods, 3 patches, 1 restrained puddle) —
+    sharing the crown height contract (z 0.018–0.092, relief ≤ 0.18), existing
+    19-material palette, axis bake and validation. Rebuilt .blend + GLB
+    deterministically (192 meshes / 3,042 tris).
+  - Integration (`Act1ConnectedWorld.cs`): component contract +2; return
+    transition now uses the distinct `RoadCrown_ApproachWorn` segment instead
+    of a third `SunkenWet` clone; new `WetVillageRoadFapBranchCrown`
+    (`RoadCrown_BranchWet`) placed at the `village-to-fap-branch` connector
+    midpoint. Presentation-only; collision/interaction owners untouched.
+  - Manifest + registry updated (hashes/counts/components/status).
+  - Verify: `./eng/verify-assets.sh` exit 0 (41/41 hashes),
+    `./eng/verify-godot.sh` exit 0 (physical walkthrough PASS 135,49 m to
+    completed cliffhanger). In-engine motion review remains part of the
+    zone-level human review (Z01-002–Z08-002).
+  - Evidence: `evidence/act1_repo_baseline/art002-verify-assets-PASS.txt`,
+    `evidence/act1_repo_baseline/art002-verify-godot-PASS.txt`.
 
 - BASE-007: REWORK → verified + registry completed 2026-09-03.
   - Baseline `./eng/verify-assets.sh` exit 0 before edits
@@ -126,16 +150,18 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: ART-002 (wet-road authored rework), then ART-005 (zirat kit), then
-  ART-006 (Kara kit).
+- Immediate: ART-005 (zirat roadside kit authored rework), then ART-006 (Kara
+  forest-edge kit).
 
 ## External gates
 
-- None entered yet. Human/cultural/audio/platform gates will be marked BLOCKED_EXTERNAL with evidence packages as encountered.
+- ART-005/ART-006 carry human religious/local review components; the
+  automatable authored-geometry slices proceed and the human sign-off parts
+  stay open (BLOCKED_EXTERNAL when reached).
 
 ## Resume point
 
-- If interrupted now: resume at ART-002 (`assets/source/blender/act1/
-  urman_wet_village_road_kit.blend` + `.py`, rebuilt GLB + manifest +
-  registry hash update; verify via `./eng/rebuild-assets.sh &&
-  ./eng/verify-assets.sh`).
+- If interrupted now: resume at ART-005
+  (`assets/source/blender/act1/urman_zirat_roadside_kit.blend` — no generator
+  script; tracker requires documented reproducible export before binary edit;
+  GLB/manifest/registry update; `./eng/verify-assets.sh`).

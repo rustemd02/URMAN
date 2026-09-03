@@ -24,7 +24,13 @@ import bpy
 
 ROOT_NAME = "URMAN_WetVillageRoadKit"
 GLB_NAME = "urman_wet_village_road_kit.glb"
-TARGETS = ("RoadCrown_SunkenWet", "RoadRuts_PuddleNear", "RoadRuts_PuddleFar")
+TARGETS = (
+    "RoadCrown_SunkenWet",
+    "RoadRuts_PuddleNear",
+    "RoadRuts_PuddleFar",
+    "RoadCrown_BranchWet",
+    "RoadCrown_ApproachWorn",
+)
 ROAD_COMPONENTS = TARGETS + (
     "MuddyShoulder_Left",
     "MuddyShoulder_Right",
@@ -38,6 +44,8 @@ COMPONENT_LOCATIONS = {
     "RoadCrown_SunkenWet": (0.0, 0.0, 0.0),
     "RoadRuts_PuddleNear": (0.0, -6.2, 0.0),
     "RoadRuts_PuddleFar": (0.0, 6.5, 0.0),
+    "RoadCrown_BranchWet": (0.0, -21.5, 0.0),
+    "RoadCrown_ApproachWorn": (0.0, 21.5, 0.0),
 }
 UNCHANGED = {
     "MuddyShoulder_Left": (10, 194),
@@ -529,6 +537,146 @@ def build_ruts(component: bpy.types.Object, far: bool) -> None:
         puddle_glint(component, name, center, radii, angle, index)
 
 
+def variant_surface(
+    component: bpy.types.Object,
+    base_name: str,
+    ys: tuple[float, ...],
+    widths: tuple[float, ...],
+    centers: tuple[float, ...],
+    dark_rule,
+) -> None:
+    """Authored non-crown road variant sharing the crown's height contract."""
+    ts = (-1.0, -0.7, -0.38, 0.0, 0.4, 0.72, 1.0)
+    vertices: list[tuple[float, float, float]] = []
+    for row, (y, width, center) in enumerate(zip(ys, widths, centers)):
+        for col, t in enumerate(ts):
+            edge_wobble = 0.02 * math.sin((row + 1.7) * (col + 1.3)) * (0.4 + abs(t))
+            x = center + width * t + edge_wobble
+            z = road_height(x, y) + 0.004 * math.sin(row * 1.7 + col * 1.1)
+            vertices.append((x, y, max(0.018, min(0.092, z))))
+    faces: list[tuple[int, int, int]] = []
+    material_indices: list[int] = []
+    for row in range(len(ys) - 1):
+        for col in range(len(ts) - 1):
+            a = row * len(ts) + col
+            b = a + 1
+            c = a + len(ts) + 1
+            d = a + len(ts)
+            faces.extend(((a, b, c), (a, c, d)))
+            first = 1 if dark_rule(row, col) else 0
+            second = 1 if dark_rule(row + 2, col + 3) else first
+            material_indices.extend((first, second))
+    mesh_object(
+        f"{base_name}_Surface_LOD0",
+        component,
+        vertices,
+        faces,
+        ("WetRoad_MutedOchre", "WetRoad_RutDark"),
+        material_indices,
+        f"authored {base_name} variant surface with uneven shoulders",
+    )
+
+
+def build_branch(component: bpy.types.Object) -> None:
+    """Narrower, muddier FAP-branch segment; visibly unlike the main strip."""
+    variant_surface(
+        component,
+        "RoadCrown_BranchWet",
+        ys=(-7.0, -3.55, -0.15, 3.35, 7.0),
+        widths=(2.52, 2.64, 2.46, 2.6, 2.5),
+        centers=(0.2, 0.06, 0.24, 0.1, 0.18),
+        dark_rule=lambda row, col: (row * 5 + col) % 4 == 0,
+    )
+    clods = (
+        (11, -1.55, -5.2, 0.52, 0.86, 0.14),
+        (12, 1.48, 4.6, 0.58, 0.94, -0.12),
+    )
+    for spec in clods:
+        edge_break(component, spec[0], *spec[1:])
+    puddle(
+        component,
+        "RoadCrown_BranchWet_Puddle_00_LOD0",
+        (0.55, -2.4),
+        (0.5, 0.78),
+        0.2,
+        3,
+    )
+    puddle(
+        component,
+        "RoadCrown_BranchWet_Puddle_01_LOD0",
+        (-0.48, 2.2),
+        (0.44, 0.7),
+        -0.22,
+        5,
+    )
+    irregular_fan(
+        "RoadCrown_BranchWet_WornPatch_00_LOD0",
+        component,
+        (-0.3, 5.1),
+        (0.6, 0.82),
+        0.1,
+        lambda px, py, _i: max(0.018, road_height(px, py) - 0.004),
+        ("WetRoad_WornLight", "WetRoad_MutedOchre"),
+        [0, 1, 0, 0, 1, 0, 0, 1],
+        "irregular worn branch patch",
+        (0.94, 1.06, 0.88, 1.09, 0.93, 1.04, 0.87, 1.07),
+    )
+
+
+def build_approach(component: bpy.types.Object) -> None:
+    """Worn zirat-approach segment; muted, patchy, sparse water."""
+    variant_surface(
+        component,
+        "RoadCrown_ApproachWorn",
+        ys=(-7.0, -3.4, -0.1, 3.4, 7.0),
+        widths=(3.02, 3.14, 2.98, 3.12, 3.04),
+        centers=(-0.14, 0.04, -0.1, 0.12, -0.05),
+        dark_rule=lambda row, col: (row * 3 + col * 2) % 6 == 0,
+    )
+    clods = (
+        (21, -2.9, -4.6, 0.6, 1.02, -0.1),
+        (22, 2.86, -0.4, 0.52, 0.9, 0.16),
+        (23, -2.94, 4.9, 0.64, 1.12, -0.14),
+    )
+    for spec in clods:
+        edge_break(component, spec[0], *spec[1:])
+    for index, (x, y, rx, ry, angle) in enumerate(
+        (
+            (-0.6, -3.9, 0.7, 0.9, 0.14),
+            (0.72, 1.15, 0.62, 0.84, -0.2),
+            (-0.52, 5.6, 0.66, 0.88, 0.22),
+        )
+    ):
+        irregular_fan(
+            f"RoadCrown_ApproachWorn_WornPatch_{index:02d}_LOD0",
+            component,
+            (x, y),
+            (rx, ry),
+            angle,
+            lambda px, py, _i: max(0.018, road_height(px, py) - 0.005),
+            ("WetRoad_WornLight", "WetRoad_MutedOchre"),
+            [0 if (i + index) % 3 else 1 for i in range(8)],
+            "irregular worn approach patch",
+            (0.93, 1.07, 0.86, 1.1, 0.92, 1.05, 0.88, 1.06),
+        )
+    puddle(
+        component,
+        "RoadCrown_ApproachWorn_Puddle_00_LOD0",
+        (0.4, -5.6),
+        (0.56, 0.84),
+        -0.16,
+        7,
+    )
+    puddle_glint(
+        component,
+        "RoadCrown_ApproachWorn_PuddleGlint_00_LOD0",
+        (0.37, -5.52),
+        (0.24, 0.15),
+        0.1,
+        4,
+    )
+
+
 def component_stats(component: bpy.types.Object, include_root: bool = False) -> dict[str, object]:
     meshes = [child for child in component.children if child.type == "MESH"]
     points = [child.matrix_world @ vertex.co for child in meshes for vertex in child.data.vertices]
@@ -603,6 +751,8 @@ def validate(root: bpy.types.Object) -> dict[str, object]:
         "RoadCrown_SunkenWet",
         "RoadRuts_PuddleNear",
         "RoadRuts_PuddleFar",
+        "RoadCrown_BranchWet",
+        "RoadCrown_ApproachWorn",
         "MuddyShoulder_Left",
         "MuddyShoulder_Right",
         "RoadsideDitch_Left",
@@ -677,6 +827,18 @@ def main() -> None:
     root = bpy.data.objects.get(ROOT_NAME)
     if root is None or root.type != "EMPTY":
         raise RuntimeError(f"Missing authored root: {ROOT_NAME}")
+
+    # First-run creation of the variant module roots; later runs rebuild them
+    # in place like the original three targets.
+    for name in ("RoadCrown_BranchWet", "RoadCrown_ApproachWorn"):
+        component = bpy.data.objects.get(name)
+        if component is None:
+            component = bpy.data.objects.new(name, None)
+            component.empty_display_size = 0.5
+            component.parent = root
+            component.location = COMPONENT_LOCATIONS[name]
+            bpy.context.scene.collection.objects.link(component)
+
     for name in TARGETS:
         component = bpy.data.objects.get(name)
         if component is None or component.parent is not root or component.type != "EMPTY":
@@ -686,6 +848,8 @@ def main() -> None:
     build_crown(bpy.data.objects["RoadCrown_SunkenWet"])
     build_ruts(bpy.data.objects["RoadRuts_PuddleNear"], far=False)
     build_ruts(bpy.data.objects["RoadRuts_PuddleFar"], far=True)
+    build_branch(bpy.data.objects["RoadCrown_BranchWet"])
+    build_approach(bpy.data.objects["RoadCrown_ApproachWorn"])
 
     source_report = validate(root)
     bake_report = bake_source_axis_contract(root)
@@ -693,11 +857,11 @@ def main() -> None:
 
     scene = bpy.context.scene
     scene["generator"] = "assets/source/blender/act1/urman_wet_village_road_kit.py"
-    scene["active_geometry_pass"] = "RoadCrown_SunkenWet + RoadRuts_PuddleNear + RoadRuts_PuddleFar; shallow broken extracted-basis relief; linear rut ribbons omitted"
+    scene["active_geometry_pass"] = "crown + near/far ruts + BranchWet + ApproachWorn variant modules; shallow broken extracted-basis relief; linear rut ribbons omitted"
     scene["source_axis_contract"] = "Blender meshes axis-baked +90deg X after child transforms; legacy GLB extraction +90deg X produces Godot-horizontal road"
     scene["geometry_policy"] = "geometry-only; existing WetRoad_* and Puddle_* materials authoritative; presentation-only; no collision"
     for name in TARGETS:
-        bpy.data.objects[name]["geometry_pass"] = "active wet-road readability pass 2026-08-26"
+        bpy.data.objects[name]["geometry_pass"] = "variant-module wet-road pass 2026-09-03"
         bpy.data.objects[name]["target_component_contract"] = "root name/location preserved; child mesh geometry rebuilt and axis-baked"
     scene["road_pass_report"] = str({"source": source_report, "axis_bake": bake_report, "baked": baked_report})
 

@@ -128,7 +128,9 @@ public partial class Act1ConnectedWorld : Node3D
         "GrassSedgeMass_Right",
         "FernShrubBreak_Left",
         "FernShrubBreak_Right",
-        "RoadFenceBreak_Low"
+        "RoadFenceBreak_Low",
+        "RoadCrown_BranchWet",
+        "RoadCrown_ApproachWorn"
     ];
 
     private static readonly (string RelativePath, string Reason)[] ConnectedWorldPresentationSuppressions =
@@ -1346,7 +1348,6 @@ public partial class Act1ConnectedWorld : Node3D
 
         var mainStreetCrown = CloneComponent("RoadCrown_SunkenWet", "RoadCrown_SunkenWet_MainStreetSource");
         var returnStreetCrown = CloneComponent("RoadCrown_SunkenWet", "RoadCrown_SunkenWet_ReturnStreetSource");
-        var returnTransitionCrown = CloneComponent("RoadCrown_SunkenWet", "RoadCrown_SunkenWet_ReturnTransitionSource");
         var mainStreetRutsNear = CloneComponent("RoadRuts_PuddleNear", "RoadRuts_PuddleNear_MainStreetSource");
         var returnStreetRutsNear = CloneComponent("RoadRuts_PuddleNear", "RoadRuts_PuddleNear_ReturnStreetSource");
         var returnTransitionRutsNear = CloneComponent("RoadRuts_PuddleNear", "RoadRuts_PuddleNear_ReturnTransitionSource");
@@ -1611,12 +1612,12 @@ public partial class Act1ConnectedWorld : Node3D
 
         AttachAct1ExteriorKitComponent(
             presentation,
-            returnTransitionCrown,
-            "WetVillageRoadReturnTransitionCrown",
+            components[14].Root!,
+            "WetVillageRoadReturnTransitionCrownWorn",
             returnTransitionAnchor,
             ziratYaw - 2f,
             Vector3.One * 0.94f,
-            "zirat_road@return-street-transition-crown",
+            "zirat_road@return-street-transition-crown-variant",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
             presentation,
@@ -1644,6 +1645,23 @@ public partial class Act1ConnectedWorld : Node3D
             ziratYaw,
             Vector3.One * 0.82f,
             "zirat_road@return-street-transition-sedge-right",
+            WetVillageRoadKitScenePath);
+
+        // The FAP branch keeps its own narrower authored segment so the
+        // branch road no longer reads as a copy of the main street strip.
+        var fapBranch = GetConnector("village-to-fap-branch");
+        var fapBranchDirection = HorizontalDirection(fapBranch.End - fapBranch.Start);
+        var fapBranchYaw = DirectionYaw(fapBranchDirection);
+        var fapBranchAnchor = fapBranch.Start
+            + fapBranchDirection * (new Vector2(fapBranch.End.X - fapBranch.Start.X, fapBranch.End.Z - fapBranch.Start.Z).Length() * 0.5f);
+        AttachAct1ExteriorKitComponent(
+            presentation,
+            components[13].Root!,
+            "WetVillageRoadFapBranchCrown",
+            fapBranchAnchor,
+            fapBranchYaw,
+            Vector3.One,
+            "village_day@fap-branch-crown-variant",
             WetVillageRoadKitScenePath);
 
         // The authored road replaces only overlapping visual

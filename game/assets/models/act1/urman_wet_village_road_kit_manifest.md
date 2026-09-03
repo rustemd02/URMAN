@@ -1,17 +1,21 @@
 # URMAN Act I Wet Village Road Kit
 
-Status: **authored presentation candidate; axis-safe wet-road readability pass 2026-08-26; not art lock and not demo ready**
+Status: **authored presentation candidate; variant-module wet-road pass 2026-09-03; not art lock and not demo ready**
 
 This is a bounded Painterly Low-Poly geometry kit for the Act I village road.
 It uses a shallow uneven crown, broken mud depressions, restrained puddles,
 muddy shoulders, asymmetrical ditches, a humble culvert, low side-band
-foliage, and a short broken fence cue. The readability pass rebuilds the three
+foliage, and a short broken fence cue. The readability pass rebuilds the
 active road relief roots, removes continuous linear rut ribbons, bakes every
 mesh child transform into its geometry, and applies the legacy extractor's
-inverse axis bake. The four shoulder/ditch roots are kept to at most 0.22 m
-local vertical relief after that bake. Mesh counts, names, materials, and
-preview-root placements remain stable; runtime route/collision ownership stays
-with `Act1ConnectedWorld`.
+inverse axis bake. The 2026-09-03 variant-module pass adds two authored
+non-crown road segments — `RoadCrown_BranchWet` (narrower, muddier FAP-branch
+strip) and `RoadCrown_ApproachWorn` (worn, patchy zirat-approach strip) — so
+Arrival, MainStreet, the FAP branch, the return street and the zirat
+transition no longer read as copies of one procedural strip. The four
+shoulder/ditch roots are kept to at most 0.22 m local vertical relief after
+that bake. Mesh counts, names, materials, and preview-root placements remain
+stable; runtime route/collision ownership stays with `Act1ConnectedWorld`.
 
 ## Deliverables
 
@@ -21,7 +25,7 @@ with `Act1ConnectedWorld`.
 - Units: **1 Blender unit = 1 metre**.
 - Authoring travel axis: local ±Y before the export bake.
 - Runtime travel axis: Godot local ±Z after the existing `+90° X` extractor correction.
-- Source meshes: **177** presentation meshes; **2,718** source triangles.
+- Source meshes: **192** presentation meshes; **3,042** source triangles.
 - Materials: **19** muted Principled node materials; no raster textures.
 - Source images: **0**; image-texture nodes: **0**.
 
@@ -37,6 +41,8 @@ component root and are LOD0 presentation geometry.
 | `RoadCrown_SunkenWet` | `(0.00, 0.00, 0.00)` | 11 | 280 | uneven crowned road surface, broken edge clods and worn patches |
 | `RoadRuts_PuddleNear` | `(0.00, -6.20, 0.00)` | 9 | 153 | broken shallow mud depressions and irregular near puddles |
 | `RoadRuts_PuddleFar` | `(0.00, 6.50, 0.00)` | 9 | 153 | broken shallow mud depressions and offset far puddles |
+| `RoadCrown_BranchWet` | `(0.00, -21.50, 0.00)` | 6 | 156 | narrower muddier FAP-branch strip with off-centre crown, two puddles and a worn patch |
+| `RoadCrown_ApproachWorn` | `(0.00, 21.50, 0.00)` | 9 | 168 | worn patchy zirat-approach strip with clods and one restrained puddle |
 | `MuddyShoulder_Left` | `(-3.25, 0.00, 0.00)` | 10 | 194 | left wet shoulder, clay breaks, clods and pockets |
 | `MuddyShoulder_Right` | `(3.25, 0.00, 0.00)` | 10 | 194 | independent right wet shoulder variation |
 | `RoadsideDitch_Left` | `(-4.75, 0.00, 0.00)` | 10 | 260 | left shallow uneven drainage channel and water pockets |

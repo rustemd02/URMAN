@@ -759,12 +759,12 @@
       "id": "urman.act1.wet_village_road_kit",
       "source": "assets/source/blender/act1/urman_wet_village_road_kit.blend",
       "derived": "game/assets/models/act1/urman_wet_village_road_kit.glb",
-      "sourceSha256": "3714fc5daf998116cdde76babef2403a08768c459c697a30e8cfcb51335be620",
-      "derivedSha256": "7ede6958c5708f4d748d25cbef417dbde7961904a9192dc1f8c4d2bcb548fed3",
+      "sourceSha256": "fd862870b097a670a37ac9e951b24453b1ae48c092c9bee785ebd7cc0e831e1d",
+      "derivedSha256": "3d295501ac44fd6b4394cc5033da2a7ab93f8cfdcc14c560f7ca3214338f0a16",
       "generator": "assets/source/blender/act1/urman_wet_village_road_kit.py; Blender 4.5.12 LTS",
       "license": "Project-original",
       "scale": 1.0,
-      "triangleBudget": 2718,
+      "triangleBudget": 3042,
       "textureBudget": 0,
       "materials": [
         "Culvert_StoneShadow",
@@ -788,10 +788,10 @@
         "Ditch_StillWater"
       ],
       "collision": "none; presentation-only geometry; Godot floor/collision and interaction targets remain authoritative",
-      "lod": "177 LOD0 presentation meshes; no runtime LOD",
-      "status": "authored relief road kit; runtime-integrated via URMAN_WetVillageRoadKit; full volumes/contact art-lock open (ART-002)",
+      "lod": "192 LOD0 presentation meshes; no runtime LOD",
+      "status": "authored relief road kit with BranchWet/ApproachWorn variant modules; runtime-integrated; full volumes/contact art-lock open (ART-002)",
       "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD",
-      "components": "URMAN_WetVillageRoadKit"
+      "components": "CulvertStoneCrossing; FernShrubBreak_Left; FernShrubBreak_Right; GrassSedgeMass_Left; GrassSedgeMass_Right; MuddyShoulder_Left; MuddyShoulder_Right; RoadCrown_ApproachWorn; RoadCrown_BranchWet; RoadCrown_SunkenWet; RoadFenceBreak_Low; RoadRuts_PuddleFar; RoadRuts_PuddleNear; RoadsideDitch_Left; RoadsideDitch_Right; URMAN_WetVillageRoadKit"
     },
     {
       "id": "urman.act1.village_exterior_kit",
