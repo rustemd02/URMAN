@@ -22,6 +22,23 @@ public partial class Act1DemoLaunchSmokeTest : Node
         }
 
         var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        var menuPlayer = demo.DemoMain.GetNodeOrNull<FirstPersonController>("Player");
+        if (!demo.MainMenuVisible
+            || demo.MainMenu?.NewGameButton is null
+            || demo.MainMenu.ContinueButton is null
+            || demo.IntroVisible
+            || menuPlayer?.ModalOpen != true)
+        {
+            Fail("Act 1 main menu did not gate the demo start before any intro or gameplay input.");
+            return;
+        }
+
+        if (!await this.StartThroughMainMenuAsync(demo))
+        {
+            Fail("Act 1 demo did not reach the intro through the main menu New Game button.");
+            return;
+        }
+
         if (demo.DemoMain is null
             || demo.DemoMain.ActiveZoneScenePath != "res://scenes/zones/style_benchmark_day_street.tscn"
             || !demo.DemoMain.EnableZoneTransitionFade

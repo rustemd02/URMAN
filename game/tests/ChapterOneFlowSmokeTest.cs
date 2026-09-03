@@ -20,6 +20,11 @@ public partial class ChapterOneFlowSmokeTest : Node
 
         AddChild(demo);
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!await this.StartThroughMainMenuAsync(demo))
+        {
+            Fail("Chapter 1 flow could not start through the main menu.");
+            return;
+        }
         var main = demo.DemoMain;
         var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
         if (bridge is null || bridge.ActiveSceneId != Scene("arrival_vehicle_dusk"))

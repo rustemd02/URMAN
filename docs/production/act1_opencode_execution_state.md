@@ -7,14 +7,38 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: TEST-006 committed. Next queue: UIUX-001 (P1 CREATE,
-  dependencies BASE-003 + SAVE-003 CLOSED): main menu overlay
-  (`game/scenes/ui/main_menu_ui.tscn` + `MainMenuUi.cs`) wired to
-  `StartNewGameAsync/HasLoadableSlot/LoadSlotAsync`, input gated before
-  choice; then UIUX-005 pause shell, STATE-005 fixtures, GAME-009 interruption
-  matrix, TEST-007 static assertions. WAVE 4-7 substantive art/narrative
-  slices stay REWORK/OPEN pending the CAPTURE-003/004/006 human evidence
-  cycle (rationale in Completed below).
+- Current task/slice: UIUX-001 committed. Next queue: UIUX-005 pause shell,
+  UIUX-006 settings-from-menu navigation, STATE-005 final-state fixtures,
+  GAME-009 interruption matrix, TEST-007 static assertions. WAVE 4-7
+  substantive art/narrative slices stay REWORK/OPEN pending the
+  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+
+## Completed
+
+- UIUX-001 (P1 CREATE): public main menu 2026-09-03.
+  - `game/scripts/MainMenuUi.cs` + `game/scenes/ui/main_menu_ui.tscn`: pure
+    presentation overlay (CanvasLayer, group `main_menu`) — title АКT I,
+    Новая игра / Продолжить (hidden without a quick slot) / Настройки / Выход;
+    no runtime, session or save owner inside the menu; choices reported as
+    events; accessibility target (text scale + high contrast).
+  - `Act1DemoRoot`: boot now gates the demo behind the menu
+    (`BuildMainMenu` → player modal; New Game → `StartNewGameAsync`; Continue
+    → `LoadSlotAsync("quick")` after `HasLoadableSlot`; Settings → existing
+    SettingsUi; Quit). Intro card builds only after a choice
+    (`ShowIntroAfterMenu`).
+  - Demo-consuming smokes (launch, walkthrough, corridor, chapter-one) now
+    pass the menu through the production New Game button via shared helper
+    `Act1MainMenuTestSupport.StartThroughMainMenuAsync` (button press, never
+    state injection).
+  - New `Act1MainMenuSmokeTest` in the aggregator: menu gate, hidden Continue
+    on fresh profile, Settings open/close from menu, Continue restores the
+    session after a quick save (and restores any pre-existing quick slot).
+  - verify-godot exit 0 (aggregator incl. new smoke; walkthrough PASS
+    135,50 m), verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/uiux001-verify-{godot,dotnet}-PASS.txt`.
+  - Notes: `SettingsUi.Close()` made public (programmatic close from the
+    menu flow; behavior unchanged). Expected-error corridors stay out of
+    Godot smokes per the aggregator's `^ERROR:` gate.
 
 ## Completed
 
@@ -406,9 +430,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: UIUX-001 (main menu overlay via SAVE-003 APIs), then UIUX-005
-  pause shell, STATE-005 final-state fixtures, GAME-009 interruption matrix,
-  TEST-007 static sole-writer assertions.
+- Immediate: UIUX-005 (pause shell: resume/settings/save/load/restart/quit +
+  modal stack), then UIUX-006, STATE-005, GAME-009, TEST-007.
 
 ## External gates
 
@@ -420,11 +443,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at UIUX-001 — create
-  `game/scenes/ui/main_menu_ui.tscn` + `game/scripts/MainMenuUi.cs`
-  (New Game -> `RuntimeBridge.StartNewGameAsync`; Continue gated by
-  `HasLoadableSlot("quick")` -> `LoadSlotAsync("quick")`; Settings -> existing
-  SettingsUi; Quit), wire into `Act1DemoRoot` before gameplay input, add a
-  focused Godot smoke + aggregator entry, verify
+- If interrupted now: resume at UIUX-005 — pause shell: split pause lifecycle
+  from `SettingsUi` (resume/settings/save/load/restart+quit confirmations,
+  modal stack discipline with menu/intro/ending), focused pause/modal-stack
+  Godot smoke + aggregator entry, verify
   `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(UIUX-001): ...`.
+  `task(UIUX-005): ...`.

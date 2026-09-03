@@ -259,7 +259,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         _status.Text = "Настройки применены. Они войдут в следующее сохранение.";
     }
 
-    private void Close()
+    public void Close()
     {
         _awaitingAction = null;
         _screen.Visible = false;

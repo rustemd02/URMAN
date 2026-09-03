@@ -31,6 +31,12 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         AddChild(demo);
         await Frames(8);
 
+        if (!await this.StartThroughMainMenuAsync(demo))
+        {
+            Fail("Act 1 first-person corridor could not start through the main menu.");
+            return;
+        }
+
         var main = demo.DemoMain;
         var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
         var player = main.GetNodeOrNull<FirstPersonController>("Player");

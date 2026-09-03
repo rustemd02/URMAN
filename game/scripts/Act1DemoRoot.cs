@@ -21,6 +21,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private Main _main = null!;
     private FirstPersonController? _player;
+    private MainMenuUi? _mainMenu;
     private Control? _introScreen;
     private VBoxContainer? _introStack;
     private Label? _introControls;
@@ -56,6 +57,11 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     public double EndingDelaySeconds => _endingDelay;
 
     public bool IntroVisible => _introScreen is not null;
+
+    /// <summary>UIUX-001: the public main menu gates gameplay until a choice.</summary>
+    public bool MainMenuVisible => _mainMenu is not null && GodotObject.IsInstanceValid(_mainMenu) && !_mainMenu.IsDismissed;
+
+    public MainMenuUi? MainMenu => _mainMenu;
 
     public string? IntroControlsText => _introControls?.Text;
 
@@ -103,7 +109,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _main.EnableAct1ConnectedWorld = true;
         AddChild(_main);
         _player = _main.GetNodeOrNull<FirstPersonController>("Player");
-        BuildIntro();
+        BuildMainMenu();
         BuildRouteCue();
         CallDeferred(nameof(AttachRuntimeBridge));
 
@@ -358,6 +364,80 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             DismissIntro();
             GetViewport().SetInputAsHandled();
         }
+    }
+
+    private void BuildMainMenu()
+    {
+        var player = _player;
+        // UIUX-001: gameplay input stays gated behind the menu choice.
+        player?.SetModalOpen(true);
+
+        _mainMenu = new MainMenuUi { Name = "Act1MainMenu" };
+        _mainMenu.NewGameRequested += () => _ = OnMenuStartSessionAsync(startNewGame: true);
+        _mainMenu.ContinueRequested += () => _ = OnMenuStartSessionAsync(startNewGame: false);
+        _mainMenu.SettingsRequested += () =>
+        {
+            if (_main.GetNodeOrNull<SettingsUi>("SettingsUi") is { } settings && player is not null)
+            {
+                settings.Open(player);
+            }
+        };
+        _mainMenu.QuitRequested += () => GetTree().Quit();
+        AddChild(_mainMenu);
+
+        // Continue availability needs the bridge, which lives inside the
+        // already-added main scene; refresh once the deferred attach runs.
+        CallDeferred(nameof(RefreshMenuContinueAvailability));
+    }
+
+    private void RefreshMenuContinueAvailability()
+    {
+        if (_mainMenu is { IsDismissed: false } menu)
+        {
+            menu.SetContinueAvailable(_bridge?.HasLoadableSlot(MainMenuUi.ContinueSlot) ?? false);
+        }
+    }
+
+    private async Task OnMenuStartSessionAsync(bool startNewGame)
+    {
+        if (_mainMenu is null || !MainMenuVisible)
+        {
+            return;
+        }
+
+        var bridge = _bridge ?? GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (bridge is null)
+        {
+            return;
+        }
+
+        if (startNewGame)
+        {
+            await bridge.StartNewGameAsync();
+        }
+        else
+        {
+            if (!bridge.HasLoadableSlot(MainMenuUi.ContinueSlot))
+            {
+                return;
+            }
+
+            await bridge.LoadSlotAsync(MainMenuUi.ContinueSlot);
+        }
+
+        ShowIntroAfterMenu();
+    }
+
+    private void ShowIntroAfterMenu()
+    {
+        if (!MainMenuVisible)
+        {
+            return;
+        }
+
+        _mainMenu?.Dismiss();
+        _mainMenu = null;
+        BuildIntro();
     }
 
     private void BuildIntro()
