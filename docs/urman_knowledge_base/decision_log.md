@@ -2652,3 +2652,30 @@ Linked files: `game/tests/Act1FirstPersonWalkthroughSmokeTest.cs`,
 `content/modules/urman-chapter1/definitions.json`,
 `game/scripts/RuntimeBridge.cs`,
 `docs/urman_knowledge_base/playtest_plan.md`
+
+## 2026-09-03 — Fix the three existing art documents as the Act I acceptance authority
+
+Status: Accepted
+
+Context: Tracker task ART-001 requires one shared art acceptance target before
+zone-by-zone production. Three authoritative documents already exist and fix
+the Painterly Low-Poly full-volume direction, near/mid/far and 360-degree
+review rules, cultural constraints and the "ordinary first, wrongness later"
+rule: `design_style.md`, `art/act1_master_layout_2026-08-17.md` and
+`art/act1_visual_reference_bible_2026-08-17.md`. Creating another style bible
+would restart candidate churn.
+
+Decision: Treat exactly these three documents as the acceptance reference for
+every Act I art/zone task in
+`URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md`. Zone tasks must cite a
+concrete target/gap from them; target PNGs inside these documents are
+references, never runtime screenshots. No new style document is created; only
+factual contradictions between these documents and the current runtime may be
+edited, and each such edit requires a decision log entry.
+
+Consequences: Art acceptance reviews are checked against the fixed documents
+instead of per-task taste. The retired full task tracker and superseded route
+documents are not art authority.
+
+Linked files: `design_style.md`, `art/act1_master_layout_2026-08-17.md`,
+`art/act1_visual_reference_bible_2026-08-17.md`

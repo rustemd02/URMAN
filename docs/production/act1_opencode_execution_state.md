@@ -7,9 +7,22 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: BASE-005 + CAPTURE-002 committed; next ART-001, then BASE-007.
+- Current task/slice: ART-001 committed; next BASE-007 verify-assets baseline.
 
 ## Completed
+
+- ART-001: KEEP 2026-09-03 (docs-only; three existing art docs fixed as the
+  Act I acceptance authority, no new style bible).
+  - Decision recorded in `docs/urman_knowledge_base/decision_log.md`
+    (2026-09-03 entry): `design_style.md`,
+    `art/act1_master_layout_2026-08-17.md`,
+    `art/act1_visual_reference_bible_2026-08-17.md` are the acceptance
+    reference for every Act I art/zone task; target PNGs are references, not
+    runtime screenshots.
+  - Manual cross-check vs current runtime: docs declare Painterly Low-Poly
+    full-volume walkable 3D; runtime implements it via
+    `PainterlyMaterialLibrary` presets + authored Act I kits (consistent, no
+    contradiction found).
 
 - BASE-005 + CAPTURE-002: PASS 2026-09-03 (capture harness diagnostics + readback
   pose assertion; two consecutive clean 44/44 runs).
