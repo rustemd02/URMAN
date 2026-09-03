@@ -7,10 +7,31 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: NARR-016 committed. Next queue: UIUX-003/004 polish,
-  then remaining automatable slices (P2s need explicit accept/defer). WAVE
-  4-7 substantive art/narrative slices stay REWORK/OPEN pending the
-  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+- Current task/slice: NARR-016 committed; queue reassessed 2026-09-04 (below).
+  Next automatable code slices: UIUX-011 (audio bus volume service), UIUX-008
+  (binding conflict detection). WAVE 4-7 substantive art/narrative slices
+  stay REWORK/OPEN pending the CAPTURE-003/004/006 human evidence cycle.
+
+## Queue reassessment (2026-09-04, honest disposition of remaining families)
+
+- Automatable-ready (code/doc, dependencies closed): UIUX-011 (audio bus
+  volume service + settings controls + smoke), UIUX-008 (binding conflict
+  detection + restore defaults), UIUX-003/004 (prompt/affordance polish —
+  needs at least one visual judgment, marginal), UIUX-002/009/010/012
+  (acceptance is first-time/human readability or external matrix evidence —
+  preparation only).
+- Human-gated (BLOCKED_EXTERNAL, evidence packages prepared): CAPTURE-003..007
+  (44/44 candidate rerun after zone art + supplemental + signed review),
+  PLAYTEST-001..006, CULTURE-001..005, AUDIO-011..014 (real recordings/mix),
+  WIN/M1 host gates, PERF-002..005 (after CAPTURE-006), RELEASE-*.
+- Authored-iteration (owner work with in-engine visual iteration; not
+  closable by reports): WAVE 4-5 zones (Z01-Z08), WAVE 6 interiors
+  (HOUSE/FAP), ART-003..012 deep passes, MAP-004..012 human components.
+- Narrative text polish (NARR-002..015, 017): editing is possible but
+  acceptance requires native/cultural/first-time evidence — editing without
+  that evidence would fake the gate; deferred to the human cycle.
+
+## Completed
 
 ## Completed
 
@@ -561,8 +582,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: UIUX-003/004 polish, then the next dependency-ready
-  automatable slices (reassess queue against all 228 IDs).
+- Immediate: UIUX-011 (audio volume service), UIUX-008 (binding conflicts),
+  then per reassessment above.
 
 ## External gates
 
@@ -574,8 +595,10 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at UIUX-003/004 (interaction prompt clarity +
-  affordance contrast) — inspect `FirstPersonController` prompt path and
-  first_person_player HUD, make the minimal deltas with a focused matrix
-  smoke; verify `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(UIUX-003)/task(UIUX-004): ...`. Then reassess the full queue.
+- If interrupted now: resume at UIUX-011 — create
+  `game/scripts/AudioSettingsService.cs` (master/ambience/voice/SFX bus
+  volumes on Godot buses, persisted via UserSettingsStore-compatible
+  versioned file, mute-safe captions via AudioCueUi), add volume rows to
+  SettingsUi, focused volume smoke + aggregator entry; verify
+  `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
+  `task(UIUX-011): ...`. Then UIUX-008.
