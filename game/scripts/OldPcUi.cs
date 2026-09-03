@@ -19,6 +19,9 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public string StatusText => _status?.Text ?? string.Empty;
 
+    /// <summary>Test-visible id of the document currently open in the reader.</summary>
+    public string? ActiveDocumentId => _activeDocumentId;
+
     public override void _Ready()
     {
         AddToGroup("old_pc_ui");
@@ -32,14 +35,69 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _status = GetNode<Label>("Screen/Computer/Layout/Footer/Status");
         _save = GetNode<Button>("Screen/Computer/Layout/Footer/Save");
         GetNode<Button>("Screen/Computer/Layout/Header/Close").Pressed += Close;
+        GetNode<Button>("Screen/Computer/Layout/Header/Close").Pressed += () => PlayFoley(_foleyClick);
         GetNode<Button>("Screen/Computer/Layout/SearchRow/Search").Pressed += Search;
+        GetNode<Button>("Screen/Computer/Layout/SearchRow/Search").Pressed += () => PlayFoley(_foleyKey);
         _query.TextSubmitted += _ => Search();
         _results.ItemSelected += OpenDocument;
         _save.Pressed += SaveDocument;
+        _save.Pressed += () => PlayFoley(_foleyPaper);
+        // AUDIO-010: presentation-only interaction foley on the SFX bus.
+        AudioSettingsService.EnsureBuses();
+        _foley = new AudioStreamPlayer { Name = "FoleyPlayer", Bus = AudioSettingsService.SfxBus };
+        _foley.VolumeDb = -10f;
+        AddChild(_foley);
+        _foleyClick = LoadFoley("ui_click");
+        _foleyKey = LoadFoley("keyboard_key");
+        _foleyPaper = LoadFoley("paper_open");
+    }
+
+    private AudioStreamPlayer? _foley;
+    private AudioStream? _foleyClick;
+    private AudioStream? _foleyKey;
+    private AudioStream? _foleyPaper;
+
+    private AudioStream? LoadFoley(string name)
+    {
+        var path = $"res://assets/audio/act1/foley/{name}.wav";
+        return ResourceLoader.Exists(path) ? ResourceLoader.Load<AudioStream>(path) : null;
+    }
+
+    private void PlayFoley(AudioStream? stream)
+    {
+        // Headless runs have no audio output; the ambient director applies
+        // the same guard so teardown never races a playing sample.
+        if (DisplayServer.GetName() == "headless")
+        {
+            return;
+        }
+
+        if (_foley is null || stream is null)
+        {
+            return;
+        }
+
+        _foley.Stream = stream;
+        _foley.Play();
     }
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings) =>
         AccessibilityPresentation.ApplyToControl(_computer, settings);
+
+    public override void _ExitTree()
+    {
+        // AUDIO-010 hygiene: release the foley stream before teardown so a
+        // still-playing sample cannot leak renderer resources at exit.
+        if (_foley is not null)
+        {
+            _foley.Stop();
+            _foley.Stream = null;
+        }
+
+        _foleyClick = null;
+        _foleyKey = null;
+        _foleyPaper = null;
+    }
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {
@@ -66,6 +124,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async void Search()
     {
+        PlayFoley(_foleyKey);
         if (_bridge is null)
         {
             return;

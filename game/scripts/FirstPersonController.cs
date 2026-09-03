@@ -168,6 +168,13 @@ public partial class FirstPersonController : CharacterBody3D
         if (inputEvent is InputEventJoypadButton
             || inputEvent is InputEventJoypadMotion joypadMotion && Math.Abs(joypadMotion.AxisValue) >= 0.18f)
         {
+            if (_inputDevice != "gamepad")
+            {
+                // AUDIO-004 diagnostics: log the switch so spurious gamepad
+                // events are traceable in headless evidence runs.
+                GD.Print($"input-device: gamepad via {inputEvent.AsText()} from {inputEvent.Device}");
+            }
+
             _inputDevice = "gamepad";
         }
         else if (inputEvent is InputEventKey or InputEventMouseButton or InputEventMouseMotion)

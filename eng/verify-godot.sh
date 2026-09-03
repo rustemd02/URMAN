@@ -23,6 +23,12 @@ has_runtime_errors() {
   return 1
 }
 
+# Test hermeticity: smokes assert keyboard wording and default accessibility
+# state, so the regenerable user-preferences files (settings + audio volumes)
+# are cleared before the loop. Story savegames are user data and stay untouched.
+rm -f "$HOME/Library/Application Support/Godot/app_userdata/URMAN/settings.json" \
+      "$HOME/Library/Application Support/Godot/app_userdata/URMAN/audio-settings.json"
+
 # A fresh checkout has no Godot importer cache. Import all source assets before
 # loading test scenes so GLB/scene failures cannot be hidden by a warm desktop.
 if ! "$GODOT" --headless --log-file "$IMPORT_LOG.godot" --path game --import >"$IMPORT_LOG" 2>&1; then

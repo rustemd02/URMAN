@@ -7,10 +7,11 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: AUDIO-003 committed. Next automatable slices:
-  AUDIO-005 house interior layer variants (same sub-key pattern for house
-  spawns), AUDIO-010 foley wiring (authored sounds via the footstep generator
-  pattern). Full accounting: remaining tasks are human-gated (capture/playtest/culture/
+- Current task/slice: AUDIO-010 committed. Next automatable slices:
+  AUDIO-010 remainder (foley for journal/document/dialogue UIs via the same
+  pattern), AUDIO-005 house interior bed variants via the sub-key pattern.
+  WAVE 4-7 substantive art/narrative slices stay REWORK/OPEN pending the
+  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below). Full accounting: remaining tasks are human-gated (capture/playtest/culture/
   audio-recording/platform/RC), authored-iteration (zones/interiors/ART deep
   passes), or acceptance-blocked polish (UIUX-002/003/004/009/012 — each
   needs human readability/motion/first-time evidence; no honest code delta
@@ -82,6 +83,26 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
   - verify-assets, verify-godot (14 PASS smokes), verify-dotnet — all exit 0.
   - Evidence: `evidence/act1_repo_baseline/audio003-verify-{godot,assets,dotnet}-PASS.txt`.
   - Human remainder: listening/cultural review (AUDIO-014, CULTURE-004).
+
+- AUDIO-010 (P1 CREATE, old-PC slice): interaction foley 2026-09-04.
+  - New `tools/audio/generate_act1_foley.py`: 3 project-original procedural
+    samples (ui_click, keyboard_key, paper_open), registered in the asset
+    registry (49 assets).
+  - `OldPcUi`: SFX-bus foley player + hooks — search/header-key press ->
+    keyboard_key, document save -> paper_open, close -> ui_click; streams
+    nulled in `_ExitTree` (no renderer leaks); headless guard matches the
+    ambient-director pattern.
+  - Found and fixed a suite-hermeticity defect the foley exposed: a stale
+    persisted `settings.json` (InputDevice=gamepad, ReducedMotion=true) from
+    an earlier run leaked into smokes asserting keyboard wording.
+    `verify-godot.sh` now clears the two regenerable preference files before
+    the loop (story savegames untouched). Journal smoke diagnostic improved
+    (status text in the failure message).
+  - verify-assets (49 assets), verify-godot (14 PASS smokes), verify-dotnet —
+    all exit 0, zero leak warnings.
+  - Evidence: `evidence/act1_repo_baseline/audio010-verify-{godot,dotnet}-PASS.txt`.
+  - Remaining AUDIO-010 scope: foley for journal/document/dialogue UIs uses
+    the same pattern (open work).
 
 - AUDIO-009 (P1 CREATE): zone-transition bed routing smoke 2026-09-04.
   - New `Act1AudioTransitionSmokeTest` in the aggregator: switching through
