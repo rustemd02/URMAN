@@ -7,11 +7,26 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: GAME-009 committed. Next queue: TEST-007 (static
-  assertions), remaining UIUX P1s, then the next dependency-ready
-  automatable slices. WAVE 4-7 substantive art/narrative slices stay
-  REWORK/OPEN pending the CAPTURE-003/004/006 human evidence cycle
-  (rationale in Completed below).
+- Current task/slice: TEST-007 committed. Next queue: remaining automatable
+  P1/P2 slices — UIUX-006/007/008 (settings navigation + user-settings store
+  + input parity), AUDIO-002 (sound map doc), NARR-016 (environmental
+  storytelling matrix doc), UIUX-003/004 polish. WAVE 4-7 substantive
+  art/narrative slices stay REWORK/OPEN pending the CAPTURE-003/004/006
+  human evidence cycle (rationale in Completed below).
+
+## Completed
+
+- TEST-007 (P0): static source-contract guard 2026-09-03.
+  - New `tests-dotnet/Urman.Core.Tests/SourceContractTests.cs` (2 facts,
+    engine-independent, runs in the dotnet suite): only `RuntimeBridge.cs`
+    may construct/restore the `RuntimeKernel` (`new RuntimeKernel(` /
+    `RuntimeKernel.Restore(`) and only `RuntimeBridge.cs` may own the save
+    store (`new AtomicSaveGameStore(` / `user://savegames`) across all
+    `game/scripts/**`. Self-check asserts the patterns ignore ordinary
+    mentions. Any new caller now fails the suite — the standing regression
+    guard behind the STATE-001 audit ledger.
+  - Suite 43+12 green, verify-dotnet exit 0 (Godot side unchanged).
+  - Evidence: `evidence/act1_repo_baseline/test007-verify-dotnet-PASS.txt`.
 
 ## Completed
 
@@ -490,9 +505,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: TEST-007 (P0 static sole-writer/reveal assertions), then
-  remaining automatable P1/P2 slices (UIUX-006/007/008 settings work,
-  AUDIO-002 sound map doc, NARR-016 storytelling matrix doc).
+- Immediate: UIUX-006/007 (settings navigation + user-settings store),
+  AUDIO-002 sound map doc, NARR-016 storytelling matrix doc, UIUX-003/004.
 
 ## External gates
 
@@ -504,9 +518,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at TEST-007 — add static assertions
-  (tests-dotnet or a Godot-free guard) enforcing the sole-writer caller
-  contract (no RuntimeKernel/save-file access outside RuntimeBridge) and the
-  final reveal invariant, per the STATE-001 audit ledger; verify
+- If interrupted now: resume at UIUX-007 — small versioned
+  `UserSettingsStore` (display/input/audio/accessibility only, no narrative
+  fields) + persistence smoke, per SAVE-006 boundary; verify
   `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(TEST-007): ...`.
+  `task(UIUX-007): ...`. Then UIUX-006, AUDIO-002, NARR-016.
