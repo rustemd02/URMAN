@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tests/StyleCalibrationCandidateCapture.cs" id="1_style_calibration"]
+
+[node name="StyleCalibrationCandidateCapture" type="Node"]
+script = ExtResource("1_style_calibration")

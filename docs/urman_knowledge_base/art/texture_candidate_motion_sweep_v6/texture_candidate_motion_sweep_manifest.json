@@ -1,0 +1,542 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_texture_candidate_motion_sweep",
+  "candidate_version": "v6",
+  "captured_at": "2026-08-14",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / Metal or equivalent real 3D driver",
+  "tile": {
+    "width": 640,
+    "height": 360
+  },
+  "sheet": {
+    "columns": 3,
+    "rows": 3,
+    "width": 1920,
+    "height": 1080
+  },
+  "columns": [
+    65,
+    75,
+    90
+  ],
+  "rows": [
+    "near",
+    "mid",
+    "far"
+  ],
+  "scenes": [
+    {
+      "name": "day_street",
+      "scene": "res://scenes/zones/style_benchmark_day_street.tscn",
+      "output": "docs/urman_knowledge_base/art/texture_candidate_motion_sweep_v6/godot_day_street_texture_v6_motion_sweep_1080p.png",
+      "expected_imported_module": "HouseA_project_original",
+      "replacement_count": 1512,
+      "frames": [
+        {
+          "row": 0,
+          "distance": "near",
+          "column": 0,
+          "fov": 65,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 5
+            },
+            "target": {
+              "x": 0,
+              "y": 1.45,
+              "z": -2.5
+            }
+          }
+        },
+        {
+          "row": 0,
+          "distance": "near",
+          "column": 1,
+          "fov": 75,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 5
+            },
+            "target": {
+              "x": 0,
+              "y": 1.45,
+              "z": -2.5
+            }
+          }
+        },
+        {
+          "row": 0,
+          "distance": "near",
+          "column": 2,
+          "fov": 90,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 5
+            },
+            "target": {
+              "x": 0,
+              "y": 1.45,
+              "z": -2.5
+            }
+          }
+        },
+        {
+          "row": 1,
+          "distance": "mid",
+          "column": 0,
+          "fov": 65,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 12.5
+            },
+            "target": {
+              "x": 0,
+              "y": 1.45,
+              "z": -7.5
+            }
+          }
+        },
+        {
+          "row": 1,
+          "distance": "mid",
+          "column": 1,
+          "fov": 75,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 12.5
+            },
+            "target": {
+              "x": 0,
+              "y": 1.45,
+              "z": -7.5
+            }
+          }
+        },
+        {
+          "row": 1,
+          "distance": "mid",
+          "column": 2,
+          "fov": 90,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 12.5
+            },
+            "target": {
+              "x": 0,
+              "y": 1.45,
+              "z": -7.5
+            }
+          }
+        },
+        {
+          "row": 2,
+          "distance": "far",
+          "column": 0,
+          "fov": 65,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 19
+            },
+            "target": {
+              "x": 0.2,
+              "y": 1.45,
+              "z": -13.5
+            }
+          }
+        },
+        {
+          "row": 2,
+          "distance": "far",
+          "column": 1,
+          "fov": 75,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 19
+            },
+            "target": {
+              "x": 0.2,
+              "y": 1.45,
+              "z": -13.5
+            }
+          }
+        },
+        {
+          "row": 2,
+          "distance": "far",
+          "column": 2,
+          "fov": 90,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 19
+            },
+            "target": {
+              "x": 0.2,
+              "y": 1.45,
+              "z": -13.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "house_old_pc",
+      "scene": "res://scenes/zones/style_benchmark_house_pc.tscn",
+      "output": "docs/urman_knowledge_base/art/texture_candidate_motion_sweep_v6/godot_house_old_pc_texture_v6_motion_sweep_1080p.png",
+      "expected_imported_module": "",
+      "replacement_count": 135,
+      "frames": [
+        {
+          "row": 0,
+          "distance": "near",
+          "column": 0,
+          "fov": 65,
+          "camera": {
+            "position": {
+              "x": -1.25,
+              "y": 1.68,
+              "z": 0.25
+            },
+            "target": {
+              "x": 0,
+              "y": 1.38,
+              "z": -2.7
+            }
+          }
+        },
+        {
+          "row": 0,
+          "distance": "near",
+          "column": 1,
+          "fov": 75,
+          "camera": {
+            "position": {
+              "x": -1.25,
+              "y": 1.68,
+              "z": 0.25
+            },
+            "target": {
+              "x": 0,
+              "y": 1.38,
+              "z": -2.7
+            }
+          }
+        },
+        {
+          "row": 0,
+          "distance": "near",
+          "column": 2,
+          "fov": 90,
+          "camera": {
+            "position": {
+              "x": -1.25,
+              "y": 1.68,
+              "z": 0.25
+            },
+            "target": {
+              "x": 0,
+              "y": 1.38,
+              "z": -2.7
+            }
+          }
+        },
+        {
+          "row": 1,
+          "distance": "mid",
+          "column": 0,
+          "fov": 65,
+          "camera": {
+            "position": {
+              "x": -1.45,
+              "y": 1.68,
+              "z": 1.75
+            },
+            "target": {
+              "x": 0,
+              "y": 1.38,
+              "z": -3.45
+            }
+          }
+        },
+        {
+          "row": 1,
+          "distance": "mid",
+          "column": 1,
+          "fov": 75,
+          "camera": {
+            "position": {
+              "x": -1.45,
+              "y": 1.68,
+              "z": 1.75
+            },
+            "target": {
+              "x": 0,
+              "y": 1.38,
+              "z": -3.45
+            }
+          }
+        },
+        {
+          "row": 1,
+          "distance": "mid",
+          "column": 2,
+          "fov": 90,
+          "camera": {
+            "position": {
+              "x": -1.45,
+              "y": 1.68,
+              "z": 1.75
+            },
+            "target": {
+              "x": 0,
+              "y": 1.38,
+              "z": -3.45
+            }
+          }
+        },
+        {
+          "row": 2,
+          "distance": "far",
+          "column": 0,
+          "fov": 65,
+          "camera": {
+            "position": {
+              "x": -1.45,
+              "y": 1.68,
+              "z": 3.15
+            },
+            "target": {
+              "x": 0.2,
+              "y": 1.38,
+              "z": -4.35
+            }
+          }
+        },
+        {
+          "row": 2,
+          "distance": "far",
+          "column": 1,
+          "fov": 75,
+          "camera": {
+            "position": {
+              "x": -1.45,
+              "y": 1.68,
+              "z": 3.15
+            },
+            "target": {
+              "x": 0.2,
+              "y": 1.38,
+              "z": -4.35
+            }
+          }
+        },
+        {
+          "row": 2,
+          "distance": "far",
+          "column": 2,
+          "fov": 90,
+          "camera": {
+            "position": {
+              "x": -1.45,
+              "y": 1.68,
+              "z": 3.15
+            },
+            "target": {
+              "x": 0.2,
+              "y": 1.38,
+              "z": -4.35
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "kara_urman_edge",
+      "scene": "res://scenes/zones/style_benchmark_kara_urman_night.tscn",
+      "output": "docs/urman_knowledge_base/art/texture_candidate_motion_sweep_v6/godot_kara_urman_edge_texture_v6_motion_sweep_1080p.png",
+      "expected_imported_module": "PineA_project_original",
+      "replacement_count": 603,
+      "frames": [
+        {
+          "row": 0,
+          "distance": "near",
+          "column": 0,
+          "fov": 65,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 5
+            },
+            "target": {
+              "x": 0.55,
+              "y": 1.35,
+              "z": -3.8
+            }
+          }
+        },
+        {
+          "row": 0,
+          "distance": "near",
+          "column": 1,
+          "fov": 75,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 5
+            },
+            "target": {
+              "x": 0.55,
+              "y": 1.35,
+              "z": -3.8
+            }
+          }
+        },
+        {
+          "row": 0,
+          "distance": "near",
+          "column": 2,
+          "fov": 90,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 5
+            },
+            "target": {
+              "x": 0.55,
+              "y": 1.35,
+              "z": -3.8
+            }
+          }
+        },
+        {
+          "row": 1,
+          "distance": "mid",
+          "column": 0,
+          "fov": 65,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 12.5
+            },
+            "target": {
+              "x": 0.55,
+              "y": 1.35,
+              "z": -7.2
+            }
+          }
+        },
+        {
+          "row": 1,
+          "distance": "mid",
+          "column": 1,
+          "fov": 75,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 12.5
+            },
+            "target": {
+              "x": 0.55,
+              "y": 1.35,
+              "z": -7.2
+            }
+          }
+        },
+        {
+          "row": 1,
+          "distance": "mid",
+          "column": 2,
+          "fov": 90,
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 1.7,
+              "z": 12.5
+            },
+            "target": {
+              "x": 0.55,
+              "y": 1.35,
+              "z": -7.2
+            }
+          }
+        },
+        {
+          "row": 2,
+          "distance": "far",
+          "column": 0,
+          "fov": 65,
+          "camera": {
+            "position": {
+              "x": 0.2,
+              "y": 1.7,
+              "z": 17
+            },
+            "target": {
+              "x": 0.4,
+              "y": 1.35,
+              "z": -12
+            }
+          }
+        },
+        {
+          "row": 2,
+          "distance": "far",
+          "column": 1,
+          "fov": 75,
+          "camera": {
+            "position": {
+              "x": 0.2,
+              "y": 1.7,
+              "z": 17
+            },
+            "target": {
+              "x": 0.4,
+              "y": 1.35,
+              "z": -12
+            }
+          }
+        },
+        {
+          "row": 2,
+          "distance": "far",
+          "column": 2,
+          "fov": 90,
+          "camera": {
+            "position": {
+              "x": 0.2,
+              "y": 1.7,
+              "z": 17
+            },
+            "target": {
+              "x": 0.4,
+              "y": 1.35,
+              "z": -12
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+<Project Sdk="Godot.NET.Sdk/4.7.1">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>Urman.Godot</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../src-dotnet/Urman.Core/Urman.Core.csproj" />
+    <ProjectReference Include="../src-dotnet/Urman.Content/Urman.Content.csproj" />
+  </ItemGroup>
+</Project>
+

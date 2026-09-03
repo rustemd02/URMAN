@@ -25,11 +25,20 @@
           "conditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
           "effects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
           "targetSceneId": { "$ref": "common.schema.json#/$defs/ContentId" },
-          "targetDialogueId": { "$ref": "common.schema.json#/$defs/ContentId" }
+          "targetDialogueId": { "$ref": "common.schema.json#/$defs/ContentId" },
+          "targetDocumentId": { "$ref": "common.schema.json#/$defs/ContentId" }
         },
         "additionalProperties": false,
         "allOf": [
-          { "not": { "required": ["targetSceneId", "targetDialogueId"] } }
+          {
+            "not": {
+              "anyOf": [
+                { "required": ["targetSceneId", "targetDialogueId"] },
+                { "required": ["targetSceneId", "targetDocumentId"] },
+                { "required": ["targetDialogueId", "targetDocumentId"] }
+              ]
+            }
+          }
         ]
       }
     },

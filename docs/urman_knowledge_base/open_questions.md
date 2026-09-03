@@ -5,8 +5,8 @@
 - Question: Какой основной формат gameplay для MVP?
   Context: Есть варианты classic Zelda-like, isometric, interface-heavy и hybrid.
   Why it matters: От этого зависят ассеты, камера, перемещение, UI и объём разработки.
-  Status: Resolved 2026-05-16 — static-node hybrid investigation.
-  Decision: Статичные / слегка анимированные сцены-узлы + in-world route navigation по деревне + ограниченное перемещение + глубокие интерфейсные расследования.
+  Status: Resolved 2026-08-10 — walkable first-person 3D investigation; supersedes the 2026-05-16 static-node decision.
+  Decision: Компактные ходибельные 3D-локации с постоянной камерой от первого лица + глубокие интерфейсные расследования.
   Suggested next step: Сделать 15-минутный greybox prototype в этом формате.
   Priority: High
 
@@ -27,11 +27,11 @@
   Priority: Medium
 
 - Question: Как игрок перемещается по деревне?
-  Context: Полная карта сверху слишком рано раскрывает масштаб Кырлая; свободная изометрия слишком дорогая для принятого ink-wash MVP.
+  Context: Полная карта сверху слишком рано раскрывает масштаб Кырлая; прежние дискретные route screens не дают требуемого присутствия в мире.
   Why it matters: Формат перемещения определяет локационные ассеты, камеру, UI, темп и ощущение тайны.
-  Status: Resolved 2026-05-16 — in-world discrete route navigation.
-  Decision: Использовать вариант A из pitch: игрок видит текущий участок дороги, делает фиксированный шаг вперёд, поворачивается на 90 градусов и ориентируется по физическим указателям / landmarks. Неполная схема маршрутов может жить в журнале, но не заменяет перемещение.
-  Suggested next step: Сделать greybox route prototype: главная улица → поворот к дому → указатель к зирату → кромка Кара-Урмана, с turn/step transitions.
+  Status: Resolved 2026-08-10 — continuous first-person movement in compact 3D locations.
+  Decision: Игрок свободно ходит и осматривается от первого лица, ориентируясь по физическим указателям и landmarks. Неполная схема может жить в журнале, но не заменяет перемещение.
+  Suggested next step: Сделать greybox: дом → главная улица → указатель к зирату → кромка Кара-Урмана.
   Priority: High
 
 ## Story
@@ -76,6 +76,16 @@
   Suggested next step: Написать 3–5 более тонких вариантов фразы Марат / Айдар during dialogue polish and keep or replace the temporary default. Any татарская or русско-татарская form still needs consultant review.
   Priority: High
 
+## Production narrative
+
+- Question: Зафиксированы ли production locks для актов 2–5 до дорогих 3D-ассетов?
+  Context: Пятиактная дуга и compiled campaign были приняты, но beat sheet, clue graph, production zones/NPC/documents, language keys, world variants и threat beats должны быть отдельным handoff-пакетом.
+  Why it matters: Без этого asset/animation/audio production начнёт угадывать сюжет и создаст дорогие несогласованные ветки.
+  Status: Resolved 2026-08-11 — `narrative_lock_acts_2_5.md` accepted as the narrative production lock.
+  Decision: Runtime IDs, четыре акта, одна трагическая концовка, reveal ordering и no-combat threat boundaries зафиксированы. Татарский, религиозный, фольклорный и исторический review остаются отдельным внешним gate.
+  Suggested next step: Использовать lock как вход для `GODOT-003`/`ASSET-003` после style acceptance; не начинать `ASSET-004` до прохождения культурного review.
+  Priority: High
+
 ## MVP
 
 - Question: Включать ли КФУ-интро?
@@ -111,9 +121,9 @@
 - Question: Top-down, isometric, interface-heavy или hybrid?
   Context: В источнике есть Zelda-like и Octopath-like идеи, но решения нет.
   Why it matters: Определяет производство.
-  Status: Resolved 2026-05-16 — gameplay direction accepted as static-node hybrid; art direction accepted as ink-wash storybook.
-  Decision: Для общего визуального стиля использовать тушь + приглушённую акварель / ink-wash storybook: обычная деревня, ручная линия, бумажная фактура, постепенная неправильность вместо гиперреализма и прямого monster horror.
-  Suggested next step: Сделать первые production style frames: дом бабая и әби, портреты Айдара / Мансура / Алсу, old PC frame, кромка Кара-Урмана.
+  Status: Resolved 2026-08-10 — Painterly Low-Poly 3D от первого лица.
+  Decision: Использовать производственную геометрию polished stylized low-poly и живописные материалы, свет и туман painterly high-detail варианта. Принципы ink-wash сохраняются в фактуре, палитре, UI и постепенной неправильности.
+  Suggested next step: Проверить принятую смесь на трёх in-engine benchmark scenes: улица, дом со старым ПК, ночная кромка Кара-Урмана.
   Priority: High
 
 - Question: Использовать ли uncanny portraits?
@@ -130,7 +140,7 @@
   Context: MVP может не показывать существ полноценно.
   Why it matters: Звук может заменить дорогие VFX/монстров.
   Status: Direction accepted 2026-05-16 — напряжённые паузы, звук и неполно объяснённые правила важнее постоянных скримеров.
-  Suggested next step: Спроектировать audio-first cliffhanger и ambience states для дома, улицы, кладбища, кромки леса.
+  Suggested next step: Использовать технически проверенный `AmbientAudioDirector`/manifest как routing foundation, затем записать authored ambience, голос Марата и реплику Рината, свести captions/non-audio cues и провести татарский/культурный listening review для дома, улицы, кладбища и кромки леса.
   Priority: Medium
 
 ## Татарский язык
@@ -157,6 +167,14 @@
 
 ## Technical
 
+- Question: Какой движок и язык являются production target?
+  Context: Решение влияет на runtime, asset import, desktop export и инструменты контента.
+  Why it matters: Параллельные engine owners сделали бы полный перенос непроверяемым.
+  Status: Resolved 2026-08-10 — Godot 4.7.1 .NET, C# и .NET 10 LTS.
+  Decision: Godot владеет presentation/world/input/audio; `Urman.Core` и `Urman.Content` остаются engine-neutral C#. Web runtime — только временный parity oracle до cutover.
+  Suggested next step: Поддерживать pinned toolchain, regression pass и desktop export evidence при каждом изменении Godot/.NET/Blender.
+  Priority: High
+
 - Question: Какой формат данных выбрать?
   Context: Нужны characters, clues, dialogues, documents, vocabulary.
   Why it matters: Контент должен быть валидируемым и переносимым.
@@ -169,7 +187,22 @@
   Suggested next step: Написать validator: orphan clues, missing sources, broken unlocks.
   Priority: Medium
 
+- Question: Где хранить и как применять accessibility preferences в Godot?
+  Context: Настройки first-person, UI и аудио-альтернатив не должны расходиться между сценами или после загрузки сохранения.
+  Why it matters: Раздельные presentation flags могли бы оставить часть игры без reduced motion, readable text или равнозначного non-audio cue.
+  Status: Resolved 2026-08-11 — shared `AccessibilitySettingsSnapshot` inside unreleased `SaveGameV3`.
+  Decision: `Urman.Core` валидирует значения; `AccessibilityPresentation` fan-out применяет reduced motion, high contrast, text scale, subtitles и audio descriptions к Godot targets. Технический roundtrip и scene smoke пройдены; внешняя проверка укачивания, читаемости и культурной корректности ещё обязательна.
+  Suggested next step: Провести accessibility playtest на 1080p/M1/Windows и проверить татарский/религиозный контекст текстовых описаний до release lock.
+  Priority: High
+
 ## Modular migration follow-ups
+
+- Question: Когда и где принять runtime material/scale owners для `mossy_stone_v2` и `old_fabric_v2`?
+  Context: Оба ImageGen-кандидата проходят PNG/seam/saturation gate и теперь имеют явные bounded presentation owners в `PainterlyMaterialLibrary`.
+  Why it matters: Без явного texel scale и scene owner нельзя безопасно подключать камень или ткань к runtime; fallback на чужую поверхность скрыл бы production-риск.
+  Status: Resolved 2026-08-12 as a production-candidate decision. `stone` (2.4 × 2.4) используется на двух неинтерактивных well/Kara-edge anchors; `fabric` (3.0 × 3.0) — на rug и двух woven stripe meshes. Four v1 mappings remain active elsewhere; no shader, collision, narrative or save change.
+  Suggested next step: Провести near/mid/far motion/readability, geometry, fog/light and cultural review before art lock; owners remain presentation-only candidates.
+  Priority: Medium
 
 - Question: Какие legacy ambient character rows реально входят в production Chapter 1 campaign?
   Context: MM-10 found `fanis`, `zarifa`, `ildar`, `gulnara`, `karat_guard`, `rashid`, `nail`, `rushania` and `razilya` in the old `CHARACTERS` array, but the accepted Chapter 1 active cast is narrower.
@@ -193,6 +226,13 @@
   Priority: Low
 
 ## Production
+
+- Question: Как не перепутать техническую готовность миграции с release acceptance?
+  Context: C# parity, Godot smoke, texture owners, desktop package structure и текущий macOS host smoke теперь имеют свежие доказательства, но внешний art/audio/cultural/accessibility/full-playthrough слой не закрыт.
+  Why it matters: Преждевременное удаление веб-оракула или объявление art lock уничтожит полезную точку сравнения и скроет реальные production-риски.
+  Status: Open 2026-08-12. `release_gate_matrix.md` — единый ledger; web-retirement `--assert-absent` запрещён до всех обязательных PASS.
+  Suggested next step: Закрывать строки матрицы отдельными evidence-пакетами; не принимать simulation, still capture или package structure за пользовательскую acceptance.
+  Priority: High
 
 - Question: Кто владелец canon updates?
   Context: Knowledge base должна жить, а не устареть после первого спринта.

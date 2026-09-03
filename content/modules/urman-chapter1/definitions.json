@@ -122,37 +122,61 @@
   {
     "schemaVersion": 1,
     "id": "urman.chapter1:text/objective-first-contradiction",
-    "value": { "default": "Compare the official record with the internal trace.", "translations": { "ru": "Сопоставить официальную справку с внутренней отметкой." } },
+    "value": { "default": "Compare Marat's death record with the internal register line.", "translations": { "ru": "Сопоставить справку о смерти Марата с внутренней строкой реестра." } },
     "purpose": "ui"
   },
   {
     "schemaVersion": 1,
     "id": "urman.chapter1:text/objective-language-reread",
-    "value": { "default": "Use a Tatar word to reread a source.", "translations": { "ru": "Использовать татарское слово при повторном чтении источника." } },
+    "value": { "default": "Reread the boundary source with the words for sound and response.", "translations": { "ru": "Перечитать запись о границе, применив слова «тавыш» и «җавап»." } },
     "purpose": "ui"
   },
   {
     "schemaVersion": 1,
     "id": "urman.chapter1:text/objective-edge",
-    "value": { "default": "Follow the zirat road after Rinat's warning movement.", "translations": { "ru": "Идти по зиратской дороге после того, как Ринат ушёл к маршруту." } },
+    "value": { "default": "Follow the zirat road from Mansur's sketch; Rinat has gone ahead.", "translations": { "ru": "Идти по зиратской дороге из схемы Мансура: Ринат уже ушёл вперёд." } },
     "purpose": "ui"
   },
   {
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-gulsina-warning",
-    "value": { "default": "Gulsina's care turns into a quiet boundary: evening is not for walking toward the urman.", "translations": { "ru": "Гөлсинә говорит мягко, но твёрдо: вечером к урману не ходят." } },
+    "value": { "default": "Gulsina lowers her voice: “Ярамый. Not toward the urman after dusk.”", "translations": { "ru": "«Ярамый», — мягко, но твёрдо говорит Гөлсинә. — Вечером к урману не ходят." } },
     "purpose": "dialogue"
   },
   {
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-alsu-route",
-    "value": { "default": "Alsu names the zirat road and chooses the safer street first.", "translations": { "ru": "Алсу называет зиратскую дорогу и сначала ведёт по безопасной улице." } },
+    "value": { "default": "Alsu points to the faded sign: “Зират is that way. People tell Marat's story differently; we take the main street first.”", "translations": { "ru": "Алсу показывает на выцветший указатель: «Зират — вон туда. Про Марата здесь каждый рассказывает по-своему. Сначала пойдём по главной улице; к Кара-Урману сейчас не надо»." } },
     "purpose": "dialogue"
   },
   {
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-rinat-no-key",
     "value": { "default": "Rinat looks past Aidar: you came to family, so stay with family.", "translations": { "ru": "Ринат смотрит мимо Айдара: «Ты приехал к семье — вот и будь с семьёй»." } },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-mansur-pc-request",
+    "value": { "default": "Mansur taps the side of the monitor: “It still starts, but I cannot make sense of these old folders. Look for Marat's file, please. If something feels wrong, call me.”", "translations": { "ru": "Мансур постукивает по боку монитора: «Он ещё запускается, только я не разберу эти старые папки. Посмотри, пожалуйста, файл Марата. Если что-то покажется странным — позови меня»." } },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-naila-medical-record",
+    "value": { "default": "Naila keeps her voice even: “The note uses precise official medical wording. That is how it is recorded.”", "translations": { "ru": "Наиля говорит ровно: «В записи использована точная официальная медицинская формулировка. Так и записано»." } },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-naila-ask-record",
+    "value": { "default": "Ask why the wording is so formal and precise.", "translations": { "ru": "Спросить, почему формулировка такая официальная и точная." } },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-naila-separate-record",
+    "value": { "default": "“I answer only for the medical wording. I will not interpret it.”", "translations": { "ru": "«Я отвечаю только за медицинскую формулировку. Толковать её не буду»." } },
     "purpose": "dialogue"
   },
   {
@@ -164,13 +188,13 @@
   {
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-rinat-danger",
-    "value": { "default": "Where did you see that category? Not on this road.", "translations": { "ru": "«Где ты видел эту категорию? Не на этой дороге говорить»." } },
+    "value": { "default": "Where did you see that category? People here do not say those words on this road.", "translations": { "ru": "«Где ты это увидел? Такие слова на этой дороге не произносят»." } },
     "purpose": "dialogue"
   },
   {
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-timur-restraint",
-    "value": { "default": "Timur asks Aidar not to turn truth into pride or repeat Marat's path.", "translations": { "ru": "Тимур просит Айдара не превращать правду в гордость и не повторять путь Марата." } },
+    "value": { "default": "“Do not turn truth into pride, Aidar. Marat already took that road.”", "translations": { "ru": "«Не превращай правду в гордость, Айдар. Марат уже пошёл этим путём», — тихо говорит Тимур." } },
     "purpose": "dialogue"
   },
   {
@@ -182,7 +206,7 @@
   {
     "schemaVersion": 1,
     "id": "urman.chapter1:text/audio-marat-caption",
-    "value": { "default": "A familiar voice comes from beyond the edge.", "translations": { "ru": "Из-за кромки слышится знакомый голос." } },
+    "value": { "default": "A familiar voice—Marat's voice—comes from beyond the edge.", "translations": { "ru": "Из-за кромки звучит знакомый голос Марата." } },
     "purpose": "caption"
   },
   {
@@ -580,11 +604,23 @@
     "id": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death",
     "kind": "clue",
     "title": { "default": "Marat was afraid before his death", "translations": { "ru": "Марат боялся перед смертью" } },
-    "summary": { "default": "A saved message shows that Marat's fear was not an accident report.", "translations": { "ru": "Сохранённое сообщение показывает, что страх Марата не помещается в справку о несчастном случае." } },
+    "summary": { "default": "A saved message says Marat heard a voice from the urman and feared answering it.", "translations": { "ru": "В сохранённом сообщении Марат пишет, что слышал голос из урмана и боялся ему ответить." } },
     "initialStatus": "hidden",
     "sourceIds": ["urman.chapter1:scene/evidence-saved-message"],
     "reveals": ["urman.chapter1:knowledge/clue_folklore_as_survival_rule"],
     "contradicts": ["urman.chapter1:knowledge/clue_marat_official_death_version"],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+    "kind": "clue",
+    "title": { "default": "Marat's last route passed the zirat", "translations": { "ru": "Последний маршрут Марата проходил у зирата" } },
+    "summary": { "default": "A worn trace beside the zirat road places Marat's last route beside the cemetery, not through its center.", "translations": { "ru": "Стертый след у зиратской дороги показывает: последний маршрут Марата проходил рядом с кладбищем, а не через его центр." } },
+    "initialStatus": "hidden",
+    "sourceIds": ["urman.chapter1:scene/zirat-road"],
+    "reveals": [],
+    "contradicts": [],
     "unlocks": []
   },
   {
@@ -696,6 +732,7 @@
         "conditions": [],
         "effects": [
           { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy", "status": "guessed" },
+          { "op": "npc.set-state", "characterId": "urman.chapter1:character/gulsina", "stateKey": "warning_heard", "value": true },
           { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat", "status": "confirmed" }
         ],
         "choices": []
@@ -718,6 +755,58 @@
           { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says", "status": "hypothesis" },
           { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict", "status": "confirmed" }
         ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:dialogue/mansur_pc_request",
+    "participantRoles": ["aidar", "mansur"],
+    "startNodeId": "ask-for-help",
+    "nodes": [
+      {
+        "id": "ask-for-help",
+        "speakerRole": "mansur",
+        "textId": "urman.chapter1:text/dialogue-mansur-pc-request",
+        "conditions": [],
+        "effects": [
+          { "op": "npc.set-state", "characterId": "urman.chapter1:character/mansur", "stateKey": "pc_access_granted", "value": true }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:dialogue/naila_medical_record",
+    "participantRoles": ["aidar", "naila"],
+    "startNodeId": "official-wording",
+    "nodes": [
+      {
+        "id": "official-wording",
+        "speakerRole": "naila",
+        "textId": "urman.chapter1:text/dialogue-naila-medical-record",
+        "conditions": [],
+        "effects": [
+          { "op": "npc.set-state", "characterId": "urman.chapter1:character/naila", "stateKey": "record_access_granted", "value": true }
+        ],
+        "choices": [
+          {
+            "id": "ask-difference",
+            "textId": "urman.chapter1:text/dialogue-naila-ask-record",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "separate-record"
+          }
+        ]
+      },
+      {
+        "id": "separate-record",
+        "speakerRole": "naila",
+        "textId": "urman.chapter1:text/dialogue-naila-separate-record",
+        "conditions": [],
+        "effects": [],
         "choices": []
       }
     ]
@@ -828,15 +917,53 @@
     "entryConditions": [],
     "onEnter": [
       { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat", "status": "confirmed" },
-      { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy", "status": "guessed" },
       { "op": "beat.set-state", "beatId": "urman.chapter1:beat/house-warmth-and-pause", "state": "completed" }
     ],
     "onExit": [],
     "interactions": [
       {
+        "id": "urman.chapter1:interaction/talk-mansur",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.chapter1:dialogue/mansur_pc_request"
+      },
+      {
+        "id": "urman.chapter1:interaction/oldpc-power",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [
+          {
+            "op": "npc.state",
+            "characterId": "urman.chapter1:character/mansur",
+            "stateKey": "pc_access_granted",
+            "value": true
+          }
+        ],
+        "effects": []
+      },
+      {
+        "id": "urman.chapter1:interaction/talk-gulsina",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.chapter1:dialogue/gulsina_yaramyy"
+      },
+      {
         "id": "urman.chapter1:interaction/house-to-route",
         "labelTextId": "urman.chapter1:text/continue",
-        "conditions": [],
+        "conditions": [
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+            "status": "confirmed"
+          },
+          {
+            "op": "npc.state",
+            "characterId": "urman.chapter1:character/gulsina",
+            "stateKey": "warning_heard",
+            "value": true
+          }
+        ],
         "effects": [],
         "targetSceneId": "urman.chapter1:scene/crossroad_signs_inspect"
       }
@@ -854,9 +981,29 @@
     "onExit": [],
     "interactions": [
       {
-        "id": "urman.chapter1:interaction/route-to-fap",
+        "id": "urman.chapter1:interaction/village-sign",
         "labelTextId": "urman.chapter1:text/inspect",
         "conditions": [],
+        "effects": []
+      },
+      {
+        "id": "urman.chapter1:interaction/talk-alsu",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.chapter1:dialogue/alsu_route_context"
+      },
+      {
+        "id": "urman.chapter1:interaction/talk-rinat",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.chapter1:dialogue/rinat_no_key"
+      },
+      {
+        "id": "urman.chapter1:interaction/route-to-fap",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict", "status": "confirmed" }],
         "effects": [],
         "targetSceneId": "urman.chapter1:scene/fap_waiting_room_day"
       },
@@ -881,9 +1028,18 @@
     "onExit": [],
     "interactions": [
       {
-        "id": "urman.chapter1:interaction/fap-to-document-desk",
+        "id": "urman.chapter1:interaction/talk-naila",
         "labelTextId": "urman.chapter1:text/inspect",
         "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.chapter1:dialogue/naila_medical_record"
+      },
+      {
+        "id": "urman.chapter1:interaction/fap-to-document-desk",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [
+          { "op": "npc.state", "characterId": "urman.chapter1:character/naila", "stateKey": "record_access_granted", "value": true }
+        ],
         "effects": [],
         "targetSceneId": "urman.chapter1:scene/fap_pressure_document_desk"
       }
@@ -1128,9 +1284,27 @@
     "onExit": [],
     "interactions": [
       {
+        "id": "urman.chapter1:interaction/zirat-roadside-clue",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [
+          { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint", "status": "confirmed" },
+          {
+            "op": "not",
+            "condition": {
+              "op": "knowledge.status",
+              "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+              "status": "confirmed"
+            }
+          }
+        ],
+        "effects": [
+          { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat", "status": "confirmed" }
+        ]
+      },
+      {
         "id": "urman.chapter1:interaction/zirat-road-to-forest",
         "labelTextId": "urman.chapter1:text/continue",
-        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint", "status": "confirmed" }],
+        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat", "status": "confirmed" }],
         "effects": [],
         "targetSceneId": "urman.chapter1:scene/forest"
       }

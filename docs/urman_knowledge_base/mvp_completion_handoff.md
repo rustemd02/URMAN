@@ -1,18 +1,27 @@
 # MVP Completion Handoff
 
-Status: product execution handoff. Architecture baseline updated 2026-07-18.
+Status: product execution handoff. Current delivery target amended 2026-08-14 to
+the Act 1 atmospheric demo; the full-game continuation below is deferred.
+Presentation baseline updated 2026-08-10; architecture baseline updated 2026-07-18.
 
 Purpose: this is the working list of what is still missing before УРМАН can be called a full MVP vertical slice. It is written for a future LLM or developer who may have zero context. Follow the current campaign and playtest gate; do not revive legacy runtime owners described in the historical audit below.
 
-## Architecture baseline — 2026-07-18
+Presentation update, 2026-08-10: the canonical target is a walkable Painterly Low-Poly 3D world with a continuous first-person camera on Godot 4.7.1 .NET/C#. Static-node and discrete-route material below is historical evidence only. Preserve the detective loop and modular narrative architecture; do not rebuild the old route runtime as a fallback. Art lock still requires accepted captures from a walkable Godot scene.
 
-The modular migration is complete and independently reviewed. Chapter 1 runs as compiled portable content through `RuntimeKernel`; scenes/dialogues/quests/assets are campaign data, old PC is a capability module, and production persistence uses `GameSnapshotV2` through one named gateway. This removes the former product blocker of shared state ownership, but does not prove MVP quality, final audio/assets or player comprehension.
+## Architecture baseline — 2026-08-11
+
+The modular migration is complete and independently reviewed. Chapter 1 and the authored Acts 2–5 foundation run as compiled portable content through `RuntimeKernel`; scenes/dialogues/quests/assets are campaign data, old PC is a capability module, and desktop persistence uses atomic `SaveGameV3` under `user://`. This removes the former product blocker of shared state ownership, but does not prove the six-to-eight-hour art-complete build, final audio/assets, cultural review or player comprehension.
 
 The sections that name `GameState`, `SceneManager`, `RouteNavigationScene`, `SaveSystem`, `src/data/**`, direct old-PC imports or legacy validators are a historical 2026-05-18 audit only. Do not execute their file lists. For new work use `docs/modular_migration/80_FINAL_VERIFICATION_KB_HANDOFF.md`, `chapter1_mvp_campaign.md`, `playtest_plan.md` and the current compiled content modules.
 
-## Current product execution — 2026-07-18
+## Current product execution — Act 1 demo, 2026-08-14
 
-The architecture foundation is ready for MVP construction, but the game is not yet an MVP release. The active work is to author, compile and playtest the Chapter 1 campaign through the portable content contracts — not to restore any legacy runtime owner. Start with the current campaign data and acceptance gates in `chapter1_mvp_campaign.md`, `playtest_plan.md`, `backlog.md` and `docs/modular_migration/80_FINAL_VERIFICATION_KB_HANDOFF.md`.
+The active work is to make the existing Chapter 1 route a convincing, observed,
+first-person demo: three in-engine style frames, audio/caption pass, cultural
+review, input/gamepad parity, near/mid/far readability and a short demo handoff.
+Replacing Acts 2–5 placeholders, completing the six-to-eight-hour game,
+desktop release gates and web retirement are deferred and must not be treated
+as blockers for this handoff. No legacy runtime owner is restored.
 
 ## Historical audit archive — 2026-05-18 (reference only; do not execute)
 
@@ -49,7 +58,7 @@ Important current facts:
 - `src/systems/DialogueSystem.ts`, `InventorySystem.ts`, `QuestSystem.ts`, `SaveSystem.ts`, `src/ui/DialogueUI.ts` and `src/types/game.types.ts` are empty.
 - `src/ui/NotebookUI.ts` is a vocabulary notebook, not an investigation journal.
 - `src/scenes/HouseScene.ts` and `src/scenes/ForestScene.ts` are stubs.
-- `src/scenes/MosqueScene.ts` is a 3D Al-Aqsa placeholder and conflicts with the accepted ink-wash static-node direction for a татарская деревня.
+- `src/scenes/MosqueScene.ts` is a 3D Al-Aqsa placeholder and conflicts with the cultural and visual direction for a татарская деревня; being 3D does not make it a usable target asset.
 - `public/assets/urman_mvp_remaining/` contains broad visual coverage, but most of it is not runtime-integrated.
 - `public/assets/audio/cattle.mp3` and `public/assets/audio/forest_howl.mp3` are not valid authored MVP audio assets; do not rely on them as final.
 

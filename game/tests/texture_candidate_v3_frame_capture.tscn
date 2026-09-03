@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://tests/TextureCandidateFrameCapture.cs" type="Script" id="1_texture_candidate_capture"]
+
+[node name="TextureCandidateV3FrameCapture" type="Node"]
+script = ExtResource("1_texture_candidate_capture")
+candidate_version = "v3"
+output_subdirectory = "v3"

@@ -1,10 +1,41 @@
 # Technical Architecture
 
-Архитектура должна оставаться engine-neutral, пока движок не выбран. Ни Unity, ни Godot, ни Unreal не фиксируются как решение. Главное требование: narrative content должен быть data-driven.
+Target stack, accepted 2026-08-10: **Godot 4.7.1 .NET, C# и .NET 10 LTS**. Production target — ходибельный 3D-мир с постоянной камерой от первого лица для macOS и Windows. Browser и mobile не входят в релиз.
 
-## Текущая модульная архитектура — 2026-07-18
+Engine-neutral остаются narrative kernel, portable content, compiler contracts и save data. Они не зависят от Godot nodes, scene paths, physics implementation или rendering API. Godot — единственный production owner представления, input, audio и world scenes.
 
-Миграция `docs/modular_migration/MM-00`–`MM-80` завершает архитектурную подготовку к достройке MVP, но не объявляет MVP готовым. Production Chapter 1 — заменяемая compiled campaign, а не встроенный сценарий.
+## Current delivery boundary — Act 1 demo
+
+Текущий delivery target — не полный five-act migration, а отдельная
+проверяемая Godot-сборка первого акта. `res://scenes/act1_demo.tscn` оборачивает
+существующий first-person composition root, задаёт старт `village_day@arrival`,
+показывает короткую presentation-заставку и после
+`urman.chapter1:beat/cliffhanger-hard-cut` выводит финальный overlay. Runtime
+kernel, save/load, capabilities, content IDs и narrative state остаются общими;
+`Act1DemoRoot` не пишет сюжетное состояние и не создаёт второй runtime owner.
+
+В launch path демо входят только пять компактных зон первого акта:
+`village_day`, `house_old_pc`, `fap_clinic`, `zirat_road` и
+`kara_urman_night`. Full-game zones Acts 2–5, их presentation dressing,
+полный playthrough и web retirement остаются долгосрочными deferred задачами и
+проверяются отдельными сценами, но не должны случайно попасть в demo entrypoint.
+
+## Target C# / Godot ownership
+
+- `Urman.Core` — чистое C#-ядро: commands, events, state, kernel, clue graph, quests, vocabulary, capabilities, deterministic clock/RNG.
+- `Urman.Content` — portable models, JSON Schema, Markdown, compiler, reference closure, logical asset/text/audio resolvers и narrative invariants.
+- `Urman.Godot` — composition root, world director, first-person controller, interactions, UI, audio, animation и save coordinator.
+- `Urman.ContentCli` — единственный Content Lab: `validate`, `compile`, `inspect`, `simulate`, `report`.
+- `content/**` остаётся source of truth. C# compiler обязан сохранить namespaced IDs, deterministic fingerprints и закрытые capability contracts текущего pack.
+- TypeScript/Vite/Three.js runtime остаётся read-only parity oracle до финального cutover. Production bridge, dual owner и permanent fallback запрещены.
+
+Quest-owned capability sessions синхронизируются по `quests.*.activeCapabilities` только после committed kernel transaction. `QuestCapabilitySessionOrchestrator` создаёт и запускает недостающие provider sessions, восстанавливает их из `SaveGameV3`, откатывает созданные в текущем reconciliation сессии при provider-сбое и не удаляет устаревшую сессию, пока runtime claim с тем же owner ID не освобождён. Постоянные presentation capabilities, например старый ПК, остаются отдельными composition-owned sessions и не попадают под quest cleanup.
+
+## Исторические web-модульные заметки — 2026-07-18 (только parity oracle)
+
+Ниже сохранены записи модульной миграции, сделанные до принятия Godot/C# target. Они описывают прежний browser composition и `GameSnapshotV2` как исторические доказательства; эти owners не являются текущими production boundaries и не должны восстанавливаться. Текущая архитектура — разделы `Target C# / Godot ownership`, `3D World Presentation` и `Save / Load`.
+
+Миграция `docs/modular_migration/MM-00`–`MM-80` завершила историческую архитектурную подготовку web-oracle к достройке MVP, но не объявляла MVP готовым. В текущем target Production Chapter 1 и full-game campaign — заменяемые C# compiled campaigns, а не встроенный сценарий.
 
 - Portable source of truth — JSON/Markdown в `content/modules/**` и campaign manifests; compiler создаёт immutable `CompiledContentPack` и блокирует duplicate ID, неизвестные opcode, недостижимые обязательные точки, missing assets/providers и раннее раскрытие улики.
 - `RuntimeKernel` — единственный writer progression state и occurrence ledger. Обычный квест/персонаж/диалог/asset меняется данными; уникальная механика приходит capability provider с exact version.
@@ -134,6 +165,7 @@ Data requirements:
 - PC documents should use the shared document model, not a separate lore-only format.
 - Search index should connect documents, vocabulary, clues, dates, characters and locations.
 - PC entries should be able to unlock `KnowledgeKey` ids and update the journal graph.
+- Открытие документа подтверждает связанные knowledge keys; отдельное действие «В журнал» добавляет ссылку в `runtime.journal`. Повторное сохранение идемпотентно.
 - Татарские terms discovered elsewhere should be usable as PC search terms.
 - Some files can be gated by story flags, passwords, damaged text or recovered fragments, but MVP should avoid complex freeform hacking.
 - Technical metadata must not be the main clue type. Use document marks such as stamps, registry dates, case numbers, crossed-out lines and repeated classifications.
@@ -258,49 +290,58 @@ For MVP, village state should stay lightweight:
 
 Do not build a full village simulation for MVP. Pressure is scripted dramaturgy around the detective loop.
 
-## Route Navigation
+## 3D World Presentation
 
-Accepted MVP direction: in-world discrete route navigation, not a full top-down map.
+Accepted MVP direction, 2026-08-10: compact walkable 3D locations with a continuous first-person camera. World presentation consumes portable narrative state but does not own clues, quests, dialogue progression or save truth.
 
-Routes should be data-driven and engine-neutral. A route graph should describe what the player can see and do from a fixed segment, without requiring free movement, pathfinding or a 3D camera.
+Engine-neutral presentation responsibilities:
 
-Suggested route node fields:
+- load a compact location and its authored spawn point;
+- provide player movement, look, collision and interaction focus;
+- map world interactables to portable scene, dialogue, clue, document or capability IDs;
+- apply time, pressure, ambience and visibility variants from runtime state;
+- expose location transitions through typed campaign data rather than hardcoded story branches;
+- keep journal navigation as a supporting view, not the primary overworld.
 
-- `id`
-- `locationId`
-- `timePhase`
-- `pressureVariant`
-- `facing`
-- `backgroundAssetId`
-- `foregroundAssetIds`
-- `availableActions`: forward, turnLeft, turnRight, back, inspect
-- `exits`: target route node ids plus optional requirements
-- `diegeticSigns`: label, language, target, visibility rules
-- `landmarks`: mosque, house, Niva, forest edge, bridge, zirat, notice board
-- `ambienceId`
-- `journalSketchUpdate`
+`ResolverCatalog` объединяет registries только в явном порядке модулей кампании и запрещает duplicate logical IDs. `AssetResolver` детерминированно выбирает вариант по explicit ID либо canonical seed/state и передаёт logical file host-адаптеру. `TextResolver` возвращает структурированные локализованные сегменты, включая vocabulary tokens, без HTML. `AudioResolver` возвращает resource metadata, captions, transcript и равнозначный non-audio cue; сам playback остаётся ответственностью Godot.
 
-Movement transitions should be reusable assets / configs:
+The Godot audio presentation boundary is explicit: `AmbientAudioDirector` owns only the continuous physical-zone bed. It loads `game/assets/audio/ambient_manifest.json`, maps a logical `WorldLocationId` to one imported WAV stem and exposes the current stem as presentation metadata; it never writes narrative state or competes with `AudioResolver`. Normal desktop runs attach and loop an `AudioStreamPlayer`, while headless verification validates stream import and zone switching without starting native playback, avoiding false-positive audio-server leaks. The current four stems are deterministic technical placeholders; authored field ambience, Marat/Rinat voice, final mix, captions and cultural review remain release-owned content work.
 
-- `turn_90_default`: 250–450 ms, foreground parallax, ink-smear edge darkening, sound cue;
-- `step_forward_default`: 500–800 ms, footsteps, slight bob, foreground occlusion;
-- special transitions only for major reveals such as first zirat approach or Кара-Урман boundary.
+Godot implementation: каждая крупная локация — отдельная `PackedScene`; `WorldDirector` загружает компактную зону и spawn point по логическим IDs. Камера имеет высоту около 1,7 м, FOV 75° с диапазоном 65–90° и минимальный head bob. Основной renderer — Forward+ с baked lighting, LOD, occlusion culling, ограниченными динамическими тенями и локальным volumetric fog. Для слабого/программного GPU существует только явный presentation-only `--urman-safe-mode` через Mobile renderer и low painterly material branch; это не gameplay fallback и не второй runtime owner. Seamless open world, combat controller, complex NPC schedules и general-purpose pathfinding не требуются.
 
-The journal map is a derived support view from route discovery and clue state. It must not become the primary overworld for MVP.
+Chapter 1 physical mapping использует пять зон: `village_day`, `house_old_pc`, `fap_clinic`, `zirat_road` и `kara_urman_night`. Несколько evidence scenes переиспользуют дом и ФАП, но остаются отдельными portable scene IDs. `InteractionTarget` отображается и участвует в raycast только когда его authored source scene активна и условия перехода выполнены; смена `PackedScene` не изменяет narrative state сама по себе. Сквозной headless smoke проходит все 16 точек `narrativeOrder` и проверяет финальные clue/beat в едином kernel state.
 
-Current prototype implementation, 2026-05-18:
+Full-game presentation foundation добавляет campaign `urman.fullgame`: 12 compact logical zones (`fullgame_act2_house` … `fullgame_act5_epilogue`) materialize через отдельные authored `PackedScene` wrappers в `scenes/zones/fullgame/`, каждый из которых задаёт один `ZoneId` и использует общий `FullGameZone` adapter. Compiled scene interactions становятся физическими `InteractionTarget` nodes; `FullGameInteractionLayout` ставит их рядом с authored prop anchors (док, архивный стол, книга пакта, boundary marker), а не в общем grid. `FullGameZoneDressing` — отдельный presentation-only owner, который выбирает модульный river/archive/pact/boundary и другие zone-specific наборы по `ZoneId`; он не читает и не меняет narrative state. `GeneratedModularKitDressing` селективно инстанцирует проектный `urman_modular_kit.glb` в доме Акта 2, советском архиве Акта 3 и лесной границе Акта 5, выравнивает kit по authored anchor и задаёт LOD0 `0–24m` / LOD1 `18–72m` с self-fade. `FullGameNpcDressing` теперь размещает project-original `urman_character_kit.glb` через `GeneratedCharacterKitDressing`: девять именованных character prefixes, ground anchors, deterministic face landmarks/layered clothing, nine Blender-authored `Idle`/`Tension` armatures и LOD0 `0–18m` / LOD1 `14–48m`; слой остаётся presentation-only, без physics bodies, interaction ownership или narrative state. Godot `AnimationPlayer` запускает matching `Idle` и позволяет presentation-only переключение на `Tension`; facial expression polish и authored audio остаются отдельными production gates. Blender `-col`-объекты не становятся физикой автоматически: активными остаются layer-1 ground/zone colliders и provisional layer-2 proxy colliders, а не импортированный render mesh. Отдельный `CollisionQaSmokeTest` уже проверяет queryable floor всех 12 зон и изоляцию kit proxies; качество финальных mesh-colliders остаётся production gate. Этот слой всё ещё является production-progress pass, а не финальным art/level production. Full-game smoke проверяет authored scene path, physical dressing, authored interaction layout, environment and character GLB selection, NPC contract, animation playback и visibility ranges для каждой пройденной зоны, каждый transition/dialogue и совпадение target zone с compiled target, поэтому отсутствующий ID не может незаметно стать generic `world.interact`.
+
+Physical documents use the same compiled document registry as the old PC. An interaction may declare one `targetDocumentId`; `RuntimeBridge.OpenDocumentAsync` evaluates access conditions and applies `openEffects` plus the presentation-only `document.open` effect in the kernel. `DocumentUi` renders the Markdown body and uses the existing `journal.record` command when the player explicitly presses «В журнал»; repeated records are idempotent. Four full-game documents (Baranov 1967, Tukay 1913, Kazan 1552 and the pact ledger) are now placed beside their authored props and covered by the full-game flow smoke.
+
+Godot journal — read-only projection того же `runtime.journal`, которое изменяет kernel. `CompiledCampaignRepository` разрешает `entryId/sourceId` через compiled registries документов и knowledge keys; `JournalUi` и `DocumentUi` не хранят сюжетное состояние и не содержат захардкоженных записей. Контроллер игрока отвечает только за движение и modal lock. Старый ПК, физические документы, журнал, диалоги, vocabulary и quests читают одно runtime state.
+
+`FirstPersonController` определяет последнее устройство по реальным Godot input events и меняет подсказку взаимодействия между `[E]` и `[A]`. FOV, чувствительность, выбранное устройство и остальные поля `GameSettingsSnapshot` больше не заменяются константами при save/load. `SettingsUi` применяет FOV, чувствительность, лёгкий head bob и `low/medium/high` render scale + MSAA. Motion blur не включён в renderer-профиле. Accessibility-контракт `AccessibilitySettingsSnapshot` хранит reduced motion, high contrast, text scale, subtitles и audio descriptions; `AccessibilityPresentation` доставляет его всем UI targets через одну Godot group. Reduced motion отключает head bob, text scale и high contrast применяются к UI-панелям, а `AudioCueUi` выбирает captions или равнозначный non-audio cue по настройкам. Это закрывает технический presentation slice; внешняя проверка читаемости, укачивания и культурно корректных текстовых описаний остаётся playtest/release gate.
+
+Historical prototype, superseded as production direction on 2026-08-10:
 
 - `src/scenes/RouteNavigationScene.ts` is the first runtime implementation of this model.
 - `public/assets/urman_route_map/route_graph.json` is the source of truth for route nodes, exits and route state transitions.
 - `public/assets/urman_route_map/asset_manifest.json` maps route asset IDs to PNG files.
 - `public/assets/urman_route_map/animation_layers.json` and `editable_layers.json` drive runtime overlays / editable text regions.
 - `SceneManager` maps `village` to `RouteNavigationScene`; the old procedural/isometric map is preserved only as `villageGreybox`.
-- `GameState` stores route node progress and journal sketch state for the current session.
+- `GameState` stored route node progress and journal sketch state for that prototype session.
+
+These files may remain as provenance and composition reference. They must not be restored as a parallel presentation owner or used as a fallback for the first-person 3D target.
 
 ## Save / Load
 
-Save state должен хранить:
+Target contract: `SaveGameV3` хранится атомарно под `user://` через temporary file и replace. Он не импортирует `GameSnapshotV2`, не читает и не удаляет browser localStorage.
 
+Детерминированные отложенные действия принадлежат `Urman.Core.Determinism.DeterministicScheduler`: очередь сортируется по logical tick и `jobId`, поддерживает owner-scoped cancel/claim/ack/release и входит в `SaveGameV3`. Временные claim leases не сохраняются: после загрузки незавершённая работа снова доступна для детерминированной обработки. `CustodyStore` и `EvidenceProvenance` остаются чистыми runtime primitives: первый атомарно планирует claim/transfer/consume через kernel resource claims, второй строит проверяемые цепочки происхождения без циклов и самоссылок.
+
+Save payload должен хранить:
+
+- schema version;
+- campaign ID, exact version и fingerprint;
+- runtime snapshot и capability snapshots;
+- snapshot deterministic scheduler без временных leases;
 - collected clues;
 - vocabulary state;
 - quest state;
@@ -309,7 +350,15 @@ Save state должен хранить:
 - village state;
 - journal graph;
 - current time phase;
-- location access.
+- location access;
+- `WorldLocationId`, `SpawnPointId`, player transform;
+- settings, portable keyboard/gamepad button/axis input bindings, `AccessibilitySettingsSnapshot` и playtime.
+
+Повреждённая запись не должна уничтожать последнюю рабочую: save coordinator сохраняет предыдущий валидный файл как recovery candidate и выдаёт typed error вместо partial load.
+
+`InputBindingSnapshot` хранит logical action, physical keyboard keycode и optional gamepad button или axis/sign pair. `Urman.Core` проверяет уникальность и форму списка, а `Urman.Godot.InputBindingService` один преобразует его в Godot `InputMap`. Переназначение клавиши, кнопки или аналоговой оси очищает только прежние события той же action; mouse bindings и остальные actions не затрагиваются. SaveGameV3 ещё не выпускался, поэтому контракт обновлён на месте без чтения старых development-only V3 файлов и без compatibility branch.
+
+`AccessibilitySettingsSnapshot` по умолчанию сохраняет включённые subtitles и audio descriptions, отключённые reduced motion/high contrast и масштаб текста `1.0`. `SaveGameV3Codec` ограничивает масштаб диапазоном `0.8–1.6` и отклоняет нечисловые значения до записи; загрузка не создаёт второй settings store и не меняет browser localStorage.
 
 ## Localization
 
@@ -335,17 +384,33 @@ Save state должен хранить:
 - placeholder status;
 - source / license.
 
+Для каждого локального производственного файла реестр также обязан хранить
+`sourceSha256` и `derivedSha256` (если файл существует в репозитории),
+generator/source-of-truth и технические ограничения ассета. Скрипт
+`eng/verify-asset-registry.sh` выполняет host-independent preflight: проверяет
+уникальность IDs, лицензирование, безопасные repo-relative пути, наличие файлов
+и совпадение SHA-256. `eng/verify-assets.sh` запускает этот preflight до Blender;
+падение Blender при старте классифицируется как `HOST_TOOLCHAIN_BLOCKED` и не
+получает fallback или право объявить свежий asset PASS.
+
 Это нужно, чтобы контролировать главный риск MVP — расползание ассетов.
 
 ## Content Pipeline
 
-Proposal:
+Accepted target:
 
-1. Писать narrative data в Markdown / JSON.
-2. Валидировать IDs и ссылки.
-3. Генерировать index для поиска.
-4. Проверять, что все clues имеют source и use.
-5. Проверять, что все татарские слова имеют translation, context и consultant status.
+1. Писать narrative data в существующих Markdown / JSON modules.
+2. `Urman.ContentCli validate` проверяет schemas, IDs, references, capabilities и narrative invariants.
+3. `compile` создаёт immutable `CompiledCampaign` и deterministic `CampaignFingerprint`.
+4. `inspect` показывает modules, bindings, clue/reveal graph и asset closure.
+5. `simulate` прогоняет deterministic command scenarios без Godot.
+6. `report` формирует production audit: orphan clues, missing sources/uses/assets, unchecked татарские строки и story-gate violations.
+
+Asset provenance проверяется отдельным host-independent шагом до запуска
+Blender; Blender/GLB verification остаётся вторым, более узким gate для
+генераторов и импортируемой геометрии. Временная проблема рендер-хоста не
+скрывает расхождение source/derived hashes, а успешный preflight не подменяет
+проверку Blender.
 
 ## Narrative Flags
 
@@ -371,4 +436,4 @@ Graph нужен и для журнала игрока, и для внутрен
 
 ## Engine Compatibility Boundary
 
-Не использовать решения, завязанные на конкретный движок, до отдельного выбора. Все данные должны быть переносимы: JSON / Markdown / CSV-like structures, с валидируемыми IDs и ссылками.
+Portable contracts используют JSON/Markdown, валидируемые IDs и ссылки. Godot-specific scene paths, nodes, resources и input actions живут только в `Urman.Godot` и его registries. `Urman.Core`, `Urman.Content` и сохранения не ссылаются на Godot assemblies.

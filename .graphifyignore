@@ -2,6 +2,12 @@
 node_modules/
 dist/
 build/
+.tools/
+**/bin/
+**/obj/
+game/.godot/
+game/content/*.compiled*.json
+tests-dotnet/fixtures/
 
 # Graphify generated local state
 graphify-out/

@@ -32,7 +32,9 @@
         { "$ref": "#/$defs/RouteUnlockEffect" },
         { "$ref": "#/$defs/LocationUnlockEffect" },
         { "$ref": "#/$defs/SceneRequestEffect" },
-        { "$ref": "#/$defs/AudioRequestEffect" }
+        { "$ref": "#/$defs/AudioRequestEffect" },
+        { "$ref": "#/$defs/DocumentOpenEffect" },
+        { "$ref": "#/$defs/JournalRecordEffect" }
       ]
     },
     "AllCondition": {
@@ -252,6 +254,22 @@
       "type": "object",
       "required": ["op", "assetId"],
       "properties": { "op": { "const": "audio.request" }, "assetId": { "$ref": "common.schema.json#/$defs/ContentId" } },
+      "additionalProperties": false
+    },
+    "DocumentOpenEffect": {
+      "type": "object",
+      "required": ["op", "documentId"],
+      "properties": { "op": { "const": "document.open" }, "documentId": { "$ref": "common.schema.json#/$defs/ContentId" } },
+      "additionalProperties": false
+    },
+    "JournalRecordEffect": {
+      "type": "object",
+      "required": ["op", "entryId", "sourceId"],
+      "properties": {
+        "op": { "const": "journal.record" },
+        "entryId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "sourceId": { "$ref": "common.schema.json#/$defs/ContentId" }
+      },
       "additionalProperties": false
     }
   }

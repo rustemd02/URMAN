@@ -1,0 +1,109 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://scripts/OldPcUi.cs" type="Script" id="1_ui"]
+
+[node name="OldPcUi" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_ui")
+
+[node name="Screen" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Backdrop" type="ColorRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.025, 0.035, 0.03, 0.96)
+
+[node name="Computer" type="PanelContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.06
+anchor_top = 0.06
+anchor_right = 0.94
+anchor_bottom = 0.94
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layout" type="VBoxContainer" parent="Screen/Computer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Screen/Computer/Layout"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Screen/Computer/Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.88, 0.68, 1)
+theme_override_font_sizes/font_size = 24
+text = "DedOS 3.11 — АРХИВ КЫРЛАЙ"
+
+[node name="Close" type="Button" parent="Screen/Computer/Layout/Header"]
+layout_mode = 2
+text = "Закрыть [Esc]"
+
+[node name="SearchRow" type="HBoxContainer" parent="Screen/Computer/Layout"]
+layout_mode = 2
+
+[node name="Query" type="LineEdit" parent="Screen/Computer/Layout/SearchRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Поиск: Марат, урман, граница..."
+
+[node name="Search" type="Button" parent="Screen/Computer/Layout/SearchRow"]
+layout_mode = 2
+text = "Искать"
+
+[node name="WorkArea" type="HSplitContainer" parent="Screen/Computer/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 380
+
+[node name="Results" type="ItemList" parent="Screen/Computer/Layout/WorkArea"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+
+[node name="ReaderArea" type="VBoxContainer" parent="Screen/Computer/Layout/WorkArea"]
+layout_mode = 2
+
+[node name="DocumentTitle" type="Label" parent="Screen/Computer/Layout/WorkArea/ReaderArea"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.78, 0.52, 1)
+theme_override_font_sizes/font_size = 22
+text = "АРХИВ КЫРЛАЙ"
+autowrap_mode = 2
+
+[node name="Reader" type="RichTextLabel" parent="Screen/Computer/Layout/WorkArea/ReaderArea"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 18
+text = "Введите поисковый запрос или выберите запись."
+fit_content = false
+scroll_active = true
+
+[node name="Footer" type="HBoxContainer" parent="Screen/Computer/Layout"]
+layout_mode = 2
+
+[node name="Status" type="Label" parent="Screen/Computer/Layout/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.58, 0.75, 0.62, 1)
+text = "DedOS 3.11 · локальный архив"
+autowrap_mode = 2
+
+[node name="Save" type="Button" parent="Screen/Computer/Layout/Footer"]
+layout_mode = 2
+disabled = true
+text = "В журнал"

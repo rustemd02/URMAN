@@ -1,0 +1,220 @@
+using System.Text.Json;
+using Godot;
+using Urman.Core.Persistence;
+
+namespace Urman.Godot.Tests;
+
+public partial class ChapterOneFlowSmokeTest : Node
+{
+    private const string ChapterPrefix = "urman.chapter1:";
+    private const string OfficialNotice = "urman.oldpc:document/doc_marat_official_death_notice";
+
+    public override async void _Ready()
+    {
+        var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")?.Instantiate<Act1DemoRoot>();
+        if (demo is null)
+        {
+            Fail("Chapter 1 flow could not instantiate the Act 1 demo entrypoint.");
+            return;
+        }
+
+        AddChild(demo);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var main = demo.DemoMain;
+        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (bridge is null || bridge.ActiveSceneId != Scene("arrival_vehicle_dusk"))
+        {
+            Fail("Chapter 1 flow did not start at the authored arrival scene.");
+            return;
+        }
+
+        if (!await Advance(bridge, "arrival-enter-house", "house")) return;
+        main.SwitchZone("house_old_pc", "entry");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+        await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new
+        {
+            type = "open",
+            documentId = OfficialNotice
+        }));
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_official_death_version") != "confirmed"
+            || bridge.IsInteractionAvailable(Interaction("house-to-route")))
+        {
+            Fail("Chapter 1 old-PC clue unlocked the house exit before Gulsina's warning dialogue.");
+            return;
+        }
+
+        if (!bridge.IsInteractionAvailable(Interaction("talk-gulsina"))
+            || !await bridge.DispatchInteractionAsync(Interaction("talk-gulsina"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("gulsina_yaramyy"), "home-warning")
+            || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
+        {
+            Fail("Chapter 1 Gulsina warning dialogue did not unlock the house exit through the shared runtime path.");
+            return;
+        }
+
+        if (!await Advance(bridge, "house-to-route", "crossroad_signs_inspect")) return;
+        main.SwitchZone("village_day", "from_house");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+        if (bridge.IsInteractionAvailable(Interaction("route-to-fap"))
+            || !bridge.IsInteractionAvailable(Interaction("talk-alsu"))
+            || !await bridge.DispatchInteractionAsync(Interaction("talk-alsu"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("alsu_route_context"), "name-road")
+            || !bridge.IsInteractionAvailable(Interaction("route-to-fap")))
+        {
+            Fail("Chapter 1 Alsu route dialogue did not unlock the FAP route through the shared runtime path.");
+            return;
+        }
+
+        if (!await Advance(bridge, "route-to-fap", "fap_waiting_room_day")) return;
+        main.SwitchZone("fap_clinic", "waiting_room");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+        if (bridge.IsInteractionAvailable(Interaction("fap-to-document-desk"))
+            || !bridge.IsInteractionAvailable(Interaction("talk-naila"))
+            || !await bridge.DispatchInteractionAsync(Interaction("talk-naila"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("naila_medical_record"), "official-wording")
+            || !bridge.IsInteractionAvailable(Interaction("fap-to-document-desk")))
+        {
+            Fail("Chapter 1 flow could not apply Naila's authored medical-record dialogue gate.");
+            return;
+        }
+
+        if (!await Advance(bridge, "fap-to-document-desk", "fap_pressure_document_desk")) return;
+        if (!await Advance(bridge, "fap-document-desk-to-official-record", "evidence-official-death")) return;
+        if (!await Advance(bridge, "official-to-internal-register", "evidence-internal-register")) return;
+        main.SwitchZone("house_old_pc", "entry");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+        if (!bridge.IsInteractionAvailable(Interaction("internal-register-to-rinat"))
+            || !await bridge.DispatchInteractionAsync(Interaction("internal-register-to-rinat"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("rinat_internal_register"), "dangerous-category"))
+        {
+            Fail("Chapter 1 flow could not apply Rinat's authored internal-register dialogue.");
+            return;
+        }
+
+        if (!await Advance(bridge, "internal-register-to-saved-message", "evidence-saved-message")) return;
+        if (!await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")) return;
+        if (!await Advance(bridge, "boundary-source-to-reread", "evidence-tatarwiki-reread")) return;
+        if (!await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
+        var preZiratState = bridge.SelectRuntimeState();
+        if (KnowledgeStatus(preZiratState, "clue_marat_last_route_near_zirat") != "hidden")
+        {
+            Fail("The zirat roadside clue was granted before the player reached the zirat-road scene.");
+            return;
+        }
+        if (!await Advance(bridge, "edge-sketch-to-zirat-road", "zirat-road")) return;
+        main.SwitchZone("zirat_road", "village_side");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+        var ziratClue = Interaction("zirat-roadside-clue");
+        if (!bridge.IsInteractionAvailable(ziratClue)
+            || !await bridge.DispatchInteractionAsync(ziratClue)
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_last_route_near_zirat") != "confirmed")
+        {
+            Fail("The zirat roadside interaction did not grant Marat's route clue through RuntimeBridge.");
+            return;
+        }
+
+        if (!await Advance(bridge, "zirat-road-to-forest", "forest")) return;
+        main.SwitchZone("kara_urman_night", "village_path");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+        var state = bridge.SelectRuntimeState();
+        var audioCue = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
+        if (bridge.CurrentZoneId != "kara_urman_night"
+            || KnowledgeStatus(state, "clue_do_not_answer_rule") != "confirmed"
+            || BeatState(state, "cliffhanger-hard-cut") != "completed"
+            || audioCue?.LastPresentedText != "Ринат говорит: «Не отвечай»."
+            || audioCue.LastAssetId != "urman.chapter1:asset/audio-rinat-interruption"
+            || audioCue.VisibleText != "Голос повторяет детскую фразу с неправильной паузой: «Казанский… не отставай»."
+            || audioCue.PresentedHistory.Count < 2
+            || !audioCue.PresentedHistory.Contains("Голос повторяет детскую фразу с неправильной паузой: «Казанский… не отставай».")
+            || !audioCue.PresentedHistory.Contains("Ринат говорит: «Не отвечай».")
+            || audioCue.LastOutcomeKey?.StartsWith("runtime-event:", StringComparison.Ordinal) != true)
+        {
+            Fail("Chapter 1 flow reached the forest without the final rule, ordered Marat/Rinat cues or equivalent audio presentation.");
+            return;
+        }
+
+        await ToSignal(GetTree().CreateTimer(2.25), SceneTreeTimer.SignalName.Timeout);
+        if (audioCue.VisibleText != "Ринат говорит: «Не отвечай».")
+        {
+            Fail($"Act 1 cliffhanger did not advance from Marat's cue to Rinat's warning (visible='{audioCue.VisibleText}').");
+            return;
+        }
+
+        // Logical voice refs do not have physical recordings yet. Subtitles
+        // must still preserve the authored cue when audio descriptions are
+        // disabled, rather than silently dropping the cliffhanger line.
+        audioCue.ApplyAccessibilitySettings(new AccessibilitySettingsSnapshot(
+            Subtitles: true,
+            AudioDescriptions: false));
+        audioCue.Present(CompiledCampaignRepository.Load().ResolveAudio(
+            "urman.chapter1:asset/audio-rinat-interruption",
+            "runtime-test:caption-fallback"));
+        if (audioCue.LastPresentedText != "Ринат прерывает Айдара до ответа.")
+        {
+            Fail("Audio cue did not fall back to the authored caption when audio descriptions were disabled.");
+            return;
+        }
+
+        // The fallback caption request above intentionally adds a third cue to
+        // the presentation queue. Give the queue enough real frames to drain
+        // before asserting the closing card; this is not a gameplay timeout.
+        for (var frame = 0; frame < 1000 && !demo.DemoEnded; frame++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+        if (!demo.DemoEnded
+            || demo.EndingTitleText != "НЕ ОТВЕЧАЙ"
+            || demo.EndingCaptionText != "Конец демо")
+        {
+            Fail($"Act 1 demo did not present the НЕ ОТВЕЧАЙ / Конец демо fade-to-black after the cliffhanger (ended={demo.DemoEnded}, pending={demo.EndingPending}, delay={demo.EndingDelaySeconds:F3}, presenting={audioCue.IsPresenting}, visible='{audioCue.VisibleText}', history={audioCue.PresentedHistory.Count}).");
+            return;
+        }
+
+        GD.Print("chapter-one-flow-smoke: 16 authored beats -> five walkable zones -> final rule");
+        await GodotSmokeCleanup.ReleaseAsync(demo);
+        GetTree().Quit(0);
+    }
+
+    private async Task<bool> Advance(RuntimeBridge bridge, string interactionLocalId, string targetSceneLocalId)
+    {
+        var interactionId = Interaction(interactionLocalId);
+        if (!bridge.IsInteractionAvailable(interactionId))
+        {
+            Fail($"Chapter 1 interaction was not available: {interactionId}.");
+            return false;
+        }
+
+        if (!await bridge.DispatchInteractionAsync(interactionId)
+            || bridge.ActiveSceneId != Scene(targetSceneLocalId))
+        {
+            Fail($"Chapter 1 interaction did not reach {targetSceneLocalId}: {interactionId}.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private static string KnowledgeStatus(System.Text.Json.JsonElement state, string localId) =>
+        state.GetProperty("knowledge").GetProperty($"{ChapterPrefix}knowledge/{localId}").GetProperty("status").GetString()!;
+
+    private static string BeatState(System.Text.Json.JsonElement state, string localId) =>
+        state.GetProperty("beats").GetProperty($"{ChapterPrefix}beat/{localId}").GetString()!;
+
+    private static string Interaction(string localId) => $"{ChapterPrefix}interaction/{localId}";
+
+    private static string Scene(string localId) => $"{ChapterPrefix}scene/{localId}";
+
+    private static string Dialogue(string localId) => $"{ChapterPrefix}dialogue/{localId}";
+
+    private void Fail(string message)
+    {
+        GD.PushError(message);
+        GetTree().Quit(1);
+    }
+}

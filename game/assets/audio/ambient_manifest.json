@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.ambient_audio_manifest",
+  "status": "runtime-foundation",
+  "note": "Project-original procedural sound-design stems prove the Godot playback path and the Act 1 two-player zone crossfade. They are not final field recordings or character voice performances; authored voice, ambience mix and cultural review remain release gates.",
+  "stems": [
+    {
+      "id": "ambient.village-day",
+      "file": "res://assets/audio/village_day_ambience.wav",
+      "zones": ["village_day", "zirat_road", "fullgame_act2_house", "fullgame_act2_mosque", "fullgame_act2_council", "fullgame_act4_tukay", "fullgame_act4_1552", "fullgame_act5_epilogue"],
+      "loop": true,
+      "source": "tools/audio/generate_ambient_audio.py",
+      "seed": 1101,
+      "license": "Project-original",
+      "status": "technical-runtime-pass; authored-mix-open"
+    },
+    {
+      "id": "ambient.house-room",
+      "file": "res://assets/audio/house_room_tone.wav",
+      "zones": ["house_old_pc", "fap_clinic", "fullgame_act3_archive", "fullgame_act3_soviet"],
+      "loop": true,
+      "source": "tools/audio/generate_ambient_audio.py",
+      "seed": 2202,
+      "license": "Project-original",
+      "status": "technical-runtime-pass; authored-mix-open"
+    },
+    {
+      "id": "ambient.kara-urman-edge",
+      "file": "res://assets/audio/kara_urman_edge_ambience.wav",
+      "zones": ["kara_urman_night", "fullgame_act4_pact", "fullgame_act5_boundary"],
+      "loop": true,
+      "source": "tools/audio/generate_ambient_audio.py",
+      "seed": 3303,
+      "license": "Project-original",
+      "status": "technical-runtime-pass; authored-mix-open"
+    },
+    {
+      "id": "ambient.water-edge",
+      "file": "res://assets/audio/water_edge_ambience.wav",
+      "zones": ["fullgame_act2_river", "fullgame_act3_water"],
+      "loop": true,
+      "source": "tools/audio/generate_ambient_audio.py",
+      "seed": 4404,
+      "license": "Project-original",
+      "status": "technical-runtime-pass; authored-mix-open"
+    }
+  ]
+}

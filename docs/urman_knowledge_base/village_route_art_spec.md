@@ -2,7 +2,11 @@
 
 ## Status
 
-Accepted art / navigation spec, 2026-05-16.
+Historical art / navigation spec, superseded 2026-08-10 by walkable first-person 3D.
+
+Do not produce new route screens from this spec. Use it only for provenance and for extracting landmarks, compositions, palette cues and diegetic sign references for 3D locations.
+
+Everything below describes the superseded 2D route-screen pipeline; words such as «принятое» are historical to the 2026-05-16 decision.
 
 Этот документ фиксирует, **что конкретно рисовать** для ходибельной карты мира УРМАНА. Это не top-down карта и не полноценная изометрическая деревня. Принятое направление: **variant A — in-world discrete route navigation** в стиле `ink-wash storybook / тушь + приглушённая акварель`.
 

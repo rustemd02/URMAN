@@ -1,6 +1,10 @@
 # Route Navigation Product Lock
 
-Status: Defaults applied for route-map production pass, 2026-05-18.
+Status: Historical product lock, superseded 2026-08-10 by walkable first-person 3D. Do not use this document as current production direction.
+
+Preservation note: route assets and graph data remain provenance/composition references. They are not a runtime fallback and this status does not authorize their deletion.
+
+Everything below records the superseded 2026-05 route-map pass; its accepted/default wording is historical.
 
 Purpose: зафиксировать продуктовые решения перед генерацией следующего набора картинок для интерактивной карты Кырлая. Это не top-down карта, а in-world route navigation: игрок стоит внутри деревни, видит один route segment, делает шаг вперёд, поворачивается на 90 градусов и осматривает объекты.
 

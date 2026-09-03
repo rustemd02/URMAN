@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "dotnet": {
+    "sdk": "10.0.302",
+    "runtime": "10.0.10",
+    "platform": "osx-arm64",
+    "url": "https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.302/dotnet-sdk-10.0.302-osx-arm64.tar.gz",
+    "sha256": "8d9f9f6155896e3b1ebedcf1dc0c60248077c7ac0a88855e2102a377bc1e1e3b"
+  },
+  "godot": {
+    "version": "4.7.1.stable.mono.official.a13da4feb",
+    "url": "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_mono_macos.universal.zip",
+    "sha256": "92cac516baa8ddc7756eeaa38a6d007778a968bfbf188db7c5d6e6ec21c5d52c",
+    "exportTemplates": {
+      "url": "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_mono_export_templates.tpz",
+      "sha256": "ef9a708be51ecd974cd7dccdcafd7a1870da3d3e1c24c072bdbb9818c7a7db63",
+      "bytes": 1201759011
+    }
+  },
+  "blender": {
+    "version": "4.5.12 LTS",
+    "platform": "macos-arm64",
+    "url": "https://download.blender.org/release/Blender4.5/blender-4.5.12-macos-arm64.dmg",
+    "sha256": "f4afdca92c56a9e231e45226445e6750879a70a0d2322cee80d82ce021a99fb0"
+  }
+}

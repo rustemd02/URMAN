@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_fullgame_boundary_runtime_capture",
+  "captured_at_utc": "2026-08-14T14:16:12.0742010Z",
+  "status": "OPEN",
+  "technical_status": "PASS",
+  "acceptance": "OPEN",
+  "renderer_requirement": "Godot 4.7.1 .NET Forward\u002B with a real Metal or equivalent RenderingDevice",
+  "resolution": {
+    "width": 1920,
+    "height": 1080
+  },
+  "runtime_backed": {
+    "packed_scene": "res://scenes/full_game.tscn",
+    "runtime_bridge_present": true,
+    "compiled_scene_resolved": "urman.fullgame:scene/act5-boundary",
+    "godot_zone_scene_path": "res://scenes/zones/fullgame/act5_boundary.tscn",
+    "kernel_active_scene_before_story_dispatch": "urman.fullgame:scene/act2-house",
+    "story_commands_dispatched": false,
+    "save_or_narrative_state_changed": false
+  },
+  "gate": {
+    "visible_lod_meshes": 8,
+    "required_interaction_ids": [
+      "urman.fullgame:interaction/act5-aidar-choice",
+      "urman.fullgame:interaction/act5-boundary-to-epilogue"
+    ],
+    "found_interaction_ids": [
+      "urman.fullgame:interaction/act5-aidar-choice",
+      "urman.fullgame:interaction/act5-boundary-to-epilogue"
+    ],
+    "minimum_horizontal_clearance_m": 2.6874516,
+    "behind_both_markers": true,
+    "policy": "GateA remains behind both runtime-authored Act 5 interaction markers by \u003E=1m"
+  },
+  "captures": [
+    {
+      "Name": "standard",
+      "Output": "docs/urman_knowledge_base/art/fullgame_boundary_runtime_capture/godot_act5_boundary_runtime_standard_1080p.png",
+      "Width": 1920,
+      "Height": 1080,
+      "Sha256": "eadb15d9f593685244d1e7ad59db74f5b7ac5d96458ac3bad6071433887a8ed7",
+      "ScreenSpace": {
+        "MarkersInsideViewport": true,
+        "GateDoesNotOverlapMarkers": false,
+        "Markers": [
+          {
+            "InteractionId": "urman.fullgame:interaction/act5-aidar-choice",
+            "X": 960,
+            "Y": 549.86676,
+            "InsideViewport": true,
+            "OverlapsGate": true
+          },
+          {
+            "InteractionId": "urman.fullgame:interaction/act5-boundary-to-epilogue",
+            "X": 960,
+            "Y": 558.14874,
+            "InsideViewport": true,
+            "OverlapsGate": true
+          }
+        ]
+      }
+    },
+    {
+      "Name": "markers",
+      "Output": "docs/urman_knowledge_base/art/fullgame_boundary_runtime_capture/godot_act5_boundary_runtime_markers_1080p.png",
+      "Width": 1920,
+      "Height": 1080,
+      "Sha256": "ccfbdb4eb043c978ef3ab636d6cd06ffbb6fdca2445f6c44643da9c083982128",
+      "ScreenSpace": {
+        "MarkersInsideViewport": true,
+        "GateDoesNotOverlapMarkers": true,
+        "Markers": [
+          {
+            "InteractionId": "urman.fullgame:interaction/act5-aidar-choice",
+            "X": 960,
+            "Y": 532.30365,
+            "InsideViewport": true,
+            "OverlapsGate": false
+          },
+          {
+            "InteractionId": "urman.fullgame:interaction/act5-boundary-to-epilogue",
+            "X": 960,
+            "Y": 599.08514,
+            "InsideViewport": true,
+            "OverlapsGate": false
+          }
+        ]
+      }
+    }
+  ]
+}

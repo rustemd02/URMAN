@@ -1,0 +1,82 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://scripts/DocumentUi.cs" type="Script" id="1_ui"]
+
+[node name="DocumentUi" type="CanvasLayer"]
+layer = 21
+script = ExtResource("1_ui")
+
+[node name="Screen" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Shade" type="ColorRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.025, 0.03, 0.026, 0.86)
+
+[node name="Document" type="PanelContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.16
+anchor_top = 0.1
+anchor_right = 0.84
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layout" type="VBoxContainer" parent="Screen/Document"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Screen/Document/Layout"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Screen/Document/Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.89, 0.78, 0.55, 1)
+theme_override_font_sizes/font_size = 24
+text = "ДОКУМЕНТ"
+autowrap_mode = 2
+
+[node name="Close" type="Button" parent="Screen/Document/Layout/Header"]
+layout_mode = 2
+text = "Закрыть [Esc]"
+
+[node name="Reader" type="VBoxContainer" parent="Screen/Document/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Body" type="RichTextLabel" parent="Screen/Document/Layout/Reader"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.84, 0.82, 0.74, 1)
+theme_override_font_sizes/normal_font_size = 19
+text = "Документ не выбран."
+fit_content = false
+scroll_active = true
+
+[node name="Footer" type="HBoxContainer" parent="Screen/Document/Layout"]
+layout_mode = 2
+
+[node name="Status" type="Label" parent="Screen/Document/Layout/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.58, 0.62, 0.54, 1)
+text = "Документ найден в зоне"
+autowrap_mode = 2
+
+[node name="Save" type="Button" parent="Screen/Document/Layout/Footer"]
+layout_mode = 2
+text = "В журнал"

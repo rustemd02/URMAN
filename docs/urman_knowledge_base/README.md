@@ -26,6 +26,7 @@
 - `gameplay.md` — core loop, расследование, диалоги, язык, интерфейсы.
 - `old_pc.md` — продуктовый и сценарный lock старого ПК бабая.
 - `narrative.md` — сюжетная архитектура.
+- `narrative_lock_acts_2_5.md` — production lock актов 2–5: beat sheets, clue graph, зоны, NPC, документы, языковые ключи, world variants, threat beats и handoff-gates.
 - `characters.md` — персонажи, роли, знания, тайны и ассеты.
 - `village_lore.md` — Кырлай как место и социальная система.
 - `mythology.md` — существа, пакт и правила сосуществования.
@@ -40,7 +41,8 @@
 - `weak_points.md` — честные слабые места и пути решения.
 - `roadmap.md` — путь до MVP.
 - `playtest_plan.md` — матрица плейтестов, ручные сценарии, метрики и release gate для MVP.
-- `backlog.md` — задачи.
+- `backlog.md` — человекочитаемый индекс задач и исторические audit-записи.
+- `execution_backlog.json` — машиночитаемая очередь для оркестратора: вехи, зависимости, владельцы, критерии готовности, проверки и evidence.
 - `decision_log.md` — решения.
 - `glossary.md` — словарь терминов.
 - `next_10_actions.md` — 10 ближайших действий до MVP.
@@ -81,3 +83,37 @@ mindmap
 ## Текущее состояние
 
 Проект имеет завершённую modular architecture: portable campaign modules, transactional kernel, capability providers, Content Lab и retired legacy owners. Это готовность достраивать MVP, а не заявление «MVP готов». Главный product blocker — довести и проверить целостный опыт игрока, ассеты, звук, UX и плейтестовый release gate. Сначала смотреть `chapter1_mvp_campaign.md`, затем `mvp_completion_handoff.md` и `playtest_plan.md`; старые runtime paths в historical sections не восстанавливать.
+
+## Текущий продуктовый объём — connected greybox Акта I (2026-08-15)
+
+Активная цель больше не считает набор изолированных benchmark-сцен
+атмосферной демкой. Сначала нужно собрать одну компактную территорию в
+`game/scenes/act1_demo.tscn`: въезд в Кырлай, главная дорога, двор бабая и
+әби с домом/старым ПК, связная улица с домами и заборами, ФАП, обратная дорога,
+зират и постепенный подход к кромке Кара-Урмана. При развороте игрок должен
+видеть продолжение деревни, а не пустой фон или границу отдельной сцены.
+
+После connected-greybox gate эта территория станет основой first-person
+прохода через 16 авторских beats, расследование Марата, документы/журнал,
+татарский re-read и постановочное «НЕ ОТВЕЧАЙ» / «Конец демо». До свежего
+360°/near-mid/far прохода и визуального review демо не называть готовой или
+«вау»-сборкой.
+
+Акты 2–5, полный 6–8-часовой playthrough, производство полного набора ассетов,
+release-class Windows/M1 acceptance и web retirement сейчас не являются
+критериями демо и остаются долгосрочным deferred scope. Их исходники, narrative
+lock и browser saves не удаляются и не становятся частью launch path.
+
+## Execution backlog
+
+`execution_backlog.json` — единственная очередь исполняемых задач для текущей
+Godot-миграции. Её текущий scope — `urman-act1-connected-greybox` и
+`game/scenes/act1_demo.tscn`; полный migration intent в
+`docs/aegis/work/2026-08-10-godot-full-migration/10-intent.md` сохранён как
+long-term north star. `backlog.md`, roadmap и Aegis evidence остаются её
+человочитаемыми индексами и доказательствами. Оркестратор не должен создавать
+альтернативный task owner или менять канон прямо из очереди: для сюжетных и
+архитектурных решений он обязан ссылаться на `decision_log.md`,
+`open_questions.md` и соответствующий authority-документ.
+
+Для выполнения задачи оркестратор выбирает только `ready`-элемент, проверяет `depends_on`, захватывает `active_owner`, выполняет `verify`, добавляет evidence и только затем ставит `completed`. `blocked`-элементы не исполняются автоматически; `REL-004` намеренно остаётся последним absence-gated cutover.

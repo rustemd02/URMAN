@@ -1,0 +1,190 @@
+using System.Text.Json;
+using Godot;
+using Urman.Core.Persistence;
+
+namespace Urman.Godot;
+
+public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
+{
+    private Control _screen = null!;
+    private Control _computer = null!;
+    private LineEdit _query = null!;
+    private ItemList _results = null!;
+    private Label _documentTitle = null!;
+    private RichTextLabel _reader = null!;
+    private Label _status = null!;
+    private Button _save = null!;
+    private RuntimeBridge? _bridge;
+    private string? _activeDocumentId;
+
+    public string StatusText => _status?.Text ?? string.Empty;
+
+    public override void _Ready()
+    {
+        AddToGroup("old_pc_ui");
+        AddToGroup(AccessibilityPresentation.TargetGroup);
+        _screen = GetNode<Control>("Screen");
+        _computer = GetNode<Control>("Screen/Computer");
+        _query = GetNode<LineEdit>("Screen/Computer/Layout/SearchRow/Query");
+        _results = GetNode<ItemList>("Screen/Computer/Layout/WorkArea/Results");
+        _documentTitle = GetNode<Label>("Screen/Computer/Layout/WorkArea/ReaderArea/DocumentTitle");
+        _reader = GetNode<RichTextLabel>("Screen/Computer/Layout/WorkArea/ReaderArea/Reader");
+        _status = GetNode<Label>("Screen/Computer/Layout/Footer/Status");
+        _save = GetNode<Button>("Screen/Computer/Layout/Footer/Save");
+        GetNode<Button>("Screen/Computer/Layout/Header/Close").Pressed += Close;
+        GetNode<Button>("Screen/Computer/Layout/SearchRow/Search").Pressed += Search;
+        _query.TextSubmitted += _ => Search();
+        _results.ItemSelected += OpenDocument;
+        _save.Pressed += SaveDocument;
+    }
+
+    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings) =>
+        AccessibilityPresentation.ApplyToControl(_computer, settings);
+
+    public override void _UnhandledInput(InputEvent inputEvent)
+    {
+        if (_screen.Visible && inputEvent.IsActionPressed("ui_cancel"))
+        {
+            Close();
+            GetViewport().SetInputAsHandled();
+        }
+    }
+
+    public void Open(RuntimeBridge bridge)
+    {
+        _bridge = bridge;
+        _screen.Visible = true;
+        _activeDocumentId = null;
+        _documentTitle.Text = "АРХИВ КЫРЛАЙ";
+        _reader.Text = "Введите слово или выберите запись слева. Некоторые документы откроются только после того, как Айдар найдёт связанную улику или поймёт татарское слово.";
+        _status.Text = "DedOS 3.11 · локальный архив";
+        _save.Disabled = true;
+        RefreshResults();
+        SetPlayerModal(true);
+        _query.GrabFocus();
+    }
+
+    private async void Search()
+    {
+        if (_bridge is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "search", query = _query.Text }));
+            _activeDocumentId = null;
+            _documentTitle.Text = "АРХИВ КЫРЛАЙ";
+            _reader.Text = "Выберите запись слева, чтобы открыть документ. Некоторые записи пока закрыты для Айдара.";
+            _save.Disabled = true;
+            RefreshResults();
+            _status.Text = $"Найдено записей: {_results.ItemCount}";
+        }
+        catch (Exception exception)
+        {
+            _status.Text = exception.Message;
+        }
+    }
+
+    private async void OpenDocument(long index)
+    {
+        if (_bridge is null)
+        {
+            return;
+        }
+
+        var documentId = _results.GetItemMetadata((int)index).AsString();
+        try
+        {
+            await _bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "open", documentId }));
+            var document = _bridge.OldPcDocuments.Single(item => item.Id == documentId);
+            _activeDocumentId = documentId;
+            _documentTitle.Text = document.Title;
+            _reader.Text = document.BodyMarkdown;
+            _status.Text = $"C:\\KYRLAY\\{document.Section}\\{document.Id.Split('/')[^1]}.txt";
+            _save.Disabled = false;
+            RefreshResults();
+        }
+        catch (Exception exception)
+        {
+            _activeDocumentId = null;
+            _documentTitle.Text = "ДОСТУП ОГРАНИЧЕН";
+            _reader.Text = exception.Message;
+            _status.Text = "Нужна ещё одна связь в расследовании";
+            _save.Disabled = true;
+        }
+    }
+
+    private async void SaveDocument()
+    {
+        if (_bridge is null || _activeDocumentId is null)
+        {
+            return;
+        }
+
+        _save.Disabled = true;
+        try
+        {
+            await _bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "save", documentId = _activeDocumentId }));
+            _status.Text = $"Документ добавлен в журнал · Откройте журнал [{JournalShortcutLabel()}]";
+        }
+        catch (Exception exception)
+        {
+            _status.Text = exception.Message;
+            _save.Disabled = false;
+        }
+    }
+
+    private void RefreshResults()
+    {
+        if (_bridge is null)
+        {
+            return;
+        }
+
+        var query = _query.Text.Trim();
+        _results.Clear();
+        foreach (var document in _bridge.OldPcDocuments.Where(document => Matches(document, query)))
+        {
+            var accessible = _bridge.IsOldPcDocumentAccessible(document.Id);
+            var index = _results.AddItem($"{(accessible ? "" : "🔒 ")}{document.Title}\n{SectionLabel(document.Section)}");
+            _results.SetItemMetadata(index, document.Id);
+        }
+    }
+
+    private void Close()
+    {
+        _screen.Visible = false;
+        SetPlayerModal(false);
+    }
+
+    private void SetPlayerModal(bool open)
+    {
+        if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+        {
+            player.SetModalOpen(open);
+        }
+    }
+
+    private string JournalShortcutLabel() =>
+        GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
+            && player.CurrentInputDevice == "gamepad"
+            ? "Y"
+            : "J";
+
+    private static bool Matches(OldPcDocumentContent document, string query)
+    {
+        if (query.Length == 0)
+        {
+            return true;
+        }
+
+        return new[] { document.Title, document.BodyMarkdown, document.Section }
+            .Concat(document.SearchTerms)
+            .Concat(document.SuggestedTerms)
+            .Any(value => value.Contains(query, StringComparison.CurrentCultureIgnoreCase));
+    }
+
+    private static string SectionLabel(string section) => section.Replace('_', ' ').ToUpperInvariant();
+}

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Description>Command-line content lab for URMAN.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src-dotnet/Urman.Content/Urman.Content.csproj" />
+  </ItemGroup>
+</Project>
+

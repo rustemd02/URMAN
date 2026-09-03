@@ -1,0 +1,342 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_style_temporal_sweep",
+  "captured_at": "2026-08-14",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / Metal or equivalent real 3D driver",
+  "tile": {
+    "width": 480,
+    "height": 270
+  },
+  "contact_sheet": {
+    "columns": 3,
+    "rows": 2,
+    "width": 1440,
+    "height": 540
+  },
+  "fovs": [
+    65,
+    75,
+    90
+  ],
+  "motion_frames": 12,
+  "sample_stride": 16,
+  "head_bob_amplitude": 0.024,
+  "head_sway_amplitude": 0.012,
+  "modes": [
+    "head_bob_on",
+    "reduced_motion"
+  ],
+  "status": "technical_temporal_evidence_only",
+  "external_review_required": true,
+  "scenes": [
+    {
+      "name": "day_street",
+      "scene": "res://scenes/zones/style_benchmark_day_street.tscn",
+      "output": "docs/urman_knowledge_base/art/style_temporal_sweep/godot_day_street_temporal_sweep_1080p.png",
+      "expected_imported_module": "HouseA_project_original",
+      "render_only_sanitization": {
+        "visual_mesh_count": 806,
+        "collision_shape_count_before": 286,
+        "collision_shapes_removed": 286,
+        "collision_shape_count_after": 0,
+        "active_physics_query_owner_count": 0
+      },
+      "modes": [
+        {
+          "mode": "head_bob_on",
+          "metrics": [
+            {
+              "fov": 65,
+              "mode": "head_bob_on",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.004780902450207402,
+              "max_luminance_delta": 0.33569570780098434,
+              "min_luminance": 0.19544941501617433,
+              "max_luminance": 0.7350666824579238,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0.020784615,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 75,
+              "mode": "head_bob_on",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.004671389675399626,
+              "max_luminance_delta": 0.3622768858551979,
+              "min_luminance": 0.2084392181634903,
+              "max_luminance": 0.7350666824579238,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0.020784615,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 90,
+              "mode": "head_bob_on",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.0033947330411036175,
+              "max_luminance_delta": 0.3591168860435486,
+              "min_luminance": 0.20165647346973417,
+              "max_luminance": 0.7350666824579238,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0.020784615,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            }
+          ]
+        },
+        {
+          "mode": "reduced_motion",
+          "metrics": [
+            {
+              "fov": 65,
+              "mode": "reduced_motion",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.0030892573092322724,
+              "max_luminance_delta": 0.4064541232228279,
+              "min_luminance": 0.1957325522542,
+              "max_luminance": 0.7350666824579238,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 75,
+              "mode": "reduced_motion",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.002793930224923952,
+              "max_luminance_delta": 0.36199374861717226,
+              "min_luminance": 0.2084392181634903,
+              "max_luminance": 0.7350666824579238,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 90,
+              "mode": "reduced_motion",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.0023217421788609385,
+              "max_luminance_delta": 0.3521074746966362,
+              "min_luminance": 0.20165647346973417,
+              "max_luminance": 0.7350666824579238,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "house_old_pc",
+      "scene": "res://scenes/zones/style_benchmark_house_pc.tscn",
+      "output": "docs/urman_knowledge_base/art/style_temporal_sweep/godot_house_old_pc_temporal_sweep_1080p.png",
+      "expected_imported_module": "",
+      "render_only_sanitization": {
+        "visual_mesh_count": 109,
+        "collision_shape_count_before": 22,
+        "collision_shapes_removed": 22,
+        "collision_shape_count_after": 0,
+        "active_physics_query_owner_count": 0
+      },
+      "modes": [
+        {
+          "mode": "head_bob_on",
+          "metrics": [
+            {
+              "fov": 65,
+              "mode": "head_bob_on",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.008954229994143312,
+              "max_luminance_delta": 0.2075019627794623,
+              "min_luminance": 0.049225099487975245,
+              "max_luminance": 0.5196313926935195,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0.020784615,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 75,
+              "mode": "head_bob_on",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.009544585862558021,
+              "max_luminance_delta": 0.20068862934410572,
+              "min_luminance": 0.05900313812084496,
+              "max_luminance": 0.5087004129528999,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0.020784615,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 90,
+              "mode": "head_bob_on",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.008606274419439864,
+              "max_luminance_delta": 0.12294196086823939,
+              "min_luminance": 0.05816941268034279,
+              "max_luminance": 0.48011217936277384,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0.020784615,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            }
+          ]
+        },
+        {
+          "mode": "reduced_motion",
+          "metrics": [
+            {
+              "fov": 65,
+              "mode": "reduced_motion",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.008039100176094967,
+              "max_luminance_delta": 0.21142353117316962,
+              "min_luminance": 0.049225099487975245,
+              "max_luminance": 0.5196313926935195,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 75,
+              "mode": "reduced_motion",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.008435694854590647,
+              "max_luminance_delta": 0.20068862934410572,
+              "min_luminance": 0.059836863561347126,
+              "max_luminance": 0.5087004129528999,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 90,
+              "mode": "reduced_motion",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.007452239757907742,
+              "max_luminance_delta": 0.12741411746442316,
+              "min_luminance": 0.05816941268034279,
+              "max_luminance": 0.48011217936277384,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kara_urman_edge",
+      "scene": "res://scenes/zones/style_benchmark_kara_urman_night.tscn",
+      "output": "docs/urman_knowledge_base/art/style_temporal_sweep/godot_kara_urman_edge_temporal_sweep_1080p.png",
+      "expected_imported_module": "PineA_project_original",
+      "render_only_sanitization": {
+        "visual_mesh_count": 826,
+        "collision_shape_count_before": 695,
+        "collision_shapes_removed": 695,
+        "collision_shape_count_after": 0,
+        "active_physics_query_owner_count": 0
+      },
+      "modes": [
+        {
+          "mode": "head_bob_on",
+          "metrics": [
+            {
+              "fov": 65,
+              "mode": "head_bob_on",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.004211382798190341,
+              "max_luminance_delta": 0.3712839393898845,
+              "min_luminance": 0.08998509933426976,
+              "max_luminance": 0.5058470819413661,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0.020784615,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 75,
+              "mode": "head_bob_on",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.0035816614486840204,
+              "max_luminance_delta": 0.30796786314845087,
+              "min_luminance": 0.09307294228747487,
+              "max_luminance": 0.5058470819413661,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0.020784615,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 90,
+              "mode": "head_bob_on",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.0034265165278299595,
+              "max_luminance_delta": 0.3718549197480082,
+              "min_luminance": 0.09335607952550054,
+              "max_luminance": 0.5058470819413661,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0.020784615,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            }
+          ]
+        },
+        {
+          "mode": "reduced_motion",
+          "metrics": [
+            {
+              "fov": 65,
+              "mode": "reduced_motion",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.0029333502367474857,
+              "max_luminance_delta": 0.35643139125555756,
+              "min_luminance": 0.08998509933426976,
+              "max_luminance": 0.5058470819413661,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 75,
+              "mode": "reduced_motion",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.002374343242100614,
+              "max_luminance_delta": 0.30796786314845087,
+              "min_luminance": 0.09307294228747487,
+              "max_luminance": 0.5058470819413661,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            },
+            {
+              "fov": 90,
+              "mode": "reduced_motion",
+              "frame_count": 12,
+              "mean_luminance_delta": 0.0021673639849131123,
+              "max_luminance_delta": 0.36876237091273073,
+              "min_luminance": 0.09335607952550054,
+              "max_luminance": 0.5058470819413661,
+              "black_pixel_fraction": 0,
+              "camera_vertical_peak": 0,
+              "camera_horizontal_peak": 0.012,
+              "render_valid": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

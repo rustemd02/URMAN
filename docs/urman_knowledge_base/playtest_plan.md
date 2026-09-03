@@ -1,48 +1,83 @@
 # MVP Playtest Plan
 
-Status: audit plan, 2026-05-18.
+Status: active Godot first-person test strategy; legacy route checks below are historical subsystem evidence only.
 
-Purpose: define how to test УРМАН from prototype pieces to a real MVP. Do not run external "full MVP" playtests until the shared journal/dialogue key graph, house scene and cliffhanger path exist. Until then, test route navigation, old PC investigation and narrative comprehension separately.
+Authority note, 2026-08-10: Godot 4.7.1 .NET, Painterly Low-Poly 3D and keyboard/mouse/gamepad are accepted. Route-node scripts, browser telemetry and direct QA URLs do not validate the target and will retire at final cutover.
+
+Purpose: define how to test УРМАН from prototype pieces to a real MVP. Технический arrival-to-cliffhanger path уже проходит в Godot через пять зон и единое состояние. Не запускать внешний full-slice playtest до art lock, authored audio/presentation pass, accessibility review и записи наблюдаемой сборки; до этого тестировать управление, расследование и comprehension отдельными сессиями.
+
+## Current playtest target — Act 1 demo
+
+The current build under test is the dedicated `res://scenes/act1_demo.tscn`
+entrypoint. A first-time playtest should cover only the five-zone Chapter 1
+route and its 16 authored beats, ending at the `НЕ ОТВЕЧАЙ` fade-to-black.
+Acts 2–5, the full 6–8-hour arc and web retirement are not required to call
+this demo playable; they remain separate long-term gates. The demo still needs
+observed pacing/comprehension, authored voice/ambience, cultural review and
+release-shaped performance evidence before a human-facing acceptance claim.
+The manual session checklist and current package hashes are in
+`docs/urman_knowledge_base/act1_demo_handoff.md`.
 
 ## Current Testability
 
-Can test now:
+- [TECH] the six-view connected Act I visual-review harness (./eng/capture-act1-visual-review.sh <output-dir>) is mandatory evidence before visual acceptance: it records six distinct 1280×720 root-viewport PNGs from six separate Godot processes for Kara-Urman forward/back/left/right and zirat forward/back. It does not replace a human first-person walkthrough.
 
-- route orientation in `?scene=village`;
-- old PC search/document loop in `?scene=computer`;
-- phone intro comprehension from the main menu;
-- rough route-to-house path;
-- asset/readability smoke checks.
+Можно тестировать сейчас на Godot-сборке:
 
-Cannot honestly test yet as full MVP:
+- first-person movement and scale in five compact zones;
+- authored arrival-to-cliffhanger progression without web bridge;
+- old-PC document chain, dialogue effects, татарский re-read and shared clue/quest state;
+- SaveGameV3 roundtrip with zone and player transform;
+- keyboard/mouse and basic gamepad bindings, key/button/axis remapping, modal settings UI, FOV/sensitivity/head-bob/graphics application, reduced-motion/high-contrast/text-scale/subtitles/audio-description settings, сохранение настроек и автоматическая смена `[E]`/`[A]` по последнему устройству как internal smoke evidence.
+- the Act 1 opening card now mirrors the detected keyboard/gamepad device (WASD/mouse/E/J or left/right stick/A/Y), states the first presentation goal (reach the house and check the old computer), remains modal until the player confirms with the mapped interact action, and does not auto-dismiss; this is still internal discovery evidence, not an observed controller-parity session.
+- after the first old-PC save, the journal renders `ТЕКУЩАЯ ЦЕЛЬ` from the active runtime quest objective as a read-only projection. This should be checked for discoverability and wording during first-time playtest; it is not a GPS marker, a new quest owner or proof that the route is self-explanatory.
+- the successful old-PC/physical-document save status now names the same journal shortcut (`[J]` or `[Y]`) that the opening card exposes; verify that this reduces hesitation without making the UI feel like a quest tracker.
+- compiled `urman.fullgame` entrypoint, 46 authored beats, 12 provisional zones and physical `InteractionTarget` coverage through the canonical tragic epilogue as internal smoke evidence; `narrative_lock_acts_2_5.md` now fixes the production beat/clue/zone/language/threat package before external playtest.
+- zone-specific Acts 2–5 dressing, selective Blender `.glb` house/old-PC variants with explicit LOD ranges and six reproducible representative renders (`./eng/capture-fullgame-frames.sh`) as production-progress evidence; these renders are not final art acceptance.
+- project-original character-kit GLB prefixes in the family, river, mosque, council, archive and pact zones, with explicit LOD ranges, face landmarks/layered clothing, Blender-authored `Idle`/`Tension` clips, Godot `AnimationPlayer` playback/switching and `CollisionQaSmokeTest` coverage for queryable layer-1 floors and isolated layer-2 kit proxies across all 12 full-game zones; expression polish and final collision remain production gates.
+- deterministic four-stem ambience manifest (`village_day`, `house_old_pc`, `kara_urman_night`, `water_edge`) with zone switching and a presentation-only 0.65-second two-player crossfade covered by `AmbientAudioSmokeTest`; headless checks validate resources without starting playback, while desktop mix, voice and cultural listening review remain open.
+- local Apple M4 Pro performance baseline for the three mandatory style scenes (`./eng/benchmark-godot.sh`); this proves the 30 FPS low-preset floor only on the current host, not M1/Windows release performance.
+- six non-destructive Painterly texture families with versioned v2/v3/v4/v5/v6 albedo candidates, deterministic PNG/seam checks and test-only in-memory material swaps for the three style scenes (`./eng/capture-texture-candidate-frames.sh`); focused v3↔v5 and v5↔v6 earth/wood A/B harnesses (`./eng/capture-texture-ab-diagnostic.sh`) isolate relief-only versus relief+wetness and record 120/120 contact samples, while the v5/v6 motion wrappers cover 27 near/mid/far × FOV 65°/75°/90° cells per scene. This proves candidate rendering and technical isolation only, not runtime activation, visual earth separation, 20–30 m repetition, temporal comfort or final art lock.
+- a test-only Godot camera sweep for the three mandatory style scenes (`./eng/capture-style-motion-sweep.sh`); 27 real Metal/Forward+ cells cover near/mid/far positions × FOV 65°/75°/90° and provide spatial readability evidence. The 2026-08-12 recapture includes the bounded stone/fabric presentation anchors. It is not a temporal movement/head-bob comfort test, global v2 activation proof or final art lock.
+- a test-only Godot temporal sweep (`./eng/capture-style-temporal-sweep.sh`); 216 real Metal/Forward+ frame samples cover the three mandatory scenes × FOV 65°/75°/90° × head-bob/reduced-motion modes. This measures the current camera path and proves the reduced-motion vertical component can be removed, but it remains technical evidence rather than an observed motion-comfort or first-time usability review.
+- a first-person interaction smoke (`res://tests/first_person_interaction_smoke_test.tscn`, included by `./eng/verify-godot.sh`); the production camera ray hits the authored HouseDoor, mapped gamepad `A` enters the house, the same ray hits the old-PC target, and keyboard `E` opens the modal archive UI. `Act1DemoLaunchSmokeTest` additionally checks opening-card device discovery and mapped gamepad dismissal. These close only local input/ray wiring checks; they do not replace first-time usability, full gamepad parity or external playtest.
+- a full first-person corridor smoke (`res://tests/act1_first_person_corridor_smoke_test.tscn`, included by `./eng/verify-godot.sh`); the real demo entrypoint uses physical ray/input targets for the house, old PC, FAP desk, Rinat dialogue, saved message, Татарвики boundary source/reread, edge sketch, zirat and Kara-Urman cliffhanger. Evidence targets open the shared `DocumentUi`, while the Rinat dialogue commits the shared `alerted` state. This closes the internal detective-loop handoff only; observed pacing, human wayfinding, controller parity and cultural review remain open.
+- a bounded physical walkthrough smoke (`res://tests/act1_first_person_walkthrough_smoke_test.tscn`, included by `./eng/verify-godot.sh`); it covers exactly 135.49 m of actual `CharacterBody3D` movement through the same Act 1 zones and uses the production camera ray for the dialogue/document gates. It proves the expected unavailable-before/available-after order: Mansur grants old-PC access; the official Marat notice alone leaves the house exit locked; Gulsina/әби's `ярамый` warning unlocks that exit; Alsu confirms the conflicting accounts and unlocks the FAP route; Naila grants medical-record desk access. It never teleports the player or dispatches narrative commands. This is a traversability and gate-order regression, not a first-time player session or art/performance acceptance.
+- the journal-flow smoke keeps its assertions on the shared runtime projection; its stale objective/vocabulary oracle has been corrected. `JournalUi` remains a read-only presentation projection and does not own progression.
+- the day-street signpost now has a physical `ФАП` label on the board, covered by the scene/style smoke and by the 27-cell near/mid/far sweep. It is a diegetic landmark candidate, not a quest marker; first-time wayfinding still needs observation.
 
-- complete arrival-to-cliffhanger chapter;
-- dialogue key system;
-- shared investigation journal;
-- татарский re-read loop across systems;
-- save/load of investigation state;
-- final audio-first cliffhanger.
+Пока нельзя честно считать внешним full-MVP playtest:
+
+- chapter presentation до art lock и живых NPC/документальных ассетов;
+- audio-first cliffhanger до authored voice/ambience playback, captions, non-audio cue integration и cultural listening review; technical stems and zone routing alone не считаются финальным звуком;
+- вкладки/граф журнала, сохранение и восстановление remapping клавиш, кнопок и аналоговых осей, а также внешняя accessibility-проверка на реальных пользователях;
+- производительность трёх 1080p benchmark scenes на M1/Windows release-class hardware;
+- first-time comprehension без прямого наблюдаемого playtest.
+- production-grade Acts 2–5 presentation: current full-game zones are navigation/content adapters, not final art-complete locations.
 
 ## Playtest Matrix
 
 | Track | Goal | Testers | Build scope | Main risk | Pass condition |
 |---|---|---:|---|---|---|
 | Internal smoke | Check that the spine does not break technically | 1 dev/QA | `intro`, `village`, `house`, `computer`, `forest` | Blockers, missing assets, impossible transitions | 0 blockers, validators pass |
-| Route orientation | Test discrete route navigation | 6 players | `?scene=village` | 90-degree turns confuse players | 80% find house, FAP/selsmag, mosque, zirat/forest |
+| First-person movement | Test movement, look, scale and comfort | 6 players | representative 3D village greybox | Motion sickness, poor scale, empty walking | 80% reach three landmarks without help; no severe discomfort reports |
 | Old PC investigation | Test search/document loop | 6 players | `?scene=computer` or house-to-PC | PC becomes reading without action | 70% find official doc and contradictory register |
 | Narrative comprehension | Test Айдар, Марат, false versions | 5 players | intro + route + old PC | Марат feels like lore, not emotional hook | 80% explain the Marat contradiction |
 | Language mechanic | Test татарский as gameplay | 5 players + language reviewer | intro + old PC + journal/vocab | language feels decorative | 60% use a татарский word as search/key |
 | Cliffhanger | Test genre shift | 5 players | final route and forest scene | reads as generic monster lure | 80% say "old system/rules", not only "monster" |
 | Cultural review | Check татарский, islam, folklore | 1-2 consultants | all text and scenes | cultural/religious caricature | 0 blocker/serious issues |
 | First-time full slice | Test complete MVP | 5-8 players | menu to cliffhanger | player does not know what to do | 70% finish with <= 2 neutral hints |
+| Gamepad parity | Verify all release actions and prompts | 3 players | Chapter 1 plus one threat beat | Mouse-only interaction or unreadable focus | 100% critical path without keyboard/mouse |
+| Performance | Hold visual budget | dev/QA | three benchmark scenes | Fog/light/foliage exceed budget | 1080p/60 target; M1 low preset >= 30 FPS |
+| Full game | Verify the one-ending 6–8-hour arc | 5 first-time players | Acts 1–5 and epilogue | Mid-game lore overload or unclear tragic causality | 80% explain why Айдар destroys the pact and its price |
 
 ## Instrumentation Needed Before Serious Tests
 
-Implement before external or first-time full-slice tests:
+Implement in the Godot telemetry/debug layer before external or first-time full-slice tests:
 
-- anonymous `session_id`, build hash, timestamp, viewport, browser;
+- anonymous `session_id`, build hash, timestamp, viewport, platform and input device;
 - `scene_enter`, `scene_exit`, duration per scene;
-- `route_node_enter`, `route_action`, `route_state_transition`;
+- `world_location_enter`, `spawn_used`, `interaction_focused`, `interaction_committed`, `world_variant_changed`;
 - `journal_open`, `external_handoff_open`, `stuck_hint_used`;
 - `oldpc_open`, `search_query`, `item_open`, `locked_item_seen`, `clue_saved`, `term_clicked`, `reset_session`;
 - `clue_acquired`, `contradiction_seen`, `vocabulary_unlocked`, `dialogue_key_used`, `pressure_level_changed`;
@@ -52,13 +87,20 @@ Implement before external or first-time full-slice tests:
 
 ## Automated Checks
 
-Current commands:
+Current Godot/C# commands:
 
 ```bash
-npm run build
-node scripts/validate-old-pc-content.mjs
+./eng/verify-dotnet.sh
+./eng/verify-godot.sh
+./eng/capture-fullgame-frames.sh
+./eng/benchmark-godot.sh
+./eng/capture-texture-candidate-frames.sh
+npm run content:check
+node --test tests/integration/content-closure/whole-pack-closure.test.mjs
 git status --short
 ```
+
+The browser commands and direct QA URLs below are historical parity-oracle checks only; they do not validate the Godot release target and will be removed at final cutover.
 
 Recommended package scripts to add:
 
@@ -381,4 +423,3 @@ Before saying "MVP is ready for external playtest":
 - Old PC Script C meets pass threshold.
 - Narrative Script D has at least one internal pass.
 - Cultural review has no unresolved blocker.
-

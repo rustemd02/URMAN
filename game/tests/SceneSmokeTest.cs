@@ -1,0 +1,366 @@
+using Godot;
+
+namespace Urman.Godot.Tests;
+
+public partial class SceneSmokeTest : Node
+{
+    private const string KaraUrmanScenePath = "res://scenes/zones/style_benchmark_kara_urman_night.tscn";
+
+    private static readonly string[] ScenePaths =
+    [
+        "res://scenes/player/first_person_player.tscn",
+        "res://scenes/zones/style_benchmark_day_street.tscn",
+        "res://scenes/zones/style_benchmark_house_pc.tscn",
+        "res://scenes/zones/chapter1_fap_clinic.tscn",
+        "res://scenes/zones/chapter1_zirat_road.tscn",
+        "res://scenes/zones/style_benchmark_kara_urman_night.tscn",
+        "res://scenes/ui/old_pc_ui.tscn",
+        "res://scenes/ui/dialogue_ui.tscn",
+        "res://scenes/ui/audio_cue_ui.tscn",
+        "res://scenes/ui/journal_ui.tscn",
+        "res://scenes/ui/document_ui.tscn",
+        "res://scenes/ui/settings_ui.tscn",
+        "res://assets/generated/urman_modular_kit.glb",
+        "res://assets/generated/urman_character_kit.glb",
+        "res://scenes/zones/fullgame_zone.tscn",
+        "res://scenes/zones/fullgame/act2_house.tscn",
+        "res://scenes/zones/fullgame/act2_river.tscn",
+        "res://scenes/zones/fullgame/act2_mosque.tscn",
+        "res://scenes/zones/fullgame/act2_council.tscn",
+        "res://scenes/zones/fullgame/act3_archive.tscn",
+        "res://scenes/zones/fullgame/act3_soviet.tscn",
+        "res://scenes/zones/fullgame/act3_water.tscn",
+        "res://scenes/zones/fullgame/act4_tukay.tscn",
+        "res://scenes/zones/fullgame/act4_1552.tscn",
+        "res://scenes/zones/fullgame/act4_pact.tscn",
+        "res://scenes/zones/fullgame/act5_boundary.tscn",
+        "res://scenes/zones/fullgame/act5_epilogue.tscn",
+        "res://scenes/full_game.tscn",
+        "res://scenes/main.tscn",
+        "res://tests/full_game_dressing_capture.tscn",
+        "res://tests/collision_qa_smoke_test.tscn",
+        "res://tests/performance_benchmark.tscn"
+    ];
+
+    public override async void _Ready()
+    {
+        foreach (var path in ScenePaths)
+        {
+            var packed = ResourceLoader.Load<PackedScene>(path);
+            if (packed is null)
+            {
+                GD.PushError($"Scene smoke test could not load {path}.");
+                GetTree().Quit(1);
+                return;
+            }
+
+            var instance = packed.Instantiate();
+            AddChild(instance);
+            // Let _Ready run before releasing the scene. This matters for scenes
+            // that create presentation resources (audio players, materials, etc.)
+            // during startup; an immediate Free leaves them alive at process exit.
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (path == KaraUrmanScenePath)
+            {
+                var pinePhysicsError = ValidateKaraUrmanPinePhysics(instance);
+                if (pinePhysicsError.Length > 0)
+                {
+                    await GodotSmokeCleanup.ReleaseAsync(instance);
+                    GD.PushError($"Scene smoke PineA physics contract failed: {pinePhysicsError}");
+                    GetTree().Quit(1);
+                    return;
+                }
+            }
+            else if (path == "res://scenes/zones/style_benchmark_day_street.tscn")
+            {
+                var villageModuleError = ValidateDayStreetPresentationModules(instance);
+                if (villageModuleError.Length > 0)
+                {
+                    await GodotSmokeCleanup.ReleaseAsync(instance);
+                    GD.PushError($"Scene smoke day-street module contract failed: {villageModuleError}");
+                    GetTree().Quit(1);
+                    return;
+                }
+                var npcError = ValidateAct1NpcPresentation(instance, "alsu", "Alsu", string.Empty);
+                if (npcError.Length > 0)
+                {
+                    await GodotSmokeCleanup.ReleaseAsync(instance);
+                    GD.PushError($"Scene smoke day-street NPC contract failed: {npcError}");
+                    GetTree().Quit(1);
+                    return;
+                }
+            }
+            else if (path == "res://scenes/zones/style_benchmark_house_pc.tscn")
+            {
+                var oldPcError = ValidateHouseOldPcPresentation(instance);
+                if (oldPcError.Length > 0)
+                {
+                    await GodotSmokeCleanup.ReleaseAsync(instance);
+                    GD.PushError($"Scene smoke house OldPc module contract failed: {oldPcError}");
+                    GetTree().Quit(1);
+                    return;
+                }
+                var npcError = ValidateAct1NpcPresentation(instance, "gulsina", "Gulsina", "GulsinaNpc");
+                if (npcError.Length > 0)
+                {
+                    await GodotSmokeCleanup.ReleaseAsync(instance);
+                    GD.PushError($"Scene smoke house NPC contract failed: {npcError}");
+                    GetTree().Quit(1);
+                    return;
+                }
+            }
+            else if (path == "res://scenes/zones/chapter1_fap_clinic.tscn")
+            {
+                var npcError = ValidateAct1NpcPresentation(instance, "naila", "Naila", string.Empty);
+                if (npcError.Length > 0)
+                {
+                    await GodotSmokeCleanup.ReleaseAsync(instance);
+                    GD.PushError($"Scene smoke FAP NPC contract failed: {npcError}");
+                    GetTree().Quit(1);
+                    return;
+                }
+            }
+
+            await GodotSmokeCleanup.ReleaseAsync(instance);
+            GD.Print($"scene-smoke: {path}");
+        }
+
+        GetTree().Quit(0);
+    }
+
+    private static string ValidateKaraUrmanPinePhysics(Node scene)
+    {
+        if (scene.GetMeta("styleImportedModules").AsString() != "PineA_project_original"
+            || scene.GetMeta("styleImportedPineInstances").AsInt32() != 3)
+        {
+            return "scene metadata must preserve PineA_project_original with exactly three instances";
+        }
+
+        var original = scene.GetNodeOrNull<Node3D>("GeneratedModularKit");
+        if (original is null)
+        {
+            return "original GeneratedModularKit instance is missing";
+        }
+
+        var originalObjects = original
+            .FindChildren("*", nameof(CollisionObject3D), recursive: true, owned: false)
+            .OfType<CollisionObject3D>()
+            .ToArray();
+        var originalShapes = original
+            .FindChildren("*", nameof(CollisionShape3D), recursive: true, owned: false)
+            .OfType<CollisionShape3D>()
+            .ToArray();
+        var proxy = original.GetNodeOrNull<StaticBody3D>("KitCollisionProxy");
+        if (proxy is null
+            || originalObjects.Length != 1
+            || originalObjects[0] != proxy
+            || originalShapes.Length != 1
+            || originalShapes[0].GetParent() != proxy
+            || proxy.CollisionLayer != 2
+            || proxy.CollisionMask != 0
+            || original.GetMeta("collisionShapeCount").AsInt32() != 1)
+        {
+            return "original PineA must contain only one controlled layer-2 KitCollisionProxy and its single shape";
+        }
+
+        foreach (var name in new[] { "GeneratedPineA_MidLeft", "GeneratedPineA_NearRight" })
+        {
+            var presentation = scene.GetNodeOrNull<Node3D>(name);
+            if (presentation is null)
+            {
+                return $"presentation PineA '{name}' is missing";
+            }
+
+            var collisionObjectCount = presentation
+                .FindChildren("*", nameof(CollisionObject3D), recursive: true, owned: false)
+                .Count;
+            var collisionShapeCount = presentation
+                .FindChildren("*", nameof(CollisionShape3D), recursive: true, owned: false)
+                .Count;
+            if (!presentation.GetMeta("presentationOnlyInstance").AsBool()
+                || presentation.GetMeta("collisionShapeCount").AsInt32() != 0
+                || collisionObjectCount != 0
+                || collisionShapeCount != 0)
+            {
+                return $"presentation PineA '{name}' must have presentationOnlyInstance=true and zero physics descendants";
+            }
+        }
+
+        return string.Empty;
+    }
+
+    private static string ValidateDayStreetPresentationModules(Node scene)
+    {
+        if (scene.GetMeta("styleImportedModules").AsString() != "HouseA_project_original"
+            || scene.GetMeta("stylePresentationModules").AsString()
+                != "WellA_project_original|WoodpileA_project_original")
+        {
+            return "day street metadata must preserve HouseA and the WellA/WoodpileA presentation modules";
+        }
+
+        var sign = scene.GetNodeOrNull<Label3D>("VillageSignText");
+        if (sign is null || sign.Text != "ФАП" || sign.GetMeta("wayfindingLandmark").AsString() != "fap")
+        {
+            return "day street wayfinding sign is missing its diegetic ФАП landmark contract";
+        }
+
+        foreach (var (nodeName, moduleName) in new[]
+                 {
+                     ("GeneratedWellA", "WellA_project_original"),
+                     ("GeneratedWoodpileA", "WoodpileA_project_original")
+                 })
+        {
+            var module = scene.GetNodeOrNull<Node3D>(nodeName);
+            if (module is null)
+            {
+                return $"presentation module '{nodeName}' is missing";
+            }
+
+            var collisionObjects = module
+                .FindChildren("*", nameof(CollisionObject3D), recursive: true, owned: false)
+                .Count;
+            var collisionShapes = module
+                .FindChildren("*", nameof(CollisionShape3D), recursive: true, owned: false)
+                .Count;
+            if (!module.GetMeta("presentationOnlyInstance").AsBool()
+                || module.GetMeta("stylePresentationModule").AsString() != moduleName
+                || module.GetMeta("collisionShapeCount").AsInt32() != 0
+                || module.GetMeta("importedCollisionObjectsRemoved").AsInt32() <= 0
+                || module.GetMeta("importedCollisionShapesRemoved").AsInt32() <= 0
+                || collisionObjects != 0
+                || collisionShapes != 0)
+            {
+                return $"presentation module '{nodeName}' must have zero physics descendants and positive imported-collision sanitation metadata";
+            }
+        }
+
+        return string.Empty;
+    }
+
+    private static string ValidateHouseOldPcPresentation(Node scene)
+    {
+        if (scene.GetMeta("styleImportedModules").AsString() != "OldPc_project_original")
+        {
+            return "house metadata must preserve OldPc_project_original";
+        }
+
+        var module = scene.GetNodeOrNull<Node3D>("GeneratedOldPcAct1");
+        if (module is null)
+        {
+            return "presentation OldPc module is missing";
+        }
+
+        var collisionObjects = module
+            .FindChildren("*", nameof(CollisionObject3D), recursive: true, owned: false)
+            .Count;
+        var collisionShapes = module
+            .FindChildren("*", nameof(CollisionShape3D), recursive: true, owned: false)
+            .Count;
+        if (!module.GetMeta("presentationOnlyInstance").AsBool()
+            || module.GetMeta("stylePresentationModule").AsString() != "OldPc_project_original"
+            || module.GetMeta("visibleMeshCount").AsInt32() != 16
+            || module.GetMeta("lod0Count").AsInt32() != 8
+            || module.GetMeta("lod1Count").AsInt32() != 8
+            || module.GetMeta("collisionShapeCount").AsInt32() != 0
+            || module.GetMeta("importedCollisionObjectsRemoved").AsInt32() <= 0
+            || module.GetMeta("importedCollisionShapesRemoved").AsInt32() <= 0
+            || collisionObjects != 0
+            || collisionShapes != 0)
+        {
+            return "presentation OldPc must be the 8/8 GLB pair with zero physics descendants and positive imported-collision sanitation metadata";
+        }
+
+        var interaction = scene.GetNodeOrNull<InteractionTarget>("OldPc");
+        var interactionShape = interaction?.GetNodeOrNull<CollisionShape3D>("InteractionProxyCollisionShape");
+        if (interaction is null
+            || interaction.InteractionId != "urman.chapter1:interaction/oldpc-power"
+            || interactionShape is null)
+        {
+            return "the OldPc gameplay interaction target or its layer-1 ray shape is missing";
+        }
+
+        return string.Empty;
+    }
+
+    private static string ValidateAct1NpcPresentation(
+        Node scene,
+        string expectedCharacterId,
+        string expectedPrefix,
+        string interactionName)
+    {
+        var host = scene.GetNodeOrNull<Node3D>("Act1NpcPresentation");
+        if (host is null
+            || host.GetMeta("status").AsString() != "generated-character-kit-v1"
+            || host.GetMeta("assetSource").AsString() != GeneratedCharacterKitDressing.ScenePath
+            || host.GetMeta("ownership").AsString() != "presentation-only"
+            || host.GetMeta("defaultAnimationClip").AsString() != "Idle"
+            || host.GetMeta("npcCount").AsInt32() != 1)
+        {
+            return "Act 1 NPC host metadata is missing or not presentation-only";
+        }
+
+        var npcs = host.GetChildren()
+            .OfType<Node3D>()
+            .Where(node => node.Name.ToString().StartsWith("Npc_", StringComparison.Ordinal))
+            .ToArray();
+        if (npcs.Length != 1)
+        {
+            return $"expected one authored NPC, found {npcs.Length}";
+        }
+
+        var npc = npcs[0];
+        if (npc.GetMeta("characterId").AsString() != expectedCharacterId
+            || npc.GetMeta("characterPrefix").AsString() != expectedPrefix
+            || npc.GetMeta("presentationStatus").AsString() != "generated-character-kit-v1"
+            || npc.GetMeta("interactionOwnership").AsString() != "none"
+            || npc.GetMeta("collisionLayer").AsInt32() != 0
+            || npc.GetMeta("animationClip").AsString() != $"{expectedPrefix}_Idle"
+            || !npc.GetMeta("animationClips").AsString().Contains($"{expectedPrefix}_Tension", StringComparison.Ordinal)
+            || npc.FindChildren("*", nameof(CollisionObject3D), recursive: true, owned: false).Count != 0)
+        {
+            return "NPC metadata, animation clips, or zero-physics contract failed";
+        }
+
+        var player = npc.FindChildren("*", nameof(AnimationPlayer), recursive: true, owned: false)
+            .OfType<AnimationPlayer>()
+            .FirstOrDefault(candidate => candidate.HasAnimation($"{expectedPrefix}_Idle")
+                                         && candidate.HasAnimation($"{expectedPrefix}_Tension"));
+        if (player is null || !player.IsPlaying() || player.CurrentAnimation != $"{expectedPrefix}_Idle")
+        {
+            return "NPC must be playing authored Idle while exposing both Idle and Tension clips";
+        }
+
+        if (interactionName.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        var interaction = scene.GetNodeOrNull<InteractionTarget>(interactionName);
+        var hiddenMesh = interaction?.GetNodeOrNull<Node3D>("HiddenInteractionProxyVisual/HiddenInteractionProxyMesh")
+            as MeshInstance3D;
+        var collisionShape = interaction?.GetNodeOrNull<CollisionShape3D>("InteractionProxyCollisionShape");
+        if (interaction is null
+            || hiddenMesh is null
+            || hiddenMesh.Visible
+            || collisionShape is null
+            || interaction.GetMeta("proxyVisualHidden").AsBool() != true)
+        {
+            return "NPC interaction must retain its collision shape while hiding only the proxy mesh";
+        }
+
+        if (interactionName == "GulsinaNpc")
+        {
+            var cue = scene.GetNodeOrNull<StaticBody3D>("RinatAbsentCoat");
+            var radio = scene.GetNodeOrNull<StaticBody3D>("RinatVoiceRadio");
+            if (cue is null
+                || radio is null
+                || cue.GetMeta("act1CharacterCue").AsString() != "rinat-absent-presence"
+                || radio.GetMeta("act1CharacterCue").AsString() != "rinat-voice-anchor")
+            {
+                return "House route needs a visible Rinat absence/voice cue beside the physical dialogue target";
+            }
+        }
+
+        return string.Empty;
+    }
+}

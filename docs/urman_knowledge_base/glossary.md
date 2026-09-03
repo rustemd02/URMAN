@@ -154,7 +154,7 @@ Markdown-файл с frontmatter, из которого строится кон�
 
 ## CampaignManifest
 
-Явный состав и порядок модулей одного прохождения: entrypoint, role bindings, capability versions и обязательные narrative-инварианты. Его resolved SHA-256 fingerprint замораживается в `GameSnapshotV2`; заменить кампанию можно только при начале нового прохождения.
+Явный состав и порядок модулей одного прохождения: entrypoint, role bindings, capability versions и обязательные narrative-инварианты. Его resolved SHA-256 fingerprint замораживается в `SaveGameV3`; заменить кампанию можно только при начале нового прохождения.
 
 ## RuntimeKernel
 
@@ -164,6 +164,10 @@ Markdown-файл с frontmatter, из которого строится кон�
 
 Изолированный провайдер уникальной механики — например, старого ПК. Он объявляется в content catalog с точной версией и проходит lifecycle `register → validate → create → restore → start → handle → snapshot → stop/dispose`; после dispose не оставляет timer, subscription или job.
 
-## GameSnapshotV2
+## GameSnapshotV2 (historical web oracle)
 
-Строгий JSON-снимок прохождения с campaign lock, state/event log и capability snapshots. Он обеспечивает детерминированное восстановление и отсеивает повтор команд по стабильному occurrence ID; старые pre-MVP saves к нему не мигрируются.
+Строгий исторический JSON-снимок web-oracle с campaign lock, state/event log и capability snapshots. Он сохранён для provenance и не читается Godot runtime.
+
+## SaveGameV3
+
+Текущий desktop-снимок Godot/C#: campaign fingerprint, runtime state, capability state, world location/spawn, player transform, настройки, portable input bindings и playtime. Записывается атомарно в `user://`; V2/browser-localStorage import не реализован.

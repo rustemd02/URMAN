@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://tests/CollisionQaSmokeTest.cs" type="Script" id="1_collision_qa"]
+
+[node name="CollisionQaSmokeTest" type="Node"]
+script = ExtResource("1_collision_qa")

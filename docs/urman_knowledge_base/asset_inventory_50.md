@@ -2,16 +2,18 @@
 
 ## Status
 
-Draft production inventory, 2026-05-16.
+Historical 2D production inventory, superseded as the active world-asset plan 2026-08-10.
+
+Portrait, document, UI, audio and reference value may be retained. Static location and route-screen rows must not be treated as sufficient for the accepted walkable first-person 3D target; a replacement 3D asset floor is defined in `design_style.md` and `assets.md`.
 
 Задача документа — ограничить ассетный аппетит УРМАНА до 50 самых важных production-юнитов. Это не список всех будущих PNG / WAV / JSON-файлов. Один пункт ниже может включать несколько файлов и состояний, если они принадлежат одному ассетному юниту: например, «портрет Айдара» включает neutral / thinking / pressure, а «дом бабая» включает day / evening / pressure.
 
 Основа отбора:
 
 - MVP держится вокруг Марата, дома, старого ПК, первых диалоговых ключей, татарского языка и кромки Кара-Урмана.
-- Принятый формат: static-node hybrid investigation.
-- Принятый стиль: ink-wash storybook / тушь + приглушённая акварель.
-- Full creature reveal, большая карта, боёвка, отдельная КФУ-сцена и полная 3D-постановка не входят в этот список.
+- Исторический формат списка: static-node hybrid investigation.
+- Исторический стиль списка: ink-wash storybook / тушь + приглушённая акварель.
+- Full creature reveal, большая карта, боёвка и отдельная КФУ-сцена не входят в этот список. Полноценный компактный 3D-мир теперь входит в production target, но этот инвентарь его не покрывает.
 
 ## Priority Legend
 

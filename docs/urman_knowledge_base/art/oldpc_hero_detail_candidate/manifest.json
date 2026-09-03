@@ -1,0 +1,47 @@
+{
+  "status": "OPEN",
+  "technicalStatus": "PASS",
+  "renderer": "Metal 4.0 / Forward+",
+  "device": "Apple M4 Pro",
+  "resolution": "1920x1080",
+  "sourceBlend": "assets/source/blender/urman_modular_kit.blend",
+  "sourceBlendSha256": "4f3aa74be1d34e1cd956806e56fb57e084cbbfc385380042492bac5c66d48b48",
+  "derivedGlb": "game/assets/generated/urman_modular_kit.glb",
+  "derivedGlbSha256": "c9f9e8d9a036c3fc8ef20dfc736a164fb393eb8194eff0c0e55782547efa2c36",
+  "lod1MeshCount": 49,
+  "oldPcLodPairs": 8,
+  "requiredHeroDetails": [
+    "OldPc_DriveSlot_LOD0",
+    "OldPc_DriveSlot_LOD1",
+    "OldPc_LabelPlate_LOD0",
+    "OldPc_LabelPlate_LOD1"
+  ],
+  "collisionPolicy": "source collision=none; existing act3-soviet-old-pc layer-2 proxy unchanged",
+  "captureScript": "eng/capture-oldpc-hero-detail.sh",
+  "frames": [
+    {
+      "name": "oldpc_close_front",
+      "path": "docs/urman_knowledge_base/art/oldpc_hero_detail_candidate/godot_oldpc_close_front_1080p.png",
+      "sha256": "f85a5ee70a9399e633ff017392fcb582adeac64bd38b7809f0d0a5c0d4916931",
+      "width": 1920,
+      "height": 1080,
+      "detailsFound": 4
+    },
+    {
+      "name": "oldpc_close_side",
+      "path": "docs/urman_knowledge_base/art/oldpc_hero_detail_candidate/godot_oldpc_close_side_1080p.png",
+      "sha256": "606e32a58fdef37cb90066dfc91eb9bae2913613ea7e8d1b7e499b853bcdf819",
+      "width": 1920,
+      "height": 1080,
+      "detailsFound": 4
+    }
+  ],
+  "artAcceptance": "OPEN",
+  "openGates": [
+    "standard full-game Act 3 Soviet recapture",
+    "FOV 65/75/90 movement and head-bob review",
+    "mid-distance readability and repetition",
+    "cultural/level-art review",
+    "M1/Windows release-host performance"
+  ]
+}

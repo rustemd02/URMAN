@@ -1,0 +1,1812 @@
+{
+  "schema_version": 1,
+  "kind": "urman.texture_candidate_ab_diagnostic",
+  "captured_at_utc": "2026-08-14T00:58:55.6388980Z",
+  "status": "OPEN",
+  "technical_status": "PASS",
+  "acceptance": {
+    "earth_v3_vs_v5": "OPEN",
+    "earth_relief_only_vs_relief_plus_wetness": "OPEN",
+    "wood_v3_vs_v5": "OPEN",
+    "reason": "Deterministic capture and isolation evidence cannot decide painterly double-relief, striping, wetness response or final art acceptance."
+  },
+  "non_mutation": {
+    "test_only": true,
+    "candidate_materials_are_in_memory_clones": true,
+    "runtime_material_owner_changed": false,
+    "shader_changed": false,
+    "collider_changed": false,
+    "save_or_narrative_changed": false
+  },
+  "renderer": "Godot RenderingDevice",
+  "tile": {
+    "width": 640,
+    "height": 360
+  },
+  "earth_columns": [
+    "v3 relief-only",
+    "v3 relief\u002Bwetness",
+    "v5 relief-only",
+    "v5 relief\u002Bwetness"
+  ],
+  "wood_columns": [
+    "v3",
+    "v5"
+  ],
+  "source_puddle_roughness": 0.9,
+  "candidate_puddle_roughness": 0.5,
+  "contact_tolerance_m": 0.01,
+  "expected_contact_samples": 120,
+  "passing_contact_samples": 120,
+  "candidate_inputs": [
+    {
+      "file": "game/assets/textures/painterly/damp_earth_v3_albedo.png",
+      "sha256": "cd031be6ff3fbb2750a05abe6b667d23bba2ad3705b6f5a14755d21a33b77b20"
+    },
+    {
+      "file": "game/assets/textures/painterly/weathered_wood_boards_v3_albedo.png",
+      "sha256": "65372413ff490da9dce831fd5f4022d6f804265b42dd9895ad4b13a6fa196093"
+    },
+    {
+      "file": "game/assets/textures/painterly/damp_earth_v5_albedo.png",
+      "sha256": "6e15102bdbd755e5bbfb737f20946cecd0b1f1fab30b1e2b85a20a1cfb900108"
+    },
+    {
+      "file": "game/assets/textures/painterly/weathered_wood_boards_v5_albedo.png",
+      "sha256": "3a9c69862b2ad140bf8a9a26b54fcbcdc144aedfa43703aa1d4c11d964b9cf70"
+    }
+  ],
+  "contact_samples": [
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 0,
+      "PuddleBottomY": 0.0973,
+      "ReliefY": 0.087638885,
+      "GapMeters": 0.009661116,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 1,
+      "PuddleBottomY": 0.0993,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0018558651,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 2,
+      "PuddleBottomY": 0.1013,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0038558692,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 0,
+      "PuddleBottomY": 0.096,
+      "ReliefY": 0.09613983,
+      "GapMeters": -0.0001398325,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 1,
+      "PuddleBottomY": 0.09799999,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0018601567,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 2,
+      "PuddleBottomY": 0.099999994,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0038601607,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 0,
+      "PuddleBottomY": 0.08348,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.005249664,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 1,
+      "PuddleBottomY": 0.08548,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.007249661,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 2,
+      "PuddleBottomY": 0.08748,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.009249665,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 0,
+      "PuddleBottomY": 0.0973,
+      "ReliefY": 0.087638885,
+      "GapMeters": 0.009661116,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 1,
+      "PuddleBottomY": 0.0993,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0018558651,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 2,
+      "PuddleBottomY": 0.1013,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0038558692,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 0,
+      "PuddleBottomY": 0.096,
+      "ReliefY": 0.09613983,
+      "GapMeters": -0.0001398325,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 1,
+      "PuddleBottomY": 0.09799999,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0018601567,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 2,
+      "PuddleBottomY": 0.099999994,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0038601607,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 0,
+      "PuddleBottomY": 0.08348,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.005249664,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 1,
+      "PuddleBottomY": 0.08548,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.007249661,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 2,
+      "PuddleBottomY": 0.08748,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.009249665,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 0,
+      "PuddleBottomY": 0.0973,
+      "ReliefY": 0.087638885,
+      "GapMeters": 0.009661116,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 1,
+      "PuddleBottomY": 0.0993,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0018558651,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 2,
+      "PuddleBottomY": 0.1013,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0038558692,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 0,
+      "PuddleBottomY": 0.096,
+      "ReliefY": 0.09613983,
+      "GapMeters": -0.0001398325,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 1,
+      "PuddleBottomY": 0.09799999,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0018601567,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 2,
+      "PuddleBottomY": 0.099999994,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0038601607,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 0,
+      "PuddleBottomY": 0.08348,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.005249664,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 1,
+      "PuddleBottomY": 0.08548,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.007249661,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 2,
+      "PuddleBottomY": 0.08748,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.009249665,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 0,
+      "PuddleBottomY": 0.0973,
+      "ReliefY": 0.087638885,
+      "GapMeters": 0.009661116,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 1,
+      "PuddleBottomY": 0.0993,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0018558651,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 2,
+      "PuddleBottomY": 0.1013,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0038558692,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 0,
+      "PuddleBottomY": 0.096,
+      "ReliefY": 0.09613983,
+      "GapMeters": -0.0001398325,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 1,
+      "PuddleBottomY": 0.09799999,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0018601567,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 2,
+      "PuddleBottomY": 0.099999994,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0038601607,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 0,
+      "PuddleBottomY": 0.08348,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.005249664,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 1,
+      "PuddleBottomY": 0.08548,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.007249661,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 2,
+      "PuddleBottomY": 0.08748,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.009249665,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 0,
+      "PuddleBottomY": 0.0973,
+      "ReliefY": 0.087638885,
+      "GapMeters": 0.009661116,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 1,
+      "PuddleBottomY": 0.0993,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0018558651,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 2,
+      "PuddleBottomY": 0.1013,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0038558692,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 0,
+      "PuddleBottomY": 0.096,
+      "ReliefY": 0.09613983,
+      "GapMeters": -0.0001398325,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 1,
+      "PuddleBottomY": 0.09799999,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0018601567,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 2,
+      "PuddleBottomY": 0.099999994,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0038601607,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 0,
+      "PuddleBottomY": 0.08348,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.005249664,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 1,
+      "PuddleBottomY": 0.08548,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.007249661,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 2,
+      "PuddleBottomY": 0.08748,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.009249665,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 0,
+      "PuddleBottomY": 0.0973,
+      "ReliefY": 0.087638885,
+      "GapMeters": 0.009661116,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 1,
+      "PuddleBottomY": 0.0993,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0018558651,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 2,
+      "PuddleBottomY": 0.1013,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0038558692,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 0,
+      "PuddleBottomY": 0.096,
+      "ReliefY": 0.09613983,
+      "GapMeters": -0.0001398325,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 1,
+      "PuddleBottomY": 0.09799999,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0018601567,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 2,
+      "PuddleBottomY": 0.099999994,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0038601607,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 0,
+      "PuddleBottomY": 0.08348,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.005249664,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 1,
+      "PuddleBottomY": 0.08548,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.007249661,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 2,
+      "PuddleBottomY": 0.08748,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.009249665,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 0,
+      "PuddleBottomY": 0.0973,
+      "ReliefY": 0.087638885,
+      "GapMeters": 0.009661116,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 1,
+      "PuddleBottomY": 0.0993,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0018558651,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleNear",
+      "Patch": 2,
+      "PuddleBottomY": 0.1013,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0038558692,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 0,
+      "PuddleBottomY": 0.096,
+      "ReliefY": 0.09613983,
+      "GapMeters": -0.0001398325,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 1,
+      "PuddleBottomY": 0.09799999,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0018601567,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleMiddle",
+      "Patch": 2,
+      "PuddleBottomY": 0.099999994,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0038601607,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 0,
+      "PuddleBottomY": 0.08348,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.005249664,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 1,
+      "PuddleBottomY": 0.08548,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.007249661,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "PuddleFar",
+      "Patch": 2,
+      "PuddleBottomY": 0.08748,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.009249665,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 0,
+      "PuddleBottomY": 0.0973,
+      "ReliefY": 0.087638885,
+      "GapMeters": 0.009661116,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 1,
+      "PuddleBottomY": 0.0993,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0018558651,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleNear",
+      "Patch": 2,
+      "PuddleBottomY": 0.1013,
+      "ReliefY": 0.09744413,
+      "GapMeters": 0.0038558692,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 0,
+      "PuddleBottomY": 0.096,
+      "ReliefY": 0.09613983,
+      "GapMeters": -0.0001398325,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 1,
+      "PuddleBottomY": 0.09799999,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0018601567,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleMiddle",
+      "Patch": 2,
+      "PuddleBottomY": 0.099999994,
+      "ReliefY": 0.09613983,
+      "GapMeters": 0.0038601607,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 0,
+      "PuddleBottomY": 0.08348,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.005249664,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 1,
+      "PuddleBottomY": 0.08548,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.007249661,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "day_street",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "PuddleFar",
+      "Patch": 2,
+      "PuddleBottomY": 0.08748,
+      "ReliefY": 0.07823034,
+      "GapMeters": 0.009249665,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.070920005,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.0050659627,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.072919995,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.007065952,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.07492,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.009065956,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.070920005,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.0050659627,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.072919995,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.007065952,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.07492,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.009065956,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.070920005,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.0050659627,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.072919995,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.007065952,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.07492,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.009065956,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.070920005,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.0050659627,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.072919995,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.007065952,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.07492,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.009065956,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.070920005,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.0050659627,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.072919995,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.007065952,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.07492,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.009065956,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.070920005,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.0050659627,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.072919995,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.007065952,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.07492,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.009065956,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.070920005,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.0050659627,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.072919995,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.007065952,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.07492,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.009065956,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.070920005,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.0050659627,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.072919995,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.007065952,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "BoundaryWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.07492,
+      "ReliefY": 0.06585404,
+      "GapMeters": 0.009065956,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.09408,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0022053272,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.09607999,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0042053163,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.098079994,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0062053204,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.09408,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0022053272,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.09607999,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0042053163,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.098079994,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0062053204,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.09408,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0022053272,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.09607999,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0042053163,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.098079994,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0062053204,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.09408,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0022053272,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.09607999,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0042053163,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.098079994,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0062053204,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.09408,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0022053272,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.09607999,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0042053163,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.098079994,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0062053204,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.09408,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0022053272,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.09607999,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0042053163,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v3",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.098079994,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0062053204,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.09408,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0022053272,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.09607999,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0042053163,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief-only",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.098079994,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0062053204,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 0,
+      "PuddleBottomY": 0.09408,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0022053272,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 1,
+      "PuddleBottomY": 0.09607999,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0042053163,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    },
+    {
+      "Scene": "zirat_road",
+      "Version": "v5",
+      "Variant": "relief\u002Bwetness",
+      "Cluster": "ZiratWetPatch",
+      "Patch": 2,
+      "PuddleBottomY": 0.098079994,
+      "ReliefY": 0.091874674,
+      "GapMeters": 0.0062053204,
+      "ColliderMatchesExpectedRelief": true,
+      "Pass": true
+    }
+  ],
+  "captures": [
+    {
+      "Family": "earth",
+      "Scene": "day_street",
+      "View": "along",
+      "Output": "godot_day_street_earth_v3_v5_along_ab.png",
+      "Width": 2560,
+      "Height": 360,
+      "Sha256": "8a86bc90b47611144858b13f73fdb29eb4ccbdc4cfcfb94f42c5901316a7c45b",
+      "Cells": [
+        {
+          "Column": 0,
+          "Version": "v3",
+          "Variant": "relief-only",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 1,
+          "Version": "v3",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 9
+        },
+        {
+          "Column": 2,
+          "Version": "v5",
+          "Variant": "relief-only",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 3,
+          "Version": "v5",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 9
+        }
+      ]
+    },
+    {
+      "Family": "earth",
+      "Scene": "day_street",
+      "View": "across",
+      "Output": "godot_day_street_earth_v3_v5_across_ab.png",
+      "Width": 2560,
+      "Height": 360,
+      "Sha256": "6934e28c7ac74f3d009b19d5fb3092c185a0c8f9b2d0dceacca0b78220d1a6e8",
+      "Cells": [
+        {
+          "Column": 0,
+          "Version": "v3",
+          "Variant": "relief-only",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 1,
+          "Version": "v3",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 9
+        },
+        {
+          "Column": 2,
+          "Version": "v5",
+          "Variant": "relief-only",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 3,
+          "Version": "v5",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 9
+        }
+      ]
+    },
+    {
+      "Family": "earth",
+      "Scene": "kara_urman_edge",
+      "View": "along",
+      "Output": "godot_kara_urman_edge_earth_v3_v5_along_ab.png",
+      "Width": 2560,
+      "Height": 360,
+      "Sha256": "9833502b453c247cdfd497829d8aed6ee95ccc2eab75654146515d26835fe49e",
+      "Cells": [
+        {
+          "Column": 0,
+          "Version": "v3",
+          "Variant": "relief-only",
+          "MaterialReplacements": 3,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 1,
+          "Version": "v3",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 3,
+          "PuddleMaterialClones": 3
+        },
+        {
+          "Column": 2,
+          "Version": "v5",
+          "Variant": "relief-only",
+          "MaterialReplacements": 3,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 3,
+          "Version": "v5",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 3,
+          "PuddleMaterialClones": 3
+        }
+      ]
+    },
+    {
+      "Family": "earth",
+      "Scene": "kara_urman_edge",
+      "View": "across",
+      "Output": "godot_kara_urman_edge_earth_v3_v5_across_ab.png",
+      "Width": 2560,
+      "Height": 360,
+      "Sha256": "859371fa0ba3c3cb244218fab8c57a1420bcf3d5ebe9e7b50c6ff1f062850654",
+      "Cells": [
+        {
+          "Column": 0,
+          "Version": "v3",
+          "Variant": "relief-only",
+          "MaterialReplacements": 3,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 1,
+          "Version": "v3",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 3,
+          "PuddleMaterialClones": 3
+        },
+        {
+          "Column": 2,
+          "Version": "v5",
+          "Variant": "relief-only",
+          "MaterialReplacements": 3,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 3,
+          "Version": "v5",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 3,
+          "PuddleMaterialClones": 3
+        }
+      ]
+    },
+    {
+      "Family": "earth",
+      "Scene": "zirat_road",
+      "View": "along",
+      "Output": "godot_zirat_road_earth_v3_v5_along_ab.png",
+      "Width": 2560,
+      "Height": 360,
+      "Sha256": "6b14a338ff2a0005c2f08f57e280b2511b9afdda2b0a261b2bdeae4cb5e42d03",
+      "Cells": [
+        {
+          "Column": 0,
+          "Version": "v3",
+          "Variant": "relief-only",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 1,
+          "Version": "v3",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 3
+        },
+        {
+          "Column": 2,
+          "Version": "v5",
+          "Variant": "relief-only",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 3,
+          "Version": "v5",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 3
+        }
+      ]
+    },
+    {
+      "Family": "earth",
+      "Scene": "zirat_road",
+      "View": "across",
+      "Output": "godot_zirat_road_earth_v3_v5_across_ab.png",
+      "Width": 2560,
+      "Height": 360,
+      "Sha256": "e790cbde11ed2ebf461b3bf1dc3e1abb3a5e69d72d46a3e6a4f074f017def103",
+      "Cells": [
+        {
+          "Column": 0,
+          "Version": "v3",
+          "Variant": "relief-only",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 1,
+          "Version": "v3",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 3
+        },
+        {
+          "Column": 2,
+          "Version": "v5",
+          "Variant": "relief-only",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 3,
+          "Version": "v5",
+          "Variant": "relief\u002Bwetness",
+          "MaterialReplacements": 1,
+          "PuddleMaterialClones": 3
+        }
+      ]
+    },
+    {
+      "Family": "wood",
+      "Scene": "day_street",
+      "View": "benchmark",
+      "Output": "godot_day_street_wood_v3_v5_ab.png",
+      "Width": 1280,
+      "Height": 360,
+      "Sha256": "484f94d1d5e668f8d442d44a0e3ec8c73085cd361fd751eef693dcb7d0f71e41",
+      "Cells": [
+        {
+          "Column": 0,
+          "Version": "v3",
+          "Variant": "wood",
+          "MaterialReplacements": 167,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 1,
+          "Version": "v5",
+          "Variant": "wood",
+          "MaterialReplacements": 167,
+          "PuddleMaterialClones": 0
+        }
+      ]
+    },
+    {
+      "Family": "wood",
+      "Scene": "house_old_pc",
+      "View": "benchmark",
+      "Output": "godot_house_old_pc_wood_v3_v5_ab.png",
+      "Width": 1280,
+      "Height": 360,
+      "Sha256": "3f6445551aa4a872d81e7e4a7c9441dbc01ad73c7e3a6ce5d6d48f199eb3e3f6",
+      "Cells": [
+        {
+          "Column": 0,
+          "Version": "v3",
+          "Variant": "wood",
+          "MaterialReplacements": 15,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 1,
+          "Version": "v5",
+          "Variant": "wood",
+          "MaterialReplacements": 15,
+          "PuddleMaterialClones": 0
+        }
+      ]
+    },
+    {
+      "Family": "wood",
+      "Scene": "kara_urman_edge",
+      "View": "benchmark",
+      "Output": "godot_kara_urman_edge_wood_v3_v5_ab.png",
+      "Width": 1280,
+      "Height": 360,
+      "Sha256": "5150c70591dc1db41b31c241d2367dd925edf767c2b8f278e011034f25d08a35",
+      "Cells": [
+        {
+          "Column": 0,
+          "Version": "v3",
+          "Variant": "wood",
+          "MaterialReplacements": 64,
+          "PuddleMaterialClones": 0
+        },
+        {
+          "Column": 1,
+          "Version": "v5",
+          "Variant": "wood",
+          "MaterialReplacements": 64,
+          "PuddleMaterialClones": 0
+        }
+      ]
+    }
+  ]
+}

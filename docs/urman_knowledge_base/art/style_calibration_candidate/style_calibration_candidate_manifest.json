@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_style_calibration_candidate",
+  "captured_at_utc": "2026-08-14T07:38:52.1470120Z",
+  "status": "OPEN",
+  "technical_status": "PASS",
+  "acceptance": "OPEN",
+  "rendered": true,
+  "renderer_requirement": "Godot 4.7.1 .NET Forward\u002B with a real Metal or equivalent RenderingDevice",
+  "resolution": {
+    "width": 1920,
+    "height": 1080
+  },
+  "calibration_scope": {
+    "test_only": true,
+    "candidate_environment_resource_cloned": true,
+    "overridden_node_types": [
+      "WorldEnvironment",
+      "DirectionalLight3D",
+      "OmniLight3D"
+    ],
+    "runtime_scene_changed": false,
+    "packed_scene_changed": false,
+    "materials_changed": false,
+    "shader_changed": false,
+    "glb_or_registry_changed": false,
+    "collision_changed": false,
+    "save_or_narrative_changed": false
+  },
+  "candidate_values": [
+    {
+      "scene": "day_street",
+      "environment": {
+        "AmbientColor": "a9b2a4",
+        "AmbientEnergy": 0.8,
+        "FogLightColor": "87918b",
+        "FogDensity": 0.0032
+      },
+      "lights": {
+        "MainDirectionalLight": {
+          "Color": "d6d0bd",
+          "Energy": 1.08
+        }
+      }
+    },
+    {
+      "scene": "house_old_pc",
+      "environment": {
+        "AmbientColor": "9d9489",
+        "AmbientEnergy": 0.54,
+        "FogLightColor": null,
+        "FogDensity": null
+      },
+      "lights": {
+        "WarmTableLamp": {
+          "Color": "c5aa8d",
+          "Energy": 1.45
+        },
+        "WindowFill": {
+          "Color": "9aaeb0",
+          "Energy": 0.7
+        },
+        "RoomFill": {
+          "Color": "958878",
+          "Energy": 0.52
+        },
+        "CrtScreenGlow": {
+          "Color": "78a59a",
+          "Energy": 0.62
+        }
+      }
+    },
+    {
+      "scene": "kara_urman_edge",
+      "environment": {
+        "AmbientColor": "71858d",
+        "AmbientEnergy": 0.55,
+        "FogLightColor": "485d65",
+        "FogDensity": 0.0042
+      },
+      "lights": {
+        "MainDirectionalLight": {
+          "Color": "7d929e",
+          "Energy": 0.75
+        },
+        "DistantWarmWindow": {
+          "Color": "c79d79",
+          "Energy": 2.1
+        },
+        "MoonFill": {
+          "Color": "718c96",
+          "Energy": 0.95
+        }
+      }
+    }
+  ],
+  "captures": [
+    {
+      "scene": "day_street",
+      "variant": "baseline",
+      "output": "docs/urman_knowledge_base/art/style_calibration_candidate/godot_day_street_baseline_1080p.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "242673f2cfa56926b43eea698ee11b3b1eb9a10673e0be0ab321d10ee9f2ce39",
+      "isolation": {
+        "isolated_subviewport": true,
+        "environment_clone_created": false,
+        "environment_resource_id_before": 9223372071600391674,
+        "environment_resource_id_after": 9223372071600391674,
+        "directional_lights_overridden": [],
+        "omni_lights_overridden": [],
+        "physics_nodes_before": 402,
+        "physics_nodes_after": 116,
+        "collision_shape_count_before": 286,
+        "collision_shapes_removed": 286,
+        "collision_shape_count_after": 0,
+        "active_physics_query_owner_count": 0,
+        "visual_mesh_count": 806
+      },
+      "physics_nodes_after_capture": 116
+    },
+    {
+      "scene": "day_street",
+      "variant": "candidate",
+      "output": "docs/urman_knowledge_base/art/style_calibration_candidate/godot_day_street_candidate_1080p.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "d6887d013c08340ee6197b6126c4d55b2c10ab0b0e9637f2be2fccdd9700a3d8",
+      "isolation": {
+        "isolated_subviewport": true,
+        "environment_clone_created": true,
+        "environment_resource_id_before": 9223372118526264828,
+        "environment_resource_id_after": 9223372156644102842,
+        "directional_lights_overridden": [
+          "MainDirectionalLight"
+        ],
+        "omni_lights_overridden": [],
+        "physics_nodes_before": 402,
+        "physics_nodes_after": 116,
+        "collision_shape_count_before": 286,
+        "collision_shapes_removed": 286,
+        "collision_shape_count_after": 0,
+        "active_physics_query_owner_count": 0,
+        "visual_mesh_count": 806
+      },
+      "physics_nodes_after_capture": 116
+    },
+    {
+      "scene": "house_old_pc",
+      "variant": "baseline",
+      "output": "docs/urman_knowledge_base/art/style_calibration_candidate/godot_house_old_pc_baseline_1080p.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "d17f13f0386b84560b614fcadfe2ecf1cab6e76aecbfc6065652b2d91541fd47",
+      "isolation": {
+        "isolated_subviewport": true,
+        "environment_clone_created": false,
+        "environment_resource_id_before": 9223372158456038910,
+        "environment_resource_id_after": 9223372158456038910,
+        "directional_lights_overridden": [],
+        "omni_lights_overridden": [],
+        "physics_nodes_before": 109,
+        "physics_nodes_after": 87,
+        "collision_shape_count_before": 22,
+        "collision_shapes_removed": 22,
+        "collision_shape_count_after": 0,
+        "active_physics_query_owner_count": 0,
+        "visual_mesh_count": 109
+      },
+      "physics_nodes_after_capture": 87
+    },
+    {
+      "scene": "house_old_pc",
+      "variant": "candidate",
+      "output": "docs/urman_knowledge_base/art/style_calibration_candidate/godot_house_old_pc_candidate_1080p.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "00396d56324728735d479835b28d9309f902a523ae5c991e9751f7314e4ca2b8",
+      "isolation": {
+        "isolated_subviewport": true,
+        "environment_clone_created": true,
+        "environment_resource_id_before": 9223372167180191229,
+        "environment_resource_id_after": 9223372173270323181,
+        "directional_lights_overridden": [],
+        "omni_lights_overridden": [
+          "CrtScreenGlow",
+          "RoomFill",
+          "WarmTableLamp",
+          "WindowFill"
+        ],
+        "physics_nodes_before": 109,
+        "physics_nodes_after": 87,
+        "collision_shape_count_before": 22,
+        "collision_shapes_removed": 22,
+        "collision_shape_count_after": 0,
+        "active_physics_query_owner_count": 0,
+        "visual_mesh_count": 109
+      },
+      "physics_nodes_after_capture": 87
+    },
+    {
+      "scene": "kara_urman_edge",
+      "variant": "baseline",
+      "output": "docs/urman_knowledge_base/art/style_calibration_candidate/godot_kara_urman_edge_baseline_1080p.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "1e0da8a762b9528e879c3167f3eb470bd1520a3cc4c9e900058ecedda967086f",
+      "isolation": {
+        "isolated_subviewport": true,
+        "environment_clone_created": false,
+        "environment_resource_id_before": 9223372174411172881,
+        "environment_resource_id_after": 9223372174411172881,
+        "directional_lights_overridden": [],
+        "omni_lights_overridden": [],
+        "physics_nodes_before": 751,
+        "physics_nodes_after": 56,
+        "collision_shape_count_before": 695,
+        "collision_shapes_removed": 695,
+        "collision_shape_count_after": 0,
+        "active_physics_query_owner_count": 0,
+        "visual_mesh_count": 826
+      },
+      "physics_nodes_after_capture": 56
+    },
+    {
+      "scene": "kara_urman_edge",
+      "variant": "candidate",
+      "output": "docs/urman_knowledge_base/art/style_calibration_candidate/godot_kara_urman_edge_candidate_1080p.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "3b9fdab9a7fc85f41c834ee6245e904005d22f52622576ec65c46ac711494674",
+      "isolation": {
+        "isolated_subviewport": true,
+        "environment_clone_created": true,
+        "environment_resource_id_before": 9223372228970679355,
+        "environment_resource_id_after": 9223372281114269044,
+        "directional_lights_overridden": [
+          "MainDirectionalLight"
+        ],
+        "omni_lights_overridden": [
+          "DistantWarmWindow",
+          "MoonFill"
+        ],
+        "physics_nodes_before": 751,
+        "physics_nodes_after": 56,
+        "collision_shape_count_before": 695,
+        "collision_shapes_removed": 695,
+        "collision_shape_count_after": 0,
+        "active_physics_query_owner_count": 0,
+        "visual_mesh_count": 826
+      },
+      "physics_nodes_after_capture": 56
+    }
+  ]
+}

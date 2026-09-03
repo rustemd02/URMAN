@@ -1,12 +1,16 @@
 # Dependencies
 node_modules/
 dist/
+.tools/
+.dotnet-home/
+.nuget/
 
 # Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.codex-captures/
 
 # OS-specific
 .DS_Store
@@ -18,6 +22,18 @@ Thumbs.db
 
 # Build artifacts
 *.tsbuildinfo
+build/
+**/bin/
+**/obj/
+game/.godot/
+*.import
+*.blend1
+__pycache__/
+*.py[cod]
+
+# Explicitly retained, non-production provenance candidates.
+!assets/retired_candidates/
+!assets/retired_candidates/**
 
 # Graphify local state
 graphify-out/manifest.json

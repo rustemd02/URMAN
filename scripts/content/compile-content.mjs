@@ -285,6 +285,70 @@ function sceneReachability(entrypoint, scenes) {
   return reached;
 }
 
+function applyTransitionOverrides(campaign, registries, diagnostics, sourcePath) {
+  const syntheticInteractionPointers = new Set();
+  if (!Array.isArray(campaign.transitionOverrides) || campaign.transitionOverrides.length === 0) return syntheticInteractionPointers;
+
+  const scenes = registries.get('scenes');
+  const texts = registries.get('texts');
+  const dialogues = registries.get('dialogues');
+  const documents = registries.get('documents');
+  const interactionIds = new Set(
+    [...scenes.values()].flatMap((scene) => (scene.interactions ?? []).map((interaction) => interaction.id)),
+  );
+
+  for (const [index, override] of campaign.transitionOverrides.entries()) {
+    const pointer = `/transitionOverrides/${index}`;
+    if (!override || typeof override !== 'object') {
+      diagnostics.push(diagnostic(DiagnosticCode.InvalidSchema, sourcePath, pointer, 'Transition override must be an object.'));
+      continue;
+    }
+
+    const sourceScene = scenes.get(override.sourceSceneId);
+    if (!sourceScene) {
+      diagnostics.push(diagnostic(DiagnosticCode.UnresolvedReference, sourcePath, `${pointer}/sourceSceneId`, `Transition source scene ${override.sourceSceneId} is missing.`));
+      continue;
+    }
+    if (kindFromId(override.id) !== 'interaction' || interactionIds.has(override.id)) {
+      diagnostics.push(diagnostic(DiagnosticCode.DuplicateId, sourcePath, `${pointer}/id`, `Transition interaction ${override.id} is missing, invalid or already declared.`));
+      continue;
+    }
+    if (!texts.has(override.labelTextId)) {
+      diagnostics.push(diagnostic(DiagnosticCode.UnresolvedReference, sourcePath, `${pointer}/labelTextId`, `Transition label ${override.labelTextId} is missing.`));
+      continue;
+    }
+
+    const targetFields = ['targetSceneId', 'targetDialogueId', 'targetDocumentId']
+      .filter((field) => override[field] !== undefined);
+    if (targetFields.length !== 1) {
+      diagnostics.push(diagnostic(DiagnosticCode.InvalidSchema, sourcePath, pointer, 'Transition override must declare exactly one target field.'));
+      continue;
+    }
+    const targetRegistry = {
+      targetSceneId: scenes,
+      targetDialogueId: dialogues,
+      targetDocumentId: documents,
+    }[targetFields[0]];
+    const targetId = override[targetFields[0]];
+    if (!targetRegistry.has(targetId)) {
+      diagnostics.push(diagnostic(DiagnosticCode.UnresolvedReference, sourcePath, `${pointer}/${targetFields[0]}`, `Transition target ${targetId} is missing.`));
+      continue;
+    }
+
+    const interactionIndex = sourceScene.interactions?.length ?? 0;
+    syntheticInteractionPointers.add(`${sourceScene.id}\0/interactions/${interactionIndex}`);
+    sourceScene.interactions = [...(sourceScene.interactions ?? []), {
+      id: override.id,
+      labelTextId: override.labelTextId,
+      conditions: [...(override.conditions ?? [])],
+      effects: [...(override.effects ?? [])],
+      [targetFields[0]]: targetId,
+    }];
+    interactionIds.add(override.id);
+  }
+  return syntheticInteractionPointers;
+}
+
 function orderedRegistry(registry) {
   return [...registry.values()].sort((left, right) => left.id.localeCompare(right.id));
 }
@@ -411,6 +475,9 @@ export async function compileContent(options = {}) {
   }
   if (diagnostics.length) return failure(...diagnostics);
 
+  const syntheticInteractionPointers = applyTransitionOverrides(campaignResult.value, registries, diagnostics, campaignResult.sourcePath);
+  if (diagnostics.length) return failure(...diagnostics);
+
   const allDefinitions = new Set(definitionMeta.keys());
   const declaredIds = new Set(allDefinitions);
   const schemaContentIds = new Map();
@@ -423,6 +490,8 @@ export async function compileContent(options = {}) {
     const owner = moduleById.get(meta.moduleId).manifest;
     const allowedModules = new Set([meta.moduleId, ...owner.dependencies.map(({ moduleId }) => moduleId)]);
     for (const reference of schemaContentIds.get(id).filter((entry) => !entry.declaration)) {
+      const syntheticInteractionPrefix = `${id}\0${reference.pointer.slice(0, reference.pointer.lastIndexOf('/'))}`;
+      if (syntheticInteractionPointers.has(syntheticInteractionPrefix)) continue;
       const targetModule = moduleFromId(reference.id);
       if (!allowedModules.has(targetModule)) diagnostics.push(diagnostic(DiagnosticCode.UndeclaredDependency, meta.sourcePath, `${meta.pointer}${reference.pointer}`, `${id} references ${reference.id} without a declared module dependency.`, meta.moduleId));
       else if (reference.key === 'targetDialogueId' && !registries.get('dialogues').has(reference.id)) diagnostics.push(diagnostic(DiagnosticCode.UnknownDialogueTarget, meta.sourcePath, `${meta.pointer}${reference.pointer}`, `Scene interaction targets unknown dialogue ${reference.id}.`, meta.moduleId));
@@ -545,6 +614,9 @@ export async function compileContent(options = {}) {
       capabilityRequirements: resolvedCapabilityRequirements,
       narrativeOrder: [...campaign.narrativeOrder],
       invariants: [...campaign.invariants].sort((left, right) => left.id.localeCompare(right.id)),
+      ...(Array.isArray(campaign.transitionOverrides) && campaign.transitionOverrides.length > 0
+        ? { transitionOverrides: [...campaign.transitionOverrides].sort((left, right) => `${left.sourceSceneId}:${left.id}`.localeCompare(`${right.sourceSceneId}:${right.id}`)) }
+        : {}),
     },
     registries: Object.fromEntries(REGISTRY_NAMES.map((name) => [name, orderedRegistry(registries.get(name))])),
     dependencyGraph: {

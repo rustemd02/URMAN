@@ -6,24 +6,111 @@ Top 50 production inventory: см. `asset_inventory_50.md`.
 
 ## Production Direction
 
-Accepted MVP direction: static-node hybrid with in-world discrete route navigation and sound-first tension.
-Accepted art direction: ink-wash storybook / тушь + приглушённая акварель. См. `design_style.md`.
+Accepted presentation direction, 2026-08-10: walkable 3D with a first-person camera and sound-first tension.
+Accepted art treatment: **Painterly Low-Poly 3D** — production-safe stylized geometry plus painterly materials, lighting and fog. In-engine tests validate this direction; they no longer choose an alternative. См. `design_style.md`.
 
-- Локации лучше делать как статичные или слегка анимированные экраны-узлы, связанные маршрутными сегментами деревни: вид изнутри улицы, поворот на 90 градусов, шаг к следующему сегменту.
-- Полноценные перемещение, изометрия, боевые состояния и сложные анимации не входят в MVP floor.
+- Локации собирать как компактные ходибельные 3D-зоны из модульных environment kits.
+- Свободное перемещение и обзор от первого лица входят в MVP floor; бесшовный open world, бои и сложные анимации не входят.
 - Top-down карта деревни не является основным экраном перемещения. Она может существовать только как неполная схема в журнале Айдара.
 - Интерфейсы как реальные предметы использовать выборочно: старый ПК, бумажный документ, фото, тетрадь/журнал. Старый ПК — главный документальный хаб MVP; остальные diegetic UI не должны становиться обязательным правилом для всего проекта, иначе production cost вырастет.
 - Напряжение строить через звук, паузы, реакцию NPC, частично понятные правила и изменение состояния сцены.
 - Визуальный принцип: обычность сначала, неправильность потом. Базовые ассеты не должны быть гиперреалистичными или сразу «страшными».
-- Art direction reference: «Искатель в доме с привидениями» можно использовать только как вторичный reference для ручной, бумажной тревожности. Базовое решение уже принято в `design_style.md`, а не должно переоткрываться без причины.
+- Старые route screens и ink-wash location frames — референсы композиции, палитры, фактуры и ориентиров, но не финальные world assets и не runtime fallback.
+- Art direction reference: «Искатель в доме с привидениями» можно использовать только как вторичный reference для ручной, бумажной тревожности.
+
+## 3D Asset Pipeline
+
+- Blender 4.5 LTS and versioned Python generators are the source for modular environment, foliage, furniture and prop families.
+- `.blend`, generator inputs and texture sources are authored assets; `.glb` is a rebuildable Godot import artifact.
+- ImageGen supplies concept targets, ornament/texture sources and moodboards. It does not prove in-engine quality or replace collision/LOD/material QA.
+- Character meshes, faces, clothes and textures are original URMAN assets. Only documented CC0 skeleton/animation bases may be reused.
+- Every asset record stores source, license, scale, polygon budget, texture budget, materials, collision, LOD and verification status.
+- Three mandatory benchmark scenes gate mass production: daytime street, house/old PC, night Kara-Urman edge.
+- UI/audio presentation assets must expose captions and non-audio descriptions through the shared `AccessibilitySettingsSnapshot`; readable text and description wording still require external and cultural review.
+
+Current migration evidence: Blender generated `assets/source/blender/urman_modular_kit.blend` and rebuildable `game/assets/generated/urman_modular_kit.glb`; four ImageGen-derived painterly albedos remain the v1 environment mappings, while `stone` and `fabric` are explicit v2-only presentation surfaces on non-interactive benchmark anchors. Focused v3 siblings for all six materials, a v4 earth/wood pair and a v5 relief-aware earth/wood rework now pass deterministic image gates and test-only Metal/Forward+ evidence; none activate runtime owners. Independent review keeps v4 at HOLD/REWORK and v5 at production OPEN: v5 removes painted road ruts/strong stone relief and reduces wood striping risk, but earth pebble repetition, wetness response, wood orientation/shared-owner scale, near/mid/far traversal and 20–30m repetition remain open. A separate Blender `assets/source/blender/urman_character_kit.blend` and `game/assets/generated/urman_character_kit.glb` now provide nine project-original character prefixes with 143 deterministic LOD0/LOD1 meshes, face landmarks, layered clothing, ground anchors and one animation-safe armature per prefix with `Idle`/`Tension` clips. Godot `GeneratedCharacterKitDressing` imports each matching `AnimationPlayer`, starts `Idle`, and exposes presentation-only switching to `Tension`; `FullGameNpcDressing` selects `Tension` in pact/boundary threat presentation and `Idle` elsewhere, while `FullGameFlowSmokeTest` covers both clips. The Acts 2–5 `FullGameZone` has one authored `PackedScene` wrapper per logical zone plus a separate `FullGameZoneDressing` pass with zone-specific river/dock, archive, Soviet file room, pact ledger and boundary compositions. `GeneratedModularKitDressing` loads the environment `.glb` selectively for the Act 2 house, Act 3 old-PC/table and Act 5 forest boundary, while `GeneratedCharacterKitDressing` selects the named character GLB prefixes and applies explicit Godot LOD ranges; imported `-col` render meshes stay out of physics. `PainterlyEnvironmentDetails.AddRoadRelief` now gives style, Chapter 1 Zirat and shared Acts 2–5 paths a deterministic 9×28 low-poly crown/rut surface with matching collision cells; `RoadReliefQaSmokeTest` and `CollisionQaSmokeTest` cover the candidate geometry. `CollisionQaSmokeTest` verifies queryable layer-1 floors in all 12 zones and isolates kit proxies on layer 2. Seven representative captures are stored in `art/fullgame_frames/`. The four original v1 mappings remain active; v2/v3/v4/v5 candidates remain deliberately scoped presentation-only candidates, not a global texture switch. This is still modular production evidence, not final art lock: wetness/puddle dressing, geometry/canopy/hero-prop polish, facial expression, authored voice/ambience, mesh-collision review, release-hardware performance and cultural presentation lock remain open.
+
+Audio foundation evidence, 2026-08-11 / Act 1 continuity pass, 2026-08-14: four deterministic project-original WAV stems (`village_day`, `house_old_pc`, `kara_urman_night`, `water_edge`) are generated by `tools/audio/generate_ambient_audio.py` and registered in `game/assets/audio/ambient_manifest.json`. `AmbientAudioDirector` is a presentation-only Godot owner that maps the active logical zone to one manifest stem, uses two `AudioStreamPlayer`s for a 0.65-second crossfade during zone changes, loops the active stem in a normal desktop run and deliberately validates imported streams without starting playback in headless smoke mode so the process remains leak-free. `AmbientAudioSmokeTest` covers manifest closure, resource import, two-player ownership and zone switching; a real Metal/Forward+ smoke also observes the crossfade metadata. These stems and the crossfade are a technical demo ambience pass, not final field recordings, authored voice, mix/master or cultural approval; Marat's voice, Rinat's «Не отвечай», authored ambience mix and accessibility listening review remain open.
+
+Texture sweep addendum, 2026-08-14: the v5 damp-earth and weathered-wood candidates have a separate non-overwriting Godot receipt in `art/texture_candidate_motion_sweep_v5/`. It covers 27 near/mid/far × FOV 65°/75°/90° cells for each mandatory scene at 1 920 × 1 080. This closes only the technical spatial-capture gate; it does not activate runtime owners or close earth relief/wetness, wood orientation/shared-owner, temporal, geometry, lighting or art-lock review.
+
+V6 addendum, 2026-08-14: quieter damp-earth and abstract weathered-wood
+siblings are registered as production candidates only. They pass the image gate,
+the isolated v5↔v6 A/B receipt and a dedicated 27-cell Godot sweep, while the
+runtime v1 mappings remain active. The earth relief-only delta is subtle and
+wood still needs facade/fence/furniture/end-grain owner review; no art lock is
+declared.
+
+Asset provenance addendum, 2026-08-14: `eng/verify-asset-registry.sh` now checks
+all 36 registry entries without Blender, including 36 derived-file hashes and
+10 explicit local source hashes. The character source hash in
+`assets/asset_registry.json` was corrected to the actual project file; negative
+missing-file, duplicate-ID and hash-mismatch fixtures fail closed. The full
+Blender gate remains host-dependent: elevated real-driver verification passes,
+while the managed sandbox reports typed `HOST_TOOLCHAIN_BLOCKED` on the pinned
+Metal startup crash. Neither result activates unreviewed art or changes runtime
+owners.
+
+Audio production readiness evidence, 2026-08-11: `Urman.ContentCli report --root .` compiles all four campaigns and enumerates eight campaign-level occurrences of the two non-decorative Chapter 1 voice assets. All 8/8 caption and transcript references are closed; all 8 occurrences remain intentional `logical-ref` placeholders, so authored voice count is 0 and the report stays `OPEN`. The same report confirms 4/4 ambient manifest files are physically present. This is a traceable production boundary, not a release claim: voice recording, final ambience mix, caption copy review and cultural listening review remain blocked.
+
+The bounded 2026-08-11 benchmark pass adds non-interactive CRT/document/house details, shelf/calendar/radio/herb dressing, laundry/crates/hay/signage, additional shrubs, tapered low-poly pine tiers with deterministic side boughs, fallen logs, boundary charms and restrained fireflies to the three Godot style scenes. The latest environment rebuild keeps the deterministic modular-kit contract and adds authored edge breaks, a bounded `HouseA` facade pass (foundation, door/frame, window trims, porch/step and eave), layered `PineA` crown geometry, softened table/CRT forms and a bounded `OldPc` tower/panel/power-button detail pass; the capture additionally exercises the imported project-original `HouseA_` and `PineA_` modules in the day-street and Kara-Urman scenes through the production adapter. The 2026-08-12 recapture also exercises bounded v2-only stone/fabric owners on two stone anchors and three rug meshes. Current environment source/derived hashes are recorded in `assets/asset_registry.json`; the latest static frames are `d64b9e…`, `433a97…`, `6fe1c7…`, spatial sweep hashes are in `art/style_motion_sweep/README.md`, temporal hashes in `art/style_temporal_sweep/README.md`, and full-game hashes in `art/fullgame_frames/README.md`. All remain explicitly rejected as final art lock: the street/house read is denser, while the forest canopy is still a greybox family and the hero PC, cultural specificity, complete environment family and sound/presentation review remain open.
+
+Act 5 epilogue presentation addendum, 2026-08-14: the canonical
+`fullgame_act5_epilogue` wrapper now places the project-original `HouseA_`
+module through the `act5-epilogue-house` variant and asserts its `wood_facade`
+owner, LOD ranges and presentation-only proxy contract in the full-game smoke.
+The fresh 1 920 × 1 080 frame is recorded in `art/fullgame_frames/README.md`.
+This closes only the bounded wiring/capture slice; authored epilogue modules,
+mesh-level collision, hero-prop detail, cultural review and production art lock
+remain open.
+
+Authored road-relief/puddle slice, 2026-08-13: `PainterlyEnvironmentDetails.AddRoadRelief`
+replaces the flat road/path slabs in the three mandatory style benchmarks, the
+Chapter 1 Zirat road and every compact Acts 2–5 `FullGameZone`. The helper emits
+a deterministic 9×28 low-poly surface grid with shallow crown/rut variation and
+216 matching collision cells per path; the Painterly shader and narrative/runtime
+owners remain unchanged. `RoadReliefQaSmokeTest` and the extended
+`CollisionQaSmokeTest` pass. This is production-candidate geometry evidence,
+not final art lock: wet specular/roughness response, mesh dressing, village
+module variety, temporal traversal review and cultural presentation remain open.
+
+Wetness candidate QA, 2026-08-14: a separate test-only Godot harness instantiates
+each benchmark scene in isolation, requires the ray collider to match the
+scene's expected relief body, then clones the existing puddle `ShaderMaterial`
+in memory and sweeps the existing `roughness_value` uniform. The source puddle
+owner remains at baseline `roughness=0.90`; no shader, runtime registry,
+collision, save or narrative path is changed. After bounded benchmark-origin
+corrections (`PuddleFar` −10 mm, `BoundaryWetPatch` −22 mm from the previous
+candidate origin), all five clusters/15 patches pass ±0.010 m contact and three
+candidate frames are recorded. Wetness roughness/specular acceptance remains
+OPEN.
+
+Wetness matrix v2 addendum, 2026-08-14: a separately owned geometry slice seats
+only eight measured `PuddlePatch` origins against their exact authored
+road/path-relief cell (no cluster-wide translation and no collision-owner
+change). The isolated Metal/Forward+ harness now records all 15 raw production
+origins as exact-owner contact within ±0.005 m, with zero candidate-local
+alignment needed, then compares roughness `0.40/0.50/0.60` with 45 in-memory
+clones and nine 1 920 × 1 080 PNGs. Source roughness stays `0.90`; shader,
+textures, GLB, runtime, saves and narrative remain unchanged. The frames still
+read as flat/weak wetness, so no roughness value is activated and the
+wetness/art-lock gate remains OPEN.
+
+Lighting/fog calibration addendum, 2026-08-14: `StyleBenchmarkZone.cs` received
+only a bounded ambient/fog and key/fill-light calibration. The fresh static,
+27-cell spatial and 216-sample temporal captures are clean Metal/Forward+
+technical evidence, but day street remains greybox, the house remains warm and
+sparse, and Kara-Urman still needs authored canopy/ground geometry. This is a
+presentation candidate, not a global texture switch or art lock.
 
 ## Visual Style Rules
 
-- Линия: неровная тушевая, ручная, читаемая.
+- Геометрия: упрощённая, но не примитивная; сильные силуэты, аккуратные пропорции, больше деталей только у hero props.
+- Материалы: ручная тушевая линия и акварельная неоднородность переводятся в albedo, декали и маски, а не рисуются как плоская сцена.
 - Цвет: приглушённая бумага, болотные зелёные, старое дерево, холодный вечер, слабый янтарный домашний свет.
 - Текстура: бумажное зерно, акварельные пятна, умеренная потертость.
 - Крипота: через свет, тишину, композицию, тени и почти-заметные силуэты, не через gore / скримерные монстры.
-- Спрайты: маленькие 2D cutout / ink silhouettes для карты и узлов; портреты несут эмоции и детализацию.
+- Персонажи: стилизованные 3D-модели для присутствующих NPC; 2D-портреты могут нести дополнительную эмоцию в диалогах.
 
 ## Characters
 
@@ -98,14 +185,14 @@ Accepted art direction: ink-wash storybook / тушь + приглушённая
 - Asset: Главная улица
   Purpose: деревня как социальная сцена.
   MVP priority: High
-  Needed for: первые взгляды, route navigation, социальное давление.
-  Notes: accepted direction — walking-height route segment with 90-degree turn affordances and diegetic signs.
+  Needed for: первые взгляды, свободное перемещение, социальное давление.
+  Notes: compact walkable first-person 3D zone with diegetic signs and landmarks.
 
-- Asset: Village route navigation kit
-  Purpose: перемещение по Кырлаю без full top-down map.
+- Asset: Modular village environment kit
+  Purpose: сборка ходибельных участков Кырлая без производства каждого дома с нуля.
   MVP priority: High
   Needed for: дом, улица, кладбище, медпункт, мечеть, кромка Кара-Урмана.
-  Notes: 6–10 route screens, physical signs / landmarks, incomplete journal sketch, reusable turn and step transitions.
+  Notes: стены, крыши, окна, двери, заборы, калитки, дорога, столбы, знаки, растительность, collision and LOD-ready variants.
 
 - Asset: Сельмаг
   Purpose: gossip hub.
@@ -336,3 +423,242 @@ Accepted art direction: ink-wash storybook / тушь + приглушённая
   MVP priority: Medium
   Needed for: archive quest.
   Notes: может стать MVP teaser.
+
+## Material owner calibration — 2026-08-14
+
+`PainterlyMaterialLibrary` сохраняет общий v1 `wood` owner для процедурного
+декора, но импортированный Blender-модуль больше не обязан использовать один
+масштаб для всех поверхностей. Семантические presentation-owners
+`wood_facade`, `wood_fence`, `wood_furniture` и `wood_bark` используют тот же
+weathered-wood albedo с отдельными world scales (1.8, 2.2, 2.7 и 1.35), чтобы
+фасады, заборы, мебель и стволы не образовывали одинаковую полосу. Это
+калибровка материала, а не изменение shader, геометрии, коллизий или narrative
+state.
+
+Generated character kit сохраняет metadata-имя `cloth`, но теперь получает
+явный `old_fabric_v2` descriptor вместо texture-less fallback. Это bounded
+presentation owner для одежды; folds, silhouette, лицензия, cultural review и
+финальный art lock остаются открытыми.
+
+## Authored village modules — 2026-08-14
+
+The rebuilt Blender kit adds `WellA_` (7 LOD0 parts), `WoodpileA_` (4),
+`GateA_` (4) and two `OldPc_` hero details (`DriveSlot`, `LabelPlate`), with a
+deterministic 49-mesh LOD1 contract. Registry records
+`env.well.a`, `env.woodpile.a` and `env.gate.a` share the project-original
+source/derived hashes and remain decorative. Act 2 uses the well and woodpile
+beside the HouseA anchor; the Act 5 boundary uses GateA as the visual threshold
+after removing duplicate procedural posts/board/mark. No new gameplay collider
+or runtime-state owner is introduced, and GateA is deliberately not attached
+to the HouseA epilogue anchor. Fresh Godot captures and runtime marker-clearance
+smoke now exist. The runtime-backed receipt
+`art/fullgame_boundary_runtime_capture/fullgame_boundary_runtime_manifest.json`
+instantiates `full_game.tscn` with `RuntimeBridge`, resolves both Act 5
+interaction IDs, records GateA clearance `2.687 m`, and validates a dedicated
+marker camera with both interaction anchors inside the viewport and no GateA
+screen-space overlap. The standard and marker frames are
+`godot_act5_boundary_runtime_standard_1080p.png` (SHA-256
+`eadb15d9f593685244d1e7ad59db74f5b7ac5d96458ac3bad6071433887a8ed7`) and
+`godot_act5_boundary_runtime_markers_1080p.png` (SHA-256
+`ccfbdb4eb043c978ef3ab636d6cd06ffbb6fdca2445f6c44643da9c083982128`). This
+closes the missing runtime-owner and marker-camera evidence for the static
+composition only;
+near/mid/far screen-space traversal, repetition, cultural review and art lock
+remain open.
+
+## Puddle silhouette diagnostic v1 — 2026-08-14
+
+`art/puddle_silhouette_candidate/` contains a non-overwriting Godot
+comparison of the fifteen existing `PuddlePatch` meshes in the day street,
+Kara-Urman edge and Zirat road. In memory only, the source `CylinderMesh` is
+replaced with an open, shallow, irregular faceted `ArrayMesh`: it has no bottom
+face or vertical cylindrical rim. The source `ShaderMaterial` stays referenced
+at `roughness_value=0.90`; no texture, shader, `PainterlyMaterialLibrary`,
+collider, production scene, save or narrative owner changes.
+
+Three 1 920 × 1 080 contact sheets place the flat source on the left and the
+candidate on the right, with a fixed-camera overview plus a close diagnostic
+row. Exact relief ownership and all source/candidate contacts pass ≤5 mm;
+collision-node counts are unchanged and all source mesh references are restored
+before shutdown. This is deliberately a silhouette test, not a wetness
+acceptance: the faceted surface loses the obvious plate/rim, but at source
+roughness it is too quiet to prove wet readability at distance. Keep both
+geometry and wetness/art acceptance OPEN pending traversal and level-art review.
+
+## GLB presentation-contract smoke — 2026-08-14
+
+`GeneratedModularKitContractSmokeTest` is a host-independent Godot receipt for
+the single project-original environment artifact
+`game/assets/generated/urman_modular_kit.glb` (SHA-256
+`c9f9e8d9a036c3fc8ef20dfc736a164fb393eb8194eff0c0e55782547efa2c36`). It
+loads the GLB through `GeneratedModularKitDressing.AttachPresentationOnly` and
+checks the exact LOD0/LOD1 pairs `HouseA_ 12/12`, `FenceA_ 6/6`, `RoadDirt_ 1/1`,
+`PineA_ 2/2`, `TableA_ 5/5`, `OldPc_ 8/8`, `WellA_ 7/7`, `WoodpileA_ 4/4` and
+`GateA_ 4/4`. Each selected family must expose only published LOD meshes with
+the 0–24 m / 18–72 m self-fade policy, exact semantic-owner sets, one-to-one
+LOD names and zero physics descendants. The adapter proves that imported
+collision bodies/shapes were removed and hides the only two non-LOD render
+helpers (`HouseA`/`OldPc` in Godot, corresponding to Blender's `HouseA-col`/
+`OldPc-col`) rather than letting a prefix match make them visible.
+
+This is a bounded technical PASS, not mesh-collision acceptance or art lock.
+The Blender source/GLB provenance remains independently verified; Blender host
+revalidation, authored mesh collision, traversal/readability, cultural review
+and release-hardware gates remain OPEN.
+
+## OldPc hero-detail candidate — 2026-08-14
+
+The project-original kit now includes `OldPc_DriveSlot_LOD0/1` and
+`OldPc_LabelPlate_LOD0/1`. They are small low-poly presentation details under
+the existing `prop.oldpc.crt` asset id; they add no collision, interaction or
+narrative owner. `eng/capture-oldpc-hero-detail.sh` produced two 1 920 × 1 080
+Metal/Forward+ close frames at the Act 3 Soviet interaction distance, with all
+four exact names present and no Godot/RID/ObjectDB leak diagnostics. The close
+frames are useful production evidence. A follow-up
+`eng/capture-oldpc-hero-detail-motion.sh` receipt now covers near and mid
+first-person distances, FOV 65°/75°/90° and three small head-bob rows in one
+isolated Metal/Forward+ world. All 18 tiles find the four exact details and
+pass the non-empty readback gate; the near/mid contact sheets and manifest live
+in `art/oldpc_hero_detail_motion_sweep/`. This strengthens motion/readability
+evidence only: observed traversal, standard Soviet regression review,
+cultural review, release-host performance and art lock remain OPEN.
+
+## Temporal/style calibration evidence — 2026-08-14
+
+The current 216-sample Metal/Forward+ receipt preserves visual descendants
+while stripping only render-only collision shapes; its predecessor is retained
+as superseded audit material. `StyleCalibrationCandidateCapture` adds six
+isolated baseline/candidate frames for ambient/fog/key-light comparison. Both
+are production-candidate evidence only: no global light/material switch is
+active, and geometry, comfort, cultural and art-lock review remain open.
+
+## Act 1 demo presentation boundary — 2026-08-14
+
+The current playable target is the dedicated `game/scenes/act1_demo.tscn`
+entrypoint, not the full Acts 2–5 asset set. It reuses the five compact Chapter
+1 zones and existing Painterly Low-Poly candidate materials, with a runtime
+intro card and a final `НЕ ОТВЕЧАЙ` / `Конец демо` overlay. This makes the route
+playable without pretending that the three benchmark captures are final art.
+Remaining demo asset gates are authored voice/ambience, near/mid/far visual
+readability, cultural review, observed first-time playtest, release-host
+performance and art lock. Full-game dressing and web retirement remain
+deferred; no old assets or browser saves are removed.
+
+The bounded day-street presentation pass adds project-original `WellA_` and
+`WoodpileA_` modules plus a muted physical `ФАП` `Label3D` on the existing
+signboard. The modules remain presentation-only with hidden helper-box
+collision ownership; the label is a diegetic wayfinding candidate rather than
+a floating quest marker. Static and 27-cell Metal/Forward+ receipts are
+recorded in `art/style_frames/README.md` and `art/style_motion_sweep/`; observed
+route comprehension and cultural review remain open.
+
+## Act 1 first-person corridor evidence — 2026-08-15
+
+The demo now has a fail-closed, production-path first-person corridor smoke at
+`game/tests/Act1FirstPersonCorridorSmokeTest.cs`. It drives the actual
+`act1_demo.tscn` entrypoint through the camera ray and mapped `E` input, checks
+the five compact zones, opens the official notice / saved message / Татарвики /
+edge-sketch documents through `DocumentUi`, commits the Rinat `alerted` state
+and reaches the authored Kara-Urman cliffhanger. The scene and wrapper are
+listed in `art/first_person_corridor/README.md`.
+
+The physical evidence targets now own explicit compiled document IDs. The house
+adds a presentation-only empty chair, coat and radio beside the Rinat target so
+the practical off-screen warning has a readable world cue without inventing an
+unregistered Rinat mesh. These are demo presentation aids, not final character
+assets; authored Rinat staging, voice, cultural review, near/mid/far traversal
+and art lock remain open. No texture, shader, save, narrative kernel or Acts
+2–5 launch owner changed.
+
+## Act 1 house OldPc presentation candidate — 2026-08-15
+
+The first-act house now consumes the project-original `OldPc_` family through
+`GeneratedModularKitDressing.AttachPresentationOnly`. The procedural CRT bezel,
+keyboard keys, tower and hero scanline boxes were removed from the benchmark
+zone; the authored table, documents, mouse, lamp and existing interaction target
+remain. The module is anchored at the existing interaction location and keeps
+the adapter's exact 8/8 LOD contract, material routing and imported-collision
+sanitation. It contributes no `CollisionObject3D` or `CollisionShape3D`; the
+layer-1 `InteractionTarget` remains the only gameplay ray owner.
+
+`SceneSmokeTest` and `StyleFrameCapture` now fail closed on the scene metadata,
+8/8 counts, positive imported-physics removal and zero module physics. The
+fresh house frame is recorded in `art/style_frames/README.md` and is a
+production-progress candidate only. Close interaction readability, observed
+first-person pacing, cultural review and the Painterly Low-Poly art lock remain
+open.
+
+## Act 1 Kara-Urman forest-edge kit — 2026-08-17
+
+Status: **PARTIAL / authored-geometry production candidate; art lock OPEN.**
+
+The new project-original pair is:
+
+- `assets/source/blender/urman_forest_edge_kit.blend` — 1,365,721 bytes;
+  SHA-256 `75de1f8ab43f3d29736bf44dcba05da6d0bcf51649a043f6aac8d4369aa3f3d3`;
+- `game/assets/generated/urman_forest_edge_kit.glb` — 544,480 bytes;
+  SHA-256 `7cc13472f0024861d5b91ae6710b3c0ac18e7fbefb87ae9dc73110604a9791ba`.
+
+The GLB publishes 16 independent families with exact LOD0/LOD1 nodes: left
+and right `ForestBank`, left and right `ForestOccluder` clusters,
+`PineMass_A`, `PineMass_B`, `BirchEdgeMass`, `DistantForestMass_A/B`, left
+and right `UnderstoryRootWall`, `CrookedStump`, `BranchSilhouette_Hook`,
+`FallenLogCluster`, `MossyBoulderCluster` and
+`SideGate_WayfindingLandmark`. This is 32 MeshInstance3D nodes plus the
+`ForestEdgeKit_Root` node. Exact names and per-family enablement/limits are
+documented in `art/act1_forest_edge_kit_2026-08-17.md`.
+
+The kit uses authored low-poly geometry to break the straight repeated-PineA
+read and close the empty horizon. It reuses the existing semantic material
+direction (`earth`, `stone`, `wood_bark`, `foliage` and plain wood) without
+creating or downloading raster textures. All meshes carry `collision=none`;
+there are no `-col`, `StaticBody3D` or `CollisionShape3D` descendants. A later
+composition task must keep path/floor collision and route state in their
+existing owners.
+
+Evidence: pinned Blender 4.5.12 export and Blender re-import succeeded; pinned
+Godot 4.7.1 .NET `--import` and a direct PackedScene load probe succeeded with
+`32` mesh nodes and `0` collision nodes. The neutral preview is
+`/private/tmp/urman_forest_edge_kit_preview.png` (1600×900, 1,709,781 bytes).
+The preview grade is **3.4/5, partial**: side silhouettes and horizon variety
+are materially improved, but banks still need first-person ground integration,
+small details need a close read and the side gate is not yet a strong overview
+landmark. This does not claim demo/art acceptance, traversal comprehension,
+target-hardware performance, cultural review or a final forest family.
+
+The asset registry remains unchanged by ownership constraint; add its source/
+derived hashes in the registry before production runtime wiring.
+
+## Act 1 complete-village landmark kit runtime composition — 2026-08-17
+
+Status: **PARTIAL / authored-geometry composition candidate; art lock OPEN.**
+
+The accepted project-original village landmark pair is now present at:
+
+- `assets/source/blender/urman_act1_village_landmark_kit.blend` — SHA-256
+  `5df27a1bec9e71bd4968c3ba702ae6f5cabbaccb7b1632393acbda7529dd644e`;
+- `game/assets/generated/urman_act1_village_landmark_kit.glb` — SHA-256
+  `bd5016db2b0e9d9187b6c200dd1564c2333396b0d9b70971b89cb4539f074daf`;
+- the production record is `art/act1_village_landmark_kit_2026-08-17.md`.
+
+`Act1ConnectedWorld` loads the GLB as a presentation-only root named
+`URMAN_Act1_VillageLandmarkKit`, validates the exact authored groups
+`Arrival`, `VillageStreet`, `BabaiYard`, `HouseExterior`, `ConnectiveStreet`,
+`FapExterior`, `ReturnStreet`, `ZiratBoundary` and `KaraApproach`, and
+re-anchors those groups to the existing arrival, village, house, FAP, zirat
+and Kara route zones. The source is a linear authored strip; the runtime
+placement is therefore deliberately group-based rather than a blind root
+transform.
+
+The GLB contributes no collision, navigation or interaction nodes. Existing
+route floor/path collision, zone interaction targets and `RuntimeBridge`
+state ownership remain authoritative. Only the old visual-only
+`ZiratGreyboxEnclosure` duplicate is suppressed; gameplay floor and route
+continuation are retained. The existing forest-edge kit is unchanged.
+
+Pinned Godot import, connected-route smoke/walkthrough and a fresh six-frame
+root-viewport capture pass are technical evidence for this composition, not
+demo or art acceptance. Babai remains near-wall heavy; Kara side dressing is
+busy; the reverse Zirat view still leans on the existing village framing; and
+full near/mid/far traversal, cultural review, target-hardware performance,
+wayfinding and final art lock remain open.

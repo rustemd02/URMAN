@@ -46,7 +46,7 @@ async function campaigns() {
 
 test('every authored campaign compiles from exact module selections and resolves its portable closure', async () => {
   const [manifestById, campaignRecords] = await Promise.all([moduleManifestPaths(), campaigns()]);
-  assert.equal(campaignRecords.length, 3, 'closure gate must enumerate every authored campaign, including dev-only campaigns');
+  assert.equal(campaignRecords.length, 4, 'closure gate must enumerate every authored campaign, including dev-only and full-game campaigns');
 
   for (const { campaignPath, campaign } of campaignRecords) {
     const modulePaths = campaign.modules.map(({ moduleId }) => {

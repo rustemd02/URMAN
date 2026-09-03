@@ -1,0 +1,300 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_wetness_candidate_capture",
+  "captured_at_utc": "2026-08-13T22:03:35.1189350Z",
+  "status": "OPEN",
+  "roughness_acceptance": "OPEN",
+  "candidate_roughness": 0.5,
+  "expected_source_roughness": 0.9,
+  "contact_tolerance_m": 0.01,
+  "contact_gate": {
+    "status": "PASS",
+    "reason": "All puddle bottoms contact the sampled authored relief within tolerance.",
+    "details": []
+  },
+  "source_runtime_material": {
+    "status": "PASS",
+    "expected_roughness": 0.9,
+    "candidate_clones_are_in_memory_only": true
+  },
+  "candidate_material_isolation": {
+    "status": "PASS",
+    "candidate_roughness": 0.5,
+    "exact_patch_clone_count": true
+  },
+  "totals": {
+    "clusters": 5,
+    "expected_clusters": 5,
+    "patches": 15,
+    "expected_patches": 15,
+    "material_backed_patches": 15,
+    "candidate_shader_material_clones": 15
+  },
+  "rendered": true,
+  "render_reason": "Candidate renders are evidence only; roughness acceptance remains OPEN.",
+  "scenes": [
+    {
+      "name": "day_street",
+      "scene": "res://scenes/zones/style_benchmark_day_street.tscn",
+      "expected_puddle_clusters": [
+        "PuddleNear",
+        "PuddleMiddle",
+        "PuddleFar"
+      ],
+      "relief": "Road",
+      "contact": {
+        "status": "PASS",
+        "samples": [
+          {
+            "Scene": "day_street",
+            "Cluster": "PuddleNear",
+            "PatchIndex": 0,
+            "PuddleBottomY": 0.0973,
+            "ReliefSurfaceY": 0.087638885,
+            "GapMeters": 0.009661116,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "day_street",
+            "Cluster": "PuddleNear",
+            "PatchIndex": 1,
+            "PuddleBottomY": 0.0993,
+            "ReliefSurfaceY": 0.09744413,
+            "GapMeters": 0.0018558651,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "day_street",
+            "Cluster": "PuddleNear",
+            "PatchIndex": 2,
+            "PuddleBottomY": 0.1013,
+            "ReliefSurfaceY": 0.09744413,
+            "GapMeters": 0.0038558692,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "day_street",
+            "Cluster": "PuddleMiddle",
+            "PatchIndex": 0,
+            "PuddleBottomY": 0.096,
+            "ReliefSurfaceY": 0.09613983,
+            "GapMeters": -0.0001398325,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "day_street",
+            "Cluster": "PuddleMiddle",
+            "PatchIndex": 1,
+            "PuddleBottomY": 0.09799999,
+            "ReliefSurfaceY": 0.09613983,
+            "GapMeters": 0.0018601567,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "day_street",
+            "Cluster": "PuddleMiddle",
+            "PatchIndex": 2,
+            "PuddleBottomY": 0.099999994,
+            "ReliefSurfaceY": 0.09613983,
+            "GapMeters": 0.0038601607,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "day_street",
+            "Cluster": "PuddleFar",
+            "PatchIndex": 0,
+            "PuddleBottomY": 0.08348,
+            "ReliefSurfaceY": 0.07823034,
+            "GapMeters": 0.005249664,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "day_street",
+            "Cluster": "PuddleFar",
+            "PatchIndex": 1,
+            "PuddleBottomY": 0.08548,
+            "ReliefSurfaceY": 0.07823034,
+            "GapMeters": 0.007249661,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "day_street",
+            "Cluster": "PuddleFar",
+            "PatchIndex": 2,
+            "PuddleBottomY": 0.08748,
+            "ReliefSurfaceY": 0.07823034,
+            "GapMeters": 0.009249665,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          }
+        ]
+      },
+      "patch_count": 9,
+      "capture_candidate": true,
+      "capture": {
+        "Scene": "day_street",
+        "Output": "docs/urman_knowledge_base/art/wetness_candidate/godot_day_street_wetness_candidate_1080p.png",
+        "Width": 1920,
+        "Height": 1080
+      }
+    },
+    {
+      "name": "house_old_pc",
+      "scene": "res://scenes/zones/style_benchmark_house_pc.tscn",
+      "expected_puddle_clusters": [],
+      "relief": null,
+      "contact": {
+        "status": "PASS",
+        "samples": []
+      },
+      "patch_count": 0,
+      "capture_candidate": false,
+      "capture": null
+    },
+    {
+      "name": "kara_urman_edge",
+      "scene": "res://scenes/zones/style_benchmark_kara_urman_night.tscn",
+      "expected_puddle_clusters": [
+        "BoundaryWetPatch"
+      ],
+      "relief": "PathNear",
+      "contact": {
+        "status": "PASS",
+        "samples": [
+          {
+            "Scene": "kara_urman_edge",
+            "Cluster": "BoundaryWetPatch",
+            "PatchIndex": 0,
+            "PuddleBottomY": 0.070920005,
+            "ReliefSurfaceY": 0.06585404,
+            "GapMeters": 0.0050659627,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "kara_urman_edge",
+            "Cluster": "BoundaryWetPatch",
+            "PatchIndex": 1,
+            "PuddleBottomY": 0.072919995,
+            "ReliefSurfaceY": 0.06585404,
+            "GapMeters": 0.007065952,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "kara_urman_edge",
+            "Cluster": "BoundaryWetPatch",
+            "PatchIndex": 2,
+            "PuddleBottomY": 0.07492,
+            "ReliefSurfaceY": 0.06585404,
+            "GapMeters": 0.009065956,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          }
+        ]
+      },
+      "patch_count": 3,
+      "capture_candidate": true,
+      "capture": {
+        "Scene": "kara_urman_edge",
+        "Output": "docs/urman_knowledge_base/art/wetness_candidate/godot_kara_urman_edge_wetness_candidate_1080p.png",
+        "Width": 1920,
+        "Height": 1080
+      }
+    },
+    {
+      "name": "zirat_road",
+      "scene": "res://scenes/zones/chapter1_zirat_road.tscn",
+      "expected_puddle_clusters": [
+        "ZiratWetPatch"
+      ],
+      "relief": "Road",
+      "contact": {
+        "status": "PASS",
+        "samples": [
+          {
+            "Scene": "zirat_road",
+            "Cluster": "ZiratWetPatch",
+            "PatchIndex": 0,
+            "PuddleBottomY": 0.09408,
+            "ReliefSurfaceY": 0.091874674,
+            "GapMeters": 0.0022053272,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "zirat_road",
+            "Cluster": "ZiratWetPatch",
+            "PatchIndex": 1,
+            "PuddleBottomY": 0.09607999,
+            "ReliefSurfaceY": 0.091874674,
+            "GapMeters": 0.0042053163,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          },
+          {
+            "Scene": "zirat_road",
+            "Cluster": "ZiratWetPatch",
+            "PatchIndex": 2,
+            "PuddleBottomY": 0.098079994,
+            "ReliefSurfaceY": 0.091874674,
+            "GapMeters": 0.0062053204,
+            "WithinTolerance": true,
+            "ColliderMatchesRelief": true,
+            "Note": "Contact within \u00B10.010 m."
+          }
+        ]
+      },
+      "patch_count": 3,
+      "capture_candidate": true,
+      "capture": {
+        "Scene": "zirat_road",
+        "Output": "docs/urman_knowledge_base/art/wetness_candidate/godot_zirat_road_wetness_candidate_1080p.png",
+        "Width": 1920,
+        "Height": 1080
+      }
+    }
+  ],
+  "captures": [
+    {
+      "Scene": "day_street",
+      "Output": "docs/urman_knowledge_base/art/wetness_candidate/godot_day_street_wetness_candidate_1080p.png",
+      "Width": 1920,
+      "Height": 1080
+    },
+    {
+      "Scene": "kara_urman_edge",
+      "Output": "docs/urman_knowledge_base/art/wetness_candidate/godot_kara_urman_edge_wetness_candidate_1080p.png",
+      "Width": 1920,
+      "Height": 1080
+    },
+    {
+      "Scene": "zirat_road",
+      "Output": "docs/urman_knowledge_base/art/wetness_candidate/godot_zirat_road_wetness_candidate_1080p.png",
+      "Width": 1920,
+      "Height": 1080
+    }
+  ]
+}

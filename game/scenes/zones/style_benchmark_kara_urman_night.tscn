@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://scripts/StyleBenchmarkZone.cs" type="Script" id="1_zone"]
+
+[node name="StyleBenchmarkKaraUrmanNight" type="Node3D"]
+script = ExtResource("1_zone")
+ZoneKind = 2

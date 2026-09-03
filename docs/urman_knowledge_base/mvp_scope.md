@@ -4,6 +4,13 @@ MVP УРМАНА — не вся игра, а вертикальный срез,
 
 Detailed first-chapter scenario lock: `chapter1_mvp_campaign.md`. It is the current canonical handoff for the 40–60-minute MVP campaign structure and should be used before expanding broader full-game arcs.
 
+Current implementation target (2026-08-14): a shorter, directly playable
+atmospheric demo of this first-act spine. Its Godot entrypoint is
+`game/scenes/act1_demo.tscn`; it proves the first-person route, shared
+investigation state and the «Не отвечай» ending before any Acts 2–5 production
+work is treated as required. The longer five-act campaign remains a deferred
+product direction, not part of this demo's launch or acceptance gate.
+
 Формула MVP:
 
 > Айдар возвращается в Кырлай, начинает разбираться в судьбе Марата, учится читать деревню через факты и татарские слова, а в финале понимает, что за человеческой ложью стоит старая система сосуществования с иным.

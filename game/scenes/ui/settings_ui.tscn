@@ -1,0 +1,190 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://scripts/SettingsUi.cs" type="Script" id="1_ui"]
+
+[node name="SettingsUi" type="CanvasLayer"]
+layer = 30
+script = ExtResource("1_ui")
+
+[node name="Screen" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Shade" type="ColorRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.025, 0.022, 0.86)
+
+[node name="Panel" type="PanelContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -340.0
+offset_top = -470.0
+offset_right = 340.0
+offset_bottom = 470.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layout" type="VBoxContainer" parent="Screen/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="Screen/Panel/Layout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.72, 0.47, 1)
+theme_override_font_sizes/font_size = 27
+text = "НАСТРОЙКИ"
+
+[node name="FovRow" type="HBoxContainer" parent="Screen/Panel/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Screen/Panel/Layout/FovRow"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Поле зрения"
+
+[node name="Fov" type="HSlider" parent="Screen/Panel/Layout/FovRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 65.0
+max_value = 90.0
+step = 1.0
+value = 75.0
+
+[node name="Value" type="Label" parent="Screen/Panel/Layout/FovRow"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "75°"
+horizontal_alignment = 2
+
+[node name="SensitivityRow" type="HBoxContainer" parent="Screen/Panel/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Screen/Panel/Layout/SensitivityRow"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Чувствительность мыши"
+
+[node name="Sensitivity" type="HSlider" parent="Screen/Panel/Layout/SensitivityRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.02
+max_value = 1.0
+step = 0.01
+value = 0.16
+
+[node name="Value" type="Label" parent="Screen/Panel/Layout/SensitivityRow"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "0,16"
+horizontal_alignment = 2
+
+[node name="HeadBob" type="CheckBox" parent="Screen/Panel/Layout"]
+layout_mode = 2
+text = "Лёгкое покачивание камеры при ходьбе"
+
+[node name="ReducedMotion" type="CheckBox" parent="Screen/Panel/Layout"]
+layout_mode = 2
+text = "Уменьшить движение и переходы"
+
+[node name="HighContrast" type="CheckBox" parent="Screen/Panel/Layout"]
+layout_mode = 2
+text = "Высокий контраст текста"
+
+[node name="TextScaleRow" type="HBoxContainer" parent="Screen/Panel/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Screen/Panel/Layout/TextScaleRow"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Размер текста"
+
+[node name="TextScale" type="HSlider" parent="Screen/Panel/Layout/TextScaleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.8
+max_value = 1.6
+step = 0.05
+value = 1.0
+
+[node name="Value" type="Label" parent="Screen/Panel/Layout/TextScaleRow"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "1,00×"
+horizontal_alignment = 2
+
+[node name="Subtitles" type="CheckBox" parent="Screen/Panel/Layout"]
+layout_mode = 2
+text = "Субтитры для воспроизводимого аудио"
+
+[node name="AudioDescriptions" type="CheckBox" parent="Screen/Panel/Layout"]
+layout_mode = 2
+text = "Текстовые описания, если аудио недоступно"
+
+[node name="GraphicsRow" type="HBoxContainer" parent="Screen/Panel/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Screen/Panel/Layout/GraphicsRow"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Качество 3D"
+
+[node name="Graphics" type="OptionButton" parent="Screen/Panel/Layout/GraphicsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BindingsTitle" type="Label" parent="Screen/Panel/Layout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.67, 0.48, 1)
+theme_override_font_sizes/font_size = 20
+text = "УПРАВЛЕНИЕ"
+
+[node name="BindingScroll" type="ScrollContainer" parent="Screen/Panel/Layout"]
+custom_minimum_size = Vector2(0, 190)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Bindings" type="VBoxContainer" parent="Screen/Panel/Layout/BindingScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Status" type="Label" parent="Screen/Panel/Layout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.63, 0.68, 0.61, 1)
+text = "Esc / Menu — закрыть"
+autowrap_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Screen/Panel/Layout"]
+layout_mode = 2
+alignment = 2
+
+[node name="Save" type="Button" parent="Screen/Panel/Layout/Buttons"]
+layout_mode = 2
+text = "Сохранить"
+
+[node name="Load" type="Button" parent="Screen/Panel/Layout/Buttons"]
+layout_mode = 2
+text = "Загрузить"
+
+[node name="Apply" type="Button" parent="Screen/Panel/Layout/Buttons"]
+layout_mode = 2
+text = "Применить"
+
+[node name="Close" type="Button" parent="Screen/Panel/Layout/Buttons"]
+layout_mode = 2
+text = "Закрыть"

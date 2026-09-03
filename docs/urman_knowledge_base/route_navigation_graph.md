@@ -1,6 +1,10 @@
 # URMAN Route Navigation Graph
 
-Status: generated and validated, 2026-05-18.
+Status: historical generated prototype, superseded as production direction 2026-08-10.
+
+The graph and associated PNG manifests may be used as provenance and layout reference only. They are not the canonical first-person 3D presentation owner or a fallback runtime target.
+
+Everything below documents the superseded prototype as generated evidence.
 
 The route map follows the accepted in-world discrete navigation direction: one walking-height route screen at a time, fixed step-forward movement, 90-degree left/right turns, inspectable diegetic signs, and an incomplete journal sketch as support rather than a full top-down overworld.
 

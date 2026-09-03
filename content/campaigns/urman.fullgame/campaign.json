@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "id": "urman.fullgame",
+  "exactVersion": "1.0.0",
+  "entrypoint": "urman.chapter1:scene/arrival_vehicle_dusk",
+  "modules": [
+    { "moduleId": "urman.core", "exactVersion": "1.0.0" },
+    { "moduleId": "urman.chapter1", "exactVersion": "1.0.0" },
+    { "moduleId": "urman.oldpc", "exactVersion": "1.0.0" },
+    { "moduleId": "urman.fullgame", "exactVersion": "1.0.0" }
+  ],
+  "roleBindings": {
+    "aidar": "urman.chapter1:character/aidar",
+    "alsu": "urman.chapter1:character/alsu",
+    "gulsina": "urman.chapter1:character/gulsina",
+    "mansur": "urman.chapter1:character/mansur",
+    "marat": "urman.chapter1:character/marat",
+    "naila": "urman.chapter1:character/naila",
+    "rinat": "urman.chapter1:character/rinat",
+    "timur-hazrat": "urman.chapter1:character/timur_hazrat"
+  },
+  "capabilityRequirements": [
+    { "protocolId": "urman.oldpc:capability/archive-hub", "exactVersion": "1.0.0" }
+  ],
+  "transitionOverrides": [
+    {
+      "sourceSceneId": "urman.chapter1:scene/forest",
+      "id": "urman.fullgame:interaction/chapter1-forest-to-act2-house",
+      "labelTextId": "urman.chapter1:text/continue",
+      "conditions": [
+        {
+          "op": "knowledge.status",
+          "knowledgeId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
+          "status": "confirmed"
+        }
+      ],
+      "effects": [],
+      "targetSceneId": "urman.fullgame:scene/act2-house"
+    }
+  ],
+  "narrativeOrder": [
+    "urman.chapter1:scene/arrival_vehicle_dusk",
+    "urman.chapter1:scene/house",
+    "urman.chapter1:scene/crossroad_signs_inspect",
+    "urman.chapter1:scene/fap_waiting_room_day",
+    "urman.chapter1:scene/fap_pressure_document_desk",
+    "urman.chapter1:scene/evidence-official-death",
+    "urman.chapter1:scene/evidence-internal-register",
+    "urman.chapter1:dialogue/rinat_internal_register",
+    "urman.chapter1:scene/evidence-saved-message",
+    "urman.chapter1:scene/evidence-tatarwiki-boundary",
+    "urman.chapter1:scene/evidence-tatarwiki-reread",
+    "urman.chapter1:scene/evidence-edge-sketch",
+    "urman.chapter1:scene/zirat-road",
+    "urman.chapter1:beat/rinat_do_not_answer",
+    "urman.chapter1:scene/forest",
+    "urman.chapter1:knowledge/clue_do_not_answer_rule",
+    "urman.fullgame:scene/act2-house",
+    "urman.fullgame:dialogue/alsu-confession",
+    "urman.fullgame:scene/act2-river",
+    "urman.fullgame:scene/act2-mosque",
+    "urman.fullgame:dialogue/timur-counsel",
+    "urman.fullgame:scene/act2-council",
+    "urman.fullgame:dialogue/council-voice",
+    "urman.fullgame:quest/act2-double-ledger",
+    "urman.fullgame:scene/act3-archive",
+    "urman.fullgame:dialogue/naila-record",
+    "urman.fullgame:scene/act3-soviet",
+    "urman.fullgame:document/baranov-1967",
+    "urman.fullgame:scene/act3-suanasy",
+    "urman.fullgame:dialogue/suanasy",
+    "urman.fullgame:quest/act3-water-debt",
+    "urman.fullgame:scene/act4-tukay",
+    "urman.fullgame:document/tukai-1913",
+    "urman.fullgame:dialogue/tukay",
+    "urman.fullgame:scene/act4-1552",
+    "urman.fullgame:document/kazan-1552",
+    "urman.fullgame:scene/act4-pact",
+    "urman.fullgame:document/pact-ledger",
+    "urman.fullgame:dialogue/pact-keeper",
+    "urman.fullgame:quest/act4-inherited-roles",
+    "urman.fullgame:scene/act5-boundary",
+    "urman.fullgame:dialogue/aidar-final",
+    "urman.fullgame:knowledge/act5_protection_lost",
+    "urman.fullgame:scene/act5-epilogue",
+    "urman.fullgame:quest/act5-break-pact",
+    "urman.fullgame:knowledge/act5_truth_price"
+  ],
+  "invariants": [
+    {"id":"urman.fullgame:invariant/tragic-ending-reachable","description":"The canonical tragic epilogue remains reachable from the full-game entrypoint.","severity":"error","kind":"required-reachable","targetId":"urman.fullgame:scene/act5-epilogue"},
+    {"id":"urman.fullgame:invariant/protection-after-pact","description":"The loss of protection is revealed only after Aidar commits to breaking the unjust pact.","severity":"error","kind":"reveal-not-before","subjectId":"urman.fullgame:knowledge/act5_protection_lost","afterId":"urman.fullgame:dialogue/aidar-final"}
+  ]
+}

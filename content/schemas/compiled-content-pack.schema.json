@@ -18,7 +18,8 @@
         "roleBindings": { "type": "object", "propertyNames": { "pattern": "^[a-z][a-z0-9._-]*$" }, "additionalProperties": { "$ref": "common.schema.json#/$defs/ContentId" } },
         "capabilityRequirements": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/CapabilityRequirement" } },
         "narrativeOrder": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
-        "invariants": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/NarrativeInvariant" } }
+        "invariants": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/NarrativeInvariant" } },
+        "transitionOverrides": { "type": "array", "items": { "$ref": "#/$defs/TransitionOverride" } }
       },
       "additionalProperties": false
     },
@@ -72,7 +73,35 @@
         "additionalProperties": false
       }
     },
-    "campaignFingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  "campaignFingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "$defs": {
+    "TransitionOverride": {
+      "type": "object",
+      "required": ["sourceSceneId", "id", "labelTextId", "conditions", "effects"],
+      "properties": {
+        "sourceSceneId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "labelTextId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "conditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+        "effects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+        "targetSceneId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "targetDialogueId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "targetDocumentId": { "$ref": "common.schema.json#/$defs/ContentId" }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "not": {
+            "anyOf": [
+              { "required": ["targetSceneId", "targetDialogueId"] },
+              { "required": ["targetSceneId", "targetDocumentId"] },
+              { "required": ["targetDialogueId", "targetDocumentId"] }
+            ]
+          }
+        }
+      ]
+    }
+  }
 }

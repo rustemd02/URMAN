@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_oldpc_hero_detail_motion_sweep",
+  "status": "OPEN",
+  "technical_status": "PASS",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / Metal or equivalent real 3D driver",
+  "tile": {
+    "width": 640,
+    "height": 360
+  },
+  "sheet": {
+    "columns": 3,
+    "rows": 3,
+    "width": 1920,
+    "height": 1080
+  },
+  "fovs": [
+    65,
+    75,
+    90
+  ],
+  "rows": [
+    "bob_up",
+    "neutral",
+    "bob_down"
+  ],
+  "required_hero_details": [
+    "OldPc_DriveSlot_LOD0",
+    "OldPc_DriveSlot_LOD1",
+    "OldPc_LabelPlate_LOD0",
+    "OldPc_LabelPlate_LOD1"
+  ],
+  "source_collision_policy": "production scene unchanged; disposable clone removes only CollisionShape3D and zeros physics layers",
+  "capture_world_policy": "one isolated SubViewport/FullGameZone reused for near\u002Bmid to avoid renderer resource churn",
+  "sheets": [
+    {
+      "name": "near",
+      "output": "docs/urman_knowledge_base/art/oldpc_hero_detail_motion_sweep/godot_oldpc_near_motion_1080p.png",
+      "frames": [
+        {
+          "row": "bob_up",
+          "column": 0,
+          "fov": 65,
+          "details_found": 4,
+          "luma_span": 0.56512237,
+          "camera": {
+            "x": -0.65,
+            "y": 1.63,
+            "z": -2.05
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.47,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "bob_up",
+          "column": 1,
+          "fov": 75,
+          "details_found": 4,
+          "luma_span": 0.5740824,
+          "camera": {
+            "x": -0.65,
+            "y": 1.63,
+            "z": -2.05
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.47,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "bob_up",
+          "column": 2,
+          "fov": 90,
+          "details_found": 4,
+          "luma_span": 0.5664706,
+          "camera": {
+            "x": -0.65,
+            "y": 1.63,
+            "z": -2.05
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.47,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "neutral",
+          "column": 0,
+          "fov": 65,
+          "details_found": 4,
+          "luma_span": 0.56512237,
+          "camera": {
+            "x": -0.65,
+            "y": 1.58,
+            "z": -2.05
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.42,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "neutral",
+          "column": 1,
+          "fov": 75,
+          "details_found": 4,
+          "luma_span": 0.54497963,
+          "camera": {
+            "x": -0.65,
+            "y": 1.58,
+            "z": -2.05
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.42,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "neutral",
+          "column": 2,
+          "fov": 90,
+          "details_found": 4,
+          "luma_span": 0.5995467,
+          "camera": {
+            "x": -0.65,
+            "y": 1.58,
+            "z": -2.05
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.42,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "bob_down",
+          "column": 0,
+          "fov": 65,
+          "details_found": 4,
+          "luma_span": 0.5612008,
+          "camera": {
+            "x": -0.65,
+            "y": 1.53,
+            "z": -2.05
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.37,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "bob_down",
+          "column": 1,
+          "fov": 75,
+          "details_found": 4,
+          "luma_span": 0.6012142,
+          "camera": {
+            "x": -0.65,
+            "y": 1.53,
+            "z": -2.05
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.37,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "bob_down",
+          "column": 2,
+          "fov": 90,
+          "details_found": 4,
+          "luma_span": 0.5692753,
+          "camera": {
+            "x": -0.65,
+            "y": 1.53,
+            "z": -2.05
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.37,
+            "z": -3.55
+          }
+        }
+      ]
+    },
+    {
+      "name": "mid",
+      "output": "docs/urman_knowledge_base/art/oldpc_hero_detail_motion_sweep/godot_oldpc_mid_motion_1080p.png",
+      "frames": [
+        {
+          "row": "bob_up",
+          "column": 0,
+          "fov": 65,
+          "details_found": 4,
+          "luma_span": 0.5684212,
+          "camera": {
+            "x": -0.65,
+            "y": 1.63,
+            "z": 0.1
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.47,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "bob_up",
+          "column": 1,
+          "fov": 75,
+          "details_found": 4,
+          "luma_span": 0.5684212,
+          "camera": {
+            "x": -0.65,
+            "y": 1.63,
+            "z": 0.1
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.47,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "bob_up",
+          "column": 2,
+          "fov": 90,
+          "details_found": 4,
+          "luma_span": 0.5684212,
+          "camera": {
+            "x": -0.65,
+            "y": 1.63,
+            "z": 0.1
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.47,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "neutral",
+          "column": 0,
+          "fov": 65,
+          "details_found": 4,
+          "luma_span": 0.5684212,
+          "camera": {
+            "x": -0.65,
+            "y": 1.58,
+            "z": 0.1
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.42,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "neutral",
+          "column": 1,
+          "fov": 75,
+          "details_found": 4,
+          "luma_span": 0.5684212,
+          "camera": {
+            "x": -0.65,
+            "y": 1.58,
+            "z": 0.1
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.42,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "neutral",
+          "column": 2,
+          "fov": 90,
+          "details_found": 4,
+          "luma_span": 0.5684212,
+          "camera": {
+            "x": -0.65,
+            "y": 1.58,
+            "z": 0.1
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.42,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "bob_down",
+          "column": 0,
+          "fov": 65,
+          "details_found": 4,
+          "luma_span": 0.5684212,
+          "camera": {
+            "x": -0.65,
+            "y": 1.53,
+            "z": 0.1
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.37,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "bob_down",
+          "column": 1,
+          "fov": 75,
+          "details_found": 4,
+          "luma_span": 0.5684212,
+          "camera": {
+            "x": -0.65,
+            "y": 1.53,
+            "z": 0.1
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.37,
+            "z": -3.55
+          }
+        },
+        {
+          "row": "bob_down",
+          "column": 2,
+          "fov": 90,
+          "details_found": 4,
+          "luma_span": 0.5684212,
+          "camera": {
+            "x": -0.65,
+            "y": 1.53,
+            "z": 0.1
+          },
+          "target": {
+            "x": -0.65,
+            "y": 1.37,
+            "z": -3.55
+          }
+        }
+      ]
+    }
+  ]
+}

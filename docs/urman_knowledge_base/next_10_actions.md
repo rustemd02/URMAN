@@ -1,31 +1,29 @@
-# Next 10 Actions to MVP
+# Next 10 Actions — Act 1 atmospheric demo
 
-1. **Взять `mvp_completion_handoff.md` как главный P0-план.**
-   Не начинать с новых ассетов или лорных веток. Главная недостача: единая сцепка old PC → knowledge keys → journal → dialogue → vocabulary → pressure → cliffhanger.
+Текущая цель — довести до честной играбельности только первый акт. Полная
+миграция, акты 2–5 и web cutover остаются deferred north-star work.
 
-2. **Закрыть runtime canon/style drift.**
-   Проверить `characters.ts`, `chat_data.ts`, `MainMenuScene.ts`, `IntroScene.ts`, `HUD.ts`: Кырлай — деревня, Кара-Урман — урочище; Шүрәле не generic monster; Алсу 1926 не active truth без пометки.
-
-3. **Создать shared knowledge source of truth.**
-   Добавить `src/data/knowledge_keys.ts`, `vocabulary_data.ts`, `dialogue_data.ts`, `quests.ts` and shared state in `GameState`.
-
-4. **Подключить old PC clues к общей игре.**
-   Открытие и сохранение PC-документа должно обновлять shared clues, vocabulary, contradictions, journal and dialogue availability, not only old PC localStorage.
-
-5. **Сделать investigation journal.**
-   Расширить/заменить `NotebookUI`: улики, противоречия, timeline Марата, vocabulary, route sketch support.
-
-6. **Реализовать dialogue key prototype на Ринате.**
-   Минимум: без ключа отвод темы; official death key; internal register contradiction; dangerous do-not-answer/key reaction; pressure effect.
-
-7. **Сделать первый татарский re-read loop.**
-   `урман`, `тавыш`, `җавап`, `ярамый`, `зират`, `шүрәле` должны менять поиск, документ, диалог или route interpretation.
-
-8. **Заменить P0 scene stubs существующими ink-wash ассетами.**
-   Дом, мечеть and forest/cliffhanger must stop looking like HTML/3D placeholders. Use `public/assets/urman_mvp_remaining/` and `public/assets/urman_route_map/`.
-
-9. **Замкнуть route → Kara-Urman → cliffhanger path.**
-   Добавить поддержку scripted/final route actions if needed; игрок должен пройти до `Марат voice -> Ринат: "Не отвечай" -> hard cut` without URL jumps.
-
-10. **Добавить validators and run `playtest_plan.md`.**
-   Keep old PC validator, add clue graph and route graph validators, then run internal smoke, route orientation, old PC, narrative and language tests before external MVP playtest.
+1. Провести наблюдаемое первое прохождение от launch до «Конец демо» без
+   debug-переходов и записать точки растерянности/темпа.
+2. Сделать authored ambience/voice/caption pass для приезда, старого ПК,
+   правила «Не отвечай» и финального audio/non-audio cue. Техническая смена
+   четырёх project-original ambience beds между зонами уже сглажена
+   двухплеерным 0.65-секундным crossfade; это не заменяет authored mix.
+3. Отдать русский текст, татарские ключи, Тимура и фольклорный framing на
+   культурную проверку; исправления фиксировать в content, а не в runtime.
+4. Проверить критический маршрут на клавиатуре/мыши и геймпаде, включая
+   динамические подсказки и переназначение E/A.
+5. Провести near/mid/far проход по трём обязательным сценам при FOV 65/75/90,
+   отдельно оценить повторяемость, укачивание и читаемость интеракций.
+6. Зафиксировать production-candidate решения для улицы, дома с CRT и кромки
+   Кара-Урмана; не объявлять art lock, пока не пройдены наблюдаемый и
+   культурный review.
+7. Закрыть только те geometry/material/light дефекты, которые мешают этому
+   маршруту; не создавать новые зоны или контент актов 2–5.
+8. Повторить `./eng/verify-dotnet.sh`, `./eng/verify-godot.sh` и три Godot
+   style captures после каждого изменения демо-пути.
+9. Сформировать короткий demo handoff: build/version, route, controls,
+   known issues, evidence hashes и explicit out-of-scope list.
+10. После acceptance демо остановить текущий scope; отдельное решение о
+    возобновлении Acts 2–5 оформлять новым goal/decision, не продолжать его
+    автоматически.
