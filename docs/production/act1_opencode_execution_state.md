@@ -7,9 +7,27 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: ART-001 committed; next BASE-007 verify-assets baseline.
+- Current task/slice: BASE-007 committed; next ART-002 wet-road authored rework.
 
 ## Completed
+
+- BASE-007: REWORK → verified + registry completed 2026-09-03.
+  - Baseline `./eng/verify-assets.sh` exit 0 before edits
+    (`base007-verify-assets-baseline-PASS.txt`).
+  - Gap found: 4 of 5 Act I kits missing from `assets/asset_registry.json`
+    (wet road, village exterior, zirat roadside, kara forest edge; only FAP kit
+    was registered). Added entries with real source/derived SHA-256, GLB-derived
+    mesh/triangle/material counts cross-checked against manifests (177/2,718;
+    106/3,512; 234/7,160; 156/3,144), honest generators (zirat/kara: manual
+    .blend export, no generator script) and `art-lock`-open statuses.
+  - Added `releaseDisposition` to all 41 assets: runtime-referenced assets =
+    `include-in-act1-release` (per `PainterlyMaterialLibrary.cs` texture usage
+    and `ambient_manifest.json` zone routing); v3–v6 texture candidates =
+    candidate-provenance/exclude; `audio.ambient.water-edge` =
+    deferred-fullgame-scope/exclude. No unknown licenses (all
+    Project-original/Project-generated).
+  - Post-edit `./eng/verify-assets.sh` exit 0, `assets=41 derived=41
+    explicit_sources=15` (`base007-verify-assets-with-kits-PASS.txt`).
 
 - ART-001: KEEP 2026-09-03 (docs-only; three existing art docs fixed as the
   Act I acceptance authority, no new style bible).
@@ -108,9 +126,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: ART-001 (fix existing art docs as acceptance target), then
-  BASE-007 (verify-assets registry baseline), then ART-002/005/006 (authored
-  asset rework).
+- Immediate: ART-002 (wet-road authored rework), then ART-005 (zirat kit), then
+  ART-006 (Kara kit).
 
 ## External gates
 
@@ -118,8 +135,7 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at ART-001 (mark
-  `docs/urman_knowledge_base/design_style.md`,
-  `art/act1_master_layout_2026-08-17.md`,
-  `art/act1_visual_reference_bible_2026-08-17.md` as acceptance authority,
-  no new style bible), then BASE-007 `./eng/verify-assets.sh`.
+- If interrupted now: resume at ART-002 (`assets/source/blender/act1/
+  urman_wet_village_road_kit.blend` + `.py`, rebuilt GLB + manifest +
+  registry hash update; verify via `./eng/rebuild-assets.sh &&
+  ./eng/verify-assets.sh`).

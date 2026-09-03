@@ -14,10 +14,16 @@
       "scale": 1.0,
       "triangleBudget": 5000,
       "textureBudget": 1024,
-      "materials": ["PaintedPlaster", "OldRoof", "WeatheredWood", "WarmWindow"],
+      "materials": [
+        "PaintedPlaster",
+        "OldRoof",
+        "WeatheredWood",
+        "WarmWindow"
+      ],
       "collision": "provisional layer-2 house proxy collider; Blender -col source retained, GLB render collision hidden",
       "lod": "LOD0 + deterministic Decimate LOD1 generated; Godot range 0–24m / 18–72m integrated for house variant",
-      "status": "greybox-verified; authored edge-break + bounded facade pass"
+      "status": "greybox-verified; authored edge-break + bounded facade pass",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "env.fence.a",
@@ -30,10 +36,13 @@
       "scale": 1.0,
       "triangleBudget": 500,
       "textureBudget": 512,
-      "materials": ["WeatheredWood"],
+      "materials": [
+        "WeatheredWood"
+      ],
       "collision": "none; presentation-only fence family; zone floor/path and the host kit proxy own walkability",
       "lod": "not required for one segment",
-      "status": "greybox-verified"
+      "status": "greybox-verified",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "env.road.dirt.straight",
@@ -46,10 +55,13 @@
       "scale": 1.0,
       "triangleBudget": 5000,
       "textureBudget": 1024,
-      "materials": ["DampEarth"],
+      "materials": [
+        "DampEarth"
+      ],
       "collision": "zone ground collider",
       "lod": "not required",
-      "status": "greybox-verified"
+      "status": "greybox-verified",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "env.vegetation.pine.a",
@@ -62,10 +74,14 @@
       "scale": 1.0,
       "triangleBudget": 1200,
       "textureBudget": 512,
-      "materials": ["PineBark", "PineFoliage"],
+      "materials": [
+        "PineBark",
+        "PineFoliage"
+      ],
       "collision": "capsule trunk",
       "lod": "LOD0 + deterministic Decimate LOD1 generated; Godot range policy is integrated by zone variant; billboard remains open",
-      "status": "greybox-verified; layered-crown pass"
+      "status": "greybox-verified; layered-crown pass",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "prop.furniture.table.a",
@@ -78,10 +94,14 @@
       "scale": 1.0,
       "triangleBudget": 5000,
       "textureBudget": 1024,
-      "materials": ["WeatheredWood", "DarkWood"],
+      "materials": [
+        "WeatheredWood",
+        "DarkWood"
+      ],
       "collision": "simple-box",
       "lod": "LOD0 + deterministic Decimate LOD1 generated",
-      "status": "greybox-verified"
+      "status": "greybox-verified",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "prop.oldpc.crt",
@@ -94,10 +114,16 @@
       "scale": 1.0,
       "triangleBudget": 20000,
       "textureBudget": 2048,
-      "materials": ["OldPcPlastic", "OldPcVent", "OldPcKeys", "CrtGlass"],
+      "materials": [
+        "OldPcPlastic",
+        "OldPcVent",
+        "OldPcKeys",
+        "CrtGlass"
+      ],
       "collision": "provisional layer-2 old-PC/table proxy collider; Blender -col source retained, GLB render collision hidden",
       "lod": "LOD0 hero + deterministic LOD1 fallback generated",
-      "status": "greybox-verified; bounded tower/panel/button/drive-slot/label-plate hero-detail pass"
+      "status": "greybox-verified; bounded tower/panel/button/drive-slot/label-plate hero-detail pass",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "env.well.a",
@@ -110,10 +136,17 @@
       "scale": 1.0,
       "triangleBudget": 1500,
       "textureBudget": 1024,
-      "materials": ["MossyStone", "WellWater", "WeatheredWood", "OldRoof", "DarkWood"],
+      "materials": [
+        "MossyStone",
+        "WellWater",
+        "WeatheredWood",
+        "OldRoof",
+        "DarkWood"
+      ],
       "collision": "none; decorative yard anchor; walkable layer remains Godot zone floor",
       "lod": "LOD0 + deterministic Decimate LOD1 generated; Godot range 0–24m / 18–72m via house variant",
-      "status": "authored low-poly yard anchor; proxy collision not added; art-lock-pending"
+      "status": "authored low-poly yard anchor; proxy collision not added; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "env.woodpile.a",
@@ -126,10 +159,13 @@
       "scale": 1.0,
       "triangleBudget": 700,
       "textureBudget": 512,
-      "materials": ["PineBark"],
+      "materials": [
+        "PineBark"
+      ],
       "collision": "none; decorative yard anchor; walkable layer remains Godot zone floor",
       "lod": "LOD0 + deterministic Decimate LOD1 generated; Godot range 0–24m / 18–72m via house variant",
-      "status": "authored low-poly yard anchor; proxy collision not added; art-lock-pending"
+      "status": "authored low-poly yard anchor; proxy collision not added; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "env.gate.a",
@@ -142,10 +178,14 @@
       "scale": 1.0,
       "triangleBudget": 700,
       "textureBudget": 512,
-      "materials": ["WeatheredWood", "OldFabric"],
+      "materials": [
+        "WeatheredWood",
+        "OldFabric"
+      ],
       "collision": "none; decorative threshold dressing; authored GateA does not own gameplay collision",
       "lod": "LOD0 + deterministic Decimate LOD1 generated; Godot range 0–24m / 18–72m via forest variant",
-      "status": "authored low-poly threshold dressing; procedural posts removed from Act 5 boundary; art-lock-pending"
+      "status": "authored low-poly threshold dressing; procedural posts removed from Act 5 boundary; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "character.fullgame.lowpoly.v1",
@@ -158,11 +198,17 @@
       "scale": 1.0,
       "triangleBudget": 2000,
       "textureBudget": 0,
-    "materials": ["PainterlyColor", "StylizedSkin", "StylizedCloth", "StylizedRig"],
+      "materials": [
+        "PainterlyColor",
+        "StylizedSkin",
+        "StylizedCloth",
+        "StylizedRig"
+      ],
       "collision": "none; character GLB has no collision meshes; Godot interaction targets and zone colliders own physics",
-    "lod": "143 deterministic LOD0/LOD1 meshes with face/clothing detail; Godot range 0–18m / 14–48m integrated",
-    "animation": "9 project-original armatures with Idle/Tension clips; Godot AnimationPlayer Idle/Tension playback smoke-tested",
-    "status": "production-animation-pass; authored facial expression/audio/cultural review open"
+      "lod": "143 deterministic LOD0/LOD1 meshes with face/clothing detail; Godot range 0–18m / 14–48m integrated",
+      "animation": "9 project-original armatures with Idle/Tension clips; Godot AnimationPlayer Idle/Tension playback smoke-tested",
+      "status": "production-animation-pass; authored facial expression/audio/cultural review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "texture.painterly.weathered-wood",
@@ -174,10 +220,13 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["WeatheredWood"],
+      "materials": [
+        "WeatheredWood"
+      ],
       "collision": "not applicable",
       "lod": "not applicable",
-      "status": "in-engine-candidate; art-lock-pending"
+      "status": "in-engine-candidate; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "texture.painterly.damp-earth",
@@ -189,10 +238,13 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["DampEarth"],
+      "materials": [
+        "DampEarth"
+      ],
       "collision": "not applicable",
       "lod": "not applicable",
-      "status": "in-engine-candidate; art-lock-pending"
+      "status": "in-engine-candidate; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "texture.painterly.aged-plaster",
@@ -204,10 +256,13 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["PaintedPlaster"],
+      "materials": [
+        "PaintedPlaster"
+      ],
       "collision": "not applicable",
       "lod": "not applicable",
-      "status": "in-engine-candidate; art-lock-pending"
+      "status": "in-engine-candidate; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "texture.painterly.pine-foliage",
@@ -219,10 +274,13 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["PineFoliage"],
+      "materials": [
+        "PineFoliage"
+      ],
       "collision": "not applicable",
       "lod": "not applicable",
-      "status": "in-engine-candidate; art-lock-pending"
+      "status": "in-engine-candidate; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "texture.painterly.weathered-wood.v2",
@@ -234,12 +292,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["WeatheredWood"],
+      "materials": [
+        "WeatheredWood"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/wood preview swap only; runtime v1 remains active",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot day/house/forest candidate captures",
-      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending"
+      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.weathered-wood.v3",
@@ -251,12 +312,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["WeatheredWood"],
+      "materials": [
+        "WeatheredWood"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/wood preview swap only; runtime v1 remains active; focused v3 motion harness only",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot focused v3 motion sweep",
-      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.aged-plaster.v3",
@@ -268,12 +332,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["PaintedPlaster"],
+      "materials": [
+        "PaintedPlaster"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/plaster preview swap only; runtime v1 remains active; focused v3 motion harness only",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot focused v3 motion sweep",
-      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.weathered-wood.v4",
@@ -285,12 +352,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["WeatheredWood"],
+      "materials": [
+        "WeatheredWood"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/wood preview swap only; runtime v1 remains active; focused v4 motion harness only",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot v4 still and motion sweep",
-      "status": "production-candidate; image-gate-pass; Godot-motion-pass; review-hold; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-motion-pass; review-hold; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.damp-earth.v3",
@@ -302,12 +372,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["DampEarth"],
+      "materials": [
+        "DampEarth"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/earth preview swap only; runtime v1 remains active; focused v3 motion harness only",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot focused v3 motion sweep",
-      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.damp-earth.v4",
@@ -319,12 +392,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["DampEarth"],
+      "materials": [
+        "DampEarth"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/earth preview swap only; runtime v1 remains active; focused v4 motion harness only",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot v4 still and motion sweep",
-      "status": "production-candidate; image-gate-pass; Godot-motion-pass; review-hold; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-motion-pass; review-hold; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.damp-earth.v5",
@@ -336,12 +412,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["DampEarth"],
+      "materials": [
+        "DampEarth"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/earth preview swap only; runtime v1 remains active; focused v3↔v5 A/B harness only",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_v5_technical.md; docs/urman_knowledge_base/art/texture_candidate_ab_diagnostic_v5/ (supersedes v4 manifest wording)",
-      "status": "production-candidate; image-gate-pass; Godot-A/B-technical-pass; production-open; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-A/B-technical-pass; production-open; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.weathered-wood.v5",
@@ -353,12 +432,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["WeatheredWood"],
+      "materials": [
+        "WeatheredWood"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/wood preview swap only; runtime v1 remains active; focused v3↔v5 A/B harness only",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_v5_technical.md; docs/urman_knowledge_base/art/texture_candidate_ab_diagnostic_v5/ (supersedes v4 manifest wording)",
-      "status": "production-candidate; image-gate-pass; Godot-A/B-technical-pass; production-open; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-A/B-technical-pass; production-open; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.damp-earth.v6",
@@ -370,12 +452,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["DampEarth"],
+      "materials": [
+        "DampEarth"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/earth preview swap only; runtime v1 remains active; v5↔v6 A/B and v6 motion harness only",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_v6_technical.md; docs/urman_knowledge_base/art/texture_candidate_ab_diagnostic_v6/; docs/urman_knowledge_base/art/texture_candidate_motion_sweep_v6/",
-      "status": "production-candidate; image-gate-pass; Godot-A/B-and-motion-technical-pass; production-open; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-A/B-and-motion-technical-pass; production-open; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.weathered-wood.v6",
@@ -387,12 +472,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["WeatheredWood"],
+      "materials": [
+        "WeatheredWood"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/wood preview swap only; runtime v1 remains active; v5↔v6 A/B and v6 motion harness only",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_v6_technical.md; docs/urman_knowledge_base/art/texture_candidate_ab_diagnostic_v6/; docs/urman_knowledge_base/art/texture_candidate_motion_sweep_v6/",
-      "status": "production-candidate; image-gate-pass; Godot-A/B-and-motion-technical-pass; production-open; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-A/B-and-motion-technical-pass; production-open; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.aged-plaster.v2",
@@ -404,12 +492,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["PaintedPlaster"],
+      "materials": [
+        "PaintedPlaster"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/plaster preview swap only; runtime v1 remains active",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot day/house/forest candidate captures",
-      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending"
+      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.damp-earth.v2",
@@ -421,12 +512,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["DampEarth"],
+      "materials": [
+        "DampEarth"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/earth preview swap only; runtime v1 remains active",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot day/house/forest candidate captures",
-      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending"
+      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.pine-foliage.v2",
@@ -438,12 +532,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["PineFoliage"],
+      "materials": [
+        "PineFoliage"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/foliage preview swap only; runtime v1 remains active",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot day/house/forest candidate captures",
-      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending"
+      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.pine-foliage.v3",
@@ -455,12 +552,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["PineFoliage"],
+      "materials": [
+        "PineFoliage"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/foliage preview swap only; runtime v1 remains active; focused v3 motion harness only",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot Kara-Urman focused v3 motion sweep",
-      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.mossy-stone.v3",
@@ -472,12 +572,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["MossyStone"],
+      "materials": [
+        "MossyStone"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/stone existing v2 presentation owner remains active; v3 preview swap only; runtime v1/v2 mappings remain active",
       "collision": "not applicable; presentation-only well and Kara-edge marker anchors; v3 in-memory clone only",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot focused v3 motion sweep",
-      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.old-fabric.v3",
@@ -489,12 +592,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["OldFabric"],
+      "materials": [
+        "OldFabric"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/fabric existing v2 presentation owner remains active; v3 preview swap only; runtime v1/v2 mappings remain active",
       "collision": "not applicable; presentation-only house rug anchors; v3 in-memory clone only",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot focused v3 motion sweep",
-      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending"
+      "status": "production-candidate; image-gate-pass; Godot-motion-pass; art-lock-pending",
+      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
     },
     {
       "id": "texture.painterly.mossy-stone.v2",
@@ -506,12 +612,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["MossyStone"],
+      "materials": [
+        "MossyStone"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/stone; v2-only presentation owner; scale 2.4 x 2.4; v1 runtime mappings remain active",
       "collision": "not applicable; presentation-only well and Kara-edge marker anchors",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot day/Kara candidate captures; 2 scene meshes",
-      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending"
+      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "texture.painterly.old-fabric.v2",
@@ -523,12 +632,15 @@
       "scale": 1.0,
       "triangleBudget": 0,
       "textureBudget": 1024,
-      "materials": ["OldFabric"],
+      "materials": [
+        "OldFabric"
+      ],
       "materialOwner": "PainterlyMaterialLibrary/fabric; v2-only presentation owner; scale 3.0 x 3.0; v1 runtime mappings remain active",
       "collision": "not applicable; presentation-only house rug anchors",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot house candidate capture; 3 scene meshes",
-      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending"
+      "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "audio.ambient.village-day",
@@ -544,7 +656,8 @@
       "collision": "not applicable",
       "lod": "not applicable",
       "audio": "mono 24 kHz, 8 seconds, loop-ready",
-      "status": "technical-runtime-pass; authored field mix/voice/cultural review open"
+      "status": "technical-runtime-pass; authored field mix/voice/cultural review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "audio.ambient.house-room",
@@ -560,7 +673,8 @@
       "collision": "not applicable",
       "lod": "not applicable",
       "audio": "mono 24 kHz, 8 seconds, loop-ready",
-      "status": "technical-runtime-pass; authored field mix/voice/cultural review open"
+      "status": "technical-runtime-pass; authored field mix/voice/cultural review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "audio.ambient.kara-urman-edge",
@@ -576,7 +690,8 @@
       "collision": "not applicable",
       "lod": "not applicable",
       "audio": "mono 24 kHz, 8 seconds, loop-ready",
-      "status": "technical-runtime-pass; authored field mix/voice/cultural review open"
+      "status": "technical-runtime-pass; authored field mix/voice/cultural review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
     },
     {
       "id": "audio.ambient.water-edge",
@@ -592,7 +707,8 @@
       "collision": "not applicable",
       "lod": "not applicable",
       "audio": "mono 24 kHz, 8 seconds, loop-ready",
-      "status": "technical-runtime-pass; authored field mix/voice/cultural review open"
+      "status": "technical-runtime-pass; authored field mix/voice/cultural review open",
+      "releaseDisposition": "deferred-fullgame-scope; exclude-from-act1-release"
     },
     {
       "id": "urman.act1.fap_clinic_kit",
@@ -636,7 +752,160 @@
       "lod": "255 LOD0 presentation meshes; no runtime LOD",
       "components": "URMAN_FapClinicKit: FapFacade_Main|FapEntryPorch|FapWayfindingBoard|FapServiceShed|FapFenceRun|FapGate|FapBench|FapNoticeBoard|FapRainAwning|FapPathPuddleCluster|FapBirchShrubMass|FapInteriorSet",
       "interior": "FapInteriorSet: 75 meshes; accepted examination cot, folding privacy screen, inset-door medicine cabinet, enamel instrument trolley/basin stand, waiting bench; wall radiator/pipes, open supply shelf with varied blank containers, blank examination chart, coat hook rail",
-      "status": "authored geometry-only FAP exterior/interior kit; runtime and art-lock review open"
+      "status": "authored geometry-only FAP exterior/interior kit; runtime and art-lock review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+    },
+    {
+      "id": "urman.act1.wet_village_road_kit",
+      "source": "assets/source/blender/act1/urman_wet_village_road_kit.blend",
+      "derived": "game/assets/models/act1/urman_wet_village_road_kit.glb",
+      "sourceSha256": "3714fc5daf998116cdde76babef2403a08768c459c697a30e8cfcb51335be620",
+      "derivedSha256": "7ede6958c5708f4d748d25cbef417dbde7961904a9192dc1f8c4d2bcb548fed3",
+      "generator": "assets/source/blender/act1/urman_wet_village_road_kit.py; Blender 4.5.12 LTS",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 2718,
+      "textureBudget": 0,
+      "materials": [
+        "Culvert_StoneShadow",
+        "Culvert_WeatheredStone",
+        "Fern_MossGreen",
+        "Fern_LeafLight",
+        "Moss_WetOlive",
+        "Shrub_BlueGreen",
+        "Grass_SedgeMuted",
+        "Grass_SedgeDryTips",
+        "MuddyShoulder_ClayBreak",
+        "MuddyShoulder_WetBrown",
+        "WetRoad_RutDark",
+        "WetRoad_WornLight",
+        "WetRoad_MutedOchre",
+        "Fence_DampWood",
+        "Fence_CutWood",
+        "Puddle_ShallowBlueGreen",
+        "Puddle_MutedGlint",
+        "Ditch_DampGreenBrown",
+        "Ditch_StillWater"
+      ],
+      "collision": "none; presentation-only geometry; Godot floor/collision and interaction targets remain authoritative",
+      "lod": "177 LOD0 presentation meshes; no runtime LOD",
+      "status": "authored relief road kit; runtime-integrated via URMAN_WetVillageRoadKit; full volumes/contact art-lock open (ART-002)",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD",
+      "components": "URMAN_WetVillageRoadKit"
+    },
+    {
+      "id": "urman.act1.village_exterior_kit",
+      "source": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "derived": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "sourceSha256": "54000412ea53861436fbb05867495635cb4fbc6c0f48bda9a217d27ad5a73a8e",
+      "derivedSha256": "f406a18a2afdb42a05a58112410ef369098f52b2184b38419d9202475e8bd8f2",
+      "generator": "assets/source/blender/act1/urman_village_exterior_kit.py; Blender 4.5.12 LTS",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 3512,
+      "textureBudget": 0,
+      "materials": [
+        "URMAN_Metal_Dulled",
+        "URMAN_Wood_Weathered",
+        "URMAN_Wood_Dark",
+        "URMAN_Wood_WetShadow",
+        "URMAN_Plaster_Ochre",
+        "URMAN_Plaster_Line",
+        "URMAN_Roof_WetSlate",
+        "URMAN_Roof_MossTone",
+        "URMAN_Plaster_Shadow",
+        "URMAN_Window_DimGlass",
+        "URMAN_Window_WarmInset",
+        "URMAN_Stone_Mossy",
+        "URMAN_Bark_Muted",
+        "URMAN_Stone_LightFace",
+        "URMAN_Stone_MossFace",
+        "URMAN_Well_DarkWater",
+        "URMAN_Wood_CutEnd"
+      ],
+      "collision": "none; presentation-only geometry; Godot floor/collision and interaction targets remain authoritative",
+      "lod": "106 LOD0 presentation meshes; no runtime LOD",
+      "status": "authored full-volume village kit; runtime-integrated; backs/sides/360 art-lock open (ART-003)",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD",
+      "components": "URMAN_VillageExteriorKit"
+    },
+    {
+      "id": "urman.act1.zirat_roadside_kit",
+      "source": "assets/source/blender/act1/urman_zirat_roadside_kit.blend",
+      "derived": "game/assets/models/act1/urman_zirat_roadside_kit.glb",
+      "sourceSha256": "f2b86cad69a8b2a4f64d8f0208b40512699b3e5ccd2d21632dac7a8d7f7e5bf1",
+      "derivedSha256": "f2f87e87446041689133a4c25c4de23eab575c5cbe0adc8ac7e100a6c6963a3d",
+      "generator": "Blender 4.5.12 LTS; manual authored .blend export (no generator script in repo)",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 7160,
+      "textureBudget": 0,
+      "materials": [
+        "MossGreen",
+        "DitchWater",
+        "MossyStone",
+        "DampEarth",
+        "DampEarthDark",
+        "DitchGrass",
+        "RoadGrass",
+        "WetRoad",
+        "WetSheen",
+        "BirchBark",
+        "BirchLeaves",
+        "ShrubGreen",
+        "WeatheredWoodDark",
+        "WeatheredWood",
+        "DistantFence",
+        "DistantWall",
+        "DistantRoof",
+        "DistantBark",
+        "DistantFoliage",
+        "DistantStone",
+        "LeafLitter",
+        "ZiratGrass",
+        "QuietStone",
+        "PathDirt"
+      ],
+      "collision": "none; presentation-only geometry; Godot floor/collision and interaction targets remain authoritative",
+      "lod": "234 LOD0 presentation meshes; no runtime LOD",
+      "status": "authored restrained zirat roadside kit; runtime-integrated; religious/local review and art-lock open (ART-005)",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD",
+      "components": "URMAN_ZiratRoadsideKit"
+    },
+    {
+      "id": "urman.act1.kara_forest_edge_kit",
+      "source": "assets/source/blender/act1/urman_kara_forest_edge_kit.blend",
+      "derived": "game/assets/models/act1/urman_kara_forest_edge_kit.glb",
+      "sourceSha256": "4942b7abd97c9bfbf01c8d6eefb123ef0816184d114489bb649bf52267c43ddb",
+      "derivedSha256": "28f58eaa61c97010dcee7fb0111f05424aa1a8809b348299cc7e524f2d30d48a",
+      "generator": "Blender 4.5.12 LTS; manual authored .blend export (no generator script in repo)",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 3144,
+      "textureBudget": 0,
+      "materials": [
+        "FoliageBlueGreen",
+        "BirchLeaves",
+        "BirchBark",
+        "LeafLitter",
+        "PineFoliage",
+        "PineBark",
+        "RootDark",
+        "CutWood",
+        "MossGreen",
+        "DistantBlueGreen",
+        "DistantFoliage",
+        "DistantBark",
+        "WeatheredWood",
+        "DampEarth",
+        "MossyStone",
+        "Understory"
+      ],
+      "collision": "none; presentation-only geometry; Godot floor/collision and interaction targets remain authoritative",
+      "lod": "156 LOD0 presentation meshes; no runtime LOD",
+      "status": "authored forest-edge kit; runtime-integrated; 360/lateral-density art-lock open (ART-006)",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD",
+      "components": "URMAN_KaraForestEdgeKit"
     }
   ]
 }
