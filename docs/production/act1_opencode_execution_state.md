@@ -7,9 +7,20 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: BASE-008 committed; next BASE-006 backlog repoint.
+- Current task/slice: BASE-006 committed; next MAP-002 metric labels.
 
 ## Completed
+
+- BASE-006: REWORK slice done 2026-09-03 (queue authority repointed).
+  - `execution_backlog.json`: `authority` now names the repo-grounded tracker
+    as the active queue, lists the old full tracker as superseded provenance
+    (fictional commands never to be executed/cited), and adds the wave/P0> P1>
+    P2 queue rule; `orchestrator_policy.queue_rule` mirrors section 0 of the
+    tracker; `updated` = 2026-09-03. JSON parse verified.
+  - `backlog.md` header: same repoint note; single active queue, no second
+    task owner.
+  - IDs are imported per executed wave only (BASE/MAP/ART wave-1+2 rows so
+    far), not bulk-imported.
 
 - BASE-008: DELETE NOW done 2026-09-03.
   - Removed both tracked host-noise files from the index (kept on disk;
