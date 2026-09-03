@@ -7,9 +7,36 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: MAP-001 committed; next BASE-005 capture diagnosis.
+- Current task/slice: BASE-005 + CAPTURE-002 committed; next ART-001, then BASE-007.
 
 ## Completed
+
+- BASE-005 + CAPTURE-002: PASS 2026-09-03 (capture harness diagnostics + readback
+  pose assertion; two consecutive clean 44/44 runs).
+  - Diagnosis: supplied 44 files / 25 unique failure did NOT reproduce on
+    current HEAD. Harness code unchanged since `fc58c40` (single-commit history);
+    failure was environmental/dirty-tree in the supplied handoff run, not a
+    current-code settle/readback/camera defect. Diagnostic run shows perfectly
+    deterministic pacing: `drawn_frame` advances exactly 18 per spec (37 → 811),
+    zero `same_as_prev` frames, all aim deviations ≤ 0.028°.
+  - Causal guard added (also closes CAPTURE-002 scope): readback-time assertion
+    that actual camera forward matches the requested target within 0.5° (fails
+    immediately if the pose was not the rendered pose), plus per-frame log of
+    camera transform/forward, active logical zone, drawn frame index, sha256
+    prefix and same-as-previous flag. 44/44 uniqueness gate unchanged and
+    unweakened; no delays increased.
+  - Runs: run1 `/tmp/urman-base005-diag.6NkUiP` exit 0, 44 PNG / 44 unique;
+    run2 `/tmp/urman-base005-diag2.Qt8gyk` exit 0, 44 PNG / 44 unique (raw PNGs
+    ephemeral in /tmp; retained evidence = logs + receipt below). The
+    pre-existing duplicate groups named in the tracker (connective_street_return
+    ×3, fap_exterior ×5, zirat ×4, kara_approach ×5) all produced distinct
+    transforms and distinct PNG SHAs in both runs.
+  - Evidence: `evidence/act1_repo_baseline/base005-capture-diag-run1-PASS-44of44.txt`,
+    `evidence/act1_repo_baseline/base005-capture-diag-run2-PASS-44of44.txt`,
+    `evidence/act1_repo_baseline/base005-capture-receipt.json`.
+  - Note: CAPTURE-003 remains open until the post-art-candidate rerun with a
+    retained evidence package; CAPTURE-001 keeps the failed 44/25 receipt as
+    historical FAIL evidence.
 
 - MAP-001 verify: DONE — VERIFY 2026-09-03 (no code edit, canonical baseline recorded).
   - `./eng/verify-godot.sh` exit 0 on `5539c9b`; walkthrough smoke PASS
@@ -68,7 +95,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: BASE-005 (causal capture 44/25 diagnosis + fix + 44/44 rerun).
+- Immediate: ART-001 (fix existing art docs as acceptance target), then
+  BASE-007 (verify-assets registry baseline), then ART-002/005/006 (authored
+  asset rework).
 
 ## External gates
 
@@ -76,9 +105,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at BASE-005 duplicate-capture diagnosis
-  (`game/tests/Act1FullRouteCoreWorldCapture.cs`,
-  `eng/capture-act1-full-route-core-world.sh`): reproduce duplicate groups with
-  per-frame camera transform/zone/hash logging, fix settle/readback/camera
-  application cause, then single full 44/44 rerun to
-  `<empty-dir-outside-repo>`.
+- If interrupted now: resume at ART-001 (mark
+  `docs/urman_knowledge_base/design_style.md`,
+  `art/act1_master_layout_2026-08-17.md`,
+  `art/act1_visual_reference_bible_2026-08-17.md` as acceptance authority,
+  no new style bible), then BASE-007 `./eng/verify-assets.sh`.

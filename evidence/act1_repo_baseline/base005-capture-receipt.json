@@ -1,0 +1,1288 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_full_route_core_world_capture",
+  "captured_at_utc": "2026-09-03T16:54:30.7996890\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real Metal 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 1,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "core_layer": {
+    "name": "Act1CoreWorldGreybox",
+    "presentation_only": true,
+    "visual_zone_count": 8,
+    "visual_mesh_count": 11532,
+    "forbidden_gameplay_node_count": 0
+  },
+  "frames": [
+    {
+      "frame_id": "arrival_forward",
+      "visual_zone": "arrival",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": 9
+        },
+        "target": {
+          "x": 0,
+          "y": 1.45,
+          "z": -10
+        }
+      },
+      "output_file": "arrival_forward.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/arrival_forward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "68b7231336a59a551d07414d1594758365dc862e150b4acad263060cb119be7b"
+    },
+    {
+      "frame_id": "arrival_back",
+      "visual_zone": "arrival",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "direction": "back",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": 9
+        },
+        "target": {
+          "x": 0,
+          "y": 1.45,
+          "z": 32
+        }
+      },
+      "output_file": "arrival_back.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/arrival_back.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "cbde7ac6d9e99cc0192d9d9d9753725827d6251805a0899e9aa2bb28093939f9"
+    },
+    {
+      "frame_id": "arrival_left",
+      "visual_zone": "arrival",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "direction": "left",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": 9
+        },
+        "target": {
+          "x": -16,
+          "y": 1.55,
+          "z": 25
+        }
+      },
+      "output_file": "arrival_left.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/arrival_left.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "e20c923d5cd7180310d537e716ce01f67628d7ddf87dff1af8bd3997609b5a1e"
+    },
+    {
+      "frame_id": "arrival_right",
+      "visual_zone": "arrival",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "direction": "right",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": 9
+        },
+        "target": {
+          "x": 16,
+          "y": 1.55,
+          "z": 26
+        }
+      },
+      "output_file": "arrival_right.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/arrival_right.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "a1007deaa5edbf0ce2470b96d32093f4d1328fa879ff4b5d0ccf8a72bfaf8b4f"
+    },
+    {
+      "frame_id": "arrival_depth",
+      "visual_zone": "arrival",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": 14
+        },
+        "target": {
+          "x": 0,
+          "y": 1.6,
+          "z": 45
+        }
+      },
+      "output_file": "arrival_depth.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/arrival_depth.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "dcb7a5f05ed5cf3c1b4f313be4caef960d2533f9f6874e566ef65b847b2b34b9"
+    },
+    {
+      "frame_id": "main_street_forward",
+      "visual_zone": "main_street",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -2.2,
+          "y": 1.75,
+          "z": 2.4
+        },
+        "target": {
+          "x": 0,
+          "y": 1.45,
+          "z": -15
+        }
+      },
+      "output_file": "main_street_forward.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/main_street_forward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "91a14aa9589df751f8403a4a417fa8b4a588e23ea86ba6ce3099962a693a55d1"
+    },
+    {
+      "frame_id": "main_street_back",
+      "visual_zone": "main_street",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "back",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -2.2,
+          "y": 1.75,
+          "z": 2.4
+        },
+        "target": {
+          "x": 0,
+          "y": 1.45,
+          "z": 13
+        }
+      },
+      "output_file": "main_street_back.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/main_street_back.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "6428f0d2c0fa575593c3122f7be5034aa04a44d07a0c53120ff5e8b711539a98"
+    },
+    {
+      "frame_id": "main_street_left",
+      "visual_zone": "main_street",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "left",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": -2.2,
+          "y": 1.75,
+          "z": 2.4
+        },
+        "target": {
+          "x": -18,
+          "y": 1.55,
+          "z": -5
+        }
+      },
+      "output_file": "main_street_left.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/main_street_left.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "45b02a2ae567c254731c1f23f24b4b097d1503423e49e137897b51ff0e8c0819"
+    },
+    {
+      "frame_id": "main_street_right",
+      "visual_zone": "main_street",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "right",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": -2.2,
+          "y": 1.75,
+          "z": 2.4
+        },
+        "target": {
+          "x": 18,
+          "y": 1.55,
+          "z": -9
+        }
+      },
+      "output_file": "main_street_right.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/main_street_right.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "78a9ed92b0f074d46d4b42257416fa7954eb35210d3fde0314fe8def4b3ddb8c"
+    },
+    {
+      "frame_id": "main_street_depth",
+      "visual_zone": "main_street",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -3
+        },
+        "target": {
+          "x": 0,
+          "y": 1.6,
+          "z": -28
+        }
+      },
+      "output_file": "main_street_depth.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/main_street_depth.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "3a0ec56f01cdf4afef2dc775a34c414e841c2585a72a626d5296fc2bc1308f75"
+    },
+    {
+      "frame_id": "babai_yard_forward",
+      "visual_zone": "babai_yard",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -20,
+          "y": 1.75,
+          "z": 6.5
+        },
+        "target": {
+          "x": -8,
+          "y": 1.55,
+          "z": 12
+        }
+      },
+      "output_file": "babai_yard_forward.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/babai_yard_forward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "82b15b815514550d7ce7bc5d3c5bb8b28d22a163887d0114237f848266a75450"
+    },
+    {
+      "frame_id": "babai_yard_back",
+      "visual_zone": "babai_yard",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "back",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -20,
+          "y": 1.75,
+          "z": 6.5
+        },
+        "target": {
+          "x": -30,
+          "y": 1.55,
+          "z": -5
+        }
+      },
+      "output_file": "babai_yard_back.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/babai_yard_back.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "5f4af74feb3eae2f14fa87e6cc22d2dd89b2927363a43b3aed1249e6415e0188"
+    },
+    {
+      "frame_id": "babai_yard_left",
+      "visual_zone": "babai_yard",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "left",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": -20,
+          "y": 1.75,
+          "z": 6.5
+        },
+        "target": {
+          "x": -34,
+          "y": 1.55,
+          "z": 6
+        }
+      },
+      "output_file": "babai_yard_left.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/babai_yard_left.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "c212f2623bd89b1b3df9ec8eccaffdeb377428e2c8f4ed28ddb425a0cc4046a1"
+    },
+    {
+      "frame_id": "babai_yard_right",
+      "visual_zone": "babai_yard",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "right",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": -20,
+          "y": 1.75,
+          "z": 6.5
+        },
+        "target": {
+          "x": -8,
+          "y": 1.55,
+          "z": 5
+        }
+      },
+      "output_file": "babai_yard_right.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/babai_yard_right.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "42245ee676ac218c37456dee6fe1411b27bb40066e590b03195b9ed3b6ab7c51"
+    },
+    {
+      "frame_id": "babai_yard_depth",
+      "visual_zone": "babai_yard",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -20,
+          "y": 1.75,
+          "z": 9
+        },
+        "target": {
+          "x": -20,
+          "y": 1.6,
+          "z": 22
+        }
+      },
+      "output_file": "babai_yard_depth.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/babai_yard_depth.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "5797f5d1215b1f120d19f97b9c846d0edce620deb4a37c209746d02ec8abc2a2"
+    },
+    {
+      "frame_id": "house_exterior_forward",
+      "visual_zone": "house_exterior",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -28,
+          "y": 1.75,
+          "z": 7
+        },
+        "target": {
+          "x": -28,
+          "y": 1.55,
+          "z": -1
+        }
+      },
+      "output_file": "house_exterior_forward.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/house_exterior_forward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "d44023a051c287ab4cf4eb9654f669d3ce6c7b38e5929e4e04bde153fc4cc201"
+    },
+    {
+      "frame_id": "house_exterior_back",
+      "visual_zone": "house_exterior",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "back",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -28,
+          "y": 1.75,
+          "z": 7
+        },
+        "target": {
+          "x": -13,
+          "y": 1.45,
+          "z": 14
+        }
+      },
+      "output_file": "house_exterior_back.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/house_exterior_back.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "d1f78cb1403ff9cf94aca9181d4a105d40f26bf22b616841dbe7fab3f0facaae"
+    },
+    {
+      "frame_id": "house_exterior_depth",
+      "visual_zone": "house_exterior",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -24,
+          "y": 1.75,
+          "z": 7.5
+        },
+        "target": {
+          "x": -28,
+          "y": 1.55,
+          "z": -6
+        }
+      },
+      "output_file": "house_exterior_depth.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/house_exterior_depth.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "ed0545bf5edb07eb890b095f300a886a2fad70b678777b12ca24b3e52f4375e5"
+    },
+    {
+      "frame_id": "house_interior_forward",
+      "visual_zone": "house_interior",
+      "logical_zone": "house_old_pc",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "direction": "forward",
+      "evidence_kind": "interior-360",
+      "camera": {
+        "global_position": {
+          "x": -25.2,
+          "y": 1.75,
+          "z": 1.8
+        },
+        "target": {
+          "x": -28,
+          "y": 1.45,
+          "z": -2.2
+        }
+      },
+      "output_file": "house_interior_forward.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/house_interior_forward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "70f32b43097bbfe7a4a414b86337ebc2dcf6e08ad39ada950e7d44d289877a1f"
+    },
+    {
+      "frame_id": "house_interior_back",
+      "visual_zone": "house_interior",
+      "logical_zone": "house_old_pc",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "direction": "back",
+      "evidence_kind": "interior-360",
+      "camera": {
+        "global_position": {
+          "x": -27.4,
+          "y": 1.75,
+          "z": -1.6
+        },
+        "target": {
+          "x": -29,
+          "y": 1.45,
+          "z": 3.2
+        }
+      },
+      "output_file": "house_interior_back.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/house_interior_back.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "27b09873071544c193517b45226b32855075710765cce92a50666c31424e4158"
+    },
+    {
+      "frame_id": "house_interior_left",
+      "visual_zone": "house_interior",
+      "logical_zone": "house_old_pc",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "direction": "left",
+      "evidence_kind": "interior-360",
+      "camera": {
+        "global_position": {
+          "x": -25.2,
+          "y": 1.75,
+          "z": -0.2
+        },
+        "target": {
+          "x": -32.2,
+          "y": 1.5,
+          "z": -0.8
+        }
+      },
+      "output_file": "house_interior_left.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/house_interior_left.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "4c48ee9269d340edbd0a004298b3405984048758fa12f9c77879e231410f8ee1"
+    },
+    {
+      "frame_id": "house_interior_right",
+      "visual_zone": "house_interior",
+      "logical_zone": "house_old_pc",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "direction": "right",
+      "evidence_kind": "interior-360",
+      "camera": {
+        "global_position": {
+          "x": -31.8,
+          "y": 1.75,
+          "z": 1.8
+        },
+        "target": {
+          "x": -24.2,
+          "y": 1.5,
+          "z": -1
+        }
+      },
+      "output_file": "house_interior_right.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/house_interior_right.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "8672660875a39e74d77f92599f1f9fbed5b7692fdbd4431edd3a0b872177eb11"
+    },
+    {
+      "frame_id": "connective_street_return_forward",
+      "visual_zone": "connective_street_return",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_forest",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -15.4,
+          "y": 1.75,
+          "z": -22
+        },
+        "target": {
+          "x": -7,
+          "y": 1.5,
+          "z": -40
+        }
+      },
+      "output_file": "connective_street_return_forward.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/connective_street_return_forward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "de1028a37734094b2c0d73c483a34a4b97a55d83932c122a144aa5c44c60e58b"
+    },
+    {
+      "frame_id": "connective_street_return_back",
+      "visual_zone": "connective_street_return",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_forest",
+      "direction": "back",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -7,
+          "y": 1.75,
+          "z": -41.5
+        },
+        "target": {
+          "x": -20,
+          "y": 1.5,
+          "z": -24
+        }
+      },
+      "output_file": "connective_street_return_back.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/connective_street_return_back.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "729a522230f51499da9b714da43ce8dcbf12d2f418b7ff732a0c614a41909680"
+    },
+    {
+      "frame_id": "connective_street_return_depth",
+      "visual_zone": "connective_street_return",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_forest",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": -3,
+          "y": 1.75,
+          "z": -50
+        },
+        "target": {
+          "x": 0,
+          "y": 1.6,
+          "z": -67
+        }
+      },
+      "output_file": "connective_street_return_depth.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/connective_street_return_depth.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "177b0ef8c482e325c15ef5d7ddb85f2d8c466c2f5ca3a8be130b62aea60c1588"
+    },
+    {
+      "frame_id": "fap_exterior_forward",
+      "visual_zone": "fap_exterior",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 14,
+          "y": 1.75,
+          "z": -16
+        },
+        "target": {
+          "x": 29,
+          "y": 1.6,
+          "z": -30
+        }
+      },
+      "output_file": "fap_exterior_forward.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/fap_exterior_forward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "1ca694ac03b138aa5bbd579284a58c3e30b8058b99d161ea68effa8d4b56d304"
+    },
+    {
+      "frame_id": "fap_exterior_back",
+      "visual_zone": "fap_exterior",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "direction": "back",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 14,
+          "y": 1.75,
+          "z": -16
+        },
+        "target": {
+          "x": 4,
+          "y": 1.5,
+          "z": -8
+        }
+      },
+      "output_file": "fap_exterior_back.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/fap_exterior_back.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "e575050321e896dd25cfb8b83133dce97899460efcf882035dcb3c71d5597f83"
+    },
+    {
+      "frame_id": "fap_exterior_left",
+      "visual_zone": "fap_exterior",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "direction": "left",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": 14,
+          "y": 1.75,
+          "z": -16
+        },
+        "target": {
+          "x": 17,
+          "y": 1.55,
+          "z": -28
+        }
+      },
+      "output_file": "fap_exterior_left.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/fap_exterior_left.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "c94b9d389e03aad3f38da2c5dfba9028733ad8731dbde71ee75d05aa0480fe23"
+    },
+    {
+      "frame_id": "fap_exterior_right",
+      "visual_zone": "fap_exterior",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "direction": "right",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": 14,
+          "y": 1.75,
+          "z": -16
+        },
+        "target": {
+          "x": 33,
+          "y": 1.55,
+          "z": -21
+        }
+      },
+      "output_file": "fap_exterior_right.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/fap_exterior_right.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "9ed3c5b5339102cb49775310df07ac523cc6bedc983850c089224d75d180b059"
+    },
+    {
+      "frame_id": "fap_exterior_depth",
+      "visual_zone": "fap_exterior",
+      "logical_zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 19,
+          "y": 1.75,
+          "z": -21
+        },
+        "target": {
+          "x": 29,
+          "y": 1.6,
+          "z": -33
+        }
+      },
+      "output_file": "fap_exterior_depth.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/fap_exterior_depth.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "538a299378d9bc7d1325151254cd292330f96d3be91dd390594271b852f4ca56"
+    },
+    {
+      "frame_id": "fap_interior_forward",
+      "visual_zone": "fap_interior",
+      "logical_zone": "fap_clinic",
+      "active_zone_id": "fap_clinic",
+      "spawn_point_id": "waiting_room",
+      "direction": "forward",
+      "evidence_kind": "interior-360",
+      "camera": {
+        "global_position": {
+          "x": 29.6,
+          "y": 1.75,
+          "z": -27.2
+        },
+        "target": {
+          "x": 28,
+          "y": 1.45,
+          "z": -32.2
+        }
+      },
+      "output_file": "fap_interior_forward.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/fap_interior_forward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "137e7baee78941b694e5c989cd6e2acb988852cf506ab14f71472105321c3d36"
+    },
+    {
+      "frame_id": "fap_interior_back",
+      "visual_zone": "fap_interior",
+      "logical_zone": "fap_clinic",
+      "active_zone_id": "fap_clinic",
+      "spawn_point_id": "waiting_room",
+      "direction": "back",
+      "evidence_kind": "interior-360",
+      "camera": {
+        "global_position": {
+          "x": 28,
+          "y": 1.75,
+          "z": -31.6
+        },
+        "target": {
+          "x": 28,
+          "y": 1.45,
+          "z": -26.2
+        }
+      },
+      "output_file": "fap_interior_back.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/fap_interior_back.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "a383d3a6a841731bcbde47f2fb96da66677eaa187b10b840a01ec478945d1f1d"
+    },
+    {
+      "frame_id": "fap_interior_left",
+      "visual_zone": "fap_interior",
+      "logical_zone": "fap_clinic",
+      "active_zone_id": "fap_clinic",
+      "spawn_point_id": "waiting_room",
+      "direction": "left",
+      "evidence_kind": "interior-360",
+      "camera": {
+        "global_position": {
+          "x": 30,
+          "y": 1.75,
+          "z": -30.4
+        },
+        "target": {
+          "x": 23.8,
+          "y": 1.45,
+          "z": -29.2
+        }
+      },
+      "output_file": "fap_interior_left.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/fap_interior_left.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "65b592df1761ed83ec42a8d1cf6a635a4ee0cc8c133cd2093f1a946b0600bd64"
+    },
+    {
+      "frame_id": "fap_interior_right",
+      "visual_zone": "fap_interior",
+      "logical_zone": "fap_clinic",
+      "active_zone_id": "fap_clinic",
+      "spawn_point_id": "waiting_room",
+      "direction": "right",
+      "evidence_kind": "interior-360",
+      "camera": {
+        "global_position": {
+          "x": 26,
+          "y": 1.75,
+          "z": -30.4
+        },
+        "target": {
+          "x": 32.2,
+          "y": 1.45,
+          "z": -29.2
+        }
+      },
+      "output_file": "fap_interior_right.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/fap_interior_right.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "2034bdc3398944c8c8653b1b47157499c585ea753624100ad965b528f1fcc8de"
+    },
+    {
+      "frame_id": "zirat_forward",
+      "visual_zone": "zirat",
+      "logical_zone": "zirat_road",
+      "active_zone_id": "zirat_road",
+      "spawn_point_id": "village_side",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -56
+        },
+        "target": {
+          "x": 0,
+          "y": 1.5,
+          "z": -75
+        }
+      },
+      "output_file": "zirat_forward.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/zirat_forward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "e43c4ee152c7db94e74efed9fee2afc232203ac67bf8fc9c9c05fcb8d96abe93"
+    },
+    {
+      "frame_id": "zirat_back",
+      "visual_zone": "zirat",
+      "logical_zone": "zirat_road",
+      "active_zone_id": "zirat_road",
+      "spawn_point_id": "village_side",
+      "direction": "back",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -56
+        },
+        "target": {
+          "x": 0,
+          "y": 1.5,
+          "z": -44
+        }
+      },
+      "output_file": "zirat_back.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/zirat_back.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "8e88b00c273882f2e34bad60d320de7020e6be0865e5929ec2d58ab295e9d31c"
+    },
+    {
+      "frame_id": "zirat_left",
+      "visual_zone": "zirat",
+      "logical_zone": "zirat_road",
+      "active_zone_id": "zirat_road",
+      "spawn_point_id": "village_side",
+      "direction": "left",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -56
+        },
+        "target": {
+          "x": -16,
+          "y": 1.55,
+          "z": -64
+        }
+      },
+      "output_file": "zirat_left.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/zirat_left.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "898b54662de478ee58fd647df265c6cd590c1cde5d34affc9bca9c52c24d3487"
+    },
+    {
+      "frame_id": "zirat_right",
+      "visual_zone": "zirat",
+      "logical_zone": "zirat_road",
+      "active_zone_id": "zirat_road",
+      "spawn_point_id": "village_side",
+      "direction": "right",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -56
+        },
+        "target": {
+          "x": 16,
+          "y": 1.55,
+          "z": -68
+        }
+      },
+      "output_file": "zirat_right.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/zirat_right.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "a2c0a8dfa2310621b2c914e312989f6e36b35b4193477fe19d01127cd622050c"
+    },
+    {
+      "frame_id": "zirat_depth",
+      "visual_zone": "zirat",
+      "logical_zone": "zirat_road",
+      "active_zone_id": "zirat_road",
+      "spawn_point_id": "village_side",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -72
+        },
+        "target": {
+          "x": 0,
+          "y": 1.6,
+          "z": -92
+        }
+      },
+      "output_file": "zirat_depth.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/zirat_depth.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "b6d72e769558480660de4f08d13aa7233c4db8154966eb676f34722788be50d8"
+    },
+    {
+      "frame_id": "kara_approach_forward",
+      "visual_zone": "kara_approach",
+      "logical_zone": "kara_urman_night",
+      "active_zone_id": "kara_urman_night",
+      "spawn_point_id": "village_path",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -103
+        },
+        "target": {
+          "x": 0,
+          "y": 1.5,
+          "z": -120
+        }
+      },
+      "output_file": "kara_approach_forward.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/kara_approach_forward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "59fa83753e2e8d8f28186a40be47489bda1d0fc10a52a675ea468bbf0e8007eb"
+    },
+    {
+      "frame_id": "kara_approach_back",
+      "visual_zone": "kara_approach",
+      "logical_zone": "kara_urman_night",
+      "active_zone_id": "kara_urman_night",
+      "spawn_point_id": "village_path",
+      "direction": "back",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -103
+        },
+        "target": {
+          "x": 0,
+          "y": 1.5,
+          "z": -93
+        }
+      },
+      "output_file": "kara_approach_back.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/kara_approach_back.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "d5b90658923fee61600cb05b21aaf1cd29c537bb856104f8db5d53b549587e1e"
+    },
+    {
+      "frame_id": "kara_approach_left",
+      "visual_zone": "kara_approach",
+      "logical_zone": "kara_urman_night",
+      "active_zone_id": "kara_urman_night",
+      "spawn_point_id": "village_path",
+      "direction": "left",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -103
+        },
+        "target": {
+          "x": -12,
+          "y": 1.85,
+          "z": -116
+        }
+      },
+      "output_file": "kara_approach_left.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/kara_approach_left.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "6ad3b1860530b529b1d78c121aa30cd05cbd201c04b2d298c53e188ee387a273"
+    },
+    {
+      "frame_id": "kara_approach_right",
+      "visual_zone": "kara_approach",
+      "logical_zone": "kara_urman_night",
+      "active_zone_id": "kara_urman_night",
+      "spawn_point_id": "village_path",
+      "direction": "right",
+      "evidence_kind": "lateral",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -103
+        },
+        "target": {
+          "x": 12,
+          "y": 1.85,
+          "z": -118
+        }
+      },
+      "output_file": "kara_approach_right.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/kara_approach_right.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "3dd4dbe8195b0ef361091e21d688b43041b8d533329ef3f477b10f3327d0aafa"
+    },
+    {
+      "frame_id": "kara_approach_depth",
+      "visual_zone": "kara_approach",
+      "logical_zone": "kara_urman_night",
+      "active_zone_id": "kara_urman_night",
+      "spawn_point_id": "village_path",
+      "direction": "forward",
+      "evidence_kind": "near-mid-far",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 1.75,
+          "z": -112
+        },
+        "target": {
+          "x": 0,
+          "y": 1.9,
+          "z": -132
+        }
+      },
+      "output_file": "kara_approach_depth.png",
+      "output_path": "/private/tmp/urman-base005-diag2.Qt8gyk/kara_approach_depth.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "173c8bbc3cbe7d2ad3c4a94a7238a2a6884ffbc76cf9239783e13ebd9a53facc"
+    }
+  ],
+  "frame_count": 44,
+  "traversal": {
+    "route_id": "act1_arrival_to_kara_cliffhanger",
+    "mode": "world-space presentation waypoint audit; no narrative transition or save mutation",
+    "start_waypoint": "arrival",
+    "endpoint_waypoint": "kara_cliffhanger_endpoint",
+    "waypoint_count": 10,
+    "total_horizontal_meters": 242.49586,
+    "waypoints": [
+      {
+        "id": "arrival",
+        "position": {
+          "x": 0,
+          "y": 0.05,
+          "z": 9
+        },
+        "segment_meters": 0,
+        "cumulative_meters": 0,
+        "reached": true
+      },
+      {
+        "id": "babai_yard",
+        "position": {
+          "x": -24.4,
+          "y": 0.05,
+          "z": 1.7
+        },
+        "segment_meters": 25.468607,
+        "cumulative_meters": 25.468607,
+        "reached": true
+      },
+      {
+        "id": "house_exterior",
+        "position": {
+          "x": -30.3,
+          "y": 0.05,
+          "z": 1.2
+        },
+        "segment_meters": 5.921148,
+        "cumulative_meters": 31.389755,
+        "reached": true
+      },
+      {
+        "id": "main_street",
+        "position": {
+          "x": -2.2,
+          "y": 0.05,
+          "z": 2.4
+        },
+        "segment_meters": 28.12561,
+        "cumulative_meters": 59.515366,
+        "reached": true
+      },
+      {
+        "id": "connective_street",
+        "position": {
+          "x": -15.4,
+          "y": 0.05,
+          "z": -22
+        },
+        "segment_meters": 27.741665,
+        "cumulative_meters": 87.257034,
+        "reached": true
+      },
+      {
+        "id": "fap_exterior",
+        "position": {
+          "x": 22,
+          "y": 0.05,
+          "z": -22
+        },
+        "segment_meters": 37.4,
+        "cumulative_meters": 124.657036,
+        "reached": true
+      },
+      {
+        "id": "return_street",
+        "position": {
+          "x": -7,
+          "y": 0.05,
+          "z": -41.5
+        },
+        "segment_meters": 34.94639,
+        "cumulative_meters": 159.60342,
+        "reached": true
+      },
+      {
+        "id": "zirat",
+        "position": {
+          "x": 0,
+          "y": 0.05,
+          "z": -53.5
+        },
+        "segment_meters": 13.892444,
+        "cumulative_meters": 173.49586,
+        "reached": true
+      },
+      {
+        "id": "kara_approach",
+        "position": {
+          "x": 0,
+          "y": 0.05,
+          "z": -103
+        },
+        "segment_meters": 49.5,
+        "cumulative_meters": 222.99586,
+        "reached": true
+      },
+      {
+        "id": "kara_cliffhanger_endpoint",
+        "position": {
+          "x": 0,
+          "y": 0.05,
+          "z": -122.5
+        },
+        "segment_meters": 19.5,
+        "cumulative_meters": 242.49586,
+        "reached": true
+      }
+    ]
+  }
+}

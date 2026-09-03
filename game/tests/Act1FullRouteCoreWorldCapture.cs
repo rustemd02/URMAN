@@ -172,6 +172,19 @@ public partial class Act1FullRouteCoreWorldCapture : Node
                 throw new InvalidOperationException($"Production camera is not rendering the root viewport for {spec.Id}.");
             }
 
+            // CAPTURE-002 contract: the requested pose must still be the
+            // rendered pose at readback time, and diagnostics must expose the
+            // actual camera state per frame so duplicate-hash defects have a
+            // causal receipt instead of a silent retry.
+            var actualForward = -camera.GlobalTransform.Basis.Z;
+            var expectedForward = (spec.Target - camera.GlobalPosition).Normalized();
+            var aimDeviationDegrees = Mathf.RadToDeg(Mathf.Acos(Mathf.Clamp(actualForward.Dot(expectedForward), -1f, 1f)));
+            if (aimDeviationDegrees > 0.5f)
+            {
+                throw new InvalidOperationException(
+                    $"Camera forward drifted {aimDeviationDegrees:F3} degrees from the requested target for {spec.Id} at readback time.");
+            }
+
             var image = viewport.GetTexture().GetImage();
             if (image is null || image.IsEmpty())
             {
@@ -196,6 +209,14 @@ public partial class Act1FullRouteCoreWorldCapture : Node
                 throw new IOException($"Could not save capture {outputPath}.");
             }
 
+            var sha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(outputPath))).ToLowerInvariant();
+            var previousSha = captures.Count > 0 ? captures[^1].Sha256 : null;
+            GD.Print(
+                $"act1-core-capture frame={captures.Count + 1}/{Frames.Count} id={spec.Id} active_zone={connectedWorld.ActiveZoneId} "
+                + $"drawn_frame={Engine.GetFramesDrawn()} cam_pos=({camera.GlobalPosition.X:F2},{camera.GlobalPosition.Y:F2},{camera.GlobalPosition.Z:F2}) "
+                + $"cam_fwd=({actualForward.X:F3},{actualForward.Y:F3},{actualForward.Z:F3}) aim_deviation_deg={aimDeviationDegrees:F3} "
+                + $"sha256={sha256[..12]} same_as_prev={(previousSha is not null && previousSha == sha256).ToString().ToLowerInvariant()}");
+
             captures.Add(new FrameReceipt
             {
                 FrameId = spec.Id,
@@ -214,7 +235,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
                 OutputPath = Path.GetFullPath(outputPath),
                 Width = image.GetWidth(),
                 Height = image.GetHeight(),
-                Sha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(outputPath))).ToLowerInvariant()
+                Sha256 = sha256
             });
         }
 

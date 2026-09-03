@@ -1,0 +1,127 @@
+  Определение проектов для восстановления...
+  Все проекты обновлены для восстановления.
+  Urman.Core -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll
+  Urman.Content -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll
+  Urman.Game -> /Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll
+
+Сборка успешно завершена.
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:03.91
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Инициализация проекта (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Сканирование структуры файлов…[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Загрузка глобальных имен классов…[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Проверка GDExtensions…[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Создание скриптов автозагрузки…[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Инициализация плагинов…[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Начало сканирование файлов…[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Загрузка редактора (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Загрузка макета редактора…[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Загрузка док-панели…[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+zone-loaded: village_day@arrival connected-world=43889198979
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+zone-loaded: village_day@arrival connected-world=43889198979
+act1-core-capture frame=1/44 id=arrival_forward active_zone=village_day drawn_frame=37 cam_pos=(0,00,1,75,9,00) cam_fwd=(-0,000,-0,016,-1,000) aim_deviation_deg=0,020 sha256=94e7b3d20476 same_as_prev=false
+zone-loaded: village_day@arrival connected-world=43889198979
+act1-core-capture frame=2/44 id=arrival_back active_zone=village_day drawn_frame=55 cam_pos=(0,00,1,75,9,00) cam_fwd=(-0,000,-0,013,1,000) aim_deviation_deg=0,000 sha256=9240aef9e278 same_as_prev=false
+zone-loaded: village_day@arrival connected-world=43889198979
+act1-core-capture frame=3/44 id=arrival_left active_zone=village_day drawn_frame=73 cam_pos=(0,00,1,75,9,00) cam_fwd=(-0,707,-0,009,0,707) aim_deviation_deg=0,020 sha256=3fbb139bf8fe same_as_prev=false
+zone-loaded: village_day@arrival connected-world=43889198979
+act1-core-capture frame=4/44 id=arrival_right active_zone=village_day drawn_frame=91 cam_pos=(0,00,1,75,9,00) cam_fwd=(0,685,-0,009,0,728) aim_deviation_deg=0,000 sha256=e88c7366d429 same_as_prev=false
+zone-loaded: village_day@arrival connected-world=43889198979
+act1-core-capture frame=5/44 id=arrival_depth active_zone=village_day drawn_frame=109 cam_pos=(0,00,1,75,14,00) cam_fwd=(-0,000,-0,005,1,000) aim_deviation_deg=0,000 sha256=88c92ab3a900 same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=6/44 id=main_street_forward active_zone=village_day drawn_frame=127 cam_pos=(-2,20,1,75,2,40) cam_fwd=(0,125,-0,017,-0,992) aim_deviation_deg=0,000 sha256=5e80d871d2f0 same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=7/44 id=main_street_back active_zone=village_day drawn_frame=145 cam_pos=(-2,20,1,75,2,40) cam_fwd=(0,203,-0,028,0,979) aim_deviation_deg=0,000 sha256=ac2ce77da0d3 same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=8/44 id=main_street_left active_zone=village_day drawn_frame=163 cam_pos=(-2,20,1,75,2,40) cam_fwd=(-0,906,-0,011,-0,424) aim_deviation_deg=0,028 sha256=d1915c664d1c same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=9/44 id=main_street_right active_zone=village_day drawn_frame=181 cam_pos=(-2,20,1,75,2,40) cam_fwd=(0,871,-0,009,-0,491) aim_deviation_deg=0,000 sha256=93b65fcf8464 same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=10/44 id=main_street_depth active_zone=village_day drawn_frame=199 cam_pos=(0,00,1,75,-3,00) cam_fwd=(-0,000,-0,006,-1,000) aim_deviation_deg=0,000 sha256=36028f648971 same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=11/44 id=babai_yard_forward active_zone=village_day drawn_frame=217 cam_pos=(-20,00,1,75,6,50) cam_fwd=(0,909,-0,015,0,417) aim_deviation_deg=0,000 sha256=67c3643bb3d3 same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=12/44 id=babai_yard_back active_zone=village_day drawn_frame=235 cam_pos=(-20,00,1,75,6,50) cam_fwd=(-0,656,-0,013,-0,755) aim_deviation_deg=0,000 sha256=1234a0f5d9fd same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=13/44 id=babai_yard_left active_zone=village_day drawn_frame=253 cam_pos=(-20,00,1,75,6,50) cam_fwd=(-0,999,-0,014,-0,036) aim_deviation_deg=0,000 sha256=e0abbbc3a7ea same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=14/44 id=babai_yard_right active_zone=village_day drawn_frame=271 cam_pos=(-20,00,1,75,6,50) cam_fwd=(0,992,-0,017,-0,124) aim_deviation_deg=0,000 sha256=3dff6ea33634 same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=15/44 id=babai_yard_depth active_zone=village_day drawn_frame=289 cam_pos=(-20,00,1,75,9,00) cam_fwd=(-0,000,-0,012,1,000) aim_deviation_deg=0,000 sha256=be0ca6891340 same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=16/44 id=house_exterior_forward active_zone=village_day drawn_frame=307 cam_pos=(-28,00,1,75,7,00) cam_fwd=(-0,000,-0,025,-1,000) aim_deviation_deg=0,000 sha256=64131592f872 same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=17/44 id=house_exterior_back active_zone=village_day drawn_frame=325 cam_pos=(-28,00,1,75,7,00) cam_fwd=(0,906,-0,018,0,423) aim_deviation_deg=0,000 sha256=76c91d047573 same_as_prev=false
+zone-loaded: village_day@from_house connected-world=43889198979
+act1-core-capture frame=18/44 id=house_exterior_depth active_zone=village_day drawn_frame=343 cam_pos=(-24,00,1,75,7,50) cam_fwd=(-0,284,-0,014,-0,959) aim_deviation_deg=0,000 sha256=574b50e3d377 same_as_prev=false
+zone-loaded: house_old_pc@entry connected-world=43889198979
+act1-core-capture frame=19/44 id=house_interior_forward active_zone=house_old_pc drawn_frame=361 cam_pos=(-25,20,1,75,1,80) cam_fwd=(-0,572,-0,061,-0,818) aim_deviation_deg=0,000 sha256=70f32b43097b same_as_prev=false
+zone-loaded: house_old_pc@entry connected-world=43889198979
+act1-core-capture frame=20/44 id=house_interior_back active_zone=house_old_pc drawn_frame=379 cam_pos=(-27,40,1,75,-1,60) cam_fwd=(-0,316,-0,059,0,947) aim_deviation_deg=0,000 sha256=27b098730715 same_as_prev=false
+zone-loaded: house_old_pc@entry connected-world=43889198979
+act1-core-capture frame=21/44 id=house_interior_left active_zone=house_old_pc drawn_frame=397 cam_pos=(-25,20,1,75,-0,20) cam_fwd=(-0,996,-0,036,-0,085) aim_deviation_deg=0,000 sha256=4c48ee9269d3 same_as_prev=false
+zone-loaded: house_old_pc@entry connected-world=43889198979
+act1-core-capture frame=22/44 id=house_interior_right active_zone=house_old_pc drawn_frame=415 cam_pos=(-31,80,1,75,1,80) cam_fwd=(0,938,-0,031,-0,346) aim_deviation_deg=0,000 sha256=8672660875a3 same_as_prev=false
+zone-loaded: village_day@from_forest connected-world=43889198979
+act1-core-capture frame=23/44 id=connective_street_return_forward active_zone=village_day drawn_frame=433 cam_pos=(-15,40,1,75,-22,00) cam_fwd=(0,423,-0,013,-0,906) aim_deviation_deg=0,000 sha256=c4f8eb97e6b5 same_as_prev=false
+zone-loaded: village_day@from_forest connected-world=43889198979
+act1-core-capture frame=24/44 id=connective_street_return_back active_zone=village_day drawn_frame=451 cam_pos=(-7,00,1,75,-41,50) cam_fwd=(-0,596,-0,011,0,803) aim_deviation_deg=0,000 sha256=bf06cf5b5c62 same_as_prev=false
+zone-loaded: village_day@from_forest connected-world=43889198979
+act1-core-capture frame=25/44 id=connective_street_return_depth active_zone=village_day drawn_frame=469 cam_pos=(-3,00,1,75,-50,00) cam_fwd=(0,174,-0,009,-0,985) aim_deviation_deg=0,000 sha256=cc3032bb9bfb same_as_prev=false
+zone-loaded: village_day@arrival connected-world=43889198979
+act1-core-capture frame=26/44 id=fap_exterior_forward active_zone=village_day drawn_frame=487 cam_pos=(14,00,1,75,-16,00) cam_fwd=(0,731,-0,007,-0,682) aim_deviation_deg=0,000 sha256=ccc357e2e3b6 same_as_prev=false
+zone-loaded: village_day@arrival connected-world=43889198979
+act1-core-capture frame=27/44 id=fap_exterior_back active_zone=village_day drawn_frame=505 cam_pos=(14,00,1,75,-16,00) cam_fwd=(-0,781,-0,020,0,625) aim_deviation_deg=0,000 sha256=858c03f6ab2d same_as_prev=false
+zone-loaded: village_day@arrival connected-world=43889198979
+act1-core-capture frame=28/44 id=fap_exterior_left active_zone=village_day drawn_frame=523 cam_pos=(14,00,1,75,-16,00) cam_fwd=(0,243,-0,016,-0,970) aim_deviation_deg=0,000 sha256=4dd2f86465a7 same_as_prev=false
+zone-loaded: village_day@arrival connected-world=43889198979
+act1-core-capture frame=29/44 id=fap_exterior_right active_zone=village_day drawn_frame=541 cam_pos=(14,00,1,75,-16,00) cam_fwd=(0,967,-0,010,-0,254) aim_deviation_deg=0,020 sha256=7fb12f41f75c same_as_prev=false
+zone-loaded: village_day@arrival connected-world=43889198979
+act1-core-capture frame=30/44 id=fap_exterior_depth active_zone=village_day drawn_frame=559 cam_pos=(19,00,1,75,-21,00) cam_fwd=(0,640,-0,010,-0,768) aim_deviation_deg=0,000 sha256=578d0077b90e same_as_prev=false
+zone-loaded: fap_clinic@waiting_room connected-world=43889198979
+act1-core-capture frame=31/44 id=fap_interior_forward active_zone=fap_clinic drawn_frame=577 cam_pos=(29,60,1,75,-27,20) cam_fwd=(-0,304,-0,057,-0,951) aim_deviation_deg=0,000 sha256=137e7baee789 same_as_prev=false
+zone-loaded: fap_clinic@waiting_room connected-world=43889198979
+act1-core-capture frame=32/44 id=fap_interior_back active_zone=fap_clinic drawn_frame=595 cam_pos=(28,00,1,75,-31,60) cam_fwd=(-0,000,-0,055,0,998) aim_deviation_deg=0,000 sha256=a383d3a6a841 same_as_prev=false
+zone-loaded: fap_clinic@waiting_room connected-world=43889198979
+act1-core-capture frame=33/44 id=fap_interior_left active_zone=fap_clinic drawn_frame=613 cam_pos=(30,00,1,75,-30,40) cam_fwd=(-0,981,-0,047,0,190) aim_deviation_deg=0,020 sha256=65b592df1761 same_as_prev=false
+zone-loaded: fap_clinic@waiting_room connected-world=43889198979
+act1-core-capture frame=34/44 id=fap_interior_right active_zone=fap_clinic drawn_frame=631 cam_pos=(26,00,1,75,-30,40) cam_fwd=(0,981,-0,047,0,190) aim_deviation_deg=0,020 sha256=2034bdc33989 same_as_prev=false
+zone-loaded: zirat_road@village_side connected-world=43889198979
+act1-core-capture frame=35/44 id=zirat_forward active_zone=zirat_road drawn_frame=649 cam_pos=(0,00,1,75,-56,00) cam_fwd=(-0,000,-0,013,-1,000) aim_deviation_deg=0,000 sha256=ffa5faca9fcf same_as_prev=false
+zone-loaded: zirat_road@village_side connected-world=43889198979
+act1-core-capture frame=36/44 id=zirat_back active_zone=zirat_road drawn_frame=667 cam_pos=(0,00,1,75,-56,00) cam_fwd=(-0,000,-0,021,1,000) aim_deviation_deg=0,000 sha256=c248b5e14f43 same_as_prev=false
+zone-loaded: zirat_road@village_side connected-world=43889198979
+act1-core-capture frame=37/44 id=zirat_left active_zone=zirat_road drawn_frame=685 cam_pos=(0,00,1,75,-56,00) cam_fwd=(-0,894,-0,011,-0,447) aim_deviation_deg=0,000 sha256=898b54662de4 same_as_prev=false
+zone-loaded: zirat_road@village_side connected-world=43889198979
+act1-core-capture frame=38/44 id=zirat_right active_zone=zirat_road drawn_frame=703 cam_pos=(0,00,1,75,-56,00) cam_fwd=(0,800,-0,010,-0,600) aim_deviation_deg=0,000 sha256=86c407ec66ce same_as_prev=false
+zone-loaded: zirat_road@village_side connected-world=43889198979
+act1-core-capture frame=39/44 id=zirat_depth active_zone=zirat_road drawn_frame=721 cam_pos=(0,00,1,75,-72,00) cam_fwd=(-0,000,-0,007,-1,000) aim_deviation_deg=0,000 sha256=2104c77ad111 same_as_prev=false
+zone-loaded: kara_urman_night@village_path connected-world=43889198979
+act1-core-capture frame=40/44 id=kara_approach_forward active_zone=kara_urman_night drawn_frame=739 cam_pos=(0,00,1,75,-103,00) cam_fwd=(-0,000,-0,015,-1,000) aim_deviation_deg=0,000 sha256=09a5cd69dc62 same_as_prev=false
+zone-loaded: kara_urman_night@village_path connected-world=43889198979
+act1-core-capture frame=41/44 id=kara_approach_back active_zone=kara_urman_night drawn_frame=757 cam_pos=(0,00,1,75,-103,00) cam_fwd=(-0,000,-0,025,1,000) aim_deviation_deg=0,000 sha256=c74c4b77687f same_as_prev=false
+zone-loaded: kara_urman_night@village_path connected-world=43889198979
+act1-core-capture frame=42/44 id=kara_approach_left active_zone=kara_urman_night drawn_frame=775 cam_pos=(0,00,1,75,-103,00) cam_fwd=(-0,678,0,006,-0,735) aim_deviation_deg=0,000 sha256=be19935c877c same_as_prev=false
+zone-loaded: kara_urman_night@village_path connected-world=43889198979
+act1-core-capture frame=43/44 id=kara_approach_right active_zone=kara_urman_night drawn_frame=793 cam_pos=(0,00,1,75,-103,00) cam_fwd=(0,625,0,005,-0,781) aim_deviation_deg=0,000 sha256=ff04e1bedc72 same_as_prev=false
+zone-loaded: kara_urman_night@village_path connected-world=43889198979
+act1-core-capture frame=44/44 id=kara_approach_depth active_zone=kara_urman_night drawn_frame=811 cam_pos=(0,00,1,75,-112,00) cam_fwd=(-0,000,0,007,-1,000) aim_deviation_deg=0,000 sha256=c1d40ea5ff67 same_as_prev=false
+act1-full-route-core-world-capture: PASS frames=44 zones=8 traversal_waypoints=10 output=/private/tmp/urman-base005-diag.6NkUiP
+act1 full-route core-world capture gate: PASS 44/44 root-viewport PNGs / 10 visual zones / forward-back + lateral + near-mid-far + interior-360 / waypoint receipt
+receipt: /private/tmp/urman-base005-diag.6NkUiP/act1_full_route_core_world_receipt.json
+capture directory: /private/tmp/urman-base005-diag.6NkUiP
+unique frame SHA-256 values: 44
+waypoints: 10 / 242.50 horizontal meters
+act1 full-route core-world capture: real production first-person frames and receipt completed successfully.
