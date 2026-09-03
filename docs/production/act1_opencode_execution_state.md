@@ -7,10 +7,10 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: AUDIO-006+007 committed. Next automatable slices:
+- Current task/slice: AUDIO-009 committed. Next automatable slices:
   AUDIO-003/005 village/house layer differentiation (needs a small director
-  extension for sub-zone beds — designed, not yet implemented), AUDIO-009
-  transition routing, AUDIO-010 foley wiring. Full accounting: remaining tasks are human-gated (capture/playtest/culture/
+  extension for sub-zone beds — designed, not yet implemented), AUDIO-010
+  foley wiring (authored sounds via the footstep generator pattern). Full accounting: remaining tasks are human-gated (capture/playtest/culture/
   audio-recording/platform/RC), authored-iteration (zones/interiors/ART deep
   passes), or acceptance-blocked polish (UIUX-002/003/004/009/012 — each
   needs human readability/motion/first-time evidence; no honest code delta
@@ -68,6 +68,19 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
     green with 6 stems).
   - Evidence: `evidence/act1_repo_baseline/audio006007-verify-{godot,assets}-PASS.txt`.
   - Human remainder: listening/cultural review (AUDIO-014, CULTURE-004).
+
+- AUDIO-009 (P1 CREATE): zone-transition bed routing smoke 2026-09-04.
+  - New `Act1AudioTransitionSmokeTest` in the aggregator: switching through
+    all five Act I zones settles on exactly the manifest-mapped bed (one
+    stream holder, exact manifest path read from the same manifest the
+    director uses), no double loops after the crossfade.
+  - Found and fixed a test-contract drift: the content audio-production
+    reporter expected 4 ambient stems; the FAP institutional and zirat wind
+    beds legitimately make 6 (assertion updated to the canonical outcome).
+  - Footstep controller gained ExitTree stream hygiene (fixes a real
+    exit-leak found by the suite run).
+  - verify-godot exit 0 (14 PASS smokes), verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/audio009-verify-{godot,dotnet}-PASS.txt`.
 
 - TEST-008 (P0 CREATE): covered by delivered smokes 2026-09-04.
   - Coverage receipt `evidence/act1_repo_baseline/test008_ui_smoke_coverage.md`

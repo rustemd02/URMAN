@@ -22,7 +22,9 @@ public sealed class AudioProductionReporterTests
             Assert.True(asset.TranscriptClosed);
             Assert.Equal("logical-ref", asset.Status);
         });
-        Assert.Equal(4, report.AmbientStems.Count);
+        // 2026-09-04: the FAP institutional and zirat wind beds (AUDIO-006/007)
+        // join the four original stems.
+        Assert.Equal(6, report.AmbientStems.Count);
         Assert.All(report.AmbientStems, stem => Assert.True(stem.PhysicalFileExists));
         Assert.True(report.HasOpenAuthoring);
     }

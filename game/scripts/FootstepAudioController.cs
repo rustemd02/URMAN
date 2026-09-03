@@ -34,6 +34,17 @@ public partial class FootstepAudioController : Node
         AddChild(_stepPlayer);
     }
 
+    public override void _ExitTree()
+    {
+        // Release the last step stream synchronously so the evidence wrapper
+        // does not report a false-positive resource leak at exit.
+        if (_stepPlayer is not null)
+        {
+            _stepPlayer.Stop();
+            _stepPlayer.Stream = null;
+        }
+    }
+
     public override void _PhysicsProcess(double delta)
     {
         if (_actor is null)
