@@ -2679,3 +2679,30 @@ documents are not art authority.
 
 Linked files: `design_style.md`, `art/act1_master_layout_2026-08-17.md`,
 `art/act1_visual_reference_bible_2026-08-17.md`
+
+## 2026-09-03 — Stop painterly texture candidate churn; production set is the runtime-referenced six
+
+Status: Accepted
+
+Context: ART-009 requires one selected production material set instead of
+endless candidate churn. The runtime material owner `PainterlyMaterialLibrary`
+references exactly six albedo textures: `weathered_wood_boards_albedo`,
+`damp_earth_albedo`, `aged_plaster_albedo`, `pine_foliage_albedo` (v1 family)
+plus `mossy_stone_v2_albedo` and `old_fabric_v2_albedo`. The v2–v6 candidate
+textures are already marked `candidate-provenance; exclude-from-act1-release`
+in `assets/asset_registry.json` (BASE-007). STOP-DOING item 4 forbids new
+texture variants before geometry/contact work.
+
+Decision: Treat the six runtime-referenced families as the current production
+set. No new painterly variants are authored; no candidate is promoted to the
+runtime set without a recorded, proven material/scale blocker and a new
+decision log entry. Candidate PNGs stay in the repository as provenance and
+outside the Act I release package disposition.
+
+Consequences: Candidate churn stops at v6. Final visual confirmation of the
+production set (tiling, value separation, motion review at 65/75/90 FOV)
+remains the open human art review owned by ART-009/CAPTURE-006; this decision
+does not claim art lock.
+
+Linked files: `game/scripts/PainterlyMaterialLibrary.cs`,
+`assets/asset_registry.json`
