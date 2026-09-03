@@ -402,7 +402,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
-        GD.Print($"act1-first-person-walkthrough: PASS distance={_walkedMeters:F2}m final-zone={bridge.CurrentZoneId} cliffhanger=completed");
+        GD.Print($"act1-first-person-walkthrough: PASS mode=physical-characterbody-walk (real movement/ray/input; distinct from the capture harness's presentation waypoint audit) distance={_walkedMeters:F2}m final-zone={bridge.CurrentZoneId} cliffhanger=completed");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
     }

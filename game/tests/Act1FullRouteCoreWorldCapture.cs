@@ -241,7 +241,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
 
         var traversal = BuildTraversalReceipt();
         WriteReceipt(outputDirectory, presentationAudit, captures, traversal);
-        GD.Print($"act1-full-route-core-world-capture: PASS frames={captures.Count} zones={presentationAudit.VisualZoneCount} traversal_waypoints={traversal.WaypointCount} output={outputDirectory}");
+        GD.Print($"act1-full-route-core-world-capture: PASS mode=presentation-waypoint-audit (world-space straight-line distances between audit waypoints; not gameplay walk completion) frames={captures.Count} zones={presentationAudit.VisualZoneCount} traversal_waypoints={traversal.WaypointCount} output={outputDirectory}");
 
         // Release the production hierarchy synchronously before Godot exits.
         // A queued free leaves the many authored collision shapes alive until
