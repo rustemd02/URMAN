@@ -7,11 +7,23 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: UIUX-006 committed. Next queue: AUDIO-002 sound map
-  doc, NARR-016 storytelling matrix doc, UIUX-003/004 polish, then remaining
-  automatable slices. WAVE 4-7 substantive art/narrative slices stay
-  REWORK/OPEN pending the CAPTURE-003/004/006 human evidence cycle
-  (rationale in Completed below).
+- Current task/slice: AUDIO-002 committed. Next queue: NARR-016 storytelling
+  matrix doc, UIUX-003/004 polish, then remaining automatable slices. WAVE
+  4-7 substantive art/narrative slices stay REWORK/OPEN pending the
+  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+
+## Completed
+
+- AUDIO-002 (P1 CREATE): Act I sound map 2026-09-04.
+  - New `docs/urman_knowledge_base/audio/act1_sound_map.md`: beds (current
+    stems -> authored targets per AUDIO-003..008), spot events, authored
+    silence windows (zirat pause, Kara threshold), transition/crossfade and
+    voice-priority rules, anti-pattern list (no combat/stingers, no silence-
+    as-cover). Cue IDs aligned with `definitions.json`
+    (`audio-marat-voice`, `audio-rinat-interruption`); routing facts from
+    `ambient_manifest.json` + `AmbientAudioDirector`.
+  - Human remainder: narrative/audio listening review (AUDIO-014, CULTURE-004).
+  - Docs-only slice; suites unchanged-green (last runs exit 0).
 
 ## Completed
 
@@ -536,8 +548,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: AUDIO-002 sound map doc, NARR-016 storytelling matrix doc,
-  UIUX-003/004 polish, then the next dependency-ready automatable slices.
+- Immediate: NARR-016 storytelling matrix doc, UIUX-003/004 polish, then
+  the next dependency-ready automatable slices.
 
 ## External gates
 
@@ -549,9 +561,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at AUDIO-002 — create
-  `docs/urman_knowledge_base/audio/act1_sound_map.md` (beds/events/silence/
-  transitions/voice priorities for 8 zones + 2 interiors + zirat-Kara road +
-  final beat, no combat logic, cue IDs aligned with definitions.json); verify
-  `./eng/verify-godot.sh` still green (docs-only), commit
-  `task(AUDIO-002): ...`. Then NARR-016, UIUX-003/004.
+- If interrupted now: resume at NARR-016 — create
+  `docs/urman_knowledge_base/art/act1_environmental_storytelling_matrix.md`
+  (per zone/room: intended inference, prop owner, false-positive risk,
+  clue-vs-atmosphere, aligned with definitions.json beats); verify docs-only
+  (suites unchanged green), commit `task(NARR-016): ...`. Then UIUX-003/004.
