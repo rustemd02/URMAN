@@ -7,7 +7,28 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: MAP-010 committed; next MAP-011 (world boundaries).
+- Current task/slice: WAVE 2+3 complete. Next: STATE-001 (P0 caller audit),
+  then GAME-010 (P0 no-combat audit), SAVE-003/TEST-006 (P0 lifecycle tests).
+  Zone-by-zone tasks (WAVE 4-5, Z01-Z08) keep REWORK/OPEN: their automatable
+  evidence (composition anchors, distinct-frame capture runs, single-owner
+  smokes) is already recorded in MAP-003..008/ART-003..012 receipts; the
+  remaining substantive slice is in-engine authored art iteration + human
+  motion/360 review (CAPTURE-003/004/006 evidence cycle). Duplicating that
+  evidence 32 more times per zone would violate STOP-DOING #11 without a
+  player-visible delta; statuses stay honest (not PASS).
+
+## Completed
+
+- WAVE 3 (ART-003/004/007/008/009/010/011/012): inspection + churn-stop
+  slices 2026-09-03, one commit each:
+  `7b34059` ART-003 village volumes, `86b45ad` ART-004 FAP full volume,
+  `9ebbf49` ART-007 terrain owner, `77c8b30` ART-008 foliage contract,
+  `533907a` ART-009 texture churn stop (decision log entry: production set =
+  six runtime-referenced families; candidates provenance/out-of-package),
+  `ed68c8c` ART-010 single environment owner, `55c6f1f` ART-011 suppression
+  inventory, `19a74e4` ART-012 NPC presence. verify-assets exit 0 after the
+  decision-log change. All human review components remain open
+  (CAPTURE-006, CULTURE-002/003).
 
 ## Completed
 
@@ -312,8 +333,11 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate (WAVE 2): MAP-011 (perimeter/boundaries inspection), then
-  MAP-012 (FOV/motion), then WAVE 3 ART tasks.
+- Immediate: STATE-001 P0 repo-wide RuntimeBridge sole-writer caller audit
+  (rg + ledger, `evidence/act1_repo_baseline/state001_caller_audit.md`), then
+  GAME-010 P0 no-combat audit, then SAVE-003 (lifecycle API) / TEST-007
+  (static assertions) as their dependencies close. WAVE 4-5 zone art stays
+  open pending the CAPTURE-003/004/006 evidence cycle (human).
 
 ## External gates
 
@@ -325,6 +349,10 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at MAP-011 (perimeter/boundaries: framing and
-  suppression scopes in `Act1ConnectedWorld.cs`; human perimeter walk stays
-  with the task), then MAP-012.
+- If interrupted now: resume at STATE-001 — run
+  `rg -n 'DispatchAsync|ApplySnapshot|RuntimeKernel|SaveGameV3|SetWorldLocation' game/scripts src-dotnet`,
+  classify every caller as authorized RuntimeBridge-owned write vs
+  reader/presenter, write
+  `evidence/act1_repo_baseline/state001_caller_audit.md`, then GAME-010
+  `rg -n -i 'attack|weapon|damage|health|combat' game content src-dotnet --glob '!**/fullgame*'`
+  manual classification ledger.
