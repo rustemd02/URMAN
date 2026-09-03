@@ -7,11 +7,25 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: BASE-003 inspection-first (next)
+- Current task/slice: BASE-003 committed; next MAP-001 verify, then BASE-005 capture diagnosis.
 
 ## Completed
 
-- BASE-001 + BASE-002 preflight: PASS 2026-09-03.
+- BASE-003 inspection-first: KEEP/VERIFY 2026-09-03 (no code edit).
+  - Contract proven by source inspection on `66684b7`: `act1_demo.tscn` →
+    `Act1DemoRoot` → one `main.tscn` instantiation with
+    `EnableAct1ConnectedWorld=true`; one `Act1ConnectedWorld` under `ZoneHost`;
+    connected-mode `SwitchZone` guards non-Act-I zones; fallback per-scene
+    loader only reachable with flag false (tests/fullgame). Owners: 5 placements
+    / 7 connectors in `Act1WorldLayout`; single labeled FAP owner with
+    suppressed `Fap_*` families; `CountActiveWorldEnvironments == 1`; single
+    `RuntimeBridge` + single `AmbientAudioDirector` in `main.tscn`; no
+    scene-local narrative store. Assertions enforced by
+    `Act1DemoLaunchSmokeTest.cs:41-109`.
+  - Evidence: `evidence/act1_repo_baseline/base003_owner_inspection.md`,
+    `evidence/act1_repo_baseline/base003-verify-godot-PASS.txt` (exit 0).
+
+- BASE-001 + BASE-002 preflight: PASS 2026-09-03 (commit `66684b7`).
   - Root cause of initial `verify-dotnet` FAIL: stale frozen golden fixture
     `tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json` (fp `d89a…`)
     vs legitimate HEAD authored content (Mansur PC gate, Naila dialogues, house
@@ -24,8 +38,6 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
   - Evidence: `evidence/act1_repo_baseline/verify-dotnet-baseline.txt` (initial
     FAIL), `evidence/act1_repo_baseline/verify-dotnet-PASS.txt`,
     `evidence/act1_repo_baseline/verify-godot-PASS.txt`.
-  - Commit: `task(BASE-001): preflight BASE-002` (this ledger + baseline doc +
-    fixture/test fix only).
 
 ## Blocked / BLOCKED_EXTERNAL
 
@@ -48,7 +60,7 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: BASE-003 inspection-first, then MAP-001, BASE-005.
+- Immediate: MAP-001 (verify canonical route), then BASE-005 (capture diagnosis).
 
 ## External gates
 
@@ -56,6 +68,7 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at BASE-003 inspection-first
-  (`technical_architecture.md`, `decision_log.md`, `game/scripts/Main.cs`
-  boundary vs `Act1DemoRoot` → `main.tscn` → `Act1ConnectedWorld` chain).
+- If interrupted now: resume at MAP-001 verification (walkthrough smoke +
+  8 direct visual zones count), then BASE-005 duplicate-capture diagnosis
+  (`game/tests/Act1FullRouteCoreWorldCapture.cs`,
+  `eng/capture-act1-full-route-core-world.sh`).
