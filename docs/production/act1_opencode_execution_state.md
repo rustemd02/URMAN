@@ -7,10 +7,20 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: MAP-003 inspection committed; next MAP-004 route
-  readability (arrival→house) inspection.
+- Current task/slice: MAP-004 inspection committed; next MAP-005 (FAP branch
+  sightline inspection).
 
 ## Completed
+
+- MAP-004: inspection slice done 2026-09-03 (no code edit).
+  - Receipt `evidence/act1_repo_baseline/map004_arrival_house_chain.md`:
+    arrival→yard-gate→door chain documented from `AgentBAct1Layout`
+    (`HousePathAxis`, `WalkChain` with the open yard gate gap z 1.75–3.45),
+    `BabaiYardOpenGate` composition anchor (`Act1ConnectedWorld.cs:4765`) and
+    the walkthrough's ±0.01 m HouseDoor-at-anchor assertion with unchanged
+    ray standoff. Physical walk evidence = walkthrough PASS 135,49 m.
+  - Human first-time wayfinding observation remains NEW VERIFICATION REQUIRED
+    with the task; no marker/teleport fallback introduced.
 
 - MAP-003: inspection slice done 2026-09-03 (no code edit).
   - Receipt `evidence/act1_repo_baseline/map003_connector_inspection.md`:
@@ -238,20 +248,19 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate (WAVE 2): MAP-004 (arrival→house wayfinding chain inspection),
-  then MAP-005..MAP-012 in tracker order.
+- Immediate (WAVE 2): MAP-005 (FAP branch sightline/signboard inspection),
+  then MAP-006..MAP-012 in tracker order.
 
 ## External gates
 
 - ART-005 remainder: specialist religious/local sign-off + 360 in-engine
   review — BLOCKED_EXTERNAL.
 - ART-006 remainder: human 360/lateral-density art review — BLOCKED_EXTERNAL.
-- MAP-003 remainder: manual seven-connector edge-walk video — BLOCKED_EXTERNAL
-  (human traversal review; mechanical coverage closed).
+- MAP-003 remainder: manual seven-connector edge-walk video — BLOCKED_EXTERNAL.
+- MAP-004 remainder: observed first-time wayfinding — BLOCKED_EXTERNAL.
 
 ## Resume point
 
-- If interrupted now: resume at MAP-004 inspection (`arrival-to-house-yard`
-  connector + `Arrival`/`BabaiEbiYard`/`HouseExteriorApproach` scopes in
-  `Act1ConnectedWorld.cs`, gate/door approach anchors; walkway smoke covers
-  the chain; human wayfinding proof stays with the task).
+- If interrupted now: resume at MAP-005 inspection (`village-to-fap-branch`
+  sightline, `RoadToFap` target in `StyleBenchmarkZone.cs`, ФАП signboard
+  anchors in `Act1ConnectedWorld.cs` framing scopes).
