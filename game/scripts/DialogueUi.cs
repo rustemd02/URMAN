@@ -17,10 +17,12 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public bool IsOpen => _screen.Visible;
 
+    private AudioStreamPlayer? _foley;
+
     public override void _Ready()
     {
         AddToGroup("dialogue_ui");
-        AddToGroup(AccessibilityPresentation.TargetGroup);
+        _foley = UiFoley.Attach(this);        AddToGroup(AccessibilityPresentation.TargetGroup);
         _screen = GetNode<Control>("Screen");
         _panel = GetNode<Control>("Screen/Panel");
         _speaker = GetNode<Label>("Screen/Panel/Layout/Speaker");
@@ -64,6 +66,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _bridge = bridge;
         _dialogue = bridge.RequireDialogue(dialogueId);
         _continue.Visible = false;
+        UiFoley.Play(_foley, "ui_click");
         _screen.Visible = true;
         SetPlayerModal(true);
         if (!await ShowNodeAsync(_dialogue.StartNodeId, applyEffects: true))
@@ -140,6 +143,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void Close()
     {
+        UiFoley.Play(_foley, "ui_click");
         _screen.Visible = false;
         _bridge = null;
         _dialogue = null;

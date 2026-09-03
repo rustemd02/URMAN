@@ -7,11 +7,17 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: AUDIO-010 committed. Next automatable slices:
-  AUDIO-010 remainder (foley for journal/document/dialogue UIs via the same
-  pattern), AUDIO-005 house interior bed variants via the sub-key pattern.
-  WAVE 4-7 substantive art/narrative slices stay REWORK/OPEN pending the
-  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below). Full accounting: remaining tasks are human-gated (capture/playtest/culture/
+- Current task/slice: AUDIO-010 remainder committed (journal/document/
+  dialogue foley via shared UiFoley). NEXT AUTOMATABLE SLICE: SAVE-004 (P1
+  CREATE — checkpoint policy: minimal auto-save checkpoints after old-PC
+  contradiction, FAP evidence, language reread and pre-Kara; writer only
+  RuntimeBridge; no autosave inside dialogue/document/transition states).
+  Then SAVE-002 beat-matrix remainder, STATE-003 repeat-idempotency fixtures.
+  Beyond that: human-gated
+  (capture/playtest/culture/audio-recording/platform/RC) or
+  authored-iteration (zones/interiors/ART deep passes). WAVE 4-7 stay
+  REWORK/OPEN pending the CAPTURE-003/004/006 human evidence cycle (rationale
+  in Completed below). Full accounting: remaining tasks are human-gated (capture/playtest/culture/
   audio-recording/platform/RC), authored-iteration (zones/interiors/ART deep
   passes), or acceptance-blocked polish (UIUX-002/003/004/009/012 — each
   needs human readability/motion/first-time evidence; no honest code delta
@@ -103,6 +109,19 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
   - Evidence: `evidence/act1_repo_baseline/audio010-verify-{godot,dotnet}-PASS.txt`.
   - Remaining AUDIO-010 scope: foley for journal/document/dialogue UIs uses
     the same pattern (open work).
+
+- AUDIO-010 remainder (P1 CREATE): journal/document/dialogue foley
+  2026-09-04.
+  - New shared `game/scripts/UiFoley.cs` (SFX-bus player attach + cached
+    sample playback + headless guard); `OldPcUi` refactored onto it.
+  - Wired: JournalUi open -> paper; DocumentUi open -> paper, close -> click;
+    DialogueUi open/continue/close -> soft clicks/keys. Production handlers
+    preserved (an initial patch accidentally replaced Save/Close/Search
+    handlers — caught by the suite and fixed).
+  - verify-godot exit 0 (14 PASS smokes, zero leak warnings),
+    verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/audio010b-verify-{godot,dotnet}-PASS.txt`.
+  - Human remainder: listening review (AUDIO-014, CULTURE-004).
 
 - AUDIO-009 (P1 CREATE): zone-transition bed routing smoke 2026-09-04.
   - New `Act1AudioTransitionSmokeTest` in the aggregator: switching through

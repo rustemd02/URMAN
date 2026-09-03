@@ -26,10 +26,12 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public string StatusText => _status?.Text ?? string.Empty;
 
+    private AudioStreamPlayer? _foley;
+
     public override void _Ready()
     {
         AddToGroup("document_ui");
-        AddToGroup(AccessibilityPresentation.TargetGroup);
+        _foley = UiFoley.Attach(this);        AddToGroup(AccessibilityPresentation.TargetGroup);
         _screen = GetNode<Control>("Screen");
         _documentView = GetNode<Control>("Screen/Document");
         _title = GetNode<Label>("Screen/Document/Layout/Header/Title");
@@ -61,6 +63,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _body.Text = document.BodyMarkdown;
         _status.Text = "Документ найден в зоне · можно добавить в журнал";
         _save.Disabled = false;
+        UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;
         SetPlayerModal(true);
         _close.GrabFocus();
@@ -91,6 +94,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void Close()
     {
+        UiFoley.Play(_foley, "ui_click");
         _screen.Visible = false;
         _bridge = null;
         _document = null;

@@ -35,51 +35,20 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _status = GetNode<Label>("Screen/Computer/Layout/Footer/Status");
         _save = GetNode<Button>("Screen/Computer/Layout/Footer/Save");
         GetNode<Button>("Screen/Computer/Layout/Header/Close").Pressed += Close;
-        GetNode<Button>("Screen/Computer/Layout/Header/Close").Pressed += () => PlayFoley(_foleyClick);
+        GetNode<Button>("Screen/Computer/Layout/Header/Close").Pressed += () => PlayFoley("ui_click");
         GetNode<Button>("Screen/Computer/Layout/SearchRow/Search").Pressed += Search;
-        GetNode<Button>("Screen/Computer/Layout/SearchRow/Search").Pressed += () => PlayFoley(_foleyKey);
+        GetNode<Button>("Screen/Computer/Layout/SearchRow/Search").Pressed += () => PlayFoley("keyboard_key");
         _query.TextSubmitted += _ => Search();
         _results.ItemSelected += OpenDocument;
         _save.Pressed += SaveDocument;
-        _save.Pressed += () => PlayFoley(_foleyPaper);
+        _save.Pressed += () => PlayFoley("paper_open");
         // AUDIO-010: presentation-only interaction foley on the SFX bus.
-        AudioSettingsService.EnsureBuses();
-        _foley = new AudioStreamPlayer { Name = "FoleyPlayer", Bus = AudioSettingsService.SfxBus };
-        _foley.VolumeDb = -10f;
-        AddChild(_foley);
-        _foleyClick = LoadFoley("ui_click");
-        _foleyKey = LoadFoley("keyboard_key");
-        _foleyPaper = LoadFoley("paper_open");
+        _foley = UiFoley.Attach(this);
     }
 
     private AudioStreamPlayer? _foley;
-    private AudioStream? _foleyClick;
-    private AudioStream? _foleyKey;
-    private AudioStream? _foleyPaper;
 
-    private AudioStream? LoadFoley(string name)
-    {
-        var path = $"res://assets/audio/act1/foley/{name}.wav";
-        return ResourceLoader.Exists(path) ? ResourceLoader.Load<AudioStream>(path) : null;
-    }
-
-    private void PlayFoley(AudioStream? stream)
-    {
-        // Headless runs have no audio output; the ambient director applies
-        // the same guard so teardown never races a playing sample.
-        if (DisplayServer.GetName() == "headless")
-        {
-            return;
-        }
-
-        if (_foley is null || stream is null)
-        {
-            return;
-        }
-
-        _foley.Stream = stream;
-        _foley.Play();
-    }
+    private void PlayFoley(string sample) => UiFoley.Play(_foley, sample);
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings) =>
         AccessibilityPresentation.ApplyToControl(_computer, settings);
@@ -94,9 +63,6 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
             _foley.Stream = null;
         }
 
-        _foleyClick = null;
-        _foleyKey = null;
-        _foleyPaper = null;
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
@@ -124,7 +90,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async void Search()
     {
-        PlayFoley(_foleyKey);
+        PlayFoley("keyboard_key");
         if (_bridge is null)
         {
             return;

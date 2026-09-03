@@ -25,10 +25,12 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public string LearnedVocabularyText => _vocabulary?.Text ?? string.Empty;
 
+    private AudioStreamPlayer? _foley;
+
     public override void _Ready()
     {
         AddToGroup("journal_ui");
-        AddToGroup(AccessibilityPresentation.TargetGroup);
+        _foley = UiFoley.Attach(this);        AddToGroup(AccessibilityPresentation.TargetGroup);
         _screen = GetNode<Control>("Screen");
         _book = GetNode<Control>("Screen/Book");
         _entries = GetNode<ItemList>("Screen/Book/Layout/WorkArea/Entries");
@@ -72,6 +74,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         _bridge = bridge;
         Refresh();
+        UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;
         SetPlayerModal(true);
         (_projection.Count > 0 ? (Control)_entries : _close).GrabFocus();
