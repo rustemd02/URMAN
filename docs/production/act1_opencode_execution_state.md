@@ -7,11 +7,31 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: UIUX-005 committed. Next queue: STATE-005 final-state
-  fixtures (P0), GAME-009 interruption matrix (P0), TEST-007 static
-  assertions, then remaining UIUX P1s. WAVE 4-7 substantive art/narrative
-  slices stay REWORK/OPEN pending the CAPTURE-003/004/006 human evidence
-  cycle (rationale in Completed below).
+- Current task/slice: STATE-005 committed. Next queue: GAME-009 (P0
+  interruption matrix), TEST-007 (static assertions), remaining UIUX P1s.
+  WAVE 4-7 substantive art/narrative slices stay REWORK/OPEN pending the
+  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+
+## Completed
+
+- STATE-005 (P0): focused final-state fixtures 2026-09-03.
+  - New `game/tests/Act1FinalStateSmokeTest(.cs/.tscn)` in the aggregator;
+    drives the real authored chain through RuntimeBridge to the zirat road,
+    then proves the STATE-005 matrix:
+    (1) forest approach locked before the zirat clue; out-of-order dispatch
+    rejected with no state change and no final knowledge;
+    (2) zirat clue confirms WITHOUT granting `clue_do_not_answer_rule`;
+    (3) pre-forest snapshot: reveal-hidden, cliffhanger not completed;
+    (4) forest entry completes the single terminal beat;
+    (5) loading the pre-forest save restores the pre-reveal state exactly
+    (reveal gone, beat not completed, scene zirat-road);
+    (6) ending completes again after restore — once; a post-terminal repeat
+    dispatch is scene-locked, rejected, and leaves the terminal state
+    byte-identical.
+  - Reveal-not-before ordering survives the save/load round trip (MAP-009
+    contract + STATE-005 acceptance).
+  - verify-godot exit 0 (aggregator incl. new smoke), verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/state005-verify-{godot,dotnet}-PASS.txt`.
 
 ## Completed
 
@@ -450,8 +470,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: STATE-005 (P0 final-state fixtures), GAME-009 (P0 interruption
-  matrix), TEST-007 (static assertions), then remaining UIUX P1s.
+- Immediate: GAME-009 (P0 interruption matrix — extend focused smokes for
+  modal-interrupt/repeat/backtrack softlock coverage), TEST-007 (static
+  assertions), then remaining UIUX P1s.
 
 ## External gates
 
@@ -463,9 +484,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at STATE-005 — add focused final-state fixtures
-  proving the terminal `clue_do_not_answer_rule` state is unreachable before
-  Rinat and single after commit (extend existing dotnet/Godot tests per
-  MAP-009 contract), verify
+- If interrupted now: resume at GAME-009 — extend focused smokes with the
+  interruption/softlock matrix (modal interrupt during dialogue/document/PC,
+  repeated interact, unavailable targets, save/load around gates), verify
   `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(STATE-005): ...`. Then GAME-009 interruption matrix.
+  `task(GAME-009): ...`. Then TEST-007.
