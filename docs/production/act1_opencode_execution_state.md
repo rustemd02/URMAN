@@ -7,12 +7,28 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: TEST-007 committed. Next queue: remaining automatable
-  P1/P2 slices — UIUX-006/007/008 (settings navigation + user-settings store
-  + input parity), AUDIO-002 (sound map doc), NARR-016 (environmental
-  storytelling matrix doc), UIUX-003/004 polish. WAVE 4-7 substantive
-  art/narrative slices stay REWORK/OPEN pending the CAPTURE-003/004/006
-  human evidence cycle (rationale in Completed below).
+- Current task/slice: UIUX-007 committed. Next queue: UIUX-006 (settings
+  navigation/apply-cancel semantics from menu+pause), UIUX-003/004 polish,
+  AUDIO-002 sound map doc, NARR-016 storytelling matrix doc. WAVE 4-7
+  substantive art/narrative slices stay REWORK/OPEN pending the
+  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+
+## Completed
+
+- UIUX-007 (P1 REWORK): versioned user settings store 2026-09-03.
+  - New `game/scripts/UserSettingsStore.cs`: `user://settings.json`, versioned
+    payload holding ONLY the `GameSettingsSnapshot` (display/input/
+    accessibility — no narrative fields per the SAVE-006 boundary); atomic
+    write (temp+move), safe null on missing/corrupt file.
+  - `FirstPersonController`: cold launch restores stored preferences
+    (`_Ready`); every applied settings snapshot persists to the store (latest
+    applied mirror). Story slots keep their own settings snapshot — restoring
+    a slot applies the slot's values and the store follows as latest-applied.
+  - New `Act1UserSettingsSmokeTest` in the aggregator: cold persistence,
+    store/slot separation (store=70 while slot=82, restore applies 82), safe
+    store reset (narrative slot unaffected).
+  - verify-godot exit 0 (aggregator incl. new smoke), verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/uiux007-verify-{godot,dotnet}-PASS.txt`.
 
 ## Completed
 
@@ -505,8 +521,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: UIUX-006/007 (settings navigation + user-settings store),
-  AUDIO-002 sound map doc, NARR-016 storytelling matrix doc, UIUX-003/004.
+- Immediate: UIUX-006 (settings navigation/apply-cancel semantics),
+  UIUX-003/004, AUDIO-002 sound map doc, NARR-016 storytelling matrix doc.
 
 ## External gates
 
@@ -518,8 +534,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at UIUX-007 — small versioned
-  `UserSettingsStore` (display/input/audio/accessibility only, no narrative
-  fields) + persistence smoke, per SAVE-006 boundary; verify
+- If interrupted now: resume at UIUX-006 — settings navigation: menu-safe
+  open (from MainMenuUi + PauseMenuUi already wired), full keyboard/mouse/
+  gamepad focus order, apply/cancel rollback semantics, visible defaults;
+  focused settings-navigation smoke + aggregator entry; verify
   `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(UIUX-007): ...`. Then UIUX-006, AUDIO-002, NARR-016.
+  `task(UIUX-006): ...`. Then UIUX-003/004, AUDIO-002, NARR-016.

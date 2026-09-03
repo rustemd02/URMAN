@@ -75,6 +75,12 @@ public partial class FirstPersonController : CharacterBody3D
             _graphicsPreset = "low";
         }
         ApplyGraphicsPreset();
+        // UIUX-007: user preferences survive cold launches independently of
+        // any story save slot.
+        if (UserSettingsStore.TryLoad() is { } storedSettings)
+        {
+            ApplySettings(storedSettings);
+        }
         AccessibilityPresentation.ApplyToTree(GetTree(), _accessibility);
     }
 
@@ -146,6 +152,9 @@ public partial class FirstPersonController : CharacterBody3D
         InputBindingService.Apply(settings.InputBindings);
         ApplyGraphicsPreset();
         AccessibilityPresentation.ApplyToTree(GetTree(), _accessibility);
+        // UIUX-007: the latest applied preferences persist for the next cold
+        // launch, independent of any story save slot.
+        UserSettingsStore.Save(settings);
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
