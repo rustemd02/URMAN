@@ -62,6 +62,9 @@ public partial class FirstPersonController : CharacterBody3D
     public override void _Ready()
     {
         AddToGroup("player_controller");
+        // UIUX-008: snapshot pristine bindings before any rebind or stored
+        // settings can mutate the input map, so restore-defaults is honest.
+        InputBindingService.InitializeDefaults();
         _head = GetNode<Node3D>("Head");
         _camera = GetNode<Camera3D>("Head/Camera3D");
         _interactionRay = GetNode<RayCast3D>("Head/Camera3D/InteractionRay");

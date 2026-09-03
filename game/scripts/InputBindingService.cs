@@ -19,6 +19,14 @@ public static class InputBindingService
         "quick_load"
     ];
 
+    private static IReadOnlyList<InputBindingSnapshot>? _defaults;
+
+    /// <summary>
+    /// UIUX-008: capture the pristine project-default bindings once, before
+    /// any rebind or saved-settings apply can mutate the input map.
+    /// </summary>
+    public static void InitializeDefaults() => _defaults ??= Capture();
+
     public static IReadOnlyList<InputBindingSnapshot> Capture() => RemappableActions
         .Select(CaptureAction)
         .ToArray();
@@ -44,6 +52,28 @@ public static class InputBindingService
                 AddGamepadAxis(action, axis, (float)sign);
             }
         }
+    }
+
+    /// <summary>
+    /// UIUX-008: remappable actions already bound to the same physical key
+    /// (excluding the action being rebound). Empty means no conflict.
+    /// </summary>
+    public static IReadOnlyList<string> FindKeyboardConflicts(Key physicalKeycode, string excludingAction)
+    {
+        InitializeDefaults();
+        return RemappableActions
+            .Where(action => !string.Equals(action, excludingAction, StringComparison.Ordinal))
+            .Where(action => InputMap.ActionGetEvents(action)
+                .OfType<InputEventKey>()
+                .Any(keyEvent => keyEvent.PhysicalKeycode == physicalKeycode))
+            .ToArray();
+    }
+
+    /// <summary>UIUX-008: restore the pristine project-default bindings.</summary>
+    public static void RestoreDefaults()
+    {
+        _defaults ??= Capture();
+        Apply(_defaults);
     }
 
     public static void RebindKeyboard(string action, Key physicalKeycode)

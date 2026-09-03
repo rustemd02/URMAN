@@ -7,11 +7,33 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: UIUX-011 committed. Next automatable queue: UIUX-008
-  (binding conflict detection), then reassess the automatable frontier
-  (likely exhausted except human-gated work). WAVE 4-7 substantive
-  art/narrative slices stay REWORK/OPEN pending the CAPTURE-003/004/006
-  human evidence cycle (rationale in Completed below).
+- Current task/slice: UIUX-008 committed. Automatable frontier reassessed:
+  remaining tasks are human-gated (capture/playtest/culture/audio-recording/
+  platform/RC), authored-iteration (zones/interiors/ART deep passes), or
+  acceptance-blocked polish (UIUX-002/003/004/009/010/012 — each needs human
+  readability/motion/first-time evidence; no honest code delta without it).
+  WAVE 4-7 substantive art/narrative slices stay REWORK/OPEN pending the
+  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+
+## Completed
+
+- UIUX-008 (P1 REWORK): binding conflict detection + restore defaults
+  2026-09-04.
+  - `InputBindingService.InitializeDefaults()` snapshots pristine bindings at
+    player ready (before any rebind/stored-settings apply); `RestoreDefaults()`
+    re-applies them; `FindKeyboardConflicts(key, excludingAction)` reports
+    other remappable actions bound to the same physical key.
+  - `SettingsUi`: a conflicting key now requires a second identical press
+    (explicit choice, conflicting action keeps its binding, warning names the
+    action); Esc/BeginRemap resets the pending conflict; new
+    «Сбросить управление» button restores defaults; `BeginRemap`/`IsAwaitingRemap`
+    exposed so tests drive the same production remap entry.
+  - New `Act1BindingConflictSmokeTest` in the aggregator: two-step conflicting
+    rebind (journal onto interact's key), conflicting action preserved,
+    restore-defaults returns pristine bindings with no empty actions.
+  - verify-godot exit 0 (aggregator incl. new smoke — 11 PASS lines),
+    verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/uiux008-verify-{godot,dotnet}-PASS.txt`.
 
 ## Completed
 
@@ -602,9 +624,10 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: UIUX-008 (binding conflict detection + restore defaults),
-  then reassess the automatable frontier (likely exhausted except
-  human-gated work).
+- Immediate: none — automatable frontier reached the human-gated evidence
+  cycle. Next session must re-verify: any new dependency-ready automatable
+  slice (from review feedback, regressions, or owner decisions) restarts the
+  loop; otherwise the run reports the exhausted-automatable state.
 
 ## External gates
 
@@ -616,9 +639,11 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at UIUX-008 — extend `InputBindingService`
-  with conflict detection on capture (warn + keep/restore choice) and an
-  explicit restore-defaults action, plus focused smoke covering a conflicting
-  rebind and recovery; verify `./eng/verify-dotnet.sh &&
-  ./eng/verify-godot.sh`, commit `task(UIUX-008): ...`. Then reassess the
-  automatable frontier (likely exhausted except human-gated work).
+- If interrupted now: the automatable frontier is reached. Next session:
+  (1) re-run `./eng/verify-dotnet.sh && ./eng/verify-godot.sh` on HEAD to
+  re-confirm green, (2) sweep the tracker for any newly dependency-ready
+  automatable slice or review feedback, (3) if none — the run reports the
+  exhausted-automatable state (Definition of Exhausted Automatable Work,
+  tracker section 0): every remaining task is human-gated (capture/
+  playtest/culture/audio-recording/platform/RC), authored-iteration, or
+  acceptance-blocked polish with the reasons recorded in this ledger.

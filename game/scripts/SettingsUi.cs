@@ -26,6 +26,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
     private FirstPersonController? _player;
     private readonly Dictionary<string, Button> _bindingButtons = new(StringComparer.Ordinal);
     private string? _awaitingAction;
+    private Key? _pendingConflictKey;
     private bool _saveLoadInProgress;
 
     private static readonly IReadOnlyDictionary<string, string> ActionLabels = new Dictionary<string, string>(StringComparer.Ordinal)
@@ -43,6 +44,9 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
     };
 
     public bool IsOpen => _screen.Visible;
+
+    /// <summary>UIUX-008: true while a rebind is awaiting a key/button/axis.</summary>
+    public bool IsAwaitingRemap => _awaitingAction is not null;
 
     public override void _Ready()
     {
@@ -140,12 +144,26 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
             {
                 if (key.PhysicalKeycode == Key.Escape)
                 {
+                    _pendingConflictKey = null;
                     FinishRemap("Переназначение отменено.");
                 }
                 else if (key.PhysicalKeycode != Key.None)
                 {
-                    InputBindingService.RebindKeyboard(_awaitingAction, key.PhysicalKeycode);
-                    FinishRemap("Клавиша изменена и войдёт в следующее сохранение.");
+                    // UIUX-008: a key already bound elsewhere requires a
+                    // second identical press; the conflicting action keeps
+                    // its binding unless the player confirms.
+                    var conflicts = InputBindingService.FindKeyboardConflicts(key.PhysicalKeycode, _awaitingAction);
+                    if (conflicts.Count > 0 && _pendingConflictKey != key.PhysicalKeycode)
+                    {
+                        _pendingConflictKey = key.PhysicalKeycode;
+                        _status.Text = $"Конфликт с «{InputBindingService.Label(conflicts[0])}». Нажмите ту же клавишу ещё раз, чтобы переназначить её сюда.";
+                    }
+                    else
+                    {
+                        _pendingConflictKey = null;
+                        InputBindingService.RebindKeyboard(_awaitingAction, key.PhysicalKeycode);
+                        FinishRemap("Клавиша изменена и войдёт в следующее сохранение.");
+                    }
                 }
 
                 GetViewport().SetInputAsHandled();
@@ -303,6 +321,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
     public void Close()
     {
         _awaitingAction = null;
+        _pendingConflictKey = null;
         _screen.Visible = false;
         _player?.SetModalOpen(false);
         _player = null;
@@ -344,11 +363,27 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
             _bindingButtons.Add(action, button);
         }
 
+        var restoreButton = new Button
+        {
+            Text = "Сбросить управление",
+            CustomMinimumSize = new Vector2(210, 0)
+        };
+        restoreButton.Pressed += () =>
+        {
+            InputBindingService.RestoreDefaults();
+            RefreshBindingLabels();
+            _status.Text = "Управление сброшено к значениям по умолчанию.";
+        };
+        _bindings.AddChild(restoreButton);
+
         RefreshBindingLabels();
     }
 
-    private void BeginRemap(string action)
+    /// <summary>UIUX-008: the binding button handler; public so tests and
+    /// future UI hosts drive the same production remap entry.</summary>
+    public void BeginRemap(string action)
     {
+        _pendingConflictKey = null;
         _awaitingAction = action;
         _bindingButtons[action].Text = "Нажмите клавишу, кнопку или ось…";
         _status.Text = $"Новое управление: {ActionLabels[action]}. Esc отменяет.";
