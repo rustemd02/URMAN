@@ -131,6 +131,49 @@ public partial class RuntimeBridge : Node
         _saveStore is not null
         && (File.Exists(_saveStore.SlotPath(slot)) || File.Exists(_saveStore.BackupPath(slot)));
 
+    /// <summary>
+    /// SAVE-003 Continue contract: a slot is loadable when the atomic store
+    /// holds a primary or backup payload for it. The load itself re-verifies
+    /// the campaign fingerprint and fails safely (state untouched) when the
+    /// payload is invalid, so callers can gate a Continue action on this
+    /// query without a second save-format owner.
+    /// </summary>
+    public bool HasLoadableSlot(string slot) => IsSlotAvailable(slot);
+
+    /// <summary>
+    /// SAVE-003 New Game contract: begin a fresh narrative session without
+    /// deleting any existing slot (Continue must keep working) and without
+    /// wiping the player's live user settings. The runtime kernel,
+    /// capabilities, logical clock, RNG streams and scheduler are rebuilt
+    /// exactly as at first boot, the campaign entrypoint is re-applied, and
+    /// the player is placed at the canonical arrival spawn.
+    /// </summary>
+    public async Task<bool> StartNewGameAsync()
+    {
+        var player = FindPlayer();
+        if (_content is null || player is null)
+        {
+            GD.PushWarning("New game is unavailable before the runtime and player are ready.");
+            return false;
+        }
+
+        var preservedSettings = player.CaptureSettings();
+        CreateNewSession();
+        CurrentZoneId = "village_day";
+        CurrentSpawnPointId = "arrival";
+        await InitializeEntrypointAsync();
+
+        if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main)
+        {
+            main.SwitchZone(CurrentZoneId, CurrentSpawnPointId);
+        }
+
+        player.ApplySettings(preservedSettings);
+        QueueRuntimeStateChanged();
+        GD.Print("SaveGameV3 new game session started; existing slots untouched.");
+        return true;
+    }
+
     public async void QuickLoad()
     {
         _ = await LoadSlotAsync("quick");
