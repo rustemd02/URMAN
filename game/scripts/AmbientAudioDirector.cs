@@ -42,11 +42,13 @@ public partial class AmbientAudioDirector : Node
         _headless = string.Equals(DisplayServer.GetName(), "headless", StringComparison.Ordinal);
         for (var index = 0; index < _players.Length; index++)
         {
+            AudioSettingsService.EnsureBuses();
             var player = new AudioStreamPlayer
             {
                 Name = $"AmbientPlayer{index + 1}",
                 VolumeDb = MutedVolumeDb,
-                Autoplay = false
+                Autoplay = false,
+                Bus = AudioSettingsService.AmbienceBus
             };
             player.Finished += LoopCurrentStem;
             AddChild(player);

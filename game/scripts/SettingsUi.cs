@@ -71,6 +71,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         _sensitivity.ValueChanged += value => _sensitivityValue.Text = $"{value:0.00}";
         _textScale.ValueChanged += value => _textScaleValue.Text = $"{value:0.00}×";
         BuildBindingRows();
+        BuildVolumeRows();
         _save = GetNode<Button>("Screen/Panel/Layout/Buttons/Save");
         _load = GetNode<Button>("Screen/Panel/Layout/Buttons/Load");
         _save.Pressed += SaveQuickSlot;
@@ -78,6 +79,54 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         GetNode<Button>("Screen/Panel/Layout/Buttons/Apply").Pressed += Apply;
         GetNode<Button>("Screen/Panel/Layout/Buttons/Close").Pressed += Close;
         ApplyAccessibilitySettings(AccessibilitySettingsSnapshot.Default);
+    }
+
+    /// <summary>
+    /// UIUX-011: master/ambience/voice/SFX volume rows. Values apply live to
+    /// the audio buses and persist through AudioSettingsService; muted voice
+    /// keeps captions working because they are visual.
+    /// </summary>
+    private void BuildVolumeRows()
+    {
+        AudioSettingsService.EnsureBuses();
+        var layout = GetNode<VBoxContainer>("Screen/Panel/Layout");
+        var buttons = GetNode<HBoxContainer>("Screen/Panel/Layout/Buttons");
+        foreach (var (busName, label) in new[]
+                 {
+                     (AudioSettingsService.MasterBus, "Общая громкость"),
+                     (AudioSettingsService.AmbienceBus, "Окружение"),
+                     (AudioSettingsService.VoiceBus, "Голос"),
+                     (AudioSettingsService.SfxBus, "Эффекты")
+                 })
+        {
+            var row = new HBoxContainer { Name = $"{busName}VolumeRow" };
+            var name = new Label
+            {
+                Text = label,
+                CustomMinimumSize = new Vector2(180, 0)
+            };
+            var slider = new HSlider
+            {
+                Name = $"{busName}Volume",
+                MinValue = 0,
+                MaxValue = 1,
+                Step = 0.05,
+                Value = AudioSettingsService.GetVolume(busName),
+                CustomMinimumSize = new Vector2(180, 0)
+            };
+            var value = new Label { Name = "Value" };
+            value.Text = $"{slider.Value:0.00}";
+            slider.ValueChanged += sliderValue =>
+            {
+                value.Text = $"{sliderValue:0.00}";
+                AudioSettingsService.SetVolume(busName, (float)sliderValue);
+            };
+            row.AddChild(name);
+            row.AddChild(slider);
+            row.AddChild(value);
+            layout.AddChild(row);
+            layout.MoveChild(row, buttons.GetIndex());
+        }
     }
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings) =>

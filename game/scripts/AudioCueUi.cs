@@ -51,7 +51,9 @@ public partial class AudioCueUi : CanvasLayer, IAccessibilitySettingsTarget
         AddToGroup(AccessibilityPresentation.TargetGroup);
         _panel = GetNode<PanelContainer>("Panel");
         _label = GetNode<Label>("Panel/Margin/Text");
+        AudioSettingsService.EnsureBuses();
         _player = GetNode<AudioStreamPlayer>("AudioPlayer");
+        _player.Bus = AudioSettingsService.VoiceBus;
         _panel.Visible = false;
         ApplyAccessibilitySettings(_accessibility);
     }

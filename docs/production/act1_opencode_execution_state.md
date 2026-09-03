@@ -7,10 +7,30 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: NARR-016 committed; queue reassessed 2026-09-04 (below).
-  Next automatable code slices: UIUX-011 (audio bus volume service), UIUX-008
-  (binding conflict detection). WAVE 4-7 substantive art/narrative slices
-  stay REWORK/OPEN pending the CAPTURE-003/004/006 human evidence cycle.
+- Current task/slice: UIUX-011 committed. Next automatable queue: UIUX-008
+  (binding conflict detection), then reassess the automatable frontier
+  (likely exhausted except human-gated work). WAVE 4-7 substantive
+  art/narrative slices stay REWORK/OPEN pending the CAPTURE-003/004/006
+  human evidence cycle (rationale in Completed below).
+
+## Completed
+
+- UIUX-011 (P1 CREATE): audio bus volume service 2026-09-04.
+  - New `game/scripts/AudioSettingsService.cs`: creates the Act I bus set
+    (Master + routed Ambience/Voice/SFX) idempotently, applies per-bus
+    volumes live (mute at ~0), persists a versioned
+    `user://audio-settings.json` (atomic write, safe defaults).
+  - Routing: `AmbientAudioDirector` players -> Ambience bus; `AudioCueUi`
+    voice player -> Voice bus. Captions are visual, so a muted voice bus
+    still presents the authored line (mute-safe captions).
+  - `SettingsUi`: four volume rows (Общая/Окружение/Голос/Эффекты) applying
+    live and persisting.
+  - New `Act1AudioSettingsSmokeTest` in the aggregator: buses exist, player
+    routing, voice-mute keeps captions, live volume application, versioned
+    persistence (file parse), settings rows apply to the bus.
+  - verify-godot exit 0 (aggregator incl. new smoke — 10 PASS lines),
+    verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/uiux011-verify-{godot,dotnet}-PASS.txt`.
 
 ## Queue reassessment (2026-09-04, honest disposition of remaining families)
 
@@ -582,8 +602,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: UIUX-011 (audio volume service), UIUX-008 (binding conflicts),
-  then per reassessment above.
+- Immediate: UIUX-008 (binding conflict detection + restore defaults),
+  then reassess the automatable frontier (likely exhausted except
+  human-gated work).
 
 ## External gates
 
@@ -595,10 +616,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at UIUX-011 — create
-  `game/scripts/AudioSettingsService.cs` (master/ambience/voice/SFX bus
-  volumes on Godot buses, persisted via UserSettingsStore-compatible
-  versioned file, mute-safe captions via AudioCueUi), add volume rows to
-  SettingsUi, focused volume smoke + aggregator entry; verify
-  `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(UIUX-011): ...`. Then UIUX-008.
+- If interrupted now: resume at UIUX-008 — extend `InputBindingService`
+  with conflict detection on capture (warn + keep/restore choice) and an
+  explicit restore-defaults action, plus focused smoke covering a conflicting
+  rebind and recovery; verify `./eng/verify-dotnet.sh &&
+  ./eng/verify-godot.sh`, commit `task(UIUX-008): ...`. Then reassess the
+  automatable frontier (likely exhausted except human-gated work).
