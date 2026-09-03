@@ -7,10 +7,27 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: MAP-004 inspection committed; next MAP-005 (FAP branch
-  sightline inspection).
+- Current task/slice: MAP-006 committed; next MAP-007 (zirat transition).
 
 ## Completed
+
+- MAP-006: verification slice done 2026-09-03 (no code edit).
+  - Former blocker removed with evidence: the three connective_street_return
+    capture views are distinct on the current build — diag-run2 frames 23–25
+    have three camera transforms and three PNG SHAs (`de1028a3…`,
+    `729a5222…`, `177b0ef8…`), `same_as_prev=false`; 44/44 gate passed twice.
+  - Continuity anchors documented (FapYardGate/FapYardLoop egress,
+    house-to-zirat-return connector, return boundary fences,
+    ApproachWorn transition segment, single persistent world).
+  - Flat-corridor/empty-horizon judgement stays human.
+  - Evidence: `evidence/act1_repo_baseline/map006_return_street_continuity.md`.
+
+- MAP-005: inspection slice done 2026-09-03 (no code edit).
+  - Receipt `evidence/act1_repo_baseline/map005_fap_branch_sightline.md`:
+    branch read chain — `RoadToFap` trigger at connector start with diegetic
+    prompt, two diegetic «ФАП» landmarks (smoke-protected board label +
+    street landmark), authored `RoadCrown_BranchWet` road surface (ART-002),
+    single FAP destination volume. Human route clips remain with the task.
 
 - MAP-004: inspection slice done 2026-09-03 (no code edit).
   - Receipt `evidence/act1_repo_baseline/map004_arrival_house_chain.md`:
