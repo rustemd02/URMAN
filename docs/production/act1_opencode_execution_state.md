@@ -7,8 +7,12 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: UIUX-010 zone-fade slice committed. Automatable
-  frontier: remaining tasks are human-gated (capture/playtest/culture/
+- Current task/slice: TEST-008 closed via delivered smokes (UIUX-009/012
+  human evidence apart). NEXT AUTOMATABLE SLICE: AUDIO-004 (footsteps) —
+  procedural project-original samples via a generator (the established
+  pattern: existing stems are procedural project-original), surface tagging,
+  controller hook, focused smoke; then AUDIO-003/005/006/007 authored layers
+  via the same generator pattern. Full accounting: remaining tasks are human-gated (capture/playtest/culture/
   audio-recording/platform/RC), authored-iteration (zones/interiors/ART deep
   passes), or acceptance-blocked polish (UIUX-002/003/004/009/012 — each
   needs human readability/motion/first-time evidence; no honest code delta
@@ -31,6 +35,16 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
   - Evidence: `evidence/act1_repo_baseline/uiux010-verify-{godot,dotnet}-PASS.txt`.
   - Remaining UIUX-010 scope (full-route comfort at 65/75/90 FOV) stays with
     the human motion-comfort review (PLAYTEST-004).
+
+- TEST-008 (P0 CREATE): covered by delivered smokes 2026-09-04.
+  - Coverage receipt `evidence/act1_repo_baseline/test008_ui_smoke_coverage.md`
+    maps every required area (main menu, settings persistence, audio volumes,
+    modal stack, accessibility options) to the delivered aggregator smokes —
+    main menu, user settings, settings navigation, audio settings, pause
+    stack, binding conflicts, final state, interruption, reduced motion —
+    all driving production buttons/paths. verify-godot exit 0 (12 PASS
+    lines), verify-dotnet exit 0. Human readability/first-time gates stay
+    open (PLAYTEST-004, UIUX-009).
 
 ## Completed
 
@@ -70,6 +84,18 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
   - verify-godot exit 0 (aggregator incl. new smoke — 10 PASS lines),
     verify-dotnet exit 0.
   - Evidence: `evidence/act1_repo_baseline/uiux011-verify-{godot,dotnet}-PASS.txt`.
+
+## P2 disposition (explicit, per Definition of Exhausted Automatable Work)
+
+| P2 ID | Disposition | Reason |
+|---|---|---|
+| BASE-008 | done | tracked .DS_Store removed (commit `3776b27`) |
+| ART-012 | done (inspect slice) + open remainder | presence inspected; silhouette/variation and cultural review are human (CULTURE-002) |
+| Z01-005…Z08-005 (8) | deferred | landmark/prop wayfinding acceptance requires the first-person landmark test + art/cultural checklist — human evidence cycle after zone art iteration |
+| HOUSE-007, FAP-007 | deferred | comfort/perf polish explicitly after final art lock; measured bottlenecks first (STOP-DOING #7) |
+| NARR-016 | done | matrix authored (`a6e5ced`); readability review stays human |
+| AUDIO-010 | deferred | interaction foley needs authored project-original sounds + rights; wiring without them would ship placeholders |
+| UIUX-003/004/009 | deferred | prompt/affordance/readability acceptance needs visual + human matrix evidence (recorded in Queue reassessment) |
 
 ## Queue reassessment (2026-09-04, honest disposition of remaining families)
 
@@ -641,10 +667,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: none — automatable frontier reached the human-gated evidence
-  cycle. Next session must re-verify: any new dependency-ready automatable
-  slice (from review feedback, regressions, or owner decisions) restarts the
-  loop; otherwise the run reports the exhausted-automatable state.
+- Immediate: AUDIO-004 (footsteps: generator + surface tagging + controller
+  hook + smoke), then AUDIO-003/005/006/007 authored layer variants via
+  generators, AUDIO-009 transition routing, AUDIO-010 foley wiring.
 
 ## External gates
 
@@ -656,11 +681,12 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: the automatable frontier is reached. Next session:
-  (1) re-run `./eng/verify-dotnet.sh && ./eng/verify-godot.sh` on HEAD to
-  re-confirm green, (2) sweep the tracker for any newly dependency-ready
-  automatable slice or review feedback, (3) if none — the run reports the
-  exhausted-automatable state (Definition of Exhausted Automatable Work,
-  tracker section 0): every remaining task is human-gated (capture/
-  playtest/culture/audio-recording/platform/RC), authored-iteration, or
-  acceptance-blocked polish with the reasons recorded in this ledger.
+- If interrupted now: resume at AUDIO-004 — create
+  `tools/audio/generate_act1_footsteps.py` (project-original procedural
+  step samples per surface family: wet road, mud, grass, wood/porch,
+  interior floor), `game/scripts/FootstepAudioController.cs` (cadence from
+  real movement, surface by zone/ground tag, no gameplay state), route via
+  the SFX bus, focused footstep smoke + aggregator entry; verify
+  `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
+  `task(AUDIO-004): ...`. Then AUDIO-003/005/006/007 layer variants via
+  generators, AUDIO-009 routing, AUDIO-010 foley.
