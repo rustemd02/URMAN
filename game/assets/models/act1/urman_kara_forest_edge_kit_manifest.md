@@ -60,6 +60,23 @@ navigation, interaction, visibility ranges and runtime integration.
 
 ## Verification evidence
 
+Documented reproducible export (ART-006): the runtime GLB is produced from the
+authored `.blend` by the in-repo exporter, which validates the component
+contract and exports with fixed settings:
+
+```text
+.tools/blender/Blender.app/Contents/MacOS/Blender --background \
+  --python tools/blender/export_kara_forest_edge_kit.py -- --root <repo>
+```
+
+2026-09-03 result: `component_count=13 mesh_count=156 triangle_count=3144
+material_count=16`; re-exporting the unchanged source is byte-stable
+(GLB SHA-256 `28f58eaa61c97010dcee7fb0111f05424aa1a8809b348299cc7e524f2d30d48a`
+before and after). The exporter adds no geometry by design: threshold or
+silhouette changes must keep the restrained boundary motif, avoid
+creature-like silhouettes, preserve the central road sightline, and pass
+human 360 review before acceptance.
+
 Blender source reopen command:
 
 ```text

@@ -7,10 +7,26 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: ART-005 automatable portion committed; 360/specialist
-  review BLOCKED_EXTERNAL; next ART-006 Kara kit.
+- Current task/slice: ART-006 committed; FIRST WAVE complete. Next wave-2
+  dependency-ready: BASE-008, BASE-006, BASE-004, MAP-002+.
 
 ## Completed
+
+- ART-006 (automatable portion): documented reproducible export 2026-09-03.
+  - Audit: kit already carries the authored threshold/boundary family (13
+    roots: asymmetric banks, mixed tree clusters, crooked pine, birch edge,
+    root walls, fallen logs, boulders, stump, two distant closure masses with
+    a central road gap; 156 meshes / 3,144 tris / 16 materials). Runtime
+    composition places each root once with distinct roles — no repeated-clone
+    crown wall at composition level.
+  - Added `tools/blender/export_kara_forest_edge_kit.py` (same pattern as
+    ART-005): validates contract and exports with fixed settings.
+  - Proof: byte-stable re-export — GLB SHA-256 `28f58eaa…0d48a` identical
+    before/after; `./eng/verify-assets.sh` exit 0.
+  - No geometry changes authored: silhouette additions risk the
+    creature-as-prop hard stop and require human 360 review (Z08-004/Z08-006,
+    CAPTURE-006).
+  - BLOCKED_EXTERNAL remainder: human 360/lateral-density art review.
 
 - ART-005 (automatable portion): documented reproducible export 2026-09-03.
   - Audit: the kit already carries the tracker's required restrained geometry
@@ -169,8 +185,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: ART-006 (Kara forest-edge kit authored rework; same
-  documented-export pattern as ART-005).
+- Immediate (WAVE 2): BASE-008 (tracked `.DS_Store` removal), BASE-006
+  (execution_backlog.json repoint), BASE-004 (Act I include/exclude manifest),
+  then MAP-002+ route contract tasks.
 
 ## External gates
 
@@ -178,12 +195,10 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
   sign-off — BLOCKED_EXTERNAL (needs human reviewer; evidence package
   prepared in `game/assets/models/act1/urman_zirat_roadside_kit_manifest.md`
   and `evidence/act1_repo_baseline/art005-export-reproducible-PASS.txt`).
+- ART-006 remainder: human 360/lateral-density art review — BLOCKED_EXTERNAL.
 
 ## Resume point
 
-- If interrupted now: resume at ART-006
-  (`assets/source/blender/act1/urman_kara_forest_edge_kit.blend`, no generator
-  script; add documented exporter analogous to
-  `tools/blender/export_zirat_roadside_kit.py`, then authored lateral-density
-  improvements if safely automatable, GLB/manifest/registry sync,
-  `./eng/verify-assets.sh` + `./eng/verify-godot.sh`).
+- If interrupted now: resume at BASE-008 (`git ls-files
+  '**/.DS_Store'` → `git rm --cached .DS_Store`, verify build/cache outputs
+  stay ignored, ledger update).
