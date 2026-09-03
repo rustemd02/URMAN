@@ -49,6 +49,7 @@ for TEST_SCENE in \
   res://tests/first_person_interaction_smoke_test.tscn \
   res://tests/act1_first_person_corridor_smoke_test.tscn \
   res://tests/act1_first_person_walkthrough_smoke_test.tscn \
+  res://tests/act1_spawn_matrix_smoke_test.tscn \
   res://tests/road_relief_qa_smoke_test.tscn \
   res://tests/collision_qa_smoke_test.tscn \
   res://tests/generated_modular_kit_contract_smoke_test.tscn \
