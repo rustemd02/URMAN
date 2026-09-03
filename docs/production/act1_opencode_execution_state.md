@@ -7,9 +7,17 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: BASE-003 committed; next MAP-001 verify, then BASE-005 capture diagnosis.
+- Current task/slice: MAP-001 committed; next BASE-005 capture diagnosis.
 
 ## Completed
+
+- MAP-001 verify: DONE — VERIFY 2026-09-03 (no code edit, canonical baseline recorded).
+  - `./eng/verify-godot.sh` exit 0 on `5539c9b`; walkthrough smoke PASS
+    (`distance=135,50m final-zone=kara_urman_night cliffhanger=completed`).
+  - Canonical baseline fixed in receipt: 5 placements, 7 connectors, 8 direct
+    visual zones (`Act1ConnectedWorld.cs:805-812`; capture harness asserts the
+    same list at `Act1FullRouteCoreWorldCapture.cs:248-262`).
+  - Evidence: `evidence/act1_repo_baseline/map001_route_baseline.md`.
 
 - BASE-003 inspection-first: KEEP/VERIFY 2026-09-03 (no code edit).
   - Contract proven by source inspection on `66684b7`: `act1_demo.tscn` →
@@ -60,7 +68,7 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: MAP-001 (verify canonical route), then BASE-005 (capture diagnosis).
+- Immediate: BASE-005 (causal capture 44/25 diagnosis + fix + 44/44 rerun).
 
 ## External gates
 
@@ -68,7 +76,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at MAP-001 verification (walkthrough smoke +
-  8 direct visual zones count), then BASE-005 duplicate-capture diagnosis
+- If interrupted now: resume at BASE-005 duplicate-capture diagnosis
   (`game/tests/Act1FullRouteCoreWorldCapture.cs`,
-  `eng/capture-act1-full-route-core-world.sh`).
+  `eng/capture-act1-full-route-core-world.sh`): reproduce duplicate groups with
+  per-frame camera transform/zone/hash logging, fix settle/readback/camera
+  application cause, then single full 44/44 rerun to
+  `<empty-dir-outside-repo>`.
