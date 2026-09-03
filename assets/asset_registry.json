@@ -906,6 +906,36 @@
       "status": "authored forest-edge kit; runtime-integrated; 360/lateral-density art-lock open (ART-006)",
       "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD",
       "components": "URMAN_KaraForestEdgeKit"
+    },
+    {
+      "id": "audio.ambient.fap-institutional",
+      "source": "tools/audio/generate_act1_ambience_layers.py",
+      "derived": "game/assets/audio/fap_institutional.wav",
+      "derivedSha256": "3cc876cf2fee10fd77b0abe86f26135c7876d259c99245eec3bdc48e6f382834",
+      "generator": "tools/audio/generate_act1_ambience_layers.py; Python stdlib wave (project-original procedural)",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 0,
+      "audio": "8s loop bed; FAP institutional / zirat wind layer",
+      "status": "technical-runtime-pass; authored field mix and cultural review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-04 HEAD",
+      "sourceSha256": "47572abc6b452ea603a2c70daae138f007682116cda421ca687cb56b3ca38150"
+    },
+    {
+      "id": "audio.ambient.zirat-wind",
+      "source": "tools/audio/generate_act1_ambience_layers.py",
+      "derived": "game/assets/audio/zirat_wind.wav",
+      "derivedSha256": "050083800194027cf64eb9075582c2720e847a3f49a0490dfd9abf84db30bb34",
+      "generator": "tools/audio/generate_act1_ambience_layers.py; Python stdlib wave (project-original procedural)",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 0,
+      "audio": "8s loop bed; FAP institutional / zirat wind layer",
+      "status": "technical-runtime-pass; authored field mix and cultural review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-04 HEAD",
+      "sourceSha256": "47572abc6b452ea603a2c70daae138f007682116cda421ca687cb56b3ca38150"
     }
   ]
 }

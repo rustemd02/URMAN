@@ -7,8 +7,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: AUDIO-004 committed. Next automatable slices:
-  AUDIO-003/005/006/007 authored layer variants via generators, AUDIO-009
+- Current task/slice: AUDIO-006+007 committed. Next automatable slices:
+  AUDIO-003/005 village/house layer differentiation (needs a small director
+  extension for sub-zone beds — designed, not yet implemented), AUDIO-009
   transition routing, AUDIO-010 foley wiring. Full accounting: remaining tasks are human-gated (capture/playtest/culture/
   audio-recording/platform/RC), authored-iteration (zones/interiors/ART deep
   passes), or acceptance-blocked polish (UIUX-002/003/004/009/012 — each
@@ -51,6 +52,22 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
   - Evidence: `evidence/act1_repo_baseline/audio004-verify-{godot,dotnet}-PASS.txt`.
   - Human remainder: listening review (AUDIO-014, CULTURE-004); authored
     foley remains a gate (no placeholder-as-final claims).
+
+- AUDIO-006 + AUDIO-007 (P1 CREATE): dedicated FAP and zirat beds 2026-09-04.
+  - New `tools/audio/generate_act1_ambience_layers.py`: deterministic
+    project-original procedural beds — `fap_institutional.wav` (cool
+    fluorescent hum, corridor taps, paper — AUDIO-006) and `zirat_wind.wav`
+    (open-field wind, grass detail, far tractor line — AUDIO-007), loop-seam
+    crossfaded, 8 s.
+  - `ambient_manifest.json`: fap_clinic now routes to the FAP institutional
+    bed (house room no longer reused) and zirat_road to the zirat wind bed
+    (village bed no longer bleeds into the zirat) — single ambience owner
+    kept, director unchanged (generic per-zone stems).
+  - Registry: 2 new audio entries with generator provenance + hashes;
+    verify-assets exit 0 (43 assets), verify-godot exit 0 (ambient smoke
+    green with 6 stems).
+  - Evidence: `evidence/act1_repo_baseline/audio006007-verify-{godot,assets}-PASS.txt`.
+  - Human remainder: listening/cultural review (AUDIO-014, CULTURE-004).
 
 - TEST-008 (P0 CREATE): covered by delivered smokes 2026-09-04.
   - Coverage receipt `evidence/act1_repo_baseline/test008_ui_smoke_coverage.md`

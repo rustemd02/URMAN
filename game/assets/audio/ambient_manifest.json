@@ -7,7 +7,15 @@
     {
       "id": "ambient.village-day",
       "file": "res://assets/audio/village_day_ambience.wav",
-      "zones": ["village_day", "zirat_road", "fullgame_act2_house", "fullgame_act2_mosque", "fullgame_act2_council", "fullgame_act4_tukay", "fullgame_act4_1552", "fullgame_act5_epilogue"],
+      "zones": [
+        "village_day",
+        "fullgame_act2_house",
+        "fullgame_act2_mosque",
+        "fullgame_act2_council",
+        "fullgame_act4_tukay",
+        "fullgame_act4_1552",
+        "fullgame_act5_epilogue"
+      ],
       "loop": true,
       "source": "tools/audio/generate_ambient_audio.py",
       "seed": 1101,
@@ -17,7 +25,11 @@
     {
       "id": "ambient.house-room",
       "file": "res://assets/audio/house_room_tone.wav",
-      "zones": ["house_old_pc", "fap_clinic", "fullgame_act3_archive", "fullgame_act3_soviet"],
+      "zones": [
+        "house_old_pc",
+        "fullgame_act3_archive",
+        "fullgame_act3_soviet"
+      ],
       "loop": true,
       "source": "tools/audio/generate_ambient_audio.py",
       "seed": 2202,
@@ -27,7 +39,11 @@
     {
       "id": "ambient.kara-urman-edge",
       "file": "res://assets/audio/kara_urman_edge_ambience.wav",
-      "zones": ["kara_urman_night", "fullgame_act4_pact", "fullgame_act5_boundary"],
+      "zones": [
+        "kara_urman_night",
+        "fullgame_act4_pact",
+        "fullgame_act5_boundary"
+      ],
       "loop": true,
       "source": "tools/audio/generate_ambient_audio.py",
       "seed": 3303,
@@ -37,10 +53,37 @@
     {
       "id": "ambient.water-edge",
       "file": "res://assets/audio/water_edge_ambience.wav",
-      "zones": ["fullgame_act2_river", "fullgame_act3_water"],
+      "zones": [
+        "fullgame_act2_river",
+        "fullgame_act3_water"
+      ],
       "loop": true,
       "source": "tools/audio/generate_ambient_audio.py",
       "seed": 4404,
+      "license": "Project-original",
+      "status": "technical-runtime-pass; authored-mix-open"
+    },
+    {
+      "id": "ambient.fap-institutional",
+      "file": "res://assets/audio/fap_institutional.wav",
+      "zones": [
+        "fap_clinic"
+      ],
+      "loop": true,
+      "source": "tools/audio/generate_act1_ambience_layers.py",
+      "seed": 4601,
+      "license": "Project-original",
+      "status": "technical-runtime-pass; authored-mix-open"
+    },
+    {
+      "id": "ambient.zirat-wind",
+      "file": "res://assets/audio/zirat_wind.wav",
+      "zones": [
+        "zirat_road"
+      ],
+      "loop": true,
+      "source": "tools/audio/generate_act1_ambience_layers.py",
+      "seed": 5707,
       "license": "Project-original",
       "status": "technical-runtime-pass; authored-mix-open"
     }
