@@ -7,7 +7,54 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: MAP-006 committed; next MAP-007 (zirat transition).
+- Current task/slice: MAP-010 committed; next MAP-011 (world boundaries).
+
+## Completed
+
+- MAP-010 (P0): implemented table-driven spawn matrix smoke 2026-09-03
+  (commit `5dbdc1e`).
+  - New `game/tests/Act1SpawnMatrixSmokeTest(.cs/.tscn)`: iterates ALL 12
+    declared spawns in `Act1WorldLayout.Placements` through the production
+    `Main.SwitchZone` connected path; asserts exact world transform
+    (placement origin + local spawn — layout positions are placement-local),
+    declared yaw, `RuntimeBridge.CurrentZoneId` sync, floor within 2 m below
+    the spawn (void check) and no capsule clipping at chest height (sphere
+    query). Player physics frozen for deterministic assertions.
+  - Added to `eng/verify-godot.sh` aggregator; full suite exit 0 with
+    `act1-spawn-matrix: PASS 12/12` (`evidence/act1_repo_baseline/map010-verify-godot-PASS.txt`).
+  - First authoring iteration had a real build failure (`IsEmpty` on
+    `Array<Dictionary>`, `GetWorld3D` on Node) and a coordinate-convention
+    finding (placement-local vs world spawn) — both fixed in-slice; no
+    production code changed.
+
+- MAP-009 (P0): final trigger contract verified 2026-09-03 (commit `998abc8`).
+  - Receipt `evidence/act1_repo_baseline/map009_final_trigger_contract.md`:
+    approach gating (zirat clue condition), three `scene/forest` entry
+    conditions, terminal effects fire once in `onEnter` (no scene
+    interactions -> non-retriggerable), state-assignment idempotency,
+    reveal-not-before invariant simulated 16/16, presentation card read-only
+    and once-guarded.
+
+- MAP-008: zirat->Kara corridor inspection 2026-09-03 (commit `0748308`).
+  - Authored escalation documented: envelope widths 4.2->3.5 m, darkening
+    surface colors, asymmetric banks, root clusters, lateral forest shelves,
+    bounded Kara value separation; kara_approach capture frames 5/5 distinct.
+    Human bidirectional video remains.
+
+- MAP-007: zirat transition inspection 2026-09-03 (commit `0549e7c`).
+  - Boundary fence out of road window ("open presentation cue, never a
+    blocker"), non-inscribed markers unchanged, village-edge return sightline
+    authored, zirat capture frames 5/5 distinct. Religious review =
+    CULTURE-003, BLOCKED_EXTERNAL.
+
+- MAP-005 + MAP-006: inspections 2026-09-03 (commit `b4b92fb` — both receipts
+  share one commit; deviation from one-task-per-commit noted, strict one-task
+  commits resumed from MAP-007).
+  - MAP-005: branch read chain (RoadToFap trigger at connector start, two
+    diegetic ФАП landmarks, authored BranchWet road surface).
+  - MAP-006: duplicate-view blocker removed with evidence — connective return
+    frames have three camera transforms and three PNG SHAs in diag-run2;
+    continuity anchors documented.
 
 ## Completed
 
@@ -265,8 +312,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate (WAVE 2): MAP-005 (FAP branch sightline/signboard inspection),
-  then MAP-006..MAP-012 in tracker order.
+- Immediate (WAVE 2): MAP-011 (perimeter/boundaries inspection), then
+  MAP-012 (FOV/motion), then WAVE 3 ART tasks.
 
 ## External gates
 
@@ -278,6 +325,6 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at MAP-005 inspection (`village-to-fap-branch`
-  sightline, `RoadToFap` target in `StyleBenchmarkZone.cs`, ФАП signboard
-  anchors in `Act1ConnectedWorld.cs` framing scopes).
+- If interrupted now: resume at MAP-011 (perimeter/boundaries: framing and
+  suppression scopes in `Act1ConnectedWorld.cs`; human perimeter walk stays
+  with the task), then MAP-012.
