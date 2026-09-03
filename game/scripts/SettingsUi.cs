@@ -151,6 +151,9 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         RefreshBindingLabels();
         _screen.Visible = true;
         RefreshSaveLoadAvailability();
+        // UIUX-006: keyboard/gamepad entry lands on the first control so the
+        // whole panel is reachable without a mouse.
+        _fov.GrabFocus();
         player.SetModalOpen(true);
     }
 

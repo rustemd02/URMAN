@@ -7,11 +7,26 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: UIUX-007 committed. Next queue: UIUX-006 (settings
-  navigation/apply-cancel semantics from menu+pause), UIUX-003/004 polish,
-  AUDIO-002 sound map doc, NARR-016 storytelling matrix doc. WAVE 4-7
-  substantive art/narrative slices stay REWORK/OPEN pending the
-  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+- Current task/slice: UIUX-006 committed. Next queue: AUDIO-002 sound map
+  doc, NARR-016 storytelling matrix doc, UIUX-003/004 polish, then remaining
+  automatable slices. WAVE 4-7 substantive art/narrative slices stay
+  REWORK/OPEN pending the CAPTURE-003/004/006 human evidence cycle
+  (rationale in Completed below).
+
+## Completed
+
+- UIUX-006 (P1 REWORK): settings navigation candidate 2026-09-03.
+  - `SettingsUi.Open` now lands keyboard/gamepad entry focus on the first
+    control (`_fov.GrabFocus()`), making the whole panel reachable without a
+    mouse; apply/cancel rollback semantics verified structurally (explicit
+    Apply commits; closing without Apply discards edits and reopen shows the
+    live values).
+  - New `Act1SettingsNavigationSmokeTest` in the aggregator: menu-safe open
+    (menu beneath, player gated, entry focus), rollback without apply (live
+    FOV untouched, store untouched), explicit apply commits live + persists
+    to the user store.
+  - verify-godot exit 0 (aggregator incl. new smoke), verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/uiux006-verify-{godot,dotnet}-PASS.txt`.
 
 ## Completed
 
@@ -521,8 +536,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: UIUX-006 (settings navigation/apply-cancel semantics),
-  UIUX-003/004, AUDIO-002 sound map doc, NARR-016 storytelling matrix doc.
+- Immediate: AUDIO-002 sound map doc, NARR-016 storytelling matrix doc,
+  UIUX-003/004 polish, then the next dependency-ready automatable slices.
 
 ## External gates
 
@@ -534,9 +549,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at UIUX-006 — settings navigation: menu-safe
-  open (from MainMenuUi + PauseMenuUi already wired), full keyboard/mouse/
-  gamepad focus order, apply/cancel rollback semantics, visible defaults;
-  focused settings-navigation smoke + aggregator entry; verify
-  `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(UIUX-006): ...`. Then UIUX-003/004, AUDIO-002, NARR-016.
+- If interrupted now: resume at AUDIO-002 — create
+  `docs/urman_knowledge_base/audio/act1_sound_map.md` (beds/events/silence/
+  transitions/voice priorities for 8 zones + 2 interiors + zirat-Kara road +
+  final beat, no combat logic, cue IDs aligned with definitions.json); verify
+  `./eng/verify-godot.sh` still green (docs-only), commit
+  `task(AUDIO-002): ...`. Then NARR-016, UIUX-003/004.
