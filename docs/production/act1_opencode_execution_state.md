@@ -7,15 +7,35 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: WAVE 2+3 complete. Next: STATE-001 (P0 caller audit),
-  then GAME-010 (P0 no-combat audit), SAVE-003/TEST-006 (P0 lifecycle tests).
-  Zone-by-zone tasks (WAVE 4-5, Z01-Z08) keep REWORK/OPEN: their automatable
-  evidence (composition anchors, distinct-frame capture runs, single-owner
-  smokes) is already recorded in MAP-003..008/ART-003..012 receipts; the
-  remaining substantive slice is in-engine authored art iteration + human
-  motion/360 review (CAPTURE-003/004/006 evidence cycle). Duplicating that
-  evidence 32 more times per zone would violate STOP-DOING #11 without a
-  player-visible delta; statuses stay honest (not PASS).
+- Current task/slice: GAME-010 committed. Next P0 cluster: SAVE-003
+  (Continue/New Game lifecycle API) -> TEST-006 (save-recovery focused tests)
+  -> TEST-007 (static sole-writer assertions). WAVE 4-5 zone tasks (Z01-Z08)
+  and WAVE 6-7 substantive slices stay REWORK/OPEN pending the
+  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below);
+  receipts-style evidence for them already lives in MAP-/ART- receipts.
+
+## Completed
+
+- STATE-001 (P0): repo-wide sole-writer caller audit 2026-09-03
+  (commit `2365d0c`). Zero unauthorized write paths: only user:// writer is
+  the bridge-owned AtomicSaveGameStore; kernel never leaks outside
+  RuntimeBridge; QuestRuntimeCoordinator dispatches only kernel-mediated,
+  content-gated, deterministically idempotent reconciliation commands invoked
+  by the bridge. Evidence:
+  `evidence/act1_repo_baseline/state001_caller_audit.md`.
+
+- GAME-010 (P0): no-combat sweep clean 2026-09-03 (commit `8590fcc`): zero
+  combat-verb matches across game/scripts, project.godot input map, chapter 1
+  content and src-dotnet (fullgame excluded). Evidence:
+  `evidence/act1_repo_baseline/game010_no_combat_audit.md`.
+
+- Queue-status note (2026-09-03): WAVE 4-5 zone tasks (Z01-Z08) and the
+  substantive WAVE 6-7 slices (interior art staging, narrative text polish)
+  have their automatable evidence already recorded (composition anchors,
+  distinct-frame capture runs, single-owner smokes in MAP-/ART- receipts);
+  their remaining slice requires in-engine authored art iteration and human
+  motion/360/cultural review (CAPTURE-003/004/006, CULTURE reviews). They
+  stay honestly REWORK/OPEN - no PASS is claimed from receipts.
 
 ## Completed
 
