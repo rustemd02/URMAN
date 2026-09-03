@@ -73,6 +73,21 @@ before final release, narrative use, or art lock.
 
 ## Verification evidence
 
+Documented reproducible export (ART-005): the runtime GLB is produced from the
+authored `.blend` by the in-repo exporter, which validates the component
+contract and exports with fixed settings:
+
+```text
+.tools/blender/Blender.app/Contents/MacOS/Blender --background \
+  --python tools/blender/export_zirat_roadside_kit.py -- --root <repo>
+```
+
+2026-09-03 result: `component_count=11 mesh_count=234 triangle_count=7160
+material_count=24`; re-exporting the unchanged source is byte-stable
+(GLB SHA-256 `f2f87e87446041689133a4c25c4de23eab575c5cbe0adc8ac7e100a6c6963a3d`
+before and after). The exporter adds no geometry by design: marker or boundary
+changes require cultural/religious review first.
+
 Source reopen from the saved Blender file:
 
 ```text

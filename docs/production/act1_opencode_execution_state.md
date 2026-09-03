@@ -7,9 +7,28 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: ART-002 committed; next ART-005 zirat roadside kit rework.
+- Current task/slice: ART-005 automatable portion committed; 360/specialist
+  review BLOCKED_EXTERNAL; next ART-006 Kara kit.
 
 ## Completed
+
+- ART-005 (automatable portion): documented reproducible export 2026-09-03.
+  - Audit: the kit already carries the tracker's required restrained geometry
+    (boundary fence with deliberate gate gap, swung-open low timber gate,
+    non-inscribed plain marker groups, path edge, birch/shrub framing, distant
+    village mass; 11 roots / 234 meshes / 7,160 tris / 24 materials; no
+    images/symbols/collision).
+  - Added `tools/blender/export_zirat_roadside_kit.py`: validates the
+    component contract (roots/parents/counts, no images, no collision-like
+    names, no camera/light/physics) and exports the GLB with fixed settings.
+  - Proof: re-export of the unchanged source is byte-stable — GLB SHA-256
+    `f2f87e87…963a3d` identical before/after; `./eng/verify-assets.sh` exit 0.
+  - No geometry changes authored: marker/boundary additions require
+    cultural/religious review first (tracker hard stop on invented
+    inscriptions/symbols).
+  - BLOCKED_EXTERNAL remainder: 360° in-engine review + specialist
+    religious/local sign-off (CULTURE-003 scope). Evidence package:
+    manifest + reproducible export receipt + verify-assets log.
 
 - ART-002: REWORK slice done 2026-09-03 (authored variant road modules + integration).
   - Gap: MainStreet/ReturnStreet/ReturnTransition all placed literal clones of
@@ -150,18 +169,21 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: ART-005 (zirat roadside kit authored rework), then ART-006 (Kara
-  forest-edge kit).
+- Immediate: ART-006 (Kara forest-edge kit authored rework; same
+  documented-export pattern as ART-005).
 
 ## External gates
 
-- ART-005/ART-006 carry human religious/local review components; the
-  automatable authored-geometry slices proceed and the human sign-off parts
-  stay open (BLOCKED_EXTERNAL when reached).
+- ART-005 remainder: 360° in-engine review + specialist religious/local
+  sign-off — BLOCKED_EXTERNAL (needs human reviewer; evidence package
+  prepared in `game/assets/models/act1/urman_zirat_roadside_kit_manifest.md`
+  and `evidence/act1_repo_baseline/art005-export-reproducible-PASS.txt`).
 
 ## Resume point
 
-- If interrupted now: resume at ART-005
-  (`assets/source/blender/act1/urman_zirat_roadside_kit.blend` — no generator
-  script; tracker requires documented reproducible export before binary edit;
-  GLB/manifest/registry update; `./eng/verify-assets.sh`).
+- If interrupted now: resume at ART-006
+  (`assets/source/blender/act1/urman_kara_forest_edge_kit.blend`, no generator
+  script; add documented exporter analogous to
+  `tools/blender/export_zirat_roadside_kit.py`, then authored lateral-density
+  improvements if safely automatable, GLB/manifest/registry sync,
+  `./eng/verify-assets.sh` + `./eng/verify-godot.sh`).
