@@ -7,10 +7,15 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: ART-006 committed; FIRST WAVE complete. Next wave-2
-  dependency-ready: BASE-008, BASE-006, BASE-004, MAP-002+.
+- Current task/slice: BASE-008 committed; next BASE-006 backlog repoint.
 
 ## Completed
+
+- BASE-008: DELETE NOW done 2026-09-03.
+  - Removed both tracked host-noise files from the index (kept on disk;
+    `.gitignore:16` `.DS_Store` rule keeps future files untracked):
+    `.DS_Store`, `public/.DS_Store` (`git ls-files '**/.DS_Store'` now empty).
+  - No other cleanup performed (no bulk hygiene, no source-asset deletion).
 
 - ART-006 (automatable portion): documented reproducible export 2026-09-03.
   - Audit: kit already carries the authored threshold/boundary family (13
@@ -185,9 +190,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate (WAVE 2): BASE-008 (tracked `.DS_Store` removal), BASE-006
-  (execution_backlog.json repoint), BASE-004 (Act I include/exclude manifest),
-  then MAP-002+ route contract tasks.
+- Immediate (WAVE 2): BASE-006 (execution_backlog.json repoint), MAP-002
+  (metric labels), BASE-004 (package manifest), then MAP-003+.
 
 ## External gates
 
@@ -199,6 +203,6 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at BASE-008 (`git ls-files
-  '**/.DS_Store'` → `git rm --cached .DS_Store`, verify build/cache outputs
-  stay ignored, ledger update).
+- If interrupted now: resume at BASE-006 (`docs/urman_knowledge_base/
+  execution_backlog.json` + `backlog.md`: mark old full tracker superseded,
+  point active queue at the repo-grounded tracker; JSON parse check).
