@@ -22,6 +22,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private Main _main = null!;
     private FirstPersonController? _player;
     private MainMenuUi? _mainMenu;
+    private PauseMenuUi? _pauseMenu;
     private Control? _introScreen;
     private VBoxContainer? _introStack;
     private Label? _introControls;
@@ -110,6 +111,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         AddChild(_main);
         _player = _main.GetNodeOrNull<FirstPersonController>("Player");
         BuildMainMenu();
+        BuildPauseMenu();
         BuildRouteCue();
         CallDeferred(nameof(AttachRuntimeBridge));
 
@@ -364,6 +366,23 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             DismissIntro();
             GetViewport().SetInputAsHandled();
         }
+    }
+
+    private void BuildPauseMenu()
+    {
+        _pauseMenu = new PauseMenuUi { Name = "Act1PauseMenu" };
+        _pauseMenu.CanOpenPause = () =>
+            !MainMenuVisible
+            && !IntroVisible
+            && !DemoEnded;
+        _pauseMenu.ShowMainMenuRequested += () =>
+        {
+            if (_mainMenu is null)
+            {
+                BuildMainMenu();
+            }
+        };
+        AddChild(_pauseMenu);
     }
 
     private void BuildMainMenu()

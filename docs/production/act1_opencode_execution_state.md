@@ -7,11 +7,31 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: UIUX-001 committed. Next queue: UIUX-005 pause shell,
-  UIUX-006 settings-from-menu navigation, STATE-005 final-state fixtures,
-  GAME-009 interruption matrix, TEST-007 static assertions. WAVE 4-7
-  substantive art/narrative slices stay REWORK/OPEN pending the
-  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+- Current task/slice: UIUX-005 committed. Next queue: STATE-005 final-state
+  fixtures (P0), GAME-009 interruption matrix (P0), TEST-007 static
+  assertions, then remaining UIUX P1s. WAVE 4-7 substantive art/narrative
+  slices stay REWORK/OPEN pending the CAPTURE-003/004/006 human evidence
+  cycle (rationale in Completed below).
+
+## Completed
+
+- UIUX-005 (P1 REWORK): pause shell + modal stack 2026-09-03.
+  - New `game/scripts/PauseMenuUi.cs` (+ tscn in aggregator):
+    `PauseMenuUi` owns the pause action end-to-end — opens only when the demo
+    root's `CanOpenPause` allows (no menu/intro/ending), gates the player,
+    stacks the settings panel on top and re-asserts the modal gate after the
+    panel closes (Close() releases input — the exact trap the tracker flags),
+    resumes cleanly. In-shell actions: Продолжить, Сохранить/Загрузить
+    (bridge lifecycle, status feedback), Настройки, and two-step confirmations
+    for Заново (`StartNewGameAsync` -> resume at arrival), В главное меню
+    (returns to MainMenuUi, gameplay stays gated), Выход.
+  - `SettingsUi`: pause branch removed (PauseMenuUi owns pause routing);
+    ui_cancel close retained.
+  - New `Act1PauseMenuSmokeTest` in the aggregator: pause gate, save/load
+    resume, settings stack + pause-key return, resume, confirmed restart to
+    arrival, menu return with gated input.
+  - verify-godot exit 0 (aggregator incl. new smoke), verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/uiux005-verify-{godot,dotnet}-PASS.txt`.
 
 ## Completed
 
@@ -430,8 +450,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: UIUX-005 (pause shell: resume/settings/save/load/restart/quit +
-  modal stack), then UIUX-006, STATE-005, GAME-009, TEST-007.
+- Immediate: STATE-005 (P0 final-state fixtures), GAME-009 (P0 interruption
+  matrix), TEST-007 (static assertions), then remaining UIUX P1s.
 
 ## External gates
 
@@ -443,9 +463,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at UIUX-005 — pause shell: split pause lifecycle
-  from `SettingsUi` (resume/settings/save/load/restart+quit confirmations,
-  modal stack discipline with menu/intro/ending), focused pause/modal-stack
-  Godot smoke + aggregator entry, verify
+- If interrupted now: resume at STATE-005 — add focused final-state fixtures
+  proving the terminal `clue_do_not_answer_rule` state is unreachable before
+  Rinat and single after commit (extend existing dotnet/Godot tests per
+  MAP-009 contract), verify
   `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(UIUX-005): ...`.
+  `task(STATE-005): ...`. Then GAME-009 interruption matrix.

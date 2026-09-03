@@ -120,20 +120,9 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
             }
         }
 
-        if (inputEvent.IsActionPressed("pause"))
-        {
-            if (_screen.Visible)
-            {
-                Close();
-            }
-            else if (FindPlayer() is { ModalOpen: false } player)
-            {
-                Open(player);
-            }
-
-            GetViewport().SetInputAsHandled();
-        }
-        else if (_screen.Visible && inputEvent.IsActionPressed("ui_cancel"))
+        // UIUX-005: the pause action is owned by PauseMenuUi, which stacks
+        // this settings panel on top of the pause shell and closes it again.
+        if (_screen.Visible && inputEvent.IsActionPressed("ui_cancel"))
         {
             Close();
             GetViewport().SetInputAsHandled();
