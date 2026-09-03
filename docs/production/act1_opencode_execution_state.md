@@ -7,9 +7,23 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: BASE-004 committed; next MAP-003 connector inspection.
+- Current task/slice: MAP-003 inspection committed; next MAP-004 route
+  readability (arrival→house) inspection.
 
 ## Completed
+
+- MAP-003: inspection slice done 2026-09-03 (no code edit).
+  - Receipt `evidence/act1_repo_baseline/map003_connector_inspection.md`:
+    per-connector table (lengths 10.4–64.7 m, widths 2.6–5.6 m) computed from
+    `Act1WorldLayout.Connectors`; all seven endpoints lie over the shared
+    traversal ground (x ∈ [−43,43], z ∈ [−152,+56]) and each has its own
+    collision-bearing traversal strip; visual crown owned by AgentB terrain
+    (RoadSurface presentation suppressed by design).
+  - Mechanical coverage proven by construction + launch-smoke ground-envelope
+    assertions + physical walkthrough (135,49 m). Human edge-walk video of all
+    seven connectors remains NEW VERIFICATION REQUIRED with this task.
+  - Baseline `verify-godot` exit 0 on `e50c64a` (parent commit changed docs
+    only).
 
 - BASE-004: REWORK slice done 2026-09-03 (include/exclude decision manifest).
   - Authored `docs/production/act1_package_include_exclude.md`: grounded in the
@@ -224,20 +238,20 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate (WAVE 2 route contract): MAP-003 (seven-connector inspection +
-  ground envelope evidence), then MAP-004..MAP-012 in tracker order.
+- Immediate (WAVE 2): MAP-004 (arrival→house wayfinding chain inspection),
+  then MAP-005..MAP-012 in tracker order.
 
 ## External gates
 
 - ART-005 remainder: specialist religious/local sign-off + 360 in-engine
   review — BLOCKED_EXTERNAL.
 - ART-006 remainder: human 360/lateral-density art review — BLOCKED_EXTERNAL.
-- MAP-003..MAP-008 human traversal/video components stay with their owning
-  tasks; automatable inspection/verification slices proceed first.
+- MAP-003 remainder: manual seven-connector edge-walk video — BLOCKED_EXTERNAL
+  (human traversal review; mechanical coverage closed).
 
 ## Resume point
 
-- If interrupted now: resume at MAP-003 (`Act1Connectors`/shared ground
-  construction in `game/scripts/Act1ConnectedWorld.cs` + connector placements
-  in `Act1WorldLayout.cs`; run `./eng/verify-godot.sh` ground-envelope smoke
-  and record the per-connector inspection receipt).
+- If interrupted now: resume at MAP-004 inspection (`arrival-to-house-yard`
+  connector + `Arrival`/`BabaiEbiYard`/`HouseExteriorApproach` scopes in
+  `Act1ConnectedWorld.cs`, gate/door approach anchors; walkway smoke covers
+  the chain; human wayfinding proof stays with the task).
