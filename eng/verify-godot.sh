@@ -58,6 +58,7 @@ for TEST_SCENE in \
   res://tests/act1_user_settings_smoke_test.tscn \
   res://tests/act1_settings_navigation_smoke_test.tscn \
   res://tests/act1_audio_settings_smoke_test.tscn \
+  res://tests/act1_footstep_smoke_test.tscn \
   res://tests/act1_binding_conflict_smoke_test.tscn \
   res://tests/act1_reduced_motion_smoke_test.tscn \
   res://tests/road_relief_qa_smoke_test.tscn \

@@ -7,12 +7,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: TEST-008 closed via delivered smokes (UIUX-009/012
-  human evidence apart). NEXT AUTOMATABLE SLICE: AUDIO-004 (footsteps) —
-  procedural project-original samples via a generator (the established
-  pattern: existing stems are procedural project-original), surface tagging,
-  controller hook, focused smoke; then AUDIO-003/005/006/007 authored layers
-  via the same generator pattern. Full accounting: remaining tasks are human-gated (capture/playtest/culture/
+- Current task/slice: AUDIO-004 committed. Next automatable slices:
+  AUDIO-003/005/006/007 authored layer variants via generators, AUDIO-009
+  transition routing, AUDIO-010 foley wiring. Full accounting: remaining tasks are human-gated (capture/playtest/culture/
   audio-recording/platform/RC), authored-iteration (zones/interiors/ART deep
   passes), or acceptance-blocked polish (UIUX-002/003/004/009/012 — each
   needs human readability/motion/first-time evidence; no honest code delta
@@ -35,6 +32,25 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
   - Evidence: `evidence/act1_repo_baseline/uiux010-verify-{godot,dotnet}-PASS.txt`.
   - Remaining UIUX-010 scope (full-route comfort at 65/75/90 FOV) stays with
     the human motion-comfort review (PLAYTEST-004).
+
+- AUDIO-004 (P1 CREATE): footstep system 2026-09-04.
+  - `tools/audio/generate_act1_footsteps.py`: 15 deterministic
+    project-original procedural step samples (5 surface families x3 variants:
+    wet_road, mud, grass, wood, interior_floor), same provenance pattern as
+    the ambience stems.
+  - New `game/scripts/FootstepAudioController.cs` wired into `main.tscn`:
+    cadence from real movement (velocity over distance), surface follows the
+    active bridge zone (interiors -> floor, kara/zirat -> grass, village ->
+    wet road), plays through the SFX bus, pitch/variance per step, holds no
+    gameplay state; reduced motion silences footsteps.
+  - New `Act1FootstepSmokeTest` in the aggregator: 5x3 surfaces loaded, SFX
+    routing, movement-driven cadence via real input, reduced-motion silence,
+    zone surface mapping.
+  - verify-godot exit 0 (aggregator incl. new smoke — 13 PASS lines),
+    verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/audio004-verify-{godot,dotnet}-PASS.txt`.
+  - Human remainder: listening review (AUDIO-014, CULTURE-004); authored
+    foley remains a gate (no placeholder-as-final claims).
 
 - TEST-008 (P0 CREATE): covered by delivered smokes 2026-09-04.
   - Coverage receipt `evidence/act1_repo_baseline/test008_ui_smoke_coverage.md`
@@ -667,9 +683,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: AUDIO-004 (footsteps: generator + surface tagging + controller
-  hook + smoke), then AUDIO-003/005/006/007 authored layer variants via
-  generators, AUDIO-009 transition routing, AUDIO-010 foley wiring.
+- Immediate: AUDIO-003/005/006/007 authored layer variants via generators,
+  AUDIO-009 transition routing, AUDIO-010 foley wiring.
 
 ## External gates
 
@@ -681,12 +696,10 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at AUDIO-004 — create
-  `tools/audio/generate_act1_footsteps.py` (project-original procedural
-  step samples per surface family: wet road, mud, grass, wood/porch,
-  interior floor), `game/scripts/FootstepAudioController.cs` (cadence from
-  real movement, surface by zone/ground tag, no gameplay state), route via
-  the SFX bus, focused footstep smoke + aggregator entry; verify
-  `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(AUDIO-004): ...`. Then AUDIO-003/005/006/007 layer variants via
-  generators, AUDIO-009 routing, AUDIO-010 foley.
+- If interrupted now: resume at AUDIO-003/005/006/007 — extend the audio
+  generator with authored layer variants per zone (village yard/street
+  spot layers, house room layers, FAP institutional bed, zirat wind layers,
+  kara road layers), route via `ambient_manifest.json` + AmbientAudioDirector
+  through the Ambience bus; focused ambient-variant smoke + aggregator entry;
+  verify `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
+  `task(AUDIO-00x): ...` per zone family.
