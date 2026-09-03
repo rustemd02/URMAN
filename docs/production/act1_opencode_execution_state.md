@@ -7,13 +7,30 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: UIUX-008 committed. Automatable frontier reassessed:
-  remaining tasks are human-gated (capture/playtest/culture/audio-recording/
-  platform/RC), authored-iteration (zones/interiors/ART deep passes), or
-  acceptance-blocked polish (UIUX-002/003/004/009/010/012 — each needs human
-  readability/motion/first-time evidence; no honest code delta without it).
-  WAVE 4-7 substantive art/narrative slices stay REWORK/OPEN pending the
-  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+- Current task/slice: UIUX-010 zone-fade slice committed. Automatable
+  frontier: remaining tasks are human-gated (capture/playtest/culture/
+  audio-recording/platform/RC), authored-iteration (zones/interiors/ART deep
+  passes), or acceptance-blocked polish (UIUX-002/003/004/009/012 — each
+  needs human readability/motion/first-time evidence; no honest code delta
+  without it). WAVE 4-7 substantive art/narrative slices stay REWORK/OPEN
+  pending the CAPTURE-003/004/006 human evidence cycle (rationale in
+  Completed below).
+
+## Completed
+
+- UIUX-010 (P1 REWORK, zone-fade slice): reduced-motion zone transitions
+  2026-09-04.
+  - `FirstPersonController.ReducedMotion` exposed for presentation owners;
+    `Main.PlayZoneTransition` gates the animated fade on it — reduced motion
+    cuts instantly (overlay cleared on the same switch, no tween), normal
+    motion keeps the animated fade.
+  - New `Act1ReducedMotionSmokeTest` in the aggregator: reduced-motion
+    instant cut, normal-motion fade present and clearing.
+  - verify-godot exit 0 (aggregator incl. new smoke — 12 PASS lines),
+    verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/uiux010-verify-{godot,dotnet}-PASS.txt`.
+  - Remaining UIUX-010 scope (full-route comfort at 65/75/90 FOV) stays with
+    the human motion-comfort review (PLAYTEST-004).
 
 ## Completed
 

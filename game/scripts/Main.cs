@@ -209,6 +209,16 @@ public partial class Main : Node3D
             return;
         }
 
+        // UIUX-010: reduced motion replaces the animated transition with an
+        // instant cut; the overlay clears immediately.
+        if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { ReducedMotion: true })
+        {
+            _zoneTransitionTween?.Kill();
+            _zoneTransitionTween = null;
+            _zoneTransition.Color = new Color(0.008f, 0.012f, 0.011f, 0f);
+            return;
+        }
+
         _zoneTransitionTween?.Kill();
         _zoneTransition.Color = new Color(0.008f, 0.012f, 0.011f, 0.68f);
         _zoneTransitionTween = CreateTween();

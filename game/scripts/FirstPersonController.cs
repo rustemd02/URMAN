@@ -39,6 +39,9 @@ public partial class FirstPersonController : CharacterBody3D
 
     public bool HeadBobEnabled => _headBob && !_accessibility.ReducedMotion;
 
+    /// <summary>UIUX-010: presentation owners gate nonessential motion on this.</summary>
+    public bool ReducedMotion => _accessibility.ReducedMotion;
+
     public AccessibilitySettingsSnapshot Accessibility => _accessibility;
 
     /// <summary>
