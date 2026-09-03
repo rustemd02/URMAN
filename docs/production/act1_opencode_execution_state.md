@@ -7,23 +7,38 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: SAVE-003 committed (`b341042`). Next queue:
-  1) TEST-006 (P0): corruption/recovery cases as engine-independent Core
-     tests in `tests-dotnet` (AtomicSaveGameStore: interrupted write, malformed
-     JSON, schema mismatch, missing primary + valid backup) — note the Godot
-     aggregator's fail-closed `^ERROR:` log gate forbids expected-error lines
-     in Godot smokes, so keep corruption matrices in xunit; plus a focused
-     Godot multi-beat restore case without expected errors. Then TEST-007
-     static sole-writer assertions (STATE-001 audit done; STATE-005 fixtures
-     still open).
-  2) UIUX-001 (P1 CREATE, dependencies BASE-003 + SAVE-003 now CLOSED):
-     main menu overlay (`game/scenes/ui/main_menu_ui.tscn` +
-     `MainMenuUi.cs`) using SAVE-003 lifecycle APIs, New Game/Continue/Settings
-     disabled-before-choice input, then UIUX-005 pause shell.
-  3) STATE-005 / GAME-009 (P0): final-state fixtures + interruption matrix
-     extension.
-  WAVE 4-7 substantive art/narrative slices stay REWORK/OPEN pending the
-  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+- Current task/slice: TEST-006 committed. Next queue: UIUX-001 (P1 CREATE,
+  dependencies BASE-003 + SAVE-003 CLOSED): main menu overlay
+  (`game/scenes/ui/main_menu_ui.tscn` + `MainMenuUi.cs`) wired to
+  `StartNewGameAsync/HasLoadableSlot/LoadSlotAsync`, input gated before
+  choice; then UIUX-005 pause shell, STATE-005 fixtures, GAME-009 interruption
+  matrix, TEST-007 static assertions. WAVE 4-7 substantive art/narrative
+  slices stay REWORK/OPEN pending the CAPTURE-003/004/006 human evidence
+  cycle (rationale in Completed below).
+
+## Completed
+
+- TEST-006 (P0): save/recovery corruption cases 2026-09-03, engine-side
+  (`tests-dotnet/Urman.Core.Tests/DeterminismAndSaveTests.cs`, 3 new facts;
+  suite 41+12 green, exit 0):
+  - `AtomicStore_FailsSafelyWhenBothPrimaryAndBackupAreUnreadable` — both
+    artifacts invalid AND never-written slot → InvalidDataException (fresh
+    Continue disabled; no silent new session).
+  - `AtomicStore_RecoversBackupWhenPrimaryIsTruncated` — interrupted write
+    (byte-truncated primary) recovers from the one-generation backup.
+    Semantics discovered and documented: the store keeps exactly ONE backup
+    generation = previous primary (backup holds beat 1 after two saves).
+  - `StoreRoundTrip_RestoresKernelStateAndSequenceForBothBeats` — full
+    store+codec+kernel round trip: beat 2 (clue+rule, seq 2) restores state,
+    event sequence and occurrence dedupe (replayed occurrence rejected, no
+    duplicate commit); backup holds beat 1 (clue only, rule unknown, seq 1) —
+    reveal-not-before ordering survives the round trip.
+  - Kernel semantics recorded: `EventSequence` counts committed EVENTS (not
+    commands). Existing coverage already included occurrence dedupe,
+    snapshot-restore, claim conflicts and rollbacks (RuntimeKernelTests).
+  - Godot side of New Game/Continue wiring: covered by SAVE-003's
+    `Act1SaveLifecycleSmokeTest` (aggregator). Corruption matrices stay in
+    xunit by design (Godot aggregator fails on any `^ERROR:` line).
 
 ## Completed
 
@@ -391,9 +406,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: TEST-006 (P0, corruption/recovery in tests-dotnet + focused
-  Godot restore), then UIUX-001 (main menu via SAVE-003 APIs), then
-  UIUX-005, STATE-005, GAME-009, TEST-007.
+- Immediate: UIUX-001 (main menu overlay via SAVE-003 APIs), then UIUX-005
+  pause shell, STATE-005 final-state fixtures, GAME-009 interruption matrix,
+  TEST-007 static sole-writer assertions.
 
 ## External gates
 
@@ -405,9 +420,11 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at TEST-006 — add xunit corruption/recovery
-  cases for `src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore` in
-  `tests-dotnet` (run via `./eng/verify-dotnet.sh`), verify with
+- If interrupted now: resume at UIUX-001 — create
+  `game/scenes/ui/main_menu_ui.tscn` + `game/scripts/MainMenuUi.cs`
+  (New Game -> `RuntimeBridge.StartNewGameAsync`; Continue gated by
+  `HasLoadableSlot("quick")` -> `LoadSlotAsync("quick")`; Settings -> existing
+  SettingsUi; Quit), wire into `Act1DemoRoot` before gameplay input, add a
+  focused Godot smoke + aggregator entry, verify
   `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(TEST-006): ...`. Then UIUX-001 main menu using
-  `RuntimeBridge.StartNewGameAsync/HasLoadableSlot/LoadSlotAsync`.
+  `task(UIUX-001): ...`.
