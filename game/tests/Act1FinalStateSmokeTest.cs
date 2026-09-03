@@ -98,9 +98,11 @@ public partial class Act1FinalStateSmokeTest : Node
 
         if (!bridge.IsInteractionAvailable(Interaction("zirat-roadside-clue"))
             || !await bridge.DispatchInteractionAsync(Interaction("zirat-roadside-clue"))
-            || FinalKnowledge(bridge.SelectRuntimeState()) != "hidden")
+            || FinalKnowledge(bridge.SelectRuntimeState()) != "hidden"
+            || bridge.IsInteractionAvailable(Interaction("zirat-roadside-clue"))
+            || await bridge.DispatchInteractionAsync(Interaction("zirat-roadside-clue")))
         {
-            Fail("The zirat roadside clue did not confirm without granting final knowledge.");
+            Fail("The zirat roadside clue did not confirm once without granting final knowledge.");
             return;
         }
 

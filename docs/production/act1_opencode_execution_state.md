@@ -7,10 +7,30 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: STATE-005 committed. Next queue: GAME-009 (P0
-  interruption matrix), TEST-007 (static assertions), remaining UIUX P1s.
-  WAVE 4-7 substantive art/narrative slices stay REWORK/OPEN pending the
-  CAPTURE-003/004/006 human evidence cycle (rationale in Completed below).
+- Current task/slice: GAME-009 committed. Next queue: TEST-007 (static
+  assertions), remaining UIUX P1s, then the next dependency-ready
+  automatable slices. WAVE 4-7 substantive art/narrative slices stay
+  REWORK/OPEN pending the CAPTURE-003/004/006 human evidence cycle
+  (rationale in Completed below).
+
+## Completed
+
+- GAME-009 (P0): interruption/softlock fixtures 2026-09-03.
+  - New `game/tests/Act1InterruptionSmokeTest(.cs/.tscn)` in the aggregator:
+    (1) dialogue-cancel atomicity — Escape on an open Gulsina modal applies
+    no state change; (2) quick save taken under the open modal + load
+    afterwards reproduces the cancelled-dialogue state exactly (no
+    half-applied effects); (3) repeated NPC re-talk is legal and idempotent
+    (identical state, exit stays unlocked exactly once); (4) baseline load
+    reverts the whole interrupted chain to a consistent replayable state.
+  - Complementary one-shot semantics asserted in
+    `Act1FinalStateSmokeTest`: the zirat roadside clue consumes once
+    (second dispatch rejected).
+  - Finding recorded (not a defect): NPC re-talk (Gulsina) is intentionally
+    repeatable with idempotent effects; true one-shots are clue/evidence
+    targets (zirat clue).
+  - verify-godot exit 0 (aggregator incl. new smoke), verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/game009-verify-{godot,dotnet}-PASS.txt`.
 
 ## Completed
 
@@ -470,9 +490,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: GAME-009 (P0 interruption matrix — extend focused smokes for
-  modal-interrupt/repeat/backtrack softlock coverage), TEST-007 (static
-  assertions), then remaining UIUX P1s.
+- Immediate: TEST-007 (P0 static sole-writer/reveal assertions), then
+  remaining automatable P1/P2 slices (UIUX-006/007/008 settings work,
+  AUDIO-002 sound map doc, NARR-016 storytelling matrix doc).
 
 ## External gates
 
@@ -484,8 +504,9 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at GAME-009 — extend focused smokes with the
-  interruption/softlock matrix (modal interrupt during dialogue/document/PC,
-  repeated interact, unavailable targets, save/load around gates), verify
+- If interrupted now: resume at TEST-007 — add static assertions
+  (tests-dotnet or a Godot-free guard) enforcing the sole-writer caller
+  contract (no RuntimeKernel/save-file access outside RuntimeBridge) and the
+  final reveal invariant, per the STATE-001 audit ledger; verify
   `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(GAME-009): ...`. Then TEST-007.
+  `task(TEST-007): ...`.
