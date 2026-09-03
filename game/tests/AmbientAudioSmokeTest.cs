@@ -30,6 +30,15 @@ public partial class AmbientAudioSmokeTest : Node
             return;
         }
 
+        // AUDIO-003: the arrival spawn selects the arrival sub-zone bed.
+        if (!CheckZone(director, "village_day", "ambient.village-arrival", "village_arrival.wav"))
+        {
+            return;
+        }
+
+        // A spawn without a sub-zone bed falls back to the plain zone bed.
+        main.SwitchZone("village_day", "default");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         if (!CheckZone(director, "village_day", "ambient.village-day", "village_day_ambience.wav"))
         {
             return;

@@ -123,7 +123,7 @@ public partial class Main : Node3D
 
             if (GetTree().GetFirstNodeInGroup("ambient_audio") is AmbientAudioDirector connectedAmbience)
             {
-                connectedAmbience.SetZone(zoneId);
+                connectedAmbience.SetZone(zoneId, spawnPointId);
             }
 
             if (_hasLoadedInitialZone)
@@ -169,7 +169,7 @@ public partial class Main : Node3D
 
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is AmbientAudioDirector ambience)
         {
-            ambience.SetZone(zoneId);
+            ambience.SetZone(zoneId, spawnPointId);
         }
 
         if (_hasLoadedInitialZone)

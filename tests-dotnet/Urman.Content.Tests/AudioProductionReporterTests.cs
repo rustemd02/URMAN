@@ -24,7 +24,8 @@ public sealed class AudioProductionReporterTests
         });
         // 2026-09-04: the FAP institutional and zirat wind beds (AUDIO-006/007)
         // join the four original stems.
-        Assert.Equal(6, report.AmbientStems.Count);
+        // 6 base beds + 3 village sub-zone beds (AUDIO-003) = 9 manifest stems.
+        Assert.Equal(9, report.AmbientStems.Count);
         Assert.All(report.AmbientStems, stem => Assert.True(stem.PhysicalFileExists));
         Assert.True(report.HasOpenAuthoring);
     }

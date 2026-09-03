@@ -61,6 +61,24 @@ def make_stem(kind: str, seed: int) -> list[float]:
             grass = 0.014 * detail[index]
             far = 0.008 * math.sin(2.0 * math.pi * (98 + 3 * math.sin(t * 0.22)) * t)
             value = wind + grass + far
+        elif kind == "village_arrival":
+            # The arrival edge: same village bed, slightly more open sky.
+            wind = 0.05 * slow[index]
+            birds = 0.03 * math.sin(2.0 * math.pi * (2430 + 140 * math.sin(t * 0.6)) * t)
+            distant = 0.016 * math.sin(2.0 * math.pi * 156 * t)
+            value = wind + 0.02 * detail[index] + birds + distant
+        elif kind == "village_yard":
+            # Babai and ebi's yard: warmer, domestic layer behind the fence.
+            hen = 0.028 * math.sin(2.0 * math.pi * (620 + 30 * math.sin(t * 1.1)) * t) * (0.5 + 0.5 * math.sin(t * 0.9))
+            firewood = 0.012 * detail[index]
+            home = 0.014 * math.sin(2.0 * math.pi * 220 * t)
+            value = 0.045 * slow[index] + hen + firewood + home
+        elif kind == "village_return":
+            # The return street towards the outskirts: emptier, more wind,
+            # household life fading behind.
+            wind = 0.06 * slow[index] + 0.018 * gust[index]
+            fading = 0.012 * detail[index] * (0.5 + 0.5 * math.sin(t * 0.4))
+            value = wind + fading + 0.01 * math.sin(2.0 * math.pi * 130 * t)
         else:
             raise ValueError(f"Unknown layer kind: {kind}")
         samples.append(max(-0.8, min(0.8, value)))
@@ -85,7 +103,13 @@ def write_wav(path: Path, samples: list[float]) -> None:
 
 
 def main() -> None:
-    for kind, seed in (("fap_institutional", 4601), ("zirat_wind", 5707)):
+    for kind, seed in (
+        ("fap_institutional", 4601),
+        ("zirat_wind", 5707),
+        ("village_arrival", 6803),
+        ("village_yard", 7901),
+        ("village_return", 8117),
+    ):
         samples = make_stem(kind, seed)
         path = OUT / f"{kind}.wav"
         write_wav(path, samples)

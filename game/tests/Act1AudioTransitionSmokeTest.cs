@@ -49,6 +49,8 @@ public partial class Act1AudioTransitionSmokeTest : Node
         var expectations = new (string Zone, string Spawn)[]
         {
             ("village_day", "arrival"),
+            ("village_day", "from_house"),
+            ("village_day", "from_forest"),
             ("house_old_pc", "entry"),
             ("fap_clinic", "waiting_room"),
             ("zirat_road", "village_side"),
@@ -57,7 +59,12 @@ public partial class Act1AudioTransitionSmokeTest : Node
 
         foreach (var zone in expectations)
         {
-            var expectedFile = expectedFileByZone[zone.Zone];
+            // AUDIO-003: village sub-zone beds key on zone@spawn with the
+            // plain zone bed as fallback.
+            var bedKey = $"{zone.Zone}@{zone.Spawn}";
+            var expectedFile = expectedFileByZone.TryGetValue(bedKey, out var subBed)
+                ? subBed
+                : expectedFileByZone[zone.Zone];
 
             main.SwitchZone(zone.Zone, zone.Spawn);
             // Let the 0.65 s crossfade finish (time-based, not frame-based:

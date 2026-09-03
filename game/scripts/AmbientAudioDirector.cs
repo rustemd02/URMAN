@@ -86,7 +86,14 @@ public partial class AmbientAudioDirector : Node
         CurrentStreamPath = string.Empty;
     }
 
-    public void SetZone(string zoneId)
+    public void SetZone(string zoneId) => SetZone(zoneId, subKey: null);
+
+    /// <summary>
+    /// AUDIO-003: a logical zone may carry sub-zone beds keyed
+    /// `zoneId@subKey` in the manifest (e.g. `village_day@from_house`); the
+    /// plain zone bed remains the fallback when no sub-key matches.
+    /// </summary>
+    public void SetZone(string zoneId, string? subKey)
     {
         if (!_lifecycleReady)
         {
@@ -99,7 +106,7 @@ public partial class AmbientAudioDirector : Node
             return;
         }
 
-        if (!_stemsByZone.TryGetValue(zoneId, out var stem))
+        if (!_stemsByZone.TryGetValue(ResolveBedKey(zoneId, subKey), out var stem))
         {
             throw new InvalidOperationException($"Ambient audio manifest has no stem for zone '{zoneId}'.");
         }
@@ -154,6 +161,17 @@ public partial class AmbientAudioDirector : Node
         _crossfadeTween.TweenProperty(incomingPlayer, "volume_db", TargetVolumeDb, CrossfadeDurationSeconds);
         _crossfadeTween.SetParallel(false);
         _crossfadeTween.TweenCallback(Callable.From(() => ReleasePlayer(activePlayer)));
+    }
+
+    private string ResolveBedKey(string zoneId, string? subKey)
+    {
+        if (!string.IsNullOrWhiteSpace(subKey)
+            && _stemsByZone.ContainsKey($"{zoneId}@{subKey}"))
+        {
+            return $"{zoneId}@{subKey}";
+        }
+
+        return zoneId;
     }
 
     private void LoadManifest()

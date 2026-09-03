@@ -7,10 +7,10 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: AUDIO-009 committed. Next automatable slices:
-  AUDIO-003/005 village/house layer differentiation (needs a small director
-  extension for sub-zone beds — designed, not yet implemented), AUDIO-010
-  foley wiring (authored sounds via the footstep generator pattern). Full accounting: remaining tasks are human-gated (capture/playtest/culture/
+- Current task/slice: AUDIO-003 committed. Next automatable slices:
+  AUDIO-005 house interior layer variants (same sub-key pattern for house
+  spawns), AUDIO-010 foley wiring (authored sounds via the footstep generator
+  pattern). Full accounting: remaining tasks are human-gated (capture/playtest/culture/
   audio-recording/platform/RC), authored-iteration (zones/interiors/ART deep
   passes), or acceptance-blocked polish (UIUX-002/003/004/009/012 — each
   needs human readability/motion/first-time evidence; no honest code delta
@@ -67,6 +67,20 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
     verify-assets exit 0 (43 assets), verify-godot exit 0 (ambient smoke
     green with 6 stems).
   - Evidence: `evidence/act1_repo_baseline/audio006007-verify-{godot,assets}-PASS.txt`.
+  - Human remainder: listening/cultural review (AUDIO-014, CULTURE-004).
+
+- AUDIO-003 (P1 REWORK): village sub-zone beds 2026-09-04.
+  - `AmbientAudioDirector.SetZone` gains an optional sub-key: manifest stems
+    keyed `zoneId@subKey` (e.g. `village_day@from_house`) select a distinct
+    bed for a spawn area, with the plain zone bed as fallback.
+  - `Main.SwitchZone` passes the spawn point id as the sub-key; three new
+    project-original village beds generated (`village_arrival`, `village_yard`,
+    `village_return`), manifest + registry updated (9 stems / 46 assets).
+  - `Act1AudioTransitionSmokeTest` extended: arrival sub-bed, plain fallback
+    via the default spawn, plus the five zone beds. `AmbientAudioSmokeTest`
+    updated for the arrival sub-bed + fallback case.
+  - verify-assets, verify-godot (14 PASS smokes), verify-dotnet — all exit 0.
+  - Evidence: `evidence/act1_repo_baseline/audio003-verify-{godot,assets,dotnet}-PASS.txt`.
   - Human remainder: listening/cultural review (AUDIO-014, CULTURE-004).
 
 - AUDIO-009 (P1 CREATE): zone-transition bed routing smoke 2026-09-04.
@@ -726,10 +740,8 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Resume point
 
-- If interrupted now: resume at AUDIO-003/005/006/007 — extend the audio
-  generator with authored layer variants per zone (village yard/street
-  spot layers, house room layers, FAP institutional bed, zirat wind layers,
-  kara road layers), route via `ambient_manifest.json` + AmbientAudioDirector
-  through the Ambience bus; focused ambient-variant smoke + aggregator entry;
-  verify `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
-  `task(AUDIO-00x): ...` per zone family.
+- If interrupted now: resume at AUDIO-005 — house interior layer variants via
+  the sub-key pattern, then AUDIO-010 foley wiring using the footstep
+  generator pattern for UI sounds (click/paper/keys), each with focused
+  smokes; verify `./eng/verify-dotnet.sh && ./eng/verify-godot.sh`, commit
+  `task(AUDIO-00x): ...` per task.

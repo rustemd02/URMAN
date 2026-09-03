@@ -86,6 +86,42 @@
       "seed": 5707,
       "license": "Project-original",
       "status": "technical-runtime-pass; authored-mix-open"
+    },
+    {
+      "id": "ambient.village-arrival",
+      "file": "res://assets/audio/village_arrival.wav",
+      "zones": [
+        "village_day@arrival"
+      ],
+      "loop": true,
+      "source": "tools/audio/generate_act1_ambience_layers.py",
+      "seed": 6803,
+      "license": "Project-original",
+      "status": "technical-runtime-pass; authored-mix-open"
+    },
+    {
+      "id": "ambient.village-yard",
+      "file": "res://assets/audio/village_yard.wav",
+      "zones": [
+        "village_day@from_house"
+      ],
+      "loop": true,
+      "source": "tools/audio/generate_act1_ambience_layers.py",
+      "seed": 7901,
+      "license": "Project-original",
+      "status": "technical-runtime-pass; authored-mix-open"
+    },
+    {
+      "id": "ambient.village-return",
+      "file": "res://assets/audio/village_return.wav",
+      "zones": [
+        "village_day@from_forest"
+      ],
+      "loop": true,
+      "source": "tools/audio/generate_act1_ambience_layers.py",
+      "seed": 8117,
+      "license": "Project-original",
+      "status": "technical-runtime-pass; authored-mix-open"
     }
   ]
 }

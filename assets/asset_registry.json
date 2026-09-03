@@ -920,7 +920,7 @@
       "audio": "8s loop bed; FAP institutional / zirat wind layer",
       "status": "technical-runtime-pass; authored field mix and cultural review open",
       "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-04 HEAD",
-      "sourceSha256": "47572abc6b452ea603a2c70daae138f007682116cda421ca687cb56b3ca38150"
+      "sourceSha256": "fa2a230bf3a19123f1593b1705d5d1984b7537f3fbec6af3e7b7dd42516af756"
     },
     {
       "id": "audio.ambient.zirat-wind",
@@ -935,7 +935,52 @@
       "audio": "8s loop bed; FAP institutional / zirat wind layer",
       "status": "technical-runtime-pass; authored field mix and cultural review open",
       "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-04 HEAD",
-      "sourceSha256": "47572abc6b452ea603a2c70daae138f007682116cda421ca687cb56b3ca38150"
+      "sourceSha256": "fa2a230bf3a19123f1593b1705d5d1984b7537f3fbec6af3e7b7dd42516af756"
+    },
+    {
+      "id": "ambient.village-arrival",
+      "source": "tools/audio/generate_act1_ambience_layers.py",
+      "sourceSha256": "fa2a230bf3a19123f1593b1705d5d1984b7537f3fbec6af3e7b7dd42516af756",
+      "derived": "game/assets/audio/village_arrival.wav",
+      "derivedSha256": "b335bc2442f8a43de278227f4546e9bda42493e3c15a6ad1fa965105c80efb7f",
+      "generator": "tools/audio/generate_act1_ambience_layers.py; Python stdlib wave (project-original procedural)",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 0,
+      "audio": "8s loop sub-zone bed",
+      "status": "technical-runtime-pass; authored field mix and cultural review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-04 HEAD"
+    },
+    {
+      "id": "ambient.village-yard",
+      "source": "tools/audio/generate_act1_ambience_layers.py",
+      "sourceSha256": "fa2a230bf3a19123f1593b1705d5d1984b7537f3fbec6af3e7b7dd42516af756",
+      "derived": "game/assets/audio/village_yard.wav",
+      "derivedSha256": "3ce41a4cc142db382c1cd0fbe7edcb19c4bf6a82e0c85fdc36d1ce1b4c4b3986",
+      "generator": "tools/audio/generate_act1_ambience_layers.py; Python stdlib wave (project-original procedural)",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 0,
+      "audio": "8s loop sub-zone bed",
+      "status": "technical-runtime-pass; authored field mix and cultural review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-04 HEAD"
+    },
+    {
+      "id": "ambient.village-return",
+      "source": "tools/audio/generate_act1_ambience_layers.py",
+      "sourceSha256": "fa2a230bf3a19123f1593b1705d5d1984b7537f3fbec6af3e7b7dd42516af756",
+      "derived": "game/assets/audio/village_return.wav",
+      "derivedSha256": "9d182d2d74c91f68c44c452dd7683e3320132d46add3ed75e6435755e31e93ee",
+      "generator": "tools/audio/generate_act1_ambience_layers.py; Python stdlib wave (project-original procedural)",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 0,
+      "audio": "8s loop sub-zone bed",
+      "status": "technical-runtime-pass; authored field mix and cultural review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-04 HEAD"
     }
   ]
 }
