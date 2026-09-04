@@ -7,7 +7,11 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: AUTOMATABLE FRONTIER REACHED 2026-09-04 (final HEAD
+- Current task/slice: CAPTURE-003 automated portion re-verified on the
+  current HEAD 2026-09-04 — full-route core-world capture gate PASS 44/44
+  unique root-viewport PNGs / 10 visual zones / 10 waypoints (first green
+  run since the UIUX/audio blocks landed; the supplied 44/25 failure is
+  superseded). AUTOMATABLE FRONTIER REACHED 2026-09-04 (final HEAD
   verified green: godot 16 PASS smokes, dotnet 43+12, assets 50 — exit 0 x3).
   Every task that can be advanced without human evidence is advanced; the
   remaining OPEN/BLOCKED tasks need human gates per the tracker (art
@@ -271,6 +275,14 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 | NARR-016 | done | matrix authored (`a6e5ced`); readability review stays human |
 | AUDIO-010 | deferred | interaction foley needs authored project-original sounds + rights; wiring without them would ship placeholders |
 | UIUX-003/004/009 | deferred | prompt/affordance/readability acceptance needs visual + human matrix evidence (recorded in Queue reassessment) |
+
+## Completed (continued)
+
+- CAPTURE-003 (P0, automated portion): fresh 44/44 capture on current HEAD
+  2026-09-04 — 44 unique root-viewport PNGs, 10 visual zones, 10 waypoints,
+  gate PASS (receipt:
+  `evidence/act1_repo_baseline/cap003-capture-receipt-current-head.json`).
+  Human 360°/art review (CAPTURE-006) remains the open gate.
 
 ## Blocked
 
