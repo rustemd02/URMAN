@@ -413,7 +413,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         if (_mainMenu is { IsDismissed: false } menu)
         {
-            menu.SetContinueAvailable(_bridge?.HasLoadableSlot(MainMenuUi.ContinueSlot) ?? false);
+            var bridge = _bridge;
+            menu.SetContinueAvailable(
+                bridge is not null && bridge.HasLoadableSlot(MainMenuUi.ContinueSlot));
         }
     }
 
@@ -436,12 +438,18 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         }
         else
         {
-            if (!bridge.HasLoadableSlot(MainMenuUi.ContinueSlot))
+            // SAVE-004: Continue reads the quick slot. The rolling checkpoint
+            // slot is NOT routed here yet — its restore-availability semantics
+            // are under investigation (see ledger SAVE-004 BLOCKED note).
+            var slot = bridge.HasLoadableSlot(MainMenuUi.ContinueSlot)
+                ? MainMenuUi.ContinueSlot
+                : null;
+            if (slot is null)
             {
                 return;
             }
 
-            await bridge.LoadSlotAsync(MainMenuUi.ContinueSlot);
+            await bridge.LoadSlotAsync(slot);
         }
 
         ShowIntroAfterMenu();

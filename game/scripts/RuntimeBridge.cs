@@ -210,6 +210,26 @@ public partial class RuntimeBridge : Node
         }
     }
 
+    public const string CheckpointSlot = "checkpoint";
+
+    /// <summary>
+    /// SAVE-004 checkpoint policy: after each of the four stable
+    /// investigation beats the runtime writes one rolling checkpoint slot.
+    /// No autosave inside dialogue/document/transition states — the
+    /// checkpoint fires only when an interaction commit lands the campaign
+    /// on one of these scenes.
+    /// </summary>
+    private static readonly string[] CheckpointScenes =
+    [
+        "urman.chapter1:scene/evidence-official-death",
+        "urman.chapter1:scene/evidence-internal-register",
+        "urman.chapter1:scene/evidence-tatarwiki-reread",
+        "urman.chapter1:scene/zirat-road"
+    ];
+
+    private string? _lastCheckpointScene;
+    private bool _checkpointBusy;
+
     public async Task<bool> DispatchInteractionAsync(string interactionId)
     {
         if (_kernel is null)
@@ -219,11 +239,44 @@ public partial class RuntimeBridge : Node
 
         if (_content.TryGetInteraction(interactionId, out var interaction))
         {
-            return await DispatchCompiledInteractionAsync(interaction);
+            var dispatched = await DispatchCompiledInteractionAsync(interaction);
+            if (dispatched)
+            {
+                await SaveCheckpointAsync();
+            }
+
+            return dispatched;
         }
 
         GD.PushWarning($"Ignoring interaction that is not present in the compiled campaign: {interactionId}");
         return false;
+    }
+
+    private async Task SaveCheckpointAsync()
+    {
+        if (_checkpointBusy || _content is null || ActiveSceneId is not { } scene)
+        {
+            return;
+        }
+
+        if (!CheckpointScenes.Contains(scene) || _lastCheckpointScene == scene)
+        {
+            return;
+        }
+
+        _checkpointBusy = true;
+        try
+        {
+            if (await SaveSlotAsync(CheckpointSlot))
+            {
+                _lastCheckpointScene = scene;
+                GD.Print($"checkpoint: auto-saved at {scene}");
+            }
+        }
+        finally
+        {
+            _checkpointBusy = false;
+        }
     }
 
     public void SetWorldLocation(string zoneId, string spawnPointId)

@@ -13,6 +13,10 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 {
     public const string ContinueSlot = "quick";
 
+    /// <summary>SAVE-004: the runtime also maintains a rolling checkpoint
+    /// slot; Continue falls back to it when the quick slot is absent.</summary>
+    public const string CheckpointSlot = "checkpoint";
+
     private Label? _title;
     private Label? _subtitle;
     private Button? _newGameButton;

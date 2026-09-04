@@ -1,0 +1,12 @@
+asset-registry-preflight: PASS assets=49 derived=49 explicit_sources=23
+asset-lod-smoke: 49 LOD1 meshes; policy=LOD1 generated with deterministic Decimate ratios; Godot visibility ranges remain scene-specific; detail=authored edge breaks on hard-surface kit; bounded HouseA facade pass; WellA/WoodpileA/GateA village anchors; four-tier faceted PineA crown joined into one mesh; 49-mesh contract with OldPc tower/panel/button/drive-slot/label-plate hero details
+Blender 4.5.12 LTS (hash 84afd5f785f7 built 2026-07-21 01:41:35)
+Read blend: "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/urman_modular_kit.blend"
+
+Blender quit
+character-asset-smoke: 9 prefixes, 143 LOD0/143 LOD1 meshes; face/clothing detail; Idle/Tension clips; no collision meshes
+Blender 4.5.12 LTS (hash 84afd5f785f7 built 2026-07-21 01:41:35)
+Read blend: "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/urman_character_kit.blend"
+
+Blender quit
+asset-registry-smoke: valid JSON, source/derived hashes, environment LOD provenance and character-kit provenance

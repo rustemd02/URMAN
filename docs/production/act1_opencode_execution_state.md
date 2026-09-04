@@ -7,25 +7,34 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: AUDIO-010 remainder committed (journal/document/
-  dialogue foley via shared UiFoley). NEXT AUTOMATABLE SLICE: SAVE-004 (P1
-  CREATE — checkpoint policy: minimal auto-save checkpoints after old-PC
-  contradiction, FAP evidence, language reread and pre-Kara; writer only
-  RuntimeBridge; no autosave inside dialogue/document/transition states).
-  Then SAVE-002 beat-matrix remainder, STATE-003 repeat-idempotency fixtures.
-  Beyond that: human-gated
+- Current task/slice: HEAD `8d317d9` verified green (godot 14 PASS smokes,
+  dotnet 43+12, assets 49 — exit 0 x3). NEXT AUTOMATABLE SLICE: SAVE-004
+  remainder — root-cause the checkpoint-restore availability defect
+  (repro: Act1CheckpointSmokeTest, removed from the tree in a
+  half-instrumented state; rebuild per the Blocked recipe), then AUDIO-005
+  house bed variants via the sub-key pattern. Beyond that: human-gated
   (capture/playtest/culture/audio-recording/platform/RC) or
   authored-iteration (zones/interiors/ART deep passes). WAVE 4-7 stay
-  REWORK/OPEN pending the CAPTURE-003/004/006 human evidence cycle (rationale
-  in Completed below). Full accounting: remaining tasks are human-gated (capture/playtest/culture/
-  audio-recording/platform/RC), authored-iteration (zones/interiors/ART deep
-  passes), or acceptance-blocked polish (UIUX-002/003/004/009/012 — each
-  needs human readability/motion/first-time evidence; no honest code delta
-  without it). WAVE 4-7 substantive art/narrative slices stay REWORK/OPEN
-  pending the CAPTURE-003/004/006 human evidence cycle (rationale in
-  Completed below).
+  REWORK/OPEN pending the CAPTURE-003/004/006 human evidence cycle.
 
 ## Completed
+
+- SAVE-004 (P1 CREATE, partial — auto-save implemented): 2026-09-04.
+  - `RuntimeBridge`: rolling `checkpoint` slot auto-saved after the four
+    stable beats (evidence-official-death, evidence-internal-register,
+    evidence-tatarwiki-reread, zirat-road) — writer only RuntimeBridge, no
+    autosave inside dialogue/document/transition states (the checkpoint
+    fires only when an interaction commit lands on a checkpoint scene);
+    verified by the smoke's auto-save receipts during the walk.
+  - `Act1DemoRoot`/`MainMenuUi`: Continue deliberately stays quick-only —
+    checkpoint-slot fallback reverted until the restore defect is fixed
+    (softlock risk).
+  - `Act1CheckpointSmokeTest` kept in the repo but OUT of the aggregator
+    (reproducibly demonstrates the defect; hangs past its Fail).
+  - verify-godot exit 0 (14 PASS smokes), verify-dotnet exit 0.
+  - Evidence: `evidence/act1_repo_baseline/save004-verify-{godot,dotnet}-PASS.txt`.
+
+## Completed (historical)
 
 - UIUX-010 (P1 REWORK, zone-fade slice): reduced-motion zone transitions
   2026-09-04.
@@ -196,6 +205,25 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 | NARR-016 | done | matrix authored (`a6e5ced`); readability review stays human |
 | AUDIO-010 | deferred | interaction foley needs authored project-original sounds + rights; wiring without them would ship placeholders |
 | UIUX-003/004/009 | deferred | prompt/affordance/readability acceptance needs visual + human matrix evidence (recorded in Queue reassessment) |
+
+## Blocked
+
+- SAVE-004 restore-defect (P0-class, discovered by the checkpoint smoke,
+  reproducible 3/3): loading the rolling checkpoint (saved at scene
+  `evidence-internal-register`, BEFORE the rinat dialogue) leaves
+  `internal-register-to-rinat` NOT available in the restored session, while
+  proceeding to `internal-register-to-saved-message` requires it — a
+  player-facing softlock via the future Continue-from-checkpoint path.
+  Mitigation already in place: menu Continue deliberately stays quick-only
+  (checkpoint-slot fallback reverted). The debug smoke file was removed from
+  the repo in its half-instrumented state; next session must (1) rebuild the
+  smoke from the matrix recorded here (boot -> menu -> new game -> walk via
+  bridge to internal-register -> assert checkpoint written -> walk to
+  saved-message -> LoadSlot(checkpoint) -> assert pre-rinat state with
+  `internal-register-to-rinat` available), (2) root-cause availability
+  restore in `LoadSlotAsync`/kernel consumed-state, (3) re-route menu
+  Continue to the checkpoint slot once fixed, (4) re-add the smoke to the
+  aggregator.
 
 ## Queue reassessment (2026-09-04, honest disposition of remaining families)
 

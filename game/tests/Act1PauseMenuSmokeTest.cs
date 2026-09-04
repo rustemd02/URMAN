@@ -212,7 +212,7 @@ public partial class Act1PauseMenuSmokeTest : Node
 
     private static void DeleteSlot()
     {
-        foreach (var suffix in new[] { ".json", ".backup.json" })
+        foreach (var suffix in new[] { ".savegame-v3.json", ".savegame-v3.backup.json" })
         {
             var path = ProjectSettings.GlobalizePath($"user://savegames/{PauseMenuUi.ContinueSlot}{suffix}");
             if (System.IO.File.Exists(path))
