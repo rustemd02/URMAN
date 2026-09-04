@@ -7,12 +7,13 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: SAVE-004 CLOSED — checkpoint smoke (re-added to the
-  aggregator) proves: rolling checkpoints at internal-register + reread,
-  restore lands exactly on the reread beat, the zirat clue is re-collected
-  post-restore, the terminal completes once. Next automatable slices:
-  AUDIO-005 house bed variants, AUDIO-010 foley for journal/document UIs.
-  Beyond that: human-gated
+- Current task/slice: AUTOMATABLE FRONTIER REACHED 2026-09-04 (CAPTURE-004
+  supplemental harness closed at `2cba09c`). Every task that can be advanced
+  without human evidence is advanced; the remaining OPEN/BLOCKED tasks need
+  human gates per the tracker (art iteration + 360 review, first-time
+  playtests, native Tatar/cultural sign-offs, authored voice recordings,
+  Windows/M1 hosts, RC evidence chain). Full accounting: see the Queue
+  reassessment and per-slice Completed entries below.
 
 ## Completed
 
