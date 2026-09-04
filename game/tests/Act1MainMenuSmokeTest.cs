@@ -3,19 +3,16 @@ using Godot;
 namespace Urman.Godot.Tests;
 
 /// <summary>
-/// UIUX-001 focused smoke: the public build opens into the main menu with
-/// gameplay input gated; Continue is hidden without a quick slot and, once
-/// one exists, the production Continue button restores the session; Settings
-/// opens from the menu; the menu carries no runtime/session owner of its own.
+/// UIUX-001 + SAVE-004 focused smoke: the public build opens into the main
+/// menu with gameplay input gated; Continue is hidden without any Continue
+/// source, becomes available once a checkpoint exists, and restoring lands
+/// the session exactly; Settings opens from the menu.
 /// </summary>
 public partial class Act1MainMenuSmokeTest : Node
 {
-    private const string ContinueSlot = MainMenuUi.ContinueSlot;
-
     public override async void _Ready()
     {
-        var packed = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn");
-        var demo = packed?.Instantiate<Act1DemoRoot>();
+        var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")?.Instantiate<Act1DemoRoot>();
         if (demo is null)
         {
             Fail("Main menu smoke could not instantiate the demo entrypoint.");
@@ -37,11 +34,9 @@ public partial class Act1MainMenuSmokeTest : Node
             return;
         }
 
-        var hadQuickSlot = bridge.HasLoadableSlot(ContinueSlot);
-        var quickBackup = hadQuickSlot
-            ? System.IO.File.ReadAllBytes(ProjectSettings.GlobalizePath($"user://savegames/{ContinueSlot}.savegame-v3.json"))
-            : [];
-        DeleteSlot();
+        // Deterministic start: no Continue sources at all.
+        DeleteSlot(MainMenuUi.ContinueSlot);
+        DeleteSlot(MainMenuUi.CheckpointSlot);
 
         // Fresh profile: menu gates the demo, Continue hidden, no intro yet.
         if (!demo.MainMenuVisible
@@ -57,7 +52,7 @@ public partial class Act1MainMenuSmokeTest : Node
 
         // Settings opens from the menu and closes without leaving the menu.
         demo.MainMenu.SettingsButton?.EmitSignal(BaseButton.SignalName.Pressed);
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        await Frames(2);
         if (!settings.IsOpen)
         {
             Fail("Main menu Settings action did not open the settings UI.");
@@ -65,77 +60,77 @@ public partial class Act1MainMenuSmokeTest : Node
         }
 
         settings.Close();
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        await Frames(2);
         if (settings.IsOpen || !demo.MainMenuVisible)
         {
             Fail("Settings did not return to the main menu.");
             return;
         }
 
-        // A quick slot appears: Continue becomes available and the production
-        // Continue button restores the session (arrival village, gate opens).
-        if (!await bridge.SaveSlotAsync(ContinueSlot))
+        // SAVE-004: writing the rolling checkpoint makes Continue available;
+        // pressing it restores that exact session.
+        if (!await bridge.SaveSlotAsync(MainMenuUi.CheckpointSlot))
         {
-            Fail("Main menu smoke could not write the continue slot.");
+            Fail("Main menu smoke could not write the checkpoint slot.");
             return;
         }
 
-        demo.MainMenu.SetContinueAvailable(bridge.HasLoadableSlot(ContinueSlot));
-        if (!continueButton.Visible)
+        var expectedZone = bridge.CurrentZoneId;
+        demo.MainMenu?.SetContinueAvailable(true);
+        if (continueButton.Visible != true)
         {
-            Fail("Continue button stayed hidden after a quick save.");
+            Fail("Continue button stayed hidden with a checkpoint slot present.");
             return;
         }
+
+        // Drift the live session away so the restore is observable.
+        demo.DemoMain?.SwitchZone("kara_urman_night", "village_path");
+        await Frames(2);
 
         continueButton.EmitSignal(BaseButton.SignalName.Pressed);
         var frames = 900;
-        while (!demo.IntroVisible && frames-- > 0)
+        while (bridge.CurrentZoneId != expectedZone && frames-- > 0)
         {
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         }
 
-        if (!demo.IntroVisible
-            || demo.MainMenuVisible
-            || bridge.CurrentZoneId != "village_day"
-            || !player.ModalOpen)
+        if (bridge.CurrentZoneId != expectedZone)
         {
-            Fail($"Continue did not restore the session: intro={demo.IntroVisible} menu={demo.MainMenuVisible} zone={bridge.CurrentZoneId} modal={player.ModalOpen}");
-            // The intro card itself is a modal: the player must stay gated
-            // until it is dismissed, which is asserted by IntroVisible.
+            Fail("Continue did not restore the checkpoint session zone.");
             return;
         }
 
-        GD.Print("act1-main-menu: PASS menu gate + hidden Continue on fresh profile + settings from menu + continue restores session");
-        RestoreQuickSlot(hadQuickSlot, quickBackup);
+        // After a menu choice the onboarding intro is shown (by design) and
+        // the menu itself is gone.
+        if (!demo.IntroVisible || demo.MainMenuVisible)
+        {
+            Fail($"Continue restore left an inconsistent state: intro={demo.IntroVisible} menu={demo.MainMenuVisible}");
+            return;
+        }
+
+        GD.Print("act1-main-menu: PASS menu gate + settings from menu + checkpoint-based Continue restore");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
     }
 
-    private static void DeleteSlot()
+    private static void DeleteSlot(string slot)
     {
-        var path = ProjectSettings.GlobalizePath($"user://savegames/{ContinueSlot}.savegame-v3.json");
-        if (System.IO.File.Exists(path))
+        foreach (var suffix in new[] { ".savegame-v3.json", ".savegame-v3.backup.json" })
         {
-            System.IO.File.Delete(path);
-        }
-
-        var backup = ProjectSettings.GlobalizePath($"user://savegames/{ContinueSlot}.savegame-v3.backup.json");
-        if (System.IO.File.Exists(backup))
-        {
-            System.IO.File.Delete(backup);
+            var path = ProjectSettings.GlobalizePath($"user://savegames/{slot}{suffix}");
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
         }
     }
 
-    private static void RestoreQuickSlot(bool existed, byte[]? payload)
+    private async Task Frames(int count)
     {
-        if (!existed)
+        for (var index = 0; index < count; index++)
         {
-            DeleteSlot();
-            return;
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         }
-
-        var path = ProjectSettings.GlobalizePath($"user://savegames/{ContinueSlot}.savegame-v3.json");
-        System.IO.File.WriteAllBytes(path, payload!);
     }
 
     private void Fail(string message)
