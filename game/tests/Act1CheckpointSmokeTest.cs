@@ -104,6 +104,16 @@ public partial class Act1CheckpointSmokeTest : Node
             return;
         }
 
+        // SAVE-002 matrix: the restored session state must byte-match the
+        // pre-restore state (no drift between slot and live state).
+        var preRestoreStateRaw = bridge.SelectRuntimeState().GetRawText();
+        if (!await bridge.LoadSlotAsync(RuntimeBridge.CheckpointSlot)
+            || bridge.SelectRuntimeState().GetRawText() != preRestoreStateRaw)
+        {
+            Fail($"The restored session state diverged from the pre-restore state: '{bridge.SelectRuntimeState().GetRawText()}' vs '{preRestoreStateRaw[..Math.Min(120, preRestoreStateRaw.Length)]}'");
+            return;
+        }
+
         // The restored session continues from the reread beat: the zirat
         // roadside clue (post-checkpoint in pass 1) must be re-collected
         // before the forest approach unlocks.
@@ -133,6 +143,36 @@ public partial class Act1CheckpointSmokeTest : Node
         GetTree().Quit(0);
     }
 
+    /// <summary>
+    /// SAVE-002 matrix step: save the current beat, drift away, restore and
+    /// prove the session returns to the identical state and scene.
+    /// </summary>
+    private async Task<bool> SaveRestoreRoundtrip(
+        RuntimeBridge bridge,
+        Main main,
+        string slot,
+        string expectedSceneLocalId,
+        string expectedStateRaw)
+    {
+        if (!await bridge.SaveSlotAsync(slot))
+        {
+            Fail($"Save/restore matrix could not save {slot}.");
+            return false;
+        }
+
+        main.SwitchZone("kara_urman_night", "village_path");
+        await Frames(2);
+        if (!await bridge.LoadSlotAsync(slot)
+            || bridge.ActiveSceneId != Scene(expectedSceneLocalId)
+            || bridge.SelectRuntimeState().GetRawText() != expectedStateRaw)
+        {
+            Fail($"Save/restore matrix did not return the identical state for {slot} at {expectedSceneLocalId}.");
+            return false;
+        }
+
+        return true;
+    }
+
     private async Task<bool> Advance(RuntimeBridge bridge, string interactionLocalId, string targetSceneLocalId)
     {
         var interactionId = Interaction(interactionLocalId);
@@ -150,6 +190,24 @@ public partial class Act1CheckpointSmokeTest : Node
         }
 
         return true;
+    }
+
+    private static JsonElement? ReadCheckpointState(RuntimeBridge bridge)
+    {
+        var path = ProjectSettings.GlobalizePath($"user://savegames/{RuntimeBridge.CheckpointSlot}.savegame-v3.json");
+        if (!System.IO.File.Exists(path))
+        {
+            return null;
+        }
+
+        using var document = System.Text.Json.JsonDocument.Parse(System.IO.File.ReadAllText(path));
+        if (document.RootElement.TryGetProperty("runtime", out var runtime)
+            && runtime.TryGetProperty("state", out var state))
+        {
+            return state.Clone();
+        }
+
+        return null;
     }
 
     private static string FinalKnowledge(JsonElement state) =>

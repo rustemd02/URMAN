@@ -7,13 +7,14 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: AUTOMATABLE FRONTIER REACHED 2026-09-04 (CAPTURE-004
-  supplemental harness closed at `2cba09c`). Every task that can be advanced
-  without human evidence is advanced; the remaining OPEN/BLOCKED tasks need
-  human gates per the tracker (art iteration + 360 review, first-time
-  playtests, native Tatar/cultural sign-offs, authored voice recordings,
-  Windows/M1 hosts, RC evidence chain). Full accounting: see the Queue
-  reassessment and per-slice Completed entries below.
+- Current task/slice: SAVE-002 matrix remainder CLOSED (save/restore
+  roundtrips at crossroad, official-death and reread beats — 15 PASS smokes,
+  both suites exit 0 on HEAD). The remaining substantive work is human-gated
+  (zones/interiors authored art + 360 review, first-time playtests, native
+  Tatar/cultural sign-offs, authored voice recordings, Windows/M1 hosts, RC
+  evidence chain) per the Queue reassessment below. Next automatable slices:
+  only marginal (AUDIO-005 house variants, AUDIO-010 journal/document foley
+  remainder) — dimishing value without listening review.
 
 ## Completed
 
