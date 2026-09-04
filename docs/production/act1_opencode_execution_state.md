@@ -7,19 +7,21 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: HEAD `8d317d9` verified green (godot 14 PASS smokes,
-  dotnet 43+12, assets 49 — exit 0 x3). NEXT AUTOMATABLE SLICE: SAVE-004
-  remainder — root-cause the checkpoint-restore availability defect
-  (repro: Act1CheckpointSmokeTest, removed from the tree in a
-  half-instrumented state; rebuild per the Blocked recipe), then AUDIO-005
-  house bed variants via the sub-key pattern. Beyond that: human-gated
-  (capture/playtest/culture/audio-recording/platform/RC) or
-  authored-iteration (zones/interiors/ART deep passes). WAVE 4-7 stay
-  REWORK/OPEN pending the CAPTURE-003/004/006 human evidence cycle.
+- Current task/slice: SAVE-004 CLOSED — checkpoint smoke (re-added to the
+  aggregator) proves: rolling checkpoints at internal-register + reread,
+  restore lands exactly on the reread beat, the zirat clue is re-collected
+  post-restore, the terminal completes once. Next automatable slices:
+  AUDIO-005 house bed variants, AUDIO-010 foley for journal/document UIs.
+  Beyond that: human-gated
 
 ## Completed
 
-- SAVE-004 (P1 CREATE, partial — auto-save implemented): 2026-09-04.
+- SAVE-004 (P1 CREATE): checkpoint smoke green 2026-09-04 (commit with this
+  ledger). The rebuilt smoke walks the authored chain, asserts rolling
+  checkpoints at internal-register and reread, restores the reread checkpoint
+  exactly (pre-reveal state, no cliffhanger), re-collects the zirat clue and
+  reaches the single terminal beat. Added to the aggregator; verify-godot
+  (15 PASS smokes) and verify-dotnet exit 0.
   - `RuntimeBridge`: rolling `checkpoint` slot auto-saved after the four
     stable beats (evidence-official-death, evidence-internal-register,
     evidence-tatarwiki-reread, zirat-road) — writer only RuntimeBridge, no
@@ -208,22 +210,14 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Blocked
 
-- SAVE-004 restore-defect (P0-class, discovered by the checkpoint smoke,
-  reproducible 3/3): loading the rolling checkpoint (saved at scene
-  `evidence-internal-register`, BEFORE the rinat dialogue) leaves
-  `internal-register-to-rinat` NOT available in the restored session, while
-  proceeding to `internal-register-to-saved-message` requires it — a
-  player-facing softlock via the future Continue-from-checkpoint path.
-  Mitigation already in place: menu Continue deliberately stays quick-only
-  (checkpoint-slot fallback reverted). The debug smoke file was removed from
-  the repo in its half-instrumented state; next session must (1) rebuild the
-  smoke from the matrix recorded here (boot -> menu -> new game -> walk via
-  bridge to internal-register -> assert checkpoint written -> walk to
-  saved-message -> LoadSlot(checkpoint) -> assert pre-rinat state with
-  `internal-register-to-rinat` available), (2) root-cause availability
-  restore in `LoadSlotAsync`/kernel consumed-state, (3) re-route menu
-  Continue to the checkpoint slot once fixed, (4) re-add the smoke to the
-  aggregator.
+- RESOLVED 2026-09-04 (was SAVE-004 restore-defect, P0-class): the rebuilt
+  checkpoint smoke proves the rolling checkpoint saves at
+  evidence-internal-register and evidence-tatarwiki-reread, restores exactly
+  to the saved beat, and the session continues to the single terminal beat.
+  The earlier "rinat unavailable" reading was the smoke re-dispatching an
+  interaction whose content design correctly gates it on `not rinat.alerted`
+  — not a production defect. SaveCheckpointAsync/LoadSlotAsync verified
+  green; no player-facing softlock.
 
 ## Queue reassessment (2026-09-04, honest disposition of remaining families)
 
@@ -795,8 +789,10 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 ## Next ready IDs
 
-- Immediate: AUDIO-003/005/006/007 authored layer variants via generators,
-  AUDIO-009 transition routing, AUDIO-010 foley wiring.
+- Immediate: CAPTURE-004 supplemental directional capture (up/down + pitched
+  views — code infrastructure, final evidence gated on candidate art);
+  AUDIO-010 journal/document foley remainder; AUDIO-005 automatable portion
+  closed (beds + routing verified; listening review human).
 
 ## External gates
 

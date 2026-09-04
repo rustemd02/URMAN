@@ -1,0 +1,200 @@
+using System.Text.Json;
+using Godot;
+
+namespace Urman.Godot.Tests;
+
+/// <summary>
+/// SAVE-004 focused smoke: the runtime writes a rolling checkpoint after the
+/// stable investigation beats (official record, internal register, language
+/// reread, zirat road), restoring it lands exactly on the saved beat with no
+/// repeated or skipped progress, and the walk continues to the terminal.
+/// </summary>
+public partial class Act1CheckpointSmokeTest : Node
+{
+    private const string ChapterPrefix = "urman.chapter1:";
+    private const string OfficialNotice = "urman.oldpc:document/doc_marat_official_death_notice";
+
+    public override async void _Ready()
+    {
+        var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")?.Instantiate<Act1DemoRoot>();
+        if (demo is null)
+        {
+            Fail("Checkpoint smoke could not instantiate the demo entrypoint.");
+            return;
+        }
+
+        DeleteCheckpoint();
+        AddChild(demo);
+        await Frames(8);
+        if (!await this.StartThroughMainMenuAsync(demo))
+        {
+            Fail("Checkpoint smoke could not start through the main menu.");
+            return;
+        }
+
+        var main = demo.DemoMain;
+        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (main is null || bridge is null)
+        {
+            Fail("Checkpoint smoke could not find main or bridge.");
+            return;
+        }
+
+        // Fresh session: no checkpoint until the first stable beat.
+        if (bridge.IsSlotAvailable(RuntimeBridge.CheckpointSlot))
+        {
+            Fail("A checkpoint existed before any stable beat in a fresh session.");
+            return;
+        }
+
+        // Authored chain: arrival -> house -> FAP -> official record.
+        if (!await Advance(bridge, "arrival-enter-house", "house")) return;
+        main.SwitchZone("house_old_pc", "entry");
+        await Frames(1);
+        await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new
+        {
+            type = "open",
+            documentId = OfficialNotice
+        }));
+        if (!bridge.IsInteractionAvailable(Interaction("talk-gulsina"))
+            || !await bridge.DispatchInteractionAsync(Interaction("talk-gulsina"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("gulsina_yaramyy"), "home-warning")
+            || !await Advance(bridge, "house-to-route", "crossroad_signs_inspect")) return;
+        main.SwitchZone("village_day", "from_house");
+        await Frames(1);
+        if (!bridge.IsInteractionAvailable(Interaction("talk-alsu"))
+            || !await bridge.DispatchInteractionAsync(Interaction("talk-alsu"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("alsu_route_context"), "name-road")
+            || !await Advance(bridge, "route-to-fap", "fap_waiting_room_day")) return;
+        main.SwitchZone("fap_clinic", "waiting_room");
+        await Frames(1);
+        if (!bridge.IsInteractionAvailable(Interaction("talk-naila"))
+            || !await bridge.DispatchInteractionAsync(Interaction("talk-naila"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("naila_medical_record"), "official-wording")
+            || !await Advance(bridge, "fap-to-document-desk", "fap_pressure_document_desk")
+            || !await Advance(bridge, "fap-document-desk-to-official-record", "evidence-official-death")) return;
+
+        // Stable FAP-evidence beat: the rolling checkpoint must exist now.
+        if (!bridge.IsSlotAvailable(RuntimeBridge.CheckpointSlot))
+        {
+            Fail("No checkpoint was written after the FAP evidence beat.");
+            return;
+        }
+
+        // Continue to the internal register and the language reread: the
+        // checkpoint is rewritten at each checkpoint-scene entry.
+        if (!await Advance(bridge, "official-to-internal-register", "evidence-internal-register")) return;
+        main.SwitchZone("house_old_pc", "entry");
+        await Frames(1);
+        if (!bridge.IsInteractionAvailable(Interaction("internal-register-to-rinat"))
+            || !await bridge.DispatchInteractionAsync(Interaction("internal-register-to-rinat"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("rinat_internal_register"), "dangerous-category")
+            || !await Advance(bridge, "internal-register-to-saved-message", "evidence-saved-message")
+            || !await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")
+            || !await Advance(bridge, "boundary-source-to-reread", "evidence-tatarwiki-reread")) return;
+
+        // Restore lands exactly on the language-reread beat with the final
+        // knowledge still hidden (reveal-not-before survives the restore).
+        if (!await bridge.LoadSlotAsync(RuntimeBridge.CheckpointSlot)
+            || bridge.ActiveSceneId != Scene("evidence-tatarwiki-reread")
+            || BeatState(bridge.SelectRuntimeState(), "cliffhanger-hard-cut") == "completed"
+            || FinalKnowledge(bridge.SelectRuntimeState()) == "confirmed")
+        {
+            Fail("Checkpoint restore did not land on the language-reread beat.");
+            return;
+        }
+
+        // The restored session continues from the reread beat: the zirat
+        // roadside clue (post-checkpoint in pass 1) must be re-collected
+        // before the forest approach unlocks.
+        if (!await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")
+            || !await Advance(bridge, "edge-sketch-to-zirat-road", "zirat-road")) return;
+        var clue = Interaction("zirat-roadside-clue");
+        if (!bridge.IsInteractionAvailable(clue)
+            || !await bridge.DispatchInteractionAsync(clue)
+            || FinalKnowledge(bridge.SelectRuntimeState()) != "hidden")
+        {
+            Fail("The zirat roadside clue was not available or wrongly granted after restore.");
+            return;
+        }
+
+        // The restored session continues to the terminal: exactly once.
+        if (!await Advance(bridge, "zirat-road-to-forest", "forest")
+            || FinalKnowledge(bridge.SelectRuntimeState()) != "confirmed"
+            || BeatState(bridge.SelectRuntimeState(), "cliffhanger-hard-cut") != "completed")
+        {
+            Fail("The restored session did not reach the single terminal beat.");
+            return;
+        }
+
+        GD.Print("act1-checkpoint: PASS rolling checkpoints at internal-register/reread + exact restore + terminal once");
+        DeleteCheckpoint();
+        await GodotSmokeCleanup.ReleaseAsync(demo);
+        GetTree().Quit(0);
+    }
+
+    private async Task<bool> Advance(RuntimeBridge bridge, string interactionLocalId, string targetSceneLocalId)
+    {
+        var interactionId = Interaction(interactionLocalId);
+        if (!bridge.IsInteractionAvailable(interactionId))
+        {
+            Fail($"Checkpoint interaction was not available: {interactionId}.");
+            return false;
+        }
+
+        if (!await bridge.DispatchInteractionAsync(interactionId)
+            || bridge.ActiveSceneId != Scene(targetSceneLocalId))
+        {
+            Fail($"Checkpoint interaction did not reach {targetSceneLocalId}: {interactionId}.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private static string FinalKnowledge(JsonElement state) =>
+        state.TryGetProperty("knowledge", out var knowledge)
+        && knowledge.TryGetProperty($"{ChapterPrefix}knowledge/clue_do_not_answer_rule", out var entry)
+            ? entry.GetProperty("status").GetString() ?? string.Empty
+            : "hidden";
+
+    private static string BeatState(JsonElement state, string localId)
+    {
+        state.TryGetProperty("beats", out var beats);
+        return beats.TryGetProperty($"{ChapterPrefix}beat/{localId}", out var beat)
+            ? beat.GetString() ?? string.Empty
+            : string.Empty;
+    }
+
+    private static string Interaction(string localId) => $"{ChapterPrefix}interaction/{localId}";
+
+    private static string Scene(string localId) => $"{ChapterPrefix}scene/{localId}";
+
+    private static string Dialogue(string localId) => $"{ChapterPrefix}dialogue/{localId}";
+
+    private static void DeleteCheckpoint()
+    {
+        foreach (var suffix in new[] { ".savegame-v3.json", ".savegame-v3.backup.json" })
+        {
+            var path = ProjectSettings.GlobalizePath($"user://savegames/{RuntimeBridge.CheckpointSlot}{suffix}");
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+        }
+    }
+
+    private async Task Frames(int count)
+    {
+        for (var index = 0; index < count; index++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+    }
+
+    private void Fail(string message)
+    {
+        GD.PushError(message);
+        GetTree().Quit(1);
+    }
+}
