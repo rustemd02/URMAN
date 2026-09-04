@@ -7,7 +7,7 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: SAVE-002 matrix remainder CLOSED (save/restore
+- Current task/slice: STATE-006 diagnostics doc committed; SAVE-002 matrix remainder CLOSED (save/restore
   roundtrips at crossroad, official-death and reread beats — 15 PASS smokes,
   both suites exit 0 on HEAD). The remaining substantive work is human-gated
   (zones/interiors authored art + 360 review, first-time playtests, native
@@ -15,6 +15,22 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
   evidence chain) per the Queue reassessment below. Next automatable slices:
   only marginal (AUDIO-005 house variants, AUDIO-010 journal/document foley
   remainder) — dimishing value without listening review.
+
+## Completed
+
+- STATE-006 (P1 REWORK, doc slice): release-safe diagnostics surface
+  documented in `docs/production/runtime_state_diagnostics.md` — what is
+  logged (zone-loaded/scene.entered/audio requests/checkpoint writes/save
+  outcomes), where (Godot log, user://logs, user://savegames), the support
+  recipe, and the boundaries (no document text, no personal data, no debug
+  controls). verify-godot and verify-dotnet exit 0 on the same HEAD.
+
+- SAVE-002 (P1 REWORK, matrix remainder): beat-matrix save/restore
+  roundtrips added to Act1CheckpointSmokeTest — crossroad (post house exit),
+  evidence-official-death and the reread beat: each saves the live state,
+  drifts to kara, restores and proves byte-identical state plus correct
+  scene; the final leg proves the pre-reveal ordering survives the restore.
+  verify-godot (15 PASS smokes) and verify-dotnet exit 0.
 
 ## Completed
 
