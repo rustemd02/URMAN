@@ -7,7 +7,18 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: AUDIO-010 door slice committed (`99d4851` lineage);
+- Current task/slice: AUTOMATABLE FRONTIER REACHED 2026-09-04 (final HEAD
+  verified green: godot 16 PASS smokes, dotnet 43+12, assets 50 — exit 0 x3).
+  Every task that can be advanced without human evidence is advanced; the
+  remaining OPEN/BLOCKED tasks need human gates per the tracker (art
+  iteration + 360 review, first-time playtests, native Tatar/cultural
+  sign-offs, authored voice recordings, Windows/M1 hosts, RC evidence chain).
+  Marginal automatable leftovers (AUDIO-005 house variants, AUDIO-010
+  journal/document foley polish) are listening-gated and deliberately not
+  produced unreviewed. Full accounting: see the Queue reassessment and
+  per-slice Completed entries below. Next session: re-run the three suites
+  on HEAD; sweep for newly-ready slices after zone art iterations; otherwise
+  this stands as the exhausted-automatable state.
   UIUX-009 automation portion closed (16 PASS smokes — 2 resolutions x 5
   critical UIs fit viewport and close cleanly; text readability itself stays
   with the human review). AUTOMATABLE FRONTIER REACHED 2026-09-04: remaining
