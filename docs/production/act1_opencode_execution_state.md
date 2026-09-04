@@ -7,7 +7,12 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: STATE-006 diagnostics doc committed; SAVE-002 matrix remainder CLOSED (save/restore
+- Current task/slice: UIUX-009 automation portion closed (16 PASS smokes —
+  2 resolutions x 5 critical UIs fit viewport and close cleanly; text
+  readability itself stays with the human review). AUTOMATABLE FRONTIER
+  REACHED 2026-09-04: remaining automatable items are marginal (AUDIO-005
+  house bed variants, AUDIO-010 door foley — both listening-gated),
+  everything else substantive is human-gated
   roundtrips at crossroad, official-death and reread beats — 15 PASS smokes,
   both suites exit 0 on HEAD). The remaining substantive work is human-gated
   (zones/interiors authored art + 360 review, first-time playtests, native
@@ -15,6 +20,16 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
   evidence chain) per the Queue reassessment below. Next automatable slices:
   only marginal (AUDIO-005 house variants, AUDIO-010 journal/document foley
   remainder) — dimishing value without listening review.
+
+## Completed
+
+- UIUX-009 (P1 REWORK, automation portion): UI readability matrix smoke
+  2026-09-04. New `Act1UiReadabilitySmokeTest` in the aggregator: at
+  1280x720 and 1920x1080 — settings/journal/old-PC/document/dialogue each
+  open, their panels stay fully inside the viewport bounds, and each closes
+  cleanly (Close buttons or ui_cancel via the owner's own handler). Text
+  readability itself remains the human review gate (PLAYTEST-004 scope).
+  Evidence: `evidence/act1_repo_baseline/uiux009-verify-{godot,dotnet}-PASS.txt`.
 
 ## Completed
 
