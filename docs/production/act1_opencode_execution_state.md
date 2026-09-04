@@ -7,12 +7,12 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
 - Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
-- Current task/slice: UIUX-009 automation portion closed (16 PASS smokes —
-  2 resolutions x 5 critical UIs fit viewport and close cleanly; text
-  readability itself stays with the human review). AUTOMATABLE FRONTIER
-  REACHED 2026-09-04: remaining automatable items are marginal (AUDIO-005
-  house bed variants, AUDIO-010 door foley — both listening-gated),
-  everything else substantive is human-gated
+- Current task/slice: AUDIO-010 door slice committed (`99d4851` lineage);
+  UIUX-009 automation portion closed (16 PASS smokes — 2 resolutions x 5
+  critical UIs fit viewport and close cleanly; text readability itself stays
+  with the human review). AUTOMATABLE FRONTIER REACHED 2026-09-04: remaining
+  automatable items are marginal (AUDIO-005 house bed variants —
+  listening-gated), everything else substantive is human-gated
   roundtrips at crossroad, official-death and reread beats — 15 PASS smokes,
   both suites exit 0 on HEAD). The remaining substantive work is human-gated
   (zones/interiors authored art + 360 review, first-time playtests, native
@@ -166,6 +166,26 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
     verify-dotnet exit 0.
   - Evidence: `evidence/act1_repo_baseline/audio010b-verify-{godot,dotnet}-PASS.txt`.
   - Human remainder: listening review (AUDIO-014, CULTURE-004).
+
+- AUDIO-010 door slice (P1 CREATE): house-entry door creak 2026-09-04.
+  - `generate_act1_foley.py` extended with a deterministic project-original
+    `door_creak.wav` (slow irregular creak with grit); registered in the
+    asset registry (50 assets).
+  - `Act1DemoRoot`: SFX-bus one-shot via `UiFoley` on village -> house zone
+    transitions (presentation-only, silent in headless runs).
+  - verify-assets (50 assets), verify-godot (16 PASS smokes), verify-dotnet
+    — all exit 0 on this slice; listening review remains human
+    (AUDIO-014, CULTURE-004).
+
+- AUDIO-010 door slice (P1 CREATE): house-entry door creak 2026-09-04.
+  - `generate_act1_foley.py` extended with a deterministic project-original
+    `door_creak.wav` (slow irregular creak with grit); registered in the
+    asset registry (50 assets).
+  - `Act1DemoRoot`: SFX-bus one-shot via `UiFoley` on village -> house zone
+    transitions (presentation-only, silent in headless runs).
+  - verify-assets (50 assets), verify-godot (16 PASS smokes), verify-dotnet
+    — all exit 0 on this slice; listening review remains human
+    (AUDIO-014, CULTURE-004).
 
 - AUDIO-009 (P1 CREATE): zone-transition bed routing smoke 2026-09-04.
   - New `Act1AudioTransitionSmokeTest` in the aggregator: switching through

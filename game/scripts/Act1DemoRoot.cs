@@ -38,6 +38,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private bool _endingShown;
     private bool _endingPending;
     private RuntimeBridge? _bridge;
+    private AudioStreamPlayer? _doorFoley;
+    private string? _lastHeardZone;
     private bool _performanceProbe;
     private int _performanceWarmupFrames;
     private ulong _performanceLastTicks;
@@ -110,6 +112,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _main.EnableAct1ConnectedWorld = true;
         AddChild(_main);
         _player = _main.GetNodeOrNull<FirstPersonController>("Player");
+        _doorFoley = UiFoley.Attach(this);
         BuildMainMenu();
         BuildPauseMenu();
         BuildRouteCue();
@@ -134,6 +137,21 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _Process(double delta)
     {
+        // AUDIO-010: a door creak when the player enters the house through
+        // the front door (presentation-only, silent in headless runs).
+        if (_bridge is not null && !string.IsNullOrWhiteSpace(_bridge.CurrentZoneId))
+        {
+            if (_lastHeardZone != _bridge.CurrentZoneId)
+            {
+                if (_lastHeardZone is not null && _bridge.CurrentZoneId == "house_old_pc")
+                {
+                    UiFoley.Play(_doorFoley, "door_creak");
+                }
+
+                _lastHeardZone = _bridge.CurrentZoneId;
+            }
+        }
+
         if (_performanceProbe)
         {
             RecordPerformanceProbeFrame();

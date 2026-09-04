@@ -68,11 +68,27 @@ def paper_open() -> list[float]:
     return samples
 
 
+def door_creak() -> list[float]:
+    samples = []
+    count = int(SAMPLE_RATE * 0.6)
+    rng = random.Random(909)
+    for position in range(count):
+        t = position / SAMPLE_RATE
+        envelope = math.sin(math.pi * min(1.0, t / 0.6)) * 0.35
+        # Slow irregular creak: frequency wobbles downward as the door swings.
+        freq = 340.0 - 120.0 * (t / 0.6) + 40.0 * math.sin(t * 9.0)
+        creak = math.sin(2.0 * math.pi * freq * t)
+        grit = rng.uniform(-1.0, 1.0) * 0.06 * (0.5 + 0.5 * math.sin(t * 22.0))
+        samples.append(envelope * (creak * 0.4 + grit))
+    return samples
+
+
 def main() -> None:
     for name, samples in (
         ("ui_click", click()),
         ("keyboard_key", keyboard_key()),
         ("paper_open", paper_open()),
+        ("door_creak", door_creak()),
     ):
         path = OUT / f"{name}.wav"
         write_wav(path, samples)

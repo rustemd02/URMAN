@@ -985,7 +985,7 @@
     {
       "id": "audio.foley.ui-click",
       "source": "tools/audio/generate_act1_foley.py",
-      "sourceSha256": "25b22991c7c1262ebc64b1f2ab848946b1f3dceba851e72a98cdcaeb23283a60",
+      "sourceSha256": "3cfeeee2312d4949269c539e6d2674b1ca9f598f70de78f19457b419e04abb57",
       "derived": "game/assets/audio/act1/foley/ui_click.wav",
       "derivedSha256": "c6d6c9eec6451a844bc1743e2fa72fcd25c3d429f5a435284d74fb158205870b",
       "generator": "tools/audio/generate_act1_foley.py; Python stdlib wave (project-original procedural)",
@@ -1000,7 +1000,7 @@
     {
       "id": "audio.foley.keyboard-key",
       "source": "tools/audio/generate_act1_foley.py",
-      "sourceSha256": "25b22991c7c1262ebc64b1f2ab848946b1f3dceba851e72a98cdcaeb23283a60",
+      "sourceSha256": "3cfeeee2312d4949269c539e6d2674b1ca9f598f70de78f19457b419e04abb57",
       "derived": "game/assets/audio/act1/foley/keyboard_key.wav",
       "derivedSha256": "a394679f524f09829ca2fb324d5203d472b3bcf18194d4aac4b4222f85e257cc",
       "generator": "tools/audio/generate_act1_foley.py; Python stdlib wave (project-original procedural)",
@@ -1015,7 +1015,7 @@
     {
       "id": "audio.foley.paper-open",
       "source": "tools/audio/generate_act1_foley.py",
-      "sourceSha256": "25b22991c7c1262ebc64b1f2ab848946b1f3dceba851e72a98cdcaeb23283a60",
+      "sourceSha256": "3cfeeee2312d4949269c539e6d2674b1ca9f598f70de78f19457b419e04abb57",
       "derived": "game/assets/audio/act1/foley/paper_open.wav",
       "derivedSha256": "a60498a17888beff09cefd383edcee0eecc15df88394c4d45d2959410a396e52",
       "generator": "tools/audio/generate_act1_foley.py; Python stdlib wave (project-original procedural)",
@@ -1024,6 +1024,21 @@
       "triangleBudget": 0,
       "textureBudget": 0,
       "audio": "UI foley: paper_open",
+      "status": "technical-runtime-pass; authored foley and listening review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-04 HEAD"
+    },
+    {
+      "id": "audio.foley.door-creak",
+      "source": "tools/audio/generate_act1_foley.py",
+      "sourceSha256": "3cfeeee2312d4949269c539e6d2674b1ca9f598f70de78f19457b419e04abb57",
+      "derived": "game/assets/audio/act1/foley/door_creak.wav",
+      "derivedSha256": "52861475ca2dfd6a11a562080f2d6d06c6ed66636fc9a810e3403cd0a2b11dfc",
+      "generator": "tools/audio/generate_act1_foley.py; Python stdlib wave (project-original procedural)",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 0,
+      "audio": "UI/world foley: door creak (house entry)",
       "status": "technical-runtime-pass; authored foley and listening review open",
       "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-04 HEAD"
     }
