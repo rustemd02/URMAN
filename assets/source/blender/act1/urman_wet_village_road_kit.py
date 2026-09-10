@@ -31,27 +31,38 @@ TARGETS = (
     "RoadCrown_BranchWet",
     "RoadCrown_ApproachWorn",
 )
-ROAD_COMPONENTS = TARGETS + (
+REBUILT_SIDES = (
     "MuddyShoulder_Left",
     "MuddyShoulder_Right",
     "RoadsideDitch_Left",
     "RoadsideDitch_Right",
 )
+REBUILT_COMPONENTS = TARGETS + REBUILT_SIDES
+ROAD_COMPONENTS = REBUILT_COMPONENTS
 AXIS_BAKE_MARKER = "source_axis_bake_version"
 AXIS_BAKE_VERSION = "legacy-godot-extractor-compensation-v1"
-ROAD_RELIEF_MAX_VERTICAL = 0.22
+VEGETATION_COMPONENTS = (
+    "GrassSedgeMass_Left",
+    "GrassSedgeMass_Right",
+    "FernShrubBreak_Left",
+    "FernShrubBreak_Right",
+)
+VEGETATION_UP_MARKER = "vegetation_runtime_up_v1"
+ROAD_RELIEF_MAX_VERTICAL = 0.34
+ROAD_CROWN_MAX_VERTICAL = 0.28
+MAX_SOURCE_TRIANGLES = 5000
 COMPONENT_LOCATIONS = {
     "RoadCrown_SunkenWet": (0.0, 0.0, 0.0),
     "RoadRuts_PuddleNear": (0.0, -6.2, 0.0),
     "RoadRuts_PuddleFar": (0.0, 6.5, 0.0),
     "RoadCrown_BranchWet": (0.0, -21.5, 0.0),
     "RoadCrown_ApproachWorn": (0.0, 21.5, 0.0),
+    "MuddyShoulder_Left": (-3.25, 0.0, 0.0),
+    "MuddyShoulder_Right": (3.25, 0.0, 0.0),
+    "RoadsideDitch_Left": (-4.75, 0.0, 0.0),
+    "RoadsideDitch_Right": (4.75, 0.0, 0.0),
 }
 UNCHANGED = {
-    "MuddyShoulder_Left": (10, 194),
-    "MuddyShoulder_Right": (10, 194),
-    "RoadsideDitch_Left": (10, 260),
-    "RoadsideDitch_Right": (10, 260),
     "CulvertStoneCrossing": (13, 248),
     "GrassSedgeMass_Left": (18, 180),
     "GrassSedgeMass_Right": (18, 180),
@@ -123,23 +134,49 @@ def mesh_object(
     obj["lod"] = "LOD0"
     obj["asset_role"] = role
     obj["component_root"] = parent.name
-    obj["geometry_pass"] = "active wet-road readability pass 2026-08-26"
+    obj["geometry_pass"] = "active wet-road route-spine pass 2026-09-05"
     obj["collision"] = "none"
     return obj
 
 
+def track_height(
+    x: float,
+    y: float,
+    half_width: float = 2.82,
+    center: float = 0.0,
+    phase: float = 0.0,
+    rut_depth: float = 0.072,
+    crown: float = 0.095,
+) -> float:
+    """Return source-basis height for a crowned, wheel-worn lane.
+
+    The published GLB is intentionally axis-baked for the existing Godot
+    extractor, so source +Z is the inverse of runtime-up.  The center is
+    therefore lower in this basis (runtime crown), while the two wheel lanes
+    are raised (runtime depressions).  Keeping this profile in geometry makes
+    the relief survive the muted material rebind in the connected world.
+    """
+    t = max(-1.0, min(1.0, (x - center) / max(half_width, 0.001)))
+    u = abs(t)
+    edge = (
+        0.158
+        + 0.010 * math.sin(y * 0.31 + phase)
+        + 0.006 * math.sin(y * 0.79 - phase * 0.7)
+    )
+    # The crown eases into each wheel lane; a pair of smooth troughs keeps
+    # the track legible without the two dark rails of the old strip.
+    crowned = edge - crown * (1.0 - u**1.55)
+    lane = rut_depth * math.exp(-((u - 0.43) / 0.14) ** 2)
+    # Erosion drops the outer edge a little and lets left/right shoulders
+    # diverge naturally as their width and base height vary by row.
+    edge_drop = 0.022 * max(0.0, (u - 0.78) / 0.22) ** 1.35
+    asymmetry = 0.006 * t + 0.0035 * math.sin(y * 0.17 + phase) * u * u
+    return max(0.022, min(0.24, crowned + lane + edge_drop + asymmetry))
+
+
 def road_height(x: float, y: float) -> float:
-    """Source height; the legacy extraction rotates +Z into Godot -Y."""
-    t = max(-1.0, min(1.0, x / 3.16))
-    # Keep the whole shallow crown above the connected world's visible ground
-    # top after the legacy extraction, so the profile reads instead of being
-    # buried by the shared floor.
-    edge = 0.058 + 0.004 * math.sin(y * 0.49 + 0.4) + 0.003 * math.sin(y * 1.13 - 0.7)
-    # In the extracted basis this makes the center the shallow crown and the
-    # wheel lanes sit slightly below it, while the entire surface stays under
-    # the authoritative traversal top at Godot Y=0.
-    value = edge - 0.040 * (1.0 - abs(t) ** 1.45) + 0.003 * t
-    return max(0.018, min(0.092, value))
+    """Main-track shorthand used by small edge details and puddle beds."""
+    return track_height(x, y)
 
 
 def remove_children(component: bpy.types.Object) -> None:
@@ -241,25 +278,93 @@ def bake_source_axis_contract(root: bpy.types.Object) -> dict[str, object]:
         bake_extractor_axis(meshes)
         mode = "full"
     else:
-        # The three target roots are rebuilt in the legacy Blender basis on
-        # every run.  Existing ten-component geometry is already baked.
+        # Rebuilt road, shoulder, and ditch roots are authored in the legacy
+        # Blender basis on every run. Existing untouched geometry is already
+        # baked and must not receive a second axis conversion.
         meshes = [
             child
-            for name in TARGETS
+            for name in REBUILT_COMPONENTS
             for child in mesh_descendants(bpy.data.objects[name])
         ]
         bake_mesh_object_transforms(meshes)
         bake_extractor_axis(meshes)
         flattened = {}
-        mode = "targets-only"
+        mode = "rebuilt-components-only"
 
     scene[AXIS_BAKE_MARKER] = AXIS_BAKE_VERSION
+    # Retained foliage was authored with positive source height, unlike the
+    # rebuilt road's reverse-sign profile. After the axis bake, Blender Y is
+    # runtime Y (GLB -Z after extraction). Reflect only this height channel;
+    # the saved per-component marker prevents repeated exports flipping back.
+    for name in VEGETATION_COMPONENTS:
+        component = bpy.data.objects[name]
+        if not component.get(VEGETATION_UP_MARKER, False):
+            for mesh_object in mesh_descendants(component):
+                for vertex in mesh_object.data.vertices:
+                    vertex.co.y = -vertex.co.y
+                mesh_object.data.flip_normals()
+                mesh_object.data.update()
+            component[VEGETATION_UP_MARKER] = True
+    rebuild_sedge_leaves()
     return {
         "mode": mode,
         "mesh_count": len(meshes),
         "flattened_vertical_relief": flattened,
         "axis": "+90deg X mesh bake; legacy runtime +90deg X correction preserved",
     }
+
+
+def rebuild_sedge_leaves() -> None:
+    """Rebuild four bent, tapered, two-sided leaves at each retained blade base."""
+    for component_name in VEGETATION_COMPONENTS[:2]:
+        component = bpy.data.objects[component_name]
+        for obj in component.children:
+            if "_Blade_" not in obj.name:
+                continue
+            mesh = obj.data
+            if "sedge_anchor" not in obj:
+                points = [vertex.co for vertex in mesh.vertices]
+                obj["sedge_anchor"] = (
+                    (min(p.x for p in points) + max(p.x for p in points)) * 0.5,
+                    min(p.y for p in points),
+                    (min(p.z for p in points) + max(p.z for p in points)) * 0.5,
+                )
+            x, base, z = obj["sedge_anchor"]
+            index = int(obj.name.split("_Blade_")[1].split("_")[0])
+            vertices, faces = [], []
+            for leaf in range(4):
+                angle = index * 2.39996 + leaf * math.tau / 4 + (0.4 if "Right" in component_name else 0)
+                dx, dz = math.cos(angle), math.sin(angle)
+                height = 0.35 + 0.23 * (0.5 + 0.5 * math.sin(index * 1.7 + leaf * 2.3))
+                bend = 0.12 + leaf * 0.023
+                width = 0.025 + 0.006 * ((index + leaf) % 4)
+                start = len(vertices)
+                for step in range(5):
+                    t = step / 4
+                    half_width = max(0.001, width * (1 - t) * 0.5)
+                    for side in (-1, 1):
+                        vertices.append((
+                            x + dx * bend * t * t - dz * half_width * side,
+                            base + height * (1.3 * t - 0.3 * t * t),
+                            z + dz * bend * t * t + dx * half_width * side,
+                        ))
+                for step in range(4):
+                    a = start + step * 2
+                    for face in ((a, a + 2, a + 1), (a + 1, a + 2, a + 3)):
+                        faces.append(face)
+            # Separate back-face vertices keep Blender's export validation
+            # from removing reverse-wound faces as duplicate polygons.
+            for face in tuple(faces):
+                start = len(vertices)
+                vertices.extend(vertices[index] for index in reversed(face))
+                faces.append((start, start + 1, start + 2))
+            mesh.clear_geometry()
+            mesh.from_pydata(vertices, [], faces)
+            mesh.update()
+            mesh.calc_loop_triangles()
+            if len(mesh.loop_triangles) != 64 or any(face.area <= 1e-8 for face in mesh.polygons):
+                raise RuntimeError(f"Invalid sedge leaf surface: {obj.name}")
+        component["sedge_leaf_version"] = 1
 
 
 def irregular_fan(
@@ -290,18 +395,46 @@ def irregular_fan(
     return mesh_object(name, parent, vertices, faces, materials, material_indices, role)
 
 
-def road_surface(component: bpy.types.Object) -> None:
-    ts = (-1.0, -0.77, -0.53, -0.27, 0.0, 0.26, 0.52, 0.78, 1.0)
-    ys = (-14.0, -10.6, -7.1, -3.5, 0.0, 3.35, 6.9, 10.65, 14.0)
-    widths = (3.04, 3.18, 3.08, 3.20, 3.06, 3.16, 3.10, 3.19, 3.05)
-    centers = (-0.06, 0.07, 0.02, -0.08, 0.05, -0.04, 0.09, -0.07, 0.03)
+def road_surface(
+    component: bpy.types.Object,
+    base_name: str = "RoadCrown_SunkenWet",
+    ys: tuple[float, ...] = (-14.0, -11.2, -8.25, -5.15, -1.9, 1.45, 4.7, 7.95, 11.25, 14.0),
+    widths: tuple[float, ...] = (2.72, 2.84, 2.77, 2.92, 2.75, 2.86, 2.79, 2.94, 2.76, 2.85),
+    centers: tuple[float, ...] = (-0.12, 0.04, -0.05, 0.12, -0.02, 0.10, -0.09, 0.08, -0.04, 0.06),
+    phase: float = 0.0,
+    rut_depth: float = 0.082,
+    crown: float = 0.115,
+    dark_rule=None,
+) -> None:
+    """Build one continuous faceted lane with an authored cross-section."""
+    # Extra samples around both wheel tracks make the relief visible from a
+    # low first-person camera while keeping the mesh comfortably LOD0-sized.
+    ts = (
+        -1.0, -0.90, -0.76, -0.62, -0.50, -0.40, -0.27, -0.10,
+        0.08, 0.26, 0.40, 0.50, 0.62, 0.78, 0.90, 1.0,
+    )
+    if not (len(ys) == len(widths) == len(centers)):
+        raise RuntimeError(f"Road ribbon rows disagree: {base_name}")
     vertices: list[tuple[float, float, float]] = []
     for row, (y, width, center) in enumerate(zip(ys, widths, centers)):
         for col, t in enumerate(ts):
-            edge_wobble = 0.018 * math.sin((row + 1.3) * (col + 2.1)) * (0.35 + abs(t))
+            # Independent edge wobble keeps the two margins broken without
+            # moving the central route line enough to affect placement.
+            side_phase = 0.7 if t < 0.0 else -1.1
+            edge_wobble = 0.045 * math.sin((row + 1.6) * (col + 1.9) + side_phase)
+            edge_wobble *= 0.18 + abs(t) ** 1.65
             x = center + width * t + edge_wobble
-            z = road_height(x, y) + 0.004 * math.sin(row * 1.31 + col * 0.77)
-            vertices.append((x, y, max(0.018, min(0.092, z))))
+            z = track_height(
+                x,
+                y,
+                half_width=width,
+                center=center,
+                phase=phase,
+                rut_depth=rut_depth,
+                crown=crown,
+            )
+            z += 0.0035 * math.sin(row * 1.43 + col * 0.81 + phase)
+            vertices.append((x, y, max(0.024, min(ROAD_CROWN_MAX_VERTICAL, z))))
     faces: list[tuple[int, int, int]] = []
     material_indices: list[int] = []
     for row in range(len(ys) - 1):
@@ -311,19 +444,26 @@ def road_surface(component: bpy.types.Object) -> None:
             c = a + len(ts) + 1
             d = a + len(ts)
             faces.extend(((a, b, c), (a, c, d)))
-            # Keep the rut-dark slot for source compatibility, but do not let
-            # long dark facets draw a second rail over the authored crown.
-            first = 1 if (row + col) % 5 == 0 else 0
-            second = 1 if (row * 2 + col) % 7 == 0 else first
-            material_indices.extend((first, second))
+            if dark_rule is not None:
+                first = dark_rule(row, col)
+                second = dark_rule(row + 1, col + 2)
+            else:
+                # Dark facets break up wet wheel lanes without making
+                # continuous painted rails.
+                first = col in (3, 10) and (row * 5 + col) % 9 == 0
+                second = col in (4, 9) and (row * 7 + col) % 11 == 0
+            material_indices.extend(
+                (2 if first else 1 if (row + col * 2) % 13 == 0 else 0,
+                 2 if second else 1 if (row * 2 + col) % 17 == 0 else 0)
+            )
     mesh_object(
-        "RoadCrown_SunkenWet_Surface_LOD0",
+        f"{base_name}_Surface_LOD0",
         component,
         vertices,
         faces,
         ("WetRoad_MutedOchre", "WetRoad_WornLight", "WetRoad_RutDark"),
         material_indices,
-        "shallow uneven crowned road surface",
+        f"continuous faceted crowned lane with depressed wheel ruts: {base_name}",
     )
 
 
@@ -335,6 +475,10 @@ def edge_break(
     width: float,
     length: float,
     lean: float,
+    height_fn=road_height,
+    materials: tuple[str, ...] = ("WetRoad_WornLight", "WetRoad_RutDark"),
+    role: str = "broken low road-edge clod",
+    name_prefix: str = "RoadCrown_EdgeClod",
 ) -> None:
     # The source is rotated into Godot with a flipped vertical sign.  Making
     # the low side the source top keeps these clods seated, not rail-like.
@@ -351,32 +495,31 @@ def edge_break(
     for px, py in footprint:
         local_x = x + px * width + py * lean * 0.12
         local_y = y + py * length
-        base = road_height(local_x, local_y)
-        bottom.append((local_x, local_y, base + 0.024))
-        top.append((local_x, local_y, base - 0.004 + 0.003 * math.sin((px + py) * 5.0)))
+        base = height_fn(local_x, local_y)
+        bottom.append((local_x, local_y, base + 0.018 + 0.004 * math.sin(px * 3.0 + py)))
+        top.append((local_x, local_y, base - 0.006 + 0.006 * math.sin((px + py) * 5.0)))
     vertices = bottom + top
     faces: list[tuple[int, ...]] = [tuple(reversed(range(6))), tuple(range(6, 12))]
     faces.extend((i, (i + 1) % 6, (i + 1) % 6 + 6, i + 6) for i in range(6))
     material_indices = [1, 0, 1, 0, 0, 1, 0, 1]
     mesh_object(
-        f"RoadCrown_EdgeClod_{index:02d}_LOD0",
+        f"{name_prefix}_{index:02d}_LOD0",
         component,
         vertices,
         faces,
-        ("WetRoad_WornLight", "WetRoad_RutDark"),
+        materials,
         material_indices,
-        "broken low road-edge clod",
+        role,
     )
 
 
 def build_crown(component: bpy.types.Object) -> None:
     road_surface(component)
+    # Keep only two low contact breaks at the far edges.  The previous six
+    # clods plus four paper-thin patches made every extracted road segment read
+    # as a scatter of stickers rather than one continuous lane.
     clods = (
         (-3.00, -11.65, 0.62, 1.18, 0.12),
-        (2.91, -8.25, 0.74, 0.92, -0.16),
-        (-3.04, -3.35, 0.56, 1.06, -0.10),
-        (2.95, 2.35, 0.68, 1.22, 0.15),
-        (-2.92, 8.10, 0.78, 0.90, -0.18),
         (3.00, 11.75, 0.58, 1.34, 0.10),
     )
     for index, spec in enumerate(clods):
@@ -384,9 +527,7 @@ def build_crown(component: bpy.types.Object) -> None:
 
     patches = (
         (-0.82, -10.85, 0.78, 1.05, 0.12),
-        (0.66, -4.00, 0.88, 0.80, -0.24),
-        (-0.56, 4.10, 0.72, 1.00, 0.18),
-        (0.82, 10.65, 0.84, 0.92, -0.16),
+        (0.72, 5.55, 0.70, 0.88, -0.18),
     )
     ring_variation = (0.94, 1.06, 0.87, 1.10, 0.92, 1.03, 0.86, 1.08)
     for index, (x, y, rx, ry, angle) in enumerate(patches):
@@ -411,6 +552,7 @@ def rut_break(
     radii: tuple[float, float],
     angle: float,
     index: int,
+    height_fn=road_height,
 ) -> None:
     irregular_fan(
         name,
@@ -418,7 +560,7 @@ def rut_break(
         center,
         radii,
         angle,
-        lambda px, py, i: road_height(px, py) + 0.010 + 0.002 * math.sin(i + index),
+        lambda px, py, i: height_fn(px, py) + 0.006 + 0.002 * math.sin(i + index),
         ("WetRoad_MutedOchre", "WetRoad_WornLight"),
         [0 if (i + index) % 3 else 1 for i in range(7)],
         "irregular mud break interrupting wheel rut",
@@ -433,9 +575,14 @@ def puddle(
     radii: tuple[float, float],
     angle: float,
     index: int,
+    height_fn=road_height,
+    water_offset: float = 0.034,
 ) -> None:
     cx, cy = center
     rx, ry = radii
+    # Callers retain their older offset values, but the exported water should
+    # sit just above the authored bed rather than floating as a bright disc.
+    surface_offset = min(0.014, max(0.007, water_offset * 0.30))
     variation = (0.93, 1.08, 0.86, 1.04, 0.97, 1.11, 0.89, 1.03, 0.91, 1.06)
     outer: list[tuple[float, float, float]] = []
     inner: list[tuple[float, float, float]] = []
@@ -445,9 +592,9 @@ def puddle(
         oy = cy + math.sin(theta) * ry * multiplier
         ix = cx + math.cos(theta) * rx * multiplier * 0.77
         iy = cy + math.sin(theta) * ry * multiplier * 0.75
-        outer.append((ox, oy, road_height(ox, oy) + 0.006 + 0.002 * math.sin(vertex_index + index)))
-        inner.append((ix, iy, road_height(ix, iy) + 0.025 + 0.001 * math.sin(vertex_index * 1.7 + index)))
-    vertices = outer + inner + [(cx, cy, road_height(cx, cy) + 0.027)]
+        outer.append((ox, oy, height_fn(ox, oy) + surface_offset + 0.010 + 0.002 * math.sin(vertex_index + index)))
+        inner.append((ix, iy, height_fn(ix, iy) + surface_offset + 0.002 * math.sin(vertex_index * 1.7 + index)))
+    vertices = outer + inner + [(cx, cy, height_fn(cx, cy) + surface_offset)]
     center_index = len(vertices) - 1
     faces: list[tuple[int, int, int]] = []
     material_indices: list[int] = []
@@ -480,14 +627,17 @@ def puddle_glint(
     radii: tuple[float, float],
     angle: float,
     index: int,
+    height_fn=road_height,
+    surface_offset: float = 0.037,
 ) -> None:
+    surface_offset = min(0.015, max(0.007, surface_offset * 0.30))
     irregular_fan(
         name,
         component,
         center,
         radii,
         angle,
-        lambda px, py, i: road_height(px, py) + 0.020 + 0.001 * math.sin(i + index),
+        lambda px, py, i: height_fn(px, py) + surface_offset + 0.001 * math.sin(i + index),
         ("Puddle_MutedGlint",),
         [0] * 6,
         "muted puddle glint inset",
@@ -495,46 +645,85 @@ def puddle_glint(
     )
 
 
+def terrain_mass(
+    component: bpy.types.Object,
+    name: str,
+    center: tuple[float, float],
+    radii: tuple[float, float],
+    angle: float,
+    height_fn,
+    crest_height: float,
+    index: int,
+    materials: tuple[str, ...],
+    role: str,
+) -> None:
+    """Build one irregular low-poly berm with a sloped crest, not a strip."""
+    cx, cy = center
+    rx, ry = radii
+    variation = (0.91, 1.08, 0.86, 1.12, 0.94, 1.04, 0.88, 1.06)
+    outer: list[tuple[float, float, float]] = []
+    inner: list[tuple[float, float, float]] = []
+    for vertex_index, multiplier in enumerate(variation):
+        theta = angle + math.tau * vertex_index / len(variation)
+        ox = cx + math.cos(theta) * rx * multiplier
+        oy = cy + math.sin(theta) * ry * multiplier
+        base = max(0.02, min(0.12, height_fn(ox, oy)))
+        outer.append((ox, oy, base))
+        ix = cx + math.cos(theta) * rx * multiplier * 0.54
+        iy = cy + math.sin(theta) * ry * multiplier * 0.54
+        inner_height = crest_height * (0.66 + 0.11 * math.sin(vertex_index * 1.71 + index))
+        inner.append((ix, iy, base + inner_height))
+
+    crest_base = max(0.02, min(0.12, height_fn(cx, cy)))
+    crest = (cx, cy, crest_base + crest_height * (0.96 + 0.03 * math.sin(index + angle)))
+    vertices = outer + inner + [crest]
+    count = len(outer)
+    faces: list[tuple[int, ...]] = [tuple(reversed(range(count)))]
+    material_indices = [0]
+    for vertex_index in range(count):
+        nxt = (vertex_index + 1) % count
+        faces.append((vertex_index, nxt, count + nxt, count + vertex_index))
+        faces.append((count + vertex_index, count + nxt, count * 2))
+        material_indices.extend(
+            (1 if (vertex_index + index) % 3 else 0,
+             2 if (vertex_index + index) % 4 == 0 and len(materials) > 2 else 1)
+        )
+    mesh_object(name, component, vertices, faces, materials, material_indices, role)
+
+
 def build_ruts(component: bpy.types.Object, far: bool) -> None:
     if far:
         mud_specs = (
             ("RoadRuts_Far_MudBreak_00_LOD0", (1.16, -3.55), (0.43, 0.46), 0.20),
             ("RoadRuts_Far_MudBreak_01_LOD0", (-1.20, 0.55), (0.48, 0.55), -0.14),
-            ("RoadRuts_Far_MudBreak_02_LOD0", (1.18, 3.70), (0.40, 0.60), 0.27),
         )
         puddle_specs = (
             ("RoadRuts_Far_Puddle_00_LOD0", (0.86, -3.70), (0.67, 1.06), 0.10),
             ("RoadRuts_Far_Puddle_01_LOD0", (-1.06, -1.22), (0.60, 0.83), -0.25),
-            ("RoadRuts_Far_Puddle_02_LOD0", (1.12, 1.20), (0.62, 1.02), 0.18),
-            ("RoadRuts_Far_Puddle_03_LOD0", (-0.88, 3.80), (0.72, 0.92), -0.12),
         )
         glints = (
             ("RoadRuts_Far_PuddleGlint_00_LOD0", (0.83, -3.62), (0.27, 0.17), 0.13),
-            ("RoadRuts_Far_PuddleGlint_02_LOD0", (1.10, 1.18), (0.30, 0.16), -0.18),
         )
     else:
         mud_specs = (
             ("RoadRuts_Near_MudBreak_00_LOD0", (-1.17, -3.75), (0.45, 0.50), -0.18),
             ("RoadRuts_Near_MudBreak_01_LOD0", (1.22, -0.15), (0.47, 0.56), 0.16),
-            ("RoadRuts_Near_MudBreak_02_LOD0", (-1.02, 1.95), (0.42, 0.58), -0.28),
         )
         puddle_specs = (
             ("RoadRuts_Near_Puddle_00_LOD0", (-0.91, -3.72), (0.66, 1.08), -0.12),
             ("RoadRuts_Near_Puddle_01_LOD0", (1.14, -1.98), (0.61, 0.82), 0.22),
-            ("RoadRuts_Near_Puddle_02_LOD0", (-1.16, 0.93), (0.56, 1.04), -0.26),
-            ("RoadRuts_Near_Puddle_03_LOD0", (0.87, 3.74), (0.70, 0.92), 0.12),
         )
         glints = (
             ("RoadRuts_Near_PuddleGlint_00_LOD0", (-0.88, -3.68), (0.28, 0.17), -0.10),
-            ("RoadRuts_Near_PuddleGlint_02_LOD0", (-1.13, 0.95), (0.29, 0.16), 0.18),
         )
 
+    rut_height = lambda px, py: track_height(px, py, half_width=2.82, phase=0.42 if far else 0.08)
     for index, (name, center, radii, angle) in enumerate(mud_specs):
-        rut_break(component, name, center, radii, angle, index)
+        rut_break(component, name, center, radii, angle, index, rut_height)
     for index, (name, center, radii, angle) in enumerate(puddle_specs):
-        puddle(component, name, center, radii, angle, index)
+        puddle(component, name, center, radii, angle, index, rut_height)
     for index, (name, center, radii, angle) in enumerate(glints):
-        puddle_glint(component, name, center, radii, angle, index)
+        puddle_glint(component, name, center, radii, angle, index, rut_height)
 
 
 def variant_surface(
@@ -544,55 +733,53 @@ def variant_surface(
     widths: tuple[float, ...],
     centers: tuple[float, ...],
     dark_rule,
+    phase: float = 0.0,
+    rut_depth: float = 0.048,
+    crown: float = 0.062,
 ) -> None:
-    """Authored non-crown road variant sharing the crown's height contract."""
-    ts = (-1.0, -0.7, -0.38, 0.0, 0.4, 0.72, 1.0)
-    vertices: list[tuple[float, float, float]] = []
-    for row, (y, width, center) in enumerate(zip(ys, widths, centers)):
-        for col, t in enumerate(ts):
-            edge_wobble = 0.02 * math.sin((row + 1.7) * (col + 1.3)) * (0.4 + abs(t))
-            x = center + width * t + edge_wobble
-            z = road_height(x, y) + 0.004 * math.sin(row * 1.7 + col * 1.1)
-            vertices.append((x, y, max(0.018, min(0.092, z))))
-    faces: list[tuple[int, int, int]] = []
-    material_indices: list[int] = []
-    for row in range(len(ys) - 1):
-        for col in range(len(ts) - 1):
-            a = row * len(ts) + col
-            b = a + 1
-            c = a + len(ts) + 1
-            d = a + len(ts)
-            faces.extend(((a, b, c), (a, c, d)))
-            first = 1 if dark_rule(row, col) else 0
-            second = 1 if dark_rule(row + 2, col + 3) else first
-            material_indices.extend((first, second))
-    mesh_object(
-        f"{base_name}_Surface_LOD0",
+    """Build a distinct segment while retaining the shared road profile."""
+    road_surface(
         component,
-        vertices,
-        faces,
-        ("WetRoad_MutedOchre", "WetRoad_RutDark"),
-        material_indices,
-        f"authored {base_name} variant surface with uneven shoulders",
+        base_name=base_name,
+        ys=ys,
+        widths=widths,
+        centers=centers,
+        phase=phase,
+        rut_depth=rut_depth,
+        crown=crown,
+        dark_rule=dark_rule,
     )
 
 
 def build_branch(component: bpy.types.Object) -> None:
     """Narrower, muddier FAP-branch segment; visibly unlike the main strip."""
+    branch_height = lambda px, py: track_height(
+        px, py, half_width=2.28, center=0.15, phase=0.64,
+        rut_depth=0.055, crown=0.074,
+    )
     variant_surface(
         component,
         "RoadCrown_BranchWet",
         ys=(-7.0, -3.55, -0.15, 3.35, 7.0),
-        widths=(2.52, 2.64, 2.46, 2.6, 2.5),
+        widths=(2.24, 2.34, 2.20, 2.30, 2.22),
         centers=(0.2, 0.06, 0.24, 0.1, 0.18),
-        dark_rule=lambda row, col: (row * 5 + col) % 4 == 0,
+        dark_rule=lambda row, col: (row * 7 + col) % 11 == 0,
+        phase=0.64,
+        rut_depth=0.055,
+        crown=0.074,
     )
     clods = (
         (11, -1.55, -5.2, 0.52, 0.86, 0.14),
-        (12, 1.48, 4.6, 0.58, 0.94, -0.12),
     )
     for spec in clods:
-        edge_break(component, spec[0], *spec[1:])
+        edge_break(
+            component,
+            spec[0],
+            *spec[1:],
+            height_fn=branch_height,
+            name_prefix="RoadCrown_BranchWet_EdgeClod",
+            role="broken muddy FAP-branch road-edge clod",
+        )
     puddle(
         component,
         "RoadCrown_BranchWet_Puddle_00_LOD0",
@@ -600,14 +787,8 @@ def build_branch(component: bpy.types.Object) -> None:
         (0.5, 0.78),
         0.2,
         3,
-    )
-    puddle(
-        component,
-        "RoadCrown_BranchWet_Puddle_01_LOD0",
-        (-0.48, 2.2),
-        (0.44, 0.7),
-        -0.22,
-        5,
+        branch_height,
+        0.036,
     )
     irregular_fan(
         "RoadCrown_BranchWet_WornPatch_00_LOD0",
@@ -615,7 +796,7 @@ def build_branch(component: bpy.types.Object) -> None:
         (-0.3, 5.1),
         (0.6, 0.82),
         0.1,
-        lambda px, py, _i: max(0.018, road_height(px, py) - 0.004),
+        lambda px, py, _i: max(0.024, branch_height(px, py) - 0.007),
         ("WetRoad_WornLight", "WetRoad_MutedOchre"),
         [0, 1, 0, 0, 1, 0, 0, 1],
         "irregular worn branch patch",
@@ -625,26 +806,37 @@ def build_branch(component: bpy.types.Object) -> None:
 
 def build_approach(component: bpy.types.Object) -> None:
     """Worn zirat-approach segment; muted, patchy, sparse water."""
+    approach_height = lambda px, py: track_height(
+        px, py, half_width=2.66, center=-0.06, phase=1.18,
+        rut_depth=0.050, crown=0.075,
+    )
     variant_surface(
         component,
         "RoadCrown_ApproachWorn",
         ys=(-7.0, -3.4, -0.1, 3.4, 7.0),
-        widths=(3.02, 3.14, 2.98, 3.12, 3.04),
+        widths=(2.58, 2.72, 2.62, 2.76, 2.64),
         centers=(-0.14, 0.04, -0.1, 0.12, -0.05),
-        dark_rule=lambda row, col: (row * 3 + col * 2) % 6 == 0,
+        dark_rule=lambda row, col: (row * 5 + col * 3) % 13 == 0,
+        phase=1.18,
+        rut_depth=0.050,
+        crown=0.075,
     )
     clods = (
-        (21, -2.9, -4.6, 0.6, 1.02, -0.1),
-        (22, 2.86, -0.4, 0.52, 0.9, 0.16),
-        (23, -2.94, 4.9, 0.64, 1.12, -0.14),
+        (21, 2.86, -0.4, 0.52, 0.9, 0.16),
     )
     for spec in clods:
-        edge_break(component, spec[0], *spec[1:])
+        edge_break(
+            component,
+            spec[0],
+            *spec[1:],
+            height_fn=approach_height,
+            name_prefix="RoadCrown_ApproachWorn_EdgeClod",
+            role="broken worn zirat-approach road-edge clod",
+        )
     for index, (x, y, rx, ry, angle) in enumerate(
         (
             (-0.6, -3.9, 0.7, 0.9, 0.14),
             (0.72, 1.15, 0.62, 0.84, -0.2),
-            (-0.52, 5.6, 0.66, 0.88, 0.22),
         )
     ):
         irregular_fan(
@@ -653,7 +845,7 @@ def build_approach(component: bpy.types.Object) -> None:
             (x, y),
             (rx, ry),
             angle,
-            lambda px, py, _i: max(0.018, road_height(px, py) - 0.005),
+            lambda px, py, _i: max(0.024, approach_height(px, py) - 0.007),
             ("WetRoad_WornLight", "WetRoad_MutedOchre"),
             [0 if (i + index) % 3 else 1 for i in range(8)],
             "irregular worn approach patch",
@@ -666,6 +858,8 @@ def build_approach(component: bpy.types.Object) -> None:
         (0.56, 0.84),
         -0.16,
         7,
+        approach_height,
+        0.034,
     )
     puddle_glint(
         component,
@@ -674,7 +868,278 @@ def build_approach(component: bpy.types.Object) -> None:
         (0.24, 0.15),
         0.1,
         4,
+        approach_height,
+        0.037,
     )
+
+
+def shoulder_height(x: float, y: float, side: int, phase: float = 0.0) -> float:
+    """Source-basis height for a slumped, asymmetric mud shoulder."""
+    # `side*x` makes t=0 the road-facing edge for either direct root while
+    # keeping the local component orientation neutral for extraction.
+    t = max(0.0, min(1.0, (side * x + 1.22) / 2.44))
+    edge = 0.104 + 0.010 * math.sin(y * 0.27 + phase)
+    outer_slope = 0.070 * t**1.12
+    soft_low = 0.022 * math.exp(-((t - 0.58) / 0.22) ** 2)
+    return max(0.035, min(0.23, edge + outer_slope + soft_low + 0.007 * side * t))
+
+
+def ditch_height(x: float, y: float, side: int, phase: float = 0.0) -> float:
+    """Source-basis height for a shallow channel with raised banks."""
+    t = max(-1.0, min(1.0, x / 1.52))
+    u = abs(t)
+    channel = 0.068 * (1.0 - u**1.30)
+    bank = 0.018 * max(0.0, (u - 0.68) / 0.32)
+    wave = 0.009 * math.sin(y * 0.22 + phase) + 0.005 * math.sin(y * 0.71 - phase)
+    return max(0.055, min(0.23, 0.11 + channel + bank + wave + 0.006 * side * t))
+
+
+def build_shoulder(component: bpy.types.Object, side_name: str, side: int, phase: float) -> None:
+    """Build one broken mud shoulder with an integrated wet-pocket rhythm."""
+    ys = (-13.5, -9.9, -6.2, -2.5, 1.3, 5.0, 9.4, 13.7)
+    widths = (1.16, 1.24, 1.10, 1.28, 1.14, 1.22, 1.11, 1.20)
+    centers = (0.06, -0.04, 0.11, -0.08, 0.04, -0.10, 0.08, -0.03)
+    ts = (-1.0, -0.46, 0.0, 0.50, 1.0)
+    vertices: list[tuple[float, float, float]] = []
+    for row, (y, width, center) in enumerate(zip(ys, widths, centers)):
+        for col, t in enumerate(ts):
+            wobble = 0.035 * math.sin((row + 1.2) * (col + 2.6) + phase)
+            wobble *= abs(t) ** 1.4
+            x = center + width * t + wobble
+            z = shoulder_height(x, y, side, phase) + 0.003 * math.sin(row * 1.1 + col * 0.8)
+            vertices.append((x, y, max(0.035, min(0.23, z))))
+    faces: list[tuple[int, int, int, int]] = []
+    material_indices: list[int] = []
+    for row in range(len(ys) - 1):
+        for col in range(len(ts) - 1):
+            a = row * len(ts) + col
+            faces.append((a, a + 1, a + len(ts) + 1, a + len(ts)))
+            material_indices.append(1 if (row * 3 + col + (side < 0)) % 7 == 0 else 0)
+    mesh_object(
+        f"MuddyShoulder_{side_name}_UnevenStrip_LOD0",
+        component,
+        vertices,
+        faces,
+        ("MuddyShoulder_WetBrown", "MuddyShoulder_ClayBreak"),
+        material_indices,
+        "faceted slumped shoulder transition with broken outer edge",
+    )
+
+    clods = (
+        (0, side * 0.92, -11.45, 0.56, 0.86, 0.12),
+        (1, side * 1.03, -2.35, 0.48, 1.00, 0.10),
+        (2, side * 1.05, 7.35, 0.52, 0.94, 0.16),
+    )
+    height_fn = lambda px, py: shoulder_height(px, py, side, phase)
+    for index, x, y, width, length, lean in clods:
+        edge_break(
+            component,
+            index,
+            x,
+            y,
+            width,
+            length,
+            lean,
+            height_fn=height_fn,
+            materials=("MuddyShoulder_ClayBreak", "MuddyShoulder_WetBrown"),
+            role="irregular shoulder clay clod",
+            name_prefix=f"MuddyShoulder_{side_name}_Clod",
+        )
+
+    for index, (x, y, rx, ry, angle) in enumerate(
+        (
+            (side * 0.68, -8.0, 0.24, 0.62, 0.12),
+            (side * 0.83, 8.65, 0.22, 0.56, 0.18),
+        )
+    ):
+        irregular_fan(
+            f"MuddyShoulder_{side_name}_WetPocket_{index:02d}_LOD0",
+            component,
+            (x, y),
+            (rx, ry),
+            angle,
+            lambda px, py, i: height_fn(px, py) + 0.028 + 0.002 * math.sin(i + index),
+            ("WetRoad_RutDark",),
+            [0] * 6,
+            "inset wet shoulder pocket seated below its rim",
+            (0.90, 1.08, 0.86, 1.04, 0.96, 1.10),
+        )
+
+    # A handful of broad, asymmetric berms turn the shoulder into a yard
+    # transition and break the flat exported horizon without becoming a
+    # repeated strip or affecting the route envelope.
+    berm_specs = (
+        (
+            (-1.08, -10.8, 0.82, 1.12, 0.18, -0.22),
+            (-1.26, 5.8, 0.96, 1.28, 0.205, 0.24),
+        )
+        if side < 0
+        else (
+            (0.72, -11.6, 0.62, 0.90, 0.15, 0.16),
+            (0.65, 3.2, 0.66, 0.86, 0.16, 0.08),
+        )
+    )
+    for index, (x, y, rx, ry, crest_height, angle) in enumerate(berm_specs):
+        terrain_mass(
+            component,
+            f"MuddyShoulder_{side_name}_YardBerm_{index:02d}_LOD0",
+            (x, y),
+            (rx, ry),
+            angle,
+            height_fn,
+            crest_height,
+            index,
+            ("MuddyShoulder_WetBrown", "MuddyShoulder_ClayBreak", "Moss_WetOlive"),
+            "irregular shoulder-to-yard berm terrain mass",
+        )
+
+
+def ditch_water_pocket(
+    component: bpy.types.Object,
+    name: str,
+    center: tuple[float, float],
+    radii: tuple[float, float],
+    angle: float,
+    index: int,
+    side: int,
+    phase: float,
+) -> None:
+    """Build one faceted 8-sided ditch bed + inset water surface."""
+    cx, cy = center
+    rx, ry = radii
+    variation = (0.88, 1.06, 0.94, 1.11, 0.86, 1.03, 0.97, 1.08)
+    outer: list[tuple[float, float, float]] = []
+    inner: list[tuple[float, float, float]] = []
+    for vertex_index, multiplier in enumerate(variation):
+        theta = angle + math.tau * vertex_index / len(variation)
+        ox = cx + math.cos(theta) * rx * multiplier
+        oy = cy + math.sin(theta) * ry * multiplier
+        ix = cx + math.cos(theta) * rx * multiplier * 0.72
+        iy = cy + math.sin(theta) * ry * multiplier * 0.72
+        outer.append((ox, oy, ditch_height(ox, oy, side, phase) + 0.005))
+        inner.append((ix, iy, ditch_height(ix, iy, side, phase) + 0.031 + 0.002 * math.sin(vertex_index + index)))
+    vertices = outer + inner + [(cx, cy, ditch_height(cx, cy, side, phase) + 0.036)]
+    center_index = len(vertices) - 1
+    faces: list[tuple[int, int, int]] = []
+    material_indices: list[int] = []
+    count = len(variation)
+    for vertex_index in range(count):
+        nxt = (vertex_index + 1) % count
+        faces.extend(
+            ((vertex_index, nxt, count + vertex_index), (nxt, count + nxt, count + vertex_index))
+        )
+        material_indices.extend((0, 1 if (vertex_index + index) % 3 else 2))
+    for vertex_index in range(count):
+        nxt = (vertex_index + 1) % count
+        faces.append((center_index, count + vertex_index, count + nxt))
+        material_indices.append(1 if vertex_index % 4 else 2)
+    mesh_object(
+        name,
+        component,
+        vertices,
+        faces,
+        ("Ditch_DampGreenBrown", "Ditch_StillWater", "Puddle_ShallowBlueGreen"),
+        material_indices,
+        "inset ditch water pocket with faceted earthen rim",
+    )
+
+
+def build_ditch(component: bpy.types.Object, side_name: str, side: int, phase: float) -> None:
+    """Build an uneven drainage channel rather than a linear side slab."""
+    ys = (-13.5, -9.4, -5.0, -0.4, 4.2, 8.7, 13.4)
+    widths = (1.44, 1.53, 1.48, 1.56, 1.43, 1.51, 1.46)
+    centers = (0.08, -0.12, 0.10, -0.05, 0.13, -0.09, 0.06)
+    ts = (-1.0, -0.58, -0.22, 0.22, 0.60, 1.0)
+    vertices: list[tuple[float, float, float]] = []
+    for row, (y, width, center) in enumerate(zip(ys, widths, centers)):
+        for col, t in enumerate(ts):
+            wobble = 0.055 * math.sin((row + 0.8) * (col + 2.4) + phase)
+            wobble *= 0.25 + abs(t) ** 1.4
+            x = center + width * t + wobble
+            z = ditch_height(x, y, side, phase) + 0.003 * math.sin(row * 1.2 + col * 0.7)
+            vertices.append((x, y, max(0.055, min(0.24, z))))
+    faces: list[tuple[int, int, int, int]] = []
+    material_indices: list[int] = []
+    for row in range(len(ys) - 1):
+        for col in range(len(ts) - 1):
+            a = row * len(ts) + col
+            faces.append((a, a + 1, a + len(ts) + 1, a + len(ts)))
+            material_indices.append(1 if col in (2, 3) and (row + col + (side < 0)) % 3 else 0)
+    mesh_object(
+        f"RoadsideDitch_{side_name}_UnevenChannel_LOD0",
+        component,
+        vertices,
+        faces,
+        ("Ditch_DampGreenBrown", "Ditch_StillWater"),
+        material_indices,
+        "shallow uneven drainage channel with depressed center",
+    )
+
+    bank_clods = (
+        (0, side * 1.06, -11.85, 0.64, 1.02, -0.12),
+        (1, side * 1.15, 5.45, 0.58, 1.14, -0.10),
+    )
+    height_fn = lambda px, py: ditch_height(px, py, side, phase)
+    for index, x, y, width, length, lean in bank_clods:
+        edge_break(
+            component,
+            index,
+            x,
+            y,
+            width,
+            length,
+            lean,
+            height_fn=height_fn,
+            materials=("Ditch_DampGreenBrown", "Moss_WetOlive"),
+            role="irregular drainage-bank clod",
+            name_prefix=f"RoadsideDitch_{side_name}_BankClod",
+        )
+
+    for index, (x, y, rx, ry, angle) in enumerate(
+        (
+            (side * 0.05, -10.50, 0.36, 0.84, 0.10),
+            (side * 0.11, -0.70, 0.38, 0.92, 0.24),
+            (side * 0.10, 10.95, 0.34, 0.82, 0.20),
+        )
+    ):
+        ditch_water_pocket(
+            component,
+            f"RoadsideDitch_{side_name}_WaterPocket_{index:02d}_LOD0",
+            (x, y),
+            (rx, ry),
+            angle,
+            index,
+            side,
+            phase,
+        )
+
+    # Discrete drainage-bank masses provide local horizon breaks and a
+    # painterly transition toward yards/vegetation; the left/right layouts
+    # intentionally differ instead of repeating a modular wall.
+    berm_specs = (
+        (
+            (-1.28, -9.9, 0.68, 1.10, 0.18, 0.10),
+            (-1.34, 7.3, 0.72, 1.00, 0.20, 0.18),
+        )
+        if side < 0
+        else (
+            (1.15, -11.2, 0.82, 1.30, 0.21, -0.16),
+            (1.34, 5.4, 0.92, 1.25, 0.22, -0.12),
+        )
+    )
+    for index, (x, y, rx, ry, crest_height, angle) in enumerate(berm_specs):
+        terrain_mass(
+            component,
+            f"RoadsideDitch_{side_name}_TerrainMass_{index:02d}_LOD0",
+            (x, y),
+            (rx, ry),
+            angle,
+            height_fn,
+            crest_height,
+            index,
+            ("Ditch_DampGreenBrown", "Ditch_StillWater", "Moss_WetOlive"),
+            "irregular drainage-bank berm / horizon break",
+        )
 
 
 def component_stats(component: bpy.types.Object, include_root: bool = False) -> dict[str, object]:
@@ -729,11 +1194,18 @@ def validate_baked_axis_contract(root: bpy.types.Object) -> dict[str, object]:
             raise RuntimeError(f"Non-identity mesh transform leaked: {mesh_object.name}")
 
     component_bounds = {name: baked_component_bounds(bpy.data.objects[name]) for name in ROAD_COMPONENTS}
+    for name in VEGETATION_COMPONENTS:
+        for mesh_object in mesh_descendants(bpy.data.objects[name]):
+            heights = [vertex.co.y for vertex in mesh_object.data.vertices]
+            if min(heights) < -0.01 or max(heights) <= 0.0:
+                raise RuntimeError(f"Vegetation points below runtime ground: {mesh_object.name}")
     for name, bounds in component_bounds.items():
         vertical = bounds[4] - bounds[1]
         longitudinal = bounds[5] - bounds[2]
-        if vertical > 0.25:
-            raise RuntimeError(f"Roadside vertical relief exceeds 0.25m: {name}: {bounds}")
+        if vertical > ROAD_RELIEF_MAX_VERTICAL + 0.04:
+            raise RuntimeError(
+                f"Roadside vertical relief exceeds {ROAD_RELIEF_MAX_VERTICAL + 0.04:.2f}m: {name}: {bounds}"
+            )
         if longitudinal < 2.0:
             raise RuntimeError(f"Roadside route extent is too short: {name}: {bounds}")
     return {
@@ -772,6 +1244,8 @@ def validate(root: bpy.types.Object) -> dict[str, object]:
         if component.parent is not root or tuple(round(value, 6) for value in component.location) != location:
             raise RuntimeError(f"Component root transform changed: {name}")
     for name, (mesh_count, triangle_count) in UNCHANGED.items():
+        if bpy.data.objects[name].get("sedge_leaf_version") == 1:
+            triangle_count += 12 * (64 - 6)
         stats = component_stats(bpy.data.objects[name])
         if (stats["meshes"], stats["triangles"]) != (mesh_count, triangle_count):
             raise RuntimeError(f"Untouched component changed: {name}: {stats}")
@@ -789,7 +1263,17 @@ def validate(root: bpy.types.Object) -> dict[str, object]:
         raise RuntimeError("Required source material names are missing")
     if bpy.data.images or any(obj.type == "CAMERA" for obj in bpy.data.objects) or any(obj.type == "LIGHT" for obj in bpy.data.objects):
         raise RuntimeError("Cameras, lights, or images are not allowed")
+    all_meshes = mesh_descendants(root)
+    degenerate_meshes = [mesh.name for mesh in all_meshes if not mesh.data.loop_triangles]
+    if degenerate_meshes:
+        raise RuntimeError(f"Zero-triangle mesh(es): {degenerate_meshes}")
+    source_triangles = sum(len(mesh.data.loop_triangles) for mesh in all_meshes)
+    if source_triangles > MAX_SOURCE_TRIANGLES:
+        raise RuntimeError(
+            f"Source triangle budget exceeded: {source_triangles} > {MAX_SOURCE_TRIANGLES}"
+        )
     target_stats = {name: component_stats(bpy.data.objects[name]) for name in TARGETS}
+    side_stats = {name: component_stats(bpy.data.objects[name]) for name in REBUILT_SIDES}
     road_points = []
     for name in TARGETS:
         component = bpy.data.objects[name]
@@ -801,10 +1285,11 @@ def validate(root: bpy.types.Object) -> dict[str, object]:
     min_z = min(point.z for point in road_points)
     max_z = max(point.z for point in road_points)
     relief = max_z - min_z
-    if min_z < 0.012 or max_z > 0.18 or relief > 0.18:
+    if min_z < 0.012 or max_z > ROAD_CROWN_MAX_VERTICAL or relief > ROAD_CROWN_MAX_VERTICAL:
         raise RuntimeError(f"Road relief exceeds shallow contract: z={min_z:.4f}..{max_z:.4f}")
     return {
         "target_stats": target_stats,
+        "side_stats": side_stats,
         "road_aabb_component_local": (
             round(min(point.x for point in road_points), 6),
             round(min(point.y for point in road_points), 6),
@@ -815,6 +1300,8 @@ def validate(root: bpy.types.Object) -> dict[str, object]:
         ),
         "max_vertical_relief": round(relief, 6),
         "central_route_clearance_to_godot_y0": round(min_z, 6),
+        "source_meshes": len(all_meshes),
+        "source_triangles": source_triangles,
     }
 
 
@@ -839,7 +1326,7 @@ def main() -> None:
             component.location = COMPONENT_LOCATIONS[name]
             bpy.context.scene.collection.objects.link(component)
 
-    for name in TARGETS:
+    for name in REBUILT_COMPONENTS:
         component = bpy.data.objects.get(name)
         if component is None or component.parent is not root or component.type != "EMPTY":
             raise RuntimeError(f"Missing target component root: {name}")
@@ -850,6 +1337,10 @@ def main() -> None:
     build_ruts(bpy.data.objects["RoadRuts_PuddleFar"], far=True)
     build_branch(bpy.data.objects["RoadCrown_BranchWet"])
     build_approach(bpy.data.objects["RoadCrown_ApproachWorn"])
+    build_shoulder(bpy.data.objects["MuddyShoulder_Left"], "Left", side=-1, phase=0.37)
+    build_shoulder(bpy.data.objects["MuddyShoulder_Right"], "Right", side=1, phase=1.11)
+    build_ditch(bpy.data.objects["RoadsideDitch_Left"], "Left", side=-1, phase=0.59)
+    build_ditch(bpy.data.objects["RoadsideDitch_Right"], "Right", side=1, phase=1.43)
 
     source_report = validate(root)
     bake_report = bake_source_axis_contract(root)
@@ -857,11 +1348,11 @@ def main() -> None:
 
     scene = bpy.context.scene
     scene["generator"] = "assets/source/blender/act1/urman_wet_village_road_kit.py"
-    scene["active_geometry_pass"] = "crown + near/far ruts + BranchWet + ApproachWorn variant modules; shallow broken extracted-basis relief; linear rut ribbons omitted"
+    scene["active_geometry_pass"] = "continuous crown + embedded near/far ruts + BranchWet + ApproachWorn variants + tapered shoulders/ditches with reduced contact breaks; shallow broken extracted-basis relief; redundant slab patches omitted"
     scene["source_axis_contract"] = "Blender meshes axis-baked +90deg X after child transforms; legacy GLB extraction +90deg X produces Godot-horizontal road"
-    scene["geometry_policy"] = "geometry-only; existing WetRoad_* and Puddle_* materials authoritative; presentation-only; no collision"
-    for name in TARGETS:
-        bpy.data.objects[name]["geometry_pass"] = "variant-module wet-road pass 2026-09-03"
+    scene["geometry_policy"] = "geometry-only; existing WetRoad_* and Puddle_* materials authoritative; presentation-only; no collision; asymmetric berm terrain masses"
+    for name in REBUILT_COMPONENTS:
+        bpy.data.objects[name]["geometry_pass"] = "authored wet-road route-spine pass 2026-09-05"
         bpy.data.objects[name]["target_component_contract"] = "root name/location preserved; child mesh geometry rebuilt and axis-baked"
     scene["road_pass_report"] = str({"source": source_report, "axis_bake": bake_report, "baked": baked_report})
 

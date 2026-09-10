@@ -1,6 +1,6 @@
 # URMAN Act I FAP Clinic Kit
 
-Status: **authored geometry-only presentation pass v4; runtime, first-person,
+Status: **authored geometry-only Wave25 presentation pass; runtime, first-person,
 medical/local-context and final art review remain open**
 
 This kit is a specific modest rural medical-point landmark for the connected
@@ -8,12 +8,21 @@ Act I world. It replaces the isolated test-room/generic-box read with a full
 Painterly Low-Poly exterior silhouette: a compact gabled clinic facade with a
 covered entry porch, windows and service door; a restrained service yard with
 shed, fence and gate; a bench and two blank boards; a secondary rain awning;
-an uneven wet path with puddles; and a birch/shrub edge mass. Its single
-`FapInteriorSet` component preserves the accepted five compact clinic
-silhouettes and adds four restrained wall/utility cues: an examination cot,
-folding privacy screen, wall medicine cabinet, enamel instrument trolley/basin
-stand, waiting bench, wall radiator and pipes, open supply shelf with varied
-blank containers, blank examination chart, and coat hook rail.
+an uneven wet path with explicitly triangulated puddles; and a birch/shrub edge
+mass. Its single `FapInteriorSet` component now carries the authored 12 m
+presentation shell and compact clinic silhouettes: an examination cot, folding
+privacy screen, wall medicine cabinet, enamel instrument trolley/basin stand,
+waiting bench, wall radiator and pipes, open supply shelf with varied blank
+containers, blank examination chart, coat hook rail, a quiet wash unit, an
+attendant stool, a blank records pinboard, a reception counter, a tall storage
+ cabinet and a peripheral partial-height zoning partition. The Wave25
+ composition pass rotates the examination cot/privacy screen into a stronger
+ mid-room silhouette, aligns the reception counter with the Naila-to-records
+ diagonal, moves the full-height storage anchor onto the left wall, and
+ grounds the former entry ceiling beam as a front-wall reveal header. The
+ second-pass details publish 28 authored LOD0/LOD1 pairs;
+the interior composition leaves a clear center aisle and separates the larger
+masses to the walls/periphery.
 
 ## Deliverables
 
@@ -22,14 +31,15 @@ blank containers, blank examination chart, and coat hook rail.
 - Root: `URMAN_FapClinicKit`
 - Scale: **1 Blender unit = 1 metre**; metric scene; +Z is up.
 - Front convention: local **−Y faces the entry/approach front**.
-- Source meshes: **255** presentation meshes; **8,438** source triangles.
+- Source meshes: **405** presentation meshes (377 LOD0 + 28 LOD1); **12,110** source triangles.
 - Materials: **25** basic muted wet-weather node materials.
 - Source images: **0**; image-texture nodes: **0**.
 
 The kit is authored as independent presentation geometry. It contains no
 collision, navigation, interaction, camera, light, physics, runtime script or
-image-texture owner. Every visible mesh is an LOD0 presentation mesh with a
-direct component-root parent.
+image-texture owner. Every published mesh is an LOD0/LOD1 presentation mesh
+with a direct component-root parent; the 28 LOD1 siblings are deterministic
+decimated companions of the new detail cluster.
 
 ## Published direct roots
 
@@ -48,9 +58,9 @@ placed independently by a later `Act1ConnectedWorld` composition pass.
 | `FapBench` | `(-3.25, -3.15, 0.00)` | 7 | 308 | Plain waiting bench with back, arms, legs and lower brace |
 | `FapNoticeBoard` | `(-4.65, -2.95, 0.00)` | 9 | 396 | Broad framed blank notice face on posts with simple cap and foot |
 | `FapRainAwning` | `(4.92, 0.85, 0.00)` | 7 | 276 | Secondary metal rain canopy with fascia, gutter, downpipe, braces and drain foot |
-| `FapPathPuddleCluster` | `(0.00, -4.50, 0.00)` | 11 | 576 | Uneven path core/fork, five shallow puddle surfaces and four edge stones |
+| `FapPathPuddleCluster` | `(0.00, -4.50, 0.00)` | 11 | 384 | Uneven path core/fork, five shallow explicitly triangulated puddle solids and four edge stones |
 | `FapBirchShrubMass` | `(9.25, 3.40, 0.00)` | 22 | 668 | Three pale birch trunks with bark marks, branches, faceted crowns and low shrubs |
-| `FapInteriorSet` | `(0.00, 0.00, 0.00)` | 75 | 2,052 | Nine restrained interior silhouettes: accepted cot, folding privacy screen, medicine cabinet, enamel trolley/basin and waiting bench, plus radiator/pipes, open supply shelf and blank containers, blank examination chart, and coat hook rail |
+| `FapInteriorSet` | `(0.00, 0.00, 0.00)` | 197 LOD0 + 28 LOD1 | 5,468 + 448 LOD1 | Authored 12 m shell with floor, ceiling, four wall volumes, recessed entry threshold, lower wall band, side-window recess/trim silhouettes and ceiling practical, plus restrained cot, folding privacy screen, medicine cabinet, enamel trolley/basin, waiting bench, radiator/pipes, supply shelf, blank examination chart, coat hook rail, wash unit, attendant stool, blank records pinboard, records desk, reception counter, tall storage cabinet and partial-height zoning partition |
 
 Preview-board offsets are neutral source arrangement only; they are not
 runtime world coordinates. The local origin of each root is a ground anchor.
@@ -65,12 +75,20 @@ bench, boards, gate and birch mass give the landmark near/mid/far dressing
 without adding a second world or a gameplay owner.
 
 `FapInteriorSet` is one direct scene-level component and remains presentation
-only. It preserves all 50 accepted baseline meshes and adds 25 small
-chamfered/tapered/faceted meshes using muted sage, enamel, dusty blue and dark
-timber materials. The source preview coordinates keep the cot and screen to the
-left/rear, cabinet and supply shelf on the rear wall, radiator/chart on the
-side wall, hooks on the front wall, trolley to the right and bench at the
-near-right edge, leaving a clear center path to the Naila and document targets.
+only. It preserves all 50 accepted baseline meshes, adds 25 small
+chamfered/tapered/faceted utility/detail meshes, adds 31 authored shell meshes,
+adds 13 LOD0 meshes for the reception counter, tall storage cabinet and
+partial-height zoning partition, adds the existing shell/joinery and full-
+volume records-desk meshes, and adds 28 authored second-pass LOD0/LOD1 pairs
+using muted sage, enamel, dusty blue and dark timber materials. The Wave25
+source arrangement establishes one entry-to-Naila-to-records diagonal: the
+reception counter sits near the Naila sightline, the records desk stays on its
+existing rear interaction axis, and the examination cot/privacy screen turn
+into the left mid-room. The full-height storage anchor now lands on the left
+wall; the radiator/chart stay on the side wall, the expanded hook rail and
+grounded header frame the front entry, and the trolley/wash unit remain on the
+right periphery. The center aisle and all existing runtime interaction
+coordinates remain open.
 No collision, navigation, interaction, narrative, text, logo,
 cross, religious/ethnic/diagnostic symbol or modern hospital technology is
 included.
@@ -97,14 +115,17 @@ SOURCE direct_child_count: 12
 SOURCE missing_names: []
 SOURCE wrong_component_parents: []
 SOURCE mesh_parent_issues: []
-SOURCE mesh_count: 255
-SOURCE mesh_triangles: 8438
+SOURCE mesh_count: 405 (377 LOD0 + 28 LOD1)
+SOURCE mesh_triangles: 12110 (6194 exterior + 5468 interior LOD0 + 448 interior LOD1)
 SOURCE material_count: 25
 SOURCE image_count: 0
 SOURCE image_texture_nodes: []
 SOURCE collision_like_names: []
 SOURCE physics_like_types: []
-SOURCE all_mesh_names_have_lod0: True
+SOURCE all_published_mesh_names_have_lod0_or_lod1: True
+SOURCE polygon_arity_bad: []
+SOURCE degenerate_triangles: 0 (minimum area threshold 1e-10)
+SOURCE interior_detail_lod_pair_count: 28
 ```
 
 Key source AABBs (metres, source scene coordinates including preview-board root offsets):
@@ -113,7 +134,8 @@ Key source AABBs (metres, source scene coordinates including preview-board root 
 FapFacade_Main meshes=42 triangles=1150 aabb_min=(-4.8479, -3.7100, 0.0000) aabb_max=(4.8460, 3.6100, 4.7500)
 FapEntryPorch meshes=18 triangles=488 aabb_min=(-2.0200, -5.5700, 0.0100) aabb_max=(2.0200, -2.9800, 3.2000)
 FapServiceShed meshes=17 triangles=456 aabb_min=(5.1986, -0.1050, 0.0000) aabb_max=(8.9697, 2.9600, 3.2434)
-FapInteriorSet meshes=75 triangles=2052 aabb_min=(-5.6600, -5.5400, 0.0200) aabb_max=(5.4400, 5.6400, 2.6400)
+FapPathPuddleCluster meshes=11 triangles=384 aabb_min=(-1.7984, -11.8984, 0.0000) aabb_max=(1.6704, -4.0000, 0.3200)
+FapInteriorSet meshes=197 LOD0 + 28 LOD1 triangles=5468 LOD0 + 448 LOD1 aabb_min=(-5.8100, -5.8100, 0.0000) aabb_max=(5.8100, 5.8100, 3.4100)
 ```
 
 Fresh empty-scene Blender GLB import:
@@ -126,14 +148,17 @@ GLB direct_child_count: 12
 GLB missing_names: []
 GLB wrong_component_parents: []
 GLB mesh_parent_issues: []
-GLB mesh_count: 255
-GLB mesh_triangles: 8438
+GLB mesh_count: 405 (377 LOD0 + 28 LOD1)
+GLB mesh_triangles: 12110
 GLB material_count: 25
 GLB image_count: 0
 GLB image_texture_nodes: []
 GLB collision_like_names: []
 GLB physics_like_types: []
-GLB all_mesh_names_have_lod0: True
+GLB all_published_mesh_names_have_lod0_or_lod1: True
+GLB polygon_arity_bad: []
+GLB degenerate_triangles: 0 (minimum area threshold 1e-10)
+GLB interior_detail_lod_pair_count: 28
 ```
 
 Key imported GLB AABBs match source:
@@ -142,37 +167,44 @@ Key imported GLB AABBs match source:
 FapFacade_Main (-4.8479, -3.7100, 0.0000)..(4.8460, 3.6100, 4.7500)
 FapEntryPorch (-2.0200, -5.5700, 0.0100)..(2.0200, -2.9800, 3.2000)
 FapServiceShed (5.1986, -0.1050, 0.0000)..(8.9697, 2.9600, 3.2434)
-FapInteriorSet (-5.6600, -5.5400, 0.0200)..(5.4400, 5.6400, 2.6400)
+FapPathPuddleCluster (-1.7984, -11.8984, 0.0000)..(1.6704, -4.0000, 0.3200)
+FapInteriorSet (-5.8100, -5.8100, 0.0000)..(5.8100, 5.8100, 3.4100) (197 LOD0 + 28 LOD1)
 ```
 
 The local −Y entry approach remains open: the porch rail gap is **2.7500 m**,
 the centered door-frame clear width is **1.2600 m**, and the service shed's
-nearest geometry is **5.1986 m** from the facade centerline. No key mesh has
-zero area; all unchanged component children compare equal at the
-mesh/name/transform/material snapshot level against the pre-pass source.
+nearest geometry is **5.1986 m** from the facade centerline. The source and
+fresh GLB checks above report no n-gons, degenerate triangles, non-LOD mesh
+names or direct-root/parent contract errors.
 
 Artifact sizes and SHA-256:
 
 ```text
-2882303 bytes  assets/source/blender/act1/urman_fap_clinic_kit.blend
-592532 bytes   game/assets/models/act1/urman_fap_clinic_kit.glb
-2e65174895e461a1fdf50dcb604eaaf669c084625371d0f6cb8b2bb106f5e3fe  assets/source/blender/act1/urman_fap_clinic_kit.blend
-73aa52f7204a2423e22081eaf719700abd9d10c8edf1f5e9126ea52e4603e854  game/assets/models/act1/urman_fap_clinic_kit.glb
+4132735 bytes  assets/source/blender/act1/urman_fap_clinic_kit.blend
+857368 bytes   game/assets/models/act1/urman_fap_clinic_kit.glb
+e2783caa705b1781978222c593345d0e3319ea6fcefdc8f121395c0464df1d4c  assets/source/blender/act1/urman_fap_clinic_kit.blend
+bbf27c0a9307fc15cdee3cac56e258fa888dcb2d5120a87df2e7def1977e2cab  game/assets/models/act1/urman_fap_clinic_kit.glb
 ```
 
-Generator idempotence (two consecutive runs):
+Current pinned-generator output:
 
 ```text
-GLB SHA run 1: 73aa52f7204a2423e22081eaf719700abd9d10c8edf1f5e9126ea52e4603e854
-GLB SHA run 2: 73aa52f7204a2423e22081eaf719700abd9d10c8edf1f5e9126ea52e4603e854
-equal: True
+GLB SHA (run 1): bbf27c0a9307fc15cdee3cac56e258fa888dcb2d5120a87df2e7def1977e2cab
+GLB SHA (run 2): bbf27c0a9307fc15cdee3cac56e258fa888dcb2d5120a87df2e7def1977e2cab
+GLB deterministic: True
+The current deterministic GLB is the Wave25 authored-composition artifact.
+The Blender source binary is saved by Blender and may change its byte hash on
+reopen; the GLB hash is the stable derived-artifact identity for this pass.
+No byte-identity claim is made for the `.blend` source.
 ```
 
 The connected-world `BuildFapClinic` presentation pass extracts only the
 `FapInteriorSet` direct root from this GLB. It preserves the imported ancestor
-basis, places the component at the FAP interior source origin, suppresses only
-legacy replacement furniture visuals, and leaves the existing floor/walls,
-collision, Naila, document targets and RuntimeBridge ownership unchanged.
+basis, places the component at the FAP interior source origin, applies a
+first-person 0–14 m LOD0 / 10–28 m LOD1 self-fade to the 28 detail pairs,
+suppresses only legacy replacement furniture visuals, and leaves the existing
+floor/walls, collision, Naila, document targets and RuntimeBridge ownership
+unchanged.
 
 Godot import/runtime, connected-world placement, collision/navigation,
 first-person visual review, target-hardware performance and medical/local

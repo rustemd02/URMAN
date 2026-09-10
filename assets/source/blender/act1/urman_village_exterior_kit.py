@@ -1,9 +1,10 @@
-"""Deterministically author the Act I village dwelling and well passes.
+"""Deterministically author the Act I village exterior source kit.
 
-The six-component kit already exists as a Blender source asset. This script
-keeps the other five components and materials intact, preserves the accepted
-dwelling child geometry, and rebuilds the yard well as a grounded, faceted
-landmark with restrained asymmetry.
+The six canonical components already exist as a Blender source asset. This
+script preserves their names and preview-board anchors, refreshes the
+full-volume authored pass, and adds three optional, genuinely different
+village parcel variants for later composition. All geometry is presentation
+only and uses the existing project material library.
 
 Run with Blender 4.5+:
   blender --background --python assets/source/blender/act1/urman_village_exterior_kit.py -- --root <repo>
@@ -157,6 +158,611 @@ def chamfered_box(
     )
 
 
+VILLAGE_GEOMETRY_PASS = "authored full-volume painterly village exterior v5; visible joinery and offset annex silhouettes"
+
+VARIANT_GEOMETRY_PASS = "authored full-volume painterly village parcel variants v2"
+VARIANT_COMPOSITION_PASS = "authored parcel contact composition v1; presentation-only edge dressing"
+VARIANT_LAYOUT = {
+    "VillageParcel_VariantA_TimberGable": (28.0, 0.0, 0.0),
+    "VillageParcel_VariantB_PlasterAnnex": (41.0, 0.0, 0.0),
+    "VillageParcel_VariantC_BanyaYard": (54.0, 0.0, 0.0),
+}
+
+PARCEL_COMPOSITION = {
+    "VillageParcel_VariantA_TimberGable": {
+        "component_root": "VariantA_Yard_OpenRail",
+        "moss": (
+            ((-3.22, 0.68, 0.04), (0.78, 0.42, 0.12)),
+            ((2.62, 1.20, 0.04), (0.66, 0.34, 0.10)),
+            ((-0.90, 2.02, 0.04), (0.58, 0.32, 0.09)),
+        ),
+        "shrubs": (
+            ((-3.58, 1.55), 0.78),
+            ((3.70, 1.84), 0.62),
+        ),
+        "branches": (
+            ((-2.94, 1.72, 0.08), (-2.36, 2.18, 0.92), 0.085),
+            ((3.40, 2.00, 0.08), (3.94, 2.32, 0.72), 0.075),
+        ),
+        "sedge": (
+            ((-4.00, 0.36), 0.52, -0.22),
+            ((-3.72, 0.58), 0.68, 0.18),
+            ((2.98, 1.18), 0.46, -0.16),
+            ((3.26, 1.40), 0.58, 0.24),
+        ),
+    },
+    "VillageParcel_VariantB_PlasterAnnex": {
+        "component_root": "VariantB_Yard_TallPlank",
+        "moss": (
+            ((-3.36, 1.10, 0.04), (0.72, 0.36, 0.11)),
+            ((3.34, 1.02, 0.04), (0.82, 0.42, 0.13)),
+            ((2.48, 2.06, 0.04), (0.56, 0.28, 0.08)),
+        ),
+        "shrubs": (
+            ((-3.78, 1.88), 0.64),
+            ((3.62, 1.72), 0.76),
+        ),
+        "branches": (
+            ((-3.12, 2.18, 0.08), (-2.44, 2.46, 0.86), 0.08),
+            ((3.46, 2.34, 0.08), (2.90, 2.74, 0.76), 0.09),
+        ),
+        "sedge": (
+            ((-4.08, 0.90), 0.48, 0.20),
+            ((-3.80, 1.14), 0.62, -0.16),
+            ((3.46, 1.06), 0.56, 0.22),
+            ((3.78, 1.30), 0.44, -0.18),
+        ),
+    },
+    "VillageParcel_VariantC_BanyaYard": {
+        "component_root": "VariantC_Yard_MixedRepair",
+        "moss": (
+            ((-3.28, 0.92, 0.04), (0.86, 0.46, 0.14)),
+            ((2.94, 1.18, 0.04), (0.62, 0.34, 0.10)),
+            ((3.56, 2.08, 0.04), (0.72, 0.36, 0.11)),
+        ),
+        "shrubs": (
+            ((-3.66, 1.46), 0.70),
+            ((3.66, 1.74), 0.58),
+        ),
+        "branches": (
+            ((-3.00, 1.94, 0.08), (-2.54, 2.42, 0.82), 0.085),
+            ((3.18, 2.18, 0.08), (3.80, 2.42, 0.68), 0.075),
+        ),
+        "sedge": (
+            ((-4.02, 0.54), 0.62, -0.18),
+            ((-3.70, 0.78), 0.48, 0.24),
+            ((3.18, 1.06), 0.54, -0.20),
+            ((3.52, 1.34), 0.66, 0.16),
+        ),
+    },
+}
+
+
+def variant_empty(
+    name: str,
+    parent: bpy.types.Object,
+    location: tuple[float, float, float] = (0.0, 0.0, 0.0),
+    role: str = "authored village variant subroot",
+    family: str = "village parcel variant",
+) -> bpy.types.Object:
+    obj = bpy.data.objects.get(name)
+    if obj is None:
+        obj = bpy.data.objects.new(name, None)
+        bpy.context.collection.objects.link(obj)
+    if obj.type != "EMPTY":
+        raise RuntimeError(f"Expected empty variant root for {name}, got {obj.type}")
+    if obj.parent is not parent:
+        obj.parent = parent
+    obj.location = location
+    obj.rotation_mode = "XYZ"
+    obj.rotation_euler = (0.0, 0.0, 0.0)
+    obj.scale = (1.0, 1.0, 1.0)
+    obj.hide_render = False
+    obj.hide_viewport = False
+    obj["urman_asset_id"] = f"urman.act1.village.{name.lower()}"
+    obj["component_root"] = "URMAN_VillageExteriorKit"
+    obj["license"] = "Project-original"
+    obj["scale_meters"] = 1.0
+    obj["collision"] = "none"
+    obj["presentation_only"] = True
+    obj["lod_status"] = "LOD0"
+    obj["asset_role"] = role
+    obj["variant_family"] = family
+    obj["geometry_pass"] = VARIANT_GEOMETRY_PASS
+    return obj
+
+
+def variant_box(
+    name: str,
+    parent: bpy.types.Object,
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+    materials: tuple[str, ...],
+    component_root: str,
+    role: str,
+    material_indices: list[int] | None = None,
+    chamfer: float = 0.04,
+    rotation: tuple[float, float, float] = (0.0, 0.0, 0.0),
+    geometry_pass: str = VARIANT_GEOMETRY_PASS,
+) -> bpy.types.Object:
+    return chamfered_box(
+        name,
+        parent,
+        center,
+        size,
+        materials,
+        material_indices,
+        chamfer=chamfer,
+        rotation=rotation,
+        role=role,
+        asset_id=f"urman.act1.village.{component_root.lower()}",
+        component_root=component_root,
+        geometry_pass=geometry_pass,
+    )
+
+
+def variant_beam(
+    name: str,
+    parent: bpy.types.Object,
+    start: tuple[float, float, float],
+    end: tuple[float, float, float],
+    width: float,
+    depth: float,
+    materials: tuple[str, ...],
+    component_root: str,
+    role: str,
+    geometry_pass: str = VARIANT_GEOMETRY_PASS,
+) -> bpy.types.Object:
+    vector = tuple(end[index] - start[index] for index in range(3))
+    length = math.sqrt(sum(component * component for component in vector))
+    if length <= 0.01:
+        raise RuntimeError(f"Degenerate variant beam: {name}")
+    center = tuple((start[index] + end[index]) / 2.0 for index in range(3))
+    yaw = -math.atan2(vector[2], vector[0])
+    return variant_box(
+        name,
+        parent,
+        center,
+        (length, depth, width),
+        materials,
+        component_root,
+        role,
+        chamfer=min(width, depth) * 0.2,
+        rotation=(0.0, yaw, 0.0),
+        geometry_pass=geometry_pass,
+    )
+
+
+def variant_wall(
+    name: str,
+    parent: bpy.types.Object,
+    footprint: list[tuple[float, float]],
+    base_z: float,
+    top_z: float,
+    component_root: str,
+    front_material: str = "URMAN_Plaster_Ochre",
+    side_material: str = "URMAN_Plaster_Shadow",
+    top_inset: float = 0.025,
+    role: str = "full-volume variant wall",
+) -> bpy.types.Object:
+    if len(footprint) < 4 or top_z <= base_z:
+        raise RuntimeError(f"Invalid variant wall dimensions: {name}")
+    top = [(x * (1.0 - top_inset), y * (1.0 - top_inset), top_z) for x, y in footprint]
+    vertices = [(x, y, base_z) for x, y in footprint] + top
+    count = len(footprint)
+    faces: list[tuple[int, ...]] = [tuple(reversed(range(count))), tuple(range(count, count * 2))]
+    faces.extend((index, (index + 1) % count, (index + 1) % count + count, index + count) for index in range(count))
+    material_indices = [1, 1] + [0 if index in (0, 1, count - 1) else 1 for index in range(count)]
+    return mesh_object(
+        name,
+        parent,
+        vertices,
+        faces,
+        (front_material, side_material),
+        material_indices,
+        role=role,
+        asset_id=f"urman.act1.village.{component_root.lower()}",
+        component_root=component_root,
+        geometry_pass=VARIANT_GEOMETRY_PASS,
+    )
+
+
+def variant_gable(
+    name: str,
+    parent: bpy.types.Object,
+    width: float,
+    front_y: float,
+    back_y: float,
+    base_z: float,
+    ridge_x: float,
+    ridge_z: float,
+    component_root: str,
+) -> bpy.types.Object:
+    profile = [(-width / 2.0, base_z), (width / 2.0, base_z), (ridge_x, ridge_z)]
+    vertices = [(x, front_y, z) for x, z in profile] + [(x, back_y, z) for x, z in profile]
+    faces = [(0, 1, 2), (5, 4, 3), (0, 3, 4, 1), (1, 4, 5, 2), (2, 5, 3, 0)]
+    return mesh_object(
+        name,
+        parent,
+        vertices,
+        faces,
+        ("URMAN_Plaster_Ochre", "URMAN_Wood_Weathered"),
+        [0, 0, 1, 1, 1],
+        role="asymmetrical full-volume variant gable",
+        asset_id=f"urman.act1.village.{component_root.lower()}",
+        component_root=component_root,
+        geometry_pass=VARIANT_GEOMETRY_PASS,
+    )
+
+
+def variant_roof(
+    name: str,
+    parent: bpy.types.Object,
+    width: float,
+    front_y: float,
+    back_y: float,
+    base_z: float,
+    ridge_x: float,
+    ridge_z: float,
+    overhang: float,
+    component_root: str,
+    thickness: float = 0.13,
+) -> bpy.types.Object:
+    half = width / 2.0 + overhang
+    vertices = [
+        (-half, front_y, base_z),
+        (ridge_x, front_y, ridge_z),
+        (half, front_y, base_z),
+        (-half, back_y, base_z + 0.02),
+        (ridge_x + 0.10, back_y, ridge_z - 0.06),
+        (half, back_y, base_z + 0.01),
+    ]
+    vertices.extend((x, y, z - thickness) for x, y, z in tuple(vertices))
+    faces = [
+        (0, 3, 4, 1),
+        (1, 4, 5, 2),
+        (6, 7, 10, 9),
+        (7, 8, 11, 10),
+        (0, 1, 7, 6),
+        (1, 2, 8, 7),
+        (2, 5, 11, 8),
+        (5, 4, 10, 11),
+        (4, 3, 9, 10),
+        (3, 0, 6, 9),
+    ]
+    roof = mesh_object(
+        name,
+        parent,
+        vertices,
+        [tuple(reversed(face)) for face in faces],
+        ("URMAN_Roof_WetSlate", "URMAN_Roof_MossTone", "URMAN_Wood_Weathered"),
+        [0, 1, 2, 2, 2, 2, 2, 1, 2, 2],
+        role="faceted pitched variant roof with eave depth",
+        asset_id=f"urman.act1.village.{component_root.lower()}",
+        component_root=component_root,
+        geometry_pass=VARIANT_GEOMETRY_PASS,
+    )
+    assert all(roof.data.polygons[i].normal.z > 0 for i in (0, 1)), "Roof top faces must face the sky"
+    return roof
+
+
+def variant_lean_to_roof(
+    name: str,
+    parent: bpy.types.Object,
+    x0: float,
+    x1: float,
+    back_y: float,
+    front_y: float,
+    back_z: float,
+    front_z: float,
+    component_root: str,
+    thickness: float = 0.12,
+) -> bpy.types.Object:
+    vertices = [
+        (x0, back_y, back_z),
+        (x1, back_y, back_z),
+        (x1, front_y, front_z),
+        (x0, front_y, front_z),
+        (x0, back_y, back_z - thickness),
+        (x1, back_y, back_z - thickness),
+        (x1, front_y, front_z - thickness),
+        (x0, front_y, front_z - thickness),
+    ]
+    faces = [(0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)]
+    return mesh_object(
+        name,
+        parent,
+        vertices,
+        faces,
+        ("URMAN_Roof_WetSlate", "URMAN_Roof_MossTone"),
+        [0, 1, 1, 0, 1, 0],
+        role="shallow variant lean-to roof",
+        asset_id=f"urman.act1.village.{component_root.lower()}",
+        component_root=component_root,
+        geometry_pass=VARIANT_GEOMETRY_PASS,
+    )
+
+
+def variant_window(
+    parent: bpy.types.Object,
+    prefix: str,
+    center: tuple[float, float, float],
+    width: float,
+    height: float,
+    component_root: str,
+    axis: str = "front",
+    glass: str = "URMAN_Window_DimGlass",
+) -> None:
+    x, y, z = center
+    if axis == "front":
+        panel_size = (width, 0.09, height)
+        trim_specs = (
+            ("Top", (x, y - 0.07, z + height / 2.0 + 0.08), (width + 0.22, 0.12, 0.12)),
+            ("Bottom", (x, y - 0.07, z - height / 2.0 - 0.08), (width + 0.22, 0.12, 0.12)),
+            ("Left", (x - width / 2.0 - 0.08, y - 0.07, z), (0.12, 0.12, height + 0.20)),
+            ("Right", (x + width / 2.0 + 0.08, y - 0.07, z), (0.12, 0.12, height + 0.20)),
+        )
+        mullions = (
+            ("MullionH", (x, y - 0.12, z), (width, 0.06, 0.06)),
+            ("MullionV", (x, y - 0.12, z), (0.06, 0.06, height)),
+        )
+        sill = (x, y - 0.13, z - height / 2.0 - 0.14), (width + 0.28, 0.18, 0.10)
+    elif axis == "side":
+        panel_size = (0.09, width, height)
+        trim_specs = (
+            ("Top", (x - 0.07, y, z + height / 2.0 + 0.08), (0.12, width + 0.22, 0.12)),
+            ("Bottom", (x - 0.07, y, z - height / 2.0 - 0.08), (0.12, width + 0.22, 0.12)),
+            ("Left", (x - 0.07, y - width / 2.0 - 0.08, z), (0.12, 0.12, height + 0.20)),
+            ("Right", (x - 0.07, y + width / 2.0 + 0.08, z), (0.12, 0.12, height + 0.20)),
+        )
+        mullions = (
+            ("MullionH", (x - 0.12, y, z), (0.06, width, 0.06)),
+            ("MullionV", (x - 0.12, y, z), (0.06, 0.06, height)),
+        )
+        sill = (x - 0.13, y, z - height / 2.0 - 0.14), (0.18, width + 0.28, 0.10)
+    else:
+        raise RuntimeError(f"Unsupported variant window axis: {axis}")
+    variant_box(f"{prefix}_Inset_LOD0", parent, center, panel_size, (glass,), component_root, "deep window inset", chamfer=0.035)
+    for suffix, trim_center, trim_size in trim_specs:
+        variant_box(f"{prefix}_{suffix}_LOD0", parent, trim_center, trim_size, ("URMAN_Wood_Weathered",), component_root, "window reveal trim", chamfer=0.025)
+    for suffix, mullion_center, mullion_size in mullions:
+        variant_box(f"{prefix}_{suffix}_LOD0", parent, mullion_center, mullion_size, ("URMAN_Wood_Dark",), component_root, "window mullion", chamfer=0.014)
+    variant_box(f"{prefix}_Sill_LOD0", parent, sill[0], sill[1], ("URMAN_Wood_Dark",), component_root, "projecting window sill", chamfer=0.025)
+
+
+def variant_door(
+    parent: bpy.types.Object,
+    prefix: str,
+    center: tuple[float, float, float],
+    component_root: str,
+    width: float = 1.05,
+    height: float = 2.18,
+) -> None:
+    x, y, z = center
+    variant_box(
+        f"{prefix}_Recess_LOD0",
+        parent,
+        (x, y + 0.03, z),
+        (width + 0.30, 0.18, height + 0.28),
+        ("URMAN_Wood_WetShadow",),
+        component_root,
+        "recessed exterior door surround",
+        chamfer=0.06,
+    )
+    variant_box(
+        f"{prefix}_Panel_LOD0",
+        parent,
+        (x, y - 0.09, z),
+        (width, 0.10, height),
+        ("URMAN_Wood_Weathered",),
+        component_root,
+        "plank door panel",
+        chamfer=0.045,
+    )
+    for index in range(3):
+        variant_box(
+            f"{prefix}_Plank_{index:02d}_LOD0",
+            parent,
+            (x - width * 0.30 + index * width * 0.30, y - 0.15, z),
+            (0.05, 0.06, height),
+            ("URMAN_Wood_Dark",),
+            component_root,
+            "door plank seam",
+            chamfer=0.014,
+        )
+    variant_box(
+        f"{prefix}_Handle_LOD0",
+        parent,
+        (x + width * 0.34, y - 0.19, z - 0.04),
+        (0.10, 0.07, 0.13),
+        ("URMAN_Metal_Dulled",),
+        component_root,
+        "door handle",
+        chamfer=0.025,
+    )
+
+
+def variant_moss_patch(
+    name: str,
+    parent: bpy.types.Object,
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+    component_root: str,
+    phase: int = 0,
+) -> bpy.types.Object:
+    """Add a small faceted moss/contact patch without using a foliage cone."""
+    sx, sy, height = size
+    if min(sx, sy, height) <= 0.0:
+        raise RuntimeError(f"Invalid moss patch dimensions: {name}")
+    ring = (
+        (-0.50, -0.16),
+        (-0.22, -0.50),
+        (0.30, -0.42),
+        (0.52, 0.04),
+        (0.18, 0.48),
+        (-0.38, 0.34),
+    )
+    top_factors = (0.74, 0.98, 0.82, 1.0, 0.66, 0.86)
+    vertices = [(x * sx, y * sy, 0.0) for x, y in ring]
+    vertices.extend((x * sx, y * sy, height * top_factors[(index + phase) % len(top_factors)]) for index, (x, y) in enumerate(ring))
+    faces: list[tuple[int, ...]] = [tuple(reversed(range(6))), tuple(range(6, 12))]
+    faces.extend((index, (index + 1) % 6, (index + 1) % 6 + 6, index + 6) for index in range(6))
+    material_indices = [1, 0, 0, 1, 0, 1, 0, 1]
+    return mesh_object(
+        name,
+        parent,
+        vertices,
+        faces,
+        ("URMAN_Roof_MossTone", "URMAN_Wood_WetShadow"),
+        material_indices,
+        location=center,
+        role="irregular moss contact patch",
+        asset_id=f"urman.act1.village.{component_root.lower()}",
+        component_root=component_root,
+        geometry_pass=VARIANT_COMPOSITION_PASS,
+    )
+
+
+def variant_shrub_cluster(
+    name: str,
+    parent: bpy.types.Object,
+    center: tuple[float, float],
+    scale: float,
+    component_root: str,
+) -> None:
+    """Build a low irregular shrub from three offset faceted contact clumps."""
+    if scale <= 0.0:
+        raise RuntimeError(f"Invalid shrub scale: {name}")
+    x, y = center
+    clumps = (
+        (-0.28, -0.04, 0.88, 0.76, 0.82),
+        (0.12, 0.18, 0.70, 0.62, 1.04),
+        (0.34, -0.20, 0.56, 0.54, 0.66),
+    )
+    for index, (offset_x, offset_y, width, depth, height) in enumerate(clumps):
+        variant_moss_patch(
+            f"{name}_Clump_{index:02d}_LOD0",
+            parent,
+            (x + offset_x * scale, y + offset_y * scale, 0.035 + index * 0.008),
+            (scale * width, scale * depth, scale * 0.22 * height),
+            component_root,
+            phase=index,
+        )
+
+
+def variant_branch(
+    name: str,
+    parent: bpy.types.Object,
+    start: tuple[float, float, float],
+    end: tuple[float, float, float],
+    width: float,
+    component_root: str,
+) -> bpy.types.Object:
+    """Add one restrained fallen/leaning branch as an authored contact cue."""
+    return variant_beam(
+        name,
+        parent,
+        start,
+        end,
+        width,
+        width * 0.72,
+        ("URMAN_Bark_Muted", "URMAN_Wood_WetShadow"),
+        component_root,
+        "fallen/leaning branch contact cue",
+        geometry_pass=VARIANT_COMPOSITION_PASS,
+    )
+
+
+def variant_sedge_cluster(
+    name: str,
+    parent: bpy.types.Object,
+    center: tuple[float, float],
+    height: float,
+    lean: float,
+    component_root: str,
+) -> None:
+    """Add three sparse edge blades, leaving the parcel approach readable."""
+    if height <= 0.0:
+        raise RuntimeError(f"Invalid sedge height: {name}")
+    x, y = center
+    blades = (
+        (-0.08, 0.84, 0.80),
+        (0.02, 1.00, 1.00),
+        (0.10, 0.70, 1.18),
+    )
+    for index, (offset, factor, lean_factor) in enumerate(blades):
+        start = (x + offset * 0.34, y + (index - 1) * 0.055, 0.025)
+        end = (x + offset * 0.34 + lean * lean_factor, y + (index - 1) * 0.055, height * factor)
+        variant_beam(
+            f"{name}_Blade_{index:02d}_LOD0",
+            parent,
+            start,
+            end,
+            0.035,
+            0.028,
+            ("URMAN_Roof_MossTone", "URMAN_Bark_Muted"),
+            component_root,
+            "sparse sedge edge contact",
+            geometry_pass=VARIANT_COMPOSITION_PASS,
+        )
+
+
+def author_variant_composition(parent: bpy.types.Object, parcel_name: str) -> None:
+    """Dress each optional parcel edge with sparse, non-blocking local history."""
+    composition = PARCEL_COMPOSITION[parcel_name]
+    component_root = composition["component_root"]
+    parent["composition_pass"] = VARIANT_COMPOSITION_PASS
+    parent["composition_clearance"] = "central approach lane left open"
+    for index, (center, size) in enumerate(composition["moss"]):
+        variant_moss_patch(
+            f"{parcel_name}_Moss_{index:02d}_LOD0",
+            parent,
+            center,
+            size,
+            component_root,
+            phase=index,
+        )
+    for index, (center, scale) in enumerate(composition["shrubs"]):
+        variant_shrub_cluster(f"{parcel_name}_Shrub_{index:02d}", parent, center, scale, component_root)
+    for index, (start, end, width) in enumerate(composition["branches"]):
+        variant_branch(f"{parcel_name}_Branch_{index:02d}_LOD0", parent, start, end, width, component_root)
+    for index, (center, height, lean) in enumerate(composition["sedge"]):
+        variant_sedge_cluster(f"{parcel_name}_Sedge_{index:02d}", parent, center, height, lean, component_root)
+
+
+def village_box(
+    name: str,
+    parent: bpy.types.Object,
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+    materials: tuple[str, ...],
+    component_root: str,
+    role: str,
+    material_indices: list[int] | None = None,
+    chamfer: float = 0.04,
+    rotation: tuple[float, float, float] = (0.0, 0.0, 0.0),
+) -> bpy.types.Object:
+    """Use the existing deterministic box primitive for new kit details.
+
+    The exterior kit is presentation-only, so these additions deliberately use
+    the established material library and carry no collision or runtime state.
+    """
+    return chamfered_box(
+        name,
+        parent,
+        center,
+        size,
+        materials,
+        material_indices,
+        chamfer=chamfer,
+        rotation=rotation,
+        role=role,
+        asset_id="urman.act1.village.exterior_kit",
+        component_root=component_root,
+        geometry_pass=VILLAGE_GEOMETRY_PASS,
+    )
+
+
 def beam_between(
     name: str,
     parent: bpy.types.Object,
@@ -166,6 +772,9 @@ def beam_between(
     depth: float,
     materials: tuple[str, ...],
     role: str = "dwelling timber brace",
+    asset_id: str = "urman.act1.village.dwelling_facade",
+    component_root: str = DWELLING_ROOT,
+    geometry_pass: str = "grounded asymmetrical painterly low-poly dwelling v2",
 ) -> bpy.types.Object:
     vector = tuple(end[index] - start[index] for index in range(3))
     length = math.sqrt(sum(component * component for component in vector))
@@ -184,6 +793,9 @@ def beam_between(
         chamfer=min(width, depth) * 0.2,
         rotation=(0.0, yaw, 0.0),
         role=role,
+        asset_id=asset_id,
+        component_root=component_root,
+        geometry_pass=geometry_pass,
     )
 
 
@@ -470,405 +1082,451 @@ def well_roof_mesh(parent: bpy.types.Object) -> None:
     )
 
 
-def body_mesh(parent: bpy.types.Object) -> None:
-    # Eight-sided, slightly tapered footprint: the front bows by a few
-    # centimetres and the back is intentionally not a mirrored rectangle.
-    bottom = [
-        (-3.62, -1.18, 0.34),
-        (-1.65, -1.27, 0.34),
-        (0.95, -1.30, 0.34),
-        (3.56, -1.17, 0.34),
-        (3.63, 1.10, 0.34),
-        (1.10, 1.23, 0.34),
-        (-1.75, 1.18, 0.34),
-        (-3.68, 1.06, 0.34),
-    ]
-    top = [
-        (-3.50, -1.14, 3.06),
-        (-1.60, -1.23, 3.06),
-        (0.92, -1.26, 3.06),
-        (3.43, -1.13, 3.06),
-        (3.51, 1.07, 3.06),
-        (1.05, 1.17, 3.06),
-        (-1.70, 1.13, 3.06),
-        (-3.56, 1.02, 3.06),
-    ]
-    vertices = bottom + top
-    faces: list[tuple[int, ...]] = [tuple(reversed(range(8))), tuple(range(8, 16))]
-    faces.extend((index, (index + 1) % 8, (index + 1) % 8 + 8, index + 8) for index in range(8))
-    # Front courses stay warm plaster; the side/back faces are darker and
-    # carry the mass without reading as a clean rectangular slab.
-    material_indices = [1, 1, 0, 1, 1, 1, 1, 1, 1, 1]
-    mesh_object(
-        "DwellingFacade_Wall_LOD0",
-        parent,
-        vertices,
-        faces,
-        ("URMAN_Plaster_Ochre", "URMAN_Plaster_Shadow"),
-        material_indices,
-        role="grounded uneven plaster wall volume",
-    )
 
 
-def gable_mesh(parent: bpy.types.Object, name: str, front_y: float, back_y: float, ridge_x: float, ridge_z: float) -> None:
-    profile = [(-3.52, 3.00), (3.45, 3.00), (ridge_x, ridge_z)]
-    vertices = [(x, front_y, z) for x, z in profile] + [(x, back_y, z) for x, z in profile]
-    faces = [(0, 1, 2), (5, 4, 3), (0, 3, 4, 1), (1, 4, 5, 2), (2, 5, 3, 0)]
-    mesh_object(
-        name,
-        parent,
-        vertices,
-        faces,
-        ("URMAN_Plaster_Ochre", "URMAN_Wood_Weathered"),
-        [0, 0, 1, 1, 1],
-        role="asymmetrical plaster gable infill",
-    )
+def author_shed_volume(parent: bpy.types.Object) -> None:
+    """Rebuild the shared shed using the existing closed gable-shed construction."""
+    for child in reversed(list(parent.children_recursive)):
+        mesh = child.data if child.type == "MESH" else None
+        bpy.data.objects.remove(child, do_unlink=True)
+        if mesh is not None and mesh.users == 0:
+            bpy.data.meshes.remove(mesh)
+    author_variant_shed_a(parent, prefix="OutbuildingShed")
 
 
-def roof_mesh(parent: bpy.types.Object) -> None:
-    # Four faceted slopes, offset ridge, and a broad front/back overhang give
-    # the repeated module a readable silhouette from both street directions.
-    front = [
-        (-4.18, -1.72, 3.00),
-        (-3.76, -1.72, 3.18),
-        (0.30, -1.72, 4.62),
-        (3.70, -1.72, 3.17),
-        (4.18, -1.72, 3.00),
-    ]
-    back = [
-        (-4.10, 1.66, 3.02),
-        (-3.70, 1.66, 3.17),
-        (0.36, 1.66, 4.56),
-        (3.66, 1.66, 3.18),
-        (4.10, 1.66, 3.02),
-    ]
-    vertices = front + back
-    faces = [
-        (0, 1, 6, 5),
-        (1, 2, 7, 6),
-        (2, 3, 8, 7),
-        (3, 4, 9, 8),
-        (0, 5, 9, 4),
-    ]
-    mesh_object(
-        "DwellingFacade_Roof_LOD0",
-        parent,
-        vertices,
-        faces,
-        ("URMAN_Roof_WetSlate", "URMAN_Roof_MossTone"),
-        [0, 1, 0, 1, 1],
-        role="faceted overhanging asymmetrical gable roof",
-    )
-
-
-def porch_roof_mesh(parent: bpy.types.Object) -> None:
-    x0, x1 = -2.88, -0.02
-    y_back, y_front = -1.34, -2.82
-    top_back, top_front = 2.62, 2.27
-    thickness = 0.14
-    vertices = [
-        (x0, y_back, top_back),
-        (x1, y_back, top_back),
-        (x1, y_front, top_front),
-        (x0, y_front, top_front),
-        (x0, y_back, top_back - thickness),
-        (x1, y_back, top_back - thickness),
-        (x1, y_front, top_front - thickness),
-        (x0, y_front, top_front - thickness),
-    ]
-    faces = [(0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)]
-    mesh_object(
-        "DwellingFacade_PorchRoof_LOD0",
-        parent,
-        vertices,
-        faces,
-        ("URMAN_Roof_WetSlate", "URMAN_Roof_MossTone"),
-        [0, 1, 1, 0, 1, 0],
-        role="deeper lean-to porch roof",
-    )
-
-
-def door_and_windows(parent: bpy.types.Object) -> None:
-    chamfered_box(
-        "DwellingFacade_DoorRecess_LOD0",
-        parent,
-        (-1.42, -1.34, 1.39),
-        (1.30, 0.16, 2.32),
-        ("URMAN_Wood_WetShadow",),
-        chamfer=0.07,
-        role="recessed door surround",
-    )
-    chamfered_box(
-        "DwellingFacade_DoorPanel_LOD0",
-        parent,
-        (-1.42, -1.47, 1.38),
-        (0.96, 0.10, 2.00),
-        ("URMAN_Wood_Weathered",),
-        chamfer=0.045,
-        role="recessed plank door panel",
-    )
-    for index, x in enumerate((-1.73, -1.42, -1.11)):
-        chamfered_box(
-            f"DwellingFacade_DoorPlank_{index:02d}_LOD0",
+def author_fence_variation(parent: bpy.types.Object) -> None:
+    """Anchor the existing picket run and give its middle a hand-built break."""
+    fence = "FenceSegment_RoughPicket"
+    for name, center, size in (
+        ("FenceSegment_FoundationStoneLeft_LOD0", (-2.10, 0.01, 0.15), (0.62, 0.34, 0.22)),
+        ("FenceSegment_FoundationStoneRight_LOD0", (2.10, 0.01, 0.16), (0.56, 0.32, 0.24)),
+    ):
+        village_box(
+            name,
             parent,
-            (x, -1.53, 1.38),
-            (0.055, 0.055, 2.00),
-            ("URMAN_Wood_Dark",),
-            chamfer=0.014,
-            role="door plank seam",
+            center,
+            size,
+            ("URMAN_Stone_Mossy", "URMAN_Stone_LightFace"),
+            fence,
+            "irregular fence foundation stone",
+            [0, 1] + [0] * 8,
+            chamfer=0.05,
         )
-    chamfered_box(
-        "DwellingFacade_DoorHandle_LOD0",
+    village_box(
+        "FenceSegment_RailMiddle_Crooked_LOD0",
         parent,
-        (-1.04, -1.57, 1.36),
-        (0.11, 0.07, 0.13),
-        ("URMAN_Metal_Dulled",),
+        (0.05, 0.02, 0.63),
+        (4.75, 0.12, 0.13),
+        ("URMAN_Wood_Weathered",),
+        fence,
+        "crooked middle fence rail",
         chamfer=0.025,
-        role="door handle",
-    )
-
-    chamfered_box(
-        "DwellingFacade_WindowWarmInset_LOD0",
-        parent,
-        (1.48, -1.39, 1.60),
-        (1.18, 0.08, 0.92),
-        ("URMAN_Window_WarmInset",),
-        chamfer=0.035,
-        role="warm window inset",
-    )
-    chamfered_box(
-        "DwellingFacade_WindowCoolInset_LOD0",
-        parent,
-        (2.70, -1.38, 1.65),
-        (0.62, 0.08, 0.66),
-        ("URMAN_Window_DimGlass",),
-        chamfer=0.03,
-        role="dim cool window inset",
-    )
-
-    frame_specs = [
-        ("DwellingFacade_WindowFrameBottom_LOD0", (1.48, -1.46, 1.08), (1.45, 0.11, 0.11), "URMAN_Wood_Dark"),
-        ("DwellingFacade_WindowFrameTop_LOD0", (1.48, -1.46, 2.12), (1.45, 0.11, 0.11), "URMAN_Wood_Dark"),
-        ("DwellingFacade_WindowFrameLeft_LOD0", (0.78, -1.44, 1.60), (0.11, 0.11, 1.13), "URMAN_Wood_Dark"),
-        ("DwellingFacade_WindowFrameRight_LOD0", (2.18, -1.44, 1.60), (0.11, 0.11, 1.13), "URMAN_Wood_Dark"),
-        ("DwellingFacade_WindowFrameBottom_LOD0.001", (2.70, -1.45, 1.28), (0.86, 0.11, 0.10), "URMAN_Wood_Weathered"),
-        ("DwellingFacade_WindowFrameTop_LOD0.001", (2.70, -1.45, 2.02), (0.86, 0.11, 0.10), "URMAN_Wood_Weathered"),
-        ("DwellingFacade_WindowFrameLeft_LOD0.001", (2.25, -1.44, 1.65), (0.10, 0.11, 0.84), "URMAN_Wood_Weathered"),
-        ("DwellingFacade_WindowFrameRight_LOD0.001", (3.15, -1.44, 1.65), (0.10, 0.11, 0.84), "URMAN_Wood_Weathered"),
-    ]
-    for name, center, size, surface in frame_specs:
-        chamfered_box(name, parent, center, size, (surface,), chamfer=0.025, role="window timber frame")
-    chamfered_box(
-        "DwellingFacade_WindowMullionHorizontal_LOD0",
-        parent,
-        (1.48, -1.50, 1.60),
-        (1.20, 0.06, 0.06),
-        ("URMAN_Wood_Dark",),
-        chamfer=0.014,
-        role="warm window mullion",
-    )
-    chamfered_box(
-        "DwellingFacade_WindowMullionVertical_LOD0",
-        parent,
-        (1.48, -1.50, 1.60),
-        (0.06, 0.06, 0.92),
-        ("URMAN_Wood_Dark",),
-        chamfer=0.014,
-        role="warm window mullion",
-    )
-    chamfered_box(
-        "DwellingFacade_WindowMullionHorizontal_LOD0.001",
-        parent,
-        (2.70, -1.50, 1.65),
-        (0.66, 0.06, 0.055),
-        ("URMAN_Wood_Weathered",),
-        chamfer=0.014,
-        role="cool window mullion",
-    )
-    chamfered_box(
-        "DwellingFacade_WindowMullionVertical_LOD0.001",
-        parent,
-        (2.70, -1.50, 1.65),
-        (0.055, 0.06, 0.66),
-        ("URMAN_Wood_Weathered",),
-        chamfer=0.014,
-        role="cool window mullion",
-    )
-    chamfered_box(
-        "DwellingFacade_WindowSill_LOD0",
-        parent,
-        (1.48, -1.51, 1.04),
-        (1.52, 0.18, 0.10),
-        ("URMAN_Wood_Dark",),
-        chamfer=0.025,
-        role="projecting window sill",
-    )
-
-
-def author_dwelling(parent: bpy.types.Object) -> None:
-    body_mesh(parent)
-    roof_mesh(parent)
-    gable_mesh(parent, "DwellingFacade_GableFront_LOD0", -1.34, -1.22, 0.30, 4.56)
-    gable_mesh(parent, "DwellingFacade_GableBack_LOD0", 1.22, 1.34, 0.36, 4.52)
-    porch_roof_mesh(parent)
-
-    chamfered_box(
-        "DwellingFacade_EaveFront_LOD0",
-        parent,
-        (0.12, -1.76, 3.06),
-        (8.45, 0.18, 0.18),
-        ("URMAN_Wood_Dark",),
-        chamfer=0.035,
-        role="front roof eave fascia",
-    )
-    chamfered_box(
-        "DwellingFacade_TimberBase_LOD0",
-        parent,
-        (-0.02, -1.30, 0.47),
-        (7.12, 0.22, 0.28),
-        ("URMAN_Wood_Dark",),
-        chamfer=0.035,
-        role="low timber foundation beam",
-    )
-    chamfered_box(
-        "DwellingFacade_TimberHeader_LOD0",
-        parent,
-        (0.00, -1.29, 2.90),
-        (7.06, 0.20, 0.22),
-        ("URMAN_Wood_Weathered",),
-        chamfer=0.035,
-        role="front timber header",
-    )
-    chamfered_box(
-        "DwellingFacade_TimberPostLeft_LOD0",
-        parent,
-        (-3.46, -1.28, 1.68),
-        (0.24, 0.22, 2.62),
-        ("URMAN_Wood_Dark",),
-        chamfer=0.04,
-        rotation=(0.0, 0.0, math.radians(-0.8)),
-        role="left front timber post",
-    )
-    chamfered_box(
-        "DwellingFacade_TimberPostRight_LOD0",
-        parent,
-        (3.47, -1.26, 1.65),
-        (0.24, 0.22, 2.57),
-        ("URMAN_Wood_Dark",),
-        chamfer=0.04,
-        rotation=(0.0, 0.0, math.radians(0.7)),
-        role="right front timber post",
-    )
-
-    beam_between(
-        "DwellingFacade_TimberBraceLeft_LOD0",
-        parent,
-        (-3.08, -1.41, 0.58),
-        (-2.18, -1.41, 2.78),
-        0.16,
-        0.16,
-        ("URMAN_Wood_Weathered",),
-    )
-    beam_between(
-        "DwellingFacade_TimberBraceCenter_LOD0",
-        parent,
-        (0.62, -1.42, 0.56),
-        (0.92, -1.42, 2.76),
-        0.14,
-        0.15,
-        ("URMAN_Wood_Weathered",),
-    )
-    beam_between(
-        "DwellingFacade_TimberBraceRight_LOD0",
-        parent,
-        (3.05, -1.40, 0.58),
-        (2.18, -1.40, 2.76),
-        0.16,
-        0.16,
-        ("URMAN_Wood_Weathered",),
-    )
-
-    for index, z in enumerate((0.92, 1.48, 2.24)):
-        chamfered_box(
-            f"DwellingFacade_PlasterCourse_{index:02d}_LOD0",
-            parent,
-            (-0.02, -1.325, z),
-            (7.08, 0.05, 0.055),
-            ("URMAN_Plaster_Line",),
-            chamfer=0.012,
-            role="shallow plaster course",
-        )
-
-    chamfered_box(
-        "DwellingFacade_PorchDeck_LOD0",
-        parent,
-        (-1.45, -1.98, 0.40),
-        (2.82, 1.42, 0.22),
-        ("URMAN_Wood_Weathered", "URMAN_Wood_Dark"),
-        [0, 1] + [0] * 8,
-        chamfer=0.08,
-        role="deep covered porch deck",
-    )
-    chamfered_box(
-        "DwellingFacade_PorchStep_LOD0",
-        parent,
-        (-1.45, -2.70, 0.16),
-        (2.66, 0.48, 0.22),
-        ("URMAN_Wood_WetShadow",),
-        chamfer=0.06,
-        role="porch approach step",
-    )
-    chamfered_box(
-        "DwellingFacade_PorchHeader_LOD0",
-        parent,
-        (-1.45, -2.22, 2.52),
-        (2.82, 0.20, 0.18),
-        ("URMAN_Wood_Weathered",),
-        chamfer=0.035,
-        role="porch header beam",
-    )
-    chamfered_box(
-        "DwellingFacade_PorchPostLeft_LOD0",
-        parent,
-        (-2.68, -2.22, 1.40),
-        (0.20, 0.20, 2.16),
-        ("URMAN_Wood_Dark",),
-        chamfer=0.035,
         rotation=(0.0, 0.0, math.radians(-1.4)),
-        role="left porch post",
-    )
-    chamfered_box(
-        "DwellingFacade_PorchPostRight_LOD0",
-        parent,
-        (-0.22, -2.20, 1.39),
-        (0.20, 0.20, 2.13),
-        ("URMAN_Wood_Dark",),
-        chamfer=0.035,
-        rotation=(0.0, 0.0, math.radians(1.1)),
-        role="right porch post",
     )
 
-    beam_between(
-        "DwellingFacade_GableRakeLeft_LOD0",
+
+def author_gate_variation(parent: bpy.types.Object) -> None:
+    """Add quiet threshold and post-cap variation to the existing gate."""
+    gate = "Gate_CrookedTimber"
+    for name, center, size, surface in (
+        ("Gate_PostCapLeft_LOD0", (-1.32, 0.0, 1.86), (0.36, 0.36, 0.18), ("URMAN_Wood_Weathered",)),
+        ("Gate_PostCapRight_LOD0", (1.32, 0.0, 1.91), (0.36, 0.36, 0.18), ("URMAN_Wood_Dark",)),
+    ):
+        village_box(
+            name,
+            parent,
+            center,
+            size,
+            surface,
+            gate,
+            "uneven gate post cap",
+            chamfer=0.035,
+        )
+    brace_angle = -math.atan2(1.18, 2.34)
+    village_box(
+        "Gate_BackBrace_LOD0",
         parent,
-        (-3.58, -1.76, 3.05),
-        (0.30, -1.76, 4.60),
-        0.11,
-        0.14,
-        ("URMAN_Wood_Weathered",),
-        role="left gable rake trim",
+        (0.0, 0.08, 0.82),
+        (2.44, 0.13, 0.15),
+        ("URMAN_Wood_WetShadow",),
+        gate,
+        "rear gate diagonal brace",
+        chamfer=0.025,
+        rotation=(0.0, brace_angle, 0.0),
     )
-    beam_between(
-        "DwellingFacade_GableRakeRight_LOD0",
+    village_box(
+        "Gate_ThresholdStoneRear_LOD0",
         parent,
-        (0.30, -1.76, 4.60),
-        (3.58, -1.76, 3.05),
-        0.11,
-        0.14,
-        ("URMAN_Wood_Weathered",),
-        role="right gable rake trim",
+        (0.0, 0.24, 0.12),
+        (2.72, 0.50, 0.20),
+        ("URMAN_Stone_Mossy", "URMAN_Stone_MossFace"),
+        gate,
+        "rear gate threshold stone",
+        [0, 1] + [0] * 8,
+        chamfer=0.05,
     )
-    door_and_windows(parent)
+
+
+def author_gate_joinery(parent: bpy.types.Object) -> None:
+    """Complete the gate's visible ironwork without adding an interaction owner."""
+    gate = "Gate_CrookedTimber"
+    village_box(
+        "Gate_HingeRight_LOD0",
+        parent,
+        (1.16, -0.25, 1.28),
+        (0.12, 0.10, 0.20),
+        ("URMAN_Metal_Dulled",),
+        gate,
+        "upper gate hinge plate",
+        chamfer=0.025,
+    )
+    village_box(
+        "Gate_LatchPlate_LOD0",
+        parent,
+        (0.84, -0.30, 0.96),
+        (0.28, 0.08, 0.14),
+        ("URMAN_Metal_Dulled",),
+        gate,
+        "worn gate latch plate",
+        chamfer=0.022,
+        rotation=(0.0, 0.0, math.radians(-3.0)),
+    )
+    village_box(
+        "Gate_PostFootRight_LOD0",
+        parent,
+        (1.32, 0.02, 0.11),
+        (0.44, 0.42, 0.18),
+        ("URMAN_Stone_Mossy", "URMAN_Stone_MossFace"),
+        gate,
+        "right gate post footing stone",
+        [0, 1] + [0] * 8,
+        chamfer=0.05,
+    )
+
+
+
+
+def author_variant_shed_a(parent: bpy.types.Object, prefix: str = "VariantA_Shed") -> None:
+    root_name = parent.name if prefix == "OutbuildingShed" else "VariantA_Outbuilding_GableShed"
+    variant_wall(f"{prefix}_Wall_LOD0", parent, [(-1.78, -1.18), (1.78, -1.18), (1.72, 1.24), (-1.70, 1.24)], 0.24, 2.10, root_name, front_material="URMAN_Wood_Weathered", side_material="URMAN_Wood_WetShadow", role="full-volume gable storage shed")
+    variant_box(f"{prefix}_Foundation_LOD0", parent, (0.0, 0.05, 0.16), (3.72, 2.54, 0.28), ("URMAN_Stone_Mossy", "URMAN_Wood_WetShadow"), root_name, "shed foundation plinth", [0, 1] + [0] * 8, chamfer=0.05)
+    variant_gable(f"{prefix}_GableFront_LOD0", parent, 3.60, -1.20, -1.04, 2.06, -0.18, 3.00, root_name)
+    variant_gable(f"{prefix}_GableBack_LOD0", parent, 3.56, 1.06, 1.20, 2.06, 0.06, 2.94, root_name)
+    variant_roof(f"{prefix}_Roof_LOD0", parent, 3.78, -1.38, 1.40, 2.10, -0.12, 3.12, 0.18, root_name, thickness=0.11)
+    variant_door(parent, f"{prefix}_Door", (0.42, -1.22, 1.15), root_name, width=1.16, height=1.68)
+    variant_window(parent, f"{prefix}_SideWindow", (-1.77, 0.34, 1.30), 0.62, 0.52, root_name, axis="side", glass="URMAN_Window_DimGlass")
+    variant_box(f"{prefix}_RearBatten_LOD0", parent, (-0.94, 1.28, 1.24), (0.14, 0.12, 1.74), ("URMAN_Wood_Dark",), root_name, "rear vertical repair batten", chamfer=0.025, rotation=(0.0, 0.0, math.radians(-1.2)))
+    variant_box(f"{prefix}_SideEave_LOD0", parent, (1.96, 0.04, 2.20), (0.16, 2.78, 0.14), ("URMAN_Roof_MossTone",), root_name, "side roof eave edge", chamfer=0.025, rotation=(0.0, 0.0, math.radians(1.0)))
+
+
+def author_variant_shed_b(parent: bpy.types.Object) -> None:
+    root_name = "VariantB_Outbuilding_Banya"
+    variant_wall("VariantB_Banya_Wall_LOD0", parent, [(-1.56, -1.38), (1.56, -1.38), (1.48, 1.42), (-1.48, 1.42)], 0.26, 2.24, root_name, front_material="URMAN_Wood_WetShadow", side_material="URMAN_Wood_Dark", role="compact full-volume timber banya")
+    variant_box("VariantB_Banya_Foundation_LOD0", parent, (0.0, 0.0, 0.17), (3.34, 2.94, 0.30), ("URMAN_Stone_Mossy", "URMAN_Wood_WetShadow"), root_name, "dark stone banya footing", [0, 1] + [0] * 8, chamfer=0.05)
+    variant_roof("VariantB_Banya_Roof_LOD0", parent, 3.34, -1.60, 1.64, 2.24, 0.42, 3.30, 0.18, root_name, thickness=0.12)
+    variant_gable("VariantB_Banya_GableFront_LOD0", parent, 3.16, -1.42, -1.22, 2.20, 0.38, 3.16, root_name)
+    variant_box("VariantB_Banya_Door_LOD0", parent, (-0.62, -1.46, 1.20), (0.86, 0.12, 1.80), ("URMAN_Wood_Weathered",), root_name, "plain banya door", chamfer=0.035)
+    variant_box("VariantB_Banya_DoorHandle_LOD0", parent, (-0.31, -1.56, 1.16), (0.10, 0.07, 0.12), ("URMAN_Metal_Dulled",), root_name, "small metal latch", chamfer=0.022)
+    variant_window(parent, "VariantB_Banya_WindowFront", (0.76, -1.46, 1.50), 0.76, 0.64, root_name, glass="URMAN_Window_WarmInset")
+    variant_box("VariantB_Banya_RearWindow_LOD0", parent, (-0.54, 1.44, 1.42), (0.64, 0.10, 0.56), ("URMAN_Window_DimGlass",), root_name, "small rear window inset", chamfer=0.03)
+    variant_lean_to_roof("VariantB_Banya_EntryRoof_LOD0", parent, -1.34, 0.18, -1.40, -2.22, 2.28, 2.10, root_name, thickness=0.11)
+    variant_box("VariantB_Banya_EntryStep_LOD0", parent, (-0.58, -2.25, 0.14), (1.24, 0.46, 0.20), ("URMAN_Stone_MossFace",), root_name, "banya threshold stone", chamfer=0.04)
+    variant_box("VariantB_Banya_Chimney_LOD0", parent, (0.72, 0.62, 3.24), (0.46, 0.46, 1.22), ("URMAN_Stone_MossFace", "URMAN_Plaster_Shadow"), root_name, "short masonry chimney", [0, 1] + [0] * 8, chamfer=0.04)
+    variant_box("VariantB_Banya_ChimneyCap_LOD0", parent, (0.72, 0.62, 3.88), (0.60, 0.58, 0.13), ("URMAN_Roof_MossTone",), root_name, "chimney cap", chamfer=0.03)
+    variant_box("VariantB_Banya_SideRepair_LOD0", parent, (1.54, 0.18, 1.10), (0.12, 1.38, 1.48), ("URMAN_Wood_Weathered",), root_name, "side plank repair panel", chamfer=0.025, rotation=(0.0, 0.0, math.radians(1.0)))
+
+
+def author_variant_shed_c(parent: bpy.types.Object) -> None:
+    root_name = "VariantC_Outbuilding_UtilityLeanTo"
+    variant_wall("VariantC_Utility_Wall_LOD0", parent, [(-2.16, -1.08), (2.18, -1.08), (2.10, 1.04), (-2.04, 1.12)], 0.20, 1.96, root_name, front_material="URMAN_Wood_Weathered", side_material="URMAN_Wood_WetShadow", role="long low utility outbuilding volume")
+    variant_box("VariantC_Utility_Foundation_LOD0", parent, (0.0, 0.04, 0.14), (4.50, 2.34, 0.25), ("URMAN_Stone_Mossy", "URMAN_Wood_WetShadow"), root_name, "low utility footing", [0, 1] + [0] * 8, chamfer=0.045)
+    variant_lean_to_roof("VariantC_Utility_Roof_LOD0", parent, -2.34, 2.36, 1.28, -1.34, 2.48, 2.20, root_name, thickness=0.14)
+    variant_box("VariantC_Utility_OpenBay_LOD0", parent, (1.12, -1.16, 1.04), (1.62, 0.14, 1.64), ("URMAN_Wood_Dark",), root_name, "wide open utility bay header", chamfer=0.03)
+    for index, x in enumerate((-1.92, 1.88)):
+        variant_box(f"VariantC_Utility_Post_{index:02d}_LOD0", parent, (x, -1.16, 1.05), (0.18, 0.18, 1.72), ("URMAN_Wood_Dark",), root_name, "utility bay post", chamfer=0.03, rotation=(0.0, 0.0, math.radians(-0.9 if index == 0 else 1.1)))
+    variant_box("VariantC_Utility_Door_LOD0", parent, (-0.72, -1.15, 1.06), (1.08, 0.12, 1.64), ("URMAN_Wood_WetShadow",), root_name, "offset utility plank door", chamfer=0.035)
+    variant_box("VariantC_Utility_SideBatten_LOD0", parent, (-2.10, 0.32, 1.04), (0.14, 0.12, 1.68), ("URMAN_Wood_Weathered",), root_name, "side repair batten", chamfer=0.024)
+    variant_box("VariantC_Utility_RearBatten_LOD0", parent, (0.60, 1.14, 1.02), (0.14, 0.12, 1.62), ("URMAN_Wood_Dark",), root_name, "rear repair batten", chamfer=0.024, rotation=(0.0, 0.0, math.radians(-1.0)))
+    variant_box("VariantC_Utility_Threshold_LOD0", parent, (1.16, -1.36, 0.13), (1.74, 0.34, 0.18), ("URMAN_Stone_MossFace",), root_name, "utility bay threshold", chamfer=0.04)
+
+
+def author_variant_yard_a(parent: bpy.types.Object) -> None:
+    root_name = "VariantA_Yard_OpenRail"
+    posts = ((-4.55, -3.72, 1.10), (-3.30, -3.72, 1.38), (-1.00, -3.72, 1.16), (1.48, -3.72, 1.34), (3.78, -3.72, 1.12), (4.60, -3.10, 1.30))
+    for index, (x, y, height) in enumerate(posts):
+        variant_box(f"VariantA_Yard_Post_{index:02d}_LOD0", parent, (x, y, height / 2.0), (0.18, 0.18, height), ("URMAN_Wood_Dark",), root_name, "uneven open-rail fence post", chamfer=0.032, rotation=(0.0, 0.0, math.radians((-1.2, 0.8, -0.6, 1.1, -0.8, 1.5)[index])))
+    for index, z in enumerate((0.48, 0.91)):
+        variant_beam(f"VariantA_Yard_FrontRail_{index:02d}_LOD0", parent, (-4.50, -3.72, z), (4.54, -3.10, z + (0.05 if index else -0.03)), 0.12, 0.12, ("URMAN_Wood_Weathered",), root_name, "long crooked open fence rail")
+    for index, z in enumerate((0.54, 0.96)):
+        variant_box(f"VariantA_Yard_SideRail_{index:02d}_LOD0", parent, (-4.56, -1.25, z), (0.12, 4.78, 0.12), ("URMAN_Wood_Weathered",), root_name, "side yard fence rail", chamfer=0.025, rotation=(0.0, 0.0, math.radians(-1.0 if index == 0 else 0.6)))
+    for index, (x, z) in enumerate(((-2.92, 0.12), (2.92, 0.14))):
+        variant_box(f"VariantA_Yard_FoundationStone_{index:02d}_LOD0", parent, (x, -3.68, z), (0.62, 0.34, 0.22), ("URMAN_Stone_Mossy", "URMAN_Stone_LightFace"), root_name, "fence foundation stone", [0, 1] + [0] * 8, chamfer=0.05)
+    variant_box("VariantA_Yard_GatePostLeft_LOD0", parent, (-0.34, -3.74, 1.12), (0.24, 0.26, 2.24), ("URMAN_Wood_Dark",), root_name, "wide gate post", chamfer=0.04, rotation=(0.0, 0.0, math.radians(-1.2)))
+    variant_box("VariantA_Yard_GatePostRight_LOD0", parent, (1.18, -3.60, 1.16), (0.24, 0.26, 2.32), ("URMAN_Wood_Dark",), root_name, "wide gate post", chamfer=0.04, rotation=(0.0, 0.0, math.radians(1.0)))
+    variant_beam("VariantA_Yard_GateHeader_LOD0", parent, (-0.38, -3.76, 2.15), (1.22, -3.62, 2.20), 0.18, 0.18, ("URMAN_Wood_Weathered",), root_name, "uneven gate header")
+    variant_beam("VariantA_Yard_GateBrace_LOD0", parent, (-0.20, -3.86, 0.46), (1.05, -3.86, 1.92), 0.12, 0.12, ("URMAN_Wood_WetShadow",), root_name, "diagonal gate repair brace")
+    variant_box("VariantA_Yard_GateThreshold_LOD0", parent, (0.42, -3.54, 0.10), (1.78, 0.52, 0.18), ("URMAN_Stone_MossFace",), root_name, "gate threshold stone", chamfer=0.045)
+    variant_box("VariantA_Yard_BenchSeat_LOD0", parent, (3.02, 1.55, 0.70), (1.36, 0.38, 0.16), ("URMAN_Wood_Weathered",), root_name, "plain yard bench seat", chamfer=0.035)
+    for index, x in enumerate((2.55, 3.49)):
+        variant_box(f"VariantA_Yard_BenchLeg_{index:02d}_LOD0", parent, (x, 1.55, 0.36), (0.16, 0.24, 0.68), ("URMAN_Wood_Dark",), root_name, "bench leg", chamfer=0.025)
+
+
+def author_variant_yard_b(parent: bpy.types.Object) -> None:
+    root_name = "VariantB_Yard_TallPlank"
+    board_specs = ((-4.42, 1.54), (-4.02, 1.40), (-3.62, 1.66), (-3.22, 1.46), (-2.82, 1.56), (-2.42, 1.38), (-2.02, 1.62), (-1.62, 1.44), (-1.22, 1.55), (-0.82, 1.36), (-0.42, 1.60), (0.00, 1.43), (0.42, 1.52), (0.84, 1.38), (1.26, 1.64), (1.68, 1.45), (2.10, 1.54), (2.52, 1.40), (2.94, 1.62), (3.36, 1.46), (3.78, 1.56), (4.18, 1.40))
+    for index, (x, height) in enumerate(board_specs):
+        variant_box(f"VariantB_Yard_Plank_{index:02d}_LOD0", parent, (x, -3.50, height / 2.0), (0.28, 0.16, height), ("URMAN_Wood_WetShadow", "URMAN_Wood_Weathered"), root_name, "staggered tall plank fence board", [0 if index % 3 else 1] + [0] * 9, chamfer=0.025, rotation=(0.0, math.radians((-1.2, 0.4, 1.1, -0.8)[index % 4]), 0.0))
+    for index, x in enumerate((-4.55, -2.20, 0.12, 2.40, 4.48)):
+        variant_box(f"VariantB_Yard_Post_{index:02d}_LOD0", parent, (x, -3.54, 0.92), (0.30, 0.30, 1.84), ("URMAN_Wood_Dark",), root_name, "heavy repaired plank fence post", chamfer=0.045, rotation=(0.0, 0.0, math.radians((-0.7, 0.8, -1.0, 0.6, -0.5)[index])))
+    variant_box("VariantB_Yard_RailUpper_LOD0", parent, (0.0, -3.62, 1.45), (8.88, 0.18, 0.14), ("URMAN_Wood_Dark",), root_name, "upper plank fence rail", chamfer=0.03, rotation=(0.0, 0.0, math.radians(-0.5)))
+    variant_box("VariantB_Yard_RailLower_LOD0", parent, (0.0, -3.60, 0.54), (8.88, 0.18, 0.14), ("URMAN_Wood_Weathered",), root_name, "lower plank fence rail", chamfer=0.03, rotation=(0.0, 0.0, math.radians(0.7)))
+    variant_box("VariantB_Yard_GateLeft_LOD0", parent, (1.22, -3.76, 1.02), (0.20, 0.18, 2.04), ("URMAN_Wood_Dark",), root_name, "narrow plank gate leaf", chamfer=0.03, rotation=(0.0, math.radians(-5.0), 0.0))
+    variant_box("VariantB_Yard_GateRight_LOD0", parent, (1.80, -3.75, 0.96), (0.20, 0.18, 1.92), ("URMAN_Wood_Dark",), root_name, "narrow plank gate leaf", chamfer=0.03, rotation=(0.0, math.radians(4.0), 0.0))
+    variant_box("VariantB_Yard_GateHeader_LOD0", parent, (1.52, -3.68, 2.08), (1.08, 0.22, 0.18), ("URMAN_Wood_Weathered",), root_name, "low gate header", chamfer=0.03)
+    variant_box("VariantB_Yard_Threshold_LOD0", parent, (1.52, -3.46, 0.10), (1.14, 0.48, 0.18), ("URMAN_Stone_Mossy",), root_name, "narrow gate threshold", chamfer=0.045)
+    variant_box("VariantB_Yard_SideRail_LOD0", parent, (-4.56, -1.12, 0.74), (0.16, 4.52, 0.14), ("URMAN_Wood_Weathered",), root_name, "side boundary rail", chamfer=0.025, rotation=(0.0, 0.0, math.radians(-1.4)))
+    variant_box("VariantB_Yard_WoodStackBase_LOD0", parent, (3.62, 1.18, 0.22), (1.46, 0.74, 0.34), ("URMAN_Wood_WetShadow",), root_name, "utility wood stack base", chamfer=0.05)
+    for index, z in enumerate((0.48, 0.80)):
+        variant_box(f"VariantB_Yard_WoodStackLog_{index:02d}_LOD0", parent, (3.62, 1.18 + index * 0.02, z), (1.34, 0.24, 0.18), ("URMAN_Wood_Weathered",), root_name, "stacked utility log", chamfer=0.045, rotation=(0.0, math.radians(4.0 if index else -3.0), 0.0))
+
+
+def author_variant_yard_c(parent: bpy.types.Object) -> None:
+    root_name = "VariantC_Yard_MixedRepair"
+    for index, (x, height) in enumerate(((-4.56, 1.24), (-3.20, 1.00), (-1.82, 1.30), (-0.44, 1.06), (0.92, 1.34), (2.30, 1.12), (3.68, 1.24))):
+        variant_box(f"VariantC_Yard_Post_{index:02d}_LOD0", parent, (x, -3.14, height / 2.0), (0.18, 0.18, height), ("URMAN_Wood_Dark",), root_name, "mixed repair fence post", chamfer=0.03, rotation=(0.0, 0.0, math.radians((-1.0, 0.8, -0.6, 1.2, -0.9, 0.6, -0.7)[index])))
+    for index, z in enumerate((0.46, 0.86)):
+        variant_beam(f"VariantC_Yard_Rail_{index:02d}_LOD0", parent, (-4.50, -3.14, z), (3.72, -3.14, z + (0.08 if index else -0.04)), 0.12, 0.12, ("URMAN_Wood_Weathered",), root_name, "broken-height mixed fence rail")
+    for index, (x, height) in enumerate(((-4.20, 0.78), (-3.78, 1.02), (-3.34, 0.70), (2.82, 0.94), (3.24, 0.66), (3.66, 0.88))):
+        variant_box(f"VariantC_Yard_Picket_{index:02d}_LOD0", parent, (x, -3.20, height / 2.0), (0.22, 0.14, height), ("URMAN_Wood_Weathered",), root_name, "short repaired picket", chamfer=0.025, rotation=(0.0, 0.0, math.radians((-2.0, 1.0, 2.4)[index % 3])))
+    variant_box("VariantC_Yard_CornerRail_LOD0", parent, (-4.60, -0.78, 0.72), (0.14, 4.64, 0.14), ("URMAN_Wood_WetShadow",), root_name, "side boundary corner rail", chamfer=0.025, rotation=(0.0, 0.0, math.radians(-1.6)))
+    variant_box("VariantC_Yard_GatePostLeft_LOD0", parent, (0.92, -3.28, 1.02), (0.24, 0.24, 2.04), ("URMAN_Wood_Dark",), root_name, "wide gate post", chamfer=0.04, rotation=(0.0, 0.0, math.radians(-1.0)))
+    variant_box("VariantC_Yard_GatePostRight_LOD0", parent, (2.26, -3.22, 1.08), (0.24, 0.24, 2.16), ("URMAN_Wood_Dark",), root_name, "wide gate post", chamfer=0.04, rotation=(0.0, 0.0, math.radians(1.3)))
+    variant_beam("VariantC_Yard_GateHeader_LOD0", parent, (0.88, -3.34, 2.06), (2.32, -3.28, 2.13), 0.18, 0.18, ("URMAN_Wood_Weathered",), root_name, "crooked wide gate header")
+    variant_beam("VariantC_Yard_GateBrace_LOD0", parent, (1.08, -3.42, 0.42), (2.14, -3.42, 1.90), 0.12, 0.12, ("URMAN_Wood_WetShadow",), root_name, "gate repair brace")
+    variant_box("VariantC_Yard_GateThreshold_LOD0", parent, (1.60, -3.08, 0.10), (1.72, 0.52, 0.18), ("URMAN_Stone_MossFace",), root_name, "wide gate threshold stone", chamfer=0.045)
+    variant_box("VariantC_Yard_BenchSeat_LOD0", parent, (-0.94, 1.52, 0.64), (1.52, 0.36, 0.16), ("URMAN_Wood_Weathered",), root_name, "plain yard bench", chamfer=0.035)
+    variant_box("VariantC_Yard_BenchBack_LOD0", parent, (-0.94, 1.66, 1.02), (1.52, 0.14, 0.72), ("URMAN_Wood_WetShadow",), root_name, "plain yard bench back", chamfer=0.03, rotation=(math.radians(-4.0), 0.0, 0.0))
+    for index, x in enumerate((-1.48, -0.40)):
+        variant_box(f"VariantC_Yard_BenchLeg_{index:02d}_LOD0", parent, (x, 1.52, 0.32), (0.16, 0.22, 0.58), ("URMAN_Wood_Dark",), root_name, "bench leg", chamfer=0.025)
+
+
+def clear_variant_roots(root: bpy.types.Object) -> None:
+    for name in VARIANT_LAYOUT:
+        variant = bpy.data.objects.get(name)
+        if variant is None:
+            continue
+        descendants = list(variant.children_recursive)
+        for obj in reversed(descendants):
+            mesh = obj.data if obj.type == "MESH" else None
+            bpy.data.objects.remove(obj, do_unlink=True)
+            if mesh is not None and mesh.users == 0:
+                bpy.data.meshes.remove(mesh)
+        bpy.data.objects.remove(variant, do_unlink=True)
+
+
+def author_variant_parcels(root: bpy.types.Object) -> None:
+    parcels = (
+        ("VillageParcel_VariantA_TimberGable", "timber gable dwelling with open rail yard", "author_variant_shed_a", "author_variant_yard_a"),
+        ("VillageParcel_VariantB_PlasterAnnex", "plaster dwelling with enclosed seni and tall plank boundary", "author_variant_shed_b", "author_variant_yard_b"),
+        ("VillageParcel_VariantC_BanyaYard", "dark timber dwelling with low utility shed and mixed repair fence", "author_variant_shed_c", "author_variant_yard_c"),
+    )
+    for parcel_name, description, shed_author, yard_author in parcels:
+        parcel = variant_empty(parcel_name, root, VARIANT_LAYOUT[parcel_name], role="optional full village parcel variant", family=description)
+        parcel["preview_origin"] = VARIANT_LAYOUT[parcel_name]
+        house = variant_empty(f"{parcel_name}_Dwelling", parcel, role="full-volume variant dwelling", family=description)
+        shed = variant_empty(f"{parcel_name}_Outbuilding", parcel, (-6.0, 2.3, 0.0), role="full-volume variant outbuilding", family=description)
+        yard = variant_empty(f"{parcel_name}_Yard", parcel, (0.0, -4.5, 0.0), role="full-volume variant yard boundary", family=description)
+        dimensions = {
+            "VillageParcel_VariantA_TimberGable": (6.0, 5.8, 2.85, 4.55, "URMAN_Wood_Weathered"),
+            "VillageParcel_VariantB_PlasterAnnex": (5.5, 6.4, 2.80, 4.25, "URMAN_Plaster_Ochre"),
+            "VillageParcel_VariantC_BanyaYard": (5.8, 5.5, 2.95, 4.65, "URMAN_Wood_WetShadow"),
+        }
+        author_rural_dwelling(house, *dimensions[parcel_name])
+        globals()[shed_author](shed)
+        globals()[yard_author](yard)
+        author_variant_composition(yard, parcel_name)
+
+
+def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
+                          wall_material="URMAN_Plaster_Ochre"):
+    """One inhabited house: pierced wall shell, boarded gables and enclosed side seni.
+
+    Parcel street elevations have windows only; the hero retains its portal.
+    Openings belong to the wall topology,
+    so dark reveals are real depth rather than panels pasted onto a solid box.
+    """
+    for child in reversed(list(parent.children_recursive)):
+        mesh = child.data if child.type == "MESH" else None
+        bpy.data.objects.remove(child, do_unlink=True)
+        if mesh is not None and mesh.users == 0:
+            bpy.data.meshes.remove(mesh)
+    prefix = "DwellingFacade" if parent.name == DWELLING_ROOT else parent.name.replace("VillageParcel_", "")
+    half, front, back = width / 2, -1.30, depth - 1.30
+    root_name = parent.name
+    trim = "URMAN_Wood_Weathered"
+
+    def box(suffix, center, size, mat=trim):
+        return variant_box(f"{prefix}_{suffix}_LOD0", parent, center, size,
+                           (mat,), root_name, "rural dwelling joinery", chamfer=0.008)
+
+    def wall(suffix, origin, tangent, length, holes, top=eave, finish=wall_material):
+        # Front orientation is tangent +X, outward -Y; rotating the basis also
+        # rotates wall thickness, frame, glass and sill as one architectural unit.
+        tx, ty = tangent
+        nx, ny = ty, -tx
+        def point(u, inset, z):
+            return (origin[0] + tx*u - nx*inset, origin[1] + ty*u - ny*inset, z)
+        vertices, faces = [], []
+        def quad(points):
+            start = len(vertices)
+            vertices.extend(points)
+            faces.append(tuple(range(start, start+4)))
+        xs = sorted(set([-length/2, length/2] + [h[k] for h in holes for k in (0, 1)]))
+        zs = sorted(set([0.30, top] + [h[k] for h in holes for k in (2, 3)]))
+        for x0, x1 in zip(xs, xs[1:]):
+            for z0, z1 in zip(zs, zs[1:]):
+                if any(h[0] < (x0+x1)/2 < h[1] and h[2] < (z0+z1)/2 < h[3] for h in holes):
+                    continue
+                quad([point(x0, 0, z0), point(x1, 0, z0), point(x1, 0, z1), point(x0, 0, z1)])
+                quad([point(x0, .20, z1), point(x1, .20, z1), point(x1, .20, z0), point(x0, .20, z0)])
+        for x0, x1, z0, z1, kind in holes:
+            quad([point(x1, 0, z0), point(x1, .20, z0), point(x0, .20, z0), point(x0, 0, z0)])
+            quad([point(x0, 0, z1), point(x0, .20, z1), point(x1, .20, z1), point(x1, 0, z1)])
+            for x in (x0, x1):
+                reveal = [point(x, 0, z0), point(x, 0, z1), point(x, .20, z1), point(x, .20, z0)]
+                quad(list(reversed(reveal)) if x == x0 else reveal)
+        mesh_object(f"{prefix}_{suffix}_Wall_LOD0", parent, vertices, faces,
+                    (finish,), role="continuous pierced wall and 20cm deep reveals", component_root=root_name)
+
+        def local_box(name, u, inset, z, sx, sy, sz, mat):
+            obj = box(name, point(u, inset, z), (sx, sy, sz), mat)
+            obj.rotation_euler.z = math.atan2(ty, tx)
+        for i, (x0, x1, z0, z1, kind) in enumerate(holes):
+            tag = f"{suffix}_{kind}{i}"
+            x, z, w, h = (x0+x1)/2, (z0+z1)/2, x1-x0, z1-z0
+            if kind != "Portal":
+                local_box(tag+"_Recess", x, .21, z, w, .045, h, "URMAN_Wood_Dark")
+                local_box(tag+"_Glass" if kind == "Window" else tag+"_Leaf", x, .17, z,
+                          w-.10, .035, h-.10, "URMAN_Window_DimGlass" if kind == "Window" else "URMAN_Wood_WetShadow")
+            for side in (-1, 1):
+                local_box(tag+f"_Jamb{side}", x+side*(w/2+.035), -.025, z,
+                          .095, .07, h+.14, trim)
+                local_box(tag+f"_Rail{side}", x, -.025, z+side*(h/2+.035),
+                          w+.16, .07, .095, trim)
+            if kind == "Window":
+                # Mid-distance read: jambs + rails + mullion + sill frame the
+                # opening; the former transom bar and tapered headboard crown
+                # read as a timber lattice at street distance, so both are
+                # retired. Concept target: solid wall, quiet dark opening.
+                local_box(tag+"_Mullion", x, .12, z, .045, .06, h-.07, trim)
+                local_box(tag+"_Sill", x, -.09, z0-.08, w+.25, .30, .075, trim)
+            elif kind == "Door":
+                local_box(tag+"_Handle", x+w*.30, .08, z, .045, .07, .16, "URMAN_Metal_Dulled")
+
+    street_windows = [(x-.48, x+.48, .93, 2.38, "Window") for x in (-width*.29, 0, width*.29)]
+    if parent.name == DWELLING_ROOT:
+        # Preserve the independently owned Babai doorway's original opening.
+        street_windows = [(-2.07,-.77,.30,2.55,"Portal"),
+                          (-.28,.68,.93,2.38,"Window"),(1.22,2.18,.93,2.38,"Window")]
+    wall("Street", (0,front), (1,0), width, street_windows)
+    if parent.name == DWELLING_ROOT:
+        # One removable visual leaf: runtime hides only this child at Babai's
+        # independently owned portal, while neighboring houses stay closed.
+        vertices, faces, indices = [], [], []
+        parts = [((-1.42, front+.12, 1.425), (1.22,.08,2.17), 0)]
+        parts += [((-1.42, front+.065, z), (1.18,.035,.095), 1) for z in (.64,2.18)]
+        parts += [((x, front+.073, 1.425), (.012,.018,2.14), 1) for x in (-1.82,-1.62,-1.42,-1.22,-1.02)]
+        parts.append(((-.94,front+.025,1.35),(.055,.075,.15),2))
+        for (x,y,z),(w,d,h),mat_index in parts:
+            start=len(vertices)
+            vertices += [(x+dx*w/2,y+dy*d/2,z+dz*h/2)
+                         for dx,dy,dz in ((-1,-1,-1),(1,-1,-1),(1,1,-1),(-1,1,-1),
+                                          (-1,-1,1),(1,-1,1),(1,1,1),(-1,1,1))]
+            faces += [tuple(start+i for i in f) for f in
+                      ((3,2,1,0),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7))]
+            indices += [mat_index]*6
+        mesh_object("DwellingFacade_StreetDoorClosed_LOD0",parent,vertices,faces,
+                    ("URMAN_Wood_WetShadow","URMAN_Wood_Weathered","URMAN_Metal_Dulled"),indices,
+                    component_root=root_name,role="removable closed street door; hidden only at Babai gameplay portal")
+    wall("Rear", (0,back), (-1,0), width, [(-1.45,-.49,.95,2.38,"Window"),(.49,1.45,.95,2.38,"Window")])
+    wall("Left", (-half,(front+back)/2), (0,-1), depth,
+         [(-1.65,-.65,.94,2.38,"Window"),(.65,1.65,.94,2.38,"Window")])
+    wall("Right", (half,(front+back)/2), (0,1), depth,
+         [(-depth/2+.80,-depth/2+1.80,.94,2.38,"Window")])
+    box("Foundation", (0,(front+back)/2,.15), (width+.06,depth+.06,.30), "URMAN_Wood_WetShadow")
+    box("FootingCap", (0,(front+back)/2,.32), (width+.09,depth+.09,.07), "URMAN_Wood_Weathered")
+    for x in (-half,half):
+        for y in (front,back):
+            box(f"Corner_{x}_{y}",(x,y,1.60),(.105,.105,2.60))
+    # Authored clipped gable boards form the triangle itself (no solid triangle
+    # plus beam lattice); tiny gaps give actual self-shadow at grazing angles.
+    for label,y in (("Front",front),("Back",back)):
+        vertices,faces=[],[]
+        count=round(width/.22)
+        for i in range(count):
+            x0=-half+i*width/count+.004
+            x1=-half+(i+1)*width/count-.004
+            z0=eave+(ridge-eave)*(1-abs(x0)/half)
+            z1=eave+(ridge-eave)*(1-abs(x1)/half)
+            start=len(vertices)
+            vertices.extend([(x0,y,eave-.04),(x1,y,eave-.04),(x1,y,z1),(x0,y,z0)])
+            indices = tuple(range(start,start+4))
+            faces.append(tuple(reversed(indices)) if label == "Back" else indices)
+        mesh_object(f"{prefix}_{label}_BoardedGable_LOD0",parent,vertices,faces,(trim,),
+                    component_root=root_name,role="clipped vertical gable boarding")
+        edge_y = front-.365 if label == "Front" else back+.365
+        variant_beam(f"{prefix}_{label}_VergeLeft_LOD0",parent,(-half-.36,edge_y,eave-.02),
+                     (0,edge_y,ridge+.10),.095,.09,(trim,),root_name,"narrow roof verge")
+        variant_beam(f"{prefix}_{label}_VergeRight_LOD0",parent,(0,edge_y,ridge+.10),
+                     (half+.36,edge_y,eave-.02),.095,.09,(trim,),root_name,"narrow roof verge")
+    roof_vertices = [(x,y,z) for y in (front-.36,back+.36)
+                     for x,z in ((-half-.36,eave),(0,ridge+.12),(half+.36,eave))]
+    roof_vertices += [(x,y,z-.09) for x,y,z in roof_vertices]
+    mesh_object(f"{prefix}_Roof_LOD0",parent,roof_vertices,
+                [(0,1,4,3),(1,2,5,4),(6,9,10,7),(7,10,11,8),(0,1,7,6),
+                 (1,2,8,7),(2,5,11,8),(5,4,10,11),(4,3,9,10),(3,0,6,9)],
+                ("URMAN_Roof_WetSlate","URMAN_Wood_WetShadow"),[0,0,1,1,1,1,1,1,1,1],
+                component_root=root_name,role="continuous thick pitched roof with 36cm overhang")
+    for x in (-half-.35,half+.35):
+        box(f"Eave_{x}",(x,(front+back)/2,eave-.065),(.085,depth+.72,.13))
+    # Prod-ready phase 6 silhouette: a dark ridge beam caps the roofline and
+    # a masonry chimney (on most dwellings, not all) breaks the roof plane
+    # and catches the low sun. Presentation-only geometry, same materials.
+    box("RidgeBeam",(0,(front+back)/2,ridge+.17),(.13,depth+.72,.11))
+    if "VariantA" not in parent.name:
+        chimney_z0 = eave + .55
+        chimney_z1 = ridge + .85
+        box("ChimneyStack",(-width*.22,(front+back)/2,(chimney_z0+chimney_z1)/2),
+            (.52,.44,chimney_z1-chimney_z0),"URMAN_Stone_Mossy")
+        box("ChimneyCap",(-width*.22,(front+back)/2,chimney_z1+.055),
+            (.68,.60,.11),"URMAN_Roof_MossTone")
+    # Side seni: subordinate enclosed entry volume, a full human-height door,
+    # and a sloping roof meeting the main side below its eave.
+    outer=half+1.50
+    entry_y=back-2.55
+    sx=(half+outer)/2
+    wall("SeniEntry",(sx,entry_y),(1,0),1.50,[(-.47,.47,.30,2.32,"Door")],2.48,trim)
+    wall("SeniOuter",(outer,(entry_y+back)/2),(0,1),2.55,[(-.45,.35,1.04,2.10,"Window")],2.48,trim)
+    wall("SeniRear",(sx,back),(-1,0),1.50,[],2.48,trim)
+    for label,y in (("Front",entry_y),("Rear",back)):
+        mesh_object(f"{prefix}_Seni{label}RoofInfill_LOD0",parent,
+                    [(half,y,2.48),(outer,y,2.48),(outer,y,2.51),(half,y,2.737)],
+                    [(0,1,2,3) if label == "Front" else (3,2,1,0)],(trim,),component_root=root_name,role="seni sloped roof closure")
+    roof_verts=[(half-.08,entry_y-.23,2.83),(outer+.25,entry_y-.23,2.54),
+                (outer+.25,back+.25,2.54),(half-.08,back+.25,2.83)]
+    roof_verts += [(x,y,z-.08) for x,y,z in roof_verts]
+    mesh_object(f"{prefix}_SeniRoof_LOD0",parent,roof_verts,
+                [(0,1,2,3),(7,6,5,4),(0,4,5,1),(1,5,6,2),(2,6,7,3),(3,7,4,0)],
+                ("URMAN_Roof_WetSlate",),component_root=root_name,role="enclosed side seni lean-to roof")
+    box("SeniFooting",(sx,(entry_y+back)/2,.15),(1.54,2.58,.30),"URMAN_Wood_WetShadow")
+    box("SeniStep",(sx,entry_y-.34,.10),(1.20,.64,.20),"URMAN_Wood_WetShadow")
+    box("ChimneyStack",(.90,back-1.45,ridge-.05),(.46,.51,1.30),"URMAN_Plaster_Shadow")
+    box("ChimneyCap",(.90,back-1.45,ridge+.63),(.56,.61,.10),"URMAN_Roof_WetSlate")
+    parent["geometry_pass"] = "v6 pierced wall architecture; street gable and side seni"
+    parent["eave_height_m"] = eave
+    parent["door_clear_height_m"] = 2.02
+
+
 
 
 def author_well(parent: bpy.types.Object) -> None:
@@ -985,7 +1643,7 @@ def author_well(parent: bpy.types.Object) -> None:
 
 
 def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types.Object) -> None:
-    expected_components = {
+    required_components = {
         "DwellingFacade_TimberPlaster",
         "OutbuildingShed_Low",
         "FenceSegment_RoughPicket",
@@ -994,16 +1652,66 @@ def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types
         WELL_ROOT,
     }
     actual_components = {child.name for child in root.children}
-    if actual_components != expected_components:
-        raise RuntimeError(f"Component roots changed: expected={sorted(expected_components)} actual={sorted(actual_components)}")
+    variant_components = set(VARIANT_LAYOUT)
+    if not required_components.issubset(actual_components):
+        raise RuntimeError(f"Canonical component roots changed: expected at least={sorted(required_components)} actual={sorted(actual_components)}")
+    if not variant_components.issubset(actual_components):
+        raise RuntimeError(f"Variant parcel roots missing: expected={sorted(variant_components)} actual={sorted(actual_components)}")
+    unexpected_components = actual_components - required_components - variant_components
+    if unexpected_components:
+        raise RuntimeError(f"Unexpected direct component roots: {sorted(unexpected_components)}")
     if any(abs(value) > 1e-6 for value in root.location) or any(abs(value) > 1e-6 for value in root.rotation_euler) or any(abs(value - 1.0) > 1e-6 for value in root.scale):
         raise RuntimeError("Kit root transform is not identity")
     if any(obj.type in {"CAMERA", "LIGHT"} for obj in bpy.data.objects):
         raise RuntimeError("Cameras/lights are not allowed in the authored kit")
     if tuple(round(value, 5) for value in dwelling.location) != (-9.2, 0.8, 0.0):
         raise RuntimeError(f"Dwelling preview-board anchor changed: {tuple(dwelling.location)}")
-    if len([child for child in dwelling.children if child.type == "MESH"]) != 44:
-        raise RuntimeError("Accepted dwelling mesh count changed")
+    if dwelling.get("eave_height_m", 0) < 2.6:
+        raise RuntimeError("Dwelling eave is below normal inhabited scale")
+    if any("TimberPost" in child.name or "Porch" in child.name for child in dwelling.children):
+        raise RuntimeError("Obsolete exposed frame or porch survived the architecture replacement")
+    if bpy.data.objects.get("DwellingFacade_Street_Portal0_Leaf_LOD0") is not None:
+        raise RuntimeError("Presentation geometry blocks the independently owned hero portal")
+    door = bpy.data.objects.get("DwellingFacade_StreetDoorClosed_LOD0")
+    if door is None or door.type != "MESH" or door.parent is not dwelling:
+        raise RuntimeError("Removable closed street door is missing from the dwelling root")
+    if door.get("collision") != "none" or door.get("presentation_only") is not True:
+        raise RuntimeError("Removable street door must remain presentation-only")
+    expected_added_meshes = {
+        "DwellingFacade_Street_Wall_LOD0",
+        "DwellingFacade_Rear_Wall_LOD0",
+        "DwellingFacade_Left_Wall_LOD0",
+        "DwellingFacade_Right_Wall_LOD0",
+        "DwellingFacade_SeniEntry_Wall_LOD0",
+        "DwellingFacade_SeniRoof_LOD0",
+        "DwellingFacade_Front_BoardedGable_LOD0",
+        "DwellingFacade_ChimneyStack_LOD0",
+        "OutbuildingShed_Foundation_LOD0",
+        "OutbuildingShed_Wall_LOD0",
+        "OutbuildingShed_Roof_LOD0",
+        "OutbuildingShed_GableFront_LOD0",
+        "OutbuildingShed_GableBack_LOD0",
+        "OutbuildingShed_RearBatten_LOD0",
+        "FenceSegment_FoundationStoneLeft_LOD0",
+        "FenceSegment_FoundationStoneRight_LOD0",
+        "FenceSegment_RailMiddle_Crooked_LOD0",
+        "Gate_PostCapLeft_LOD0",
+        "Gate_PostCapRight_LOD0",
+        "Gate_BackBrace_LOD0",
+        "Gate_ThresholdStoneRear_LOD0",
+        "Gate_HingeRight_LOD0",
+        "Gate_LatchPlate_LOD0",
+        "Gate_PostFootRight_LOD0",
+    }
+    for name in expected_added_meshes:
+        child = bpy.data.objects.get(name)
+        if child is None or child.type != "MESH":
+            raise RuntimeError(f"Missing authored exterior mesh: {name}")
+        if child.get("collision") != "none" or child.get("presentation_only") is not True:
+            raise RuntimeError(f"Presentation-only boundary changed: {name}")
+        child.data.calc_loop_triangles()
+        if not child.data.materials or len(child.data.loop_triangles) == 0:
+            raise RuntimeError(f"Invalid authored exterior mesh: {name}")
     if well.parent is not root or tuple(round(value, 5) for value in well.location) != (18.2, -0.35, 0.0):
         raise RuntimeError(f"Well preview-board anchor changed: {tuple(well.location)}")
     expected_well_meshes = {
@@ -1045,18 +1753,96 @@ def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types
             well_max_z = max(well_max_z, z)
     if well_min_z > 0.12 or well_max_z < 2.45:
         raise RuntimeError(f"Well landmark is not grounded/readable: z={well_min_z:.3f}..{well_max_z:.3f}")
+    variant_summaries: list[str] = []
+    for variant_name, expected_location in VARIANT_LAYOUT.items():
+        variant = bpy.data.objects[variant_name]
+        if variant.parent is not root or tuple(round(value, 5) for value in variant.location) != expected_location:
+            raise RuntimeError(f"Variant preview origin changed: {variant_name}={tuple(variant.location)}")
+        variant_meshes = [obj for obj in variant.children_recursive if obj.type == "MESH"]
+        house = bpy.data.objects[f"{variant_name}_Dwelling"]
+        if house.get("door_clear_height_m", 0) < 2.0 or house.get("eave_height_m", 0) < 2.6:
+            raise RuntimeError(f"Variant house has sub-human architecture scale: {variant_name}")
+        group_bounds = {}
+        for group in variant.children:
+            points = [variant.matrix_world.inverted() @ obj.matrix_world @ vertex.co
+                      for obj in group.children_recursive if obj.type == "MESH"
+                      for vertex in obj.data.vertices]
+            group_bounds[group.name] = ([min(p[i] for p in points) for i in range(3)],
+                                       [max(p[i] for p in points) for i in range(3)])
+        house_min, house_max = group_bounds[house.name]
+        for suffix in ("Outbuilding", "Yard"):
+            other_min, other_max = group_bounds[f"{variant_name}_{suffix}"]
+            if all(house_min[i] < other_max[i] and other_min[i] < house_max[i] for i in range(3)):
+                raise RuntimeError(f"Variant {suffix} overlaps inhabited dwelling bounds: {variant_name}")
+        print(f"parcel-separation-pass: {variant_name} {group_bounds}")
+        if len(variant_meshes) < 20:
+            raise RuntimeError(f"Variant parcel is too sparse: {variant_name} meshes={len(variant_meshes)}")
+        expected_composition_meshes = (
+            len(PARCEL_COMPOSITION[variant_name]["moss"])
+            + len(PARCEL_COMPOSITION[variant_name]["shrubs"]) * 3
+            + len(PARCEL_COMPOSITION[variant_name]["branches"])
+            + len(PARCEL_COMPOSITION[variant_name]["sedge"]) * 3
+        )
+        composition_meshes = [obj for obj in variant_meshes if obj.get("geometry_pass") == VARIANT_COMPOSITION_PASS]
+        if len(composition_meshes) != expected_composition_meshes:
+            raise RuntimeError(
+                f"Variant contact composition changed: {variant_name} "
+                f"expected={expected_composition_meshes} actual={len(composition_meshes)}"
+            )
+        bounds = [float("inf"), float("inf"), float("inf"), float("-inf"), float("-inf"), float("-inf")]
+        for obj in variant_meshes:
+            if obj.get("collision") != "none" or obj.get("presentation_only") is not True:
+                raise RuntimeError(f"Variant presentation-only boundary changed: {obj.name}")
+            obj.data.calc_loop_triangles()
+            if not obj.data.materials or not obj.data.loop_triangles:
+                raise RuntimeError(f"Invalid variant mesh: {obj.name}")
+            for vertex in obj.data.vertices:
+                world = obj.matrix_world @ vertex.co
+                bounds[0] = min(bounds[0], world.x)
+                bounds[1] = min(bounds[1], world.y)
+                bounds[2] = min(bounds[2], world.z)
+                bounds[3] = max(bounds[3], world.x)
+                bounds[4] = max(bounds[4], world.y)
+                bounds[5] = max(bounds[5], world.z)
+        if bounds[2] < -0.20 or bounds[5] - bounds[2] < 1.20 or any(abs(bounds[index + 3] - bounds[index]) < 0.10 for index in range(3)):
+            raise RuntimeError(f"Variant parcel has non-grounded/degenerate bounds: {variant_name}={tuple(round(value, 3) for value in bounds)}")
+        variant_summaries.append(
+            f"{variant_name}:meshes={len(variant_meshes)}:composition={len(composition_meshes)}:bounds="
+            + ",".join(f"{value:.2f}" for value in bounds)
+        )
     # Blender creates an unexported Render Result datablock in background mode;
     # authored image datablocks are still forbidden.
     if any(image.type != "RENDER_RESULT" for image in bpy.data.images):
         raise RuntimeError("Image textures are not allowed in the authored kit")
-    body = bpy.data.objects["DwellingFacade_Wall_LOD0"]
+    body = bpy.data.objects["DwellingFacade_Street_Wall_LOD0"]
     min_z = min(vertex.co.z for vertex in body.data.vertices)
     max_z = max(vertex.co.z for vertex in body.data.vertices)
-    if min_z > 0.40 or max_z < 3.0:
+    if min_z > 0.40 or max_z < 2.6:
         raise RuntimeError(f"Dwelling wall is not grounded: z={min_z:.3f}..{max_z:.3f}")
+    kit_meshes = [obj for obj in root.children_recursive if obj.type == "MESH"]
+    for obj in kit_meshes:
+        obj.data.calc_loop_triangles()
+        if not obj.data.materials or not obj.data.loop_triangles:
+            raise RuntimeError(f"Invalid kit mesh: {obj.name}")
+        if any(polygon.area <= 1e-10 for polygon in obj.data.polygons):
+            raise RuntimeError(f"Degenerate kit polygon: {obj.name}")
+    kit_triangles = sum(len(obj.data.loop_triangles) for obj in kit_meshes)
+    kit_materials = {
+        material.name
+        for obj in kit_meshes
+        for material in obj.data.materials
+        if material is not None
+    }
+    if len(kit_meshes) <= 0 or kit_triangles <= 0:
+        raise RuntimeError("Authored kit has no renderable geometry")
+    print(
+        "kit-pass: "
+        f"direct_roots={len(root.children)} meshes={len(kit_meshes)} triangles={kit_triangles} "
+        f"materials={len(kit_materials)} degenerate_polygons=0 cameras=0 lights=0"
+    )
     print(
         "dwelling-pass: components="
-        f"{len(expected_components)} meshes={sum(obj.type == 'MESH' for obj in bpy.data.objects)} "
+        f"{len(required_components)} meshes={sum(obj.type == 'MESH' for obj in bpy.data.objects)} "
         f"dwelling_meshes={sum(obj.type == 'MESH' for obj in dwelling.children)} "
         f"wall_z={min_z:.3f}..{max_z:.3f} cameras=0 lights=0"
     )
@@ -1068,6 +1854,7 @@ def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types
         f"materials={len({material.name for obj in well.children if obj.type == 'MESH' for material in obj.data.materials if material})} "
         "cameras=0 lights=0 images=0"
     )
+    print("variant-pass: " + " | ".join(variant_summaries))
 
 
 def main() -> None:
@@ -1082,12 +1869,21 @@ def main() -> None:
     if root is None or dwelling is None or well is None or dwelling.parent is not root or well.parent is not root:
         raise RuntimeError("Baseline kit root/component hierarchy is incomplete")
 
-    author_dwelling(dwelling)
+    clear_variant_roots(root)
+    author_rural_dwelling(dwelling)
+    author_shed_volume(bpy.data.objects["OutbuildingShed_Low"])
+    author_fence_variation(bpy.data.objects["FenceSegment_RoughPicket"])
+    author_gate_variation(bpy.data.objects["Gate_CrookedTimber"])
+    author_gate_joinery(bpy.data.objects["Gate_CrookedTimber"])
     author_well(well)
+    author_variant_parcels(root)
     scene = bpy.context.scene
     scene["generator"] = "assets/source/blender/act1/urman_village_exterior_kit.py"
-    scene["asset_status"] = "authored production dwelling facade v2 and well landmark v1; presentation-only and not integrated"
-    scene["dwelling_geometry_pass"] = "v2 grounded wall, asymmetrical faceted roof, deeper porch and restrained weathering"
+    scene["asset_status"] = "v6 inhabited rural architecture candidate with pierced walls, vertical windows, boarded gables and side seni; requires in-game art review"
+    scene["dwelling_geometry_pass"] = "v6 full-depth pierced wall shell; preserved hero doorway opening; no exposed structural lattice"
+    scene["yard_geometry_pass"] = "v3 shed full volume, fence foundation/rhythm and gate threshold variations"
+    scene["variant_geometry_pass"] = "v3 full-depth adult-scale dwellings with enclosed seni; preserved outbuilding and yard components"
+    scene["variant_composition_pass"] = VARIANT_COMPOSITION_PASS
     scene["well_geometry_pass"] = "v1 staggered masonry/timber ring, leaning posts, pitched eave roof and restrained bucket/rope cue"
     scene["texture_policy"] = "geometry and existing basic materials only; no texture files"
     bpy.context.view_layer.update()
