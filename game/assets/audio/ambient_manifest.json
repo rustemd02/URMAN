@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "kind": "urman.ambient_audio_manifest",
-  "status": "runtime-foundation",
-  "note": "Project-original procedural sound-design stems prove the Godot playback path and the Act 1 two-player zone crossfade. They are not final field recordings or character voice performances; authored voice, ambience mix and cultural review remain release gates.",
+  "status": "runtime-foundation; production-candidate sound-design pass",
+  "note": "Project-original procedural sound-design stems prove the Godot playback path and the Act 1 two-player zone crossfade. The five Act I sub-zone beds are intentionally differentiated for wet arrival, domestic yard, receding return, FAP interior and zirat air. They are not final field recordings or character voice performances; authored voice, final ambience mix and cultural review remain release gates.",
   "stems": [
     {
       "id": "ambient.village-day",
@@ -73,6 +73,7 @@
       "source": "tools/audio/generate_act1_ambience_layers.py",
       "seed": 4601,
       "license": "Project-original",
+      "design": "Dry fluorescent/radiator room tone with sparse paper and wall ticks; dialogue-safe institutional contrast.",
       "status": "technical-runtime-pass; authored-mix-open"
     },
     {
@@ -85,6 +86,7 @@
       "source": "tools/audio/generate_act1_ambience_layers.py",
       "seed": 5707,
       "license": "Project-original",
+      "design": "Open wind and grass contact with a restrained low boundary line; remembrance space without ritual or horror cues.",
       "status": "technical-runtime-pass; authored-mix-open"
     },
     {
@@ -97,6 +99,7 @@
       "source": "tools/audio/generate_act1_ambience_layers.py",
       "seed": 6803,
       "license": "Project-original",
+      "design": "Wet open-sky arrival with road resonance, rain air and two sparse distant calls.",
       "status": "technical-runtime-pass; authored-mix-open"
     },
     {
@@ -109,6 +112,7 @@
       "source": "tools/audio/generate_act1_ambience_layers.py",
       "seed": 7901,
       "license": "Project-original",
+      "design": "Warm domestic low-mid air with quiet wood movement and roof drips behind the yard fence.",
       "status": "technical-runtime-pass; authored-mix-open"
     },
     {
@@ -121,6 +125,7 @@
       "source": "tools/audio/generate_act1_ambience_layers.py",
       "seed": 8117,
       "license": "Project-original",
+      "design": "Wind-dominant return street with the domestic high band receding and sparse fence movement.",
       "status": "technical-runtime-pass; authored-mix-open"
     }
   ]

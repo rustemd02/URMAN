@@ -100,15 +100,18 @@ public partial class AmbientAudioDirector : Node
             return;
         }
 
-        var activePlayer = GetActivePlayer();
-        if (string.Equals(CurrentZoneId, zoneId, StringComparison.Ordinal) && activePlayer?.Playing == true)
-        {
-            return;
-        }
-
-        if (!_stemsByZone.TryGetValue(ResolveBedKey(zoneId, subKey), out var stem))
+        var bedKey = ResolveBedKey(zoneId, subKey);
+        if (!_stemsByZone.TryGetValue(bedKey, out var stem))
         {
             throw new InvalidOperationException($"Ambient audio manifest has no stem for zone '{zoneId}'.");
+        }
+
+        var activePlayer = GetActivePlayer();
+        if (string.Equals(CurrentZoneId, zoneId, StringComparison.Ordinal)
+            && string.Equals(CurrentStemId, stem.Id, StringComparison.Ordinal)
+            && activePlayer?.Playing == true)
+        {
+            return;
         }
 
         var stream = ResourceLoader.Load<AudioStream>(stem.File);
