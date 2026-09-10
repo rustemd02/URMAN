@@ -16,6 +16,7 @@ import math
 from pathlib import Path
 
 import bpy
+from mathutils import Vector
 
 
 CHARACTERS = (
@@ -29,6 +30,22 @@ CHARACTERS = (
     ("ArchiveClerk", (0.27, 0.30, 0.32, 1.0), (0.48, 0.38, 0.29, 1.0), False, False),
     ("PactKeeper", (0.24, 0.22, 0.21, 1.0), (0.57, 0.40, 0.27, 1.0), True, True),
 )
+
+# Small, neutral proportion/stance differences keep a conversational group
+# from reading as one duplicated mannequin. These are presentation parameters,
+# not claims about ethnicity, costume, age, or character backstory.
+SILHOUETTE_PROFILES = {
+    # height, shoulder width, head scale, stance bias, torso width
+    "Mansur": (1.00, 1.06, 0.91, 0.018, 1.04),
+    "Gulsina": (0.97, 0.96, 0.91, -0.012, 0.98),
+    "Alsu": (1.01, 0.95, 0.89, 0.010, 0.93),
+    "TimurHazrat": (1.05, 1.00, 0.90, -0.016, 1.00),
+    "CouncilElder": (0.97, 1.08, 0.93, 0.024, 1.08),
+    "CouncilWitness": (1.02, 0.99, 0.89, -0.020, 0.98),
+    "Naila": (0.98, 0.97, 0.91, 0.014, 0.95),
+    "ArchiveClerk": (1.00, 1.03, 0.89, -0.010, 1.00),
+    "PactKeeper": (1.03, 1.09, 0.92, 0.022, 1.06),
+}
 
 
 def arguments() -> argparse.Namespace:
@@ -107,6 +124,214 @@ def faceted_prism(
     return obj
 
 
+def faceted_head(
+    name: str,
+    location: tuple[float, float, float],
+    surface: bpy.types.Material,
+    asset_id: str,
+    budget: int,
+    width_scale: float = 1.0,
+    depth_scale: float = 1.0,
+) -> bpy.types.Object:
+    """Create a restrained, human-scale low-poly head.
+
+    Ten-sided rings keep a readable jaw, cheek and crown silhouette without the
+    square volume of the old mannequin-like head. A shallow forward chin and
+    cheek transition gives the face a plane that can carry the small neutral
+    landmarks without making them read as stickers.
+    """
+    rings = (
+        (-0.17, 0.105, 0.098, -0.010),
+        (-0.105, 0.148, 0.130, -0.009),
+        (0.020, 0.168, 0.148, -0.004),
+        (0.115, 0.158, 0.138, 0.001),
+        (0.17, 0.124, 0.108, 0.004),
+    )
+    sides = 10
+    vertices: list[tuple[float, float, float]] = []
+    for ring_index, (z_offset, half_width, half_depth, center_y) in enumerate(rings):
+        half_width *= width_scale
+        half_depth *= depth_scale
+        for side in range(sides):
+            angle = (2.0 * math.pi * side / sides) + (math.pi / sides)
+            irregular = 1.0 + 0.018 * math.sin((side + 1) * 2.3 + ring_index * 0.7)
+            vertices.append(
+                (
+                    math.sin(angle) * half_width * irregular,
+                    center_y + (-math.cos(angle) * half_depth * irregular),
+                    z_offset,
+                )
+            )
+
+    faces: list[tuple[int, ...]] = [tuple(reversed(range(sides)))]
+    for ring_index in range(len(rings) - 1):
+        lower = ring_index * sides
+        upper = (ring_index + 1) * sides
+        for side in range(sides):
+            next_side = (side + 1) % sides
+            faces.append((lower + side, lower + next_side, upper + next_side, upper + side))
+    faces.append(tuple(range((len(rings) - 1) * sides, len(rings) * sides)))
+
+    mesh = bpy.data.meshes.new(f"{name}Mesh")
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.collection.objects.link(obj)
+    obj.location = location
+    obj.data.materials.append(surface)
+    tag(obj, asset_id, budget)
+    return obj
+
+
+def faceted_torso(
+    name: str,
+    location: tuple[float, float, float],
+    surface: bpy.types.Material,
+    asset_id: str,
+    budget: int,
+    width_scale: float = 1.0,
+    height_scale: float = 1.0,
+    depth_scale: float = 1.0,
+) -> bpy.types.Object:
+    """Build a low-poly torso with a chest, waist and gently tapered hem."""
+    rings = (
+        (0.00, 0.185, 0.120, -0.004),
+        (0.14, 0.204, 0.132, -0.006),
+        (0.50, 0.218, 0.145, -0.004),
+        (0.88, 0.258, 0.160, 0.000),
+        (1.05, 0.264, 0.156, 0.003),
+    )
+    sides = 10
+    vertices: list[tuple[float, float, float]] = []
+    for ring_index, (z_offset, half_width, half_depth, center_y) in enumerate(rings):
+        half_width *= width_scale
+        half_depth *= depth_scale
+        for side in range(sides):
+            angle = (2.0 * math.pi * side / sides) + (math.pi / sides)
+            irregular = 1.0 + 0.012 * math.sin((side + 2) * 2.1 + ring_index * 0.55)
+            vertices.append(
+                (
+                    math.sin(angle) * half_width * irregular,
+                    center_y + (-math.cos(angle) * half_depth * irregular),
+                    z_offset * height_scale,
+                )
+            )
+
+    faces: list[tuple[int, ...]] = [tuple(reversed(range(sides)))]
+    for ring_index in range(len(rings) - 1):
+        lower = ring_index * sides
+        upper = (ring_index + 1) * sides
+        for side in range(sides):
+            next_side = (side + 1) % sides
+            faces.append((lower + side, lower + next_side, upper + next_side, upper + side))
+    faces.append(tuple(range((len(rings) - 1) * sides, len(rings) * sides)))
+
+    mesh = bpy.data.meshes.new(f"{name}Mesh")
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.collection.objects.link(obj)
+    obj.location = location
+    obj.data.materials.append(surface)
+    tag(obj, asset_id, budget)
+    return obj
+
+
+def tapered_segment(
+    name: str,
+    points: tuple[tuple[float, float, float], ...],
+    radii: tuple[float, ...],
+    surface: bpy.types.Material,
+    asset_id: str,
+    budget: int,
+    depth_scale: float = 1.0,
+    sides: int = 7,
+) -> bpy.types.Object:
+    """Build one bent, tapered low-poly segment with a readable joint flow."""
+    if len(points) != len(radii) or len(points) < 2:
+        raise ValueError("tapered_segment needs matching point/radius pairs")
+    ring_vertices: list[tuple[float, float, float]] = []
+    for point_index, (point, radius) in enumerate(zip(points, radii, strict=True)):
+        current = Vector(point)
+        if point_index == 0:
+            tangent = Vector(points[1]) - current
+        elif point_index == len(points) - 1:
+            tangent = current - Vector(points[point_index - 1])
+        else:
+            tangent = Vector(points[point_index + 1]) - Vector(points[point_index - 1])
+        tangent.normalize()
+        side_axis = tangent.cross(Vector((0.0, 1.0, 0.0)))
+        if side_axis.length < 0.001:
+            side_axis = tangent.cross(Vector((1.0, 0.0, 0.0)))
+        side_axis.normalize()
+        depth_axis = tangent.cross(side_axis)
+        depth_axis.normalize()
+        for side in range(sides):
+            angle = (2.0 * math.pi * side / sides) + (math.pi / sides)
+            irregular = 1.0 + 0.035 * math.sin((side + 1) * 1.71 + point_index * 0.83)
+            offset = (
+                side_axis * (math.cos(angle) * radius * irregular)
+                + depth_axis * (math.sin(angle) * radius * depth_scale * irregular)
+            )
+            ring_vertices.append(tuple(current + offset))
+
+    faces: list[tuple[int, ...]] = [tuple(reversed(range(sides)))]
+    for ring_index in range(len(points) - 1):
+        lower = ring_index * sides
+        upper = (ring_index + 1) * sides
+        for side in range(sides):
+            next_side = (side + 1) % sides
+            faces.append((lower + side, lower + next_side, upper + next_side, upper + side))
+    top = (len(points) - 1) * sides
+    faces.append(tuple(top + side for side in range(sides)))
+
+    mesh = bpy.data.meshes.new(f"{name}Mesh")
+    mesh.from_pydata(ring_vertices, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.collection.objects.link(obj)
+    obj.data.materials.append(surface)
+    tag(obj, asset_id, budget)
+    return obj
+
+
+def foot_shape(
+    name: str,
+    location: tuple[float, float, float],
+    surface: bpy.types.Material,
+    asset_id: str,
+    budget: int,
+) -> bpy.types.Object:
+    """Use a low-poly toe/heel wedge instead of a rectangular boot block."""
+    rings = (
+        (0.00, 0.118, 0.094, -0.185, 0.115),
+        (0.105, 0.102, 0.082, -0.158, 0.098),
+    )
+    vertices: list[tuple[float, float, float]] = []
+    for z_offset, toe_width, heel_width, toe_y, heel_y in rings:
+        vertices.extend(
+            (
+                (-toe_width, toe_y, z_offset),
+                (toe_width, toe_y, z_offset),
+                (heel_width, heel_y, z_offset),
+                (-heel_width, heel_y, z_offset),
+            )
+        )
+    faces: list[tuple[int, ...]] = [(3, 2, 1, 0), (4, 5, 6, 7)]
+    for side in range(4):
+        next_side = (side + 1) % 4
+        faces.append((side, next_side, 4 + next_side, 4 + side))
+    mesh = bpy.data.meshes.new(f"{name}Mesh")
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.collection.objects.link(obj)
+    obj.location = location
+    obj.data.materials.append(surface)
+    tag(obj, asset_id, budget)
+    return obj
+
+
 def faceted_eye_with_brow(
     name: str,
     eye_location: tuple[float, float, float],
@@ -126,7 +351,7 @@ def faceted_eye_with_brow(
         96,
         bottom_ratio=0.86,
         top_ratio=0.96,
-        rotation=(0.0, 0.0, math.radians(22.5)),
+        rotation=(0.0, 0.0, math.radians(8.0)),
         vertices=6,
     )
     brow = faceted_prism(
@@ -138,7 +363,7 @@ def faceted_eye_with_brow(
         48,
         bottom_ratio=0.84,
         top_ratio=0.96,
-        rotation=(0.0, 0.0, math.radians(8.0) if "Left" in name else math.radians(-8.0)),
+        rotation=(0.0, 0.0, math.radians(4.0) if "Left" in name else math.radians(-4.0)),
         vertices=6,
     )
     bpy.ops.object.select_all(action="DESELECT")
@@ -175,9 +400,9 @@ def hat(
 ) -> bpy.types.Object:
     bpy.ops.mesh.primitive_cone_add(
         vertices=8,
-        radius1=0.26,
-        radius2=0.16,
-        depth=0.14,
+        radius1=0.20,
+        radius2=0.13,
+        depth=0.11,
         location=location,
     )
     obj = bpy.context.object
@@ -211,100 +436,256 @@ def create_character(
     asset_id = "character.fullgame.lowpoly.v1"
     x = origin_x
     z = 0.0
+    height_scale, shoulder_scale, head_scale, stance, torso_scale = SILHOUETTE_PROFILES[prefix]
+    arm_x = 0.29 * shoulder_scale
+    leg_offset = 0.145 + stance * 0.14
+    arm_left_rotation = 0.14 + stance * 0.75
+    arm_right_rotation = -0.14 + stance * 0.75
+    head_z = 1.57 * height_scale
+    hair_z = head_z + 0.17
+    scarf_z = 1.27 * height_scale
+    coat_surface = material(f"{prefix}Coat", coat_color)
+    accent_surface = material(f"{prefix}Accent", accent_color)
     empty_anchor(f"{prefix}_Anchor", (x, 0.0, z))
-    faceted_prism(
+    faceted_torso(
         f"{prefix}_Body_LOD0",
-        (0.62, 0.42, 1.15),
-        (x, 0.0, 0.78),
-        material(f"{prefix}Coat", coat_color),
+        (x, 0.0, 0.16),
+        coat_surface,
         asset_id,
         512,
-        bottom_ratio=0.90,
-        top_ratio=1.0,
+        width_scale=torso_scale,
+        height_scale=0.98 + 0.02 * height_scale,
+        depth_scale=0.98,
     )
     faceted_prism(
         f"{prefix}_ShoulderWrap_LOD0",
-        (0.70, 0.48, 0.28),
-        (x, -0.02, 1.03),
-        material(f"{prefix}Accent", accent_color),
+        (0.56 * shoulder_scale, 0.34, 0.18),
+        (x, -0.01, 1.01 * height_scale),
+        coat_surface,
         asset_id,
         256,
-        bottom_ratio=0.92,
+        bottom_ratio=0.94,
         top_ratio=1.0,
+        vertices=8,
     )
-    faceted_prism(
+    tapered_segment(
         f"{prefix}_SleeveLeft_LOD0",
-        (0.22, 0.34, 0.70),
-        (x - 0.40, 0.0, 0.82),
-        material(f"{prefix}Coat", coat_color),
+        (
+            (x - arm_x * 0.82, -0.005, 1.08 * height_scale),
+            (x - arm_x * 1.04, 0.000, 0.79 * height_scale),
+            (x - arm_x * 0.94, -0.012, 0.50 * height_scale),
+        ),
+        (0.108 * shoulder_scale, 0.094 * shoulder_scale, 0.070 * shoulder_scale),
+        coat_surface,
         asset_id,
         256,
-        bottom_ratio=0.74,
-        top_ratio=1.0,
-        rotation=(0.0, 0.18, 0.0),
+        depth_scale=1.18,
+        sides=7,
     )
-    faceted_prism(
+    tapered_segment(
         f"{prefix}_SleeveRight_LOD0",
-        (0.22, 0.34, 0.70),
-        (x + 0.40, 0.0, 0.82),
-        material(f"{prefix}Coat", coat_color),
+        (
+            (x + arm_x * 0.82, -0.005, 1.08 * height_scale),
+            (x + arm_x * 1.04, 0.000, 0.79 * height_scale),
+            (x + arm_x * 0.94, -0.012, 0.50 * height_scale),
+        ),
+        (0.108 * shoulder_scale, 0.094 * shoulder_scale, 0.070 * shoulder_scale),
+        coat_surface,
         asset_id,
         256,
-        bottom_ratio=0.74,
-        top_ratio=1.0,
-        rotation=(0.0, -0.18, 0.0),
+        depth_scale=1.18,
+        sides=7,
     )
+    # A small accent cuff gives the sleeve a readable end at conversation
+    # distance. The name retains the existing Godot accent-material dispatch.
+    for side, side_x, side_rotation in (
+        ("Left", x - arm_x, arm_left_rotation),
+        ("Right", x + arm_x, arm_right_rotation),
+    ):
+        faceted_prism(
+            f"{prefix}_ShoulderCuff{side}_LOD0",
+            (0.18 * shoulder_scale, 0.27, 0.10),
+            (side_x, -0.005, 0.48 * height_scale),
+            accent_surface,
+            asset_id,
+            128,
+            bottom_ratio=0.92,
+            top_ratio=1.0,
+            vertices=8,
+            rotation=(0.0, side_rotation, 0.0),
+        )
+    faceted_prism(
+        f"{prefix}_CoatHem_LOD0",
+        (0.46 * torso_scale, 0.30, 0.10),
+        (x, -0.005, 0.23),
+        coat_surface,
+        asset_id,
+        128,
+        bottom_ratio=0.94,
+        top_ratio=1.0,
+        vertices=8,
+    )
+    if prefix == "Gulsina":
+        faceted_prism(
+            f"{prefix}_ApronFront_LOD0",
+            (0.30, 0.028, 0.54),
+            (x, -0.172, 0.72 * height_scale),
+            accent_surface,
+            asset_id,
+            128,
+            bottom_ratio=0.94,
+            top_ratio=1.0,
+            vertices=6,
+        )
+    elif prefix == "Naila":
+        faceted_prism(
+            f"{prefix}_CardiganPlacket_LOD0",
+            (0.052, 0.028, 0.62),
+            (x, -0.174, 0.78 * height_scale),
+            accent_surface,
+            asset_id,
+            96,
+            bottom_ratio=0.90,
+            top_ratio=1.0,
+            vertices=6,
+        )
     trouser_surface = material(
         f"{prefix}Trousers",
         tuple(max(0.0, channel * 0.72) for channel in coat_color[:3]) + (1.0,),
     )
-    faceted_prism(
+    tapered_segment(
         f"{prefix}_TrouserLeft_LOD0",
-        (0.22, 0.30, 0.52),
-        (x - 0.17, 0.0, 0.25),
+        (
+            (x - leg_offset, 0.000, 0.49),
+            (x - leg_offset * 0.96, -0.004, 0.28),
+            (x - leg_offset * 0.94, -0.010, 0.095),
+        ),
+        (0.108, 0.095, 0.073),
         trouser_surface,
         asset_id,
         256,
-        bottom_ratio=0.76,
+        depth_scale=1.22,
+        sides=7,
+    )
+    tapered_segment(
+        f"{prefix}_TrouserRight_LOD0",
+        (
+            (x + leg_offset, 0.000, 0.49),
+            (x + leg_offset * 0.96, -0.004, 0.28),
+            (x + leg_offset * 0.94, -0.010, 0.095),
+        ),
+        (0.108, 0.095, 0.073),
+        trouser_surface,
+        asset_id,
+        256,
+        depth_scale=1.22,
+        sides=7,
+    )
+    for side, side_x in (("Left", x - leg_offset), ("Right", x + leg_offset)):
+        foot_shape(
+            f"{prefix}_Boot{side}_LOD0",
+            (side_x, -0.035, 0.010),
+            materials["boot"],
+            asset_id,
+            128,
+        )
+    faceted_prism(
+        f"{prefix}_Neck_LOD0",
+        (0.15, 0.145, 0.19),
+        (x, 0.0, head_z - 0.235),
+        materials["skin"],
+        asset_id,
+        128,
+        bottom_ratio=0.90,
         top_ratio=1.0,
+        vertices=8,
+    )
+    faceted_head(
+        f"{prefix}_Head_LOD0",
+        (x, 0.0, head_z),
+        materials["skin"],
+        asset_id,
+        256,
+        width_scale=head_scale,
+        depth_scale=head_scale,
     )
     faceted_prism(
-        f"{prefix}_TrouserRight_LOD0",
-        (0.22, 0.30, 0.52),
-        (x + 0.17, 0.0, 0.25),
-        trouser_surface,
+        f"{prefix}_Hair_LOD0",
+        (0.31 * head_scale, 0.25 * head_scale, 0.115),
+        (x, -0.008, hair_z),
+        materials["hair"],
         asset_id,
         256,
-        bottom_ratio=0.76,
-        top_ratio=1.0,
+        bottom_ratio=0.98,
+        top_ratio=0.78,
+        rotation=(0.0, 0.0, math.radians(22.5)),
+        vertices=8,
     )
-    cube(f"{prefix}_BootLeft_LOD0", (0.26, 0.38, 0.16), (x - 0.17, -0.03, 0.06), materials["boot"], asset_id, 128)
-    cube(f"{prefix}_BootRight_LOD0", (0.26, 0.38, 0.16), (x + 0.17, -0.03, 0.06), materials["boot"], asset_id, 128)
-    sphere(f"{prefix}_Head_LOD0", 0.24, (x, 0.0, 1.62), materials["skin"], asset_id, 600)
-    sphere(f"{prefix}_Hair_LOD0", 0.245, (x, -0.01, 1.78), materials["hair"], asset_id, 600)
-    cube(f"{prefix}_ScarfBand_LOD0", (0.64, 0.46, 0.08), (x, -0.02, 1.32), material(f"{prefix}Scarf", accent_color), asset_id, 128)
+    faceted_prism(
+        f"{prefix}_ScarfBand_LOD0",
+        (0.40 * shoulder_scale, 0.31, 0.085),
+        (x, -0.015, scarf_z),
+        material(f"{prefix}Scarf", accent_color),
+        asset_id,
+        128,
+        bottom_ratio=0.94,
+        top_ratio=1.0,
+        vertices=8,
+    )
+    for side, side_x in (("Left", x - 0.165 * head_scale), ("Right", x + 0.165 * head_scale)):
+        faceted_prism(
+            f"{prefix}_Ear{side}_LOD0",
+            (0.050, 0.060, 0.095),
+            (side_x, -0.005, head_z - 0.005),
+            materials["skin"],
+            asset_id,
+            96,
+            bottom_ratio=0.86,
+            top_ratio=0.96,
+            vertices=6,
+        )
+    # The existing material adapter dispatches skin through the Head token.
+    # Route these meshes to the arm bones before the generic head mapping.
+    for side, side_x in (("Left", x - arm_x), ("Right", x + arm_x)):
+        side_sign = -1.0 if side == "Left" else 1.0
+        tapered_segment(
+            f"{prefix}_HeadHand{side}_LOD0",
+            (
+                (side_x, -0.020, 0.405 * height_scale),
+                (side_x + side_sign * 0.016, -0.030, 0.335 * height_scale),
+            ),
+            (0.073 * shoulder_scale, 0.055 * shoulder_scale),
+            materials["skin"],
+            asset_id,
+            128,
+            depth_scale=1.08,
+            sides=7,
+        )
+    face_z = head_z
+    face_y = -0.157 * head_scale
+    eye_spread = 0.062 * head_scale
     faceted_eye_with_brow(
         f"{prefix}_FaceEyeLeft_LOD0",
-        (x - 0.09, -0.265, 1.66),
-        (0.09, 0.055, 0.068),
-        (x - 0.09, -0.252, 1.708),
-        (0.12, 0.042, 0.026),
+        (x - eye_spread, face_y - 0.003, face_z + 0.035),
+        (0.044 * head_scale, 0.020, 0.031),
+        (x - eye_spread, face_y + 0.006, face_z + 0.071),
+        (0.062 * head_scale, 0.014, 0.010),
         materials["eye"],
         asset_id,
     )
     faceted_eye_with_brow(
         f"{prefix}_FaceEyeRight_LOD0",
-        (x + 0.09, -0.265, 1.66),
-        (0.09, 0.055, 0.068),
-        (x + 0.09, -0.252, 1.708),
-        (0.12, 0.042, 0.026),
+        (x + eye_spread, face_y - 0.003, face_z + 0.035),
+        (0.044 * head_scale, 0.020, 0.031),
+        (x + eye_spread, face_y + 0.006, face_z + 0.071),
+        (0.062 * head_scale, 0.014, 0.010),
         materials["eye"],
         asset_id,
     )
     faceted_prism(
         f"{prefix}_FaceNose_LOD0",
-        (0.075, 0.105, 0.10),
-        (x, -0.272, 1.60),
+        (0.044, 0.048, 0.056),
+        (x, face_y - 0.006, face_z - 0.017),
         materials["skin"],
         asset_id,
         96,
@@ -315,8 +696,8 @@ def create_character(
     )
     faceted_prism(
         f"{prefix}_FaceMouth_LOD0",
-        (0.145, 0.055, 0.038),
-        (x, -0.282, 1.535),
+        (0.060, 0.016, 0.012),
+        (x, face_y - 0.014, face_z - 0.080),
         materials["eye"],
         asset_id,
         96,
@@ -328,23 +709,27 @@ def create_character(
     if has_beard:
         faceted_prism(
             f"{prefix}_FaceBeard_LOD0",
-            (0.23, 0.06, 0.17),
-            (x, -0.255, 1.53),
+            (0.135, 0.030, 0.115),
+            (x, face_y - 0.006, face_z - 0.080),
             materials["hair"],
             asset_id,
             192,
-            bottom_ratio=0.84,
+            bottom_ratio=0.72,
             top_ratio=0.96,
             rotation=(0.0, 0.0, math.radians(22.5)),
             vertices=8,
         )
     if has_hat:
-        hat(f"{prefix}_Hat_LOD0", (x, 0.0, 1.88), materials["hair"], asset_id)
+        hat(f"{prefix}_Hat_LOD0", (x, 0.0, head_z + 0.22), materials["hair"], asset_id)
 
 
 def _bone_for_mesh(name: str) -> str:
     """Map a generated mesh to the smallest useful presentation bone."""
-    if any(token in name for token in ("Head", "Hair", "Face", "Hat")):
+    if "HandLeft" in name or "ShoulderCuffLeft" in name:
+        return "Arm.L"
+    if "HandRight" in name or "ShoulderCuffRight" in name:
+        return "Arm.R"
+    if any(token in name for token in ("Head", "Hair", "Face", "Hat", "Ear")):
         return "Head"
     if "SleeveLeft" in name:
         return "Arm.L"
@@ -486,7 +871,7 @@ def add_animation_rig(prefix: str, origin_x: float) -> bpy.types.Object:
 
 def generate_lod1_variants() -> int:
     created = 0
-    for source in [obj for obj in list(bpy.context.scene.objects) if obj.type == "MESH" and "_LOD0" in obj.name]:
+    for source in [obj for obj in list(bpy.context.scene.objects) if obj.type == "MESH" and obj.name.endswith("_LOD0")]:
         lod = source.copy()
         lod.data = source.data.copy()
         lod.name = source.name.replace("_LOD0", "_LOD1")
@@ -541,8 +926,8 @@ def main() -> None:
     bpy.context.scene["character_prefixes"] = ",".join(prefix for prefix, *_ in CHARACTERS)
     bpy.context.scene["lod_policy"] = "LOD1 generated with deterministic Decimate ratio=0.50; Godot ranges are scene-specific"
     bpy.context.scene["lod1_mesh_count"] = lod_count
-    bpy.context.scene["lod0_mesh_count"] = len([obj for obj in bpy.context.scene.objects if obj.type == "MESH" and "_LOD0" in obj.name])
-    bpy.context.scene["detail_policy"] = "project-original low-poly face landmarks, layered clothing, sleeves, trousers and boots; authored Idle/Tension rigs; final face/expression review remains open"
+    bpy.context.scene["lod0_mesh_count"] = len([obj for obj in bpy.context.scene.objects if obj.type == "MESH" and obj.name.endswith("_LOD0")])
+    bpy.context.scene["detail_policy"] = "project-original painterly low-poly tapered torsos, necks, ears, face landmarks, hands, layered clothing and restrained stance variants; faceted sleeves, trousers, boots and role-neutral apron/placket details; authored Idle/Tension rigs; final face/expression and cultural review remains open"
     bpy.context.scene["animation_policy"] = "nine project-original armatures with Idle/Tension clips; Godot may select clips per presentation state"
     bpy.context.scene["armature_count"] = len(rigs)
     bpy.context.scene["collision_policy"] = "no collision meshes; Godot interaction targets and zone colliders own physics"

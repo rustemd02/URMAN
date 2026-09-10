@@ -155,6 +155,743 @@ def collision_box(name: str, size: tuple[float, float, float], location: tuple[f
     obj.hide_render = True
 
 
+def house_interior_cube(
+    name: str,
+    size: tuple[float, float, float],
+    location: tuple[float, float, float],
+    surface: bpy.types.Material,
+    budget: int,
+    asset_id: str = "env.house.interior.a",
+    bevel_width: float = 0.0,
+) -> bpy.types.Object:
+    """Author a Godot-oriented interior box in Blender's Y-up coordinates."""
+    x, y, z = location
+    width, height, depth = size
+    return cube(
+        name,
+        (width, depth, height),
+        (x, -z, y),
+        surface,
+        asset_id,
+        budget,
+        bevel_width=bevel_width,
+    )
+
+
+def house_interior_tapered_box(
+    name: str,
+    height: float,
+    location: tuple[float, float, float],
+    bottom_size: tuple[float, float],
+    top_size: tuple[float, float],
+    surface: bpy.types.Material,
+    budget: int,
+    asset_id: str = "env.house.interior.a",
+    bevel_width: float = 0.0,
+) -> bpy.types.Object:
+    """Author one slightly hand-built furniture silhouette in room coordinates."""
+    x, y, z = location
+    bottom_width, bottom_depth = bottom_size
+    top_width, top_depth = top_size
+    bottom_x = bottom_width / 2.0
+    bottom_y = bottom_depth / 2.0
+    top_x = top_width / 2.0
+    top_y = top_depth / 2.0
+    half_height = height / 2.0
+    vertices = [
+        (-bottom_x, -bottom_y, -half_height),
+        (bottom_x, -bottom_y, -half_height),
+        (bottom_x, bottom_y, -half_height),
+        (-bottom_x, bottom_y, -half_height),
+        (-top_x, -top_y, half_height),
+        (top_x, -top_y, half_height),
+        (top_x, top_y, half_height),
+        (-top_x, top_y, half_height),
+    ]
+    faces = [
+        (0, 3, 2, 1),
+        (4, 5, 6, 7),
+        (0, 1, 5, 4),
+        (1, 2, 6, 5),
+        (2, 3, 7, 6),
+        (3, 0, 4, 7),
+    ]
+    mesh = bpy.data.meshes.new(f"{name}Mesh")
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.collection.objects.link(obj)
+    obj.location = (x, -z, y)
+    obj.data.materials.append(surface)
+    bevel_object(obj, bevel_width)
+    tag(obj, asset_id, budget, "none")
+    return obj
+
+
+def house_interior_vessel(
+    name: str,
+    radius: float,
+    height: float,
+    location: tuple[float, float, float],
+    surface: bpy.types.Material,
+    budget: int = 220,
+) -> bpy.types.Object:
+    """Create a small, abstract low-poly household vessel in room coordinates."""
+    x, y, z = location
+    bpy.ops.mesh.primitive_cone_add(
+        vertices=8,
+        radius1=radius * 1.05,
+        radius2=radius * 0.82,
+        depth=height,
+        location=(x, -z, y),
+    )
+    obj = bpy.context.object
+    obj.name = name
+    obj.data.materials.append(surface)
+    bevel_object(obj, 0.014, 1)
+    tag(obj, "env.house.interior.a", budget, "none")
+    return obj
+
+
+def create_house_interior(materials: dict[str, bpy.types.Material]) -> None:
+    """Create the compact 12 m x 10 m authored house shell and silhouettes."""
+    # Floorboards and edge trims keep the existing walkable footprint while
+    # giving the room a continuous, readable floor field.
+    for index in range(6):
+        house_interior_cube(
+            f"HouseInterior_FloorBoard_{index:02d}_LOD0",
+            (1.94, 0.05, 9.70),
+            (-5.0 + index * 2.0, 0.03, 0.0),
+            materials["wood"],
+            320,
+            bevel_width=0.018,
+        )
+    house_interior_cube(
+        "HouseInterior_BaseTrimBack_LOD0",
+        (11.70, 0.26, 0.22),
+        (0.0, 0.16, -4.84),
+        materials["wood_dark"],
+        260,
+        bevel_width=0.025,
+    )
+    house_interior_cube(
+        "HouseInterior_BaseTrimFront_LOD0",
+        (11.70, 0.26, 0.22),
+        (0.0, 0.16, 4.84),
+        materials["wood_dark"],
+        260,
+        bevel_width=0.025,
+    )
+
+    house_interior_cube(
+        "HouseInterior_CeilingField_LOD0",
+        (11.80, 0.12, 9.80),
+        (0.0, 3.34, 0.0),
+        materials["plaster"],
+        900,
+        bevel_width=0.03,
+    )
+    for name, x, size in (
+        ("HouseInterior_CeilingBeamLeft_LOD0", -3.40, (0.28, 0.28, 9.60)),
+        ("HouseInterior_CeilingBeamRight_LOD0", 3.25, (0.22, 0.34, 9.60)),
+    ):
+        house_interior_cube(
+            name,
+            size,
+            (x, 3.20, 0.0),
+            materials["wood_dark"],
+            420,
+            bevel_width=0.025,
+        )
+
+    # Wall volumes deliberately retain the central front opening used by the
+    # existing HouseExit target and its collision body.
+    house_interior_cube(
+        "HouseInterior_BackWall_LOD0",
+        (11.80, 3.20, 0.22),
+        (0.0, 1.68, -4.90),
+        materials["plaster"],
+        1400,
+        bevel_width=0.035,
+    )
+    for name, x in (("HouseInterior_LeftWall_LOD0", -5.90), ("HouseInterior_RightWall_LOD0", 5.90)):
+        house_interior_cube(
+            name,
+            (0.22, 3.20, 9.80),
+            (x, 1.68, 0.0),
+            materials["plaster"],
+            1400,
+            bevel_width=0.035,
+        )
+    for name, x in (("HouseInterior_FrontWallLeft_LOD0", -3.45), ("HouseInterior_FrontWallRight_LOD0", 3.45)):
+        house_interior_cube(
+            name,
+            (5.10, 3.20, 0.22),
+            (x, 1.68, 4.90),
+            materials["plaster"],
+            900,
+            bevel_width=0.035,
+        )
+    house_interior_cube(
+        "HouseInterior_FrontWallLintel_LOD0",
+        (1.98, 0.22, 0.24),
+        (0.0, 2.82, 4.90),
+        materials["wood"],
+        520,
+        bevel_width=0.04,
+    )
+
+    house_interior_tapered_box(
+        "HouseInterior_EntryDoor_LOD0",
+        2.16,
+        (0.0, 1.05, 4.80),
+        (1.38, 0.10),
+        (1.26, 0.10),
+        materials["wood_dark"],
+        520,
+        bevel_width=0.045,
+    )
+    for name, x in (("HouseInterior_EntryFrameLeft_LOD0", -0.80), ("HouseInterior_EntryFrameRight_LOD0", 0.80)):
+        house_interior_cube(
+            name,
+            (0.20, 2.40, 0.18),
+            (x, 1.20, 4.72),
+            materials["wood"],
+            360,
+            bevel_width=0.032,
+        )
+    house_interior_cube(
+        "HouseInterior_EntryFrameTop_LOD0",
+        (1.92, 0.18, 0.20),
+        (0.0, 2.40, 4.72),
+        materials["wood"],
+        360,
+        bevel_width=0.032,
+    )
+    house_interior_cube(
+        "HouseInterior_EntryThreshold_LOD0",
+        (1.72, 0.08, 0.42),
+        (0.0, 0.05, 4.60),
+        materials["wood_dark"],
+        260,
+        bevel_width=0.018,
+    )
+
+    # One quiet rear window gives the shell a real depth cue without adding
+    # signage, symbols or a second interaction owner.
+    house_interior_cube(
+        "HouseInterior_WindowRecess_LOD0",
+        (2.28, 1.52, 0.08),
+        (2.55, 1.75, -4.77),
+        materials["wood_dark"],
+        520,
+        bevel_width=0.035,
+    )
+    house_interior_cube(
+        "HouseInterior_WindowGlass_LOD0",
+        (1.68, 0.98, 0.04),
+        (2.55, 1.75, -4.68),
+        materials["warm"],
+        300,
+        bevel_width=0.018,
+    )
+    for name, x in (("HouseInterior_WindowFrameLeft_LOD0", 1.66), ("HouseInterior_WindowFrameRight_LOD0", 3.44)):
+        house_interior_cube(
+            name,
+            (0.18, 1.50, 0.20),
+            (x, 1.75, -4.62),
+            materials["wood"],
+            320,
+            bevel_width=0.032,
+        )
+    for name, y in (("HouseInterior_WindowFrameTop_LOD0", 2.44), ("HouseInterior_WindowFrameBottom_LOD0", 1.06)):
+        house_interior_cube(
+            name,
+            (2.04, 0.18, 0.20),
+            (2.55, y, -4.62),
+            materials["wood"],
+            320,
+            bevel_width=0.032,
+        )
+    house_interior_cube(
+        "HouseInterior_WindowMuntin_LOD0",
+        (0.06, 0.86, 0.05),
+        (2.55, 1.75, -4.59),
+        materials["wood_dark"],
+        180,
+        bevel_width=0.012,
+    )
+    house_interior_cube(
+        "HouseInterior_WindowSill_LOD0",
+        (2.16, 0.16, 0.42),
+        (2.55, 0.96, -4.52),
+        materials["wood"],
+        320,
+        bevel_width=0.032,
+    )
+
+    # Furniture stays on the exact current clearances so the existing PC,
+    # NPC and interaction coordinates remain valid.
+    house_interior_cube(
+        "HouseInterior_TableTop_LOD0",
+        (3.20, 0.14, 1.35),
+        (0.0, 0.82, -3.60),
+        materials["wood"],
+        800,
+        bevel_width=0.045,
+    )
+    for name, x in (("HouseInterior_TableLegLeft_LOD0", -1.35), ("HouseInterior_TableLegRight_LOD0", 1.35)):
+        house_interior_cube(
+            name,
+            (0.18, 0.82, 0.18),
+            (x, 0.40, -3.60),
+            materials["wood_dark"],
+            320,
+            bevel_width=0.022,
+        )
+    house_interior_cube(
+        "HouseInterior_TableApron_LOD0",
+        (2.75, 0.12, 0.10),
+        (0.0, 0.69, -3.60),
+        materials["wood_dark"],
+        260,
+        bevel_width=0.018,
+    )
+    house_interior_cube(
+        "HouseInterior_ChairSeat_LOD0",
+        (0.90, 0.12, 0.86),
+        (-2.15, 0.52, -1.25),
+        materials["wood"],
+        420,
+        bevel_width=0.035,
+    )
+    house_interior_tapered_box(
+        "HouseInterior_ChairBack_LOD0",
+        1.05,
+        (-2.02, 1.00, -0.83),
+        (0.92, 0.14),
+        (0.78, 0.12),
+        materials["wood"],
+        420,
+        bevel_width=0.04,
+    )
+    for name, x in (("HouseInterior_ChairLegLeft_LOD0", -2.42), ("HouseInterior_ChairLegRight_LOD0", -1.88)):
+        house_interior_cube(
+            name,
+            (0.12, 0.48, 0.12),
+            (x, 0.24, -1.25),
+            materials["wood_dark"],
+            220,
+            bevel_width=0.018,
+        )
+    house_interior_tapered_box(
+        "HouseInterior_CupboardBody_LOD0",
+        2.42,
+        (-4.82, 1.21, -3.88),
+        (1.58, 0.82),
+        (1.36, 0.70),
+        materials["wood"],
+        700,
+        bevel_width=0.055,
+    )
+    house_interior_cube(
+        "HouseInterior_CupboardDoor_LOD0",
+        (1.16, 2.12, 0.07),
+        (-4.82, 1.22, -3.49),
+        materials["wood_dark"],
+        360,
+        bevel_width=0.032,
+    )
+
+    # The textile is deliberately quiet: broad bands read as a lived-in rug,
+    # not as an ethnic symbol or a decorative theme-park motif.
+    house_interior_cube(
+        "HouseInterior_RugField_LOD0",
+        (4.05, 0.025, 2.40),
+        (-1.35, 0.025, 0.45),
+        materials["fabric"],
+        420,
+        bevel_width=0.018,
+    )
+    for name, z, surface in (
+        ("HouseInterior_RugBandA_LOD0", 0.05, materials["wood"]),
+        ("HouseInterior_RugBandB_LOD0", 0.72, materials["fabric"]),
+    ):
+        house_interior_cube(
+            name,
+            (4.05, 0.032, 0.16),
+            (-1.35, 0.04, z + 0.05),
+            surface,
+            240,
+            bevel_width=0.012,
+        )
+
+    # The reverse/right edge cluster closes the empty half of the room while
+    # keeping the centre lane, table approach and front exit unoccupied. It is
+    # deliberately a single domestic grouping rather than decorative clutter.
+    house_interior_tapered_box(
+        "HouseInterior_DaybedFrame_LOD0",
+        0.50,
+        (4.78, 0.25, 1.25),
+        (1.36, 2.95),
+        (1.18, 2.78),
+        materials["wood"],
+        640,
+        bevel_width=0.055,
+    )
+    house_interior_tapered_box(
+        "HouseInterior_DaybedCushion_LOD0",
+        0.23,
+        (4.78, 0.59, 1.25),
+        (1.20, 2.70),
+        (1.05, 2.54),
+        materials["fabric"],
+        420,
+        bevel_width=0.06,
+    )
+    house_interior_cube(
+        "HouseInterior_DaybedBack_LOD0",
+        (0.18, 1.30, 2.95),
+        (5.48, 1.03, 1.25),
+        materials["fabric"],
+        420,
+        bevel_width=0.055,
+    )
+    house_interior_tapered_box(
+        "HouseInterior_StorageChestBody_LOD0",
+        0.72,
+        (3.98, 0.38, -4.20),
+        (1.78, 0.92),
+        (1.58, 0.80),
+        materials["wood"],
+        520,
+        bevel_width=0.055,
+    )
+    chest_lid = house_interior_cube(
+        "HouseInterior_StorageChestLid_LOD0",
+        (1.92, 0.14, 0.98),
+        (3.98, 0.78, -4.20),
+        materials["wood_dark"],
+        320,
+        bevel_width=0.042,
+    )
+    chest_lid.rotation_euler[0] = math.radians(-4.0)
+    house_interior_cube(
+        "HouseInterior_StorageChestFront_LOD0",
+        (1.46, 0.26, 0.07),
+        (3.98, 0.38, -3.70),
+        materials["wood_dark"],
+        260,
+        bevel_width=0.024,
+    )
+    house_interior_cube(
+        "HouseInterior_RightShelfBoard_LOD0",
+        (0.48, 0.16, 2.70),
+        (5.62, 2.08, 1.25),
+        materials["wood_dark"],
+        320,
+        bevel_width=0.032,
+    )
+    house_interior_cube(
+        "HouseInterior_RightShelfBack_LOD0",
+        (0.14, 0.70, 2.70),
+        (5.80, 2.28, 1.25),
+        materials["wood"],
+        320,
+        bevel_width=0.032,
+    )
+    for name, radius, height, z, surface in (
+        ("HouseInterior_ShelfVesselA_LOD0", 0.14, 0.38, 0.47, materials["plaster"]),
+        ("HouseInterior_ShelfVesselB_LOD0", 0.11, 0.30, 1.25, materials["stone"]),
+        ("HouseInterior_ShelfVesselC_LOD0", 0.13, 0.44, 2.03, materials["wood_dark"]),
+    ):
+        house_interior_vessel(
+            name,
+            radius,
+            height,
+            (5.48, 2.12 + height * 0.5, z),
+            surface,
+        )
+    house_interior_cube(
+        "HouseInterior_RightRunnerField_LOD0",
+        (1.42, 0.025, 3.65),
+        (3.62, 0.025, 1.15),
+        materials["fabric"],
+        420,
+        bevel_width=0.018,
+    )
+    house_interior_cube(
+        "HouseInterior_RightRunnerBand_LOD0",
+        (1.42, 0.032, 0.14),
+        (3.62, 0.04, -0.60),
+        materials["fabric"],
+        220,
+        bevel_width=0.012,
+    )
+    house_interior_cube(
+        "HouseInterior_RightRunnerHem_LOD0",
+        (1.42, 0.032, 0.08),
+        (3.62, 0.04, 2.90),
+        materials["fabric"],
+        220,
+        bevel_width=0.012,
+    )
+    create_house_lived_in_cluster(materials)
+
+
+def create_house_lived_in_cluster(materials: dict[str, bpy.types.Material]) -> None:
+    """Add one restrained domestic cluster without narrowing the interaction lane.
+
+    The left-wall heater, high cupboard, tableware and floor basket add the
+    missing vertical and low foreground hierarchy to reverse house views. All
+    pieces remain presentation-only; the one large floor footprint gets its
+    gameplay proxy in StyleBenchmarkZone, alongside the existing furniture
+    proxies.
+    """
+    # A compact matte heater sits against the blank left wall. The body clears
+    # the room centre, while the flue stops below the authored ceiling field.
+    house_interior_cube(
+        "HouseInterior_HearthBase_LOD0",
+        (1.50, 0.14, 1.10),
+        (-5.00, 0.07, 0.55),
+        materials["stone"],
+        360,
+        bevel_width=0.025,
+    )
+    house_interior_tapered_box(
+        "HouseInterior_HearthBody_LOD0",
+        1.04,
+        (-5.00, 0.64, 0.55),
+        (1.22, 0.96),
+        (1.04, 0.82),
+        materials["stone"],
+        540,
+        bevel_width=0.065,
+    )
+    house_interior_cube(
+        "HouseInterior_HearthTop_LOD0",
+        (1.28, 0.12, 1.02),
+        (-5.00, 1.20, 0.55),
+        materials["stone"],
+        320,
+        bevel_width=0.03,
+    )
+    house_interior_cube(
+        "HouseInterior_HearthDoor_LOD0",
+        (0.05, 0.60, 0.66),
+        (-4.40, 0.65, 0.55),
+        materials["wood_dark"],
+        300,
+        bevel_width=0.018,
+    )
+    house_interior_cube(
+        "HouseInterior_HearthHandle_LOD0",
+        (0.12, 0.08, 0.08),
+        (-4.32, 0.65, 0.55),
+        materials["wood_dark"],
+        160,
+        bevel_width=0.014,
+    )
+    house_interior_cube(
+        "HouseInterior_HearthFlue_LOD0",
+        (0.20, 1.55, 0.20),
+        (-5.00, 2.00, 0.55),
+        materials["wood_dark"],
+        300,
+        bevel_width=0.018,
+    )
+    bpy.context.scene.objects.get("HouseInterior_HearthFlue_LOD0").rotation_euler[1] = math.radians(0.8)
+    house_interior_cube(
+        "HouseInterior_HearthFlueCollar_LOD0",
+        (0.34, 0.08, 0.34),
+        (-5.00, 1.28, 0.55),
+        materials["wood_dark"],
+        180,
+        bevel_width=0.014,
+    )
+
+    # A small high cupboard breaks the left-wall plane without competing with
+    # the existing rear still-life shelf or either NPC position.
+    house_interior_tapered_box(
+        "HouseInterior_LeftWallCupboardBody_LOD0",
+        0.92,
+        (-5.62, 2.10, 2.65),
+        (0.64, 1.06),
+        (0.54, 0.94),
+        materials["wood"],
+        460,
+        bevel_width=0.045,
+    )
+    house_interior_cube(
+        "HouseInterior_LeftWallCupboardDoor_LOD0",
+        (0.06, 0.76, 0.90),
+        (-5.30, 2.08, 2.65),
+        materials["wood_dark"],
+        260,
+        bevel_width=0.024,
+    )
+    house_interior_cube(
+        "HouseInterior_LeftWallCupboardTop_LOD0",
+        (0.70, 0.12, 1.18),
+        (-5.62, 2.68, 2.65),
+        materials["wood"],
+        220,
+        bevel_width=0.024,
+    )
+
+    # Quiet table forms add scale at the existing table edge while keeping the
+    # CRT, documents and all narrative targets unobstructed.
+    house_interior_cube(
+        "HouseInterior_TableTray_LOD0",
+        (1.16, 0.04, 0.68),
+        (1.10, 0.94, -3.62),
+        materials["wood"],
+        280,
+        bevel_width=0.018,
+    )
+    house_interior_vessel(
+        "HouseInterior_TableKettle_LOD0",
+        0.17,
+        0.30,
+        (1.08, 1.11, -3.62),
+        materials["stone"],
+        260,
+    )
+    house_interior_cube(
+        "HouseInterior_TableKettleLid_LOD0",
+        (0.34, 0.04, 0.34),
+        (1.08, 1.29, -3.62),
+        materials["wood_dark"],
+        160,
+        bevel_width=0.012,
+    )
+    house_interior_vessel(
+        "HouseInterior_TableBowl_LOD0",
+        0.20,
+        0.10,
+        (1.38, 1.01, -3.74),
+        materials["plaster"],
+        180,
+    )
+
+    # A low woven storage basket gives the left foreground a soft silhouette;
+    # its handle is intentionally a simple broad arc cue rather than a symbol.
+    house_interior_vessel(
+        "HouseInterior_StorageBasketBody_LOD0",
+        0.30,
+        0.45,
+        (-4.45, 0.25, -0.70),
+        materials["wood"],
+        300,
+    )
+    house_interior_cube(
+        "HouseInterior_StorageBasketRim_LOD0",
+        (0.66, 0.06, 0.66),
+        (-4.45, 0.50, -0.70),
+        materials["wood_dark"],
+        180,
+        bevel_width=0.014,
+    )
+    house_interior_cube(
+        "HouseInterior_StorageBasketHandle_LOD0",
+        (0.62, 0.08, 0.08),
+        (-4.45, 0.72, -0.70),
+        materials["wood_dark"],
+        180,
+        bevel_width=0.014,
+    )
+
+    # The old PC shares the room's table anchor, but its separate published
+    # OldPc_ family is intentionally kept at the exact 8/8 contract. Build the
+    # surrounding joinery in the presentation-only HouseInterior_ layer: a
+    # shallow wall hutch frames the screen, gives the documents a believable
+    # domestic/archive context and closes the otherwise blank rear wall.
+    house_interior_tapered_box(
+        "HouseInterior_OldPcBackboard_LOD0",
+        1.82,
+        (0.0, 1.68, -4.68),
+        (3.30, 0.14),
+        (3.10, 0.12),
+        materials["wood_dark"],
+        680,
+        bevel_width=0.055,
+    )
+    for name, x in (
+        ("HouseInterior_OldPcHutchCleatLeft_LOD0", -1.46),
+        ("HouseInterior_OldPcHutchCleatRight_LOD0", 1.46),
+    ):
+        house_interior_cube(
+            name,
+            (0.18, 1.58, 0.18),
+            (x, 1.70, -4.57),
+            materials["wood"],
+            300,
+            bevel_width=0.032,
+        )
+    house_interior_cube(
+        "HouseInterior_OldPcHutchShelf_LOD0",
+        (2.96, 0.14, 0.52),
+        (0.0, 2.26, -4.43),
+        materials["wood"],
+        360,
+        bevel_width=0.034,
+    )
+    house_interior_cube(
+        "HouseInterior_OldPcHutchTop_LOD0",
+        (3.62, 0.18, 0.56),
+        (0.0, 2.66, -4.43),
+        materials["wood_dark"],
+        360,
+        bevel_width=0.036,
+    )
+    house_interior_cube(
+        "HouseInterior_OldPcHutchFolder_LOD0",
+        (0.58, 0.30, 0.34),
+        (-0.96, 2.48, -4.18),
+        materials["fabric"],
+        260,
+        bevel_width=0.024,
+    )
+    folio = house_interior_cube(
+        "HouseInterior_OldPcDocumentFolio_LOD0",
+        (0.82, 0.06, 0.72),
+        (-0.98, 0.97, -3.52),
+        materials["plaster"],
+        300,
+        bevel_width=0.018,
+    )
+    # A slight yaw reads as a handled folder rather than another axis-aligned
+    # debug slab; it stays wholly on the existing tabletop footprint.
+    folio.rotation_euler[2] = math.radians(-5.0)
+
+    # One low, constructed wainscot run breaks the left wall's empty plane and
+    # gives the reverse turn a strong horizontal/vertical domestic rhythm. It
+    # stops before the hearth so neither form gains a new gameplay clearance.
+    house_interior_cube(
+        "HouseInterior_LeftWallWainscotField_LOD0",
+        (0.12, 0.88, 4.45),
+        (-5.72, 0.64, -2.25),
+        materials["wood"],
+        420,
+        bevel_width=0.032,
+    )
+    house_interior_cube(
+        "HouseInterior_LeftWallWainscotRail_LOD0",
+        (0.16, 0.14, 4.60),
+        (-5.70, 1.10, -2.25),
+        materials["wood_dark"],
+        260,
+        bevel_width=0.026,
+    )
+    house_interior_cube(
+        "HouseInterior_TableFootRail_LOD0",
+        (2.78, 0.12, 0.14),
+        (0.0, 0.40, -3.60),
+        materials["wood_dark"],
+        260,
+        bevel_width=0.024,
+    )
+
 def create_house(materials: dict[str, bpy.types.Material]) -> None:
     cube(
         "HouseA_Walls_LOD0",
@@ -587,6 +1324,22 @@ def generate_lod1_variants() -> int:
     return created
 
 
+def normalize_export_uvs() -> None:
+    """Remove sub-ULP bevel UV drift before writing the source/export pair."""
+    for obj in bpy.context.scene.objects:
+        if obj.type != "MESH":
+            continue
+        for layer in obj.data.uv_layers:
+            for loop in layer.data:
+                # Blender stores UVs as float32, so quantize below the noisy
+                # bevel boundary rather than assigning a decimal that can
+                # round to adjacent float32 values on different runs. Three
+                # decimals keep the painterly mapping intact while avoiding
+                # half-ULP ties in the glTF exporter.
+                loop.uv.x = round(float(loop.uv.x), 3)
+                loop.uv.y = round(float(loop.uv.y), 3)
+
+
 def main() -> None:
     args = arguments()
     root = Path(args.root).resolve()
@@ -621,20 +1374,61 @@ def main() -> None:
     }
 
     create_house(materials)
+    create_house_interior(materials)
     create_fence(materials)
     create_yard_props(materials)
     create_boundary_gate(materials)
     create_road(materials)
     create_pine(materials)
     create_furniture_and_pc(materials)
+    house_interior_count = sum(
+        1
+        for obj in bpy.context.scene.objects
+        if obj.type == "MESH" and obj.name.startswith("HouseInterior_") and "_LOD0" in obj.name
+    )
+    house_interior_edge_count = sum(
+        1
+        for obj in bpy.context.scene.objects
+        if obj.type == "MESH"
+        and obj.name.startswith("HouseInterior_")
+        and "_LOD0" in obj.name
+        and any(
+            token in obj.name
+            for token in ("Daybed", "StorageChest", "RightShelf", "ShelfVessel", "RightRunner")
+        )
+    )
+    house_interior_lived_in_count = sum(
+        1
+        for obj in bpy.context.scene.objects
+        if obj.type == "MESH"
+        and obj.name.startswith("HouseInterior_")
+        and "_LOD0" in obj.name
+        and any(
+            token in obj.name
+            for token in ("Hearth", "LeftWallCupboard", "TableTray", "TableKettle", "TableBowl", "StorageBasket")
+        )
+    )
+    house_interior_hero_count = sum(
+        1
+        for obj in bpy.context.scene.objects
+        if obj.type == "MESH"
+        and obj.name.startswith("HouseInterior_")
+        and "_LOD0" in obj.name
+        and any(token in obj.name for token in ("OldPc", "Wainscot", "TableFootRail"))
+    )
     lod_count = generate_lod1_variants()
+    normalize_export_uvs()
 
     bpy.context.scene["generator"] = "tools/blender/generate_modular_environment.py"
     bpy.context.scene["blender_version_lock"] = "4.5 LTS"
     bpy.context.scene["units"] = "meters"
     bpy.context.scene["lod_policy"] = "LOD1 generated with deterministic Decimate ratios; Godot visibility ranges remain scene-specific"
-    bpy.context.scene["detail_policy"] = "authored edge breaks on hard-surface kit; bounded HouseA facade pass; WellA/WoodpileA/GateA village anchors; four-tier faceted PineA crown joined into one mesh; 49-mesh contract with OldPc tower/panel/button/drive-slot/label-plate hero details"
+    bpy.context.scene["detail_policy"] = "authored edge breaks on hard-surface kit; bounded HouseA facade pass; HouseInterior authored 12x10m shell, threshold/window framing, tapered furniture silhouettes, rug, reverse/right lived-in edge cluster, restrained hearth/cupboard/table/storage cluster, PC hutch/document folio and left wainscot joinery; WellA/WoodpileA/GateA village anchors; four-tier faceted PineA crown joined into one mesh; OldPc tower/panel/button/drive-slot/label-plate hero details"
     bpy.context.scene["lod1_mesh_count"] = lod_count
+    bpy.context.scene["house_interior_lod0_count"] = house_interior_count
+    bpy.context.scene["house_interior_edge_lod0_count"] = house_interior_edge_count
+    bpy.context.scene["house_interior_lived_in_lod0_count"] = house_interior_lived_in_count
+    bpy.context.scene["house_interior_hero_lod0_count"] = house_interior_hero_count
     bpy.context.scene.unit_settings.system = "METRIC"
     bpy.context.scene.unit_settings.scale_length = 1.0
 
