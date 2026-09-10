@@ -162,15 +162,15 @@ if core.get("forbidden_gameplay_node_count") != 0:
     fail("presentation layer contains gameplay nodes")
 
 frames = receipt.get("frames")
-if not isinstance(frames, list) or len(frames) != 44:
-    fail(f"expected 44 frame records, found {len(frames) if isinstance(frames, list) else 'non-list'}")
-if receipt.get("frame_count") != 44:
-    fail("receipt frame_count is not 44")
+if not isinstance(frames, list) or len(frames) != 48:
+    fail(f"expected 48 frame records, found {len(frames) if isinstance(frames, list) else 'non-list'}")
+if receipt.get("frame_count") != 48:
+    fail("receipt frame_count is not 48")
 
 pngs = sorted(output.glob("*.png"))
-if len(pngs) != 44:
-    fail(f"expected exactly 44 PNGs, found {len(pngs)}")
-if len({path.stem for path in pngs}) != 44:
+if len(pngs) != 48:
+    fail(f"expected exactly 48 PNGs, found {len(pngs)}")
+if len({path.stem for path in pngs}) != 48:
     fail("PNG frame ids are not unique")
 
 def png_size(path: pathlib.Path) -> tuple[int, int]:
@@ -222,7 +222,7 @@ for frame in frames:
 
 if seen_zones != visual_zones:
     fail(f"visual zone coverage is incomplete: {seen_zones!r}")
-if len(seen_shas) != 44:
+if len(seen_shas) != 48:
     fail("frame SHA-256 values are not unique")
 for zone in visual_zones:
     required = {"forward", "back"}
@@ -243,7 +243,7 @@ waypoints = traversal.get("waypoints")
 if not isinstance(waypoints, list) or not waypoints or not all(row.get("reached") is True for row in waypoints):
     fail("waypoint traversal receipt contains an unreached waypoint")
 
-print("act1 full-route core-world capture gate: PASS 44/44 root-viewport PNGs / 10 visual zones / forward-back + lateral + near-mid-far + interior-360 / waypoint receipt")
+print("act1 full-route core-world capture gate: PASS 48/48 root-viewport PNGs / 10 visual zones / forward-back + lateral + near-mid-far + interior-360 / waypoint receipt")
 print(f"receipt: {receipt_path}")
 print(f"capture directory: {output}")
 print(f"unique frame SHA-256 values: {len(seen_shas)}")
