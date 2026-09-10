@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "urman.godot_act1_supplemental_directional_capture",
-  "captured_at_utc": "2026-09-04T01:56:29.3241700\u002B00:00",
+  "captured_at_utc": "2026-09-07T20:22:55.4858260\u002B00:00",
   "production_scene": "res://scenes/main.tscn",
   "root_viewport": true,
   "subviewport_used": false,
@@ -12,7 +12,7 @@
       "pitch_degrees": 55,
       "evidence_kind": "pitch-up",
       "output_file": "arrival_up.png",
-      "sha256": "36bf690c4f9b1a1f0ac46df6513dbeaf3f36cf6bf9edf80370134c380d580f96",
+      "sha256": "bb8ac047c86a7371bb8ecc2d58707b093a3c1d67e7ddf8f714c26187abb89cf6",
       "width": 1280,
       "height": 720
     },
@@ -22,7 +22,7 @@
       "pitch_degrees": -55,
       "evidence_kind": "pitch-down",
       "output_file": "arrival_down.png",
-      "sha256": "7b8047e75781214b46684234115dcb8f5a9898647ba5760bdcd91ca87e9146e6",
+      "sha256": "0c7a2a92c89abd8d07afaed1a2410bbeff17f890f5f7575937eaa5dcfc628c47",
       "width": 1280,
       "height": 720
     },
@@ -32,7 +32,7 @@
       "pitch_degrees": 30,
       "evidence_kind": "high-lateral",
       "output_file": "main_street_high.png",
-      "sha256": "fcedf5a5e07be9bc6aa6e08b6aa3b2e16be02f22582aad294bd4a00622ce9612",
+      "sha256": "789bd4fa76007f66a60e7037bb29732c0d07e9e0d3fb93519ea34df4840da21e",
       "width": 1280,
       "height": 720
     },
@@ -42,7 +42,7 @@
       "pitch_degrees": 55,
       "evidence_kind": "pitch-up",
       "output_file": "house_interior_up.png",
-      "sha256": "7ce2694040a9b5e795d89ca5da48c73d88531748a2afed96089b4ac2787e326d",
+      "sha256": "8de6e80821f8ccb362270648c821849191b070a305cef8f05b45af838c6628ac",
       "width": 1280,
       "height": 720
     },
@@ -52,7 +52,7 @@
       "pitch_degrees": 55,
       "evidence_kind": "pitch-up",
       "output_file": "fap_interior_up.png",
-      "sha256": "6477ec6963362bb11c628b0d357be9babbdc0c0156b50484a8a116617a1e7241",
+      "sha256": "ff173f7fa388c31b5c914775267b65d50f14ff7a445e3f059ad07f154881b951",
       "width": 1280,
       "height": 720
     },
@@ -62,7 +62,7 @@
       "pitch_degrees": 55,
       "evidence_kind": "pitch-up",
       "output_file": "zirat_up.png",
-      "sha256": "7f810fb063e24fea0a8414b374143512c3b63f96fce81aba5a04dd0ec1483009",
+      "sha256": "9d58ae298b473a28894fc739f01f9f798803ba9e9f6dfd05ff16ad852c096065",
       "width": 1280,
       "height": 720
     },
@@ -72,7 +72,7 @@
       "pitch_degrees": -50,
       "evidence_kind": "ground-contact",
       "output_file": "zirat_ground.png",
-      "sha256": "0d051ae3e4d7a67588037749fb44979754a90d4f5a5e56381d136d0a006f876e",
+      "sha256": "eab937bf064c1a7e14942cbf5e6909e807bc530dad985fb2943f47cbbdd2d4c6",
       "width": 1280,
       "height": 720
     },
@@ -82,7 +82,7 @@
       "pitch_degrees": 55,
       "evidence_kind": "pitch-up",
       "output_file": "kara_up.png",
-      "sha256": "371c58cf6af89bdb438be3c8b876aded6375a9f649edc3465312b73995d0ae07",
+      "sha256": "4945141071be33c06875aee99c9636282c200bf0422a8df3153c305460f915b2",
       "width": 1280,
       "height": 720
     },
@@ -92,7 +92,7 @@
       "pitch_degrees": 62,
       "evidence_kind": "crown-line",
       "output_file": "kara_crowns.png",
-      "sha256": "c20368be9bb70cdd5a7578da87d593be5c8d2d70db5cc93e3a6f8056d26eadcb",
+      "sha256": "1c1e42227b2c43fae1a94f764d0a8f88e129a2373e727f9e54a3e243289ce690",
       "width": 1280,
       "height": 720
     },
@@ -102,7 +102,7 @@
       "pitch_degrees": -50,
       "evidence_kind": "ground-contact",
       "output_file": "kara_ground.png",
-      "sha256": "dafdc39bbf1e34f21a3ed78a3e0c20bcf97c409a596a23a618f62bff8311974c",
+      "sha256": "8a2d36332453e2b8cb70ce29869327414ba56f9d17e08918f0b4b79ff28832e1",
       "width": 1280,
       "height": 720
     }
