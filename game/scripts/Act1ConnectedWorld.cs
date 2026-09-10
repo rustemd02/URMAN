@@ -23,7 +23,10 @@ public partial class Act1ConnectedWorld : Node3D
         "FenceSegment_RoughPicket",
         "Gate_CrookedTimber",
         "Woodpile_StackedLogs",
-        "Well_YardLandmark"
+        "Well_YardLandmark",
+        "VillageParcel_VariantA_TimberGable",
+        "VillageParcel_VariantB_PlasterAnnex",
+        "VillageParcel_VariantC_BanyaYard"
     ];
 
     private sealed record Act1ExteriorParcelComponentPlacement(
@@ -413,13 +416,16 @@ public partial class Act1ConnectedWorld : Node3D
 
         var exteriorLayer = GetNodeOrNull<AgentBAct1ExteriorLayer>(
             "Act1CoreWorldGreybox/AgentBExteriorWorld");
+        var isKaraNight = string.Equals(zoneId, "kara_urman_night", StringComparison.Ordinal);
+        var isZirat = string.Equals(zoneId, "zirat_road", StringComparison.Ordinal);
         exteriorLayer?.SetExteriorPresentationEnabled(
             useExteriorAtmosphere,
-            string.Equals(zoneId, "kara_urman_night", StringComparison.Ordinal));
+            isKaraNight);
         var coreWorld = GetNodeOrNull<Node3D>("Act1CoreWorldGreybox");
         if (coreWorld is not null)
         {
             coreWorld.Visible = useExteriorAtmosphere;
+            TuneConnectedAct1Atmosphere(coreWorld, useExteriorAtmosphere, isKaraNight, isZirat);
         }
 
         ActiveZoneId = zoneId;
@@ -544,6 +550,14 @@ public partial class Act1ConnectedWorld : Node3D
         if (string.Equals(zoneId, "zirat_road", StringComparison.Ordinal))
         {
             HidePresentationNodes(zone, "ZiratFence");
+            HidePresentationNodes(zone, "ZiratRoadsideAuthoredKit");
+            // The shared heightfield/road is the visual ground owner. Hide
+            // benchmark surfaces and their obsolete flat traversal bodies.
+            foreach (var surfaceName in new[] { "Ground", "Road" })
+            {
+                if (zone.GetNodeOrNull<Node3D>(surfaceName) is { } surface)
+                    HidePresentationNode(surface);
+            }
             // The isolated zirat study adds an 18-tree alternating pine row.
             // The connected world already owns the cemetery boundary and
             // transition silhouettes; keeping the study row makes the route
@@ -554,6 +568,14 @@ public partial class Act1ConnectedWorld : Node3D
         }
         else if (string.Equals(zoneId, "village_day", StringComparison.Ordinal))
         {
+            // In the connected village the signpost is a direction, not a
+            // teleport to the clinic. Keep the existing narrative interaction
+            // but place it at the authored FAP entry apron.
+            if (zone.GetNodeOrNull<InteractionTarget>("RoadToFap") is { } fapEntry)
+            {
+                var apron = AgentBAct1Layout.FapBranchAxis[^1];
+                fapEntry.Position = new Vector3(apron.X, 0.75f, apron.Y);
+            }
             // Keep the compiled VillageSign interaction target, but remove
             // its isolated benchmark board/post from the diagonal return
             // view; the connected composition supplies the readable FAP
@@ -564,12 +586,14 @@ public partial class Act1ConnectedWorld : Node3D
                 "VillageSignBoard",
                 "VillageSignArrow",
                 "VillageSignText",
+                "Ground",
+                "Road",
                 "Pine",
                 "Birch",
                 "UtilityPole",
                 "UtilityCable",
                 // The connected world keeps the legacy StyleBenchmarkZone
-                // mounted for its interaction targets and traversal ground,
+                // mounted for its interaction targets, not traversal ground,
                 // but its benchmark houses/fences are hidden presentation
                 // geometry. Suppress their direct-child colliders as well;
                 // otherwise they remain invisible blockers across the
@@ -580,8 +604,17 @@ public partial class Act1ConnectedWorld : Node3D
         }
         else if (string.Equals(zoneId, "kara_urman_night", StringComparison.Ordinal))
         {
+            // Shared heightfield owns both visible and collidable ground.
+            foreach (var surfaceName in new[] { "Ground", "PathNear", "PathMiddle", "PathFar" })
+            {
+                if (zone.GetNodeOrNull<Node3D>(surfaceName) is { } surface)
+                    HidePresentationNode(surface);
+            }
             HidePresentationNodes(
                 zone,
+                // The connected core mounts this same kit at the same anchors.
+                // Keep one exterior presentation owner, not the benchmark copy.
+                "KaraForestEdgeAuthoredKit",
                 "DistantWindow",
                 "DistantWarmWindow",
                 "Pine",
@@ -633,12 +666,12 @@ public partial class Act1ConnectedWorld : Node3D
         var connectors = new Node3D { Name = "Act1Connectors" };
         connectors.SetMeta("ownership", nameof(Act1ConnectedWorld));
         connectors.SetMeta("visualOnly", false);
-        connectors.SetMeta("collisionOwner", nameof(Act1ConnectedWorld));
+        connectors.SetMeta("collisionOwner", "AgentB_TerrainCollision");
         connectors.SetMeta("interactionOwner", "none");
         connectors.SetMeta("runtimeStateOwner", "none");
         connectors.SetMeta(
             "surfacePolicy",
-            "SharedVillageGround and RoadSurface own traversal collision; shoulders, fences and framing are visual-only");
+            "AgentB_TerrainCollision owns exterior traversal; connector nodes are route metadata only");
         AddChild(connectors);
 
         AddVisualBox(
@@ -646,20 +679,20 @@ public partial class Act1ConnectedWorld : Node3D
             "SharedVillageGround",
             new Vector3(86f, 0.12f, 208f),
             new Vector3(0f, -0.12f, -48f),
-            "4d5545",
+            "59604d",
             "earth");
-        AddTraversalBox(
-            connectors,
-            "SharedVillageGroundTraversalCollision",
-            new Vector3(86f, 0.24f, 208f),
-            new Vector3(0f, -0.12f, -48f));
-        ConnectorTraversalCollisionCount = 1;
+        // Legacy visual placeholder only: the heightfield owns collision.
+        HidePresentationNodes(connectors, "SharedVillageGround");
+        connectors.SetMeta(
+            "sharedGroundPresentation",
+            "suppressed; AgentBExteriorWorld owns visible relief and matching terrain collision");
+        ConnectorTraversalCollisionCount = 0;
 
         foreach (var connector in Act1WorldLayout.Connectors)
         {
             var segment = new Node3D { Name = connector.ConnectorId };
             segment.SetMeta("visualOnly", false);
-            segment.SetMeta("collisionOwner", nameof(Act1ConnectedWorld));
+            segment.SetMeta("collisionOwner", "AgentB_TerrainCollision");
             segment.SetMeta("interactionOwner", "none");
             segment.SetMeta("start", connector.Start);
             segment.SetMeta("end", connector.End);
@@ -668,14 +701,11 @@ public partial class Act1ConnectedWorld : Node3D
             connectors.AddChild(segment);
 
             AddVisualStrip(segment, "RoadSurface", connector, connector.Width, 0.026f, "earth");
-            // Agent B's authored Road_Main/Road_* meshes provide the visible
-            // crown and grade. Keep this legacy strip as the named traversal
-            // contract, but hide only its presentation mesh so it cannot
-            // flatten the road into a second box over the authored terrain.
+            // The wet-village kit provides the authored crown/rut/shoulder
+            // presentation where mounted. Keep connector metadata, not a
+            // second flat collider above the shared terrain.
             HidePresentationNodes(segment, "RoadSurface");
-            segment.SetMeta("roadSurfacePresentation", "suppressed; AgentB_TerrainRoadKit owns visible crown");
-            AddTraversalStrip(segment, connector, connector.Width);
-            ConnectorTraversalCollisionCount++;
+            segment.SetMeta("roadSurfacePresentation", "suppressed; WetVillageRoadKitPresentation owns authored crown where mounted");
         }
     }
 
@@ -813,6 +843,33 @@ public partial class Act1ConnectedWorld : Node3D
         BuildCoreZirat(CoreVisualZone(core, "ZiratMemoryField"));
         BuildCoreKaraForestEdge(CoreVisualZone(core, "KaraForestEdge"));
 
+        // Distant minaret silhouette on the western skyline: identifies the
+        // Tatar village without creating a new zone (presentation-only).
+        AddDistantMinaret(core, "DistantMinaretSilhouette",
+            new Vector3(-46f, (float)AgentBAct1HeightField.Ground(-46f, -34f), -34f), 1.0f);
+
+        // Unreachable background layers (T3): near village rows, mid woodland
+        // bands and far snow ridges, all beyond the walkable envelope.
+        AddDistantHouseRow(core, "BackdropNearHousesWest",
+            new Vector3(-96f, (float)AgentBAct1HeightField.Ground(-96f, 4f), 4f), 9, 9.5f, 6f, 1.0f);
+        AddDistantHouseRow(core, "BackdropNearHousesEast",
+            new Vector3(74f, (float)AgentBAct1HeightField.Ground(74f, -18f), -18f), 8, 9.0f, -8f, 0.95f);
+        AddDistantForestBand(core, "BackdropMidWoodlandWest",
+            new Vector3(-150f, (float)AgentBAct1HeightField.Ground(-150f, -30f), -30f), 34, 8.0f, 4f, 1.15f, false);
+        AddDistantForestBand(core, "BackdropMidWoodlandEast",
+            new Vector3(120f, (float)AgentBAct1HeightField.Ground(120f, -40f), -40f), 30, 8.5f, -6f, 1.1f, false);
+        AddDistantForestBand(core, "BackdropMidForestNorth",
+            new Vector3(-70f, (float)AgentBAct1HeightField.Ground(-70f, -170f), -170f), 30, 9.0f, 2f, 1.25f, true);
+        AddDistantRidge(core, "BackdropFarRidgeWest",
+            new Vector3(-240f, (float)AgentBAct1HeightField.Ground(-240f, -60f), -60f), 320f, 26f, 60f, 8f);
+        AddDistantRidge(core, "BackdropFarRidgeEast",
+            new Vector3(230f, (float)AgentBAct1HeightField.Ground(230f, -70f), -70f), 300f, 22f, 55f, -6f);
+        AddDistantRidge(core, "BackdropFarRidgeNorth",
+            new Vector3(-40f, (float)AgentBAct1HeightField.Ground(-40f, -260f), -260f), 520f, 30f, 70f, 0f);
+        AddMainStreetSnowBanks(core);
+        AddDistantMinaret(core, "DistantMinaretFar",
+            new Vector3(150f, (float)AgentBAct1HeightField.Ground(150f, -60f), -60f), 1.4f);
+
         // The first connected-world pass used generic SphereMesh "faceted
         // masses" as horizon placeholders. In a first-person frame these
         // read as pale/teal walls rather than authored village silhouettes,
@@ -900,7 +957,160 @@ public partial class Act1ConnectedWorld : Node3D
         var layer = new AgentBAct1ExteriorLayer { Name = "AgentBExteriorWorld" };
         core.AddChild(layer);
         layer.Build();
+        SuppressAgentBOverlappingRoadDecor(layer);
         ExcludeInteriorZonesFromExteriorCollision(layer);
+    }
+
+    private static void SuppressAgentBOverlappingRoadDecor(Node3D layer)
+    {
+        var roadKit = layer.GetNodeOrNull<Node3D>("AgentB_TerrainRoadKit")
+            ?? throw new InvalidOperationException(
+                "Agent B terrain road kit is missing before authored wet-road presentation cleanup.");
+        var requiredNames = new[]
+        {
+            "MudStrip_West",
+            "MudStrip_East",
+            "Rut_West",
+            "Rut_East",
+            "Ditch_West",
+            "Ditch_East"
+        };
+        var meshes = FindDescendants<MeshInstance3D>(roadKit).ToArray();
+        var missing = requiredNames
+            .Where(name => meshes.All(mesh => !string.Equals(mesh.Name.ToString(), name, StringComparison.Ordinal)))
+            .ToArray();
+        if (missing.Length > 0)
+        {
+            throw new InvalidOperationException(
+                $"Agent B terrain road kit is missing the declared overlapping decor meshes: {string.Join('|', missing)}.");
+        }
+
+        var hidden = 0;
+        foreach (var mesh in meshes.Where(mesh => requiredNames.Contains(mesh.Name.ToString(), StringComparer.Ordinal)))
+        {
+            mesh.Visible = false;
+            mesh.SetMeta("agentBPresentationSuppressed", true);
+            mesh.SetMeta(
+                "suppressionReason",
+                "continuous Road_Main owns the road surface; separate strip decor is redundant; terrain heightfield/collision remains unchanged");
+            hidden++;
+        }
+
+        roadKit.SetMeta("suppressedOverlappingRoadDecorFamilies", string.Join('|', requiredNames));
+        roadKit.SetMeta("suppressedOverlappingRoadDecorMeshCount", hidden);
+        roadKit.SetMeta(
+            "roadPresentationOwner",
+            "continuous Road_Main/Road_FapBranch/Road_HousePath/Road_KaraPath own road surfaces; wet-road kit retains vegetation only");
+    }
+
+    /// <summary>
+    /// Tunes the existing Agent B environment after its normal zone toggle.
+    /// No environment, weather or light owner is added here.
+    /// </summary>
+    private static void TuneConnectedAct1Atmosphere(
+        Node3D core,
+        bool enabled,
+        bool karaNight,
+        bool zirat)
+    {
+        if (!enabled)
+        {
+            return;
+        }
+
+        var layer = core.GetNodeOrNull<Node3D>("AgentBExteriorWorld");
+        var environmentNode = layer?.GetNodeOrNull<WorldEnvironment>("AgentBEnvironment");
+        var environment = environmentNode?.Environment;
+        if (layer is null || environment is null)
+        {
+            return;
+        }
+
+        // Winter, Act I season lock (decision_log 2026-09-10): snow bounce is
+        // bright and cold, so ambient is stronger than the wet-autumn pass but
+        // stays blue so shadows keep their cold separation.
+        environment.AmbientLightEnergy = karaNight ? 0.58f : zirat ? 0.78f : 0.86f;
+        if (!karaNight)
+        {
+            environment.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
+            environment.AmbientLightColor = Color.FromHtml(zirat ? "b6c3cd" : "c3d2de");
+            environment.AmbientLightSkyContribution = 0.30f;
+        }
+        // Frost haze: cold pale blue-grey that the far houses and forest melt
+        // into, so distant snow does not read as a flat white wall.
+        environment.FogLightColor = karaNight
+            ? Color.FromHtml("6c7f95")
+            : zirat ? Color.FromHtml("a7b5c1") : Color.FromHtml("aebecd");
+        environment.FogDensity = karaNight ? 0.0060f : zirat ? 0.0042f : 0.0030f;
+        environment.FogHeight = karaNight ? 0.95f : 1.0f;
+        environment.FogHeightDensity = karaNight ? 0.085f : zirat ? 0.055f : 0.048f;
+        environment.FogAerialPerspective = karaNight ? 0.66f : zirat ? 0.60f : 0.64f;
+        environment.FogSkyAffect = karaNight ? 0.22f : zirat ? 0.22f : 0.20f;
+        environment.FogSunScatter = karaNight ? 0.07f : zirat ? 0.06f : 0.09f;
+        environment.TonemapMode = global::Godot.Environment.ToneMapper.Agx;
+        // Snow is the brightest surface in frame; exposure protects its detail.
+        environment.TonemapExposure = karaNight ? 1.04f : zirat ? 0.90f : 0.92f;
+
+        // Track 1 Step 1: post-processing in the single environment owner.
+        // Glow catches warm windows and the horizon; SSAO seats houses,
+        // fences and trees on the ground; Adjustments give the painterly
+        // grade. Exposure stays zonal and untouched.
+        environment.GlowEnabled = true;
+        environment.GlowIntensity = karaNight ? 0.34f : 0.46f;
+        environment.GlowStrength = 1.0f;
+        environment.GlowBloom = 0.10f;
+        environment.GlowBlendMode = global::Godot.Environment.GlowBlendModeEnum.Softlight;
+        environment.GlowHdrThreshold = 1.0f;
+        environment.SsaoEnabled = true;
+        environment.SsaoIntensity = karaNight ? 1.2f : zirat ? 1.4f : 1.5f;
+        environment.SsaoRadius = karaNight ? 1.2f : 1.5f;
+        environment.AdjustmentEnabled = true;
+        // Winter: a touch more contrast, a touch less saturation — cold and
+        // clean rather than the warmer autumn grade.
+        environment.AdjustmentSaturation = karaNight ? 1.10f : zirat ? 1.08f : 1.10f;
+        environment.AdjustmentContrast = karaNight ? 1.07f : zirat ? 1.08f : 1.08f;
+
+        if (environment.Sky?.SkyMaterial is ProceduralSkyMaterial sky)
+        {
+            sky.SkyTopColor = karaNight
+                ? Color.FromHtml("1b2836")
+                : zirat ? Color.FromHtml("7f95a8") : Color.FromHtml("9fb2c4");
+            sky.SkyHorizonColor = karaNight
+                ? Color.FromHtml("3c4c60")
+                : zirat ? Color.FromHtml("c3cdd6") : Color.FromHtml("dfe6ec");
+            sky.GroundHorizonColor = karaNight
+                ? Color.FromHtml("2c3a4a")
+                : zirat ? Color.FromHtml("9aa7b1") : Color.FromHtml("b9c3cc");
+            sky.GroundBottomColor = karaNight
+                ? Color.FromHtml("141d28")
+                : zirat ? Color.FromHtml("6d7883") : Color.FromHtml("8d99a3");
+            // Soft day sun disc/halo from the active sun direction; the kara
+            // night keeps a bare cold sky with no disc.
+            sky.SunAngleMax = karaNight ? 0f : 3.0f;
+            sky.SunCurve = 0.12f;
+            sky.SkyCoverModulate = karaNight
+                ? new Color(0.60f, 0.68f, 0.76f, 0.26f)
+                : zirat ? new Color(0.90f, 0.93f, 0.95f, 0.50f) : new Color(0.93f, 0.96f, 0.98f, 0.58f);
+        }
+
+        var sun = layer.GetNodeOrNull<DirectionalLight3D>("AgentBSun");
+        if (sun is not null)
+        {
+            // Phase 3: warm low key for day zones; long readable shadows.
+            // Pale winter sun: warm-white on the snow, long blue shadows.
+            sun.LightColor = karaNight
+                ? Color.FromHtml("9fb6d4")
+                : zirat ? Color.FromHtml("e8eef4") : Color.FromHtml("f6f0e4");
+            sun.LightEnergy = karaNight ? 0.55f : zirat ? 1.10f : 1.45f;
+            sun.ShadowOpacity = karaNight ? 0.30f : zirat ? 0.44f : 0.50f;
+            sun.ShadowEnabled = true;
+            sun.RotationDegrees = karaNight
+                ? new Vector3(-52f, -28f, 0f)
+                : new Vector3(-31f, 42f, 0f);
+        }
+        core.SetMeta("unifiedAtmosphereProfile", karaNight
+            ? "kara-winter-night-edge"
+            : zirat ? "zirat-winter-muted" : "village-winter-frost");
     }
 
     /// <summary>
@@ -933,15 +1143,86 @@ public partial class Act1ConnectedWorld : Node3D
             core,
             karaForegroundMoundPath,
             "proven foreground Kara east-bank earth mound obscures the route read; retain the authored bank siblings");
+
+        // The capture still showed the presentation layer as a full-width
+        // board: several near parcels and duplicate ground props occupied the
+        // same camera rays. Retire only those presentation-only siblings after
+        // all kits are mounted; the road, authored boundary, far silhouettes
+        // and every gameplay owner remain untouched.
+        var compositionSuppressionCount = 0;
+        foreach (var (relativePath, reason) in new (string RelativePath, string Reason)[]
+                 {
+                     // Keep the west forward parcel as the single near
+                     // street beat; the branch-side east copy stays hidden so
+                     // the road window does not become a bilateral wall.
+                     ("Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardEastParcel", "suppress the branch-side duplicate; retain one staggered west MainStreet near parcel"),
+                     ("Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestGate", "remove the presentation-only west Arrival gate that crosses the first-person road window; parcel route/collision owners remain unchanged"),
+                     ("Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFence", "remove the presentation-only west Arrival fence that crosses the first-person road window; parcel route/collision owners remain unchanged"),
+                     ("Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFence", "remove the presentation-only fence that spans the Arrival first-person road window; parcel route/collision owners remain unchanged"),
+                     ("KaraForestEdge/KaraUrmanDenseEdge", "remove the legacy near Kara framing root whose trunks, crowns and fence band crowd the back/side aperture; authored Kara edge and route remain visible"),
+                     ("Act1AuthoredSightlineClosurePass/KaraLateralForestClosure/KaraClosureWestBank", "remove a redundant near Kara bank from the fixed-camera aperture"),
+                     ("Act1AuthoredSightlineClosurePass/KaraLateralForestClosure/KaraClosureWestMixedTrees", "remove a redundant near Kara tree cluster from the fixed-camera aperture"),
+                     ("Act1AuthoredSightlineClosurePass/KaraLateralForestClosure/KaraClosureWestRootWall", "remove a redundant foreground Kara root wall from the fixed-camera aperture"),
+                     ("Act1AuthoredSightlineClosurePass/KaraLateralForestClosure/KaraClosureEastBank", "remove a redundant near Kara bank from the fixed-camera aperture"),
+                     ("Act1AuthoredSightlineClosurePass/KaraLateralForestClosure/KaraClosureEastMixedTrees", "remove a redundant near Kara tree cluster from the fixed-camera aperture"),
+                     ("Act1AuthoredSightlineClosurePass/KaraLateralForestClosure/KaraClosureEastRootWall", "remove a redundant foreground Kara root wall from the fixed-camera aperture"),
+                     ("KaraForestEdge/KaraApproachRootFramingWest", "remove a low foreground root that reads as a route-side boulder"),
+                     ("KaraForestEdge/KaraApproachRootFramingEast", "remove a low foreground root that reads as a route-side boulder"),
+                     ("KaraForestEdge/KaraApproachUnderstoryWest", "remove a foreground understory clump that occludes the path"),
+                     ("KaraForestEdge/KaraApproachUnderstoryEast", "remove a foreground understory clump that occludes the path"),
+                     ("KaraForestEdge/KaraApproachStoneWest", "remove an isolated Kara foreground stone; the forest edge remains grounded by its banks"),
+                     ("KaraForestEdge/KaraDeepForestClosureGrouping/KaraClosureNearConiferWest", "remove the confirmed near-west canopy occluder from the fixed first-person Kara aperture; retain the closure grouping and route collision"),
+                     ("KaraForestEdge/KaraDeepForestClosureGrouping/KaraClosureNearBirchEast", "remove the confirmed near-east canopy occluder from the fixed first-person Kara aperture; retain the closure grouping and route collision"),
+                     ("KaraForestEdge/KaraReturnContinuityBirchWest", "remove the confirmed pale return-facing Kara cutout from the fixed first-person aperture; retain the return continuity boundary")
+                 })
+        {
+            if (core.GetNodeOrNull<Node>(relativePath) is null)
+            {
+                continue;
+            }
+
+            HideCorePresentationNode(core, relativePath, reason, required: false);
+            compositionSuppressionCount++;
+        }
+
+        // Zirat is intentionally quiet: the roadside kit owns one readable
+        // boundary/path/marker grouping. Retire the older scattered core
+        // memorial props so the cemetery does not become a field of boxes and
+        // stones, while retaining the authored route-side kit and distant edge.
+        foreach (var (relativePath, reason) in new (string RelativePath, string Reason)[]
+                 {
+                     ("ZiratMemoryField/ZiratAuthoredMemorialForms", "the authored roadside kit owns the restrained marker grouping"),
+                     ("ZiratMemoryField/ZiratBoundaryClosureGrouping", "the authored roadside kit owns the restrained zirat boundary and path read"),
+                     ("ZiratMemoryField/ZiratMemoryStoneWest", "remove an isolated core stone from the zirat road sightline"),
+                     ("ZiratMemoryField/ZiratMemoryStoneEast", "remove an isolated core stone from the zirat road sightline"),
+                     ("ZiratMemoryField/ZiratMemoryStoneFar", "remove an isolated core stone from the zirat road sightline"),
+                     ("ZiratMemoryField/ZiratLateralOpenThresholdGate", "remove the duplicate box-like zirat gate; retain the authored open boundary gate"),
+                     ("ZiratMemoryField/ZiratNearWestGraveMound", "remove a duplicate low zirat mound from the road window"),
+                     ("ZiratMemoryField/ZiratNearEastFieldStone", "remove an isolated zirat field stone from the road window"),
+                     ("ZiratMemoryField/ZiratMidEastGraveMound", "remove a duplicate low zirat mound from the road window"),
+                     ("ZiratMemoryField/ZiratMidEastFieldStone", "remove an isolated zirat field stone from the road window"),
+                     ("ZiratMemoryField/ZiratFarWestFieldMound", "remove a duplicate low zirat mound from the road window")
+                 })
+        {
+            if (core.GetNodeOrNull<Node>(relativePath) is null)
+            {
+                continue;
+            }
+
+            HideCorePresentationNode(core, relativePath, reason, required: false);
+            compositionSuppressionCount++;
+        }
+
+        core.SetMeta("captureGroundedCompositionSuppressionCount", compositionSuppressionCount);
         var materialReboundCount = RegradeAct1DaylightKitMaterials(core);
         core.SetMeta(
             "daylightPresentationPass",
-            "retire six oversized foreground tree roots, consolidate duplicate zirat boundary/path dressing, and regrade existing authored daylight kits");
+            "retire legacy near Kara framing plus the Arrival fence crossing the road window, keep authored Kara ground breakup and zirat boundary/path roots visible, and regrade existing authored daylight kits");
         core.SetMeta("daylightPresentationHiddenFoliageCount", hiddenFoliageCount);
         core.SetMeta("ziratPresentationSuppressionCount", hiddenZiratCount);
         core.SetMeta(
             "ziratPresentationSuppressionDescription",
-            "hide duplicate core fence rail/post descendants, roadside fence/gate/path roots and three oversized core conifers; AgentB_ZiratKit remains the visible fence/gate owner and marker groups remain unchanged");
+            "hide duplicate core fence rail/post descendants and three oversized core conifers; the authored Wave4 zirat fence/gate/path and marker groups remain visible");
         core.SetMeta("daylightPresentationMaterialReboundCount", materialReboundCount);
     }
 
@@ -991,9 +1272,6 @@ public partial class Act1ConnectedWorld : Node3D
         foreach (var (relativePath, reason) in new (string RelativePath, string Reason)[]
                  {
                      ("ZiratMemoryField/ZiratAuthoredMemorialForms/ZiratAuthoredMemorialPathShoulder", "duplicate core memorial path shoulder narrows the quiet central route"),
-                     ("ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratAuthoredBoundaryFence", "duplicate roadside fence is replaced by the visible AgentB zirat fence owner"),
-                     ("ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratAuthoredOpenGate", "duplicate roadside gate is replaced by the visible AgentB zirat gate owner"),
-                     ("ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratAuthoredPathEdge", "duplicate roadside path edge narrows the quiet central route"),
                      ("ZiratMemoryField/ZiratMemoryConiferWest", "oversized core zirat conifer blocks the central route read"),
                      ("ZiratMemoryField/ZiratBoundaryClosureGrouping/ZiratClosureMidConiferWest", "oversized core zirat conifer blocks the central route read"),
                      ("ZiratMemoryField/ZiratBoundaryClosureGrouping/ZiratClosureForestConiferEast", "oversized core zirat conifer blocks the central route read")
@@ -1042,18 +1320,18 @@ public partial class Act1ConnectedWorld : Node3D
             ["AB_plaster"] = PainterlyMaterialLibrary.ForColor("92958a", "plaster"),
             ["AB_plaster_faded"] = PainterlyMaterialLibrary.ForColor("858b80", "plaster"),
             ["AB_timber"] = PainterlyMaterialLibrary.ForColor("806a50", "wood"),
-            ["AB_log_wall"] = PainterlyMaterialLibrary.ForColor("967d5e", "wood_facade"),
+            ["AB_log_wall"] = PainterlyMaterialLibrary.ForColor("967d5e", "log_wall"),
             ["AB_timber_dark"] = PainterlyMaterialLibrary.ForColor("695541", "wood"),
             ["AB_fade_paint"] = PainterlyMaterialLibrary.ForColor("92816b", "wood_fence"),
-            ["AB_roof_iron"] = PainterlyMaterialLibrary.ForColor("76807a", "stone"),
-            ["AB_roof_iron_dark"] = PainterlyMaterialLibrary.ForColor("687069", "stone"),
-            ["AB_roof_shingle"] = PainterlyMaterialLibrary.ForColor("695b4e", "wood"),
+            ["AB_roof_iron"] = PainterlyMaterialLibrary.ForColor("76807a", "roof_metal"),
+            ["AB_roof_iron_dark"] = PainterlyMaterialLibrary.ForColor("687069", "roof_metal"),
+            ["AB_roof_shingle"] = PainterlyMaterialLibrary.ForColor("695b4e", "roof"),
             ["AB_window_warm"] = new StandardMaterial3D
             {
                 AlbedoColor = Color.FromHtml("d89b5d"),
                 EmissionEnabled = true,
                 Emission = Color.FromHtml("a86436"),
-                EmissionEnergyMultiplier = 1.75f,
+                EmissionEnergyMultiplier = 2.0f,
                 Roughness = 0.55f,
                 MetallicSpecular = 0.42f
             },
@@ -1067,22 +1345,128 @@ public partial class Act1ConnectedWorld : Node3D
             ["URMAN_Plaster_Line"] = PainterlyMaterialLibrary.ForColor("737268", "plaster"),
             ["URMAN_Plaster_Shadow"] = PainterlyMaterialLibrary.ForColor("66685f", "plaster"),
             ["URMAN_Wood_Dark"] = PainterlyMaterialLibrary.ForColor("605044", "wood"),
-            ["URMAN_Roof_WetSlate"] = PainterlyMaterialLibrary.ForColor("626b66", "stone"),
+            ["URMAN_Wood_Weathered"] = PainterlyMaterialLibrary.ForColor("6f6353", "wood_facade"),
+            ["URMAN_Wood_WetShadow"] = PainterlyMaterialLibrary.ForColor("554e40", "wood_facade"),
+            ["URMAN_Roof_WetSlate"] = PainterlyMaterialLibrary.ForColor("626b66", "roof"),
+            ["URMAN_Roof_MossTone"] = PainterlyMaterialLibrary.ForColor("656d5e", "roof"),
+            ["URMAN_Stone_Mossy"] = PainterlyMaterialLibrary.ForColor("75756a", "stone"),
+            ["URMAN_Stone_MossFace"] = PainterlyMaterialLibrary.ForColor("636d59", "stone"),
+            ["URMAN_Stone_LightFace"] = PainterlyMaterialLibrary.ForColor("858377", "stone"),
             ["FapPaintedSage"] = PainterlyMaterialLibrary.ForColor("7b8b80", "plaster"),
             ["FapPaintedDustyBlue"] = PainterlyMaterialLibrary.ForColor("74838a", "plaster"),
             ["FapPaintedTimber"] = PainterlyMaterialLibrary.ForColor("7c684f", "wood"),
-            ["FapOldRoof"] = PainterlyMaterialLibrary.ForColor("5e6862", "stone"),
-            ["FapRoofEdge"] = PainterlyMaterialLibrary.ForColor("687169", "stone"),
+            ["FapOldRoof"] = PainterlyMaterialLibrary.ForColor("5e6862", "roof_metal"),
+            ["FapRoofEdge"] = PainterlyMaterialLibrary.ForColor("687169", "roof_metal"),
             ["FapShedWall"] = PainterlyMaterialLibrary.ForColor("778073", "plaster"),
             ["FapFoundationStone"] = PainterlyMaterialLibrary.ForColor("777970", "stone"),
+            ["FapWetStone"] = PainterlyMaterialLibrary.ForColor("60685f", "stone"),
+            ["FapDarkTimber"] = PainterlyMaterialLibrary.ForColor("514737", "wood"),
+            ["FapDoorWood"] = PainterlyMaterialLibrary.ForColor("74604a", "wood"),
+            ["FapDoorInset"] = PainterlyMaterialLibrary.ForColor("514638", "wood"),
+            ["FapNoticeBlank"] = PainterlyMaterialLibrary.ForColor("a69779", "plaster"),
+            ["FapWayfindingBlank"] = PainterlyMaterialLibrary.ForColor("64746c", "plaster"),
+            ["FapRainMetal"] = PainterlyMaterialLibrary.ForColor("68746e", "stone"),
+            ["FapRainMetalDark"] = PainterlyMaterialLibrary.ForColor("48544f", "stone"),
+            ["FapWindowCool"] = new StandardMaterial3D
+            {
+                AlbedoColor = Color.FromHtml("53686a"),
+                Roughness = 0.42f,
+                MetallicSpecular = 0.4f
+            },
+            ["FapWindowWarm"] = new StandardMaterial3D
+            {
+                AlbedoColor = Color.FromHtml("a88b5f"),
+                Roughness = 0.5f,
+                MetallicSpecular = 0.3f
+            },
             ["FapPathEarth"] = PainterlyMaterialLibrary.ForColor("4a554d", "earth"),
             ["FapPathEarthDark"] = PainterlyMaterialLibrary.ForColor("3b4842", "earth"),
-            ["FapPuddleWater"] = PainterlyMaterialLibrary.ForColor("3c4c4a", "water"),
-            ["DampEarth"] = PainterlyMaterialLibrary.ForColor("425448", "earth"),
-            ["DampEarthDark"] = PainterlyMaterialLibrary.ForColor("394b40", "earth"),
+            ["FapPuddleWater"] = PainterlyMaterialLibrary.ForColor("313d47", "ice"),
+            ["DampEarth"] = PainterlyMaterialLibrary.ForColor("f1f5f9", "snow_ground"),
+            ["DampEarthDark"] = PainterlyMaterialLibrary.ForColor("eaf0f5", "snow_ground"),
+            ["PathDirt"] = PainterlyMaterialLibrary.ForColor("eef3f7", "snow_ground"),
+            ["LeafLitter"] = PainterlyMaterialLibrary.ForColor("f0f4f8", "snow_ground"),
+            ["DitchGrass"] = PainterlyMaterialLibrary.ForColor("c8d1d6", "snow_grass"),
+            ["RoadGrass"] = PainterlyMaterialLibrary.ForColor("cfd8dc", "snow_grass"),
+            ["ZiratGrass"] = PainterlyMaterialLibrary.ForColor("ccd4d8", "snow_grass"),
+            // Agent B's actual road/terrain kit is the broad lower-frame
+            // surface. Rebind its named strips here so the wet crown, wheel
+            // ruts, ditches and grass do not collapse into one dark plane.
+            ["AB_terrain"] = PainterlyMaterialLibrary.ForColor("eef2f6", "snow_ground"),
+            ["AB_road_pigment"] = PainterlyMaterialLibrary.ForColor("e8edf2", "snow_road"),
+            ["AB_earth"] = PainterlyMaterialLibrary.ForColor("f0f4f8", "snow_ground"),
+            ["AB_earth_wet"] = PainterlyMaterialLibrary.ForColor("f2f6f9", "snow_ground"),
+            ["AB_earth_path"] = PainterlyMaterialLibrary.ForColor("eef3f7", "snow_ground"),
+            ["AB_earth_zirat_path"] = PainterlyMaterialLibrary.ForColor("e9eff4", "snow_ground"),
+            ["AB_road_crown"] = PainterlyMaterialLibrary.ForColor("e3e9ee", "snow_trampled"),
+            ["AB_road_rut"] = PainterlyMaterialLibrary.ForColor("cdd6dd", "snow_road"),
+            ["AB_road_kara"] = PainterlyMaterialLibrary.ForColor("b9c4ce", "snow_trampled"),
+            ["AB_water_dark"] = PainterlyMaterialLibrary.ForColor("2c3740", "ice"),
+            ["AB_grass"] = PainterlyMaterialLibrary.ForColor("647159", "grass"),
+            ["AB_grass_dry"] = PainterlyMaterialLibrary.ForColor("d5d9d2", "snow_grass"),
+            // Shared imported birch/shrub surfaces must use the same
+            // painterly grade as the connected Kara edge, not raw PBR.
+            ["BirchBark"] = PainterlyMaterialLibrary.ForColor("68705a", "bark_birch"),
+            ["BirchLeaves"] = PainterlyMaterialLibrary.ForColor("596047", "leaf_birch"),
+            ["ShrubGreen"] = PainterlyMaterialLibrary.ForColor("48553f", "foliage"),
             ["QuietStone"] = PainterlyMaterialLibrary.ForColor("7e7f73", "stone"),
             ["DistantWall"] = PainterlyMaterialLibrary.ForColor("6f716a", "plaster"),
-            ["DistantRoof"] = PainterlyMaterialLibrary.ForColor("5f6761", "stone")
+            ["DistantRoof"] = PainterlyMaterialLibrary.ForColor("5f6761", "roof"),
+            // Village kit leftovers that still rendered raw GLB albedo: the
+            // well water read as a bright blue disc and cut/bark/metal parts
+            // washed out. Same muted wet-village palette as above.
+            // Phase 3 window treatment: dim glass reads as a dark opening
+            // (price accent), the authorized warm insets glow on top of it.
+            ["URMAN_Window_DimGlass"] = PainterlyMaterialLibrary.ForColor("18211f", "water"),
+            ["URMAN_Window_WarmInset"] = new StandardMaterial3D
+            {
+                AlbedoColor = Color.FromHtml("8a6a3c"),
+                EmissionEnabled = true,
+                Emission = Color.FromHtml("ffb45e"),
+                EmissionEnergyMultiplier = 1.6f,
+                Roughness = 0.4f
+            },
+            ["URMAN_Well_DarkWater"] = PainterlyMaterialLibrary.ForColor("2c3740", "ice"),
+            ["URMAN_Wood_CutEnd"] = PainterlyMaterialLibrary.ForColor("5f5344", "wood"),
+            ["URMAN_Bark_Muted"] = PainterlyMaterialLibrary.ForColor("68705a", "bark_pine"),
+            ["URMAN_Metal_Dulled"] = PainterlyMaterialLibrary.ForColor("5a5f5c", "stone"),
+            // Zirat roadside kit members that are outside the kara-scoped
+            // table: the raw albedo left pale stone/shrub groupings and pale
+            // roadside fence runs in the cemetery views.
+            ["MossGreen"] = PainterlyMaterialLibrary.ForColor("c8d1d6", "snow_grass"),
+            ["MossyStone"] = PainterlyMaterialLibrary.ForColor("75756a", "stone"),
+            ["WeatheredWood"] = PainterlyMaterialLibrary.ForColor("55493c", "wood"),
+            ["WeatheredWoodDark"] = PainterlyMaterialLibrary.ForColor("4b4136", "wood"),
+            ["DistantFence"] = PainterlyMaterialLibrary.ForColor("4f463b", "wood_fence"),
+            ["DistantFoliage"] = PainterlyMaterialLibrary.ForColor("4a5745", "grass"),
+            ["DitchWater"] = PainterlyMaterialLibrary.ForColor("2e3942", "ice"),
+            ["WetSheen"] = PainterlyMaterialLibrary.ForColor("f1f5f8", "snow_ground"),
+            // FAP kit grounds: raw birch/shrub/vent albedo read washed-out in
+            // the clinic approach views.
+            ["FapBirchBarkMark"] = PainterlyMaterialLibrary.ForColor("68705a", "bark_birch"),
+            ["FapBirchPale"] = PainterlyMaterialLibrary.ForColor("7a806e", "bark_birch"),
+            ["FapShrubGreen"] = PainterlyMaterialLibrary.ForColor("53634e", "foliage"),
+            ["FapShrubLight"] = PainterlyMaterialLibrary.ForColor("5f6b52", "foliage"),
+            ["FapVentDark"] = PainterlyMaterialLibrary.ForColor("3f4441", "stone")
+        };
+
+        // Phase 4 palette: per-parcel wall tones so neighboring houses stop
+        // reading as clones, plus one restrained blue-green timber accent
+        // (VariantB outbuildings only — design_style forbids ornament spread).
+        var parcelTints = new (string Marker, string Source, string Color)[]
+        {
+            ("VariantA", "URMAN_Plaster_Ochre", "93876f"),
+            ("VariantC", "URMAN_Plaster_Ochre", "9a8d75"),
+            ("BabaiEbi", "URMAN_Plaster_Ochre", "a08d6f"),
+            ("VariantB", "URMAN_Wood_Dark", "4f6a63"),
+            // Painted village trim: whitewashed surrounds on the hero house
+            // and one pale blue accent house (design_style: no ornament
+            // overload, colour lives on the trim, not on the walls).
+            ("BabaiEbi", "URMAN_Wood_Weathered", "bcc4c8"),
+            ("VariantA", "URMAN_Wood_Weathered", "93a4a9"),
+            // The yard well head is the palest object on the street; mute it
+            // so it stops competing with the lit facades.
+            ("Well_YardLandmark", "URMAN_Stone_LightFace", "6f695c")
         };
 
         var rebound = 0;
@@ -1093,6 +1477,15 @@ public partial class Act1ConnectedWorld : Node3D
                 continue;
             }
 
+            var lineage = new System.Text.StringBuilder();
+            Node3D? walk = mesh;
+            for (var depth = 0; depth < 8 && walk is not null; depth++)
+            {
+                lineage.Append(walk.Name).Append('/');
+                walk = walk.GetParent() as Node3D;
+            }
+            var path = lineage.ToString();
+
             for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
             {
                 var source = mesh.Mesh.SurfaceGetMaterial(surface);
@@ -1100,6 +1493,17 @@ public partial class Act1ConnectedWorld : Node3D
                 if (!grade.TryGetValue(sourceName, out var material))
                 {
                     continue;
+                }
+
+                foreach (var (marker, tintedSource, tint) in parcelTints)
+                {
+                    if (path.Contains(marker, System.StringComparison.Ordinal)
+                        && string.Equals(sourceName, tintedSource, System.StringComparison.Ordinal))
+                    {
+                        material = PainterlyMaterialLibrary.ForColor(tint,
+                            sourceName.Contains("Wood", System.StringComparison.Ordinal) ? "wood" : "plaster");
+                        break;
+                    }
                 }
 
                 mesh.SetSurfaceOverrideMaterial(surface, material);
@@ -1332,6 +1736,10 @@ public partial class Act1ConnectedWorld : Node3D
         var ziratYaw = DirectionYaw(ziratDirection);
         var returnTransitionAnchor = ziratPlacement.Origin + new Vector3(0f, 0.035f, -7.0f);
 
+        // Pull the existing wet road kit into the authored 5.6 m route read.
+        // Width is reduced on the presentation roots only; route collision and
+        // clearance continue to come from the authoritative connector/world.
+
         // Reuse the verified direct roots as restrained near/mid/far beats.
         // Clones are added to the imported authored root before the same
         // existing extraction/rebase helper owns each placed component.
@@ -1370,7 +1778,7 @@ public partial class Act1ConnectedWorld : Node3D
             "WetVillageRoadArrivalCrown",
             arrivalAnchor,
             villageYaw,
-            Vector3.One,
+            new Vector3(0.84f, 1f, 1f),
             "village_day@arrival-road-crown",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
@@ -1379,7 +1787,7 @@ public partial class Act1ConnectedWorld : Node3D
             "WetVillageRoadArrivalRutsNear",
             arrivalAnchor - villageDirection * 3.6f + villageSide * 0.45f,
             villageYaw - 2f,
-            Vector3.One,
+            new Vector3(0.90f, 1f, 1f),
             "village_day@arrival-ruts-near",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
@@ -1388,43 +1796,43 @@ public partial class Act1ConnectedWorld : Node3D
             "WetVillageRoadArrivalRutsFar",
             arrivalAnchor + villageDirection * 4.0f - villageSide * 0.35f,
             villageYaw + 2f,
-            Vector3.One,
+            new Vector3(0.90f, 1f, 1f),
             "village_day@arrival-ruts-far",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
             presentation,
             components[3].Root!,
             "WetVillageRoadArrivalShoulderLeft",
-            arrivalAnchor + villageSide * 3.25f,
+            arrivalAnchor + villageSide * 2.62f,
             villageYaw,
-            Vector3.One,
+            new Vector3(0.86f, 1f, 1f),
             "village_day@arrival-shoulder-left",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
             presentation,
             components[4].Root!,
             "WetVillageRoadArrivalShoulderRight",
-            arrivalAnchor - villageSide * 3.25f,
+            arrivalAnchor - villageSide * 2.62f,
             villageYaw,
-            Vector3.One,
+            new Vector3(0.86f, 1f, 1f),
             "village_day@arrival-shoulder-right",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
             presentation,
             components[5].Root!,
             "WetVillageRoadArrivalDitchLeft",
-            arrivalAnchor + villageSide * 4.85f,
+            arrivalAnchor + villageSide * 4.12f,
             villageYaw,
-            Vector3.One,
+            new Vector3(0.78f, 1f, 1f),
             "village_day@arrival-ditch-left",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
             presentation,
             components[6].Root!,
             "WetVillageRoadArrivalDitchRight",
-            arrivalAnchor - villageSide * 4.85f,
+            arrivalAnchor - villageSide * 4.12f,
             villageYaw,
-            Vector3.One,
+            new Vector3(0.78f, 1f, 1f),
             "village_day@arrival-ditch-right",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
@@ -1452,7 +1860,7 @@ public partial class Act1ConnectedWorld : Node3D
             "WetVillageRoadMainStreetCrown",
             mainStreetAnchor,
             villageYaw + 2f,
-            Vector3.One * 0.98f,
+            new Vector3(0.84f, 1f, 1f),
             "village_day@main-street-crown-variation",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
@@ -1461,7 +1869,7 @@ public partial class Act1ConnectedWorld : Node3D
             "WetVillageRoadMainStreetRutsNear",
             mainStreetAnchor - villageDirection * 4.4f - villageSide * 0.55f,
             villageYaw - 3f,
-            Vector3.One * 0.94f,
+            new Vector3(0.90f, 1f, 1f),
             "village_day@main-street-ruts-near",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
@@ -1470,43 +1878,43 @@ public partial class Act1ConnectedWorld : Node3D
             "WetVillageRoadMainStreetRutsFar",
             mainStreetAnchor + villageDirection * 4.7f + villageSide * 0.50f,
             villageYaw + 3f,
-            Vector3.One * 0.96f,
+            new Vector3(0.90f, 1f, 1f),
             "village_day@main-street-ruts-far",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
             presentation,
             mainStreetShoulderLeft,
             "WetVillageRoadMainStreetShoulderLeft",
-            mainStreetAnchor + villageSide * 3.30f,
+            mainStreetAnchor + villageSide * 2.66f,
             villageYaw + 2f,
-            Vector3.One * 0.96f,
+            new Vector3(0.86f, 1f, 1f),
             "village_day@main-street-shoulder-left",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
             presentation,
             mainStreetShoulderRight,
             "WetVillageRoadMainStreetShoulderRight",
-            mainStreetAnchor - villageSide * 3.30f,
+            mainStreetAnchor - villageSide * 2.66f,
             villageYaw + 2f,
-            Vector3.One * 0.96f,
+            new Vector3(0.86f, 1f, 1f),
             "village_day@main-street-shoulder-right",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
             presentation,
             mainStreetDitchLeft,
             "WetVillageRoadMainStreetDitchLeft",
-            mainStreetAnchor + villageSide * 4.90f,
+            mainStreetAnchor + villageSide * 4.14f,
             villageYaw + 2f,
-            Vector3.One * 0.94f,
+            new Vector3(0.78f, 1f, 1f),
             "village_day@main-street-ditch-left",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
             presentation,
             mainStreetDitchRight,
             "WetVillageRoadMainStreetDitchRight",
-            mainStreetAnchor - villageSide * 4.90f,
+            mainStreetAnchor - villageSide * 4.14f,
             villageYaw + 2f,
-            Vector3.One * 0.94f,
+            new Vector3(0.78f, 1f, 1f),
             "village_day@main-street-ditch-right",
             WetVillageRoadKitScenePath);
         AttachAct1ExteriorKitComponent(
@@ -1919,18 +2327,18 @@ public partial class Act1ConnectedWorld : Node3D
             Vector3.One * 0.92f,
             "fap_clinic@lateral-birch-shrub-frame",
             FapClinicKitScenePath);
+        HideCorePresentationNode(
+            core,
+            "FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredBirchShrubMass",
+            "existing FapClinicNearBirch owns this grove; duplicate preview mass uses isolated polyhedron crowns");
 
-        // The old east-horizon single-slope box sits behind the service parcel
-        // and is outside the branch route window. Replace its silhouette with
-        // one small HouseA facade before suppressing the core primitive; the
-        // existing FAP trees/fence keep the field edge layered without another
-        // broad wall.
-        var fapEastHorizonAnchor = origin + side * 18.0f - front * 7.0f;
+        // Full-depth dwellings need real plots, not the former miniature
+        // backdrop spacing. Keep this rear house beyond the service neighbor.
         AddAuthoredHouse(
             presentation,
             "FapEastHorizonAuthoredHouse",
-            fapEastHorizonAnchor + side * 0.8f - front * 0.6f + Vector3.Up * 0.95f,
-            0.32f,
+            origin + side * 21.0f - front * 22.0f,
+            0.98f,
             yaw - 92f);
 
         // Replace only exact overlapping core presentation primitives. The
@@ -2018,7 +2426,10 @@ public partial class Act1ConnectedWorld : Node3D
             "open; neutral non-inscribed marker geometry requires cultural, religious and local-context review");
         presentation.SetMeta(
             "placementPolicy",
-            "shoulders and ditch beside road; path and marker groups beyond route; fence and open gate as lateral boundary; birch and distant village masses as transition; route center remains open");
+            "continuous authored threshold: wet road contact/path edge -> right-side fence and open gate -> low marker group -> birch/shrub forest transition; distant village masses keep the return depth; route center remains open");
+        presentation.SetMeta(
+            "thresholdLayout",
+            "roadAnchor=(0,0,-1.5); path=(4.2,0,-4.2); markerLow=(6.2,0,-5.2); markerFar=(6.8,0,-9.2); boundary=(6.7,0,-8); birch=(7.8,0,-22)");
         ziratZone.AddChild(presentation);
 
         var packed = ResourceLoader.Load<PackedScene>(ZiratRoadsideKitScenePath)
@@ -2091,19 +2502,6 @@ public partial class Act1ConnectedWorld : Node3D
             "zirat_road@wet-shoulder-right",
             ZiratRoadsideKitScenePath);
 
-        var ziratRoadBandMaterial = PainterlyMaterialLibrary.ForColor("56544a", "earth");
-        foreach (var relativePath in new[]
-                 {
-                     "ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_RoadBand_LOD0",
-                     "ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_RoadBand_LOD0"
-                 })
-        {
-            var roadBand = presentation.GetNodeOrNull<MeshInstance3D>(relativePath)
-                ?? throw new InvalidOperationException(
-                    $"Act I zirat roadside kit is missing exact RoadBand LOD0 mesh: {relativePath}.");
-            roadBand.MaterialOverride = ziratRoadBandMaterial;
-        }
-
         AttachAct1ExteriorKitComponent(
             presentation,
             components[2].Root!,
@@ -2113,11 +2511,36 @@ public partial class Act1ConnectedWorld : Node3D
             Vector3.One,
             "zirat_road@roadside-drainage",
             ZiratRoadsideKitScenePath);
+
+        // Retain contact vegetation and cultural components; only these
+        // flat duplicate road prisms conflict with the continuous Road_Main.
+        foreach (var relativePath in new[]
+                 {
+                     "ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_RoadBand_LOD0",
+                     "ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Relief_00_LOD0",
+                     "ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_WetEdge_00_LOD0",
+                     "ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_RoadBand_LOD0",
+                     "ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Relief_00_LOD0",
+                     "ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_WetEdge_00_LOD0",
+                     "ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Relief_00_LOD0",
+                     "ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Water_00_LOD0"
+                 })
+        {
+            var roadBand = presentation.GetNodeOrNull<MeshInstance3D>(relativePath)
+                ?? throw new InvalidOperationException($"Missing duplicate zirat road mesh: {relativePath}.");
+            roadBand.Visible = false;
+            roadBand.SetMeta("suppressionReason", "continuous terrain-road kit owns road surface");
+        }
+
+        // The kit's 3.55 m roadside offset is removed with its preview origin
+        // during extraction. Restore that placement, not a barrier on the axis.
+        var culvertAnchor = origin + new Vector3(3.55f, 0f, -2.0f);
+        culvertAnchor.Y = (float)AgentBAct1HeightField.Ground(culvertAnchor.X, culvertAnchor.Z);
         AttachAct1ExteriorKitComponent(
             presentation,
             components[3].Root!,
             "ZiratCulvertStoneCluster",
-            origin + new Vector3(0f, 0f, -2.0f),
+            culvertAnchor,
             0f,
             Vector3.One,
             "zirat_road@culvert-edge",
@@ -2126,7 +2549,12 @@ public partial class Act1ConnectedWorld : Node3D
         // The authored boundary runs along the right side of the route. Its
         // lateral placement keeps the fence/gate out of the first-person road
         // window; the gate is an open presentation cue, never a blocker.
-        var boundaryAnchor = origin + new Vector3(6.7f, 0f, -15.0f);
+        // Keep the central 4.2 m route clear while bringing the existing
+        // authored threshold into the forward/right camera rays. With the
+        // kit's local fence axis rotated 90 degrees, this anchor makes the
+        // fence a side boundary spanning roughly z -70..-86 rather than a
+        // distant strip at the Kara connector.
+        var boundaryAnchor = origin + new Vector3(6.7f, 0f, -8.0f);
         AttachAct1ExteriorKitComponent(
             presentation,
             components[4].Root!,
@@ -2146,7 +2574,7 @@ public partial class Act1ConnectedWorld : Node3D
             "zirat_road@lateral-open-gate",
             ZiratRoadsideKitScenePath);
 
-        var markerAnchor = origin + new Vector3(6.2f, 0f, -9.0f);
+        var markerAnchor = origin + new Vector3(6.2f, 0f, -5.2f);
         AttachAct1ExteriorKitComponent(
             presentation,
             components[6].Root!,
@@ -2160,20 +2588,49 @@ public partial class Act1ConnectedWorld : Node3D
             presentation,
             components[7].Root!,
             "ZiratAuthoredMarkerGroupFar",
-            origin + new Vector3(6.5f, 0f, -10.0f),
+            origin + new Vector3(6.8f, 0f, -9.2f),
             0f,
             Vector3.One * 0.92f,
             "zirat_road@quiet-marker-group-far",
             ZiratRoadsideKitScenePath);
-        AttachAct1ExteriorKitComponent(
+        var pathPlacement = AttachAct1ExteriorKitComponent(
             presentation,
             components[8].Root!,
             "ZiratAuthoredPathEdge",
-            origin + new Vector3(-4.0f, 0f, -10.0f),
+            origin + new Vector3(4.2f, 0f, -4.2f),
             0f,
             Vector3.One * 0.96f,
             "zirat_road@side-path-edge",
             ZiratRoadsideKitScenePath);
+
+        // Preserve the authored path outline, but seat its entire length on
+        // the same terrain as the player instead of a single flat anchor.
+        var pathRibbon = pathPlacement.GetNode<MeshInstance3D>(
+            "ZiratPathEdge/ZiratPathEdge_PathRibbon_00_LOD0");
+        var sourcePath = pathRibbon.Mesh
+            ?? throw new InvalidOperationException("Zirat path ribbon has no mesh.");
+        var groundedPath = new ArrayMesh();
+        for (var surface = 0; surface < sourcePath.GetSurfaceCount(); surface++)
+        {
+            var arrays = sourcePath.SurfaceGetArrays(surface);
+            var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+            for (var vertex = 0; vertex < vertices.Length; vertex++)
+            {
+                var world = pathRibbon.ToGlobal(vertices[vertex]);
+                var relief = world.Y - pathPlacement.GlobalPosition.Y;
+                world.Y = (float)AgentBAct1HeightField.Ground(world.X, world.Z) + 0.015f + relief;
+                vertices[vertex] = pathRibbon.ToLocal(world);
+            }
+            arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+            using var normals = new SurfaceTool();
+            using var warpedSurface = new ArrayMesh();
+            warpedSurface.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+            normals.CreateFrom(warpedSurface, 0);
+            normals.GenerateNormals();
+            normals.SetMaterial(sourcePath.SurfaceGetMaterial(surface));
+            normals.Commit(groundedPath);
+        }
+        pathRibbon.Mesh = groundedPath;
 
         AttachAct1ExteriorKitComponent(
             presentation,
@@ -2207,6 +2664,11 @@ public partial class Act1ConnectedWorld : Node3D
             Vector3.One,
             "zirat_road@distant-village-transition-east",
             ZiratRoadsideKitScenePath);
+
+        foreach (var suffix in new[] { "", "East" })
+            HideCorePresentationNode(core,
+                "ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratAuthoredDistantVillageTransition" + suffix,
+                "full-depth lateral village houses replace the kit's near-camera backdrop blocks and canopy lumps");
 
         // Only the old core marker grouping is an exact presentation overlap:
         // the authored low/far groups become the zirat's quiet marker read.
@@ -2366,28 +2828,37 @@ public partial class Act1ConnectedWorld : Node3D
             presentation,
             components[8].Root!,
             "KaraFallenLogCluster",
-            origin + new Vector3(-4.8f, 0f, -5.8f),
+            origin + new Vector3(-5.9f, 0f, -5.8f),
             28f,
             Vector3.One * 0.82f,
-            "kara_urman_night@west-ground-breakup",
+            "kara_urman_night@west-ground-breakup-outside-route",
             KaraForestEdgeKitScenePath);
+        // Review pass: the flat boulder discs read as crude plates when they
+        // sit on the road shoulder; move the cluster deeper between trunks
+        // and size it up so it reads as one mossy outcrop.
         AttachAct1ExteriorKitComponent(
             presentation,
             components[9].Root!,
             "KaraMossyBoulderCluster",
-            origin + new Vector3(4.6f, 0f, -3.8f),
-            -20f,
-            Vector3.One * 0.86f,
-            "kara_urman_night@east-ground-breakup",
+            origin + new Vector3(9.5f, 0f, -8.5f),
+            -35f,
+            Vector3.One * 0.95f,
+            "kara_urman_night@east-ground-breakup-outside-route",
             KaraForestEdgeKitScenePath);
+        // Ground life on the slopes, outside the 3.5 m route envelope: muted
+        // stone clusters at trunk roots plus sheltered understory shrubs.
+        AddVisualStoneCluster(presentation, "KaraSlopeStoneEast", origin + new Vector3(8.0f, 0f, 7.0f), 0.45f, "5a5f55");
+        AddVisualStoneCluster(presentation, "KaraSlopeStoneDeepWest", origin + new Vector3(-6.5f, 0f, -9.0f), 0.55f, "565b52");
+        AddVisualShrub(presentation, "KaraRootShrubEast", origin + new Vector3(7.2f, 0f, 1.0f), 0.85f, "2f4439");
+        AddVisualShrub(presentation, "KaraRootShrubWest", origin + new Vector3(-7.8f, 0f, -5.0f), 0.8f, "34443b");
         AttachAct1ExteriorKitComponent(
             presentation,
             components[10].Root!,
             "KaraCrookedStump",
-            origin + new Vector3(-4.6f, 0f, -7.2f),
+            origin + new Vector3(-5.4f, 0f, -7.2f),
             10f,
             Vector3.One * 0.88f,
-            "kara_urman_night@west-ground-landmark",
+            "kara_urman_night@west-ground-landmark-outside-route",
             KaraForestEdgeKitScenePath);
         // The far silhouettes sit just outside the road window: close the
         // horizon with authored tree masses while preserving the central walk
@@ -2411,6 +2882,44 @@ public partial class Act1ConnectedWorld : Node3D
             "kara_urman_night@far-east-window-mass",
             KaraForestEdgeKitScenePath);
 
+        // The shared terrain now owns these low slopes. Keep exposed roots
+        // and deadwood, but retire their separate polygonal ground pedestals.
+        foreach (var side in new[] { "Left", "Right" })
+        foreach (var suffix in new[] { "GroundApron_00_LOD0", "GroundApron_01_LOD0",
+                     "ThresholdRise_00", "ThresholdRise_01", "SplayedShoulder_00",
+                     "SplayedShoulder_01", "RidgeContact_00", "UnderstoryFan_00",
+                     "MossPocket_00", "MossPocket_01", "MossPocket_02" })
+        {
+            var mesh = presentation.GetNode<MeshInstance3D>(
+                $"KaraForestBank{side}/ForestBank_{side}/ForestBank_{side}_{suffix}");
+            mesh.Visible = false;
+            mesh.SetMeta("suppressionReason", "shared terrain owns continuous forest shoulders");
+        }
+        foreach (var side in new[] { "Left", "Right" })
+        foreach (var suffix in new[] { "ContactLobe_00_LOD0", "ContactLobe_01_LOD0",
+                     "LeafLitterPatch_00", "LeafLitterPatch_01", "RootPlate_00", "UnderstoryFan_00" })
+            presentation.GetNode<MeshInstance3D>(
+                $"KaraRootWall{side}/RootWall_{side}/RootWall_{side}_{suffix}").Visible = false;
+
+        // Soil and roots now belong to the shared slopes and rooted tree groups,
+        // not rows of detached plates along the road.
+        foreach (var mesh in FindDescendants<MeshInstance3D>(presentation).ToArray())
+        {
+            var name = mesh.Name.ToString();
+            if (!name.Contains("_ExposedRoot_", StringComparison.Ordinal)
+                && !name.Contains("_RootFinger_", StringComparison.Ordinal)
+                && !name.Contains("_RootTangle_", StringComparison.Ordinal)
+                && !name.Contains("_RootFork_", StringComparison.Ordinal)) continue;
+            mesh.Visible = false;
+        }
+        foreach (var side in new[] { "Left", "Right" })
+        foreach (var suffix in new[] { "Deadwood_00", "Deadwood_01" })
+            presentation.GetNode<MeshInstance3D>(
+                $"KaraForestBank{side}/ForestBank_{side}/ForestBank_{side}_{suffix}").Visible = false;
+        // These enclosing shell crowns are replaced by open branch-canopy stands.
+        foreach (var name in new[] { "KaraMixedTreeClusterLeft", "KaraMixedTreeClusterRight",
+                     "KaraCrookedPineMass", "KaraBirchEdgeMass" })
+            presentation.GetNode<Node3D>(name).Visible = false;
         RegradeKaraEdgeMaterials(presentation);
 
         // The authored tree kits include a few thin preview bough meshes that
@@ -2468,17 +2977,17 @@ public partial class Act1ConnectedWorld : Node3D
         var grade = new Dictionary<string, Material>(StringComparer.Ordinal)
         {
             ["DampEarth"] = PainterlyMaterialLibrary.ForColor("34443b", "earth"),
-            ["LeafLitter"] = PainterlyMaterialLibrary.ForColor("51493b", "earth"),
-            ["PineBark"] = PainterlyMaterialLibrary.ForColor("40352d", "wood_bark"),
-            ["WeatheredWood"] = PainterlyMaterialLibrary.ForColor("594a39", "wood"),
+            ["LeafLitter"] = PainterlyMaterialLibrary.ForColor("f0f4f8", "snow_ground"),
+            ["PineBark"] = PainterlyMaterialLibrary.ForColor("40352d", "bark_pine"),
+            ["WeatheredWood"] = PainterlyMaterialLibrary.ForColor("55493c", "wood"),
             ["CutWood"] = PainterlyMaterialLibrary.ForColor("8b7155", "wood"),
             ["PineFoliage"] = PainterlyMaterialLibrary.ForColor("30483f", "foliage"),
             ["FoliageBlueGreen"] = PainterlyMaterialLibrary.ForColor("48553f", "foliage"),
-            ["BirchBark"] = PainterlyMaterialLibrary.ForColor("68705a", "wood_bark"),
-            ["BirchLeaves"] = PainterlyMaterialLibrary.ForColor("596047", "foliage"),
+            ["BirchBark"] = PainterlyMaterialLibrary.ForColor("68705a", "bark_birch"),
+            ["BirchLeaves"] = PainterlyMaterialLibrary.ForColor("596047", "leaf_birch"),
             ["Understory"] = PainterlyMaterialLibrary.ForColor("3c4d3e", "foliage"),
             ["RootDark"] = PainterlyMaterialLibrary.ForColor("3f332a", "wood_bark"),
-            ["MossGreen"] = PainterlyMaterialLibrary.ForColor("596047", "foliage"),
+            ["MossGreen"] = PainterlyMaterialLibrary.ForColor("c8d1d6", "snow_grass"),
             ["MossyStone"] = PainterlyMaterialLibrary.ForColor("62675c", "stone"),
             ["DistantBlueGreen"] = PainterlyMaterialLibrary.ForColor("2c403b", "foliage"),
             ["DistantFoliage"] = PainterlyMaterialLibrary.ForColor("243a34", "foliage"),
@@ -2510,15 +3019,33 @@ public partial class Act1ConnectedWorld : Node3D
     {
         var grade = new Dictionary<string, Material>(StringComparer.Ordinal)
         {
-            ["WetRoad_RutDark"] = PainterlyMaterialLibrary.ForColor("343d37", "earth"),
-            ["WetRoad_MutedOchre"] = PainterlyMaterialLibrary.ForColor("56544a", "earth"),
-            ["WetRoad_WornLight"] = PainterlyMaterialLibrary.ForColor("625f54", "earth"),
-            ["MuddyShoulder_ClayBreak"] = PainterlyMaterialLibrary.ForColor("625647", "earth"),
-            ["MuddyShoulder_WetBrown"] = PainterlyMaterialLibrary.ForColor("4e4c43", "earth"),
-            ["Ditch_DampGreenBrown"] = PainterlyMaterialLibrary.ForColor("475247", "earth"),
-            ["Puddle_MutedGlint"] = PainterlyMaterialLibrary.ForColor("4d5b56", "water"),
-            ["Puddle_ShallowBlueGreen"] = PainterlyMaterialLibrary.ForColor("404f4c", "water"),
-            ["Ditch_StillWater"] = PainterlyMaterialLibrary.ForColor("384742", "water")
+            // Give the actual crown a darker, calmer value while the
+            // shoulders/ditches use the damp-earth response. This is the
+            // visible road/verge break; the presentation scales above only
+            // keep the existing kit inside the authoritative route clearance.
+            ["WetRoad_RutDark"] = PainterlyMaterialLibrary.ForColor("2f3934", "earth"),
+            ["WetRoad_MutedOchre"] = PainterlyMaterialLibrary.ForColor("4b4d43", "earth"),
+            ["WetRoad_WornLight"] = PainterlyMaterialLibrary.ForColor("59584b", "earth"),
+            ["MuddyShoulder_ClayBreak"] = PainterlyMaterialLibrary.ForColor("746b57", "wet_ground"),
+            ["MuddyShoulder_WetBrown"] = PainterlyMaterialLibrary.ForColor("5c5549", "wet_ground"),
+            ["Ditch_DampGreenBrown"] = PainterlyMaterialLibrary.ForColor("52624e", "wet_ground"),
+            ["Culvert_StoneShadow"] = PainterlyMaterialLibrary.ForColor("50574c", "stone"),
+            ["Culvert_WeatheredStone"] = PainterlyMaterialLibrary.ForColor("737467", "stone"),
+            ["Puddle_MutedGlint"] = PainterlyMaterialLibrary.ForColor("40564f", "water"),
+            ["Puddle_ShallowBlueGreen"] = PainterlyMaterialLibrary.ForColor("354943", "water"),
+            ["Ditch_StillWater"] = PainterlyMaterialLibrary.ForColor("33463f", "water"),
+            // The kit's organic verge family kept raw PBR albedo outside this
+            // table and read as a conspicuous mint-blue mass beside the west
+            // street fence (probe-verified FernShrubBreak owner). Bind them to
+            // the same muted bog palette as the native foliage owners.
+            ["Shrub_BlueGreen"] = PainterlyMaterialLibrary.ForColor("48553f", "foliage"),
+            ["Fern_MossGreen"] = PainterlyMaterialLibrary.ForColor("4e5c48", "foliage"),
+            ["Fern_LeafLight"] = PainterlyMaterialLibrary.ForColor("5c6b4c", "foliage"),
+            ["Grass_SedgeMuted"] = PainterlyMaterialLibrary.ForColor("647159", "foliage"),
+            ["Grass_SedgeDryTips"] = PainterlyMaterialLibrary.ForColor("827b55", "foliage"),
+            ["Moss_WetOlive"] = PainterlyMaterialLibrary.ForColor("4c5a45", "foliage"),
+            ["Fence_DampWood"] = PainterlyMaterialLibrary.ForColor("594a39", "wood_fence"),
+            ["Fence_CutWood"] = PainterlyMaterialLibrary.ForColor("6d5c48", "wood")
         };
 
         var rebound = 0;
@@ -2617,9 +3144,10 @@ public partial class Act1ConnectedWorld : Node3D
         var houseSide = new Vector3(houseApproach.Z, 0f, -houseApproach.X);
         var houseYaw = DirectionYaw(houseApproach);
 
-        // The six authored roots are extracted once from the neutral source
-        // board. Their preview-board origins are removed before a stable
-        // placement node owns the world-space translation, yaw and scale.
+        // The six canonical roots and three full-volume parcel variants are
+        // resolved once from the neutral source board. Their preview-board
+        // origins are removed before stable placement nodes own world-space
+        // translation, yaw and scale.
         var babaiApproachFacade = AttachAct1ExteriorKitComponent(
             presentation,
             components[0].Root!,
@@ -2629,6 +3157,10 @@ public partial class Act1ConnectedWorld : Node3D
             Vector3.One * 0.82f,
             "house_old_pc@babai-approach");
         ApplyHeroWarmWindow(babaiApproachFacade);
+        // Neighbor copies keep this authored leaf closed; the playable house
+        // uses the existing portal/interaction, never a decorative door wall.
+        FindDescendants<MeshInstance3D>(babaiApproachFacade)
+            .Single(mesh => mesh.Name == "DwellingFacade_StreetDoorClosed_LOD0").Visible = false;
         AddBabaiRearFacadeDressing(babaiApproachFacade, Vector3.Zero, 0f);
         AttachAct1ExteriorKitComponent(
             presentation,
@@ -2646,7 +3178,7 @@ public partial class Act1ConnectedWorld : Node3D
             houseYaw - 90f,
             new Vector3(1.85f, 0.82f, 1f),
             "house_old_pc@west-yard-boundary");
-        AttachAct1ExteriorKitComponent(
+        var babaiGate = AttachAct1ExteriorKitComponent(
             presentation,
             components[3].Root!,
             "BabaiYardAuthoredGate",
@@ -2654,6 +3186,13 @@ public partial class Act1ConnectedWorld : Node3D
             houseYaw,
             Vector3.One * 0.92f,
             "house_old_pc@yard-entry");
+        foreach (var mesh in FindDescendants<MeshInstance3D>(babaiGate))
+        {
+            if (mesh.Mesh is not null && mesh.Name.ToString().Contains("Gate_", StringComparison.Ordinal))
+            {
+                mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("718078", "wood_carved");
+            }
+        }
         AttachAct1ExteriorKitComponent(
             presentation,
             components[4].Root!,
@@ -2684,53 +3223,32 @@ public partial class Act1ConnectedWorld : Node3D
         AddAct1AuthoredExteriorParcel(
             arrivalParcels,
             new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "ArrivalWestNearAuthoredFacade",
-                new(-12.8f, 0f, 25.8f),
+                "VillageParcel_VariantA_TimberGable",
+                "ArrivalWestNearAuthoredTimberGableParcel",
+                new(-10.0f, 0f, 25.8f),
                 176f,
-                Vector3.One * 0.78f,
-                "village_day@arrival-west-near-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "Gate_CrookedTimber",
-                "ArrivalWestNearAuthoredGate",
-                new(-8.4f, 0f, 22.0f),
-                176f,
-                Vector3.One * 0.84f,
-                "village_day@arrival-west-near-gate"),
-            new Act1ExteriorParcelComponentPlacement(
-                "FenceSegment_RoughPicket",
-                "ArrivalWestNearAuthoredFence",
-                new(-10.1f, 0f, 23.0f),
-                8f,
-                new Vector3(1.30f, 0.72f, 1f),
-                "village_day@arrival-west-near-fence"),
-            new Act1ExteriorParcelComponentPlacement(
-                "OutbuildingShed_Low",
-                "ArrivalWestNearAuthoredShed",
-                new(-17.0f, 0f, 30.4f),
-                170f,
-                Vector3.One * 0.54f,
-                "village_day@arrival-west-near-shed"));
+                Vector3.One,
+                "village_day@arrival-west-near-timber-gable-parcel"));
         AddAct1AuthoredExteriorParcel(
             arrivalParcels,
             new Act1ExteriorParcelComponentPlacement(
                 "DwellingFacade_TimberPlaster",
                 "ArrivalEastNearAuthoredFacade",
-                new(12.8f, 0f, 26.2f),
+                new(10.0f, 0f, 26.2f),
                 184f,
-                Vector3.One * 0.74f,
+                Vector3.One,
                 "village_day@arrival-east-near-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
                 "ArrivalEastNearAuthoredShed",
-                new(11.8f, 0f, 25.0f),
+                new(9.2f, 0f, 25.0f),
                 184f,
                 Vector3.One * 0.62f,
                 "village_day@arrival-east-near-shed"),
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
                 "ArrivalEastNearAuthoredFence",
-                new(10.2f, 0f, 23.1f),
+                new(7.8f, 0f, 23.1f),
                 172f,
                 new Vector3(1.22f, 0.68f, 1f),
                 "village_day@arrival-east-near-fence"));
@@ -2746,28 +3264,28 @@ public partial class Act1ConnectedWorld : Node3D
             new Act1ExteriorParcelComponentPlacement(
                 "DwellingFacade_TimberPlaster",
                 "ArrivalForwardWestFacade",
-                new(-8.8f, 0f, 0.2f),
+                new(-7.2f, 0f, 3.2f),
                 90f,
-                Vector3.One * 0.66f,
+                Vector3.One * 0.95f,
                 "village_day@arrival-forward-west-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "Gate_CrookedTimber",
                 "ArrivalForwardWestGate",
-                new(-8.4f, 0f, -3.2f),
+                new(-6.4f, 0f, -3.2f),
                 4f,
                 Vector3.One * 0.72f,
                 "village_day@arrival-forward-west-gate"),
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
                 "ArrivalForwardWestFence",
-                new(-10.0f, 0f, -2.1f),
+                new(-7.6f, 0f, -2.1f),
                 8f,
                 new Vector3(1.18f, 0.64f, 1f),
                 "village_day@arrival-forward-west-fence"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
                 "ArrivalForwardWestShed",
-                new(-14.8f, 0f, -10.8f),
+                new(-11.4f, 0f, -10.8f),
                 8f,
                 Vector3.One * 0.46f,
                 "village_day@arrival-forward-west-shed"));
@@ -2776,21 +3294,21 @@ public partial class Act1ConnectedWorld : Node3D
             new Act1ExteriorParcelComponentPlacement(
                 "DwellingFacade_TimberPlaster",
                 "ArrivalForwardEastFacade",
-                new(12.6f, 0f, 1.1f),
+                new(7.8f, 0f, -3.6f),
                 -4f,
-                Vector3.One * 0.58f,
+                Vector3.One * 0.98f,
                 "village_day@arrival-forward-east-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
                 "ArrivalForwardEastShed",
-                new(14.2f, 0f, -8.2f),
+                new(11.2f, 0f, -13.4f),
                 -8f,
                 Vector3.One * 0.44f,
                 "village_day@arrival-forward-east-shed"),
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
                 "ArrivalForwardEastFence",
-                new(10.0f, 0f, -2.0f),
+                new(8.4f, 0f, -6.0f),
                 -8f,
                 new Vector3(1.12f, 0.62f, 1f),
                 "village_day@arrival-forward-east-fence"));
@@ -2801,7 +3319,7 @@ public partial class Act1ConnectedWorld : Node3D
                 "ArrivalFarWestFacade",
                 new(-12.0f, 0f, 49.0f),
                 168f,
-                Vector3.One * 0.44f,
+                Vector3.One * 0.95f,
                 "village_day@arrival-far-west-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
@@ -2833,72 +3351,28 @@ public partial class Act1ConnectedWorld : Node3D
             AddAct1AuthoredExteriorParcel(
                 babaiYardParcels,
                 new Act1ExteriorParcelComponentPlacement(
-                    "DwellingFacade_TimberPlaster",
-                    "BabaiYardWestDepthFacade",
+                    "VillageParcel_VariantC_BanyaYard",
+                    "BabaiYardWestDepthBanyaYardParcel",
                     authoredHousePlacement.Origin + authoredHouseSide * -10.0f - authoredHouseApproach * 3.8f,
                     authoredHouseYaw + 12f,
-                    Vector3.One * 0.48f,
-                    "house_old_pc@west-yard-depth-facade"),
-                new Act1ExteriorParcelComponentPlacement(
-                    "OutbuildingShed_Low",
-                    "BabaiYardWestDepthShed",
-                    authoredHousePlacement.Origin + authoredHouseSide * -7.0f - authoredHouseApproach * 1.0f,
-                    authoredHouseYaw + 8f,
-                    Vector3.One * 0.58f,
-                    "house_old_pc@west-yard-depth-shed"),
-                new Act1ExteriorParcelComponentPlacement(
-                    "FenceSegment_RoughPicket",
-                    "BabaiYardWestDepthFence",
-                    authoredHousePlacement.Origin + authoredHouseSide * -9.5f + authoredHouseApproach * 1.8f,
-                    authoredHouseYaw + 90f,
-                    new Vector3(1.35f, 0.68f, 1f),
-                    "house_old_pc@west-yard-depth-fence"));
+                    Vector3.One * 0.60f,
+                    "house_old_pc@west-yard-depth-banya-yard-parcel"));
             AddAct1AuthoredExteriorParcel(
                 babaiYardParcels,
                 new Act1ExteriorParcelComponentPlacement(
                     "Well_YardLandmark",
                     "BabaiYardAuthoredWell",
-                    authoredHousePlacement.Origin + authoredHouseSide * 2.8f + authoredHouseApproach * 4.0f,
+                    new(-20.0f, 0f, 17.0f),
                     authoredHouseYaw,
                     Vector3.One * 0.82f,
-                    "house_old_pc@yard-well-landmark"),
+                    "house_old_pc@depth-yard-well-landmark"),
                 new Act1ExteriorParcelComponentPlacement(
                     "FenceSegment_RoughPicket",
                     "BabaiYardEastDepthFence",
-                    authoredHousePlacement.Origin + authoredHouseSide * 8.8f - authoredHouseApproach * 2.4f,
+                    new(-10.0f, 0f, 12.0f),
                     authoredHouseYaw - 90f,
-                    new Vector3(1.15f, 0.58f, 1f),
-                    "house_old_pc@east-yard-depth-fence"));
-
-            // The yard review stop looks across the open shoulder from
-            // (-20, 6.5) toward the village edge. Keep the hero threshold and
-            // walk chain untouched; these three small authored cues sit well
-            // outside that corridor and make the visible yard read inhabited.
-            AddAct1AuthoredExteriorParcel(
-                babaiYardParcels,
-                new Act1ExteriorParcelComponentPlacement(
-                    "Well_YardLandmark",
-                    "BabaiYardForwardShoulderWell",
-                    new(-17.2f, 0f, 6.8f),
-                    8f,
-                    Vector3.One * 0.68f,
-                    "house_old_pc@forward-yard-shoulder-well"),
-                new Act1ExteriorParcelComponentPlacement(
-                    "FenceSegment_RoughPicket",
-                    "BabaiYardForwardShoulderFence",
-                    new(-18.7f, 0f, 8.2f),
-                    14f,
-                    new Vector3(1.12f, 0.56f, 1f),
-                    "house_old_pc@forward-yard-shoulder-fence"));
-            AddAct1AuthoredExteriorParcel(
-                babaiYardParcels,
-                new Act1ExteriorParcelComponentPlacement(
-                    "OutbuildingShed_Low",
-                    "BabaiYardForwardShoulderShed",
-                    new(-14.5f, 0f, 10.2f),
-                    16f,
-                    Vector3.One * 0.48f,
-                    "house_old_pc@forward-yard-shoulder-shed"));
+                    new Vector3(1.08f, 0.54f, 1f),
+                    "house_old_pc@forward-right-yard-boundary"));
         }
 
         if (Act1WorldLayout.TryGetPlacement("zirat_road", out var authoredZiratPlacement))
@@ -2913,15 +3387,11 @@ public partial class Act1ConnectedWorld : Node3D
                 Vector3.Zero,
                 "zirat_road@village-edge-authored-parcels",
                 "quiet village-to-zirat boundary; authored structures sit outside the road and marker field");
+            // The former ZiratVillageEdgeWestFacade duplicated the standing
+            // full-depth ZiratVillageMemoryHouseWest core volume right behind
+            // it; the fence boundary below still owns the edge read.
             AddAct1AuthoredExteriorParcel(
                 ziratEdgeParcels,
-                new Act1ExteriorParcelComponentPlacement(
-                    "DwellingFacade_TimberPlaster",
-                    "ZiratVillageEdgeWestFacade",
-                    authoredZiratPlacement.Origin + new Vector3(-14.8f, 0f, 22.5f),
-                    90f,
-                    Vector3.One * 0.46f,
-                    "zirat_road@village-edge-west-facade"),
                 new Act1ExteriorParcelComponentPlacement(
                     "FenceSegment_RoughPicket",
                     "ZiratVillageEdgeWestFence",
@@ -2946,43 +3416,8 @@ public partial class Act1ConnectedWorld : Node3D
                     new Vector3(1.18f, 0.52f, 1f),
                     "zirat_road@village-edge-east-fence"));
 
-            // The village-facing replacements above also close the reverse
-            // view behind the zirat entry. Add a low, side-boundary parcel in
-            // the actual forward ray (camera z=-56 -> target z=-75); the
-            // existing birch/broadleaf line at x +/-14 remains visible behind
-            // it, while the centre markers and quiet path stay unobstructed.
-            AddAct1AuthoredExteriorParcel(
-                ziratEdgeParcels,
-                new Act1ExteriorParcelComponentPlacement(
-                    "DwellingFacade_TimberPlaster",
-                    "ZiratForwardEdgeWestFacade",
-                    new(-13.2f, 0f, -63.2f),
-                    86f,
-                    Vector3.One * 0.34f,
-                    "zirat_road@forward-edge-west-facade"),
-                new Act1ExteriorParcelComponentPlacement(
-                    "FenceSegment_RoughPicket",
-                    "ZiratForwardEdgeWestFence",
-                    new(-9.5f, 0f, -61.8f),
-                    6f,
-                    new Vector3(1.06f, 0.46f, 1f),
-                    "zirat_road@forward-edge-west-fence"));
-            AddAct1AuthoredExteriorParcel(
-                ziratEdgeParcels,
-                new Act1ExteriorParcelComponentPlacement(
-                    "OutbuildingShed_Low",
-                    "ZiratForwardEdgeEastShed",
-                    new(13.8f, 0f, -65.8f),
-                    -86f,
-                    Vector3.One * 0.34f,
-                    "zirat_road@forward-edge-east-shed"),
-                new Act1ExteriorParcelComponentPlacement(
-                    "FenceSegment_RoughPicket",
-                    "ZiratForwardEdgeEastFence",
-                    new(10.0f, 0f, -64.2f),
-                    -6f,
-                    new Vector3(1.04f, 0.44f, 1f),
-                    "zirat_road@forward-edge-east-fence"));
+            // Keep the cemetery edge separate from inhabited plots. The
+            // former .34-scale forward house/shed were camera props.
         }
 
         BuildAct1AuthoredExteriorNeighborParcels(core, presentation);
@@ -3063,19 +3498,32 @@ public partial class Act1ConnectedWorld : Node3D
         AddAct1AuthoredExteriorParcel(
             perimeterParcels,
             new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "PerimeterEastStreetFacade",
-                new(23.0f, 0f, -15.0f),
-                -90f,
-                Vector3.One * 0.46f,
-                "village_day@perimeter-east-street-facade"),
-            new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
                 "PerimeterEastStreetShed",
-                new(20.0f, 0f, -20.0f),
-                -84f,
-                Vector3.One * 0.38f,
-                "village_day@perimeter-east-street-shed"));
+                new(18.4f, 0f, -11.0f),
+                0f,
+                Vector3.One * 0.95f,
+                "village_day@perimeter-east-street-shed"),
+            new Act1ExteriorParcelComponentPlacement(
+                "FenceSegment_RoughPicket", "EastStreetPlotFrontWest",
+                new(18.2f, 0f, -17f), 0f, new(1.15f, 0.82f, 1f),
+                "village_day@east-street-plot-front-west"));
+        AddAct1AuthoredExteriorParcel(
+            perimeterParcels,
+            new Act1ExteriorParcelComponentPlacement(
+                "FenceSegment_RoughPicket", "EastStreetPlotFrontEast",
+                new(28f, 0f, -17f), 0f, new(1.15f, 0.82f, 1f),
+                "village_day@east-street-plot-front-east"));
+        // MainStreetEastNearMidHouse owns this holding, not two miniature
+        // camera-facing dwellings. Leave an open entrance between front runs.
+        using var holdingPath = new Curve3D();
+        holdingPath.AddPoint(new(19f, 0f, -22.5f), Vector3.Zero, new(2f, 0f, 1.4f));
+        holdingPath.AddPoint(new(24f, 0f, -17f), new(0f, 0f, -2f), new(0f, 0f, 2f));
+        holdingPath.AddPoint(new(23f, 0f, -12f), new(.7f, 0f, -1.5f), new(-.7f, 0f, 1.5f));
+        holdingPath.AddPoint(new(21f, 0f, -8.5f), new(.5f, 0f, -1.2f));
+        AddVisualLandformSurface(perimeterParcels, "EastStreetPlotAccessPath",
+            1.1f, .025f, holdingPath.GetBakedLength(), new(0f, .02f, 0f),
+            "685b49", "earth", 0f, true, holdingPath);
         AddAct1AuthoredExteriorParcel(
             perimeterParcels,
             new Act1ExteriorParcelComponentPlacement(
@@ -3100,15 +3548,15 @@ public partial class Act1ConnectedWorld : Node3D
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
                 "WestArrivalMidParcel",
-                new(-31.0f, 0f, 20.5f),
+                new(-24.0f, 0f, 24.0f),
                 "village_day@west-arrival-mid-parcel",
                 "mid-field house and broken fence; arrival side turn"),
             new Act1ExteriorParcelComponentPlacement(
                 "DwellingFacade_TimberPlaster",
                 "WestArrivalMidFacade",
                 Vector3.Zero,
-                86f,
-                Vector3.One * 0.62f,
+                82f,
+                Vector3.One * 0.64f,
                 "village_day@west-arrival-mid-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
@@ -3128,15 +3576,15 @@ public partial class Act1ConnectedWorld : Node3D
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
                 "EastArrivalMidParcel",
-                new(31.5f, 0f, 22.5f),
+                new(27.0f, 0f, 27.0f),
                 "village_day@east-arrival-mid-parcel",
                 "mid-field house and yard edge; arrival side turn"),
             new Act1ExteriorParcelComponentPlacement(
                 "DwellingFacade_TimberPlaster",
                 "EastArrivalMidFacade",
                 Vector3.Zero,
-                -88f,
-                Vector3.One * 0.60f,
+                -101f,
+                Vector3.One * 0.56f,
                 "village_day@east-arrival-mid-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "Woodpile_StackedLogs",
@@ -3156,15 +3604,15 @@ public partial class Act1ConnectedWorld : Node3D
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
                 "WestStreetMidParcel",
-                new(-31.5f, 0f, -9.5f),
+                new(-25.0f, 0f, -11.0f),
                 "village_day@west-street-mid-parcel",
                 "staggered side house closes the main-street reverse field"),
             new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
+                "VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Dwelling",
                 "WestStreetMidFacade",
                 Vector3.Zero,
-                94f,
-                Vector3.One * 0.56f,
+                101f,
+                Vector3.One * 0.90f,
                 "village_day@west-street-mid-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
@@ -3177,23 +3625,16 @@ public partial class Act1ConnectedWorld : Node3D
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
                 "EastStreetMidParcel",
-                new(32.5f, 0f, -14.5f),
+                new(25.3f, 0f, -19.2f),
                 "village_day@east-street-mid-parcel",
                 "staggered side house closes the main-street side field"),
             new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
+                "VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling",
                 "EastStreetMidFacade",
                 Vector3.Zero,
-                -94f,
-                Vector3.One * 0.54f,
-                "village_day@east-street-mid-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "OutbuildingShed_Low",
-                "EastStreetMidShed",
-                new(-4.2f, 0f, 3.2f),
-                -102f,
-                Vector3.One * 0.40f,
-                "village_day@east-street-mid-shed"));
+                -82f,
+                Vector3.One * 0.88f,
+                "village_day@east-street-mid-facade"));
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
@@ -3202,11 +3643,11 @@ public partial class Act1ConnectedWorld : Node3D
                 "zirat_road@west-return-mid-parcel",
                 "low return-street house and fence; quiet transition toward zirat"),
             new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
+                "VillageParcel_VariantB_PlasterAnnex/VillageParcel_VariantB_PlasterAnnex_Dwelling",
                 "WestReturnMidFacade",
                 Vector3.Zero,
                 88f,
-                Vector3.One * 0.50f,
+                Vector3.One * 0.90f,
                 "zirat_road@west-return-mid-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
@@ -3223,11 +3664,11 @@ public partial class Act1ConnectedWorld : Node3D
                 "zirat_road@east-return-mid-parcel",
                 "low return-street house and shed; quiet transition toward zirat"),
             new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
+                "VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Dwelling",
                 "EastReturnMidFacade",
                 Vector3.Zero,
                 -88f,
-                Vector3.One * 0.48f,
+                Vector3.One * 0.90f,
                 "zirat_road@east-return-mid-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
@@ -3313,34 +3754,14 @@ public partial class Act1ConnectedWorld : Node3D
                 10f,
                 Vector3.One * 0.66f,
                 "village_day@west-street-near-woodpile"));
-        AddAct1AuthoredExteriorParcel(
-            AddAct1ExteriorParcelSubmount(
-                perimeterParcels,
-                "EastStreetNearParcel",
-                new(18.5f, 0f, -14.0f),
-                "village_day@east-street-near-parcel",
-                "near-side house closes the main-street lateral field"),
-            new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "EastStreetNearFacade",
-                Vector3.Zero,
-                -94f,
-                Vector3.One * 0.60f,
-                "village_day@east-street-near-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "Gate_CrookedTimber",
-                "EastStreetNearGate",
-                new(-3.9f, 0f, 3.5f),
-                174f,
-                Vector3.One * 0.72f,
-                "village_day@east-street-near-gate"));
+        // The FAP-branch holding has one full-size house and shared front
+        // boundary above; do not recreate an undersized near-camera parcel.
 
         // Close the four lateral review sectors with already-cached authored
         // facade families. These are distant presentation silhouettes only;
         // route, collision and narrative owners remain untouched.
-        AddAuthoredHouse(perimeterParcels, "BabaiEastYardDepthHouse", new(-5.5f, 1.1f, 10.5f), 0.32f, 180f);
-        AddVisualFenceRun(perimeterParcels, "BabaiEastYardDepthFence", new(-9.0f, 0f, 9.0f), new(-4.0f, 0f, 11.0f));
-        AddAuthoredHouse(perimeterParcels, "EastStreetFarHouse", new(39.0f, 1.1f, -18.0f), 0.30f, -90f);
+        // FapRightFieldHouse owns this full-size plot; the old miniature
+        // horizon house expanded into its footprint after the kit upgrade.
         AddVisualFenceRun(perimeterParcels, "EastStreetFarFence", new(35.0f, 0f, -22.0f), new(41.0f, 0f, -22.0f));
         AddAuthoredHouse(perimeterParcels, "FapEastViewHouse", new(40.0f, 1.1f, -28.0f), 0.28f, 176f);
         AddAuthoredHouse(perimeterParcels, "ZiratEastBoundaryHouse", new(22.0f, 1.0f, -73.0f), 0.25f, -90f);
@@ -3355,15 +3776,15 @@ public partial class Act1ConnectedWorld : Node3D
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
                 "EastStreetHorizonParcel",
-                new(41.0f, 0f, 24.0f),
+                new(33.5f, 0f, 18.0f),
                 "village_day@east-street-horizon",
                 "distant east boundary closes the main-street lateral field"),
             new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
+                "VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling",
                 "EastStreetHorizonFacade",
                 Vector3.Zero,
-                -92f,
-                Vector3.One * 0.34f,
+                -106f,
+                Vector3.One * 0.88f,
                 "village_day@east-street-horizon-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
@@ -3375,49 +3796,43 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualTree(perimeterParcels, "EastStreetHorizonBirch", new(48.0f, 0f, 31.5f), 8.2f, VegetationStyle.Birch, "596047");
         AddVisualTree(perimeterParcels, "EastStreetHorizonConifer", new(55.0f, 0f, 28.0f), 9.4f, VegetationStyle.Conifer, "30483f");
 
+        // The former 0.44/0.48-scale VariantB parcel read as a miniature
+        // house between full-sized dwellings. Replace it with the existing
+        // full-scale gable shed family, a coherent picket service boundary
+        // with a yard-side opening, and firewood dressing. The shed door
+        // face (+Z local at yaw 0; door/trim/window meshes at z ~+1.2/+1.4)
+        // turns toward the house-path and babai depth cameras; the mount
+        // keeps HousePathAxis and the hero threshold open. Presentation-only;
+        // collision/navigation/interaction owners remain untouched.
+        // Review-corrected layout: the service yard moved north of the drawn
+        // house-path corridor (connector half-width 2.4 m around z(x)), the
+        // west/rear runs were dropped because the existing kit fence and the
+        // neighbour fence at z=16 already own those edges, and the remaining
+        // L-boundary stays >=0.3 m off the path envelope.
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
                 "BabaiEastDepthParcel",
-                new(5.0f, 0f, 15.0f),
-                "house_old_pc@east-depth-boundary",
-                "far east yard parcel closes the Babai reverse turn without narrowing the house path"),
+                new(-5.5f, 0f, 13.5f),
+                "house_old_pc@east-depth-service-yard",
+                "staggered east service yard; full-scale shed, firewood and boundary close the depth view without narrowing the house path"),
             new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "BabaiEastDepthFacade",
-                Vector3.Zero,
-                178f,
-                Vector3.One * 0.30f,
-                "house_old_pc@east-depth-boundary-facade"),
+                "OutbuildingShed_Low",
+                "BabaiEastDepthServiceShed",
+                new(0.6f, 0f, 0.0f),
+                -80f,
+                Vector3.One * 0.85f,
+                "house_old_pc@east-depth-service-shed"),
             new Act1ExteriorParcelComponentPlacement(
-                "FenceSegment_RoughPicket",
-                "BabaiEastDepthFence",
-                new(-3.5f, 0f, 3.6f),
-                176f,
-                new(1.15f, 0.50f, 1f),
-                "house_old_pc@east-depth-boundary-fence"));
+                "Woodpile_StackedLogs",
+                "BabaiEastDepthServiceWoodpile",
+                new(1.2f, 0f, 1.0f),
+                8f,
+                Vector3.One,
+                "house_old_pc@east-depth-service-firewood"));
+        AddVisualFenceRun(perimeterParcels, "BabaiEastDepthServiceBoundaryEast", new(-2.5f, 0f, 12.0f), new(-2.5f, 0f, 15.8f), true);
+        AddVisualFenceRun(perimeterParcels, "BabaiEastDepthServiceBoundaryNorth", new(-6.2f, 0f, 15.8f), new(-2.5f, 0f, 15.8f), true);
 
-        AddAct1AuthoredExteriorParcel(
-            AddAct1ExteriorParcelSubmount(
-                perimeterParcels,
-                "ZiratEastHorizonParcel",
-                new(31.0f, 0f, -78.0f),
-                "zirat_road@east-horizon-boundary",
-                "distant east field edge preserves the cemetery transition without a wall"),
-            new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "ZiratEastHorizonFacade",
-                Vector3.Zero,
-                -88f,
-                Vector3.One * 0.28f,
-                "zirat_road@east-horizon-boundary-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "FenceSegment_RoughPicket",
-                "ZiratEastHorizonFence",
-                new(4.8f, 0f, 2.8f),
-                4f,
-                new(1.05f, 0.48f, 1f),
-                "zirat_road@east-horizon-boundary-fence"));
         AddVisualTree(perimeterParcels, "ZiratEastHorizonBirch", new(38.0f, 0f, -84.0f), 8.4f, VegetationStyle.Birch, "596047");
 
         // The fixed MainStreet right turn still looked across the road fence
@@ -3425,20 +3840,17 @@ public partial class Act1ConnectedWorld : Node3D
         // camera ray closes that read with a house, shed and broken boundary;
         // it stays outside the route envelope and reuses the existing authored
         // village family instead of adding another procedural wall.
+        // Review pass: this parcel's facade volume intersected the adjacent
+        // full-volume MainStreetEastNearMidHouse (two building shells merged
+        // at the road side). The near-mid house owns the closure read; the
+        // parcel keeps its shed, broken fence and trees as its yard.
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
                 "EastStreetSideClosureParcel",
                 new(25.0f, 0f, -5.5f),
                 "village_day@east-street-side-closure",
-                "near-mid east parcel closes the MainStreet right-turn field while preserving the road window"),
-            new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "EastStreetSideClosureFacade",
-                Vector3.Zero,
-                -100f,
-                Vector3.One * 0.58f,
-                "village_day@east-street-side-closure-facade"),
+                "near-mid east yard of the near-mid holding; shed and broken fence close the right-turn field while preserving the road window"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
                 "EastStreetSideClosureShed",
@@ -3467,54 +3879,10 @@ public partial class Act1ConnectedWorld : Node3D
             "earth",
             22f);
 
-        // Zirat keeps a quiet open boundary, but the same right-turn test
-        // otherwise ended on a flat field. One low parcel and two varied edge
-        // trees provide a human-scale village-to-cemetery transition without
-        // turning the cemetery into a generic forest wall.
-        AddAct1AuthoredExteriorParcel(
-            AddAct1ExteriorParcelSubmount(
-                perimeterParcels,
-                "ZiratEastFieldEdgeParcel",
-                new(24.0f, 0f, -61.0f),
-                "zirat_road@east-field-edge",
-                "quiet east cemetery boundary keeps the lateral horizon inhabited and sparse"),
-            new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "ZiratEastFieldEdgeFacade",
-                Vector3.Zero,
-                -82f,
-                Vector3.One * 0.34f,
-                "zirat_road@east-field-edge-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "FenceSegment_RoughPicket",
-                "ZiratEastFieldEdgeFence",
-                new(4.2f, 0f, 3.0f),
-                4f,
-                new(1.08f, 0.46f, 1f),
-                "zirat_road@east-field-edge-fence"));
+        // Retain a quiet, open cemetery boundary beside the full-depth houses;
+        // these two edge trees are not a substitute for inhabited plots.
         AddVisualTree(perimeterParcels, "ZiratEastFieldEdgeBirch", new(31.5f, 0f, -64.5f), 7.1f, VegetationStyle.Birch, "596047");
         AddVisualTree(perimeterParcels, "ZiratEastFieldEdgeConifer", new(34.0f, 0f, -71.0f), 8.0f, VegetationStyle.Conifer, "30483f");
-        AddAct1AuthoredExteriorParcel(
-            AddAct1ExteriorParcelSubmount(
-                perimeterParcels,
-                "ZiratWestFieldEdgeParcel",
-                new(-23.0f, 0f, -67.0f),
-                "zirat_road@west-field-edge",
-                "quiet west cemetery boundary keeps the lateral horizon inhabited without entering the marker field"),
-            new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "ZiratWestFieldEdgeFacade",
-                Vector3.Zero,
-                92f,
-                Vector3.One * 0.30f,
-                "zirat_road@west-field-edge-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "FenceSegment_RoughPicket",
-                "ZiratWestFieldEdgeFence",
-                new(3.8f, 0f, 2.6f),
-                2f,
-                new Vector3(1.0f, 0.42f, 1f),
-                "zirat_road@west-field-edge-fence"));
 
         // These are exact presentation descendants whose anchors and roles
         // overlap the authored replacements above. Route floors, connector
@@ -3562,6 +3930,26 @@ public partial class Act1ConnectedWorld : Node3D
             "Arrival/ArrivalEastNearParcelShed",
             "authored arrival east shed replaces the overlapping primitive near-parcel shed",
             required: false);
+        HideCorePresentationNode(
+            core,
+            "Arrival/ArrivalWestNearSetbackGate",
+            "authored arrival west gate replaces the overlapping primitive near-setback gate");
+        foreach (var (relativePath, reason) in new (string RelativePath, string Reason)[]
+                 {
+                     ("Arrival/ArrivalWestNearSetbackFenceRail", "authored arrival west fence replaces the overlapping primitive near-setback rail"),
+                     ("Arrival/ArrivalWestNearSetbackFencePost0", "authored arrival west fence replaces the overlapping primitive near-setback post"),
+                     ("Arrival/ArrivalWestNearSetbackFencePost1", "authored arrival west fence replaces the overlapping primitive near-setback post"),
+                     ("Arrival/ArrivalWestNearSetbackFencePost2", "authored arrival west fence replaces the overlapping primitive near-setback post"),
+                     ("Arrival/ArrivalWestNearSetbackFencePost3", "authored arrival west fence replaces the overlapping primitive near-setback post"),
+                     ("Arrival/ArrivalEastNearSetbackFenceRail", "authored arrival east fence replaces the overlapping primitive near-setback rail"),
+                     ("Arrival/ArrivalEastNearSetbackFencePost0", "authored arrival east fence replaces the overlapping primitive near-setback post"),
+                     ("Arrival/ArrivalEastNearSetbackFencePost1", "authored arrival east fence replaces the overlapping primitive near-setback post"),
+                     ("Arrival/ArrivalEastNearSetbackFencePost2", "authored arrival east fence replaces the overlapping primitive near-setback post"),
+                     ("Arrival/ArrivalEastNearSetbackFencePost3", "authored arrival east fence replaces the overlapping primitive near-setback post")
+                 })
+        {
+            HideCorePresentationNode(core, relativePath, reason);
+        }
 
         importedRoot.QueueFree();
     }
@@ -3646,34 +4034,8 @@ public partial class Act1ConnectedWorld : Node3D
                 174f,
                 new Vector3(1.20f, 0.60f, 1f),
                 "village_day@arrival-east-lateral-fence"));
-        AddAct1AuthoredExteriorParcel(
-            AddAct1ExteriorParcelSubmount(
-                village,
-                "MainStreetEastLateralParcel",
-                new(11.0f, 0f, -12.0f),
-                "village_day@main-street-east-lateral-closure",
-                "one staggered east parcel closes the fixed MainStreet right turn while preserving the branch and road windows"),
-            new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "MainStreetEastLateralFacade",
-                Vector3.Zero,
-                -96f,
-                Vector3.One * 0.62f,
-                "village_day@main-street-east-lateral-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "OutbuildingShed_Low",
-                "MainStreetEastLateralShed",
-                new(-4.2f, 0f, 3.4f),
-                -86f,
-                Vector3.One * 0.44f,
-                "village_day@main-street-east-lateral-shed"),
-            new Act1ExteriorParcelComponentPlacement(
-                "FenceSegment_RoughPicket",
-                "MainStreetEastLateralFence",
-                new(-2.8f, 0f, 4.2f),
-                6f,
-                new Vector3(1.26f, 0.58f, 1f),
-                "village_day@main-street-east-lateral-fence"));
+        // MainStreetEastNeighborFacade owns the plot at (9.8,-10.5).
+        // A separate lateral-camera parcel here intersected its house/yard.
 
         // The accepted reverse/lateral frames still expose the outer field
         // beyond the existing lateral parcels. Keep the closure sparse and
@@ -3715,9 +4077,9 @@ public partial class Act1ConnectedWorld : Node3D
             AddAct1ExteriorParcelSubmount(
                 village,
                 "ArrivalLeftHorizonDomesticParcel",
-                new(-32.0f, 0f, 30.5f),
+                new(-24.0f, 0f, 27.5f),
                 "village_day@arrival-left-horizon-domestic-facade",
-                "far left horizon dwelling silhouette; lateral route window remains open"),
+                "mid/far left village-edge dwelling silhouette; lateral route window remains open"),
             new Act1ExteriorParcelComponentPlacement(
                 "DwellingFacade_TimberPlaster",
                 "ArrivalLeftHorizonDomesticFacade",
@@ -3729,9 +4091,9 @@ public partial class Act1ConnectedWorld : Node3D
             AddAct1ExteriorParcelSubmount(
                 village,
                 "ArrivalRightHorizonDomesticParcel",
-                new(31.0f, 0f, 33.0f),
+                new(24.0f, 0f, 29.0f),
                 "village_day@arrival-right-horizon-domestic-fence",
-                "far right horizon fence silhouette; lateral route window remains open"),
+                "mid/far right village-edge fence silhouette; lateral route window remains open"),
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
                 "ArrivalRightHorizonDomesticFence",
@@ -3767,20 +4129,8 @@ public partial class Act1ConnectedWorld : Node3D
                 6f,
                 new Vector3(1.16f, 0.50f, 1f),
                 "fap_clinic@reverse-west-domestic-fence"));
-        AddAct1AuthoredExteriorParcel(
-            AddAct1ExteriorParcelSubmount(
-                village,
-                "FapReverseEastDomesticShedParcel",
-                new(29.5f, 0f, -21.5f),
-                "fap_clinic@reverse-east-domestic-shed",
-                "mid FAP-right shed silhouette; clinic door and branch approach remain open"),
-            new Act1ExteriorParcelComponentPlacement(
-                "OutbuildingShed_Low",
-                "FapReverseEastDomesticShed",
-                Vector3.Zero,
-                -90f,
-                Vector3.One * 0.50f,
-                "fap_clinic@reverse-east-domestic-shed"));
+        // The clinic's service yard already owns a full-scale shed. The
+        // half-scale camera prop in front of its approach read as a toy hut.
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
                 village,
@@ -3845,11 +4195,9 @@ public partial class Act1ConnectedWorld : Node3D
                 ("ForestBank_Left", "KaraClosureWestBank", new Vector3(-13.0f, 0f, -114.0f), -16f, Vector3.One * 0.76f, "kara_urman_night@west-lateral-bank"),
                 ("MixedTreeCluster_Left", "KaraClosureWestMixedTrees", new Vector3(-15.0f, 0f, -121.0f), -20f, Vector3.One * 0.76f, "kara_urman_night@west-lateral-mixed-trees"),
                 ("RootWall_Left", "KaraClosureWestRootWall", new Vector3(-12.0f, 0f, -118.0f), -12f, Vector3.One * 0.70f, "kara_urman_night@west-lateral-root-wall"),
-                ("DistantForestMass_Low", "KaraClosureWestDistantMass", new Vector3(-20.5f, 0f, -104.0f), -8f, Vector3.One * 0.68f, "kara_urman_night@west-lateral-distant-mass"),
                 ("ForestBank_Right", "KaraClosureEastBank", new Vector3(13.0f, 0f, -115.0f), 18f, Vector3.One * 0.76f, "kara_urman_night@east-lateral-bank"),
                 ("MixedTreeCluster_Right", "KaraClosureEastMixedTrees", new Vector3(15.0f, 0f, -122.0f), 22f, Vector3.One * 0.76f, "kara_urman_night@east-lateral-mixed-trees"),
-                ("RootWall_Right", "KaraClosureEastRootWall", new Vector3(12.0f, 0f, -119.0f), 20f, Vector3.One * 0.70f, "kara_urman_night@east-lateral-root-wall"),
-                ("DistantForestMass_Tall", "KaraClosureEastDistantMass", new Vector3(20.5f, 0f, -105.5f), 11f, Vector3.One * 0.68f, "kara_urman_night@east-lateral-distant-mass")
+                ("RootWall_Right", "KaraClosureEastRootWall", new Vector3(12.0f, 0f, -119.0f), 20f, Vector3.One * 0.70f, "kara_urman_night@east-lateral-root-wall")
             };
 
             foreach (var (componentName, placementName, anchor, yaw, scale, logicalAnchor) in placements)
@@ -3957,57 +4305,16 @@ public partial class Act1ConnectedWorld : Node3D
 
         // MainStreet deliberately uses the existing near-setback and east-barn
         // anchors, offset along the street and on opposite sides of the route.
-        // The placement offsets for fences/gates/sheds line up with their
-        // matching core presentation primitives; the added woodpiles remain
-        // small parcel details and never enter the road window.
-        var mainStreetWest = AddAct1ExteriorParcelSubmount(
-            mainStreetParcels,
-            "WestParcel",
-            new(-11.8f, 0f, 5.2f),
-            "village_day@main-street-west-parcel",
-            "near west parcel; road-facing facade, partial boundary and open approach");
-        AddAct1AuthoredExteriorParcel(
-            mainStreetWest,
-            new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "MainStreetWestNeighborFacade",
-                Vector3.Zero,
-                DirectionYaw(-mainStreetSide) - 4f,
-                new Vector3(0.76f, 0.80f, 0.76f),
-                "village_day@main-street-west-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "FenceSegment_RoughPicket",
-                "MainStreetWestNeighborFence",
-                new(3.3f, 0f, -1.45f),
-                mainStreetYaw + 6f,
-                new Vector3(1.32f, 0.76f, 1f),
-                "village_day@main-street-west-partial-fence"),
-            new Act1ExteriorParcelComponentPlacement(
-                "Gate_CrookedTimber",
-                "MainStreetWestNeighborGate",
-                new(3.1f, 0f, -1.7f),
-                DirectionYaw(-mainStreetSide) - 2f,
-                new Vector3(0.78f, 0.92f, 0.80f),
-                "village_day@main-street-west-gate"),
-            new Act1ExteriorParcelComponentPlacement(
-                "OutbuildingShed_Low",
-                "MainStreetWestNeighborShed",
-                new(-0.8f, 0f, -12.4f),
-                mainStreetYaw - 8f,
-                new Vector3(0.74f, 0.70f, 0.82f),
-                "village_day@main-street-west-shed"),
-            new Act1ExteriorParcelComponentPlacement(
-                "Woodpile_StackedLogs",
-                "MainStreetWestNeighborWoodpile",
-                new(-3.8f, 0f, -4.5f),
-                mainStreetYaw + 88f,
-                Vector3.One * 0.72f,
-                "village_day@main-street-west-woodpile"));
+        // The west anchor now carries one full-volume plaster-annex parcel;
+        // the east-side canonical components retain the smaller staggered
+        // boundary and outbuilding rhythm without narrowing the road window.
+        // ArrivalForwardWestFacade owns this holding. The former WestParcel
+        // was a second house in its expanded footprint, not another property.
 
         var mainStreetEast = AddAct1ExteriorParcelSubmount(
             mainStreetParcels,
             "EastParcel",
-            new(16.2f, 0f, -10.5f),
+            new(9.8f, 0f, -10.5f),
             "village_day@main-street-east-parcel",
             "mid east parcel; staggered facade and partial boundary keep the road window open");
         AddAct1AuthoredExteriorParcel(
@@ -4022,15 +4329,15 @@ public partial class Act1ConnectedWorld : Node3D
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
                 "MainStreetEastNeighborFence",
-                new(-7.45f, 0f, 14.75f),
-                mainStreetYaw - 7f,
-                new Vector3(1.48f, 0.70f, 1f),
+                new(-4.0f, 0f, 1.0f),
+                90f,
+                new Vector3(1.10f, 0.70f, 1f),
                 "village_day@main-street-east-partial-fence"),
             new Act1ExteriorParcelComponentPlacement(
                 "Gate_CrookedTimber",
                 "MainStreetEastNeighborGate",
-                new(-7.4f, 0f, 13.3f),
-                DirectionYaw(mainStreetSide) + 4f,
+                new(-4.0f, 0f, 5.2f),
+                90f,
                 new Vector3(0.72f, 0.86f, 0.74f),
                 "village_day@main-street-east-gate"),
             new Act1ExteriorParcelComponentPlacement(
@@ -4038,7 +4345,7 @@ public partial class Act1ConnectedWorld : Node3D
                 "MainStreetEastNeighborShed",
                 new(-4.5f, 0f, 8.5f),
                 mainStreetYaw + 11f,
-                new Vector3(0.68f, 0.66f, 0.76f),
+                Vector3.One * 0.95f,
                 "village_day@main-street-east-shed"),
             new Act1ExteriorParcelComponentPlacement(
                 "Woodpile_StackedLogs",
@@ -4047,11 +4354,10 @@ public partial class Act1ConnectedWorld : Node3D
                 mainStreetYaw - 86f,
                 Vector3.One * 0.64f,
                 "village_day@main-street-east-woodpile"));
-
         // The standard main-street forward frame is at z=2.4 and looks to
         // z=-15. The two existing parcels remain tied to their suppressed
         // blockout anchors; this smaller staggered pair occupies the real
-        // forward camera rays at x +/-12..14 without narrowing the road.
+        // forward camera rays at roughly x +/-7..10 without narrowing the road.
         var mainStreetForwardWest = AddAct1ExteriorParcelSubmount(
             mainStreetParcels,
             "ForwardWestParcel",
@@ -4063,61 +4369,34 @@ public partial class Act1ConnectedWorld : Node3D
             new Act1ExteriorParcelComponentPlacement(
                 "DwellingFacade_TimberPlaster",
                 "MainStreetForwardWestFacade",
-                new(-12.0f, 0f, -4.0f),
+                new(-8.8f, 0f, -12.8f),
                 DirectionYaw(-mainStreetSide) - 2f,
-                Vector3.One * 0.54f,
+                Vector3.One * 0.95f,
                 "village_day@main-street-forward-west-facade"),
             new Act1ExteriorParcelComponentPlacement(
                 "Gate_CrookedTimber",
                 "MainStreetForwardWestGate",
-                new(-8.8f, 0f, -6.4f),
-                DirectionYaw(-mainStreetSide),
+                new(-6.5f, 0f, -8.8f),
+                0f,
                 Vector3.One * 0.68f,
                 "village_day@main-street-forward-west-gate"),
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
                 "MainStreetForwardWestFence",
-                new(-10.3f, 0f, -5.5f),
-                mainStreetYaw + 8f,
+                new(-10.5f, 0f, -8.8f),
+                0f,
                 new Vector3(1.15f, 0.62f, 1f),
                 "village_day@main-street-forward-west-fence"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
                 "MainStreetForwardWestShed",
-                new(-14.2f, 0f, -14.8f),
+                new(-17.0f, 0f, -14.8f),
                 mainStreetYaw - 8f,
-                Vector3.One * 0.42f,
+                Vector3.One * 0.62f,
                 "village_day@main-street-forward-west-shed"));
 
-        var mainStreetForwardEast = AddAct1ExteriorParcelSubmount(
-            mainStreetParcels,
-            "ForwardEastParcel",
-            Vector3.Zero,
-            "village_day@main-street-forward-east",
-            "mid east facade and shed close the forward side field without entering the branch or road window");
-        AddAct1AuthoredExteriorParcel(
-            mainStreetForwardEast,
-            new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "MainStreetForwardEastFacade",
-                new(13.2f, 0f, -11.5f),
-                DirectionYaw(mainStreetSide) + 3f,
-                Vector3.One * 0.50f,
-                "village_day@main-street-forward-east-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "OutbuildingShed_Low",
-                "MainStreetForwardEastShed",
-                new(10.0f, 0f, -8.6f),
-                mainStreetYaw + 10f,
-                Vector3.One * 0.40f,
-                "village_day@main-street-forward-east-shed"),
-            new Act1ExteriorParcelComponentPlacement(
-                "FenceSegment_RoughPicket",
-                "MainStreetForwardEastFence",
-                new(9.2f, 0f, -10.0f),
-                mainStreetYaw - 8f,
-                new Vector3(1.12f, 0.60f, 1f),
-                "village_day@main-street-forward-east-fence"));
+        // The same EastParcel is visible from both directions. Do not add a
+        // second house/fence/shed merely to serve the forward camera.
 
         // The connective parcel is intentionally deeper than the MainStreet
         // pair. Its side shed and fence break up the reverse view without
@@ -4125,39 +4404,18 @@ public partial class Act1ConnectedWorld : Node3D
         var connectiveDeep = AddAct1ExteriorParcelSubmount(
             connectiveStreetParcels,
             "DeepParcel",
-            new(-18.0f, 0f, -29.5f),
+            new(-11.5f, 0f, -29.5f),
             "village_day@connective-street-deep-parcel",
             "deep west parcel; road-facing facade recedes toward the return route");
         AddAct1AuthoredExteriorParcel(
             connectiveDeep,
             new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "ConnectiveStreetDeepNeighborFacade",
+                "VillageParcel_VariantC_BanyaYard",
+                "ConnectiveStreetDeepBanyaYardParcel",
                 Vector3.Zero,
                 DirectionYaw(-returnSide) - 12f,
                 new Vector3(0.60f, 0.64f, 0.60f),
-                "village_day@connective-street-deep-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "OutbuildingShed_Low",
-                "ConnectiveStreetSideOutbuilding",
-                new(6.3f, 0f, -7.0f),
-                returnYaw + 15f,
-                new Vector3(0.64f, 0.62f, 0.70f),
-                "village_day@connective-street-side-outbuilding"),
-            new Act1ExteriorParcelComponentPlacement(
-                "FenceSegment_RoughPicket",
-                "ConnectiveStreetDeepNeighborFence",
-                new(5.0f, 0f, 1.8f),
-                returnYaw + 18f,
-                new Vector3(1.18f, 0.66f, 1f),
-                "village_day@connective-street-deep-fence"),
-            new Act1ExteriorParcelComponentPlacement(
-                "Woodpile_StackedLogs",
-                "ConnectiveStreetSideWoodpile",
-                new(4.2f, 0f, -3.8f),
-                returnYaw + 102f,
-                Vector3.One * 0.58f,
-                "village_day@connective-street-side-woodpile"));
+                "village_day@connective-street-deep-banya-yard-parcel"));
 
         // ReturnStreet is a low, distant transition only. It stays on the
         // outer west parcel, away from the connector centerline and far ahead
@@ -4165,7 +4423,7 @@ public partial class Act1ConnectedWorld : Node3D
         var returnDistant = AddAct1ExteriorParcelSubmount(
             returnStreetParcels,
             "DistantParcel",
-            new(-18.5f, 0f, -48.5f),
+            new(-11.0f, 0f, -48.5f),
             "zirat_road@return-street-distant-parcel",
             "low far parcel; transition toward zirat with road and landmark sightline clear");
         AddAct1AuthoredExteriorParcel(
@@ -4199,38 +4457,38 @@ public partial class Act1ConnectedWorld : Node3D
         AddAuthoredHouse(
             returnStreetParcels,
             "ReturnWestFarHouse1Silhouette",
-            new(-19.8f, 1.0f, -52.7f),
+            new(-12.0f, 1.0f, -52.7f),
             0.26f,
             90f);
         AddAuthoredHouse(
             returnStreetParcels,
             "ReturnWestBanyaSilhouette",
-            new(-13.6f, 0.78f, -45.5f),
+            new(-9.0f, 0.78f, -45.5f),
             0.20f,
             84f);
         AddAuthoredHouse(
             returnStreetParcels,
             "ReturnEastFarHouse2Silhouette",
-            new(16.8f, 0.92f, -53.0f),
+            new(11.5f, 0.92f, -53.0f),
             0.24f,
             -90f);
         AddAuthoredHouse(
             connectiveStreetParcels,
             "ConnectiveEastHouseA6Silhouette",
-            new(10.4f, 0.86f, -32.0f),
+            new(8.5f, 0.86f, -32.0f),
             0.22f,
             -90f);
         AddAuthoredHouse(
             returnStreetParcels,
             "ReturnEastHouseA8Silhouette",
-            new(10.6f, 0.84f, -42.5f),
+            new(8.5f, 0.84f, -42.5f),
             0.22f,
             -90f);
 
         var houseExteriorWest = AddAct1ExteriorParcelSubmount(
             houseExteriorParcels,
             "WestSideParcel",
-            new(-38.0f, 0f, -6.0f),
+            new(-38.0f, (float)AgentBAct1HeightField.Ground(-38f, -6f) + 0.03f, -6.0f),
             "house_old_pc@west-side-parcel",
             "authored side facade closes the house reverse view while keeping the hero approach open");
         AddAct1AuthoredExteriorParcel(
@@ -4484,14 +4742,23 @@ public partial class Act1ConnectedWorld : Node3D
         placement.SetMeta("logicalAnchor", logicalAnchor);
         parent.AddChild(placement);
         placement.AddChild(component);
-        if (string.Equals(component.Name.ToString(), "DwellingFacade_TimberPlaster", StringComparison.Ordinal))
+        if (assetSource == WetVillageRoadKitScenePath
+            && (component.Name.ToString().StartsWith("RoadCrown_", StringComparison.Ordinal)
+                || component.Name.ToString().StartsWith("RoadRuts_", StringComparison.Ordinal)
+                || component.Name.ToString().StartsWith("MuddyShoulder_", StringComparison.Ordinal)
+                || component.Name.ToString().StartsWith("RoadsideDitch_", StringComparison.Ordinal)))
         {
-            // The imported dwelling already owns the pitched roof, porch and
-            // openings. These shallow, non-colliding planes break its broad
-            // plaster face without replacing any authored GLB child.
-            AddVisualBox(placement, "FacadePlasterPanelWest", new(1.90f, 0.68f, 0.08f), new(-2.00f, 0.84f, 1.43f), "5b625b", "plaster", rollDegrees: -2f);
-            AddVisualBox(placement, "FacadePlasterPanelEast", new(2.20f, 0.82f, 0.08f), new(1.70f, 0.96f, 1.44f), "6a6658", "plaster", rollDegrees: 1.5f);
-            AddVisualBox(placement, "FacadeTimberDiagonalBrace", new(0.14f, 1.90f, 0.10f), new(-0.45f, 1.58f, 1.48f), "4b433a", "wood", rollDegrees: -17f);
+            // Keep imported contracts, but render only the continuous terrain-
+            // following road owner instead of stacked flat preview-board tiles.
+            component.Visible = false;
+            component.SetMeta("suppressionReason", "continuous terrain-road kit owns road surfaces");
+        }
+        if (assetSource == VillageExteriorKitScenePath)
+        {
+            var groundAnchor = placement.GlobalPosition;
+            groundAnchor.Y = (float)AgentBAct1HeightField.Ground(groundAnchor.X, groundAnchor.Z) + 0.03f;
+            placement.GlobalPosition = groundAnchor;
+            placement.SetMeta("groundContactPolicy", "yard parcel anchor follows shared terrain");
         }
         return placement;
     }
@@ -4599,7 +4866,20 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualFenceRun(parent, "ArrivalEastNearSetbackFence", new(5.1f, 0f, 16.5f), new(10.0f, 0f, 24.5f));
         AddVisualFenceRun(parent, "ArrivalWestHorizonBoundary", new(-22.0f, 0f, 44.5f), new(-30.0f, 0f, 50.0f));
         AddVisualFenceRun(parent, "ArrivalEastHorizonBoundary", new(22.8f, 0f, 45.0f), new(30.0f, 0f, 51.0f));
+        // Rear and shared side boundaries tie the existing houses into
+        // adjoining holdings, visible when looking across or back down-road.
+        AddVisualFenceRun(parent, "ArrivalWestRearHolding", new(-27f, 0f, 14f), new(-27f, 0f, 44.5f));
+        AddVisualFenceRun(parent, "ArrivalWestSharedHolding", new(-27f, 0f, 30f), new(-17f, 0f, 30f));
+        AddVisualFenceRun(parent, "ArrivalWestHoldingReturn", new(-27f, 0f, 14f), new(-17f, 0f, 14f));
+        AddVisualFenceRun(parent, "ArrivalEastRearHolding", new(28f, 0f, 14f), new(28f, 0f, 45f));
+        AddVisualFenceRun(parent, "ArrivalEastSharedHolding", new(18f, 0f, 30.5f), new(28f, 0f, 30.5f));
+        AddVisualFenceRun(parent, "ArrivalEastHoldingReturn", new(18f, 0f, 14f), new(28f, 0f, 14f));
+        BuildArrivalKitchenGardens(parent);
         AddVisualGate(parent, "ArrivalWestNearSetbackGate", new(-6.0f, 0f, 20.0f), 1.55f, 1.15f, 176f);
+        // Arrival landmark: a sweep well and wattle run greet the player at
+        // the village entrance (authentic winter aвыл pass).
+        AddVisualSweepWell(parent, "ArrivalSweepWell", new(-9.6f, 0f, 15.2f), 1.0f, 152f);
+        AddVisualWattleFence(parent, "ArrivalWattleRun", new(9.2f, 0f, 13.4f), 6, 96f);
         AddVisualGate(parent, "ArrivalEastNearSetbackGate", new(6.1f, 0f, 19.6f), 1.45f, 1.10f, 184f);
 
         AddVisualTree(parent, "ArrivalNearBirch", new(-7.2f, 0f, 27.0f), 6.3f, VegetationStyle.Birch, "68705a");
@@ -4611,11 +4891,14 @@ public partial class Act1ConnectedWorld : Node3D
         // not into an empty field. The old horizon mass is intentionally
         // retired; these two authored facades keep the road gap readable
         // while a varied far tree line closes the village edge behind them.
-        AddVillageFacade(parent, "ArrivalReverseEdgeHouseWest", new(-7.8f, 0f, 52.0f), new(5.8f, 2.75f, 4.5f), 2.6f, 180f, "706b59", "4d443a", "a18a6c", false, true);
-        AddVillageFacade(parent, "ArrivalReverseEdgeHouseEast", new(7.9f, 0f, 52.8f), new(5.6f, 2.55f, 4.2f), 2.45f, 184f, "657067", "494239", "958870", true, false);
-        AddDistantHouse(parent, new(0f, 0f, 52f), 180f, "ArrivalReverseFarCenterHouse");
+        // Keep the reverse edge on the loaded authored HouseA family. The
+        // old lean-to fallback made this horizon read as paired boxes; the
+        // remaining far houses, fence and varied tree line still close it.
+        AddAuthoredHouse(parent, "ArrivalReverseEdgeHouseWest", new(-7.8f, 0f, 52.0f), 0.725f, 180f);
+        AddAuthoredHouse(parent, "ArrivalReverseEdgeHouseEast", new(7.9f, 0f, 52.8f), 0.70f, 184f);
+        AddDistantHouse(parent, new(-21f, 0f, 61f), 110f, "ArrivalReverseFarCenterHouse");
         AddDistantHouse(parent, new(14f, 0f, 54f), 176f, "ArrivalReverseFarEastHouse");
-        AddVisualFenceRun(parent, "ArrivalReverseFarParcelFence", new(-8f, 0f, 50f), new(8f, 0f, 50f));
+        AddVisualFenceRun(parent, "ArrivalReverseFarParcelFence", new(-16f, 0f, 50f), new(-5f, 0f, 50f));
         AddVisualTree(parent, "ArrivalReverseEdgeBirchWest", new(-23.0f, 0f, 56.5f), 8.8f, VegetationStyle.Birch, "596047");
         AddVisualTree(parent, "ArrivalReverseEdgeConiferWest", new(-13.5f, 0f, 58.0f), 10.2f, VegetationStyle.Conifer, "30483f");
         AddVisualTree(parent, "ArrivalReverseEdgeBroadleafCenter", new(0.5f, 0f, 58.5f), 7.4f, VegetationStyle.Broadleaf, "48553f");
@@ -4646,6 +4929,25 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualTree(parent, "ArrivalReverseHorizonBroadleafMidWest", new(-17.0f, 0f, 67.0f), 8.0f, VegetationStyle.Broadleaf, "48553f");
         AddVisualTree(parent, "ArrivalReverseHorizonConiferEast", new(19.5f, 0f, 66.0f), 11.2f, VegetationStyle.Conifer, "30483f");
         AddVisualTree(parent, "ArrivalReverseHorizonBroadleafFarEast", new(31.0f, 0f, 63.0f), 8.8f, VegetationStyle.Broadleaf, "48553f");
+
+        // Uncut growth follows road shoulders and rear fences, not doorways.
+        foreach (var stripX in new[] { -7.2f, 7.4f, -26.4f, 27.2f })
+        {
+            for (var index = 0; index < 44; index++)
+            {
+                var z = 14f + index * 0.68f;
+                var phase = VegetationHash(new Vector3(stripX, 0f, z), 71f);
+                if (Mathf.Sin(z * 0.45f + stripX) < -0.40f || phase < 0.12f)
+                {
+                    continue;
+                }
+                var anchor = parent.ToGlobal(new Vector3(stripX + (phase - 0.5f) * 2.8f,
+                    0f, z + phase * 0.4f));
+                anchor.Y = (float)AgentBAct1HeightField.Ground(anchor.X, anchor.Z) + 0.015f;
+                AddVisualGrassClump(parent, $"ArrivalUncutVerge{stripX}_{index}",
+                    parent.ToLocal(anchor), 0.6f + phase * 0.4f, phase < 0.3f ? "70785c" : "5c7353");
+            }
+        }
 
     }
 
@@ -4703,11 +5005,38 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualFenceRun(parent, "MainStreetEastLateralFence", new(32f, 0f, -7f), new(40f, 0f, -7f));
         AddDistantHouse(parent, new(44f, 0f, -12f), -90f, "MainStreetEastFarParcelHouse");
         AddVisualFenceRun(parent, "MainStreetEastFarParcelFence", new(40f, 0f, -15f), new(48f, 0f, -15f));
+        // The far east side read as orphan fence fragments in a bare field.
+        // One full-depth VariantC holding joins them into a worked plot:
+        // raised-veranda dwelling, shed with firewood, boundary runs with a
+        // north entrance gap, and the existing EastStreetFarFence run as its
+        // south edge. Presentation-only; route and collision owners unchanged.
+        // Review-corrected layout (measured GLB AABBs): the VariantC dwelling
+        // spans 8.63x6.32 m with its veranda on local +X, so at yaw ~0 the
+        // veranda faces east into the plot; the storage shed stands as a
+        // separate field outbuilding east of the boundary, and the woodpile
+        // sits by the north gate gap. Clearances >=0.5 m to both fence runs
+        // and to the neighbour fence at z=-15 (x 40..48).
+        AddAuthoredHouse(parent, "EastStreetFarHolding", new(35.4f, 1.0f, -16.9f), 0.85f, 2f);
+        AddAct1AuthoredExteriorParcel(parent,
+            new Act1ExteriorParcelComponentPlacement(
+                "OutbuildingShed_Low", "EastStreetFarHoldingShed", new(43.8f, 0f, -20.5f),
+                12f, Vector3.One * 0.9f, "village_day@east-street-far-holding-shed"),
+            new Act1ExteriorParcelComponentPlacement(
+                "Woodpile_StackedLogs", "EastStreetFarHoldingWoodpile", new(34.9f, 0f, -14.4f),
+                8f, Vector3.One, "village_day@east-street-far-holding-firewood"));
+        AddVisualFenceRun(parent, "EastStreetFarHoldingFenceWestOfGate", new(33.5f, 0f, -13.5f), new(37.0f, 0f, -13.5f));
+        AddVisualFenceRun(parent, "EastStreetFarHoldingFenceEastOfGate", new(38.6f, 0f, -13.5f), new(41.6f, 0f, -13.5f));
+        AddVisualFenceRun(parent, "EastStreetFarHoldingFenceEast", new(41.6f, 0f, -13.5f), new(41.6f, 0f, -22f));
+        AddVisualShrub(parent, "EastStreetFarHoldingShrub", new(37.9f, 0f, -21.2f), 0.7f, "48553f");
+        AddVisualTree(parent, "EastStreetFarHoldingBirch", new(44.6f, 0f, -17.3f), 8.0f, VegetationStyle.Birch, "596047");
         AddVisualTree(parent, "MainStreetEastLateralBirch", new(39f, 0f, 3f), 7.4f, VegetationStyle.Birch, "596047");
         AddAuthoredHouse(parent, "MainStreetEastNearMidHouse", new(26f, 1.0f, -8.5f), 0.48f, -94f);
-        AddVisualShed(parent, "MainStreetEastNearMidShed", new(22f, 0f, -15f), 0.60f, -88f, "5d635c", "3d403b");
-        AddVisualFenceRun(parent, "MainStreetEastNearMidFence", new(20.5f, 0f, -5f), new(30f, 0f, -8f));
-        AddVisualLandformSegment(parent, "MainStreetEastNearMidBank", new(21f, 0f, -4f), new(31f, 0f, -9f), 1.25f, 0.18f, "4d594d", "earth", 0.02f);
+        // PerimeterEastStreetShed is the holding's single storage building.
+        AddVisualFenceRun(parent, "MainStreetEastNearMidFence", new(15.5f, 0f, -3f), new(30.7f, 0f, -3f));
+        // Join the front picket runs to the rear boundary. The entrance at
+        // (24,-17) stays open, north of the diagonal FAP approach.
+        AddVisualFenceRun(parent, "MainStreetEastNearMidWestBoundary", new(15.5f, 0f, -17f), new(15.5f, 0f, -3f));
+        AddVisualFenceRun(parent, "MainStreetEastNearMidEastBoundary", new(30.7f, 0f, -3f), new(30.7f, 0f, -17f));
         AddVisualTree(parent, "MainStreetEastNearMidBirch", new(30f, 0f, -15f), 7.4f, VegetationStyle.Birch, "596047");
         AddVisualLandformSegment(parent, "MainStreetEastOuterFieldBank", new(31f, 0f, -22f), new(38f, 0f, -25f), 1.55f, 0.18f, "4d594d", "earth", 0.02f);
         AddVisualFenceRun(parent, "MainStreetEastOuterFieldFence", new(37f, 0f, -25f), new(44f, 0f, -29f));
@@ -4729,6 +5058,128 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualTree(parent, "MainStreetClosureReverseWestConifer", new(-31.0f, 0f, 29.5f), 9.4f, VegetationStyle.Conifer, "30483f");
         AddVisualTree(parent, "MainStreetClosureReverseEastBroadleaf", new(32.0f, 0f, 31.0f), 8.0f, VegetationStyle.Broadleaf, "48553f");
 
+        // Uncut verge growth follows the same shoulder pattern as the
+        // arrival road: muted tufts along the road edge with breathing gaps,
+        // kept clear of the two parcel gates and the FAP branch apron.
+        foreach (var stripX in new[] { -4.3f, 4.3f })
+        {
+            for (var index = 0; index < 30; index++)
+            {
+                var z = 5.5f - index * 0.78f;
+                var phase = VegetationHash(new Vector3(stripX, 0f, z), 71f);
+                if (Mathf.Sin(z * 0.45f + stripX) < -0.35f || phase < 0.14f)
+                {
+                    continue;
+                }
+                if (stripX > 0f && z < -6.5f && z > -13.5f)
+                {
+                    // FAP branch apron and its parcel edge stay clear.
+                    continue;
+                }
+                if (stripX < 0f && Mathf.Abs(z - 3.5f) < 1.1f)
+                {
+                    // West parcel gate approach stays open.
+                    continue;
+                }
+                if (stripX > 0f && Mathf.Abs(z - 2.8f) < 1.1f)
+                {
+                    // East parcel gate approach stays open.
+                    continue;
+                }
+                var anchor = parent.ToGlobal(new Vector3(stripX + (phase - 0.5f) * 1.6f,
+                    0f, z + phase * 0.4f));
+                anchor.Y = (float)AgentBAct1HeightField.Ground(anchor.X, anchor.Z) + 0.015f;
+                AddVisualGrassClump(parent, $"MainStreetUncutVerge{stripX}_{index}",
+                    parent.ToLocal(anchor), 0.6f + phase * 0.4f, phase < 0.3f ? "70785c" : "5c7353");
+            }
+        }
+
+    }
+
+    private static void BuildArrivalKitchenGardens(Node3D parent)
+    {
+        // The existing fenced holdings are worked land, not spare decoration
+        // space. Keep the road/house approaches and gaps between beds clear.
+        foreach (var (centerX, rows, name) in new[]
+                 { (-22f, 4, "ArrivalWestKitchenGarden"), (22f, 3, "ArrivalEastKitchenGarden") })
+        {
+            using var soil = new SurfaceTool();
+            using var leaves = new SurfaceTool();
+            soil.Begin(Mesh.PrimitiveType.Triangles);
+            leaves.Begin(Mesh.PrimitiveType.Triangles);
+            Vector3 Grounded(float x, float z, float lift)
+            {
+                var world = parent.ToGlobal(new Vector3(x, 0f, z));
+                world.Y = (float)AgentBAct1HeightField.Ground(world.X, world.Z) + lift;
+                return parent.ToLocal(world);
+            }
+            for (var row = 0; row < rows; row++)
+            {
+                var x = centerX + (row - (rows - 1) * 0.5f) * 2.1f;
+                var points = new Vector3[13 * 5];
+                for (var along = 0; along <= 12; along++)
+                {
+                    var taper = Mathf.Sin(along / 12f * Mathf.Pi);
+                    for (var across = 0; across < 5; across++)
+                    {
+                        var side = (across - 2) * 0.5f;
+                        points[along * 5 + across] = Grounded(
+                            x + side * (0.67f + 0.035f * Mathf.Sin(along * 0.7f + row)),
+                            15.5f + along * 0.90f,
+                            0.008f + 0.13f * (1f - side * side) * taper);
+                    }
+                }
+                for (var along = 0; along < 12; along++)
+                for (var across = 0; across < 4; across++)
+                {
+                    var a = along * 5 + across;
+                    foreach (var index in new[] { a, a + 6, a + 5, a, a + 1, a + 6 })
+                        soil.AddVertex(points[index]);
+                }
+                // Patchy planting and one partly harvested bed imply use;
+                // no collision, collectible or farming mechanic is introduced.
+                for (var plant = 0; plant < 11; plant++)
+                {
+                    if ((row == rows - 1 && plant > 5) || (plant + row * 3) % 9 == 0) continue;
+                    var z = 16f + plant * 0.88f;
+                    var offset = 0.14f * Mathf.Sin(plant * 2.3f + row);
+                    var root = Grounded(x + offset, z, 0.013f
+                        + 0.13f * (1f - Mathf.Pow(offset / 0.67f, 2f))
+                        * Mathf.Sin((z - 15.5f) / 10.8f * Mathf.Pi));
+                    for (var blade = 0; blade < 7; blade++)
+                    {
+                        var angle = blade * Mathf.Tau / 7f + plant * 1.7f;
+                        var direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+                        var across = new Vector3(direction.Z, 0f, -direction.X);
+                        var length = 0.29f + 0.045f * Mathf.Sin(plant + blade * 2f);
+                        var middle = root + direction * length * 0.52f + Vector3.Up * 0.16f;
+                        var tip = root + direction * length + Vector3.Up * 0.065f;
+                        var left = middle - across * 0.085f;
+                        var right = middle + across * 0.085f;
+                        foreach (var vertex in new[] { root, left, middle, root, middle, right,
+                                     left, tip, middle, middle, tip, right,
+                                     middle, left, root, right, middle, root,
+                                     middle, tip, left, right, tip, middle })
+                            leaves.AddVertex(vertex);
+                    }
+                }
+            }
+            soil.GenerateNormals();
+            leaves.GenerateNormals();
+            foreach (var (suffix, mesh, material) in new[]
+                     {
+                         ("Beds", soil.Commit(), PainterlyMaterialLibrary.ForColor("665847", "earth")),
+                         ("Planting", leaves.Commit(), PainterlyMaterialLibrary.ForColor("64754f", "foliage"))
+                     })
+            {
+                var visual = new MeshInstance3D { Name = name + suffix, Mesh = mesh, MaterialOverride = material };
+                visual.SetMeta("presentationOnly", true);
+                visual.SetMeta("visualOnly", true);
+                visual.SetMeta("collisionOwner", "none");
+                visual.SetMeta("interactionOwner", "none");
+                parent.AddChild(visual);
+            }
+        }
     }
 
     private static void BuildCoreBabaiEbiYard(Node3D parent)
@@ -4767,6 +5218,14 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualLandformSegment(parent, "BabaiYardToolShedDrive", origin + side * 5.7f + approach * 4.5f, origin + side * 7.0f + approach * 3.8f, 1.05f, 0.035f, "625747", "earth");
         AddVisualShed(parent, "BabaiYardToolShed", origin + side * 7.0f + approach * 3.8f, 0.66f, yaw - 18f, "62655d", "3f403c");
         AddVisualWoodpile(parent, "BabaiYardWoodpile", origin + side * -5.7f - approach * 3.0f, 1.05f, yaw + 90f);
+        // Winter/authenticity pass: sweep well, wattle fence, front-garden
+        // palisade and a sled in the yard (decision_log 2026-09-10).
+        AddVisualSweepWell(parent, "BabaiYardSweepWell", origin + side * -8.4f + approach * 1.4f, 1.0f, yaw + 24f);
+        AddVisualWattleFence(parent, "BabaiYardWattleRun", origin + side * 4.6f + approach * 5.4f, 7, yaw - 6f);
+        AddVisualPalisade(parent, "BabaiYardFrontPalisade", origin + side * -1.9f + approach * 5.6f, 14, yaw + 2f);
+        AddVisualSled(parent, "BabaiYardSled", origin + side * -3.2f + approach * 4.2f, yaw + 68f);
+        AddVisualHaystack(parent, "BabaiYardHaystack", origin + side * 8.6f - approach * 1.2f, 1.0f, yaw - 34f);
+        AddVisualWattleFence(parent, "BabaiYardWattleRunEast", origin + side * 9.4f + approach * 2.4f, 6, yaw + 84f);
         AddVisualTree(parent, "BabaiYardBirchMass", origin + side * -13.2f - approach * 1.5f, 7.3f, VegetationStyle.Birch, "596047");
         AddVisualTree(parent, "BabaiYardBroadleafMass", origin + side * 13.4f + approach * 2.0f, 6.6f, VegetationStyle.Broadleaf, "48553f");
         // Keep the yard's continuation beyond the capture position and gate.
@@ -4809,8 +5268,28 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static void ApplyHeroWarmWindow(Node3D facade)
     {
+        if (string.Equals(facade.Name.ToString(), "BabaiApproachDwellingFacade", StringComparison.Ordinal))
+        {
+            foreach (var mesh in FindDescendants<MeshInstance3D>(facade))
+            {
+                var name = mesh.Name.ToString();
+                if (name.Contains("_Window", StringComparison.Ordinal)
+                    && (name.Contains("Jamb", StringComparison.Ordinal)
+                        || name.Contains("Rail", StringComparison.Ordinal)
+                        || name.Contains("Mullion", StringComparison.Ordinal)
+                        || name.Contains("Sill", StringComparison.Ordinal)))
+                {
+                    mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("718078", "wood_carved");
+                }
+                else if (name is "DwellingFacade_Front_VergeLeft_LOD0" or "DwellingFacade_Front_VergeRight_LOD0")
+                {
+                    mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("8a765b", "ornament_trim");
+                }
+            }
+        }
+
         var warmWindow = FindDescendants<MeshInstance3D>(facade)
-            .FirstOrDefault(mesh => mesh.Name.ToString().Contains("WindowWarmInset", StringComparison.Ordinal));
+            .FirstOrDefault(mesh => mesh.Name == "DwellingFacade_Street_Window1_Glass_LOD0");
         if (warmWindow is null)
         {
             return;
@@ -4821,7 +5300,7 @@ public partial class Act1ConnectedWorld : Node3D
             AlbedoColor = Color.FromHtml("b6814f"),
             EmissionEnabled = true,
             Emission = Color.FromHtml("9b5a32"),
-            EmissionEnergyMultiplier = 1.35f,
+            EmissionEnergyMultiplier = 1.55f,
             Roughness = 0.48f
         };
         warmWindow.SetMeta("presentationOnly", true);
@@ -4869,55 +5348,8 @@ public partial class Act1ConnectedWorld : Node3D
             dressing.AddChild(rearWindowLight);
         }
 
-        // Pull the reverse-facing dressing clear of the imported wall plane;
-        // the GLB's rear face is deliberately bare, so this small offset keeps
-        // the lived-in detail visible from the opposite parcel.
-        const float rearZ = -1.50f;
-        const string frame = "685f57";
-        var warmWindow = AddVisualBox(
-            dressing,
-            "RearWindowWarmInset",
-            new(1.28f, 0.82f, 0.06f),
-            new(-1.45f, 2.48f, rearZ),
-            "b6814f",
-            "glass");
-        warmWindow.MaterialOverride = new StandardMaterial3D
-        {
-            AlbedoColor = Color.FromHtml("b6814f"),
-            EmissionEnabled = true,
-            Emission = Color.FromHtml("9b5a32"),
-            EmissionEnergyMultiplier = 1.35f,
-            Roughness = 0.48f
-        };
-        AddVisualBox(dressing, "RearWindowCoolInset", new(1.28f, 0.82f, 0.06f), new(1.28f, 2.48f, rearZ), "65756e", "glass");
-        foreach (var (x, suffix) in new[] { (-1.45f, "Warm"), (1.28f, "Cool") })
-        {
-            AddVisualBox(dressing, $"RearWindow{suffix}Top", new(1.48f, 0.10f, 0.10f), new(x, 2.98f, rearZ - 0.04f), frame, "wood");
-            AddVisualBox(dressing, $"RearWindow{suffix}Bottom", new(1.48f, 0.10f, 0.10f), new(x, 1.98f, rearZ - 0.04f), frame, "wood");
-            AddVisualBox(dressing, $"RearWindow{suffix}Left", new(0.10f, 1.08f, 0.10f), new(x - 0.69f, 2.48f, rearZ - 0.04f), frame, "wood");
-            AddVisualBox(dressing, $"RearWindow{suffix}Right", new(0.10f, 1.08f, 0.10f), new(x + 0.69f, 2.48f, rearZ - 0.04f), frame, "wood");
-        }
-        AddVisualBox(dressing, "RearTimberHeader", new(7.10f, 0.14f, 0.14f), new(0f, 3.46f, rearZ - 0.06f), frame, "wood");
-        AddVisualBox(dressing, "RearTimberBase", new(7.10f, 0.16f, 0.14f), new(0f, 1.62f, rearZ - 0.06f), frame, "wood");
-        AddVisualBox(dressing, "RearTimberPostLeft", new(0.14f, 1.86f, 0.14f), new(-3.26f, 2.54f, rearZ - 0.06f), frame, "wood");
-        AddVisualBox(dressing, "RearTimberPostRight", new(0.14f, 1.86f, 0.14f), new(3.26f, 2.54f, rearZ - 0.06f), frame, "wood");
-        AddVisualBox(dressing, "RearEave", new(7.65f, 0.14f, 0.46f), new(0f, 3.70f, rearZ - 0.25f), "4f453b", "wood", rollDegrees: -3f);
-
-        AddVisualBox(dressing, "RearDoorPanel", new(1.12f, 1.92f, 0.08f), new(-2.55f, 1.05f, rearZ - 0.04f), "4b382c", "wood");
-        AddVisualBox(dressing, "RearDoorHeader", new(1.32f, 0.10f, 0.10f), new(-2.55f, 2.06f, rearZ - 0.08f), frame, "wood");
-        AddVisualBox(dressing, "RearDoorPostLeft", new(0.10f, 2.02f, 0.10f), new(-3.16f, 1.05f, rearZ - 0.08f), frame, "wood");
-        AddVisualBox(dressing, "RearDoorPostRight", new(0.10f, 2.02f, 0.10f), new(-1.94f, 1.05f, rearZ - 0.08f), frame, "wood");
-
-        foreach (var (sideX, suffix, color) in new[]
-                 {
-                     (3.72f, "East", "a88a5f"),
-                     (-3.72f, "West", "65756e")
-                 })
-        {
-            AddVisualBox(dressing, $"SideWindow{suffix}Inset", new(0.06f, 0.82f, 1.18f), new(sideX, 2.46f, 0.10f), color, "glass");
-            AddVisualBox(dressing, $"SideWindow{suffix}Top", new(0.10f, 0.10f, 1.38f), new(sideX + (sideX > 0f ? 0.04f : -0.04f), 2.96f, 0.10f), frame, "wood");
-            AddVisualBox(dressing, $"SideWindow{suffix}Bottom", new(0.10f, 0.10f, 1.38f), new(sideX + (sideX > 0f ? 0.04f : -0.04f), 1.96f, 0.10f), frame, "wood");
-        }
+        // Full side/rear joinery now belongs to the Blender dwelling source.
+        // Do not layer the obsolete .82-scale windows and beams over it.
     }
 
     private static void BuildCoreConnectiveAndReturn(Node3D parent)
@@ -4995,25 +5427,23 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualTree(parent, "FapEastHorizonBirch", placement.Origin + side * 22.0f - front * 4.0f, 8.6f, VegetationStyle.Birch, "596047");
         AddVisualTree(parent, "FapEastHorizonConifer", placement.Origin + side * 20.0f - front * 14.0f, 9.1f, VegetationStyle.Conifer, "30483f");
         AddVisualFenceRun(parent, "FapEastHorizonParcelFence", placement.Origin + side * 18.0f - front * 9.0f, placement.Origin + side * 31.0f - front * 9.0f);
-        // The opposite lateral review sector previously opened onto an empty
-        // field. Keep this parcel outside the branch envelope while giving
-        // the first-person right turn a near/mid silhouette and a readable
-        // fence continuation.
+        // Separate the full-depth neighbor from the clinic's service shed.
+        // The old small-backdrop anchor overlapped both buildings at .9 scale.
         AddDistantHouse(
             parent,
-            placement.Origin + side * 8.0f - front * 2.5f,
+            placement.Origin + side * 16.0f - front * 10.0f,
             yaw + 90f,
             "FapWestFieldNeighborHouse");
         AddDistantHouse(
             parent,
-            placement.Origin + new Vector3(8.0f, 0f, 7.0f),
+            placement.Origin + new Vector3(15.0f, 0f, 12.0f),
             yaw,
             "FapRightFieldHouse");
         AddVisualFenceRun(
             parent,
             "FapWestFieldNeighborFence",
-            placement.Origin + side * 7.0f - front * 1.0f,
-            placement.Origin + side * 17.0f - front * 6.0f);
+            placement.Origin + side * 12.0f - front * 6.0f,
+            placement.Origin + side * 23.0f - front * 6.0f);
         AddVisualTree(parent, "FapWestFieldNeighborBirch", placement.Origin + side * 13.0f - front * 4.0f, 7.8f, VegetationStyle.Birch, "596047");
         // Mirror one restrained parcel into the opposite lateral review
         // sector; the branch side is not visible from every fixed-camera
@@ -5035,8 +5465,8 @@ public partial class Act1ConnectedWorld : Node3D
         // rather than along the branch vector. Anchor two far silhouettes in
         // that actual view window so the clinic remains part of a village
         // parcel instead of ending on a flat horizon.
-        AddDistantHouse(parent, placement.Origin + new Vector3(12.0f, 0f, 10.0f), yaw + 18f, "FapEastFieldViewHouse");
-        AddVisualFenceRun(parent, "FapEastFieldViewBoundary", placement.Origin + new Vector3(9.0f, 0f, 7.0f), placement.Origin + new Vector3(27.0f, 0f, 8.0f));
+        AddDistantHouse(parent, placement.Origin + new Vector3(23.0f, 0f, 23.0f), yaw + 18f, "FapEastFieldViewHouse");
+        AddVisualFenceRun(parent, "FapEastFieldViewBoundary", placement.Origin + new Vector3(11.0f, 0f, 17.0f), placement.Origin + new Vector3(29.0f, 0f, 17.0f));
         AddVisualTree(parent, "FapEastFieldViewBirch", placement.Origin + new Vector3(18.0f, 0f, 10.0f), 8.6f, VegetationStyle.Birch, "596047");
         AddVisualTree(parent, "FapEastFieldViewConifer", placement.Origin + new Vector3(25.0f, 0f, 2.0f), 9.1f, VegetationStyle.Conifer, "30483f");
         AddVisualTree(parent, "FapEastHorizonFarBirch", placement.Origin + side * 30.0f - front * 3.0f, 8.0f, VegetationStyle.Birch, "596047");
@@ -5071,7 +5501,6 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualFenceRun(parent, "ZiratOuterEastBoundary", new(11.5f, 0f, -55.0f), new(11.5f, 0f, -84.0f));
         AddVisualFenceRun(parent, "ZiratEntryWestBoundary", new(-11.5f, 0f, -55.0f), new(-4.0f, 0f, -55.0f));
         AddVisualFenceRun(parent, "ZiratEntryEastBoundary", new(4.0f, 0f, -55.0f), new(11.5f, 0f, -55.0f));
-        AddVisualLandformSegment(parent, "ZiratQuietPath", new(0f, 0.025f, -54.0f), new(0f, 0.025f, -88.8f), 1.55f, 0.035f, "4f574e", "earth");
         var ziratMarkerGroup = new Node3D { Name = "ZiratCoreMarkerGrouping", Position = origin };
         ziratMarkerGroup.SetMeta("presentationOnly", true);
         ziratMarkerGroup.SetMeta("culturalPlaceholder", "quiet low marker grouping; no crosses or inscriptions");
@@ -5125,7 +5554,32 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualShrub(parent, "ZiratEastHorizonShrub", new(40f, 0f, -73f), 0.90f, "48553f");
         AddDistantHouse(parent, new(-28f, 0f, -64f), 90f, "ZiratWestLateralHouse");
         AddDistantHouse(parent, new(28f, 0f, -68f), -90f, "ZiratEastLateralHouse");
-        AddVisualFenceRun(parent, "ZiratWestLateralFence", new(-31f, 0f, -67f), new(-24f, 0f, -67f));
+        // The last western dwelling is a complete holding, not a facade with
+        // a fence through its footprint. Leave a 3.5 m entrance at the road side.
+        AddVisualFenceRun(parent, "ZiratWestHoldingFrontNorth", new(-19f, 0f, -54f), new(-19f, 0f, -61.5f), true);
+        AddVisualFenceRun(parent, "ZiratWestHoldingFrontSouth", new(-19f, 0f, -65f), new(-19f, 0f, -73f), true);
+        AddVisualFenceRun(parent, "ZiratWestHoldingNorth", new(-19f, 0f, -54f), new(-38f, 0f, -54f), true);
+        AddVisualFenceRun(parent, "ZiratWestHoldingRear", new(-38f, 0f, -54f), new(-38f, 0f, -73f), true);
+        AddVisualFenceRun(parent, "ZiratWestHoldingSouth", new(-38f, 0f, -73f), new(-19f, 0f, -73f), true);
+        AddAct1AuthoredExteriorParcel(parent,
+            new Act1ExteriorParcelComponentPlacement(
+                "OutbuildingShed_Low", "ZiratWestHoldingShed", new(-33f, 0f, -57f),
+                180f, Vector3.One * .95f, "zirat_road@last-western-holding-storage"),
+            new Act1ExteriorParcelComponentPlacement(
+                "Woodpile_StackedLogs", "ZiratWestHoldingWoodpile", new(-29f, 0f, -56.5f),
+                180f, Vector3.One, "zirat_road@last-western-holding-firewood"));
+        using (var access = new Curve3D())
+        {
+            access.AddPoint(new(-3.8f, 0f, -59.5f), Vector3.Zero, new(-3f, 0f, 0f));
+            access.AddPoint(new(-12f, 0f, -59.5f), new(2f, 0f, 0f), new(-2f, 0f, -1f));
+            access.AddPoint(new(-19f, 0f, -63.2f), new(2f, 0f, .3f), new(-2f, 0f, -.3f));
+            access.AddPoint(new(-24f, 0f, -64.5f), new(1.5f, 0f, 1f), new(-1f, 0f, -1.5f));
+            access.AddPoint(new(-25f, 0f, -68.3f), new(.5f, 0f, 1f), new(-1f, 0f, 0f));
+            access.AddPoint(new(-28.6f, 0f, -67.4f), new(1f, 0f, 0f), new(-.3f, 0f, 0f));
+            access.AddPoint(new(-29.3f, 0f, -67.4f), new(.3f, 0f, 0f));
+            AddVisualLandformSurface(parent, "ZiratWestHoldingAccess", 1.15f, .02f,
+                access.GetBakedLength(), new(0f, .012f, 0f), "655e4e", "earth", 0f, true, access);
+        }
         AddVisualFenceRun(parent, "ZiratEastLateralFence", new(24f, 0f, -71f), new(32f, 0f, -71f));
         AddAuthoredHouse(parent, "ZiratEastNearMidHouse", new(23f, 1.0f, -59f), 0.36f, -90f);
         AddVisualShed(parent, "ZiratEastNearMidShed", new(19f, 0f, -76f), 0.56f, -90f, "5d635c", "3d403b");
@@ -5200,6 +5654,103 @@ public partial class Act1ConnectedWorld : Node3D
 
         var origin = placement.Origin;
         AddCoreRouteEnvelope(parent, "KaraApproachRoadEnvelope", new(0f, 0.02f, -103.0f), new(0f, 0.02f, -122.5f), 3.5f, "526052", "405047", 3.0f);
+        // Staggered near stands grow out of the new shoulders. The western
+        // group starts earlier; the eastern opening retains the boundary view.
+        var nearStand = new (float X, float Z, float Height, VegetationStyle Style)[]
+        {
+            (-6.8f, -109f, 10.7f, VegetationStyle.Conifer),
+            (-10.8f, -111.5f, 8.4f, VegetationStyle.Birch),
+            (-7.6f, -115.7f, 11.8f, VegetationStyle.Conifer),
+            (-13f, -118f, 9.3f, VegetationStyle.Conifer),
+            (7.8f, -115.2f, 10.1f, VegetationStyle.Conifer),
+            (11.4f, -119.8f, 9f, VegetationStyle.Birch),
+            (6.2f, -123.7f, 11.5f, VegetationStyle.Conifer),
+            (14f, -124.2f, 12.4f, VegetationStyle.Conifer)
+        };
+        for (var index = 0; index < nearStand.Length; index++)
+        {
+            var spec = nearStand[index];
+            var anchor = new Vector3(spec.X,
+                (float)AgentBAct1HeightField.Ground(spec.X, spec.Z), spec.Z);
+            AddVisualTree(parent, $"KaraSlopeStand{index}", anchor, spec.Height,
+                spec.Style, spec.Style == VegetationStyle.Birch ? "4a5949" : "30473b");
+            // Roots emerge from the trunk and disappear into soil, not a prop row.
+            for (var root = 0; root < 3; root++)
+            {
+                var angle = index * 1.73f + root * 2.14f;
+                var direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+                var length = 1.1f + ((index + root) % 3) * 0.24f;
+                var bend = anchor + direction * length * 0.48f;
+                var end = anchor + direction * length;
+                bend.Y = (float)AgentBAct1HeightField.Ground(bend.X, bend.Z) + 0.055f;
+                end.Y = (float)AgentBAct1HeightField.Ground(end.X, end.Z) - 0.035f;
+                AddCoreForestBranch(parent, $"KaraSlopeRoot{index}_{root}Base",
+                    anchor + Vector3.Up * 0.12f, bend, "4b4034", 0.12f, 0.065f);
+                AddCoreForestBranch(parent, $"KaraSlopeRoot{index}_{root}Tip",
+                    bend, end, "4b4034", 0.065f, 0.018f);
+            }
+        }
+        // Regrowth stays in sheltered pockets and beyond the playable threshold,
+        // not a uniform grass carpet or another row along the road shoulders.
+        var regrowth = new (float X, float Z, float Height)[]
+        {
+            (-5.1f, -113f, 2.2f), (-9f, -117.9f, 3.4f), (-11.8f, -121.4f, 2.6f),
+            (5.6f, -119f, 2.8f), (9.8f, -122f, 1.9f), (7.2f, -127f, 3.8f),
+            (1.8f, -132.8f, 4.6f), (-3.2f, -130.6f, 3.7f), (-0.5f, -136f, 5.2f),
+            (-7.4f, -135f, 3.1f)
+        };
+        for (var index = 0; index < regrowth.Length; index++)
+        {
+            var sapling = regrowth[index];
+            AddVisualTree(parent, $"KaraShelteredRegrowth{index}",
+                new Vector3(sapling.X, 0f, sapling.Z), sapling.Height,
+                VegetationStyle.Conifer, "3c5140");
+        }
+        foreach (var (name, x, z, radius) in new[]
+                 { ("West", -8.7f, -110.5f, 1.2f), ("East", 9.8f, -116.5f, 1.5f),
+                   ("Deep", -6f, -125.4f, 1.1f) })
+            AddVisualShrub(parent, $"KaraStandUnderstory{name}",
+                new Vector3(x, (float)AgentBAct1HeightField.Ground(x, z), z), radius, "40513d");
+
+        // Offset stands wrap the final watershed and both lateral slopes.
+        // Anchors stay outside the route, with depth between trunks rather
+        // than a single opaque forest plane.
+        var watershedStand = new (float X, float Z, float Height)[]
+        {
+            (-19f, -130f, 10.8f), (-14f, -134f, 12.3f), (-9f, -132f, 9.2f),
+            (10f, -133f, 11.4f), (16f, -130f, 9.8f), (22f, -136f, 12.6f),
+            (-26f, -141f, 11.7f), (-21f, -145f, 9.6f), (-16f, -140f, 13.1f),
+            (-11f, -144f, 10.4f), (-6f, -139f, 11.8f), (-1f, -145f, 9.3f),
+            (4f, -141f, 12.5f), (9f, -147f, 10.1f), (14f, -141f, 13.2f),
+            (19f, -146f, 10.7f), (27f, -142f, 11.2f),
+            (-31f, -148f, 12.0f), (-23f, -150f, 13.8f), (-14f, -150f, 11.5f),
+            (-5f, -150f, 13.0f), (3f, -151f, 11.4f), (17f, -150f, 12.2f),
+            (30f, -150f, 13.4f),
+            (19f, -97f, 6.5f), (23f, -105f, 8.8f), (18f, -114f, 7.6f),
+            (25f, -122f, 10.2f), (30f, -96f, 10.7f), (34f, -108f, 12.1f),
+            (29f, -116f, 9.4f), (36f, -127f, 11.8f), (42f, -100f, 12.9f),
+            (47f, -113f, 10.6f), (43f, -122f, 13.4f), (51f, -130f, 11.2f),
+            (-20f, -98f, 7.2f), (-24f, -109f, 9.8f), (-19f, -120f, 8.4f),
+            (-31f, -101f, 11.6f), (-35f, -112f, 9.1f), (-29f, -126f, 12.4f),
+            (-43f, -97f, 10.8f), (-47f, -110f, 12.8f), (-42f, -123f, 11.4f),
+            (-51f, -132f, 13.1f)
+        };
+        for (var index = 0; index < watershedStand.Length; index++)
+        {
+            var tree = watershedStand[index];
+            var anchor = parent.ToGlobal(new Vector3(tree.X, 0f, tree.Z));
+            anchor.Y = (float)AgentBAct1HeightField.Ground(anchor.X, anchor.Z);
+            AddVisualTree(parent, $"KaraWatershedStand{index}", parent.ToLocal(anchor),
+                tree.Height, index >= 24 && index % 4 == 0 ? VegetationStyle.Birch : VegetationStyle.Conifer,
+                index < 6 ? "243c33" : index < 17 || Mathf.Abs(tree.X) < 30f ? "344b43" : "40574f");
+            if (index >= 24 && Mathf.Abs(tree.X) < 36f)
+            {
+                var shrubAnchor = anchor + new Vector3(tree.X < 0f ? 1.8f : -1.8f, 0f, 1.4f);
+                shrubAnchor.Y = (float)AgentBAct1HeightField.Ground(shrubAnchor.X, shrubAnchor.Z);
+                AddVisualShrub(parent, $"KaraSlopeUnderstory{index}", parent.ToLocal(shrubAnchor),
+                    1.8f + index % 3 * 0.3f, "34493c");
+            }
+        }
         AddVisualLandformSegment(parent, "KaraAsymmetricWestBank", new(-3.6f, 0f, -103.0f), new(-8.6f, 0f, -121.5f), 2.2f, 0.34f, "3b493e", "earth", 0.02f);
         AddVisualLandformSegment(parent, "KaraAsymmetricEastBank", new(3.8f, 0f, -105.0f), new(6.4f, 0f, -117.0f), 1.5f, 0.22f, "3f4c40", "earth", 0.02f);
         AddCoreRootCluster(parent, "KaraRootBankWest", new(-5.7f, 0f, -110.5f), 1.0f, -16f);
@@ -5281,15 +5832,30 @@ public partial class Act1ConnectedWorld : Node3D
 
         AddVisualTree(parent, "KaraThresholdConiferWest", origin + new Vector3(-10.0f, 0f, -7.0f), 8.8f, VegetationStyle.Conifer, "263c32");
         AddVisualTree(parent, "KaraThresholdBroadleafEast", origin + new Vector3(8.2f, 0f, -7.5f), 9.0f, VegetationStyle.Broadleaf, "2e4439");
-        AddCoreFacetedMass(parent, "KaraThresholdDarkMassWest", origin + new Vector3(-10.4f, 2.6f, -10.5f), new(3.7f, 2.6f, 2.2f), "263c32");
-        AddCoreFacetedMass(parent, "KaraThresholdDarkMassEast", origin + new Vector3(11.3f, 2.4f, -14.5f), new(4.2f, 2.4f, 2.3f), "2c403b");
         AddVisualTree(parent, "KaraThresholdBirchWest", origin + new Vector3(-8.8f, 0f, -13.5f), 10.0f, VegetationStyle.Birch, "405445");
         AddVisualTree(parent, "KaraThresholdConiferEast", origin + new Vector3(9.4f, 0f, -17.0f), 10.8f, VegetationStyle.Conifer, "243b31");
 
         AddVisualLandformSegment(parent, "KaraDeepForestShelfWest", origin + new Vector3(-8.8f, 0f, -16.0f), origin + new Vector3(-11.0f, 0f, -29.0f), 2.10f, 0.44f, "2f4037", "earth", 0.02f);
         AddVisualLandformSegment(parent, "KaraDeepForestShelfEast", origin + new Vector3(10.4f, 0f, -18.0f), origin + new Vector3(12.6f, 0f, -31.0f), 2.00f, 0.40f, "30463b", "earth", 0.02f);
-        AddCoreFacetedMass(parent, "KaraFarDarkForestMassWest", origin + new Vector3(-11.2f, 3.8f, -24.5f), new(5.0f, 3.8f, 2.8f), "243a34");
-        AddCoreFacetedMass(parent, "KaraFarDarkForestMassEast", origin + new Vector3(12.2f, 4.1f, -27.5f), new(4.6f, 4.1f, 3.0f), "2a3e37");
+        // Replace four solid dark polygon masses with overlapping trees on
+        // the same side parcels. The road window remains outside their bounds.
+        foreach (var (standName, offset, color) in new[]
+        {
+            ("KaraThresholdStandWest", new Vector3(-10.4f, 0f, -10.5f), "263c32"),
+            ("KaraThresholdStandEast", new Vector3(11.3f, 0f, -14.5f), "2c403b"),
+            ("KaraDeepStandWest", new Vector3(-11.2f, 0f, -24.5f), "243a34"),
+            ("KaraDeepStandEast", new Vector3(12.2f, 0f, -27.5f), "2a3e37")
+        })
+        {
+            for (var index = 0; index < 3; index++)
+            {
+                var anchor = origin + offset + new Vector3((index - 1) * 2.2f, 0f, index * 2.1f - 1.8f);
+                var worldAnchor = parent.ToGlobal(anchor);
+                worldAnchor.Y = (float)AgentBAct1HeightField.Ground(worldAnchor.X, worldAnchor.Z);
+                AddVisualTree(parent, $"{standName}{index}", parent.ToLocal(worldAnchor),
+                    6.4f + index * 1.15f, index == 1 ? VegetationStyle.Broadleaf : VegetationStyle.Conifer, color);
+            }
+        }
         AddVisualTree(parent, "KaraFarForestConiferWest", origin + new Vector3(-12.6f, 0f, -28.5f), 11.6f, VegetationStyle.Conifer, "243b31");
         AddVisualTree(parent, "KaraFarForestBirchEast", origin + new Vector3(13.8f, 0f, -31.5f), 10.4f, VegetationStyle.Birch, "34483f");
 
@@ -5475,14 +6041,15 @@ public partial class Act1ConnectedWorld : Node3D
         AddCoreFacetedMass(root, "RootMossMass", new(0.18f, 0.34f, 0.12f), new(0.90f, 0.40f, 0.62f), "405345");
     }
 
-    private static void AddCoreForestBranch(Node3D parent, string name, Vector3 start, Vector3 end, string color)
+    private static void AddCoreForestBranch(Node3D parent, string name, Vector3 start, Vector3 end,
+        string color, float bottomRadius = 0.11f, float topRadius = 0.055f)
     {
         var direction = end - start;
         var branch = new MeshInstance3D
         {
             Name = name,
             Position = (start + end) * 0.5f,
-            Mesh = new CylinderMesh { TopRadius = 0.055f, BottomRadius = 0.11f, Height = direction.Length(), RadialSegments = 6 },
+            Mesh = new CylinderMesh { TopRadius = topRadius, BottomRadius = bottomRadius, Height = direction.Length(), RadialSegments = 6 },
             MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "wood_bark")
         };
         branch.SetMeta("presentationOnly", true);
@@ -5708,12 +6275,16 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static void BuildVillageStreetComposition(Node3D parent)
     {
-        AddVillageFacade(parent, "StreetFacadeWestArrival", new(-16.5f, 0f, 28.5f), new(7.0f, 3.1f, 4.8f), 3.0f, 174f, "756e5b", "4b4036", "b49c78", false, true);
-        AddVillageFacade(parent, "StreetFacadeEastArrival", new(17.4f, 0f, 29.8f), new(8.2f, 2.7f, 5.4f), 2.6f, 186f, "69746b", "55463a", "a58e6e", true, false);
-        AddVillageFacade(parent, "StreetFacadeWestMid", new(-20.8f, 0f, 5.0f), new(6.1f, 2.6f, 4.2f), 2.5f, 92f, "7b765f", "5b4c3f", "aa9472", false, true);
-        AddVillageFacade(parent, "StreetFacadeEastMid", new(20.2f, 0f, 2.2f), new(5.4f, 3.4f, 4.0f), 3.2f, -88f, "6d766d", "4c443c", "9d9879", false, false);
-        AddVillageFacade(parent, "StreetFacadeWestReturn", new(-18.4f, 0f, -21.0f), new(7.5f, 2.4f, 3.8f), 2.3f, 90f, "847861", "514238", "b39b72", true, true);
-        AddVillageFacade(parent, "StreetFacadeEastReturn", new(18.7f, 0f, -22.5f), new(6.0f, 2.9f, 5.0f), 2.8f, -90f, "69746b", "5b4b3d", "a9906d", false, false);
+        // This legacy source backbone must use the same authored HouseA
+        // family as the connected-world kit. Keeping the anchors and
+        // staggered depths preserves side/reverse closure without reviving
+        // the old box-like AddVillageFacade fallback rhythm.
+        AddAuthoredHouse(parent, "StreetFacadeWestArrival", new(-16.5f, 0f, 28.5f), 0.875f, 174f);
+        AddAuthoredHouse(parent, "StreetFacadeEastArrival", new(17.4f, 0f, 29.8f), 0.95f, 186f);
+        AddAuthoredHouse(parent, "StreetFacadeWestMid", new(-20.8f, 0f, 5.0f), 0.7625f, 92f);
+        AddAuthoredHouse(parent, "StreetFacadeEastMid", new(20.2f, 0f, 2.2f), 0.675f, -88f);
+        AddAuthoredHouse(parent, "StreetFacadeWestReturn", new(-18.4f, 0f, -21.0f), 0.9375f, 90f);
+        AddAuthoredHouse(parent, "StreetFacadeEastReturn", new(18.7f, 0f, -22.5f), 0.75f, -90f);
 
         AddVisualCanopy(parent, "StreetWoodCanopyWest", new(-10.2f, 0f, 6.4f), 3.2f, 2.8f, 91f, "6d5c47", "4e4539");
         AddVisualCanopy(parent, "StreetWoodCanopyEast", new(10.4f, 0f, -5.4f), 2.5f, 3.4f, -86f, "7a644b", "504238");
@@ -5750,8 +6321,8 @@ public partial class Act1ConnectedWorld : Node3D
         // The reverse arrival view needs a far village edge as well as the
         // near street. Keep the horizon occupied without pinching the road
         // corridor or introducing another gameplay landmark owner.
-        AddVillageFacade(parent, "ArrivalReverseHouseWest", new(-14.8f, 0f, 42.0f), new(6.2f, 2.5f, 4.4f), 2.4f, 176f, "746e5b", "4e4438", "aa9472", false, false);
-        AddVillageFacade(parent, "ArrivalReverseHouseEast", new(15.6f, 0f, 43.5f), new(7.0f, 2.9f, 4.8f), 2.8f, 184f, "68736b", "51473c", "9d9879", true, true);
+        AddAuthoredHouse(parent, "ArrivalReverseHouseWest", new(-14.8f, 0f, 42.0f), 0.775f, 176f);
+        AddAuthoredHouse(parent, "ArrivalReverseHouseEast", new(15.6f, 0f, 43.5f), 0.875f, 184f);
         AddVisualShed(parent, "ArrivalReverseShedWest", new(-7.8f, 0f, 40.2f), 0.64f, 172f, "806d58", "4d3e34");
         AddVisualShed(parent, "ArrivalReverseShedEast", new(8.5f, 0f, 41.4f), 0.58f, 188f, "69746b", "3e4440");
         AddVisualFenceRun(parent, "ArrivalReverseFenceWest", new(-8.2f, 0f, 35.5f), new(-19.0f, 0f, 43.4f));
@@ -6043,15 +6614,19 @@ public partial class Act1ConnectedWorld : Node3D
         Vector3 center,
         string color,
         string surface,
-        float yawDegrees)
+        float yawDegrees,
+        bool conformToTerrain = false,
+        Curve3D? centerline = null)
     {
         const int crossSections = 5;
-        const int lengthSections = 7;
+        var lengthSections = centerline is null ? 7 : Mathf.CeilToInt(length / .5f) + 1;
         var vertices = new Vector3[crossSections * lengthSections];
         var normals = new Vector3[vertices.Length];
         var uvs = new Vector2[vertices.Length];
         var xProfile = new[] { -0.5f, -0.24f, 0f, 0.24f, 0.5f };
         var phase = name.Length * 0.37f;
+        var localTransform = new Transform3D(new Basis(Vector3.Up, Mathf.DegToRad(yawDegrees)), center);
+        var worldTransform = parent.GlobalTransform * localTransform;
         for (var zIndex = 0; zIndex < lengthSections; zIndex++)
         {
             var zT = zIndex / (float)(lengthSections - 1);
@@ -6067,6 +6642,23 @@ public partial class Act1ConnectedWorld : Node3D
                     profile * width * endFade,
                     height * (0.18f + 0.82f * crown) + breakup,
                     z);
+                if (centerline is not null)
+                {
+                    var distance = zT * length;
+                    var tangent = (centerline.SampleBaked(Mathf.Min(length, distance + .05f))
+                        - centerline.SampleBaked(Mathf.Max(0f, distance - .05f))).Normalized();
+                    var side = new Vector3(tangent.Z, 0f, -tangent.X);
+                    vertices[vertexIndex] = centerline.SampleBaked(distance)
+                        + side * (profile * width * endFade)
+                        + Vector3.Up * vertices[vertexIndex].Y;
+                }
+                if (conformToTerrain)
+                {
+                    var world = worldTransform * vertices[vertexIndex];
+                    world.Y = (float)AgentBAct1HeightField.Ground(world.X, world.Z)
+                        + center.Y + vertices[vertexIndex].Y;
+                    vertices[vertexIndex] = worldTransform.AffineInverse() * world;
+                }
                 normals[vertexIndex] = Vector3.Up;
                 uvs[vertexIndex] = new Vector2(profile + 0.5f, zT);
             }
@@ -6082,12 +6674,13 @@ public partial class Act1ConnectedWorld : Node3D
                 var topRight = topLeft + 1;
                 var bottomLeft = (zIndex + 1) * crossSections + xIndex;
                 var bottomRight = bottomLeft + 1;
+                // Godot front faces are clockwise when seen from above.
                 indices[index++] = topLeft;
-                indices[index++] = bottomLeft;
-                indices[index++] = topRight;
                 indices[index++] = topRight;
                 indices[index++] = bottomLeft;
+                indices[index++] = topRight;
                 indices[index++] = bottomRight;
+                indices[index++] = bottomLeft;
             }
         }
 
@@ -6099,13 +6692,24 @@ public partial class Act1ConnectedWorld : Node3D
         arrays[(int)Mesh.ArrayType.Index] = indices;
         var reliefMesh = new ArrayMesh();
         reliefMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+        if (conformToTerrain)
+        {
+            using var surfaceTool = new SurfaceTool();
+            surfaceTool.CreateFrom(reliefMesh, 0);
+            surfaceTool.GenerateNormals();
+            reliefMesh = surfaceTool.Commit();
+        }
         var mesh = new MeshInstance3D
         {
             Name = name,
             Position = center,
             RotationDegrees = new Vector3(0f, yawDegrees, 0f),
             Mesh = reliefMesh,
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface)
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface),
+            // The shared terrain owns relief. Old constant-height ribbons
+            // become floating slabs with correct winding; do not render that
+            // obsolete overlay. Only explicitly ground-conformed paths remain.
+            Visible = conformToTerrain
         };
         mesh.SetMeta("visualOnly", true);
         mesh.SetMeta("terrainRole", "visual-only low-poly crown surface; no traversal ownership");
@@ -6130,7 +6734,7 @@ public partial class Act1ConnectedWorld : Node3D
             Position = center,
             RotationDegrees = new Vector3(0f, yawDegrees, 0f),
             Mesh = BuildIrregularParcelPatchMesh(size, name),
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "earth")
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "grass")
         };
         patch.SetMeta("visualOnly", true);
         patch.SetMeta("terrainRole", "visual-only parcel/ground plane break");
@@ -6363,6 +6967,375 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualBox(pile, "LogEnd", new(0.20f, 0.26f, 0.26f), new(0.78f, 0.28f, 0.02f), "9b8766", "wood");
     }
 
+/// <summary>
+    /// Authentic Tatar village yard props (winter Act I): a sweep well with a
+    /// long журавль lever, a woven wattle fence, a low front-garden palisade
+    /// and a wooden sled. Presentation-only, no collision or interaction
+    /// ownership; every prop carries the same muted winter palette.
+    /// </summary>
+    private static void AddVisualSweepWell(Node3D parent, string name, Vector3 anchor, float scale, float yawDegrees)
+    {
+        var well = new Node3D
+        {
+            Name = name,
+            Position = anchor,
+            RotationDegrees = new Vector3(0f, yawDegrees, 0f),
+            Scale = Vector3.One * scale
+        };
+        well.SetMeta("visualOnly", true);
+        well.SetMeta("presentationRole", "sweep (журавль) well landmark");
+        well.SetMeta("culturalRole", "Tatar village well with lever; no text, no ornament");
+        parent.AddChild(well);
+
+        // Stone head with a snow cap.
+        AddVisualBox(well, "WellHead", new(1.15f, 0.62f, 1.05f), new(0f, 0.31f, 0f), "6f695c", "stone");
+        AddVisualBox(well, "WellSnowCap", new(1.22f, 0.09f, 1.12f), new(0f, 0.66f, 0f), "eef2f6", "snow_ground");
+        AddVisualBox(well, "WellMouth", new(0.62f, 0.06f, 0.54f), new(0f, 1.06f, 0f), "2c3740", "ice");
+        // Two uprights and the long lever with its counterweight.
+        AddVisualBox(well, "WellPostWest", new(0.16f, 2.35f, 0.16f), new(-0.62f, 1.17f, 0f), "5b4a3a", "wood");
+        AddVisualBox(well, "WellPostEast", new(0.16f, 2.35f, 0.16f), new(0.62f, 1.17f, 0f), "5b4a3a", "wood");
+        AddVisualBox(well, "WellPivot", new(1.55f, 0.12f, 0.14f), new(0f, 2.28f, 0f), "4e4133", "wood");
+        AddVisualBox(well, "WellLever", new(0.13f, 0.13f, 3.15f), new(0f, 2.50f, 0.35f), "6a5843", "wood", rollDegrees: -6f);
+        AddVisualBox(well, "WellCounterweight", new(0.34f, 0.30f, 0.34f), new(0f, 2.36f, 1.62f), "59503f", "wood_prop");
+        AddVisualBox(well, "WellChain", new(0.05f, 1.30f, 0.05f), new(0f, 1.72f, -0.90f), "3f4441", "stone");
+        AddVisualBox(well, "WellBucket", new(0.34f, 0.30f, 0.34f), new(0f, 1.02f, -0.90f), "6b5642", "wood_prop");
+        AddVisualBox(well, "WellRope", new(0.04f, 0.42f, 0.04f), new(0f, 1.30f, -0.90f), "8a7a5e", "fabric");
+    }
+
+    private static void AddVisualWattleFence(Node3D parent, string name, Vector3 anchor, int bays, float yawDegrees)
+    {
+        var fence = new Node3D
+        {
+            Name = name,
+            Position = anchor,
+            RotationDegrees = new Vector3(0f, yawDegrees, 0f)
+        };
+        fence.SetMeta("visualOnly", true);
+        fence.SetMeta("presentationRole", "woven wattle (плетень) boundary");
+        parent.AddChild(fence);
+
+        const float bay = 0.75f;
+        for (var index = 0; index <= bays; index++)
+        {
+            AddVisualBox(fence, $"WattleStake{index}", new(0.09f, 1.32f, 0.09f),
+                new(index * bay, 0.66f, 0f), "6b5b46", "wood_fence", rollDegrees: (index % 3 - 1) * 1.5f);
+        }
+
+        for (var rail = 0; rail < 5; rail++)
+        {
+            var height = 0.30f + rail * 0.22f;
+            var drift = (rail % 2 == 0 ? 1f : -1f) * 0.018f;
+            AddVisualBox(fence, $"WattleRod{rail}", new(bays * bay, 0.075f, 0.05f),
+                new(bays * bay * 0.5f, height, drift), "7a6a52", "wood_fence", rollDegrees: drift * 60f);
+        }
+
+        AddVisualBox(fence, "WattleSnowCap", new(bays * bay, 0.07f, 0.10f),
+            new(bays * bay * 0.5f, 1.28f, 0f), "eef2f6", "snow_ground");
+    }
+
+    private static void AddVisualPalisade(Node3D parent, string name, Vector3 anchor, int pickets, float yawDegrees)
+    {
+        var garden = new Node3D
+        {
+            Name = name,
+            Position = anchor,
+            RotationDegrees = new Vector3(0f, yawDegrees, 0f)
+        };
+        garden.SetMeta("visualOnly", true);
+        garden.SetMeta("presentationRole", "front-garden palisade (палисадник)");
+        parent.AddChild(garden);
+
+        const float step = 0.17f;
+        for (var index = 0; index < pickets; index++)
+        {
+            var height = 0.52f + ((index % 3) - 1) * 0.05f;
+            AddVisualBox(garden, $"PalisadePicket{index}", new(0.07f, height, 0.05f),
+                new(index * step, height * 0.5f, 0f), "8d7a5c", "wood_fence", rollDegrees: (index % 4 - 1.5f) * 2.2f);
+        }
+
+        AddVisualBox(garden, "PalisadeRail", new(pickets * step, 0.06f, 0.05f),
+            new(pickets * step * 0.5f, 0.34f, 0.03f), "7c6a50", "wood_fence");
+        AddVisualBox(garden, "PalisadeSnow", new(pickets * step, 0.05f, 0.08f),
+            new(pickets * step * 0.5f, 0.60f, 0f), "eef2f6", "snow_ground");
+    }
+
+    private static void AddVisualSled(Node3D parent, string name, Vector3 anchor, float yawDegrees)
+    {
+        var sled = new Node3D
+        {
+            Name = name,
+            Position = anchor,
+            RotationDegrees = new Vector3(0f, yawDegrees, 0f)
+        };
+        sled.SetMeta("visualOnly", true);
+        sled.SetMeta("presentationRole", "wooden sled (салазки) yard detail");
+        parent.AddChild(sled);
+
+        AddVisualBox(sled, "SledRunnerWest", new(0.07f, 0.09f, 1.20f), new(-0.24f, 0.22f, 0f), "5b4a3a", "wood");
+        AddVisualBox(sled, "SledRunnerEast", new(0.07f, 0.09f, 1.20f), new(0.24f, 0.22f, 0f), "5b4a3a", "wood");
+        AddVisualBox(sled, "SledDeck", new(0.62f, 0.09f, 0.92f), new(0f, 0.36f, 0.05f), "7a6349", "wood_prop");
+        AddVisualBox(sled, "SledBack", new(0.62f, 0.34f, 0.08f), new(0f, 0.52f, -0.42f), "6d5741", "wood_prop");
+        AddVisualBox(sled, "SledSnow", new(0.62f, 0.05f, 0.92f), new(0f, 0.43f, 0.05f), "eef2f6", "snow_ground");
+    }
+
+    /// <summary>
+    /// Distant mosque minaret silhouette: a presentation-only skyline
+    /// landmark that identifies the Tatar village without creating an
+    /// enterable zone. No text, no ornament; cultural review remains open.
+    /// </summary>
+    private static void AddDistantMinaret(Node3D parent, string name, Vector3 anchor, float scale)
+    {
+        var minaret = new Node3D
+        {
+            Name = name,
+            Position = anchor,
+            Scale = Vector3.One * scale
+        };
+        minaret.SetMeta("presentationOnly", true);
+        minaret.SetMeta("visualOnly", true);
+        minaret.SetMeta("collisionOwner", "none");
+        minaret.SetMeta("navigationOwner", "none");
+        minaret.SetMeta("interactionOwner", "none");
+        minaret.SetMeta("presentationRole", "distant minaret silhouette landmark; not enterable");
+        minaret.SetMeta("culturalReview", "open — Tatar/islamic presentation must be reviewed by a consultant");
+        parent.AddChild(minaret);
+
+        AddVisualBox(minaret, "MinaretShaft", new(2.05f, 16.5f, 2.05f), new(0f, 8.25f, 0f), "7d7a6c", "plaster");
+        AddVisualBox(minaret, "MinaretBase", new(2.55f, 2.1f, 2.55f), new(0f, 1.05f, 0f), "6e6b5f", "stone");
+        AddVisualBox(minaret, "MinaretBalcony", new(2.9f, 0.34f, 2.9f), new(0f, 16.6f, 0f), "8a8676", "plaster");
+        AddVisualBox(minaret, "MinaretUpperShaft", new(1.5f, 2.3f, 1.5f), new(0f, 17.9f, 0f), "84806f", "plaster");
+        AddVisualBox(minaret, "MinaretCap", new(1.75f, 0.28f, 1.75f), new(0f, 19.15f, 0f), "6d6a5e", "stone");
+        // Simple conical spire, no crescent or calligraphy (cultural gate).
+        AddVisualBox(minaret, "MinaretSpire", new(0.55f, 1.5f, 0.55f), new(0f, 20.0f, 0f), "7a7768", "plaster");
+        AddVisualBox(minaret, "MinaretSpireTip", new(0.18f, 0.7f, 0.18f), new(0f, 21.05f, 0f), "6d6a5e", "stone");
+        AddVisualBox(minaret, "MinaretSnowCap", new(2.35f, 0.14f, 2.35f), new(0f, 16.82f, 0f), "eef2f6", "snow_ground");
+        AddVisualBox(minaret, "MinaretBaseSnow", new(2.65f, 0.12f, 2.65f), new(0f, 2.16f, 0f), "eef2f6", "snow_ground");
+    }
+
+/// <summary>
+    /// Unreachable winter backdrops: layered village, forest and ridge
+    /// silhouettes beyond the walkable envelope, so the horizon never reads
+    /// as an empty edge. Presentation-only, no collision or interaction.
+    /// </summary>
+    private static void AddDistantHouseRow(Node3D parent, string name, Vector3 origin, int count,
+        float spacing, float yawDegrees, float scale)
+    {
+        var row = new Node3D { Name = name, Position = origin, RotationDegrees = new Vector3(0f, yawDegrees, 0f) };
+        row.SetMeta("presentationOnly", true);
+        row.SetMeta("visualOnly", true);
+        row.SetMeta("collisionOwner", "none");
+        row.SetMeta("navigationOwner", "none");
+        row.SetMeta("interactionOwner", "none");
+        row.SetMeta("presentationRole", "unreachable distant village row");
+        parent.AddChild(row);
+
+        for (var index = 0; index < count; index++)
+        {
+            var x = index * spacing;
+            var width = 6.4f * scale * (0.85f + (index % 3) * 0.12f);
+            var depth = 5.4f * scale;
+            var height = 2.9f * scale;
+            AddVisualBox(row, $"DistantHouseWall{index}", new(width, height, depth),
+                new(x, height * 0.5f, (index % 4) * 0.35f * scale), index % 2 == 0 ? "8b8c84" : "84837a", "plaster");
+            AddVisualBox(row, $"DistantHouseRoof{index}", new(width + 0.8f, 0.34f, depth + 0.9f),
+                new(x, height + 0.16f, 0f), "6e7570", "roof");
+            AddVisualBox(row, $"DistantHouseRoofSnow{index}", new(width + 0.74f, 0.14f, depth + 0.84f),
+                new(x, height + 0.38f, 0f), "eef2f6", "snow_ground");
+            AddVisualBox(row, $"DistantHouseChimney{index}", new(0.55f, 1.5f, 0.55f),
+                new(x + width * 0.24f, height + 0.95f, 0f), "6f6a60", "stone");
+            AddVisualBox(row, $"DistantHouseFence{index}", new(width * 0.9f, 1.05f, 0.12f),
+                new(x, 0.52f, depth * 0.62f), "6f6455", "wood_fence");
+        }
+    }
+
+    private static void AddDistantForestBand(Node3D parent, string name, Vector3 origin, int count,
+        float spacing, float yawDegrees, float scale, bool conifer)
+    {
+        var band = new Node3D { Name = name, Position = origin, RotationDegrees = new Vector3(0f, yawDegrees, 0f) };
+        band.SetMeta("presentationOnly", true);
+        band.SetMeta("visualOnly", true);
+        band.SetMeta("collisionOwner", "none");
+        band.SetMeta("navigationOwner", "none");
+        band.SetMeta("interactionOwner", "none");
+        band.SetMeta("presentationRole", conifer ? "unreachable dark forest band" : "unreachable winter woodland band");
+        parent.AddChild(band);
+
+        for (var index = 0; index < count; index++)
+        {
+            var x = index * spacing;
+            var height = (conifer ? 7.5f : 6.2f) * scale * (0.8f + (index % 5) * 0.09f);
+            var z = ((index * 7) % 5 - 2) * 1.1f * scale;
+            AddVisualBox(band, $"BandTrunk{index}", new(0.32f * scale, height * 0.55f, 0.32f * scale),
+                new(x, height * 0.275f, z), "5c5546", "bark_pine");
+            if (conifer)
+            {
+                AddVisualConeCrown(band, $"BandCrownDark{index}", new(x, height * 0.55f, z),
+                    1.15f * scale, height * 0.62f, "3d4a44", "foliage");
+                AddVisualConeCrown(band, $"BandCrownSnow{index}", new(x, height * 0.74f, z),
+                    0.95f * scale, height * 0.42f, "dfe7ee", "snow_ground");
+            }
+            else
+            {
+                // Bare winter woodland: a vertical twig mass, not a box. Two
+                // stacked cones keep the silhouette round from every angle.
+                AddVisualConeCrown(band, $"BandCrownTwig{index}", new(x, height * 0.60f, z),
+                    1.30f * scale, height * 0.46f, "6b6455", "wood_bark");
+                AddVisualConeCrown(band, $"BandCrownTwigTop{index}", new(x, height * 0.80f, z),
+                    0.95f * scale, height * 0.30f, "756d5c", "wood_bark");
+                AddVisualConeCrown(band, $"BandCrownSnow{index}", new(x, height * 0.90f, z),
+                    0.80f * scale, height * 0.20f, "e6ecf1", "snow_ground");
+            }
+        }
+    }
+
+    private static void AddDistantRidge(Node3D parent, string name, Vector3 origin, float length,
+        float height, float depth, float yawDegrees)
+    {
+        var ridge = new Node3D { Name = name, Position = origin, RotationDegrees = new Vector3(0f, yawDegrees, 0f) };
+        ridge.SetMeta("presentationOnly", true);
+        ridge.SetMeta("visualOnly", true);
+        ridge.SetMeta("collisionOwner", "none");
+        ridge.SetMeta("navigationOwner", "none");
+        ridge.SetMeta("interactionOwner", "none");
+        ridge.SetMeta("presentationRole", "far snow ridge silhouette");
+        parent.AddChild(ridge);
+
+        AddVisualBox(ridge, "RidgeBody", new(length, height, depth), new(0f, height * 0.5f, 0f), "b9c6d2", "snow_ground");
+        AddVisualBox(ridge, "RidgeCrest", new(length * 0.86f, height * 0.34f, depth * 0.7f),
+            new(0f, height * 1.02f, 0f), "d6dee6", "snow_ground");
+    }
+
+    /// <summary>
+    /// Winter yard props: a haystack and a second wattle run, plus painted
+    /// village trim accents (shutters/frames in muted blue-green).
+    /// </summary>
+    /// <summary>
+    /// Unplowed snow bank pushed up along the road by the plough: long, low,
+    /// slightly irregular mounds that make the cleared lane read as a lane.
+    /// </summary>
+    /// <summary>
+    /// Faceted conical crown for distant silhouettes: cheap, reads as a tree
+    /// from any camera angle, and never as a floating box.
+    /// </summary>
+    private static void AddVisualConeCrown(Node3D parent, string name, Vector3 position,
+        float radius, float height, string color, string surface)
+    {
+        var cone = new MeshInstance3D
+        {
+            Name = name,
+            Position = position,
+            Mesh = new CylinderMesh
+            {
+                TopRadius = 0.06f,
+                BottomRadius = radius,
+                Height = height,
+                RadialSegments = 7,
+                Rings = 1
+            },
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface)
+        };
+        cone.SetMeta("visualOnly", true);
+        cone.SetMeta("presentationRole", "faceted tree crown silhouette");
+        parent.AddChild(cone);
+    }
+
+    private static void AddSnowBank(Node3D parent, string name, Vector3 anchor, Vector3 to,
+        float width, float height, float yawJitter)
+    {
+        var bank = new Node3D { Name = name, Position = anchor };
+        bank.SetMeta("visualOnly", true);
+        bank.SetMeta("presentationRole", "unplowed snow bank along the road");
+        parent.AddChild(bank);
+
+        var delta = to - anchor;
+        var length = delta.Length();
+        if (length < 0.5f)
+        {
+            return;
+        }
+
+        var yaw = Mathf.RadToDeg(Mathf.Atan2(delta.X, delta.Z));
+        var segments = Mathf.Max(2, Mathf.RoundToInt(length / 4.2f));
+        for (var index = 0; index < segments; index++)
+        {
+            var t = (index + 0.5f) / segments;
+            var point = anchor + delta * t;
+            var wobble = Mathf.Sin(index * 2.1f + yawJitter) * 0.22f;
+            AddVisualBox(bank, $"SnowBank{index}",
+                new(width * (1.0f + wobble * 0.3f), height * (1.0f + wobble * 0.4f), length / segments + 0.35f),
+                new(point.X, height * 0.5f + wobble * 0.06f, point.Z),
+                index % 2 == 0 ? "f2f6f9" : "e9eff4", "snow_ground",
+                yawDegrees: yaw + wobble * 8f);
+        }
+    }
+
+    /// <summary>
+    /// Lays unplowed snow banks along the main street by walking the road
+    /// centre line (found by sampling RoadInfo) and offsetting to both
+    /// shoulders. Presentation only; the cleared lane stays walkable.
+    /// </summary>
+    private static void AddMainStreetSnowBanks(Node3D parent)
+    {
+        var root = new Node3D { Name = "MainStreetSnowBanks" };
+        root.SetMeta("presentationOnly", true);
+        root.SetMeta("visualOnly", true);
+        root.SetMeta("collisionOwner", "none");
+        root.SetMeta("navigationOwner", "none");
+        root.SetMeta("interactionOwner", "none");
+        root.SetMeta("presentationRole", "unplowed snow banks flanking the cleared village street");
+        parent.AddChild(root);
+
+        for (var z = 16f; z >= -84f; z -= 4.0f)
+        {
+            var bestX = 0f;
+            var bestClearance = float.MaxValue;
+            var halfWidth = 3.0f;
+            for (var x = -12f; x <= 12f; x += 0.25f)
+            {
+                var info = AgentBAct1HeightField.RoadInfo(x, z);
+                var clearance = (float)(info.Distance - info.HalfWidth);
+                if (clearance < bestClearance)
+                {
+                    bestClearance = clearance;
+                    bestX = x;
+                    halfWidth = (float)info.HalfWidth;
+                }
+            }
+
+            if (bestClearance > 1.2f)
+            {
+                continue; // between roads: no bank here
+            }
+
+            foreach (var side in new[] { -1f, 1f })
+            {
+                var offset = halfWidth + 1.05f;
+                var wobble = Mathf.Sin(z * 0.7f + side) * 0.25f;
+                AddVisualBox(root, $"StreetBank{(side > 0 ? "E" : "W")}_{Mathf.RoundToInt(z)}",
+                    new(1.25f, 0.42f, 3.6f),
+                    new(bestX + side * (offset + wobble), 0.20f, z),
+                    Mathf.RoundToInt(z) % 2 == 0 ? "f2f6f9" : "e9eff4", "snow_ground",
+                    yawDegrees: wobble * 10f);
+            }
+        }
+    }
+
+    private static void AddVisualHaystack(Node3D parent, string name, Vector3 anchor, float scale, float yawDegrees)
+    {
+        var stack = new Node3D { Name = name, Position = anchor, RotationDegrees = new Vector3(0f, yawDegrees, 0f),
+            Scale = Vector3.One * scale };
+        stack.SetMeta("visualOnly", true);
+        stack.SetMeta("presentationRole", "winter haystack (стог сена) yard detail");
+        parent.AddChild(stack);
+
+        AddVisualBox(stack, "HayBase", new(2.6f, 1.1f, 2.2f), new(0f, 0.55f, 0f), "8a7a52", "grass");
+        AddVisualBox(stack, "HayMid", new(2.2f, 0.9f, 1.85f), new(0f, 1.5f, 0f), "94835a", "grass");
+        AddVisualBox(stack, "HayTop", new(1.5f, 0.75f, 1.3f), new(0f, 2.3f, 0f), "9c8b60", "grass");
+        AddVisualBox(stack, "HaySnowCap", new(1.6f, 0.22f, 1.4f), new(0f, 2.72f, 0f), "eef2f6", "snow_ground");
+        AddVisualBox(stack, "HaySnowSkirt", new(2.7f, 0.16f, 2.3f), new(0f, 1.16f, 0f), "e8eef3", "snow_ground");
+        AddVisualBox(stack, "HayPole", new(0.14f, 3.4f, 0.14f), new(0.6f, 1.7f, 0.5f), "6b5b46", "wood");
+    }
+
     private static void AddVisualStreetLandmark(Node3D parent, string name, Vector3 anchor, float yawDegrees, string labelText = "КЫРЛАЙ")
     {
         var landmark = new Node3D
@@ -6401,19 +7374,29 @@ public partial class Act1ConnectedWorld : Node3D
         grass.SetMeta("visualOnly", true);
         grass.SetMeta("vegetationStyle", "low-poly-grass-tuft");
         parent.AddChild(grass);
-        for (var index = 0; index < 4; index++)
+        var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        for (var index = 0; index < 24; index++)
         {
-            var angle = -18f + index * 12f;
-            AddVisualBox(
-                grass,
-                $"Blade{index}",
-                new(0.035f * size, 0.62f * size, 0.09f * size),
-                new((index - 1.5f) * 0.08f * size, 0.31f * size, (index % 2 == 0 ? -0.04f : 0.04f) * size),
-                color,
-                "foliage",
-                yawDegrees: angle,
-                rollDegrees: index % 2 == 0 ? -10f : 9f);
+            var phase = VegetationHash(origin, 73f + index);
+            var angle = index * 2.399963f + phase;
+            var outward = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+            var across = new Vector3(-outward.Z, 0f, outward.X);
+            var root = outward * (Mathf.Sqrt(index / 24f) * size * 0.30f);
+            var height = size * (0.30f + phase * 0.30f);
+            var middle = root + Vector3.Up * height * 0.65f + outward * size * 0.09f;
+            var tip = root + Vector3.Up * height + outward * size * (0.16f + phase * 0.14f);
+            var points = new[] { root - across * size * 0.025f, root + across * size * 0.025f,
+                middle - across * size * 0.016f, middle + across * size * 0.016f, tip };
+            foreach (var vertex in new[] { 0, 1, 2, 1, 3, 2, 2, 3, 4, 2, 1, 0, 2, 3, 1, 4, 3, 2 })
+            {
+                surface.SetUV(new Vector2(points[vertex].X, points[vertex].Y));
+                surface.AddVertex(points[vertex]);
+            }
         }
+        surface.GenerateNormals();
+        grass.AddChild(new MeshInstance3D { Name = "BentGrassBlades", Mesh = surface.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "grass") });
     }
 
     private static void AddVisualStoneCluster(Node3D parent, string name, Vector3 origin, float size, string color)
@@ -6896,63 +7879,7 @@ public partial class Act1ConnectedWorld : Node3D
         }
     }
 
-    private static void AddTraversalStrip(
-        Node3D parent,
-        Act1WorldLayout.ConnectorPlacement connector,
-        float width)
-    {
-        var start = new Vector3(connector.Start.X, 0f, connector.Start.Z);
-        var end = new Vector3(connector.End.X, 0f, connector.End.Z);
-        var direction = end - start;
-        var length = new Vector2(direction.X, direction.Z).Length();
-        if (length <= 0.05f)
-        {
-            return;
-        }
-
-        var yaw = Mathf.RadToDeg(Mathf.Atan2(direction.X, direction.Z));
-        var body = new StaticBody3D
-        {
-            Name = "RoadTraversalCollision",
-            Position = new Vector3((start.X + end.X) * 0.5f, -0.06f, (start.Z + end.Z) * 0.5f),
-            RotationDegrees = new Vector3(0f, yaw, 0f)
-        };
-        body.SetMeta("visualOnly", false);
-        body.SetMeta("traversalSurface", true);
-        body.SetMeta("collisionOwner", nameof(Act1ConnectedWorld));
-        body.SetMeta("interactionOwner", "none");
-        body.AddChild(new CollisionShape3D
-        {
-            Name = "RoadTraversalCollisionShape",
-            Shape = new BoxShape3D { Size = new Vector3(width, 0.12f, length) }
-        });
-        parent.AddChild(body);
-    }
-
-    private static void AddTraversalBox(
-        Node3D parent,
-        string name,
-        Vector3 size,
-        Vector3 position)
-    {
-        var body = new StaticBody3D
-        {
-            Name = name,
-            Position = position
-        };
-        body.SetMeta("visualOnly", false);
-        body.SetMeta("traversalSurface", true);
-        body.SetMeta("collisionOwner", nameof(Act1ConnectedWorld));
-        body.SetMeta("interactionOwner", "none");
-        body.AddChild(new CollisionShape3D
-        {
-            Name = "TraversalCollisionShape",
-            Shape = new BoxShape3D { Size = size }
-        });
-        parent.AddChild(body);
-    }
-
-    private static void AddVisualFenceRun(Node3D parent, string name, Vector3 start, Vector3 end)
+    private static void AddVisualFenceRun(Node3D parent, string name, Vector3 start, Vector3 end, bool picketInfill = false)
     {
         var direction = end - start;
         var length = new Vector2(direction.X, direction.Z).Length();
@@ -6962,24 +7889,73 @@ public partial class Act1ConnectedWorld : Node3D
         }
 
         var yaw = Mathf.RadToDeg(Mathf.Atan2(direction.X, direction.Z));
-        var midpoint = (start + end) * 0.5f;
-        AddVisualBox(
-            parent,
-            $"{name}Rail",
-            new Vector3(0.12f, 0.10f, length),
-            new Vector3(midpoint.X, 0.72f, midpoint.Z),
-            "594a39",
-            "wood",
-            yaw);
+        Vector3 Grounded(Vector3 point)
+        {
+            var world = parent.ToGlobal(point);
+            world.Y = (float)AgentBAct1HeightField.Ground(world.X, world.Z);
+            return parent.ToLocal(world);
+        }
         var posts = Math.Clamp((int)(length / 2.8f), 2, 8);
+        var across = new Vector3(direction.Z, 0f, -direction.X).Normalized() * 0.06f;
+        foreach (var (suffix, railHeight, color) in new[]
+                 { ("Rail", 0.72f, "594a39"), ("LowerRail", 0.30f, "514737") })
+        {
+            // One mesh keeps existing presentation-suppression names intact;
+            // its spans follow the same sampled ground as the posts.
+            var surface = new SurfaceTool();
+            surface.Begin(Mesh.PrimitiveType.Triangles);
+            for (var span = 0; span < posts; span++)
+            {
+                var a = Grounded(start.Lerp(end, span / (float)posts)) + Vector3.Up * railHeight;
+                var b = Grounded(start.Lerp(end, (span + 1f) / posts)) + Vector3.Up * railHeight;
+                var up = Vector3.Up * 0.05f;
+                var corners = new[] { a - across - up, a + across - up, a + across + up, a - across + up,
+                    b - across - up, b + across - up, b + across + up, b - across + up };
+                // Godot front faces use clockwise winding.
+                foreach (var vertex in new[] { 0, 1, 2, 0, 2, 3, 4, 6, 5, 4, 7, 6,
+                    0, 5, 1, 0, 4, 5, 3, 6, 7, 3, 2, 6, 1, 6, 2, 1, 5, 6, 0, 7, 4, 0, 3, 7 })
+                {
+                    surface.AddVertex(corners[vertex]);
+                }
+            }
+            surface.GenerateNormals();
+            var rail = new MeshInstance3D { Name = $"{name}{suffix}", Mesh = surface.Commit(),
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "wood_fence") };
+            rail.SetMeta("visualOnly", true);
+            // Replacement passes hide the named Rail subtree. Keep the
+            // lower member inside that owner instead of leaving an orphan
+            // beam on the ground after the old fence is suppressed.
+            if (suffix == "LowerRail")
+                parent.GetNode<MeshInstance3D>($"{name}Rail").AddChild(rail);
+            else
+                parent.AddChild(rail);
+        }
+        // A continuous slatted boundary makes the neighboring parcel legible
+        // from either direction; the existing endpoints retain all openings.
+        // Keep field/forest rails open: their long runs include sightline
+        // openings that must not become opaque roadside barriers.
+        var slats = picketInfill || name.StartsWith("Arrival", StringComparison.Ordinal)
+            ? Math.Max(1, (int)(length / 0.24f))
+            : 0;
+        for (var index = 0; index < slats; index++)
+        {
+            var point = Grounded(start.Lerp(end, (index + 0.5f) / slats));
+            var weathering = VegetationHash(point, 43.7f);
+            var slatHeight = Mathf.Lerp(0.78f, 0.98f, weathering);
+            AddVisualBox(parent.GetNode<MeshInstance3D>($"{name}Rail"), $"{name}Slat{index}",
+                new Vector3(0.075f, slatHeight, 0.16f),
+                new Vector3(point.X, point.Y + 0.06f + slatHeight * 0.5f, point.Z),
+                weathering < 0.35f ? "615b49" : "514b3e", "wood_fence", yaw,
+                rollDegrees: Mathf.Lerp(-2.5f, 2.5f, weathering));
+        }
         for (var index = 0; index <= posts; index++)
         {
-            var point = start.Lerp(end, index / (float)posts);
+            var point = Grounded(start.Lerp(end, index / (float)posts));
             AddVisualBox(
                 parent,
                 $"{name}Post{index}",
                 new Vector3(0.13f, 1.15f, 0.13f),
-                new Vector3(point.X, 0.575f, point.Z),
+                new Vector3(point.X, point.Y + 0.575f, point.Z),
                 "594a39",
                 "wood");
         }
@@ -7070,16 +8046,25 @@ public partial class Act1ConnectedWorld : Node3D
         float uniformScale,
         float yawDegrees)
     {
-        var house = GeneratedModularKitDressing.AttachPresentationOnly(
-            parent,
-            "act1-house-facade",
-            ["HouseA_"],
-            anchor,
-            uniformScale,
-            yawDegrees);
-        house.Name = name;
+        // Use the same full-volume architectural source as the near street,
+        // not the old modular HouseA shell. Extract only the dwelling, never
+        // its preview parcel's overlapping props or boundary. Three variant
+        // families rotate by name so one street does not read as cloned
+        // facades: Far holdings take the raised-veranda VariantC dwelling,
+        // east-side houses the plaster annex VariantB, everything else the
+        // timber gable VariantA.
+        var variant = name.Contains("FarHolding", StringComparison.Ordinal)
+            ? "VillageParcel_VariantC_BanyaYard"
+            : name.Contains("East", StringComparison.Ordinal)
+                ? "VillageParcel_VariantB_PlasterAnnex"
+                : "VillageParcel_VariantA_TimberGable";
+        AddAct1AuthoredExteriorParcel(parent,
+            new Act1ExteriorParcelComponentPlacement(
+                variant + "/" + variant + "_Dwelling", name, anchor,
+                yawDegrees, Vector3.One * Mathf.Max(.90f, uniformScale),
+                "village-house@" + name));
+        var house = parent.GetNode<Node3D>(name);
         house.SetMeta("presentationRole", "connected-world-authored-house-family");
-        house.SetMeta("visualOnly", true);
         return house;
     }
 
@@ -7376,6 +8361,13 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualBox(shed, "LeanTo", new(1.65f, 0.12f, 0.84f), new(1.28f, 1.22f, 1.25f), roofColor, "wood", rollDegrees: 8f);
     }
 
+    /// <summary>
+    /// Act I season lock (decision_log 2026-09-10): winter foliage is bare.
+    /// Kept as a field, not a const, so the summer crown path stays compiled
+    /// and a future season toggle does not need this method rewritten.
+    /// </summary>
+    private static bool WinterSeasonLock = true;
+
     private static void AddVisualTree(
         Node3D parent,
         string name,
@@ -7384,6 +8376,29 @@ public partial class Act1ConnectedWorld : Node3D
         VegetationStyle style,
         string foliageColor = "")
     {
+        // Near holdings use the same uneven ground as distant trees. Keeping
+        // their old y=0 roots leaves a visible gap above depressed yards.
+        var worldAnchor = parent.ToGlobal(origin);
+        worldAnchor.Y = (float)AgentBAct1HeightField.Ground(worldAnchor.X, worldAnchor.Z);
+
+        // Winter road policy: a tree on the carriageway or its shoulder reads
+        // as a mistake. Skip it (presentation only, no gameplay owner).
+        var road = AgentBAct1HeightField.RoadInfo(worldAnchor.X, worldAnchor.Z);
+        if ((float)(road.Distance - road.HalfWidth) < 2.2f)
+        {
+            return;
+        }
+
+        origin = parent.ToLocal(worldAnchor);
+        // Winter season lock (decision_log 2026-09-10): conifers are not
+        // village trees. Outside the Kara forest side every conifer request
+        // resolves to a bare deciduous winter tree.
+        var forestSide = worldAnchor.Z <= -86f;
+        if (style == VegetationStyle.Conifer && !forestSide)
+        {
+            style = height >= 5.5f ? VegetationStyle.Birch : VegetationStyle.Broadleaf;
+        }
+
         switch (style)
         {
             case VegetationStyle.Conifer:
@@ -7416,162 +8431,266 @@ public partial class Act1ConnectedWorld : Node3D
         parent.AddChild(tree);
 
         var trunkWidth = Mathf.Lerp(0.17f, 0.25f, phase);
-        AddVisualBox(tree, "Trunk", new(trunkWidth, height * 0.52f, trunkWidth), new(0f, height * 0.26f, 0f), "40352d", "wood_bark");
-        var foliageLobes = new[]
-        {
-            (Height: 0.44f, Width: 0.30f, Depth: 0.21f, Thickness: 0.095f, Side: -0.06f, Front: 0.03f),
-            (Height: 0.60f, Width: 0.26f, Depth: 0.19f, Thickness: 0.085f, Side: 0.08f, Front: -0.04f),
-            (Height: 0.75f, Width: 0.22f, Depth: 0.16f, Thickness: 0.075f, Side: -0.04f, Front: 0.05f),
-            (Height: 0.88f, Width: 0.15f, Depth: 0.12f, Thickness: 0.065f, Side: 0.07f, Front: -0.02f)
-        };
-        for (var index = 0; index < foliageLobes.Length; index++)
-        {
-            var lobe = foliageLobes[index];
-            var lobePhase = VegetationHash(origin, 3.1f + index);
-            var depthPhase = VegetationHash(origin, 4.7f + index);
-            tree.AddChild(new MeshInstance3D
-            {
-                Name = $"Crown{index}",
-                Position = new Vector3(
-                    height * (lobe.Side + Mathf.Lerp(-0.045f, 0.045f, lobePhase)),
-                    height * (lobe.Height + Mathf.Lerp(-0.015f, 0.015f, phase)),
-                    height * (lobe.Front + Mathf.Lerp(-0.045f, 0.045f, depthPhase))),
-                Scale = new Vector3(
-                    height * lobe.Width * Mathf.Lerp(0.88f, 1.16f, lobePhase),
-                    height * lobe.Thickness * Mathf.Lerp(0.88f, 1.14f, phase),
-                    height * lobe.Depth * Mathf.Lerp(0.78f, 1.12f, depthPhase)),
-                RotationDegrees = new Vector3(
-                    Mathf.Lerp(-12f, 12f, lobePhase),
-                    lobePhase * 80f + index * 43f,
-                    Mathf.Lerp(-16f, 16f, depthPhase)),
-                Mesh = new SphereMesh { Radius = 1f, Height = 2f, RadialSegments = lobePhase > 0.5f ? 6 : 7, Rings = 3 },
-                MaterialOverride = PainterlyMaterialLibrary.ForColor(foliageColor, "foliage")
-            });
-        }
-
         tree.AddChild(new MeshInstance3D
         {
-            Name = "TopSprig",
-            Position = new Vector3(height * Mathf.Lerp(-0.035f, 0.035f, phase), height * 0.98f, height * Mathf.Lerp(-0.02f, 0.02f, phase)),
-            Scale = new Vector3(height * Mathf.Lerp(0.065f, 0.09f, phase), height * Mathf.Lerp(0.11f, 0.15f, phase), height * 0.07f),
-            Mesh = new CylinderMesh { TopRadius = 0.02f, BottomRadius = 0.65f, Height = 1f, RadialSegments = 6 },
+            Name = "Trunk",
+            Position = new Vector3(0f, height * 0.5f, 0f),
+            Mesh = new CylinderMesh { BottomRadius = trunkWidth,
+                TopRadius = 0.02f, Height = height, RadialSegments = 9 },
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("40352d", "bark_pine")
+        });
+        // Two-layer crown replaces the flat single-plane column: an open
+        // outer skirt of drooping needle fans over a darker inner fill, so
+        // the silhouette keeps sky gaps from every side but gains layered
+        // depth. The skirt profile peaks in the lower third like a real
+        // pine and tapers into a short upturned leader. No closed cone
+        // shell; the same silhouette must work from beneath the crown.
+        var skirt = new SurfaceTool();
+        skirt.Begin(Mesh.PrimitiveType.Triangles);
+        var fill = new SurfaceTool();
+        fill.Begin(Mesh.PrimitiveType.Triangles);
+        var tiers = 12;
+        for (var tier = 0; tier < tiers; tier++)
+        {
+            var level = 0.24f + tier * 0.062f;
+            var profile = 1f - Mathf.Pow(Mathf.Abs(level - 0.38f) / 0.72f, 1.35f);
+            var branches = tier < tiers - 2 ? 6 : 4;
+            for (var branch = 0; branch < branches; branch++)
+            {
+                var angle = branch * Mathf.Tau / branches + tier * 2.399963f + phase * 4f;
+                var axis = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+                var side = new Vector3(-axis.Z, 0f, axis.X);
+                var length = height * (0.30f + 0.34f * profile)
+                    * (0.82f + 0.18f * Mathf.Sin(branch * 3.7f + tier + phase));
+                for (var spray = 0; spray < 5; spray++)
+                {
+                    var t = 0.15f + spray * 0.19f;
+                    var hand = spray % 2 == 0 ? 1f : -1f;
+                    var droop = t * t * 0.34f;
+                    var center = axis * (length * t)
+                        + Vector3.Up * (height * level - length * droop);
+                    var twig = (axis * 0.60f + side * hand * 0.65f).Normalized();
+                    var across = new Vector3(-twig.Z, 0f, twig.X);
+                    var size = length * (0.34f - t * 0.12f);
+                    var root = center - twig * size * 0.30f;
+                    var tip = center + twig * size - Vector3.Up * size * 0.35f;
+                    var left = center + across * size * 0.55f + Vector3.Up * size * 0.55f;
+                    var right = center - across * size * 0.55f + Vector3.Up * size * 0.10f;
+                    foreach (var vertex in new[] { root, left, tip, root, tip, right,
+                        tip, left, root, right, tip, root })
+                    {
+                        skirt.SetUV(new Vector2(vertex.X, vertex.Z));
+                        skirt.AddVertex(vertex);
+                    }
+                    var innerSize = size * 0.72f;
+                    var innerRoot = center - twig * innerSize * 0.50f - axis * length * 0.10f;
+                    var innerTip = center + twig * innerSize * 0.80f;
+                    var innerLeft = center + across * innerSize * 0.50f
+                        + Vector3.Up * innerSize * 0.40f - axis * length * 0.08f;
+                    var innerRight = center - across * innerSize * 0.40f
+                        - Vector3.Up * innerSize * 0.05f;
+                    foreach (var vertex in new[] { innerRoot, innerLeft, innerTip,
+                        innerRoot, innerTip, innerRight })
+                    {
+                        fill.SetUV(new Vector2(vertex.X, vertex.Z));
+                        fill.AddVertex(vertex);
+                    }
+                }
+            }
+        }
+        for (var tip = 0; tip < 5; tip++)
+        {
+            var angle = tip * Mathf.Tau / 5f + phase * 3f;
+            var axis = new Vector3(Mathf.Cos(angle) * 0.35f, 1f, Mathf.Sin(angle) * 0.35f).Normalized();
+            var center = Vector3.Up * height * (0.93f + tip * 0.015f);
+            var size = height * 0.075f * (1f - tip * 0.12f);
+            var across = new Vector3(-axis.Z, 0f, axis.X);
+            var rootP = center - axis * size * 0.30f;
+            var tipP = center + axis * size;
+            var leftP = center + across * size * 0.50f + Vector3.Up * size * 0.20f;
+            var rightP = center - across * size * 0.50f - Vector3.Up * size * 0.10f;
+            foreach (var vertex in new[] { rootP, leftP, tipP, rootP, tipP, rightP,
+                tipP, leftP, rootP, rightP, tipP, rootP })
+            {
+                skirt.SetUV(new Vector2(vertex.X, vertex.Z));
+                skirt.AddVertex(vertex);
+            }
+        }
+        skirt.GenerateNormals();
+        fill.GenerateNormals();
+        tree.AddChild(new MeshInstance3D
+        {
+            Name = "BranchCrown",
+            Mesh = skirt.Commit(),
             MaterialOverride = PainterlyMaterialLibrary.ForColor(foliageColor, "foliage")
+        });
+        tree.AddChild(new MeshInstance3D
+        {
+            Name = "CrownInner",
+            Mesh = fill.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(
+                DarkerFoliageHex(foliageColor, 0.76f), "foliage")
         });
 
         AddVegetationGroundAccents(tree, name, origin, Mathf.Clamp(height * 0.065f, 0.24f, 0.52f), phase);
     }
 
     private static void AddVisualBirch(Node3D parent, string name, Vector3 origin, float height, string foliageColor)
-    {
-        var phase = VegetationHash(origin, 15.1f);
-        var tree = new Node3D
-        {
-            Name = name,
-            Position = origin,
-            RotationDegrees = new Vector3(
-                0f,
-                VegetationHash(origin, 17.3f) * 360f,
-                Mathf.Lerp(-3f, 3f, VegetationHash(origin, 16.7f)))
-        };
-        tree.SetMeta("visualOnly", true);
-        tree.SetMeta("vegetationStyle", "painterly-birch-cluster");
-        parent.AddChild(tree);
-        var trunkWidth = Mathf.Lerp(0.11f, 0.17f, phase);
-        tree.AddChild(new MeshInstance3D
-        {
-            Name = "Trunk",
-            Position = new Vector3(Mathf.Lerp(-0.04f, 0.04f, phase), height * 0.42f, 0f),
-            Mesh = new CylinderMesh { TopRadius = trunkWidth * 0.54f, BottomRadius = trunkWidth, Height = height * 0.84f, RadialSegments = 7 },
-            MaterialOverride = PainterlyMaterialLibrary.ForColor("8d8f80", "wood_bark")
-        });
-        var branchPhase = VegetationHash(origin, 18.9f);
-        AddVisualBox(tree, "BranchLeft", new(0.08f, height * Mathf.Lerp(0.24f, 0.32f, branchPhase), 0.08f), new(-height * Mathf.Lerp(0.07f, 0.14f, branchPhase), height * 0.57f, 0.01f), "8d8f80", "wood_bark", yawDegrees: branchPhase * 36f, rollDegrees: Mathf.Lerp(-34f, -24f, branchPhase));
-        AddVisualBox(tree, "BranchRight", new(0.07f, height * Mathf.Lerp(0.20f, 0.29f, phase), 0.07f), new(height * Mathf.Lerp(0.08f, 0.15f, phase), height * 0.63f, -height * 0.025f), "8d8f80", "wood_bark", yawDegrees: 180f - branchPhase * 42f, rollDegrees: Mathf.Lerp(25f, 38f, phase));
-        var foliage = PainterlyMaterialLibrary.ForColor(foliageColor, "foliage");
-        var clusters = new[]
-                 {
-                     (new Vector3(-0.28f, height * 0.70f, 0.05f), new Vector3(0.72f, 0.56f, 0.64f)),
-                     (new Vector3(0.24f, height * 0.78f, -0.12f), new Vector3(0.68f, 0.60f, 0.58f)),
-                     (new Vector3(0.02f, height * 0.93f, 0.10f), new Vector3(0.54f, 0.48f, 0.50f))
-                 };
-        for (var index = 0; index < clusters.Length; index++)
-        {
-            var (offset, scale) = clusters[index];
-            var clusterPhase = VegetationHash(origin, 20.1f + index);
-            tree.AddChild(new MeshInstance3D
-            {
-                Name = $"LeafCluster{index}",
-                Position = offset + new Vector3(
-                    Mathf.Lerp(-0.06f, 0.06f, clusterPhase),
-                    Mathf.Lerp(-0.025f, 0.025f, phase),
-                    Mathf.Lerp(-0.05f, 0.05f, VegetationHash(origin, 23.1f + index))),
-                Scale = new Vector3(
-                    height * scale.X * Mathf.Lerp(0.18f, 0.23f, clusterPhase),
-                    height * scale.Y * Mathf.Lerp(0.18f, 0.23f, phase),
-                    height * scale.Z * Mathf.Lerp(0.18f, 0.22f, clusterPhase)),
-                RotationDegrees = new Vector3(0f, clusterPhase * 42f, Mathf.Lerp(-5f, 5f, phase)),
-                Mesh = new SphereMesh { Radius = 1f, Height = 2f, RadialSegments = clusterPhase > 0.5f ? 7 : 8, Rings = 4 },
-                MaterialOverride = foliage
-            });
-        }
-
-        AddVegetationGroundAccents(tree, name, origin, Mathf.Clamp(height * 0.055f, 0.20f, 0.42f), phase);
-    }
+        => AddDeciduousTree(parent, name, origin, height, foliageColor, true);
 
     private static void AddVisualBroadleaf(Node3D parent, string name, Vector3 origin, float height, string foliageColor)
+        => AddDeciduousTree(parent, name, origin, height, foliageColor, false);
+
+    private static void AddDeciduousTree(Node3D parent, string name, Vector3 origin,
+        float height, string foliageColor, bool birch)
     {
-        var phase = VegetationHash(origin, 27.1f);
+        var phase = VegetationHash(origin, birch ? 15.1f : 27.1f);
         var tree = new Node3D
         {
-            Name = name,
-            Position = origin,
-            RotationDegrees = new Vector3(
-                0f,
-                VegetationHash(origin, 29.3f) * 360f,
-                Mathf.Lerp(-4.5f, 4.5f, VegetationHash(origin, 28.7f)))
+            Name = name, Position = origin,
+            RotationDegrees = new Vector3(0f, phase * 360f, 0f)
         };
         tree.SetMeta("visualOnly", true);
-        tree.SetMeta("vegetationStyle", "painterly-broadleaf-crown");
+        tree.SetMeta("vegetationStyle", birch ? "pendulous-branch-birch" : "low-fork-orchard-tree");
         parent.AddChild(tree);
-        var trunkWidth = Mathf.Lerp(0.16f, 0.25f, phase);
+
+        // These primary boughs describe two different whole-tree habits.
+        // Variation rotates the accepted form; it does not invent a random
+        // silhouette or stack three small crowns on a pole.
+        Vector3[] tips = birch
+            ? [new(-.25f,.63f,.10f), new(.23f,.72f,-.10f),
+               new(-.12f,.84f,-.23f), new(.12f,.86f,.19f),
+               new(-.06f,1f,.02f), new(.25f,.54f,.16f),
+               new(-.23f,.48f,-.17f)]
+            : [new(-.35f,.55f,.13f), new(.33f,.60f,-.18f),
+               new(-.17f,.80f,-.28f), new(.19f,.83f,.25f),
+               new(-.04f,.95f,.03f), new(.30f,.45f,.24f),
+               new(-.30f,.42f,-.23f)];
+        var bark = new SurfaceTool();
+        bark.Begin(Mesh.PrimitiveType.Triangles);
+        var leaves = new SurfaceTool();
+        leaves.Begin(Mesh.PrimitiveType.Triangles);
+        void Limb(Vector3 start, Vector3 end, float bottom, float top)
+        {
+            var axis = (end - start).Normalized();
+            var across = axis.Cross(Vector3.Forward).Normalized();
+            var cylinder = new CylinderMesh
+            {
+                BottomRadius = bottom, TopRadius = top,
+                Height = start.DistanceTo(end), RadialSegments = 7, Rings = 1
+            };
+            bark.AppendFrom(cylinder, 0, new Transform3D(
+                new Basis(across, axis, across.Cross(axis)), (start + end) * .5f));
+        }
+        var fork = new Vector3(.018f, birch ? .37f : .23f, -.012f) * height;
+        var trunkRadius = height * (birch ? .024f : .030f);
+        Limb(Vector3.Zero, fork, trunkRadius * 1.3f, trunkRadius * .64f);
+        Limb(fork, new Vector3(-.04f, .94f, .025f) * height,
+            trunkRadius * .64f, .008f);
+
+        var leafMesh = CreateLeafSprays(phase, birch, 18, 7);
+        for (var branch = 0; branch < tips.Length; branch++)
+        {
+            var tip = tips[branch] * height;
+            var basePoint = fork.Lerp(new Vector3(-.04f, .84f, .025f) * height,
+                birch ? branch / 12f : branch / 22f);
+            var elbow = basePoint.Lerp(tip, .55f) + Vector3.Up * height * .055f;
+            Limb(basePoint, elbow, trunkRadius * .42f, trunkRadius * .21f);
+            Limb(elbow, tip, trunkRadius * .21f, .009f);
+            var radial = new Vector3(tip.X, 0f, tip.Z).Normalized();
+            var lateral = new Vector3(-radial.Z, 0f, radial.X);
+            for (var twig = 0; twig < 5; twig++)
+            {
+                var t = .30f + twig * .16f;
+                var junction = elbow.Lerp(tip, t);
+                var hand = twig % 2 == 0 ? -1f : 1f;
+                var reach = height * (birch ? .10f : .12f) * (1f - twig * .08f);
+                var bend = junction + lateral * hand * reach + radial * reach * .3f;
+                var end = bend + Vector3.Down * height * (birch ? .13f : .035f);
+                Limb(junction, bend, .015f, .009f);
+                Limb(bend, end, .009f, .003f);
+                // Leaf groups follow actual hanging shoots, including the
+                // lower canopy, rather than float at unrelated sphere centers.
+                var crownScale = height * (birch ? .105f : .103f);
+                var stretch = birch ? 1.55f : .80f;
+                var basis = Basis.FromEuler(new Vector3(.25f * hand,
+                    branch * 1.7f + twig, .20f * hand))
+                    .Scaled(new Vector3(crownScale, crownScale * stretch, crownScale));
+                leaves.AppendFrom(leafMesh, 0,
+                    new Transform3D(basis, bend.Lerp(end, .55f)));
+                // Second, smaller spray at the hanging tip fills the lower
+                // canopy so the crown reads airy but continuous, not as a
+                // sparse umbrella on a pole.
+                var tipBasis = Basis.FromEuler(new Vector3(-.30f * hand,
+                    branch * 2.9f - twig, .35f * hand))
+                    .Scaled(new Vector3(crownScale * .78f, crownScale * stretch * .9f, crownScale * .78f));
+                leaves.AppendFrom(leafMesh, 0,
+                    new Transform3D(tipBasis, end.Lerp(bend, .25f)));
+            }
+        }
         tree.AddChild(new MeshInstance3D
         {
-            Name = "Trunk",
-            Position = new Vector3(Mathf.Lerp(-0.06f, 0.06f, phase), height * 0.30f, 0f),
-            RotationDegrees = new Vector3(0f, 0f, Mathf.Lerp(-6f, 4f, phase)),
-            Mesh = new CylinderMesh { TopRadius = trunkWidth * 0.50f, BottomRadius = trunkWidth, Height = height * Mathf.Lerp(0.58f, 0.68f, phase), RadialSegments = 7 },
-            MaterialOverride = PainterlyMaterialLibrary.ForColor("594438", "wood_bark")
+            Name = "BranchSkeleton", Mesh = bark.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(
+                birch ? "aaa99a" : "655447", birch ? "bark_birch" : "bark_pine")
         });
-        AddVisualBox(tree, "BranchLeft", new(0.10f, height * Mathf.Lerp(0.34f, 0.45f, phase), 0.10f), new(-height * Mathf.Lerp(0.09f, 0.15f, phase), height * 0.57f, 0.01f), "594438", "wood_bark", yawDegrees: VegetationHash(origin, 31.1f) * 30f, rollDegrees: Mathf.Lerp(-38f, -25f, phase));
-        AddVisualBox(tree, "BranchRight", new(0.09f, height * Mathf.Lerp(0.29f, 0.40f, phase), 0.09f), new(height * Mathf.Lerp(0.10f, 0.17f, phase), height * 0.62f, -height * 0.02f), "594438", "wood_bark", yawDegrees: 180f - VegetationHash(origin, 32.1f) * 30f, rollDegrees: Mathf.Lerp(27f, 42f, phase));
-        var foliage = PainterlyMaterialLibrary.ForColor(foliageColor, "foliage");
-        var clusters = new[]
-                 {
-                     (new Vector3(-0.22f, height * 0.68f, 0.06f), new Vector3(0.66f, 0.54f, 0.62f)),
-                     (new Vector3(0.23f, height * 0.73f, -0.08f), new Vector3(0.70f, 0.58f, 0.66f)),
-                     (new Vector3(-0.02f, height * 0.88f, 0.02f), new Vector3(0.58f, 0.52f, 0.60f))
-                 };
-        for (var index = 0; index < clusters.Length; index++)
+        // Winter season lock: deciduous trees are bare, so the flat leaf-card
+        // crown is skipped entirely and the branch skeleton carries the
+        // silhouette (with snow through the material layer). The summer
+        // crown path stays in code for a future season toggle.
+        if (!WinterSeasonLock)
         {
-            var (offset, scale) = clusters[index];
-            var clusterPhase = VegetationHash(origin, 34.1f + index);
             tree.AddChild(new MeshInstance3D
             {
-                Name = $"LeafMass{index}",
-                Position = offset + new Vector3(
-                    Mathf.Lerp(-0.08f, 0.08f, clusterPhase),
-                    Mathf.Lerp(-0.03f, 0.03f, phase),
-                    Mathf.Lerp(-0.06f, 0.06f, VegetationHash(origin, 37.1f + index))),
-                Scale = new Vector3(
-                    height * scale.X * Mathf.Lerp(0.19f, 0.25f, clusterPhase),
-                    height * scale.Y * Mathf.Lerp(0.19f, 0.25f, phase),
-                    height * scale.Z * Mathf.Lerp(0.19f, 0.24f, clusterPhase)),
-                RotationDegrees = new Vector3(Mathf.Lerp(-4f, 4f, phase), clusterPhase * 48f, Mathf.Lerp(-6f, 6f, clusterPhase)),
-                Mesh = new SphereMesh { Radius = 1f, Height = 2f, RadialSegments = clusterPhase > 0.58f ? 6 : 7, Rings = 3 },
-                MaterialOverride = foliage
+                Name = "BranchCrown", Mesh = leaves.Commit(),
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(
+                    foliageColor, birch ? "leaf_birch" : "foliage")
             });
         }
-        AddVegetationGroundAccents(tree, name, origin, Mathf.Clamp(height * 0.07f, 0.26f, 0.54f), phase);
+        AddVegetationGroundAccents(tree, name, origin, Mathf.Clamp(height * .06f, .2f, .48f), phase);
+    }
+
+    private static ArrayMesh CreateLeafSprays(float phase, bool birch, int shoots = 48, int leafCount = 9)
+    {
+        // Open, overlapping shoots rather than a solid crown shell. Folded
+        // leaves have real silhouettes from below as well as from the road.
+        var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        for (var shoot = 0; shoot < shoots; shoot++)
+        {
+            var angle = shoot * 2.399963f + phase * Mathf.Tau;
+            var y = 1f - 2f * (shoot + 0.5f) / shoots;
+            var radius = Mathf.Sqrt(1f - y * y);
+            var direction = new Vector3(Mathf.Cos(angle) * radius, y, Mathf.Sin(angle) * radius);
+            var length = 1.0f + 0.15f * Mathf.Sin(shoot * 4.17f + phase * 11f);
+            var side = direction.Cross(Vector3.Up).Normalized();
+            var normal = side.Cross(direction).Normalized();
+            for (var leaf = 0; leaf < leafCount; leaf++)
+            {
+                var along = 0.45f + leaf * 0.09f;
+                var hand = leaf % 2 == 0 ? 1f : -1f;
+                var center = direction * (length * along)
+                    + side * (hand * 0.12f * along)
+                    + Vector3.Down * (birch ? 0.20f : 0.07f) * along * along;
+                var axis = (direction * 0.45f + side * hand).Normalized();
+                var across = normal.Cross(axis).Normalized();
+                var size = (birch ? 0.25f : 0.28f)
+                    * (0.85f + 0.15f * Mathf.Sin(shoot * 3.1f + leaf * 2.7f));
+                var root = center - axis * size;
+                var tip = center + axis * size;
+                var left = center + across * size * 0.58f + normal * size * 0.18f;
+                var right = center - across * size * 0.58f + normal * size * 0.18f;
+                // Both faces are explicit: no global material cull change.
+                foreach (var vertex in new[] { root, left, tip, root, tip, right,
+                    tip, left, root, right, tip, root })
+                {
+                    surface.SetUV(new Vector2(vertex.X, vertex.Z));
+                    surface.AddVertex(vertex);
+                }
+            }
+        }
+        surface.GenerateNormals();
+        return surface.Commit();
     }
 
     private static void AddVisualShrub(Node3D parent, string name, Vector3 origin, float size, string foliageColor)
@@ -7598,23 +8717,60 @@ public partial class Act1ConnectedWorld : Node3D
         {
             var (offset, scale) = clusters[index];
             var clusterPhase = VegetationHash(origin, 43.1f + index);
+            // Winter bush: a low snow-laden mound with a couple of dry twigs
+            // instead of a green leaf mass.
             shrub.AddChild(new MeshInstance3D
             {
-                Name = $"LeafMass{index}",
+                Name = $"SnowMound{index}",
                 Position = new Vector3(
                     offset.X * size * spread + Mathf.Lerp(-0.05f, 0.05f, clusterPhase) * size,
-                    offset.Y * size * Mathf.Lerp(0.88f, 1.16f, phase),
+                    offset.Y * size * Mathf.Lerp(0.55f, 0.75f, phase),
                     offset.Z * size * spread + Mathf.Lerp(-0.05f, 0.05f, VegetationHash(origin, 46.1f + index)) * size),
                 Scale = new Vector3(
-                    scale.X * size * Mathf.Lerp(0.88f, 1.18f, clusterPhase),
-                    scale.Y * size * Mathf.Lerp(0.88f, 1.16f, phase),
-                    scale.Z * size * Mathf.Lerp(0.88f, 1.16f, clusterPhase)),
-                RotationDegrees = new Vector3(0f, clusterPhase * 50f, Mathf.Lerp(-8f, 8f, phase)),
-                Mesh = new SphereMesh { Radius = 1f, Height = 2f, RadialSegments = clusterPhase > 0.5f ? 7 : 8, Rings = clusterPhase > 0.7f ? 3 : 4 },
-                MaterialOverride = material
+                    scale.X * size * Mathf.Lerp(0.90f, 1.20f, clusterPhase),
+                    scale.Y * size * Mathf.Lerp(0.60f, 0.80f, phase),
+                    scale.Z * size * Mathf.Lerp(0.90f, 1.20f, clusterPhase)),
+                RotationDegrees = new Vector3(0f, clusterPhase * 50f, 0f),
+                Mesh = new CylinderMesh
+                {
+                    TopRadius = size * 0.22f,
+                    BottomRadius = size * 0.52f,
+                    Height = size * 0.55f,
+                    RadialSegments = 7,
+                    Rings = 1
+                },
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(
+                    clusterPhase > 0.5f ? "f2f6f9" : "e9eff4", "snow_ground")
             });
+            for (var twigIndex = 0; twigIndex < 2; twigIndex++)
+            {
+                shrub.AddChild(new MeshInstance3D
+                {
+                    Name = $"WinterTwig{index}_{twigIndex}",
+                    Position = new Vector3(
+                        offset.X * size * spread + (twigIndex == 0 ? -0.08f : 0.09f) * size,
+                        offset.Y * size * 0.72f + 0.28f * size,
+                        offset.Z * size * spread + (twigIndex == 0 ? 0.05f : -0.06f) * size),
+                    RotationDegrees = new Vector3(12f - twigIndex * 24f, clusterPhase * 60f + twigIndex * 40f, 0f),
+                    Mesh = new CylinderMesh
+                    {
+                        TopRadius = 0.006f,
+                        BottomRadius = 0.014f,
+                        Height = size * 0.55f,
+                        RadialSegments = 5,
+                        Rings = 1
+                    },
+                    MaterialOverride = PainterlyMaterialLibrary.ForColor("6b5f4c", "wood_bark")
+                });
+            }
         }
         AddVegetationGroundAccents(shrub, name, origin, Mathf.Clamp(size * 0.72f, 0.22f, 0.72f), phase);
+    }
+
+    private static string DarkerFoliageHex(string hex, float factor)
+    {
+        var color = Color.FromHtml(hex.Length == 6 ? hex : "48553f");
+        return color.Darkened(factor).ToHtml(false);
     }
 
     private static float VegetationHash(Vector3 origin, float salt)

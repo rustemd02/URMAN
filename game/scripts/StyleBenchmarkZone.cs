@@ -18,6 +18,44 @@ public partial class StyleBenchmarkZone : Node3D
         "res://assets/models/act1/urman_fap_clinic_kit.glb";
     private const string FapClinicKitRootName = "URMAN_FapClinicKit";
     private const string FapInteriorSetComponentName = "FapInteriorSet";
+    private const string ZiratRoadsideKitScenePath =
+        "res://assets/models/act1/urman_zirat_roadside_kit.glb";
+    private const string ZiratRoadsideKitRootName = "URMAN_ZiratRoadsideKit";
+    private const string KaraForestEdgeKitScenePath =
+        "res://assets/models/act1/urman_kara_forest_edge_kit.glb";
+    private const string KaraForestEdgeKitRootName = "URMAN_KaraForestEdgeKit";
+
+    private static readonly string[] ZiratRoadsideKitComponentNames =
+    [
+        "WetRoadShoulder_Left",
+        "WetRoadShoulder_Right",
+        "RoadsideDitch",
+        "CulvertStoneCluster",
+        "ZiratBoundaryFence",
+        "ZiratOpenGate",
+        "ZiratMarkerGroup_Low",
+        "ZiratMarkerGroup_Far",
+        "ZiratPathEdge",
+        "ZiratBirchShrubMass",
+        "ZiratDistantVillageMass"
+    ];
+
+    private static readonly string[] KaraForestEdgeKitComponentNames =
+    [
+        "ForestBank_Left",
+        "ForestBank_Right",
+        "MixedTreeCluster_Left",
+        "MixedTreeCluster_Right",
+        "CrookedPineMass",
+        "BirchEdgeMass",
+        "RootWall_Left",
+        "RootWall_Right",
+        "FallenLogCluster",
+        "MossyBoulderCluster",
+        "CrookedStump",
+        "DistantForestMass_Low",
+        "DistantForestMass_Tall"
+    ];
 
     public enum BenchmarkKind
     {
@@ -61,16 +99,24 @@ public partial class StyleBenchmarkZone : Node3D
         var night = ZoneKind == BenchmarkKind.KaraUrmanNight;
         var interior = ZoneKind is BenchmarkKind.HouseOldPc or BenchmarkKind.FapClinic;
         var houseInterior = ZoneKind == BenchmarkKind.HouseOldPc;
+        var fapInterior = ZoneKind == BenchmarkKind.FapClinic;
+        var zirat = ZoneKind == BenchmarkKind.ZiratRoad;
         var sky = interior ? null : new Sky
         {
             RadianceSize = Sky.RadianceSizeEnum.Size256,
             SkyMaterial = new ProceduralSkyMaterial
             {
-                SkyTopColor = night ? Color.FromHtml("172631") : Color.FromHtml("334f5b"),
-                SkyHorizonColor = night ? Color.FromHtml("63727a") : Color.FromHtml("d6cbb9"),
+                SkyTopColor = night
+                    ? Color.FromHtml("111e27")
+                    : zirat ? Color.FromHtml("3b4e55") : Color.FromHtml("334b57"),
+                SkyHorizonColor = night
+                    ? Color.FromHtml("465b63")
+                    : zirat ? Color.FromHtml("9aa8a5") : Color.FromHtml("a6b3b0"),
                 SkyCurve = night ? 0.18f : 0.12f,
-                GroundBottomColor = night ? Color.FromHtml("182221") : Color.FromHtml("3f4b3d"),
-                GroundHorizonColor = night ? Color.FromHtml("47595a") : Color.FromHtml("a9ad9b"),
+                GroundBottomColor = night ? Color.FromHtml("101b1d") : Color.FromHtml("2b3a35"),
+                GroundHorizonColor = night
+                    ? Color.FromHtml("344a4d")
+                    : zirat ? Color.FromHtml("71807a") : Color.FromHtml("7f9186"),
                 GroundCurve = 0.16f,
                 SunAngleMax = night ? 1.2f : 4.2f,
                 SunCurve = 0.08f
@@ -80,19 +126,38 @@ public partial class StyleBenchmarkZone : Node3D
         {
             BackgroundMode = interior ? global::Godot.Environment.BGMode.Color : global::Godot.Environment.BGMode.Sky,
             Sky = sky,
-            BackgroundColor = night ? Color.FromHtml("17232a") : interior ? Color.FromHtml("3b2b21") : Color.FromHtml("52646b"),
-            AmbientLightSource = global::Godot.Environment.AmbientSource.Color,
+            BackgroundColor = night
+                ? Color.FromHtml("17232a")
+                : houseInterior ? Color.FromHtml("3b2b21")
+                : fapInterior ? Color.FromHtml("303e43")
+                : Color.FromHtml("52646b"),
+            AmbientLightSource = night || interior
+                ? global::Godot.Environment.AmbientSource.Color
+                : global::Godot.Environment.AmbientSource.Sky,
             // Kara-Urman needs a readable cold value floor: the previous
             // calibration collapsed the walkable path and foreground trees
             // into one blue-black mass at first-person distance.
-            AmbientLightColor = night ? Color.FromHtml("7b9096") : houseInterior ? Color.FromHtml("9d9489") : interior ? Color.FromHtml("98a59f") : Color.FromHtml("a9b2a4"),
-            AmbientLightEnergy = night ? 0.64f : houseInterior ? 0.54f : interior ? 0.68f : 0.80f,
+            AmbientLightColor = night
+                ? Color.FromHtml("748a91")
+                : houseInterior ? Color.FromHtml("a89b8e")
+                : fapInterior ? Color.FromHtml("879397")
+                : zirat ? Color.FromHtml("99a6a2")
+                : Color.FromHtml("a5b0ab"),
+            // Keep the clinic's cold institutional base restrained so the
+            // window and document pools can establish the room's depth.
+            AmbientLightEnergy = night ? 0.82f : houseInterior ? 0.58f : fapInterior ? 0.58f : zirat ? 0.72f : 0.78f,
             FogEnabled = !interior,
-            FogLightColor = night ? Color.FromHtml("52666d") : Color.FromHtml("87918b"),
-            FogDensity = night ? 0.0034f : 0.0032f,
-            FogHeight = 1.2f,
-            FogHeightDensity = night ? 0.075f : 0.05f,
-            TonemapMode = global::Godot.Environment.ToneMapper.Filmic
+            FogLightColor = night
+                ? Color.FromHtml("4d626a")
+                : zirat ? Color.FromHtml("718080") : Color.FromHtml("758888"),
+            FogDensity = night ? 0.0058f : zirat ? 0.0050f : 0.0046f,
+            FogHeight = 0.9f,
+            FogHeightDensity = night ? 0.10f : 0.06f,
+            FogAerialPerspective = night ? 0.52f : 0.46f,
+            FogSkyAffect = night ? 0.28f : 0.25f,
+            FogSunScatter = night ? 0.08f : 0.06f,
+            TonemapMode = global::Godot.Environment.ToneMapper.Filmic,
+            TonemapExposure = night ? 1.02f : fapInterior ? 1.04f : zirat ? 0.96f : 0.98f
         };
         AddChild(new WorldEnvironment { Environment = environment, Name = "WorldEnvironment" });
 
@@ -102,8 +167,10 @@ public partial class StyleBenchmarkZone : Node3D
             {
                 Name = "MainDirectionalLight",
                 RotationDegrees = night ? new(-52, -28, 0) : new(-48, -32, 0),
-                LightColor = night ? Color.FromHtml("859aa1") : Color.FromHtml("d6d0bd"),
-                LightEnergy = night ? 0.82f : 1.08f,
+                LightColor = night
+                    ? Color.FromHtml("748a92")
+                    : zirat ? Color.FromHtml("c0c9c7") : Color.FromHtml("c9d0ce"),
+                LightEnergy = night ? 0.78f : zirat ? 0.98f : 1.08f,
                 ShadowEnabled = true
             };
             AddChild(sun);
@@ -255,6 +322,15 @@ public partial class StyleBenchmarkZone : Node3D
             "house_old_pc",
             "entry");
         MakeInteractionBox(
+            "ReturnToHouseRegister",
+            new(1.2f, 2.1f, 0.25f),
+            new(AgentBAct1Layout.HouseExteriorSpawn.X, 1.05f, AgentBAct1Layout.HouseExteriorSpawn.Z),
+            "6d5844",
+            "urman.chapter1:interaction/official-to-internal-register",
+            "Войти и сверить справку с реестром на старом ПК",
+            "house_old_pc",
+            "entry");
+        MakeInteractionBox(
             "RoadToFap",
             new(2.1f, 1.5f, 0.3f),
             new(3.8f, 0.75f, -8.2f),
@@ -268,12 +344,12 @@ public partial class StyleBenchmarkZone : Node3D
     private void BuildHouseOldPc()
     {
         MakeBox("Floor", new(12, 0.2f, 10), new(0, -0.1f, 0), "57483b", surface: "wood");
-        MakeBox("BackWall", new(12, 3.4f, 0.25f), new(0, 1.7f, -5), "827461", surface: "plaster");
-        MakeBox("LeftWall", new(0.25f, 3.4f, 10), new(-6, 1.7f, 0), "786b5a", surface: "plaster");
-        MakeBox("RightWall", new(0.25f, 3.4f, 10), new(6, 1.7f, 0), "786b5a", surface: "plaster");
-        MakeBox("FrontWallLeft", new(5.25f, 3.4f, 0.25f), new(-3.375f, 1.7f, 5), "827461", surface: "plaster");
-        MakeBox("FrontWallRight", new(5.25f, 3.4f, 0.25f), new(3.375f, 1.7f, 5), "827461", surface: "plaster");
-        MakeBox("FrontWallLintel", new(1.5f, 1.15f, 0.25f), new(0, 2.825f, 5), "827461", surface: "plaster");
+        MakeBox("BackWall", new(12, 3.4f, 0.25f), new(0, 1.7f, -5), "827461", surface: "wallpaper");
+        MakeBox("LeftWall", new(0.25f, 3.4f, 10), new(-6, 1.7f, 0), "786b5a", surface: "wallpaper");
+        MakeBox("RightWall", new(0.25f, 3.4f, 10), new(6, 1.7f, 0), "786b5a", surface: "wallpaper");
+        MakeBox("FrontWallLeft", new(5.25f, 3.4f, 0.25f), new(-3.375f, 1.7f, 5), "827461", surface: "wallpaper");
+        MakeBox("FrontWallRight", new(5.25f, 3.4f, 0.25f), new(3.375f, 1.7f, 5), "827461", surface: "wallpaper");
+        MakeBox("FrontWallLintel", new(1.5f, 1.15f, 0.25f), new(0, 2.825f, 5), "827461", surface: "wallpaper");
         MakeBox("HouseExitDoorPanel", new(1.32f, 2.12f, 0.08f), new(0, 1.06f, 4.84f), "4b382c", collision: false, surface: "wood");
         MakeBox("HouseExitDoorFrameLeft", new(0.12f, 2.35f, 0.12f), new(-0.8f, 1.175f, 4.77f), "5d4a38", collision: false, surface: "wood");
         MakeBox("HouseExitDoorFrameRight", new(0.12f, 2.35f, 0.12f), new(0.8f, 1.175f, 4.77f), "5d4a38", collision: false, surface: "wood");
@@ -307,12 +383,12 @@ public partial class StyleBenchmarkZone : Node3D
         MakeBox("CupboardDoorLine", new(0.06f, 2.08f, 0.05f), new(-4.85f, 1.2f, -3.51f), "3f3026", collision: false);
         MakeDisc("CupboardKnobLeft", new(0.055f, 0.045f, 0.055f), new(-5.02f, 1.25f, -3.46f), "c39b59");
         MakeDisc("CupboardKnobRight", new(0.055f, 0.045f, 0.055f), new(-4.68f, 1.25f, -3.46f), "c39b59");
-        MakeBox("WovenRug", new(3.8f, 0.025f, 2.25f), new(-1.25f, 0.025f, 0.4f), "714939", collision: false, surface: "fabric");
-        MakeBox("RugStripeA", new(3.8f, 0.032f, 0.16f), new(-1.25f, 0.04f, 0.05f), "8d765c", collision: false, surface: "fabric");
-        MakeBox("RugStripeB", new(3.8f, 0.032f, 0.16f), new(-1.25f, 0.04f, 0.72f), "45615a", collision: false, surface: "fabric");
+        MakeBox("WovenRug", new(3.8f, 0.025f, 2.25f), new(-1.25f, 0.025f, 0.4f), "714939", collision: false, surface: "carpet");
+        MakeBox("RugStripeA", new(3.8f, 0.032f, 0.16f), new(-1.25f, 0.04f, 0.05f), "8d765c", collision: false, surface: "carpet");
+        MakeBox("RugStripeB", new(3.8f, 0.032f, 0.16f), new(-1.25f, 0.04f, 0.72f), "45615a", collision: false, surface: "carpet");
         MakeBox("WallShelf", new(2.2f, 0.12f, 0.45f), new(-3.85f, 2.05f, -4.6f), "503b2c", surface: "wood");
-        MakeBox("CurtainLeft", new(0.42f, 1.55f, 0.05f), new(2.05f, 2.1f, -4.78f), "8d806f", collision: false);
-        MakeBox("CurtainRight", new(0.42f, 1.55f, 0.05f), new(3.05f, 2.1f, -4.78f), "8d806f", collision: false);
+        MakeBox("CurtainLeft", new(0.42f, 1.55f, 0.05f), new(2.05f, 2.1f, -4.78f), "8d806f", collision: false, surface: "fabric_pattern");
+        MakeBox("CurtainRight", new(0.42f, 1.55f, 0.05f), new(3.05f, 2.1f, -4.78f), "8d806f", collision: false, surface: "fabric_pattern");
         MakeInteractionBox(
             "OldPc",
             new(1.4f, 1.15f, 0.72f),
@@ -330,6 +406,194 @@ public partial class StyleBenchmarkZone : Node3D
         oldPc.Name = "GeneratedOldPcAct1";
         oldPc.SetMeta("stylePresentationModule", "OldPc_project_original");
         SetMeta("styleImportedModules", "OldPc_project_original");
+
+        var houseInterior = GeneratedModularKitDressing.AttachPresentationOnly(
+            this,
+            "style-house-interior",
+            ["HouseInterior_"],
+            Vector3.Zero,
+            uniformScale: 1.0f,
+            yawDegrees: 0f);
+        houseInterior.Name = "GeneratedHouseInteriorAct1";
+        // AttachPresentationOnly aligns its first selected mesh to the anchor.
+        // This GLB is already authored in room-local coordinates, so keep the
+        // returned presentation instance at the room origin while preserving
+        // its imported scale and yaw.
+        houseInterior.Position = Vector3.Zero;
+        houseInterior.SetMeta("presentationOnly", true);
+        houseInterior.SetMeta("visualOnly", true);
+        houseInterior.SetMeta("presentationSource", GeneratedModularKitDressing.ScenePath);
+        houseInterior.SetMeta("collisionOwner", "none");
+        houseInterior.SetMeta("navigationOwner", "none");
+        houseInterior.SetMeta("interactionOwner", "none");
+        houseInterior.SetMeta("narrativeOwner", "none");
+        houseInterior.SetMeta("rebasedLocalTransform", "room-local GLB origin restored after AttachPresentationOnly anchor alignment");
+        houseInterior.SetMeta("stylePresentationModule", "HouseInterior_project_original");
+
+        var collapsedHouseFloorBoards = 0;
+        var hiddenHouseFloorBoards = 0;
+        var removedHouseRugBands = 0;
+        foreach (var mesh in Descendants(houseInterior).OfType<MeshInstance3D>())
+        {
+            var meshName = mesh.Name.ToString();
+            if (meshName.StartsWith("HouseInterior_FloorBoard_", StringComparison.Ordinal))
+            {
+                var keepAsContinuousFloor = meshName is "HouseInterior_FloorBoard_02_LOD0" or "HouseInterior_FloorBoard_02_LOD1";
+                if (keepAsContinuousFloor)
+                {
+                    // Keep one authored board as a continuous warm floor field;
+                    // the other board seams read as a debug-like repeated strip
+                    // from the first-person entry view.
+                    mesh.Position = new Vector3(0f, mesh.Position.Y, mesh.Position.Z);
+                    mesh.Scale = new Vector3(mesh.Scale.X * 6f, mesh.Scale.Y, mesh.Scale.Z);
+                    mesh.SetMeta("presentationAdjustment", "single authored floor board widened to continuous field");
+                    collapsedHouseFloorBoards++;
+                }
+                else
+                {
+                    mesh.Visible = false;
+                    hiddenHouseFloorBoards++;
+                }
+            }
+            else if (meshName.StartsWith("HouseInterior_RugBand", StringComparison.Ordinal))
+            {
+                // The broad authored rug field remains; these two long bands
+                // are the crossing strip motif that dominates the entry floor.
+                mesh.Visible = false;
+                removedHouseRugBands++;
+            }
+        }
+        houseInterior.SetMeta("collapsedFloorBoardCount", collapsedHouseFloorBoards);
+        houseInterior.SetMeta("hiddenFloorBoardCount", hiddenHouseFloorBoards);
+        houseInterior.SetMeta("removedRugBandCount", removedHouseRugBands);
+        houseInterior.SetMeta("floorPresentationAdjustment", "authored HouseInterior floor seams collapsed to one continuous field; broad rug retained without crossing bands");
+
+        // Recompose only the authored furniture silhouettes that disappear
+        // behind the first-person camera on the reverse turn. These meshes
+        // have no physics descendants; the gameplay proxies below remain at
+        // their existing authored anchors.
+        var movedHouseFurnitureMeshCount = 0;
+        var scaledHouseFurnitureMeshCount = 0;
+        foreach (var mesh in Descendants(houseInterior).OfType<MeshInstance3D>())
+        {
+            var meshName = mesh.Name.ToString();
+            var offset = Vector3.Zero;
+            var yawDegrees = 0f;
+            var scale = 1f;
+            if (meshName.StartsWith("HouseInterior_LeftWallCupboard", StringComparison.Ordinal))
+            {
+                // Rehang the small cupboard on the front-left wall so the
+                // reverse turn has a grounded high/mid silhouette above the
+                // existing threshold chest.
+                offset = new Vector3(0.85f, 0f, 1.90f);
+                yawDegrees = 90f;
+                scale = 1.05f;
+            }
+            else if (meshName.StartsWith("HouseInterior_StorageChest", StringComparison.Ordinal))
+            {
+                offset = new Vector3(-7.95f, 0f, 7.90f);
+                scale = 1.08f;
+            }
+            else if (meshName.StartsWith("HouseInterior_Daybed", StringComparison.Ordinal)
+                     || meshName.StartsWith("HouseInterior_RightShelf", StringComparison.Ordinal)
+                     || meshName.StartsWith("HouseInterior_RightRunner", StringComparison.Ordinal))
+            {
+                // Keep the right-side cluster in the side-turn composition,
+                // but bring its authored near edge forward enough to register
+                // in the reverse view as well.
+                offset = new Vector3(0f, 0f, 1.10f);
+                scale = meshName.StartsWith("HouseInterior_RightRunner", StringComparison.Ordinal) ? 1.02f : 1.06f;
+            }
+            else if (meshName.StartsWith("HouseInterior_StorageBasket", StringComparison.Ordinal))
+            {
+                offset = new Vector3(0f, 0f, 4.00f);
+                scale = 1.06f;
+            }
+
+            if (offset != Vector3.Zero)
+            {
+                mesh.Position += offset;
+                movedHouseFurnitureMeshCount++;
+            }
+
+            if (yawDegrees != 0f)
+            {
+                mesh.RotationDegrees += new Vector3(0f, yawDegrees, 0f);
+            }
+
+            if (scale != 1f)
+            {
+                mesh.Scale *= scale;
+                scaledHouseFurnitureMeshCount++;
+            }
+        }
+        houseInterior.SetMeta("movedHouseFurnitureMeshCount", movedHouseFurnitureMeshCount);
+        houseInterior.SetMeta("scaledHouseFurnitureMeshCount", scaledHouseFurnitureMeshCount);
+        houseInterior.SetMeta(
+            "houseInteriorCompositionPass",
+            "authored front-left cupboard/chest; right-side daybed/shelf/runner brought forward; storage basket retained as near anchor; collision proxies unchanged");
+
+        var replacedHouseVisuals = new[]
+        {
+            "Floor",
+            "BackWall",
+            "LeftWall",
+            "RightWall",
+            "FrontWallLeft",
+            "FrontWallRight",
+            "FrontWallLintel",
+            "HouseExitDoorPanel",
+            "HouseExitDoorFrameLeft",
+            "HouseExitDoorFrameRight",
+            "HouseExitDoorFrameTop",
+            "HouseExitDoorThreshold",
+            "Ceiling",
+            "CeilingBeamLeft",
+            "CeilingBeamRight",
+            "Table",
+            "TableLegL",
+            "TableLegR",
+            "ChairSeat",
+            "ChairBack",
+            "Cupboard",
+            "CupboardDoorLine",
+            "WovenRug",
+            "RugStripeA",
+            "RugStripeB"
+        };
+        foreach (var legacyVisualName in replacedHouseVisuals)
+        {
+            if (GetNodeOrNull<Node3D>(legacyVisualName) is { } legacyVisual)
+            {
+                SuppressPrimitiveVisual(
+                    legacyVisual,
+                    "authored HouseInterior_ GLB replaces the legacy primitive visual; collision remains unchanged");
+            }
+        }
+
+        SetMeta("houseInteriorPresentation", "HouseInterior_ project-original GLB; presentation-only; legacy shell and furniture visuals suppressed");
+        SetMeta("houseInteriorLegacyVisualsSuppressed", string.Join("|", replacedHouseVisuals));
+        var daybedCollision = MakeCollisionBox(
+            "HouseInteriorDaybedCollision",
+            new(1.20f, 0.64f, 2.80f),
+            new(4.95f, 0.32f, 0.95f));
+        daybedCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
+        var storageChestCollision = MakeCollisionBox(
+            "HouseInteriorStorageChestCollision",
+            new(1.82f, 0.74f, 0.92f),
+            new(3.95f, 0.39f, -4.38f));
+        storageChestCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
+        var hearthCollision = MakeCollisionBox(
+            "HouseInteriorHearthCollision",
+            new(1.10f, 1.04f, 0.90f),
+            new(-5.00f, 0.64f, 0.55f));
+        hearthCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
+        SetMeta(
+            "houseInteriorFloorCollisionProxies",
+            "HouseInteriorDaybedCollision(1.20x0.64x2.80)@(4.95,0.32,0.95)|HouseInteriorStorageChestCollision(1.82x0.74x0.92)@(3.95,0.39,-4.38)|HouseInteriorHearthCollision(1.10x1.04x0.90)@(-5.00,0.64,0.55)");
+        SetMeta(
+            "houseInteriorLivedInCluster",
+            "authored hearth with flue|left-wall cupboard|quiet tableware|floor storage basket; presentation-only GLB with hearth floor proxy");
         MakeCrtHeroDetail();
         MakeBox("LampStem", new(0.08f, 0.95f, 0.08f), new(2.15f, 1.48f, -3.25f), "6c573e", collision: false);
         MakeBox("LampShade", new(0.72f, 0.42f, 0.72f), new(2.15f, 2.0f, -3.25f), "b98a53", collision: false);
@@ -350,6 +614,13 @@ public partial class StyleBenchmarkZone : Node3D
             new(2.8f, 0, -1.45f),
             yawDegrees: -24f,
             presentationHostName: "MansurPresentation");
+        if (GetNodeOrNull<Node3D>("MansurPresentation/Npc_mansur") is { } mansurPresentation)
+        {
+            // Keep the interaction target at its authored location, but return
+            // visual weight to the PC and document chain in the entry view.
+            mansurPresentation.Scale = Vector3.One * 0.78f;
+            mansurPresentation.SetMeta("stylePresentationScale", 0.78f);
+        }
         MakeInteractionBox(
             "MansurNpc",
             new(0.62f, 1.8f, 0.46f),
@@ -471,7 +742,7 @@ public partial class StyleBenchmarkZone : Node3D
             Name = "WindowFill",
             Position = new(-3.6f, 1.85f, -3.6f),
             LightColor = Color.FromHtml("9aaeb0"),
-            LightEnergy = 0.70f,
+            LightEnergy = 0.46f,
             OmniRange = 5.5f,
             ShadowEnabled = false
         });
@@ -479,10 +750,10 @@ public partial class StyleBenchmarkZone : Node3D
         AddChild(new OmniLight3D
         {
             Name = "RoomFill",
-            Position = new(0, 2.25f, 1.7f),
+            Position = new(0, 2.25f, 2.55f),
             LightColor = Color.FromHtml("958878"),
-            LightEnergy = 0.52f,
-            OmniRange = 6.0f,
+            LightEnergy = 0.42f,
+            OmniRange = 6.8f,
             ShadowEnabled = false
         });
 
@@ -491,9 +762,19 @@ public partial class StyleBenchmarkZone : Node3D
             Name = "CrtScreenGlow",
             Position = new(0, 1.5f, -3.0f),
             LightColor = Color.FromHtml("78a59a"),
-            LightEnergy = 0.62f,
-            OmniRange = 3.2f,
+            LightEnergy = 0.78f,
+            OmniRange = 3.8f,
             ShadowEnabled = false
+        });
+
+        AddChild(new OmniLight3D
+        {
+            Name = "HouseDocumentTaskLight",
+            Position = new(-1.0f, 1.9f, -3.25f),
+            LightColor = Color.FromHtml("c2a375"),
+            LightEnergy = 0.72f,
+            OmniRange = 2.9f,
+            ShadowEnabled = true
         });
     }
 
@@ -503,19 +784,49 @@ public partial class StyleBenchmarkZone : Node3D
         PainterlyEnvironmentDetails.AddRoadRelief(this, "PathNear", 3.8f, 13f, new(0f, 0f, 9f), "403c31");
         PainterlyEnvironmentDetails.AddRoadRelief(this, "PathMiddle", 3.6f, 11f, new(0.45f, 0f, -2.3f), "3b392f", yawDegrees: -5f);
         PainterlyEnvironmentDetails.AddRoadRelief(this, "PathFar", 3.3f, 10f, new(-0.1f, 0f, -12.3f), "37362e", yawDegrees: 7f);
-        for (var index = 0; index < 30; index++)
+
+        var karaAuthoredKit = AttachAuthoredKitComponents(
+            KaraForestEdgeKitScenePath,
+            KaraForestEdgeKitRootName,
+            KaraForestEdgeKitComponentNames,
+            "KaraForestEdgeAuthoredKit",
+            "authored near/mid/far forest edge framing with an open central road window",
+            ("ForestBank_Left", "KaraForestBankLeft", new(-6.2f, 0f, 3.0f), -12f, Vector3.One, "kara-benchmark@west-road-bank"),
+            ("ForestBank_Right", "KaraForestBankRight", new(6.6f, 0f, -2.0f), 18f, Vector3.One * 0.98f, "kara-benchmark@east-road-bank"),
+            ("MixedTreeCluster_Left", "KaraMixedTreeClusterLeft", new(-10.0f, 0f, -3.5f), -18f, Vector3.One * 0.96f, "kara-benchmark@west-side-tree-mass"),
+            ("MixedTreeCluster_Right", "KaraMixedTreeClusterRight", new(10.0f, 0f, -8.5f), 22f, Vector3.One * 0.94f, "kara-benchmark@east-side-tree-mass"),
+            ("CrookedPineMass", "KaraCrookedPineMass", new(-11.0f, 0f, -10.0f), -14f, Vector3.One, "kara-benchmark@west-side-crooked-pine"),
+            ("BirchEdgeMass", "KaraBirchEdgeMass", new(11.0f, 0f, -14.0f), 17f, Vector3.One * 0.96f, "kara-benchmark@east-side-birch-edge"),
+            ("RootWall_Left", "KaraRootWallLeft", new(-5.5f, 0f, -1.5f), -12f, Vector3.One * 0.96f, "kara-benchmark@west-root-wall"),
+            ("RootWall_Right", "KaraRootWallRight", new(5.5f, 0f, -6.2f), 20f, Vector3.One * 0.92f, "kara-benchmark@east-root-wall"),
+            ("FallenLogCluster", "KaraFallenLogCluster", new(-5.9f, 0f, -5.8f), 28f, Vector3.One * 0.82f, "kara-benchmark@west-ground-breakup-outside-route"),
+            ("MossyBoulderCluster", "KaraMossyBoulderCluster", new(5.8f, 0f, -3.8f), -20f, Vector3.One * 0.86f, "kara-benchmark@east-ground-breakup-outside-route"),
+            ("CrookedStump", "KaraCrookedStump", new(-5.4f, 0f, -7.2f), 10f, Vector3.One * 0.88f, "kara-benchmark@west-ground-landmark-outside-route"),
+            ("DistantForestMass_Low", "KaraDistantForestMassLow", new(-13.5f, 0f, -30.0f), -8f, Vector3.One * 0.90f, "kara-benchmark@far-west-window-mass"),
+            ("DistantForestMass_Tall", "KaraDistantForestMassTall", new(13.5f, 0f, -32.0f), 11f, Vector3.One * 0.72f, "kara-benchmark@far-east-window-mass"));
+        RegradeAuthoredKitMaterials(karaAuthoredKit, KaraForestEdgeKitScenePath);
+        var looseBoughCount = 0;
+        foreach (var mesh in Descendants(karaAuthoredKit).OfType<MeshInstance3D>())
         {
-            var side = index % 2 == 0 ? -1 : 1;
-            var row = index / 2;
-            var x = side * (4.2f + (row % 3) * 1.7f);
-            var z = -13 + row * 2.1f;
-            MakePine(new(x, 0, z), 5.4f + (index % 5) * 0.5f);
+            var name = mesh.Name.ToString();
+            if (!name.StartsWith("MixedTreeCluster_Left_AngledBough_", StringComparison.Ordinal)
+                && !name.StartsWith("MixedTreeCluster_Right_AngledBough_", StringComparison.Ordinal)
+                && !name.StartsWith("CrookedPineMass_SideBough_", StringComparison.Ordinal)
+                && !name.StartsWith("BirchEdgeMass_FineBranch_", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            mesh.Hide();
+            looseBoughCount++;
         }
+        karaAuthoredKit.SetMeta("suppressedLooseBoughCount", looseBoughCount);
 
         // The imported pines are deliberately offset from the repeated
-        // procedural rows: one keeps the existing layer-2 proxy while the two
-        // scaled/rotated variants remain visual-only, so walkability and
-        // interaction-layer ownership stay unchanged.
+        // authored forest kit: one keeps the existing project-original style
+        // module while the two scaled/rotated variants add a readable return
+        // frame. They remain visual-only, so walkability and interaction-layer
+        // ownership stay unchanged.
         GeneratedModularKitDressing.Attach(
             this,
             "style-forest-pine",
@@ -526,30 +837,6 @@ public partial class StyleBenchmarkZone : Node3D
         SetMeta("styleImportedModules", "PineA_project_original");
         SetMeta("styleImportedPineInstances", 3);
 
-        for (var index = 0; index < 7; index++)
-        {
-            var side = index % 2 == 0 ? -1 : 1;
-            PainterlyEnvironmentDetails.AddBirch(this, new Vector3(side * (5.8f + index % 3 * 1.4f), 0, -9 + index * 3.6f), 5.4f + index % 2 * 0.7f);
-        }
-
-        for (var index = 0; index < 4; index++)
-        {
-            var side = index % 2 == 0 ? -1 : 1;
-            PainterlyEnvironmentDetails.AddBirch(this, new Vector3(side * (7.4f + index * 0.8f), 0, -13.5f + index * 6.4f), 6.2f - index * 0.35f);
-        }
-
-        for (var index = 0; index < 18; index++)
-        {
-            var side = index % 2 == 0 ? -1 : 1;
-            MakeGrassTuft(new(side * (2.4f + index % 5 * 0.44f), 0.08f, 13 - index * 1.55f), 0.5f + index % 3 * 0.1f);
-        }
-
-        for (var index = 0; index < 18; index++)
-        {
-            var side = index % 2 == 0 ? -1 : 1;
-            AddShrub(new Vector3(side * (3.2f + index % 4 * 0.7f), 0, 11.5f - index * 1.55f), 0.82f + index % 3 * 0.16f, "2f4336");
-        }
-
         // Break the repeated crown rhythm with ground-level material cues and
         // a restrained boundary motif. The forest should feel observed, not
         // decorated as a monster arena.
@@ -558,10 +845,6 @@ public partial class StyleBenchmarkZone : Node3D
         // seat the cluster against that authored surface rather than the
         // higher relief from another benchmark scene.
         PainterlyEnvironmentDetails.AddPuddleCluster(this, "BoundaryWetPatch", new(0.72f, 0.078f, 4.25f), new(0.68f, 1.18f), "4a585b", [-0.005065963f, -0.007065952f, -0.009065956f]);
-        MakeFallenLog(new(-3.2f, 0.34f, 4.6f), 2.4f, new(0, -21, 70));
-        MakeFallenLog(new(3.9f, 0.28f, -1.4f), 1.8f, new(0, 28, 74));
-        MakeStump(new(-4.9f, 0.0f, 0.8f), 0.42f);
-        MakeStump(new(4.7f, 0.0f, -4.6f), 0.34f);
         MakeBoundaryCharm(new(-1.9f, 0.0f, -7.6f), new(0.73f, 0.45f, 0.14f));
         MakeBoundaryCharm(new(2.05f, 0.0f, -7.4f), new(0.78f, 0.56f, 0.18f));
         MakeBranch(new(-4.4f, 3.2f, -5.2f), new(-2.0f, 2.5f, -7.0f), "40352f");
@@ -615,15 +898,19 @@ public partial class StyleBenchmarkZone : Node3D
             OmniRange = 14.0f,
             ShadowEnabled = false
         });
+
+        SetMeta("styleAuthoredModules", "KaraForestEdgeKit_wave4");
+        SetMeta("styleAuthoredMeshPolicy", "authored forest banks, roots, mixed trees, ground breakup and far masses; no repeated procedural cone rows");
+        SetMeta("styleAuthoredReview", "candidate geometry only; 360-degree first-person and cultural/local review remain open");
     }
 
     private void BuildFapClinic()
     {
         MakeBox("Floor", new(12, 0.2f, 12), new(0, -0.1f, 0), "5b625d", surface: "wood");
-        MakeBox("BackWall", new(12, 3.4f, 0.25f), new(0, 1.7f, -6), "7e837e", surface: "plaster");
-        MakeBox("FrontWall", new(12, 3.4f, 0.25f), new(0, 1.7f, 6), "747d78", surface: "plaster");
-        MakeBox("LeftWall", new(0.25f, 3.4f, 12), new(-6, 1.7f, 0), "7b8580", surface: "plaster");
-        MakeBox("RightWall", new(0.25f, 3.4f, 12), new(6, 1.7f, 0), "77807a", surface: "plaster");
+        MakeBox("BackWall", new(12, 3.4f, 0.25f), new(0, 1.7f, -6), "7e837e", surface: "wall_institution");
+        MakeBox("FrontWall", new(12, 3.4f, 0.25f), new(0, 1.7f, 6), "747d78", surface: "wall_institution");
+        MakeBox("LeftWall", new(0.25f, 3.4f, 12), new(-6, 1.7f, 0), "7b8580", surface: "wall_institution");
+        MakeBox("RightWall", new(0.25f, 3.4f, 12), new(6, 1.7f, 0), "77807a", surface: "wall_institution");
         MakeBox("ClinicCeiling", new(12, 0.18f, 12), new(0, 3.4f, 0), "7b8580", collision: false, surface: "plaster");
         MakeBox("ClinicCeilingFixtureHousing", new(1.35f, 0.12f, 0.52f), new(0, 3.22f, -0.5f), "65736d", collision: false);
         MakeBox("ClinicCeilingFixtureLens", new(0.88f, 0.025f, 0.22f), new(0, 3.145f, -0.5f), "9ca9a2", collision: false);
@@ -690,22 +977,76 @@ public partial class StyleBenchmarkZone : Node3D
         MakeBox("DocumentDesk", new(3.6f, 0.16f, 1.5f), new(0, 0.82f, -4.2f), "5e4c3b", surface: "wood");
         MakeBox("ClinicPlainMirrorFrame", new(0.08f, 1.16f, 0.96f), new(5.79f, 2.08f, -1.35f), "68776d", collision: false);
         MakeBox("ClinicPlainMirror", new(0.04f, 0.98f, 0.78f), new(5.735f, 2.08f, -1.35f), "a4ada3", collision: false);
-        // Two small reverse-view anchors: an enamel bin beside the sink and a
-        // muted lower-wall paint band under the right window. Both are visual-only.
-        MakeCylinder("FapClinicEnamelWasteBinBody", 0.22f, 0.44f, new(4.18f, 0.24f, -0.78f), "899890", "plaster");
-        MakeCylinder("FapClinicEnamelWasteBinRim", 0.245f, 0.04f, new(4.18f, 0.48f, -0.78f), "b3bbb1", "plaster");
-        MakeBox("FapClinicRightWallLowerBand", new(0.04f, 0.32f, 2.35f), new(5.84f, 0.74f, 1.25f), "7e8d83", collision: false, surface: "plaster");
+        var legacyVisualNames = new[]
+        {
+            "Floor",
+            "BackWall",
+            "FrontWall",
+            "LeftWall",
+            "RightWall",
+            "ClinicCeiling",
+            "ClinicCeilingFixtureHousing",
+            "ClinicCeilingFixtureLens",
+            "ClinicDoorPanel",
+            "ClinicDoorFrameLeft",
+            "ClinicDoorFrameRight",
+            "ClinicDoorFrameTop",
+            "ClinicDoorThreshold",
+            "ClinicLinoleumField",
+            "ClinicLinoleumSeam0",
+            "ClinicLinoleumSeam1",
+            "ClinicLinoleumSeam2",
+            "ClinicLinoleumSeam3",
+            "ClinicWindowLeftFrosted",
+            "ClinicWindowLeftTrimTop",
+            "ClinicWindowLeftTrimBottom",
+            "ClinicWindowLeftTrimFront",
+            "ClinicWindowLeftTrimBack",
+            "ClinicWindowRightFrosted",
+            "ClinicWindowRightTrimTop",
+            "ClinicWindowRightTrimBottom",
+            "ClinicWindowRightTrimFront",
+            "ClinicWindowRightTrimBack",
+            "ClinicRadiator",
+            "ClinicRadiatorPipe0",
+            "ClinicRadiatorPipe1",
+            "ClinicRecordsBoard",
+            "ClinicRecordsBoardFrameTop",
+            "ClinicRecordsBoardFrameBottom",
+            "ClinicRecordsBoardCardA",
+            "ClinicRecordsBoardCardB",
+            "ClinicDeskRecordStack",
+            "ClinicDeskRecordTopPage",
+            "DocumentDesk"
+        };
+        foreach (var legacyVisualName in legacyVisualNames)
+        {
+            if (GetNodeOrNull<Node3D>(legacyVisualName) is { } legacyVisual)
+            {
+                SuppressPrimitiveVisual(
+                    legacyVisual,
+                    "authored FapInteriorSet Wave14 replaces the legacy primitive visual; collision remains unchanged");
+            }
+        }
+        SetMeta(
+            "fapAuthoredInteriorShell",
+            "FapInteriorSet authored floor|ceiling|four wall volumes|recessed threshold|window trims|ceiling practical");
+        SetMeta("fapLegacyShellVisualSuppressed", true);
+        SetMeta("fapLegacyVisualsSuppressed", string.Join("|", legacyVisualNames));
 
+        // The authored counter is the reception anchor; keep Naila at its open
+        // inner end so she reads immediately from the entry while the right
+        // waiting-bench collision and center route stay unobstructed.
         AttachAct1Npc(
             "naila",
             "Naila",
             "medical clerk",
-            new(-4.0f, 0, -0.5f),
+            new(1.8f, 0, 0.0f),
             yawDegrees: 8f);
         MakeInteractionBox(
             "NailaNpc",
             new(0.62f, 1.68f, 0.46f),
-            new(-4.0f, 0.84f, -0.5f),
+            new(1.8f, 0.84f, 0.0f),
             "6f6257",
             "urman.chapter1:interaction/talk-naila",
             "Поговорить с Наилей",
@@ -726,31 +1067,62 @@ public partial class StyleBenchmarkZone : Node3D
             "Прочитать официальную справку о Марате",
             documentId: "urman.oldpc:document/doc_marat_official_death_notice");
         MakeInteractionBox(
-            "OfficialRecordToInternalRegister",
+            "OfficialRecordExitToStreet",
             new(1.3f, 2.1f, 0.25f),
             new(0, 1.05f, 5.82f),
             "625849",
-            "urman.chapter1:interaction/official-to-internal-register",
-            "Вернуться к старому компьютеру и сверить реестр",
-            "house_old_pc",
-            "entry");
+            "urman.chapter1:interaction/official-leave-clinic",
+            "Выйти из ФАПа и вернуться домой со справкой",
+            "village_day",
+            "from_fap");
 
         AddChild(new OmniLight3D
         {
             Name = "ColdCeilingLamp",
-            Position = new(-0.2f, 2.8f, -2.8f),
-            LightColor = Color.FromHtml("d0b49d"),
-            LightEnergy = 1.45f,
-            OmniRange = 6.6f,
-            ShadowEnabled = false
+            Position = new(-0.2f, 2.8f, -0.7f),
+            // Neutral blue-grey practical: it should describe the ceiling,
+            // not flatten the whole clinic into a green wash.
+            LightColor = Color.FromHtml("a4b1b1"),
+            LightEnergy = 0.42f,
+            OmniRange = 8.0f,
+            ShadowEnabled = true
         });
         AddChild(new OmniLight3D
         {
             Name = "FapWindowColdFill",
-            Position = new(-4.7f, 2.0f, 1.25f),
-            LightColor = Color.FromHtml("9bb8bc"),
-            LightEnergy = 1.15f,
-            OmniRange = 5.2f,
+            Position = new(-4.7f, 2.0f, -1.35f),
+            LightColor = Color.FromHtml("7899a2"),
+            LightEnergy = 0.64f,
+            OmniRange = 6.0f,
+            ShadowEnabled = false
+        });
+        AddChild(new OmniLight3D
+        {
+            Name = "FapDocumentTaskLight",
+            Position = new(0.0f, 2.25f, -3.45f),
+            // The record desk is the warm narrative focal point; the short
+            // pool leaves the rear wall clinical and visually quiet.
+            LightColor = Color.FromHtml("d5ad78"),
+            LightEnergy = 1.42f,
+            OmniRange = 3.15f,
+            ShadowEnabled = true
+        });
+        AddChild(new OmniLight3D
+        {
+            Name = "FapNailaPractical",
+            Position = new(3.70f, 2.05f, 0.0f),
+            LightColor = Color.FromHtml("cda47c"),
+            LightEnergy = 0.76f,
+            OmniRange = 3.0f,
+            ShadowEnabled = true
+        });
+        AddChild(new OmniLight3D
+        {
+            Name = "FapWindowOppositeFill",
+            Position = new(4.7f, 2.0f, -1.35f),
+            LightColor = Color.FromHtml("708790"),
+            LightEnergy = 0.18f,
+            OmniRange = 4.7f,
             ShadowEnabled = false
         });
     }
@@ -798,8 +1170,67 @@ public partial class StyleBenchmarkZone : Node3D
             component.SetMeta("navigationOwner", "none");
             component.SetMeta("interactionOwner", "none");
             component.SetMeta("narrativeOwner", "none");
-            component.SetMeta("interiorSilhouettes", "examination cot|folding privacy screen|wall medicine cabinet|enamel instrument trolley|waiting bench");
-            component.SetMeta("meshCount", component.GetChildren().OfType<MeshInstance3D>().Count());
+            component.SetMeta(
+                "interiorSilhouettes",
+                "authored 12 m shell|examination cot|folding privacy screen|wall medicine cabinet|enamel instrument trolley|waiting bench|wall radiator and pipes|open supply shelf|blank examination chart|coat hook rail|wash unit|attendant stool|blank records pinboard|full-volume records desk|reception counter|tall storage cabinet|partial-height zoning partition");
+            var fapInteriorMeshes = Descendants(component).OfType<MeshInstance3D>().ToArray();
+            var fapInteriorMeshNames = fapInteriorMeshes
+                .Select(mesh => mesh.Name.ToString())
+                .ToHashSet(StringComparer.Ordinal);
+            var fapInteriorLodPairs = fapInteriorMeshNames
+                .Where(name => name.EndsWith("_LOD0", StringComparison.Ordinal))
+                .Select(name => name[..^5])
+                .Where(baseName => fapInteriorMeshNames.Contains($"{baseName}_LOD1"))
+                .ToHashSet(StringComparer.Ordinal);
+            var materialOverrideCount = RegradeAuthoredKitMaterials(component, FapClinicKitScenePath);
+
+            foreach (var mesh in fapInteriorMeshes)
+            {
+                var meshName = mesh.Name.ToString();
+                var lod1 = meshName.EndsWith("_LOD1", StringComparison.Ordinal);
+                var lod0 = meshName.EndsWith("_LOD0", StringComparison.Ordinal);
+                var baseName = (lod0 || lod1) ? meshName[..^5] : string.Empty;
+                var paired = baseName.Length > 0 && fapInteriorLodPairs.Contains(baseName);
+                if (paired)
+                {
+                    mesh.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self;
+                    mesh.VisibilityRangeBegin = lod1 ? 10f : 0f;
+                    mesh.VisibilityRangeBeginMargin = lod1 ? 2f : 0f;
+                    mesh.VisibilityRangeEnd = lod1 ? 28f : 14f;
+                    mesh.VisibilityRangeEndMargin = lod1 ? 4f : 2f;
+                    mesh.SetMeta("visibilityRange", lod1 ? "10-28m" : "0-14m");
+                }
+                else
+                {
+                    mesh.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Disabled;
+                    mesh.VisibilityRangeBegin = 0f;
+                    mesh.VisibilityRangeBeginMargin = 0f;
+                    mesh.VisibilityRangeEnd = 0f;
+                    mesh.VisibilityRangeEndMargin = 0f;
+                    mesh.SetMeta("visibilityRange", "unbounded");
+                }
+
+                mesh.SetMeta("presentationOwnership", "presentation-only");
+                mesh.SetMeta("collisionPolicy", "no physics body; visual mesh only");
+            }
+
+            component.SetMeta("silhouetteCount", 17);
+            component.SetMeta("meshCount", fapInteriorMeshes.Length);
+            component.SetMeta(
+                "lod0Count",
+                fapInteriorMeshes.Count(mesh => mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal)));
+            component.SetMeta(
+                "lod1Count",
+                fapInteriorMeshes.Count(mesh => mesh.Name.ToString().EndsWith("_LOD1", StringComparison.Ordinal)));
+            component.SetMeta("lodPairCount", fapInteriorLodPairs.Count);
+            component.SetMeta(
+                "unpairedLod0Count",
+                fapInteriorMeshes.Count(mesh => mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal) && !fapInteriorLodPairs.Contains(mesh.Name.ToString()[..^5])));
+            component.SetMeta("runtimeMeshTransformCount", 0);
+            component.SetMeta("runtimeMaterialOverrideCount", materialOverrideCount);
+            component.SetMeta(
+                "fapInteriorPresentationPass",
+                "source-authored Wave14 arrangement; imported ancestor basis only; constrained presentation-only value grade; center path and counter/partition composition remain source-owned");
             AddChild(component);
             SetMeta("fapInteriorPresentation", "FapInteriorSet project-original GLB; presentation-only; legacy replaced furniture visuals suppressed");
             importedRoot.Free();
@@ -813,6 +1244,318 @@ public partial class StyleBenchmarkZone : Node3D
 
             throw;
         }
+    }
+
+    private Node3D AttachAuthoredKitComponents(
+        string scenePath,
+        string rootName,
+        IReadOnlyCollection<string> componentNames,
+        string presentationName,
+        string compositionRole,
+        params (string ComponentName, string PlacementName, Vector3 Anchor, float YawDegrees, Vector3 Scale, string LogicalAnchor)[] placements)
+    {
+        var packed = ResourceLoader.Load<PackedScene>(scenePath)
+            ?? throw new InvalidOperationException($"Authored style kit is missing: {scenePath}");
+        var importedRoot = packed.Instantiate<Node3D>()
+            ?? throw new InvalidOperationException($"Authored style kit did not instantiate: {scenePath}");
+        var presentation = default(Node3D);
+
+        try
+        {
+            var kitRoot = string.Equals(importedRoot.Name.ToString(), rootName, StringComparison.Ordinal)
+                ? importedRoot
+                : importedRoot.GetNodeOrNull<Node3D>(rootName)
+                    ?? throw new InvalidOperationException(
+                        $"Authored style kit is missing root '{rootName}': {scenePath}");
+            var collisionNodes = Descendants(kitRoot)
+                .Where(node => node is CollisionObject3D or CollisionShape3D)
+                .ToArray();
+            if (collisionNodes.Length > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Authored style kit must be presentation-only; found {collisionNodes.Length} collision nodes: {scenePath}");
+            }
+
+            var missingComponents = componentNames
+                .Where(componentName => kitRoot.GetNodeOrNull<Node3D>(componentName) is null)
+                .ToArray();
+            if (missingComponents.Length > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Authored style kit is missing direct component roots: {string.Join('|', missingComponents)}");
+            }
+
+            var duplicatePlacements = placements
+                .GroupBy(placement => placement.ComponentName, StringComparer.Ordinal)
+                .Where(group => group.Count() > 1)
+                .Select(group => group.Key)
+                .ToArray();
+            if (duplicatePlacements.Length > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Authored style kit benchmark cannot place one component more than once: {string.Join('|', duplicatePlacements)}");
+            }
+
+            var unknownPlacements = placements
+                .Where(placement => !componentNames.Contains(placement.ComponentName, StringComparer.Ordinal))
+                .Select(placement => placement.ComponentName)
+                .Distinct(StringComparer.Ordinal)
+                .ToArray();
+            if (unknownPlacements.Length > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Authored style kit benchmark references unknown components: {string.Join('|', unknownPlacements)}");
+            }
+
+            presentation = new Node3D { Name = presentationName };
+            presentation.SetMeta("presentationOnly", true);
+            presentation.SetMeta("visualOnly", true);
+            presentation.SetMeta("assetSource", scenePath);
+            presentation.SetMeta("authoredRoot", rootName);
+            presentation.SetMeta("componentContract", string.Join('|', componentNames));
+            presentation.SetMeta("compositionRole", compositionRole);
+            presentation.SetMeta("collisionOwner", "none");
+            presentation.SetMeta("navigationOwner", "none");
+            presentation.SetMeta("interactionOwner", "none");
+            presentation.SetMeta("narrativeOwner", "none");
+            presentation.SetMeta("runtimeStateOwnership", "RuntimeBridge");
+            AddChild(presentation);
+
+            foreach (var placement in placements)
+            {
+                var component = kitRoot.GetNodeOrNull<Node3D>(placement.ComponentName)
+                    ?? throw new InvalidOperationException(
+                        $"Authored style kit component disappeared during extraction: {placement.ComponentName}");
+                AttachAuthoredKitComponent(
+                    presentation,
+                    rootName,
+                    component,
+                    placement.PlacementName,
+                    placement.Anchor,
+                    placement.YawDegrees,
+                    placement.Scale,
+                    placement.LogicalAnchor,
+                    scenePath);
+            }
+
+            presentation.SetMeta("placedComponentCount", placements.Length);
+            importedRoot.Free();
+            return presentation;
+        }
+        catch
+        {
+            if (GodotObject.IsInstanceValid(importedRoot))
+            {
+                importedRoot.Free();
+            }
+
+            if (presentation is not null && GodotObject.IsInstanceValid(presentation))
+            {
+                presentation.Free();
+            }
+
+            throw;
+        }
+    }
+
+    private static Node3D AttachAuthoredKitComponent(
+        Node3D parent,
+        string authoredRootName,
+        Node3D component,
+        string placementName,
+        Vector3 anchor,
+        float yawDegrees,
+        Vector3 scale,
+        string logicalAnchor,
+        string assetSource)
+    {
+        var sourceParent = component.GetParent()
+            ?? throw new InvalidOperationException(
+                $"Authored style kit component '{component.Name}' has no authored root parent.");
+        var authoredComponentName = component.Name.ToString();
+        var authoredPreviewOrigin = component.Position;
+        var importedAncestorBasis = ComposeImportedAncestorBasis(component);
+        sourceParent.RemoveChild(component);
+        ClearExtractedSceneOwnership(component);
+        component.Transform = new Transform3D(importedAncestorBasis, Vector3.Zero);
+        component.SetMeta("presentationOnly", true);
+        component.SetMeta("visualOnly", true);
+        component.SetMeta("presentationOnlyInstance", true);
+        component.SetMeta("assetSource", assetSource);
+        component.SetMeta("authoredRoot", authoredRootName);
+        component.SetMeta("authoredComponent", authoredComponentName);
+        component.SetMeta("authoredPreviewOrigin", authoredPreviewOrigin);
+        component.SetMeta(
+            "rebasedLocalTransform",
+            "imported ancestor basis preserved; neutral preview-board origin removed before benchmark placement");
+        component.SetMeta("collisionOwner", "none");
+        component.SetMeta("navigationOwner", "none");
+        component.SetMeta("interactionOwner", "none");
+        component.SetMeta("narrativeOwner", "none");
+        component.SetMeta("logicalAnchor", logicalAnchor);
+
+        var meshes = Descendants(component).OfType<MeshInstance3D>().ToArray();
+        foreach (var mesh in meshes)
+        {
+            mesh.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Disabled;
+            mesh.VisibilityRangeBegin = 0f;
+            mesh.VisibilityRangeBeginMargin = 0f;
+            mesh.VisibilityRangeEnd = 0f;
+            mesh.VisibilityRangeEndMargin = 0f;
+            mesh.SetMeta("presentationOwnership", "presentation-only");
+            mesh.SetMeta("collisionPolicy", "no physics body; visual mesh only");
+        }
+
+        var placement = new Node3D
+        {
+            Name = placementName,
+            Position = anchor,
+            RotationDegrees = new Vector3(0f, yawDegrees, 0f),
+            Scale = scale
+        };
+        placement.SetMeta("presentationOnly", true);
+        placement.SetMeta("visualOnly", true);
+        placement.SetMeta("assetSource", assetSource);
+        placement.SetMeta("authoredRoot", authoredRootName);
+        placement.SetMeta("authoredComponent", authoredComponentName);
+        placement.SetMeta("logicalAnchor", logicalAnchor);
+        placement.SetMeta("collisionOwner", "none");
+        placement.SetMeta("navigationOwner", "none");
+        placement.SetMeta("interactionOwner", "none");
+        parent.AddChild(placement);
+        placement.AddChild(component);
+        return placement;
+    }
+
+    private static int RegradeAuthoredKitMaterials(Node3D presentation, string scenePath)
+    {
+        var isZirat = scenePath.Contains("zirat", StringComparison.OrdinalIgnoreCase);
+        var isFap = scenePath.Contains("fap_clinic", StringComparison.OrdinalIgnoreCase);
+        var grade = isZirat
+            ? new Dictionary<string, Material>(StringComparer.Ordinal)
+            {
+                ["DampEarth"] = PainterlyMaterialLibrary.ForColor("56544a", "earth"),
+                ["DampEarthDark"] = PainterlyMaterialLibrary.ForColor("4b473f", "earth"),
+                ["PathDirt"] = PainterlyMaterialLibrary.ForColor("625847", "earth"),
+                ["LeafLitter"] = PainterlyMaterialLibrary.ForColor("51493b", "earth"),
+                ["DitchWater"] = PainterlyMaterialLibrary.ForColor("526066", "wet_ground"),
+                ["WetRoad"] = PainterlyMaterialLibrary.ForColor("4f5553", "earth"),
+                ["WetSheen"] = PainterlyMaterialLibrary.ForColor("596767", "wet_ground"),
+                ["MossyStone"] = PainterlyMaterialLibrary.ForColor("62675c", "stone"),
+                ["QuietStone"] = PainterlyMaterialLibrary.ForColor("62675c", "stone"),
+                ["DistantStone"] = PainterlyMaterialLibrary.ForColor("555e57", "stone"),
+                ["WeatheredWood"] = PainterlyMaterialLibrary.ForColor("594a39", "wood"),
+                ["WeatheredWoodDark"] = PainterlyMaterialLibrary.ForColor("40352d", "wood_bark"),
+                ["BirchBark"] = PainterlyMaterialLibrary.ForColor("68705a", "bark_birch"),
+                ["BirchLeaves"] = PainterlyMaterialLibrary.ForColor("596047", "leaf_birch"),
+                ["MossGreen"] = PainterlyMaterialLibrary.ForColor("596047", "foliage"),
+                ["DitchGrass"] = PainterlyMaterialLibrary.ForColor("3c4d3e", "foliage"),
+                ["RoadGrass"] = PainterlyMaterialLibrary.ForColor("48553f", "foliage"),
+                ["ZiratGrass"] = PainterlyMaterialLibrary.ForColor("3c4d3e", "foliage"),
+                ["ShrubGreen"] = PainterlyMaterialLibrary.ForColor("48553f", "foliage"),
+                ["DistantFoliage"] = PainterlyMaterialLibrary.ForColor("2c403b", "foliage"),
+                ["DistantBark"] = PainterlyMaterialLibrary.ForColor("343630", "wood_bark"),
+                ["DistantFence"] = PainterlyMaterialLibrary.ForColor("403b34", "wood"),
+                ["DistantWall"] = PainterlyMaterialLibrary.ForColor("4b4f48", "plaster"),
+                ["DistantRoof"] = PainterlyMaterialLibrary.ForColor("343a35", "wood")
+            }
+            : isFap
+            ? new Dictionary<string, Material>(StringComparer.Ordinal)
+            {
+                // Keep the source's material roles, but raise the usable
+                // first-person value range so silhouettes survive the cold
+                // institutional mood instead of collapsing into green-black.
+                ["FapPaintedSage"] = PainterlyMaterialLibrary.ForColor("7b8d86", "plaster"),
+                ["FapPaintedDustyBlue"] = PainterlyMaterialLibrary.ForColor("5f7a83", "plaster"),
+                ["FapPaintedTimber"] = PainterlyMaterialLibrary.ForColor("806f58", "wood_furniture"),
+                ["FapDarkTimber"] = PainterlyMaterialLibrary.ForColor("50473b", "wood_bark"),
+                ["FapBirchPale"] = PainterlyMaterialLibrary.ForColor("a39579", "bark_birch"),
+                ["FapBirchBarkMark"] = PainterlyMaterialLibrary.ForColor("6e604d", "bark_birch"),
+                ["FapShrubGreen"] = PainterlyMaterialLibrary.ForColor("4f6351", "foliage"),
+                ["FapShrubLight"] = PainterlyMaterialLibrary.ForColor("72846a", "foliage"),
+                ["FapOldRoof"] = PainterlyMaterialLibrary.ForColor("3f4c49", "roof_metal"),
+                ["FapRoofEdge"] = PainterlyMaterialLibrary.ForColor("56605a", "roof_metal"),
+                ["FapWetStone"] = PainterlyMaterialLibrary.ForColor("59635f", "stone"),
+                ["FapRainMetal"] = PainterlyMaterialLibrary.ForColor("708584"),
+                ["FapRainMetalDark"] = PainterlyMaterialLibrary.ForColor("4b5d5b"),
+                ["FapDoorWood"] = PainterlyMaterialLibrary.ForColor("695542", "wood"),
+                ["FapDoorInset"] = PainterlyMaterialLibrary.ForColor("51453a", "wood"),
+                ["FapFoundationStone"] = PainterlyMaterialLibrary.ForColor("6f7973", "stone"),
+                ["FapVentDark"] = PainterlyMaterialLibrary.ForColor("3e4b47"),
+                ["FapWindowCool"] = PainterlyMaterialLibrary.ForColor("779ba3"),
+                ["FapWindowWarm"] = PainterlyMaterialLibrary.ForColor("b18b62"),
+                ["FapShedWall"] = PainterlyMaterialLibrary.ForColor("788b80", "plaster"),
+                ["FapNoticeBlank"] = PainterlyMaterialLibrary.ForColor("c1ae85"),
+                ["FapPathEarth"] = PainterlyMaterialLibrary.ForColor("4f5145", "earth"),
+                ["FapPathEarthDark"] = PainterlyMaterialLibrary.ForColor("3b4038", "earth"),
+                ["FapPuddleWater"] = PainterlyMaterialLibrary.ForColor("465f61", "water"),
+                ["FapWayfindingBlank"] = PainterlyMaterialLibrary.ForColor("8f987f")
+            }
+            : new Dictionary<string, Material>(StringComparer.Ordinal)
+            {
+                ["DampEarth"] = PainterlyMaterialLibrary.ForColor("34443b", "earth"),
+                ["LeafLitter"] = PainterlyMaterialLibrary.ForColor("51493b", "earth"),
+                ["PineBark"] = PainterlyMaterialLibrary.ForColor("40352d", "bark_pine"),
+                ["WeatheredWood"] = PainterlyMaterialLibrary.ForColor("594a39", "wood"),
+                ["CutWood"] = PainterlyMaterialLibrary.ForColor("8b7155", "wood"),
+                ["PineFoliage"] = PainterlyMaterialLibrary.ForColor("30483f", "foliage"),
+                ["FoliageBlueGreen"] = PainterlyMaterialLibrary.ForColor("48553f", "foliage"),
+                ["BirchBark"] = PainterlyMaterialLibrary.ForColor("68705a", "bark_birch"),
+                ["BirchLeaves"] = PainterlyMaterialLibrary.ForColor("596047", "leaf_birch"),
+                ["Understory"] = PainterlyMaterialLibrary.ForColor("3c4d3e", "foliage"),
+                ["RootDark"] = PainterlyMaterialLibrary.ForColor("3f332a", "wood_bark"),
+                ["MossGreen"] = PainterlyMaterialLibrary.ForColor("596047", "foliage"),
+                ["MossyStone"] = PainterlyMaterialLibrary.ForColor("62675c", "stone"),
+                ["DistantBlueGreen"] = PainterlyMaterialLibrary.ForColor("2c403b", "foliage"),
+                ["DistantFoliage"] = PainterlyMaterialLibrary.ForColor("243a34", "foliage"),
+                ["DistantBark"] = PainterlyMaterialLibrary.ForColor("343630", "wood_bark")
+            };
+
+        var rebound = 0;
+        foreach (var mesh in Descendants(presentation).OfType<MeshInstance3D>())
+        {
+            if (mesh.Mesh is null)
+            {
+                continue;
+            }
+
+            var meshName = mesh.Name.ToString();
+            if (isFap
+                && ((meshName.StartsWith("FapInteriorShell_", StringComparison.Ordinal)
+                     && meshName.Contains("Wall", StringComparison.Ordinal))
+                    || meshName.StartsWith("FapInteriorWallPanel_", StringComparison.Ordinal)))
+            {
+                var wall = PainterlyMaterialLibrary.ForColor("7b8d86", "wall_institution");
+                for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
+                {
+                    mesh.SetSurfaceOverrideMaterial(surface, wall);
+                    rebound++;
+                }
+                continue;
+            }
+
+            var sourceName = mesh.GetActiveMaterial(0)?.ResourceName ?? string.Empty;
+            if (!grade.TryGetValue(sourceName, out var material))
+            {
+                continue;
+            }
+
+            for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
+            {
+                mesh.SetSurfaceOverrideMaterial(surface, material);
+                rebound++;
+            }
+        }
+
+        presentation.SetMeta(
+            "materialGrade",
+            isZirat
+                ? "Zirat damp earth/wet road/quiet boundary remapped to painterly wet palette"
+                : isFap
+                    ? "FAP cool institutional wall/floor separation with restrained timber, metal and paper value accents"
+                    : "Kara damp earth/leaf litter/understory remapped to painterly wet palette");
+        presentation.SetMeta("materialGradeReboundCount", rebound);
+        return rebound;
     }
 
     private static IEnumerable<Node> Descendants(Node parent)
@@ -857,12 +1600,24 @@ public partial class StyleBenchmarkZone : Node3D
         // Only the third Zirat patch clears the strict 5 mm gate; seat it
         // locally without changing the other two authored offsets.
         PainterlyEnvironmentDetails.AddPuddleCluster(this, "ZiratWetPatch", new(-0.72f, 0.102f, 6.8f), new(0.76f, 1.32f), "4f5553", [0f, 0f, -0.006205320f]);
-        MakeFence(-5.2f, 12, 25);
-        for (var index = 0; index < 18; index++)
-        {
-            var side = index % 2 == 0 ? -1 : 1;
-            MakePine(new(side * (8.2f + index % 3), 0, 15 - index * 2.3f), 4.8f + index % 4 * 0.4f);
-        }
+        var ziratAuthoredKit = AttachAuthoredKitComponents(
+            ZiratRoadsideKitScenePath,
+            ZiratRoadsideKitRootName,
+            ZiratRoadsideKitComponentNames,
+            "ZiratRoadsideAuthoredKit",
+            "authored wet roadside, quiet boundary, path edge, birch transition and distant village closure",
+            ("WetRoadShoulder_Left", "ZiratWetRoadShoulderLeft", new(0f, 0f, -1.5f), 0f, Vector3.One * 1.05f, "zirat-benchmark@wet-shoulder-left"),
+            ("WetRoadShoulder_Right", "ZiratWetRoadShoulderRight", new(0f, 0f, -1.5f), 0f, Vector3.One * 1.05f, "zirat-benchmark@wet-shoulder-right"),
+            ("RoadsideDitch", "ZiratRoadsideDitch", new(0f, 0f, -1.1f), 0f, Vector3.One, "zirat-benchmark@roadside-drainage"),
+            ("CulvertStoneCluster", "ZiratCulvertStoneCluster", new(0f, 0f, -3.5f), 0f, Vector3.One, "zirat-benchmark@culvert-edge"),
+            ("ZiratBoundaryFence", "ZiratAuthoredBoundaryFence", new(6.7f, 0f, -15.0f), 90f, Vector3.One * 0.96f, "zirat-benchmark@lateral-boundary-fence"),
+            ("ZiratOpenGate", "ZiratAuthoredOpenGate", new(6.7f, 0f, -15.0f), 90f, Vector3.One * 0.96f, "zirat-benchmark@lateral-open-gate"),
+            ("ZiratMarkerGroup_Low", "ZiratAuthoredMarkerGroupLow", new(6.2f, 0f, -9.0f), 0f, Vector3.One * 0.92f, "zirat-benchmark@quiet-marker-group-near"),
+            ("ZiratMarkerGroup_Far", "ZiratAuthoredMarkerGroupFar", new(6.5f, 0f, -10.0f), 0f, Vector3.One * 0.92f, "zirat-benchmark@quiet-marker-group-far"),
+            ("ZiratPathEdge", "ZiratAuthoredPathEdge", new(-4.0f, 0f, -10.0f), 0f, Vector3.One * 0.96f, "zirat-benchmark@side-path-edge"),
+            ("ZiratBirchShrubMass", "ZiratAuthoredBirchShrubTransition", new(7.8f, 0f, -22.0f), 0f, Vector3.One * 0.94f, "zirat-benchmark@birch-forest-transition"),
+            ("ZiratDistantVillageMass", "ZiratAuthoredDistantVillageTransition", new(-22.0f, 0f, 10.0f), 0f, Vector3.One, "zirat-benchmark@distant-village-transition"));
+        RegradeAuthoredKitMaterials(ziratAuthoredKit, ZiratRoadsideKitScenePath);
 
         // Static staging for beat/rinat-visible-before-edge: keep Rinat on the
         // right shoulder, ahead of the player and outside the route corridor.
@@ -882,7 +1637,9 @@ public partial class StyleBenchmarkZone : Node3D
         // dispatch and remains available only while the zirat-road scene is
         // active.
         MakeBox("ZiratRouteTracePost", new(0.14f, 0.86f, 0.14f), new(-3.55f, 0.43f, -5.8f), "594939", collision: false, surface: "wood");
-        MakeRotatedBox("ZiratRouteTraceTag", new(0.62f, 0.16f, 0.035f), new(-3.55f, 0.72f, -5.8f), new(0, -8, -5), "8d765b", "wood");
+        // A narrow vertical tag is a roadside trace, not a cross-shaped
+        // grave marker. Keep the same clue location and interaction owner.
+        MakeRotatedBox("ZiratRouteTraceTag", new(0.16f, 0.28f, 0.035f), new(-3.55f, 0.62f, -5.70f), new(0, -8, -5), "8d765b", "wood");
         MakeInteractionBox(
             "ZiratRoadsideClue",
             new(0.9f, 1.35f, 0.7f),
@@ -891,7 +1648,6 @@ public partial class StyleBenchmarkZone : Node3D
             "urman.chapter1:interaction/zirat-roadside-clue",
             "Осмотреть след у зиратской дороги");
 
-        MakeBox("ZiratFence", new(9, 1.25f, 0.18f), new(-6.2f, 0.62f, -5.8f), "575044", surface: "wood");
         MakeInteractionBox(
             "ZiratRoadToForest",
             new(2.6f, 1.5f, 0.3f),
@@ -901,6 +1657,10 @@ public partial class StyleBenchmarkZone : Node3D
             "Подойти к кромке Кара-Урмана",
             "kara_urman_night",
             "village_path");
+
+        SetMeta("styleAuthoredModules", "ZiratRoadsideKit_wave4");
+        SetMeta("styleAuthoredMeshPolicy", "authored wet shoulders, ditch, quiet boundary and distant closure; no repeated procedural pine row");
+        SetMeta("styleAuthoredReview", "candidate geometry only; 360-degree first-person and cultural/local review remain open");
     }
 
     private void MakeClothesline(Vector3 start, Vector3 end)
@@ -1232,7 +1992,9 @@ public partial class StyleBenchmarkZone : Node3D
             body.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = size } });
         }
 
-        AddChild(body);
+        // Preserve semantic families (House2, Foundation2) for the connected
+        // world's explicit legacy suppression; anonymous names evade it.
+        AddChild(body, forceReadableName: true);
         return body;
     }
 
@@ -1249,8 +2011,13 @@ public partial class StyleBenchmarkZone : Node3D
         return body;
     }
 
-    private static void SuppressPrimitiveVisual(StaticBody3D body, string reason)
+    private static void SuppressPrimitiveVisual(Node3D body, string reason)
     {
+        if (body is MeshInstance3D selfMesh)
+        {
+            selfMesh.Visible = false;
+        }
+
         foreach (var mesh in body.GetChildren().OfType<MeshInstance3D>())
         {
             mesh.Visible = false;

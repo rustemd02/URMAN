@@ -267,7 +267,10 @@ public static class PainterlyEnvironmentDetails
             Position = new Vector3(x, 0.62f, z - (count - 1) * 0.29f),
             Shape = new BoxShape3D { Size = new Vector3(0.18f, 1.24f, length) }
         });
-        root.AddChild(fence);
+        // Connected-world suppression recognizes Fence/Fence2/etc. Godot's
+        // default duplicate-name fallback (@StaticBody3D@...) loses that
+        // family and leaves invisible benchmark collision across the route.
+        root.AddChild(fence, forceReadableName: true);
     }
 
     public static void AddPine(Node3D root, Vector3 origin, float height, string foliageColor = "26372f")

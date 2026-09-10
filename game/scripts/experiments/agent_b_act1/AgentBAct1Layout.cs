@@ -19,7 +19,7 @@ public static class AgentBAct1Layout
     public const float TerrainMinX = -64f;
     public const float TerrainMaxX = 64f;
     public const float TerrainMinZ = -152f;
-    public const float TerrainMaxZ = 56f;
+    public const float TerrainMaxZ = 104f;
 
     // ---- Main road spline control points (x, z), crown width ~5.6 m -------
     public static readonly Vector2[] MainRoadAxis = new[]

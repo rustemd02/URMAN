@@ -517,7 +517,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         stack.AddChild(Label("УРМАН", 56, new Color(0.88f, 0.78f, 0.59f)));
         stack.AddChild(Label("Акт I — Возвращение", 24, new Color(0.72f, 0.72f, 0.66f)));
         stack.AddChild(Label("Я снова в Кырлае. Дождь. Десять лет молчания.", 18, new Color(0.57f, 0.62f, 0.59f)));
-        stack.AddChild(Label("Сначала — домой, к бабаю и әби. Потом — понять, почему Марат перестал отвечать.", 17, new Color(0.68f, 0.70f, 0.64f)));
+        stack.AddChild(Label("Первая цель: добраться до дома и проверить старый компьютер.", 18, new Color(0.72f, 0.74f, 0.68f)));
         _introControls = Label(string.Empty, 15, new Color(0.48f, 0.54f, 0.52f));
         stack.AddChild(_introControls);
 
@@ -624,7 +624,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         "urman.chapter1:scene/evidence-official-death" => AvailableCue(
             bridge,
             "official-to-internal-register",
-            "Сверить официальную запись с внутренним реестром."),
+            "Вернуться в дом бабая: сверить справку с реестром на ПК."),
         "urman.chapter1:scene/evidence-internal-register" =>
             AvailableCue(bridge, "internal-register-to-rinat", "Спросить Рината о внутреннем реестре.")
             ?? AvailableCue(bridge, "internal-register-to-saved-message", "Открыть сохранённое сообщение Марата."),
@@ -715,8 +715,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
         var player = _player;
         _introControls.Text = player?.CurrentInputDevice == "gamepad"
-            ? "Левый стик — идти   ·   правый стик — смотреть   ·   A — начать / осмотреть   ·   Y — журнал   ·   Start — меню"
-            : "WASD — идти   ·   мышь — смотреть   ·   E — начать / осмотреть   ·   J — журнал   ·   Esc — меню";
+            ? "Левый стик — идти   ·   правый стик — смотреть   ·   A — начать / осмотреть\nY — журнал   ·   Start — меню   ·   Нажмите A, чтобы продолжить"
+            : "WASD — идти   ·   мышь — смотреть   ·   E — начать / осмотреть\nJ — журнал   ·   Esc — меню   ·   Нажмите E или левую кнопку мыши, чтобы продолжить";
     }
 
     private void DismissIntro()

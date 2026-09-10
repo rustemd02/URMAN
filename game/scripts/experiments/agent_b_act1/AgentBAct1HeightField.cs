@@ -13,10 +13,15 @@ public static class AgentBAct1HeightField
     public const float MinX = -64f;
     public const float MaxX = 66f;
     public const float MinZ = -152f;
-    // Extend the arrival-side terrain beyond the reverse-view framing band.
-    // The previous 44 m cap left the authored village silhouettes at z≈49–53
-    // outside the shared ground envelope.
-    public const float MaxZ = 56f;
+    // Extend the arrival-side terrain with a low reverse-field grade beyond
+    // the z≈52 framing band; the old 56 m cap ended immediately behind it.
+    public const float MaxZ = 104f;
+
+    private static readonly (double X, double Z, double RadiusX, double RadiusZ, double Rise)[] ForestShoulders =
+    {
+        (-8.0, -107.0, 5.5, 8.0, 1.1), (9.5, -113.0, 6.5, 9.0, 1.35),
+        (-11.0, -121.0, 7.0, 10.0, 1.6), (12.0, -129.0, 8.0, 10.0, 1.4)
+    };
 
     private static readonly (float X, float Z)[] MainAxis =
     {
@@ -143,6 +148,17 @@ public static class AgentBAct1HeightField
         var kara = System.Math.Clamp((-90.0 - z) / 20.0, 0.0, 1.0);
         h -= kara * 0.55;
         h += kara * (Fbm(x * 0.16, z * 0.16, 2) - 0.5) * 0.5;
+        // Match the authored low forest shoulders; preserve x +/-3 m route.
+        if (z < -90f)
+        {
+            var edge = System.Math.Clamp((System.Math.Abs(x) - 3.0) / 3.0, 0.0, 1.0);
+            edge *= edge * (3.0 - 2.0 * edge);
+            var approach = System.Math.Clamp((-z - 90.0) / 8.0, 0.0, 1.0);
+            approach *= approach * (3.0 - 2.0 * approach);
+            foreach (var (cx, cz, rx, rz, rise) in ForestShoulders)
+                h += edge * approach * rise * System.Math.Exp(
+                    -System.Math.Pow((x - cx) / rx, 2) - System.Math.Pow((z - cz) / rz, 2));
+        }
         h += (Fbm(x * 0.23, z * 0.23, 2) - 0.5) * 0.22;
         var dx = x - 6.5;
         var dz = z - (-70.0);
@@ -158,7 +174,32 @@ public static class AgentBAct1HeightField
                 h *= 1.0 - blend;
             }
         }
+        h += ReverseFieldRise(x, z);
+        // Same watershed grades as the authored Blender terrain; all starts
+        // lie outside the yards and the final playable route endpoint.
+        var westRim = System.Math.Clamp((-x - 40.0) / 24.0, 0.0, 1.0);
+        var eastRim = System.Math.Clamp((x - 44.0) / 22.0, 0.0, 1.0);
+        var forestRim = System.Math.Clamp((-z - 128.0) / 24.0, 0.0, 1.0);
+        h += RimGrade(westRim, x, z, 0.7);
+        h += RimGrade(eastRim, x, z, 2.1);
+        h += RimGrade(forestRim, x, z, 4.3);
         return h;
+    }
+
+    private static double RimGrade(double rim, double x, double z, double phase)
+        => rim * rim * (3.0 - 2.0 * rim)
+            * (5.5 + 1.3 * System.Math.Sin(z * 0.055 + x * 0.035 + phase));
+
+    private static double ReverseFieldRise(double x, double z)
+    {
+        var along = System.Math.Clamp((z - 52.0) / 52.0, 0.0, 1.0);
+        along *= along * (3.0 - 2.0 * along);
+        var centre = -8.0 + (z - 52.0) * 0.10;
+        var lateral = System.Math.Clamp(1.0 - System.Math.Abs(x - centre) / 52.0,
+            0.0, 1.0);
+        lateral *= lateral * (3.0 - 2.0 * lateral);
+        var variation = Fbm(x * 0.035 + 19.0, z * 0.035 - 7.0, 2);
+        return along * (0.65 + 0.35 * lateral) * (5.0 + 3.0 * variation);
     }
 
     public static double Ground(float x, float z)

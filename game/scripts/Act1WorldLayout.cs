@@ -31,8 +31,9 @@ public static class Act1WorldLayout
         float Width,
         string SurfaceColor);
 
-    // The local scenes keep their authored dimensions; these offsets leave a
-    // narrow apron between their bounds while keeping the route compact.
+    // The local scenes keep their authored dimensions. These origins match the
+    // existing Agent B terrain/road axis so the authored presentation kits can
+    // sit on the same compact first-person route without rebasing gameplay.
     private static readonly Vector3 HouseOrigin = new(-28f, 0f, 0f);
     private static readonly Vector3 FapOrigin = new(28f, 0f, -30f);
     private static readonly Vector3 ZiratOrigin = new(0f, 0f, -70f);
@@ -49,6 +50,7 @@ public static class Act1WorldLayout
             SpawnPoints(
                 ("arrival", new SpawnTransform(new(0f, 0.05f, 9f), 0f)),
                 ("from_house", new SpawnTransform(new(-2.2f, 0.05f, 2.4f), 0f)),
+                ("from_fap", new SpawnTransform(new(28f, 0.05f, -25f), 80f)),
                 ("from_forest", new SpawnTransform(new(1.8f, 0.05f, -12.5f), 180f)),
                 ("default", new SpawnTransform(new(0f, 0.05f, 9f), 0f)))),
         new(
@@ -105,15 +107,15 @@ public static class Act1WorldLayout
             "685b49"),
         new(
             "village-to-fap-branch",
-            new(3.8f, 0.025f, -8.2f),
-            FapOrigin + new Vector3(-2.6f, 0.025f, 4.2f),
-            4.2f,
+            new(0f, 0.025f, -10f),
+            FapOrigin + new Vector3(0f, 0.025f, 3.8f),
+            4.6f,
             "625747"),
         new(
             "house-to-zirat-return",
-            HouseOrigin + new Vector3(0f, 0.025f, 4.82f),
-            ZiratOrigin + new Vector3(0f, 0.025f, 16.5f),
-            4.4f,
+            new(0f, 0.025f, -19f),
+            ZiratOrigin + new Vector3(-0.4f, 0.025f, 16.5f),
+            4.8f,
             "625847"),
         new(
             "zirat-to-kara-urman",
