@@ -125,3 +125,430 @@ The v6 prompts, ImageGen source paths and source/final hashes are recorded in
 `art/texture_candidate_motion_sweep_v6/`. Earth relief-only separation is
 subtle and wood still needs owner/orientation review. No v6 file is globally
 enabled and no art lock is declared.
+
+## New surface families, 2026-09-10
+
+Generated one file per prompt with the built-in OpenAI ImageGen tool on 2026-09-10, with no source images. Each result was normalized to 1 024 × 1 024, 8-bit RGB PNG. Edge pairs above a 10/255 mean absolute-difference threshold received a local 64 px mirrored cosine blend; the two final leaf PNGs also received a local sky-gap cleanup after ImageGen. All 2×2 receipts, metrics and the 19-file overview are under `evidence/act1_repo_baseline/textures_new_families/`. Runtime selections below are candidates only; final family choice and ornament appropriateness remain human art/cultural gates.
+
+| File | Intended surface | SHA-256 | Status |
+|---|---|---|---|
+| `grass_verge_v1_albedo.png` | overgrown village verges and meadow ground | `fc59feef19ceec6d94810ce0036ae293680aad9d9e27d6c01b2e78e607231b8e` | candidate, art-lock-pending |
+| `grass_verge_v2_albedo.png` | trodden yard grass | `6b247106eddbeb4541700c382bf5ab56f9ad409ca6b0ed9e4ecf5e18564d6ab1` | candidate, art-lock-pending |
+| `roof_slate_v1_albedo.png` | weathered slate roofs | `ea354f70dc10e1c209010eda2afc022810f51661d2aa64bab27ded2b845c1708` | candidate, art-lock-pending |
+| `roof_metal_v2_albedo.png` | FAP and village metal roofs | `b0b70b09c0bdbf7e1567de7c2185f8e21d8489bcf7932c21a7087107a81f48ae` | candidate, art-lock-pending |
+| `roof_shingle_v3_albedo.png` | weathered shingle roofs | `6726fc18ad72f12ccb9866f4cb83a72cd505ebd9c61367de6479bef46d4563d4` | candidate, art-lock-pending |
+| `bark_birch_v1_albedo.png` | young/middle-aged birch trunks | `9697a055e638625cd68b9028342abea97f46a058ffb1136b3cae99e62e8a0ee9` | candidate, art-lock-pending |
+| `bark_birch_v2_albedo.png` | older birch trunks | `2e96da7bf3bee4d749b7bf17681898715a5e333587f0d681f15180c8c22df581` | candidate, art-lock-pending |
+| `bark_pine_v1_albedo.png` | pine and spruce trunks | `5cc0577732ba886cbcfb727c5d30bca822b996cf1875d6d88cfad47c38f951e4` | candidate, art-lock-pending |
+| `leaf_birch_v1_albedo.png` | summer birch crowns | `6b469475e3280ed08a584a8bcca06ec23255607cadf69321621b275e6485c2cb` | candidate, art-lock-pending |
+| `leaf_birch_v2_albedo.png` | early-autumn birch crowns | `77d16e04ef2d04394f7b2b5d972711628459db8b7f95faa7827934cad37c9332` | candidate, art-lock-pending |
+| `log_wall_v1_albedo.png` | warm old-house log walls | `7ddca7416c3b95549b60eab0b50f81d5dcb1c2f724b49bab7de1e1b60cf47e17` | candidate, art-lock-pending |
+| `log_wall_v2_albedo.png` | cooler smoke-aged log walls | `0e51db435030ae30a28e4e26fc106d60e5324926f7a1735adff53314b8d71cc7` | candidate, art-lock-pending |
+| `wallpaper_old_v1_albedo.png` | faded floral house wallpaper | `f80e97c330e2a7e8237a8f7fed860c233da3a2f6678a8ad882acb89a93806a3c` | candidate, art-lock-pending |
+| `wallpaper_old_v2_albedo.png` | striped house wallpaper | `451123ec6bf67a3ce5af46cc4cbf34f8136f161dad29af636a19163fafd3e970` | candidate, art-lock-pending |
+| `wall_institution_v1_albedo.png` | FAP institutional walls | `4139f15bc78e4713a85398e697a3418c9e0b910999fa6b800f3318ae8a95f626` | candidate, art-lock-pending |
+| `ornament_trim_v1_albedo.png` | restrained Tatar border frieze | `c13f6b28a35cae781799729fd0ac6d8c5e72295d036fcac26e7e3a6a9caa2a8a` | candidate, art-lock-pending |
+| `carpet_palas_v1_albedo.png` | traditional flat-woven Tatar palas | `d9d48b174b6c8e02bf618cae40ae7248b9562bbb42d7ce7ef471c06b0a55721a` | candidate, art-lock-pending |
+| `fabric_chit_v1_albedo.png` | old Tatar chintz household fabric | `b70fde9721eb785afb00acd912af0ca903ebfe8f2b9f42d184807791a038c91a` | candidate, art-lock-pending |
+| `wood_carved_gate_v1_albedo.png` | carved gate and hero-house window trim | `3620ee923093c1677aac99cf8d4f09753917e326b1e7d4d7e20421444c480cae` | candidate, art-lock-pending |
+
+### Exact ImageGen prompts
+
+#### `grass_verge_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: overgrown wet village meadow grass seen from directly above. Soft painterly
+tufts of grass in mixed yellow-green and dull olive tones, subtle patches of clover,
+thin dry straw blades, small bare-earth gaps, gentle large-scale variation between
+lighter and darker patches so a big field does not look uniform. Painterly brush
+strokes visible in tuft clumps. Tatar village roadside, early autumn, muted, slightly damp.
+```
+
+#### `grass_verge_v2_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: short trodden yard grass seen from directly above, painterly style. Denser,
+darker green with worn paths of bare soil where people walk, scattered small plantain
+leaves and tiny yellow flowers, compact moist ground showing through. Calm, even,
+hand-painted texture with visible brush clusters. Muted palette, no bright saturated green.
+```
+
+#### `roof_slate_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: weathered grey asbestos-slate roof sheets seen from directly above, painterly
+stylization. Visible sheet divisions into large rectangles, soft moss and lichen patches
+in muted green-grey, subtle darker damp streaks running down the slope direction,
+a few chipped corners. Calm grey palette with slight warm variation between sheets.
+```
+
+#### `roof_metal_v2_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: old faded blue-grey painted corrugated metal roof sheet seen from directly
+above, painterly stylization. Gentle corrugation stripes, chalky faded paint with
+matte rust streaks near fasteners and edges, soft lichen dots. Muted, not industrial,
+not shiny, village house feel.
+```
+
+#### `roof_shingle_v3_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: weathered wooden shingle roof seen from directly above, painterly
+stylization. Rows of hand-split grey-brown shingles with varied tone per shingle,
+slight warping, moss in the gaps, muted wet sheen painted as value, not gloss.
+```
+
+#### `bark_birch_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: birch tree bark seen from the side, painterly stylization. Creamy white
+parchment-like bark with characteristic dark horizontal dashes and small dark
+cracks, subtle grey-black rough patches near the base, soft peeling curls.
+Vertical orientation of features, seamless horizontal wrap.
+```
+
+#### `bark_birch_v2_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Same as bark_birch_v1 but older tree: more grey-black patches and deeper cracks,
+less clean white, still unmistakably birch. Painterly, muted.
+```
+
+#### `bark_pine_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: dark pine trunk bark seen from the side, painterly stylization. Deep
+grey-brown vertical fissures forming irregular plates, muted moss dust in recesses.
+Coarse but hand-painted, not photographic. Seamless horizontal wrap.
+```
+
+#### `leaf_birch_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: summer birch crown foliage seen from directly above, painterly
+stylization. Clusters of small rounded bright green leaves with visible
+hand-painted leaf shapes, lighter yellow-green highlights on clump tops painted
+as value, airy gaps showing sky, slight wind-scattered looseness. Muted natural
+green, not saturated, no individual photoreal leaves.
+```
+
+#### `leaf_birch_v2_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Same as leaf_birch_v1 but early autumn: mixed green and warm yellow-green clumps,
+ a few ochre leaves, sparser gaps, painterly and muted, overcast feel.
+
+### Приоритет 2 — интерьеры
+```
+
+#### `log_wall_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: interior wall of an old Russian village log house (сруб), painterly
+ stylization. Horizontal rounded logs with visible wood grain, warm grey-honey tone,
+ subtle dark gaps between logs, occasional checks, aged but clean and homely.
+ Flat scan-like view of the wall surface.
+```
+
+#### `log_wall_v2_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Same as log_wall_v1 but cooler and more aged: grey-brown tone, more checks,
+ faint smoke darkening above where a stove would be. Painterly, muted.
+```
+
+#### `wallpaper_old_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: faded old wallpaper of a village house room, painterly stylization.
+ Small restrained floral pattern in dusty rose and faded beige on cream, repeated
+ evenly, gently sun-faded patches, subtle yellowing near the top edge. Soviet-era
+ modest, not decorative overload, no shine.
+```
+
+#### `wallpaper_old_v2_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: faded old wallpaper with vertical stripes and tiny flower sprigs,
+ sage-green and cream, painterly stylization. Slightly peeling tone variation,
+ muted, village room feel, no shine, no photorealism.
+```
+
+#### `wall_institution_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: worn institutional painted wall of a small rural medical clinic (ФАП),
+ painterly stylization. Faded pale mint-green oil paint with subtle uneven wear,
+ faint darker scuffs at the lower half, calm and clean but aged. Flat, shadowless.
+
+### Приоритет 3 — татарская этника (дозированно; использовать точечно, НЕ массово)
+```
+
+#### `ornament_trim_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: a horizontal decorative border frieze in traditional Tatar floral
+ ornament style, painterly stylization. Muted ochre, terracotta and sage-green
+ curving plant motifs on aged cream background, hand-painted with slightly uneven
+ brushwork, weathered as if painted on wood decades ago. Two border rows filling
+ the square tile, restrained and calm, NOT bright, NOT wedding-grade rich,
+ seamless horizontal wrap.
+```
+
+#### `carpet_palas_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: traditional Tatar woven palas rug (flat-woven village carpet), painterly
+ stylization. Horizontal stripes in muted madder red, ochre, cream and dark brown
+ with simple geometric steps and small diamond motifs woven into the bands,
+ visible weave texture painted broadly, slightly faded and worn. Flat view,
+ hand-painted, not ornate pile carpet, restrained palette.
+```
+
+#### `fabric_chit_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: old Tatar chintz cotton fabric with a small repeating floral pattern
+ (читә/кытай style), painterly stylization. Tiny muted red and ochre flowers with
+ fine dark outline dots on faded cream, gently worn and sun-faded patches.
+ Curtain/tablecloth weight, matte, calm, evenly repeating, no shine.
+```
+
+#### `wood_carved_gate_v1_albedo.png`
+
+```text
+Generate a game texture: a perfectly seamless, tileable, square PBR albedo map.
+Strict rules:
+- flat, even, shadowless lighting (like an orthographic material scan);
+- edge-to-edge full bleed, edges must wrap around so the tile repeats invisibly;
+- stylized hand-painted look, broad visible painterly brushwork,
+  Ghibli/Zelda:BotW-like material painting style;
+- muted natural palette, cohesive with an overcast Russian village setting;
+- no photorealistic micro-detail, no photographic grain, no normal-map relief,
+  no gloss or specular highlights;
+- no perspective, no vignette, no frame, no borders, no text, no watermark,
+  no objects — only the material surface itself.
+
+Material: painted carved wood of old Tatar village gates and window surrounds
+ (резные наличники), painterly stylization. Flat-carved floral grooves painted in
+ muted faded blue-green and cream over aged wood grain, softly weathered paint
+ with small chips showing bare wood. Hand-painted, respectful, not glossy,
+ not folkloric overload, seamless in both directions.
+```
