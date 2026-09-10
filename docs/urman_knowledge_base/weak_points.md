@@ -1,6 +1,275 @@
 # Weak Points
 
+## New painterly surface families remain candidates
+
+2026-09-10: 19 ImageGen albedos cover 12 previously missing surface families
+and are wired into the existing material/runtime paths. Technical seams,
+imports, traversal, capture and the 30 FPS floor are covered by evidence under
+`evidence/act1_repo_baseline/textures_new_families/`, but large grass planes can
+still expose repetition and the Tatar ornament/carved-wood choices have no
+human cultural approval. Keep art lock open until moving first-person review
+selects final family variants and a cultural reviewer accepts the restricted
+hero-house/gate placement.
+
 ## Connected Act I map remains the primary visual gate
+
+2026-09-07, tree geometry (user art feedback): the shared conifer builder
+no longer stacks flat single-colour flakes — it now builds a two-layer
+crown (open drooping skirt widest in the lower third + darker inner fill
+mesh + upturned leader tip), the birch trunk is thicker with base flare
+and carries a second smaller leaf spray on each hanging shoot, and the
+arrival uncut-verge grass pattern extends along the main street with
+gaps at gates and the FAP apron. Benchmark stays green (111-120 FPS avg
+vs the 30 floor). Zoom pairs: evidence/act1_repo_baseline/trees/.
+Broadleaf/understory richness and whole-zone art acceptance remain open.
+
+
+2026-09-07, kit material grading: probe-verified that the conspicuous
+mint-blue mass beside the west main-street fence was the road kit's
+`FernShrubBreak` shrubs rendering raw `Shrub_BlueGreen`/`Fern_MossGreen`
+GLB albedo outside `RebindWetVillageRoadMaterials`; bound the eight
+missing organic/fence entries plus the village kit's well water, cut
+wood, bark and dull metal in `RegradeAct1DaylightKitMaterials`. Frames:
+mass now reads as a muted bog-green bush, fences dark wet wood, well
+water dark (evidence/act1_repo_baseline/matfix/). This closes that
+specific raw-albedo family for the road+village kits. Same-day follow-up
+bound the zirat roadside and FAP kit leftovers (MossGreen, MossyStone,
+WeatheredWood/Dark, DistantFence/Foliage, DitchWater, WetSheen,
+FapBirch/Shrub/Vent) in the same table: cemetery pale stone/shrub masses
+and washed clinic greens are gone from the frames
+(evidence/act1_repo_baseline/sliceb/). Kara edge materials were already
+fully covered by their scoped table; agentb kits receive materials from
+their C# builders rather than raw GLB albedo.
+
+2026-09-07, street facade diversity: five perimeter clones of the single
+`DwellingFacade_TimberPlaster` component (west/east street-mid,
+west/east return-mid, east-street horizon) now place the kit's three
+full-volume variant dwellings (VariantA/B/C) at house scale 0.88-0.90.
+Frames: mixed families read on both street sides
+(evidence/act1_repo_baseline/slicec/); walkthrough and capture stay green.
+Near-camera clones (arrival group with the hero window, side-closure,
+zirat village edge) are intentionally retained. Subagent review found the
+fifth conversion (EastStreetMid) had silently failed plus two geometric
+defects: the far holding crossed its own/neighbour fences (real VariantC
+AABB 8.63x6.32), and the babai service-yard fences cut the drawn house
+path. All fixed the same day: rule narrowed to "FarHolding", holding
+relaid out with measured clearances, babai boundary rebuilt as an
+L-fence north of the path, fifth conversion applied at a shifted anchor
+(evidence/act1_repo_baseline/sliced/).
+
+2026-09-07, Kara ground life: the flat boulder-disc cluster moved off the
+road shoulder into the stand (yaw -35, 0.95 scale), muted stone clusters
+and root shrubs added on the slopes outside the route envelope; one
+first-candidate stone exposed on the open shoulder was rejected by its
+own frame and removed. The duplicate ZiratVillageEdgeWestFacade in front
+of the standing full-depth core house is removed (boundary remains on
+the fence). Frames: evidence/act1_repo_baseline/sliceE/.
+
+Follow-up (same day): continued footprint re-checks with real asymmetric
+AABBs found the east side-closure facade volume intersecting the
+near-mid holding house (merged two-shell mass at the road side) and the
+relocated EastStreetMid dwelling crossing the holding boundary at
+x=30.7. The intersecting facade is removed (the standing near-mid house
+owns that read; shed/fence/trees stay as its yard) and EastStreetMid is
+shifted to (25.3,-19.2) with a 0.5 m boundary clearance
+(evidence/act1_repo_baseline/slicef/).
+
+2026-09-07, Babai yard east depth: the miniature 0.44/0.48-scale
+`BabaiEastDepthPlasterAnnexParcel` between full-sized dwellings is replaced
+by the existing full-scale `OutbuildingShed_Low` with firewood and a picket
+service boundary (road side open). First shed yaw candidate was rejected in
+frames (windowless rear gable faced the depth camera) and corrected; build
+0/0, walkthrough PASS 335,27 m, capture 48/48 with inspected yard frames.
+This removes that specific miniature-parcel defect only; repeated facades,
+bare plots and whole-zone art remain open.
+
+2026-09-05, physical yard verification exposed a ground collision mismatch:
+SharedVillageGroundTraversalCollision still spans 86x208 m with top at y=0,
+while the visible height field dips below it. Yard detour passes but player's
+Y stays ~0.00039 rather than following the visible ground. Resolve this and
+connector/benchmark ground overlaps before claiming surface-aligned traversal.
+Keep interior floors/stairs and narrative transitions intact; the old launch
+test's BoxShape3D assertion must change with the actual ownership contract.
+Follow-up verified: shared flat plane/connector collision removed, old exterior
+benchmark surfaces disabled, interior floors retained. Launch test and full
+GPU physical route pass (271.61 m); checked yard foot error .004/.001 m.
+The specific flat-ground override is fixed; broader motion/collision and art
+acceptance remain open.
+
+2026-09-05, FAP-branch holding pass: duplicate miniature dwelling instances
+removed and one shared shed resized/repositioned with front/rear boundaries.
+Physical route passes 230.88 m; 44-view capture passes technically. Main's
+review still rejects whole-plot art acceptance: main_street_right exposes
+detached gate/fence fragments, flat unused ground and repetitive facades.
+Next fix must join plot boundaries and entrances, not add another house layer.
+Follow-up: holding side boundaries connected; orphan HouseA2 gate/fence
+removed with its obsolete house. The remaining long beams traced to lower
+rails outside their suppression owner; shared hierarchy corrected. Flat
+parcel ground and weak architectural variation remain open, not solved by
+removing these defects.
+Close holding views now expose actual ground/junction defects rather than
+only distant facades: removed the .4-scale shed blocking the entrance and
+made the paths terrain-conformed/visible. Fixed winding exposed floating old
+landform ribbons, now suppressed in favor of shared terrain. Integrated
+46-view capture has no such strip regression, but angular path joins, missing
+porch connection and unproven physical yard access remain open.
+
+ФАП: скорректировано слишком тесное размещение четырёх соседних объёмных
+домов. Белый треугольник внизу кадра оказался бликом Road_FapBranch, а не
+пропущенным объектом: разделение материалов мокрой земли и дорожного грунта
+убрало его в том же игровом ракурсе. Это устраняет конкретный артефакт,
+но боковые/задние виды участков и общая художественная приёмка ещё открыты.
+
+2026-09-05: переход в ФАП перенесён с главной улицы на существующую
+площадку перед входом. Физический маршрут теперь включает ответвление к
+зданию и проходит 171,04 м. В процессе обнаружены невидимые коллизии старых
+домов и оград: автоматические имена повторных узлов обходили отключение
+benchmark-геометрии. Семантические имена исправлены в двух конструкторах.
+Крыльцо и двор всё ещё REWORK. Обратный путь теперь также проходит по
+ответвлению ФАПа и дорожке к дому: 230,88 м за полный тестовый маршрут,
+включая сохранение и загрузку посреди улицы. Реальные обратные ракурсы
+проверены; это подтверждает этот проход, но не художественную приёмку.
+
+На подходе к Кара-Урману устранена доказанная прямоугольная граница:
+benchmark Ground и три дорожных сегмента больше не перекрывают общий
+рельеф в connected world; коллизия сохранена. Сравнение одного физического
+ракурса подтверждает непрерывность видимой дороги. Отдельная проверка
+выявила пропущенные BirchBark/BirchLeaves/ShrubGreen в общей painterly-
+палитре: назначение существующих материалов убрало белёсые кроны справа,
+без изменения геометрии или света. Грубые объекты, плоская обочина и
+композиция остаются REWORK, художественный gate не закрыт. Грубый объект
+слева оказался папоротником: исправлены метровые ширины листовых сечений
+общего генератора и разорванная конструкция вай. Реальный кадр подтверждает
+небольшое связное растение; пустая плоская обочина от этого не стала готовой.
+
+Физические кадры подхода к дому обнаружили ограды и стены, сквозь которые
+персонаж проходил при зелёном smoke-тесте. Подтверждённые пересечения убраны
+размещением домов/ограды и поворотом створки вокруг петли; дублирующий дом
+удалён из того же участка. Повторные девять кадров и полный маршрут проходят.
+Проверка сегментов по треугольникам — диагностическое дополнение, не замена
+ручного осмотра всей карты и не подтверждение художественного качества.
+
+Последний проход 2026-09-05 заменил сами дома: объёмные стены с проёмами,
+вертикальные окна, тонкая столярка и закрытые боковые сени вместо внешнего
+каркаса. Общая семья HouseA заменена тем же Blender-источником; берёзы и
+садовые деревья получили разветвлённые кроны. Новый Godot-захват и физический
+маршрут 137,60 м проходят, но свет пока плоский, участки чрезмерно регулярны,
+старые мелкие навесы/кусты и конфликты компоновки заметны. Это PARTIAL/REWORK.
+Пользователь требует постановку через paintover; встроенный image_gen дважды
+вернул HTTP 404. Концептов нет, выбор направления не состоялся; точное
+продолжение записано в существующем execution ledger. Не выдавать ранее
+сделанную геометрию за реализацию ещё не созданного paintover.
+
+2026-09-05, integrated arrival candidate: видимый DwellingFacade имел глубину
+лишь около 2,4 м; источник расширен до ~5,2 м вместе с крышей и задними
+деталями, два ближних дома увеличены до 95/98% метрового масштаба.
+Ограда MainStreetEastNeighborFence ошибочно пересекала дорогу перед въездом;
+ограда и калитка перенесены к восточному участку. Terrain_Main больше не
+назначает цвет целым двухметровым клеткам: пигмент интерполируется по вершинам.
+Физический полный маршрут 137,60 м и checkpoint restore проходят в отдельном
+профиле. Захват показывает более весомые дома и открытый вид вдоль улицы,
+но повторение фасадов, пустые участки и грубые наземные элементы сохраняются.
+ART-002/003/007, Z01 и Z02 остаются PARTIAL/REWORK, не visual acceptance.
+
+Следующий интегрированный проход удалил накладные диагонали основного
+фасада и заменил разрозненные дорожные тайлы непрерывной существующей дорогой
+с интерполированным цветом грунта/колеи. Реальный кадр въезда подтверждает
+цельную дорогу; у зирата ещё видны перекрывающие полосы его собственного
+набора. Повторный физический маршрут 137,60 м завершён. Пустые участки,
+повторение домов и старые примитивные объекты не позволяют принять визуал.
+
+2026-09-05, leaf-crown candidate: у общих берёз/лиственных деревьев сплошные
+сферы заменены объёмными группами листьев. Повторный игровой захват показывает
+просветы и более сложный силуэт, но это не production acceptance. Отдельные
+импортированные деревья всё ещё состоят из шаров/конусов; ветви-коробки,
+пустая земля и упрощённые дома сохраняют отвергнутый пользователем вид.
+P0 «примитивный/N64 visual» остаётся открытым на всём маршруте.
+
+Следующий проход заменил закрытые кроны трёх импортированных Birch-вариантов
+в существующем Blender-наборе. Сравнение двора и въезда подтвердило удаление
+крупных шарообразных крон. Листовые массы пока слишком тёмные и плоские;
+хвойные силуэты, пустота земли и архитектура по-прежнему требуют переработки.
+
+Исправлена потеря обратных граней листьев при Blender validation. Проверен
+экспорт обеих сторон и игровой захват; материал использует корректную
+матрицу нормалей и ограниченное светопропускание листвы без emission.
+Заметного скачка общего качества это не даёт: следующие проходы должны
+менять хвойную геометрию, землю и архитектуру, а не снова яркость листьев.
+
+Общий хвойный генератор больше не строит сплошную коническую оболочку:
+14 ярусов отдельных ветвей сохраняют просветы и объём. Слишком редкий
+первый вариант отклонён; второй проверен на въезде и у Кара-Урмана.
+Остались крупные угловатые объекты ближнего плана, голая земля и слабая
+архитектура. Общий профессиональный visual gate не закрыт.
+
+Четыре видимые полигональные массы у порога/в глубине Кара-Урмана удалены
+из источника размещения и заменены 12 деревьями на тех же боковых участках.
+Захват подтвердил исчезновение крупных «глыб» в прямом виде. Боковой вид
+по-прежнему проваливается: пустой склон, старые блочные деревья и грубые
+объекты земли. Это конкретное улучшение композиции, не готовая лесная зона.
+
+Боковые склоны Кара получили 22 дерева в нескольких планах и привязанный
+к рельефу подлесок. Общие кусты теперь используют листовые кроны вместо
+сфер. Проверены левый/правый/обратный кадры: боковая глубина появилась,
+но пустые промежутки, почти чёрная земля и старые блочные деревья сохраняются.
+
+Проверка материалов исключила выключенные текстуры: medium, 153 активных
+текстурированных материала, low-quality=0. Ослаблено подавление фактуры
+общим шейдером и уменьшена частота повторения досок. Сравнение дома/въезда
+показывает более читаемую поверхность, но это не исправляет примитивную
+архитектуру, персонажей и пустую землю. Визуальный P0 остаётся открытым.
+
+Пучки травы заменены с четырёх брусков на изогнутые сужающиеся травинки;
+на въезде добавлены разреженные пятна вдоль обочин/задних оград. Ровная
+полоса первого варианта отклонена. Финальный кадр подтверждает локальный
+контакт растительности с землёй, но большие площади дворов ещё пустуют.
+
+Чёрное блочное дерево справа у Кара оказалось дальним модулем, установленным
+вблизи камеры. Убраны два таких размещения; участок остаётся заполнен новыми
+деревьями склонов. Обратные светлые трапеции отдельно прослежены до
+ZiratBirchShrubMass_MidCanopy_01_LOD0: этот берёзовый модуль присутствует
+и в zirat-return-road, и в core presentation. Нужна проверка дублирования
+и материалов; надгробия и религиозные элементы не затронуты.
+
+2026-09-05: главный P0 — заметная пустота карты при обычном осмотре.
+Непринятые дальние Pine_4/Pine_5 удалены после сравнения игровых кадров:
+они почти не меняли композицию. Следующий кандидат формирует реальный
+дальний водораздел за въездом с одинаковой высотой визуального рельефа и
+коллизии. Это ещё не закрывает P0: дворы, боковые виды и лесная граница
+требуют отдельной проверки и доработки.
+
+Общий `AddVisualConifer` теперь строит связную ветвистую крону вместо
+четырёх сплющенных сфер. Скрытый захват подтвердил устранение разрывов
+силуэта, но близкие деревья всё ещё схематичны; лесные массы, подлесок и
+их контакт с рельефом остаются `REWORK`. Это не финальное качество ассета.
+
+Следующий проход добавил задние/межевые ограды соседних участков у въезда
+и заполнение его деревянных заборов. Кадры подтвердили более связный двор,
+но боковое поле осталось пустым. Заполнение ограничено именованными
+оградами Arrival: проба на всех оградах делала зират слишком закрытым.
+Проходы и владельцы коллизии не менялись; визуальный P0 остаётся открытым.
+
+Периметр общего рельефа получил боковые водоразделы за x=-40/x=44 и
+дальний склон за z=-128. Формулы экспорта и коллизии синхронны;
+дальние деревья в этих областях привязаны к высоте общей земли.
+В первом захвате устранена пустая линия горизонта, но незаполненные
+ближние участки и схематичный лес сохраняют статус `REWORK`.
+
+`AddAuthoredHouse` теперь ставит HouseA на землю по нижней границе видимого
+LOD0, устраняя погружение стен дальних домов у въезда. Низкие компоненты
+соседних участков в левом виде двора бабая этим не исправлены: следующий
+проход должен найти их собственный источник геометрии и позиционирования.
+
+Последующая проверка нашла источник: три соседних mount-а (`WestSideParcel`,
+`BabaiYardWestDepthBanyaYardParcel`, `BabaiEastDepthPlasterAnnexParcel`)
+оставались на Y=0. Они привязаны к общей земле. Кадры слева и в глубину
+двора подтвердили появление стен/окна/крыльца над землёй; конкретное
+погружение соседних построек исправлено, общий P0 плотности остаётся открыт.
+
+Кара: три группы деревьев за финальной точкой добавили дальний лесной план.
+Прямой вид стал плотнее, правый склон остаётся открытым; текущие силуэты
+ещё схематичны. Захват после исправления синхронизации скрытого рендера
+прошёл 44/44, что не закрывает визуальный P0.
 
 Актуальное состояние: production `Act1ConnectedWorld` теперь создаёт пять
 логических зон в одном persistent root и монтирует `AgentBExteriorWorld` с

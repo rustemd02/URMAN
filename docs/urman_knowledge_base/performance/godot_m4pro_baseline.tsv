@@ -1,6 +1,6 @@
-host	Apple M4 Pro (local)	2026-08-15T16:09:44.1442200Z
+host	Apple M4 Pro (local)	2026-09-10T09:32:12.5104900Z
 viewport	1920x1080	renderer	Forward+	msaa	2x
 scene	nodes	avg_frame_ms	p95_frame_ms	max_frame_ms	avg_fps	low_floor_30fps
-day_street	1834	8.467	9.017	16.743	118.10	PASS
-house_old_pc	627	8.333	9.175	9.649	120.01	PASS
-kara_urman_edge	1639	8.410	9.660	15.172	118.91	PASS
+day_street	2494	8.323	9.595	16.771	120.15	PASS
+house_old_pc	1794	8.304	8.514	12.748	120.42	PASS
+kara_urman_edge	1754	8.334	9.084	9.321	119.99	PASS

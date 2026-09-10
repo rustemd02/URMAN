@@ -76,6 +76,11 @@ mindmap
       Compact walkable zones
       Stylized low-poly geometry
     Painterly materials light fog
+      19 ImageGen albedo candidates / 12 missing surface families [MVP][ASSET][TECH]
+        Existing material owner binds grass, roofs, bark, leaves and interiors [TECH]
+        Ornament and carved wood restricted to hero-house/gate details [ASSET][RISK]
+        Seam tiles and runtime frame receipt captured [TECH]
+        Human family selection, repetition and cultural art lock remain [OPEN][RISK]
       Authored road-relief candidate in style/full-game paths [ASSET][TECH]
       Six non-destructive v2 albedo candidates [ASSET]
         Wood/plaster/earth/foliage in-memory scene QA [TECH]

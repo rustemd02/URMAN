@@ -1,5 +1,46 @@
 # Gameplay
 
+2026-09-09, контент-глубина (Трек 2, приоритет 1): состав Акта I доведён до
+27 документов старого ПК (было 11: добавлены бытовой/семейный слой, письмо
+из Казани, страница тетради Марата, статьи «Татарвики» о тавыше и зирате,
+архивные фрагменты 1970-х/1987 и сводка категорий по десятилетиям),
+словарь 12 слов (было 6: добавлены `юл`, `өй`, `бабай`, `әби`, `барма`,
+`хәзрәт` с экспозицией в сценах), ключевые диалоги переведены на 2–4 узла
+с выборами по модели «без ключа / слабый ключ / сильный ключ» (Гөлсинә,
+Мансур, Алсу, Наиля, Ринат x2, Тимур; 17 узлов / 10 выборов). Честный
+хронометраж: ~13,3 тыс. знаков документов + ~5,6 тыс. знаков диалогов при
+~1400 зн/мин, плюс маршрут 335 м и PC-интеракции — 34–38 минут критического
+пути, 40–48 минут с возвратами по диалоговым веткам. Все срезы: compile
+зелёный, build 0/0, walkthrough PASS 335,27 м, verify-godot (полный
+агрегатор, включая dialogue-flow и UI-readability) PASS. Ветвления
+гейтятся знаниями так, что первый проход каждого диалога остаётся
+бесвыборным (контракт Continue-закрытия walkthrough сохранён); подтверждение
+`tt_yaramyy` — реплика Наили «Бу ярамый…» по кампании 4.7.
+
+2026-09-05: existing full Act I physical walkthrough now detours through the
+last western holding beside zirat, reaches the existing closed seni door and
+returns to the road before investigating the clue. PASS 335.27 m including
+street save/resume and cliffhanger. This adds traversal coverage, not a new
+enterable interior, interaction, objective or narrative-state owner.
+
+2026-09-05, connected exterior grounding: removed the flat shared/connector
+collision planes and disabled old benchmark outdoor ground bodies in the
+connected map. The authored height-field collider owns exterior foot contact;
+interior floor/stair and narrative ownership are unchanged. Existing launch
+and physical walkthrough contracts now check terrain ownership and yard foot
+height respectively. Surface-aligned integrated verification is in the ledger.
+
+### Физическое возвращение из ФАПа — 2026-09-05
+
+После чтения официальной справки игрок выходит на площадку ФАПа и идёт
+по той же деревне к дому бабая. Выход не подтверждает внутренний реестр:
+сцена справки и её знания сохраняются до входа в дом. Существующий
+`official-to-internal-register` находится у домашнего входа; новый
+`official-leave-clinic` не имеет сюжетных effects. RuntimeBridge по-прежнему
+владеет всем состоянием и сохраняет наружную зону и фактическую позицию.
+Проходимость и восстановление проверяются существующим first-person тестом;
+это не подтверждение художественной готовности деревни.
+
 ## Core Loop
 
 Accepted main loop: **detective loop**.

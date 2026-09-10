@@ -2706,3 +2706,46 @@ does not claim art lock.
 
 Linked files: `game/scripts/PainterlyMaterialLibrary.cs`,
 `assets/asset_registry.json`
+
+## 2026-09-10 — Акт I переводится на зиму (аутентичный татарский авыл)
+
+Status: Accepted (user decision 2026-09-10)
+
+Context: Пользователь отклонил текущий летний/влажный вид деревни как
+неаутентичный: массовые ели и сосны в деревенских зонах читаются как
+«пальмы»/парк, а не как татарская деревня. Прежнее направление KB
+(«недавно прошедший дождь, пасмурные сине-зелёные сумерки») зафиксировано
+в `concept_image_pack/IMAGEGEN_SERIES_BRIEF_RU.md` и
+`art/act1_visual_reference_bible_2026-08-17.md` §3.7. Канон
+`village_lore.md` разрешает ель только как переход деревня→лес и как
+тёмный слой у Кара-Урмана.
+
+Decision:
+1. Сезон Акта I — зима (жёстко, без сезонного переключателя). Лето
+   остаётся возможной будущей опцией и не реализуется сейчас.
+2. В деревенских зонах (Arrival, MainStreet, BabaiEbiYard,
+   HouseExteriorApproach, ConnectiveStreetReturn, FapExterior,
+   ZiratMemoryField) хвойные деревья не используются. Молодые ели
+   допустимы только узкой полосой на переходе деревня→лес; тёмные ели
+   со снегом — только у Кара-Урмана.
+3. Деревенская растительность — лиственные виды авыла: берёза (каен),
+   липа (юкә), клён, рябина (миләш), черёмуха (шомырт), ива (тал);
+   зимняя форма — голые ветви со снегом.
+4. «Пушистый продавливающийся снег» реализуется presentation-only слоем:
+   динамическая маска проминания и следов + звук скрипа + снежные
+   султанчики; состояние сессии, не сохраняется, без владения
+   коллизией/навигацией/игровым состоянием.
+5. Далёкий силуэт минарета добавляется как presentation-only ориентир
+   (не входибельный); форма требует человеческого культурного ревью.
+
+Consequences: Прежние «влажные» кадры Акта I становятся историческими;
+все зимние кадры — новые evidence. Существующие контракты сохраняются:
+один активный WorldEnvironment (ART-010), владелец погоды — Agent B
+exterior layer, ходьба/маршрут/сейвы/культурный слой не меняются.
+Смена сезона не закрывает human art/cultural gates.
+
+Linked files: `docs/urman_knowledge_base/design_style.md`,
+`docs/urman_knowledge_base/art/act1_visual_reference_bible_2026-08-17.md`,
+`docs/production/URMAN_WINTER_TEXTURE_BRIEF_RU.md`,
+`game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`,
+`game/scripts/PainterlyMaterialLibrary.cs`

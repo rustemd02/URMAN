@@ -1,5 +1,12 @@
 # Open Questions
 
+- Question: Какие из 19 новых painterly-текстур фиксировать как production art lock?
+  Context: 12 недостающих семейств получили runtime-кандидаты, seam/evidence и технический прогон; орнамент и резное дерево применены только к деталям дома бабая и ворот.
+  Why it matters: Технический PASS не доказывает отсутствие заметной повторяемости травы и культурную уместность конкретного татарского орнамента.
+  Status: Open 2026-09-10 — human art/cultural gate required.
+  Suggested next step: Сравнить варианты травы, берёзовой листвы, брёвен и обоев в движении; отдельно получить культурное подтверждение `ornament_trim_v1` и `wood_carved_gate_v1` перед art lock.
+  Priority: High
+
 ## Gameplay
 
 - Question: Какой основной формат gameplay для MVP?

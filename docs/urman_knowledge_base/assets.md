@@ -1,5 +1,189 @@
 # Assets
 
+2026-09-10: generated 19 built-in ImageGen painterly albedo candidates across
+12 missing surface families (grass, roofs, bark, birch leaves, log walls,
+wallpaper, institutional wall, ornament, carpet, household fabric and carved
+wood). The delivered files are 1 024 × 1 024 RGB PNGs with exact prompts and
+SHA-256 provenance in `game/assets/textures/painterly/README.md`; seam metrics,
+2×2 tiles, overview and runtime before/after receipts are in
+`evidence/act1_repo_baseline/textures_new_families/`. Selected candidates are
+bound through the existing painterly material owner and current Act I meshes.
+This is a technical/runtime candidate pass, not art lock: grass repetition,
+family selection and Tatar ornament placement still require human art and
+cultural review.
+
+2026-09-07: создан [пакет из 16 связанных 2K-концептов окружения](../production/urman_concept_image_pack/README.md) для работы Blender-агента: въезд, улицы, двор и дом, старый ПК, ФАП, зират и Кара-Урман с прямыми и обратными видами. Серия следует Painterly Low-Poly, каноническому тону и культурным ограничениям; принципы BOTW/TOTK используются только как вторичный ориентир для силуэтов, цветовых масс, атмосферной глубины и wayfinding. Концепты не являются точным layout, runtime evidence или art lock.
+
+2026-09-07: добавлен [промпт для последовательной работы небольшой модели в Blender](../production/URMAN_BLENDER_SMALL_MODEL_PROMPT_RU.md), адаптированный из Skyline Restaurant and Cocktail Bar. Он направляет работу по одному участку существующего Акта I, использует текущий execution ledger и три принятых арт-документа. Это инструкция для будущих запусков, не новый арт-контракт и не свидетельство готовности ассетов. В рамках подготовки промпта модели и игровой код не изменялись.
+
+2026-09-07, village kit window-trim pass: every window in the shared
+`author_rural_dwelling` family (hero facade + Variants A/B/C) lost its
+transom bar and tapered headboard crown — probe-proven timber-lattice read
+at street distance; jambs/rails/mullion/sill remain. Blend+GLB regenerated
+by the same generator (709 LOD0 meshes / 20,558 tris), registry hashes and
+manifest updated, walkthrough/capture green, frames in
+`evidence/act1_repo_baseline/windowtrim/`.
+
+2026-09-07, kit material grading: the wet village road kit's organic verge
+family (FernShrubBreak shrubs/ferns, sedge masses, moss, kit fences) and the
+village exterior kit's well water, cut wood, bark and dull metal now bind to
+the existing painterly tables (`RebindWetVillageRoadMaterials` and
+`RegradeAct1DaylightKitMaterials`). No GLB, source, geometry or texture
+change; probe receipt and before/after frames in the execution ledger and
+`evidence/act1_repo_baseline/matfix/`. Same-day follow-up bound the
+zirat roadside and FAP kit leftovers in the same tables (frames in
+`evidence/act1_repo_baseline/sliceb/`). Kara edge is fully covered by its
+scoped table; agentb kit parts are materialled by their C# builders, not
+raw GLB albedo. Same day: five street-perimeter facade clones now place
+the kit's three full-volume variant dwellings (A/B/C rotation at house
+scale), reducing the repeated-facade read; a subagent review caught one
+silent no-op conversion and two fence/house overlaps, all fixed and
+re-verified (pairs in `evidence/act1_repo_baseline/slicec/` and
+`sliced/`).
+
+2026-09-05, Kara stand composition supersedes the detached grounded-root row:
+roots now emerge from eight staggered near trees, not from arbitrary road-edge
+positions. Four old shell-crown kit groups and four repetitive bank logs are
+suppressed. Reused native open-canopy tree/branch/shrub builders for sheltered
+regrowth and the view beyond the final threshold. Ground/collision and
+narrative ownership are unchanged. No new kit, texture or generated concept;
+GroundPigment now transitions continuously from village meadow to muted wet
+needle/litter soil at the forest threshold; same geometry, no new textures or
+lighting edits. Terrain source/derived hashes refreshed in registry. Crude
+boulders, richer ground-life composition and human art acceptance remain open.
+
+2026-09-05, Kara ground: shared terrain/heightfield now owns asymmetric low
+forest shoulders; central x +/-3 m route remains unchanged. Suppressed separate
+bank/root-wall soil pedestals and the duplicate logical-zone benchmark kit.
+The core still owns the woodland presentation and existing narrative targets
+are untouched. Wide triangular roots are replaced in their existing footprints
+by low bent wood segments following Ground. This is geometry integration, not
+a new lighting grade, new lore, or forest art acceptance. Terrain source/derived
+hashes updated in the existing registry; detailed checks in execution ledger.
+
+2026-09-05, shared planted shrub geometry: triangle-probed the conspicuous
+zirat green solid to AB_foliage_shrub, not the already-open C# shrub builder.
+Replaced imported Shrub_1..3 closed lobes with existing leaf-shoot geometry
+and woody stems at the actual variant radius; source names and placement plan
+retained. Removed unused closed-canopy profile builders. Foliage kit now
+137 meshes / 28,656 triangles / 13 materials; registry hashes updated.
+New stem rotations bake before preview-grid placement; generator asserts
+world-space shrub bounds after refreshing Blender transforms. Re-export is
+byte-stable. Planted copies retain semantic part names so the existing bark/
+leaf material selection survives duplication. No narrative or collision change;
+this is a geometry/material integration candidate, not foliage art lock.
+Runtime grounding correction: planted copies now apply the already-computed
+terrain height and vertical scale to each source part's Y translation; prior
+placement calculated target.Y but ignored it. This seats whole plant families
+on their shared root rather than leaving them at y=0 or separating scaled crowns.
+
+2026-09-05, last western holding beside zirat: the existing full-depth dwelling
+now has a complete timber-picket boundary with a 3.5 m opening, full-scale
+storage shed/firewood and a curved terrain-seated access to its side seni.
+Removed the old short fence through the house footprint. Reused current kit
+components and surface/fence builders; no new texture, gameplay or religious
+content. New close entry/return views in the existing capture harness expose
+the plot beyond a single roadside camera. Whole-zone art remains REWORK.
+
+2026-09-05, zirat material integration: runtime triangle probes identified
+PathDirt and Culvert_StoneShadow as the conspicuous white roadside strips.
+Added these and Culvert_WeatheredStone to their existing painterly material
+tables; also bound LeafLitter and the kit's ditch/road/zirat grasses to their
+existing earth/foliage palettes. No new textures, geometry or lighting;
+memorial markers and cultural content retained. This corrects material
+integration only, not the remaining flat placement or whole-zone art quality.
+Follow-up geometry: the imported ZiratPathEdge ribbon now conforms each vertex
+to the shared terrain height field, keeping its existing footprint and relief;
+normals regenerated. Source kit and collision unchanged. Full-zone composition
+and remaining stone/shrub primitives still require production work.
+
+2026-09-05, zirat architectural scale: removed the five forward/side/horizon
+miniature dwelling/shed-and-fence assemblies (.28–.34 scale) placed as camera
+backdrops. Existing full-depth lateral houses and cemetery boundaries remain.
+No GLB/Blend deleted or changed; no marker, inscription or religious detail
+added. This is instance/composition cleanup, not cemetery art acceptance.
+Also suppressed both mounted ZiratDistantVillageMass backdrop assemblies:
+their small house boxes and faceted canopy masses sit near the player in
+the connected map. Existing full-depth lateral houses own the village read;
+source kit, grave markers, path and cultural content are unchanged.
+
+2026-09-05, continuous holding access: replaced the two sharp-ended path
+meshes with one native Curve3D ribbon, through the entrance toward the house.
+Half-metre longitudinal sampling follows the same height field as the terrain;
+existing surface builder/material, no new kit or texture. Physical walkthrough
+now includes entry/return through this holding rather than relying on two
+presentation poses. Whole-yard art acceptance remains open.
+
+2026-09-05, yard ground: existing landform surface builder now optionally
+conforms paths to the shared terrain height field (enabled for the two
+EastStreetPlot access paths only). Corrected shared top-face winding;
+terrain-conformed normals regenerated. No new texture or terrain-state owner.
+Close first-person capture identified .4-scale EastStreetMidShed at (23.3,-15.8)
+blocking the holding entrance; removed that redundant instance, keeping the
+full-size shed inside the plot and the adjacent facade. Close entry/return
+poses added to the existing capture harness, now 46 frames / eight zones.
+Correct winding exposed obsolete constant-height landform strips as floating
+slabs; unconformed overlays are now not rendered, with shared terrain retaining
+relief ownership. Ground-conformed access paths remain visible. Angular joins
+and unfinished porch connection are still production rework, not art lock.
+
+2026-09-05, holding boundary continuation: east/west fence returns now join
+the front picket runs to the rear of MainStreetEastNearMidHouse's plot.
+West return x=15.5 clears the shed; the FAP-side entrance remains open.
+Removed the diagonal decorative bank through the dwelling/yard. Reuses the
+existing terrain-following rail/post builder; no source asset changes.
+The orphan Fence_HouseA2_/Gate_HouseA2_ preview family beside EastParcel
+is now suppressed together with its already-hidden house, including its
+derived decorative collision. Other old parcel fence families are untouched.
+Shared AddVisualFenceRun now places LowerRail and arrival slats under Rail:
+existing exact replacement suppressions hide the whole infill instead of
+leaving isolated low beams. Posts retain their existing named contracts.
+
+2026-09-05, FAP-branch holding: retained the full-size
+MainStreetEastNearMidHouse instead of two extra miniature facade parcels;
+one .95-scale shared gable shed now stands inside its yard at (18.4,-11).
+Front fence runs with an entrance and a rear boundary replace overlapping
+scattered props. Reuses existing source components and landform paths;
+no new kit, texture, collision or narrative owner. Whole-plot visual gate open.
+
+2026-09-05, shared shed rebuild: OutbuildingShed_Low now reuses the existing
+closed gable-shed construction (wood walls, two closed gables, pitched thick
+roof, door, side window) instead of stacked flat-roof boxes and add-on lean-to.
+Root/anchors preserved; old children replaced, no parallel kit. Roof shell
+winding fixed at the shared generator with top-facing normal assertions.
+Village kit now 781 meshes / 21,643 triangles / 16 materials. Registry hashes
+match regenerated Blend/GLB. Existing weathered/shadow wood material names
+are bound to the connected painterly palette. Half-scale decorative FAP shed
+removed; its real service shed retained. Main-street neighbor shed scale .95.
+Art/placement review remains open; larger geometry must not be blindly scaled
+into crowded parcels. Sources and RuntimeBridge ownership remain unchanged.
+
+2026-09-05, instance ownership correction: retained MainStreetEastNeighborFacade
+and removed overlapping EastLateral/ForwardEast parcel instances; removed
+EastStreetFarHouse where the FAP neighbor already occupies the plot. Source
+GLB/Blend files retained. The FAP kit's preview polyhedron grove is suppressed
+in the connected scene, retaining the existing detailed FapClinicNearBirch.
+Same-view Godot side/back review confirms the duplicate geometry removal.
+OutbuildingShed_Low silhouette and parcel ground composition remain REWORK.
+
+2026-09-05, connected FAP follow-up: four existing full-depth neighboring
+dwellings were spaced into separate plot positions instead of the former
+miniature-backdrop spacing; two fence runs follow the revised plot edges.
+No new asset family. A screen-ray diagnosis identified the bright foreground
+triangle as Road_FapBranch, not an unfilled model. Existing wet_road material
+now uses a rough wet-earth response distinct from water-like wet_ground;
+puddle materials, lighting, camera and road geometry are unchanged. Same-view
+Godot capture confirms the glare removal; parcel art acceptance remains open.
+
+2026-09-05, FAP entry: the existing clinic kit's three masonry steps now
+have grounded solid risers, overlapping treads and a wider lower landing;
+the door threshold rests on the deck rather than its outer stair edge.
+Same 405 meshes / 12,110 triangles / 25 materials, no new assets or textures.
+Connected-world material binding now includes the kit's wet stone, door,
+dark timber, wayfinding/notice panels, metal and glass; lighting unchanged.
+Registry hashes updated. This is a construction/material correction, not
+acceptance of the FAP parcel composition or the whole Act I art direction.
+
 Ассеты — одна из главных проблемных зон проекта. MVP нужно держать компактным и активно заменять дорогую постановку интерфейсами, документами, фото, звуком и портретами.
 
 Top 50 production inventory: см. `asset_inventory_50.md`.
@@ -19,6 +203,15 @@ Accepted art treatment: **Painterly Low-Poly 3D** — production-safe stylized g
 - Art direction reference: «Искатель в доме с привидениями» можно использовать только как вторичный reference для ручной, бумажной тревожности.
 
 ## 3D Asset Pipeline
+
+2026-09-05: в `agent_b_foliage.py` исправлена размерность общего `_blade`:
+ширина сечений травы/осоки/папоротника больше не задаётся метровыми
+константами вместо рассчитанных сантиметров. Проверка ширины встроена
+в экспорт. Семья Fern пересобрана как изогнутые вайи с парными листочками,
+сходящимися к общему основанию на земле, вместо разрозненных подвешенных
+лент. План посадки и collision owners не изменены. Экспорт: 128 meshes,
+21 132 triangles; актуальные SHA находятся в `assets/asset_registry.json`.
+Это исправление геометрии, не художественная приёмка всей растительности.
 
 - Blender 4.5 LTS and versioned Python generators are the source for modular environment, foliage, furniture and prop families.
 - `.blend`, generator inputs and texture sources are authored assets; `.glb` is a rebuildable Godot import artifact.

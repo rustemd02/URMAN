@@ -35,3 +35,25 @@ unlabelled decorative prop; clues are always carried by interaction targets
   kits, verified by the launch/capture smoke scans).
 - Any new prop: add a row here in the same change; a row without an owner or
   with an unresolved false-positive risk blocks the zone readiness check.
+
+### Winter / authenticity props (2026-09-10, decision_log)
+
+| Prop | Owner zone | Role | Collision / interaction |
+|---|---|---|---|
+| `BabaiYardSweepWell`, `ArrivalSweepWell` | BabaiEbiYard, Arrival | authentic колодец-журавль with lever and counterweight; village landmark | none (visualOnly) |
+| `BabaiYardWattleRun`, `ArrivalWattleRun` | BabaiEbiYard, Arrival | woven wattle (плетень) boundary | none (visualOnly) |
+| `BabaiYardFrontPalisade` | BabaiEbiYard | low front-garden palisade (палисадник) | none (visualOnly) |
+| `BabaiYardSled` | BabaiEbiYard | wooden sled (салазки) yard detail | none (visualOnly) |
+| `DistantMinaretSilhouette` | village skyline (west) | distant minaret landmark, not enterable; cultural review open | none (presentationOnly) |
+| `AgentBSnowTrample` | whole exterior | session-only packed-snow trail mask following the player | none (presentationOnly, not saved) |
+| `AgentBSnow` | whole exterior | winter snowfall particles; denser at the Kara edge | none (weather owner: AgentB exterior layer) |
+
+### Unreachable winter backdrops (2026-09-10, T3)
+
+| Prop | Placement | Role | Collision / interaction |
+|---|---|---|---|
+| `BackdropNearHousesWest/East` | 70–100 m west/east of the street | distant village rows with snow roofs and chimneys | none (presentationOnly) |
+| `BackdropMidWoodlandWest/East`, `BackdropMidForestNorth` | 120–170 m | winter woodland bands; the north band is dark conifer forest | none (presentationOnly) |
+| `BackdropFarRidgeWest/East/North` | 230–260 m | far snow ridges dissolving into frost haze | none (presentationOnly) |
+| `DistantMinaretFar` | 150 m east skyline | second minaret silhouette for depth; cultural review open | none (presentationOnly) |
+| `BabaiYardHaystack` | Babai yard | winter haystack (стог сена) | none (visualOnly) |
