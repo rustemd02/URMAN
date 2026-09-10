@@ -1,0 +1,68 @@
+{
+  "model": "openai/gpt-5.4-image-2",
+  "aspect_ratio": "16:9",
+  "image_resolution": "2K",
+  "common": "Create one frame in a coherent environment concept series for the narrative game URMAN. Match the supplied master image exactly in Painterly Low-Poly 3D rendering language, season, recent-rain weather, blue-green dusk, value range, material handling, architectural era, human scale and 70-degree first-person game-camera feel at 1.70 m eye height. The world is Kyrlay, a compact lived-in contemporary Tatar village in Tatarstan. Use complete modelable 3D volumes, moderate reproducible geometry, readable silhouettes, handmade painted albedo and roughness, foreground/midground/background and a clearly traversable route. As secondary inspiration, borrow only the broad environment-design principles of The Legend of Zelda: Breath of the Wild and Tears of the Kingdom: clear distant silhouettes, large controlled color masses, painterly material gradients, soft atmospheric depth, economical geometry and landscape-led wayfinding without UI. Translate those principles into URMAN's grounded Tatar village and slow-burn horror. Do not copy Zelda characters, creatures, architecture, ruins, symbols, UI, individual assets or recognizable compositions; Kyrlay must not look like Hyrule or Zelda fan art. Preserve recurring anchors: the dark one-storey timber house with old metal gable roof and three pale-blue-trimmed windows; faded blue gate; connected dark picket boundaries; wet two-track dirt road with shoulders and drainage; wooden utility poles with sparse wires; cream FAP with green-gray roof; restrained low zirat boundary; forked pine and pale birch at the forest threshold. Ordinary rural life first, subtle unease only. No readable text, close people, supernatural entity, onion domes, generic fantasy, gothic motifs, occult symbols, horror red, neon, black void, excessive fog, repeated identical houses, floating assets, random clutter, watermark, photorealism, flat illustration or PS1 pixels.",
+  "scenes": [
+    {
+      "id": "02_arrival_reverse",
+      "prompt": "From the exact camera position of the master arrival frame, turn 180 degrees and show the road leaving Kyrlay. Preserve the same blue gate, left house, right fence, birches, utility line, road width, mud and puddle pattern as physically plausible reverse sides. The foreground still belongs to the village; the road descends gently toward open fields and distant tree belts. This must feel like the back view of the same playable location, not a different village."
+    },
+    {
+      "id": "03_main_street_forward",
+      "prompt": "Move 25 meters forward along the master road and look deeper into Kyrlay. Keep the master house and blue gate recognizable behind-left in partial view. Show varied full-size timber plots, connected fences, side yards, one useful shed, a shallow drainage crossing and the next gentle bend. The dark house of Babai and Ebi with three pale-blue-trimmed windows appears as a clear mid-distance landmark rather than a miniature backdrop."
+    },
+    {
+      "id": "05_babai_gate_approach",
+      "prompt": "Approach the faded blue gate of Babai and Ebi from the main street. The recurring dark timber house fills the midground as a complete volume: front, side wall, foundation, metal roof and believable porch connection. Through the open gate, show a worn path, adult birch, low practical shed and stacked firewood. Keep enough street and neighboring plot depth visible to prove this yard belongs to the same village."
+    },
+    {
+      "id": "06_babai_yard_house",
+      "prompt": "Stand just inside the open faded blue gate in Babai and Ebi's complete household yard. Ahead is the same dark timber house with three pale-blue-trimmed windows and weak amber light, reached by a worn wet path and believable porch. Connected boundaries enclose one low shed, stacked firewood, bench, rain barrel or simple well, vegetable beds, damp grass and a mature birch. Every object has function and grounded contact; the street is still visible through the gate behind."
+    },
+    {
+      "id": "08_house_old_pc_room",
+      "prompt": "Inside the same house, viewed from the room threshold as a coherent playable first-person interior. Aged plank floor and ceiling, restrained layered wallpaper or timber walls, practical Soviet and post-Soviet household furniture, shelves, family traces and textiles. The focal prop is a bulky late-1990s or early-2000s CRT computer on a real desk with keyboard, tower, mouse, cables and nearby paper documents with no readable text. A door and window connect visually to the rainy yard. Weak warm lamp and window light; one almost-wrong ordinary shadow, no supernatural effect."
+    },
+    {
+      "id": "09_connective_street_forward",
+      "prompt": "Continue beyond Babai and Ebi's plot along the connected village street. Alternate closed picket boundaries with believable gaps into side yards, full-volume houses and practical outbuildings. The familiar pale-blue window trim and utility poles remain visible behind; ahead the street bends toward a modest cream rural clinic set slightly off the road. Wet shoulders, ditch and puddles explain the terrain and walking route."
+    },
+    {
+      "id": "10_fap_approach",
+      "prompt": "Approach the rural FAP clinic from its short side branch. It is a modest full-volume faded light-cream building with green-gray gable roof, simple porch and steps, one cool lit window, bench, damp path and bounded practical plot. Leave a physical blank panel where a sign could be mounted, with no readable lettering. The main street remains visible behind and beside it. It must feel ordinary and cared for, never like a horror hospital."
+    },
+    {
+      "id": "12_zirat_approach",
+      "prompt": "Farther along the connected return street, approach the village zirat. Familiar poles, wet road and a few full-size houses remain behind. Ahead, a restrained low boundary of weathered wood and simple metal frames a narrow maintained entrance path. Through it are grass, shrubs and simple varied memorial markers without readable inscriptions. The forest is present in the distance but the village remains the emotional anchor. Respectful ordinary place of memory, no gothic theater."
+    },
+    {
+      "id": "13_zirat_path",
+      "prompt": "Stand just inside the zirat on its narrow maintained path. Show a dignified mix of tended and naturally overgrown small plots, simple varied memorial markers without readable text, low boundary, wet grass, birch and conifer edges. The village roofs and one familiar utility pole remain visible through the entrance behind-left. Composition is quiet memory and social history, not danger; no dungeon layout, crosses used as horror symbols, statues, gore or theatrical fog."
+    },
+    {
+      "id": "15_kara_urman_threshold",
+      "prompt": "At the threshold of Kara-Urman, the village road narrows between asymmetrical low earth shoulders and enters a mixed forest. A forked old pine anchors the left and a pale mature birch anchors the right. Roots emerge from actual trees, fallen wood rests on terrain, young spruce, fern, moss and shrubs have visible bases, and a clear opening remains between layered conifer masses. The wet path is safe and readable; Kyrlay is still faintly present behind. Unease comes from a nearly human arrangement of distant branches, never a creature reveal."
+    },
+    {
+      "id": "04_main_street_reverse",
+      "prompt": "From the exact camera position of the supplied main-street forward image, turn 180 degrees. Preserve the same road bend, utility poles, drainage, fences, roofs and side yards as physically plausible reverse sides. The master arrival house and blue gate become a recognizable mid-distance anchor. Show backs and sides as complete construction, with no empty map edge or scenery shell."
+    },
+    {
+      "id": "07_babai_yard_reverse",
+      "prompt": "From the porch-side position in the supplied Babai yard image, turn toward the open blue gate and street. Preserve the same birch, shed, firewood, path, connected fence and house edges as the reverse side of one yard. The wet main street and neighboring full-size plots remain visible through the gate. Keep the passage unobstructed and the household boundary coherent."
+    },
+    {
+      "id": "11_fap_reverse",
+      "prompt": "From the FAP porch in the supplied approach image, turn back toward the side branch and main street. Preserve the cream wall, green-gray roof edge, porch, bench, fence, wet path and nearby utility pole as the same physical place. The connected village street and familiar timber houses are visible beyond; no empty service backside or horror staging."
+    },
+    {
+      "id": "14_zirat_reverse",
+      "prompt": "From inside the supplied zirat path image, turn back toward its entrance and Kyrlay. Preserve the same low boundary, simple memorial markers, birches, wet grass and path as reverse geometry. Through the open entrance, show recognizable village roofs, utility poles and the wet return road. The village remains an emotional and spatial anchor; the scene is respectful and quiet."
+    },
+    {
+      "id": "16_kara_urman_reverse",
+      "prompt": "From the exact forest-threshold position in the supplied Kara-Urman image, turn 180 degrees toward Kyrlay. Preserve the forked pine, pale birch, roots, earth shoulders, wet road and undergrowth as physically consistent reverse sides. The route opens toward distant familiar roofs and utility poles through layered mist. The forest frames the view without becoming a monster or black wall."
+    }
+  ]
+}
