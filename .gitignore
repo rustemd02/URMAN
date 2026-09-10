@@ -39,3 +39,6 @@ __pycache__/
 graphify-out/manifest.json
 graphify-out/cost.json
 graphify-out/cache/
+
+# Local ZCode session state (plans, agent notes)
+.zcode/
