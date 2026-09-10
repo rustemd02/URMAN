@@ -219,6 +219,9 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         CloseDocument();
         await Frames(3);
 
+        await InteractAt(player, ray, Interaction("official-leave-clinic"));
+        await Frames(5);
+        AssertState(main, bridge, "village_day", "evidence-official-death", "res://scenes/zones/style_benchmark_day_street.tscn");
         await InteractAt(player, ray, Interaction("official-to-internal-register"));
         await Frames(5);
         AssertState(main, bridge, "house_old_pc", "evidence-internal-register", "res://scenes/zones/style_benchmark_house_pc.tscn");

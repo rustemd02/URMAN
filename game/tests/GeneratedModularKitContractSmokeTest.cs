@@ -20,10 +20,10 @@ public partial class GeneratedModularKitContractSmokeTest : Node
 
     private static readonly FamilyContract[] Families =
     [
-        new("HouseA_", 12, ["plaster", "wood_facade", "stone", "shader"]),
+        new("HouseA_", 12, ["plaster", "roof", "wood_facade", "stone", "shader"]),
         new("FenceA_", 6, ["wood_fence"]),
         new("RoadDirt_", 1, ["earth"]),
-        new("PineA_", 2, ["wood_bark", "foliage"]),
+        new("PineA_", 2, ["bark_pine", "foliage"]),
         new("TableA_", 5, ["wood_furniture"]),
         new("OldPc_", 8, ["plaster", "shader"]),
         new("WellA_", 7, ["stone", "wood_prop", "shader"]),

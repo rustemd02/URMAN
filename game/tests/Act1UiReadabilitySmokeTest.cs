@@ -59,6 +59,7 @@ public partial class Act1UiReadabilitySmokeTest : Node
                 Fail($"Settings panel does not fit the {width}x{height} viewport.");
                 return;
             }
+            SaveShot("settings");
 
             settings.Close();
             await Frames(2);
@@ -76,6 +77,7 @@ public partial class Act1UiReadabilitySmokeTest : Node
                 Fail($"Journal panel does not fit the {width}x{height} viewport.");
                 return;
             }
+            SaveShot("journal");
 
             journal._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
             await Frames(2);
@@ -88,6 +90,7 @@ public partial class Act1UiReadabilitySmokeTest : Node
                 Fail($"Old-PC screen does not fit the {width}x{height} viewport.");
                 return;
             }
+            SaveShot("oldpc");
 
             oldPc._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true, Echo = false });
             await Frames(2);
@@ -103,6 +106,7 @@ public partial class Act1UiReadabilitySmokeTest : Node
                 Fail($"Document panel does not fit the {width}x{height} viewport.");
                 return;
             }
+            SaveShot("document");
 
             document.GetNode<Button>("Screen/Document/Layout/Header/Close")
                 .EmitSignal(BaseButton.SignalName.Pressed);
@@ -121,6 +125,7 @@ public partial class Act1UiReadabilitySmokeTest : Node
                 Fail($"Dialogue layout does not fit the {width}x{height} viewport.");
                 return;
             }
+            SaveShot("dialogue");
 
             dialogue._UnhandledInput(new InputEventKey
             {
@@ -142,6 +147,23 @@ public partial class Act1UiReadabilitySmokeTest : Node
         GD.Print("act1-ui-readability: PASS 2 resolutions x 5 critical UIs, all fit and close cleanly");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
+    }
+
+    // Test-only, opt-in evidence harness (Phase 9 UI matrix): when the
+    // environment variable is set, every critical UI opening is saved as a
+    // PNG alongside the fit assertions. Production behavior is unchanged.
+    private void SaveShot(string name)
+    {
+        var dir = System.Environment.GetEnvironmentVariable("URMAN_UI_SHOT_DIR");
+        if (string.IsNullOrEmpty(dir))
+        {
+            return;
+        }
+
+        var image = GetViewport().GetTexture().GetImage();
+        var size = DisplayServer.WindowGetSize();
+        image.SavePng(System.IO.Path.Combine(dir,
+            $"ui_{name}_{size.X}x{size.Y}.png"));
     }
 
     private void InjectCancel()

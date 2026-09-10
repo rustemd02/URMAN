@@ -7,7 +7,8 @@ namespace Urman.Godot.Tests;
 /// GAME-009 focused interruption fixtures: cancelling an open dialogue modal
 /// applies no state change, a quick save taken while a modal is open and a
 /// load afterwards stay state-consistent (no half-applied effects), a one-shot
-/// interaction cannot be duplicated, and completed one-shots stay consumed.
+/// interaction cannot be duplicated, completed one-shots stay consumed across
+/// revisits, and the final progression remains idempotent after retreat.
 /// </summary>
 public partial class Act1InterruptionSmokeTest : Node
 {
@@ -141,7 +142,130 @@ public partial class Act1InterruptionSmokeTest : Node
             return;
         }
 
-        GD.Print("act1-interruption: PASS dialogue-cancel atomicity + modal quicksave/load consistency + one-shot idempotency + replayable baseline");
+        // 4) A legal house exit remains available after a presentation-only
+        // leave/re-entry. Main.SwitchZone changes the physical connected-world
+        // placement, while RuntimeBridge keeps the narrative scene and state
+        // authoritative; this proves the revisit does not duplicate the
+        // house beat or strand the exit.
+        if (!await bridge.DispatchInteractionAsync(Interaction("talk-gulsina"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("gulsina_yaramyy"), "home-warning")
+            || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
+        {
+            Fail("The replayable house state did not unlock its authored exit.");
+            return;
+        }
+
+        var houseBeforeRevisit = bridge.SelectRuntimeState().GetRawText();
+        main.SwitchZone("village_day", "from_house");
+        await Frames(1);
+        main.SwitchZone("house_old_pc", "entry");
+        await Frames(1);
+        if (main.ActiveZoneScenePath != "res://scenes/zones/style_benchmark_house_pc.tscn"
+            || bridge.CurrentZoneId != "house_old_pc"
+            || bridge.SelectRuntimeState().GetRawText() != houseBeforeRevisit
+            || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
+        {
+            Fail("House leave/re-entry changed the runtime state or lost the available exit.");
+            return;
+        }
+
+        if (!await Advance(bridge, "house-to-route", "crossroad_signs_inspect")) return;
+        main.SwitchZone("village_day", "from_house");
+        await Frames(1);
+
+        // Continue through the authored FAP gate. The FAP evidence route is
+        // already consumed once at the old PC; revisiting its physical zone
+        // after the official-record transition must not replay or mutate the
+        // narrative snapshot.
+        if (!await bridge.DispatchInteractionAsync(Interaction("talk-alsu"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("alsu_route_context"), "name-road")
+            || !await Advance(bridge, "route-to-fap", "fap_waiting_room_day"))
+        {
+            Fail("The replayable village route did not reach the authored FAP gate.");
+            return;
+        }
+
+        main.SwitchZone("fap_clinic", "waiting_room");
+        await Frames(1);
+        if (!await bridge.DispatchInteractionAsync(Interaction("talk-naila"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("naila_medical_record"), "official-wording")
+            || !await Advance(bridge, "fap-to-document-desk", "fap_pressure_document_desk")
+            || !await Advance(bridge, "fap-document-desk-to-official-record", "evidence-official-death"))
+        {
+            Fail("The replayable FAP route did not reach the official-record beat.");
+            return;
+        }
+
+        var afterFapEvidence = bridge.SelectRuntimeState().GetRawText();
+        main.SwitchZone("fap_clinic", "waiting_room");
+        await Frames(1);
+        if (main.ActiveZoneScenePath != "res://scenes/zones/chapter1_fap_clinic.tscn"
+            || bridge.CurrentZoneId != "fap_clinic"
+            || bridge.SelectRuntimeState().GetRawText() != afterFapEvidence)
+        {
+            Fail("FAP revisit after consumed evidence changed the narrative state or failed to load the physical zone.");
+            return;
+        }
+
+        // 5) Return to the house, resolve the remaining evidence, and prove
+        // the zirat roadside clue stays consumed across a retreat/re-entry
+        // before the final trigger is dispatched.
+        if (!await Advance(bridge, "official-to-internal-register", "evidence-internal-register")) return;
+        main.SwitchZone("house_old_pc", "entry");
+        await Frames(1);
+        if (!await bridge.DispatchInteractionAsync(Interaction("internal-register-to-rinat"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("rinat_internal_register"), "dangerous-category")
+            || !await Advance(bridge, "internal-register-to-saved-message", "evidence-saved-message")
+            || !await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")
+            || !await Advance(bridge, "boundary-source-to-reread", "evidence-tatarwiki-reread")
+            || !await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")
+            || !await Advance(bridge, "edge-sketch-to-zirat-road", "zirat-road"))
+        {
+            Fail("The return-to-house evidence chain did not reach the zirat road.");
+            return;
+        }
+
+        main.SwitchZone("zirat_road", "village_side");
+        await Frames(1);
+        var ziratClue = Interaction("zirat-roadside-clue");
+        if (!bridge.IsInteractionAvailable(ziratClue)
+            || !await bridge.DispatchInteractionAsync(ziratClue)
+            || bridge.IsInteractionAvailable(ziratClue))
+        {
+            Fail("The zirat roadside clue did not become a consumed one-shot interaction.");
+            return;
+        }
+
+        var postZiratClueState = bridge.SelectRuntimeState().GetRawText();
+        if (!bridge.IsInteractionAvailable(Interaction("zirat-road-to-forest")))
+        {
+            Fail("The consumed zirat clue did not leave the authored forest approach available.");
+            return;
+        }
+
+        main.SwitchZone("village_day", "from_forest");
+        await Frames(1);
+        main.SwitchZone("zirat_road", "village_side");
+        await Frames(1);
+        if (bridge.SelectRuntimeState().GetRawText() != postZiratClueState
+            || bridge.IsInteractionAvailable(ziratClue)
+            || !bridge.IsInteractionAvailable(Interaction("zirat-road-to-forest")))
+        {
+            Fail("Zirat retreat/re-entry revived the consumed clue or lost the final approach.");
+            return;
+        }
+
+        if (!await Advance(bridge, "zirat-road-to-forest", "forest")) return;
+        var terminalState = bridge.SelectRuntimeState().GetRawText();
+        if (bridge.IsInteractionAvailable(Interaction("zirat-road-to-forest"))
+            || await bridge.DispatchInteractionAsync(Interaction("zirat-road-to-forest"))
+            || bridge.SelectRuntimeState().GetRawText() != terminalState)
+        {
+            Fail("Repeated terminal dispatch duplicated or mutated the final progression state.");
+            return;
+        }
+
+        GD.Print("act1-interruption: PASS dialogue-cancel atomicity + modal quicksave/load + house/FAP revisit + zirat one-shot retreat + terminal idempotency");
         DeleteSlot();
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);

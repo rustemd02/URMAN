@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Godot;
+using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot.Tests;
 
@@ -41,6 +42,10 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("main_street_left", "main_street", "village_day", "from_house", new(-2.2f, .05f, 2.4f), new(-18f, 1.55f, -5f), "left", "lateral"),
         Frame("main_street_right", "main_street", "village_day", "from_house", new(-2.2f, .05f, 2.4f), new(18f, 1.55f, -9f), "right", "lateral"),
         Frame("main_street_depth", "main_street", "village_day", "from_house", new(0f, .05f, -3f), new(0f, 1.60f, -28f), "forward", "near-mid-far"),
+        // Close player-height views of the actual branch-side holding, not
+        // only the distant street silhouette. Keep both directions auditable.
+        Frame("east_holding_entry", "main_street", "village_day", "from_house", new(24f, (float)Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(24f, -20f) + .05f, -20f), new(23f, .45f, -11f), "forward", "near-mid-far"),
+        Frame("east_holding_return", "main_street", "village_day", "from_house", new(24f, (float)Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(24f, -15f) + .05f, -15f), new(19f, .45f, -23f), "back", "near-mid-far"),
 
         // Babai / Ebi yard
         Frame("babai_yard_forward", "babai_yard", "village_day", "from_house", new(-20f, .05f, 6.5f), new(-8f, 1.55f, 12f), "forward", "near-mid-far"),
@@ -84,6 +89,10 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("zirat_left", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(-16f, 1.55f, -64f), "left", "lateral"),
         Frame("zirat_right", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(16f, 1.55f, -68f), "right", "lateral"),
         Frame("zirat_depth", "zirat", "zirat_road", "village_side", new(0f, .05f, -72f), new(0f, 1.60f, -92f), "forward", "near-mid-far"),
+
+        // Last inhabited holding: outside entry and inside return sightlines.
+        Frame("zirat_holding_entry", "zirat", "zirat_road", "village_side", new(-17f, (float)AgentBAct1HeightField.Ground(-17f, -63f) + .05f, -63f), new(-28f, 1f, -64f), "left", "near-mid-far"),
+        Frame("zirat_holding_return", "zirat", "zirat_road", "village_side", new(-23f, (float)AgentBAct1HeightField.Ground(-23f, -63.8f) + .05f, -63.8f), new(-7f, 1f, -61f), "back", "near-mid-far"),
 
         // Kara-Urman edge / cliffhanger approach
         Frame("kara_approach_forward", "kara_approach", "kara_urman_night", "village_path", new(0f, .05f, -103f), new(0f, 1.50f, -120f), "forward", "near-mid-far"),
@@ -156,6 +165,16 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         player.SetPhysicsProcess(false);
         camera.Current = true;
 
+        var visibleMaterials = FindDescendants(core).OfType<MeshInstance3D>()
+            .Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null)
+            .SelectMany(mesh => Enumerable.Range(0, mesh.Mesh!.GetSurfaceCount())
+                .Select(index => mesh.GetActiveMaterial(index)))
+            .OfType<ShaderMaterial>().Distinct().ToArray();
+        GD.Print($"act1-capture-materials: preset={player.GraphicsPreset} " +
+            $"shader_materials={visibleMaterials.Length} " +
+            $"textured={visibleMaterials.Count(material => material.GetShaderParameter("has_albedo_texture").AsBool())} " +
+            $"low_quality={visibleMaterials.Count(material => material.GetShaderParameter("low_quality").AsBool())}");
+
         var captures = new List<FrameReceipt>(Frames.Count);
         foreach (var spec in Frames)
         {
@@ -221,8 +240,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             {
                 FrameId = spec.Id,
                 VisualZone = spec.VisualZone,
-                LogicalZone = spec.LogicalZoneId,
-                ActiveZoneId = connectedWorld.ActiveZoneId,
+                LogicalZone = spec.LogicalZoneId,                ActiveZoneId = connectedWorld.ActiveZoneId,
                 SpawnPointId = spec.SpawnPointId,
                 Direction = spec.Direction,
                 EvidenceKind = spec.EvidenceKind,
@@ -432,14 +450,11 @@ public partial class Act1FullRouteCoreWorldCapture : Node
 
     private async Task WaitForRenderedFrameAsync()
     {
-        // Do not await RenderingServer.FramePostDraw directly here.  On some
-        // Godot/Metal startup paths the signal can be missed while the
-        // production root is still attaching its viewport, leaving a capture
-        // process alive forever before it writes its first PNG.  The readback
-        // below is itself the authoritative proof that a frame rendered; two
-        // process frames provide a bounded settle window without creating a
-        // second camera or SubViewport.
+        // Hidden macOS viewports can skip drawing while ProcessFrame keeps
+        // advancing. Settle transforms, then explicitly draw the real viewport
+        // on the main thread before readback; stale pixels are not evidence.
         await WaitForFramesAsync(2);
+        RenderingServer.ForceDraw(false);
     }
 
     private static float HorizontalDistance(Vector3 left, Vector3 right) =>
@@ -584,4 +599,5 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         [JsonPropertyName("cumulative_meters")] public float CumulativeMeters { get; set; }
         [JsonPropertyName("reached")] public bool Reached { get; set; }
     }
+
 }

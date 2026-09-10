@@ -64,9 +64,8 @@ public partial class Act1DemoLaunchSmokeTest : Node
         var agentBFoliage = exteriorLayer?.GetNodeOrNull<Node3D>("AgentB_FoliageKit");
         var plantedFoliage = exteriorLayer?.GetNodeOrNull<Node3D>("AgentB_PlantedFoliage");
         var agentBArchitecture = exteriorLayer?.GetNodeOrNull<StaticBody3D>("AgentB_ArchitectureCollision");
-        var groundBody = connectedWorld?.GetNodeOrNull<StaticBody3D>(
-            "Act1Connectors/SharedVillageGroundTraversalCollision");
-        var groundShape = groundBody?.GetNodeOrNull<CollisionShape3D>("TraversalCollisionShape");
+        var groundBody = exteriorLayer?.GetNodeOrNull<StaticBody3D>("AgentB_TerrainCollision");
+        var groundShape = groundBody?.GetNodeOrNull<CollisionShape3D>("AgentB_TerrainFaces");
         var plantedChildCount = plantedFoliage?.GetChildCount() ?? -1;
         var plannedEntryCount = exteriorLayer?.GetMeta("plannedFoliageEntryCount").AsInt32() ?? -1;
         var plantedEntryCount = exteriorLayer?.GetMeta("plantedFoliageEntryCount").AsInt32() ?? -1;
@@ -75,7 +74,7 @@ public partial class Act1DemoLaunchSmokeTest : Node
         var foliageRebasePolicy = exteriorLayer?.GetMeta("foliageRebasePolicy").AsString() ?? string.Empty;
         var genericFacetedMassSuppressionCount = coreLayer?.GetMeta("genericFacetedMassSuppressionCount").AsInt32() ?? -1;
         var agentBEnvironment = exteriorLayer?.GetNodeOrNull<WorldEnvironment>("AgentBEnvironment");
-        var agentBRain = exteriorLayer?.GetNodeOrNull<CpuParticles3D>("AgentBRain");
+        var agentBRain = exteriorLayer?.GetNodeOrNull<CpuParticles3D>("AgentBSnow");
         var karaAccentLights = exteriorLayer?.GetNodeOrNull<Node3D>("KaraAccentLights");
         var villageEnvironment = connectedWorld?.GetNodeOrNull<WorldEnvironment>(
             "village-main-road/WorldEnvironment");
@@ -112,9 +111,10 @@ public partial class Act1DemoLaunchSmokeTest : Node
             || agentBArchitecture is null
             || HasFapCollision(agentBArchitecture)
             || groundBody is null
-            || groundShape?.Shape is not BoxShape3D groundBox
-            || groundBox.Size.Z < 207.9f
-            || groundBody.Position.Z > -47.9f)
+            || groundShape?.Shape is not ConcavePolygonShape3D
+            || groundShape.Disabled
+            || connectedWorld.HasNode("Act1Connectors/SharedVillageGroundTraversalCollision")
+            || connectedWorld.ConnectorTraversalCollisionCount != 0)
         {
             Fail("Act 1 connected world did not expose the production exterior layer, single labeled FAP owner, and reverse-arrival ground envelope.");
             return;

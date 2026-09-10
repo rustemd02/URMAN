@@ -260,8 +260,21 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
-        // Street -> FAP. Resolve the branch target from the connected world so
-        // the physical walk follows the current authored route placement.
+        // Street -> FAP is an actual walk along the authored branch, not an
+        // interaction at the main-road sign followed by a clinic teleport.
+        var fapEntry = FindInteraction(Interaction("route-to-fap"), GetTree().Root);
+        var fapApron = AgentBAct1Layout.FapBranchAxis[^1];
+        if (fapEntry is null || new Vector2(fapEntry.GlobalPosition.X,
+                fapEntry.GlobalPosition.Z).DistanceTo(fapApron) > 0.01f)
+        {
+            Fail("FAP transition is not at the authored clinic entry apron.");
+            return;
+        }
+        foreach (var point in AgentBAct1Layout.FapBranchAxis.SkipLast(1))
+        {
+            if (!await WalkTo(player, new Vector3(point.X, player.GlobalPosition.Y, point.Y),
+                    $"fap-branch-{point.X}-{point.Y}")) return;
+        }
         if (!await InteractAt(player, ray, Interaction("route-to-fap")))
         {
             return;
@@ -298,7 +311,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
-        // FAP -> official record -> house. The document is opened and closed
+        // FAP -> official record -> street -> house. The document is opened and closed
         // through the same UI path, but no state is injected by the test.
         if (!await InteractAt(player, ray, Interaction("fap-to-document-desk"))
             || !await InteractAt(player, ray, Interaction("fap-document-desk-to-official-record")))
@@ -310,6 +323,60 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         CloseDocument();
         await Frames(3);
 
+        if (!await InteractAt(player, ray, Interaction("official-leave-clinic")))
+            return;
+        await Frames(5);
+        AssertState(main, bridge, "village_day", "evidence-official-death", "res://scenes/zones/style_benchmark_day_street.tscn");
+        if (HasFailed()) return;
+        foreach (var point in AgentBAct1Layout.FapBranchAxis.Reverse().Skip(1))
+        {
+            if (!await WalkTo(player, new Vector3(point.X, player.GlobalPosition.Y, point.Y),
+                $"fap-return-{point.X}-{point.Y}")) return;
+            if (point == new Vector2(23f, -25f))
+            {
+                // Physically enter and leave the actual neighboring holding;
+                // presentation-camera checkpoints alone cannot prove access.
+                foreach (var yardPoint in new Vector2[]
+                         { new(19f, -22.5f), new(24f, -17f), new(23f, -12f), new(21f, -8.5f),
+                           new(23f, -12f), new(24f, -17f), new(19f, -22.5f), point })
+                {
+                    if (!await WalkTo(player, new(yardPoint.X, player.GlobalPosition.Y, yardPoint.Y),
+                        $"east-holding-walk-{yardPoint.X}-{yardPoint.Y}")) return;
+                    if (yardPoint == new Vector2(23f, -12f))
+                    {
+                        var position = player.GlobalPosition;
+                        var ground = AgentBAct1HeightField.Ground(position.X, position.Z);
+                        GD.Print($"yard-ground-check: player_y={position.Y:F3} ground_y={ground:F3}");
+                        if (Math.Abs(position.Y - ground) > .12)
+                        {
+                            Fail("Yard movement does not follow the shared terrain surface.");
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        // Persist the actual street position, not a fresh clinic/house spawn.
+        var returnPosition = player.GlobalPosition;
+        if (!await bridge.SaveSlotAsync("walk-fap-return")
+            || !await bridge.LoadSlotAsync("walk-fap-return"))
+        {
+            Fail("Could not save and resume the FAP return walk.");
+            return;
+        }
+        await Frames(5);
+        AssertState(main, bridge, "village_day", "evidence-official-death", "res://scenes/zones/style_benchmark_day_street.tscn");
+        if (player.GlobalPosition.DistanceTo(returnPosition) > 0.15f
+            || !bridge.IsInteractionAvailable(Interaction("official-to-internal-register")))
+        {
+            Fail("FAP return resume lost the street position or house interaction.");
+            return;
+        }
+        foreach (var point in AgentBAct1Layout.HousePathAxis)
+        {
+            if (!await WalkTo(player, new Vector3(point.X, player.GlobalPosition.Y, point.Y),
+                $"house-return-{point.X}-{point.Y}")) return;
+        }
         if (!await InteractAt(player, ray, Interaction("official-to-internal-register")))
         {
             return;
@@ -366,6 +433,18 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         await Frames(4);
         AssertState(main, bridge, "zirat_road", "zirat-road", "res://scenes/zones/chapter1_zirat_road.tscn");
         if (HasFailed()) return;
+
+        // Inspect the last inhabited holding via its open gate and side seni,
+        // then return to the cemetery route without teleporting the player.
+        foreach (var point in new Vector2[]
+                 { new(0f, -59.5f), new(-3.8f, -59.5f), new(-12f, -59.5f),
+                   new(-19f, -63.2f), new(-24f, -64.5f), new(-25f, -68.3f),
+                   new(-28.6f, -67.4f), new(-25f, -68.3f), new(-24f, -64.5f),
+                   new(-19f, -63.2f), new(-12f, -59.5f), new(-3.8f, -59.5f), new(0f, -59.5f) })
+        {
+            if (!await WalkTo(player, new Vector3(point.X, player.GlobalPosition.Y, point.Y),
+                    $"zirat-holding-{point.X}-{point.Y}")) return;
+        }
 
         // This is intentionally a long physical walk: it catches a broken
         // floor, a wrong collision layer or a bad spawn that teleport-based
@@ -425,6 +504,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         SetYaw(player, YawTo(player.GlobalPosition, destination));
         var maxFrames = Math.Clamp((int)Math.Ceiling(initialDistance / Math.Max(player.WalkSpeed, 0.1f) * 60.0 * 2.4), 120, 1200);
         Input.ActionPress("move_forward");
+        var lastBlockingShape = string.Empty;
         try
         {
             var lastProgressFrame = 0;
@@ -433,6 +513,12 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             {
                 var before = player.GlobalPosition;
                 await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                for (var i = 0; i < player.GetSlideCollisionCount(); i++)
+                {
+                    var hit = player.GetSlideCollision(i);
+                    if (Mathf.Abs(hit.GetNormal().Y) < 0.5f)
+                        lastBlockingShape = (hit.GetColliderShape() as Node)?.GetPath().ToString() ?? hit.GetCollider().ToString();
+                }
                 _walkedMeters += HorizontalDistance(before, player.GlobalPosition);
                 var currentDistance = HorizontalDistance(player.GlobalPosition, destination);
                 if (currentDistance <= 0.30f)
@@ -460,9 +546,61 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         {
             Input.ActionRelease("move_forward");
             await PhysicsFrames(2);
+            // Optional evidence from the real walked positions, never camera
+            // teleportation. Ordinary headless smoke pays no rendering cost.
+            var captureDirectory = System.Environment.GetEnvironmentVariable("URMAN_WALK_CAPTURE_DIR");
+            if (!string.IsNullOrEmpty(captureDirectory))
+            {
+                if (RenderingServer.GetRenderingDevice() is null
+                    || !System.IO.Path.IsPathFullyQualified(captureDirectory)
+                    || !System.IO.Directory.Exists(captureDirectory))
+                {
+                    Fail("Walk capture requires a rendering device and an existing absolute output directory.");
+                }
+                else
+                {
+                    await Frames(2);
+                    RenderingServer.ForceDraw(false);
+                    using var image = GetTree().Root.GetTexture().GetImage();
+                    var frameName = label.Replace('/', '_').Replace('\\', '_').Replace(':', '_');
+                    if (image.SavePng(System.IO.Path.Combine(captureDirectory, frameName + ".png")) != Error.Ok)
+                        Fail($"Could not save physical walk frame {label}.");
+                    GD.Print($"walk-frame: {label} actual-player-position={player.GlobalPosition}");
+                    foreach (var node in GetTree().Root.FindChildren("*", "MeshInstance3D", true, false))
+                    {
+                        var mesh = (MeshInstance3D)node;
+                        var meshName = mesh.Name.ToString();
+                        if (!mesh.IsVisibleInTree() || mesh.Mesh is null
+                            || !new[] { "Fence", "Gate", "Wall", "Door", "Foundation", "Roof" }
+                                .Any(kind => meshName.Contains(kind, StringComparison.OrdinalIgnoreCase))) continue;
+                        foreach (var h in new[] { .4f, .8f, 1.2f, 1.6f })
+                        {
+                            var from = mesh.ToLocal(start + Vector3.Up * h);
+                            var to = mesh.ToLocal(player.GlobalPosition + Vector3.Up * h);
+                            if (!mesh.GetAabb().IntersectsSegment(from, to)) continue;
+                            // A wall AABB includes its deliberate doorway;
+                            // only an actual triangle crossing is evidence.
+                            var faces = mesh.Mesh.GetFaces();
+                            var crossed = false;
+                            for (var triangle = 0; triangle + 2 < faces.Length; triangle += 3)
+                            {
+                                if (Geometry3D.SegmentIntersectsTriangle(from, to, faces[triangle],
+                                        faces[triangle + 1], faces[triangle + 2]).VariantType == Variant.Type.Nil) continue;
+                                crossed = true;
+                                break;
+                            }
+                            if (crossed)
+                            {
+                                GD.Print($"walk-obstacle: {label} height={h} mesh={mesh.GetPath()}");
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        Fail($"Physical walkthrough could not reach {label}: start={start}, target={destination}, actual={player.GlobalPosition}, remaining={HorizontalDistance(player.GlobalPosition, destination):F2}m.");
+        Fail($"Physical walkthrough could not reach {label}: start={start}, target={destination}, actual={player.GlobalPosition}, remaining={HorizontalDistance(player.GlobalPosition, destination):F2}m, blocker={lastBlockingShape}.");
         return false;
     }
 

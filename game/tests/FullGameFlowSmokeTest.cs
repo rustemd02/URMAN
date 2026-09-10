@@ -561,7 +561,7 @@ public partial class FullGameFlowSmokeTest : Node
         {
             "act2-family-house" => new[] { "wood_facade", "wood_fence", "stone", "wood_prop", "wood_bark" },
             "act3-soviet-old-pc" => new[] { "wood_furniture" },
-            "act5-boundary-forest" => new[] { "wood_bark", "foliage", "wood_fence", "cloth" },
+            "act5-boundary-forest" => new[] { "bark_pine", "foliage", "wood_fence", "cloth" },
             "act5-epilogue-house" => new[] { "wood_facade", "wood_bark" },
             _ => Array.Empty<string>()
         };
