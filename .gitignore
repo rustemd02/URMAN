@@ -42,3 +42,4 @@ graphify-out/cache/
 
 # Local ZCode session state (plans, agent notes)
 .zcode/
+graphify-out/.rebuild.lock
