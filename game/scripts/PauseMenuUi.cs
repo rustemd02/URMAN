@@ -9,11 +9,13 @@ namespace Urman.Godot;
 /// actions. Restart and quit require a two-step confirmation; the shell holds
 /// no narrative state — everything runs through the RuntimeBridge lifecycle.
 /// </summary>
-public partial class PauseMenuUi : CanvasLayer
+public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 {
     public const string ContinueSlot = MainMenuUi.ContinueSlot;
 
     private Label? _status;
+    private Label? _title;
+    private PanelContainer? _panel;
     private Button? _resumeButton;
     private Button? _saveButton;
     private Button? _loadButton;
@@ -42,10 +44,70 @@ public partial class PauseMenuUi : CanvasLayer
     public override void _Ready()
     {
         AddToGroup("pause_menu");
+        AddToGroup(AccessibilityPresentation.TargetGroup);
         Layer = 90;
         Name = "Act1PauseMenu";
         Visible = false;
         BuildLayout();
+        ApplyAccessibilitySettings(
+            (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.Accessibility
+            ?? AccessibilitySettingsSnapshot.Default);
+    }
+
+    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
+    {
+        var scale = Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f);
+        var textColor = settings.HighContrast ? Colors.White : new Color(0.89f, 0.84f, 0.73f);
+
+        if (_title is not null)
+        {
+            _title.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(42 * scale));
+            _title.AddThemeColorOverride("font_color", settings.HighContrast
+                ? Colors.White
+                : new Color(0.88f, 0.78f, 0.59f));
+            _title.AddThemeColorOverride("font_shadow_color", Colors.Black);
+            _title.AddThemeConstantOverride("shadow_offset_x", settings.HighContrast ? 3 : 2);
+            _title.AddThemeConstantOverride("shadow_offset_y", settings.HighContrast ? 3 : 2);
+        }
+
+        if (_status is not null)
+        {
+            _status.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(17 * scale));
+            _status.AddThemeColorOverride("font_color", textColor);
+            _status.AddThemeColorOverride("font_shadow_color", Colors.Black);
+            _status.AddThemeConstantOverride("shadow_offset_x", settings.HighContrast ? 3 : 2);
+            _status.AddThemeConstantOverride("shadow_offset_y", settings.HighContrast ? 3 : 2);
+        }
+
+        if (_panel is not null)
+        {
+            _panel.SetMeta("accessibilityTextScale", settings.TextScale);
+            _panel.SetMeta("accessibilityHighContrast", settings.HighContrast);
+            _panel.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
+            _panel.AddThemeStyleboxOverride("panel", PanelStyle(settings.HighContrast));
+        }
+
+        foreach (var button in new[]
+                 {
+                     _resumeButton, _saveButton, _loadButton, _settingsButton,
+                     _restartButton, _mainMenuButton, _quitButton
+                 })
+        {
+            if (button is null)
+            {
+                continue;
+            }
+
+            button.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(24 * scale));
+            button.AddThemeColorOverride("font_color", textColor);
+            button.AddThemeColorOverride("font_hover_color", Colors.White);
+            button.AddThemeColorOverride("font_pressed_color", Colors.White);
+            button.AddThemeColorOverride("font_focus_color", Colors.White);
+            button.AddThemeColorOverride("font_disabled_color", new Color(1, 1, 1, 0.62f));
+            button.AddThemeColorOverride("font_outline_color", Colors.Black);
+            button.AddThemeConstantOverride("outline_size", settings.HighContrast ? 3 : 2);
+            ApplyButtonStyles(button, settings.HighContrast);
+        }
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
@@ -114,28 +176,46 @@ public partial class PauseMenuUi : CanvasLayer
         };
         AddChild(screen);
 
+        var center = new CenterContainer
+        {
+            Name = "Center",
+            AnchorRight = 1f,
+            AnchorBottom = 1f,
+            GrowHorizontal = Control.GrowDirection.Both,
+            GrowVertical = Control.GrowDirection.Both
+        };
+        screen.AddChild(center);
+
+        _panel = new PanelContainer
+        {
+            Name = "PausePanel",
+            CustomMinimumSize = new Vector2(560, 0)
+        };
+        _panel.AddThemeStyleboxOverride("panel", PanelStyle(false));
+        center.AddChild(_panel);
+
+        var margin = new MarginContainer { Name = "Margin" };
+        margin.AddThemeConstantOverride("margin_left", 54);
+        margin.AddThemeConstantOverride("margin_top", 38);
+        margin.AddThemeConstantOverride("margin_right", 54);
+        margin.AddThemeConstantOverride("margin_bottom", 38);
+        _panel.AddChild(margin);
+
         var layout = new VBoxContainer
         {
             Name = "Layout",
-            AnchorLeft = 0.5f,
-            AnchorTop = 0.5f,
-            AnchorRight = 0.5f,
-            AnchorBottom = 0.5f,
-            GrowHorizontal = Control.GrowDirection.Both,
-            GrowVertical = Control.GrowDirection.Both,
             Alignment = BoxContainer.AlignmentMode.Center
         };
         layout.AddThemeConstantOverride("separation", 10);
-        screen.AddChild(layout);
+        margin.AddChild(layout);
 
-        var title = new Label
+        _title = new Label
         {
             Name = "Title",
             Text = "Пауза",
             HorizontalAlignment = HorizontalAlignment.Center
         };
-        title.AddThemeFontSizeOverride("font_size", 42);
-        layout.AddChild(title);
+        layout.AddChild(_title);
 
         layout.AddChild(new Control { CustomMinimumSize = new Vector2(0, 12) });
 
@@ -171,7 +251,10 @@ public partial class PauseMenuUi : CanvasLayer
         {
             Name = "Status",
             HorizontalAlignment = HorizontalAlignment.Center,
-            Modulate = new Color(0.75f, 0.72f, 0.65f)
+            Modulate = new Color(0.75f, 0.72f, 0.65f),
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            CustomMinimumSize = new Vector2(360, 28),
+            MouseFilter = Control.MouseFilterEnum.Ignore
         };
         layout.AddChild(_status);
 
@@ -184,11 +267,64 @@ public partial class PauseMenuUi : CanvasLayer
         {
             Name = name,
             Text = text,
-            CustomMinimumSize = new Vector2(280, 0)
+            CustomMinimumSize = new Vector2(360, 56),
+            FocusMode = Control.FocusModeEnum.All,
+            MouseDefaultCursorShape = Control.CursorShape.PointingHand
         };
-        button.AddThemeFontSizeOverride("font_size", 24);
+        ApplyButtonStyles(button, highContrast: false);
         return button;
     }
+
+    private static StyleBoxFlat PanelStyle(bool highContrast) => new()
+    {
+        BgColor = highContrast
+            ? new Color(0.01f, 0.015f, 0.015f, 0.98f)
+            : new Color(0.025f, 0.043f, 0.038f, 0.97f),
+        BorderColor = highContrast
+            ? Colors.White
+            : new Color(0.42f, 0.38f, 0.28f, 0.92f),
+        BorderWidthLeft = highContrast ? 2 : 1,
+        BorderWidthTop = highContrast ? 2 : 1,
+        BorderWidthRight = highContrast ? 2 : 1,
+        BorderWidthBottom = highContrast ? 2 : 1,
+        CornerRadiusTopLeft = 6,
+        CornerRadiusTopRight = 6,
+        CornerRadiusBottomRight = 6,
+        CornerRadiusBottomLeft = 6
+    };
+
+    private static void ApplyButtonStyles(Button button, bool highContrast)
+    {
+        var border = highContrast ? Colors.White : new Color(0.46f, 0.41f, 0.30f, 0.95f);
+        button.AddThemeStyleboxOverride("normal", ButtonStyle(
+            new Color(0.045f, 0.075f, 0.066f, 0.98f), border, 1));
+        button.AddThemeStyleboxOverride("hover", ButtonStyle(
+            new Color(0.10f, 0.16f, 0.13f, 1f), highContrast ? Colors.White : new Color(0.88f, 0.78f, 0.59f), 2));
+        button.AddThemeStyleboxOverride("pressed", ButtonStyle(
+            new Color(0.14f, 0.19f, 0.15f, 1f), Colors.White, 2));
+        button.AddThemeStyleboxOverride("focus", ButtonStyle(
+            new Color(0.10f, 0.16f, 0.13f, 1f), highContrast ? Colors.White : new Color(0.88f, 0.78f, 0.59f), 3));
+        button.AddThemeStyleboxOverride("disabled", ButtonStyle(
+            new Color(0.04f, 0.05f, 0.05f, 0.88f), new Color(0.23f, 0.27f, 0.24f, 0.9f), 1));
+    }
+
+    private static StyleBoxFlat ButtonStyle(Color background, Color border, int width) => new()
+    {
+        BgColor = background,
+        BorderColor = border,
+        BorderWidthLeft = width,
+        BorderWidthTop = width,
+        BorderWidthRight = width,
+        BorderWidthBottom = width,
+        CornerRadiusTopLeft = 4,
+        CornerRadiusTopRight = 4,
+        CornerRadiusBottomRight = 4,
+        CornerRadiusBottomLeft = 4,
+        ContentMarginLeft = 22,
+        ContentMarginTop = 10,
+        ContentMarginRight = 22,
+        ContentMarginBottom = 10
+    };
 
     private async Task SaveAsync()
     {

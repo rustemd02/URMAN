@@ -25,6 +25,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
     private Button _load = null!;
     private FirstPersonController? _player;
     private readonly Dictionary<string, Button> _bindingButtons = new(StringComparer.Ordinal);
+    private IReadOnlyList<InputBindingSnapshot>? _bindingsBeforeOpen;
     private string? _awaitingAction;
     private Key? _pendingConflictKey;
     private bool _saveLoadInProgress;
@@ -200,6 +201,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         _player = player;
         var settings = player.CaptureSettings();
+        _bindingsBeforeOpen = settings.InputBindings.ToArray();
         _fov.Value = settings.FieldOfView;
         _sensitivity.Value = settings.MouseSensitivity;
         _headBob.ButtonPressed = settings.HeadBob;
@@ -272,6 +274,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             if (await bridge.LoadSlotAsync("quick"))
             {
+                _bindingsBeforeOpen = InputBindingService.Capture();
                 Close();
             }
             else
@@ -315,6 +318,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
                 Subtitles: _subtitles.ButtonPressed,
                 AudioDescriptions: _audioDescriptions.ButtonPressed)
         });
+        _bindingsBeforeOpen = InputBindingService.Capture();
         _status.Text = "Настройки применены. Они войдут в следующее сохранение.";
     }
 
@@ -323,7 +327,18 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         _awaitingAction = null;
         _pendingConflictKey = null;
         _screen.Visible = false;
-        _player?.SetModalOpen(false);
+        if (_bindingsBeforeOpen is not null)
+        {
+            InputBindingService.Apply(_bindingsBeforeOpen);
+            _bindingsBeforeOpen = null;
+        }
+        var keepModal = GetTree().GetFirstNodeInGroup("main_menu") is MainMenuUi { IsDismissed: false }
+            || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true };
+        _player?.SetModalOpen(keepModal);
+        if (keepModal)
+        {
+            Input.MouseMode = Input.MouseModeEnum.Visible;
+        }
         _player = null;
     }
 

@@ -52,15 +52,18 @@ autowrap_mode = 2
 
 [node name="Close" type="Button" parent="Screen/Document/Layout/Header"]
 layout_mode = 2
+focus_mode = 2
 text = "Закрыть [Esc]"
 
 [node name="Reader" type="VBoxContainer" parent="Screen/Document/Layout"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 8
 
 [node name="Body" type="RichTextLabel" parent="Screen/Document/Layout/Reader"]
 layout_mode = 2
 size_flags_vertical = 3
+focus_mode = 2
 theme_override_colors/default_color = Color(0.84, 0.82, 0.74, 1)
 theme_override_font_sizes/normal_font_size = 19
 text = "Документ не выбран."
@@ -79,4 +82,5 @@ autowrap_mode = 2
 
 [node name="Save" type="Button" parent="Screen/Document/Layout/Footer"]
 layout_mode = 2
+focus_mode = 2
 text = "В журнал"

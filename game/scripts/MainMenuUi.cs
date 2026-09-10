@@ -19,10 +19,13 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private Label? _title;
     private Label? _subtitle;
+    private Label? _continueHint;
+    private PanelContainer? _panel;
     private Button? _newGameButton;
     private Button? _continueButton;
     private Button? _settingsButton;
     private Button? _quitButton;
+    private bool _continueAvailable;
 
     public event Action? NewGameRequested;
     public event Action? ContinueRequested;
@@ -42,14 +45,26 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         Name = "Act1MainMenu";
         BuildLayout();
         Input.MouseMode = Input.MouseModeEnum.Visible;
-        ApplyAccessibilitySettings(new AccessibilitySettingsSnapshot());
+        ApplyAccessibilitySettings(
+            (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.Accessibility
+            ?? AccessibilitySettingsSnapshot.Default);
     }
 
     public void SetContinueAvailable(bool available)
     {
+        _continueAvailable = available;
         if (_continueButton is not null)
         {
             _continueButton.Visible = available;
+            _continueButton.Disabled = !available;
+            _continueButton.FocusMode = available
+                ? Control.FocusModeEnum.All
+                : Control.FocusModeEnum.None;
+        }
+
+        if (_continueHint is not null)
+        {
+            _continueHint.Visible = !available;
         }
     }
 
@@ -66,23 +81,60 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
     {
-        var scale = (float)settings.TextScale;
+        var scale = Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f);
+        var textColor = settings.HighContrast ? Colors.White : new Color(0.89f, 0.84f, 0.73f);
         if (_title is not null)
         {
-            _title.AddThemeFontSizeOverride("font_size", (int)(58 * scale));
-            _title.AddThemeColorOverride(
-                "font_color",
-                settings.HighContrast ? Colors.White : new Color(0.88f, 0.78f, 0.59f));
+            _title.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(58 * scale));
+            _title.AddThemeColorOverride("font_color", settings.HighContrast
+                ? Colors.White
+                : new Color(0.88f, 0.78f, 0.59f));
+            _title.AddThemeColorOverride("font_shadow_color", Colors.Black);
+            _title.AddThemeConstantOverride("shadow_offset_x", settings.HighContrast ? 3 : 2);
+            _title.AddThemeConstantOverride("shadow_offset_y", settings.HighContrast ? 3 : 2);
         }
 
         if (_subtitle is not null)
         {
-            _subtitle.AddThemeFontSizeOverride("font_size", (int)(20 * scale));
+            _subtitle.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(20 * scale));
+            _subtitle.AddThemeColorOverride("font_color", textColor);
+        }
+
+        if (_continueHint is not null)
+        {
+            _continueHint.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(17 * scale));
+            _continueHint.AddThemeColorOverride("font_color", settings.HighContrast
+                ? Colors.White
+                : new Color(0.58f, 0.62f, 0.58f));
+            _continueHint.AddThemeColorOverride("font_shadow_color", Colors.Black);
+            _continueHint.AddThemeConstantOverride("shadow_offset_x", settings.HighContrast ? 3 : 2);
+            _continueHint.AddThemeConstantOverride("shadow_offset_y", settings.HighContrast ? 3 : 2);
+        }
+
+        if (_panel is not null)
+        {
+            _panel.SetMeta("accessibilityTextScale", settings.TextScale);
+            _panel.SetMeta("accessibilityHighContrast", settings.HighContrast);
+            _panel.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
+            _panel.AddThemeStyleboxOverride("panel", PanelStyle(settings.HighContrast));
         }
 
         foreach (var button in new[] { _newGameButton, _continueButton, _settingsButton, _quitButton })
         {
-            button?.AddThemeFontSizeOverride("font_size", (int)(24 * scale));
+            if (button is null)
+            {
+                continue;
+            }
+
+            button.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(24 * scale));
+            button.AddThemeColorOverride("font_color", textColor);
+            button.AddThemeColorOverride("font_hover_color", Colors.White);
+            button.AddThemeColorOverride("font_pressed_color", Colors.White);
+            button.AddThemeColorOverride("font_focus_color", Colors.White);
+            button.AddThemeColorOverride("font_disabled_color", new Color(1, 1, 1, 0.62f));
+            button.AddThemeColorOverride("font_outline_color", Colors.Black);
+            button.AddThemeConstantOverride("outline_size", settings.HighContrast ? 3 : 2);
+            ApplyButtonStyles(button, settings.HighContrast);
         }
     }
 
@@ -97,19 +149,38 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         };
         AddChild(screen);
 
+        var center = new CenterContainer
+        {
+            Name = "Center",
+            AnchorRight = 1f,
+            AnchorBottom = 1f,
+            GrowHorizontal = Control.GrowDirection.Both,
+            GrowVertical = Control.GrowDirection.Both
+        };
+        screen.AddChild(center);
+
+        _panel = new PanelContainer
+        {
+            Name = "MenuPanel",
+            CustomMinimumSize = new Vector2(560, 0)
+        };
+        _panel.AddThemeStyleboxOverride("panel", PanelStyle(false));
+        center.AddChild(_panel);
+
+        var margin = new MarginContainer { Name = "Margin" };
+        margin.AddThemeConstantOverride("margin_left", 54);
+        margin.AddThemeConstantOverride("margin_top", 42);
+        margin.AddThemeConstantOverride("margin_right", 54);
+        margin.AddThemeConstantOverride("margin_bottom", 42);
+        _panel.AddChild(margin);
+
         var layout = new VBoxContainer
         {
             Name = "Layout",
-            AnchorLeft = 0.5f,
-            AnchorTop = 0.5f,
-            AnchorRight = 0.5f,
-            AnchorBottom = 0.5f,
-            GrowHorizontal = Control.GrowDirection.Both,
-            GrowVertical = Control.GrowDirection.Both,
             Alignment = BoxContainer.AlignmentMode.Center
         };
-        layout.AddThemeConstantOverride("separation", 14);
-        screen.AddChild(layout);
+        layout.AddThemeConstantOverride("separation", 12);
+        margin.AddChild(layout);
 
         _title = new Label
         {
@@ -139,6 +210,16 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _continueButton.Visible = false;
         layout.AddChild(_continueButton);
 
+        _continueHint = new Label
+        {
+            Name = "ContinueUnavailable",
+            Text = "Продолжить  ·  сохранение не найдено",
+            HorizontalAlignment = HorizontalAlignment.Center,
+            CustomMinimumSize = new Vector2(360, 48),
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        layout.AddChild(_continueHint);
+
         _settingsButton = MenuButton("SettingsButton", "Настройки");
         _settingsButton.Pressed += () => SettingsRequested?.Invoke();
         layout.AddChild(_settingsButton);
@@ -148,6 +229,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         layout.AddChild(_quitButton);
 
         _newGameButton.GrabFocus();
+        SetContinueAvailable(_continueAvailable);
     }
 
     private Button MenuButton(string name, string text)
@@ -156,9 +238,62 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             Name = name,
             Text = text,
-            CustomMinimumSize = new Vector2(280, 0)
+            CustomMinimumSize = new Vector2(360, 56),
+            FocusMode = Control.FocusModeEnum.All,
+            MouseDefaultCursorShape = Control.CursorShape.PointingHand
         };
-        button.AddThemeConstantOverride("focus", 1);
+        ApplyButtonStyles(button, highContrast: false);
         return button;
     }
+
+    private static StyleBoxFlat PanelStyle(bool highContrast) => new()
+    {
+        BgColor = highContrast
+            ? new Color(0.01f, 0.015f, 0.015f, 0.98f)
+            : new Color(0.025f, 0.043f, 0.038f, 0.97f),
+        BorderColor = highContrast
+            ? Colors.White
+            : new Color(0.42f, 0.38f, 0.28f, 0.92f),
+        BorderWidthLeft = highContrast ? 2 : 1,
+        BorderWidthTop = highContrast ? 2 : 1,
+        BorderWidthRight = highContrast ? 2 : 1,
+        BorderWidthBottom = highContrast ? 2 : 1,
+        CornerRadiusTopLeft = 6,
+        CornerRadiusTopRight = 6,
+        CornerRadiusBottomRight = 6,
+        CornerRadiusBottomLeft = 6
+    };
+
+    private static void ApplyButtonStyles(Button button, bool highContrast)
+    {
+        var border = highContrast ? Colors.White : new Color(0.46f, 0.41f, 0.30f, 0.95f);
+        button.AddThemeStyleboxOverride("normal", ButtonStyle(
+            new Color(0.045f, 0.075f, 0.066f, 0.98f), border, 1));
+        button.AddThemeStyleboxOverride("hover", ButtonStyle(
+            new Color(0.10f, 0.16f, 0.13f, 1f), highContrast ? Colors.White : new Color(0.88f, 0.78f, 0.59f), 2));
+        button.AddThemeStyleboxOverride("pressed", ButtonStyle(
+            new Color(0.14f, 0.19f, 0.15f, 1f), Colors.White, 2));
+        button.AddThemeStyleboxOverride("focus", ButtonStyle(
+            new Color(0.10f, 0.16f, 0.13f, 1f), highContrast ? Colors.White : new Color(0.88f, 0.78f, 0.59f), 3));
+        button.AddThemeStyleboxOverride("disabled", ButtonStyle(
+            new Color(0.04f, 0.05f, 0.05f, 0.88f), new Color(0.23f, 0.27f, 0.24f, 0.9f), 1));
+    }
+
+    private static StyleBoxFlat ButtonStyle(Color background, Color border, int width) => new()
+    {
+        BgColor = background,
+        BorderColor = border,
+        BorderWidthLeft = width,
+        BorderWidthTop = width,
+        BorderWidthRight = width,
+        BorderWidthBottom = width,
+        CornerRadiusTopLeft = 4,
+        CornerRadiusTopRight = 4,
+        CornerRadiusBottomRight = 4,
+        CornerRadiusBottomLeft = 4,
+        ContentMarginLeft = 22,
+        ContentMarginTop = 10,
+        ContentMarginRight = 22,
+        ContentMarginBottom = 10
+    };
 }

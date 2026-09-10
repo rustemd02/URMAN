@@ -16,6 +16,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private Button _close = null!;
     private RuntimeBridge? _bridge;
     private IReadOnlyList<ResolvedJournalEntry> _projection = [];
+    private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
     public int RenderedEntryCount => _projection.Count;
 
@@ -42,10 +43,19 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _close = GetNode<Button>("Screen/Book/Layout/Header/Close");
         _close.Pressed += Close;
         _entries.ItemSelected += SelectEntry;
+        GetViewport().SizeChanged += RefitToViewport;
+        if (FindPlayer() is { } player)
+        {
+            ApplyAccessibilitySettings(player.Accessibility);
+        }
     }
 
-    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings) =>
+    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
+    {
+        _accessibility = settings;
+        RefitToViewport();
         AccessibilityPresentation.ApplyToControl(_book, settings);
+    }
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {
@@ -92,10 +102,17 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             ? "ТАТАРСКИЕ СЛОВА\n—"
             : $"ТАТАРСКИЕ СЛОВА\n{string.Join(" · ", vocabulary.Select(entry => $"{entry.Term} — {entry.Meaning}"))}";
         _entries.Clear();
-        foreach (var entry in _projection)
+        for (var index = 0; index < _projection.Count; index++)
         {
-            _entries.AddItem(entry.Title);
+            var entry = _projection[index];
+            _entries.AddItem($"{index + 1:D2} · {entry.Title}");
         }
+
+        // Archive list styling: warm ink slots with ochre selection.
+        _entries.AddThemeColorOverride("font_color", new Color(0.74f, 0.70f, 0.60f));
+        _entries.AddThemeColorOverride("font_selected_color", new Color(0.95f, 0.82f, 0.55f));
+        _entries.AddThemeConstantOverride("line_separation", 8);
+        _entries.AddThemeConstantOverride("v_separation", 4);
 
         if (_projection.Count == 0)
         {
@@ -140,5 +157,33 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private void SetPlayerModal(bool open)
     {
         FindPlayer()?.SetModalOpen(open);
+    }
+
+    private void RefitToViewport()
+    {
+        if (_book is null)
+        {
+            return;
+        }
+
+        var viewport = _book.GetViewportRect().Size;
+        if (viewport.X < 1 || viewport.Y < 1)
+        {
+            return;
+        }
+
+        var scale = Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f);
+        var size = new Vector2(
+            Mathf.Max(1f, Mathf.Min(viewport.X * 0.76f, viewport.X / scale - 24f)),
+            Mathf.Max(1f, Mathf.Min(viewport.Y * 0.82f, viewport.Y / scale - 24f)));
+        _book.AnchorLeft = 0.5f;
+        _book.AnchorTop = 0.5f;
+        _book.AnchorRight = 0.5f;
+        _book.AnchorBottom = 0.5f;
+        _book.OffsetLeft = -size.X / 2f;
+        _book.OffsetTop = -size.Y / 2f;
+        _book.OffsetRight = size.X / 2f;
+        _book.OffsetBottom = size.Y / 2f;
+        _book.PivotOffset = size / 2f;
     }
 }

@@ -19,6 +19,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     private Button _save = null!;
     private RuntimeBridge? _bridge;
     private CompiledDocumentContent? _document;
+    private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
     public bool IsOpen => _screen.Visible;
 
@@ -41,10 +42,19 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _save = GetNode<Button>("Screen/Document/Layout/Footer/Save");
         _close.Pressed += Close;
         _save.Pressed += SaveToJournal;
+        GetViewport().SizeChanged += RefitToViewport;
+        if (FindPlayer() is { } player)
+        {
+            ApplyAccessibilitySettings(player.Accessibility);
+        }
     }
 
-    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings) =>
+    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
+    {
+        _accessibility = settings;
+        RefitToViewport();
         AccessibilityPresentation.ApplyToControl(_documentView, settings);
+    }
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {
@@ -108,4 +118,32 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private string JournalShortcutLabel() =>
         FindPlayer()?.CurrentInputDevice == "gamepad" ? "Y" : "J";
+
+    private void RefitToViewport()
+    {
+        if (_documentView is null)
+        {
+            return;
+        }
+
+        var viewport = _documentView.GetViewportRect().Size;
+        if (viewport.X < 1 || viewport.Y < 1)
+        {
+            return;
+        }
+
+        var scale = Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f);
+        var size = new Vector2(
+            Mathf.Max(1f, Mathf.Min(viewport.X * 0.68f, viewport.X / scale - 24f)),
+            Mathf.Max(1f, Mathf.Min(viewport.Y * 0.80f, viewport.Y / scale - 24f)));
+        _documentView.AnchorLeft = 0.5f;
+        _documentView.AnchorTop = 0.5f;
+        _documentView.AnchorRight = 0.5f;
+        _documentView.AnchorBottom = 0.5f;
+        _documentView.OffsetLeft = -size.X / 2f;
+        _documentView.OffsetTop = -size.Y / 2f;
+        _documentView.OffsetRight = size.X / 2f;
+        _documentView.OffsetBottom = size.Y / 2f;
+        _documentView.PivotOffset = size / 2f;
+    }
 }
