@@ -1,0 +1,22 @@
+---
+schemaVersion: 1
+id: urman.oldpc:document/doc_household_harvest_weights
+title: {"default":"Harvest weights by year","translations":{"ru":"Учёт урожая по годам"}}
+format: markdown
+sourceFile: documents/doc_household_harvest_weights.md
+assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
+knowledgeRefs: []
+accessConditions: []
+openEffects: []
+oldPc: {"type":"record","pcSection":"household_misc","canonStatus":"canon","reliability":"personal_memory","searchTerms":["урожай","весы","картофель","лук","год"],"suggestedTerms":["урожай","погреб"]}
+---
+
+# Тетрадь в клетку, последние страницы
+
+Веса записаны сразу на весах, пока Гөлсинә держит мешок. Столбцы: год, картофель, лук, чеснок, «прочее».
+
+1994 — хороший год. 1997 — средний. 2001 — картофель мелкий, засуха.
+
+С 2004 года почерк меняется: столбец «прочее» пустеет. Раньше туда шли грибы и ягоды из глубины, теперь только то, что собрали у дороги, и не каждый год. На 2006-м, поперёк клетки: «ходили только до поворота. Дальше — не в этом году».
+
+Последняя запись — свежая: «лук — 9 кг. Чеснок не сажали. Банки вымыты».

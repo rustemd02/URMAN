@@ -1,1451 +1,3374 @@
 [
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/continue",
-    "value": { "default": "Continue", "translations": { "ru": "Продолжить", "tt": "Дәвам итү" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/inspect",
-    "value": { "default": "Inspect", "translations": { "ru": "Осмотреть", "tt": "Карап чыгу" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/journal-source",
-    "value": { "default": "Source", "translations": { "ru": "Источник", "tt": "Чыганак" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/aidar-name",
-    "value": { "default": "Aidar", "translations": { "ru": "Айдар", "tt": "Айдар" } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/alsu-name",
-    "value": { "default": "Alsu", "translations": { "ru": "Алсу", "tt": "Алсу" } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/gulsina-name",
-    "value": { "default": "Gulsina", "translations": { "ru": "Гөлсинә", "tt": "Гөлсинә" } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/mansur-name",
-    "value": { "default": "Mansur", "translations": { "ru": "Мансур", "tt": "Мансур" } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/marat-name",
-    "value": { "default": "Marat", "translations": { "ru": "Марат", "tt": "Марат" } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/naila-name",
-    "value": { "default": "Naila", "translations": { "ru": "Наиля", "tt": "Наилә" } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/rinat-name",
-    "value": { "default": "Rinat", "translations": { "ru": "Ринат", "tt": "Ринат" } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/timur-hazrat-name",
-    "value": { "default": "Timur hazrat", "translations": { "ru": "Тимур хәзрәт", "tt": "Тимур хәзрәт" } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/scene-arrival-title",
-    "value": { "default": "Road to Kyrlay", "translations": { "ru": "Дорога к Кырлаю" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/scene-house-title",
-    "value": { "default": "Mansur and Gulsina's house", "translations": { "ru": "Дом Мансура и Гөлсинә" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/scene-route-title",
-    "value": { "default": "Kyrlay route", "translations": { "ru": "Улица Кырлая" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/scene-mosque-title",
-    "value": { "default": "Mosque courtyard", "translations": { "ru": "Двор мечети" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/scene-zirat-title",
-    "value": { "default": "Zirat road", "translations": { "ru": "Зиратская дорога" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/scene-forest-title",
-    "value": { "default": "Kara-Urman edge", "translations": { "ru": "Кромка Кара-Урмана" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/quest-first-contradiction-title",
-    "value": { "default": "Find the first crack in Marat's story", "translations": { "ru": "Найти первую трещину в версии Марата" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/quest-language-reread-title",
-    "value": { "default": "Read the words again", "translations": { "ru": "Перечитать слова по-новому" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/quest-edge-title",
-    "value": { "default": "Reach the edge by the evidence", "translations": { "ru": "Дойти до кромки по уликам" } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/objective-first-contradiction",
-    "value": { "default": "Compare Marat's death record with the internal register line.", "translations": { "ru": "Сопоставить справку о смерти Марата с внутренней строкой реестра." } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/objective-language-reread",
-    "value": { "default": "Reread the boundary source with the words for sound and response.", "translations": { "ru": "Перечитать запись о границе, применив слова «тавыш» и «җавап»." } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/objective-edge",
-    "value": { "default": "Follow the zirat road from Mansur's sketch; Rinat has gone ahead.", "translations": { "ru": "Идти по зиратской дороге из схемы Мансура: Ринат уже ушёл вперёд." } },
-    "purpose": "ui"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/dialogue-gulsina-warning",
-    "value": { "default": "Gulsina lowers her voice: “Ярамый. Not toward the urman after dusk.”", "translations": { "ru": "«Ярамый», — мягко, но твёрдо говорит Гөлсинә. — Вечером к урману не ходят." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/dialogue-alsu-route",
-    "value": { "default": "Alsu points to the faded sign: “Зират is that way. People tell Marat's story differently; we take the main street first.”", "translations": { "ru": "Алсу показывает на выцветший указатель: «Зират — вон туда. Про Марата здесь каждый рассказывает по-своему. Сначала пойдём по главной улице; к Кара-Урману сейчас не надо»." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/dialogue-rinat-no-key",
-    "value": { "default": "Rinat looks past Aidar: you came to family, so stay with family.", "translations": { "ru": "Ринат смотрит мимо Айдара: «Ты приехал к семье — вот и будь с семьёй»." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/dialogue-mansur-pc-request",
-    "value": { "default": "Mansur taps the side of the monitor: “It still starts, but I cannot make sense of these old folders. Look for Marat's file, please. If something feels wrong, call me.”", "translations": { "ru": "Мансур постукивает по боку монитора: «Он ещё запускается, только я не разберу эти старые папки. Посмотри, пожалуйста, файл Марата. Если что-то покажется странным — позови меня»." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/dialogue-naila-medical-record",
-    "value": { "default": "Naila keeps her voice even: “The note uses precise official medical wording. That is how it is recorded.”", "translations": { "ru": "Наиля говорит ровно: «В записи использована точная официальная медицинская формулировка. Так и записано»." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/dialogue-naila-ask-record",
-    "value": { "default": "Ask why the wording is so formal and precise.", "translations": { "ru": "Спросить, почему формулировка такая официальная и точная." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/dialogue-naila-separate-record",
-    "value": { "default": "“I answer only for the medical wording. I will not interpret it.”", "translations": { "ru": "«Я отвечаю только за медицинскую формулировку. Толковать её не буду»." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/dialogue-rinat-formal",
-    "value": { "default": "Formally, the case is closed.", "translations": { "ru": "«Формально дело закрыто», — говорит Ринат слишком аккуратно." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/dialogue-rinat-danger",
-    "value": { "default": "Where did you see that category? People here do not say those words on this road.", "translations": { "ru": "«Где ты это увидел? Такие слова на этой дороге не произносят»." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/dialogue-timur-restraint",
-    "value": { "default": "“Do not turn truth into pride, Aidar. Marat already took that road.”", "translations": { "ru": "«Не превращай правду в гордость, Айдар. Марат уже пошёл этим путём», — тихо говорит Тимур." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/finale-rinat-warning",
-    "value": { "default": "Do not answer.", "translations": { "ru": "Не отвечай." } },
-    "purpose": "dialogue"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/audio-marat-caption",
-    "value": { "default": "A familiar voice—Marat's voice—comes from beyond the edge.", "translations": { "ru": "Из-за кромки звучит знакомый голос Марата." } },
-    "purpose": "caption"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/audio-marat-transcript",
-    "value": { "default": "The voice repeats a childhood phrase with an unnatural pause: Kazan boy... do not fall behind.", "translations": { "ru": "Голос повторяет детскую фразу с неправильной паузой: «Казанский… не отставай»." } },
-    "purpose": "accessibility"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/audio-rinat-caption",
-    "value": { "default": "Rinat interrupts before Aidar speaks.", "translations": { "ru": "Ринат прерывает Айдара до ответа." } },
-    "purpose": "caption"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:text/audio-rinat-transcript",
-    "value": { "default": "Rinat says: Do not answer.", "translations": { "ru": "Ринат говорит: «Не отвечай»." } },
-    "purpose": "accessibility"
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/portrait-aidar",
-    "kind": "image",
-    "file": "logical/portrait-aidar.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.chapter1:text/aidar-name" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/portrait-alsu",
-    "kind": "image",
-    "file": "logical/portrait-alsu.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.chapter1:text/alsu-name" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/portrait-gulsina",
-    "kind": "image",
-    "file": "logical/portrait-gulsina.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.chapter1:text/gulsina-name" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/portrait-mansur",
-    "kind": "image",
-    "file": "logical/portrait-mansur.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.chapter1:text/mansur-name" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/portrait-marat",
-    "kind": "image",
-    "file": "logical/portrait-marat.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.chapter1:text/marat-name" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/portrait-naila",
-    "kind": "image",
-    "file": "logical/portrait-naila.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.chapter1:text/naila-name" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/portrait-rinat",
-    "kind": "image",
-    "file": "logical/portrait-rinat.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.chapter1:text/rinat-name" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/portrait-timur-hazrat",
-    "kind": "image",
-    "file": "logical/portrait-timur-hazrat.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.chapter1:text/timur-hazrat-name" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/route-arrival-vehicle-dusk",
-    "kind": "image",
-    "file": "logical/route-arrival-vehicle-dusk.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/route-zirat-road-evening",
-    "kind": "image",
-    "file": "logical/route-zirat-road-evening.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/route_kara_urman_edge_voice_moment",
-    "kind": "image",
-    "file": "logical/route_kara_urman_edge_voice_moment.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/loc_fap_pressure_document_desk",
-    "kind": "image",
-    "file": "logical/loc_fap_pressure_document_desk.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/audio-marat-voice",
-    "kind": "audio",
-    "file": "logical/audio-marat-voice.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": {
-      "decorative": false,
-      "captionTextId": "urman.chapter1:text/audio-marat-caption",
-      "audioDescriptionTextId": "urman.chapter1:text/audio-marat-transcript"
-    }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:asset/audio-rinat-interruption",
-    "kind": "audio",
-    "file": "logical/audio-rinat-interruption.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": {
-      "decorative": false,
-      "captionTextId": "urman.chapter1:text/audio-rinat-caption",
-      "audioDescriptionTextId": "urman.chapter1:text/audio-rinat-transcript"
-    }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:character/aidar",
-    "displayName": { "default": "Aidar", "translations": { "ru": "Айдар", "tt": "Айдар" } },
-    "roleTags": ["aidar", "protagonist"],
-    "assetIds": ["urman.chapter1:asset/portrait-aidar"],
-    "accessibilityDescription": { "default": "Aidar is a city student returning to his family village.", "translations": { "ru": "Айдар — городской студент, вернувшийся в деревню своей семьи." } }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:character/mansur",
-    "displayName": { "default": "Mansur", "translations": { "ru": "Мансур бабай", "tt": "Мансур бабай" } },
-    "roleTags": ["mansur", "family-elder"],
-    "assetIds": ["urman.chapter1:asset/portrait-mansur"],
-    "accessibilityDescription": { "default": "Mansur is Aidar's grandfather and a guarded keeper of family memory.", "translations": { "ru": "Мансур — бабай Айдара и сдержанный хранитель семейной памяти." } }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:character/gulsina",
-    "displayName": { "default": "Gulsina", "translations": { "ru": "Гөлсинә әби", "tt": "Гөлсинә әби" } },
-    "roleTags": ["gulsina", "family-elder"],
-    "assetIds": ["urman.chapter1:asset/portrait-gulsina"],
-    "accessibilityDescription": { "default": "Gulsina protects the warmth of the house and hears danger in familiar words.", "translations": { "ru": "Гөлсинә хранит тепло дома и слышит опасность в знакомых словах." } }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:character/alsu",
-    "displayName": { "default": "Alsu", "translations": { "ru": "Алсу", "tt": "Алсу" } },
-    "roleTags": ["alsu", "route-guide"],
-    "assetIds": ["urman.chapter1:asset/portrait-alsu"],
-    "accessibilityDescription": { "default": "Alsu is a human guide through the village, not its mystical answer.", "translations": { "ru": "Алсу — человеческий проводник по деревне, а не мистическая разгадка." } }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:character/marat",
-    "displayName": { "default": "Marat", "translations": { "ru": "Марат", "tt": "Марат" } },
-    "roleTags": ["marat-trace"],
-    "assetIds": ["urman.chapter1:asset/portrait-marat"],
-    "accessibilityDescription": { "default": "Marat is Aidar's absent childhood friend, present through memory and evidence.", "translations": { "ru": "Марат — отсутствующий друг детства Айдара, присутствующий через память и улики." } }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:character/rinat",
-    "displayName": { "default": "Rinat", "translations": { "ru": "Ринат", "tt": "Ринат" } },
-    "roleTags": ["rinat", "village-official"],
-    "assetIds": ["urman.chapter1:asset/portrait-rinat"],
-    "accessibilityDescription": { "default": "Rinat suppresses information, then acts to prevent a repeated danger rather than to punish Aidar.", "translations": { "ru": "Ринат скрывает сведения, а затем действует, чтобы не допустить повторения опасности, а не наказать Айдара." } }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:character/naila",
-    "displayName": { "default": "Naila", "translations": { "ru": "Наиля", "tt": "Наилә" } },
-    "roleTags": ["naila", "fap-worker"],
-    "assetIds": ["urman.chapter1:asset/portrait-naila"],
-    "accessibilityDescription": { "default": "Naila protects the medical wording that hides the village's fear.", "translations": { "ru": "Наиля защищает медицинские формулировки, за которыми прячется страх деревни." } }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:character/timur_hazrat",
-    "displayName": { "default": "Timur hazrat", "translations": { "ru": "Тимур хәзрәт", "tt": "Тимур хәзрәт" } },
-    "roleTags": ["timur-hazrat", "moral-support"],
-    "assetIds": ["urman.chapter1:asset/portrait-timur-hazrat"],
-    "accessibilityDescription": { "default": "Timur hazrat offers moral and cultural support without reducing faith or folklore to a caricature.", "translations": { "ru": "Тимур хәзрәт даёт моральную и культурную опору, не превращая веру или фольклор в карикатуру." } }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:vocabulary/tt_urman",
-    "term": "урман",
-    "language": "tt",
-    "meaning": { "default": "forest", "translations": { "ru": "лес; в Кырлае также граница старых правил" } },
-    "initialStatus": "unknown",
-    "rereadTargets": ["urman.chapter1:scene/evidence-internal-register", "urman.chapter1:scene/evidence-tatarwiki-boundary"],
-    "applicationTargets": ["urman.chapter1:scene/zirat-road", "urman.chapter1:dialogue/alsu_route_context"],
-    "consultantReview": { "status": "pending", "reviewer": null, "notes": "Individual term retained from the accepted vocabulary chain; longer phrases require a Tatar-language review." }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:vocabulary/tt_tavysh",
-    "term": "тавыш",
-    "language": "tt",
-    "meaning": { "default": "voice or sound", "translations": { "ru": "голос или звук" } },
-    "initialStatus": "unknown",
-    "rereadTargets": ["urman.chapter1:scene/evidence-tatarwiki-boundary", "urman.chapter1:scene/evidence-edge-sketch"],
-    "applicationTargets": ["urman.chapter1:scene/forest"],
-    "consultantReview": { "status": "pending", "reviewer": null, "notes": "The term changes the meaning of a source; it does not disclose a complete rule before the finale." }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:vocabulary/tt_javap",
-    "term": "җавап",
-    "language": "tt",
-    "meaning": { "default": "answer or response", "translations": { "ru": "ответ или отклик" } },
-    "initialStatus": "unknown",
-    "rereadTargets": ["urman.chapter1:scene/evidence-internal-register", "urman.chapter1:scene/evidence-edge-sketch"],
-    "applicationTargets": ["urman.chapter1:dialogue/rinat_internal_register", "urman.chapter1:scene/forest"],
-    "consultantReview": { "status": "pending", "reviewer": null, "notes": "Before the finale this supports only an evidence-based danger hypothesis." }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:vocabulary/tt_yaramyy",
-    "term": "ярамый",
-    "language": "tt",
-    "meaning": { "default": "not allowed", "translations": { "ru": "нельзя" } },
-    "initialStatus": "unknown",
-    "rereadTargets": ["urman.chapter1:dialogue/gulsina_yaramyy"],
-    "applicationTargets": ["urman.chapter1:dialogue/gulsina_yaramyy"],
-    "consultantReview": { "status": "pending", "reviewer": null, "notes": "A domestic prohibition becomes meaningful through investigation, not a cipher." }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:vocabulary/tt_zirat",
-    "term": "зират",
-    "language": "tt",
-    "meaning": { "default": "cemetery", "translations": { "ru": "кладбище" } },
-    "initialStatus": "unknown",
-    "rereadTargets": ["urman.chapter1:scene/evidence-edge-sketch"],
-    "applicationTargets": ["urman.chapter1:scene/zirat-road", "urman.chapter1:scene/zirat"],
-    "consultantReview": { "status": "pending", "reviewer": null, "notes": "The route passes by the zirat road; it does not turn the cemetery into a horror attraction." }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:vocabulary/tt_shurale",
-    "term": "Шүрәле",
-    "language": "tt",
-    "meaning": { "default": "a folklore name for an old forest layer", "translations": { "ru": "фольклорное имя старого лесного слоя" } },
-    "initialStatus": "unknown",
-    "rereadTargets": ["urman.chapter1:scene/evidence-tatarwiki-boundary"],
-    "applicationTargets": ["urman.chapter1:dialogue/timur_restraint"],
-    "consultantReview": { "status": "pending", "reviewer": null, "notes": "This is never an enemy label, combat class, or ordinary Chapter 1 character." }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/memory_marat_childhood_photo",
-    "kind": "fact",
-    "title": { "default": "A childhood photo", "translations": { "ru": "Детская фотография" } },
-    "summary": { "default": "Aidar remembers Marat as a friend, not a case file.", "translations": { "ru": "Айдар помнит Марата другом, а не строкой в деле." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/arrival_vehicle_dusk"],
-    "reveals": ["urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay"],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
-    "kind": "fact",
-    "title": { "default": "Kazan boy, do not fall behind", "translations": { "ru": "Казанский, не отставай" } },
-    "summary": { "default": "A personal childhood tease anchors the final voice without explaining it.", "translations": { "ru": "Личная детская подколка связывает финальный голос с памятью, ничего не объясняя." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/arrival_vehicle_dusk"],
-    "reveals": [],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/topic_marat_unresolved",
-    "kind": "clue",
-    "title": { "default": "Marat remains unresolved", "translations": { "ru": "Вопрос о Марате не закрыт" } },
-    "summary": { "default": "Aidar returns with an unanswered question about his childhood friend.", "translations": { "ru": "Айдар возвращается с незакрытым вопросом о друге детства." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/arrival_vehicle_dusk"],
-    "reveals": [],
-    "contradicts": [],
-    "unlocks": ["urman.chapter1:quest/quest_marat_first_contradiction"]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_family_avoids_marat",
-    "kind": "clue",
-    "title": { "default": "The family avoids Marat's name", "translations": { "ru": "Семья избегает имени Марата" } },
-    "summary": { "default": "Warmth at home does not remove the pause around Marat.", "translations": { "ru": "Тепло дома не убирает паузу вокруг Марата." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/house", "urman.chapter1:dialogue/gulsina_yaramyy"],
-    "reveals": ["urman.chapter1:knowledge/clue_marat_versions_conflict"],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_marat_versions_conflict",
-    "kind": "contradiction",
-    "title": { "default": "Different versions of Marat", "translations": { "ru": "Разные версии о Марате" } },
-    "summary": { "default": "The village's answers do not line up, but no one calls it an investigation yet.", "translations": { "ru": "Ответы деревни не сходятся, но никто ещё не называет это расследованием." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:dialogue/alsu_route_context"],
-    "reveals": [],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says",
-    "kind": "hypothesis",
-    "title": { "default": "Alsu chooses what to leave unsaid", "translations": { "ru": "Алсу выбирает, о чём не говорить" } },
-    "summary": { "default": "Alsu helps Aidar move through Kyrlay but avoids the forest boundary.", "translations": { "ru": "Алсу помогает Айдару идти по Кырлаю, но избегает лесной границы." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:dialogue/alsu_route_context"],
-    "reveals": [],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_marat_official_death_version",
-    "kind": "clue",
-    "title": { "default": "The official version of Marat's death", "translations": { "ru": "Официальная версия смерти Марата" } },
-    "summary": { "default": "A dry medical wording closes the case too cleanly.", "translations": { "ru": "Сухая медицинская формулировка слишком удобно закрывает дело." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/evidence-official-death"],
-    "reveals": [],
-    "contradicts": ["urman.chapter1:knowledge/contradiction_marat_official_vs_internal"],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
-    "kind": "clue",
-    "title": { "default": "Boundary / answered", "translations": { "ru": "Граница / ответил" } },
-    "summary": { "default": "An internal category is not medical language.", "translations": { "ru": "Внутренняя категория не похожа на медицинский язык." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/evidence-internal-register"],
-    "reveals": ["urman.chapter1:knowledge/contradiction_marat_official_vs_internal"],
-    "contradicts": ["urman.chapter1:knowledge/clue_marat_official_death_version"],
-    "unlocks": ["urman.chapter1:dialogue/rinat_internal_register"]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
-    "kind": "contradiction",
-    "title": { "default": "Official wording against the internal trace", "translations": { "ru": "Официальная формулировка против внутренней отметки" } },
-    "summary": { "default": "One source says a medical closure; another marks a boundary and a response.", "translations": { "ru": "Один источник закрывает дело медицински, другой отмечает границу и ответ." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/evidence-official-death", "urman.chapter1:scene/evidence-internal-register"],
-    "reveals": ["urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint"],
-    "contradicts": ["urman.chapter1:knowledge/clue_marat_official_death_version"],
-    "unlocks": ["urman.chapter1:dialogue/rinat_internal_register"]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death",
-    "kind": "clue",
-    "title": { "default": "Marat was afraid before his death", "translations": { "ru": "Марат боялся перед смертью" } },
-    "summary": { "default": "A saved message says Marat heard a voice from the urman and feared answering it.", "translations": { "ru": "В сохранённом сообщении Марат пишет, что слышал голос из урмана и боялся ему ответить." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/evidence-saved-message"],
-    "reveals": ["urman.chapter1:knowledge/clue_folklore_as_survival_rule"],
-    "contradicts": ["urman.chapter1:knowledge/clue_marat_official_death_version"],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
-    "kind": "clue",
-    "title": { "default": "Marat's last route passed the zirat", "translations": { "ru": "Последний маршрут Марата проходил у зирата" } },
-    "summary": { "default": "A worn trace beside the zirat road places Marat's last route beside the cemetery, not through its center.", "translations": { "ru": "Стертый след у зиратской дороги показывает: последний маршрут Марата проходил рядом с кладбищем, а не через его центр." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/zirat-road"],
-    "reveals": [],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
-    "kind": "hypothesis",
-    "title": { "default": "Folklore as a survival clue", "translations": { "ru": "Фольклор как улика выживания" } },
-    "summary": { "default": "A folklore source begins to read like a practical boundary note, without explaining the pact.", "translations": { "ru": "Фольклорный источник начинает читаться как практическая заметка о границе, но не объясняет пакт." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/evidence-tatarwiki-boundary"],
-    "reveals": ["urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint"],
-    "contradicts": [],
-    "unlocks": ["urman.chapter1:quest/quest_language_reread"]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
-    "kind": "hypothesis",
-    "title": { "default": "A voice and a response may be dangerous", "translations": { "ru": "Голос и ответ могут быть опасно связаны" } },
-    "summary": { "default": "The evidence makes a connection plausible, but no complete instruction is known.", "translations": { "ru": "Улики делают связь вероятной, но готового правила ещё нет." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/evidence-tatarwiki-boundary", "urman.chapter1:dialogue/rinat_internal_register"],
-    "reveals": [],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
-    "kind": "hypothesis",
-    "title": { "default": "Mansur left access deliberately", "translations": { "ru": "Мансур оставил доступ намеренно" } },
-    "summary": { "default": "The old computer was not simply left open, but Mansur is not made into a villain.", "translations": { "ru": "Старый ПК оказался доступен не случайно, но Мансур не становится злодеем." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/house", "urman.chapter1:scene/evidence-edge-sketch"],
-    "reveals": ["urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary"],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
-    "kind": "route",
-    "title": { "default": "The Kara-Urman edge is a rule boundary", "translations": { "ru": "Кромка Кара-Урмана — граница правила" } },
-    "summary": { "default": "Mansur's sketch links the old path behind the zirat to doubled hearing.", "translations": { "ru": "Схема Мансура связывает старую тропу за зиратом с двойной слышимостью." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/evidence-edge-sketch"],
-    "reveals": ["urman.chapter1:knowledge/route_kara_urman_edge_hint"],
-    "contradicts": [],
-    "unlocks": ["urman.chapter1:scene/zirat-road"]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
-    "kind": "route",
-    "title": { "default": "A route from the zirat road", "translations": { "ru": "Путь от зиратской дороги" } },
-    "summary": { "default": "The route is a concrete source chain, not a journal guess.", "translations": { "ru": "Маршрут рождается из конкретной цепочки источников, а не из догадки журнала." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/evidence-edge-sketch", "urman.chapter1:dialogue/rinat_internal_register"],
-    "reveals": [],
-    "contradicts": [],
-    "unlocks": ["urman.chapter1:scene/zirat-road", "urman.chapter1:scene/forest"]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path",
-    "kind": "fact",
-    "title": { "default": "Timur warns against Marat's path", "translations": { "ru": "Тимур предупреждает не повторять путь Марата" } },
-    "summary": { "default": "Timur treats the question as a moral danger rather than a reason to mock belief or folklore.", "translations": { "ru": "Тимур видит в вопросе нравственную опасность, не высмеивая веру или фольклор." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:dialogue/timur_restraint"],
-    "reveals": [],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/pressure_council_attention_1",
-    "kind": "pressure",
-    "title": { "default": "The village has noticed", "translations": { "ru": "Деревня заметила расследование" } },
-    "summary": { "default": "Dangerous knowledge changes sound, light, and the attention of people without creating a fail state.", "translations": { "ru": "Опасное знание меняет звук, свет и внимание людей, но не создаёт fail-state." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:dialogue/rinat_internal_register"],
-    "reveals": [],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:knowledge/clue_do_not_answer_rule",
-    "kind": "clue",
-    "title": { "default": "Rinat's final rule", "translations": { "ru": "Финальное правило Рината" } },
-    "summary": { "default": "Only Rinat's interruption at the edge confirms the practical rule.", "translations": { "ru": "Только прерывание Рината у кромки подтверждает практическое правило." } },
-    "initialStatus": "hidden",
-    "sourceIds": ["urman.chapter1:scene/forest"],
-    "reveals": [],
-    "contradicts": [],
-    "unlocks": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:dialogue/gulsina_yaramyy",
-    "participantRoles": ["aidar", "gulsina"],
-    "startNodeId": "home-warning",
-    "nodes": [
-      {
-        "id": "home-warning",
-        "speakerRole": "gulsina",
-        "textId": "urman.chapter1:text/dialogue-gulsina-warning",
-        "conditions": [],
-        "effects": [
-          { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy", "status": "guessed" },
-          { "op": "npc.set-state", "characterId": "urman.chapter1:character/gulsina", "stateKey": "warning_heard", "value": true },
-          { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat", "status": "confirmed" }
-        ],
-        "choices": []
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:dialogue/alsu_route_context",
-    "participantRoles": ["aidar", "alsu"],
-    "startNodeId": "name-road",
-    "nodes": [
-      {
-        "id": "name-road",
-        "speakerRole": "alsu",
-        "textId": "urman.chapter1:text/dialogue-alsu-route",
-        "conditions": [],
-        "effects": [
-          { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_zirat", "status": "guessed" },
-          { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says", "status": "hypothesis" },
-          { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict", "status": "confirmed" }
-        ],
-        "choices": []
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:dialogue/mansur_pc_request",
-    "participantRoles": ["aidar", "mansur"],
-    "startNodeId": "ask-for-help",
-    "nodes": [
-      {
-        "id": "ask-for-help",
-        "speakerRole": "mansur",
-        "textId": "urman.chapter1:text/dialogue-mansur-pc-request",
-        "conditions": [],
-        "effects": [
-          { "op": "npc.set-state", "characterId": "urman.chapter1:character/mansur", "stateKey": "pc_access_granted", "value": true }
-        ],
-        "choices": []
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:dialogue/naila_medical_record",
-    "participantRoles": ["aidar", "naila"],
-    "startNodeId": "official-wording",
-    "nodes": [
-      {
-        "id": "official-wording",
-        "speakerRole": "naila",
-        "textId": "urman.chapter1:text/dialogue-naila-medical-record",
-        "conditions": [],
-        "effects": [
-          { "op": "npc.set-state", "characterId": "urman.chapter1:character/naila", "stateKey": "record_access_granted", "value": true }
-        ],
-        "choices": [
-          {
-            "id": "ask-difference",
-            "textId": "urman.chapter1:text/dialogue-naila-ask-record",
-            "conditions": [],
-            "effects": [],
-            "nextNodeId": "separate-record"
-          }
-        ]
-      },
-      {
-        "id": "separate-record",
-        "speakerRole": "naila",
-        "textId": "urman.chapter1:text/dialogue-naila-separate-record",
-        "conditions": [],
-        "effects": [],
-        "choices": []
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:dialogue/rinat_no_key",
-    "participantRoles": ["aidar", "rinat"],
-    "startNodeId": "deflect",
-    "nodes": [
-      {
-        "id": "deflect",
-        "speakerRole": "rinat",
-        "textId": "urman.chapter1:text/dialogue-rinat-no-key",
-        "conditions": [],
-        "effects": [],
-        "choices": [
-          {
-            "id": "show-official",
-            "textId": "urman.chapter1:text/inspect",
-            "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version", "status": "confirmed" }],
-            "effects": [],
-            "nextNodeId": "formal"
-          }
-        ]
-      },
-      {
-        "id": "formal",
-        "speakerRole": "rinat",
-        "textId": "urman.chapter1:text/dialogue-rinat-formal",
-        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version", "status": "confirmed" }],
-        "effects": [{ "op": "npc.set-state", "characterId": "urman.chapter1:character/rinat", "stateKey": "saw_official_record", "value": true }],
-        "choices": []
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:dialogue/rinat_internal_register",
-    "participantRoles": ["aidar", "rinat"],
-    "startNodeId": "dangerous-category",
-    "nodes": [
-      {
-        "id": "dangerous-category",
-        "speakerRole": "rinat",
-        "textId": "urman.chapter1:text/dialogue-rinat-danger",
-        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed" }],
-        "effects": [
-          { "op": "npc.set-state", "characterId": "urman.chapter1:character/rinat", "stateKey": "alerted", "value": true },
-          { "op": "beat.set-state", "beatId": "urman.chapter1:beat/rinat-alerted-route-causality", "state": "completed" },
-          { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint", "status": "hypothesis" },
-          { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/pressure_council_attention_1", "status": "confirmed" },
-          { "op": "pressure.change", "delta": 2 }
-        ],
-        "choices": []
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:dialogue/timur_restraint",
-    "participantRoles": ["aidar", "timur-hazrat"],
-    "startNodeId": "restraint",
-    "nodes": [
-      {
-        "id": "restraint",
-        "speakerRole": "timur-hazrat",
-        "textId": "urman.chapter1:text/dialogue-timur-restraint",
-        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis" }],
-        "effects": [{ "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path", "status": "confirmed" }],
-        "choices": []
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/arrival_vehicle_dusk",
-    "sceneType": "route",
-    "title": { "default": "Road to Kyrlay", "translations": { "ru": "Дорога к Кырлаю" } },
-    "assetRefs": ["urman.chapter1:asset/route-arrival-vehicle-dusk"],
-    "textRefs": ["urman.chapter1:text/scene-arrival-title"],
-    "entryConditions": [],
-    "onEnter": [
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo", "status": "confirmed" },
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay", "status": "confirmed" },
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/topic_marat_unresolved", "status": "confirmed" },
-      { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_urman", "status": "guessed" },
-      { "op": "beat.set-state", "beatId": "urman.chapter1:beat/arrival", "state": "completed" }
-    ],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/arrival-enter-house",
-        "labelTextId": "urman.chapter1:text/continue",
-        "conditions": [],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/house"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/house",
-    "sceneType": "static",
-    "title": { "default": "Mansur and Gulsina's house", "translations": { "ru": "Дом Мансура и Гөлсинә" } },
-    "assetRefs": ["urman.chapter1:asset/portrait-mansur", "urman.chapter1:asset/portrait-gulsina"],
-    "textRefs": ["urman.chapter1:text/scene-house-title"],
-    "entryConditions": [],
-    "onEnter": [
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat", "status": "confirmed" },
-      { "op": "beat.set-state", "beatId": "urman.chapter1:beat/house-warmth-and-pause", "state": "completed" }
-    ],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/talk-mansur",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [],
-        "effects": [],
-        "targetDialogueId": "urman.chapter1:dialogue/mansur_pc_request"
-      },
-      {
-        "id": "urman.chapter1:interaction/oldpc-power",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [
-          {
-            "op": "npc.state",
-            "characterId": "urman.chapter1:character/mansur",
-            "stateKey": "pc_access_granted",
-            "value": true
-          }
-        ],
-        "effects": []
-      },
-      {
-        "id": "urman.chapter1:interaction/talk-gulsina",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [],
-        "effects": [],
-        "targetDialogueId": "urman.chapter1:dialogue/gulsina_yaramyy"
-      },
-      {
-        "id": "urman.chapter1:interaction/house-to-route",
-        "labelTextId": "urman.chapter1:text/continue",
-        "conditions": [
-          {
-            "op": "knowledge.status",
-            "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
-            "status": "confirmed"
-          },
-          {
-            "op": "npc.state",
-            "characterId": "urman.chapter1:character/gulsina",
-            "stateKey": "warning_heard",
-            "value": true
-          }
-        ],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/crossroad_signs_inspect"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/crossroad_signs_inspect",
-    "sceneType": "route",
-    "title": { "default": "Kyrlay street", "translations": { "ru": "Улица Кырлая" } },
-    "assetRefs": [],
-    "textRefs": ["urman.chapter1:text/scene-route-title"],
-    "entryConditions": [],
-    "onEnter": [],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/village-sign",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [],
-        "effects": []
-      },
-      {
-        "id": "urman.chapter1:interaction/talk-alsu",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [],
-        "effects": [],
-        "targetDialogueId": "urman.chapter1:dialogue/alsu_route_context"
-      },
-      {
-        "id": "urman.chapter1:interaction/talk-rinat",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [],
-        "effects": [],
-        "targetDialogueId": "urman.chapter1:dialogue/rinat_no_key"
-      },
-      {
-        "id": "urman.chapter1:interaction/route-to-fap",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict", "status": "confirmed" }],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/fap_waiting_room_day"
-      },
-      {
-        "id": "urman.chapter1:interaction/route-to-mosque",
-        "labelTextId": "urman.chapter1:text/continue",
-        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis" }],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/mosque"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/fap_waiting_room_day",
-    "sceneType": "static",
-    "title": { "default": "FAP waiting room", "translations": { "ru": "Приёмная ФАПа" } },
-    "assetRefs": ["urman.chapter1:asset/portrait-naila"],
-    "textRefs": ["urman.chapter1:text/scene-route-title"],
-    "entryConditions": [],
-    "onEnter": [],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/talk-naila",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [],
-        "effects": [],
-        "targetDialogueId": "urman.chapter1:dialogue/naila_medical_record"
-      },
-      {
-        "id": "urman.chapter1:interaction/fap-to-document-desk",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [
-          { "op": "npc.state", "characterId": "urman.chapter1:character/naila", "stateKey": "record_access_granted", "value": true }
-        ],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/fap_pressure_document_desk"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/fap_pressure_document_desk",
-    "sceneType": "static",
-    "title": { "default": "FAP document desk", "translations": { "ru": "Стол с документами в ФАПе" } },
-    "assetRefs": ["urman.chapter1:asset/loc_fap_pressure_document_desk"],
-    "textRefs": ["urman.chapter1:text/journal-source"],
-    "entryConditions": [],
-    "onEnter": [],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/fap-document-desk-to-official-record",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/evidence-official-death"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/evidence-official-death",
-    "sceneType": "presentation",
-    "title": { "default": "Official record projection", "translations": { "ru": "Проекция официальной справки" } },
-    "assetRefs": [],
-    "textRefs": ["urman.chapter1:text/journal-source"],
-    "entryConditions": [],
-    "onEnter": [
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version", "status": "confirmed" }
-    ],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/official-to-internal-register",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version", "status": "confirmed" }],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/evidence-internal-register"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/evidence-internal-register",
-    "sceneType": "presentation",
-    "title": { "default": "Internal register projection", "translations": { "ru": "Проекция внутренней отметки" } },
-    "assetRefs": [],
-    "textRefs": ["urman.chapter1:text/journal-source"],
-    "entryConditions": [
-      { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version", "status": "confirmed" }
-    ],
-    "onEnter": [
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker", "status": "confirmed" },
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed" },
-      { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_urman", "status": "confirmed" }
-    ],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/internal-register-to-rinat",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [
-          { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed" },
-          {
-            "op": "not",
-            "condition": {
-              "op": "npc.state",
-              "characterId": "urman.chapter1:character/rinat",
-              "stateKey": "alerted",
-              "value": true
-            }
-          }
-        ],
-        "effects": [],
-        "targetDialogueId": "urman.chapter1:dialogue/rinat_internal_register"
-      },
-      {
-        "id": "urman.chapter1:interaction/internal-register-to-saved-message",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [
-          { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed" },
-          { "op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "alerted", "value": true }
-        ],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/evidence-saved-message"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/evidence-saved-message",
-    "sceneType": "presentation",
-    "title": { "default": "Saved message projection", "translations": { "ru": "Проекция сохранённого сообщения" } },
-    "assetRefs": [],
-    "textRefs": ["urman.chapter1:text/journal-source"],
-    "entryConditions": [
-      { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed" }
-    ],
-    "onEnter": [
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death", "status": "confirmed" }
-    ],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/saved-message-to-boundary-source",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death", "status": "confirmed" }],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/evidence-tatarwiki-boundary"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/evidence-tatarwiki-boundary",
-    "sceneType": "presentation",
-    "title": { "default": "Boundary source projection", "translations": { "ru": "Проекция источника о границе" } },
-    "assetRefs": [],
-    "textRefs": ["urman.chapter1:text/journal-source"],
-    "entryConditions": [
-      { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death", "status": "confirmed" }
-    ],
-    "onEnter": [
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis" },
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint", "status": "hypothesis" },
-      { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh", "status": "guessed" },
-      { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "guessed" },
-      { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "guessed" }
-    ],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/boundary-source-to-reread",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [
-          { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis" },
-          { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint", "status": "hypothesis" },
-          { "op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "alerted", "value": true }
-        ],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/evidence-tatarwiki-reread"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/evidence-tatarwiki-reread",
-    "sceneType": "presentation",
-    "title": { "default": "Boundary source reread projection", "translations": { "ru": "Проекция повторного чтения источника о границе" } },
-    "assetRefs": [],
-    "textRefs": ["urman.chapter1:text/journal-source"],
-    "entryConditions": [
-      { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death", "status": "confirmed" },
-      { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis" },
-      { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint", "status": "hypothesis" },
-      { "op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "alerted", "value": true }
-    ],
-    "onEnter": [
-      { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh", "status": "confirmed" },
-      { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "confirmed" }
-    ],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/reread-to-edge-sketch",
-        "labelTextId": "urman.chapter1:text/continue",
-        "conditions": [
-          { "op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "confirmed" },
-          { "op": "beat.state", "beatId": "urman.chapter1:beat/language-reread", "state": "completed" }
-        ],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/evidence-edge-sketch"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/evidence-edge-sketch",
-    "sceneType": "presentation",
-    "title": { "default": "Mansur's edge sketch projection", "translations": { "ru": "Проекция схемы Мансура у кромки" } },
-    "assetRefs": [],
-    "textRefs": ["urman.chapter1:text/journal-source"],
-    "entryConditions": [
-      { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis" },
-      { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint", "status": "hypothesis" },
-      { "op": "beat.state", "beatId": "urman.chapter1:beat/language-reread", "state": "completed" }
-    ],
-    "onEnter": [
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately", "status": "hypothesis" },
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed" },
-      { "op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_zirat", "status": "confirmed" }
-    ],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/edge-sketch-to-zirat-road",
-        "labelTextId": "urman.chapter1:text/continue",
-        "conditions": [
-          { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed" },
-          { "op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "alerted", "value": true }
-        ],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/zirat-road"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/mosque",
-    "sceneType": "static",
-    "title": { "default": "Mosque courtyard", "translations": { "ru": "Двор мечети" } },
-    "assetRefs": ["urman.chapter1:asset/portrait-timur-hazrat"],
-    "textRefs": ["urman.chapter1:text/scene-mosque-title"],
-    "entryConditions": [],
-    "onEnter": [],
-    "onExit": [],
-    "interactions": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/zirat-road",
-    "sceneType": "route",
-    "title": { "default": "Zirat road turn", "translations": { "ru": "Поворот к зиратской дороге" } },
-    "assetRefs": ["urman.chapter1:asset/route-zirat-road-evening"],
-    "textRefs": ["urman.chapter1:text/scene-zirat-title"],
-    "entryConditions": [
-      { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed" },
-      { "op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "alerted", "value": true },
-      { "op": "beat.state", "beatId": "urman.chapter1:beat/language-reread", "state": "completed" }
-    ],
-    "onEnter": [
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint", "status": "confirmed" },
-      { "op": "beat.set-state", "beatId": "urman.chapter1:beat/rinat-visible-before-edge", "state": "completed" },
-      { "op": "route.unlock", "routeNodeId": "urman.chapter1:route-node/kara-urman-edge" }
-    ],
-    "onExit": [],
-    "interactions": [
-      {
-        "id": "urman.chapter1:interaction/zirat-roadside-clue",
-        "labelTextId": "urman.chapter1:text/inspect",
-        "conditions": [
-          { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint", "status": "confirmed" },
-          {
-            "op": "not",
-            "condition": {
-              "op": "knowledge.status",
-              "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
-              "status": "confirmed"
-            }
-          }
-        ],
-        "effects": [
-          { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat", "status": "confirmed" }
-        ]
-      },
-      {
-        "id": "urman.chapter1:interaction/zirat-road-to-forest",
-        "labelTextId": "urman.chapter1:text/continue",
-        "conditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat", "status": "confirmed" }],
-        "effects": [],
-        "targetSceneId": "urman.chapter1:scene/forest"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/zirat",
-    "sceneType": "route",
-    "title": { "default": "Zirat", "translations": { "ru": "Зират" } },
-    "assetRefs": ["urman.chapter1:asset/route-zirat-road-evening"],
-    "textRefs": ["urman.chapter1:text/scene-zirat-title"],
-    "entryConditions": [],
-    "onEnter": [],
-    "onExit": [],
-    "interactions": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/forest",
-    "sceneType": "scripted",
-    "title": { "default": "Kara-Urman edge", "translations": { "ru": "Кромка Кара-Урмана" } },
-    "assetRefs": ["urman.chapter1:asset/route_kara_urman_edge_voice_moment"],
-    "textRefs": ["urman.chapter1:text/scene-forest-title", "urman.chapter1:text/finale-rinat-warning"],
-    "entryConditions": [
-      { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint", "status": "confirmed" },
-      { "op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "alerted", "value": true },
-      { "op": "beat.state", "beatId": "urman.chapter1:beat/rinat-visible-before-edge", "state": "completed" }
-    ],
-    "onEnter": [
-      { "op": "audio.request", "assetId": "urman.chapter1:asset/audio-marat-voice" },
-      { "op": "audio.request", "assetId": "urman.chapter1:asset/audio-rinat-interruption" },
-      { "op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_do_not_answer_rule", "status": "confirmed" },
-      { "op": "beat.set-state", "beatId": "urman.chapter1:beat/cliffhanger-hard-cut", "state": "completed" }
-    ],
-    "onExit": [],
-    "interactions": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/river_bank_day",
-    "sceneType": "static",
-    "title": { "default": "River bank", "translations": { "ru": "Берег реки" } },
-    "assetRefs": [],
-    "textRefs": ["urman.chapter1:text/scene-route-title"],
-    "entryConditions": [],
-    "onEnter": [],
-    "onExit": [],
-    "interactions": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:scene/selsmag_counter_interior",
-    "sceneType": "static",
-    "title": { "default": "Selsmag counter", "translations": { "ru": "Прилавок сельмага" } },
-    "assetRefs": [],
-    "textRefs": ["urman.chapter1:text/scene-route-title"],
-    "entryConditions": [],
-    "onEnter": [],
-    "onExit": [],
-    "interactions": []
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:quest/quest_marat_first_contradiction",
-    "titleTextId": "urman.chapter1:text/quest-first-contradiction-title",
-    "stages": [
-      {
-        "id": "compare-records",
-        "objectives": [
-          {
-            "id": "find-contradiction",
-            "titleTextId": "urman.chapter1:text/objective-first-contradiction",
-            "optional": false,
-            "startConditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/topic_marat_unresolved", "status": "confirmed" }],
-            "completionConditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed" }],
-            "completionEffects": [{ "op": "beat.set-state", "beatId": "urman.chapter1:beat/first-contradiction", "state": "completed" }],
-            "failureEffects": []
-          }
-        ],
-        "composition": { "mode": "all", "objectiveIds": ["find-contradiction"] }
-      }
-    ],
-    "outcomes": { "success": [], "optional": [], "failure": [] },
-    "retryPolicy": { "mode": "none", "maximumAttempts": 1 },
-    "checkpointPolicy": { "mode": "objective" },
-    "cancelPolicy": { "allowed": false, "effects": [] }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:quest/quest_language_reread",
-    "titleTextId": "urman.chapter1:text/quest-language-reread-title",
-    "stages": [
-      {
-        "id": "reread-boundary",
-        "objectives": [
-          {
-            "id": "apply-words",
-            "titleTextId": "urman.chapter1:text/objective-language-reread",
-            "optional": false,
-            "startConditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis" }],
-            "completionConditions": [{ "op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "confirmed" }],
-            "completionEffects": [{ "op": "beat.set-state", "beatId": "urman.chapter1:beat/language-reread", "state": "completed" }],
-            "failureEffects": []
-          }
-        ],
-        "composition": { "mode": "all", "objectiveIds": ["apply-words"] }
-      }
-    ],
-    "outcomes": { "success": [], "optional": [], "failure": [] },
-    "retryPolicy": { "mode": "stage", "maximumAttempts": 2 },
-    "checkpointPolicy": { "mode": "stage" },
-    "cancelPolicy": { "allowed": true, "effects": [] }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.chapter1:quest/quest_kara_urman_cliffhanger",
-    "titleTextId": "urman.chapter1:text/quest-edge-title",
-    "stages": [
-      {
-        "id": "reach-edge",
-        "objectives": [
-          {
-            "id": "follow-evidence",
-            "titleTextId": "urman.chapter1:text/objective-edge",
-            "optional": false,
-            "startConditions": [
-              { "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed" },
-              { "op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "alerted", "value": true }
-            ],
-            "completionConditions": [{ "op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_do_not_answer_rule", "status": "confirmed" }],
-            "completionEffects": [{ "op": "beat.set-state", "beatId": "urman.chapter1:beat/chapter1-cliffhanger-complete", "state": "completed" }],
-            "failureEffects": []
-          }
-        ],
-        "composition": { "mode": "all", "objectiveIds": ["follow-evidence"] }
-      }
-    ],
-    "outcomes": { "success": [], "optional": [], "failure": [] },
-    "retryPolicy": { "mode": "none", "maximumAttempts": 1 },
-    "checkpointPolicy": { "mode": "objective" },
-    "cancelPolicy": { "allowed": false, "effects": [] }
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/continue",
+  "value": {
+   "default": "Continue",
+   "translations": {
+    "ru": "Продолжить",
+    "tt": "Дәвам итү"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/inspect",
+  "value": {
+   "default": "Inspect",
+   "translations": {
+    "ru": "Осмотреть",
+    "tt": "Карап чыгу"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/journal-source",
+  "value": {
+   "default": "Source",
+   "translations": {
+    "ru": "Источник",
+    "tt": "Чыганак"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/aidar-name",
+  "value": {
+   "default": "Aidar",
+   "translations": {
+    "ru": "Айдар",
+    "tt": "Айдар"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/alsu-name",
+  "value": {
+   "default": "Alsu",
+   "translations": {
+    "ru": "Алсу",
+    "tt": "Алсу"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/gulsina-name",
+  "value": {
+   "default": "Gulsina",
+   "translations": {
+    "ru": "Гөлсинә",
+    "tt": "Гөлсинә"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/mansur-name",
+  "value": {
+   "default": "Mansur",
+   "translations": {
+    "ru": "Мансур",
+    "tt": "Мансур"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/marat-name",
+  "value": {
+   "default": "Marat",
+   "translations": {
+    "ru": "Марат",
+    "tt": "Марат"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/naila-name",
+  "value": {
+   "default": "Naila",
+   "translations": {
+    "ru": "Наиля",
+    "tt": "Наилә"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/rinat-name",
+  "value": {
+   "default": "Rinat",
+   "translations": {
+    "ru": "Ринат",
+    "tt": "Ринат"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/timur-hazrat-name",
+  "value": {
+   "default": "Timur hazrat",
+   "translations": {
+    "ru": "Тимур хәзрәт",
+    "tt": "Тимур хәзрәт"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/scene-arrival-title",
+  "value": {
+   "default": "Road to Kyrlay",
+   "translations": {
+    "ru": "Дорога к Кырлаю"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/scene-house-title",
+  "value": {
+   "default": "Mansur and Gulsina's house",
+   "translations": {
+    "ru": "Дом Мансура и Гөлсинә"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/scene-route-title",
+  "value": {
+   "default": "Kyrlay route",
+   "translations": {
+    "ru": "Улица Кырлая"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/scene-mosque-title",
+  "value": {
+   "default": "Mosque courtyard",
+   "translations": {
+    "ru": "Двор мечети"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/scene-zirat-title",
+  "value": {
+   "default": "Zirat road",
+   "translations": {
+    "ru": "Зиратская дорога"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/scene-forest-title",
+  "value": {
+   "default": "Kara-Urman edge",
+   "translations": {
+    "ru": "Кромка Кара-Урмана"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/quest-first-contradiction-title",
+  "value": {
+   "default": "Find the first crack in Marat's story",
+   "translations": {
+    "ru": "Найти первую трещину в версии Марата"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/quest-language-reread-title",
+  "value": {
+   "default": "Read the words again",
+   "translations": {
+    "ru": "Перечитать слова по-новому"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/quest-edge-title",
+  "value": {
+   "default": "Reach the edge by the evidence",
+   "translations": {
+    "ru": "Дойти до кромки по уликам"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/objective-first-contradiction",
+  "value": {
+   "default": "Compare Marat's death record with the internal register line.",
+   "translations": {
+    "ru": "Сопоставить справку о смерти Марата с внутренней строкой реестра."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/objective-language-reread",
+  "value": {
+   "default": "Reread the boundary source with the words for sound and response.",
+   "translations": {
+    "ru": "Перечитать запись о границе, применив слова «тавыш» и «җавап»."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/objective-edge",
+  "value": {
+   "default": "Follow the zirat road from Mansur's sketch; Rinat has gone ahead.",
+   "translations": {
+    "ru": "Идти по зиратской дороге из схемы Мансура: Ринат уже ушёл вперёд."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-gulsina-warning",
+  "value": {
+   "default": "Gulsina lowers her voice: “Ярамый. Not toward the urman after dusk.”",
+   "translations": {
+    "ru": "«Ярамый», — мягко, но твёрдо говорит Гөлсинә. — Вечером к урману не ходят."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-alsu-route",
+  "value": {
+   "default": "Alsu points to the faded sign: “Зират is that way. People tell Marat's story differently; we take the main street first.”",
+   "translations": {
+    "ru": "Алсу показывает на выцветший указатель: «Зират — вон туда. Про Марата здесь каждый рассказывает по-своему. Сначала пойдём по главной улице; к Кара-Урману сейчас не надо»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-rinat-no-key",
+  "value": {
+   "default": "Rinat looks past Aidar: you came to family, so stay with family.",
+   "translations": {
+    "ru": "Ринат смотрит мимо Айдара: «Ты приехал к семье — вот и будь с семьёй»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-mansur-pc-request",
+  "value": {
+   "default": "Mansur taps the side of the monitor: “It still starts, but I cannot make sense of these old folders. Look for Marat's file, please. If something feels wrong, call me.”",
+   "translations": {
+    "ru": "Мансур постукивает по боку монитора: «Он ещё запускается, только я не разберу эти старые папки. Посмотри, пожалуйста, файл Марата. Если что-то покажется странным — позови меня»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-naila-medical-record",
+  "value": {
+   "default": "Naila keeps her voice even: “The note uses precise official medical wording. That is how it is recorded.”",
+   "translations": {
+    "ru": "Наиля говорит ровно: «В записи использована точная официальная медицинская формулировка. Так и записано»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-naila-ask-record",
+  "value": {
+   "default": "Ask why the wording is so formal and precise.",
+   "translations": {
+    "ru": "Спросить, почему формулировка такая официальная и точная."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-naila-separate-record",
+  "value": {
+   "default": "“I answer only for the medical wording. I will not interpret it.” She closes the folder, then almost inaudibly: “Бу ярамый… one does not ask like that.”",
+   "translations": {
+    "ru": "«Я отвечаю только за медицинскую формулировку. Толковать её не буду». Она закрывает папку и почти неслышно: «Бу ярамый… нельзя так спрашивать»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-rinat-formal",
+  "value": {
+   "default": "Formally, the case is closed.",
+   "translations": {
+    "ru": "«Формально дело закрыто», — говорит Ринат слишком аккуратно."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-rinat-danger",
+  "value": {
+   "default": "Where did you see that category? People here do not say those words on this road.",
+   "translations": {
+    "ru": "«Где ты это увидел? Такие слова на этой дороге не произносят»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-timur-restraint",
+  "value": {
+   "default": "“Do not turn truth into pride, Aidar. Marat already took that road.”",
+   "translations": {
+    "ru": "«Не превращай правду в гордость, Айдар. Марат уже пошёл этим путём», — тихо говорит Тимур."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/finale-rinat-warning",
+  "value": {
+   "default": "Do not answer.",
+   "translations": {
+    "ru": "Не отвечай."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/audio-marat-caption",
+  "value": {
+   "default": "A familiar voice—Marat's voice—comes from beyond the edge.",
+   "translations": {
+    "ru": "Из-за кромки звучит знакомый голос Марата."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/audio-marat-transcript",
+  "value": {
+   "default": "The voice repeats a childhood phrase with an unnatural pause: Kazan boy... do not fall behind.",
+   "translations": {
+    "ru": "Голос повторяет детскую фразу с неправильной паузой: «Казанский… не отставай»."
+   }
+  },
+  "purpose": "accessibility"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/audio-rinat-caption",
+  "value": {
+   "default": "Rinat interrupts before Aidar speaks.",
+   "translations": {
+    "ru": "Ринат прерывает Айдара до ответа."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/audio-rinat-transcript",
+  "value": {
+   "default": "Rinat says: Do not answer.",
+   "translations": {
+    "ru": "Ринат говорит: «Не отвечай»."
+   }
+  },
+  "purpose": "accessibility"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/portrait-aidar",
+  "kind": "image",
+  "file": "logical/portrait-aidar.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.chapter1:text/aidar-name"
   }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/portrait-alsu",
+  "kind": "image",
+  "file": "logical/portrait-alsu.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.chapter1:text/alsu-name"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/portrait-gulsina",
+  "kind": "image",
+  "file": "logical/portrait-gulsina.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.chapter1:text/gulsina-name"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/portrait-mansur",
+  "kind": "image",
+  "file": "logical/portrait-mansur.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.chapter1:text/mansur-name"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/portrait-marat",
+  "kind": "image",
+  "file": "logical/portrait-marat.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.chapter1:text/marat-name"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/portrait-naila",
+  "kind": "image",
+  "file": "logical/portrait-naila.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.chapter1:text/naila-name"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/portrait-rinat",
+  "kind": "image",
+  "file": "logical/portrait-rinat.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.chapter1:text/rinat-name"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/portrait-timur-hazrat",
+  "kind": "image",
+  "file": "logical/portrait-timur-hazrat.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.chapter1:text/timur-hazrat-name"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/route-arrival-vehicle-dusk",
+  "kind": "image",
+  "file": "logical/route-arrival-vehicle-dusk.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/route-zirat-road-evening",
+  "kind": "image",
+  "file": "logical/route-zirat-road-evening.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/route_kara_urman_edge_voice_moment",
+  "kind": "image",
+  "file": "logical/route_kara_urman_edge_voice_moment.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/loc_fap_pressure_document_desk",
+  "kind": "image",
+  "file": "logical/loc_fap_pressure_document_desk.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/audio-marat-voice",
+  "kind": "audio",
+  "file": "logical/audio-marat-voice.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "captionTextId": "urman.chapter1:text/audio-marat-caption",
+   "audioDescriptionTextId": "urman.chapter1:text/audio-marat-transcript"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:asset/audio-rinat-interruption",
+  "kind": "audio",
+  "file": "logical/audio-rinat-interruption.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "captionTextId": "urman.chapter1:text/audio-rinat-caption",
+   "audioDescriptionTextId": "urman.chapter1:text/audio-rinat-transcript"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:character/aidar",
+  "displayName": {
+   "default": "Aidar",
+   "translations": {
+    "ru": "Айдар",
+    "tt": "Айдар"
+   }
+  },
+  "roleTags": [
+   "aidar",
+   "protagonist"
+  ],
+  "assetIds": [
+   "urman.chapter1:asset/portrait-aidar"
+  ],
+  "accessibilityDescription": {
+   "default": "Aidar is a city student returning to his family village.",
+   "translations": {
+    "ru": "Айдар — городской студент, вернувшийся в деревню своей семьи."
+   }
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:character/mansur",
+  "displayName": {
+   "default": "Mansur",
+   "translations": {
+    "ru": "Мансур бабай",
+    "tt": "Мансур бабай"
+   }
+  },
+  "roleTags": [
+   "mansur",
+   "family-elder"
+  ],
+  "assetIds": [
+   "urman.chapter1:asset/portrait-mansur"
+  ],
+  "accessibilityDescription": {
+   "default": "Mansur is Aidar's grandfather and a guarded keeper of family memory.",
+   "translations": {
+    "ru": "Мансур — бабай Айдара и сдержанный хранитель семейной памяти."
+   }
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:character/gulsina",
+  "displayName": {
+   "default": "Gulsina",
+   "translations": {
+    "ru": "Гөлсинә әби",
+    "tt": "Гөлсинә әби"
+   }
+  },
+  "roleTags": [
+   "gulsina",
+   "family-elder"
+  ],
+  "assetIds": [
+   "urman.chapter1:asset/portrait-gulsina"
+  ],
+  "accessibilityDescription": {
+   "default": "Gulsina protects the warmth of the house and hears danger in familiar words.",
+   "translations": {
+    "ru": "Гөлсинә хранит тепло дома и слышит опасность в знакомых словах."
+   }
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:character/alsu",
+  "displayName": {
+   "default": "Alsu",
+   "translations": {
+    "ru": "Алсу",
+    "tt": "Алсу"
+   }
+  },
+  "roleTags": [
+   "alsu",
+   "route-guide"
+  ],
+  "assetIds": [
+   "urman.chapter1:asset/portrait-alsu"
+  ],
+  "accessibilityDescription": {
+   "default": "Alsu is a human guide through the village, not its mystical answer.",
+   "translations": {
+    "ru": "Алсу — человеческий проводник по деревне, а не мистическая разгадка."
+   }
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:character/marat",
+  "displayName": {
+   "default": "Marat",
+   "translations": {
+    "ru": "Марат",
+    "tt": "Марат"
+   }
+  },
+  "roleTags": [
+   "marat-trace"
+  ],
+  "assetIds": [
+   "urman.chapter1:asset/portrait-marat"
+  ],
+  "accessibilityDescription": {
+   "default": "Marat is Aidar's absent childhood friend, present through memory and evidence.",
+   "translations": {
+    "ru": "Марат — отсутствующий друг детства Айдара, присутствующий через память и улики."
+   }
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:character/rinat",
+  "displayName": {
+   "default": "Rinat",
+   "translations": {
+    "ru": "Ринат",
+    "tt": "Ринат"
+   }
+  },
+  "roleTags": [
+   "rinat",
+   "village-official"
+  ],
+  "assetIds": [
+   "urman.chapter1:asset/portrait-rinat"
+  ],
+  "accessibilityDescription": {
+   "default": "Rinat suppresses information, then acts to prevent a repeated danger rather than to punish Aidar.",
+   "translations": {
+    "ru": "Ринат скрывает сведения, а затем действует, чтобы не допустить повторения опасности, а не наказать Айдара."
+   }
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:character/naila",
+  "displayName": {
+   "default": "Naila",
+   "translations": {
+    "ru": "Наиля",
+    "tt": "Наилә"
+   }
+  },
+  "roleTags": [
+   "naila",
+   "fap-worker"
+  ],
+  "assetIds": [
+   "urman.chapter1:asset/portrait-naila"
+  ],
+  "accessibilityDescription": {
+   "default": "Naila protects the medical wording that hides the village's fear.",
+   "translations": {
+    "ru": "Наиля защищает медицинские формулировки, за которыми прячется страх деревни."
+   }
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:character/timur_hazrat",
+  "displayName": {
+   "default": "Timur hazrat",
+   "translations": {
+    "ru": "Тимур хәзрәт",
+    "tt": "Тимур хәзрәт"
+   }
+  },
+  "roleTags": [
+   "timur-hazrat",
+   "moral-support"
+  ],
+  "assetIds": [
+   "urman.chapter1:asset/portrait-timur-hazrat"
+  ],
+  "accessibilityDescription": {
+   "default": "Timur hazrat offers moral and cultural support without reducing faith or folklore to a caricature.",
+   "translations": {
+    "ru": "Тимур хәзрәт даёт моральную и культурную опору, не превращая веру или фольклор в карикатуру."
+   }
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_urman",
+  "term": "урман",
+  "language": "tt",
+  "meaning": {
+   "default": "forest",
+   "translations": {
+    "ru": "лес; в Кырлае также граница старых правил"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/evidence-internal-register",
+   "urman.chapter1:scene/evidence-tatarwiki-boundary"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:scene/zirat-road",
+   "urman.chapter1:dialogue/alsu_route_context"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "Individual term retained from the accepted vocabulary chain; longer phrases require a Tatar-language review."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_tavysh",
+  "term": "тавыш",
+  "language": "tt",
+  "meaning": {
+   "default": "voice or sound",
+   "translations": {
+    "ru": "голос или звук"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/evidence-tatarwiki-boundary",
+   "urman.chapter1:scene/evidence-edge-sketch"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:scene/forest"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "The term changes the meaning of a source; it does not disclose a complete rule before the finale."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_javap",
+  "term": "җавап",
+  "language": "tt",
+  "meaning": {
+   "default": "answer or response",
+   "translations": {
+    "ru": "ответ или отклик"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/evidence-internal-register",
+   "urman.chapter1:scene/evidence-edge-sketch"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:dialogue/rinat_internal_register",
+   "urman.chapter1:scene/forest"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "Before the finale this supports only an evidence-based danger hypothesis."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_yaramyy",
+  "term": "ярамый",
+  "language": "tt",
+  "meaning": {
+   "default": "not allowed",
+   "translations": {
+    "ru": "нельзя"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:dialogue/gulsina_yaramyy"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:dialogue/gulsina_yaramyy"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "A domestic prohibition becomes meaningful through investigation, not a cipher."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_zirat",
+  "term": "зират",
+  "language": "tt",
+  "meaning": {
+   "default": "cemetery",
+   "translations": {
+    "ru": "кладбище"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/evidence-edge-sketch"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:scene/zirat-road",
+   "urman.chapter1:scene/zirat"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "The route passes by the zirat road; it does not turn the cemetery into a horror attraction."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_shurale",
+  "term": "Шүрәле",
+  "language": "tt",
+  "meaning": {
+   "default": "a folklore name for an old forest layer",
+   "translations": {
+    "ru": "фольклорное имя старого лесного слоя"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/evidence-tatarwiki-boundary"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:dialogue/timur_restraint"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "This is never an enemy label, combat class, or ordinary Chapter 1 character."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/memory_marat_childhood_photo",
+  "kind": "fact",
+  "title": {
+   "default": "A childhood photo",
+   "translations": {
+    "ru": "Детская фотография"
+   }
+  },
+  "summary": {
+   "default": "Aidar remembers Marat as a friend, not a case file.",
+   "translations": {
+    "ru": "Айдар помнит Марата другом, а не строкой в деле."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/arrival_vehicle_dusk"
+  ],
+  "reveals": [
+   "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay"
+  ],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
+  "kind": "fact",
+  "title": {
+   "default": "Kazan boy, do not fall behind",
+   "translations": {
+    "ru": "Казанский, не отставай"
+   }
+  },
+  "summary": {
+   "default": "A personal childhood tease anchors the final voice without explaining it.",
+   "translations": {
+    "ru": "Личная детская подколка связывает финальный голос с памятью, ничего не объясняя."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/arrival_vehicle_dusk"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/topic_marat_unresolved",
+  "kind": "clue",
+  "title": {
+   "default": "Marat remains unresolved",
+   "translations": {
+    "ru": "Вопрос о Марате не закрыт"
+   }
+  },
+  "summary": {
+   "default": "Aidar returns with an unanswered question about his childhood friend.",
+   "translations": {
+    "ru": "Айдар возвращается с незакрытым вопросом о друге детства."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/arrival_vehicle_dusk"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": [
+   "urman.chapter1:quest/quest_marat_first_contradiction"
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_family_avoids_marat",
+  "kind": "clue",
+  "title": {
+   "default": "The family avoids Marat's name",
+   "translations": {
+    "ru": "Семья избегает имени Марата"
+   }
+  },
+  "summary": {
+   "default": "Warmth at home does not remove the pause around Marat.",
+   "translations": {
+    "ru": "Тепло дома не убирает паузу вокруг Марата."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/house",
+   "urman.chapter1:dialogue/gulsina_yaramyy"
+  ],
+  "reveals": [
+   "urman.chapter1:knowledge/clue_marat_versions_conflict"
+  ],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_marat_versions_conflict",
+  "kind": "contradiction",
+  "title": {
+   "default": "Different versions of Marat",
+   "translations": {
+    "ru": "Разные версии о Марате"
+   }
+  },
+  "summary": {
+   "default": "The village's answers do not line up, but no one calls it an investigation yet.",
+   "translations": {
+    "ru": "Ответы деревни не сходятся, но никто ещё не называет это расследованием."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:dialogue/alsu_route_context"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says",
+  "kind": "hypothesis",
+  "title": {
+   "default": "Alsu chooses what to leave unsaid",
+   "translations": {
+    "ru": "Алсу выбирает, о чём не говорить"
+   }
+  },
+  "summary": {
+   "default": "Alsu helps Aidar move through Kyrlay but avoids the forest boundary.",
+   "translations": {
+    "ru": "Алсу помогает Айдару идти по Кырлаю, но избегает лесной границы."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:dialogue/alsu_route_context"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_marat_official_death_version",
+  "kind": "clue",
+  "title": {
+   "default": "The official version of Marat's death",
+   "translations": {
+    "ru": "Официальная версия смерти Марата"
+   }
+  },
+  "summary": {
+   "default": "A dry medical wording closes the case too cleanly.",
+   "translations": {
+    "ru": "Сухая медицинская формулировка слишком удобно закрывает дело."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/evidence-official-death"
+  ],
+  "reveals": [],
+  "contradicts": [
+   "urman.chapter1:knowledge/contradiction_marat_official_vs_internal"
+  ],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
+  "kind": "clue",
+  "title": {
+   "default": "Boundary / answered",
+   "translations": {
+    "ru": "Граница / ответил"
+   }
+  },
+  "summary": {
+   "default": "An internal category is not medical language.",
+   "translations": {
+    "ru": "Внутренняя категория не похожа на медицинский язык."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/evidence-internal-register"
+  ],
+  "reveals": [
+   "urman.chapter1:knowledge/contradiction_marat_official_vs_internal"
+  ],
+  "contradicts": [
+   "urman.chapter1:knowledge/clue_marat_official_death_version"
+  ],
+  "unlocks": [
+   "urman.chapter1:dialogue/rinat_internal_register"
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+  "kind": "contradiction",
+  "title": {
+   "default": "Official wording against the internal trace",
+   "translations": {
+    "ru": "Официальная формулировка против внутренней отметки"
+   }
+  },
+  "summary": {
+   "default": "One source says a medical closure; another marks a boundary and a response.",
+   "translations": {
+    "ru": "Один источник закрывает дело медицински, другой отмечает границу и ответ."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/evidence-official-death",
+   "urman.chapter1:scene/evidence-internal-register"
+  ],
+  "reveals": [
+   "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint"
+  ],
+  "contradicts": [
+   "urman.chapter1:knowledge/clue_marat_official_death_version"
+  ],
+  "unlocks": [
+   "urman.chapter1:dialogue/rinat_internal_register"
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death",
+  "kind": "clue",
+  "title": {
+   "default": "Marat was afraid before his death",
+   "translations": {
+    "ru": "Марат боялся перед смертью"
+   }
+  },
+  "summary": {
+   "default": "A saved message says Marat heard a voice from the urman and feared answering it.",
+   "translations": {
+    "ru": "В сохранённом сообщении Марат пишет, что слышал голос из урмана и боялся ему ответить."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/evidence-saved-message"
+  ],
+  "reveals": [
+   "urman.chapter1:knowledge/clue_folklore_as_survival_rule"
+  ],
+  "contradicts": [
+   "urman.chapter1:knowledge/clue_marat_official_death_version"
+  ],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+  "kind": "clue",
+  "title": {
+   "default": "Marat's last route passed the zirat",
+   "translations": {
+    "ru": "Последний маршрут Марата проходил у зирата"
+   }
+  },
+  "summary": {
+   "default": "A worn trace beside the zirat road places Marat's last route beside the cemetery, not through its center.",
+   "translations": {
+    "ru": "Стертый след у зиратской дороги показывает: последний маршрут Марата проходил рядом с кладбищем, а не через его центр."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/zirat-road"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
+  "kind": "hypothesis",
+  "title": {
+   "default": "Folklore as a survival clue",
+   "translations": {
+    "ru": "Фольклор как улика выживания"
+   }
+  },
+  "summary": {
+   "default": "A folklore source begins to read like a practical boundary note, without explaining the pact.",
+   "translations": {
+    "ru": "Фольклорный источник начинает читаться как практическая заметка о границе, но не объясняет пакт."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/evidence-tatarwiki-boundary"
+  ],
+  "reveals": [
+   "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint"
+  ],
+  "contradicts": [],
+  "unlocks": [
+   "urman.chapter1:quest/quest_language_reread"
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
+  "kind": "hypothesis",
+  "title": {
+   "default": "A voice and a response may be dangerous",
+   "translations": {
+    "ru": "Голос и ответ могут быть опасно связаны"
+   }
+  },
+  "summary": {
+   "default": "The evidence makes a connection plausible, but no complete instruction is known.",
+   "translations": {
+    "ru": "Улики делают связь вероятной, но готового правила ещё нет."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/evidence-tatarwiki-boundary",
+   "urman.chapter1:dialogue/rinat_internal_register"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+  "kind": "hypothesis",
+  "title": {
+   "default": "Mansur left access deliberately",
+   "translations": {
+    "ru": "Мансур оставил доступ намеренно"
+   }
+  },
+  "summary": {
+   "default": "The old computer was not simply left open, but Mansur is not made into a villain.",
+   "translations": {
+    "ru": "Старый ПК оказался доступен не случайно, но Мансур не становится злодеем."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/house",
+   "urman.chapter1:scene/evidence-edge-sketch"
+  ],
+  "reveals": [
+   "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary"
+  ],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
+  "kind": "route",
+  "title": {
+   "default": "The Kara-Urman edge is a rule boundary",
+   "translations": {
+    "ru": "Кромка Кара-Урмана — граница правила"
+   }
+  },
+  "summary": {
+   "default": "Mansur's sketch links the old path behind the zirat to doubled hearing.",
+   "translations": {
+    "ru": "Схема Мансура связывает старую тропу за зиратом с двойной слышимостью."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/evidence-edge-sketch"
+  ],
+  "reveals": [
+   "urman.chapter1:knowledge/route_kara_urman_edge_hint"
+  ],
+  "contradicts": [],
+  "unlocks": [
+   "urman.chapter1:scene/zirat-road"
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
+  "kind": "route",
+  "title": {
+   "default": "A route from the zirat road",
+   "translations": {
+    "ru": "Путь от зиратской дороги"
+   }
+  },
+  "summary": {
+   "default": "The route is a concrete source chain, not a journal guess.",
+   "translations": {
+    "ru": "Маршрут рождается из конкретной цепочки источников, а не из догадки журнала."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/evidence-edge-sketch",
+   "urman.chapter1:dialogue/rinat_internal_register"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": [
+   "urman.chapter1:scene/zirat-road",
+   "urman.chapter1:scene/forest"
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path",
+  "kind": "fact",
+  "title": {
+   "default": "Timur warns against Marat's path",
+   "translations": {
+    "ru": "Тимур предупреждает не повторять путь Марата"
+   }
+  },
+  "summary": {
+   "default": "Timur treats the question as a moral danger rather than a reason to mock belief or folklore.",
+   "translations": {
+    "ru": "Тимур видит в вопросе нравственную опасность, не высмеивая веру или фольклор."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:dialogue/timur_restraint"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/pressure_council_attention_1",
+  "kind": "pressure",
+  "title": {
+   "default": "The village has noticed",
+   "translations": {
+    "ru": "Деревня заметила расследование"
+   }
+  },
+  "summary": {
+   "default": "Dangerous knowledge changes sound, light, and the attention of people without creating a fail state.",
+   "translations": {
+    "ru": "Опасное знание меняет звук, свет и внимание людей, но не создаёт fail-state."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:dialogue/rinat_internal_register"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_do_not_answer_rule",
+  "kind": "clue",
+  "title": {
+   "default": "Rinat's final rule",
+   "translations": {
+    "ru": "Финальное правило Рината"
+   }
+  },
+  "summary": {
+   "default": "Only Rinat's interruption at the edge confirms the practical rule.",
+   "translations": {
+    "ru": "Только прерывание Рината у кромки подтверждает практическое правило."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/forest"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:dialogue/gulsina_yaramyy",
+  "participantRoles": [
+   "aidar",
+   "gulsina"
+  ],
+  "startNodeId": "home-warning",
+  "nodes": [
+   {
+    "id": "home-warning",
+    "speakerRole": "gulsina",
+    "textId": "urman.chapter1:text/dialogue-gulsina-warning",
+    "conditions": [],
+    "effects": [
+     {
+      "op": "vocabulary.set-status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
+      "status": "guessed"
+     },
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/gulsina",
+      "stateKey": "warning_heard",
+      "value": true
+     },
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat",
+      "status": "confirmed"
+     }
+    ],
+    "choices": [
+     {
+      "id": "ask-marat",
+      "textId": "urman.chapter1:text/choice-gulsina-marat",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "marat-reply"
+     },
+     {
+      "id": "ask-yaramyy-why",
+      "textId": "urman.chapter1:text/choice-gulsina-yaramyy",
+      "conditions": [
+       {
+        "op": "vocabulary.status",
+        "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "yaramyy-reply"
+     }
+    ]
+   },
+   {
+    "id": "marat-reply",
+    "speakerRole": "gulsina",
+    "textId": "urman.chapter1:text/dialogue-gulsina-marat-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "yaramyy-reply",
+    "speakerRole": "gulsina",
+    "textId": "urman.chapter1:text/dialogue-gulsina-yaramyy-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:dialogue/alsu_route_context",
+  "participantRoles": [
+   "aidar",
+   "alsu"
+  ],
+  "startNodeId": "name-road",
+  "nodes": [
+   {
+    "id": "name-road",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-route",
+    "conditions": [],
+    "effects": [
+     {
+      "op": "vocabulary.set-status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_zirat",
+      "status": "guessed"
+     },
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says",
+      "status": "hypothesis"
+     },
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict",
+      "status": "confirmed"
+     }
+    ],
+    "choices": [
+     {
+      "id": "ask-boundary",
+      "textId": "urman.chapter1:text/choice-alsu-boundary",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "boundary-reply"
+     },
+     {
+      "id": "ask-zirat-silence",
+      "textId": "urman.chapter1:text/choice-alsu-zirat",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "zirat-reply"
+     }
+    ]
+   },
+   {
+    "id": "boundary-reply",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-boundary-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "zirat-reply",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-zirat-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:dialogue/mansur_pc_request",
+  "participantRoles": [
+   "aidar",
+   "mansur"
+  ],
+  "startNodeId": "ask-for-help",
+  "nodes": [
+   {
+    "id": "ask-for-help",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-pc-request",
+    "conditions": [],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/mansur",
+      "stateKey": "pc_access_granted",
+      "value": true
+     }
+    ],
+    "choices": [
+     {
+      "id": "ask-why-not-himself",
+      "textId": "urman.chapter1:text/choice-mansur-why",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "why-reply"
+     },
+     {
+      "id": "show-official-notice",
+      "textId": "urman.chapter1:text/choice-mansur-marat",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "marat-reply"
+     }
+    ]
+   },
+   {
+    "id": "why-reply",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-why-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "marat-reply",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-marat-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:dialogue/naila_medical_record",
+  "participantRoles": [
+   "aidar",
+   "naila"
+  ],
+  "startNodeId": "official-wording",
+  "nodes": [
+   {
+    "id": "official-wording",
+    "speakerRole": "naila",
+    "textId": "urman.chapter1:text/dialogue-naila-medical-record",
+    "conditions": [],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/naila",
+      "stateKey": "record_access_granted",
+      "value": true
+     }
+    ],
+    "choices": [
+     {
+      "id": "press-contradiction",
+      "textId": "urman.chapter1:text/choice-naila-contradiction",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "separate-record"
+     }
+    ]
+   },
+   {
+    "id": "separate-record",
+    "speakerRole": "naila",
+    "textId": "urman.chapter1:text/dialogue-naila-separate-record",
+    "conditions": [],
+    "effects": [
+     {
+      "op": "vocabulary.set-status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
+      "status": "confirmed"
+     }
+    ],
+    "choices": []
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:dialogue/rinat_no_key",
+  "participantRoles": [
+   "aidar",
+   "rinat"
+  ],
+  "startNodeId": "deflect",
+  "nodes": [
+   {
+    "id": "deflect",
+    "speakerRole": "rinat",
+    "textId": "urman.chapter1:text/dialogue-rinat-no-key",
+    "conditions": [],
+    "effects": [],
+    "choices": [
+     {
+      "id": "show-official",
+      "textId": "urman.chapter1:text/choice-rinat-official",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "formal"
+     }
+    ]
+   },
+   {
+    "id": "formal",
+    "speakerRole": "rinat",
+    "textId": "urman.chapter1:text/dialogue-rinat-formal",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+      "status": "confirmed"
+     }
+    ],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "saw_official_record",
+      "value": true
+     }
+    ],
+    "choices": []
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:dialogue/rinat_internal_register",
+  "participantRoles": [
+   "aidar",
+   "rinat"
+  ],
+  "startNodeId": "dangerous-category",
+  "nodes": [
+   {
+    "id": "dangerous-category",
+    "speakerRole": "rinat",
+    "textId": "urman.chapter1:text/dialogue-rinat-danger",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+      "status": "confirmed"
+     }
+    ],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "alerted",
+      "value": true
+     },
+     {
+      "op": "beat.set-state",
+      "beatId": "urman.chapter1:beat/rinat-alerted-route-causality",
+      "state": "completed"
+     },
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
+      "status": "hypothesis"
+     },
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/pressure_council_attention_1",
+      "status": "confirmed"
+     },
+     {
+      "op": "pressure.change",
+      "delta": 2
+     }
+    ],
+    "choices": [
+     {
+      "id": "say-javap",
+      "textId": "urman.chapter1:text/choice-rinat-javap",
+      "conditions": [
+       {
+        "op": "vocabulary.status",
+        "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "javap-interrupt"
+     }
+    ]
+   },
+   {
+    "id": "javap-interrupt",
+    "speakerRole": "rinat",
+    "textId": "urman.chapter1:text/dialogue-rinat-javap-interrupt",
+    "conditions": [],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "javap_interrupted",
+      "value": true
+     }
+    ],
+    "choices": []
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:dialogue/timur_restraint",
+  "participantRoles": [
+   "aidar",
+   "timur-hazrat"
+  ],
+  "startNodeId": "restraint",
+  "nodes": [
+   {
+    "id": "restraint",
+    "speakerRole": "timur-hazrat",
+    "textId": "urman.chapter1:text/dialogue-timur-restraint",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
+      "status": "hypothesis"
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path",
+      "status": "confirmed"
+     },
+     {
+      "op": "vocabulary.set-status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_xazrat",
+      "status": "guessed"
+     }
+    ],
+    "choices": [
+     {
+      "id": "tell-register",
+      "textId": "urman.chapter1:text/choice-timur-register",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "boundary-reply"
+     }
+    ]
+   },
+   {
+    "id": "boundary-reply",
+    "speakerRole": "timur",
+    "textId": "urman.chapter1:text/dialogue-timur-boundary-reply",
+    "conditions": [],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/timur_hazrat",
+      "stateKey": "heard_register_story",
+      "value": true
+     }
+    ],
+    "choices": []
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/arrival_vehicle_dusk",
+  "sceneType": "route",
+  "title": {
+   "default": "Road to Kyrlay",
+   "translations": {
+    "ru": "Дорога к Кырлаю"
+   }
+  },
+  "assetRefs": [
+   "urman.chapter1:asset/route-arrival-vehicle-dusk"
+  ],
+  "textRefs": [
+   "urman.chapter1:text/scene-arrival-title"
+  ],
+  "entryConditions": [],
+  "onEnter": [
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
+    "status": "confirmed"
+   },
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
+    "status": "confirmed"
+   },
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/topic_marat_unresolved",
+    "status": "confirmed"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_urman",
+    "status": "guessed"
+   },
+   {
+    "op": "beat.set-state",
+    "beatId": "urman.chapter1:beat/arrival",
+    "state": "completed"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_yul",
+    "status": "guessed"
+   }
+  ],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/arrival-enter-house",
+    "labelTextId": "urman.chapter1:text/continue",
+    "conditions": [],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/house"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/house",
+  "sceneType": "static",
+  "title": {
+   "default": "Mansur and Gulsina's house",
+   "translations": {
+    "ru": "Дом Мансура и Гөлсинә"
+   }
+  },
+  "assetRefs": [
+   "urman.chapter1:asset/portrait-mansur",
+   "urman.chapter1:asset/portrait-gulsina"
+  ],
+  "textRefs": [
+   "urman.chapter1:text/scene-house-title"
+  ],
+  "entryConditions": [],
+  "onEnter": [
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat",
+    "status": "confirmed"
+   },
+   {
+    "op": "beat.set-state",
+    "beatId": "urman.chapter1:beat/house-warmth-and-pause",
+    "state": "completed"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_uy",
+    "status": "guessed"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_babai",
+    "status": "guessed"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_abi",
+    "status": "guessed"
+   }
+  ],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/talk-mansur",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [],
+    "effects": [],
+    "targetDialogueId": "urman.chapter1:dialogue/mansur_pc_request"
+   },
+   {
+    "id": "urman.chapter1:interaction/oldpc-power",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/mansur",
+      "stateKey": "pc_access_granted",
+      "value": true
+     }
+    ],
+    "effects": []
+   },
+   {
+    "id": "urman.chapter1:interaction/talk-gulsina",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [],
+    "effects": [],
+    "targetDialogueId": "urman.chapter1:dialogue/gulsina_yaramyy"
+   },
+   {
+    "id": "urman.chapter1:interaction/house-to-route",
+    "labelTextId": "urman.chapter1:text/continue",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+      "status": "confirmed"
+     },
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/gulsina",
+      "stateKey": "warning_heard",
+      "value": true
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/crossroad_signs_inspect"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/crossroad_signs_inspect",
+  "sceneType": "route",
+  "title": {
+   "default": "Kyrlay street",
+   "translations": {
+    "ru": "Улица Кырлая"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/scene-route-title"
+  ],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/village-sign",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [],
+    "effects": []
+   },
+   {
+    "id": "urman.chapter1:interaction/talk-alsu",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [],
+    "effects": [],
+    "targetDialogueId": "urman.chapter1:dialogue/alsu_route_context"
+   },
+   {
+    "id": "urman.chapter1:interaction/talk-rinat",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [],
+    "effects": [],
+    "targetDialogueId": "urman.chapter1:dialogue/rinat_no_key"
+   },
+   {
+    "id": "urman.chapter1:interaction/route-to-fap",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict",
+      "status": "confirmed"
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/fap_waiting_room_day"
+   },
+   {
+    "id": "urman.chapter1:interaction/route-to-mosque",
+    "labelTextId": "urman.chapter1:text/continue",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
+      "status": "hypothesis"
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/mosque"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/fap_waiting_room_day",
+  "sceneType": "static",
+  "title": {
+   "default": "FAP waiting room",
+   "translations": {
+    "ru": "Приёмная ФАПа"
+   }
+  },
+  "assetRefs": [
+   "urman.chapter1:asset/portrait-naila"
+  ],
+  "textRefs": [
+   "urman.chapter1:text/scene-route-title"
+  ],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/talk-naila",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [],
+    "effects": [],
+    "targetDialogueId": "urman.chapter1:dialogue/naila_medical_record"
+   },
+   {
+    "id": "urman.chapter1:interaction/fap-to-document-desk",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/naila",
+      "stateKey": "record_access_granted",
+      "value": true
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/fap_pressure_document_desk"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/fap_pressure_document_desk",
+  "sceneType": "static",
+  "title": {
+   "default": "FAP document desk",
+   "translations": {
+    "ru": "Стол с документами в ФАПе"
+   }
+  },
+  "assetRefs": [
+   "urman.chapter1:asset/loc_fap_pressure_document_desk"
+  ],
+  "textRefs": [
+   "urman.chapter1:text/journal-source"
+  ],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/fap-document-desk-to-official-record",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/evidence-official-death"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/evidence-official-death",
+  "sceneType": "presentation",
+  "title": {
+   "default": "Official record projection",
+   "translations": {
+    "ru": "Проекция официальной справки"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/journal-source"
+  ],
+  "entryConditions": [],
+  "onEnter": [
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+    "status": "confirmed"
+   }
+  ],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/official-to-internal-register",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+      "status": "confirmed"
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/evidence-internal-register"
+   },
+   {
+    "id": "urman.chapter1:interaction/official-leave-clinic",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+      "status": "confirmed"
+     }
+    ],
+    "effects": []
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/evidence-internal-register",
+  "sceneType": "presentation",
+  "title": {
+   "default": "Internal register projection",
+   "translations": {
+    "ru": "Проекция внутренней отметки"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/journal-source"
+  ],
+  "entryConditions": [
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+    "status": "confirmed"
+   }
+  ],
+  "onEnter": [
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
+    "status": "confirmed"
+   },
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+    "status": "confirmed"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_urman",
+    "status": "confirmed"
+   }
+  ],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/internal-register-to-rinat",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+      "status": "confirmed"
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/rinat",
+       "stateKey": "alerted",
+       "value": true
+      }
+     }
+    ],
+    "effects": [],
+    "targetDialogueId": "urman.chapter1:dialogue/rinat_internal_register"
+   },
+   {
+    "id": "urman.chapter1:interaction/internal-register-to-saved-message",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+      "status": "confirmed"
+     },
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "alerted",
+      "value": true
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/evidence-saved-message"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/evidence-saved-message",
+  "sceneType": "presentation",
+  "title": {
+   "default": "Saved message projection",
+   "translations": {
+    "ru": "Проекция сохранённого сообщения"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/journal-source"
+  ],
+  "entryConditions": [
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+    "status": "confirmed"
+   }
+  ],
+  "onEnter": [
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death",
+    "status": "confirmed"
+   }
+  ],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/saved-message-to-boundary-source",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death",
+      "status": "confirmed"
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/evidence-tatarwiki-boundary"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/evidence-tatarwiki-boundary",
+  "sceneType": "presentation",
+  "title": {
+   "default": "Boundary source projection",
+   "translations": {
+    "ru": "Проекция источника о границе"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/journal-source"
+  ],
+  "entryConditions": [
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death",
+    "status": "confirmed"
+   }
+  ],
+  "onEnter": [
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
+    "status": "hypothesis"
+   },
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
+    "status": "hypothesis"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh",
+    "status": "guessed"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+    "status": "guessed"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_shurale",
+    "status": "guessed"
+   }
+  ],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/boundary-source-to-reread",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
+      "status": "hypothesis"
+     },
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
+      "status": "hypothesis"
+     },
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "alerted",
+      "value": true
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/evidence-tatarwiki-reread"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/evidence-tatarwiki-reread",
+  "sceneType": "presentation",
+  "title": {
+   "default": "Boundary source reread projection",
+   "translations": {
+    "ru": "Проекция повторного чтения источника о границе"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/journal-source"
+  ],
+  "entryConditions": [
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death",
+    "status": "confirmed"
+   },
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
+    "status": "hypothesis"
+   },
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
+    "status": "hypothesis"
+   },
+   {
+    "op": "npc.state",
+    "characterId": "urman.chapter1:character/rinat",
+    "stateKey": "alerted",
+    "value": true
+   }
+  ],
+  "onEnter": [
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh",
+    "status": "confirmed"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+    "status": "confirmed"
+   }
+  ],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/reread-to-edge-sketch",
+    "labelTextId": "urman.chapter1:text/continue",
+    "conditions": [
+     {
+      "op": "vocabulary.status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+      "status": "confirmed"
+     },
+     {
+      "op": "beat.state",
+      "beatId": "urman.chapter1:beat/language-reread",
+      "state": "completed"
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/evidence-edge-sketch"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/evidence-edge-sketch",
+  "sceneType": "presentation",
+  "title": {
+   "default": "Mansur's edge sketch projection",
+   "translations": {
+    "ru": "Проекция схемы Мансура у кромки"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/journal-source"
+  ],
+  "entryConditions": [
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
+    "status": "hypothesis"
+   },
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
+    "status": "hypothesis"
+   },
+   {
+    "op": "beat.state",
+    "beatId": "urman.chapter1:beat/language-reread",
+    "state": "completed"
+   }
+  ],
+  "onEnter": [
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+    "status": "hypothesis"
+   },
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
+    "status": "confirmed"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_zirat",
+    "status": "confirmed"
+   }
+  ],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/edge-sketch-to-zirat-road",
+    "labelTextId": "urman.chapter1:text/continue",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
+      "status": "confirmed"
+     },
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "alerted",
+      "value": true
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/zirat-road"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/mosque",
+  "sceneType": "static",
+  "title": {
+   "default": "Mosque courtyard",
+   "translations": {
+    "ru": "Двор мечети"
+   }
+  },
+  "assetRefs": [
+   "urman.chapter1:asset/portrait-timur-hazrat"
+  ],
+  "textRefs": [
+   "urman.chapter1:text/scene-mosque-title"
+  ],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/zirat-road",
+  "sceneType": "route",
+  "title": {
+   "default": "Zirat road turn",
+   "translations": {
+    "ru": "Поворот к зиратской дороге"
+   }
+  },
+  "assetRefs": [
+   "urman.chapter1:asset/route-zirat-road-evening"
+  ],
+  "textRefs": [
+   "urman.chapter1:text/scene-zirat-title"
+  ],
+  "entryConditions": [
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
+    "status": "confirmed"
+   },
+   {
+    "op": "npc.state",
+    "characterId": "urman.chapter1:character/rinat",
+    "stateKey": "alerted",
+    "value": true
+   },
+   {
+    "op": "beat.state",
+    "beatId": "urman.chapter1:beat/language-reread",
+    "state": "completed"
+   }
+  ],
+  "onEnter": [
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
+    "status": "confirmed"
+   },
+   {
+    "op": "beat.set-state",
+    "beatId": "urman.chapter1:beat/rinat-visible-before-edge",
+    "state": "completed"
+   },
+   {
+    "op": "route.unlock",
+    "routeNodeId": "urman.chapter1:route-node/kara-urman-edge"
+   },
+   {
+    "op": "vocabulary.set-status",
+    "vocabularyId": "urman.chapter1:vocabulary/tt_barma",
+    "status": "guessed"
+   }
+  ],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/zirat-roadside-clue",
+    "labelTextId": "urman.chapter1:text/inspect",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
+      "status": "confirmed"
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+      "status": "confirmed"
+     }
+    ]
+   },
+   {
+    "id": "urman.chapter1:interaction/zirat-road-to-forest",
+    "labelTextId": "urman.chapter1:text/continue",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+      "status": "confirmed"
+     }
+    ],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/forest"
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/zirat",
+  "sceneType": "route",
+  "title": {
+   "default": "Zirat",
+   "translations": {
+    "ru": "Зират"
+   }
+  },
+  "assetRefs": [
+   "urman.chapter1:asset/route-zirat-road-evening"
+  ],
+  "textRefs": [
+   "urman.chapter1:text/scene-zirat-title"
+  ],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/forest",
+  "sceneType": "scripted",
+  "title": {
+   "default": "Kara-Urman edge",
+   "translations": {
+    "ru": "Кромка Кара-Урмана"
+   }
+  },
+  "assetRefs": [
+   "urman.chapter1:asset/route_kara_urman_edge_voice_moment"
+  ],
+  "textRefs": [
+   "urman.chapter1:text/scene-forest-title",
+   "urman.chapter1:text/finale-rinat-warning"
+  ],
+  "entryConditions": [
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
+    "status": "confirmed"
+   },
+   {
+    "op": "npc.state",
+    "characterId": "urman.chapter1:character/rinat",
+    "stateKey": "alerted",
+    "value": true
+   },
+   {
+    "op": "beat.state",
+    "beatId": "urman.chapter1:beat/rinat-visible-before-edge",
+    "state": "completed"
+   }
+  ],
+  "onEnter": [
+   {
+    "op": "audio.request",
+    "assetId": "urman.chapter1:asset/audio-marat-voice"
+   },
+   {
+    "op": "audio.request",
+    "assetId": "urman.chapter1:asset/audio-rinat-interruption"
+   },
+   {
+    "op": "knowledge.set-status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
+    "status": "confirmed"
+   },
+   {
+    "op": "beat.set-state",
+    "beatId": "urman.chapter1:beat/cliffhanger-hard-cut",
+    "state": "completed"
+   }
+  ],
+  "onExit": [],
+  "interactions": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/river_bank_day",
+  "sceneType": "static",
+  "title": {
+   "default": "River bank",
+   "translations": {
+    "ru": "Берег реки"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/scene-route-title"
+  ],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/selsmag_counter_interior",
+  "sceneType": "static",
+  "title": {
+   "default": "Selsmag counter",
+   "translations": {
+    "ru": "Прилавок сельмага"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/scene-route-title"
+  ],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:quest/quest_marat_first_contradiction",
+  "titleTextId": "urman.chapter1:text/quest-first-contradiction-title",
+  "stages": [
+   {
+    "id": "compare-records",
+    "objectives": [
+     {
+      "id": "find-contradiction",
+      "titleTextId": "urman.chapter1:text/objective-first-contradiction",
+      "optional": false,
+      "startConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/topic_marat_unresolved",
+        "status": "confirmed"
+       }
+      ],
+      "completionConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+        "status": "confirmed"
+       }
+      ],
+      "completionEffects": [
+       {
+        "op": "beat.set-state",
+        "beatId": "urman.chapter1:beat/first-contradiction",
+        "state": "completed"
+       }
+      ],
+      "failureEffects": []
+     }
+    ],
+    "composition": {
+     "mode": "all",
+     "objectiveIds": [
+      "find-contradiction"
+     ]
+    }
+   }
+  ],
+  "outcomes": {
+   "success": [],
+   "optional": [],
+   "failure": []
+  },
+  "retryPolicy": {
+   "mode": "none",
+   "maximumAttempts": 1
+  },
+  "checkpointPolicy": {
+   "mode": "objective"
+  },
+  "cancelPolicy": {
+   "allowed": false,
+   "effects": []
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:quest/quest_language_reread",
+  "titleTextId": "urman.chapter1:text/quest-language-reread-title",
+  "stages": [
+   {
+    "id": "reread-boundary",
+    "objectives": [
+     {
+      "id": "apply-words",
+      "titleTextId": "urman.chapter1:text/objective-language-reread",
+      "optional": false,
+      "startConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
+        "status": "hypothesis"
+       }
+      ],
+      "completionConditions": [
+       {
+        "op": "vocabulary.status",
+        "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+        "status": "confirmed"
+       }
+      ],
+      "completionEffects": [
+       {
+        "op": "beat.set-state",
+        "beatId": "urman.chapter1:beat/language-reread",
+        "state": "completed"
+       }
+      ],
+      "failureEffects": []
+     }
+    ],
+    "composition": {
+     "mode": "all",
+     "objectiveIds": [
+      "apply-words"
+     ]
+    }
+   }
+  ],
+  "outcomes": {
+   "success": [],
+   "optional": [],
+   "failure": []
+  },
+  "retryPolicy": {
+   "mode": "stage",
+   "maximumAttempts": 2
+  },
+  "checkpointPolicy": {
+   "mode": "stage"
+  },
+  "cancelPolicy": {
+   "allowed": true,
+   "effects": []
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:quest/quest_kara_urman_cliffhanger",
+  "titleTextId": "urman.chapter1:text/quest-edge-title",
+  "stages": [
+   {
+    "id": "reach-edge",
+    "objectives": [
+     {
+      "id": "follow-evidence",
+      "titleTextId": "urman.chapter1:text/objective-edge",
+      "optional": false,
+      "startConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
+        "status": "confirmed"
+       },
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/rinat",
+        "stateKey": "alerted",
+        "value": true
+       }
+      ],
+      "completionConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
+        "status": "confirmed"
+       }
+      ],
+      "completionEffects": [
+       {
+        "op": "beat.set-state",
+        "beatId": "urman.chapter1:beat/chapter1-cliffhanger-complete",
+        "state": "completed"
+       }
+      ],
+      "failureEffects": []
+     }
+    ],
+    "composition": {
+     "mode": "all",
+     "objectiveIds": [
+      "follow-evidence"
+     ]
+    }
+   }
+  ],
+  "outcomes": {
+   "success": [],
+   "optional": [],
+   "failure": []
+  },
+  "retryPolicy": {
+   "mode": "none",
+   "maximumAttempts": 1
+  },
+  "checkpointPolicy": {
+   "mode": "objective"
+  },
+  "cancelPolicy": {
+   "allowed": false,
+   "effects": []
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-gulsina-marat",
+  "value": {
+   "default": "Ask about Marat.",
+   "translations": {
+    "ru": "Спросить о Марате."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-gulsina-yaramyy",
+  "value": {
+   "default": "Ask why it is ярамый.",
+   "translations": {
+    "ru": "Спросить, почему «ярамый»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-gulsina-marat-reply",
+  "value": {
+   "default": "Gulsina stirs the tea: “Officially it is all decided, you say. For us it is not decided, it is survived. If you want words about him, go to Timur hazrat — he is not afraid of words. I only feed people here.”",
+   "translations": {
+    "ru": "Гөлсинә помешивает чай: «Официально, говоришь, всё решено. У нас же не решено — у нас пережито. Хочешь слов про него — скажи Тимур хәзрәт, что спрашиваешь: он слов не боится. А я здесь людей кормлю»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-gulsina-yaramyy-reply",
+  "value": {
+   "default": "“You ask why. I did not invent it, and my mother did not invent it. Some words in this house are like the stove: you do not argue with them, you keep warm by them.”",
+   "translations": {
+    "ru": "«Ты спрашиваешь почему. Я не придумала, и моя мама не придумывала. Некоторые слова в этом доме как печь: с ними не спорят, у них греются»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-alsu-boundary",
+  "value": {
+   "default": "Ask where the boundary actually begins.",
+   "translations": {
+    "ru": "Спросить, где начинается граница."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-alsu-zirat",
+  "value": {
+   "default": "Ask why people keep silent passing the zirat.",
+   "translations": {
+    "ru": "Спросить, почему мимо зирата молчат."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-alsu-boundary-reply",
+  "value": {
+   "default": "Alsu stops smiling: “The boundary is not a ditch, Aidar, you will not step over it and look back. Ask where it begins — that is already one foot inside it. I walk the main street; that is enough for me.”",
+   "translations": {
+    "ru": "Алсу перестаёт улыбаться: «Граница — это не канава, Айдар, её не перешагнёшь и не выглянешь обратно. Спросить, где она начинается, — это уже одной ногой в ней. Я хожу по главной улице — мне хватает»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-alsu-zirat-reply",
+  "value": {
+   "default": "“Because it is not a story place. You greet quietly when you enter, you say goodbye when you leave. And past the fence after dusk — you just walk, like everyone. Not because someone will do something. Because grandmothers are right more often than we are.”",
+   "translations": {
+    "ru": "«Потому что это не место для историй. Вошёл — тихо поздоровался, вышел — попрощался. А мимо ограды после заката — просто идёшь, как все. Не потому что кто-то что-то сделает. Потому что бабки чаще правы, чем мы»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-mansur-why",
+  "value": {
+   "default": "Ask why he cannot sort the folders himself.",
+   "translations": {
+    "ru": "Спросить, почему он сам не разберёт папки."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-mansur-marat",
+  "value": {
+   "default": "Show him the official notice.",
+   "translations": {
+    "ru": "Показать ему официальную справку."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-mansur-why-reply",
+  "value": {
+   "default": "Mansur does not take offense: “The eyes are not the same anymore, and some folders I do not open twice. A person reads a page once — and carries it. I have carried enough.”",
+   "translations": {
+    "ru": "Мансур не обижается: «Глаза уже не те, а некоторые папки я и второй раз не открою. Человек страницу читает один раз — и носит её в себе. Мне своего ношения хватает»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-mansur-marat-reply",
+  "value": {
+   "default": "He holds the printout for a long time without reading it. “So that is the wording they gave your grandmother on the phone, word for word. You see — a paper agrees with itself. Papers always do.”",
+   "translations": {
+    "ru": "Он долго держит распечатку, не читая. «Вот, значит, как сформулировали — бабушке по телефону слово в слово так и сказали. Видишь — бумага сходится с бумагой. Бумага всегда сходится»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-naila-contradiction",
+  "value": {
+   "default": "Mention the internal wording: “the boundary”.",
+   "translations": {
+    "ru": "Упомянуть внутреннюю формулировку: «граница»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-rinat-official",
+  "value": {
+   "default": "Show the official death notice.",
+   "translations": {
+    "ru": "Показать официальную справку."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-rinat-javap",
+  "value": {
+   "default": "Say the word “җавап”.",
+   "translations": {
+    "ru": "Произнести слово «җавап»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-rinat-javap-interrupt",
+  "value": {
+   "default": "Rinat cuts him off, quietly and without anger: “Not here. And not that word.” He looks once toward the zirat road and walks away.",
+   "translations": {
+    "ru": "Ринат обрывает его — тихо, без злости: «Не здесь. И не этим словом». Один взгляд в сторону зиратской дороги — и он уходит."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-timur-register",
+  "value": {
+   "default": "Tell him what the register line says.",
+   "translations": {
+    "ru": "Рассказать, что сказано в строке реестра."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-timur-boundary-reply",
+  "value": {
+   "default": "Timur pours the tea to the brim and does not hurry. “I do not know what happened, Aidar, and I will not pretend. I only know that anger here is expensive, and silence is not always a lie. Sometimes silence is the felt strip on the door: it holds, so the house does not slam.”",
+   "translations": {
+    "ru": "Тимур наливает чай до края и не торопится. «Я не знаю, что случилось, Айдар, и притворяться не буду. Знаю только, что злость здесь дорогая, а молчание не всегда ложь. Иногда молчание — это войлок на двери: он держит, чтобы дом не хлопал»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_yul",
+  "term": "юл",
+  "language": "tt",
+  "meaning": {
+   "default": "road; the way",
+   "translations": {
+    "ru": "дорога; путь"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/crossroad_signs_inspect",
+   "urman.chapter1:scene/zirat-road"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:dialogue/alsu_route_context"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_uy",
+  "term": "өй",
+  "language": "tt",
+  "meaning": {
+   "default": "house; home",
+   "translations": {
+    "ru": "дом; жилище"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/house"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:scene/house"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_babai",
+  "term": "бабай",
+  "language": "tt",
+  "meaning": {
+   "default": "grandfather; old man",
+   "translations": {
+    "ru": "дедушка; старик"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/house"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:dialogue/mansur_pc_request"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_abi",
+  "term": "әби",
+  "language": "tt",
+  "meaning": {
+   "default": "grandmother; old woman",
+   "translations": {
+    "ru": "бабушка; старушка"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/house"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:dialogue/gulsina_yaramyy"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_barma",
+  "term": "барма",
+  "language": "tt",
+  "meaning": {
+   "default": "do not go (also: is there?)",
+   "translations": {
+    "ru": "не ходи (также: есть ли?)"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/zirat-road",
+   "urman.chapter1:scene/evidence-tatarwiki-boundary"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:scene/zirat-road"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:vocabulary/tt_xazrat",
+  "term": "хәзрәт",
+  "language": "tt",
+  "meaning": {
+   "default": "honorific for a religious elder",
+   "translations": {
+    "ru": "уважительное обращение к религиозному старшему"
+   }
+  },
+  "initialStatus": "unknown",
+  "rereadTargets": [
+   "urman.chapter1:scene/mosque"
+  ],
+  "applicationTargets": [
+   "urman.chapter1:dialogue/timur_restraint"
+  ],
+  "consultantReview": {
+   "status": "pending",
+   "reviewer": null,
+   "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
+  }
+ }
 ]
