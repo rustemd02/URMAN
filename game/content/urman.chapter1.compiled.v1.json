@@ -2799,6 +2799,78 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:knowledge/discovery-connective-street-repair-bench",
+        "kind": "fact",
+        "title": {
+          "default": "\u041D\u0435\u0434\u043E\u0434\u0435\u043B\u0430\u043D\u043D\u0430\u044F \u0440\u0443\u043A\u043E\u044F\u0442\u044C",
+          "translations": {
+            "ru": "\u041D\u0435\u0434\u043E\u0434\u0435\u043B\u0430\u043D\u043D\u0430\u044F \u0440\u0443\u043A\u043E\u044F\u0442\u044C"
+          }
+        },
+        "summary": {
+          "default": "\u041B\u0435\u043D\u0442\u0430 \u043D\u0430 \u0440\u0443\u043A\u043E\u044F\u0442\u0438 \u043B\u043E\u043F\u0430\u0442\u044B \u0440\u0430\u0441\u043F\u0443\u0441\u0442\u0438\u043B\u0430\u0441\u044C \u043D\u0430 \u043F\u043E\u043B-\u043E\u0431\u043E\u0440\u043E\u0442\u0430. \u0420\u044F\u0434\u043E\u043C \u043B\u0435\u0436\u0438\u0442 \u043C\u043E\u0442\u043E\u043A \u2014 \u043C\u043E\u0436\u043D\u043E \u0437\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C. \u0411\u0430\u0431\u0430\u0439 \u0437\u0430\u043C\u0435\u0442\u0438\u0442, \u0434\u0430\u0436\u0435 \u0435\u0441\u043B\u0438 \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u0441\u043A\u0430\u0436\u0435\u0442.",
+          "translations": {
+            "ru": "\u041B\u0435\u043D\u0442\u0430 \u043D\u0430 \u0440\u0443\u043A\u043E\u044F\u0442\u0438 \u043B\u043E\u043F\u0430\u0442\u044B \u0440\u0430\u0441\u043F\u0443\u0441\u0442\u0438\u043B\u0430\u0441\u044C \u043D\u0430 \u043F\u043E\u043B-\u043E\u0431\u043E\u0440\u043E\u0442\u0430. \u0420\u044F\u0434\u043E\u043C \u043B\u0435\u0436\u0438\u0442 \u043C\u043E\u0442\u043E\u043A \u2014 \u043C\u043E\u0436\u043D\u043E \u0437\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C. \u0411\u0430\u0431\u0430\u0439 \u0437\u0430\u043C\u0435\u0442\u0438\u0442, \u0434\u0430\u0436\u0435 \u0435\u0441\u043B\u0438 \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u0441\u043A\u0430\u0436\u0435\u0442."
+          }
+        },
+        "initialStatus": "hidden",
+        "sourceIds": [
+          "urman.chapter1:scene/crossroad_signs_inspect"
+        ],
+        "reveals": [],
+        "contradicts": [],
+        "unlocks": []
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:knowledge/discovery-connective-street-return-bench",
+        "kind": "fact",
+        "title": {
+          "default": "\u0421\u043A\u0430\u043C\u044C\u044F \u043D\u0430 \u043F\u043E\u0432\u043E\u0440\u043E\u0442\u0435",
+          "translations": {
+            "ru": "\u0421\u043A\u0430\u043C\u044C\u044F \u043D\u0430 \u043F\u043E\u0432\u043E\u0440\u043E\u0442\u0435"
+          }
+        },
+        "summary": {
+          "default": "\u041F\u043E\u043B\u043A\u0443 \u0441\u0431\u043E\u043A\u0443 \u043C\u043E\u0436\u043D\u043E \u043E\u0442\u043A\u0438\u043D\u0443\u0442\u044C \u0438 \u043F\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0441\u0443\u043C\u043A\u0443. \u0411\u0430\u0431\u0430\u0439 \u043D\u0438\u043A\u043E\u0433\u0434\u0430 \u043D\u0435 \u0441\u0442\u0430\u0432\u0438\u043B \u0445\u043B\u0435\u0431 \u0432 \u0441\u043D\u0435\u0433 \u2014 \u0434\u0430\u0436\u0435 \u0432 \u043F\u0430\u043A\u0435\u0442\u0435. \u041E\u0442\u0441\u044E\u0434\u0430 \u0432\u0438\u0434\u043D\u043E, \u043A\u0442\u043E \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442\u0441\u044F \u043F\u043E \u0443\u043B\u0438\u0446\u0435.",
+          "translations": {
+            "ru": "\u041F\u043E\u043B\u043A\u0443 \u0441\u0431\u043E\u043A\u0443 \u043C\u043E\u0436\u043D\u043E \u043E\u0442\u043A\u0438\u043D\u0443\u0442\u044C \u0438 \u043F\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0441\u0443\u043C\u043A\u0443. \u0411\u0430\u0431\u0430\u0439 \u043D\u0438\u043A\u043E\u0433\u0434\u0430 \u043D\u0435 \u0441\u0442\u0430\u0432\u0438\u043B \u0445\u043B\u0435\u0431 \u0432 \u0441\u043D\u0435\u0433 \u2014 \u0434\u0430\u0436\u0435 \u0432 \u043F\u0430\u043A\u0435\u0442\u0435. \u041E\u0442\u0441\u044E\u0434\u0430 \u0432\u0438\u0434\u043D\u043E, \u043A\u0442\u043E \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442\u0441\u044F \u043F\u043E \u0443\u043B\u0438\u0446\u0435."
+          }
+        },
+        "initialStatus": "hidden",
+        "sourceIds": [
+          "urman.chapter1:scene/crossroad_signs_inspect"
+        ],
+        "reveals": [],
+        "contradicts": [],
+        "unlocks": []
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch",
+        "kind": "fact",
+        "title": {
+          "default": "\u041A\u0440\u0443\u0436\u043A\u0430 \u043D\u0430 \u043A\u0440\u044B\u043B\u044C\u0446\u0435",
+          "translations": {
+            "ru": "\u041A\u0440\u0443\u0436\u043A\u0430 \u043D\u0430 \u043A\u0440\u044B\u043B\u044C\u0446\u0435"
+          }
+        },
+        "summary": {
+          "default": "\u041F\u043E\u0434 \u043F\u0435\u0440\u0435\u0432\u0451\u0440\u043D\u0443\u0442\u043E\u0439 \u043A\u0440\u0443\u0436\u043A\u043E\u0439 \u043B\u0435\u0436\u0438\u0442 \u0441\u0443\u0445\u0430\u044F \u0441\u0430\u043B\u0444\u0435\u0442\u043A\u0430. \u0420\u044F\u0434\u043E\u043C \u2014 \u0442\u0435\u0440\u043C\u043E\u0441 \u0438 \u0437\u0430\u043F\u0430\u0441\u043D\u0430\u044F \u043F\u0430\u0440\u0430 \u0432\u044F\u0437\u0430\u043D\u044B\u0445 \u0432\u0430\u0440\u0435\u0436\u0435\u043A. \u0418\u0445 \u043E\u0441\u0442\u0430\u0432\u0438\u043B\u0438 \u0442\u0430\u043A, \u0447\u0442\u043E\u0431\u044B \u0447\u0435\u043B\u043E\u0432\u0435\u043A \u043D\u0430\u0448\u0451\u043B \u0432\u0441\u0451 \u0441\u0440\u0430\u0437\u0443.",
+          "translations": {
+            "ru": "\u041F\u043E\u0434 \u043F\u0435\u0440\u0435\u0432\u0451\u0440\u043D\u0443\u0442\u043E\u0439 \u043A\u0440\u0443\u0436\u043A\u043E\u0439 \u043B\u0435\u0436\u0438\u0442 \u0441\u0443\u0445\u0430\u044F \u0441\u0430\u043B\u0444\u0435\u0442\u043A\u0430. \u0420\u044F\u0434\u043E\u043C \u2014 \u0442\u0435\u0440\u043C\u043E\u0441 \u0438 \u0437\u0430\u043F\u0430\u0441\u043D\u0430\u044F \u043F\u0430\u0440\u0430 \u0432\u044F\u0437\u0430\u043D\u044B\u0445 \u0432\u0430\u0440\u0435\u0436\u0435\u043A. \u0418\u0445 \u043E\u0441\u0442\u0430\u0432\u0438\u043B\u0438 \u0442\u0430\u043A, \u0447\u0442\u043E\u0431\u044B \u0447\u0435\u043B\u043E\u0432\u0435\u043A \u043D\u0430\u0448\u0451\u043B \u0432\u0441\u0451 \u0441\u0440\u0430\u0437\u0443."
+          }
+        },
+        "initialStatus": "hidden",
+        "sourceIds": [
+          "urman.chapter1:scene/crossroad_signs_inspect"
+        ],
+        "reveals": [],
+        "contradicts": [],
+        "unlocks": []
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:knowledge/discovery-fap-exterior-service-path",
         "kind": "route",
         "title": {
@@ -2936,6 +3008,30 @@
         "initialStatus": "hidden",
         "sourceIds": [
           "urman.chapter1:scene/house"
+        ],
+        "reveals": [],
+        "contradicts": [],
+        "unlocks": []
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:knowledge/discovery-main-street-side-window",
+        "kind": "fact",
+        "title": {
+          "default": "\u0417\u0430 \u0441\u0442\u0430\u0432\u043D\u0435\u0439",
+          "translations": {
+            "ru": "\u0417\u0430 \u0441\u0442\u0430\u0432\u043D\u0435\u0439"
+          }
+        },
+        "summary": {
+          "default": "\u041D\u0430 \u043F\u043E\u0434\u043E\u043A\u043E\u043D\u043D\u0438\u043A\u0435 \u0441\u0443\u0448\u0430\u0442\u0441\u044F \u0434\u0432\u0435 \u043C\u0430\u043B\u0435\u043D\u044C\u043A\u0438\u0435 \u0432\u0430\u0440\u0435\u0436\u043A\u0438, \u043C\u0435\u0436\u0434\u0443 \u043D\u0438\u043C\u0438 \u0441\u0442\u043E\u0438\u0442 \u0447\u0430\u0448\u043A\u0430. \u041D\u0430 \u0437\u0430\u043F\u043E\u0442\u0435\u0432\u0448\u0435\u043C \u0441\u0442\u0435\u043A\u043B\u0435 \u043A\u0442\u043E-\u0442\u043E \u043D\u0430\u0440\u0438\u0441\u043E\u0432\u0430\u043B \u043A\u0440\u0443\u0433 \u0438 \u0434\u0432\u0430 \u0443\u0445\u0430. \u041F\u043E\u0445\u043E\u0436\u0435, \u0437\u0434\u0435\u0441\u044C \u0435\u0441\u0442\u044C \u0434\u0435\u0442\u0438.",
+          "translations": {
+            "ru": "\u041D\u0430 \u043F\u043E\u0434\u043E\u043A\u043E\u043D\u043D\u0438\u043A\u0435 \u0441\u0443\u0448\u0430\u0442\u0441\u044F \u0434\u0432\u0435 \u043C\u0430\u043B\u0435\u043D\u044C\u043A\u0438\u0435 \u0432\u0430\u0440\u0435\u0436\u043A\u0438, \u043C\u0435\u0436\u0434\u0443 \u043D\u0438\u043C\u0438 \u0441\u0442\u043E\u0438\u0442 \u0447\u0430\u0448\u043A\u0430. \u041D\u0430 \u0437\u0430\u043F\u043E\u0442\u0435\u0432\u0448\u0435\u043C \u0441\u0442\u0435\u043A\u043B\u0435 \u043A\u0442\u043E-\u0442\u043E \u043D\u0430\u0440\u0438\u0441\u043E\u0432\u0430\u043B \u043A\u0440\u0443\u0433 \u0438 \u0434\u0432\u0430 \u0443\u0445\u0430. \u041F\u043E\u0445\u043E\u0436\u0435, \u0437\u0434\u0435\u0441\u044C \u0435\u0441\u0442\u044C \u0434\u0435\u0442\u0438."
+          }
+        },
+        "initialStatus": "hidden",
+        "sourceIds": [
+          "urman.chapter1:scene/crossroad_signs_inspect"
         ],
         "reveals": [],
         "contradicts": [],
@@ -3698,6 +3794,134 @@
               "kara_urman_night"
             ],
             "targetJournalEntryId": "urman.chapter1:knowledge/discovery-fap-exterior-service-path"
+          },
+          {
+            "id": "urman.chapter1:interaction/discover-connective-street-return-bench",
+            "labelTextId": "urman.chapter1:text/discover-connective-street-return-bench",
+            "conditions": [
+              {
+                "op": "not",
+                "condition": {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/discovery-connective-street-return-bench",
+                  "status": "confirmed"
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.chapter1:knowledge/discovery-connective-street-return-bench",
+                "status": "confirmed"
+              },
+              {
+                "op": "journal.record",
+                "entryId": "urman.chapter1:knowledge/discovery-connective-street-return-bench",
+                "sourceId": "urman.chapter1:knowledge/discovery-connective-street-return-bench"
+              }
+            ],
+            "worldLocations": [
+              "village_day",
+              "zirat_road",
+              "kara_urman_night"
+            ],
+            "targetJournalEntryId": "urman.chapter1:knowledge/discovery-connective-street-return-bench"
+          },
+          {
+            "id": "urman.chapter1:interaction/discover-fap-exterior-care-porch",
+            "labelTextId": "urman.chapter1:text/discover-fap-exterior-care-porch",
+            "conditions": [
+              {
+                "op": "not",
+                "condition": {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch",
+                  "status": "confirmed"
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch",
+                "status": "confirmed"
+              },
+              {
+                "op": "journal.record",
+                "entryId": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch",
+                "sourceId": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch"
+              }
+            ],
+            "worldLocations": [
+              "village_day",
+              "zirat_road",
+              "kara_urman_night"
+            ],
+            "targetJournalEntryId": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch"
+          },
+          {
+            "id": "urman.chapter1:interaction/discover-main-street-side-window",
+            "labelTextId": "urman.chapter1:text/discover-main-street-side-window",
+            "conditions": [
+              {
+                "op": "not",
+                "condition": {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/discovery-main-street-side-window",
+                  "status": "confirmed"
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.chapter1:knowledge/discovery-main-street-side-window",
+                "status": "confirmed"
+              },
+              {
+                "op": "journal.record",
+                "entryId": "urman.chapter1:knowledge/discovery-main-street-side-window",
+                "sourceId": "urman.chapter1:knowledge/discovery-main-street-side-window"
+              }
+            ],
+            "worldLocations": [
+              "village_day",
+              "zirat_road",
+              "kara_urman_night"
+            ],
+            "targetJournalEntryId": "urman.chapter1:knowledge/discovery-main-street-side-window"
+          },
+          {
+            "id": "urman.chapter1:interaction/discover-connective-street-repair-bench",
+            "labelTextId": "urman.chapter1:text/discover-connective-street-repair-bench",
+            "conditions": [
+              {
+                "op": "not",
+                "condition": {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench",
+                  "status": "confirmed"
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench",
+                "status": "confirmed"
+              },
+              {
+                "op": "journal.record",
+                "entryId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench",
+                "sourceId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench"
+              }
+            ],
+            "worldLocations": [
+              "village_day",
+              "zirat_road",
+              "kara_urman_night"
+            ],
+            "targetJournalEntryId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench"
           }
         ]
       },
@@ -5647,6 +5871,39 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/discover-connective-street-repair-bench",
+        "value": {
+          "default": "\u0414\u043E\u043C\u043E\u0442\u0430\u0442\u044C \u0440\u0443\u043A\u043E\u044F\u0442\u044C \u043B\u043E\u043F\u0430\u0442\u044B",
+          "translations": {
+            "ru": "\u0414\u043E\u043C\u043E\u0442\u0430\u0442\u044C \u0440\u0443\u043A\u043E\u044F\u0442\u044C \u043B\u043E\u043F\u0430\u0442\u044B"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/discover-connective-street-return-bench",
+        "value": {
+          "default": "\u041E\u0442\u043A\u0438\u043D\u0443\u0442\u044C \u0431\u043E\u043A\u043E\u0432\u0443\u044E \u043F\u043E\u043B\u043A\u0443 \u0434\u043B\u044F \u0441\u0443\u043C\u043A\u0438",
+          "translations": {
+            "ru": "\u041E\u0442\u043A\u0438\u043D\u0443\u0442\u044C \u0431\u043E\u043A\u043E\u0432\u0443\u044E \u043F\u043E\u043B\u043A\u0443 \u0434\u043B\u044F \u0441\u0443\u043C\u043A\u0438"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/discover-fap-exterior-care-porch",
+        "value": {
+          "default": "\u0417\u0430\u0433\u043B\u044F\u043D\u0443\u0442\u044C \u043F\u043E\u0434 \u043A\u0440\u0443\u0436\u043A\u0443",
+          "translations": {
+            "ru": "\u0417\u0430\u0433\u043B\u044F\u043D\u0443\u0442\u044C \u043F\u043E\u0434 \u043A\u0440\u0443\u0436\u043A\u0443"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/discover-fap-exterior-service-path",
         "value": {
           "default": "\u041F\u043E\u0434\u043D\u044F\u0442\u044C \u0437\u0430\u0449\u0451\u043B\u043A\u0443 \u0441\u043B\u0443\u0436\u0435\u0431\u043D\u044B\u0445 \u0432\u043E\u0440\u043E\u0442",
@@ -5707,6 +5964,17 @@
           "default": "\u041F\u0435\u0440\u0435\u0432\u0435\u0440\u043D\u0443\u0442\u044C \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u044E",
           "translations": {
             "ru": "\u041F\u0435\u0440\u0435\u0432\u0435\u0440\u043D\u0443\u0442\u044C \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u044E"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/discover-main-street-side-window",
+        "value": {
+          "default": "\u041F\u0440\u0438\u043E\u0442\u043A\u0440\u044B\u0442\u044C \u043D\u0430\u0440\u0443\u0436\u043D\u0443\u044E \u0441\u0442\u0430\u0432\u043D\u044E",
+          "translations": {
+            "ru": "\u041F\u0440\u0438\u043E\u0442\u043A\u0440\u044B\u0442\u044C \u043D\u0430\u0440\u0443\u0436\u043D\u0443\u044E \u0441\u0442\u0430\u0432\u043D\u044E"
           }
         },
         "purpose": "ui"
@@ -6377,7 +6645,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "24e940b91768f3ba15dd1342ab5605f81c8739298b0ff9696dfe2dd0ad7dbccf"
+      "sha256": "1b90ea87e1dc8b55e721e82861f429d506dd073d0e7ec590a05003d6e536dde8"
     },
     {
       "moduleId": "urman.core",
@@ -6390,5 +6658,5 @@
       "sha256": "c5f6da9646e805176ada5893a495a63ff06e4da1457b003f54c34318815037ee"
     }
   ],
-  "campaignFingerprint": "6f1f45768718ef13ca3393d69f933454616c7a4dbe31811307d4342091c77c53"
+  "campaignFingerprint": "d14baab4be323751b28e7c03c86b28f01825491c2d46dfa524081a97ee911b53"
 }

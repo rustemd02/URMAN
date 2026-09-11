@@ -41,7 +41,7 @@ public partial class ChapterOneFlowSmokeTest : Node
             || rinatActor.GlobalPosition.Z < -5f)
         { Fail("Act I exterior people are hidden or Rinat starts at the late position."); return; }
 
-        foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-childhood-spinner", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench" })
+        foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-childhood-spinner", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench", "connective-street-return-bench", "fap-exterior-care-porch", "main-street-side-window", "connective-street-repair-bench" })
             if (!await Discover(bridge, slug)) return;
         await ToSignal(GetTree().CreateTimer(.6), SceneTreeTimer.SignalName.Timeout);
         var restBenchSnow = main.ConnectedWorld.GetNode<Node3D>("Act1CoreWorldGreybox/ZiratMemoryField/DiscoveryRestBench/SnowOnRepairedSeat");
@@ -71,6 +71,18 @@ public partial class ChapterOneFlowSmokeTest : Node
         var nookMitten = core.GetNode<Node3D>("Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/StoredMendedMitten");
         var serviceGate = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("FapServiceGateCollision");
         var serviceFence = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("FapServiceFenceCollision");
+        var bagShelf = core.GetNode<Node3D>("ConnectiveStreetReturn/ConnectiveReturnCareBench/BagRestShelf");
+        var carePorch = core.GetNode<Node3D>("FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch");
+        var careCup = carePorch.GetNode<Node3D>("FapCareEnamelCup");
+        var careNapkin = carePorch.GetNode<Node3D>("FapCareDryNapkin");
+        var windowReveal = core.FindChild("MainStreetSideWindowReveal", true, false) as Node3D;
+        var handleWrap = core.FindChild("FinishedHandleWrap", true, false) as Node3D;
+        if (bagShelf.Rotation.Z != 0 || careCup.Rotation.X != 0
+            || Mathf.Abs(careCup.Position.Z - .52f) > .01f || !careNapkin.Visible
+            || windowReveal?.Visible != true || handleWrap?.Visible != true
+            || main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("ConnectiveRepairBenchCollision").CollisionLayer != 0
+            || main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("ConnectiveReturnCareBenchCollision").CollisionLayer != 0)
+        { Fail("Loaded care and street discoveries lost their reveal or retained indoor physics."); return; }
         if (arrivalSnow.Visible || Mathf.Abs(wellMitten.Rotation.Y - Mathf.Pi) > .01f
             || Mathf.Abs(signBoard.RotationDegrees.Y - 176f) > .1f
             || sledCover.Visible || !nookMitten.Visible
@@ -279,6 +291,11 @@ public partial class ChapterOneFlowSmokeTest : Node
             || serviceGate.CollisionLayer != 1 || serviceFence.CollisionLayer != 1
             || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-fap-exterior-service-path") != "hidden")
         { Fail("New Game retained an outdoor reveal or failed to close the service gate."); return; }
+        if (Mathf.Abs(bagShelf.Rotation.Z - Mathf.Pi / 2) > .01f
+            || Mathf.Abs(careCup.Rotation.X - Mathf.Pi) > .01f
+            || Mathf.Abs(careCup.Position.Z - .18f) > .01f || careNapkin.Visible
+            || windowReveal?.Visible != false || handleWrap?.Visible != false)
+        { Fail("New Game retained care or street discovery presentation."); return; }
         GD.Print("chapter-one-flow-smoke: authored route -> visible people -> final silence -> menu -> fresh session");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);

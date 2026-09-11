@@ -92,6 +92,15 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("fap_service_gate", "fap_exterior", "village_day", "from_house", new(34.5f, AgentBAct1HeightField.CollisionGround(34.5f, -22.7f) + .05f, -22.7f), new(34.5f, 0.8f, -25.2f), "detail", "optional discovery before action"),
         Frame("fap_service_gate_used", "fap_exterior", "village_day", "from_house", new(34.5f, AgentBAct1HeightField.CollisionGround(34.5f, -22.7f) + .05f, -22.7f), new(34.5f, 0.8f, -25.2f), "detail", "optional discovery after action", "fap-exterior-service-path"),
 
+        Frame("return_care_bench", "connective_street", "village_day", "from_house", new(-3.8f, AgentBAct1HeightField.CollisionGround(-3.8f, -38.5f) + .05f, -38.5f), new(-5.6f, 0.35f, -38.8f), "detail", "optional discovery before action"),
+        Frame("return_care_bench_used", "connective_street", "village_day", "from_house", new(-3.8f, AgentBAct1HeightField.CollisionGround(-3.8f, -38.5f) + .05f, -38.5f), new(-5.6f, 0.35f, -38.8f), "detail", "optional discovery after action", "connective-street-return-bench"),
+        Frame("fap_care_cup", "fap_exterior", "village_day", "from_house", new(27.25f, AgentBAct1HeightField.CollisionGround(27.25f, -26.5f) + .05f, -26.5f), new(27.8f, 0.38f, -28.15f), "detail", "optional discovery before action"),
+        Frame("fap_care_cup_used", "fap_exterior", "village_day", "from_house", new(27.25f, AgentBAct1HeightField.CollisionGround(27.25f, -26.5f) + .05f, -26.5f), new(27.8f, 0.38f, -28.15f), "detail", "optional discovery after action", "fap-exterior-care-porch"),
+        Frame("street_side_window", "main_street", "village_day", "from_house", new(6.7f, AgentBAct1HeightField.CollisionGround(6.7f, -10.2f) + .05f, -10.2f), new(9.0f, 0.95f, -10.2f), "detail", "optional discovery before action"),
+        Frame("street_side_window_used", "main_street", "village_day", "from_house", new(6.7f, AgentBAct1HeightField.CollisionGround(6.7f, -10.2f) + .05f, -10.2f), new(9.0f, 0.95f, -10.2f), "detail", "optional discovery after action", "main-street-side-window"),
+        Frame("street_repair_bench", "connective_street", "village_day", "from_house", new(-9.8f, AgentBAct1HeightField.CollisionGround(-9.8f, -26.1f) + .05f, -26.1f), new(-11.84f, 0.5f, -26.58f), "detail", "optional discovery before action"),
+        Frame("street_repair_bench_used", "connective_street", "village_day", "from_house", new(-9.8f, AgentBAct1HeightField.CollisionGround(-9.8f, -26.1f) + .05f, -26.1f), new(-11.84f, 0.5f, -26.58f), "detail", "optional discovery after action", "connective-street-repair-bench"),
+
         // House interior
         Frame("house_photo_detail", "house_interior", "house_old_pc", "entry", new(-30.1f, .05f, -2.9f), new(-30.1f, 1.45f, -4.60f), "detail", "painted family photograph front"),
         Frame("house_tin_detail", "house_interior", "house_old_pc", "entry", new(-31.97f, .05f, 2.0f), new(-31.97f, .98f, 3.70f), "detail", "sewing tin on the threshold chest"),

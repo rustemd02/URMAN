@@ -328,6 +328,8 @@ public partial class Act1ConnectedWorld : Node3D
         BuildFapServiceExploration();
         BuildRoadsideDiscoveries();
         BuildAct1YardDiscoveries();
+        BuildAct1QuietCareDiscoveries();
+        BuildAct1OptionalDiscoveries();
         foreach (var placement in Act1WorldLayout.Placements)
         {
             var zone = _zoneInstances[placement.ZoneId];

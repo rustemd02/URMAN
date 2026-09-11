@@ -2524,6 +2524,134 @@
      "kara_urman_night"
     ],
     "targetJournalEntryId": "urman.chapter1:knowledge/discovery-fap-exterior-service-path"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-connective-street-return-bench",
+    "labelTextId": "urman.chapter1:text/discover-connective-street-return-bench",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-connective-street-return-bench",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-connective-street-return-bench",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-connective-street-return-bench",
+      "sourceId": "urman.chapter1:knowledge/discovery-connective-street-return-bench"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-connective-street-return-bench"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-fap-exterior-care-porch",
+    "labelTextId": "urman.chapter1:text/discover-fap-exterior-care-porch",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch",
+      "sourceId": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-main-street-side-window",
+    "labelTextId": "urman.chapter1:text/discover-main-street-side-window",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-main-street-side-window",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-main-street-side-window",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-main-street-side-window",
+      "sourceId": "urman.chapter1:knowledge/discovery-main-street-side-window"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-main-street-side-window"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-connective-street-repair-bench",
+    "labelTextId": "urman.chapter1:text/discover-connective-street-repair-bench",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench",
+      "sourceId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench"
    }
   ]
  },
@@ -4858,6 +4986,146 @@
    "default": "Поднять защёлку служебных ворот",
    "translations": {
     "ru": "Поднять защёлку служебных ворот"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-connective-street-return-bench",
+  "kind": "fact",
+  "title": {
+   "default": "Скамья на повороте",
+   "translations": {
+    "ru": "Скамья на повороте"
+   }
+  },
+  "summary": {
+   "default": "Полку сбоку можно откинуть и поставить сумку. Бабай никогда не ставил хлеб в снег — даже в пакете. Отсюда видно, кто возвращается по улице.",
+   "translations": {
+    "ru": "Полку сбоку можно откинуть и поставить сумку. Бабай никогда не ставил хлеб в снег — даже в пакете. Отсюда видно, кто возвращается по улице."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-connective-street-return-bench",
+  "value": {
+   "default": "Откинуть боковую полку для сумки",
+   "translations": {
+    "ru": "Откинуть боковую полку для сумки"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch",
+  "kind": "fact",
+  "title": {
+   "default": "Кружка на крыльце",
+   "translations": {
+    "ru": "Кружка на крыльце"
+   }
+  },
+  "summary": {
+   "default": "Под перевёрнутой кружкой лежит сухая салфетка. Рядом — термос и запасная пара вязаных варежек. Их оставили так, чтобы человек нашёл всё сразу.",
+   "translations": {
+    "ru": "Под перевёрнутой кружкой лежит сухая салфетка. Рядом — термос и запасная пара вязаных варежек. Их оставили так, чтобы человек нашёл всё сразу."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-fap-exterior-care-porch",
+  "value": {
+   "default": "Заглянуть под кружку",
+   "translations": {
+    "ru": "Заглянуть под кружку"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-main-street-side-window",
+  "kind": "fact",
+  "title": {
+   "default": "За ставней",
+   "translations": {
+    "ru": "За ставней"
+   }
+  },
+  "summary": {
+   "default": "На подоконнике сушатся две маленькие варежки, между ними стоит чашка. На запотевшем стекле кто-то нарисовал круг и два уха. Похоже, здесь есть дети.",
+   "translations": {
+    "ru": "На подоконнике сушатся две маленькие варежки, между ними стоит чашка. На запотевшем стекле кто-то нарисовал круг и два уха. Похоже, здесь есть дети."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-main-street-side-window",
+  "value": {
+   "default": "Приоткрыть наружную ставню",
+   "translations": {
+    "ru": "Приоткрыть наружную ставню"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-connective-street-repair-bench",
+  "kind": "fact",
+  "title": {
+   "default": "Недоделанная рукоять",
+   "translations": {
+    "ru": "Недоделанная рукоять"
+   }
+  },
+  "summary": {
+   "default": "Лента на рукояти лопаты распустилась на пол-оборота. Рядом лежит моток — можно закончить. Бабай заметит, даже если ничего не скажет.",
+   "translations": {
+    "ru": "Лента на рукояти лопаты распустилась на пол-оборота. Рядом лежит моток — можно закончить. Бабай заметит, даже если ничего не скажет."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-connective-street-repair-bench",
+  "value": {
+   "default": "Домотать рукоять лопаты",
+   "translations": {
+    "ru": "Домотать рукоять лопаты"
    }
   },
   "purpose": "ui"
