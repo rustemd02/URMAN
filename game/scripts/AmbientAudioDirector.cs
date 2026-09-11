@@ -16,13 +16,19 @@ public partial class AmbientAudioDirector : Node
 
     private const float TargetVolumeDb = -12f;
     private const float MutedVolumeDb = -60f;
+    private const float VoiceDuckDb = -6f;
+    private const double VoiceDuckTransitionSeconds = 0.08;
 
     private readonly Dictionary<string, AmbientStem> _stemsByZone = new(StringComparer.Ordinal);
     private readonly AudioStreamPlayer[] _players = new AudioStreamPlayer[2];
     private Tween? _crossfadeTween;
+    private Tween? _voiceDuckTween;
     private bool _headless;
     private bool _lifecycleReady;
+    private bool _voiceDuckActive;
     private int _activePlayerIndex = -1;
+    private AudioEffectAmplify? _voiceDuckEffect;
+    private int _voiceDuckEffectIndex = -1;
 
     public string CurrentZoneId { get; private set; } = string.Empty;
 
@@ -35,6 +41,8 @@ public partial class AmbientAudioDirector : Node
     public int ActivePlayerIndex => _activePlayerIndex;
 
     public double ConfiguredCrossfadeDurationSeconds => CrossfadeDurationSeconds;
+
+    public bool VoiceDuckActive => _voiceDuckActive;
 
     public override void _Ready()
     {
@@ -56,6 +64,7 @@ public partial class AmbientAudioDirector : Node
         }
         PlayerCount = _players.Length;
         LoadManifest();
+        SetupVoiceDuckEffect();
         SetMeta("manifestPath", ManifestPath);
         SetMeta("ambientPlayerCount", PlayerCount);
         SetMeta("ambientCrossfadeSeconds", CrossfadeDurationSeconds);
@@ -66,8 +75,15 @@ public partial class AmbientAudioDirector : Node
 
     public override void _ExitTree()
     {
+        if (_voiceDuckEffect is not null)
+        {
+            _voiceDuckEffect.VolumeDb = 0f;
+        }
+
         _lifecycleReady = false;
         _crossfadeTween?.Kill();
+        _voiceDuckTween?.Kill();
+        RemoveVoiceDuckEffect();
         foreach (var player in _players)
         {
             if (!IsUsablePlayer(player))
@@ -87,6 +103,28 @@ public partial class AmbientAudioDirector : Node
     }
 
     public void SetZone(string zoneId) => SetZone(zoneId, subKey: null);
+
+    /// <summary>
+    /// Temporarily lowers the ambience bus while a physical voice cue is
+    /// active. The user volume remains owned by AudioSettingsService and is
+    /// re-applied when the transient duck ends.
+    /// </summary>
+    public void SetVoiceDuck(bool enabled)
+    {
+        if (_voiceDuckEffect is null || _voiceDuckActive == enabled)
+        {
+            return;
+        }
+
+        _voiceDuckActive = enabled;
+        _voiceDuckTween?.Kill();
+        _voiceDuckTween = CreateTween();
+        _voiceDuckTween.TweenProperty(
+            _voiceDuckEffect,
+            "volume_db",
+            enabled ? VoiceDuckDb : 0f,
+            VoiceDuckTransitionSeconds);
+    }
 
     /// <summary>
     /// AUDIO-003: a logical zone may carry sub-zone beds keyed
@@ -212,6 +250,35 @@ public partial class AmbientAudioDirector : Node
 
         SetMeta("stemCount", manifest.Stems.Count);
         SetMeta("zoneCount", _stemsByZone.Count);
+    }
+
+    private void SetupVoiceDuckEffect()
+    {
+        var busIndex = AudioServer.GetBusIndex(AudioSettingsService.AmbienceBus);
+        if (busIndex == -1)
+        {
+            return;
+        }
+
+        _voiceDuckEffect = new AudioEffectAmplify { VolumeDb = 0f };
+        _voiceDuckEffectIndex = AudioServer.GetBusEffectCount(busIndex);
+        AudioServer.AddBusEffect(busIndex, _voiceDuckEffect, _voiceDuckEffectIndex);
+    }
+
+    private void RemoveVoiceDuckEffect()
+    {
+        var busIndex = AudioServer.GetBusIndex(AudioSettingsService.AmbienceBus);
+        if (_voiceDuckEffect is not null
+            && busIndex != -1
+            && _voiceDuckEffectIndex >= 0
+            && _voiceDuckEffectIndex < AudioServer.GetBusEffectCount(busIndex))
+        {
+            AudioServer.RemoveBusEffect(busIndex, _voiceDuckEffectIndex);
+        }
+
+        _voiceDuckEffect = null;
+        _voiceDuckEffectIndex = -1;
+        _voiceDuckActive = false;
     }
 
     private void LoopCurrentStem()

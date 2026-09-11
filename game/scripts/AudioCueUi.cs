@@ -6,24 +6,35 @@ namespace Urman.Godot;
 
 public partial class AudioCueUi : CanvasLayer, IAccessibilitySettingsTarget
 {
-    private const double CueDurationSeconds = 2.0;
+    private const double LogicalCueDurationSeconds = 2.0;
     private const double CueGapSeconds = 0.12;
     private const int HistoryLimit = 16;
 
     private PanelContainer _panel = null!;
     private Label _label = null!;
     private AudioStreamPlayer _player = null!;
-    private ulong _presentationSequence;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
     private readonly Queue<PendingCue> _pendingCues = new();
     private readonly List<string> _presentedHistory = [];
     private bool _presentationActive;
+    private bool _paused;
+    private double _remainingSeconds;
+    private double _gapRemainingSeconds;
+    private bool _voiceDuckHeld;
 
     public string? LastOutcomeKey { get; private set; }
 
     public string? LastAssetId { get; private set; }
 
     public string? LastPresentedText { get; private set; }
+
+    public string? LastStartedAssetId { get; private set; }
+
+    /// <summary>
+    /// Presentation-only cue-start signal for future authored timing. It must
+    /// never be used to mutate narrative state from this presentation owner.
+    /// </summary>
+    public event Action<string>? CueStarted;
 
     /// <summary>
     /// The text currently visible in the cue panel. LastPresentedText remains
@@ -60,14 +71,83 @@ public partial class AudioCueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _ExitTree()
     {
-        _presentationSequence++;
-        _pendingCues.Clear();
-        _presentationActive = false;
+        ResetPresentation();
+        CueStarted = null;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (_paused)
+        {
+            return;
+        }
+
+        if (_presentationActive)
+        {
+            _remainingSeconds -= delta;
+            // Audio mixing and scene frames have separate clocks. Keep the
+            // tail, but bound an invalid/looping stream to one extra second.
+            if (_remainingSeconds <= 0d && (!_player.Playing || _remainingSeconds <= -1d))
+            {
+                FinishCurrentCue();
+            }
+
+            return;
+        }
+
+        if (_gapRemainingSeconds > 0d)
+        {
+            _gapRemainingSeconds = Math.Max(0d, _gapRemainingSeconds - delta);
+            if (_gapRemainingSeconds > 0d)
+            {
+                return;
+            }
+        }
+
+        if (_pendingCues.Count > 0)
+        {
+            PresentNextCue();
+        }
+    }
+
+    public void SetPaused(bool paused)
+    {
+        _paused = paused;
         if (_player is not null && GodotObject.IsInstanceValid(_player))
         {
+            _player.StreamPaused = paused;
+        }
+    }
+
+    public void ResetPresentation()
+    {
+        _pendingCues.Clear();
+        _presentationActive = false;
+        _remainingSeconds = 0d;
+        _gapRemainingSeconds = 0d;
+        if (_player is not null && GodotObject.IsInstanceValid(_player))
+        {
+            _player.StreamPaused = false;
             _player.Stop();
             _player.Stream = null;
         }
+
+        if (_panel is not null && GodotObject.IsInstanceValid(_panel))
+        {
+            _panel.Visible = false;
+        }
+
+        if (_label is not null && GodotObject.IsInstanceValid(_label))
+        {
+            _label.Text = string.Empty;
+        }
+
+        LastOutcomeKey = null;
+        LastAssetId = null;
+        LastPresentedText = null;
+        LastStartedAssetId = null;
+        _presentedHistory.Clear();
+        ReleaseVoiceDuck();
     }
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
@@ -88,30 +168,23 @@ public partial class AudioCueUi : CanvasLayer, IAccessibilitySettingsTarget
             : _accessibility.AudioDescriptions
                 ? audio.NonAudioCue?.Text
                 : _accessibility.Subtitles ? audio.Captions?.Text : null;
-        if (string.IsNullOrWhiteSpace(text))
-        {
-            // A real recording may still be audible when subtitles and audio
-            // descriptions are both disabled. Logical refs have no stream,
-            // so there is nothing to enqueue in that fallback case.
-            if (playable)
-            {
-                PlayAudio(audio.Asset.Url);
-            }
-
-            return;
-        }
 
         LastOutcomeKey = audio.NonAudioCue?.OutcomeKey ?? audio.Asset.AssetId;
         LastAssetId = audio.Asset.AssetId;
         LastPresentedText = text;
-        _presentedHistory.Add(text);
-        if (_presentedHistory.Count > HistoryLimit)
+        if (!string.IsNullOrWhiteSpace(text))
         {
-            _presentedHistory.RemoveAt(0);
+            _presentedHistory.Add(text);
+            if (_presentedHistory.Count > HistoryLimit)
+            {
+                _presentedHistory.RemoveAt(0);
+            }
         }
 
-        _pendingCues.Enqueue(new PendingCue(audio.Asset.Url, playable, text));
-        if (!_presentationActive)
+        // Keep every request serialized, including a real recording when both
+        // visual accessibility channels are disabled.
+        _pendingCues.Enqueue(new PendingCue(audio.Asset.AssetId, audio.Asset.Url, playable, text));
+        if (!_presentationActive && _gapRemainingSeconds <= 0d && !_paused)
         {
             PresentNextCue();
         }
@@ -132,50 +205,103 @@ public partial class AudioCueUi : CanvasLayer, IAccessibilitySettingsTarget
 
         var cue = _pendingCues.Dequeue();
         _presentationActive = true;
-        _label.Text = cue.Text;
-        _panel.Visible = true;
-        if (cue.Playable)
+        if (!string.IsNullOrWhiteSpace(cue.Text))
         {
-            PlayAudio(cue.AssetUrl);
+            _label.Text = cue.Text;
+            _panel.Visible = true;
+        }
+        else
+        {
+            _label.Text = string.Empty;
+            _panel.Visible = false;
         }
 
-        _presentationSequence++;
-        _ = HideAfterDelayAsync(_presentationSequence);
+        var stream = cue.Playable ? PlayAudio(cue.AssetUrl) : null;
+        if (stream is not null)
+        {
+            HoldVoiceDuck();
+        }
+
+        _remainingSeconds = Math.Max(
+            stream is not null ? Math.Max(0d, stream.GetLength()) : 0d,
+            ReadableTextDuration(cue.Text));
+        LastStartedAssetId = cue.AssetId;
+        CueStarted?.Invoke(cue.AssetId);
     }
 
-    private async Task HideAfterDelayAsync(ulong sequence)
+    private void FinishCurrentCue()
     {
-        await ToSignal(GetTree().CreateTimer(CueDurationSeconds), SceneTreeTimer.SignalName.Timeout);
-        if (sequence != _presentationSequence || !GodotObject.IsInstanceValid(_panel))
+        _player.Stop();
+        _player.Stream = null;
+        _player.StreamPaused = false;
+        _presentationActive = false;
+        _remainingSeconds = 0d;
+        if (GodotObject.IsInstanceValid(_panel))
         {
-            return;
+            _panel.Visible = false;
         }
 
-        _panel.Visible = false;
-        _presentationActive = false;
         if (_pendingCues.Count == 0)
         {
-            return;
+            ReleaseVoiceDuck();
         }
-
-        await ToSignal(GetTree().CreateTimer(CueGapSeconds), SceneTreeTimer.SignalName.Timeout);
-        if (sequence == _presentationSequence && GodotObject.IsInstanceValid(_panel))
+        else
         {
-            PresentNextCue();
+            _gapRemainingSeconds = CueGapSeconds;
         }
     }
 
-    private void PlayAudio(string assetUrl)
+    private AudioStream? PlayAudio(string assetUrl)
     {
         var stream = ResourceLoader.Load<AudioStream>(assetUrl);
         if (stream is null)
         {
-            return;
+            return null;
         }
 
         _player.Stream = stream;
         _player.Play();
+        return stream;
     }
 
-    private readonly record struct PendingCue(string AssetUrl, bool Playable, string Text);
+    private static double ReadableTextDuration(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return 0d;
+        }
+
+        return Math.Max(LogicalCueDurationSeconds, text.Trim().Length / 18d);
+    }
+
+    private void HoldVoiceDuck()
+    {
+        if (_voiceDuckHeld)
+        {
+            return;
+        }
+
+        if (GetTree().GetFirstNodeInGroup("ambient_audio") is AmbientAudioDirector ambience)
+        {
+            ambience.SetVoiceDuck(true);
+            _voiceDuckHeld = true;
+        }
+    }
+
+    private void ReleaseVoiceDuck()
+    {
+        if (!_voiceDuckHeld)
+        {
+            return;
+        }
+
+        if (GetTree().GetFirstNodeInGroup("ambient_audio") is AmbientAudioDirector ambience)
+        {
+            ambience.SetVoiceDuck(false);
+        }
+
+        _voiceDuckHeld = false;
+    }
+
+    private readonly record struct PendingCue(string AssetId, string AssetUrl, bool Playable, string? Text);
 }

@@ -154,7 +154,8 @@ public partial class ChapterOneFlowSmokeTest : Node
             return;
         }
 
-        await ToSignal(GetTree().CreateTimer(2.25), SceneTreeTimer.SignalName.Timeout);
+        for (var attempt = 0; attempt < 200 && audioCue.LastStartedAssetId != "urman.chapter1:asset/audio-rinat-interruption"; attempt++)
+            await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
         if (audioCue.VisibleText != "Ринат говорит: «Не отвечай».")
         {
             Fail($"Act 1 cliffhanger did not advance from Marat's cue to Rinat's warning (visible='{audioCue.VisibleText}').");
@@ -179,9 +180,9 @@ public partial class ChapterOneFlowSmokeTest : Node
         // The fallback caption request above intentionally adds a third cue to
         // the presentation queue. Give the queue enough real frames to drain
         // before asserting the closing card; this is not a gameplay timeout.
-        for (var frame = 0; frame < 1000 && !demo.DemoEnded; frame++)
+        for (var frame = 0; frame < 200 && !demo.DemoEnded; frame++)
         {
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
         }
         if (!demo.DemoEnded
             || demo.EndingTitleText != "НЕ ОТВЕЧАЙ"

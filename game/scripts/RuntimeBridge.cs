@@ -157,6 +157,7 @@ public partial class RuntimeBridge : Node
             return false;
         }
 
+        ResetAudioCuePresentation();
         var preservedSettings = player.CaptureSettings();
         CreateNewSession();
         CurrentZoneId = "village_day";
@@ -190,6 +191,7 @@ public partial class RuntimeBridge : Node
         try
         {
             var result = await _saveStore.LoadAsync(slot, _content.CampaignFingerprint);
+            ResetAudioCuePresentation();
             RestoreSession(result.Save);
             if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main)
             {
@@ -920,6 +922,14 @@ public partial class RuntimeBridge : Node
             var assetId = gameEvent.Payload.GetProperty("assetId").GetString()
                 ?? throw new InvalidOperationException("Audio request event is missing assetId.");
             audioCueUi.Present(_content.ResolveAudio(assetId, $"runtime-event:{gameEvent.Sequence}"));
+        }
+    }
+
+    private void ResetAudioCuePresentation()
+    {
+        if (GetTree().GetFirstNodeInGroup("audio_cue_ui") is AudioCueUi audioCueUi)
+        {
+            audioCueUi.ResetPresentation();
         }
     }
 

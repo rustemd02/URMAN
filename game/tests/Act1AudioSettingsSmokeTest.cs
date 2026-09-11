@@ -72,6 +72,31 @@ public partial class Act1AudioSettingsSmokeTest : Node
             return;
         }
 
+        var rinatCue = CompiledCampaignRepository.Load().ResolveAudio(
+            "urman.chapter1:asset/audio-rinat-interruption", "runtime-test:queue");
+        audioCue.Present(rinatCue);
+        var firstText = audioCue.VisibleText;
+        audioCue.SetPaused(true);
+        audioCue._Process(30);
+        if (audioCue.VisibleText != firstText || !audioCue.IsPresenting)
+        { Fail("Pause advanced the active cue."); return; }
+        audioCue.SetPaused(false);
+        audioCue._Process(30);
+        audioCue._Process(1);
+        if (audioCue.LastStartedAssetId != rinatCue.Asset.AssetId)
+        { Fail("The second cue did not follow the first after resume."); return; }
+        audioCue.ResetPresentation();
+        if (audioCue.IsPresenting || audioCue.PresentedHistory.Count != 0 || audioCue.LastStartedAssetId is not null)
+        { Fail("Reset retained a cue from the old session."); return; }
+        audioCue.ApplyAccessibilitySettings(new(Subtitles: false, AudioDescriptions: false));
+        audioCue.Present(audioCueCaptions);
+        audioCue.Present(rinatCue);
+        audioCue._Process(1);
+        audioCue._Process(1);
+        if (audioCue.LastStartedAssetId != rinatCue.Asset.AssetId || audioCue.VisibleText is not null)
+        { Fail("Caption-disabled cues bypassed the ordered queue."); return; }
+        audioCue.ResetPresentation();
+
         // Live volume application + persistence round trip.
         AudioSettingsService.SetVolume(AudioSettingsService.MasterBus, 0.5f);
         var masterDb = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex(AudioSettingsService.MasterBus));
@@ -82,6 +107,15 @@ public partial class Act1AudioSettingsSmokeTest : Node
         }
 
         AudioSettingsService.SetVolume(AudioSettingsService.AmbienceBus, 0.75f);
+        ambientDirector!.SetVoiceDuck(true);
+        _ = AudioSettingsService.GetVolume(AudioSettingsService.AmbienceBus);
+        await ToSignal(GetTree().CreateTimer(0.3), SceneTreeTimer.SignalName.Timeout);
+        var ambienceIndex = AudioServer.GetBusIndex(AudioSettingsService.AmbienceBus);
+        var duck = Enumerable.Range(0, AudioServer.GetBusEffectCount(ambienceIndex))
+            .Select(index => AudioServer.GetBusEffect(ambienceIndex, index)).OfType<AudioEffectAmplify>().Single();
+        if (duck.VolumeDb > -5.9f || Math.Abs(AudioServer.GetBusVolumeDb(ambienceIndex) - Mathf.LinearToDb(.75f)) > .01f)
+        { Fail("Transient duck lost its attenuation or changed the user bus volume."); return; }
+        ambientDirector.SetVoiceDuck(false);
         var persisted = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.Nodes.JsonObject>(
             System.IO.File.ReadAllBytes(ProjectSettings.GlobalizePath("user://audio-settings.json")));
         var persistedVolumes = persisted?["Volumes"]?.AsObject();
@@ -102,7 +136,7 @@ public partial class Act1AudioSettingsSmokeTest : Node
         }
 
         settings.Open(player);
-        var voiceSlider = settings.GetNode<HSlider>("Screen/Panel/Layout/VoiceVolumeRow/VoiceVolume");
+        var voiceSlider = settings.GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/VoiceVolumeRow/VoiceVolume");
         voiceSlider.EmitSignal(HSlider.SignalName.ValueChanged, 1.0);
         await Frames(2);
         if (AudioServer.IsBusMute(AudioServer.GetBusIndex(AudioSettingsService.VoiceBus))

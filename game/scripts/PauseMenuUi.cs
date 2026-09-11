@@ -54,6 +54,17 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             ?? AccessibilitySettingsSnapshot.Default);
     }
 
+    public override void _Notification(int what)
+    {
+        if (what == NotificationWMWindowFocusOut
+            && !_open
+            && CanOpenPause?.Invoke() == true
+            && FindPlayer() is { ModalOpen: false })
+        {
+            Open();
+        }
+    }
+
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
     {
         var scale = Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f);
@@ -150,6 +161,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _open = true;
         Visible = true;
         DisarmAll();
+        (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.SetPaused(true);
         FindPlayer()?.SetModalOpen(true);
         Input.MouseMode = Input.MouseModeEnum.Visible;
         SetStatus(string.Empty);
@@ -161,6 +173,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _open = false;
         Visible = false;
         DisarmAll();
+        (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.SetPaused(false);
         FindPlayer()?.SetModalOpen(false);
         Input.MouseMode = Input.MouseModeEnum.Captured;
     }
@@ -386,6 +399,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void ShowMainMenu()
     {
+        (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.ResetPresentation();
         Resume();
         ShowMainMenuRequested?.Invoke();
     }

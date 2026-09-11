@@ -268,9 +268,11 @@
       ],
       "evidence": [
         "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/footsteps_regenerate.log",
-        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/footsteps_smoke_v2.log"
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/footsteps_smoke_v2.log",
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/audio_lifecycle_smoke.log"
       ],
-      "blocked_reason": null
+      "blocked_reason": null,
+      "result": "Licensed winter footsteps and caption-independent audio queue/pause/reset/transient duck integrated. Physical Marat/Rinat recordings, winter ambience and listening/mix remain open."
     },
     {
       "id": "FINISH-04",

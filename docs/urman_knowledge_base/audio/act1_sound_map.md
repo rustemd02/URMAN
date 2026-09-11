@@ -17,6 +17,17 @@ sensationalism — tension is built from ordinary sound going quiet or wrong.
   today: `urman.chapter1:asset/audio-marat-voice`,
   `urman.chapter1:asset/audio-rinat-interruption` (final recordings:
   AUDIO-011…AUDIO-013).
+- `AudioCueUi` serializes every voice request, including physical recordings
+  when subtitles and audio descriptions are disabled. Physical streams use
+  `AudioStream.GetLength()`; logical text uses a readable fallback of at least
+  two seconds and approximately 18 characters per second, while a silent
+  logical request drains immediately. The pause shell freezes both the player
+  and presentation clock; new game, successful load and return to menu clear
+  the queue and presentation history.
+- Physical voice temporarily ducks the existing `Ambience` bus through
+  `AmbientAudioDirector`. The user's persisted ambience volume is re-applied
+  when the cue queue drains; no second ambience owner or settings write is
+  introduced.
 - Priority ladder: voice → spot events → bed. Silence is an authored choice,
   never a bug cover or a fog mask.
 - Footsteps (AUDIO-004) and UI foley (AUDIO-010) are presentation-only: they
@@ -67,8 +78,10 @@ mix and cultural review remain open.
 - Authored silence windows: the zirat pause (before the roadside clue) and the
   Kara threshold (before Rinat's line). Both are dramatic choices with visual
   support, never dead audio.
-- The cliffhanger hard cut stops the bed with the presentation queue drained
-  by `AudioCueUi` — the ending is silent by design, not by omission.
+- The cliffhanger hard cut remains responsible for stopping the bed after the
+  presentation queue drains. This lifecycle slice provides queue drain and
+  transient voice duck; final hard-cut staging remains an authored finale
+  concern. The ending is silent by design, not by omission.
 
 ## Anti-patterns (reopen triggers)
 

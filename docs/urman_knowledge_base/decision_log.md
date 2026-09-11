@@ -3131,3 +3131,32 @@ Accepted in the current finished-Act-I mandate. Вместо автоматич�
 Старый ID `clue_marat_last_route_near_zirat` сохранён для внутренних ссылок, но видимый вывод уточнён: установлено место со схемы, а не доказан след Марата. Новая сырая улика `clue_zirat_roadside_marks` описывает бирку с двумя засечками у внешней тропы; отметки добавлены в существующее оформление бирки. Статья и черновик больше не выдают точную инструкцию финала.
 
 Anti-Entropy: internal code/content responsibility retirement; obsolete authority — scene entry/document refs confirming the three deductions. Carrier retains observation/progression; canonical owner — explicit journal action through existing kernel. External boundary: none; source-of-truth deletion: none; no approval required within the authorized task. Main-path check: journal choices + chapter route. Negative check: missing source/wrong hypothesis cannot confirm. Boundary check: same source pair is checked in the kernel; save remains SaveGameV3. Final rule timing at Rinat's actual cue start remains a separate pending sound/staging change.
+
+## 2026-09-11 — Audio cue lifecycle and transient voice duck
+
+Status: Accepted bounded technical integration; physical voice recordings,
+final mix and human listening remain open.
+
+Context: `AudioCueUi` previously bypassed its queue when captions were disabled,
+used a fixed two-second timer, and had no lifecycle contract for pause, load,
+restart or return to menu. A physical voice stream could therefore overlap or
+be cut by a later request, while a stale cue could survive a session change.
+
+Decision: Keep `AudioCueUi` as the single voice presentation owner. Enqueue every
+request, use the physical stream length when available, retain a readable
+text-only fallback, and advance silent logical refs immediately. Pause freezes
+the player and presentation clock. `RuntimeBridge` resets presentation only at
+new-session and successful-load boundaries; `PauseMenuUi` pauses/resumes and
+clears on return to the main menu. `Main.SwitchZone` remains outside this
+contract because route audio is queued before the physical transition. Physical
+voice uses a transient ambience-bus duck owned by `AmbientAudioDirector`; user
+settings remain persistent and authoritative.
+
+Linked files: `game/scripts/AudioCueUi.cs`, `game/scripts/RuntimeBridge.cs`,
+`game/scripts/PauseMenuUi.cs`, `game/scripts/AmbientAudioDirector.cs`,
+`game/tests/Act1AudioSettingsSmokeTest.cs`,
+`game/tests/Act1PauseMenuSmokeTest.cs`,
+`docs/urman_knowledge_base/audio/act1_sound_map.md`.
+
+Physical Marat/Rinat recordings are still absent; no placeholder voice asset or
+listening-pass claim is made.
