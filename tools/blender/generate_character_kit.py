@@ -48,47 +48,49 @@ SILHOUETTE_PROFILES = {
 }
 
 # Lift only the lower coat rings. The upper body, armature targets and foot
-# anchor stay fixed; shorter coats expose the existing long trouser meshes.
+# anchor stay fixed; role values give heavy coats a longer line and let shorter
+# worker/cardigan hems expose the existing long trouser meshes.
 TORSO_BOTTOM_LIFTS = {
-    "Mansur": -0.020,
-    "Gulsina": 0.100,
-    "Alsu": 0.120,
-    "TimurHazrat": -0.020,
-    "CouncilElder": -0.010,
-    "CouncilWitness": 0.070,
-    "Naila": 0.100,
-    "ArchiveClerk": 0.050,
-    "PactKeeper": -0.010,
+    "Mansur": -0.035,
+    "Gulsina": 0.115,
+    "Alsu": 0.145,
+    "TimurHazrat": -0.005,
+    "CouncilElder": -0.030,
+    "CouncilWitness": 0.085,
+    "Naila": 0.135,
+    "ArchiveClerk": 0.065,
+    "PactKeeper": -0.025,
 }
 
 # shoulder width/depth, sleeve fullness, trouser fullness, hem width/depth,
-# cuff scale. These only reshape existing named pieces.
+# cuff scale. These only reshape existing named pieces; the ranges stay close
+# to the shared winter-kit proportions so cuffs, hands and trouser anchors meet.
 WARDROBE_PROFILES = {
-    "Mansur": (0.52, 0.34, 1.10, 1.08, 0.47, 0.32, 1.08),
-    "Gulsina": (0.46, 0.33, 1.04, 0.98, 0.46, 0.32, 1.02),
-    "Alsu": (0.43, 0.29, 0.88, 0.88, 0.38, 0.27, 0.90),
-    "TimurHazrat": (0.50, 0.31, 1.00, 1.00, 0.44, 0.30, 1.00),
-    "CouncilElder": (0.52, 0.34, 1.08, 1.06, 0.47, 0.32, 1.05),
-    "CouncilWitness": (0.47, 0.30, 0.96, 0.96, 0.41, 0.28, 0.98),
-    "Naila": (0.45, 0.29, 0.90, 0.90, 0.39, 0.28, 0.92),
-    "ArchiveClerk": (0.46, 0.30, 0.94, 0.94, 0.41, 0.28, 0.96),
-    "PactKeeper": (0.50, 0.33, 1.06, 1.04, 0.45, 0.31, 1.04),
+    "Mansur": (0.56, 0.37, 1.10, 1.08, 0.52, 0.36, 1.08),
+    "Gulsina": (0.49, 0.35, 1.04, 0.98, 0.50, 0.35, 1.02),
+    "Alsu": (0.40, 0.27, 0.88, 0.90, 0.36, 0.26, 0.90),
+    "TimurHazrat": (0.49, 0.30, 1.00, 1.00, 0.43, 0.29, 1.00),
+    "CouncilElder": (0.55, 0.36, 1.08, 1.06, 0.51, 0.35, 1.05),
+    "CouncilWitness": (0.45, 0.29, 0.96, 0.96, 0.39, 0.27, 0.98),
+    "Naila": (0.42, 0.27, 0.90, 0.92, 0.35, 0.25, 0.92),
+    "ArchiveClerk": (0.45, 0.29, 0.94, 0.96, 0.40, 0.27, 0.96),
+    "PactKeeper": (0.53, 0.35, 1.06, 1.04, 0.49, 0.33, 1.04),
 }
 
 # eye spread/width/height, brow height, nose scale, mouth width/height/drop.
 # The existing almond, eyelid and iris meshes stay in place; these modest
-# landmark scales make the face read at conversation distance without adding
-# meshes or changing any published names.
+# role landmark scales make the face read at conversation distance without
+# adding meshes or changing any published names.
 FACE_PROFILES = {
-    "Mansur": (0.060, 0.074, 0.037, 0.055, 1.12, 0.058, 0.015, 0.080),
-    "Gulsina": (0.061, 0.071, 0.041, 0.058, 1.00, 0.056, 0.014, 0.078),
-    "Alsu": (0.066, 0.076, 0.047, 0.061, 0.92, 0.058, 0.014, 0.077),
-    "TimurHazrat": (0.060, 0.069, 0.041, 0.054, 0.96, 0.054, 0.014, 0.080),
-    "CouncilElder": (0.060, 0.074, 0.037, 0.055, 1.10, 0.058, 0.014, 0.080),
-    "CouncilWitness": (0.062, 0.071, 0.038, 0.056, 1.00, 0.056, 0.014, 0.079),
-    "Naila": (0.064, 0.074, 0.042, 0.060, 0.94, 0.058, 0.014, 0.077),
-    "ArchiveClerk": (0.061, 0.071, 0.039, 0.057, 0.98, 0.056, 0.014, 0.079),
-    "PactKeeper": (0.060, 0.073, 0.037, 0.055, 1.06, 0.058, 0.014, 0.080),
+    "Mansur": (0.058, 0.069, 0.033, 0.050, 1.20, 0.053, 0.012, 0.086),
+    "Gulsina": (0.063, 0.078, 0.045, 0.063, 0.98, 0.061, 0.016, 0.078),
+    "Alsu": (0.069, 0.082, 0.051, 0.068, 0.90, 0.064, 0.017, 0.074),
+    "TimurHazrat": (0.059, 0.068, 0.038, 0.051, 1.02, 0.052, 0.012, 0.085),
+    "CouncilElder": (0.058, 0.070, 0.033, 0.048, 1.18, 0.052, 0.012, 0.086),
+    "CouncilWitness": (0.065, 0.077, 0.042, 0.060, 1.03, 0.060, 0.016, 0.079),
+    "Naila": (0.068, 0.081, 0.048, 0.066, 0.93, 0.064, 0.017, 0.074),
+    "ArchiveClerk": (0.063, 0.077, 0.042, 0.059, 1.01, 0.060, 0.016, 0.080),
+    "PactKeeper": (0.058, 0.071, 0.035, 0.052, 1.12, 0.053, 0.013, 0.085),
 }
 
 BEARD_PROFILES = {
@@ -206,14 +208,15 @@ def faceted_head(
     landmarks without making them read as stickers.
     """
     rings = (
-        # Narrow jaw and crown, with full cheeks, keep the head soft without
-        # increasing its established sixteen-sided budget.
-        (-0.18, 0.106, 0.092, -0.016),
-        (-0.125, 0.140, 0.122, -0.012),
-        (-0.045, 0.166, 0.145, -0.007),
-        (0.055, 0.172, 0.151, -0.003),
-        (0.135, 0.158, 0.138, 0.001),
-        (0.18, 0.120, 0.104, 0.005),
+        # The same sixteen-sided mesh gets a clearer jaw/cheek/temple rhythm:
+        # a narrower chin and crown frame the softer cheeks without changing
+        # the established head budget or its object/anchor contract.
+        (-0.18, 0.100, 0.086, -0.030),
+        (-0.135, 0.132, 0.116, -0.022),
+        (-0.055, 0.178, 0.151, -0.010),
+        (0.045, 0.172, 0.153, -0.001),
+        (0.130, 0.146, 0.128, 0.008),
+        (0.18, 0.110, 0.094, 0.016),
     )
     sides = 16
     vertices: list[tuple[float, float, float]] = []
@@ -968,7 +971,7 @@ def create_character(
         (x - eye_spread, face_y - 0.003, face_z + 0.035),
         (eye_width * head_scale, 0.012, eye_height * head_scale),
         (x - eye_spread, face_y + 0.006, face_z + brow_lift),
-        (0.050 * head_scale, 0.006, 0.008 * head_scale),
+        (min(0.058, eye_width * 0.70) * head_scale, 0.006, max(0.007, eye_height * 0.20) * head_scale),
         materials["eye"],
         materials["skin"],
         asset_id,
@@ -979,7 +982,7 @@ def create_character(
         (x + eye_spread, face_y - 0.003, face_z + 0.035),
         (eye_width * head_scale, 0.012, eye_height * head_scale),
         (x + eye_spread, face_y + 0.006, face_z + brow_lift),
-        (0.050 * head_scale, 0.006, 0.008 * head_scale),
+        (min(0.058, eye_width * 0.70) * head_scale, 0.006, max(0.007, eye_height * 0.20) * head_scale),
         materials["eye"],
         materials["skin"],
         asset_id,

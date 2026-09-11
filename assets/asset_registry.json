@@ -191,8 +191,8 @@
       "id": "character.fullgame.lowpoly.v1",
       "source": "assets/source/blender/urman_character_kit.blend",
       "derived": "game/assets/generated/urman_character_kit.glb",
-      "sourceSha256": "cf5d3f2e7cc1ce70bd63dd078b1c23354bb44857658352d556535ddf11070ee6",
-      "derivedSha256": "3d8766895f5c7df97202e3ad2cb2ba094a5c79346b76c513c955de5c501bccd3",
+      "sourceSha256": "9a8a0ae930dcbf6066de2129a6db1a83b8f299cbfd1a9f3300c1218739ffcb05",
+      "derivedSha256": "af1bf89c0bc99617289346ab33e061cd8c3299837aaa588ef362a5420c4cb62d",
       "generator": "tools/blender/generate_character_kit.py",
       "license": "Project-original",
       "scale": 1.0,
@@ -241,7 +241,7 @@
         "TimurHazratTrousers"
       ],
       "collision": "none; character GLB has no collision meshes; Godot interaction targets and zone colliders own physics",
-      "lod": "313 LOD0 / 313 LOD1 meshes; 31118 triangles total (20772 LOD0 + 10346 LOD1); 40 authored materials; rounded hair caps and differentiated almond facial details; Godot range 0–18m / 14–48m integrated",
+      "lod": "313 LOD0 / 313 LOD1 meshes; 31118 triangles total (20772 LOD0 + 10346 LOD1); 40 authored materials; role-specific face and winter coat silhouettes; Godot range 0–18m / 14–48m integrated",
       "animation": "9 project-original armatures with Idle/Tension clips; Godot AnimationPlayer Idle/Tension playback smoke-tested",
       "status": "production-animation-pass; authored facial expression/audio/cultural review open",
       "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
