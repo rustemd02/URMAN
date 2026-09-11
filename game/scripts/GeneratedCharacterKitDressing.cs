@@ -179,19 +179,47 @@ public static class GeneratedCharacterKitDressing
         };
 
         var name = NodeName(mesh);
-        var hair = prefix is "Mansur" or "Gulsina" ? "827b70" : "332e2b";
+        var skin = prefix switch
+        {
+            "Mansur" => "a77b67",
+            "Gulsina" => "b18470",
+            "Alsu" => "ae7967",
+            "TimurHazrat" => "a27a67",
+            "CouncilWitness" => "a87d69",
+            "Naila" => "b27f6d",
+            _ => "a47c68"
+        };
+        var hair = prefix switch
+        {
+            "Mansur" or "Gulsina" => "6f5448",
+            "Alsu" or "Naila" => "3b302e",
+            "TimurHazrat" => "40342f",
+            "CouncilWitness" => "4b3b35",
+            _ => "332e2b"
+        };
+        var isFaceInk = name.Contains("FaceEyeIris", StringComparison.Ordinal)
+            || name.Contains("FaceBrow", StringComparison.Ordinal)
+            || name.Contains("FaceMouth", StringComparison.Ordinal);
+        var isEyeWhite = name.Contains("FaceEye", StringComparison.Ordinal)
+            && !name.Contains("Eyelid", StringComparison.Ordinal)
+            && !isFaceInk;
         var isHand = name.Contains("Hand", StringComparison.Ordinal);
         var color = isHand || name.Contains("Head", StringComparison.Ordinal) || name.Contains("FaceNose", StringComparison.Ordinal)
+            || name.Contains("FaceEyelid", StringComparison.Ordinal)
+            || name.Contains("FaceMouthLowerLip", StringComparison.Ordinal)
+            || name.Contains("FaceChin", StringComparison.Ordinal)
             || name.Contains("Ear", StringComparison.Ordinal) || name.Contains("Neck", StringComparison.Ordinal)
-            ? "a47c68"
+            ? skin
             : name.Contains("Hair", StringComparison.Ordinal) || name.Contains("FaceBeard", StringComparison.Ordinal)
                 ? hair
                 : name.Contains("Hat", StringComparison.Ordinal) || name.Contains("Boot", StringComparison.Ordinal)
-                ? "332e2b"
+                ? "514139"
                 : name.Contains("Trouser", StringComparison.Ordinal)
                     ? "494640"
-                : name.Contains("FaceEye", StringComparison.Ordinal) || name.Contains("FaceMouth", StringComparison.Ordinal)
-                    ? "171311"
+                    : isEyeWhite
+                    ? "d8cbb4"
+                    : isFaceInk
+                    ? "2f2522"
                     : name.Contains("Shoulder", StringComparison.Ordinal) || name.Contains("Scarf", StringComparison.Ordinal)
                       || name.Contains("Apron", StringComparison.Ordinal) || name.Contains("CardiganPlacket", StringComparison.Ordinal)
                     ? accent
