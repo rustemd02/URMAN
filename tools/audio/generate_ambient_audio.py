@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Generate deterministic, project-original ambience stems for Godot smoke/runtime.
+"""Generate the legacy non-Act-I water ambience only.
+
+Act I recordings are prepared by generate_act1_ambience_layers.py; never
+overwrite them with procedural beds.
 
 These are intentionally non-voice sound-design stems. They prove the runtime
 audio path and give the first-person zones a quiet bed; they are not a claim of
@@ -39,22 +42,7 @@ def make_stem(kind: str, seed: int) -> list[float]:
     samples: list[float] = []
     for index in range(count):
         t = index / SAMPLE_RATE
-        if kind == "village_day":
-            wind = 0.05 * slow[index]
-            birds = 0.035 * math.sin(2.0 * math.pi * (2_430 + 120 * math.sin(t * 0.7)) * t)
-            distant = 0.018 * math.sin(2.0 * math.pi * 156 * t)
-            value = wind + 0.022 * detail[index] + birds + distant
-        elif kind == "house_room":
-            hum = 0.022 * math.sin(2.0 * math.pi * 50 * t)
-            crt = 0.028 * math.sin(2.0 * math.pi * (1_850 + 18 * math.sin(t * 0.3)) * t)
-            room = 0.016 * slow[index] + 0.008 * detail[index]
-            value = hum + crt + room
-        elif kind == "kara_urman_edge":
-            wind = 0.09 * slow[index] + 0.025 * detail[index]
-            branch = 0.018 * math.sin(2.0 * math.pi * (71 + 4 * math.sin(t * 0.45)) * t)
-            pulse = 0.012 * math.sin(2.0 * math.pi * 31 * t) * (0.5 + 0.5 * math.sin(t * 0.8))
-            value = wind + branch + pulse
-        elif kind == "water_edge":
+        if kind == "water_edge":
             ripple = 0.045 * slow[index] + 0.035 * detail[index]
             shimmer = 0.018 * math.sin(2.0 * math.pi * (310 + 22 * math.sin(t * 0.8)) * t)
             value = ripple + shimmer
@@ -81,9 +69,6 @@ def write_wav(path: Path, samples: list[float]) -> None:
 
 def main() -> None:
     stems = {
-        "village_day_ambience.wav": ("village_day", 1101),
-        "house_room_tone.wav": ("house_room", 2202),
-        "kara_urman_edge_ambience.wav": ("kara_urman_edge", 3303),
         "water_edge_ambience.wav": ("water_edge", 4404),
     }
     for filename, (kind, seed) in stems.items():

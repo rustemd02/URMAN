@@ -18,3 +18,9 @@ Blender использован для создания моделей.
 Сведения о лицензиях компонентов Godot доступны ниже.
 
 Запись лесного ветра: Magnesus, «Wind in forest», Freesound 606960, CC0 1.0. Подготовленный фрагмент общедоступного HQ preview.
+
+Записи окружения (Freesound, CC0 1.0; подготовленные фрагменты HQ preview):
+callmethefoo — Soft Room Tone, 744447.
+RIFORKA — Ambience_Indoor_RoomTone, 801025.
+bruno.auzet — silent windy pine forest.wav, 670307.
+lwdickens — winter wind in trees.wav, 261226.

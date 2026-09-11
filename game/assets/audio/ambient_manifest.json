@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "kind": "urman.ambient_audio_manifest",
   "status": "runtime-foundation; production-candidate sound-design pass",
-  "note": "Project-original procedural sound-design stems prove the Godot playback path and the Act 1 two-player zone crossfade. Four Act I sub-zone beds remain procedural for wet arrival, domestic yard, receding return and FAP interior; zirat_wind is source-backed from a documented CC0 public HQ preview with a separately prepared PCM candidate. None are final field recordings or character voice performances; authored voice, final ambience mix, loop listening and cultural review remain release gates.",
+  "note": "All eight active Act I beds use recorded CC0 public HQ previews, prepared as PCM candidates. The future-act water bed remains procedural and inactive in Act I. Source provenance and conversion are documented; final listening, room contrast, mix, loop and cultural review remain open. Physical character voices are a separate unresolved release requirement.",
   "stems": [
     {
       "id": "ambient.village-day",
@@ -17,10 +17,30 @@
         "fullgame_act5_epilogue"
       ],
       "loop": true,
-      "source": "tools/audio/generate_ambient_audio.py",
-      "seed": 1101,
-      "license": "Project-original",
-      "status": "technical-runtime-pass; authored-mix-open"
+      "source": "https://freesound.org/people/lwdickens/sounds/261226/",
+      "license": "CC0-1.0",
+      "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/261/261226_2663250-hq.mp3",
+      "sourcePreviewSha256": "0c7f7451a18373dce28121c4d6339ca254bf762d2e3c828914257a7d41cdfb25",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "design": "Recorded winter wind through conifers in a residential area.",
+      "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "preparation": {
+        "startSeconds": 0,
+        "durationSeconds": 120,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.015
+      },
+      "preparedSha256": "bd8b9d4ae36a14a27595f3c8829ad39b948cdc80a15c240386bb94d0ce0cf210",
+      "preparedMetrics": {
+        "durationSeconds": 119.0,
+        "gainDb": 11.757870737697578,
+        "peak": 0.593231201171875,
+        "rms": 0.0149995336458693,
+        "loopBoundaryDelta": 0.0006103515625
+      }
     },
     {
       "id": "ambient.house-room",
@@ -31,10 +51,30 @@
         "fullgame_act3_soviet"
       ],
       "loop": true,
-      "source": "tools/audio/generate_ambient_audio.py",
-      "seed": 2202,
-      "license": "Project-original",
-      "status": "technical-runtime-pass; authored-mix-open"
+      "source": "https://freesound.org/people/callmethefoo/sounds/744447/",
+      "license": "CC0-1.0",
+      "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/744/744447_14793871-hq.mp3",
+      "sourcePreviewSha256": "0c0e38e634bae6e954c2cc451d331800cfb0b3c97cef5276d596f3e2aca9e1ec",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "design": "Quiet recorded cabin room tone; no synthetic CRT whine.",
+      "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "preparation": {
+        "startSeconds": 0,
+        "durationSeconds": 97,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.01
+      },
+      "preparedSha256": "7781b0cfa66313adfd3559c2d06cc3067fb78b98e486e76c96d3e29028bcf15c",
+      "preparedMetrics": {
+        "durationSeconds": 96.0,
+        "gainDb": 16.912037742972352,
+        "peak": 0.09320068359375,
+        "rms": 0.009997816463115296,
+        "loopBoundaryDelta": 0.001708984375
+      }
     },
     {
       "id": "ambient.kara-urman-edge",
@@ -45,10 +85,30 @@
         "fullgame_act5_boundary"
       ],
       "loop": true,
-      "source": "tools/audio/generate_ambient_audio.py",
-      "seed": 3303,
-      "license": "Project-original",
-      "status": "technical-runtime-pass; authored-mix-open"
+      "source": "https://freesound.org/people/bruno.auzet/sounds/670307/",
+      "license": "CC0-1.0",
+      "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/670/670307_11519060-hq.mp3",
+      "sourcePreviewSha256": "a2ead39d080b346c46ed237adc46e83f747d19a81345f74a5e5d115be5f131ac",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "design": "Recorded January wind in pine trees; no procedural drone or added stinger.",
+      "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "preparation": {
+        "startSeconds": 30,
+        "durationSeconds": 120,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.035
+      },
+      "preparedSha256": "a11cbbe1fd2afcb60e22972012863c184a84d6cd5eaf040d4cae9a9d47c0fc87",
+      "preparedMetrics": {
+        "durationSeconds": 119.0,
+        "gainDb": -1.7472863722836254,
+        "peak": 0.26776123046875,
+        "rms": 0.03499893252398677,
+        "loopBoundaryDelta": 0.00299072265625
+      }
     },
     {
       "id": "ambient.water-edge",
@@ -70,11 +130,30 @@
         "fap_clinic"
       ],
       "loop": true,
-      "source": "tools/audio/generate_act1_ambience_layers.py",
-      "seed": 4601,
-      "license": "Project-original",
-      "design": "Dry fluorescent/radiator room tone with sparse paper and wall ticks; dialogue-safe institutional contrast.",
-      "status": "technical-runtime-pass; authored-mix-open"
+      "source": "https://freesound.org/people/RIFORKA/sounds/801025/",
+      "license": "CC0-1.0",
+      "design": "Quiet recorded indoor air distinct from the domestic room; no continuous synthetic clinic hum.",
+      "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/801/801025_16705919-hq.mp3",
+      "sourcePreviewSha256": "46027add09df2a0d796cd73420df4cf8c3fce858090d242b3296d9b253e3cc32",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "preparation": {
+        "startSeconds": 0,
+        "durationSeconds": 122,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.008
+      },
+      "preparedSha256": "e88051187b57670e6863d78f9234787b6364004d11fe2d057d8b5e1bf4824aff",
+      "preparedMetrics": {
+        "durationSeconds": 121.0,
+        "gainDb": 24.776817419187196,
+        "peak": 0.041259765625,
+        "rms": 0.008000761261609889,
+        "loopBoundaryDelta": 0.00054931640625
+      }
     },
     {
       "id": "ambient.zirat-wind",
@@ -102,11 +181,30 @@
         "village_day@arrival"
       ],
       "loop": true,
-      "source": "tools/audio/generate_act1_ambience_layers.py",
-      "seed": 6803,
-      "license": "Project-original",
-      "design": "Wet open-sky arrival with road resonance, rain air and two sparse distant calls.",
-      "status": "technical-runtime-pass; authored-mix-open"
+      "source": "https://freesound.org/people/lwdickens/sounds/261226/",
+      "license": "CC0-1.0",
+      "design": "Winter wind at the arrival; no synthetic rain, roof drips or summer birds.",
+      "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/261/261226_2663250-hq.mp3",
+      "sourcePreviewSha256": "0c7f7451a18373dce28121c4d6339ca254bf762d2e3c828914257a7d41cdfb25",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "preparation": {
+        "startSeconds": 0,
+        "durationSeconds": 70,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.015
+      },
+      "preparedSha256": "5b39aba16584cafc2b0e05de75c37f47950587d3f3ecfe9473794edcb898989a",
+      "preparedMetrics": {
+        "durationSeconds": 69.0,
+        "gainDb": 11.498434328352129,
+        "peak": 0.151947021484375,
+        "rms": 0.01499951637657302,
+        "loopBoundaryDelta": 0.000579833984375
+      }
     },
     {
       "id": "ambient.village-yard",
@@ -115,11 +213,30 @@
         "village_day@from_house"
       ],
       "loop": true,
-      "source": "tools/audio/generate_act1_ambience_layers.py",
-      "seed": 7901,
-      "license": "Project-original",
-      "design": "Warm domestic low-mid air with quiet wood movement and roof drips behind the yard fence.",
-      "status": "technical-runtime-pass; authored-mix-open"
+      "source": "https://freesound.org/people/lwdickens/sounds/261226/",
+      "license": "CC0-1.0",
+      "design": "A quieter winter wind fragment inside the domestic yard.",
+      "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/261/261226_2663250-hq.mp3",
+      "sourcePreviewSha256": "0c7f7451a18373dce28121c4d6339ca254bf762d2e3c828914257a7d41cdfb25",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "preparation": {
+        "startSeconds": 50,
+        "durationSeconds": 70,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.01
+      },
+      "preparedSha256": "7b73602eef16b131c876b62fcd8c38be78f09e5fdceb8355e5f6b18523aee0d2",
+      "preparedMetrics": {
+        "durationSeconds": 69.0,
+        "gainDb": 8.250222372428928,
+        "peak": 0.3961181640625,
+        "rms": 0.009999644461922278,
+        "loopBoundaryDelta": 0.00079345703125
+      }
     },
     {
       "id": "ambient.village-return",
@@ -128,11 +245,30 @@
         "village_day@from_forest"
       ],
       "loop": true,
-      "source": "tools/audio/generate_act1_ambience_layers.py",
-      "seed": 8117,
-      "license": "Project-original",
-      "design": "Wind-dominant return street with the domestic high band receding and sparse fence movement.",
-      "status": "technical-runtime-pass; authored-mix-open"
+      "source": "https://freesound.org/people/lwdickens/sounds/261226/",
+      "license": "CC0-1.0",
+      "design": "A later winter wind fragment on the return street.",
+      "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/261/261226_2663250-hq.mp3",
+      "sourcePreviewSha256": "0c7f7451a18373dce28121c4d6339ca254bf762d2e3c828914257a7d41cdfb25",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "preparation": {
+        "startSeconds": 82,
+        "durationSeconds": 70,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.014
+      },
+      "preparedSha256": "494bfbd1db4bdb22676c51391afc08c44b483e390b745bebfe5a172d89dcbd4c",
+      "preparedMetrics": {
+        "durationSeconds": 69.0,
+        "gainDb": 11.620110676949944,
+        "peak": 0.2603759765625,
+        "rms": 0.013999546009045261,
+        "loopBoundaryDelta": 0.000244140625
+      }
     }
   ]
 }

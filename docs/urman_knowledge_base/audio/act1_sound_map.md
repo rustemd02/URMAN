@@ -57,19 +57,34 @@ mix and cultural review remain open.
 
 ## Zone/segment map
 
-| Segment | Bed (current → target) | Spot events | Intended read |
+| Segment | Current recorded bed | Spot events / remaining work | Intended read |
 |---|---|---|---|
-| Arrival (`village_day@arrival`) | `village_day_ambience` (rain/wind bed) | distant rooster/dog, pole hum, first car rattle fading | ordinary wet village evening; life continues without the player |
-| MainStreet | same bed, denser pole hum + household layer | door knock, TV murmur behind walls, bicycle | inhabited street, people behind fences |
-| BabaiEbiYard | same bed, yard layer (hen, firewood) | clock through window, kettle | home warmth against wet street |
-| HouseExteriorApproach | bed thins at the porch step | rain on porch roof | threshold moment before the door |
-| House interior (`house_old_pc`) | `house_room_tone` | clock, fridge hum, CRT whir near the old PC (AUTHOR-UP: AUDIO-005) | dry warm interior; rain only as muffled bleed |
-| FAP interior (`fap_clinic`) | `house_room_tone` (AUTHOR-UP: dedicated bed, AUDIO-006) | corridor tap, paper, distant phone | institutional cool; locally plausible, no horror clinic |
-| ConnectiveStreetReturn | village bed returns, slightly emptier | fewer household events, more wind | village going quiet towards the outskirts |
-| ZiratMemoryField | village bed thins to wind (AUTHOR-UP: dedicated layers, AUDIO-007) | single wind gusts, fabric, distant tractor | restrained pause; respect, no ornament |
-| Zirat → Kara road | wind bed deepens, village events gone | branches, own footsteps become the loudest voice | escalating separation from the village |
-| KaraForestEdge (`kara_urman_night`) | `kara_urman_edge_ambience` + layered trees (AUDIO-008) | creaks, wrong-distance rustle, one distant bird | the old order's territory: present, not aggressive |
-| Final beat (`scene/forest` onEnter) | bed ducks deliberately | Marat's familiar phrase (wrong pause), Rinat's interruption | authored silence window for «Не отвечай»; hard cut ends all audio |
+| Arrival (`village_day@arrival`) | 69 s winter wind, lwdickens 261226 | footsteps on packed snow; no synthetic rain or drips | quiet inhabited winter village |
+| MainStreet | 119 s winter wind from the same residential recording | physical gate creaks; sparse household activity still needs listening review | people behind fences |
+| BabaiEbiYard / porch | quieter 69 s winter wind fragment | own footsteps and gate; no summer poultry or roof rain | sheltered domestic threshold |
+| House interior (`house_old_pc`) | 96 s cabin room tone, callmethefoo 744447 | UI keyboard/paper remain procedural; near-PC and domestic foley need mix review | warm small interior without synthetic continuous whine |
+| FAP interior (`fap_clinic`) | 121 s indoor room tone, RIFORKA 801025 | paper and local equipment need listening review | quiet institutional space; no horror drone |
+| ConnectiveStreetReturn | later 69 s winter wind fragment | fewer foreground events | village recedes towards the outskirts |
+| Zirat / approach road | 26.43 s recorded wind, Magnesus 606960 | own snow steps; no grave sound effects | restrained remembrance and distance |
+| KaraForestEdge (`kara_urman_night`) | 119 s January pine wind, bruno.auzet 670307 | natural tree movement in source; no added stinger | forest remains a place, not a monster cue |
+| Final beat (`scene/forest` onEnter) | existing ambience duck and hard cut | physical Marat/Rinat voices remain missing | familiar call, intervention, silence |
+
+All are prepared CC0 public HQ previews, not locally recorded Kyrlay field
+masters. Source pages, hashes, licensed preview URLs and PCM parameters live
+in `ambient_manifest.json` and `asset_registry.json`. Only the inactive
+future-act water bed stays procedural. House and Kara shared future-zone
+bindings remain unchanged; this pass does not claim acceptance of later acts.
+
+Regeneration of the seven newly replaced beds uses the existing
+`tools/audio/generate_act1_ambience_layers.py SOURCE_DIRECTORY`. The directory
+must contain the original preview URL basenames with matching SHA-256 values.
+The script verifies all inputs before writing, reuses the existing PCM header
+normalizer, slices at manifest offsets, joins a one-second equal-power loop,
+and applies declared RMS levels with a 0.70 peak ceiling. The runtime retains
+its existing -12 dB bed level and transient -6 dB voice duck. This replaces
+repeating eight-second synthesis with 69–121 second recordings; it does not
+prove the audible seam or artistic balance. Listening on speakers/headphones,
+final mix and cultural review remain open.
 
 ## Transitions and silence windows
 

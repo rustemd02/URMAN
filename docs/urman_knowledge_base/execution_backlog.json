@@ -304,10 +304,11 @@
       "evidence": [
         "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/footsteps_regenerate.log",
         "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/footsteps_smoke_v2.log",
-        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/audio_lifecycle_smoke.log"
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/audio_lifecycle_smoke.log",
+        "2026-09-11 all eight active Act I beds use recorded CC0 preview-derived PCM; seven new69–121s beds passed native import, source/derived hashes, format/duration and existing5-zone audio transitions. Source receipt external ambient_sources/preparation_receipt.json. Listening, final mix and character voices remain open."
       ],
       "blocked_reason": null,
-      "result": "Licensed winter footsteps and caption-independent audio queue/pause/reset/transient duck integrated. Physical Marat/Rinat recordings, winter ambience and listening/mix remain open."
+      "result": "Licensed winter footsteps and all active Act I ambient beds, caption-independent audio queue/pause/reset/transient duck integrated. Physical Marat/Rinat recordings and listening/mix remain open."
     },
     {
       "id": "FINISH-04",

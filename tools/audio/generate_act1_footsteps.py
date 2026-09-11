@@ -70,7 +70,7 @@ def convert(source: Path, target: Path) -> None:
         normalized.replace(target)
 
 
-def normalize_pcm_wav(source: Path, target: Path) -> None:
+def normalize_pcm_wav(source: Path, target: Path, sample_rate: int = 44100) -> None:
     """Write afconvert's PCM payload with the standard 16-bit RIFF header."""
     raw = source.read_bytes()
     if raw[:4] != b"RIFF" or raw[8:12] != b"WAVE":
@@ -95,7 +95,7 @@ def normalize_pcm_wav(source: Path, target: Path) -> None:
     if fmt is None or data is None or len(fmt) < 16:
         raise ValueError(f"afconvert output has no usable PCM chunks: {source}")
 
-    audio_format, channels, sample_rate, _, block_align, bits = struct.unpack_from(
+    audio_format, channels, actual_rate, _, block_align, bits = struct.unpack_from(
         "<HHIIHH", fmt, 0
     )
     if audio_format == 0xFFFE:
@@ -103,9 +103,9 @@ def normalize_pcm_wav(source: Path, target: Path) -> None:
             raise ValueError(f"unsupported WAVE_EXTENSIBLE subtype in {source}")
     elif audio_format != 1:
         raise ValueError(f"afconvert output is not PCM: format={audio_format}")
-    if channels != 1 or sample_rate != 44100 or bits != 16 or block_align != 2:
+    if channels != 1 or actual_rate != sample_rate or bits != 16 or block_align != 2:
         raise ValueError(
-            f"unexpected PCM format in {source}: {channels}ch/{sample_rate}Hz/{bits}bit"
+            f"unexpected PCM format in {source}: {channels}ch/{actual_rate}Hz/{bits}bit"
         )
 
     with wave.open(str(target), "wb") as stream:
