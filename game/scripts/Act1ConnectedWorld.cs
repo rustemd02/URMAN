@@ -313,7 +313,20 @@ public partial class Act1ConnectedWorld : Node3D
                 FindDescendants<Light3D>(zone)
                     .Where(light => !light.HasMeta("connectedWorldHidden"))
                     .ToArray());
+        }
 
+        BuildConnectorPresentation();
+        // Keep the legacy framing builders available as rollback/source code,
+        // but do not materialize their global presentation root in the main
+        // connected-world path. Act1CoreWorldGreybox is the sole global visual
+        // owner; route, collision, interaction and RuntimeBridge owners above
+        // remain unchanged.
+        BuildAct1CoreWorldGreybox();
+        BuildAct1NpcStaging();
+        BuildAct1InteriorDiscoveries();
+        foreach (var placement in Act1WorldLayout.Placements)
+        {
+            var zone = _zoneInstances[placement.ZoneId];
             _interactionsByZone.Add(
                 placement.ZoneId,
                 FindDescendants<InteractionTarget>(zone)
@@ -329,17 +342,9 @@ public partial class Act1ConnectedWorld : Node3D
                         target.CollisionMask))
                     .ToArray());
         }
-
-        BuildConnectorPresentation();
-        // Keep the legacy framing builders available as rollback/source code,
-        // but do not materialize their global presentation root in the main
-        // connected-world path. Act1CoreWorldGreybox is the sole global visual
-        // owner; route, collision, interaction and RuntimeBridge owners above
-        // remain unchanged.
-        BuildAct1CoreWorldGreybox();
-        BuildAct1NpcStaging();
         AttachRuntimeBridge();
         UpdateAct1NpcStaging();
+        UpdateAct1Discoveries();
         ConnectorCount = Act1WorldLayout.Connectors.Count;
         SetMeta("logicalZoneInstanceCount", LogicalZoneInstanceCount);
         SetMeta("placementCount", PlacementCount);
@@ -520,6 +525,7 @@ public partial class Act1ConnectedWorld : Node3D
             }
         }
 
+        UpdateAct1Discoveries();
         ApplyInteractionRouting();
     }
 
@@ -543,6 +549,7 @@ public partial class Act1ConnectedWorld : Node3D
     private void OnRuntimeStateChanged()
     {
         UpdateAct1NpcStaging();
+        UpdateAct1Discoveries();
         ApplyInteractionRouting();
     }
 

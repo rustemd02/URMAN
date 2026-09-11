@@ -907,3 +907,9 @@ Fresh Metal route frames are in the external `character_art_luna` evidence
 directory. This is a bounded calibration pass, not final BOTW/TOTK, cultural,
 lighting or art-lock acceptance; street NPC visibility and the remaining
 character close-up review stay open.
+
+### 2026-09-11 — семейная фотография и домашние предметы исследования
+
+Новая project-generated ImageGen-текстура `game/assets/textures/act1/photo_first_snow_v1.png` используется на лицевой стороне поворачиваемой фотографии. Полный prompt/mode/provenance — соседний README; SHA-256 — asset registry. Оборот — реальная плоскость с подписью «Первый снег». Коробка для шитья, катушки, карточка и починенная лампа собраны в существующем world owner из runtime-геометрии. Это игровые предметы с изменяемым состоянием, не декоративные interaction proxy cubes. Общий арт-стиль и качество кадров пока не приняты.
+
+При проверке реальных кадров скорректированы высота лампы по authored столешнице (верх 1,00 м), отметки по передней плоскости косяка, ширина подписи фотографии. Коробка стоит на существующем сундуке у входа, а не поверх бумаг у ПК. Коллизия этого сундука перенесена вслед за ранее сдвинутой моделью: прежний proxy оставлял невидимый блок у задней стены.

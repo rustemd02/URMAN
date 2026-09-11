@@ -2128,6 +2128,71 @@
     ],
     "effects": [],
     "targetSceneId": "urman.chapter1:scene/crossroad_signs_inspect"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-house-interior-photo-back",
+    "labelTextId": "urman.chapter1:text/discover-house-interior-photo-back",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-house-interior-photo-back",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-house-interior-photo-back",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-house-interior-photo-back",
+      "sourceId": "urman.chapter1:knowledge/discovery-house-interior-photo-back"
+     }
+    ],
+    "worldLocations": [
+     "house_old_pc"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-house-interior-photo-back"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-house-interior-language-tin",
+    "labelTextId": "urman.chapter1:text/discover-house-interior-language-tin",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-house-interior-language-tin",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-house-interior-language-tin",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-house-interior-language-tin",
+      "sourceId": "urman.chapter1:knowledge/discovery-house-interior-language-tin"
+     },
+     {
+      "op": "vocabulary.set-status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_uy",
+      "status": "confirmed"
+     }
+    ],
+    "worldLocations": [
+     "house_old_pc"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-house-interior-language-tin"
    }
   ]
  },
@@ -2242,6 +2307,65 @@
     ],
     "effects": [],
     "targetSceneId": "urman.chapter1:scene/fap_pressure_document_desk"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-fap-interior-height-marks",
+    "labelTextId": "urman.chapter1:text/discover-fap-interior-height-marks",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-fap-interior-height-marks",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-fap-interior-height-marks",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-fap-interior-height-marks",
+      "sourceId": "urman.chapter1:knowledge/discovery-fap-interior-height-marks"
+     }
+    ],
+    "worldLocations": [
+     "fap_clinic"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-fap-interior-height-marks"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-fap-interior-repaired-desk-object",
+    "labelTextId": "urman.chapter1:text/discover-fap-interior-repaired-desk-object",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object",
+      "sourceId": "urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object"
+     }
+    ],
+    "worldLocations": [
+     "fap_clinic"
+    ]
    }
   ]
  },
@@ -4057,5 +4181,145 @@
    }
   },
   "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-house-interior-photo-back",
+  "kind": "fact",
+  "title": {
+   "default": "На обороте",
+   "translations": {
+    "ru": "На обороте"
+   }
+  },
+  "summary": {
+   "default": "Под рамкой сохранилась подпись: «Первый снег». На фотографии я едва достаю до ручки калитки. Дом кажется огромным — с той высоты он и был огромным.",
+   "translations": {
+    "ru": "Под рамкой сохранилась подпись: «Первый снег». На фотографии я едва достаю до ручки калитки. Дом кажется огромным — с той высоты он и был огромным."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/house"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-house-interior-photo-back",
+  "value": {
+   "default": "Перевернуть фотографию",
+   "translations": {
+    "ru": "Перевернуть фотографию"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-house-interior-language-tin",
+  "kind": "fact",
+  "title": {
+   "default": "Коробка с нитками",
+   "translations": {
+    "ru": "Коробка с нитками"
+   }
+  },
+  "summary": {
+   "default": "Под мотком лежит старая карточка: «өй». Дом. Әби просила называть вещи по-татарски, пока мы вместе искали нужную пуговицу.",
+   "translations": {
+    "ru": "Под мотком лежит старая карточка: «өй». Дом. Әби просила называть вещи по-татарски, пока мы вместе искали нужную пуговицу."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/house"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-house-interior-language-tin",
+  "value": {
+   "default": "Поднять крышку коробки",
+   "translations": {
+    "ru": "Поднять крышку коробки"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-fap-interior-height-marks",
+  "kind": "fact",
+  "title": {
+   "default": "Линии на косяке",
+   "translations": {
+    "ru": "Линии на косяке"
+   }
+  },
+  "summary": {
+   "default": "Под свежей краской остались отметки роста. Нижняя совсем низко, возле потёртой ручки — ещё одна. Кто-то рос и возвращался сюда снова.",
+   "translations": {
+    "ru": "Под свежей краской остались отметки роста. Нижняя совсем низко, возле потёртой ручки — ещё одна. Кто-то рос и возвращался сюда снова."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/fap_waiting_room_day"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-fap-interior-height-marks",
+  "value": {
+   "default": "Рассмотреть косяк сбоку",
+   "translations": {
+    "ru": "Рассмотреть косяк сбоку"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object",
+  "kind": "fact",
+  "title": {
+   "default": "Лампа со скрепкой",
+   "translations": {
+    "ru": "Лампа со скрепкой"
+   }
+  },
+  "summary": {
+   "default": "Сломанную пружину заменили согнутой скрепкой. Теперь плафон снова держится, а выключатель работает с тихим щелчком. Наиля починила даже такую мелочь.",
+   "translations": {
+    "ru": "Сломанную пружину заменили согнутой скрепкой. Теперь плафон снова держится, а выключатель работает с тихим щелчком. Наиля починила даже такую мелочь."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/fap_waiting_room_day"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-fap-interior-repaired-desk-object",
+  "value": {
+   "default": "Включить починенную лампу",
+   "translations": {
+    "ru": "Включить починенную лампу"
+   }
+  },
+  "purpose": "ui"
  }
 ]

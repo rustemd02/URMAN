@@ -10,8 +10,9 @@ namespace Urman.Godot.Tests;
 /// Test-only first-person evidence for the complete Act I presentation
 /// envelope. It launches the production main scene, uses its real player
 /// Camera3D and root viewport, and only repositions the test-owned camera
-/// between visual checkpoints. It does not dispatch interactions, simulate
-/// narrative state or write saves.
+/// between visual checkpoints. Default frames do not mutate narrative state.
+/// Explicitly selected discovery-result frames dispatch their authored action
+/// and checkpoint; run these only through the protected userdata wrapper.
 /// </summary>
 public partial class Act1FullRouteCoreWorldCapture : Node
 {
@@ -77,6 +78,13 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             new(-33.15f, AgentBAct1HeightField.CollisionGround(-33.15f, 3.88f) + .7f, 3.88f), "detail", "firewood under shelter"),
 
         // House interior
+        Frame("house_photo_detail", "house_interior", "house_old_pc", "entry", new(-30.1f, .05f, -2.9f), new(-30.1f, 1.45f, -4.60f), "detail", "painted family photograph front"),
+        Frame("house_tin_detail", "house_interior", "house_old_pc", "entry", new(-31.97f, .05f, 2.0f), new(-31.97f, .98f, 3.70f), "detail", "sewing tin on the threshold chest"),
+        Frame("fap_height_detail", "fap_interior", "fap_clinic", "waiting_room", new(28.86f, .05f, -25.5f), new(28.86f, 1.15f, -24.49f), "detail", "pencil growth marks inside entry"),
+        Frame("fap_lamp_detail", "fap_interior", "fap_clinic", "waiting_room", new(29.17f, .05f, -32.85f), new(29.17f, 1.15f, -34.15f), "detail", "repaired desk lamp before use"),
+        Frame("house_photo_used", "house_interior", "house_old_pc", "entry", new(-30.1f, .05f, -2.9f), new(-30.1f, 1.45f, -4.60f), "detail", "photo after authored action", "house-interior-photo-back"),
+        Frame("house_tin_used", "house_interior", "house_old_pc", "entry", new(-31.97f, .05f, 2.0f), new(-31.97f, .98f, 3.70f), "detail", "open tin after authored action", "house-interior-language-tin"),
+        Frame("fap_lamp_used", "fap_interior", "fap_clinic", "waiting_room", new(29.17f, .05f, -32.85f), new(29.17f, 1.15f, -34.15f), "detail", "lamp after authored action", "fap-interior-repaired-desk-object"),
         Frame("house_interior_forward", "house_interior", "house_old_pc", "entry", new(-25.2f, .05f, 1.8f), new(-28f, 1.45f, -2.2f), "forward", "interior-360"),
         Frame("house_interior_back", "house_interior", "house_old_pc", "entry", new(-27.4f, .05f, -1.6f), new(-29f, 1.45f, 3.2f), "back", "interior-360"),
         Frame("house_interior_left", "house_interior", "house_old_pc", "entry", new(-25.2f, .05f, -0.2f), new(-32.2f, 1.5f, -0.8f), "left", "interior-360"),
@@ -360,8 +368,9 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         }
         var shift = new Vector3(float.TryParse(System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_SHIFT_X"),
             System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var shiftX) ? shiftX : 0f, 0f, 0f);
-        var captureFrames = Frames.Where(frame => string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_FRAMES"))
-            || System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_FRAMES")!.Split(',').Contains(frame.Id)).ToList();
+        var requestedFrames = System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_FRAMES");
+        var captureFrames = Frames.Where(frame => string.IsNullOrEmpty(requestedFrames)
+            ? frame.DiscoverySlug is null : requestedFrames.Split(',').Contains(frame.Id)).ToList();
         var buildingBounds = FindDescendants(core).OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree()
             && mesh.Mesh is not null && new[] { "Roof", "Wall", "Facade" }.Any(token => mesh.Name.ToString().Contains(token, StringComparison.OrdinalIgnoreCase)))
             .Select(mesh => mesh.GlobalTransform * mesh.Mesh.GetAabb()).ToArray();
@@ -425,6 +434,13 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             main.SwitchZone(spec.LogicalZoneId, spec.SpawnPointId);
             await WaitForFramesAsync(SettleFrames);
             player.ApplyZoneSpawn(spec.PlayerPosition + shift, 0f);
+            if (spec.DiscoverySlug is not null)
+            {
+                var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+                if (bridge is null || !await bridge.DispatchInteractionAsync("urman.chapter1:interaction/discover-" + spec.DiscoverySlug))
+                    throw new InvalidOperationException("Discovery capture action failed: " + spec.DiscoverySlug);
+                await ToSignal(GetTree().CreateTimer(.8), SceneTreeTimer.SignalName.Timeout);
+            }
             camera.Current = true;
             camera.LookAt(spec.Target + shift, Vector3.Up);
             await WaitForFramesAsync(SettleFrames);
@@ -834,8 +850,8 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Vector3 playerPosition,
         Vector3 target,
         string direction,
-        string evidenceKind) =>
-        new(id, visualZone, logicalZoneId, spawnPointId, playerPosition, target, direction, evidenceKind);
+        string evidenceKind, string? discoverySlug = null) =>
+        new(id, visualZone, logicalZoneId, spawnPointId, playerPosition, target, direction, evidenceKind, discoverySlug);
 
     private static string RequireArgument(string prefix)
     {
@@ -1006,7 +1022,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Vector3 PlayerPosition,
         Vector3 Target,
         string Direction,
-        string EvidenceKind);
+        string EvidenceKind, string? DiscoverySlug = null);
 
     private sealed record WaypointSpec(string Id, Vector3 Position);
 

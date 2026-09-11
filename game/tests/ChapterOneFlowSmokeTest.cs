@@ -45,6 +45,17 @@ public partial class ChapterOneFlowSmokeTest : Node
         main.SwitchZone("house_old_pc", "entry");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
+        foreach (var slug in new[] { "house-interior-photo-back", "house-interior-language-tin" })
+            if (!await Discover(bridge, slug)) return;
+        if (!await bridge.LoadSlotAsync("checkpoint")) { Fail("Interior discovery checkpoint failed to restore."); return; }
+        await ToSignal(GetTree().CreateTimer(.8), SceneTreeTimer.SignalName.Timeout);
+        var house = main.ConnectedWorld.GetZoneInstance("house_old_pc")!;
+        if (Mathf.Abs(house.GetNode<Node3D>("DiscoveryFamilyPhoto").Rotation.Y - Mathf.Pi) > .01f
+            || house.GetNode<Node3D>("DiscoverySewingTin/HingedLid").Rotation.X > -1.8f
+            || !bridge.LearnedVocabulary().Any(entry => entry.Term == "өй" && entry.Status == "confirmed")
+            || bridge.ActiveSceneId != Scene("house"))
+        { Fail("Restored photo, tin or explicit home vocabulary did not match shared discovery state."); return; }
+
         await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new
         {
             type = "open",
@@ -83,6 +94,13 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (!await Advance(bridge, "route-to-fap", "fap_waiting_room_day")) return;
         main.SwitchZone("fap_clinic", "waiting_room");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+        foreach (var slug in new[] { "fap-interior-height-marks", "fap-interior-repaired-desk-object" })
+            if (!await Discover(bridge, slug)) return;
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var repairedLight = main.ConnectedWorld.GetZoneInstance("fap_clinic")!
+            .GetNode<OmniLight3D>("DiscoveryRepairedLamp/RepairedDeskLight");
+        if (!repairedLight.IsVisibleInTree()) { Fail("The repaired lamp did not light its desk."); return; }
 
         if (bridge.IsInteractionAvailable(Interaction("fap-to-document-desk"))
             || !bridge.IsInteractionAvailable(Interaction("talk-naila"))
@@ -227,9 +245,35 @@ public partial class ChapterOneFlowSmokeTest : Node
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         if (rinatActor.GlobalPosition.Z < -5f || ambience.ActivePlayerIndex < 0)
         { Fail("New Game did not restore early Rinat staging and ambience."); return; }
+        if (house.GetNode<Node3D>("DiscoveryFamilyPhoto").Rotation.Y != 0
+            || house.GetNode<Node3D>("DiscoverySewingTin/HingedLid").Rotation.X != 0
+            || repairedLight.Visible
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-house-interior-photo-back") != "hidden")
+        { Fail("New Game retained optional discovery presentation or knowledge."); return; }
         GD.Print("chapter-one-flow-smoke: authored route -> visible people -> final silence -> menu -> fresh session");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
+    }
+
+    private async Task<bool> Discover(RuntimeBridge bridge, string slug)
+    {
+        var scene = bridge.ActiveSceneId;
+        var main = (Main)GetTree().GetFirstNodeInGroup("zone_manager");
+        var target = main.ConnectedWorld!.FindChild("Discovery_" + slug, true, false) as InteractionTarget;
+        if (target is null) { Fail("Discovery has no physical target: " + slug); return false; }
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        var side = slug is "house-interior-language-tin" or "fap-interior-height-marks" ? -1f : 1f;
+        var eye = target.GlobalPosition + new Vector3(0, .6f, side * 1.5f);
+        var hit = target.GetWorld3D().DirectSpaceState.IntersectRay(
+            PhysicsRayQueryParameters3D.Create(eye, target.GlobalPosition, 1));
+        if (hit.Count == 0 || hit["collider"].AsGodotObject() != target)
+        { Fail("Discovery ray is occluded or misses its authored target: " + slug); return false; }
+        if (!await bridge.DispatchInteractionAsync(Interaction("discover-" + slug))
+            || bridge.ActiveSceneId != scene
+            || bridge.IsInteractionAvailable(Interaction("discover-" + slug))
+            || !bridge.JournalEntries().Any(entry => entry.EntryId == ChapterPrefix + "knowledge/discovery-" + slug))
+        { Fail("Optional discovery failed its single-use journal/world contract: " + slug); return false; }
+        return true;
     }
 
     private async Task<bool> Advance(RuntimeBridge bridge, string interactionLocalId, string targetSceneLocalId)

@@ -3231,3 +3231,7 @@ legacy street, place Timur's conversation on the street, and project the
 existing Rinat alert into his earlier/later physical position. Timur's three
 responses concern evidence, silence and family; no new forest rule or cultural
 claim is introduced. The closing card stops the continuous ambience bed.
+
+### 2026-09-11 — физический результат домашних находок
+
+Принято: необязательная находка записывает существующие `knowledge` / `journal` и принудительный checkpoint через `worldLocations`; презентация предмета восстанавливается из этих же данных. Первый набор — фото, коробка, отметки роста, лампа. «Өй» подтверждается явной двуязычной карточкой, не догадкой. Новые бытовые воспоминания не меняют пакт и судьбу Марата. Семейное фото — ImageGen artwork с сохранённым исходным промптом и provenance; не сторонняя фотография. Арт-приёмка мира и оставшиеся наружные находки открыты.

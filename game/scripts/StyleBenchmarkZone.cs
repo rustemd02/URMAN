@@ -570,8 +570,8 @@ public partial class StyleBenchmarkZone : Node3D
         daybedCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
         var storageChestCollision = MakeCollisionBox(
             "HouseInteriorStorageChestCollision",
-            new(1.82f, 0.74f, 0.92f),
-            new(3.95f, 0.39f, -4.38f));
+            new(1.98f, .86f, 1.07f),
+            new(-3.97f, .43f, 3.70f));
         storageChestCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
         var hearthCollision = MakeCollisionBox(
             "HouseInteriorHearthCollision",
@@ -580,7 +580,7 @@ public partial class StyleBenchmarkZone : Node3D
         hearthCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
         SetMeta(
             "houseInteriorFloorCollisionProxies",
-            "HouseInteriorDaybedCollision(1.36x0.78x2.95)@(4.78,0.39,1.25)|HouseInteriorStorageChestCollision(1.82x0.74x0.92)@(3.95,0.39,-4.38)|HouseInteriorHearthCollision(1.10x1.04x0.90)@(-5.00,0.64,0.55)");
+            "HouseInteriorDaybedCollision(1.36x0.78x2.95)@(4.78,0.39,1.25)|HouseInteriorStorageChestCollision(1.98x0.86x1.07)@(-3.97,0.43,3.70)|HouseInteriorHearthCollision(1.10x1.04x0.90)@(-5.00,0.64,0.55)");
         SetMeta(
             "houseInteriorLivedInCluster",
             "authored hearth with flue|left-wall cupboard|quiet tableware|floor storage basket; presentation-only GLB with hearth floor proxy");

@@ -1336,6 +1336,24 @@
       "provenance": "game/assets/audio/act1/footsteps/manifest.json",
       "status": "technical-runtime-pass; listening and final mix open",
       "releaseDisposition": "include-in-act1-release; active winter surface library"
+    },
+    {
+      "id": "texture.act1.family-first-snow",
+      "source": "ImageGen built-in, 2026-09-11; exact prompt in game/assets/textures/act1/README.md",
+      "derived": "game/assets/textures/act1/photo_first_snow_v1.png",
+      "derivedSha256": "8c31f2105170e876e36c02a790c2476cf3aa7d1769c20c98c5ab2ce5c72a0d7b",
+      "generator": "OpenAI ImageGen built-in; generate, no input images or pixel edits",
+      "license": "Project-generated through OpenAI ImageGen; no third-party reference image",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 2048,
+      "materials": [
+        "FamilyFirstSnow"
+      ],
+      "collision": "not applicable",
+      "lod": "texture mipmaps",
+      "status": "in-engine-candidate; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime family photo front"
     }
   ]
 }
