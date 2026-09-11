@@ -47,10 +47,18 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void RefitToViewport()
     {
-        var width = Mathf.Min(_panel.GetViewportRect().Size.X - 48f, 860f * (float)_accessibility.TextScale);
+        var viewport = _panel.GetViewportRect().Size;
+        var scale = Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f);
+        var width = Mathf.Max(1f, Mathf.Min(viewport.X - 48f, 860f * scale));
+        // Large text needs room for the line and the choice buttons together.
+        // Keep the bottom edge stable while growing upward inside the viewport.
+        var height = Mathf.Max(1f, Mathf.Min(viewport.Y - 48f, 400f + 160f * (scale - 1f)));
         _panel.AnchorLeft = _panel.AnchorRight = .5f;
+        _panel.AnchorTop = _panel.AnchorBottom = 1f;
         _panel.OffsetLeft = -width * .5f;
         _panel.OffsetRight = width * .5f;
+        _panel.OffsetTop = -height - 48f;
+        _panel.OffsetBottom = -48f;
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)

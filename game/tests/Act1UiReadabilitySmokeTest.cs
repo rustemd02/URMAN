@@ -253,6 +253,17 @@ public partial class Act1UiReadabilitySmokeTest : Node
             if ("ӘәӨөҮүҖҗҢңҺһ".Any(character => !font.HasChar(character)))
             { Fail($"UI '{name}' font lacks Tatar glyphs at {control.GetPath()}."); return; }
         }
+        foreach (var control in panel.FindChildren("*", "Control", true, false).OfType<Control>()
+            .Where(control => control.IsVisibleInTree()
+                && IsInteractiveControl(control)
+                && !IsInsideScrollContainer(control)))
+        {
+            if (!FitsWithin(panel, control))
+            {
+                Fail($"UI '{name}' interactive child exceeds its panel: {control.GetPath()} {control.GetGlobalRect()}.");
+                return;
+            }
+        }
 
         var dir = System.Environment.GetEnvironmentVariable("URMAN_UI_SHOT_DIR");
         if (string.IsNullOrEmpty(dir))
@@ -327,6 +338,32 @@ public partial class Act1UiReadabilitySmokeTest : Node
             && rect.End.Y <= size.Y + 1f;
         if (!fits) GD.Print($"ui-overflow: {control.GetPath()} rect={rect} viewport={size}");
         return fits;
+    }
+
+    private static bool IsInteractiveControl(Control control) =>
+        control is BaseButton or LineEdit or ItemList or TabBar or global::Godot.Range or TextEdit;
+
+    private static bool IsInsideScrollContainer(Control control)
+    {
+        for (Node? current = control.GetParent(); current is not null; current = current.GetParent())
+        {
+            if (current is ScrollContainer)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool FitsWithin(Control parent, Control child)
+    {
+        var parentRect = parent.GetGlobalRect();
+        var childRect = child.GetGlobalRect();
+        return childRect.Position.X >= parentRect.Position.X - 1f
+            && childRect.Position.Y >= parentRect.Position.Y - 1f
+            && childRect.End.X <= parentRect.End.X + 1f
+            && childRect.End.Y <= parentRect.End.Y + 1f;
     }
 
     private static string Dialogue(string localId) => $"urman.chapter1:dialogue/{localId}";
