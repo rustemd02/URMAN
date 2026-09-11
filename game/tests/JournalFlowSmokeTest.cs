@@ -26,9 +26,12 @@ public partial class JournalFlowSmokeTest : Node
             return;
         }
 
-        journal.Refresh();
-        if (journal.CurrentObjectiveText.Contains("Сопоставить справку о смерти Марата", StringComparison.Ordinal))
+        if (!await bridge.StartNewGameAsync())
+        { Fail("Journal flow could not finish the fresh campaign entrypoint."); return; }
+        journal.Open(bridge);
+        if (!journal.CurrentObjectiveText.Contains("Выяснить, что случилось с Маратом.", StringComparison.Ordinal))
         { Fail("A fresh journal revealed the later source-comparison objective."); return; }
+        journal.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(BaseButton.SignalName.Pressed);
 
         await bridge.HandleOldPcInputAsync(Input("open"));
         if (bridge.JournalEntries().Count != 1)
