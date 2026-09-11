@@ -72,9 +72,12 @@ def tag(obj: bpy.types.Object, asset_id: str, budget: int, lod_status: str = "LO
     obj["urman_asset_id"] = asset_id
     obj["license"] = "Project-original"
     obj["scale_meters"] = 1.0
-    obj["triangle_budget"] = budget
+    obj["triangle_budget"] = max(budget, 128) if "_Face" in obj.name or "_Ear" in obj.name else budget
     obj["collision"] = "none"
     obj["lod_status"] = lod_status
+    if obj.type == "MESH":
+        for face in obj.data.polygons:
+            face.use_smooth = len(face.vertices) <= 4
 
 
 def cube(
@@ -108,13 +111,16 @@ def faceted_prism(
     vertices: int = 8,
 ) -> bpy.types.Object:
     """Create a restrained faceted taper for readable human proportions."""
-    bpy.ops.mesh.primitive_cone_add(
-        vertices=vertices,
-        radius1=bottom_ratio,
-        radius2=top_ratio,
-        depth=1.0,
-        location=location,
-    )
+    # Facial landmarks face -Y: a vertical cone presents a rectangular side
+    # to the camera. A shallow rounded volume gives eyes/lips an oval contour.
+    rounded = "_Face" in name or "_Ear" in name or "_Hair_LOD" in name or "_HairBun" in name
+    if rounded:
+        bpy.ops.mesh.primitive_uv_sphere_add(segments=12, ring_count=6, radius=1.0, location=location)
+    else:
+        bpy.ops.mesh.primitive_cone_add(
+            vertices=vertices, radius1=bottom_ratio, radius2=top_ratio,
+            depth=1.0, location=location,
+        )
     obj = bpy.context.object
     obj.name = name
     obj.dimensions = size
@@ -226,11 +232,11 @@ def faceted_torso(
 ) -> bpy.types.Object:
     """Build a low-poly torso with a chest, waist and gently tapered hem."""
     rings = (
-        # Start above the knee line so the trousers remain a visible leg
-        # silhouette instead of disappearing inside the lower torso volume.
-        (0.70, 0.138, 0.104, -0.004),
-        (0.82, 0.162, 0.118, -0.006),
-        (0.98, 0.198, 0.138, -0.004),
+        # Winter jacket covers the hips while leaving knees and lower legs
+        # visible. The waist joins the hem instead of tapering to a pedestal.
+        (0.51, 0.210, 0.145, -0.004),
+        (0.74, 0.204, 0.145, -0.006),
+        (0.98, 0.208, 0.148, -0.004),
         (1.10, 0.242, 0.156, 0.000),
         (1.20, 0.252, 0.154, 0.003),
     )
@@ -434,9 +440,11 @@ def faceted_eye_with_brow(
         vertices=10,
     )
     seat_face_feature(head, iris)
-    # Pull the shallow iris clear of the thicker eye-white front face; both
-    # features are seated against the same head surface before this offset.
-    iris.location.y -= 0.014
+    # Seat the iris on its own eye-white surface. Independent head seating
+    # can bury one iris when the cheek curvature differs between the eyes.
+    iris.location.y = eye.location.y - eye_size[1] * 0.6 - 0.004
+    iris.rotation_euler = (0.0, 0.0, 0.0)
+    assert iris.location.y < eye.location.y - eye_size[1] * 0.5
     # Keep the established eye object name and leave the brow as its own
     # Head-bound mesh so the adapter can retain a warm eye white beneath the
     # dark brow/iris instead of flattening both into one material override.
@@ -572,8 +580,8 @@ def create_character(
     )
     faceted_prism(
         f"{prefix}_ShoulderWrap_LOD0",
-        (0.52 * shoulder_scale, 0.31, 0.16),
-        (x, -0.01, 1.25 * height_scale),
+        (0.48 * shoulder_scale, 0.30, 0.065),
+        (x, -0.005, 1.305 * height_scale),
         coat_surface,
         asset_id,
         256,
@@ -617,7 +625,7 @@ def create_character(
     ):
         faceted_prism(
             f"{prefix}_ShoulderCuff{side}_LOD0",
-            (0.18 * shoulder_scale, 0.27, 0.10),
+            (0.155 * shoulder_scale, 0.205, 0.060),
             (side_x, -0.005, 0.76 * height_scale),
             accent_surface,
             asset_id,
@@ -629,8 +637,8 @@ def create_character(
         )
     faceted_prism(
         f"{prefix}_CoatHem_LOD0",
-        (0.40 * torso_scale, 0.27, 0.10),
-        (x, -0.005, 0.86 * height_scale),
+        (0.42 * torso_scale, 0.29, 0.055),
+        (x, -0.005, 0.69 * height_scale),
         coat_surface,
         asset_id,
         128,
@@ -842,7 +850,7 @@ def create_character(
     faceted_eye_with_brow(
         f"{prefix}_FaceEyeLeft_LOD0",
         (x - eye_spread, face_y - 0.003, face_z + 0.035),
-        (0.060 * head_scale, 0.016, 0.030),
+        (0.061 * head_scale, 0.012, 0.027),
         (x - eye_spread, face_y + 0.006, face_z + 0.061),
         (0.052 * head_scale, 0.006, 0.007),
         materials["eye"],
@@ -853,7 +861,7 @@ def create_character(
     faceted_eye_with_brow(
         f"{prefix}_FaceEyeRight_LOD0",
         (x + eye_spread, face_y - 0.003, face_z + 0.035),
-        (0.060 * head_scale, 0.016, 0.030),
+        (0.061 * head_scale, 0.012, 0.027),
         (x + eye_spread, face_y + 0.006, face_z + 0.061),
         (0.052 * head_scale, 0.006, 0.007),
         materials["eye"],
@@ -901,7 +909,7 @@ def create_character(
     seat_face_feature(head, lower_lip)
     chin = faceted_prism(
         f"{prefix}_FaceChin_LOD0",
-        (0.105 * head_scale, 0.032, 0.050),
+        (0.084 * head_scale, 0.010, 0.028),
         (x, face_y - 0.006, face_z - 0.116),
         materials["skin"],
         asset_id,

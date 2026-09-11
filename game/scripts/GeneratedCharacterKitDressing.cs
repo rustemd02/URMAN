@@ -222,7 +222,7 @@ public static class GeneratedCharacterKitDressing
                     ? "d8cbb4"
                     : isFaceInk
                     ? "2f2522"
-                    : name.Contains("Shoulder", StringComparison.Ordinal) || name.Contains("Scarf", StringComparison.Ordinal)
+                    : name.Contains("ShoulderCuff", StringComparison.Ordinal) || name.Contains("Scarf", StringComparison.Ordinal)
                       || name.Contains("Apron", StringComparison.Ordinal) || name.Contains("CardiganPlacket", StringComparison.Ordinal)
                     ? accent
                     : coat;
@@ -233,7 +233,9 @@ public static class GeneratedCharacterKitDressing
             || name.Contains("Neck", StringComparison.Ordinal)
             ? string.Empty
             : "cloth";
-        mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface, sheltered);
+        // Living characters do not carry the roof/furniture snow blanket on
+        // shoulders and boots. Reuse the existing no-deposit material variant.
+        mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true);
         mesh.SetMeta("painterlyMaterial", surface.Length == 0 ? "shader" : surface);
     }
 
