@@ -1307,16 +1307,16 @@ public partial class Act1ConnectedWorld : Node3D
         }
 
         // Neutral snow bounce keeps the key-light direction readable.
-        environment.AmbientLightEnergy = karaNight ? .52f : zirat ? .64f : .69f;
+        environment.AmbientLightEnergy = karaNight ? .52f : zirat ? .64f : .48f;
         environment.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
-        environment.AmbientLightColor = Color.FromHtml(karaNight ? "a1aebb" : zirat ? "c0c8d0" : "ccd4dc");
+        environment.AmbientLightColor = Color.FromHtml(karaNight ? "a1aebb" : zirat ? "c0c8d0" : "b2c4df");
         environment.AmbientLightSkyContribution = .30f;
         // Frost haze: cold pale blue-grey that the far houses and forest melt
         // into, so distant snow does not read as a flat white wall.
         environment.FogLightColor = karaNight
             ? Color.FromHtml("6c7f95")
-            : zirat ? Color.FromHtml("a7b5c1") : Color.FromHtml("aebecd");
-        environment.FogDensity = karaNight ? .0044f : zirat ? .0038f : .0030f;
+            : zirat ? Color.FromHtml("a7b5c1") : Color.FromHtml("bfd1dd");
+        environment.FogDensity = karaNight ? .0044f : zirat ? .0038f : .0022f;
         environment.FogHeight = karaNight ? 0.95f : 1.0f;
         environment.FogHeightDensity = karaNight ? .05f : zirat ? .03f : .025f;
         environment.FogAerialPerspective = karaNight ? 0.66f : zirat ? 0.60f : 0.64f;
@@ -1341,10 +1341,10 @@ public partial class Act1ConnectedWorld : Node3D
         {
             sky.SkyTopColor = karaNight
                 ? Color.FromHtml("1b2836")
-                : zirat ? Color.FromHtml("7f95a8") : Color.FromHtml("9fb2c4");
+                : zirat ? Color.FromHtml("7f95a8") : Color.FromHtml("86adc4");
             sky.SkyHorizonColor = karaNight
                 ? Color.FromHtml("3c4c60")
-                : zirat ? Color.FromHtml("c3cdd6") : Color.FromHtml("dfe6ec");
+                : zirat ? Color.FromHtml("c3cdd6") : Color.FromHtml("e0eaf0");
             sky.GroundHorizonColor = karaNight
                 ? Color.FromHtml("2c3a4a")
                 : zirat ? Color.FromHtml("9aa7b1") : Color.FromHtml("b9c3cc");
@@ -1357,7 +1357,7 @@ public partial class Act1ConnectedWorld : Node3D
             sky.SunCurve = 0.12f;
             sky.SkyCoverModulate = karaNight
                 ? new Color(0.60f, 0.68f, 0.76f, 0.26f)
-                : zirat ? new Color(0.90f, 0.93f, 0.95f, 0.50f) : new Color(0.93f, 0.96f, 0.98f, 0.58f);
+                : zirat ? new Color(0.90f, 0.93f, 0.95f, 0.50f) : new Color(0.93f, 0.96f, 0.98f, 0.24f);
         }
 
         var sun = layer.GetNodeOrNull<DirectionalLight3D>("AgentBSun");
@@ -1367,9 +1367,9 @@ public partial class Act1ConnectedWorld : Node3D
             // Pale winter sun: warm-white on the snow, long blue shadows.
             sun.LightColor = karaNight
                 ? Color.FromHtml("9fb6d4")
-                : zirat ? Color.FromHtml("e8eef4") : Color.FromHtml("f6f0e4");
-            sun.LightEnergy = karaNight ? .55f : zirat ? 1.05f : 1.38f;
-            sun.ShadowOpacity = karaNight ? .38f : zirat ? .50f : .56f;
+                : zirat ? Color.FromHtml("e8eef4") : Color.FromHtml("fff0da");
+            sun.LightEnergy = karaNight ? .55f : zirat ? 1.05f : 1.65f;
+            sun.ShadowOpacity = karaNight ? .38f : zirat ? .50f : .82f;
             sun.ShadowEnabled = true;
             sun.RotationDegrees = karaNight
                 ? new Vector3(-52f, -28f, 0f)

@@ -4580,7 +4580,7 @@
       "source_file": "tests/integration/foundation-canary.test.mjs",
       "source_location": "L92",
       "id": "integration_foundation_canary_test_worldhandler",
-      "community": 630,
+      "community": 224,
       "norm_label": "worldhandler()"
     },
     {
@@ -4616,7 +4616,7 @@
       "source_file": "tests/integration/foundation-canary.test.mjs",
       "source_location": "L214",
       "id": "integration_foundation_canary_test_snapshotof",
-      "community": 85,
+      "community": 12,
       "norm_label": "snapshotof()"
     },
     {
@@ -10025,7 +10025,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
       "id": "contracts_stress_contracts_schema_defs_spatial_placement_outcome",
-      "community": 746,
+      "community": 35,
       "norm_label": "spatial-placement-outcome"
     },
     {
@@ -10034,7 +10034,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_type",
-      "community": 746,
+      "community": 35,
       "norm_label": "type"
     },
     {
@@ -10043,7 +10043,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_required",
-      "community": 746,
+      "community": 35,
       "norm_label": "required"
     },
     {
@@ -10052,7 +10052,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_properties",
-      "community": 746,
+      "community": 35,
       "norm_label": "properties"
     },
     {
@@ -10097,7 +10097,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_additionalproperties",
-      "community": 746,
+      "community": 35,
       "norm_label": "additionalproperties"
     },
     {
@@ -10151,7 +10151,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_defs_spatial_audio_probe_event",
-      "community": 18,
+      "community": 785,
       "norm_label": "spatial-audio-probe-event"
     },
     {
@@ -10160,7 +10160,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_type",
-      "community": 18,
+      "community": 785,
       "norm_label": "type"
     },
     {
@@ -10169,7 +10169,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_required",
-      "community": 18,
+      "community": 785,
       "norm_label": "required"
     },
     {
@@ -10178,7 +10178,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_properties",
-      "community": 18,
+      "community": 785,
       "norm_label": "properties"
     },
     {
@@ -10187,7 +10187,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_additionalproperties",
-      "community": 18,
+      "community": 785,
       "norm_label": "additionalproperties"
     },
     {
@@ -10196,7 +10196,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_defs_spatial_audio_probe_outcome",
-      "community": 35,
+      "community": 786,
       "norm_label": "spatial-audio-probe-outcome"
     },
     {
@@ -10205,7 +10205,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_type",
-      "community": 35,
+      "community": 786,
       "norm_label": "type"
     },
     {
@@ -10214,7 +10214,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_required",
-      "community": 35,
+      "community": 786,
       "norm_label": "required"
     },
     {
@@ -10223,7 +10223,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_properties",
-      "community": 35,
+      "community": 786,
       "norm_label": "properties"
     },
     {
@@ -10232,7 +10232,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_additionalproperties",
-      "community": 35,
+      "community": 786,
       "norm_label": "additionalproperties"
     },
     {
@@ -10286,7 +10286,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_defs_crafting_event",
-      "community": 733,
+      "community": 18,
       "norm_label": "crafting-event"
     },
     {
@@ -10295,7 +10295,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_type",
-      "community": 733,
+      "community": 18,
       "norm_label": "type"
     },
     {
@@ -10304,7 +10304,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_required",
-      "community": 733,
+      "community": 18,
       "norm_label": "required"
     },
     {
@@ -10313,7 +10313,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_properties",
-      "community": 733,
+      "community": 18,
       "norm_label": "properties"
     },
     {
@@ -10322,7 +10322,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_additionalproperties",
-      "community": 733,
+      "community": 18,
       "norm_label": "additionalproperties"
     },
     {
@@ -10511,7 +10511,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L18",
       "id": "contracts_stress_contracts_schema_defs_role_binding_config",
-      "community": 795,
+      "community": 10,
       "norm_label": "role-binding-config"
     },
     {
@@ -10520,7 +10520,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L18",
       "id": "contracts_stress_contracts_schema_role_binding_config_type",
-      "community": 795,
+      "community": 10,
       "norm_label": "type"
     },
     {
@@ -10529,7 +10529,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L18",
       "id": "contracts_stress_contracts_schema_role_binding_config_required",
-      "community": 795,
+      "community": 10,
       "norm_label": "required"
     },
     {
@@ -10538,7 +10538,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L18",
       "id": "contracts_stress_contracts_schema_role_binding_config_properties",
-      "community": 795,
+      "community": 10,
       "norm_label": "properties"
     },
     {
@@ -10547,7 +10547,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L18",
       "id": "contracts_stress_contracts_schema_role_binding_config_additionalproperties",
-      "community": 795,
+      "community": 10,
       "norm_label": "additionalproperties"
     },
     {
@@ -10556,7 +10556,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_defs_role_binding_event",
-      "community": 745,
+      "community": 18,
       "norm_label": "role-binding-event"
     },
     {
@@ -10565,7 +10565,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_type",
-      "community": 745,
+      "community": 18,
       "norm_label": "type"
     },
     {
@@ -10574,7 +10574,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_required",
-      "community": 745,
+      "community": 18,
       "norm_label": "required"
     },
     {
@@ -10583,7 +10583,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_properties",
-      "community": 745,
+      "community": 18,
       "norm_label": "properties"
     },
     {
@@ -10592,7 +10592,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_additionalproperties",
-      "community": 745,
+      "community": 18,
       "norm_label": "additionalproperties"
     },
     {
@@ -10601,7 +10601,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_defs_role_binding_outcome",
-      "community": 35,
+      "community": 783,
       "norm_label": "role-binding-outcome"
     },
     {
@@ -10610,7 +10610,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_type",
-      "community": 35,
+      "community": 783,
       "norm_label": "type"
     },
     {
@@ -10619,7 +10619,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_required",
-      "community": 35,
+      "community": 783,
       "norm_label": "required"
     },
     {
@@ -10628,7 +10628,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_properties",
-      "community": 35,
+      "community": 783,
       "norm_label": "properties"
     },
     {
@@ -10637,7 +10637,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_additionalproperties",
-      "community": 35,
+      "community": 783,
       "norm_label": "additionalproperties"
     },
     {
@@ -10646,7 +10646,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_defs_evidence_compare_config",
-      "community": 162,
+      "community": 770,
       "norm_label": "evidence-compare-config"
     },
     {
@@ -10655,7 +10655,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_type",
-      "community": 162,
+      "community": 770,
       "norm_label": "type"
     },
     {
@@ -10664,7 +10664,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_required",
-      "community": 162,
+      "community": 770,
       "norm_label": "required"
     },
     {
@@ -10673,7 +10673,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_properties",
-      "community": 162,
+      "community": 770,
       "norm_label": "properties"
     },
     {
@@ -10682,7 +10682,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_additionalproperties",
-      "community": 162,
+      "community": 770,
       "norm_label": "additionalproperties"
     },
     {
@@ -10826,7 +10826,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_defs_timed_choice_event",
-      "community": 18,
+      "community": 790,
       "norm_label": "timed-choice-event"
     },
     {
@@ -10835,7 +10835,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_type",
-      "community": 18,
+      "community": 790,
       "norm_label": "type"
     },
     {
@@ -10844,7 +10844,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_required",
-      "community": 18,
+      "community": 790,
       "norm_label": "required"
     },
     {
@@ -10853,7 +10853,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_properties",
-      "community": 18,
+      "community": 790,
       "norm_label": "properties"
     },
     {
@@ -10862,7 +10862,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_additionalproperties",
-      "community": 18,
+      "community": 790,
       "norm_label": "additionalproperties"
     },
     {
@@ -11051,7 +11051,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
       "id": "contracts_stress_contracts_schema_defs_audio_workbench_config",
-      "community": 162,
+      "community": 10,
       "norm_label": "audio-workbench-config"
     },
     {
@@ -11060,7 +11060,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_type",
-      "community": 162,
+      "community": 10,
       "norm_label": "type"
     },
     {
@@ -11069,7 +11069,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_required",
-      "community": 162,
+      "community": 10,
       "norm_label": "required"
     },
     {
@@ -11078,7 +11078,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_properties",
-      "community": 162,
+      "community": 10,
       "norm_label": "properties"
     },
     {
@@ -11087,7 +11087,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_additionalproperties",
-      "community": 162,
+      "community": 10,
       "norm_label": "additionalproperties"
     },
     {
@@ -11141,7 +11141,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L32",
       "id": "contracts_stress_contracts_schema_defs_audio_workbench_outcome",
-      "community": 723,
+      "community": 35,
       "norm_label": "audio-workbench-outcome"
     },
     {
@@ -11150,7 +11150,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L32",
       "id": "contracts_stress_contracts_schema_audio_workbench_outcome_type",
-      "community": 723,
+      "community": 35,
       "norm_label": "type"
     },
     {
@@ -11159,7 +11159,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L32",
       "id": "contracts_stress_contracts_schema_audio_workbench_outcome_required",
-      "community": 723,
+      "community": 35,
       "norm_label": "required"
     },
     {
@@ -11168,7 +11168,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L32",
       "id": "contracts_stress_contracts_schema_audio_workbench_outcome_properties",
-      "community": 723,
+      "community": 35,
       "norm_label": "properties"
     },
     {
@@ -11177,7 +11177,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L32",
       "id": "contracts_stress_contracts_schema_audio_workbench_outcome_additionalproperties",
-      "community": 723,
+      "community": 35,
       "norm_label": "additionalproperties"
     },
     {
@@ -11231,7 +11231,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_defs_environment_sim_event",
-      "community": 735,
+      "community": 162,
       "norm_label": "environment-sim-event"
     },
     {
@@ -11240,7 +11240,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_type",
-      "community": 735,
+      "community": 162,
       "norm_label": "type"
     },
     {
@@ -11249,7 +11249,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_required",
-      "community": 735,
+      "community": 162,
       "norm_label": "required"
     },
     {
@@ -11258,7 +11258,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_properties",
-      "community": 735,
+      "community": 162,
       "norm_label": "properties"
     },
     {
@@ -11267,7 +11267,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_additionalproperties",
-      "community": 735,
+      "community": 162,
       "norm_label": "additionalproperties"
     },
     {
@@ -11321,7 +11321,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_defs_stealth_space_config",
-      "community": 10,
+      "community": 787,
       "norm_label": "stealth-space-config"
     },
     {
@@ -11330,7 +11330,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_type",
-      "community": 10,
+      "community": 787,
       "norm_label": "type"
     },
     {
@@ -11339,7 +11339,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_required",
-      "community": 10,
+      "community": 787,
       "norm_label": "required"
     },
     {
@@ -11348,7 +11348,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_properties",
-      "community": 10,
+      "community": 787,
       "norm_label": "properties"
     },
     {
@@ -11357,7 +11357,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_additionalproperties",
-      "community": 10,
+      "community": 787,
       "norm_label": "additionalproperties"
     },
     {
@@ -11411,7 +11411,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_defs_stealth_space_outcome",
-      "community": 760,
+      "community": 35,
       "norm_label": "stealth-space-outcome"
     },
     {
@@ -11420,7 +11420,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_type",
-      "community": 760,
+      "community": 35,
       "norm_label": "type"
     },
     {
@@ -11429,7 +11429,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_required",
-      "community": 760,
+      "community": 35,
       "norm_label": "required"
     },
     {
@@ -11438,7 +11438,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_properties",
-      "community": 760,
+      "community": 35,
       "norm_label": "properties"
     },
     {
@@ -11447,7 +11447,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_additionalproperties",
-      "community": 760,
+      "community": 35,
       "norm_label": "additionalproperties"
     },
     {
@@ -11546,7 +11546,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_defs_content_instantiator_outcome",
-      "community": 35,
+      "community": 767,
       "norm_label": "content-instantiator-outcome"
     },
     {
@@ -11555,7 +11555,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_type",
-      "community": 35,
+      "community": 767,
       "norm_label": "type"
     },
     {
@@ -11564,7 +11564,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_required",
-      "community": 35,
+      "community": 767,
       "norm_label": "required"
     },
     {
@@ -11573,7 +11573,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_properties",
-      "community": 35,
+      "community": 767,
       "norm_label": "properties"
     },
     {
@@ -11582,7 +11582,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_additionalproperties",
-      "community": 35,
+      "community": 767,
       "norm_label": "additionalproperties"
     },
     {
@@ -11591,7 +11591,7 @@
       "source_file": "tests/e2e/lab-run-replacement.test.mjs",
       "source_location": "L1",
       "id": "tests_e2e_lab_run_replacement_test_mjs",
-      "community": 5,
+      "community": 73,
       "norm_label": "lab-run-replacement.test.mjs"
     },
     {
@@ -11600,7 +11600,7 @@
       "source_file": "tests/e2e/lab-run-replacement.test.mjs",
       "source_location": "L7",
       "id": "e2e_lab_run_replacement_test_activerun",
-      "community": 5,
+      "community": 73,
       "norm_label": "activerun"
     },
     {
@@ -11609,7 +11609,7 @@
       "source_file": "tests/e2e/lab-run-replacement.test.mjs",
       "source_location": "L9",
       "id": "e2e_lab_run_replacement_test_result",
-      "community": 5,
+      "community": 73,
       "norm_label": "result"
     },
     {
@@ -13895,7 +13895,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L1",
       "id": "content_schemas_quest_schema_json",
-      "community": 2,
+      "community": 148,
       "norm_label": "quest.schema.json"
     },
     {
@@ -13904,7 +13904,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L2",
       "id": "schemas_quest_schema_schema",
-      "community": 2,
+      "community": 148,
       "norm_label": "$schema"
     },
     {
@@ -13913,7 +13913,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L3",
       "id": "schemas_quest_schema_id",
-      "community": 2,
+      "community": 148,
       "norm_label": "$id"
     },
     {
@@ -13922,7 +13922,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L4",
       "id": "schemas_quest_schema_schemaversion",
-      "community": 2,
+      "community": 148,
       "norm_label": "schemaversion"
     },
     {
@@ -13931,7 +13931,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L5",
       "id": "schemas_quest_schema_type",
-      "community": 2,
+      "community": 148,
       "norm_label": "type"
     },
     {
@@ -13940,7 +13940,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L6",
       "id": "schemas_quest_schema_required",
-      "community": 2,
+      "community": 148,
       "norm_label": "required"
     },
     {
@@ -14012,7 +14012,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L11",
       "id": "schemas_quest_schema_properties_stages",
-      "community": 148,
+      "community": 800,
       "norm_label": "stages"
     },
     {
@@ -14021,7 +14021,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L11",
       "id": "schemas_quest_schema_stages_type",
-      "community": 148,
+      "community": 800,
       "norm_label": "type"
     },
     {
@@ -14030,7 +14030,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L11",
       "id": "schemas_quest_schema_stages_minitems",
-      "community": 148,
+      "community": 800,
       "norm_label": "minitems"
     },
     {
@@ -14039,7 +14039,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L11",
       "id": "schemas_quest_schema_stages_items",
-      "community": 148,
+      "community": 800,
       "norm_label": "items"
     },
     {
@@ -14129,7 +14129,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L17",
       "id": "schemas_quest_schema_additionalproperties",
-      "community": 2,
+      "community": 148,
       "norm_label": "additionalproperties"
     },
     {
@@ -14696,7 +14696,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L88",
       "id": "schemas_quest_schema_defs_retrypolicy",
-      "community": 172,
+      "community": 2,
       "norm_label": "retrypolicy"
     },
     {
@@ -14705,7 +14705,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L89",
       "id": "schemas_quest_schema_retrypolicy_type",
-      "community": 172,
+      "community": 2,
       "norm_label": "type"
     },
     {
@@ -14714,7 +14714,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L90",
       "id": "schemas_quest_schema_retrypolicy_required",
-      "community": 172,
+      "community": 2,
       "norm_label": "required"
     },
     {
@@ -14777,7 +14777,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L95",
       "id": "schemas_quest_schema_retrypolicy_additionalproperties",
-      "community": 172,
+      "community": 2,
       "norm_label": "additionalproperties"
     },
     {
@@ -17270,7 +17270,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_defs_schemaversion",
-      "community": 770,
+      "community": 105,
       "norm_label": "schemaversion"
     },
     {
@@ -17279,7 +17279,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_schemaversion_type",
-      "community": 770,
+      "community": 105,
       "norm_label": "type"
     },
     {
@@ -17288,7 +17288,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_schemaversion_const",
-      "community": 770,
+      "community": 105,
       "norm_label": "const"
     },
     {
@@ -17396,7 +17396,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L22",
       "id": "schemas_common_schema_defs_filereference",
-      "community": 105,
+      "community": 808,
       "norm_label": "filereference"
     },
     {
@@ -17405,7 +17405,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L23",
       "id": "schemas_common_schema_filereference_type",
-      "community": 105,
+      "community": 808,
       "norm_label": "type"
     },
     {
@@ -17414,7 +17414,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L24",
       "id": "schemas_common_schema_filereference_pattern",
-      "community": 105,
+      "community": 808,
       "norm_label": "pattern"
     },
     {
@@ -17756,7 +17756,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L65",
       "id": "schemas_common_schema_properties_id",
-      "community": 218,
+      "community": 202,
       "norm_label": "id"
     },
     {
@@ -17765,7 +17765,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L65",
       "id": "schemas_common_schema_id_ref",
-      "community": 218,
+      "community": 202,
       "norm_label": "$ref"
     },
     {
@@ -17774,7 +17774,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L66",
       "id": "schemas_common_schema_properties_description",
-      "community": 202,
+      "community": 218,
       "norm_label": "description"
     },
     {
@@ -17783,7 +17783,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L66",
       "id": "schemas_common_schema_description_type",
-      "community": 202,
+      "community": 218,
       "norm_label": "type"
     },
     {
@@ -17792,7 +17792,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L66",
       "id": "schemas_common_schema_description_minlength",
-      "community": 202,
+      "community": 218,
       "norm_label": "minlength"
     },
     {
@@ -17801,7 +17801,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
       "id": "schemas_common_schema_properties_severity",
-      "community": 218,
+      "community": 202,
       "norm_label": "severity"
     },
     {
@@ -17810,7 +17810,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
       "id": "schemas_common_schema_severity_enum",
-      "community": 218,
+      "community": 202,
       "norm_label": "enum"
     },
     {
@@ -25262,7 +25262,7 @@
       "source_file": "game/tests/Act1AudioTransitionSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1audiotransitionsmoketest_cs",
-      "community": 247,
+      "community": 795,
       "norm_label": "act1audiotransitionsmoketest.cs"
     },
     {
@@ -25271,7 +25271,7 @@
       "source_file": "game/tests/Act1AudioTransitionSmokeTest.cs",
       "source_location": "L11",
       "id": "tests_act1audiotransitionsmoketest_act1audiotransitionsmoketest",
-      "community": 247,
+      "community": 795,
       "norm_label": "act1audiotransitionsmoketest"
     },
     {
@@ -25280,7 +25280,7 @@
       "source_file": "game/tests/Act1AudioTransitionSmokeTest.cs",
       "source_location": "L13",
       "id": "tests_act1audiotransitionsmoketest_act1audiotransitionsmoketest_ready",
-      "community": 247,
+      "community": 795,
       "norm_label": "._ready()"
     },
     {
@@ -25289,7 +25289,7 @@
       "source_file": "game/tests/Act1AudioTransitionSmokeTest.cs",
       "source_location": "L110",
       "id": "tests_act1audiotransitionsmoketest_act1audiotransitionsmoketest_frames",
-      "community": 247,
+      "community": 795,
       "norm_label": ".frames()"
     },
     {
@@ -25298,7 +25298,7 @@
       "source_file": "game/tests/Act1AudioTransitionSmokeTest.cs",
       "source_location": "L118",
       "id": "tests_act1audiotransitionsmoketest_act1audiotransitionsmoketest_fail",
-      "community": 247,
+      "community": 795,
       "norm_label": ".fail()"
     },
     {
@@ -26432,7 +26432,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1footstepsmoketest_cs",
-      "community": 758,
+      "community": 247,
       "norm_label": "act1footstepsmoketest.cs"
     },
     {
@@ -26441,7 +26441,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L11",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest",
-      "community": 758,
+      "community": 247,
       "norm_label": "act1footstepsmoketest"
     },
     {
@@ -26450,7 +26450,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L13",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest_ready",
-      "community": 758,
+      "community": 247,
       "norm_label": "._ready()"
     },
     {
@@ -26459,7 +26459,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L133",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest_frames",
-      "community": 758,
+      "community": 247,
       "norm_label": ".frames()"
     },
     {
@@ -26468,7 +26468,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L141",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest_fail",
-      "community": 758,
+      "community": 247,
       "norm_label": ".fail()"
     },
     {
@@ -27053,7 +27053,7 @@
       "source_file": "game/tests/Act1AudioSettingsSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1audiosettingssmoketest_cs",
-      "community": 805,
+      "community": 247,
       "norm_label": "act1audiosettingssmoketest.cs"
     },
     {
@@ -27062,7 +27062,7 @@
       "source_file": "game/tests/Act1AudioSettingsSmokeTest.cs",
       "source_location": "L11",
       "id": "tests_act1audiosettingssmoketest_act1audiosettingssmoketest",
-      "community": 805,
+      "community": 247,
       "norm_label": "act1audiosettingssmoketest"
     },
     {
@@ -27071,7 +27071,7 @@
       "source_file": "game/tests/Act1AudioSettingsSmokeTest.cs",
       "source_location": "L13",
       "id": "tests_act1audiosettingssmoketest_act1audiosettingssmoketest_ready",
-      "community": 805,
+      "community": 247,
       "norm_label": "._ready()"
     },
     {
@@ -27080,7 +27080,7 @@
       "source_file": "game/tests/Act1AudioSettingsSmokeTest.cs",
       "source_location": "L157",
       "id": "tests_act1audiosettingssmoketest_act1audiosettingssmoketest_frames",
-      "community": 805,
+      "community": 247,
       "norm_label": ".frames()"
     },
     {
@@ -27089,7 +27089,7 @@
       "source_file": "game/tests/Act1AudioSettingsSmokeTest.cs",
       "source_location": "L165",
       "id": "tests_act1audiosettingssmoketest_act1audiosettingssmoketest_fail",
-      "community": 805,
+      "community": 247,
       "norm_label": ".fail()"
     },
     {
@@ -27629,7 +27629,7 @@
       "source_file": "game/tests/ZoneFlowSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_zoneflowsmoketest_cs",
-      "community": 767,
+      "community": 247,
       "norm_label": "zoneflowsmoketest.cs"
     },
     {
@@ -27638,7 +27638,7 @@
       "source_file": "game/tests/ZoneFlowSmokeTest.cs",
       "source_location": "L5",
       "id": "tests_zoneflowsmoketest_zoneflowsmoketest",
-      "community": 767,
+      "community": 247,
       "norm_label": "zoneflowsmoketest"
     },
     {
@@ -27647,7 +27647,7 @@
       "source_file": "game/tests/ZoneFlowSmokeTest.cs",
       "source_location": "L7",
       "id": "tests_zoneflowsmoketest_zoneflowsmoketest_ready",
-      "community": 767,
+      "community": 247,
       "norm_label": "._ready()"
     },
     {
@@ -27656,7 +27656,7 @@
       "source_file": "game/tests/ZoneFlowSmokeTest.cs",
       "source_location": "L47",
       "id": "tests_zoneflowsmoketest_zoneflowsmoketest_fail",
-      "community": 767,
+      "community": 247,
       "norm_label": ".fail()"
     },
     {
@@ -27665,7 +27665,7 @@
       "source_file": "game/tests/Act1FullRouteCoreWorldCapture.cs",
       "source_location": "L1",
       "id": "game_tests_act1fullroutecoreworldcapture_cs",
-      "community": 496,
+      "community": 422,
       "norm_label": "act1fullroutecoreworldcapture.cs"
     },
     {
@@ -27863,7 +27863,7 @@
       "source_file": "game/tests/Act1FullRouteCoreWorldCapture.cs",
       "source_location": "L1029",
       "id": "tests_act1fullroutecoreworldcapture_receipt",
-      "community": 496,
+      "community": 422,
       "norm_label": "receipt"
     },
     {
@@ -27872,7 +27872,7 @@
       "source_file": "game/tests/Act1FullRouteCoreWorldCapture.cs",
       "source_location": "L1046",
       "id": "tests_act1fullroutecoreworldcapture_viewportreceipt",
-      "community": 496,
+      "community": 422,
       "norm_label": "viewportreceipt"
     },
     {
@@ -27881,7 +27881,7 @@
       "source_file": "game/tests/Act1FullRouteCoreWorldCapture.cs",
       "source_location": "L1052",
       "id": "tests_act1fullroutecoreworldcapture_presentationaudit",
-      "community": 496,
+      "community": 422,
       "norm_label": "presentationaudit"
     },
     {
@@ -27890,7 +27890,7 @@
       "source_file": "game/tests/Act1FullRouteCoreWorldCapture.cs",
       "source_location": "L1061",
       "id": "tests_act1fullroutecoreworldcapture_framereceipt",
-      "community": 496,
+      "community": 422,
       "norm_label": "framereceipt"
     },
     {
@@ -27899,7 +27899,7 @@
       "source_file": "game/tests/Act1FullRouteCoreWorldCapture.cs",
       "source_location": "L1079",
       "id": "tests_act1fullroutecoreworldcapture_camerareceipt",
-      "community": 496,
+      "community": 422,
       "norm_label": "camerareceipt"
     },
     {
@@ -27908,7 +27908,7 @@
       "source_file": "game/tests/Act1FullRouteCoreWorldCapture.cs",
       "source_location": "L1086",
       "id": "tests_act1fullroutecoreworldcapture_scalarvector",
-      "community": 496,
+      "community": 422,
       "norm_label": "scalarvector"
     },
     {
@@ -27926,7 +27926,7 @@
       "source_file": "game/tests/Act1FullRouteCoreWorldCapture.cs",
       "source_location": "L1095",
       "id": "tests_act1fullroutecoreworldcapture_traversalreceipt",
-      "community": 496,
+      "community": 422,
       "norm_label": "traversalreceipt"
     },
     {
@@ -27935,7 +27935,7 @@
       "source_file": "game/tests/Act1FullRouteCoreWorldCapture.cs",
       "source_location": "L1106",
       "id": "tests_act1fullroutecoreworldcapture_waypointreceipt",
-      "community": 496,
+      "community": 422,
       "norm_label": "waypointreceipt"
     },
     {
@@ -28781,7 +28781,7 @@
       "source_file": "game/tests/Act1DemoPerformanceSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1demoperformancesmoketest_cs",
-      "community": 247,
+      "community": 760,
       "norm_label": "act1demoperformancesmoketest.cs"
     },
     {
@@ -28790,7 +28790,7 @@
       "source_file": "game/tests/Act1DemoPerformanceSmokeTest.cs",
       "source_location": "L12",
       "id": "tests_act1demoperformancesmoketest_act1demoperformancesmoketest",
-      "community": 247,
+      "community": 760,
       "norm_label": "act1demoperformancesmoketest"
     },
     {
@@ -28799,7 +28799,7 @@
       "source_file": "game/tests/Act1DemoPerformanceSmokeTest.cs",
       "source_location": "L14",
       "id": "game_tests_act1demoperformancesmoketest_cs_int",
-      "community": 247,
+      "community": 760,
       "norm_label": "int"
     },
     {
@@ -28808,7 +28808,7 @@
       "source_file": "game/tests/Act1DemoPerformanceSmokeTest.cs",
       "source_location": "L17",
       "id": "tests_act1demoperformancesmoketest_act1demoperformancesmoketest_ready",
-      "community": 247,
+      "community": 760,
       "norm_label": "._ready()"
     },
     {
@@ -28817,7 +28817,7 @@
       "source_file": "game/tests/Act1DemoPerformanceSmokeTest.cs",
       "source_location": "L70",
       "id": "tests_act1demoperformancesmoketest_act1demoperformancesmoketest_countnodes",
-      "community": 247,
+      "community": 760,
       "norm_label": ".countnodes()"
     },
     {
@@ -28826,7 +28826,7 @@
       "source_file": "game/tests/Act1DemoPerformanceSmokeTest.cs",
       "source_location": "L81",
       "id": "tests_act1demoperformancesmoketest_act1demoperformancesmoketest_fail",
-      "community": 247,
+      "community": 760,
       "norm_label": ".fail()"
     },
     {
@@ -31733,7 +31733,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1",
       "id": "game_scripts_stylebenchmarkzone_cs",
-      "community": 26,
+      "community": 707,
       "norm_label": "stylebenchmarkzone.cs"
     },
     {
@@ -31742,7 +31742,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L6",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone",
-      "community": 26,
+      "community": 707,
       "norm_label": "stylebenchmarkzone"
     },
     {
@@ -31751,7 +31751,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L8",
       "id": "game_scripts_stylebenchmarkzone_cs_string",
-      "community": 26,
+      "community": 707,
       "norm_label": "string"
     },
     {
@@ -31796,7 +31796,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L764",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_buildkaraurmannight",
-      "community": 26,
+      "community": 707,
       "norm_label": ".buildkaraurmannight()"
     },
     {
@@ -31958,7 +31958,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1759",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makefallenlog",
-      "community": 26,
+      "community": 707,
       "norm_label": ".makefallenlog()"
     },
     {
@@ -31967,7 +31967,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1762",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makestump",
-      "community": 26,
+      "community": 707,
       "norm_label": ".makestump()"
     },
     {
@@ -31976,7 +31976,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1768",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makeboundarycharm",
-      "community": 26,
+      "community": 707,
       "norm_label": ".makeboundarycharm()"
     },
     {
@@ -31985,7 +31985,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1774",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makebranch",
-      "community": 26,
+      "community": 707,
       "norm_label": ".makebranch()"
     },
     {
@@ -31994,7 +31994,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1789",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makefireflies",
-      "community": 26,
+      "community": 707,
       "norm_label": ".makefireflies()"
     },
     {
@@ -32012,7 +32012,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1836",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makefence",
-      "community": 26,
+      "community": 707,
       "norm_label": ".makefence()"
     },
     {
@@ -32021,7 +32021,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1839",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makelog",
-      "community": 26,
+      "community": 707,
       "norm_label": ".makelog()"
     },
     {
@@ -32030,7 +32030,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1857",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecup",
-      "community": 26,
+      "community": 707,
       "norm_label": ".makecup()"
     },
     {
@@ -32039,7 +32039,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1875",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makepine",
-      "community": 26,
+      "community": 707,
       "norm_label": ".makepine()"
     },
     {
@@ -32048,7 +32048,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1884",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_forestfoliagecolor",
-      "community": 26,
+      "community": 707,
       "norm_label": ".forestfoliagecolor()"
     },
     {
@@ -32057,7 +32057,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1894",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_attachpresentationpine",
-      "community": 26,
+      "community": 707,
       "norm_label": ".attachpresentationpine()"
     },
     {
@@ -32075,7 +32075,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1911",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makegrasstuft",
-      "community": 26,
+      "community": 707,
       "norm_label": ".makegrasstuft()"
     },
     {
@@ -32084,7 +32084,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L1914",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_addshrub",
-      "community": 26,
+      "community": 707,
       "norm_label": ".addshrub()"
     },
     {
@@ -32165,7 +32165,7 @@
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L2111",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_material",
-      "community": 26,
+      "community": 707,
       "norm_label": ".material()"
     },
     {
@@ -34595,7 +34595,7 @@
       "source_file": "game/scripts/AmbientAudioDirector.cs",
       "source_location": "L1",
       "id": "game_scripts_ambientaudiodirector_cs",
-      "community": 544,
+      "community": 804,
       "norm_label": "ambientaudiodirector.cs"
     },
     {
@@ -34829,7 +34829,7 @@
       "source_file": "game/scripts/AmbientAudioDirector.cs",
       "source_location": "L340",
       "id": "scripts_ambientaudiodirector_ambientmanifest",
-      "community": 544,
+      "community": 804,
       "norm_label": "ambientmanifest"
     },
     {
@@ -34838,7 +34838,7 @@
       "source_file": "game/scripts/AmbientAudioDirector.cs",
       "source_location": "L346",
       "id": "scripts_ambientaudiodirector_ambientstem",
-      "community": 544,
+      "community": 804,
       "norm_label": "ambientstem"
     },
     {
@@ -47636,7 +47636,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L61",
       "id": "persistence_savegamev3_savegamev3codec",
-      "community": 630,
+      "community": 23,
       "norm_label": "savegamev3codec"
     },
     {
@@ -47645,7 +47645,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L63",
       "id": "src_dotnet_urman_core_persistence_savegamev3_cs_jsonserializeroptions",
-      "community": 630,
+      "community": 23,
       "norm_label": "jsonserializeroptions"
     },
     {
@@ -47654,7 +47654,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L76",
       "id": "persistence_savegamev3_savegamev3codec_encode",
-      "community": 630,
+      "community": 23,
       "norm_label": ".encode()"
     },
     {
@@ -47663,7 +47663,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L82",
       "id": "persistence_savegamev3_savegamev3codec_decode",
-      "community": 630,
+      "community": 23,
       "norm_label": ".decode()"
     },
     {
@@ -47672,7 +47672,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L105",
       "id": "persistence_savegamev3_savegamev3codec_validate",
-      "community": 630,
+      "community": 23,
       "norm_label": ".validate()"
     },
     {
@@ -47681,7 +47681,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L205",
       "id": "persistence_savegamev3_savegamev3codec_isfinite",
-      "community": 630,
+      "community": 23,
       "norm_label": ".isfinite()"
     },
     {
@@ -55475,7 +55475,7 @@
       "source_file": "src/main.ts",
       "source_location": "L1",
       "id": "src_main_ts",
-      "community": 22,
+      "community": 758,
       "norm_label": "main.ts"
     },
     {
@@ -55484,7 +55484,7 @@
       "source_file": "src/main.ts",
       "source_location": "L8",
       "id": "src_main_container",
-      "community": 22,
+      "community": 758,
       "norm_label": "container"
     },
     {
@@ -55493,7 +55493,7 @@
       "source_file": "src/main.ts",
       "source_location": "L10",
       "id": "src_main_runtime",
-      "community": 22,
+      "community": 758,
       "norm_label": "runtime"
     },
     {
@@ -55502,7 +55502,7 @@
       "source_file": "src/main.ts",
       "source_location": "L15",
       "id": "src_main_persistence",
-      "community": 22,
+      "community": 758,
       "norm_label": "persistence"
     },
     {
@@ -55511,7 +55511,7 @@
       "source_file": "src/main.ts",
       "source_location": "L19",
       "id": "src_main_game",
-      "community": 22,
+      "community": 758,
       "norm_label": "game"
     },
     {
@@ -56564,7 +56564,7 @@
       "source_file": "src/lab/run-replacement.mjs",
       "source_location": "L1",
       "id": "src_lab_run_replacement_mjs",
-      "community": 5,
+      "community": 73,
       "norm_label": "run-replacement.mjs"
     },
     {
@@ -56573,7 +56573,7 @@
       "source_file": "src/lab/run-replacement.mjs",
       "source_location": "L5",
       "id": "lab_run_replacement_replaceactivelabrun",
-      "community": 5,
+      "community": 73,
       "norm_label": "replaceactivelabrun()"
     },
     {
@@ -56717,7 +56717,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L1",
       "id": "src_lab_main_ts",
-      "community": 5,
+      "community": 73,
       "norm_label": "main.ts"
     },
     {
@@ -56726,7 +56726,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L6",
       "id": "lab_main_labpack",
-      "community": 5,
+      "community": 73,
       "norm_label": "labpack"
     },
     {
@@ -56735,7 +56735,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L20",
       "id": "lab_main_swapkind",
-      "community": 5,
+      "community": 73,
       "norm_label": "swapkind"
     },
     {
@@ -56744,7 +56744,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L22",
       "id": "lab_main_labcatalog",
-      "community": 5,
+      "community": 73,
       "norm_label": "labcatalog"
     },
     {
@@ -56753,7 +56753,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L30",
       "id": "lab_main_appelement",
-      "community": 5,
+      "community": 73,
       "norm_label": "appelement"
     },
     {
@@ -56762,7 +56762,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L38",
       "id": "lab_main_state",
-      "community": 5,
+      "community": 73,
       "norm_label": "state"
     },
     {
@@ -56771,7 +56771,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L50",
       "id": "lab_main_selectedpack",
-      "community": 5,
+      "community": 73,
       "norm_label": "selectedpack()"
     },
     {
@@ -56780,7 +56780,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L56",
       "id": "lab_main_selectcampaign",
-      "community": 5,
+      "community": 73,
       "norm_label": "selectcampaign()"
     },
     {
@@ -56789,7 +56789,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L65",
       "id": "lab_main_isruntimelaunchable",
-      "community": 5,
+      "community": 73,
       "norm_label": "isruntimelaunchable()"
     },
     {
@@ -56798,7 +56798,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L71",
       "id": "lab_main_selectedcompiledrunpack",
-      "community": 5,
+      "community": 73,
       "norm_label": "selectedcompiledrunpack()"
     },
     {
@@ -56807,7 +56807,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L77",
       "id": "lab_main_inspectionpack",
-      "community": 5,
+      "community": 73,
       "norm_label": "inspectionpack()"
     },
     {
@@ -56816,7 +56816,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L81",
       "id": "lab_main_syncinspectionselection",
-      "community": 5,
+      "community": 73,
       "norm_label": "syncinspectionselection()"
     },
     {
@@ -56825,7 +56825,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L90",
       "id": "lab_main_resolverunselection",
-      "community": 5,
+      "community": 73,
       "norm_label": "resolverunselection()"
     },
     {
@@ -56834,7 +56834,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L108",
       "id": "lab_main_escape",
-      "community": 5,
+      "community": 73,
       "norm_label": "escape()"
     },
     {
@@ -56843,7 +56843,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L112",
       "id": "lab_main_option",
-      "community": 5,
+      "community": 73,
       "norm_label": "option()"
     },
     {
@@ -56852,7 +56852,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L116",
       "id": "lab_main_selectoptions",
-      "community": 5,
+      "community": 73,
       "norm_label": "selectoptions()"
     },
     {
@@ -56861,7 +56861,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L120",
       "id": "lab_main_startisolatedrun",
-      "community": 5,
+      "community": 73,
       "norm_label": "startisolatedrun()"
     },
     {
@@ -56870,7 +56870,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L155",
       "id": "lab_main_disposerun",
-      "community": 5,
+      "community": 73,
       "norm_label": "disposerun()"
     },
     {
@@ -56879,7 +56879,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L171",
       "id": "lab_main_invokesamplecapability",
-      "community": 5,
+      "community": 73,
       "norm_label": "invokesamplecapability()"
     },
     {
@@ -56888,7 +56888,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L191",
       "id": "lab_main_render",
-      "community": 5,
+      "community": 73,
       "norm_label": "render()"
     },
     {
@@ -56906,7 +56906,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L1",
       "id": "src_lab_e2e_harness_ts",
-      "community": 22,
+      "community": 758,
       "norm_label": "e2e-harness.ts"
     },
     {
@@ -56915,7 +56915,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L8",
       "id": "lab_e2e_harness_window",
-      "community": 22,
+      "community": 758,
       "norm_label": "window"
     },
     {
@@ -56924,7 +56924,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L17",
       "id": "lab_e2e_harness_appelement",
-      "community": 22,
+      "community": 758,
       "norm_label": "appelement"
     },
     {
@@ -56933,7 +56933,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L23",
       "id": "lab_e2e_harness_reset",
-      "community": 22,
+      "community": 758,
       "norm_label": "reset()"
     },
     {
@@ -57896,7 +57896,7 @@
       "source_file": "src/runtime/bootstrap/runtime-bootstrap.mjs",
       "source_location": "L489",
       "id": "bootstrap_runtime_bootstrap_runtimebootstrap_capturesnapshot",
-      "community": 85,
+      "community": 63,
       "norm_label": ".#capturesnapshot()"
     },
     {
@@ -58535,7 +58535,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L1",
       "id": "src_runtime_world_seeded_rng_mjs",
-      "community": 65,
+      "community": 746,
       "norm_label": "seeded-rng.mjs"
     },
     {
@@ -58544,7 +58544,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L1",
       "id": "world_seeded_rng_nonemptystring",
-      "community": 65,
+      "community": 746,
       "norm_label": "nonemptystring()"
     },
     {
@@ -58553,7 +58553,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L6",
       "id": "world_seeded_rng_uint32",
-      "community": 65,
+      "community": 746,
       "norm_label": "uint32()"
     },
     {
@@ -58562,7 +58562,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L13",
       "id": "world_seeded_rng_hashtext",
-      "community": 65,
+      "community": 746,
       "norm_label": "hashtext()"
     },
     {
@@ -58571,7 +58571,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L22",
       "id": "world_seeded_rng_normalizeseed",
-      "community": 65,
+      "community": 746,
       "norm_label": "normalizeseed()"
     },
     {
@@ -58580,7 +58580,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L27",
       "id": "world_seeded_rng_step",
-      "community": 65,
+      "community": 746,
       "norm_label": "step()"
     },
     {
@@ -58589,7 +58589,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L35",
       "id": "world_seeded_rng_seededrngstream",
-      "community": 65,
+      "community": 746,
       "norm_label": "seededrngstream"
     },
     {
@@ -58598,7 +58598,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L40",
       "id": "world_seeded_rng_seededrngstream_constructor",
-      "community": 65,
+      "community": 746,
       "norm_label": ".constructor()"
     },
     {
@@ -58607,7 +58607,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L48",
       "id": "world_seeded_rng_seededrngstream_nextuint32",
-      "community": 65,
+      "community": 746,
       "norm_label": ".nextuint32()"
     },
     {
@@ -58616,7 +58616,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L55",
       "id": "world_seeded_rng_seededrngstream_nextfloat",
-      "community": 65,
+      "community": 746,
       "norm_label": ".nextfloat()"
     },
     {
@@ -58625,7 +58625,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L56",
       "id": "world_seeded_rng_seededrngstream_position",
-      "community": 65,
+      "community": 746,
       "norm_label": ".position()"
     },
     {
@@ -58634,7 +58634,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L58",
       "id": "world_seeded_rng_seededrngstream_exportsnapshot",
-      "community": 65,
+      "community": 746,
       "norm_label": ".exportsnapshot()"
     },
     {
@@ -58643,7 +58643,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L64",
       "id": "world_seeded_rng_ownerrngstreams",
-      "community": 65,
+      "community": 746,
       "norm_label": "ownerrngstreams"
     },
     {
@@ -58652,7 +58652,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L68",
       "id": "world_seeded_rng_ownerrngstreams_constructor",
-      "community": 65,
+      "community": 746,
       "norm_label": ".constructor()"
     },
     {
@@ -58661,7 +58661,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L72",
       "id": "world_seeded_rng_ownerrngstreams_stream",
-      "community": 65,
+      "community": 746,
       "norm_label": ".stream()"
     },
     {
@@ -58670,7 +58670,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L82",
       "id": "world_seeded_rng_ownerrngstreams_exportsnapshot",
-      "community": 65,
+      "community": 746,
       "norm_label": ".exportsnapshot()"
     },
     {
@@ -58679,7 +58679,7 @@
       "source_file": "src/runtime/world/seeded-rng.mjs",
       "source_location": "L91",
       "id": "world_seeded_rng_ownerrngstreams_fromsnapshot",
-      "community": 65,
+      "community": 746,
       "norm_label": ".fromsnapshot()"
     },
     {
@@ -58688,7 +58688,7 @@
       "source_file": "src/runtime/world/evidence-provenance.mjs",
       "source_location": "L1",
       "id": "src_runtime_world_evidence_provenance_mjs",
-      "community": 630,
+      "community": 224,
       "norm_label": "evidence-provenance.mjs"
     },
     {
@@ -58697,7 +58697,7 @@
       "source_file": "src/runtime/world/evidence-provenance.mjs",
       "source_location": "L5",
       "id": "world_evidence_provenance_nonemptystring",
-      "community": 630,
+      "community": 224,
       "norm_label": "nonemptystring()"
     },
     {
@@ -58706,7 +58706,7 @@
       "source_file": "src/runtime/world/evidence-provenance.mjs",
       "source_location": "L10",
       "id": "world_evidence_provenance_exactobject",
-      "community": 630,
+      "community": 224,
       "norm_label": "exactobject()"
     },
     {
@@ -58715,7 +58715,7 @@
       "source_file": "src/runtime/world/evidence-provenance.mjs",
       "source_location": "L18",
       "id": "world_evidence_provenance_normalizeevidence",
-      "community": 630,
+      "community": 224,
       "norm_label": "normalizeevidence()"
     },
     {
@@ -58724,7 +58724,7 @@
       "source_file": "src/runtime/world/evidence-provenance.mjs",
       "source_location": "L30",
       "id": "world_evidence_provenance_currentevidence",
-      "community": 630,
+      "community": 224,
       "norm_label": "currentevidence()"
     },
     {
@@ -58733,7 +58733,7 @@
       "source_file": "src/runtime/world/evidence-provenance.mjs",
       "source_location": "L44",
       "id": "world_evidence_provenance_planevidenceclaim",
-      "community": 630,
+      "community": 224,
       "norm_label": "planevidenceclaim()"
     },
     {
@@ -58895,7 +58895,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L1",
       "id": "src_runtime_world_deterministic_scheduler_mjs",
-      "community": 73,
+      "community": 65,
       "norm_label": "deterministic-scheduler.mjs"
     },
     {
@@ -58904,7 +58904,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L3",
       "id": "world_deterministic_scheduler_nonemptystring",
-      "community": 73,
+      "community": 65,
       "norm_label": "nonemptystring()"
     },
     {
@@ -58913,7 +58913,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L8",
       "id": "world_deterministic_scheduler_tick",
-      "community": 73,
+      "community": 65,
       "norm_label": "tick()"
     },
     {
@@ -58922,7 +58922,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L13",
       "id": "world_deterministic_scheduler_normalizedjob",
-      "community": 73,
+      "community": 65,
       "norm_label": "normalizedjob()"
     },
     {
@@ -58931,7 +58931,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L31",
       "id": "world_deterministic_scheduler_deterministicscheduler",
-      "community": 73,
+      "community": 65,
       "norm_label": "deterministicscheduler"
     },
     {
@@ -58940,7 +58940,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L38",
       "id": "world_deterministic_scheduler_deterministicscheduler_schedule",
-      "community": 73,
+      "community": 65,
       "norm_label": ".schedule()"
     },
     {
@@ -58949,7 +58949,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L47",
       "id": "world_deterministic_scheduler_deterministicscheduler_cancelowner",
-      "community": 73,
+      "community": 65,
       "norm_label": ".cancelowner()"
     },
     {
@@ -58958,7 +58958,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L60",
       "id": "world_deterministic_scheduler_deterministicscheduler_claimdue",
-      "community": 73,
+      "community": 65,
       "norm_label": ".#claimdue()"
     },
     {
@@ -58967,7 +58967,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L76",
       "id": "world_deterministic_scheduler_deterministicscheduler_claimdueforowner",
-      "community": 73,
+      "community": 65,
       "norm_label": ".claimdueforowner()"
     },
     {
@@ -58976,7 +58976,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L81",
       "id": "world_deterministic_scheduler_deterministicscheduler_acknowledge",
-      "community": 73,
+      "community": 65,
       "norm_label": ".acknowledge()"
     },
     {
@@ -58985,7 +58985,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L93",
       "id": "world_deterministic_scheduler_deterministicscheduler_release",
-      "community": 73,
+      "community": 65,
       "norm_label": ".release()"
     },
     {
@@ -58994,7 +58994,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L102",
       "id": "world_deterministic_scheduler_deterministicscheduler_takedue",
-      "community": 73,
+      "community": 65,
       "norm_label": ".takedue()"
     },
     {
@@ -59003,7 +59003,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L103",
       "id": "world_deterministic_scheduler_deterministicscheduler_takedueforowner",
-      "community": 73,
+      "community": 65,
       "norm_label": ".takedueforowner()"
     },
     {
@@ -59012,7 +59012,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L105",
       "id": "world_deterministic_scheduler_deterministicscheduler_exportsnapshot",
-      "community": 73,
+      "community": 65,
       "norm_label": ".exportsnapshot()"
     },
     {
@@ -59021,7 +59021,7 @@
       "source_file": "src/runtime/world/deterministic-scheduler.mjs",
       "source_location": "L114",
       "id": "world_deterministic_scheduler_deterministicscheduler_fromsnapshot",
-      "community": 73,
+      "community": 65,
       "norm_label": ".fromsnapshot()"
     },
     {
@@ -59723,7 +59723,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L194",
       "id": "persistence_production_persistence_gateway_createbrowserproductionpersistencegateway",
-      "community": 22,
+      "community": 758,
       "norm_label": "createbrowserproductionpersistencegateway()"
     },
     {
@@ -59732,7 +59732,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L1",
       "id": "src_runtime_persistence_snapshot_errors_mjs",
-      "community": 416,
+      "community": 85,
       "norm_label": "snapshot-errors.mjs"
     },
     {
@@ -59741,7 +59741,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L3",
       "id": "persistence_snapshot_errors_snapshoterrorcode",
-      "community": 416,
+      "community": 85,
       "norm_label": "snapshoterrorcode"
     },
     {
@@ -59750,7 +59750,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L15",
       "id": "persistence_snapshot_errors_snapshotcodecerror",
-      "community": 22,
+      "community": 85,
       "norm_label": "snapshotcodecerror"
     },
     {
@@ -59759,7 +59759,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L16",
       "id": "persistence_snapshot_errors_snapshotcodecerror_constructor",
-      "community": 22,
+      "community": 85,
       "norm_label": ".constructor()"
     },
     {
@@ -59768,7 +59768,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L24",
       "id": "persistence_snapshot_errors_unsupportedsnapshotversion",
-      "community": 416,
+      "community": 85,
       "norm_label": "unsupportedsnapshotversion"
     },
     {
@@ -59777,7 +59777,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L25",
       "id": "persistence_snapshot_errors_unsupportedsnapshotversion_constructor",
-      "community": 416,
+      "community": 85,
       "norm_label": ".constructor()"
     },
     {
@@ -59786,7 +59786,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L34",
       "id": "persistence_snapshot_errors_campaignmismatch",
-      "community": 416,
+      "community": 85,
       "norm_label": "campaignmismatch"
     },
     {
@@ -59795,7 +59795,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L35",
       "id": "persistence_snapshot_errors_campaignmismatch_constructor",
-      "community": 416,
+      "community": 85,
       "norm_label": ".constructor()"
     },
     {
@@ -59804,7 +59804,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L44",
       "id": "persistence_snapshot_errors_capabilitysnapshotincompatible",
-      "community": 416,
+      "community": 85,
       "norm_label": "capabilitysnapshotincompatible"
     },
     {
@@ -59813,7 +59813,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L45",
       "id": "persistence_snapshot_errors_capabilitysnapshotincompatible_constructor",
-      "community": 416,
+      "community": 85,
       "norm_label": ".constructor()"
     },
     {
@@ -59822,7 +59822,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L54",
       "id": "persistence_snapshot_errors_snapshotintegrityerror",
-      "community": 416,
+      "community": 85,
       "norm_label": "snapshotintegrityerror"
     },
     {
@@ -59831,7 +59831,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L55",
       "id": "persistence_snapshot_errors_snapshotintegrityerror_constructor",
-      "community": 416,
+      "community": 85,
       "norm_label": ".constructor()"
     },
     {
@@ -60317,7 +60317,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L250",
       "id": "oldpc_oldpc_capability_createoldpccapabilitydescriptor",
-      "community": 63,
+      "community": 78,
       "norm_label": "createoldpccapabilitydescriptor()"
     },
     {
@@ -63467,7 +63467,7 @@
       "source_file": "src/os/apps/minesweeper.ts",
       "source_location": "L40",
       "id": "apps_minesweeper_initminesweeper",
-      "community": 72,
+      "community": 758,
       "norm_label": "initminesweeper()"
     },
     {
@@ -63503,7 +63503,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L1",
       "id": "src_os_apps_notepad_ts",
-      "community": 244,
+      "community": 72,
       "norm_label": "notepad.ts"
     },
     {
@@ -63512,7 +63512,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L3",
       "id": "apps_notepad_escapehtml",
-      "community": 244,
+      "community": 72,
       "norm_label": "escapehtml()"
     },
     {
@@ -63521,7 +63521,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L12",
       "id": "apps_notepad_createdefaultnotepadstate",
-      "community": 244,
+      "community": 72,
       "norm_label": "createdefaultnotepadstate()"
     },
     {
@@ -63530,7 +63530,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L28",
       "id": "apps_notepad_readnotepadstate",
-      "community": 244,
+      "community": 72,
       "norm_label": "readnotepadstate()"
     },
     {
@@ -63539,7 +63539,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L35",
       "id": "apps_notepad_writenotepadstate",
-      "community": 244,
+      "community": 72,
       "norm_label": "writenotepadstate()"
     },
     {
@@ -63548,7 +63548,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L39",
       "id": "apps_notepad_formattimestamp",
-      "community": 244,
+      "community": 72,
       "norm_label": "formattimestamp()"
     },
     {
@@ -63557,7 +63557,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L48",
       "id": "apps_notepad_rendernotepad",
-      "community": 244,
+      "community": 72,
       "norm_label": "rendernotepad()"
     },
     {
@@ -63566,7 +63566,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L189",
       "id": "apps_notepad_initnotepad",
-      "community": 244,
+      "community": 72,
       "norm_label": "initnotepad()"
     },
     {
@@ -73261,6 +73261,15 @@
       "id": "urman_knowledge_base_design_style_current_in_engine_gate_2026_08_10",
       "community": 95,
       "norm_label": "current in-engine gate \u2014 2026-08-10"
+    },
+    {
+      "label": "2026-09-11 \u2014 \u043d\u0430\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0439 \u0437\u0438\u043c\u043d\u0438\u0439 \u0441\u0432\u0435\u0442",
+      "file_type": "document",
+      "source_file": "docs/urman_knowledge_base/design_style.md",
+      "source_location": "L297",
+      "id": "urman_knowledge_base_design_style_2026_09_11_\u043d\u0430\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0439_\u0437\u0438\u043c\u043d\u0438\u0439_\u0441\u0432\u0435\u0442",
+      "community": 95,
+      "norm_label": "2026-09-11 \u2014 \u043d\u0430\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0438 \u0437\u0438\u043c\u043d\u0438\u0438 \u0441\u0432\u0435\u0442"
     },
     {
       "label": "glossary.md",
@@ -84653,7 +84662,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1",
       "id": "docs_production_act1_opencode_execution_state_md",
-      "community": 704,
+      "community": 244,
       "norm_label": "act1_opencode_execution_state.md"
     },
     {
@@ -84734,7 +84743,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L223",
       "id": "production_act1_opencode_execution_state_act_i_opencode_execution_ledger_223",
-      "community": 704,
+      "community": 745,
       "norm_label": "act i opencode execution ledger"
     },
     {
@@ -84743,7 +84752,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L225",
       "id": "production_act1_opencode_execution_state_current_work_card_blender_\u0443\u0447\u0430\u0441\u0442\u043e\u043a_\u0444\u0430\u0441\u0430\u0434_\u0432\u0430\u0440\u0438\u0430\u043d\u0442_\u0434\u043e\u043c\u043e\u0432_\u043d\u0430_\u0441\u0440\u0435\u0434\u043d\u0435\u0439_\u0434\u0438\u0441\u0442\u0430\u043d\u0446\u0438\u0438",
-      "community": 704,
+      "community": 723,
       "norm_label": "current work card \u2014 blender-\u0443\u0447\u0430\u0441\u0442\u043e\u043a: \u0444\u0430\u0441\u0430\u0434 \u0432\u0430\u0440\u0438\u0430\u043d\u0442-\u0434\u043e\u043c\u043e\u0432 \u043d\u0430 \u0441\u0440\u0435\u0434\u043d\u0435\u0438 \u0434\u0438\u0441\u0442\u0430\u043d\u0446\u0438\u0438"
     },
     {
@@ -84752,7 +84761,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L275",
       "id": "production_act1_opencode_execution_state_previous_work_card_2026_09_07_slice_g_tree_geometry_street_verge_user_art_feedback",
-      "community": 704,
+      "community": 723,
       "norm_label": "previous work card \u2014 2026-09-07, slice g: tree geometry + street verge (user art feedback)"
     },
     {
@@ -84761,7 +84770,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L303",
       "id": "production_act1_opencode_execution_state_previous_work_card_2026_09_07_verification_batch_capture_004_perf_002_release_002_004",
-      "community": 704,
+      "community": 733,
       "norm_label": "previous work card \u2014 2026-09-07, verification batch: capture-004 / perf-002 / release-002+004"
     },
     {
@@ -84770,7 +84779,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L318",
       "id": "production_act1_opencode_execution_state_handover_2026_09_07",
-      "community": 704,
+      "community": 733,
       "norm_label": "handover \u2014 2026-09-07"
     },
     {
@@ -84779,7 +84788,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L324",
       "id": "production_act1_opencode_execution_state_full_frame_inspection_2026_09_07_final_candidate_slicef",
-      "community": 704,
+      "community": 735,
       "norm_label": "full-frame inspection \u2014 2026-09-07, final candidate slicef"
     },
     {
@@ -84788,7 +84797,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L337",
       "id": "production_act1_opencode_execution_state_current_work_card_2026_09_07_slice_f_merged_mass_fix_boundary_clearance",
-      "community": 704,
+      "community": 496,
       "norm_label": "current work card \u2014 2026-09-07, slice f: merged-mass fix + boundary clearance"
     },
     {
@@ -84797,7 +84806,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L359",
       "id": "production_act1_opencode_execution_state_previous_work_card_2026_09_07_slice_e_kara_ground_life_duplicate_edge_facade",
-      "community": 704,
+      "community": 735,
       "norm_label": "previous work card \u2014 2026-09-07, slice e: kara ground life + duplicate edge facade"
     },
     {
@@ -84806,7 +84815,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L386",
       "id": "production_act1_opencode_execution_state_previous_work_card_2026_09_07_slice_d_subagent_review_fixes",
-      "community": 704,
+      "community": 723,
       "norm_label": "previous work card \u2014 2026-09-07, slice d: subagent review fixes"
     },
     {
@@ -84815,7 +84824,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L423",
       "id": "production_act1_opencode_execution_state_previous_work_card_2026_09_07_slice_c_street_facade_diversity",
-      "community": 704,
+      "community": 723,
       "norm_label": "previous work card \u2014 2026-09-07, slice c: street facade diversity"
     },
     {
@@ -84824,7 +84833,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L464",
       "id": "production_act1_opencode_execution_state_previous_work_card_2026_09_07_slice_a_b_remaining_kit_materials_east_far_holding",
-      "community": 704,
+      "community": 244,
       "norm_label": "previous work card \u2014 2026-09-07, slice a+b: remaining kit materials + east far holding"
     },
     {
@@ -84833,7 +84842,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L502",
       "id": "production_act1_opencode_execution_state_previous_work_card_2026_09_07_main_street_mint_mass",
-      "community": 704,
+      "community": 745,
       "norm_label": "previous work card \u2014 2026-09-07, main street mint mass"
     },
     {
@@ -84851,7 +84860,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L584",
       "id": "production_act1_opencode_execution_state_previous_continuation_2026_09_05_independent_main_agent",
-      "community": 704,
+      "community": 805,
       "norm_label": "previous continuation \u2014 2026-09-05, independent main agent"
     },
     {
@@ -84860,7 +84869,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1092",
       "id": "production_act1_opencode_execution_state_active_objective_user_revision_2026_09_05",
-      "community": 704,
+      "community": 805,
       "norm_label": "active objective \u2014 user revision, 2026-09-05"
     },
     {
@@ -84869,7 +84878,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1641",
       "id": "production_act1_opencode_execution_state_completed",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed"
     },
     {
@@ -84878,7 +84887,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1651",
       "id": "production_act1_opencode_execution_state_completed_1651",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -84896,7 +84905,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1689",
       "id": "production_act1_opencode_execution_state_completed_historical",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed (historical)"
     },
     {
@@ -84905,7 +84914,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1830",
       "id": "production_act1_opencode_execution_state_completed_1830",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -84914,7 +84923,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1850",
       "id": "production_act1_opencode_execution_state_completed_1850",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -84923,7 +84932,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1869",
       "id": "production_act1_opencode_execution_state_p2_disposition_explicit_per_definition_of_exhausted_automatable_work",
-      "community": 704,
+      "community": 733,
       "norm_label": "p2 disposition (explicit, per definition of exhausted automatable work)"
     },
     {
@@ -84941,7 +84950,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1890",
       "id": "production_act1_opencode_execution_state_blocked",
-      "community": 704,
+      "community": 745,
       "norm_label": "blocked"
     },
     {
@@ -84950,7 +84959,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1918",
       "id": "production_act1_opencode_execution_state_queue_reassessment_2026_09_04_honest_disposition_of_remaining_families",
-      "community": 704,
+      "community": 745,
       "norm_label": "queue reassessment (2026-09-04, honest disposition of remaining families)"
     },
     {
@@ -84959,7 +84968,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1943",
       "id": "production_act1_opencode_execution_state_completed_1943",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -84968,7 +84977,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1945",
       "id": "production_act1_opencode_execution_state_completed_1945",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -84977,7 +84986,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1958",
       "id": "production_act1_opencode_execution_state_completed_1958",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -84986,7 +84995,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1971",
       "id": "production_act1_opencode_execution_state_completed_1971",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -84995,7 +85004,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1986",
       "id": "production_act1_opencode_execution_state_completed_1986",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -85004,7 +85013,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2003",
       "id": "production_act1_opencode_execution_state_completed_2003",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed"
     },
     {
@@ -85013,7 +85022,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2017",
       "id": "production_act1_opencode_execution_state_completed_2017",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -85022,7 +85031,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2036",
       "id": "production_act1_opencode_execution_state_completed_2036",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -85031,7 +85040,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2057",
       "id": "production_act1_opencode_execution_state_completed_2057",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -85040,7 +85049,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2077",
       "id": "production_act1_opencode_execution_state_completed_2077",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed"
     },
     {
@@ -85049,7 +85058,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2104",
       "id": "production_act1_opencode_execution_state_completed_2104",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -85058,7 +85067,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2128",
       "id": "production_act1_opencode_execution_state_completed_2128",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -85067,7 +85076,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2155",
       "id": "production_act1_opencode_execution_state_completed_2155",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -85076,7 +85085,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2178",
       "id": "production_act1_opencode_execution_state_completed_2178",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -85085,7 +85094,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2191",
       "id": "production_act1_opencode_execution_state_completed_2191",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -85094,7 +85103,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2238",
       "id": "production_act1_opencode_execution_state_completed_2238",
-      "community": 704,
+      "community": 745,
       "norm_label": "completed"
     },
     {
@@ -85103,7 +85112,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2473",
       "id": "production_act1_opencode_execution_state_blocked_blocked_external",
-      "community": 704,
+      "community": 733,
       "norm_label": "blocked / blocked_external"
     },
     {
@@ -85112,7 +85121,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2483",
       "id": "production_act1_opencode_execution_state_reopened",
-      "community": 704,
+      "community": 244,
       "norm_label": "reopened"
     },
     {
@@ -85121,7 +85130,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2487",
       "id": "production_act1_opencode_execution_state_commands_evidence_exit_codes",
-      "community": 704,
+      "community": 496,
       "norm_label": "commands / evidence (exit codes)"
     },
     {
@@ -85130,7 +85139,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2504",
       "id": "production_act1_opencode_execution_state_dirty_state_\u0447\u0443\u0436\u0438\u0435_\u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f_preserved_not_mine",
-      "community": 704,
+      "community": 735,
       "norm_label": "dirty state / \u0447\u0443\u0436\u0438\u0435 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f (preserved, not mine)"
     },
     {
@@ -85148,7 +85157,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2527",
       "id": "production_act1_opencode_execution_state_external_gates",
-      "community": 704,
+      "community": 735,
       "norm_label": "external gates"
     },
     {
@@ -85166,7 +85175,7 @@
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2543",
       "id": "production_act1_opencode_execution_state_2026_09_10_painterly_texture_families_technical_candidate_pass",
-      "community": 704,
+      "community": 496,
       "norm_label": "2026-09-10 \u2014 painterly texture families / technical candidate pass"
     },
     {
@@ -89828,7 +89837,7 @@
       "source_file": "src/runtime/bootstrap/runtime-bootstrap.mjs",
       "source_location": "L522",
       "id": "bootstrap_runtime_bootstrap_production_old_pc_instance_id",
-      "community": 5,
+      "community": 73,
       "norm_label": "production_old_pc_instance_id"
     },
     {
@@ -91532,7 +91541,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L188",
-      "community": 704,
+      "community": 723,
       "norm_label": "act i opencode execution ledger",
       "id": "production_act1_opencode_execution_state_act_i_opencode_execution_ledger_188"
     },
@@ -91541,7 +91550,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1616",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1616"
     },
@@ -91550,7 +91559,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1632",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1632"
     },
@@ -91559,7 +91568,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1795",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1795"
     },
@@ -91568,7 +91577,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1815",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1815"
     },
@@ -91577,7 +91586,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1908",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1908"
     },
@@ -91586,7 +91595,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1910",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1910"
     },
@@ -91595,7 +91604,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1923",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1923"
     },
@@ -91604,7 +91613,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1936",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1936"
     },
@@ -91613,7 +91622,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1951",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1951"
     },
@@ -91622,7 +91631,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1968",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1968"
     },
@@ -91631,7 +91640,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1982",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1982"
     },
@@ -91640,7 +91649,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2001",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2001"
     },
@@ -91649,7 +91658,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2022",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2022"
     },
@@ -91658,7 +91667,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2042",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2042"
     },
@@ -91667,7 +91676,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2069",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2069"
     },
@@ -91676,7 +91685,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2093",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2093"
     },
@@ -91685,7 +91694,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2120",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2120"
     },
@@ -91694,7 +91703,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2143",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2143"
     },
@@ -91703,7 +91712,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2156",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2156"
     },
@@ -91712,7 +91721,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2203",
-      "community": 704,
+      "community": 723,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2203"
     },
@@ -91730,7 +91739,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L162",
-      "community": 704,
+      "community": 244,
       "norm_label": "act i opencode execution ledger",
       "id": "production_act1_opencode_execution_state_act_i_opencode_execution_ledger_162"
     },
@@ -91739,7 +91748,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1590",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1590"
     },
@@ -91748,7 +91757,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1606",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1606"
     },
@@ -91757,7 +91766,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1769",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1769"
     },
@@ -91766,7 +91775,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1789",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1789"
     },
@@ -91775,7 +91784,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1882",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1882"
     },
@@ -91784,7 +91793,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1884",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1884"
     },
@@ -91793,7 +91802,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1897",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1897"
     },
@@ -91802,7 +91811,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1925",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1925"
     },
@@ -91811,7 +91820,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1942",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1942"
     },
@@ -91820,7 +91829,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1956",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1956"
     },
@@ -91829,7 +91838,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1975",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1975"
     },
@@ -91838,7 +91847,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1996",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1996"
     },
@@ -91847,7 +91856,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2016",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2016"
     },
@@ -91856,7 +91865,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2043",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2043"
     },
@@ -91865,7 +91874,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2067",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2067"
     },
@@ -91874,7 +91883,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2094",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2094"
     },
@@ -91883,7 +91892,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2117",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2117"
     },
@@ -91892,7 +91901,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2130",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2130"
     },
@@ -91901,7 +91910,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2177",
-      "community": 704,
+      "community": 244,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2177"
     },
@@ -91919,7 +91928,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L122",
-      "community": 704,
+      "community": 496,
       "norm_label": "act i opencode execution ledger",
       "id": "production_act1_opencode_execution_state_act_i_opencode_execution_ledger_122"
     },
@@ -91928,7 +91937,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1550",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1550"
     },
@@ -91937,7 +91946,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1566",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1566"
     },
@@ -91946,7 +91955,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1729",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1729"
     },
@@ -91955,7 +91964,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1749",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1749"
     },
@@ -91964,7 +91973,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1842",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1842"
     },
@@ -91973,7 +91982,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1844",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1844"
     },
@@ -91982,7 +91991,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1857",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1857"
     },
@@ -91991,7 +92000,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1870",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1870"
     },
@@ -92000,7 +92009,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1885",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1885"
     },
@@ -92009,7 +92018,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1902",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1902"
     },
@@ -92018,7 +92027,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1916",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1916"
     },
@@ -92027,7 +92036,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1935",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1935"
     },
@@ -92036,7 +92045,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1976",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1976"
     },
@@ -92045,7 +92054,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2027",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2027"
     },
@@ -92054,7 +92063,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2054",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2054"
     },
@@ -92063,7 +92072,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2090",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2090"
     },
@@ -92072,7 +92081,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L2137",
-      "community": 704,
+      "community": 496,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_2137"
     },
@@ -92090,7 +92099,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L5",
-      "community": 704,
+      "community": 733,
       "norm_label": "act i opencode execution ledger",
       "id": "production_act1_opencode_execution_state_act_i_opencode_execution_ledger_5"
     },
@@ -92099,7 +92108,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L7",
-      "community": 704,
+      "community": 735,
       "norm_label": "act i opencode execution ledger",
       "id": "production_act1_opencode_execution_state_act_i_opencode_execution_ledger_7"
     },
@@ -92108,7 +92117,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1435",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1435"
     },
@@ -92117,7 +92126,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1451",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1451"
     },
@@ -92126,7 +92135,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1614",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1614"
     },
@@ -92135,7 +92144,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1634",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1634"
     },
@@ -92144,7 +92153,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1727",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1727"
     },
@@ -92153,7 +92162,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1742",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1742"
     },
@@ -92162,7 +92171,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1755",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1755"
     },
@@ -92171,7 +92180,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1770",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1770"
     },
@@ -92180,7 +92189,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1787",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1787"
     },
@@ -92189,7 +92198,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1801",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1801"
     },
@@ -92198,7 +92207,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1820",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1820"
     },
@@ -92207,7 +92216,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1841",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1841"
     },
@@ -92216,7 +92225,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1861",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1861"
     },
@@ -92225,7 +92234,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1888",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1888"
     },
@@ -92234,7 +92243,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1912",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1912"
     },
@@ -92243,7 +92252,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1939",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1939"
     },
@@ -92252,7 +92261,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1962",
-      "community": 704,
+      "community": 735,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1962"
     },
@@ -92261,7 +92270,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L7",
-      "community": 704,
+      "community": 733,
       "norm_label": "current work card \u2014 2026-09-07, slice g: tree geometry + street verge (user art feedback)",
       "id": "production_act1_opencode_execution_state_current_work_card_2026_09_07_slice_g_tree_geometry_street_verge_user_art_feedback"
     },
@@ -92270,7 +92279,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1383",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1383"
     },
@@ -92279,7 +92288,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1399",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1399"
     },
@@ -92288,7 +92297,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1562",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1562"
     },
@@ -92297,7 +92306,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1582",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1582"
     },
@@ -92306,7 +92315,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1675",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1675"
     },
@@ -92315,7 +92324,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1677",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1677"
     },
@@ -92324,7 +92333,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1690",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1690"
     },
@@ -92333,7 +92342,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1703",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1703"
     },
@@ -92342,7 +92351,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1718",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1718"
     },
@@ -92351,7 +92360,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1735",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1735"
     },
@@ -92360,7 +92369,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1768",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1768"
     },
@@ -92369,7 +92378,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1809",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1809"
     },
@@ -92378,7 +92387,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1836",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1836"
     },
@@ -92387,7 +92396,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1860",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1860"
     },
@@ -92396,7 +92405,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1887",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1887"
     },
@@ -92405,7 +92414,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L1970",
-      "community": 704,
+      "community": 733,
       "norm_label": "completed",
       "id": "production_act1_opencode_execution_state_completed_1970"
     },
@@ -93503,7 +93512,7 @@
       "file_type": "document",
       "source_file": "docs/production/act1_opencode_execution_state.md",
       "source_location": "L3",
-      "community": 704,
+      "community": 805,
       "norm_label": "current continuation \u2014 2026-09-05, independent main agent",
       "id": "production_act1_opencode_execution_state_current_continuation_2026_09_05_independent_main_agent"
     },
@@ -103792,7 +103801,7 @@
       "file_type": "code",
       "source_file": "game/tests/AgentBWalkProbe.cs",
       "source_location": "L1",
-      "community": 247,
+      "community": 799,
       "norm_label": "agentbwalkprobe.cs",
       "id": "game_tests_agentbwalkprobe_cs"
     },
@@ -103801,7 +103810,7 @@
       "file_type": "code",
       "source_file": "game/tests/AgentBWalkProbe.cs",
       "source_location": "L9",
-      "community": 247,
+      "community": 799,
       "norm_label": "agentbwalkprobe",
       "id": "tests_agentbwalkprobe_agentbwalkprobe"
     },
@@ -103810,7 +103819,7 @@
       "file_type": "code",
       "source_file": "game/tests/AgentBWalkProbe.cs",
       "source_location": "L11",
-      "community": 247,
+      "community": 799,
       "norm_label": "vector3",
       "id": "game_tests_agentbwalkprobe_cs_vector3"
     },
@@ -103819,7 +103828,7 @@
       "file_type": "code",
       "source_file": "game/tests/AgentBWalkProbe.cs",
       "source_location": "L13",
-      "community": 247,
+      "community": 799,
       "norm_label": "._ready()",
       "id": "tests_agentbwalkprobe_agentbwalkprobe_ready"
     },
@@ -103828,7 +103837,7 @@
       "file_type": "code",
       "source_file": "game/tests/AgentBWalkProbe.cs",
       "source_location": "L77",
-      "community": 247,
+      "community": 799,
       "norm_label": ".waitforframesasync()",
       "id": "tests_agentbwalkprobe_agentbwalkprobe_waitforframesasync"
     },
@@ -239517,6 +239526,16 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docs/urman_knowledge_base/design_style.md",
+      "source_location": "L297",
+      "weight": 1.0,
+      "source": "urman_knowledge_base_design_style_next_art_tests",
+      "target": "urman_knowledge_base_design_style_2026_09_11_\u043d\u0430\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0439_\u0437\u0438\u043c\u043d\u0438\u0439_\u0441\u0432\u0435\u0442",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/urman_knowledge_base/glossary.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -252290,9 +252309,9 @@
       "source_file": "docs/urman_knowledge_base/performance/README.md",
       "source_location": "L327",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "performance_readme_godot_performance_evidence",
-      "target": "performance_readme_2026_09_11_\u0436\u0443\u0440\u043d\u0430\u043b_\u0440\u0435\u0434\u043a\u0438\u0445_\u0437\u0430\u0434\u0435\u0440\u0436\u0435\u043a",
-      "confidence_score": 1.0
+      "target": "performance_readme_2026_09_11_\u0436\u0443\u0440\u043d\u0430\u043b_\u0440\u0435\u0434\u043a\u0438\u0445_\u0437\u0430\u0434\u0435\u0440\u0436\u0435\u043a"
     },
     {
       "relation": "contains",
@@ -271908,5 +271927,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "3a420039ecd66055f0b84bb62f77e1cfe428bfc5"
+  "built_at_commit": "a1b4204b02e10d467c25ac02d5883fae0203ec6d"
 }
