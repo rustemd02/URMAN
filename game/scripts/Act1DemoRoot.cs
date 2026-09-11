@@ -72,6 +72,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private (int Gen0, int Gen1, int Gen2, long Allocated) _performanceLastGc;
     private readonly List<double> _performanceWarmupSamples = [];
     private readonly List<double> _performanceSamples = [];
+    private readonly List<string> _performanceStallReports = new(8);
     private bool _startupPerformanceGuard;
     private int _startupGuardWarmupFrames;
     private ulong _startupGuardLastTicks;
@@ -344,7 +345,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             var warming = _performanceWarmupElapsed < _performanceWarmupSeconds;
             var life = _main.ConnectedWorld.GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/VillageLife");
-            GD.Print(string.Create(CultureInfo.InvariantCulture, $"act1-perf-stall: utc={DateTimeOffset.UtcNow:O} ticks_us={now} "
+            _performanceStallReports.Add(string.Create(CultureInfo.InvariantCulture, $"act1-perf-stall: utc={DateTimeOffset.UtcNow:O} ticks_us={now} "
                 + $"phase={(warming ? "warmup" : "measurement")} sample={(warming ? _performanceWarmupSamples.Count : _performanceSamples.Count) + 1} "
                 + $"target={ProbeToken(_performanceSample.Label)} "
                 + $"elapsed_s={_performanceWarmupElapsed + _performanceMeasurementElapsed + frameMilliseconds / 1000.0:F3} frame_ms={frameMilliseconds:F3} "
@@ -410,6 +411,11 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 ? "MENU_DIAGNOSTIC"
                 : shortProbe ? "DIAGNOSTIC_SHORT"
                 : performancePass ? "PASS" : "FAIL";
+
+        foreach (var stallReport in _performanceStallReports)
+        {
+            GD.Print(stallReport);
+        }
 
         GD.Print(string.Join(' ',
             "act1-demo-package-performance:",
@@ -501,6 +507,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private void ConfigurePerformanceProbe(IReadOnlyList<string> commandLine)
     {
+        _performanceStallReports.Clear();
         var modeArgument = commandLine.FirstOrDefault(argument => argument.StartsWith(
             "--urman-perf-probe-mode=",
             StringComparison.Ordinal));
