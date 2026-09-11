@@ -301,7 +301,7 @@
       "id": "FINISH-03",
       "title": "Three investigation cycles and staged final route",
       "milestone": "M5",
-      "status": "ready",
+      "status": "in_progress",
       "active_owner": null,
       "depends_on": [],
       "owner": "finished-act1",
@@ -317,8 +317,16 @@
       "verify": [
         "Narrow existing path selected from handover section 28 after inspecting actual owner."
       ],
-      "evidence": [],
-      "blocked_reason": null
+      "evidence": [
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/investigation_journal_smoke_v2.log",
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/investigation_chapter_smoke.log",
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/investigation_corridor_smoke.log",
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/investigation_checkpoint_smoke.log",
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/investigation_ui_v2_retry.log",
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/investigation_trace/zirat_clue_close.png"
+      ],
+      "blocked_reason": null,
+      "result": "Three manual journal comparisons implemented with retryable hypotheses, actual source acquisition, rereading and checkpoint persistence. Existing route/UI/save checks pass. Ordinary playthrough, Timur staging and timed Rinat finale remain open."
     },
     {
       "id": "FINISH-02",

@@ -213,12 +213,20 @@ public partial class Act1InterruptionSmokeTest : Node
         if (!await Advance(bridge, "official-to-internal-register", "evidence-internal-register")) return;
         main.SwitchZone("house_old_pc", "entry");
         await Frames(1);
+        if (!await bridge.OpenDocumentAsync("urman.oldpc:document/doc_marat_official_death_notice")
+            || !await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict")
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" }))
+        { Fail("The record comparison was rejected."); return; }
         if (!await bridge.DispatchInteractionAsync(Interaction("internal-register-to-rinat"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("rinat_internal_register"), "dangerous-category")
             || !await Advance(bridge, "internal-register-to-saved-message", "evidence-saved-message")
             || !await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")
+            || !await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal")
+            || !await bridge.OpenDocumentAsync("urman.oldpc:document/tw_shurale_urman_boundary")
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" })
             || !await Advance(bridge, "boundary-source-to-reread", "evidence-tatarwiki-reread")
             || !await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")
+            || !await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch")
             || !await Advance(bridge, "edge-sketch-to-zirat-road", "zirat-road"))
         {
             Fail("The return-to-house evidence chain did not reach the zirat road.");
@@ -236,6 +244,8 @@ public partial class Act1InterruptionSmokeTest : Node
             return;
         }
 
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" }))
+        { Fail("The route comparison was rejected."); return; }
         var postZiratClueState = bridge.SelectRuntimeState().GetRawText();
         if (!bridge.IsInteractionAvailable(Interaction("zirat-road-to-forest")))
         {

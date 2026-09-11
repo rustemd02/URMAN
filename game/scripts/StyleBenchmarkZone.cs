@@ -1628,6 +1628,10 @@ public partial class StyleBenchmarkZone : Node3D
         // A narrow vertical tag is a roadside trace, not a cross-shaped
         // grave marker. Keep the same clue location and interaction owner.
         MakeRotatedBox("ZiratRouteTraceTag", new(0.16f, 0.28f, 0.035f), new(-3.55f, 0.62f, -5.70f), new(0, -8, -5), "8d765b", "wood");
+        // The two visible marks are the same concrete landmark drawn on Mansur's sketch.
+        for (var mark = 0; mark < 2; mark++)
+            MakeRotatedBox($"ZiratRouteTraceNotch{mark}", new(.10f, .012f, .008f),
+                new(-3.55f, .59f + mark * .055f, -5.677f), new(0, -8, -5), "30281f", "wood");
         MakeInteractionBox(
             "ZiratRoadsideClue",
             new(0.9f, 1.35f, 0.7f),

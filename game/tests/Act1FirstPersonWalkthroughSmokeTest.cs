@@ -411,6 +411,19 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         // The second house visit checks that the physical route remains usable
         // after the evidence transition. Rinat and the shared archive steps
         // are kept here because they are the Act 1 state gates for the forest.
+        await InteractAt(player, ray, Interaction("oldpc-power"));
+        await Frames(4);
+        var archive = GetTree().GetFirstNodeInGroup("old_pc_ui") as OldPcUi;
+        var archiveRows = archive!.GetNode<ItemList>("Screen/Computer/Layout/WorkArea/Results");
+        var registerIndex = Enumerable.Range(0, archiveRows.ItemCount).Single(index => archiveRows.GetItemMetadata(index).AsString() == "urman.oldpc:document/rec_marat_case_register_conflict");
+        archiveRows.EmitSignal(ItemList.SignalName.ItemSelected, registerIndex);
+        await Frames(6);
+        if (archive.ActiveDocumentId != "urman.oldpc:document/rec_marat_case_register_conflict")
+        { Fail("The returning player could not read the internal register on the old PC."); return; }
+        archive.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+        await Frames(2);
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" }))
+        { Fail("The record comparison was rejected."); return; }
         if (!await InteractAt(player, ray, Interaction("internal-register-to-rinat")))
         {
             return;
@@ -440,6 +453,9 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             "reread-to-edge-sketch"
         })
         {
+            if (interaction == "boundary-source-to-reread"
+                && !await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" }))
+            { Fail("The voice comparison was rejected."); return; }
             if (!await InteractAt(player, ray, Interaction(interaction)))
             {
                 return;
@@ -477,6 +493,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" }))
+        { Fail("The route comparison was rejected."); return; }
         var ziratState = bridge.SelectRuntimeState();
         if (KnowledgeStatus(ziratState, "clue_marat_last_route_near_zirat") != "confirmed")
         {

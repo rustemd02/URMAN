@@ -26,7 +26,16 @@
           "effects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
           "targetSceneId": { "$ref": "common.schema.json#/$defs/ContentId" },
           "targetDialogueId": { "$ref": "common.schema.json#/$defs/ContentId" },
-          "targetDocumentId": { "$ref": "common.schema.json#/$defs/ContentId" }
+          "targetDocumentId": { "$ref": "common.schema.json#/$defs/ContentId" },
+          "journalAction": {
+            "type": "object",
+            "required": ["sourceIds", "resultTextId"],
+            "properties": {
+              "sourceIds": { "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+              "resultTextId": { "$ref": "common.schema.json#/$defs/ContentId" }
+            },
+            "additionalProperties": false
+          }
         },
         "additionalProperties": false,
         "allOf": [
@@ -35,7 +44,10 @@
               "anyOf": [
                 { "required": ["targetSceneId", "targetDialogueId"] },
                 { "required": ["targetSceneId", "targetDocumentId"] },
-                { "required": ["targetDialogueId", "targetDocumentId"] }
+                { "required": ["targetDialogueId", "targetDocumentId"] },
+                { "required": ["journalAction", "targetSceneId"] },
+                { "required": ["journalAction", "targetDialogueId"] },
+                { "required": ["journalAction", "targetDocumentId"] }
               ]
             }
           }

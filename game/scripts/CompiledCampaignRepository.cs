@@ -61,6 +61,8 @@ public sealed record CompiledDocumentContent(
 
 internal sealed record JournalSourceContent(string Id, string Title, string Body);
 
+public sealed record CompiledJournalActionContent(IReadOnlyList<string> SourceIds, string ResultTextId);
+
 public sealed record CompiledInteractionContent(
     string SourceSceneId,
     string Id,
@@ -69,7 +71,8 @@ public sealed record CompiledInteractionContent(
     JsonElement Effects,
     string? TargetSceneId,
     string? TargetDialogueId,
-    string? TargetDocumentId);
+    string? TargetDocumentId,
+    CompiledJournalActionContent? JournalAction = null);
 
 public sealed record CompiledSceneContent(
     string Id,
@@ -147,6 +150,16 @@ public sealed class CompiledCampaignRepository
         _knowledgeInitialStatuses = knowledgeInitialStatuses;
         _vocabularyInitialStatuses = vocabularyInitialStatuses;
         VocabularyEntries = vocabularyEntries;
+        foreach (var action in JournalActions)
+        {
+            var journal = action.JournalAction!;
+            if (journal.SourceIds.Count != 2 || journal.SourceIds.Distinct(StringComparer.Ordinal).Count() != 2
+                || journal.SourceIds.Any(id => !_journalSourcesById.ContainsKey(id))
+                || action.TargetSceneId is not null || action.TargetDialogueId is not null || action.TargetDocumentId is not null)
+                throw new InvalidDataException($"Invalid journal action {action.Id}.");
+            _ = ResolveText(action.LabelTextId);
+            _ = ResolveText(journal.ResultTextId);
+        }
     }
 
     public string CampaignFingerprint { get; }
@@ -176,6 +189,9 @@ public sealed class CompiledCampaignRepository
 
     public bool TryGetInteraction(string interactionId, out CompiledInteractionContent interaction) =>
         _interactionsById.TryGetValue(interactionId, out interaction!);
+
+    public IReadOnlyList<CompiledInteractionContent> JournalActions => _interactionsById.Values
+        .Where(action => action.JournalAction is not null).ToArray();
 
     public CompiledDialogueContent RequireDialogue(string dialogueId) =>
         _dialoguesById.TryGetValue(dialogueId, out var dialogue)
@@ -373,7 +389,10 @@ public sealed class CompiledCampaignRepository
             interaction.GetProperty("effects").Clone(),
             interaction.TryGetProperty("targetSceneId", out var sceneId) ? sceneId.GetString() : null,
             interaction.TryGetProperty("targetDialogueId", out var dialogueId) ? dialogueId.GetString() : null,
-            interaction.TryGetProperty("targetDocumentId", out var documentId) ? documentId.GetString() : null)).ToArray());
+            interaction.TryGetProperty("targetDocumentId", out var documentId) ? documentId.GetString() : null,
+            interaction.TryGetProperty("journalAction", out var journal)
+                ? new CompiledJournalActionContent(journal.GetProperty("sourceIds").EnumerateArray().Select(id => id.GetString()!).ToArray(),
+                    journal.GetProperty("resultTextId").GetString()!) : null)).ToArray());
 
     private static CompiledDialogueContent ReadDialogue(JsonElement dialogue)
     {

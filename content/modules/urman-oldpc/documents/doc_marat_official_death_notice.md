@@ -7,7 +7,7 @@ sourceFile: documents/doc_marat_official_death_notice.md
 assetRefs: ["urman.oldpc:asset/doc-marat-medical-record-bg"]
 knowledgeRefs: ["urman.chapter1:knowledge/clue_marat_official_death_version"]
 accessConditions: []
-openEffects: [{"op":"scene.request","sceneId":"urman.chapter1:scene/evidence-official-death"}]
+openEffects: [{"op":"scene.request","sceneId":"urman.chapter1:scene/evidence-official-death"},{"op":"journal.record","entryId":"urman.oldpc:document/doc_marat_official_death_notice","sourceId":"urman.oldpc:document/doc_marat_official_death_notice"}]
 oldPc: {"type":"document","pcSection":"documents_marat","canonStatus":"canon","reliability":"official_lie","searchTerms":["Марат","смерть","ФАП","сердечная недостаточность","несчастный случай"],"suggestedTerms":["реестр","Нуриманов","зират"]}
 ---
 

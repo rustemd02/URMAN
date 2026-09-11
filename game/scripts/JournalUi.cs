@@ -14,6 +14,13 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private Label _objective = null!;
     private Label _vocabulary = null!;
     private Button _close = null!;
+    private TabBar _tabs = null!;
+    private Control _readerArea = null!;
+    private ScrollContainer _comparison = null!;
+    private readonly OptionButton[] _sourcePickers = new OptionButton[2];
+    private VBoxContainer _hypotheses = null!;
+    private Label _comparisonFeedback = null!;
+    private bool _comparing;
     private RuntimeBridge? _bridge;
     private IReadOnlyList<ResolvedJournalEntry> _projection = [];
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
@@ -41,6 +48,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _objective = GetNode<Label>("Screen/Book/Layout/Objective");
         _vocabulary = GetNode<Label>("Screen/Book/Layout/Vocabulary");
         _close = GetNode<Button>("Screen/Book/Layout/Header/Close");
+        BuildComparisonUi();
         _close.Pressed += Close;
         _entries.ItemSelected += SelectEntry;
         GetViewport().SizeChanged += RefitToViewport;
@@ -55,6 +63,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _accessibility = settings;
         RefitToViewport();
         AccessibilityPresentation.ApplyToControl(_book, settings);
+        var tabFontSize = Mathf.RoundToInt(18 * Mathf.Clamp((float)settings.TextScale, .8f, 1.6f));
+        _tabs.AddThemeFontSizeOverride("font_size", tabFontSize);
+        _tabs.AddThemeColorOverride("font_selected_color", settings.HighContrast ? Colors.White : new Color("f0c46b"));
+        _tabs.AddThemeColorOverride("font_unselected_color", settings.HighContrast ? Colors.White : new Color("e5dbc7"));
+        foreach (var picker in _sourcePickers) picker.GetPopup().AddThemeFontSizeOverride("font_size", tabFontSize);
         _title.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("f0c46b"));
         _body.AddThemeColorOverride("default_color", settings.HighContrast ? Colors.White : new Color("e0d6c2"));
         _source.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("aaa18f"));
@@ -85,12 +98,25 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void Open(RuntimeBridge bridge)
     {
+        if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = bridge;
+        _bridge.RuntimeStateChanged += OnRuntimeStateChanged;
         Refresh();
         UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;
         SetPlayerModal(true);
-        (_projection.Count > 0 ? (Control)_entries : _close).GrabFocus();
+        (_tabs.CurrentTab == 1 ? (Control)_sourcePickers[0] : _projection.Count > 0 ? _entries : _close).GrabFocus();
+    }
+
+    public override void _ExitTree()
+    {
+        if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
+        _bridge = null;
+    }
+
+    private void OnRuntimeStateChanged()
+    {
+        if (IsInsideTree() && _screen.Visible && !_comparing) Refresh();
     }
 
     public void Refresh()
@@ -117,18 +143,21 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _entries.AddThemeConstantOverride("line_separation", 8);
         _entries.AddThemeConstantOverride("v_separation", 4);
 
+        RefreshComparisonSources();
+
         if (_projection.Count == 0)
         {
             ActiveEntryId = null;
             _title.Text = "ЖУРНАЛ";
-            _body.Text = "Пока здесь нет записей. Документы можно сохранить в журнал со старого компьютера.";
+            _body.Text = "Пока здесь нет записей. Найденные ключевые источники появятся здесь; остальные документы можно сохранить вручную.";
             _source.Text = string.Empty;
             return;
         }
 
-        var latest = _projection.Count - 1;
-        _entries.Select(latest);
-        SelectEntry(latest);
+        var selected = _projection.ToList().FindIndex(entry => entry.EntryId == ActiveEntryId);
+        if (selected < 0) selected = _projection.Count - 1;
+        _entries.Select(selected);
+        SelectEntry(selected);
     }
 
     public void RefreshProjection() => Refresh();
@@ -147,9 +176,139 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _source.Text = $"Источник: {entry.SourceTitle}";
     }
 
+    private void BuildComparisonUi()
+    {
+        var layout = GetNode<VBoxContainer>("Screen/Book/Layout");
+        _readerArea = GetNode<Control>("Screen/Book/Layout/WorkArea");
+        _tabs = new TabBar { Name = "Tabs", FocusMode = Control.FocusModeEnum.All, TabAlignment = TabBar.AlignmentMode.Left };
+        _tabs.AddTab("Записи");
+        _tabs.AddTab("Сопоставить");
+        layout.AddChild(_tabs);
+        layout.MoveChild(_tabs, _readerArea.GetIndex());
+        _comparison = new ScrollContainer { Name = "Comparisons", Visible = false,
+            SizeFlagsVertical = Control.SizeFlags.ExpandFill, HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
+        layout.AddChild(_comparison);
+        var contents = new VBoxContainer { Name = "Layout", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        contents.AddThemeConstantOverride("separation", 14);
+        _comparison.AddChild(contents);
+        contents.AddChild(new Label { Text = "Выберите два найденных источника, затем проверьте объяснение.",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        for (var i = 0; i < 2; i++)
+        {
+            var slot = i;
+            var row = new HBoxContainer { Name = $"Source{i + 1}" };
+            contents.AddChild(row);
+            var picker = new OptionButton { Name = "Source", FitToLongestItem = false,
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill, ClipText = true };
+            _sourcePickers[i] = picker;
+            row.AddChild(picker);
+            picker.ItemSelected += _ => RefreshHypotheses();
+            var read = new Button { Text = "Перечитать" };
+            row.AddChild(read);
+            read.Pressed += () =>
+            {
+                var id = SelectedSource(slot);
+                var index = _projection.ToList().FindIndex(entry => entry.SourceId == id);
+                if (index < 0) return;
+                _entries.Select(index);
+                SelectEntry(index);
+                _tabs.CurrentTab = 0;
+            };
+        }
+        _hypotheses = new VBoxContainer { Name = "Hypotheses" };
+        _hypotheses.AddThemeConstantOverride("separation", 10);
+        contents.AddChild(_hypotheses);
+        _comparisonFeedback = new Label { Name = "Feedback", FocusMode = Control.FocusModeEnum.All, AutowrapMode = TextServer.AutowrapMode.WordSmart };
+        contents.AddChild(_comparisonFeedback);
+        _tabs.TabChanged += index =>
+        {
+            _readerArea.Visible = index == 0;
+            _comparison.Visible = index == 1;
+            if (index == 1) _sourcePickers[0].GrabFocus();
+            else if (_projection.Count > 0) _entries.GrabFocus();
+        };
+    }
+
+    private string? SelectedSource(int slot)
+    {
+        var picker = _sourcePickers[slot];
+        return picker.Selected > 0 ? picker.GetItemMetadata(picker.Selected).AsString() : null;
+    }
+
+    private void RefreshComparisonSources()
+    {
+        for (var i = 0; i < 2; i++)
+        {
+            var selected = SelectedSource(i);
+            var picker = _sourcePickers[i];
+            picker.Clear();
+            picker.AddItem(i == 0 ? "Первый источник…" : "Второй источник…");
+            foreach (var entry in _projection.DistinctBy(entry => entry.SourceId))
+            {
+                picker.AddItem(entry.Title);
+                var index = picker.ItemCount - 1;
+                picker.SetItemMetadata(index, entry.SourceId);
+                picker.SetItemTooltip(index, entry.Title);
+                if (entry.SourceId == selected) picker.Select(index);
+            }
+        }
+        RefreshHypotheses();
+    }
+
+    private void RefreshHypotheses()
+    {
+        foreach (var child in _hypotheses.GetChildren()) { _hypotheses.RemoveChild(child); child.QueueFree(); }
+        var first = SelectedSource(0);
+        var second = SelectedSource(1);
+        if (first is null || second is null || first == second)
+        {
+            _comparisonFeedback.Text = "Нужны два разных источника. Любой из них можно перечитать перед выводом.";
+            return;
+        }
+        var actions = _bridge?.JournalActions(new[] { first, second }) ?? [];
+        _comparisonFeedback.Text = actions.Count == 0
+            ? "Эта пара пока не даёт нового вывода. Сверьте, об одном ли вопросе говорят источники; уже проверенные связи не требуют повторного выбора."
+            : "Что следует из обоих источников? Неудачную гипотезу можно пересмотреть.";
+        foreach (var action in actions)
+        {
+            var button = new Button { Text = _bridge!.ResolveText(action.LabelTextId),
+                AutowrapMode = TextServer.AutowrapMode.WordSmart,
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill, Disabled = _comparing };
+            button.Pressed += () => Compare(action, first, second);
+            _hypotheses.AddChild(button);
+        }
+        AccessibilityPresentation.ApplyToControl(_comparison, _accessibility);
+    }
+
+    private async void Compare(CompiledInteractionContent action, string first, string second)
+    {
+        if (_comparing || _bridge is not { } bridge) return;
+        _comparing = true;
+        foreach (var picker in _sourcePickers) picker.Disabled = true;
+        RefreshHypotheses();
+        try
+        {
+            var committed = await bridge.CompareJournalSourcesAsync(action.Id, new[] { first, second });
+            if (!IsInsideTree() || !IsInstanceValid(_screen) || _bridge != bridge || !_screen.Visible) return;
+            Refresh();
+            _comparisonFeedback.Text = committed
+                ? bridge.ResolveText(action.JournalAction!.ResultTextId)
+                : "Состояние изменилось. Выберите найденные источники ещё раз.";
+            _comparisonFeedback.GrabFocus();
+        }
+        finally
+        {
+            _comparing = false;
+            foreach (var picker in _sourcePickers) if (IsInstanceValid(picker)) picker.Disabled = false;
+            if (IsInstanceValid(_hypotheses))
+                foreach (var child in _hypotheses.GetChildren().OfType<Button>()) child.Disabled = false;
+        }
+    }
+
     private void Close()
     {
         _screen.Visible = false;
+        if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = null;
         SetPlayerModal(false);
     }

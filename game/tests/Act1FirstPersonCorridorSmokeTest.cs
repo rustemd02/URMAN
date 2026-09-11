@@ -250,6 +250,19 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         AssertState(main, bridge, "house_old_pc", "evidence-internal-register", "res://scenes/zones/style_benchmark_house_pc.tscn");
         AssertRouteFacing(main, 0f, "return-to-house-pc");
 
+        await InteractAt(player, ray, Interaction("oldpc-power"));
+        await Frames(4);
+        var archive = GetTree().GetFirstNodeInGroup("old_pc_ui") as OldPcUi;
+        var archiveRows = archive!.GetNode<ItemList>("Screen/Computer/Layout/WorkArea/Results");
+        var registerIndex = Enumerable.Range(0, archiveRows.ItemCount).Single(index => archiveRows.GetItemMetadata(index).AsString() == "urman.oldpc:document/rec_marat_case_register_conflict");
+        archiveRows.EmitSignal(ItemList.SignalName.ItemSelected, registerIndex);
+        await Frames(6);
+        if (archive.ActiveDocumentId != "urman.oldpc:document/rec_marat_case_register_conflict")
+        { Fail("The returning player could not read the internal register on the old PC."); return; }
+        archive.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+        await Frames(2);
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" }))
+        { Fail("The record comparison was rejected."); return; }
         await InteractAt(player, ray, Interaction("internal-register-to-rinat"));
         await Frames(5);
         var dialogue = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
@@ -278,6 +291,8 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         CloseDocument();
         await Frames(3);
 
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { SavedMessage, BoundarySource }))
+        { Fail("The voice comparison was rejected."); return; }
         await InteractAt(player, ray, Interaction("boundary-source-to-reread"));
         await Frames(6);
         AssertDocument(BoundarySource);
@@ -296,6 +311,8 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         AssertRouteFacing(main, 0f, "zirat-entry-to-forest");
 
         await InteractAt(player, ray, Interaction("zirat-roadside-clue"));
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" }))
+        { Fail("The route comparison was rejected."); return; }
         if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_last_route_near_zirat") != "confirmed")
         {
             Fail("Corridor zirat roadside interaction did not confirm Marat's last-route clue.");

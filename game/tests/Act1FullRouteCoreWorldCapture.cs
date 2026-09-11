@@ -97,6 +97,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("fap_interior_right", "fap_interior", "fap_clinic", "waiting_room", new(26f, .05f, -30.4f), new(32.2f, 1.45f, -29.2f), "right", "interior-360"),
 
         // Zirat
+        Frame("zirat_clue_close", "zirat", "zirat_road", "village_side", new(-3.2f, .05f, -74.1f), new(-3.55f, .62f, -75.70f), "left", "near"),
         Frame("zirat_forward", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(0f, 1.50f, -75f), "forward", "near-mid-far"),
         Frame("zirat_back", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(0f, 1.50f, -44f), "back", "near-mid-far"),
         Frame("zirat_left", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(-16f, 1.55f, -64f), "left", "lateral"),

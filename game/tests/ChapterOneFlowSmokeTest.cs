@@ -91,6 +91,9 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (!await Advance(bridge, "official-to-internal-register", "evidence-internal-register")) return;
         main.SwitchZone("house_old_pc", "entry");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict")
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" }))
+        { Fail("The first evidence comparison was rejected."); return; }
 
         if (!bridge.IsInteractionAvailable(Interaction("internal-register-to-rinat"))
             || !await bridge.DispatchInteractionAsync(Interaction("internal-register-to-rinat"))
@@ -102,8 +105,14 @@ public partial class ChapterOneFlowSmokeTest : Node
 
         if (!await Advance(bridge, "internal-register-to-saved-message", "evidence-saved-message")) return;
         if (!await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")) return;
+        if (!await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal")
+            || !await bridge.OpenDocumentAsync("urman.oldpc:document/tw_shurale_urman_boundary")
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" }))
+        { Fail("The language evidence comparison was rejected."); return; }
         if (!await Advance(bridge, "boundary-source-to-reread", "evidence-tatarwiki-reread")) return;
         if (!await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
+        if (!await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch"))
+        { Fail("Could not read the edge sketch."); return; }
         var preZiratState = bridge.SelectRuntimeState();
         if (KnowledgeStatus(preZiratState, "clue_marat_last_route_near_zirat") != "hidden")
         {
@@ -117,6 +126,7 @@ public partial class ChapterOneFlowSmokeTest : Node
         var ziratClue = Interaction("zirat-roadside-clue");
         if (!bridge.IsInteractionAvailable(ziratClue)
             || !await bridge.DispatchInteractionAsync(ziratClue)
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" })
             || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_last_route_near_zirat") != "confirmed")
         {
             Fail("The zirat roadside interaction did not grant Marat's route clue through RuntimeBridge.");

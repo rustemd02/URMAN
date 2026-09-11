@@ -5,9 +5,9 @@ title: {"default":"Marat case register line","translations":{"ru":"Строка 
 format: markdown
 sourceFile: documents/rec_marat_case_register_conflict.md
 assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
-knowledgeRefs: ["urman.chapter1:knowledge/clue_marat_case_boundary_marker","urman.chapter1:knowledge/contradiction_marat_official_vs_internal"]
+knowledgeRefs: ["urman.chapter1:knowledge/clue_marat_case_boundary_marker"]
 accessConditions: [{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_marat_official_death_version","status":"confirmed"}]
-openEffects: [{"op":"scene.request","sceneId":"urman.chapter1:scene/evidence-internal-register"}]
+openEffects: [{"op":"scene.request","sceneId":"urman.chapter1:scene/evidence-internal-register"},{"op":"journal.record","entryId":"urman.oldpc:document/rec_marat_case_register_conflict","sourceId":"urman.oldpc:document/rec_marat_case_register_conflict"}]
 oldPc: {"type":"record","pcSection":"internal_accounting","canonStatus":"canon","reliability":"partial_truth","searchTerms":["Марат","реестр","граница","Кара-Урман","закрыто","ответил"],"suggestedTerms":["ответил","граница","компенсация"]}
 ---
 

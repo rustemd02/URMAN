@@ -234,9 +234,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/objective-first-contradiction",
   "value": {
-   "default": "Compare Marat's death record with the internal register line.",
+   "default": "Сопоставить справку о смерти Марата и внутренний реестр в журнале [J].",
    "translations": {
-    "ru": "Сопоставить справку о смерти Марата с внутренней строкой реестра."
+    "ru": "Сопоставить справку о смерти Марата и внутренний реестр в журнале [J]."
    }
   },
   "purpose": "ui"
@@ -245,9 +245,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/objective-language-reread",
   "value": {
-   "default": "Reread the boundary source with the words for sound and response.",
+   "default": "Сопоставить сообщение Марата и статью о границе в журнале [J]. Что связывает голос и ответ?",
    "translations": {
-    "ru": "Перечитать запись о границе, применив слова «тавыш» и «җавап»."
+    "ru": "Сопоставить сообщение Марата и статью о границе в журнале [J]. Что связывает голос и ответ?"
    }
   },
   "purpose": "ui"
@@ -256,9 +256,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/objective-edge",
   "value": {
-   "default": "Follow the zirat road from Mansur's sketch; Rinat has gone ahead.",
+   "default": "Проверить схему у зиратской дороги: осмотреть бирку и сопоставить её со схемой в журнале [J].",
    "translations": {
-    "ru": "Идти по зиратской дороге из схемы Мансура: Ринат уже ушёл вперёд."
+    "ru": "Проверить схему у зиратской дороги: осмотреть бирку и сопоставить её со схемой в журнале [J]."
    }
   },
   "purpose": "ui"
@@ -791,9 +791,9 @@
   "term": "урман",
   "language": "tt",
   "meaning": {
-   "default": "forest",
+   "default": "лес",
    "translations": {
-    "ru": "лес; в Кырлае также граница старых правил"
+    "ru": "лес"
    }
   },
   "initialStatus": "unknown",
@@ -1206,15 +1206,15 @@
   "id": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
   "kind": "clue",
   "title": {
-   "default": "Marat's last route passed the zirat",
+   "default": "Тропа к отмеченному месту",
    "translations": {
-    "ru": "Последний маршрут Марата проходил у зирата"
+    "ru": "Тропа к отмеченному месту"
    }
   },
   "summary": {
-   "default": "A worn trace beside the zirat road places Marat's last route beside the cemetery, not through its center.",
+   "default": "Засечки у канавы совпадают со схемой Мансура: путь к отметке «двойная слышимость» проходит снаружи зирата. Это место стоит проверить вслед за сообщением Марата; сама бирка не доказывает, кто здесь шёл.",
    "translations": {
-    "ru": "Стертый след у зиратской дороги показывает: последний маршрут Марата проходил рядом с кладбищем, а не через его центр."
+    "ru": "Засечки у канавы совпадают со схемой Мансура: путь к отметке «двойная слышимость» проходит снаружи зирата. Это место стоит проверить вслед за сообщением Марата; сама бирка не доказывает, кто здесь шёл."
    }
   },
   "initialStatus": "hidden",
@@ -1236,9 +1236,9 @@
    }
   },
   "summary": {
-   "default": "A folklore source begins to read like a practical boundary note, without explaining the pact.",
+   "default": "Фольклорный источник читается как местная практическая заметка о границе. Её происхождение и смысл пока неясны.",
    "translations": {
-    "ru": "Фольклорный источник начинает читаться как практическая заметка о границе, но не объясняет пакт."
+    "ru": "Фольклорный источник читается как местная практическая заметка о границе. Её происхождение и смысл пока неясны."
    }
   },
   "initialStatus": "hidden",
@@ -1310,9 +1310,9 @@
   "id": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
   "kind": "route",
   "title": {
-   "default": "The Kara-Urman edge is a rule boundary",
+   "default": "Схема тропы за зиратом",
    "translations": {
-    "ru": "Кромка Кара-Урмана — граница правила"
+    "ru": "Схема тропы за зиратом"
    }
   },
   "summary": {
@@ -2315,11 +2315,6 @@
     "status": "confirmed"
    },
    {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
-    "status": "confirmed"
-   },
-   {
     "op": "vocabulary.set-status",
     "vocabularyId": "urman.chapter1:vocabulary/tt_urman",
     "status": "confirmed"
@@ -2484,6 +2479,11 @@
       "characterId": "urman.chapter1:character/rinat",
       "stateKey": "alerted",
       "value": true
+     },
+     {
+      "op": "vocabulary.status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+      "status": "confirmed"
      }
     ],
     "effects": [],
@@ -2528,18 +2528,7 @@
     "value": true
    }
   ],
-  "onEnter": [
-   {
-    "op": "vocabulary.set-status",
-    "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh",
-    "status": "confirmed"
-   },
-   {
-    "op": "vocabulary.set-status",
-    "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
-    "status": "confirmed"
-   }
-  ],
+  "onEnter": [],
   "onExit": [],
   "interactions": [
    {
@@ -2724,7 +2713,7 @@
       "op": "not",
       "condition": {
        "op": "knowledge.status",
-       "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+       "knowledgeId": "urman.chapter1:knowledge/clue_zirat_roadside_marks",
        "status": "confirmed"
       }
      }
@@ -2732,8 +2721,13 @@
     "effects": [
      {
       "op": "knowledge.set-status",
-      "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+      "knowledgeId": "urman.chapter1:knowledge/clue_zirat_roadside_marks",
       "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/clue_zirat_roadside_marks",
+      "sourceId": "urman.chapter1:knowledge/clue_zirat_roadside_marks"
      }
     ]
    },
@@ -3445,5 +3439,513 @@
    "reviewer": null,
    "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
   }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_zirat_roadside_marks",
+  "kind": "clue",
+  "title": {
+   "default": "Бирка у тропы",
+   "translations": {
+    "ru": "Бирка у тропы"
+   }
+  },
+  "summary": {
+   "default": "Тропа идёт вдоль внешней ограды зирата и сворачивает к канаве. На придорожной бирке — две короткие засечки. Имени и даты нет.",
+   "translations": {
+    "ru": "Тропа идёт вдоль внешней ограды зирата и сворачивает к канаве. На придорожной бирке — две короткие засечки. Имени и даты нет."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/zirat-road"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-records-accident",
+  "value": {
+   "default": "Реестр подтверждает несчастный случай.",
+   "translations": {
+    "ru": "Реестр подтверждает несчастный случай."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-records-accident-result",
+  "value": {
+   "default": "В справке есть причина закрытия дела. Но «граница / ответил» её не объясняет. Нужно сравнить именно эти строки.",
+   "translations": {
+    "ru": "В справке есть причина закрытия дела. Но «граница / ответил» её не объясняет. Нужно сравнить именно эти строки."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-records-contradiction",
+  "value": {
+   "default": "У одного дела две разные формулировки.",
+   "translations": {
+    "ru": "У одного дела две разные формулировки."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-records-contradiction-result",
+  "value": {
+   "default": "«Сердечная недостаточность» и «граница / ответил» описывают одно дело разным языком. Это несоответствие, а не доказательство убийства. Теперь можно спросить Рината о точной строке.",
+   "translations": {
+    "ru": "«Сердечная недостаточность» и «граница / ответил» описывают одно дело разным языком. Это несоответствие, а не доказательство убийства. Теперь можно спросить Рината о точной строке."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-records-murder",
+  "value": {
+   "default": "Этого достаточно, чтобы доказать убийство.",
+   "translations": {
+    "ru": "Этого достаточно, чтобы доказать убийство."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-records-murder-result",
+  "value": {
+   "default": "Документы расходятся, но ни один не показывает, кто и что сделал. Обвинение пока опережает доказательства.",
+   "translations": {
+    "ru": "Документы расходятся, но ни один не показывает, кто и что сделал. Обвинение пока опережает доказательства."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-voice-echo",
+  "value": {
+   "default": "Марат описывает обычное эхо.",
+   "translations": {
+    "ru": "Марат описывает обычное эхо."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-voice-echo-result",
+  "value": {
+   "default": "Марат специально пишет: «Не как эхо». А в записи рядом стоят «тавыш» и «җавап». Версия эха оставляет это совпадение без объяснения.",
+   "translations": {
+    "ru": "Марат специально пишет: «Не как эхо». А в записи рядом стоят «тавыш» и «җавап». Версия эха оставляет это совпадение без объяснения."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-voice-link",
+  "value": {
+   "default": "Голос, ответ и граница связаны. Нужно перечитать источник.",
+   "translations": {
+    "ru": "Голос, ответ и граница связаны. Нужно перечитать источник."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-voice-link-result",
+  "value": {
+   "default": "Тавыш — голос или звук; җавап — ответ или отклик. Сообщение Марата делает соседство этих слов в записи тревожным. Связь есть, но что именно происходит у границы, пока неизвестно.",
+   "translations": {
+    "ru": "Тавыш — голос или звук; җавап — ответ или отклик. Сообщение Марата делает соседство этих слов в записи тревожным. Связь есть, но что именно происходит у границы, пока неизвестно."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-voice-creature",
+  "value": {
+   "default": "Марат точно встретил Шүрәле.",
+   "translations": {
+    "ru": "Марат точно встретил Шүрәле."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-voice-creature-result",
+  "value": {
+   "default": "Фольклорное имя в заголовке не устанавливает, кого слышал Марат. Два источника позволяют проверить связь слов, но не назвать того, кто говорил.",
+   "translations": {
+    "ru": "Фольклорное имя в заголовке не устанавливает, кого слышал Марат. Два источника позволяют проверить связь слов, но не назвать того, кто говорил."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-route-center",
+  "value": {
+   "default": "Искать нужно внутри кладбища.",
+   "translations": {
+    "ru": "Искать нужно внутри кладбища."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-route-center-result",
+  "value": {
+   "default": "На схеме тропа обходит зират. Бирка стоит у внешней ограды и канавы. Путь внутрь не совпадает с обоими источниками.",
+   "translations": {
+    "ru": "На схеме тропа обходит зират. Бирка стоит у внешней ограды и канавы. Путь внутрь не совпадает с обоими источниками."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-route-match",
+  "value": {
+   "default": "Канава и две засечки совпадают. Проверю тропу снаружи.",
+   "translations": {
+    "ru": "Канава и две засечки совпадают. Проверю тропу снаружи."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-route-match-result",
+  "value": {
+   "default": "Ориентиры совпали: тропа идёт вдоль ограды к отметке «двойная слышимость». Есть конкретное место для проверки сообщения Марата. Ринат уже здесь — он следил за этим поворотом.",
+   "translations": {
+    "ru": "Ориентиры совпали: тропа идёт вдоль ограды к отметке «двойная слышимость». Есть конкретное место для проверки сообщения Марата. Ринат уже здесь — он следил за этим поворотом."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-route-marat-proof",
+  "value": {
+   "default": "Бирка доказывает, что здесь прошёл Марат.",
+   "translations": {
+    "ru": "Бирка доказывает, что здесь прошёл Марат."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-route-marat-proof-result",
+  "value": {
+   "default": "На бирке нет ни имени, ни даты. Она подтверждает место со схемы, но не личность прошедшего человека.",
+   "translations": {
+    "ru": "На бирке нет ни имени, ни даты. Она подтверждает место со схемы, но не личность прошедшего человека."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/investigation-journal",
+  "sceneType": "presentation",
+  "title": {
+   "default": "Сопоставления в журнале",
+   "translations": {
+    "ru": "Сопоставления в журнале"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/compare-records-accident",
+   "urman.chapter1:text/compare-records-accident-result",
+   "urman.chapter1:text/compare-records-contradiction",
+   "urman.chapter1:text/compare-records-contradiction-result",
+   "urman.chapter1:text/compare-records-murder",
+   "urman.chapter1:text/compare-records-murder-result",
+   "urman.chapter1:text/compare-voice-echo",
+   "urman.chapter1:text/compare-voice-echo-result",
+   "urman.chapter1:text/compare-voice-link",
+   "urman.chapter1:text/compare-voice-link-result",
+   "urman.chapter1:text/compare-voice-creature",
+   "urman.chapter1:text/compare-voice-creature-result",
+   "urman.chapter1:text/compare-route-center",
+   "urman.chapter1:text/compare-route-center-result",
+   "urman.chapter1:text/compare-route-match",
+   "urman.chapter1:text/compare-route-match-result",
+   "urman.chapter1:text/compare-route-marat-proof",
+   "urman.chapter1:text/compare-route-marat-proof-result"
+  ],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/compare-records-accident",
+    "labelTextId": "urman.chapter1:text/compare-records-accident",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": [
+      "urman.oldpc:document/doc_marat_official_death_notice",
+      "urman.oldpc:document/rec_marat_case_register_conflict"
+     ],
+     "resultTextId": "urman.chapter1:text/compare-records-accident-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-records-contradiction",
+    "labelTextId": "urman.chapter1:text/compare-records-contradiction",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+      "status": "confirmed"
+     }
+    ],
+    "journalAction": {
+     "sourceIds": [
+      "urman.oldpc:document/doc_marat_official_death_notice",
+      "urman.oldpc:document/rec_marat_case_register_conflict"
+     ],
+     "resultTextId": "urman.chapter1:text/compare-records-contradiction-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-records-murder",
+    "labelTextId": "urman.chapter1:text/compare-records-murder",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": [
+      "urman.oldpc:document/doc_marat_official_death_notice",
+      "urman.oldpc:document/rec_marat_case_register_conflict"
+     ],
+     "resultTextId": "urman.chapter1:text/compare-records-murder-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-voice-echo",
+    "labelTextId": "urman.chapter1:text/compare-voice-echo",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "alerted",
+      "value": true
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "vocabulary.status",
+       "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": [
+      "urman.oldpc:document/msg_marat_saved_last_normal",
+      "urman.oldpc:document/tw_shurale_urman_boundary"
+     ],
+     "resultTextId": "urman.chapter1:text/compare-voice-echo-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-voice-link",
+    "labelTextId": "urman.chapter1:text/compare-voice-link",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "alerted",
+      "value": true
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "vocabulary.status",
+       "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
+      "status": "hypothesis"
+     },
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
+      "status": "hypothesis"
+     },
+     {
+      "op": "vocabulary.set-status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh",
+      "status": "confirmed"
+     },
+     {
+      "op": "vocabulary.set-status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+      "status": "confirmed"
+     }
+    ],
+    "journalAction": {
+     "sourceIds": [
+      "urman.oldpc:document/msg_marat_saved_last_normal",
+      "urman.oldpc:document/tw_shurale_urman_boundary"
+     ],
+     "resultTextId": "urman.chapter1:text/compare-voice-link-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-voice-creature",
+    "labelTextId": "urman.chapter1:text/compare-voice-creature",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "alerted",
+      "value": true
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "vocabulary.status",
+       "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": [
+      "urman.oldpc:document/msg_marat_saved_last_normal",
+      "urman.oldpc:document/tw_shurale_urman_boundary"
+     ],
+     "resultTextId": "urman.chapter1:text/compare-voice-creature-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-route-center",
+    "labelTextId": "urman.chapter1:text/compare-route-center",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": [
+      "urman.oldpc:document/doc_kara_urman_edge_sketch",
+      "urman.chapter1:knowledge/clue_zirat_roadside_marks"
+     ],
+     "resultTextId": "urman.chapter1:text/compare-route-center-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-route-match",
+    "labelTextId": "urman.chapter1:text/compare-route-match",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+      "status": "confirmed"
+     }
+    ],
+    "journalAction": {
+     "sourceIds": [
+      "urman.oldpc:document/doc_kara_urman_edge_sketch",
+      "urman.chapter1:knowledge/clue_zirat_roadside_marks"
+     ],
+     "resultTextId": "urman.chapter1:text/compare-route-match-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-route-marat-proof",
+    "labelTextId": "urman.chapter1:text/compare-route-marat-proof",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": [
+      "urman.oldpc:document/doc_kara_urman_edge_sketch",
+      "urman.chapter1:knowledge/clue_zirat_roadside_marks"
+     ],
+     "resultTextId": "urman.chapter1:text/compare-route-marat-proof-result"
+    }
+   }
+  ]
  }
 ]

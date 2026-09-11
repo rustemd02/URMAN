@@ -171,6 +171,18 @@ public partial class Act1UiReadabilitySmokeTest : Node
             journal.Open(bridge);
             await Frames(2);
             await SaveShot("journal" + suffix, journal.GetNode<Control>("Screen/Book"), width, height);
+            journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 1;
+            var pair = new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" };
+            for (var slot = 0; slot < 2; slot++)
+            {
+                var picker = journal.GetNode<OptionButton>($"Screen/Book/Layout/Comparisons/Layout/Source{slot + 1}/Source");
+                var sourceIndex = Enumerable.Range(1, picker.ItemCount - 1).Single(i => picker.GetItemMetadata(i).AsString() == pair[slot]);
+                picker.Select(sourceIndex);
+                picker.EmitSignal(OptionButton.SignalName.ItemSelected, sourceIndex);
+            }
+            await Frames(3);
+            await SaveShot("journal_compare" + suffix, journal.GetNode<Control>("Screen/Book"), width, height);
+            journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 0;
             journal._UnhandledInput(Cancel());
 
             bridge.OpenDocumentUi(longest.Id);

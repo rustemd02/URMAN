@@ -3123,3 +3123,11 @@ Linked files: `game/scripts/FootstepAudioController.cs`,
 `game/tests/Act1FootstepSmokeTest.cs`,
 `assets/source/audio/act1/footsteps/`,
 `docs/urman_knowledge_base/audio/act1_sound_map.md`.
+
+## 2026-09-11 — Три ручных вывода в журнале Акта I
+
+Accepted in the current finished-Act-I mandate. Вместо автоматических выводов при переходах игрок сопоставляет две находки и выбирает гипотезу. Существующие interaction/conditions/effects, журнал и RuntimeKernel сохраняют владение данными; `journalAction` — только ограниченная авторская метаинформация пары и ответа. Ключевые документы записываются при открытии, а не входе в сцену.
+
+Старый ID `clue_marat_last_route_near_zirat` сохранён для внутренних ссылок, но видимый вывод уточнён: установлено место со схемы, а не доказан след Марата. Новая сырая улика `clue_zirat_roadside_marks` описывает бирку с двумя засечками у внешней тропы; отметки добавлены в существующее оформление бирки. Статья и черновик больше не выдают точную инструкцию финала.
+
+Anti-Entropy: internal code/content responsibility retirement; obsolete authority — scene entry/document refs confirming the three deductions. Carrier retains observation/progression; canonical owner — explicit journal action through existing kernel. External boundary: none; source-of-truth deletion: none; no approval required within the authorized task. Main-path check: journal choices + chapter route. Negative check: missing source/wrong hypothesis cannot confirm. Boundary check: same source pair is checked in the kernel; save remains SaveGameV3. Final rule timing at Rinat's actual cue start remains a separate pending sound/staging change.

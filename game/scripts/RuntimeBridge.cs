@@ -252,14 +252,14 @@ public partial class RuntimeBridge : Node
         return false;
     }
 
-    private async Task SaveCheckpointAsync()
+    private async Task SaveCheckpointAsync(bool force = false)
     {
         if (_checkpointBusy || _content is null || ActiveSceneId is not { } scene)
         {
             return;
         }
 
-        if (!CheckpointScenes.Contains(scene) || _lastCheckpointScene == scene)
+        if (!force && (!CheckpointScenes.Contains(scene) || _lastCheckpointScene == scene))
         {
             return;
         }
@@ -332,14 +332,13 @@ public partial class RuntimeBridge : Node
 
     public bool IsInteractionAvailable(string interactionId)
     {
-        if (_kernel is null || !_content.TryGetInteraction(interactionId, out var interaction))
+        if (_kernel is null || !_content.TryGetInteraction(interactionId, out var interaction) || interaction.JournalAction is not null)
         {
             return false;
         }
 
         var state = _kernel.SelectState();
-        if (!state.TryGetProperty("activeScene", out var activeScene)
-            || activeScene.GetString() != interaction.SourceSceneId
+        if (!OwnsInteraction(interaction, state)
             || !ContentRuleEngine.EvaluateAll(interaction.Conditions, state))
         {
             return false;
@@ -347,6 +346,28 @@ public partial class RuntimeBridge : Node
 
         return interaction.TargetSceneId is null
             || ContentRuleEngine.EvaluateAll(_content.RequireScene(interaction.TargetSceneId).EntryConditions, state);
+    }
+
+    public IReadOnlyList<CompiledInteractionContent> JournalActions(IReadOnlyCollection<string> sourceIds)
+    {
+        if (_kernel is null || sourceIds.Count != 2 || sourceIds.Distinct(StringComparer.Ordinal).Count() != 2)
+            return [];
+        var found = JournalEntries().Select(entry => entry.SourceId).ToHashSet(StringComparer.Ordinal);
+        if (sourceIds.Any(id => !found.Contains(id))) return [];
+        return _content.JournalActions.Where(action => action.JournalAction!.SourceIds.All(sourceIds.Contains)
+            && EvaluateConditions(action.Conditions)).ToArray();
+    }
+
+    public async Task<bool> CompareJournalSourcesAsync(string actionId, IReadOnlyCollection<string> sourceIds)
+    {
+        var action = JournalActions(sourceIds).FirstOrDefault(action => action.Id == actionId);
+        if (action is null) return false;
+        var result = await DispatchContentApplyAsync(
+            $"journal-compare:{action.Id}:{Interlocked.Increment(ref _interactionSequence):D8}",
+            action.Conditions, action.Effects, activeSceneId: null, journalSources: action.JournalAction!.SourceIds);
+        if (result.Status != CommandStatus.Committed) return false;
+        if (action.Effects.GetArrayLength() > 0) await SaveCheckpointAsync(force: true);
+        return true;
     }
 
     public CompiledDialogueContent RequireDialogue(string dialogueId) => _content.RequireDialogue(dialogueId);
@@ -700,16 +721,21 @@ public partial class RuntimeBridge : Node
         }
     }
 
+    private bool OwnsInteraction(CompiledInteractionContent interaction, JsonElement state) =>
+        // The archive remains usable on returning home; opening it never advances a scene.
+        interaction.Id == "urman.chapter1:interaction/oldpc-power"
+            ? CurrentZoneId == "house_old_pc"
+            : state.TryGetProperty("activeScene", out var scene) && scene.GetString() == interaction.SourceSceneId;
+
     private async Task<bool> DispatchCompiledInteractionAsync(CompiledInteractionContent interaction)
     {
-        if (_kernel is null)
+        if (_kernel is null || interaction.JournalAction is not null)
         {
             return false;
         }
 
         var state = _kernel.SelectState();
-        if (!state.TryGetProperty("activeScene", out var activeSceneValue) ||
-            activeSceneValue.GetString() != interaction.SourceSceneId)
+        if (!OwnsInteraction(interaction, state))
         {
             GD.Print($"interaction-rejected: {interaction.Id} is not owned by the active scene");
             return false;
@@ -717,7 +743,8 @@ public partial class RuntimeBridge : Node
 
         var conditions = Elements(interaction.Conditions).ToList();
         var effects = new List<JsonElement>();
-        effects.AddRange(Elements(_content.RequireScene(interaction.SourceSceneId).OnExit));
+        if (state.GetProperty("activeScene").GetString() == interaction.SourceSceneId)
+            effects.AddRange(Elements(_content.RequireScene(interaction.SourceSceneId).OnExit));
 
         effects.AddRange(Elements(interaction.Effects));
         if (interaction.TargetSceneId is not null)
@@ -751,7 +778,8 @@ public partial class RuntimeBridge : Node
         JsonElement conditions,
         JsonElement effects,
         string? activeSceneId,
-        JsonObject? dialogueChoice = null)
+        JsonObject? dialogueChoice = null,
+        IReadOnlyList<string>? journalSources = null)
     {
         if (_kernel is null)
         {
@@ -766,6 +794,11 @@ public partial class RuntimeBridge : Node
         if (activeSceneId is not null)
         {
             payload["activeSceneId"] = activeSceneId;
+        }
+
+        if (journalSources is not null)
+        {
+            payload["journalSources"] = JsonSerializer.SerializeToNode(journalSources);
         }
 
         if (dialogueChoice is not null)

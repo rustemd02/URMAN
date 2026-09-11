@@ -268,3 +268,9 @@ paths, результат проверок, влияние на канон и о
 ## Граница ответственности
 
 Это руководство объясняет действующую web implementation v1. Portable граница — JSON/Markdown, schemas, IDs и capability protocols; Unity importer, пользовательские моды, live content swap, ECS и произвольный scripting framework не входят в задачу. Если нужен один из них, сначала создай отдельное архитектурное решение.
+
+## Journal actions in Act I (2026-09-11)
+
+An existing scene interaction may carry optional `journalAction: {sourceIds: [idA, idB], resultTextId}`. Exactly two distinct document/knowledge sources are required; scene/dialogue/document transition targets cannot coexist with it. `CompiledCampaignRepository` checks source and localized-text closure on load. JournalUi projects choices; RuntimeBridge validates the selected pair and dispatches the same `content.apply` command. The kernel checks source presence against the transaction's journal before applying effects. Physical interaction dispatch rejects journal actions. No second narrative state or save format is introduced.
+
+Keep observation and conclusion separate. Record key document sources in their `openEffects` and physical observations with `journal.record`. A wrong hypothesis has authored feedback and no destructive effects; the successful choice changes existing knowledge/vocabulary state. Do not also confirm that conclusion in `onEnter` or a document's `knowledgeRefs`.

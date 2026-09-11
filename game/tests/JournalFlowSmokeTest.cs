@@ -27,9 +27,9 @@ public partial class JournalFlowSmokeTest : Node
         }
 
         await bridge.HandleOldPcInputAsync(Input("open"));
-        if (bridge.JournalEntries().Count != 0)
+        if (bridge.JournalEntries().Count != 1)
         {
-            Fail("Opening a document added it before the explicit journal action.");
+            Fail("Opening a key evidence document did not record its readable source.");
             return;
         }
 
@@ -49,7 +49,7 @@ public partial class JournalFlowSmokeTest : Node
             || journal.ActiveEntryId != OfficialNotice
             || !journal.CurrentObjectiveText.Contains("Сопоставить справку о смерти Марата", StringComparison.Ordinal)
             || !journal.LearnedVocabularyText.Contains("урман", StringComparison.Ordinal)
-            || !journal.LearnedVocabularyText.Contains("граница старых правил", StringComparison.Ordinal))
+            || !journal.LearnedVocabularyText.Contains("лес", StringComparison.Ordinal))
         {
             Fail("Journal UI did not render the shared runtime projection, active objective and first Tatar vocabulary meaning.");
             return;
@@ -85,7 +85,49 @@ public partial class JournalFlowSmokeTest : Node
         oldPc.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
         await Frames(2);
 
-        GD.Print("journal-flow-smoke: old PC save -> journal shortcut + active objective projection");
+        const string register = "urman.oldpc:document/rec_marat_case_register_conflict";
+        var pair = new[] { OfficialNotice, register };
+        var compare = "urman.chapter1:interaction/compare-records-contradiction";
+        if (await bridge.CompareJournalSourcesAsync(compare, pair))
+        { Fail("Comparison accepted a source that was not found."); return; }
+        await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "open", documentId = register }));
+        var before = bridge.ActiveSceneId;
+        if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() == "confirmed")
+        { Fail("Reading the register still completed the comparison automatically."); return; }
+        journal.Open(bridge);
+        journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 1;
+        for (var slot = 0; slot < 2; slot++)
+        {
+            var picker = journal.GetNode<OptionButton>($"Screen/Book/Layout/Comparisons/Layout/Source{slot + 1}/Source");
+            var index = Enumerable.Range(1, picker.ItemCount - 1).Single(index => picker.GetItemMetadata(index).AsString() == pair[slot]);
+            picker.Select(index);
+            picker.EmitSignal(OptionButton.SignalName.ItemSelected, index);
+        }
+        var choices = journal.GetNode<VBoxContainer>("Screen/Book/Layout/Comparisons/Layout/Hypotheses");
+        var wrong = choices.GetChildren().OfType<Button>().First();
+        wrong.EmitSignal(Button.SignalName.Pressed);
+        await Frames(8);
+        if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() == "confirmed"
+            || choices.GetChildCount() != 3)
+        { Fail("A wrong hypothesis completed or locked the comparison."); return; }
+        choices.GetChildren().OfType<Button>().Single(button => button.Text == bridge.ResolveText("urman.chapter1:text/compare-records-contradiction"))
+            .EmitSignal(Button.SignalName.Pressed);
+        await Frames(8);
+        if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() != "confirmed"
+            || bridge.ActiveSceneId != before || bridge.JournalEntries().Count != 2)
+        { Fail("Journal choice did not confirm the deduction while preserving its sources and scene."); return; }
+        journal._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        journal.Open(bridge);
+        if (!journal.GetNode<OptionButton>("Screen/Book/Layout/Comparisons/Layout/Source1/Source").HasFocus())
+        { Fail("Reopened comparison did not focus its visible source picker."); return; }
+        journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 0;
+        journal.GetNode<ItemList>("Screen/Book/Layout/WorkArea/Entries").EmitSignal(ItemList.SignalName.ItemSelected, 0);
+        var retainedEntry = journal.ActiveEntryId;
+        journal.RefreshProjection();
+        if (journal.ActiveEntryId != retainedEntry)
+        { Fail("Journal refresh discarded the source being reread."); return; }
+        journal._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        GD.Print("journal-flow-smoke: key sources -> manual pair + wrong/retry/right -> shared conclusion without scene transition");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }

@@ -111,6 +111,18 @@ public static class NarrativeCommandHandlers
 
     private static CommandPlan HandleContentApply(GameCommand command, RuntimeCommandContext context)
     {
+        // Check the evidence against the transaction state, including after load/restart.
+        if (command.Payload.TryGetProperty("journalSources", out var sourceValues))
+        {
+            if (sourceValues.ValueKind != JsonValueKind.Array || sourceValues.GetArrayLength() != 2)
+                throw new ArgumentException("A journal comparison requires two sources.");
+            var sources = sourceValues.EnumerateArray().Select(value => new ContentId(value.GetString()!).Value).ToArray();
+            var found = context.State.GetProperty("journal").EnumerateArray()
+                .Select(entry => entry.GetProperty("sourceId").GetString()).ToHashSet(StringComparer.Ordinal);
+            if (sources[0] == sources[1] || sources.Any(id => !found.Contains(id)))
+                return new(Rejection: new("JournalSourcesMissing", "Find both sources before comparing them."));
+        }
+
         var conditions = command.Payload.TryGetProperty("conditions", out var conditionValue)
             ? conditionValue
             : JsonSerializer.SerializeToElement(Array.Empty<object>());

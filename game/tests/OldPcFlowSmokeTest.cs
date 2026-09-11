@@ -35,6 +35,9 @@ public partial class OldPcFlowSmokeTest : Node
         }
 
         await bridge.HandleOldPcInputAsync(Input("open", InternalRegister));
+        if (bridge.IsOldPcDocumentAccessible(SavedMessage)
+            || !await bridge.CompareJournalSourcesAsync("urman.chapter1:interaction/compare-records-contradiction", new[] { OfficialNotice, InternalRegister }))
+        { Fail("The register must require an explicit source comparison."); return; }
         if (!bridge.IsOldPcDocumentAccessible(SavedMessage) ||
             bridge.OldPcState().GetProperty("activeDocumentId").GetString() != InternalRegister)
         {
