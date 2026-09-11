@@ -101,10 +101,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
         BuildTerrainCollision();
         ConformRoadPresentation();
-        BuildArchitectureCollision();
-        // These seven meshes have physical trimeshes. Retain the authored upper
-        // silhouette, but extend the hidden lower half into the snow so the
-        // unchanged raised collider no longer appears to float above the ground.
+        // Settle the retained banks into the ground before creating their
+        // collision, so the visible low profile and physical boundary agree.
         foreach (var mesh in EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_KaraEdgeKit")).ToArray())
         {
             var name = mesh.Name.ToString();
@@ -138,14 +136,17 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             {
                 var arrays = source.SurfaceGetArrays(i);
                 var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
-                var center = vertices.Select(vertex => mesh.ToGlobal(vertex)).Aggregate(Vector3.Zero, (sum, point) => sum + point) / vertices.Length;
+                var bounds = mesh.GlobalTransform * source.GetAabb();
+                var center = bounds.GetCenter();
                 for (var v = 0; v < vertices.Length; v++)
                 {
                     var point = mesh.ToGlobal(vertices[v]);
-                    if (point.Y >= center.Y) continue;
-                    point.X = center.X + (point.X - center.X) * 1.15f;
-                    point.Z = center.Z + (point.Z - center.Z) * 1.15f;
-                    point.Y = Mathf.Min(point.Y, AgentBAct1HeightField.CollisionGround(point.X, point.Z) - .04f);
+                    var level = Mathf.Clamp((point.Y - bounds.Position.Y) / Mathf.Max(bounds.Size.Y, .01f), 0f, 1f);
+                    var shoulder = .95f + .20f * Mathf.Sin(level * Mathf.Pi);
+                    point.X = center.X + (point.X - center.X) * shoulder;
+                    point.Z = center.Z + (point.Z - center.Z) * shoulder;
+                    point.Y = AgentBAct1HeightField.CollisionGround(point.X, point.Z)
+                        + Mathf.Lerp(-.60f, name.StartsWith("KaraRoot_") ? .80f : .65f, level);
                     vertices[v] = mesh.ToLocal(point);
                 }
                 arrays[(int)Mesh.ArrayType.Vertex] = vertices;
@@ -158,8 +159,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 surface.Commit(reshaped);
             }
             mesh.Mesh = reshaped;
-            mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("747b7c", name.StartsWith("KaraStone_") ? "plaster" : "bark_pine");
+            mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("60685d", "stone");
         }
+        BuildArchitectureCollision();
         PlantFoliage();
         BuildEnvironment();
         BuildKaraAccentLights();

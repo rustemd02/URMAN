@@ -185,14 +185,18 @@ public partial class Act1ConnectedWorld
                 "The selected authored rear corner has no mesh for the minaret view.");
         var cornerBounds = rearCorner.GlobalTransform * cornerMesh.GetAabb();
         var awayFromHouse = HorizontalDirection(cornerBounds.GetCenter() - facade.GlobalPosition);
-        var accessAnchor = cornerBounds.GetCenter() + awayFromHouse * 1.60f;
+        var accessAnchor = cornerBounds.GetCenter() + awayFromHouse * 1.60f + Vector3.Left * 2.60f;
         accessAnchor.Y = AgentBAct1HeightField.CollisionGround(accessAnchor.X, accessAnchor.Z);
 
+        // Let the player discover the landmark while looking up toward it,
+        // rather than searching the snow for an invisible selection box.
+        var eye = accessAnchor + Vector3.Up * 1.7f;
+        var sightline = (minaret.GlobalPosition + Vector3.Up * 13f - eye).Normalized();
         var target = DiscoveryTarget(
             village,
             HouseExteriorViewSlug,
-            new(1.05f, 1.25f, 1.05f),
-            village.ToLocal(accessAnchor + Vector3.Up * .68f),
+            new(.9f, .9f, .9f),
+            village.ToLocal(eye + sightline * 1.6f),
             journal: true);
         target.SetMeta("activePropPath", rearCorner.GetPath().ToString());
         target.SetMeta("sourceFacadePath", facade.GetPath().ToString());

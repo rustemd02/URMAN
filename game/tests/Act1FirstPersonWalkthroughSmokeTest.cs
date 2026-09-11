@@ -78,7 +78,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         {
             foreach (var point in AgentBAct1Layout.WalkChain.Skip(1).Take(3).Concat(AgentBAct1Layout.HousePathAxis.Skip(1)))
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-approach-{point.X}-{point.Y}")) return;
-            var access = new Vector2[] { new(-24.4f,2.6f), new(-26.05f,2.6f), new(-29f,2.6f), new(-34.2f,.8f), new(-34.2f,-8.6f), new(-31.3f,-8.6f) };
+            var access = new Vector2[] { new(-24.4f,2.6f), new(-26.05f,2.6f), new(-29f,2.6f), new(-34.2f,.8f), new(-34.2f,-8.6f), new(-33.8311f,-8.711206f) };
             foreach (var point in access)
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-side-{point.X}-{point.Y}")) return;
             if (!await InteractAt(player, ray, Interaction("discover-house-exterior-rear-minaret-view"))) return;

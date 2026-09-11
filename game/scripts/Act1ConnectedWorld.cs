@@ -7501,16 +7501,42 @@ public partial class Act1ConnectedWorld : Node3D
         minaret.SetMeta("culturalReview", "open — Tatar/islamic presentation must be reviewed by a consultant");
         parent.AddChild(minaret);
 
-        AddVisualBox(minaret, "MinaretShaft", new(2.05f, 16.5f, 2.05f), new(0f, 8.25f, 0f), "7d7a6c", "plaster");
-        AddVisualBox(minaret, "MinaretBase", new(2.55f, 2.1f, 2.55f), new(0f, 1.05f, 0f), "6e6b5f", "stone");
-        AddVisualBox(minaret, "MinaretBalcony", new(2.9f, 0.34f, 2.9f), new(0f, 16.6f, 0f), "8a8676", "plaster");
-        AddVisualBox(minaret, "MinaretUpperShaft", new(1.5f, 2.3f, 1.5f), new(0f, 17.9f, 0f), "84806f", "plaster");
-        AddVisualBox(minaret, "MinaretCap", new(1.75f, 0.28f, 1.75f), new(0f, 19.15f, 0f), "6d6a5e", "stone");
-        // Simple conical spire, no crescent or calligraphy (cultural gate).
-        AddVisualBox(minaret, "MinaretSpire", new(0.55f, 1.5f, 0.55f), new(0f, 20.0f, 0f), "7a7768", "plaster");
-        AddVisualBox(minaret, "MinaretSpireTip", new(0.18f, 0.7f, 0.18f), new(0f, 21.05f, 0f), "6d6a5e", "stone");
-        AddVisualBox(minaret, "MinaretSnowCap", new(2.35f, 0.14f, 2.35f), new(0f, 16.82f, 0f), "eef2f6", "snow_ground");
-        AddVisualBox(minaret, "MinaretBaseSnow", new(2.65f, 0.12f, 2.65f), new(0f, 2.16f, 0f), "eef2f6", "snow_ground");
+        // Restrained eight-sided masonry gives the distant landmark a legible
+        // village silhouette without turning it into a generic box or adding
+        // religious symbols. Keep every existing child name for route/frame
+        // probes and authored presentation checks.
+        void AddMinaretOctagon(string childName, float bottomRadius, float topRadius,
+            float height, float centerY, string color, string surface)
+        {
+            var mesh = new MeshInstance3D
+            {
+                Name = childName,
+                Position = new Vector3(0f, centerY, 0f),
+                Mesh = new CylinderMesh
+                {
+                    BottomRadius = bottomRadius,
+                    TopRadius = topRadius,
+                    Height = height,
+                    RadialSegments = 8,
+                    Rings = 1
+                },
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface)
+            };
+            mesh.SetMeta("visualOnly", true);
+            minaret.AddChild(mesh);
+        }
+
+        AddMinaretOctagon("MinaretShaft", 0.72f, 0.60f, 14.65f, 9.25f, "7d7a6c", "plaster");
+        AddMinaretOctagon("MinaretBase", 1.30f, 1.14f, 2.10f, 1.05f, "6e6b5f", "stone");
+        AddMinaretOctagon("MinaretBalcony", 0.99f, 0.91f, 0.22f, 16.66f, "8a8676", "plaster");
+        AddMinaretOctagon("MinaretUpperShaft", 0.52f, 0.42f, 2.20f, 17.87f, "84806f", "plaster");
+        AddMinaretOctagon("MinaretCap", 0.70f, 0.62f, 0.18f, 19.06f, "6d6a5e", "stone");
+        // A slim muted green roof keeps the skyline local and winter-soft;
+        // there is no crescent, calligraphy, or invented religious ornament.
+        AddMinaretOctagon("MinaretSpire", 0.64f, 0.035f, 1.28f, 19.79f, "52685f", "roof_metal");
+        AddMinaretOctagon("MinaretSpireTip", 0.035f, 0.012f, 0.97f, 20.915f, "6d6a5e", "stone");
+        AddMinaretOctagon("MinaretSnowCap", 1.05f, 0.97f, 0.11f, 16.825f, "eef2f6", "snow_ground");
+        AddMinaretOctagon("MinaretBaseSnow", 1.32f, 1.22f, 0.11f, 2.155f, "eef2f6", "snow_ground");
     }
 
 /// <summary>
