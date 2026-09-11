@@ -249,7 +249,7 @@
       "id": "FINISH-05",
       "title": "Winter sound and complete cue lifecycle",
       "milestone": "M5",
-      "status": "ready",
+      "status": "in_progress",
       "active_owner": null,
       "depends_on": [],
       "owner": "finished-act1",
@@ -266,7 +266,10 @@
       "verify": [
         "Narrow existing path selected from handover section 28 after inspecting actual owner."
       ],
-      "evidence": [],
+      "evidence": [
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/footsteps_regenerate.log",
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/footsteps_smoke_v2.log"
+      ],
       "blocked_reason": null
     },
     {

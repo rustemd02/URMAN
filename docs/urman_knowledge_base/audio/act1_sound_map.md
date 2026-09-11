@@ -22,6 +22,28 @@ sensationalism — tension is built from ordinary sound going quiet or wrong.
 - Footsteps (AUDIO-004) and UI foley (AUDIO-010) are presentation-only: they
   never write state.
 
+## Footsteps (AUDIO-004, winter runtime)
+
+`FootstepAudioController` owns the four active Act I surface families:
+`snow_packed`, `snow_soft`, `wood` and `interior_floor`, with three
+source-derived variants per family. The outdoor choice uses the existing
+`AgentBAct1HeightField.RoadInfo`: `Distance < HalfWidth` resolves to packed
+snow and the remaining outdoor ground resolves to soft snow. The house maps to
+`wood`; the FAP maps to `interior_floor`.
+
+Cadence is based on the player's actual XZ displacement at `0.55 m`, matching
+the `SnowTrampleField` stride. Zone-spawn/load revisions, direct teleports,
+modal frames and airborne frames reset the accumulator. Reduced motion keeps
+footstep audio enabled while continuing to govern camera and other motion
+presentation. The legacy wet-road, mud and grass WAVs remain in the repository
+as inactive historical assets.
+
+The four families are CC0 source-derived candidates. Their source paths,
+archive hashes, per-file hashes and conversion record live in
+`game/assets/audio/act1/footsteps/manifest.json`; the source codecs and license
+texts are retained under `assets/source/audio/act1/footsteps/`. Human listening,
+mix and cultural review remain open.
+
 ## Zone/segment map
 
 | Segment | Bed (current → target) | Spot events | Intended read |

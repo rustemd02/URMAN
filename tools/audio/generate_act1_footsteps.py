@@ -1,78 +1,128 @@
 #!/usr/bin/env python3
-"""Generate deterministic, project-original footstep samples for Act I.
+"""Convert the curated CC0 Act I footstep sources.
 
-AUDIO-004: one short step sample per surface family (wet road, mud, grass,
-wood, interior floor). These are procedural sound-design placeholders in the
-same project-original pattern as the ambience stems; authored foley and human
-listening review remain release gates (AUDIO-014, CULTURE-004).
+The winter runtime uses four source-backed families: packed snow, soft snow,
+house wood and the FAP interior floor.  The checked-in wet-road, mud and grass
+WAVs are retained as inactive historical assets and are intentionally not
+regenerated here.  Conversion uses macOS's built-in ``afconvert``; no Python
+packages or machine-specific source paths are required.
 """
 
 from __future__ import annotations
 
-import math
-import random
+import shutil
+import struct
+import subprocess
+import tempfile
 import wave
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+SOURCE_ROOT = ROOT / "assets/source/audio/act1/footsteps"
 OUT = ROOT / "game/assets/audio/act1/footsteps"
-SAMPLE_RATE = 24_000
 
-# Surface family -> (seed, decay power, thump Hz, crunch level, brightness)
-SURFACES = {
-    "wet_road": (11, 9.0, 95.0, 0.55, 0.30),
-    "mud": (23, 6.5, 70.0, 0.80, 0.12),
-    "grass": (37, 11.0, 110.0, 0.45, 0.45),
-    "wood": (51, 8.0, 130.0, 0.25, 0.20),
-    "interior_floor": (67, 12.0, 85.0, 0.35, 0.25),
+SOURCES = {
+    **{
+        f"step_snow_packed_{variant:02d}.wav":
+        Path("corsica_snow")
+        / f"Corsica_S-Walking_on_snow_covered_gravel_and_ice_{variant + 1:02d}.flac"
+        for variant in range(3)
+    },
+    **{
+        f"step_snow_soft_{variant:02d}.wav": Path("kenney") / f"footstep_snow_{variant:03d}.ogg"
+        for variant in range(3)
+    },
+    **{
+        f"step_wood_{variant:02d}.wav": Path("kenney") / f"footstep_wood_{variant:03d}.ogg"
+        for variant in range(3)
+    },
+    **{
+        f"step_interior_floor_{variant:02d}.wav": Path("kenney") / f"footstep_concrete_{variant:03d}.ogg"
+        for variant in range(3)
+    },
 }
-VARIANTS = 3
 
 
-def step_sample(rng: random.Random, surface: dict, index: int) -> list[float]:
-    seed, decay, thump, crunch, brightness = surface
-    duration = 0.16 + 0.02 * ((index + seed) % 3)
-    count = int(SAMPLE_RATE * duration)
-    samples: list[float] = []
-    local = random.Random(seed * 100 + index)
-    for position in range(count):
-        t = position / SAMPLE_RATE
-        envelope = math.exp(-decay * (t * SAMPLE_RATE / SAMPLE_RATE) * 40.0 / decay)
-        attack = min(1.0, position / (SAMPLE_RATE * 0.004))
-        thump_wave = math.sin(2.0 * math.pi * thump * t) * (1.0 - min(1.0, t * 14.0))
-        noise = local.uniform(-1.0, 1.0)
-        crunch_wave = 0.0
-        if crunch > 0.0:
-            gate = 1.0 if local.random() < crunch else 0.0
-            crunch_wave = noise * gate * brightness * 3.0
-        splash = noise * brightness * 0.35 * math.exp(-t * 60.0)
-        value = envelope * attack * (0.5 * thump_wave + 0.28 * crunch_wave + 0.20 * splash)
-        samples.append(max(-0.85, min(0.85, value)))
-    return samples
+def convert(source: Path, target: Path) -> None:
+    if not source.is_file():
+        raise FileNotFoundError(f"missing footstep source: {source}")
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="urman-footsteps-", dir=target.parent) as temporary:
+        staged = Path(temporary) / target.name
+        subprocess.run(
+            [
+                "afconvert",
+                "-f",
+                "WAVE",
+                "-d",
+                "LEI16@44100",
+                "-c",
+                "1",
+                str(source),
+                str(staged),
+            ],
+            check=True,
+        )
+        normalized = Path(temporary) / f"normalized-{target.name}"
+        normalize_pcm_wav(staged, normalized)
+        normalized.replace(target)
 
 
-def write_wav(path: Path, samples: list[float]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with wave.open(str(path), "wb") as stream:
-        stream.setnchannels(1)
-        stream.setsampwidth(2)
-        stream.setframerate(SAMPLE_RATE)
-        frames = bytearray()
-        for value in samples:
-            frames += int(max(-1.0, min(1.0, value)) * 32767).to_bytes(2, "little", signed=True)
-        stream.writeframes(bytes(frames))
+def normalize_pcm_wav(source: Path, target: Path) -> None:
+    """Write afconvert's PCM payload with the standard 16-bit RIFF header."""
+    raw = source.read_bytes()
+    if raw[:4] != b"RIFF" or raw[8:12] != b"WAVE":
+        raise ValueError(f"afconvert did not produce a RIFF/WAVE file: {source}")
+
+    fmt: bytes | None = None
+    data: bytes | None = None
+    cursor = 12
+    while cursor + 8 <= len(raw):
+        chunk_id = raw[cursor : cursor + 4]
+        chunk_size = struct.unpack_from("<I", raw, cursor + 4)[0]
+        start = cursor + 8
+        end = start + chunk_size
+        if end > len(raw):
+            raise ValueError(f"truncated RIFF chunk in {source}")
+        if chunk_id == b"fmt " and fmt is None:
+            fmt = raw[start:end]
+        elif chunk_id == b"data" and data is None:
+            data = raw[start:end]
+        cursor = end + (chunk_size & 1)
+
+    if fmt is None or data is None or len(fmt) < 16:
+        raise ValueError(f"afconvert output has no usable PCM chunks: {source}")
+
+    audio_format, channels, sample_rate, _, block_align, bits = struct.unpack_from(
+        "<HHIIHH", fmt, 0
+    )
+    if audio_format == 0xFFFE:
+        if len(fmt) < 40 or struct.unpack_from("<H", fmt, 24)[0] != 1:
+            raise ValueError(f"unsupported WAVE_EXTENSIBLE subtype in {source}")
+    elif audio_format != 1:
+        raise ValueError(f"afconvert output is not PCM: format={audio_format}")
+    if channels != 1 or sample_rate != 44100 or bits != 16 or block_align != 2:
+        raise ValueError(
+            f"unexpected PCM format in {source}: {channels}ch/{sample_rate}Hz/{bits}bit"
+        )
+
+    with wave.open(str(target), "wb") as stream:
+        stream.setnchannels(channels)
+        stream.setsampwidth(bits // 8)
+        stream.setframerate(sample_rate)
+        stream.writeframes(data)
 
 
 def main() -> None:
-    for surface_name, surface in SURFACES.items():
-        for variant in range(VARIANTS):
-            rng = random.Random(surface[0] * 7 + variant)
-            _ = rng
-            samples = step_sample(rng, surface, variant)
-            path = OUT / f"step_{surface_name}_{variant:02d}.wav"
-            write_wav(path, samples)
-            print(f"footsteps: {path.name} samples={len(samples)}")
+    if shutil.which("afconvert") is None:
+        raise SystemExit("afconvert is required to convert the checked-in CC0 sources")
+
+    for filename, relative_source in SOURCES.items():
+        target = OUT / filename
+        convert(SOURCE_ROOT / relative_source, target)
+        print(f"footsteps: {filename} <- {relative_source}")
 
 
 if __name__ == "__main__":

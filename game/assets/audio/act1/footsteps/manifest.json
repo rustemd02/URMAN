@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.act1_footstep_manifest",
+  "status": "technical-runtime-pass; listening-review-open",
+  "note": "The four winter surface families are source-derived CC0 candidates. Runtime routing is integrated; human listening, mix and cultural review remain open.",
+  "processing": "afconvert decode/downmix mono PCM16 44.1kHz; standard RIFF PCM header",
+  "licenseFiles": [
+    "assets/source/audio/act1/footsteps/corsica_snow/readme.txt",
+    "assets/source/audio/act1/footsteps/kenney/License.txt",
+    "assets/source/audio/act1/footsteps/kenney/Kenney.url"
+  ],
+  "sources": [
+    {
+      "author": "Corsica_S; extracted by Iwan Gabovitch",
+      "page": "https://opengameart.org/content/42-snow-and-gravel-footsteps",
+      "archive": "corsica_s-walking_in_snow.7z",
+      "archiveSha256": "206306b51f8eeedf82043d6628174ec8ff9b16230dffb5192a5c74688e62abd4",
+      "license": "CC0-1.0"
+    },
+    {
+      "author": "Kenney",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "archive": "kenney_impact-sounds.zip",
+      "archiveSha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8",
+      "license": "CC0-1.0"
+    }
+  ],
+  "files": [
+    {
+      "surface": "snow_packed",
+      "file": "res://assets/audio/act1/footsteps/step_snow_packed_00.wav",
+      "source": "assets/source/audio/act1/footsteps/corsica_snow/Corsica_S-Walking_on_snow_covered_gravel_and_ice_01.flac",
+      "sourceSha256": "5cafa1340f3c981c6c624c15f925373d0bb9c44a2e1c806ac1d7dc31cdb8cdfe",
+      "sha256": "aa7465fb011d33af3106bc515cfdaf305a874b0fc930c1aec470fa4708d7012b",
+      "seconds": 0.4423809523809524,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "snow_packed",
+      "file": "res://assets/audio/act1/footsteps/step_snow_packed_01.wav",
+      "source": "assets/source/audio/act1/footsteps/corsica_snow/Corsica_S-Walking_on_snow_covered_gravel_and_ice_02.flac",
+      "sourceSha256": "a801a7bd981281625d92c41ac1b88f4760bf7d287f21348208a91fb8c2726f47",
+      "sha256": "06b9340adb1426998e2e77ea1e50e155989ec440c89f0174973339b2a0396a57",
+      "seconds": 0.63,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "snow_packed",
+      "file": "res://assets/audio/act1/footsteps/step_snow_packed_02.wav",
+      "source": "assets/source/audio/act1/footsteps/corsica_snow/Corsica_S-Walking_on_snow_covered_gravel_and_ice_03.flac",
+      "sourceSha256": "17b53cd24dc83ef457206e6dfa03d51be6197cd7b5fd33f6dbdf49fdf76ded48",
+      "sha256": "3c9265136cd50d55a762072d7a3979ed34eb9b79250c87ef2c150218462464a9",
+      "seconds": 0.637233560090703,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "snow_soft",
+      "file": "res://assets/audio/act1/footsteps/step_snow_soft_00.wav",
+      "source": "assets/source/audio/act1/footsteps/kenney/footstep_snow_000.ogg",
+      "sourceSha256": "c05fa4a9dc9a7aabc04996466fb589537e49af76de9998d8f9e6270ec92dcef7",
+      "sha256": "e06b7f64653642279de78ac8262656d213206ca25edb46ce549574e17cabdff6",
+      "seconds": 0.3713151927437642,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "snow_soft",
+      "file": "res://assets/audio/act1/footsteps/step_snow_soft_01.wav",
+      "source": "assets/source/audio/act1/footsteps/kenney/footstep_snow_001.ogg",
+      "sourceSha256": "980fb9a1c9227aed7995067b0357f373053337f2416316db8ea0438418542fb4",
+      "sha256": "3c99f843c4183d2a9767c532cbe2b56e3ebf00dfbebf8b72103aa2601e72c8d2",
+      "seconds": 0.3713151927437642,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "snow_soft",
+      "file": "res://assets/audio/act1/footsteps/step_snow_soft_02.wav",
+      "source": "assets/source/audio/act1/footsteps/kenney/footstep_snow_002.ogg",
+      "sourceSha256": "db52bafdc66304f3b999f2c29227826c65993916e630ac2ffbca17d07b263178",
+      "sha256": "4d7f6fe79da143bd9e04e85416ab30ef05568f468128484f03a739b156e3c3ed",
+      "seconds": 0.3713151927437642,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "wood",
+      "file": "res://assets/audio/act1/footsteps/step_wood_00.wav",
+      "source": "assets/source/audio/act1/footsteps/kenney/footstep_wood_000.ogg",
+      "sourceSha256": "5f1c252942a220d658121bd9417448cd19649ded9fff2ff15f6e50899373ce8e",
+      "sha256": "afc68abec8b107d5e79a1f8c70accf82d327afd7ceec3a4222953af4b3eb8936",
+      "seconds": 0.2466893424036281,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "wood",
+      "file": "res://assets/audio/act1/footsteps/step_wood_01.wav",
+      "source": "assets/source/audio/act1/footsteps/kenney/footstep_wood_001.ogg",
+      "sourceSha256": "e4f68e1c9fd55b4dc8ca89ed2bbab6f200171bc54bdc18aa96b80d8e7336f462",
+      "sha256": "4f988edd7a5963706afd7bf50701e0b46ed57ed3c277f105a8bc5975975f4202",
+      "seconds": 0.24866213151927438,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "wood",
+      "file": "res://assets/audio/act1/footsteps/step_wood_02.wav",
+      "source": "assets/source/audio/act1/footsteps/kenney/footstep_wood_002.ogg",
+      "sourceSha256": "9ff095b05cee5eec40b081defe3f0eef7232bb16d4865ce03b9f6dbab875cfdd",
+      "sha256": "ffabbe1b65eea369e2c4569f83bc8e7b4b41571940b49acb4a1709c3f4134799",
+      "seconds": 0.24848072562358275,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "interior_floor",
+      "file": "res://assets/audio/act1/footsteps/step_interior_floor_00.wav",
+      "source": "assets/source/audio/act1/footsteps/kenney/footstep_concrete_000.ogg",
+      "sourceSha256": "d7267e183067757c92c169de2a379abea592cfca6b39bb2e8feea15221ad79fe",
+      "sha256": "7218a67ca4a5870f0ebc75e6daffc85d70dd0eedd45f2925150bd6c1e814d22d",
+      "seconds": 0.10301587301587302,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "interior_floor",
+      "file": "res://assets/audio/act1/footsteps/step_interior_floor_01.wav",
+      "source": "assets/source/audio/act1/footsteps/kenney/footstep_concrete_001.ogg",
+      "sourceSha256": "507a75eb19b897087855a3be3cf11a12d7fa37d143ad535eeebe0b8031c7325d",
+      "sha256": "55ceae0b53d8049e6764989e1ca946877941f2ea951ca932455b313a3359f6cf",
+      "seconds": 0.10473922902494331,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    },
+    {
+      "surface": "interior_floor",
+      "file": "res://assets/audio/act1/footsteps/step_interior_floor_02.wav",
+      "source": "assets/source/audio/act1/footsteps/kenney/footstep_concrete_002.ogg",
+      "sourceSha256": "b21fa546d74941196b25da8a20b7010abd8c05c4fcf93545d1f344e66a664e13",
+      "sha256": "6c1a4c8c3f6f6b639c99ba87b6a97cfa028db25d201f9b377a46a7078a429aa3",
+      "seconds": 0.10988662131519275,
+      "license": "CC0-1.0",
+      "listening": "not-reviewed: this assistant runtime does not support audio input"
+    }
+  ]
+}

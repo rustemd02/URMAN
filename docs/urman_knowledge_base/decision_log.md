@@ -3086,3 +3086,40 @@ time не объявляется обычным packaged FPS. Полная пр�
 ветка помощи Мансура меняют только ближайшую реплику и возвращаются в обычный
 flow; доказательные вопросы сохраняют прежние условия. Intro Акта I приведён
 к зимнему сеттингу: «Снег» вместо «Дождь».
+
+## 2026-09-11 — Source-derived winter footsteps
+
+Status: Accepted bounded technical integration; human listening, mix and
+cultural review remain open.
+
+Context: The existing footstep owner loaded five procedural families, selected
+summer-like surfaces by zone, measured cadence from full velocity and muted
+steps when reduced motion was enabled. The finished Act I winter route needs
+the same presentation-only owner to agree with the real XZ walk and the
+already authoritative snow-road mapping.
+
+Decision: Keep `FootstepAudioController` as the only step owner. Load three
+CC0-derived variants for each of `snow_packed`, `snow_soft`, `wood` and
+`interior_floor`. Resolve outdoor packed/soft snow with
+`AgentBAct1HeightField.RoadInfo` using the same `Distance < HalfWidth` rule as
+`SnowTrampleField`; map `house_old_pc` to wood and `fap_clinic` to the interior
+floor. Accumulate actual XZ displacement at `0.55 m`, preserve the fractional
+remainder, and reset on `PresentationTransformRevision`, direct teleport,
+modal state or loss of the floor. Reduced motion continues to suppress
+nonessential visual motion but does not mute footsteps. The previous
+wet-road/mud/grass files remain as inactive repository history and are not
+deleted in this slice.
+
+The selected WAVs are copied from the prepared CC0 conversions. Their source
+files and license texts are retained at
+`assets/source/audio/act1/footsteps/`; per-file source/output hashes and the
+conversion record are in
+`game/assets/audio/act1/footsteps/manifest.json`. The manifest deliberately
+records listening review as open and does not claim an audio listening pass.
+
+Linked files: `game/scripts/FootstepAudioController.cs`,
+`tools/audio/generate_act1_footsteps.py`,
+`game/assets/audio/act1/footsteps/manifest.json`,
+`game/tests/Act1FootstepSmokeTest.cs`,
+`assets/source/audio/act1/footsteps/`,
+`docs/urman_knowledge_base/audio/act1_sound_map.md`.

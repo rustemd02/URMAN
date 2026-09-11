@@ -3,10 +3,10 @@ using Godot;
 namespace Urman.Godot.Tests;
 
 /// <summary>
-/// AUDIO-004 focused smoke: all five surface families load their procedural
-/// samples, the controller plays through the SFX bus, steps trigger from real
-/// movement (velocity over distance, not timers), reduced motion silences
-/// footsteps, and surface selection follows the active zone.
+/// AUDIO-004 focused smoke: all four winter surface families load their
+/// source-backed samples, the controller plays through the SFX bus, steps
+/// trigger from real XZ displacement, reduced motion keeps footsteps audible,
+/// and surface selection follows the active zone.
 /// </summary>
 public partial class Act1FootstepSmokeTest : Node
 {
@@ -34,7 +34,7 @@ public partial class Act1FootstepSmokeTest : Node
             return;
         }
 
-        foreach (var surface in new[] { "wet_road", "mud", "grass", "wood", "interior_floor" })
+        foreach (var surface in new[] { "snow_packed", "snow_soft", "wood", "interior_floor" })
         {
             if (!controller.HasSurface(surface))
             {
@@ -49,7 +49,7 @@ public partial class Act1FootstepSmokeTest : Node
             return;
         }
 
-        // Reduced motion silences footsteps entirely.
+        // Reduced motion removes camera motion but keeps footstep sound.
         player.ApplySettings(player.CaptureSettings() with
         {
             Accessibility = player.CaptureSettings().Accessibility with { ReducedMotion = true }
@@ -66,13 +66,15 @@ public partial class Act1FootstepSmokeTest : Node
         }
 
         Input.ActionRelease("move_forward");
-        if (playedWhileReduced)
+        if (!playedWhileReduced)
         {
-            Fail("Footsteps played while reduced motion was enabled.");
+            Fail("Footsteps were silenced while reduced motion was enabled.");
             return;
         }
 
-        // Normal motion: footsteps trigger from movement in the village zone.
+        // Normal motion: footsteps still trigger from displacement in the
+        // village zone, without relying on the previous playback state.
+        stepPlayer.Stop();
         player.ApplySettings(player.CaptureSettings() with
         {
             Accessibility = player.CaptureSettings().Accessibility with { ReducedMotion = false }
@@ -95,13 +97,35 @@ public partial class Act1FootstepSmokeTest : Node
         // Surface follows the active zone (bridge zone -> mapping).
         main.SwitchZone("house_old_pc", "entry");
         await Frames(2);
-        if (!controller.HasSurface("interior_floor"))
+        stepPlayer.Stop();
+        Input.ActionPress("move_forward");
+        for (var frame = 0; frame < 30 && controller.LastSurface != "wood"; frame++)
         {
-            Fail("Interior floor surface missing for the house zone.");
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        }
+        Input.ActionRelease("move_forward");
+        if (controller.LastSurface != "wood")
+        {
+            Fail($"House zone did not resolve wood footsteps (surface={controller.LastSurface}).");
             return;
         }
 
-        GD.Print("act1-footsteps: PASS 5 surfaces x3 variants + SFX bus + movement cadence + reduced-motion silence + zone surface");
+        main.SwitchZone("fap_clinic", "waiting_room");
+        await Frames(2);
+        stepPlayer.Stop();
+        Input.ActionPress("move_forward");
+        for (var frame = 0; frame < 30 && controller.LastSurface != "interior_floor"; frame++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        }
+        Input.ActionRelease("move_forward");
+        if (controller.LastSurface != "interior_floor")
+        {
+            Fail($"FAP zone did not resolve interior-floor footsteps (surface={controller.LastSurface}).");
+            return;
+        }
+
+        GD.Print("act1-footsteps: PASS 4 winter surfaces x3 variants + SFX bus + XZ displacement cadence + reduced-motion footsteps + house/FAP surface mapping");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }
