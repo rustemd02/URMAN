@@ -5,6 +5,12 @@
 ```mermaid
 mindmap
   root((УРМАН))
+    Explore Kyrlay like BOTW-TOTK 2026-09-11 [MVP][OPEN]
+      Many meaningful optional secrets in every location [NARRATIVE][ASSET]
+      Hidden routes and useful loops physically walkable [TECH]
+      Local breakable or removable obstacle reveals access [TECH][ASSET]
+      Save load and repeat visits preserve discoveries [TECH]
+      No goal completion without interesting locations [RISK]
     Finished Act I product brief 2026-09-11 [MVP][TECH][OPEN]
       URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md and launch prompt
       Three deliberate investigation cycles and reactive dialogue [MVP][OPEN]

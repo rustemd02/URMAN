@@ -3,7 +3,7 @@
   "kind": "urman.execution_backlog",
   "updated": "2026-09-11",
   "goal_key": "urman-act1-finished-product",
-  "goal_statement": "Довести Акт I до законченного локального продукта по URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md; общая готовность требует всех игровых, художественных, звуковых, UI, save, performance и native-package подтверждений.",
+  "goal_statement": "Довести Акт I до законченного локального продукта по URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md; общая готовность требует всех игровых, художественных, звуковых, UI, save, performance и native-package подтверждений. Обязательные уточнения пользователя 2026-09-11: красивый арт-стиль BOTW/TOTK и исследуемый открытый мир с множеством секретов, скрытых проходов и осмысленных действий с окружением; без интересных локаций цель не завершена.",
   "long_term_goal": "Полная миграция УРМАН на Godot 4.7.1 .NET и C# с последующим производством 6–8-часовой игры, desktop acceptance и отдельным absence-gated решением о web retirement остаётся долгосрочным направлением, но не текущим демо-объёмом.",
   "current_scope": {
     "name": "Finished Act I local product candidate",
@@ -176,6 +176,35 @@
     }
   ],
   "tasks": [
+    {
+      "id": "FINISH-09",
+      "title": "Dense open-world exploration, secrets and hidden paths",
+      "milestone": "M5",
+      "status": "in_progress",
+      "active_owner": "main",
+      "depends_on": [],
+      "owner": "finished-act1",
+      "scope": [
+        "content/modules/urman-chapter1",
+        "game/scripts/Act1ConnectedWorld.cs",
+        "game/scripts/InteractionTarget.cs",
+        "game/scripts/RuntimeBridge.cs",
+        "docs/urman_knowledge_base/gameplay.md"
+      ],
+      "deliverable": "Beautiful, rewarding locations to explore in the spirit of BOTW/TOTK; minimum production batch 24 varied optional discoveries, 3 walkable hidden loops, 1 meaningful removable/breakable access obstacle. Counts alone do not prove interest.",
+      "done_when": [
+        "All existing Act I locations reward thorough exploration, without requiring every secret for the main story.",
+        "Physical traversal, persistence, reset and repeat visits verified; optional rewards are varied and culturally coherent.",
+        "Goal remains incomplete until the implemented locations are interesting and artistically convincing."
+      ],
+      "verify": [
+        "Use existing narrow traversal/save/capture owners; ordinary physical traversal required for secret paths."
+      ],
+      "evidence": [
+        "Explicit user steering 2026-09-11; current gameplay/hand-over/mindmap/decision owners updated; implementation pending."
+      ],
+      "blocked_reason": null
+    },
     {
       "id": "FINISH-08",
       "title": "External release confirmation",
