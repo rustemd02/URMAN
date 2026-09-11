@@ -331,12 +331,15 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
             InputBindingService.Apply(_bindingsBeforeOpen);
             _bindingsBeforeOpen = null;
         }
-        var keepModal = GetTree().GetFirstNodeInGroup("main_menu") is MainMenuUi { IsDismissed: false }
-            || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true };
+        var mainMenu = GetTree().GetFirstNodeInGroup("main_menu") as MainMenuUi;
+        var pauseMenu = GetTree().GetFirstNodeInGroup("pause_menu") as PauseMenuUi;
+        var keepModal = mainMenu is { IsDismissed: false } || pauseMenu is { IsOpen: true };
         _player?.SetModalOpen(keepModal);
         if (keepModal)
         {
             Input.MouseMode = Input.MouseModeEnum.Visible;
+            if (pauseMenu is { IsOpen: true }) pauseMenu.SettingsButton?.GrabFocus();
+            else if (mainMenu is { IsDismissed: false }) mainMenu.SettingsButton?.GrabFocus();
         }
         _player = null;
     }

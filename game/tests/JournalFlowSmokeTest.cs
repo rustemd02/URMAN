@@ -26,6 +26,10 @@ public partial class JournalFlowSmokeTest : Node
             return;
         }
 
+        journal.Refresh();
+        if (journal.CurrentObjectiveText.Contains("Сопоставить справку о смерти Марата", StringComparison.Ordinal))
+        { Fail("A fresh journal revealed the later source-comparison objective."); return; }
+
         await bridge.HandleOldPcInputAsync(Input("open"));
         if (bridge.JournalEntries().Count != 1)
         {
@@ -47,7 +51,7 @@ public partial class JournalFlowSmokeTest : Node
         journal.Open(bridge);
         if (journal.RenderedEntryCount != 1
             || journal.ActiveEntryId != OfficialNotice
-            || !journal.CurrentObjectiveText.Contains("Сопоставить справку о смерти Марата", StringComparison.Ordinal)
+            || !journal.CurrentObjectiveText.Contains("Выяснить, что случилось с Маратом.", StringComparison.Ordinal)
             || !journal.LearnedVocabularyText.Contains("урман", StringComparison.Ordinal)
             || !journal.LearnedVocabularyText.Contains("лес", StringComparison.Ordinal))
         {
@@ -95,6 +99,8 @@ public partial class JournalFlowSmokeTest : Node
         if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() == "confirmed")
         { Fail("Reading the register still completed the comparison automatically."); return; }
         journal.Open(bridge);
+        if (!journal.CurrentObjectiveText.Contains("Сопоставить справку о смерти Марата", StringComparison.Ordinal))
+        { Fail("The journal did not offer comparison after both required sources were found."); return; }
         journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 1;
         for (var slot = 0; slot < 2; slot++)
         {

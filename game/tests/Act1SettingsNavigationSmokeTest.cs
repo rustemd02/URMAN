@@ -42,7 +42,8 @@ public partial class Act1SettingsNavigationSmokeTest : Node
         demo.MainMenu.SettingsButton?.EmitSignal(BaseButton.SignalName.Pressed);
         await Frames(2);
         var fov = settings.GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/FovRow/Fov");
-        if (!settings.IsOpen || !demo.MainMenuVisible || !player.ModalOpen || !fov.HasFocus())
+        if (!settings.IsOpen || !demo.MainMenuVisible || !player.ModalOpen || !fov.HasFocus()
+            || settings.Layer <= demo.MainMenu.Layer)
         {
             Fail($"Settings did not open menu-safely with entry focus (open={settings.IsOpen} menu={demo.MainMenuVisible} modal={player.ModalOpen} focus={fov.HasFocus()}).");
             return;
@@ -61,6 +62,7 @@ public partial class Act1SettingsNavigationSmokeTest : Node
         });
         await Frames(2);
         if (settings.IsOpen
+            || demo.MainMenu.SettingsButton?.HasFocus() != true
             || player.CaptureSettings().FieldOfView != liveFov
             || System.IO.File.Exists(settingsStorePath()))
         {

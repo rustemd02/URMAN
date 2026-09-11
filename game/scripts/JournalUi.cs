@@ -128,10 +128,20 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         _projection = _bridge?.JournalEntries() ?? [];
         var objectives = _bridge?.ActiveObjectives() ?? [];
+        // An active investigation is not yet an actionable source comparison.
+        // Use the same readiness gate as the comparison tab, including both sources.
+        var canCompareRecords = (_bridge?.JournalActions([
+            "urman.oldpc:document/doc_marat_official_death_notice",
+            "urman.oldpc:document/rec_marat_case_register_conflict"]).Count ?? 0) > 0;
+        var objectiveTitles = objectives.Select(objective =>
+            objective.QuestId == "urman.chapter1:quest/quest_marat_first_contradiction"
+                && objective.ObjectiveId == "find-contradiction" && !canCompareRecords
+                ? "Выяснить, что случилось с Маратом."
+                : objective.Title);
         var vocabulary = _bridge?.LearnedVocabulary() ?? [];
         _objective.Text = objectives.Count == 0
             ? "ТЕКУЩАЯ ЦЕЛЬ\n—"
-            : $"ТЕКУЩАЯ ЦЕЛЬ\n{string.Join("\n", objectives.Select(objective => $"• {objective.Title}"))}";
+            : $"ТЕКУЩАЯ ЦЕЛЬ\n{string.Join("\n", objectiveTitles.Select(title => $"• {title}"))}";
         _vocabulary.Text = vocabulary.Count == 0
             ? "ТАТАРСКИЕ СЛОВА\n—"
             : $"ТАТАРСКИЕ СЛОВА\n{string.Join(" · ", vocabulary.Select(entry => $"{entry.Term} — {entry.Meaning}"))}";

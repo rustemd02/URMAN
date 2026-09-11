@@ -248,7 +248,8 @@
         "Narrow existing path selected from handover section 28 after inspecting actual owner."
       ],
       "evidence": [
-        "2026-09-11 current source window probe, village_day@arrival, M4 Pro 1080p medium0.9/MSAA2: 12s warmup +60.01s, avg9.372ms,p9516.686,p9917.188,max22.976,106.70FPS,0 long frames; source_perf_stalls/run.log. Current standalone package, other heavy views and ordinary full traversal remain open."
+        "2026-09-11 current source window probe, village_day@arrival, M4 Pro 1080p medium0.9/MSAA2: 12s warmup +60.01s, avg9.372ms,p9516.686,p9917.188,max22.976,106.70FPS,0 long frames; source_perf_stalls/run.log. Current standalone package, other heavy views and ordinary full traversal remain open.",
+        "2026-09-12 native_20260912_r1 exported from b683d57, scope and artifact receipt PASS; ordinary macOS save/Continue/exit verified. 1080p medium0.9 MSAA2 12s+60s real window samples: FAP119.93FPS/max15.885ms and Kara119.38FPS/max25.421ms PASS; arrival102.04FPS/max111.563ms and house110.98FPS/max123.457ms FAIL max100ms. GC absent at stalls; root cause open, thresholds unchanged. Logs outside repo, details in act1_demo_handoff.md."
       ],
       "blocked_reason": null
     },
@@ -276,7 +277,8 @@
       ],
       "evidence": [
         "2026-09-11: newest validated Continue + profile preserved on load + credits and licenses + ending-to-menu/restart. menu_lifecycle_build_v9, menu_user_settings_smoke, menu_ui, menu_cold_continue_v2 and menu_ending_flow_v3 PASS; 1280x720 normal/1.6 menu/credits frames inspected. Export credits inventory not yet re-exported; remaining full UI input/movement acceptance open.",
-        "2026-09-11 current native Metal MainMenu smoke PASS 720p/1080p, normal/1.6 captures reviewed: menu_720_round4.log, menu_1080_round4.log and ui_acceptance/menu_720,menu_1080. User profile restored byte-for-byte. Background art and ordinary full acceptance remain open."
+        "2026-09-11 current native Metal MainMenu smoke PASS 720p/1080p, normal/1.6 captures reviewed: menu_720_round4.log, menu_1080_round4.log and ui_acceptance/menu_720,menu_1080. User profile restored byte-for-byte. Background art and ordinary full acceptance remain open.",
+        "2026-09-12 ordinary native b683d57 menu/New Game/save/Continue/journal/settings/exit exposed settings behind menus and premature comparison guidance. Source fixes: Settings layer110 and return focus; journal uses existing JournalActions readiness for the canonical pair, general question before both sources. Existing settings_navigation and journal_flow smoke pass. Fresh native visual recheck pending; full player acceptance open."
       ],
       "blocked_reason": null
     },
