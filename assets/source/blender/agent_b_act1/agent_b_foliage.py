@@ -1078,7 +1078,7 @@ def main() -> None:
         # species, index, height, spread, branches, twigs, berries, bark, droop, seed
         ("Birch", 1, 6.2, 1.05, 20, 4, False, "AB_bark_birch", 0.55, 11.0),
         ("Birch", 2, 7.4, 0.95, 22, 4, False, "AB_bark_birch", 0.48, 23.0),
-        ("Linden", 1, 6.8, 1.25, 20, 4, False, "AB_bark", 0.14, 31.0),
+        ("Linden", 1, 6.8, 0.86, 20, 4, False, "AB_bark", 0.14, 31.0),
         ("Linden", 2, 5.6, 1.35, 18, 4, False, "AB_bark", 0.12, 43.0),
         ("Maple", 1, 6.0, 1.15, 19, 4, False, "AB_bark", 0.18, 53.0),
         ("Rowan", 1, 4.6, 1.20, 17, 4, True, "AB_bark", 0.24, 61.0),
@@ -1096,7 +1096,7 @@ def main() -> None:
     for spec in (
         ("Birch", 1, 6.2, 1.05, 20, 1, False, "AB_bark_birch", 0.55, 11.0),
         ("Birch", 2, 7.4, 0.95, 22, 1, False, "AB_bark_birch", 0.48, 23.0),
-        ("Linden", 1, 6.8, 1.25, 20, 1, False, "AB_bark", 0.14, 31.0),
+        ("Linden", 1, 6.8, 0.86, 20, 1, False, "AB_bark", 0.14, 31.0),
         ("Linden", 2, 5.6, 1.35, 18, 1, False, "AB_bark", 0.12, 43.0),
         ("Maple", 1, 6.0, 1.15, 19, 1, False, "AB_bark", 0.18, 53.0),
         ("Rowan", 1, 4.6, 1.20, 17, 1, True, "AB_bark", 0.24, 61.0),
@@ -1117,7 +1117,7 @@ def main() -> None:
     for spec in (
         ("Birch", 1, 6.2, 1.05, 20, 0, False, "AB_bark_birch", 0.55, 11.0),
         ("Birch", 2, 7.4, 0.95, 22, 0, False, "AB_bark_birch", 0.48, 23.0),
-        ("Linden", 1, 6.8, 1.25, 20, 0, False, "AB_bark", 0.14, 31.0),
+        ("Linden", 1, 6.8, 0.86, 20, 0, False, "AB_bark", 0.14, 31.0),
         ("Linden", 2, 5.6, 1.35, 18, 0, False, "AB_bark", 0.12, 43.0),
         ("Maple", 1, 6.0, 1.15, 19, 0, False, "AB_bark", 0.18, 53.0),
         ("Rowan", 1, 4.6, 1.20, 17, 0, True, "AB_bark", 0.24, 61.0),
