@@ -286,6 +286,9 @@ public static class PainterlyMaterialLibrary
         ["stone"] = ("res://assets/textures/painterly/mossy_stone_v3_albedo.png", new Vector2(1.5f, 1.5f)),
         ["fabric"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.0f, 2.0f)),
         ["carpet"] = ("res://assets/textures/painterly/carpet_palas_v1_albedo.png", new Vector2(0.25f, 0.40f)),
+        ["wallpaper"] = ("res://assets/textures/painterly/wallpaper_old_v1_albedo.png", new Vector2(1.1f, 1.1f)),
+        ["log_wall"] = ("res://assets/textures/painterly/log_wall_v1_albedo.png", new Vector2(0.9f, 0.9f)),
+        ["wall_institution"] = ("res://assets/textures/painterly/wall_institution_v1_albedo.png", new Vector2(1.3f, 1.0f)),
         // GeneratedCharacterKitDressing keeps the semantic name `cloth` in
         // node metadata. Make that owner explicit instead of silently
         // falling back to a texture-less shader material.

@@ -1521,6 +1521,63 @@
       ],
       "collision": "not applicable",
       "lod": "not applicable"
+    },
+    {
+      "id": "texture.painterly.wallpaper-old",
+      "source": "Project ImageGen candidate; original prompt and provenance in game/assets/textures/painterly/README.md",
+      "derived": "game/assets/textures/painterly/wallpaper_old_v1_albedo.png",
+      "derivedSha256": "f80e97c330e2a7e8237a8f7fed860c233da3a2f6678a8ad882acb89a93806a3c",
+      "license": "Project-generated through OpenAI ImageGen; no third-party reference image",
+      "textureBudget": 1024,
+      "runtimeBinding": "PainterlyMaterialLibrary wallpaper semantic; HouseInterior_LeftWall/RightWall",
+      "status": "runtime-bound and native-frame reviewed; cultural review and final art lock open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced",
+      "generator": "OpenAI ImageGen; original prompt in painterly README",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "materials": [
+        "wallpaper"
+      ],
+      "collision": "not applicable",
+      "lod": "not applicable"
+    },
+    {
+      "id": "texture.painterly.log-wall",
+      "source": "Project ImageGen candidate; original prompt and provenance in game/assets/textures/painterly/README.md",
+      "derived": "game/assets/textures/painterly/log_wall_v1_albedo.png",
+      "derivedSha256": "7ddca7416c3b95549b60eab0b50f81d5dcb1c2f724b49bab7de1e1b60cf47e17",
+      "license": "Project-generated through OpenAI ImageGen; no third-party reference image",
+      "textureBudget": 1024,
+      "runtimeBinding": "PainterlyMaterialLibrary log_wall semantic; HouseInterior_BackWall/FrontWallLeft/FrontWallRight",
+      "status": "runtime-bound and native-frame reviewed; cultural review and final art lock open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced",
+      "generator": "OpenAI ImageGen; original prompt in painterly README",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "materials": [
+        "log_wall"
+      ],
+      "collision": "not applicable",
+      "lod": "not applicable"
+    },
+    {
+      "id": "texture.painterly.wall-institution",
+      "source": "Project ImageGen candidate; original prompt and provenance in game/assets/textures/painterly/README.md",
+      "derived": "game/assets/textures/painterly/wall_institution_v1_albedo.png",
+      "derivedSha256": "4139f15bc78e4713a85398e697a3418c9e0b910999fa6b800f3318ae8a95f626",
+      "license": "Project-generated through OpenAI ImageGen; no third-party reference image",
+      "textureBudget": 1024,
+      "runtimeBinding": "PainterlyMaterialLibrary wall_institution semantic; FAP Shell wall and WallPanel meshes only",
+      "status": "runtime-bound and native-frame reviewed; cultural review and final art lock open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced",
+      "generator": "OpenAI ImageGen; original prompt in painterly README",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "materials": [
+        "wall_institution"
+      ],
+      "collision": "not applicable",
+      "lod": "not applicable"
     }
   ]
 }

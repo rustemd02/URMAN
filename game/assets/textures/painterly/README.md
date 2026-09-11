@@ -142,11 +142,11 @@ Generated one file per prompt with the built-in OpenAI ImageGen tool on 2026-09-
 | `bark_pine_v1_albedo.png` | pine and spruce trunks | `5cc0577732ba886cbcfb727c5d30bca822b996cf1875d6d88cfad47c38f951e4` | candidate, art-lock-pending |
 | `leaf_birch_v1_albedo.png` | summer birch crowns | `6b469475e3280ed08a584a8bcca06ec23255607cadf69321621b275e6485c2cb` | candidate, art-lock-pending |
 | `leaf_birch_v2_albedo.png` | early-autumn birch crowns | `77d16e04ef2d04394f7b2b5d972711628459db8b7f95faa7827934cad37c9332` | candidate, art-lock-pending |
-| `log_wall_v1_albedo.png` | warm old-house log walls | `7ddca7416c3b95549b60eab0b50f81d5dcb1c2f724b49bab7de1e1b60cf47e17` | candidate, art-lock-pending |
+| `log_wall_v1_albedo.png` | warm old-house log walls | `7ddca7416c3b95549b60eab0b50f81d5dcb1c2f724b49bab7de1e1b60cf47e17` | runtime wall semantic; native-reviewed 2026-09-12, art lock pending |
 | `log_wall_v2_albedo.png` | cooler smoke-aged log walls | `0e51db435030ae30a28e4e26fc106d60e5324926f7a1735adff53314b8d71cc7` | candidate, art-lock-pending |
-| `wallpaper_old_v1_albedo.png` | faded floral house wallpaper | `f80e97c330e2a7e8237a8f7fed860c233da3a2f6678a8ad882acb89a93806a3c` | candidate, art-lock-pending |
+| `wallpaper_old_v1_albedo.png` | faded floral house wallpaper | `f80e97c330e2a7e8237a8f7fed860c233da3a2f6678a8ad882acb89a93806a3c` | runtime wall semantic; native-reviewed 2026-09-12, art lock pending |
 | `wallpaper_old_v2_albedo.png` | striped house wallpaper | `451123ec6bf67a3ce5af46cc4cbf34f8136f161dad29af636a19163fafd3e970` | candidate, art-lock-pending |
-| `wall_institution_v1_albedo.png` | FAP institutional walls | `4139f15bc78e4713a85398e697a3418c9e0b910999fa6b800f3318ae8a95f626` | candidate, art-lock-pending |
+| `wall_institution_v1_albedo.png` | FAP institutional walls | `4139f15bc78e4713a85398e697a3418c9e0b910999fa6b800f3318ae8a95f626` | runtime wall semantic; native-reviewed 2026-09-12, art lock pending |
 | `ornament_trim_v1_albedo.png` | restrained Tatar border frieze | `c13f6b28a35cae781799729fd0ac6d8c5e72295d036fcac26e7e3a6a9caa2a8a` | candidate, art-lock-pending |
 | `carpet_palas_v1_albedo.png` | traditional flat-woven Tatar palas | `d9d48b174b6c8e02bf618cae40ae7248b9562bbb42d7ce7ef471c06b0a55721a` | runtime carpet semantic; native-reviewed 2026-09-12, cultural/art lock pending |
 | `fabric_chit_v1_albedo.png` | old Tatar chintz household fabric | `b70fde9721eb785afb00acd912af0ca903ebfe8f2b9f42d184807791a038c91a` | candidate, art-lock-pending |

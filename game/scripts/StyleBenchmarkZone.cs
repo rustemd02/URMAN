@@ -1521,7 +1521,7 @@ public partial class StyleBenchmarkZone : Node3D
             {
                 var wall = PainterlyMaterialLibrary.ForColor(
                     fapFloor ? "797d77" : fapCeiling ? "b5b4a4" : "7b8d86",
-                    "wall_institution", sheltered: true);
+                    fapFloor || fapCeiling ? string.Empty : "wall_institution", sheltered: true);
                 for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
                 {
                     mesh.SetSurfaceOverrideMaterial(surface, wall);
