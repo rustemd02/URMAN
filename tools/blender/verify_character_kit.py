@@ -132,6 +132,12 @@ for prefix in prefixes:
 if missing_animation:
     raise RuntimeError(f"Character animation clips missing: {missing_animation}")
 
+for obj in mesh_objects:
+    for side, bone in (("Left", "Arm.L"), ("Right", "Arm.R")):
+        if f"Hand{side}" in obj.name or f"HandThumb{side}" in obj.name:
+            if obj.parent_type != "BONE" or obj.parent_bone != bone:
+                raise RuntimeError(f"Hand must follow {bone}: {obj.name} follows {obj.parent_bone}")
+
 policy = scene.get("collision_policy")
 if policy != "no collision meshes; Godot interaction targets and zone colliders own physics":
     raise RuntimeError(f"Unexpected collision policy: {policy!r}")

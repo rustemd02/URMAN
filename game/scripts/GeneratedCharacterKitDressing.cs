@@ -3,7 +3,7 @@ using Godot;
 namespace Urman.Godot;
 
 /// <summary>
-/// Presentation-only bridge from the project-original Blender character kit.
+/// Presentation-only bridge from the Blender character kit with CC0 head derivatives.
 /// One authored character prefix is selected per NPC placement; the adapter
 /// never creates physics bodies or owns dialogue/progression state.
 /// </summary>
@@ -179,6 +179,20 @@ public static class GeneratedCharacterKitDressing
         };
 
         var name = NodeName(mesh);
+        if ((name.StartsWith(prefix + "_Head_", StringComparison.Ordinal)
+             || name.StartsWith(prefix + "_FaceEyes_", StringComparison.Ordinal))
+            && mesh.Mesh?.SurfaceGetMaterial(0) is StandardMaterial3D sourceFace)
+        {
+            var face = (StandardMaterial3D)sourceFace.Duplicate();
+            face.DiffuseMode = BaseMaterial3D.DiffuseModeEnum.Toon;
+            face.SpecularMode = BaseMaterial3D.SpecularModeEnum.Disabled;
+            face.Roughness = 1f;
+            face.MetallicSpecular = 0f;
+            face.Metallic = 0f;
+            mesh.MaterialOverride = face;
+            mesh.SetMeta("painterlyMaterial", "CC0 textured face; native toon diffuse");
+            return;
+        }
         var skin = prefix switch
         {
             "Mansur" => "a77b67",
@@ -191,7 +205,8 @@ public static class GeneratedCharacterKitDressing
         };
         var hair = prefix switch
         {
-            "Mansur" or "Gulsina" => "6f5448",
+            "Mansur" => "8f887a",
+            "Gulsina" => "817970",
             "Alsu" or "Naila" => "3b302e",
             "TimurHazrat" => "40342f",
             "CouncilWitness" => "4b3b35",

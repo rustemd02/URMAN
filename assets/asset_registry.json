@@ -191,13 +191,13 @@
       "id": "character.fullgame.lowpoly.v1",
       "source": "assets/source/blender/urman_character_kit.blend",
       "derived": "game/assets/generated/urman_character_kit.glb",
-      "sourceSha256": "85f07779cded5a7fb6dd0e9850b0b0a9060cb8fb4e8e985258491dfb83904671",
-      "derivedSha256": "c5c60d1438485a39404313d73a08295314ef70cf48addd2264772d99aa617c8e",
+      "sourceSha256": "c207617b6405fb9a9170ca725aa7efa999f50bfab4730162471e75bf7a9eb179",
+      "derivedSha256": "979c487efe325bf08be2d2cd6acfe6059988a03a664ca6942138675ff38e7b40",
       "generator": "tools/blender/generate_character_kit.py",
-      "license": "Project-original",
+      "license": "Mixed: Project-original clothing/rigs; CC0-1.0 Quaternius head, eyes, brows and hair derivatives",
       "scale": 1.0,
       "triangleBudget": 3000,
-      "textureBudget": 0,
+      "textureBudget": 1024,
       "materials": [
         "AlsuAccent",
         "AlsuCoat",
@@ -231,8 +231,14 @@
         "PactKeeperCoat",
         "PactKeeperScarf",
         "PactKeeperTrousers",
+        "QuaterniusFemale_FaceBrowsMaterial",
+        "QuaterniusFemale_FaceEyesMaterial",
+        "QuaterniusFemale_HeadMaterial",
+        "QuaterniusHairGeometry",
+        "QuaterniusMale_FaceBrowsMaterial",
+        "QuaterniusMale_FaceEyesMaterial",
+        "QuaterniusMale_HeadMaterial",
         "StylizedBoot",
-        "StylizedFaceInk",
         "StylizedHair",
         "StylizedSkin",
         "TimurHazratAccent",
@@ -241,10 +247,59 @@
         "TimurHazratTrousers"
       ],
       "collision": "none; character GLB has no collision meshes; Godot interaction targets and zone colliders own physics",
-      "lod": "313 LOD0 / 313 LOD1 meshes; 29624 triangles total (19782 LOD0 + 9842 LOD1); 40 authored materials; connected side hair and shaped nose bridge; Godot range 0–18m / 14–48m integrated",
+      "lod": "190 LOD0 / 190 LOD1 meshes; 30752 triangles total (20539 LOD0 + 10213 LOD1); 46 materials; CC0 textured heads and hair; Godot range 0–18m / 14–48m integrated",
       "animation": "9 project-original armatures with Idle/Tension clips; Godot AnimationPlayer Idle/Tension playback smoke-tested",
-      "status": "production-animation-pass; authored facial expression/audio/cultural review open",
-      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+      "status": "CC0 head/hair integration; close-view clothing, age, expression, audio and cultural review open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD",
+      "headSource": {
+        "source": "assets/source/blender/characters/urman_cc0_head_templates.blend",
+        "sha256": "0c23f1fd58615ea13beab67f2f6ef3befcd4ec656a9ca5a9b783c58232ca9fcf",
+        "generator": "tools/blender/prepare_character_heads.py",
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "licenseFile": "assets/source/blender/characters/Quaternius_CC0_License.txt",
+        "url": "https://quaternius.com/packs/universalbasecharacters.html",
+        "archiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40",
+        "scope": "Heads, eyes, brows and five hairstyle derivatives; source body and rig excluded. Original glTF hashes in Blender object metadata."
+      },
+      "derivedTextures": [
+        {
+          "path": "game/assets/generated/urman_character_kit_T_Eye_Brown.png",
+          "sha256": "39fb618bafbb6878b749a4b94b923322b58fe48af077c433ea6b98149a28d89b",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "path": "game/assets/generated/urman_character_kit_T_Eye_Normal.png",
+          "sha256": "2ffbfcfffecc8e639461a6ab994b73069993c7c87fe3c0c5a8b6523fd49d7e04",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "path": "game/assets/generated/urman_character_kit_T_Superhero_Female_Dark_BaseColor.png",
+          "sha256": "ac5dca56d4fe8a50ced1844eeaaecd895dcc54a36ee90b2343bee23429cb5882",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "game/assets/generated/urman_character_kit_T_Superhero_Female_Normal.png",
+          "sha256": "a71c946a4ee2494af592f8d0e77f595c1e494640641b49deb932107def85ac25",
+          "width": 512,
+          "height": 512
+        },
+        {
+          "path": "game/assets/generated/urman_character_kit_T_Superhero_Male_Dark.png",
+          "sha256": "73c01ede5f4545fdd92002c932522e57544a3f4c26b58f48ea9b7ff6b94aee17",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "game/assets/generated/urman_character_kit_T_Superhero_Male_Normal.png",
+          "sha256": "e85f47ab36bb2be0939830436e36337c0f164764dcb31f1fbb01e41579271fe8",
+          "width": 512,
+          "height": 512
+        }
+      ]
     },
     {
       "id": "texture.painterly.weathered-wood",

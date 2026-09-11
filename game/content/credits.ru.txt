@@ -1,7 +1,7 @@
 УРМАН · Акт I
 
 Игра о памяти, языке и ответственности. Место действия — Кырлай.
-Сценарий, модели и окружение созданы для проекта УРМАН. В разработке и создании части изображений использованы инструменты ИИ.
+Сценарий, одежда персонажей и окружение созданы для проекта УРМАН. В разработке и создании части изображений использованы инструменты ИИ.
 
 Звуки шагов
 Corsica_S — Walking on snow covered gravel and ice; отдельные шаги подготовил Iwan Gabovitch.
@@ -25,3 +25,8 @@ callmethefoo — Soft Room Tone, 744447.
 RIFORKA — Ambience_Indoor_RoomTone, 801025.
 bruno.auzet — silent windy pine forest.wav, 670307.
 lwdickens — winter wind in trees.wav, 261226.
+
+Головы и волосы персонажей
+Quaternius — Universal Base Characters Standard, CC0 1.0.
+Источник: quaternius.com/packs/universalbasecharacters.html
+Для УРМАНА подготовлены производные головы, глаза, брови, волосы и бороды; одежда, роли и анимации созданы для проекта.
