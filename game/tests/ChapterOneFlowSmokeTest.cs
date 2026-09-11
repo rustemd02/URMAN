@@ -41,7 +41,8 @@ public partial class ChapterOneFlowSmokeTest : Node
             || rinatActor.GlobalPosition.Z < -5f)
         { Fail("Act I exterior people are hidden or Rinat starts at the late position."); return; }
 
-        if (!await Discover(bridge, "zirat-outer-rest-bench")) return;
+        foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-childhood-spinner", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench" })
+            if (!await Discover(bridge, slug)) return;
         await ToSignal(GetTree().CreateTimer(.6), SceneTreeTimer.SignalName.Timeout);
         var restBenchSnow = main.ConnectedWorld.GetNode<Node3D>("Act1CoreWorldGreybox/ZiratMemoryField/DiscoveryRestBench/SnowOnRepairedSeat");
         if (restBenchSnow.Scale.X > .01f)
@@ -62,6 +63,19 @@ public partial class ChapterOneFlowSmokeTest : Node
             || main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("RestBenchCollision").CollisionLayer != 0
             || bridge.ActiveSceneId != Scene("house"))
         { Fail("Restored photo, tin or explicit home vocabulary did not match shared discovery state."); return; }
+        var core = main.ConnectedWorld.GetNode<Node3D>("Act1CoreWorldGreybox");
+        var arrivalSnow = core.GetNode<Node3D>("Arrival/DiscoveryArrivalBench/SnowCap");
+        var wellMitten = core.GetNode<Node3D>("MainStreet/DiscoveryArrivalWellDetail/TiedMitten");
+        var signBoard = core.GetNode<Node3D>("MainStreet/DiscoveryMainStreetSign/Board");
+        var sledCover = core.GetNode<Node3D>("BabaiEbiYard/BabaiYardSled/SledBlueRepairCover");
+        var nookMitten = core.GetNode<Node3D>("Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/StoredMendedMitten");
+        var serviceGate = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("FapServiceGateCollision");
+        var serviceFence = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("FapServiceFenceCollision");
+        if (arrivalSnow.Visible || Mathf.Abs(wellMitten.Rotation.Y - Mathf.Pi) > .01f
+            || Mathf.Abs(signBoard.RotationDegrees.Y - 176f) > .1f
+            || sledCover.Visible || !nookMitten.Visible
+            || serviceGate.CollisionLayer != 0 || serviceFence.CollisionLayer != 0)
+        { Fail("Loaded outdoor discoveries lost their presentation or retained exterior physics indoors."); return; }
 
         await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new
         {
@@ -259,6 +273,12 @@ public partial class ChapterOneFlowSmokeTest : Node
             || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-zirat-outer-rest-bench") != "hidden"
             || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-house-interior-photo-back") != "hidden")
         { Fail("New Game retained optional discovery presentation or knowledge."); return; }
+        if (!arrivalSnow.Visible || wellMitten.Rotation.Y != 0
+            || Mathf.Abs(signBoard.RotationDegrees.Y + 4f) > .1f
+            || !sledCover.Visible || nookMitten.Visible
+            || serviceGate.CollisionLayer != 1 || serviceFence.CollisionLayer != 1
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-fap-exterior-service-path") != "hidden")
+        { Fail("New Game retained an outdoor reveal or failed to close the service gate."); return; }
         GD.Print("chapter-one-flow-smoke: authored route -> visible people -> final silence -> menu -> fresh session");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
@@ -272,7 +292,9 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (target is null) { Fail("Discovery has no physical target: " + slug); return false; }
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         var side = slug is "house-interior-language-tin" or "fap-interior-height-marks" ? -1f : 1f;
+        if (slug == "fap-exterior-service-path") side = -1f;
         var eye = target.GlobalPosition + new Vector3(0, .6f, side * 1.5f);
+        GD.Print($"discovery-physical-ray slug={slug} at={target.GlobalPosition} eye={eye}");
         var hit = target.GetWorld3D().DirectSpaceState.IntersectRay(
             PhysicsRayQueryParameters3D.Create(eye, target.GlobalPosition, 1));
         if (hit.Count == 0 || hit["collider"].AsGodotObject() != target)

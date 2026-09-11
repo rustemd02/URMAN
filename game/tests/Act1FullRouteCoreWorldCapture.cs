@@ -77,6 +77,21 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             new(-28.2f, AgentBAct1HeightField.CollisionGround(-28.2f, 6f) + .05f, 6f),
             new(-33.15f, AgentBAct1HeightField.CollisionGround(-33.15f, 3.88f) + .7f, 3.88f), "detail", "firewood under shelter"),
 
+        Frame("arrival_notches", "arrival", "village_day", "from_house", new(4.9f, AgentBAct1HeightField.CollisionGround(4.9f, 7.8f) + .05f, 7.8f), new(4.9f, 0.66f, 6.3f), "detail", "optional discovery before action"),
+        Frame("arrival_notches_used", "arrival", "village_day", "from_house", new(4.9f, AgentBAct1HeightField.CollisionGround(4.9f, 7.8f) + .05f, 7.8f), new(4.9f, 0.66f, 6.3f), "detail", "optional discovery after action", "arrival-bench-race-notches"),
+        Frame("arrival_mitten", "arrival", "village_day", "from_house", new(-2.5f, AgentBAct1HeightField.CollisionGround(-2.5f, 5.7f) + .05f, 5.7f), new(-4.2f, 1.1f, 4.6f), "detail", "optional discovery before action"),
+        Frame("arrival_mitten_used", "arrival", "village_day", "from_house", new(-2.5f, AgentBAct1HeightField.CollisionGround(-2.5f, 5.7f) + .05f, 5.7f), new(-4.2f, 1.1f, 4.6f), "detail", "optional discovery after action", "arrival-insulated-well"),
+        Frame("sign_reverse", "main_street", "village_day", "from_house", new(-1.8f, AgentBAct1HeightField.CollisionGround(-1.8f, 7.6f) + .05f, 7.6f), new(-2.05f, 1.28f, 5.8f), "detail", "optional discovery before action"),
+        Frame("sign_reverse_used", "main_street", "village_day", "from_house", new(-1.8f, AgentBAct1HeightField.CollisionGround(-1.8f, 7.6f) + .05f, 7.6f), new(-2.05f, 1.28f, 5.8f), "detail", "optional discovery after action", "main-street-sign-reverse"),
+        Frame("yard_spinner", "babai_yard", "village_day", "from_house", new(-32.1f, AgentBAct1HeightField.CollisionGround(-32.1f, 5.4f) + .05f, 5.4f), new(-33.15f, 1.6f, 3.88f), "detail", "optional discovery before action"),
+        Frame("yard_spinner_used", "babai_yard", "village_day", "from_house", new(-32.1f, AgentBAct1HeightField.CollisionGround(-32.1f, 5.4f) + .05f, 5.4f), new(-33.15f, 1.6f, 3.88f), "detail", "optional discovery after action", "babai-yard-childhood-spinner"),
+        Frame("yard_sled", "babai_yard", "village_day", "from_house", new(-25.4f, AgentBAct1HeightField.CollisionGround(-25.4f, 4.77f) + .05f, 4.77f), new(-27.2f, AgentBAct1HeightField.CollisionGround(-27.2f, 3.92f) + .45f, 3.92f), "detail", "optional discovery before action"),
+        Frame("yard_sled_used", "babai_yard", "village_day", "from_house", new(-25.4f, AgentBAct1HeightField.CollisionGround(-25.4f, 4.77f) + .05f, 4.77f), new(-27.2f, AgentBAct1HeightField.CollisionGround(-27.2f, 3.92f) + .45f, 3.92f), "detail", "optional discovery after action", "babai-yard-sled-repair"),
+        Frame("porch_nook", "house_exterior", "village_day", "from_house", new(-25.8f, AgentBAct1HeightField.CollisionGround(-25.8f, -.36f) + .05f, -.36f), new(-27.5f, AgentBAct1HeightField.CollisionGround(-27.5f, -1.14f) + .2f, -1.14f), "detail", "optional discovery before action"),
+        Frame("porch_nook_used", "house_exterior", "village_day", "from_house", new(-25.8f, AgentBAct1HeightField.CollisionGround(-25.8f, -.36f) + .05f, -.36f), new(-27.5f, AgentBAct1HeightField.CollisionGround(-27.5f, -1.14f) + .2f, -1.14f), "detail", "optional discovery after action", "house-exterior-porch-nook"),
+        Frame("fap_service_gate", "fap_exterior", "village_day", "from_house", new(34.5f, AgentBAct1HeightField.CollisionGround(34.5f, -22.7f) + .05f, -22.7f), new(34.5f, 0.8f, -25.2f), "detail", "optional discovery before action"),
+        Frame("fap_service_gate_used", "fap_exterior", "village_day", "from_house", new(34.5f, AgentBAct1HeightField.CollisionGround(34.5f, -22.7f) + .05f, -22.7f), new(34.5f, 0.8f, -25.2f), "detail", "optional discovery after action", "fap-exterior-service-path"),
+
         // House interior
         Frame("house_photo_detail", "house_interior", "house_old_pc", "entry", new(-30.1f, .05f, -2.9f), new(-30.1f, 1.45f, -4.60f), "detail", "painted family photograph front"),
         Frame("house_tin_detail", "house_interior", "house_old_pc", "entry", new(-31.97f, .05f, 2.0f), new(-31.97f, .98f, 3.70f), "detail", "sewing tin on the threshold chest"),

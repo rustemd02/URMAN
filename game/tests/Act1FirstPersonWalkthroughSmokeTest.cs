@@ -70,6 +70,30 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
+        // Narrow mode still starts through the ordinary menu/arrival and walks
+        // every metre. It verifies the optional loop without replaying dialogue.
+        if (OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY") == "fap-service")
+        {
+            foreach (var point in AgentBAct1Layout.FapBranchAxis)
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"service-approach-{point.X}-{point.Y}")) return;
+            var gate = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("FapServiceGateCollision");
+            if (gate.CollisionLayer != 1) { Fail("Service gate starts without its closed collider."); return; }
+            foreach (var point in new Vector2[] { new(32,-24.2f), new(38,-23.8f), new(41.5f,-25), new(41.5f,-28.4f), new(40.8f,-28.4f), new(35.25f,-28.0f) })
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"service-return-{point.X}-{point.Y}")) return;
+            var sceneBefore = bridge.ActiveSceneId;
+            if (!await InteractAt(player, ray, Interaction("discover-fap-exterior-service-path"))) return;
+            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+            await Frames(35);
+            if (gate.CollisionLayer != 0 || bridge.ActiveSceneId != sceneBefore)
+            { Fail("Service gate action did not open its collider while preserving the scene."); return; }
+            foreach (var point in new Vector2[] { new(34.5f,-26.6f), new(34.5f,-24.0f), new(32,-24.2f), new(28,-26.2f) })
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"service-gate-exit-{point.X}-{point.Y}")) return;
+            GD.Print($"act1-discovery-walk: PASS loop=fap-service mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+
         // Arrival -> house. Keep the authored signpost clear, then resolve the
         // door's connected-world position from its named interaction target.
         var arrivalTarget = FindInteraction(Interaction("arrival-enter-house"), GetTree().Root);

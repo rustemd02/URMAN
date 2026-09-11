@@ -2030,6 +2030,70 @@
     "conditions": [],
     "effects": [],
     "targetSceneId": "urman.chapter1:scene/house"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-arrival-bench-race-notches",
+    "labelTextId": "urman.chapter1:text/discover-arrival-bench-race-notches",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-arrival-bench-race-notches",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-arrival-bench-race-notches",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-arrival-bench-race-notches",
+      "sourceId": "urman.chapter1:knowledge/discovery-arrival-bench-race-notches"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-arrival-bench-race-notches"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-arrival-insulated-well",
+    "labelTextId": "urman.chapter1:text/discover-arrival-insulated-well",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-arrival-insulated-well",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-arrival-insulated-well",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-arrival-insulated-well",
+      "sourceId": "urman.chapter1:knowledge/discovery-arrival-insulated-well"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-arrival-insulated-well"
    }
   ]
  },
@@ -2295,6 +2359,171 @@
      "zirat_road",
      "kara_urman_night"
     ]
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-main-street-sign-reverse",
+    "labelTextId": "urman.chapter1:text/discover-main-street-sign-reverse",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-main-street-sign-reverse",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-main-street-sign-reverse",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-main-street-sign-reverse",
+      "sourceId": "urman.chapter1:knowledge/discovery-main-street-sign-reverse"
+     },
+     {
+      "op": "vocabulary.set-status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_yul",
+      "status": "confirmed"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-main-street-sign-reverse"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-babai-yard-childhood-spinner",
+    "labelTextId": "urman.chapter1:text/discover-babai-yard-childhood-spinner",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner",
+      "sourceId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-babai-yard-sled-repair",
+    "labelTextId": "urman.chapter1:text/discover-babai-yard-sled-repair",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+      "sourceId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-house-exterior-porch-nook",
+    "labelTextId": "urman.chapter1:text/discover-house-exterior-porch-nook",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-house-exterior-porch-nook",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-house-exterior-porch-nook",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-house-exterior-porch-nook",
+      "sourceId": "urman.chapter1:knowledge/discovery-house-exterior-porch-nook"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-house-exterior-porch-nook"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-fap-exterior-service-path",
+    "labelTextId": "urman.chapter1:text/discover-fap-exterior-service-path",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-fap-exterior-service-path",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-fap-exterior-service-path",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-fap-exterior-service-path",
+      "sourceId": "urman.chapter1:knowledge/discovery-fap-exterior-service-path"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-fap-exterior-service-path"
    }
   ]
  },
@@ -4384,6 +4613,251 @@
    "default": "Смахнуть снег со скамьи",
    "translations": {
     "ru": "Смахнуть снег со скамьи"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-arrival-bench-race-notches",
+  "kind": "fact",
+  "title": {
+   "default": "Зарубки за скамьёй",
+   "translations": {
+    "ru": "Зарубки за скамьёй"
+   }
+  },
+  "summary": {
+   "default": "Четыре зарубки на задней перекладине. Отсюда мы с Маратом наперегонки бежали до ворот — а потом спорили, кто начал раньше. Забор заменили, скамью оставили.",
+   "translations": {
+    "ru": "Четыре зарубки на задней перекладине. Отсюда мы с Маратом наперегонки бежали до ворот — а потом спорили, кто начал раньше. Забор заменили, скамью оставили."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/arrival_vehicle_dusk"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-arrival-bench-race-notches",
+  "value": {
+   "default": "Смахнуть снег с перекладины",
+   "translations": {
+    "ru": "Смахнуть снег с перекладины"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-arrival-insulated-well",
+  "kind": "fact",
+  "title": {
+   "default": "Варежка у колодца",
+   "translations": {
+    "ru": "Варежка у колодца"
+   }
+  },
+  "summary": {
+   "default": "К рукояти привязана старая варежка: чтобы зимой не хвататься голой рукой за металл. Крючок с обратной стороны отполирован пальцами. Кто-то пользуется колодцем каждый день.",
+   "translations": {
+    "ru": "К рукояти привязана старая варежка: чтобы зимой не хвататься голой рукой за металл. Крючок с обратной стороны отполирован пальцами. Кто-то пользуется колодцем каждый день."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/arrival_vehicle_dusk"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-arrival-insulated-well",
+  "value": {
+   "default": "Осмотреть рукоять с обратной стороны",
+   "translations": {
+    "ru": "Осмотреть рукоять с обратной стороны"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-main-street-sign-reverse",
+  "kind": "fact",
+  "title": {
+   "default": "Слово под краской",
+   "translations": {
+    "ru": "Слово под краской"
+   }
+  },
+  "summary": {
+   "default": "На обороте указателя проступило «юл» — дорога. Доску перевернули и использовали снова; старая стрелка теперь смотрит прямо в узкий проход между дворами.",
+   "translations": {
+    "ru": "На обороте указателя проступило «юл» — дорога. Доску перевернули и использовали снова; старая стрелка теперь смотрит прямо в узкий проход между дворами."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-main-street-sign-reverse",
+  "value": {
+   "default": "Прочитать оборот указателя",
+   "translations": {
+    "ru": "Прочитать оборот указателя"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner",
+  "kind": "fact",
+  "title": {
+   "default": "Деревянный волчок",
+   "translations": {
+    "ru": "Деревянный волчок"
+   }
+  },
+  "summary": {
+   "default": "Из-за поленницы выглядывал красный ободок. Волчок ещё держит равновесие, хотя один край сточен. Бабай вытачивал такие из остатков дерева.",
+   "translations": {
+    "ru": "Из-за поленницы выглядывал красный ободок. Волчок ещё держит равновесие, хотя один край сточен. Бабай вытачивал такие из остатков дерева."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-babai-yard-childhood-spinner",
+  "value": {
+   "default": "Крутануть волчок",
+   "translations": {
+    "ru": "Крутануть волчок"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+  "kind": "fact",
+  "title": {
+   "default": "Синяя перекладина",
+   "translations": {
+    "ru": "Синяя перекладина"
+   }
+  },
+  "summary": {
+   "default": "Синюю перекладину держат два разных болта. Этой краской бабай велел не пачкать рукавицы. Я, конечно, испачкал.",
+   "translations": {
+    "ru": "Синюю перекладину держат два разных болта. Этой краской бабай велел не пачкать рукавицы. Я, конечно, испачкал."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-babai-yard-sled-repair",
+  "value": {
+   "default": "Снять ремень с санок",
+   "translations": {
+    "ru": "Снять ремень с санок"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-house-exterior-porch-nook",
+  "kind": "fact",
+  "title": {
+   "default": "Красная штопка",
+   "translations": {
+    "ru": "Красная штопка"
+   }
+  },
+  "summary": {
+   "default": "За ящиком лежит маленькая рукавичка. Большой палец заштопан красным — әби никогда не выбрасывала вещь из-за одной дырки. На второй рукавичке, наверное, было бы то же самое.",
+   "translations": {
+    "ru": "За ящиком лежит маленькая рукавичка. Большой палец заштопан красным — әби никогда не выбрасывала вещь из-за одной дырки. На второй рукавичке, наверное, было бы то же самое."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-house-exterior-porch-nook",
+  "value": {
+   "default": "Отодвинуть ящик",
+   "translations": {
+    "ru": "Отодвинуть ящик"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-fap-exterior-service-path",
+  "kind": "route",
+  "title": {
+   "default": "Служебный двор",
+   "translations": {
+    "ru": "Служебный двор"
+   }
+  },
+  "summary": {
+   "default": "Между ФАПом и сараем проложены доски. С востока можно обойти служебный двор и выйти к дороге через калитку. Защёлка открывается изнутри.",
+   "translations": {
+    "ru": "Между ФАПом и сараем проложены доски. С востока можно обойти служебный двор и выйти к дороге через калитку. Защёлка открывается изнутри."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-fap-exterior-service-path",
+  "value": {
+   "default": "Поднять защёлку служебных ворот",
+   "translations": {
+    "ru": "Поднять защёлку служебных ворот"
    }
   },
   "purpose": "ui"

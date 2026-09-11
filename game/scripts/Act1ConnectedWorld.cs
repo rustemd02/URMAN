@@ -324,7 +324,10 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAct1CoreWorldGreybox();
         BuildAct1NpcStaging();
         BuildAct1InteriorDiscoveries();
+        BuildAct1ExteriorDiscoveries();
+        BuildFapServiceExploration();
         BuildRoadsideDiscoveries();
+        BuildAct1YardDiscoveries();
         foreach (var placement in Act1WorldLayout.Placements)
         {
             var zone = _zoneInstances[placement.ZoneId];
@@ -2568,15 +2571,24 @@ public partial class Act1ConnectedWorld : Node3D
             Vector3.One,
             "fap_clinic@blank-notice-board",
             FapClinicKitScenePath);
-        AttachAct1ExteriorKitComponent(
+        var rainAwning = AttachAct1ExteriorKitComponent(
             presentation,
             components[8].Root!,
             "FapAuthoredRainAwning",
-            origin + side * 5.0f + front * 4.8f,
-            yaw + 7f,
+            origin + side * 9.8f - front * 1.5f,
+            yaw - 12f,
             Vector3.One,
             "fap_clinic@service-rain-awning",
             FapClinicKitScenePath);
+        // Mount the existing brackets under the shed eave. The old free-
+        // standing anchor left the downpipe supporting an airborne canopy.
+        rainAwning.GlobalTransform = presentation.GetNode<Node3D>("FapAuthoredServiceShed").GlobalTransform
+            * new Transform3D(Basis.Identity, new Vector3(0, -.32f, 1.28f));
+        var drainFoot = FindDescendants<MeshInstance3D>(rainAwning)
+            .Single(mesh => mesh.Name == "FapRainAwning_DrainFoot_LOD0");
+        var drainAt = drainFoot.GlobalPosition;
+        drainAt.Y = AgentBAct1HeightField.CollisionGround(drainAt.X, drainAt.Z) + .05f;
+        drainFoot.GlobalPosition = drainAt;
         AttachAct1ExteriorKitComponent(
             presentation,
             components[9].Root!,
@@ -4046,7 +4058,9 @@ public partial class Act1ConnectedWorld : Node3D
         // FapRightFieldHouse owns this full-size plot; the old miniature
         // horizon house expanded into its footprint after the kit upgrade.
         AddVisualFenceRun(perimeterParcels, "EastStreetFarFence", new(35.0f, 0f, -22.0f), new(41.0f, 0f, -22.0f));
-        AddAuthoredHouse(perimeterParcels, "FapEastViewHouse", new(40.0f, 1.1f, -28.0f), 0.28f, 176f);
+        // This is a distant house, beyond the walkable service yard. The
+        // full-size replacement must not occupy its eastern return passage.
+        AddAuthoredHouse(perimeterParcels, "FapEastViewHouse", new(51.0f, 1.1f, -30.0f), 0.28f, 176f);
         AddAuthoredHouse(perimeterParcels, "ZiratEastBoundaryHouse", new(22.0f, 1.0f, -73.0f), 0.25f, -90f);
         AddVisualFenceRun(perimeterParcels, "ZiratEastBoundaryFence", new(19.0f, 0f, -76.0f), new(25.0f, 0f, -76.0f));
 
@@ -5036,10 +5050,11 @@ public partial class Act1ConnectedWorld : Node3D
             component.Visible = false;
             component.SetMeta("suppressionReason", "continuous terrain-road kit owns road surfaces");
         }
-        if (assetSource == VillageExteriorKitScenePath)
+        if (assetSource is VillageExteriorKitScenePath or FapClinicKitScenePath)
         {
             var groundAnchor = placement.GlobalPosition;
-            var yardProp = component.Name.ToString().StartsWith("Woodpile_", StringComparison.Ordinal)
+            var yardProp = assetSource == FapClinicKitScenePath
+                || component.Name.ToString().StartsWith("Woodpile_", StringComparison.Ordinal)
                 || component.Name.ToString().StartsWith("FenceSegment_", StringComparison.Ordinal)
                 || component.Name.ToString().StartsWith("Gate_", StringComparison.Ordinal)
                 || component.Name.ToString().StartsWith("Well_", StringComparison.Ordinal);

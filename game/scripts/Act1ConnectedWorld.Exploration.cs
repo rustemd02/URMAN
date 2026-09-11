@@ -97,7 +97,7 @@ public partial class Act1ConnectedWorld
         DiscoveryTarget(fap, "fap-interior-repaired-desk-object", new(.40f, .54f, .35f), lamp.Position + new Vector3(0, .22f, 0), false);
     }
 
-    private void DiscoveryTarget(StyleBenchmarkZone zone, string slug, Vector3 size, Vector3 position, bool journal)
+    private InteractionTarget DiscoveryTarget(StyleBenchmarkZone zone, string slug, Vector3 size, Vector3 position, bool journal)
     {
         var target = zone.MakeInteractionBox("Discovery_" + slug, size, position, "665b49",
             "urman.chapter1:interaction/discover-" + slug, "Осмотреть");
@@ -105,6 +105,7 @@ public partial class Act1ConnectedWorld
         // bridge exists; the target itself remains the usual raycast owner.
         target.SetMeta("discoverySlug", slug);
         if (journal) target.JournalEntryId = DiscoveryPrefix + slug;
+        return target;
     }
 
     private static MeshInstance3D DiscoveryCylinder(Node3D parent, string name, float top, float bottom,
@@ -173,5 +174,8 @@ public partial class Act1ConnectedWorld
             };
             _lampFound = lampOn;
         }
+        UpdateAct1ExteriorDiscoveries();
+        UpdateAct1YardDiscoveries();
+        UpdateFapServiceExploration();
     }
 }
