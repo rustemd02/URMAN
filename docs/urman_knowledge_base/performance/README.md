@@ -323,3 +323,9 @@ The local host still does not reproduce the reported one-FPS loop. This is
 not M1/Windows evidence; retain the target OS/GPU, exact editor/package launch
 path and complete `--print-fps --no-auto-performance-fallback` output before
 assigning the issue to runtime code.
+
+## 2026-09-11 — журнал редких задержек
+
+Существующий `Act1DemoRoot.RecordPerformanceProbeFrame` теперь выводит `act1-perf-stall` только для кадров >100 мс: UTC и монотонный timestamp, warmup/measurement, номер кадра, elapsed, дельты GC поколений и выделенных managed bytes, фокус окна, событие VillageLife и последние engine process/physics monitors. Счётчики собираются только при явно включённом probe. Эти признаки помогают найти причину; совпадение GC само по себе не доказывает причину задержки. Порог итоговой приёмки не изменён.
+
+Проверка logger: C# build PASS; короткий реальный Metal запуск 720p/1с+5с — `DIAGNOSTIC_SHORT`, запись двух warmup-задержек 179,648/173,993 мс с полями. Внешняя диагностическая пауза собственного PID была до окончания построения мира, поэтому не приписывается конкретной записи logger. Это проверка инструмента, не финальный packaged FPS и не исправление прежнего скачка 529,721 мс. Доказательство: `/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/performance_stalls_diagnostic.log`; userdata восстановлены byte-for-byte. Полное измерение свежей самостоятельной сборки остаётся открытым.

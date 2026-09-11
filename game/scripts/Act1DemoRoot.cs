@@ -61,6 +61,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private double _performanceWarmupElapsed;
     private double _performanceMeasurementElapsed;
     private ulong _performanceLastTicks;
+    private (int Gen0, int Gen1, int Gen2, long Allocated) _performanceLastGc;
     private readonly List<double> _performanceWarmupSamples = [];
     private readonly List<double> _performanceSamples = [];
     private bool _startupPerformanceGuard;
@@ -147,6 +148,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             ConfigurePerformanceProbe(commandLine);
             _performanceLastTicks = Time.GetTicksUsec();
+            _performanceLastGc = (GC.CollectionCount(0), GC.CollectionCount(1), GC.CollectionCount(2), GC.GetTotalAllocatedBytes(false));
         }
 
         if (_startupPerformanceGuard)
@@ -331,6 +333,25 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             FinishPerformanceProbe(2);
             return;
         }
+
+        // Only the explicitly requested probe samples managed counters. Keep
+        // individual stalls attributable instead of hiding them in percentiles.
+        var gc = (Gen0: GC.CollectionCount(0), Gen1: GC.CollectionCount(1),
+            Gen2: GC.CollectionCount(2), Allocated: GC.GetTotalAllocatedBytes(false));
+        if (frameMilliseconds > 100.0)
+        {
+            var warming = _performanceWarmupElapsed < _performanceWarmupSeconds;
+            var life = _main.ConnectedWorld.GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/VillageLife");
+            GD.Print(string.Create(CultureInfo.InvariantCulture, $"act1-perf-stall: utc={DateTimeOffset.UtcNow:O} ticks_us={now} "
+                + $"phase={(warming ? "warmup" : "measurement")} sample={(warming ? _performanceWarmupSamples.Count : _performanceSamples.Count) + 1} "
+                + $"elapsed_s={_performanceWarmupElapsed + _performanceMeasurementElapsed + frameMilliseconds / 1000.0:F3} frame_ms={frameMilliseconds:F3} "
+                + $"gc0_delta={gc.Gen0 - _performanceLastGc.Gen0} gc1_delta={gc.Gen1 - _performanceLastGc.Gen1} gc2_delta={gc.Gen2 - _performanceLastGc.Gen2} "
+                + $"allocated_delta={gc.Allocated - _performanceLastGc.Allocated} focused={DisplayServer.WindowIsFocused()} "
+                + $"life_event={life?.GetMeta("event", 0).AsInt32() ?? 0} life_time={life?.GetMeta("eventTime", 0f).AsDouble() ?? 0:F3} "
+                + $"last_process_ms={Performance.GetMonitor(Performance.Monitor.TimeProcess) * 1000.0:F3} "
+                + $"last_physics_ms={Performance.GetMonitor(Performance.Monitor.TimePhysicsProcess) * 1000.0:F3}"));
+        }
+        _performanceLastGc = gc;
 
         if (_performanceWarmupElapsed < _performanceWarmupSeconds)
         {
