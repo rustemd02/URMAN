@@ -2075,12 +2075,15 @@ public partial class StyleBenchmarkZone : Node3D
         string targetZoneId = "",
         string targetSpawnPointId = "entry",
         string dialogueId = "",
-        string documentId = "")
+        string documentId = "",
+        bool rayOnly = false)
     {
         var body = new InteractionTarget
         {
             Name = name,
             Position = position,
+            CollisionLayer = rayOnly ? 4u : 1u,
+            CollisionMask = rayOnly ? 0u : 1u,
             InteractionId = interactionId,
             Prompt = prompt,
             TargetZoneId = targetZoneId,

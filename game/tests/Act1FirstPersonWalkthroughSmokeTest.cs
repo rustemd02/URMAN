@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using System.Linq;
 using Godot;
 using Urman.Experiments.AgentBAct1;
@@ -72,6 +74,137 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
 
         // Narrow mode still starts through the ordinary menu/arrival and walks
         // every metre. It verifies the optional loop without replaying dialogue.
+        if (OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY") == "rear-house")
+        {
+            foreach (var point in AgentBAct1Layout.WalkChain.Skip(1).Take(3).Concat(AgentBAct1Layout.HousePathAxis.Skip(1)))
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-approach-{point.X}-{point.Y}")) return;
+            var access = new Vector2[] { new(-24.4f,2.6f), new(-26.05f,2.6f), new(-29f,2.6f), new(-34.2f,.8f), new(-34.2f,-8.6f), new(-31.3f,-8.6f) };
+            foreach (var point in access)
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-side-{point.X}-{point.Y}")) return;
+            if (!await InteractAt(player, ray, Interaction("discover-house-exterior-rear-minaret-view"))) return;
+            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+            await Frames(35);
+            foreach (var point in access.Reverse().Concat(new[] { new Vector2(-24f,1.2f) }))
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-return-{point.X}-{point.Y}")) return;
+            GD.Print($"act1-discovery-walk: PASS route=rear-house mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+
+        if (OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY") == "culvert")
+        {
+            foreach (var point in AgentBAct1Layout.MainRoadAxis.Skip(1).Concat(AgentBAct1Layout.ZiratRoadAxis.Skip(1).Take(1)))
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"culvert-approach-{point.X}-{point.Y}")) return;
+            if (!await WalkTo(player, new(1.1f, player.GlobalPosition.Y, -67f), "culvert-roadside")) return;
+            if (!await InteractAt(player, ray, Interaction("discover-zirat-outer-culvert-crossing"))) return;
+            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+            await Frames(35);
+            foreach (var point in new Vector2[] { new(2.35f,-67f), new(3.65f,-67f), new(4.95f,-67f), new(5.8f,-65.8f), new(3.5f,-63.3f), new(.3f,-64f) })
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"culvert-crossing-{point.X}-{point.Y}")) return;
+            GD.Print($"act1-discovery-walk: PASS route=culvert mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+
+        if (OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY") == "main-service")
+        {
+            foreach (var point in AgentBAct1Layout.MainRoadAxis.Skip(1).Take(3))
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"main-service-approach-{point.X}-{point.Y}")) return;
+
+            var village = main.ConnectedWorld.GetZoneInstance("village_day");
+            var bypass = village?.GetNodeOrNull<StaticBody3D>("Act1BypassCollision");
+            var gate = bypass?.GetNodeOrNull<CollisionShape3D>("MainStreetServiceGate");
+            var target = FindInteraction(Interaction("discover-main-street-fenced-service-lane"), GetTree().Root);
+            if (bypass is null || gate is null || target is null)
+            {
+                Fail("MainStreet service-lane smoke could not locate its bypass collision or interaction target.");
+                return;
+            }
+            if (gate.Disabled)
+            {
+                Fail("MainStreet service gate starts without its closed collider.");
+                return;
+            }
+
+            var sceneBefore = bridge.ActiveSceneId;
+            if (!await InteractAt(player, ray, Interaction("discover-main-street-fenced-service-lane"))) return;
+            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+            await Frames(35);
+            if (!gate.Disabled || bridge.ActiveSceneId != sceneBefore)
+            {
+                Fail("MainStreet service-lane action did not clear its gate collider while preserving the scene.");
+                return;
+            }
+            if (!TryReadRoutePoints(target, out var route)) return;
+            if (!await WalkRoutePoints(player, route, "main-service-route")) return;
+            foreach (var point in AgentBAct1Layout.FapBranchAxis.Take(2).Reverse())
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"main-service-return-branch-{point.X}-{point.Y}")) return;
+            foreach (var point in AgentBAct1Layout.MainRoadAxis.Take(4).Skip(1).Reverse())
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"main-service-return-road-{point.X}-{point.Y}")) return;
+            if (HorizontalDistance(player.GlobalPosition, AgentBAct1Layout.ArrivalSpawn) > .60f)
+            {
+                Fail($"MainStreet service-lane smoke did not return to the arrival road: actual={player.GlobalPosition}.");
+                return;
+            }
+            GD.Print($"act1-discovery-walk: PASS loop=main-service mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+
+        if (OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY") == "connective-shed")
+        {
+            foreach (var point in AgentBAct1Layout.MainRoadAxis.Skip(1).Take(5))
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"connective-shed-approach-{point.X}-{point.Y}")) return;
+
+            var village = main.ConnectedWorld.GetZoneInstance("village_day");
+            var bypass = village?.GetNodeOrNull<StaticBody3D>("Act1BypassCollision");
+            var gate = bypass?.GetNodeOrNull<CollisionShape3D>("ConnectiveShedBypassGate");
+            var target = FindInteraction(Interaction("discover-connective-street-shed-bypass"), GetTree().Root);
+            if (bypass is null || gate is null || target is null)
+            {
+                Fail("Connective shed-bypass smoke could not locate its bypass collision or interaction target.");
+                return;
+            }
+            if (gate.Disabled)
+            {
+                Fail("Connective shed gate starts without its closed collider.");
+                return;
+            }
+
+            var sceneBefore = bridge.ActiveSceneId;
+            if (!await InteractAt(player, ray, Interaction("discover-connective-street-shed-bypass"))) return;
+            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+            await Frames(35);
+            if (!gate.Disabled || bridge.ActiveSceneId != sceneBefore)
+            {
+                Fail("Connective shed-bypass action did not clear its gate collider while preserving the scene.");
+                return;
+            }
+            if (!TryReadRoutePoints(target, out var route)) return;
+            if (!await WalkRoutePoints(player, route, "connective-shed-route")) return;
+            for (var index = route.Length - 2; index >= 0; index--)
+            {
+                var point = route[index];
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"connective-shed-return-through-gate-{index}")) return;
+            }
+            var returnRoadPoint = AgentBAct1Layout.MainRoadAxis[5];
+            if (!await WalkTo(player, new(returnRoadPoint.X, player.GlobalPosition.Y, returnRoadPoint.Y), "connective-shed-return-road-rejoin")) return;
+            foreach (var point in AgentBAct1Layout.MainRoadAxis.Take(5).Skip(1).Reverse())
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"connective-shed-return-main-road-{point.X}-{point.Y}")) return;
+            if (HorizontalDistance(player.GlobalPosition, AgentBAct1Layout.ArrivalSpawn) > .60f)
+            {
+                Fail($"Connective shed-bypass smoke did not return to the arrival road: actual={player.GlobalPosition}.");
+                return;
+            }
+            GD.Print($"act1-discovery-walk: PASS route=connective-shed mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+
         if (OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY") == "fap-service")
         {
             foreach (var point in AgentBAct1Layout.FapBranchAxis)
@@ -638,8 +771,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
                 for (var i = 0; i < player.GetSlideCollisionCount(); i++)
                 {
                     var hit = player.GetSlideCollision(i);
-                    if (Mathf.Abs(hit.GetNormal().Y) < 0.5f)
-                        lastBlockingShape = (hit.GetColliderShape() as Node)?.GetPath().ToString() ?? hit.GetCollider().ToString();
+                    lastBlockingShape = $"{(hit.GetCollider() as Node)?.GetPath()} shape={(hit.GetColliderShape() as Node)?.GetPath()} normal={hit.GetNormal()} position={hit.GetPosition()} velocity={player.Velocity} modal={player.ModalOpen}";
                 }
                 _walkedMeters += HorizontalDistance(before, player.GlobalPosition);
                 var currentDistance = HorizontalDistance(player.GlobalPosition, destination);
@@ -873,6 +1005,58 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
     }
 
     private static string Interaction(string localId) => $"{ChapterPrefix}interaction/{localId}";
+
+    private bool TryReadRoutePoints(InteractionTarget target, out Vector2[] points)
+    {
+        points = [];
+        if (!target.HasMeta("routePoints"))
+        {
+            Fail($"Physical walkthrough target {target.InteractionId} has no routePoints metadata.");
+            return false;
+        }
+
+        var raw = target.GetMeta("routePoints").AsString();
+        var encodedPoints = raw.Split('|', StringSplitOptions.RemoveEmptyEntries);
+        if (encodedPoints.Length < 2)
+        {
+            Fail($"Physical walkthrough target {target.InteractionId} has fewer than two route points: '{raw}'.");
+            return false;
+        }
+
+        points = new Vector2[encodedPoints.Length];
+        for (var index = 0; index < encodedPoints.Length; index++)
+        {
+            var coordinates = encodedPoints[index].Split(',', StringSplitOptions.RemoveEmptyEntries);
+            if (coordinates.Length != 2
+                || !float.TryParse(coordinates[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var x)
+                || !float.TryParse(coordinates[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var z)
+                || !float.IsFinite(x)
+                || !float.IsFinite(z))
+            {
+                Fail($"Physical walkthrough target {target.InteractionId} has invalid route point '{encodedPoints[index]}'.");
+                points = [];
+                return false;
+            }
+            points[index] = new Vector2(x, z);
+        }
+        return true;
+    }
+
+    private async Task<bool> WalkRoutePoints(
+        FirstPersonController player,
+        Vector2[] route,
+        string label)
+    {
+        for (var index = 0; index < route.Length; index++)
+        {
+            var point = route[index];
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"{label}-{index}"))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
     private static InteractionTarget? FindInteraction(string interactionId, Node node)
     {

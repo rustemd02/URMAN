@@ -201,7 +201,8 @@
         "Use existing narrow traversal/save/capture owners; ordinary physical traversal required for secret paths."
       ],
       "evidence": [
-        "Explicit user steering 2026-09-11; current gameplay/hand-over/mindmap/decision owners updated; implementation pending."
+        "Explicit user steering 2026-09-11; current gameplay/hand-over/mindmap/decision owners updated; implementation pending.",
+        "2026-09-11 24 functional optional discoveries; existing flow covers ray/journal/load/New Game. Main service loop53.87m, shed side pocket123.64m, culvert87.33m, rearhouse84.02m physically walked with no visible architecture crossings; prior3loops retained. Art and ordinary interest acceptance remain open; see gameplay.md and external physical receipts."
       ],
       "blocked_reason": null
     },
@@ -230,7 +231,7 @@
       "id": "FINISH-07",
       "title": "Final performance traversal and standalone candidate",
       "milestone": "M5",
-      "status": "ready",
+      "status": "in_progress",
       "active_owner": null,
       "depends_on": [],
       "owner": "finished-act1",
@@ -246,7 +247,9 @@
       "verify": [
         "Narrow existing path selected from handover section 28 after inspecting actual owner."
       ],
-      "evidence": [],
+      "evidence": [
+        "2026-09-11 current source window probe, village_day@arrival, M4 Pro 1080p medium0.9/MSAA2: 12s warmup +60.01s, avg9.372ms,p9516.686,p9917.188,max22.976,106.70FPS,0 long frames; source_perf_stalls/run.log. Current standalone package, other heavy views and ordinary full traversal remain open."
+      ],
       "blocked_reason": null
     },
     {

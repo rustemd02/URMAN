@@ -2654,6 +2654,134 @@
     "targetJournalEntryId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench"
    },
    {
+    "id": "urman.chapter1:interaction/discover-zirat-outer-culvert-crossing",
+    "labelTextId": "urman.chapter1:text/discover-zirat-outer-culvert-crossing",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing",
+      "sourceId": "urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-house-exterior-rear-minaret-view",
+    "labelTextId": "urman.chapter1:text/discover-house-exterior-rear-minaret-view",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view",
+      "sourceId": "urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-main-street-fenced-service-lane",
+    "labelTextId": "urman.chapter1:text/discover-main-street-fenced-service-lane",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-main-street-fenced-service-lane",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-main-street-fenced-service-lane",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-main-street-fenced-service-lane",
+      "sourceId": "urman.chapter1:knowledge/discovery-main-street-fenced-service-lane"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-main-street-fenced-service-lane"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-connective-street-shed-bypass",
+    "labelTextId": "urman.chapter1:text/discover-connective-street-shed-bypass",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-connective-street-shed-bypass",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-connective-street-shed-bypass",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-connective-street-shed-bypass",
+      "sourceId": "urman.chapter1:knowledge/discovery-connective-street-shed-bypass"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-connective-street-shed-bypass"
+   },
+   {
     "id": "urman.chapter1:interaction/discover-babai-yard-loose-side-gate-board",
     "labelTextId": "urman.chapter1:text/discover-babai-yard-loose-side-gate-board",
     "conditions": [
@@ -5312,6 +5440,76 @@
  },
  {
   "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing",
+  "kind": "route",
+  "title": {
+   "default": "Мостик у канавы",
+   "translations": {
+    "ru": "Мостик у канавы"
+   }
+  },
+  "summary": {
+   "default": "У края дороги доски лежат поперёк канавы и упираются в камни на другом берегу. За ними начинается короткая внешняя тропа; на снегу виден свежий след лопаты.",
+   "translations": {
+    "ru": "У края дороги доски лежат поперёк канавы и упираются в камни на другом берегу. За ними начинается короткая внешняя тропа; на снегу виден свежий след лопаты."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view",
+  "kind": "fact",
+  "title": {
+   "default": "За домом",
+   "translations": {
+    "ru": "За домом"
+   }
+  },
+  "summary": {
+   "default": "За домом, у дальнего угла, открывается кусок неба, и над крышами виден минарет. После снегопада я выходил сюда проверить, не вернулся ли бабай с улицы.",
+   "translations": {
+    "ru": "За домом, у дальнего угла, открывается кусок неба, и над крышами виден минарет. После снегопада я выходил сюда проверить, не вернулся ли бабай с улицы."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-zirat-outer-culvert-crossing",
+  "value": {
+   "default": "Проверить внешний мостик",
+   "translations": {
+    "ru": "Проверить внешний мостик"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-house-exterior-rear-minaret-view",
+  "value": {
+   "default": "Посмотреть из-за дома",
+   "translations": {
+    "ru": "Посмотреть из-за дома"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
   "id": "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board",
   "kind": "route",
   "title": {
@@ -5446,6 +5644,76 @@
    "default": "Рассмотреть силуэт сбоку",
    "translations": {
     "ru": "Рассмотреть силуэт сбоку"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-main-street-fenced-service-lane",
+  "kind": "route",
+  "title": {
+   "default": "Калитка за забором",
+   "translations": {
+    "ru": "Калитка за забором"
+   }
+  },
+  "summary": {
+   "default": "За забором оказался проход к боковой дороге. Щеколду с улицы не видно: нужно зайти с торца. Теперь до поворота на ФАП можно пройти между дворами.",
+   "translations": {
+    "ru": "За забором оказался проход к боковой дороге. Щеколду с улицы не видно: нужно зайти с торца. Теперь до поворота на ФАП можно пройти между дворами."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-main-street-fenced-service-lane",
+  "value": {
+   "default": "Отодвинуть щеколду",
+   "translations": {
+    "ru": "Отодвинуть щеколду"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-connective-street-shed-bypass",
+  "kind": "route",
+  "title": {
+   "default": "За сараем",
+   "translations": {
+    "ru": "За сараем"
+   }
+  },
+  "summary": {
+   "default": "Сарай почти касается забора, но калитка открывается. За ней можно обойти угол и выйти во двор. Тропа расчищена узко, на одну лопату: здесь ходят каждый день.",
+   "translations": {
+    "ru": "Сарай почти касается забора, но калитка открывается. За ней можно обойти угол и выйти во двор. Тропа расчищена узко, на одну лопату: здесь ходят каждый день."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-connective-street-shed-bypass",
+  "value": {
+   "default": "Открыть калитку за сараем",
+   "translations": {
+    "ru": "Открыть калитку за сараем"
    }
   },
   "purpose": "ui"

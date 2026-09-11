@@ -150,6 +150,9 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("zirat_holding_return", "zirat", "zirat_road", "village_side", new(-23f, (float)AgentBAct1HeightField.Ground(-23f, -63.8f) + .05f, -63.8f), new(-7f, 1f, -61f), "back", "near-mid-far"),
 
         // Kara-Urman edge / cliffhanger approach
+        Frame("rear_minaret_view", "house_exterior", "village_day", "from_house", new(-31.2311f, AgentBAct1HeightField.CollisionGround(-31.2311f, -8.711206f) + .05f, -8.711206f), new(-46f, 13f, -34f), "detail", "actual rear corner view toward village minaret"),
+        Frame("zirat_culvert", "zirat", "zirat_road", "village_side", new(1.3f, AgentBAct1HeightField.CollisionGround(1.3f, -67f) + .05f, -67f), new(3.65f, .3f, -67f), "detail", "outer roadside footbridge before clearing"),
+        Frame("zirat_culvert_used", "zirat", "zirat_road", "village_side", new(1.3f, AgentBAct1HeightField.CollisionGround(1.3f, -67f) + .05f, -67f), new(3.65f, .3f, -67f), "detail", "outer roadside footbridge after clearing", "zirat-outer-culvert-crossing"),
         Frame("kara_warm_window", "kara_approach", "kara_urman_night", "village_path", new(4.45f, AgentBAct1HeightField.CollisionGround(4.45f, -114.55f) + .05f, -114.55f), new(-8.8f, 1.35f, -97.2f), "detail", "actual window sightline from optional clearing"),
         Frame("kara_profile_front", "kara_approach", "kara_urman_night", "village_path", new(3.4f, AgentBAct1HeightField.CollisionGround(3.4f, -114.4f) + .05f, -114.4f), new(5.65f, 1.9f, -118.2f), "detail", "ambiguous branch before stepping sideways"),
         Frame("kara_profile_side", "kara_approach", "kara_urman_night", "village_path", new(8.8f, AgentBAct1HeightField.CollisionGround(8.8f, -117.4f) + .05f, -117.4f), new(5.65f, 1.9f, -118.2f), "detail", "ordinary branch from the side"),

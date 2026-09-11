@@ -26,6 +26,7 @@ public partial class InteractionTarget : StaticBody3D
     public string JournalEntryId { get; set; } = string.Empty;
 
     private uint _activeCollisionLayer;
+    internal uint ActiveCollisionLayer => _activeCollisionLayer;
     private bool? _available;
     private RuntimeBridge? _bridge;
 

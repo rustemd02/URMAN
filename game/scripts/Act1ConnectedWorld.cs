@@ -330,8 +330,10 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAct1YardDiscoveries();
         BuildAct1QuietCareDiscoveries();
         BuildAct1OptionalDiscoveries();
+        BuildAct1CulvertVerandaDiscoveries();
         BuildBabaiYardSideGateExploration();
         BuildAct1KaraOptionalDiscoveries();
+        BuildAct1BypassDiscoveries();
         foreach (var placement in Act1WorldLayout.Placements)
         {
             var zone = _zoneInstances[placement.ZoneId];
@@ -341,12 +343,9 @@ public partial class Act1ConnectedWorld : Node3D
                     .Where(target => !target.HasMeta("connectedWorldHidden"))
                     .Select(target => new InteractionBinding(
                         target,
-                        // Existing StyleBenchmarkZone interaction bodies use
-                        // Godot's default layer 1. An unavailable target has
-                        // already been presentation-gated by InteractionTarget
-                        // before this owner sees it, so retain that authored
-                        // default for restoration when its state becomes valid.
-                        target.CollisionLayer == 0 ? 1u : target.CollisionLayer,
+                        // Availability may already have set the live layer to zero.
+                        // Restore the authored ray/physics layer, not a layer-1 guess.
+                        target.ActiveCollisionLayer,
                         target.CollisionMask))
                     .ToArray());
         }
@@ -667,6 +666,10 @@ public partial class Act1ConnectedWorld : Node3D
                 // authored Agent B house approach.
                 "House",
                 "Foundation",
+                // The isolated HouseA sample overlaps the connected east
+                // parcel gate. Its visible shell and provisional layer-2
+                // walls are replaced by MainStreetEastNeighborFacade.
+                "GeneratedModularKit",
                 "Fence");
         }
         else if (string.Equals(zoneId, "kara_urman_night", StringComparison.Ordinal))
@@ -3803,7 +3806,7 @@ public partial class Act1ConnectedWorld : Node3D
             new Act1ExteriorParcelComponentPlacement(
                 "DwellingFacade_TimberPlaster",
                 "PerimeterWestStreetFacade",
-                new(-23.0f, 0f, -7.0f),
+                new(-21.8f, 0f, -5.8f),
                 90f,
                 Vector3.One * 0.48f,
                 "village_day@perimeter-west-street-facade"),
@@ -4650,16 +4653,16 @@ public partial class Act1ConnectedWorld : Node3D
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
                 "MainStreetEastNeighborFence",
-                new(-4.0f, 0f, 2.0f),
+                new(-6.6f, 0f, 2.0f),
                 90f,
                 new Vector3(0.55f, 0.70f, 1f),
                 "village_day@main-street-east-partial-fence"),
             new Act1ExteriorParcelComponentPlacement(
                 "Gate_CrookedTimber",
                 "MainStreetEastNeighborGate",
-                new(-4.0f, 0f, 5.2f),
+                new(-6.6f, 0f, 5.2f),
                 90f,
-                new Vector3(0.72f, 0.86f, 0.74f),
+                new Vector3(0.72f, 1.15f, 0.74f),
                 "village_day@main-street-east-gate"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
@@ -4824,9 +4827,9 @@ public partial class Act1ConnectedWorld : Node3D
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
                 "HouseExteriorWestNeighborFence",
-                new(4.0f, 0f, 2.8f),
+                new(1.4f, 0f, 2.8f),
                 0f,
-                new Vector3(1.22f, 0.58f, 1f),
+                new Vector3(0.60f, 0.58f, 1f),
                 "house_old_pc@west-side-fence"),
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
@@ -6081,7 +6084,10 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualLandformSegment(parent, "KaraAsymmetricWestBank", new(-3.6f, 0f, -103.0f), new(-8.6f, 0f, -121.5f), 2.2f, 0.34f, "3b493e", "earth", 0.02f);
         AddVisualLandformSegment(parent, "KaraAsymmetricEastBank", new(3.8f, 0f, -105.0f), new(6.4f, 0f, -117.0f), 1.5f, 0.22f, "3f4c40", "earth", 0.02f);
         AddCoreRootCluster(parent, "KaraRootBankWest", new(-5.7f, 0f, -110.5f), 1.0f, -16f);
-        AddCoreRootCluster(parent, "KaraRootBankEast", new(5.2f, 0f, -114.5f), 0.86f, 20f);
+        // Keep the existing root framing outside the warm-window camera
+        // position; it remains a visual forest edge cue and has no route or
+        // collision ownership.
+        AddCoreRootCluster(parent, "KaraRootBankEast", new(7.2f, 0f, -112.2f), 0.78f, 20f);
         AddCoreRootCluster(parent, "KaraThresholdRootWest", new(-8.0f, 0f, -120.5f), 1.18f, 34f);
         AddCoreFacetedMass(parent, "KaraLateralForestShelfWest", origin + new Vector3(-10.0f, 2.8f, -13.5f), new(5.2f, 2.8f, 2.1f), "2f4439");
         AddCoreFacetedMass(parent, "KaraLateralForestShelfEast", origin + new Vector3(10.5f, 2.4f, -18.5f), new(5.0f, 2.4f, 2.3f), "345044");
@@ -6364,26 +6370,32 @@ public partial class Act1ConnectedWorld : Node3D
         parent.AddChild(root);
         AddVisualBox(root, "RootBank", new(2.8f, 0.58f, 1.2f), new(0f, 0.29f, 0f), "3f4b40", "earth", rollDegrees: -7f);
         AddVisualBox(root, "RootRidge", new(1.6f, 0.32f, 0.52f), new(-0.48f, 0.58f, -0.10f), "55483a", "wood_bark", rollDegrees: 18f);
-        AddVisualBox(root, "RootHook", new(0.18f, 1.10f, 0.18f), new(0.62f, 0.75f, -0.20f), "4a3d32", "wood_bark", rollDegrees: -28f);
+        // A tapered branch keeps the root hook organic at close range while
+        // preserving the existing RootHook name and presentation ownership.
+        AddCoreForestBranch(root, "RootHook", new(0.62f, 0.12f, -0.20f),
+            new(0.78f, 1.12f, -0.28f), "4a3d32", 0.11f, 0.035f,
+            radialSegments: 8);
         AddCoreFacetedMass(root, "RootMossMass", new(0.18f, 0.34f, 0.12f), new(0.90f, 0.40f, 0.62f), "405345");
     }
 
     private static void AddCoreForestBranch(Node3D parent, string name, Vector3 start, Vector3 end,
-        string color, float bottomRadius = 0.11f, float topRadius = 0.055f)
+        string color, float bottomRadius = 0.11f, float topRadius = 0.055f,
+        int radialSegments = 6)
     {
         var direction = end - start;
         var branch = new MeshInstance3D
         {
             Name = name,
             Position = (start + end) * 0.5f,
-            Mesh = new CylinderMesh { TopRadius = topRadius, BottomRadius = bottomRadius, Height = direction.Length(), RadialSegments = 6 },
+            Mesh = new CylinderMesh { TopRadius = topRadius, BottomRadius = bottomRadius, Height = direction.Length(), RadialSegments = radialSegments },
             MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "wood_bark")
         };
         branch.SetMeta("presentationOnly", true);
         branch.SetMeta("visualOnly", true);
         parent.AddChild(branch);
-        branch.LookAt(end, Vector3.Up);
-        branch.RotateObjectLocal(Vector3.Right, Mathf.Pi * 0.5f);
+        // Cylinder +Y is its tapered tip; LookAt points -Z at the endpoint.
+        branch.LookAt(parent.ToGlobal(end), Vector3.Up);
+        branch.RotateObjectLocal(Vector3.Right, -Mathf.Pi * 0.5f);
     }
 
     private static void BuildVillageLandmarkKit(Node3D parent)
@@ -7760,10 +7772,25 @@ public partial class Act1ConnectedWorld : Node3D
                 var bankX = bestX + side * (halfWidth + .9f + wobble);
                 var atBank = AgentBAct1HeightField.RoadInfo(bankX, z);
                 // House/FAP approaches cross the bank: keep those gates clear.
-                if (atBank.Distance - atBank.HalfWidth > .7f)
-                    AddSnowBank(root, $"StreetBank{(side > 0 ? "E" : "W")}_{Mathf.RoundToInt(z)}",
-                        new(bankX, 0f, z - 2.5f), new(bankX + wobble * .5f, 0f, z + 2.5f),
-                        1.65f, .48f + .11f * Mathf.Sin(z * .31f + side), z + side);
+                if (atBank.Distance - atBank.HalfWidth <= .7f) continue;
+                var bankStart = new Vector3(bankX, 0f, z - 2.5f);
+                var bankEnd = new Vector3(bankX + wobble * .5f, 0f, z + 2.5f);
+                var bankName = $"StreetBank{(side > 0 ? "E" : "W")}_{Mathf.RoundToInt(z)}";
+                var bankHeight = .48f + .11f * Mathf.Sin(z * .31f + side);
+                // The maintained footbridge crosses this bank: leave its real
+                // aperture instead of drawing a snow ridge through the deck.
+                if (side > 0 && bankStart.Z < ZiratCulvertZ + .7f && bankEnd.Z > ZiratCulvertZ - .7f)
+                {
+                    if (bankStart.Z < ZiratCulvertZ - .7f)
+                        AddSnowBank(root, bankName + "Before", bankStart,
+                            bankStart.Lerp(bankEnd, (ZiratCulvertZ - .7f - bankStart.Z) / 5f),
+                            1.65f, bankHeight, z + side);
+                    if (bankEnd.Z > ZiratCulvertZ + .7f)
+                        AddSnowBank(root, bankName + "After",
+                            bankStart.Lerp(bankEnd, (ZiratCulvertZ + .7f - bankStart.Z) / 5f), bankEnd,
+                            1.65f, bankHeight, z + side);
+                }
+                else AddSnowBank(root, bankName, bankStart, bankEnd, 1.65f, bankHeight, z + side);
             }
         }
         foreach (var side in new[] { -1f, 1f })
@@ -7854,7 +7881,7 @@ public partial class Act1ConnectedWorld : Node3D
             MaterialOverride = PainterlyMaterialLibrary.ForColor("8b816d", "grass") });
     }
 
-    private static void AddVisualStoneCluster(Node3D parent, string name, Vector3 origin, float size, string color)
+    private static void AddVisualStoneCluster(Node3D parent, string name, Vector3 origin, float size, string color, bool organic = false)
     {
         var stones = new Node3D { Name = name, Position = origin };
         stones.SetMeta("visualOnly", true);
@@ -7875,8 +7902,14 @@ public partial class Act1ConnectedWorld : Node3D
                 Name = "Stone",
                 Position = offset * size,
                 Scale = new Vector3(scale.X * size, scale.Y * size, scale.Z * size),
-                RotationDegrees = new Vector3(0f, size * 37f, size * 11f),
-                Mesh = new SphereMesh { Radius = 1f, Height = 2f, RadialSegments = 7, Rings = 3 },
+                RotationDegrees = new Vector3(organic ? size * 17f : 0f, size * 37f, size * 11f),
+                Mesh = new SphereMesh
+                {
+                    Radius = 1f,
+                    Height = 2f,
+                    RadialSegments = organic ? 9 : 7,
+                    Rings = organic ? 4 : 3
+                },
                 MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "stone")
             });
         }

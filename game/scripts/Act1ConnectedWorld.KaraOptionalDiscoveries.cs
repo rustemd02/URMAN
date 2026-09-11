@@ -271,25 +271,6 @@ public partial class Act1ConnectedWorld
             clearingSurface.SetMeta("sightlineTarget", "KaraLastWarmWindowHouse/CoreFrontWindow");
             clearingSurface.SetMeta("centralRoutePolicy", "side position; not on the Kara road centreline");
         }
-        // Low branch arcs describe the spruce opening without adding a solid
-        // wall. They are ordinary winter boughs and have no physics owner.
-        AddCoreForestBranch(
-            forest,
-            "KaraWarmWindowClearingArcWest",
-            KaraGround(2.65f, .30f, .12f),
-            KaraGround(3.72f, .90f, 2.05f),
-            "30473b",
-            .11f,
-            .042f);
-        AddCoreForestBranch(
-            forest,
-            "KaraWarmWindowClearingArcEast",
-            KaraGround(6.45f, .90f, .10f),
-            KaraGround(5.40f, 1.30f, 1.86f),
-            "30473b",
-            .12f,
-            .045f);
-
         var windowHouseWorld = KaraGround(-8.80f, 17.80f);
         var windowHouse = AddCoreBuilding(
             forest,
@@ -335,40 +316,92 @@ public partial class Act1ConnectedWorld
         // remains an ambiguous tree profile; no creature, actor or reveal is
         // created by this optional discovery.
         var profileRoot = KaraGround(6.25f, -3.25f);
+        // The profile is still an ordinary branch silhouette, but its trunk,
+        // shoulder and twigs bend through short tapered segments instead of
+        // reading as one set of straight dark poles.
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileTrunk",
             profileRoot + new Vector3(0f, .04f, 0f),
+            profileRoot + new Vector3(-.05f, 1.25f, .03f),
+            "4b4034",
+            .14f,
+            .070f,
+            radialSegments: 8);
+        AddCoreForestBranch(
+            forest,
+            "KaraBranchProfileTrunkUpper",
+            profileRoot + new Vector3(-.05f, 1.25f, .03f),
+            profileRoot + new Vector3(.10f, 2.25f, .12f),
+            "4b4034",
+            .085f,
+            .050f,
+            radialSegments: 8);
+        AddCoreForestBranch(
+            forest,
+            "KaraBranchProfileTrunkTip",
+            profileRoot + new Vector3(.10f, 2.25f, .12f),
             profileRoot + new Vector3(.08f, 3.10f, .16f),
-            "493a30",
-            .19f,
-            .075f);
+            "4b4034",
+            .060f,
+            .026f,
+            radialSegments: 8);
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileShoulder",
-            profileRoot + new Vector3(.02f, 2.08f, .08f),
-            profileRoot + new Vector3(-.92f, 2.62f, .12f),
-            "493a30",
-            .13f,
-            .055f);
+            profileRoot + new Vector3(-.01f, 1.86f, .06f),
+            profileRoot + new Vector3(-.46f, 2.28f, .10f),
+            "4b4034",
+            .11f,
+            .055f,
+            radialSegments: 8);
+        AddCoreForestBranch(
+            forest,
+            "KaraBranchProfileShoulderTip",
+            profileRoot + new Vector3(-.46f, 2.28f, .10f),
+            profileRoot + new Vector3(-.94f, 2.62f, .12f),
+            "4b4034",
+            .060f,
+            .026f,
+            radialSegments: 8);
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileLongArm",
-            profileRoot + new Vector3(-.84f, 2.58f, .12f),
-            profileRoot + new Vector3(-1.70f, 2.72f, .20f),
-            "493a30",
-            .085f,
-            .028f);
+            profileRoot + new Vector3(-.88f, 2.60f, .12f),
+            profileRoot + new Vector3(-1.32f, 2.72f, .16f),
+            "4b4034",
+            .072f,
+            .034f,
+            radialSegments: 8);
+        AddCoreForestBranch(
+            forest,
+            "KaraBranchProfileLongArmTip",
+            profileRoot + new Vector3(-1.32f, 2.72f, .16f),
+            profileRoot + new Vector3(-1.72f, 2.74f, .21f),
+            "4b4034",
+            .039f,
+            .015f,
+            radialSegments: 8);
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileSideTwig",
-            profileRoot + new Vector3(.05f, 2.28f, .10f),
-            profileRoot + new Vector3(.84f, 2.80f, -.02f),
+            profileRoot + new Vector3(.04f, 2.25f, .08f),
+            profileRoot + new Vector3(.45f, 2.50f, .02f),
             "5c4636",
-            .075f,
-            .024f);
+            .060f,
+            .028f,
+            radialSegments: 8);
+        AddCoreForestBranch(
+            forest,
+            "KaraBranchProfileSideTwigTip",
+            profileRoot + new Vector3(.45f, 2.50f, .02f),
+            profileRoot + new Vector3(.85f, 2.80f, -.02f),
+            "5c4636",
+            .030f,
+            .012f,
+            radialSegments: 8);
         var profileStone = profileRoot + new Vector3(1.05f, 0f, .22f);
-        AddVisualStoneCluster(forest, "KaraBranchProfileStone", profileStone, .62f, "62675f");
+        AddVisualStoneCluster(forest, "KaraBranchProfileStone", profileStone, .62f, "62675f", organic: true);
         var profileTarget = DiscoveryTarget(
             kara,
             KaraBranchProfileSlug,

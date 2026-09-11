@@ -365,6 +365,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         if (candidate is null || !GodotObject.IsInstanceValid(candidate))
         {
             if (_focusedTarget is { } unavailable
+                && string.IsNullOrEmpty(unavailable.JournalEntryId)
                 && !unavailable.IsAvailable()
                 && IsStillFocused(unavailable))
             {

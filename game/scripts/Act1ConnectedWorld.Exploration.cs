@@ -100,7 +100,9 @@ public partial class Act1ConnectedWorld
     private InteractionTarget DiscoveryTarget(StyleBenchmarkZone zone, string slug, Vector3 size, Vector3 position, bool journal)
     {
         var target = zone.MakeInteractionBox("Discovery_" + slug, size, position, "665b49",
-            "urman.chapter1:interaction/discover-" + slug, "Осмотреть");
+            "urman.chapter1:interaction/discover-" + slug, "Осмотреть", rayOnly: true);
+        // Discovery hit volumes use ray layer 3. The visible prop or gate owns
+        // physical collision; an oversized selection box must not block walking.
         // Localized prose stays in compiled authored content. Resolve after the
         // bridge exists; the target itself remains the usual raycast owner.
         target.SetMeta("discoverySlug", slug);
@@ -178,8 +180,10 @@ public partial class Act1ConnectedWorld
         UpdateAct1YardDiscoveries();
         UpdateAct1QuietCareDiscoveries();
         UpdateAct1OptionalDiscoveries();
+        UpdateAct1CulvertVerandaDiscoveries();
         UpdateBabaiYardSideGateExploration();
         UpdateAct1KaraOptionalDiscoveries();
+        UpdateAct1BypassDiscoveries();
         UpdateFapServiceExploration();
     }
 }

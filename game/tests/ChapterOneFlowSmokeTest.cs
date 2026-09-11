@@ -41,7 +41,7 @@ public partial class ChapterOneFlowSmokeTest : Node
             || rinatActor.GlobalPosition.Z < -5f)
         { Fail("Act I exterior people are hidden or Rinat starts at the late position."); return; }
 
-        foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-childhood-spinner", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench", "connective-street-return-bench", "fap-exterior-care-porch", "main-street-side-window", "connective-street-repair-bench", "babai-yard-loose-side-gate-board", "kara-old-forestry-side-track", "kara-warm-window-clearing", "kara-branch-profile" })
+        foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-childhood-spinner", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench", "connective-street-return-bench", "fap-exterior-care-porch", "main-street-side-window", "connective-street-repair-bench", "babai-yard-loose-side-gate-board", "kara-old-forestry-side-track", "kara-warm-window-clearing", "kara-branch-profile", "main-street-fenced-service-lane", "connective-street-shed-bypass", "zirat-outer-culvert-crossing", "house-exterior-rear-minaret-view" })
             if (!await Discover(bridge, slug)) return;
         await ToSignal(GetTree().CreateTimer(.6), SceneTreeTimer.SignalName.Timeout);
         var restBenchSnow = main.ConnectedWorld.GetNode<Node3D>("Act1CoreWorldGreybox/ZiratMemoryField/DiscoveryRestBench/SnowOnRepairedSeat");
@@ -64,6 +64,19 @@ public partial class ChapterOneFlowSmokeTest : Node
             || bridge.ActiveSceneId != Scene("house"))
         { Fail("Restored photo, tin or explicit home vocabulary did not match shared discovery state."); return; }
         var core = main.ConnectedWorld.GetNode<Node3D>("Act1CoreWorldGreybox");
+        var bypassCollision = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("Act1BypassCollision");
+        var mainBypassGate = bypassCollision.GetNode<CollisionShape3D>("MainStreetServiceGate");
+        var shedBypassGate = bypassCollision.GetNode<CollisionShape3D>("ConnectiveShedBypassGate");
+        var mainBypassHinge = (Node3D)core.FindChild("MainStreetServiceGateHinge", true, false);
+        var shedBypassHinge = (Node3D)core.FindChild("ConnectiveVariantCGateHinge", true, false);
+        var culvertSnow = core.GetNode<Node3D>("ZiratMemoryField/ZiratOuterCulvertCrossing/FootbridgeSnowCap");
+        var culvertBody = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("ZiratOuterCulvertCollision");
+        if (bypassCollision.CollisionLayer != 0 || !mainBypassGate.Disabled || !shedBypassGate.Disabled
+            || Mathf.Abs(mainBypassHinge.RotationDegrees.Y - 92f) > .1f
+            || Mathf.Abs(Mathf.Abs(shedBypassHinge.RotationDegrees.Y) - 92f) > .1f
+            || culvertSnow.Visible || culvertBody.CollisionLayer != 0
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-house-exterior-rear-minaret-view") != "confirmed")
+        { Fail("Loaded bypasses or culvert lost their reveal or retained exterior collision indoors."); return; }
         var arrivalSnow = core.GetNode<Node3D>("Arrival/DiscoveryArrivalBench/SnowCap");
         var wellMitten = core.GetNode<Node3D>("MainStreet/DiscoveryArrivalWellDetail/TiedMitten");
         var signBoard = core.GetNode<Node3D>("MainStreet/DiscoveryMainStreetSign/Board");
@@ -307,6 +320,12 @@ public partial class ChapterOneFlowSmokeTest : Node
             || Mathf.Abs(careCup.Position.Z - .18f) > .01f || careNapkin.Visible
             || windowReveal?.Visible != false || handleWrap?.Visible != false)
         { Fail("New Game retained care or street discovery presentation."); return; }
+        if (bypassCollision.CollisionLayer != 1 || mainBypassGate.Disabled || shedBypassGate.Disabled
+            || mainBypassHinge.Rotation.Y != 0 || shedBypassHinge.Rotation.Y != 0
+            || !culvertSnow.Visible || culvertBody.CollisionLayer != 1
+            || new[] { "main-street-fenced-service-lane", "connective-street-shed-bypass", "zirat-outer-culvert-crossing", "house-exterior-rear-minaret-view" }
+                .Any(slug => KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-" + slug) != "hidden"))
+        { Fail("New Game retained a bypass opening, culvert reveal or rear-view knowledge."); return; }
         GD.Print("chapter-one-flow-smoke: authored route -> visible people -> final silence -> menu -> fresh session");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
@@ -318,13 +337,14 @@ public partial class ChapterOneFlowSmokeTest : Node
         var main = (Main)GetTree().GetFirstNodeInGroup("zone_manager");
         var target = main.ConnectedWorld!.FindChild("Discovery_" + slug, true, false) as InteractionTarget;
         if (target is null) { Fail("Discovery has no physical target: " + slug); return false; }
+        if (target.CollisionLayer != 4u) { Fail("Discovery selection volume blocks player physics: " + slug); return false; }
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         var side = slug is "house-interior-language-tin" or "fap-interior-height-marks" ? -1f : 1f;
         if (slug == "fap-exterior-service-path") side = -1f;
         var eye = target.GlobalPosition + new Vector3(0, .6f, side * 1.5f);
         GD.Print($"discovery-physical-ray slug={slug} at={target.GlobalPosition} eye={eye}");
         var hit = target.GetWorld3D().DirectSpaceState.IntersectRay(
-            PhysicsRayQueryParameters3D.Create(eye, target.GlobalPosition, 1));
+            PhysicsRayQueryParameters3D.Create(eye, target.GlobalPosition, 5));
         if (hit.Count == 0 || hit["collider"].AsGodotObject() != target)
         { Fail("Discovery ray is occluded or misses its authored target: " + slug); return false; }
         if (!await bridge.DispatchInteractionAsync(Interaction("discover-" + slug))
