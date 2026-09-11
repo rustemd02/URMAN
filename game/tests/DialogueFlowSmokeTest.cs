@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.Json;
 using Godot;
 
@@ -46,6 +47,17 @@ public partial class DialogueFlowSmokeTest : Node
 
         bridge.OpenDialogueUi("urman.chapter1:dialogue/gulsina_yaramyy");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var firstChoices = dialogueUi.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>().ToArray();
+        var stayForTea = firstChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-gulsina-stay-for-tea"));
+        var askYaramyyWhy = firstChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-gulsina-yaramyy"));
+        if (stayForTea is null || askYaramyyWhy is null)
+        {
+            Fail("Gulsina's start node did not expose both the tea alternative and the guessed ярамый question.");
+            return;
+        }
+        stayForTea.EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         dialogueUi._UnhandledInput(new InputEventKey
         {
             Keycode = Key.E,
@@ -60,6 +72,16 @@ public partial class DialogueFlowSmokeTest : Node
         }
 
         bridge.OpenDialogueUi("urman.chapter1:dialogue/gulsina_yaramyy");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var secondChoices = dialogueUi.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>().ToArray();
+        var yaramyyChoice = secondChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-gulsina-yaramyy"));
+        if (yaramyyChoice is null)
+        {
+            Fail("Gulsina's guessed ярамый question was not available as the second early branch.");
+            return;
+        }
+        yaramyyChoice.EmitSignal(Button.SignalName.Pressed);
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         dialogueUi._UnhandledInput(new InputEventJoypadButton
         {
@@ -100,8 +122,12 @@ public partial class DialogueFlowSmokeTest : Node
         }
 
         state = bridge.SelectRuntimeState();
+        var dialogueChoices = state.GetProperty("dialogueChoices");
+        var sawRinatOfficialChoice = dialogueChoices.EnumerateArray().Any(choice =>
+            choice.GetProperty("dialogueId").GetString() == "urman.chapter1:dialogue/rinat_no_key"
+            && choice.GetProperty("choiceId").GetString() == "show-official");
         if (!state.GetProperty("npc").GetProperty("urman.chapter1:character/rinat").GetProperty("saw_official_record").GetBoolean() ||
-            state.GetProperty("dialogueChoices").GetArrayLength() != 1)
+            !sawRinatOfficialChoice)
         {
             Fail("Rinat dialogue did not commit NPC state and choice history atomically.");
             return;

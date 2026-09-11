@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 using Urman.Experiments.AgentBAct1;
 
@@ -142,6 +143,17 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
+        var mansurChoices = mansurDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>().ToArray();
+        var offerHelp = mansurChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-mansur-offer-help"));
+        var askWhy = mansurChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-mansur-why"));
+        if (offerHelp is null || askWhy is null)
+        {
+            Fail("Mansur's start node did not expose both the offer-help and state-gated question choices.");
+            return;
+        }
+        offerHelp.EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
         mansurDialogue.GetNode<Button>("Screen/Panel/Layout/Continue")
             .EmitSignal(Button.SignalName.Pressed);
         await Frames(4);
@@ -209,6 +221,17 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             Fail("Physical walkthrough did not open Gulsina's warning dialogue before leaving the house.");
             return;
         }
+        var gulsinaChoices = gulsinaDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>().ToArray();
+        var stayForTea = gulsinaChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-gulsina-stay-for-tea"));
+        var askYaramyy = gulsinaChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-gulsina-yaramyy"));
+        if (stayForTea is null || askYaramyy is null)
+        {
+            Fail("Gulsina's start node did not expose both the tea alternative and guessed ярамый question.");
+            return;
+        }
+        stayForTea.EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
         gulsinaDialogue.GetNode<Button>("Screen/Panel/Layout/Continue")
             .EmitSignal(Button.SignalName.Pressed);
         await Frames(4);

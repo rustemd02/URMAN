@@ -1486,11 +1486,18 @@
        {
         "op": "vocabulary.status",
         "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
-        "status": "confirmed"
+        "status": "guessed"
        }
       ],
       "effects": [],
       "nextNodeId": "yaramyy-reply"
+     },
+     {
+      "id": "stay-for-tea",
+      "textId": "urman.chapter1:text/choice-gulsina-stay-for-tea",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "stay-for-tea-reply"
      }
     ]
    },
@@ -1506,6 +1513,14 @@
     "id": "yaramyy-reply",
     "speakerRole": "gulsina",
     "textId": "urman.chapter1:text/dialogue-gulsina-yaramyy-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "stay-for-tea-reply",
+    "speakerRole": "gulsina",
+    "textId": "urman.chapter1:text/dialogue-gulsina-stay-for-tea-reply",
     "conditions": [],
     "effects": [],
     "choices": []
@@ -1614,13 +1629,21 @@
     ],
     "choices": [
      {
+      "id": "offer-help",
+      "textId": "urman.chapter1:text/choice-mansur-offer-help",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "offer-help-reply"
+     },
+     {
       "id": "ask-why-not-himself",
       "textId": "urman.chapter1:text/choice-mansur-why",
       "conditions": [
        {
-        "op": "knowledge.status",
-        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
-        "status": "confirmed"
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/mansur",
+        "stateKey": "pc_access_granted",
+        "value": true
        }
       ],
       "effects": [],
@@ -1645,6 +1668,14 @@
     "id": "why-reply",
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-why-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "offer-help-reply",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-offer-help-reply",
     "conditions": [],
     "effects": [],
     "choices": []
@@ -3073,6 +3104,28 @@
  },
  {
   "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-gulsina-stay-for-tea",
+  "value": {
+   "default": "All right. I’ll sit with you for a while.",
+   "translations": {
+    "ru": "Ладно. Я пока посижу с тобой."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-gulsina-stay-for-tea-reply",
+  "value": {
+   "default": "“Sit. The tea is still hot.” She straightens the edge of the tablecloth, but does not return to Marat’s name.",
+   "translations": {
+    "ru": "«Посиди. Чай ещё горячий». Она поправляет край скатерти, но к имени Марата больше не возвращается."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
   "id": "urman.chapter1:text/choice-alsu-boundary",
   "value": {
    "default": "Ask where the boundary actually begins.",
@@ -3144,6 +3197,28 @@
    "default": "Mansur does not take offense: “The eyes are not the same anymore, and some folders I do not open twice. A person reads a page once — and carries it. I have carried enough.”",
    "translations": {
     "ru": "Мансур не обижается: «Глаза уже не те, а некоторые папки я и второй раз не открою. Человек страницу читает один раз — и носит её в себе. Мне своего ношения хватает»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-mansur-offer-help",
+  "value": {
+   "default": "Let me take a look, babai.",
+   "translations": {
+    "ru": "Давай посмотрю, бабай."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-mansur-offer-help-reply",
+  "value": {
+   "default": "Mansur nods toward the chair: “Sit down. I’m here, beside you.”",
+   "translations": {
+    "ru": "Мансур кивает на стул: «Садись. Я здесь, рядом»."
    }
   },
   "purpose": "dialogue"

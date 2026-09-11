@@ -767,11 +767,18 @@
                   {
                     "op": "vocabulary.status",
                     "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
-                    "status": "confirmed"
+                    "status": "guessed"
                   }
                 ],
                 "effects": [],
                 "nextNodeId": "yaramyy-reply"
+              },
+              {
+                "id": "stay-for-tea",
+                "textId": "urman.chapter1:text/choice-gulsina-stay-for-tea",
+                "conditions": [],
+                "effects": [],
+                "nextNodeId": "stay-for-tea-reply"
               }
             ]
           },
@@ -787,6 +794,14 @@
             "id": "yaramyy-reply",
             "speakerRole": "gulsina",
             "textId": "urman.chapter1:text/dialogue-gulsina-yaramyy-reply",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "stay-for-tea-reply",
+            "speakerRole": "gulsina",
+            "textId": "urman.chapter1:text/dialogue-gulsina-stay-for-tea-reply",
             "conditions": [],
             "effects": [],
             "choices": []
@@ -817,13 +832,21 @@
             ],
             "choices": [
               {
+                "id": "offer-help",
+                "textId": "urman.chapter1:text/choice-mansur-offer-help",
+                "conditions": [],
+                "effects": [],
+                "nextNodeId": "offer-help-reply"
+              },
+              {
                 "id": "ask-why-not-himself",
                 "textId": "urman.chapter1:text/choice-mansur-why",
                 "conditions": [
                   {
-                    "op": "knowledge.status",
-                    "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
-                    "status": "confirmed"
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/mansur",
+                    "stateKey": "pc_access_granted",
+                    "value": true
                   }
                 ],
                 "effects": [],
@@ -848,6 +871,14 @@
             "id": "why-reply",
             "speakerRole": "mansur",
             "textId": "urman.chapter1:text/dialogue-mansur-why-reply",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "offer-help-reply",
+            "speakerRole": "mansur",
+            "textId": "urman.chapter1:text/dialogue-mansur-offer-help-reply",
             "conditions": [],
             "effects": [],
             "choices": []
@@ -3953,6 +3984,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/choice-gulsina-stay-for-tea",
+        "value": {
+          "default": "All right. I\u2019ll sit with you for a while.",
+          "translations": {
+            "ru": "\u041B\u0430\u0434\u043D\u043E. \u042F \u043F\u043E\u043A\u0430 \u043F\u043E\u0441\u0438\u0436\u0443 \u0441 \u0442\u043E\u0431\u043E\u0439."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/choice-gulsina-yaramyy",
         "value": {
           "default": "Ask why it is \u044F\u0440\u0430\u043C\u044B\u0439.",
@@ -3969,6 +4011,17 @@
           "default": "Show him the official notice.",
           "translations": {
             "ru": "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0435\u043C\u0443 \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u0443\u044E \u0441\u043F\u0440\u0430\u0432\u043A\u0443."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/choice-mansur-offer-help",
+        "value": {
+          "default": "Let me take a look, babai.",
+          "translations": {
+            "ru": "\u0414\u0430\u0432\u0430\u0439 \u043F\u043E\u0441\u043C\u043E\u0442\u0440\u044E, \u0431\u0430\u0431\u0430\u0439."
           }
         },
         "purpose": "dialogue"
@@ -4086,6 +4139,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/dialogue-gulsina-stay-for-tea-reply",
+        "value": {
+          "default": "\u201CSit. The tea is still hot.\u201D She straightens the edge of the tablecloth, but does not return to Marat\u2019s name.",
+          "translations": {
+            "ru": "\u00AB\u041F\u043E\u0441\u0438\u0434\u0438. \u0427\u0430\u0439 \u0435\u0449\u0451 \u0433\u043E\u0440\u044F\u0447\u0438\u0439\u00BB. \u041E\u043D\u0430 \u043F\u043E\u043F\u0440\u0430\u0432\u043B\u044F\u0435\u0442 \u043A\u0440\u0430\u0439 \u0441\u043A\u0430\u0442\u0435\u0440\u0442\u0438, \u043D\u043E \u043A \u0438\u043C\u0435\u043D\u0438 \u041C\u0430\u0440\u0430\u0442\u0430 \u0431\u043E\u043B\u044C\u0448\u0435 \u043D\u0435 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442\u0441\u044F."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/dialogue-gulsina-warning",
         "value": {
           "default": "Gulsina lowers her voice: \u201C\u042F\u0440\u0430\u043C\u044B\u0439. Not toward the urman after dusk.\u201D",
@@ -4113,6 +4177,17 @@
           "default": "He holds the printout for a long time without reading it. \u201CSo that is the wording they gave your grandmother on the phone, word for word. You see \u2014 a paper agrees with itself. Papers always do.\u201D",
           "translations": {
             "ru": "\u041E\u043D \u0434\u043E\u043B\u0433\u043E \u0434\u0435\u0440\u0436\u0438\u0442 \u0440\u0430\u0441\u043F\u0435\u0447\u0430\u0442\u043A\u0443, \u043D\u0435 \u0447\u0438\u0442\u0430\u044F. \u00AB\u0412\u043E\u0442, \u0437\u043D\u0430\u0447\u0438\u0442, \u043A\u0430\u043A \u0441\u0444\u043E\u0440\u043C\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043B\u0438 \u2014 \u0431\u0430\u0431\u0443\u0448\u043A\u0435 \u043F\u043E \u0442\u0435\u043B\u0435\u0444\u043E\u043D\u0443 \u0441\u043B\u043E\u0432\u043E \u0432 \u0441\u043B\u043E\u0432\u043E \u0442\u0430\u043A \u0438 \u0441\u043A\u0430\u0437\u0430\u043B\u0438. \u0412\u0438\u0434\u0438\u0448\u044C \u2014 \u0431\u0443\u043C\u0430\u0433\u0430 \u0441\u0445\u043E\u0434\u0438\u0442\u0441\u044F \u0441 \u0431\u0443\u043C\u0430\u0433\u043E\u0439. \u0411\u0443\u043C\u0430\u0433\u0430 \u0432\u0441\u0435\u0433\u0434\u0430 \u0441\u0445\u043E\u0434\u0438\u0442\u0441\u044F\u00BB."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/dialogue-mansur-offer-help-reply",
+        "value": {
+          "default": "Mansur nods toward the chair: \u201CSit down. I\u2019m here, beside you.\u201D",
+          "translations": {
+            "ru": "\u041C\u0430\u043D\u0441\u0443\u0440 \u043A\u0438\u0432\u0430\u0435\u0442 \u043D\u0430 \u0441\u0442\u0443\u043B: \u00AB\u0421\u0430\u0434\u0438\u0441\u044C. \u042F \u0437\u0434\u0435\u0441\u044C, \u0440\u044F\u0434\u043E\u043C\u00BB."
           }
         },
         "purpose": "dialogue"
@@ -4871,7 +4946,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "82c4f59db7d1f149e5480e4f70c7613c14ecffd0630c9d509322b8b107451f69"
+      "sha256": "7468c5dcd184acace595429cb0a5d6248e5c0d1eab156ef41cd9bd667acc6a28"
     },
     {
       "moduleId": "urman.core",
@@ -4884,5 +4959,5 @@
       "sha256": "c2584c38933e832c12fbca1b78ef0172d1dc95cb92505071408af996021de3f1"
     }
   ],
-  "campaignFingerprint": "c0a07c2493401fa4d8a19fc067c0a39112d4d44257fc65beb74dcd1b51537afd"
+  "campaignFingerprint": "45a94b66dd394cef420dd1ec413ae0fb3b4691cff61bfd949436f8816069d6b5"
 }

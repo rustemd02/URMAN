@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 using Urman.Experiments.AgentBAct1;
 
@@ -85,6 +86,17 @@ public partial class FirstPersonInteractionSmokeTest : Node
             Fail("Mansur's request did not grant the RuntimeBridge-owned old-PC access state.");
             return;
         }
+        var mansurChoices = mansurDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>().ToArray();
+        var offerHelp = mansurChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-mansur-offer-help"));
+        var askWhy = mansurChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-mansur-why"));
+        if (offerHelp is null || askWhy is null)
+        {
+            Fail("Mansur's start node did not expose both the offer-help and state-gated question choices.");
+            return;
+        }
+        offerHelp.EmitSignal(Button.SignalName.Pressed);
+        await Frames(3);
         mansurDialogue.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
         await Frames(2);
 

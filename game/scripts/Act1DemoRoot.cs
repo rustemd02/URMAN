@@ -725,7 +725,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _introStack = stack;
         stack.AddChild(Label("УРМАН", 56, new Color(0.88f, 0.78f, 0.59f)));
         stack.AddChild(Label("Акт I — Возвращение", 24, new Color(0.72f, 0.72f, 0.66f)));
-        stack.AddChild(Label("Я снова в Кырлае. Дождь. Десять лет молчания.", 18, new Color(0.57f, 0.62f, 0.59f)));
+        stack.AddChild(Label("Я снова в Кырлае. Снег. Десять лет молчания.", 18, new Color(0.57f, 0.62f, 0.59f)));
         stack.AddChild(Label("Первая цель: добраться до дома и проверить старый компьютер.", 18, new Color(0.72f, 0.74f, 0.68f)));
         _introControls = Label(string.Empty, 15, new Color(0.48f, 0.54f, 0.52f));
         stack.AddChild(_introControls);
