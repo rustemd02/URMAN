@@ -505,3 +505,7 @@ Metal renderer в 1280×720 и 1920×1080. Проверены fresh/Continue, н
 логи `menu_720_round4.log` и `menu_1080_round4.log` во внешнем каталоге.
 Профиль пользователя восстановлен byte-for-byte. Художественная доводка
 фоновой сцены и обычное полное прохождение остаются отдельными пунктами.
+
+### 2026-09-12 — выбор поверхности performance probe
+
+Существующий Act1DemoRoot принимает --urman-perf-sample=zone@spawn только при включённом performance probe. Пара проверяется таблицей Act1WorldLayout до входа Main в дерево; обычный запуск и menu diagnostic сохраняют arrival. Receipt и stall diagnostics записывают выбранную пару. Короткими native диагностическими запусками проверены village_day@arrival, house_old_pc@entry, fap_clinic@waiting_room, kara_urman_night@village_path и отклонение unknown@bad; настройки/сохранения восстановлены byte-for-byte. Эти прогоны проверяют выбор зоны и валидацию, не FPS acceptance: полный packaged 12s warmup/60s sample ещё нужен. Steady sample не заменяет измерения движения, переходов или обычное прохождение.

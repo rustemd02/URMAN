@@ -148,7 +148,7 @@ Generated one file per prompt with the built-in OpenAI ImageGen tool on 2026-09-
 | `wallpaper_old_v2_albedo.png` | striped house wallpaper | `451123ec6bf67a3ce5af46cc4cbf34f8136f161dad29af636a19163fafd3e970` | candidate, art-lock-pending |
 | `wall_institution_v1_albedo.png` | FAP institutional walls | `4139f15bc78e4713a85398e697a3418c9e0b910999fa6b800f3318ae8a95f626` | candidate, art-lock-pending |
 | `ornament_trim_v1_albedo.png` | restrained Tatar border frieze | `c13f6b28a35cae781799729fd0ac6d8c5e72295d036fcac26e7e3a6a9caa2a8a` | candidate, art-lock-pending |
-| `carpet_palas_v1_albedo.png` | traditional flat-woven Tatar palas | `d9d48b174b6c8e02bf618cae40ae7248b9562bbb42d7ce7ef471c06b0a55721a` | candidate, art-lock-pending |
+| `carpet_palas_v1_albedo.png` | traditional flat-woven Tatar palas | `d9d48b174b6c8e02bf618cae40ae7248b9562bbb42d7ce7ef471c06b0a55721a` | runtime carpet semantic; native-reviewed 2026-09-12, cultural/art lock pending |
 | `fabric_chit_v1_albedo.png` | old Tatar chintz household fabric | `b70fde9721eb785afb00acd912af0ca903ebfe8f2b9f42d184807791a038c91a` | candidate, art-lock-pending |
 | `wood_carved_gate_v1_albedo.png` | carved gate and hero-house window trim | `3620ee923093c1677aac99cf8d4f09753917e326b1e7d4d7e20421444c480cae` | candidate, art-lock-pending |
 

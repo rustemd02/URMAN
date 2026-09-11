@@ -162,16 +162,19 @@ def faceted_torso(
     height_scale: float = 1.0,
     depth_scale: float = 1.0,
 ) -> bpy.types.Object:
-    """Build a low-poly torso with a chest, waist and gently tapered hem."""
+    """Build a low-poly torso with a chest, waist, and integrated shoulder slope."""
     prefix = name.split("_", 1)[0]
     bottom_lift = TORSO_BOTTOM_LIFTS.get(prefix, 0.04)
     rings = (
-        # Keep the upper chest fixed while the lower coat line varies by role.
-        (0.51 + bottom_lift, 0.198, 0.139, -0.004),
-        (0.74 + bottom_lift * 0.55, 0.184, 0.136, -0.006),
-        (0.98 + bottom_lift * 0.18, 0.205, 0.146, -0.004),
-        (1.10, 0.242, 0.156, 0.000),
-        (1.20, 0.252, 0.154, 0.003),
+        # A fuller lower coat and a shallow waist taper keep the hem from reading
+        # as a narrow box while the upper rings overlap the shoulder yoke.
+        (0.51 + bottom_lift, 0.212, 0.146, -0.010),
+        (0.74 + bottom_lift * 0.55, 0.206, 0.154, -0.009),
+        (0.98 + bottom_lift * 0.18, 0.222, 0.162, -0.006),
+        (1.10, 0.250, 0.166, -0.001),
+        # The outer shoulder crest and narrow neck ring replace the flat yoke cap.
+        (1.14, 0.262, 0.170, 0.001),
+        (1.20, 0.155, 0.120, 0.003),
     )
     sides = 10
     vertices: list[tuple[float, float, float]] = []
@@ -416,15 +419,12 @@ def create_character(
     arm_left_rotation = 0.14 + stance * 0.75
     arm_right_rotation = -0.14 + stance * 0.75
     head_z = 1.57 * height_scale
-    hair_z = head_z + 0.17
     body_top = 1.36 * height_scale
-    head_bottom = head_z - 0.17
-    neck_bottom = body_top - 0.015
-    neck_top = head_bottom + 0.030
-    neck_center = (neck_bottom + neck_top) * 0.5
-    neck_height = neck_top - neck_bottom
+    # The imported head includes the existing neck down to about -0.21;
+    # use that boundary when fitting the smaller winter collar.
+    head_bottom = head_z - 0.21
     scarf_bottom = body_top - 0.010
-    scarf_height = max(0.085, head_bottom - 0.035 - scarf_bottom)
+    scarf_height = max(0.065, head_bottom - 0.020 - scarf_bottom)
     scarf_z = scarf_bottom + scarf_height * 0.5
     coat_surface = material(f"{prefix}Coat", coat_color)
     accent_surface = material(f"{prefix}Accent", accent_color)
@@ -439,25 +439,17 @@ def create_character(
         height_scale=(body_top - 0.16) / 1.20,
         depth_scale=0.98,
     )
-    faceted_prism(
-        f"{prefix}_ShoulderWrap_LOD0",
-        (shoulder_width * shoulder_scale, shoulder_depth, 0.075),
-        (x, -0.005, body_top - 0.055),
-        coat_surface,
-        asset_id,
-        256,
-        bottom_ratio=0.94,
-        top_ratio=1.0,
-        vertices=8,
-    )
     tapered_segment(
         f"{prefix}_SleeveLeft_LOD0",
         (
-            (x - arm_x * 0.82, -0.005, 1.29 * height_scale),
-            (x - arm_x * 1.04, 0.000, 1.02 * height_scale),
-            (x - arm_x * 0.94, -0.012, 0.78 * height_scale),
+            # A small embedded cap, shoulder crest, elbow, then cuff keeps
+            # the sleeve attached to the sloped torso instead of a flat plate.
+            (x - arm_x * 0.68, -0.010, 1.30 * height_scale),
+            (x - arm_x * 0.86, -0.004, 1.20 * height_scale),
+            (x - arm_x * 1.00, -0.002, 1.04 * height_scale),
+            (x - arm_x * 0.92, -0.012, 0.77 * height_scale),
         ),
-        (0.108 * shoulder_scale * sleeve_scale, 0.094 * shoulder_scale * sleeve_scale, 0.070 * shoulder_scale * sleeve_scale),
+        (0.055 * shoulder_scale * sleeve_scale, 0.114 * shoulder_scale * sleeve_scale, 0.101 * shoulder_scale * sleeve_scale, 0.074 * shoulder_scale * sleeve_scale),
         coat_surface,
         asset_id,
         256,
@@ -467,11 +459,13 @@ def create_character(
     tapered_segment(
         f"{prefix}_SleeveRight_LOD0",
         (
-            (x + arm_x * 0.82, -0.005, 1.29 * height_scale),
-            (x + arm_x * 1.04, 0.000, 1.02 * height_scale),
-            (x + arm_x * 0.94, -0.012, 0.78 * height_scale),
+            # Mirror the same four ring profile on the right sleeve.
+            (x + arm_x * 0.68, -0.010, 1.30 * height_scale),
+            (x + arm_x * 0.86, -0.004, 1.20 * height_scale),
+            (x + arm_x * 1.00, -0.002, 1.04 * height_scale),
+            (x + arm_x * 0.92, -0.012, 0.77 * height_scale),
         ),
-        (0.108 * shoulder_scale * sleeve_scale, 0.094 * shoulder_scale * sleeve_scale, 0.070 * shoulder_scale * sleeve_scale),
+        (0.055 * shoulder_scale * sleeve_scale, 0.114 * shoulder_scale * sleeve_scale, 0.101 * shoulder_scale * sleeve_scale, 0.074 * shoulder_scale * sleeve_scale),
         coat_surface,
         asset_id,
         256,
@@ -486,13 +480,13 @@ def create_character(
     ):
         faceted_prism(
             f"{prefix}_ShoulderCuff{side}_LOD0",
-            (0.155 * shoulder_scale * cuff_scale, 0.205 * cuff_scale, 0.060 * cuff_scale),
-            (side_x, -0.005, 0.76 * height_scale),
+            (0.132 * shoulder_scale * cuff_scale, 0.165 * cuff_scale, 0.055 * cuff_scale),
+            (side_x, -0.005, 0.755 * height_scale),
             accent_surface,
             asset_id,
             128,
-            bottom_ratio=0.92,
-            top_ratio=1.0,
+            bottom_ratio=0.86,
+            top_ratio=0.98,
             vertices=8,
             rotation=(0.0, side_rotation, 0.0),
         )
@@ -593,13 +587,13 @@ def create_character(
         obj["license"] = "CC0-1.0; derived from Quaternius Universal Base Characters"
     faceted_prism(
         f"{prefix}_ScarfBand_LOD0",
-        (0.29 * shoulder_scale, 0.24, scarf_height),
-        (x, -0.015, scarf_z),
+        (0.24 * shoulder_scale, 0.18, scarf_height),
+        (x, -0.010, scarf_z),
         material(f"{prefix}Scarf", accent_color),
         asset_id,
         128,
-        bottom_ratio=0.94,
-        top_ratio=1.0,
+        bottom_ratio=0.88,
+        top_ratio=0.98,
         vertices=8,
     )
     # Keep the established HeadHand names so the Godot adapter can route hands
@@ -610,28 +604,28 @@ def create_character(
             f"{prefix}_HeadHand{side}_LOD0",
             (
                 (side_x, -0.018, 0.75 * height_scale),
-                (side_x + side_sign * 0.012, -0.032, 0.66 * height_scale),
-                (side_x + side_sign * 0.024, -0.052, 0.56 * height_scale),
+                (side_x + side_sign * 0.010, -0.030, 0.65 * height_scale),
+                (side_x + side_sign * 0.020, -0.046, 0.57 * height_scale),
             ),
-            (0.073 * shoulder_scale, 0.064 * shoulder_scale, 0.053 * shoulder_scale),
+            (0.060 * shoulder_scale, 0.053 * shoulder_scale, 0.045 * shoulder_scale),
             materials["skin"],
             asset_id,
             128,
-            depth_scale=1.08,
-            sides=7,
+            depth_scale=0.96,
+            sides=8,
         )
         tapered_segment(
             f"{prefix}_HeadHandThumb{side}_LOD0",
             (
-                (side_x + side_sign * 0.024, -0.052, 0.60 * height_scale),
-                (side_x + side_sign * 0.066, -0.076, 0.57 * height_scale),
+                (side_x + side_sign * 0.016, -0.044, 0.63 * height_scale),
+                (side_x + side_sign * 0.048, -0.066, 0.59 * height_scale),
             ),
-            (0.037 * shoulder_scale, 0.023 * shoulder_scale),
+            (0.028 * shoulder_scale, 0.018 * shoulder_scale),
             materials["skin"],
             asset_id,
             64,
-            depth_scale=1.06,
-            sides=7,
+            depth_scale=0.96,
+            sides=6,
         )
     if has_hat:
         hat_style = {

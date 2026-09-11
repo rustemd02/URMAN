@@ -146,6 +146,9 @@ public partial class StyleBenchmarkZone : Node3D
             // Keep the clinic's cold institutional base restrained so the
             // window and document pools can establish the room's depth.
             AmbientLightEnergy = night ? 0.82f : houseInterior ? 0.58f : fapInterior ? 0.58f : zirat ? 0.72f : 0.78f,
+            SsaoEnabled = interior,
+            SsaoIntensity = 0.55f,
+            SsaoRadius = 0.30f,
             FogEnabled = !interior,
             FogLightColor = night
                 ? Color.FromHtml("4d626a")

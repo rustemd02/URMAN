@@ -508,7 +508,7 @@ def create_house_interior(materials: dict[str, bpy.types.Material]) -> None:
     house_interior_cube(
         "HouseInterior_RugField_LOD0",
         (4.05, 0.025, 2.40),
-        (-1.35, 0.025, 0.45),
+        (-1.35, 0.070, 0.45),
         materials["fabric"],
         420,
         bevel_width=0.018,

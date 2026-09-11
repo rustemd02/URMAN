@@ -42,6 +42,15 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private bool _performanceProbe;
     private const string PerformanceProbeModeMenu = "menu";
     private const string PerformanceProbeModeGameplay = "gameplay";
+    private const string PerformanceProbeSampleArgumentPrefix = "--urman-perf-sample=";
+    private readonly record struct PerformanceSampleTarget(string ZoneId, string SpawnPointId)
+    {
+        public string Label => $"{ZoneId}@{SpawnPointId}";
+    }
+
+    private static readonly PerformanceSampleTarget DefaultPerformanceSample =
+        new("village_day", "arrival");
+
     private const double DefaultPerformanceWarmupSeconds = 12.0;
     private const double DefaultPerformanceDurationSeconds = 60.0;
     private const double MaximumPerformanceWarmupSeconds = 300.0;
@@ -52,6 +61,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private const double TargetLongFrameFraction = 0.005;
     private string _performanceProbeMode = PerformanceProbeModeGameplay;
     private bool _performanceProbeConfigurationValid = true;
+    private PerformanceSampleTarget _performanceSample = DefaultPerformanceSample;
     private bool _performanceWindowed;
     private bool _performanceRealRenderer;
     private double _performanceWarmupSeconds = DefaultPerformanceWarmupSeconds;
@@ -119,12 +129,27 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     public override void _Ready()
     {
         AddToGroup(AccessibilityPresentation.TargetGroup);
+        var commandLine = OS.GetCmdlineArgs();
+        _performanceProbe = commandLine.Contains("--urman-perf-probe", StringComparer.Ordinal)
+            || commandLine.Any(argument => argument.StartsWith(
+                "--urman-perf-probe-mode=",
+                StringComparison.Ordinal));
+        if (_performanceProbe)
+        {
+            // Select the already-authored connected-world placement before
+            // Main enters the tree. With no probe flag this remains the exact
+            // ordinary arrival bootstrap; menu diagnostics also stay there.
+            _performanceSample = ParsePerformanceSample(
+                commandLine,
+                out _performanceProbeConfigurationValid);
+        }
+
         var packed = ResourceLoader.Load<PackedScene>("res://scenes/main.tscn")
             ?? throw new InvalidOperationException("Act 1 demo could not load the first-person main scene.");
         _main = packed.Instantiate<Main>()
             ?? throw new InvalidOperationException("Act 1 demo main scene did not instantiate Main.");
-        _main.InitialZoneId = "village_day";
-        _main.InitialSpawnPointId = "arrival";
+        _main.InitialZoneId = _performanceSample.ZoneId;
+        _main.InitialSpawnPointId = _performanceSample.SpawnPointId;
         _main.EnableZoneTransitionFade = true;
         _main.EnableAct1ConnectedWorld = true;
         AddChild(_main);
@@ -134,11 +159,6 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         BuildRouteCue();
         CallDeferred(nameof(AttachRuntimeBridge));
 
-        var commandLine = OS.GetCmdlineArgs();
-        _performanceProbe = commandLine.Contains("--urman-perf-probe", StringComparer.Ordinal)
-            || commandLine.Any(argument => argument.StartsWith(
-                "--urman-perf-probe-mode=",
-                StringComparison.Ordinal));
         _startupPerformanceGuard = !_performanceProbe
             && !commandLine.Contains("--no-auto-performance-fallback", StringComparer.Ordinal);
         if (_performanceProbe)
@@ -326,6 +346,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             var life = _main.ConnectedWorld.GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/VillageLife");
             GD.Print(string.Create(CultureInfo.InvariantCulture, $"act1-perf-stall: utc={DateTimeOffset.UtcNow:O} ticks_us={now} "
                 + $"phase={(warming ? "warmup" : "measurement")} sample={(warming ? _performanceWarmupSamples.Count : _performanceSamples.Count) + 1} "
+                + $"target={ProbeToken(_performanceSample.Label)} "
                 + $"elapsed_s={_performanceWarmupElapsed + _performanceMeasurementElapsed + frameMilliseconds / 1000.0:F3} frame_ms={frameMilliseconds:F3} "
                 + $"gc0_delta={gc.Gen0 - _performanceLastGc.Gen0} gc1_delta={gc.Gen1 - _performanceLastGc.Gen1} gc2_delta={gc.Gen2 - _performanceLastGc.Gen2} "
                 + $"allocated_delta={gc.Allocated - _performanceLastGc.Allocated} focused={DisplayServer.WindowIsFocused()} "
@@ -394,7 +415,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             "act1-demo-package-performance:",
             $"status={status}",
             $"mode={_performanceProbeMode}",
-            "sample=village_day@arrival",
+            $"sample={ProbeToken(_performanceSample.Label)}",
             $"avg={average.ToString("F3", CultureInfo.InvariantCulture)}ms",
             $"p95={p95.ToString("F3", CultureInfo.InvariantCulture)}ms",
             $"p99={p99.ToString("F3", CultureInfo.InvariantCulture)}ms",
@@ -428,6 +449,54 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             ? 2
             : performancePass ? 0 : 1;
         FinishPerformanceProbe(exitCode);
+    }
+
+    private static PerformanceSampleTarget ParsePerformanceSample(
+        IReadOnlyList<string> commandLine,
+        out bool valid)
+    {
+        valid = true;
+        var modeArgument = commandLine.FirstOrDefault(argument => argument.StartsWith(
+            "--urman-perf-probe-mode=",
+            StringComparison.Ordinal));
+        if (modeArgument is not null
+            && string.Equals(
+                modeArgument["--urman-perf-probe-mode=".Length..].Trim(),
+                PerformanceProbeModeMenu,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            // Preserve the existing menu diagnostic's arrival surface. The
+            // location selector is meaningful only for gameplay measurements.
+            return DefaultPerformanceSample;
+        }
+
+        var sampleArgument = commandLine.FirstOrDefault(argument => argument.StartsWith(
+            PerformanceProbeSampleArgumentPrefix,
+            StringComparison.Ordinal));
+        if (sampleArgument is null)
+        {
+            return DefaultPerformanceSample;
+        }
+
+        var value = sampleArgument[PerformanceProbeSampleArgumentPrefix.Length..].Trim();
+        var separator = value.IndexOf('@');
+        if (separator <= 0
+            || separator == value.Length - 1
+            || separator != value.LastIndexOf('@'))
+        {
+            valid = false;
+            return DefaultPerformanceSample;
+        }
+
+        var zoneId = value[..separator].Trim();
+        var spawnPointId = value[(separator + 1)..].Trim();
+        if (!Act1WorldLayout.TryGetWorldSpawn(zoneId, spawnPointId, out _))
+        {
+            valid = false;
+            return DefaultPerformanceSample;
+        }
+
+        return new PerformanceSampleTarget(zoneId, spawnPointId);
     }
 
     private void ConfigurePerformanceProbe(IReadOnlyList<string> commandLine)

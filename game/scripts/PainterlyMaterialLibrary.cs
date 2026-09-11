@@ -285,6 +285,7 @@ public static class PainterlyMaterialLibrary
         // existing wood/plaster/earth/foliage mappings remain v1.
         ["stone"] = ("res://assets/textures/painterly/mossy_stone_v3_albedo.png", new Vector2(1.5f, 1.5f)),
         ["fabric"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.0f, 2.0f)),
+        ["carpet"] = ("res://assets/textures/painterly/carpet_palas_v1_albedo.png", new Vector2(0.25f, 0.40f)),
         // GeneratedCharacterKitDressing keeps the semantic name `cloth` in
         // node metadata. Make that owner explicit instead of silently
         // falling back to a texture-less shader material.
