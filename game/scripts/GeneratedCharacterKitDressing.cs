@@ -212,9 +212,11 @@ public static class GeneratedCharacterKitDressing
             ? skin
             : name.Contains("Hair", StringComparison.Ordinal) || name.Contains("FaceBeard", StringComparison.Ordinal)
                 ? hair
-                : name.Contains("Hat", StringComparison.Ordinal) || name.Contains("Boot", StringComparison.Ordinal)
-                ? "514139"
-                : name.Contains("Trouser", StringComparison.Ordinal)
+                : name.Contains("Hat", StringComparison.Ordinal)
+                    ? hair
+                    : name.Contains("Boot", StringComparison.Ordinal)
+                        ? "494640"
+                        : name.Contains("Trouser", StringComparison.Ordinal)
                     ? "494640"
                     : isEyeWhite
                     ? "d8cbb4"
