@@ -3160,3 +3160,9 @@ Linked files: `game/scripts/AudioCueUi.cs`, `game/scripts/RuntimeBridge.cs`,
 
 Physical Marat/Rinat recordings are still absent; no placeholder voice asset or
 listening-pass claim is made.
+
+## 2026-09-11 — Правило леса подтверждается при вмешательстве Рината
+
+Accepted. Вход в `forest` запрашивает две реплики, но не подтверждает правило и не завершает акт. Фактический старт реплики Рината сообщает существующему RuntimeBridge о моменте вмешательства; bridge применяет авторское `forest-rinat-intervention` через обычные conditions/effects и сохраняет checkpoint. UI не хранит сюжетный результат. Это общий путь для Act I и fullgame adapter.
+
+Загрузка незавершённого лесного эпизода очищает старую очередь и восстанавливает только audio.request из авторской сцены; state effects повторно не применяются. Завершённое сохранение не повторяет голоса. Protected Act1FinalState smoke подтверждает скрытое правило до вмешательства, загрузку внутри эпизода, повтор после pre-forest restore и отсутствие повторной очереди после завершения. Физические голоса и постановка персонажа пока открыты.

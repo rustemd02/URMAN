@@ -2810,20 +2810,37 @@
    {
     "op": "audio.request",
     "assetId": "urman.chapter1:asset/audio-rinat-interruption"
-   },
-   {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
-    "status": "confirmed"
-   },
-   {
-    "op": "beat.set-state",
-    "beatId": "urman.chapter1:beat/cliffhanger-hard-cut",
-    "state": "completed"
    }
   ],
   "onExit": [],
-  "interactions": []
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/forest-rinat-intervention",
+    "labelTextId": "urman.chapter1:text/finale-rinat-warning",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "beat.state",
+       "beatId": "urman.chapter1:beat/cliffhanger-hard-cut",
+       "state": "completed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
+      "status": "confirmed"
+     },
+     {
+      "op": "beat.set-state",
+      "beatId": "urman.chapter1:beat/cliffhanger-hard-cut",
+      "state": "completed"
+     }
+    ]
+   }
+  ]
  },
  {
   "schemaVersion": 1,

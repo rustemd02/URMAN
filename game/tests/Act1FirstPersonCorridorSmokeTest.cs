@@ -323,6 +323,8 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         await Frames(8);
         AssertState(main, bridge, "kara_urman_night", "forest", "res://scenes/zones/style_benchmark_kara_urman_night.tscn");
         AssertRouteFacing(main, 0f, "forest-entry-to-cliffhanger");
+        for (var attempt = 0; attempt < 200 && bridge.IsInteractionAvailable("urman.chapter1:interaction/forest-rinat-intervention"); attempt++)
+            await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
         var state = bridge.SelectRuntimeState();
         if (state.GetProperty("beats").GetProperty($"{ChapterPrefix}beat/cliffhanger-hard-cut").GetString() != "completed"
             || state.GetProperty("knowledge").GetProperty($"{ChapterPrefix}knowledge/clue_do_not_answer_rule").GetProperty("status").GetString() != "confirmed")

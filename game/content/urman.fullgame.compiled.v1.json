@@ -4667,20 +4667,36 @@
           {
             "op": "audio.request",
             "assetId": "urman.chapter1:asset/audio-rinat-interruption"
-          },
-          {
-            "op": "knowledge.set-status",
-            "knowledgeId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
-            "status": "confirmed"
-          },
-          {
-            "op": "beat.set-state",
-            "beatId": "urman.chapter1:beat/cliffhanger-hard-cut",
-            "state": "completed"
           }
         ],
         "onExit": [],
         "interactions": [
+          {
+            "id": "urman.chapter1:interaction/forest-rinat-intervention",
+            "labelTextId": "urman.chapter1:text/finale-rinat-warning",
+            "conditions": [
+              {
+                "op": "not",
+                "condition": {
+                  "op": "beat.state",
+                  "beatId": "urman.chapter1:beat/cliffhanger-hard-cut",
+                  "state": "completed"
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
+                "status": "confirmed"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.chapter1:beat/cliffhanger-hard-cut",
+                "state": "completed"
+              }
+            ]
+          },
           {
             "id": "urman.fullgame:interaction/chapter1-forest-to-act2-house",
             "labelTextId": "urman.chapter1:text/continue",
@@ -7495,7 +7511,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "91b3ea7ae0106d455edb10ca9d39fea7e9bbf88bc5cfcea9ac8e59cdf3206481"
+      "sha256": "8f7f3c95eda80e5c1de7c952120ca49e03c362147088d435de4e1bd8b2f44963"
     },
     {
       "moduleId": "urman.core",
@@ -7513,5 +7529,5 @@
       "sha256": "c5f6da9646e805176ada5893a495a63ff06e4da1457b003f54c34318815037ee"
     }
   ],
-  "campaignFingerprint": "d91a4f78252582a9e2abd0b117920be8238101c921fe045856dc1c304081c538"
+  "campaignFingerprint": "ec232e2454ef704c6a9cc1730d301bb1b269c708c611c83b070a0b83b524e221"
 }

@@ -125,6 +125,7 @@ public partial class Act1FinalStateSmokeTest : Node
         // 3) Enter the forest: the single terminal beat completes once.
         if (!bridge.IsInteractionAvailable(Interaction("zirat-road-to-forest"))
             || !await Advance(bridge, "zirat-road-to-forest", "forest")
+            || !await WaitForIntervention(bridge)
             || FinalKnowledge(bridge.SelectRuntimeState()) != "confirmed"
             || !BeatIsCompleted(bridge.SelectRuntimeState(), "cliffhanger-hard-cut"))
         {
@@ -145,6 +146,7 @@ public partial class Act1FinalStateSmokeTest : Node
 
         // 5) Complete the ending again after the restore: exactly once.
         if (!await Advance(bridge, "zirat-road-to-forest", "forest")
+            || !await WaitForIntervention(bridge)
             || FinalKnowledge(bridge.SelectRuntimeState()) != "confirmed"
             || !BeatIsCompleted(bridge.SelectRuntimeState(), "cliffhanger-hard-cut"))
         {
@@ -163,10 +165,32 @@ public partial class Act1FinalStateSmokeTest : Node
             return;
         }
 
+        if (!await bridge.SaveSlotAsync(MatrixSlot) || !await bridge.LoadSlotAsync(MatrixSlot)
+            || (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.IsPresenting == true
+            || FinalKnowledge(bridge.SelectRuntimeState()) != "confirmed")
+        { Fail("Completed save replayed the finale or lost its result."); return; }
+
         GD.Print("act1-final-state: PASS gated approach + pre-reveal save/load + single terminal beat + idempotent post-terminal");
         DeleteSlot();
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
+    }
+
+    private async Task<bool> WaitForIntervention(RuntimeBridge bridge)
+    {
+        if (FinalKnowledge(bridge.SelectRuntimeState()) != "hidden")
+        { Fail("Forest entry revealed the rule before Rinat."); return false; }
+        var main = GetTree().GetFirstNodeInGroup("zone_manager") as Main;
+        main!.SwitchZone("kara_urman_night", "village_path");
+        if (!await bridge.SaveSlotAsync(RuntimeBridge.CheckpointSlot)
+            || !await bridge.LoadSlotAsync(RuntimeBridge.CheckpointSlot)) return false;
+        var cue = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
+        if (cue?.LastStartedAssetId != "urman.chapter1:asset/audio-marat-voice"
+            || FinalKnowledge(bridge.SelectRuntimeState()) != "hidden")
+        { Fail("Loading mid-finale lost the ordered replay or revealed the rule."); return false; }
+        for (var attempt = 0; attempt < 200 && bridge.IsInteractionAvailable("urman.chapter1:interaction/forest-rinat-intervention"); attempt++)
+            await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
+        return FinalKnowledge(bridge.SelectRuntimeState()) == "confirmed";
     }
 
     private async Task<bool> Advance(RuntimeBridge bridge, string interactionLocalId, string targetSceneLocalId)

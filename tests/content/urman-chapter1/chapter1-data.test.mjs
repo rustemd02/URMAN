@@ -153,7 +153,8 @@ test('arrival, evidence route, Rinat causality, and hard cut are authored as one
     'urman.chapter1:scene/evidence-edge-sketch',
     'urman.chapter1:dialogue/rinat_internal_register',
   ]);
-  assert.equal(finale.interactions.length, 0, 'the finale must interrupt before any answer/do-not-answer branch');
+  assert.deepEqual(finale.interactions.map(({ id }) => id), ['urman.chapter1:interaction/forest-rinat-intervention']);
+  assert.equal(finale.onEnter.some((effect) => effect.op === 'knowledge.set-status'), false);
   assert.equal(finale.entryConditions.some((entry) => entry.op === 'beat.state' && entry.beatId === 'urman.chapter1:beat/rinat-visible-before-edge' && entry.state === 'completed'), true);
   assert.equal(ziratTurn.entryConditions.some((entry) => entry.op === 'beat.state' && entry.beatId === 'urman.chapter1:beat/language-reread' && entry.state === 'completed'), true);
   assert.equal(finale.onEnter.some((entry) => entry.op === 'audio.request' && entry.assetId === 'urman.chapter1:asset/audio-marat-voice'), true);
@@ -171,7 +172,7 @@ test('the voice clue remains a hypothesis and the final rule is confirmed only b
   assert.equal(hypothesis.initialStatus, 'hidden');
   assert.equal(finalRule.initialStatus, 'hidden');
   assert.deepEqual(finalRuleWrites, [{ op: 'knowledge.set-status', knowledgeId: finalRule.id, status: 'confirmed' }]);
-  assert.equal(finalRuleWrites.every((entry) => byId(definitions, 'urman.chapter1:scene/forest').onEnter.includes(entry)), true);
+  assert.equal(finalRuleWrites.every((entry) => byId(definitions, 'urman.chapter1:scene/forest').interactions[0].effects.includes(entry)), true);
   assert.equal(finalRuleText.value.translations.ru, 'Не отвечай.');
 
   const chapterSources = await Promise.all([

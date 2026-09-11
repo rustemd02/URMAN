@@ -38,6 +38,7 @@ public partial class RuntimeBridge : Node
     private long _interactionSequence;
     private double _playTimeSeconds;
     private bool _runtimeStateNotificationQueued;
+    private AudioCueUi? _audioCueUi;
 
     /// <summary>
     /// Presentation-only invalidation for physical interaction targets. The
@@ -54,6 +55,7 @@ public partial class RuntimeBridge : Node
         _saveStore = new AtomicSaveGameStore(ProjectSettings.GlobalizePath("user://savegames"));
         CreateNewSession();
         _ = InitializeEntrypointAsync();
+        CallDeferred(nameof(AttachAudioCueUi));
     }
 
     public override void _Process(double delta)
@@ -77,6 +79,8 @@ public partial class RuntimeBridge : Node
 
     public override void _ExitTree()
     {
+        if (_audioCueUi is not null) _audioCueUi.CueStarted -= OnAudioCueStarted;
+        _audioCueUi = null;
         _runtimeStateNotificationQueued = false;
         RuntimeStateChanged = null;
         _questCapabilities = null;
@@ -200,6 +204,7 @@ public partial class RuntimeBridge : Node
 
             player.ApplyPortableTransform(result.Save.PlayerTransform);
             player.ApplySettings(result.Save.Settings);
+            ReplayIncompleteFinale();
             GD.Print(result.RecoveredFromBackup
                 ? "SaveGameV3 restored from the last working backup."
                 : "SaveGameV3 restored.");
@@ -931,6 +936,42 @@ public partial class RuntimeBridge : Node
         {
             audioCueUi.ResetPresentation();
         }
+    }
+
+    private void AttachAudioCueUi()
+    {
+        if (_audioCueUi is not null || !IsInsideTree()) return;
+        _audioCueUi = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
+        if (_audioCueUi is not null) _audioCueUi.CueStarted += OnAudioCueStarted;
+    }
+
+    private void OnAudioCueStarted(string assetId)
+    {
+        if (assetId == "urman.chapter1:asset/audio-rinat-interruption")
+            CallDeferred(nameof(CommitRinatIntervention));
+    }
+
+    private async void CommitRinatIntervention()
+    {
+        const string actionId = "urman.chapter1:interaction/forest-rinat-intervention";
+        // A reset/load clears LastStartedAssetId before this deferred callback.
+        if (_audioCueUi?.LastStartedAssetId != "urman.chapter1:asset/audio-rinat-interruption"
+            || !IsInteractionAvailable(actionId)) return;
+        var kernel = _kernel;
+        if (await DispatchInteractionAsync(actionId) && ReferenceEquals(kernel, _kernel))
+            await SaveCheckpointAsync(force: true);
+    }
+
+    private void ReplayIncompleteFinale()
+    {
+        if (ActiveSceneId != "urman.chapter1:scene/forest"
+            || !IsInteractionAvailable("urman.chapter1:interaction/forest-rinat-intervention")) return;
+        AttachAudioCueUi();
+        // Reconstruct presentation from authored data after loading mid-scene;
+        // never reapply onEnter state effects or replay an already completed ending.
+        foreach (var effect in _content.RequireScene(ActiveSceneId).OnEnter.EnumerateArray())
+            if (effect.GetProperty("op").GetString() == "audio.request")
+                _audioCueUi?.Present(_content.ResolveAudio(effect.GetProperty("assetId").GetString()!, "restored-finale"));
     }
 
     private CapabilityHost CreateCapabilities(IReadOnlyList<CapabilitySessionSnapshot>? snapshots = null)

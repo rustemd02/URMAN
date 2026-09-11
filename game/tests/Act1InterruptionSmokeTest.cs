@@ -300,6 +300,12 @@ public partial class Act1InterruptionSmokeTest : Node
             return false;
         }
 
+        if (targetSceneLocalId == "forest")
+        {
+        for (var attempt = 0; attempt < 200 && bridge.IsInteractionAvailable("urman.chapter1:interaction/forest-rinat-intervention"); attempt++)
+            await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
+        }
+
         return true;
     }
 

@@ -140,8 +140,8 @@ public partial class ChapterOneFlowSmokeTest : Node
         var state = bridge.SelectRuntimeState();
         var audioCue = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
         if (bridge.CurrentZoneId != "kara_urman_night"
-            || KnowledgeStatus(state, "clue_do_not_answer_rule") != "confirmed"
-            || BeatState(state, "cliffhanger-hard-cut") != "completed"
+            || KnowledgeStatus(state, "clue_do_not_answer_rule") != "hidden"
+            || BeatState(state, "cliffhanger-hard-cut") == "completed"
             || audioCue?.LastPresentedText != "Ринат говорит: «Не отвечай»."
             || audioCue.LastAssetId != "urman.chapter1:asset/audio-rinat-interruption"
             || audioCue.VisibleText != "Голос повторяет детскую фразу с неправильной паузой: «Казанский… не отставай»."
@@ -156,7 +156,8 @@ public partial class ChapterOneFlowSmokeTest : Node
 
         for (var attempt = 0; attempt < 200 && audioCue.LastStartedAssetId != "urman.chapter1:asset/audio-rinat-interruption"; attempt++)
             await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
-        if (audioCue.VisibleText != "Ринат говорит: «Не отвечай».")
+        if (audioCue.VisibleText != "Ринат говорит: «Не отвечай»."
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_do_not_answer_rule") != "confirmed")
         {
             Fail($"Act 1 cliffhanger did not advance from Marat's cue to Rinat's warning (visible='{audioCue.VisibleText}').");
             return;
