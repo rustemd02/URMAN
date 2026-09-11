@@ -76,16 +76,19 @@ WARDROBE_PROFILES = {
 }
 
 # eye spread/width/height, brow height, nose scale, mouth width/height/drop.
+# The existing almond, eyelid and iris meshes stay in place; these modest
+# landmark scales make the face read at conversation distance without adding
+# meshes or changing any published names.
 FACE_PROFILES = {
-    "Mansur": (0.060, 0.066, 0.030, 0.055, 1.12, 0.050, 0.012, 0.080),
-    "Gulsina": (0.060, 0.062, 0.034, 0.058, 1.00, 0.046, 0.011, 0.078),
-    "Alsu": (0.064, 0.065, 0.040, 0.061, 0.92, 0.048, 0.010, 0.077),
-    "TimurHazrat": (0.060, 0.060, 0.034, 0.054, 0.96, 0.044, 0.010, 0.080),
-    "CouncilElder": (0.060, 0.066, 0.030, 0.055, 1.10, 0.048, 0.011, 0.080),
-    "CouncilWitness": (0.062, 0.062, 0.031, 0.056, 1.00, 0.046, 0.010, 0.079),
-    "Naila": (0.063, 0.064, 0.035, 0.060, 0.94, 0.048, 0.011, 0.077),
-    "ArchiveClerk": (0.061, 0.062, 0.032, 0.057, 0.98, 0.046, 0.010, 0.079),
-    "PactKeeper": (0.060, 0.065, 0.030, 0.055, 1.06, 0.048, 0.011, 0.080),
+    "Mansur": (0.060, 0.074, 0.037, 0.055, 1.12, 0.058, 0.015, 0.080),
+    "Gulsina": (0.061, 0.071, 0.041, 0.058, 1.00, 0.056, 0.014, 0.078),
+    "Alsu": (0.066, 0.076, 0.047, 0.061, 0.92, 0.058, 0.014, 0.077),
+    "TimurHazrat": (0.060, 0.069, 0.041, 0.054, 0.96, 0.054, 0.014, 0.080),
+    "CouncilElder": (0.060, 0.074, 0.037, 0.055, 1.10, 0.058, 0.014, 0.080),
+    "CouncilWitness": (0.062, 0.071, 0.038, 0.056, 1.00, 0.056, 0.014, 0.079),
+    "Naila": (0.064, 0.074, 0.042, 0.060, 0.94, 0.058, 0.014, 0.077),
+    "ArchiveClerk": (0.061, 0.071, 0.039, 0.057, 0.98, 0.056, 0.014, 0.079),
+    "PactKeeper": (0.060, 0.073, 0.037, 0.055, 1.06, 0.058, 0.014, 0.080),
 }
 
 BEARD_PROFILES = {
@@ -161,18 +164,13 @@ def faceted_prism(
 ) -> bpy.types.Object:
     """Create a restrained faceted taper for readable human proportions."""
     # Facial landmarks face -Y: a vertical cone presents a rectangular side
-    # to the camera. Keep existing hair names/attachments; the close-up Alsu
-    # crown uses the same low-poly UV-sphere primitive as other soft features.
+    # to the camera. Keep existing hair names/attachments; every low-poly hair
+    # crown uses the same rounded UV-sphere primitive as other soft features.
     hair_cap = "_Hair_LOD" in name
     rounded = "_Face" in name or "_Ear" in name or "_HairBun" in name
-    if hair_cap and name.startswith("Alsu_"):
+    if hair_cap:
         bpy.ops.mesh.primitive_uv_sphere_add(
             segments=12, ring_count=6, radius=1.0, location=location,
-        )
-    elif hair_cap:
-        bpy.ops.mesh.primitive_cone_add(
-            vertices=vertices, radius1=bottom_ratio, radius2=top_ratio,
-            depth=1.0, location=location,
         )
     elif rounded:
         bpy.ops.mesh.primitive_uv_sphere_add(segments=12, ring_count=6, radius=1.0, location=location)

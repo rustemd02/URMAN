@@ -32,7 +32,7 @@ Act1ConnectedWorld composition owns placement and traversal review.
 - Scale: **1 Blender unit = 1 metre**; metric scene; +Z is up.
 - Local front convention: **−Y faces the road-facing front** for the root and
   every published component root.
-- Meshes: **202** presentation meshes; **4,924** source triangles.
+- Meshes: **202** presentation meshes; **5,040** source triangles.
 - Materials: **16** basic muted wet-weather node materials; no image textures.
 - Source images: **0**; exported/imported image-texture nodes: **0**.
 
@@ -54,7 +54,7 @@ may zero/rebase, rotate and place each component independently.
 | `RootWall_Left` | `(-8.9, 0.8, 0.0)` | 11 | 216 | grounded root wall with root fork, litter fan and open road-side edge |
 | `RootWall_Right` | `(8.9, 2.0, 0.0)` | 11 | 216 | independent grounded root wall with root fork and litter fan |
 | `FallenLogCluster` | `(-2.4, -1.3, 0.0)` | 14 | 316 | three angled authored logs, cut ends and moss caps |
-| `MossyBoulderCluster` | `(2.3, -0.8, 0.0)` | 9 | 238 | retained sloped stone anchors, unified by low moss sprays |
+| `MossyBoulderCluster` | `(2.3, -0.8, 0.0)` | 9 | 354 | retained sloped stone anchors, unified by low moss sprays |
 | `CrookedStump` | `(-5.0, 1.8, 0.0)` | 5 | 122 | ground landmark with cut top and broken branch |
 | `DistantForestMass_Low` | `(0.0, 15.0, 0.0)` | 7 | 240 | low far-side broken ridges and anchored understory fans with central road gap |
 | `DistantForestMass_Tall` | `(0.0, 18.0, 0.0)` | 21 | 690 | taller lopsided profiles, varied trunk gate and branch frames |
@@ -117,7 +117,7 @@ branch frames and one low irregular `ForestBank_Right_EarthMound_01`
 compatibility profile required by the runtime suppression path. The 13 direct
 component roots and all existing runtime hooks remain unchanged; the central
 route aperture is preserved. The pass contains **202** presentation meshes and
-**4,924** source triangles, uses only existing project materials, and remains
+**5,040** source triangles, uses only existing project materials, and remains
 open to first-person 360, cultural and art-lock review.
 
 The kit is presentation-only. It contains no collision, navigation,
@@ -231,3 +231,7 @@ parent connected-world pass still needs to verify that the existing Kara
 placements preserve a clear walkable first-person path and Rinat/ending
 sightline in capture, and to measure the added mid/far foliage cost on target
 hardware.
+
+## Boulder depth pass — 2026-09-11
+
+Four existing `MossyBoulderCluster_Stone_00..03` meshes now use shoulder rings and faceted caps instead of straight extruded plates. Names, parents, transforms and MossyStone remain intact. A separate idempotent pass follows Wave 17; it does not rerun the earlier cleanup. Source export: 202 meshes, 5,040 triangles, 16 materials, no image textures. Runtime visual acceptance remains open.

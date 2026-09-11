@@ -114,6 +114,45 @@ THRESHOLD_PASS_OBJECTS = (
     "DistantForestMass_Tall_DeepCanopy_01",
 ) + YOUNG_SPRUCE_OBJECTS
 WAVE15_PASS_ID = "wave15-kara-forest-edge-v1"
+BOULDER_ROUND_PASS_ID = "wave15-kara-boulder-depth-v1"
+MOSSY_BOULDER_OBJECTS = tuple(
+    f"MossyBoulderCluster_Stone_{index:02d}" for index in range(4)
+)
+MOSSY_BOULDER_PROFILES = (
+    (
+        (-0.88, -0.58),
+        (0.58, -0.64),
+        (0.94, -0.18),
+        (0.64, 0.44),
+        (0.02, 0.68),
+        (-0.74, 0.42),
+        (-1.00, -0.18),
+    ),
+    (
+        (-0.74, -0.52),
+        (0.80, -0.48),
+        (0.92, 0.10),
+        (0.36, 0.62),
+        (-0.34, 0.50),
+        (-0.88, 0.14),
+    ),
+    (
+        (-0.92, -0.44),
+        (0.42, -0.62),
+        (0.86, -0.08),
+        (0.54, 0.54),
+        (-0.20, 0.72),
+        (-0.82, 0.30),
+    ),
+    (
+        (-0.66, -0.42),
+        (0.72, -0.50),
+        (0.96, 0.06),
+        (0.44, 0.44),
+        (-0.14, 0.58),
+        (-0.78, 0.18),
+    ),
+)
 WAVE15_REMOVED_OBJECTS = (
     "DistantForestMass_Low_BreakupLobe_00",
     "DistantForestMass_Low_BreakupLobe_01",
@@ -302,20 +341,71 @@ def profile_prism(
     material_name: str,
     location: tuple[float, float, float],
     role: str,
+    rounded_depth: bool = False,
 ) -> bpy.types.Object:
     """Use an irregular side silhouette instead of another stacked lobe."""
     half_depth = depth * 0.5
-    vertices = [(x, -half_depth, z) for x, z in profile]
-    vertices.extend((x, half_depth, z) for x, z in profile)
     count = len(profile)
-    faces: list[tuple[int, ...]] = [
-        tuple(reversed(range(count))),
-        tuple(range(count, count * 2)),
-    ]
-    faces.extend(
-        (index, (index + 1) % count, count + (index + 1) % count, count + index)
-        for index in range(count)
-    )
+    if rounded_depth:
+        # Keep the authored side profile and ground contact, but bevel the
+        # front/back volume through two shoulder rings. This is reserved for
+        # the four large boulder anchors so they read as rounded outcrops
+        # instead of extruded plates, without adding any new asset family.
+        base_z = min(z for _, z in profile)
+        crown_z = base_z + (max(z for _, z in profile) - base_z) * 0.54
+        depth_rings = (
+            (-half_depth, 0.74),
+            (-half_depth * 0.52, 1.0),
+            (half_depth * 0.52, 1.0),
+            (half_depth, 0.74),
+        )
+        vertices: list[tuple[float, float, float]] = []
+        for ring_y, ring_scale in depth_rings:
+            vertices.extend(
+                (
+                    x * ring_scale,
+                    ring_y,
+                    base_z + (z - base_z) * ring_scale,
+                )
+                for x, z in profile
+            )
+        front_center = len(vertices)
+        vertices.append((0.0, -half_depth, crown_z * 0.92 + base_z * 0.08))
+        back_center = len(vertices)
+        vertices.append((0.0, half_depth, crown_z * 0.92 + base_z * 0.08))
+        faces: list[tuple[int, ...]] = []
+        faces.extend(
+            (front_center, index, (index + 1) % count)
+            for index in range(count)
+        )
+        for ring_index in range(len(depth_rings) - 1):
+            start = ring_index * count
+            following = (ring_index + 1) * count
+            faces.extend(
+                (
+                    start + index,
+                    start + (index + 1) % count,
+                    following + (index + 1) % count,
+                    following + index,
+                )
+                for index in range(count)
+            )
+        last = (len(depth_rings) - 1) * count
+        faces.extend(
+            (back_center, last + (index + 1) % count, last + index)
+            for index in range(count)
+        )
+    else:
+        vertices = [(x, -half_depth, z) for x, z in profile]
+        vertices.extend((x, half_depth, z) for x, z in profile)
+        faces = [
+            tuple(reversed(range(count))),
+            tuple(range(count, count * 2)),
+        ]
+        faces.extend(
+            (index, (index + 1) % count, count + (index + 1) % count, count + index)
+            for index in range(count)
+        )
     obj = authored_mesh(name, parent, vertices, faces, material_name, location, role=role)
     obj["geometry_pass"] = WAVE15_PASS_ID
     return obj
@@ -345,6 +435,7 @@ def replace_profile_mesh(
     depth: float,
     material_name: str,
     role: str,
+    rounded_depth: bool = False,
 ) -> bpy.types.Object:
     old = bpy.data.objects.get(name)
     if old is None or old.type != "MESH" or old.parent is None:
@@ -356,7 +447,7 @@ def replace_profile_mesh(
     bpy.data.objects.remove(old, do_unlink=True)
     if mesh.users == 0:
         bpy.data.meshes.remove(mesh)
-    obj = profile_prism(name, parent, profile, depth, material_name, location, role)
+    obj = profile_prism(name, parent, profile, depth, material_name, location, role, rounded_depth=rounded_depth)
     obj.rotation_mode = "XYZ"
     obj.rotation_euler = rotation
     return obj
@@ -1156,42 +1247,7 @@ def ensure_wave15_pass(root: bpy.types.Object) -> bool:
             "asymmetric splayed forest-bank shoulder with visible route contact",
         )
 
-    rock_profiles = (
-        (
-            (-0.88, -0.58),
-            (0.58, -0.64),
-            (0.94, -0.18),
-            (0.64, 0.44),
-            (0.02, 0.68),
-            (-0.74, 0.42),
-            (-1.00, -0.18),
-        ),
-        (
-            (-0.74, -0.52),
-            (0.80, -0.48),
-            (0.92, 0.10),
-            (0.36, 0.62),
-            (-0.34, 0.50),
-            (-0.88, 0.14),
-        ),
-        (
-            (-0.92, -0.44),
-            (0.42, -0.62),
-            (0.86, -0.08),
-            (0.54, 0.54),
-            (-0.20, 0.72),
-            (-0.82, 0.30),
-        ),
-        (
-            (-0.66, -0.42),
-            (0.72, -0.50),
-            (0.96, 0.06),
-            (0.44, 0.44),
-            (-0.14, 0.58),
-            (-0.78, 0.18),
-        ),
-    )
-    for index, profile in enumerate(rock_profiles):
+    for index, profile in enumerate(MOSSY_BOULDER_PROFILES):
         replace_profile_mesh(
             f"MossyBoulderCluster_Stone_{index:02d}",
             profile,
@@ -1903,6 +1959,34 @@ def ensure_wave17_pass(root: bpy.types.Object) -> bool:
     return True
 
 
+def ensure_boulder_round_pass(root: bpy.types.Object) -> bool:
+    """Round only the four boulder meshes after Wave 15/17 are complete."""
+    if (
+        root.get("kara_boulder_round_pass") == BOULDER_ROUND_PASS_ID
+        and all(
+            bpy.data.objects.get(name) is not None
+            and bpy.data.objects[name].get("boulder_geometry_pass") == BOULDER_ROUND_PASS_ID
+            for name in MOSSY_BOULDER_OBJECTS
+        )
+    ):
+        return False
+
+    for index, (name, profile) in enumerate(zip(MOSSY_BOULDER_OBJECTS, MOSSY_BOULDER_PROFILES)):
+        obj = replace_profile_mesh(
+            name,
+            profile,
+            0.82 if index % 2 == 0 else 0.70,
+            "MossyStone",
+            "rounded mossy stone anchor with a readable sloped crown",
+            rounded_depth=True,
+        )
+        obj["boulder_geometry_pass"] = BOULDER_ROUND_PASS_ID
+
+    root["kara_boulder_round_pass"] = BOULDER_ROUND_PASS_ID
+    root["kara_boulder_round_pass_objects"] = len(MOSSY_BOULDER_OBJECTS)
+    return True
+
+
 def arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", required=True)
@@ -1998,6 +2082,14 @@ def validate(root: bpy.types.Object) -> dict[str, object]:
             or mesh.get("geometry_pass") != WAVE17_PASS_ID
         ):
             raise RuntimeError(f"Wave 17 mesh has an invalid component parent/pass: {name}")
+    missing_boulder_round = [
+        name
+        for name in MOSSY_BOULDER_OBJECTS
+        if bpy.data.objects.get(name) is None
+        or bpy.data.objects[name].get("boulder_geometry_pass") != BOULDER_ROUND_PASS_ID
+    ]
+    if missing_boulder_round:
+        raise RuntimeError(f"Rounded Kara boulder pass is incomplete: {missing_boulder_round}")
 
     return {
         "component_count": len(direct),
@@ -2011,6 +2103,8 @@ def validate(root: bpy.types.Object) -> dict[str, object]:
         "wave15_mesh_count": len(WAVE15_OBJECTS),
         "wave17_pass": root.get("kara_wave17_pass"),
         "wave17_mesh_count": len(WAVE17_OBJECTS),
+        "boulder_round_pass": root.get("kara_boulder_round_pass"),
+        "boulder_round_mesh_count": len(MOSSY_BOULDER_OBJECTS),
     }
 
 
@@ -2029,6 +2123,7 @@ def main() -> None:
     changed = ensure_threshold_pass(root) or changed
     changed = ensure_wave15_pass(root) or changed
     changed = ensure_wave17_pass(root) or changed
+    changed = ensure_boulder_round_pass(root) or changed
     if changed:
         bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
     report = validate(root)
