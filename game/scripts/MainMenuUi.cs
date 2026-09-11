@@ -170,7 +170,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         var screen = new ColorRect
         {
             Name = "MenuScreen",
-            Color = new Color(0.008f, 0.012f, 0.011f, 0.92f),
+            Color = new Color(0.008f, 0.012f, 0.011f, 0.38f),
             AnchorRight = 1f,
             AnchorBottom = 1f
         };

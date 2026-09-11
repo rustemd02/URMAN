@@ -217,11 +217,15 @@ public static class GeneratedCharacterKitDressing
             .FirstOrDefault(player => player.HasAnimation(idle) && player.HasAnimation(tension));
     }
 
-    private static void AlignAnchor(Node3D instance, Node3D reference, Vector3 anchor) =>
-        // The GLB anchor is a local ground-origin node. Use local coordinates
-        // here because the presentation host may not be inside the scene tree
-        // yet while its dressing is being assembled.
-        instance.Position += anchor - reference.Position;
+    private static void AlignAnchor(Node3D instance, Node3D reference, Vector3 anchor)
+    {
+        // Exported characters share a display board. Rebase its root children
+        // so every later yaw rotates around this character's feet, not x=0 of
+        // the board. Animation tracks target bones, not these scene roots.
+        var boardOffset = reference.Position;
+        foreach (var child in instance.GetChildren().OfType<Node3D>()) child.Position -= boardOffset;
+        instance.Position = anchor;
+    }
 
     private static string NodeName(Node node) => node.Name.ToString();
 }
