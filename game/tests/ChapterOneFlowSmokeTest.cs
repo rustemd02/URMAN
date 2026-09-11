@@ -144,10 +144,12 @@ public partial class ChapterOneFlowSmokeTest : Node
         var careCup = carePorch.GetNode<Node3D>("FapCareEnamelCup");
         var careNapkin = carePorch.GetNode<Node3D>("FapCareDryNapkin");
         var windowReveal = core.FindChild("MainStreetSideWindowReveal", true, false) as Node3D;
+        var windowHousehold = windowReveal?.GetNode<Node3D>("SillHouseholdDetail");
+        var windowFog = windowReveal?.GetNode<Node3D>("FogCircleAndEars");
         var handleWrap = core.FindChild("FinishedHandleWrap", true, false) as Node3D;
         if (bagShelf.Rotation.Z != 0 || careCup.Rotation.X != 0
             || Mathf.Abs(careCup.Position.Z - .52f) > .01f || !careNapkin.Visible
-            || windowReveal?.Visible != true || handleWrap?.Visible != true
+            || windowHousehold?.Visible != true || windowFog?.Visible != true || handleWrap?.Visible != true
             || main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("ConnectiveRepairBenchCollision").CollisionLayer != 0
             || main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("ConnectiveReturnCareBenchCollision").CollisionLayer != 0)
         { Fail("Loaded care and street discoveries lost their reveal or retained indoor physics."); return; }
@@ -373,7 +375,7 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (Mathf.Abs(bagShelf.Rotation.Z - Mathf.Pi / 2) > .01f
             || Mathf.Abs(careCup.Rotation.X - Mathf.Pi) > .01f
             || Mathf.Abs(careCup.Position.Z - .18f) > .01f || careNapkin.Visible
-            || windowReveal?.Visible != false || handleWrap?.Visible != false)
+            || windowHousehold?.Visible != false || windowFog?.Visible != false || handleWrap?.Visible != false)
         { Fail("New Game retained care or street discovery presentation."); return; }
         if (bypassCollision.CollisionLayer != 1 || mainBypassGate.Disabled || shedBypassGate.Disabled
             || mainBypassHinge.Rotation.Y != 0 || shedBypassHinge.Rotation.Y != 0

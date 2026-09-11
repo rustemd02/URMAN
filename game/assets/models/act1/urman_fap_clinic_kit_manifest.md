@@ -177,26 +177,18 @@ nearest geometry is **5.1986 m** from the facade centerline. The source and
 fresh GLB checks above report no n-gons, degenerate triangles, non-LOD mesh
 names or direct-root/parent contract errors.
 
-Artifact sizes and SHA-256:
+Current artifact sizes and SHA-256 (2026-09-12):
 
 ```text
-4132735 bytes  assets/source/blender/act1/urman_fap_clinic_kit.blend
-857368 bytes   game/assets/models/act1/urman_fap_clinic_kit.glb
-e2783caa705b1781978222c593345d0e3319ea6fcefdc8f121395c0464df1d4c  assets/source/blender/act1/urman_fap_clinic_kit.blend
-bbf27c0a9307fc15cdee3cac56e258fa888dcb2d5120a87df2e7def1977e2cab  game/assets/models/act1/urman_fap_clinic_kit.glb
+4132798 bytes  38b8f46bd7e727426407b54bfca0e5da67ce4c497f707ed0f538955689442c9e  assets/source/blender/act1/urman_fap_clinic_kit.blend
+857336 bytes  6357dcf203b5fe516df1d3eb8be8a450713aacc2e3d68347342fe0b4e1ae24b3  game/assets/models/act1/urman_fap_clinic_kit.glb
 ```
 
-Current pinned-generator output:
-
-```text
-GLB SHA (run 1): bbf27c0a9307fc15cdee3cac56e258fa888dcb2d5120a87df2e7def1977e2cab
-GLB SHA (run 2): bbf27c0a9307fc15cdee3cac56e258fa888dcb2d5120a87df2e7def1977e2cab
-GLB deterministic: True
-The current deterministic GLB is the Wave25 authored-composition artifact.
-The Blender source binary is saved by Blender and may change its byte hash on
-reopen; the GLB hash is the stable derived-artifact identity for this pass.
-No byte-identity claim is made for the `.blend` source.
-```
+The reception counter now has a 6 cm top. Trolley legs extend to wheel tops
+at z=.24 m, preserving their former upper contact at z=1.21 m. Existing
+component names, mesh count, footprint and collision ownership are unchanged.
+The generator validation reports 405 meshes and 12,110 triangles. These hashes
+identify this generation; no repeated-export determinism claim is made here.
 
 The connected-world `BuildFapClinic` presentation pass extracts only the
 `FapInteriorSet` direct root from this GLB. It preserves the imported ancestor

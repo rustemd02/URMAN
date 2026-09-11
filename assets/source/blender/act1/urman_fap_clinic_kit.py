@@ -1517,7 +1517,7 @@ def build_interior(parent: bpy.types.Object) -> None:
         ("FapInteriorTrolley_LegBackLeft_LOD0", 4.07, 2.30),
         ("FapInteriorTrolley_LegBackRight_LOD0", 5.17, 2.30),
     ):
-        ib(name, parent, (x, y, 0.86), (0.11, 0.11, 0.70), "FapRainMetalDark", 0.022, role="instrument trolley metal leg")
+        ib(name, parent, (x, y, 0.725), (0.11, 0.11, 0.97), "FapRainMetalDark", 0.022, role="instrument trolley metal leg")
     ib(
         "FapInteriorTrolley_Handle_LOD0",
         parent,
@@ -2044,8 +2044,8 @@ def build_interior(parent: bpy.types.Object) -> None:
     ib(
         "FapInteriorReceptionCounter_Top_LOD0",
         parent,
-        (4.25, -0.48, 1.02),
-        (2.02, 0.82, 0.16),
+        (4.25, -0.48, 0.99),
+        (2.02, 0.82, 0.06),
         "FapPaintedTimber",
         0.045,
         role="plain reception counter work surface",

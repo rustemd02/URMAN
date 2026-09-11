@@ -549,10 +549,12 @@ def create_house_interior(materials: dict[str, bpy.types.Material]) -> None:
         420,
         bevel_width=0.06,
     )
-    house_interior_cube(
+    house_interior_tapered_box(
         "HouseInterior_DaybedBack_LOD0",
-        (0.18, 1.30, 2.95),
-        (5.48, 1.03, 1.25),
+        0.86,
+        (5.48, 0.81, 1.25),
+        (0.18, 2.95),
+        (0.16, 2.72),
         materials["fabric"],
         420,
         bevel_width=0.055,

@@ -12,6 +12,8 @@ public partial class Act1ConnectedWorld
 
     private Node3D? _mainStreetSideWindowShutter;
     private Node3D? _mainStreetSideWindowReveal;
+    private Node3D? _mainStreetSideWindowHousehold;
+    private Node3D? _mainStreetSideWindowFog;
     private StaticBody3D? _connectiveRepairBenchCollision;
     private Node3D? _connectiveRepairLooseWrap;
     private Node3D? _connectiveRepairFinishedWrap;
@@ -67,13 +69,15 @@ public partial class Act1ConnectedWorld
         var windowWidth = Mathf.Max(glassBounds.Size.X, .20f);
         var windowHeight = Mathf.Max(glassBounds.Size.Y, .20f);
         var windowDepth = Mathf.Max(glassBounds.Size.Z, .02f);
-        var revealPosition = glassLocal + frontLocal * (windowDepth * .5f + .055f);
+        var revealPosition = glassLocal + frontLocal * (windowDepth * .5f + .065f);
 
+        // Keep the existing inset just visible through the slightly ajar shutter.
+        // Household details remain state-gated until the player opens it.
         _mainStreetSideWindowReveal = new Node3D
         {
             Name = "MainStreetSideWindowReveal",
             Position = revealPosition,
-            Visible = false
+            Visible = true
         };
         _mainStreetSideWindowReveal.SetMeta("presentationOnly", true);
         _mainStreetSideWindowReveal.SetMeta("visualOnly", true);
@@ -84,43 +88,60 @@ public partial class Act1ConnectedWorld
         AddVisualBox(
             _mainStreetSideWindowReveal,
             "WarmInteriorInset",
-            new(windowWidth * .90f, windowHeight * .84f, .026f),
-            new(0f, 0f, -.020f),
-            "667f82",
+            new(windowWidth * .98f, windowHeight * .82f, .032f),
+            new(0f, 0f, -.026f),
+            "a88a5f",
             "glass");
+        // A softly lit fabric backing suggests a curtain behind the pane.
+        var curtain = GD.Load<Texture2D>("res://assets/textures/painterly/old_fabric_v3_albedo.png");
+        _mainStreetSideWindowReveal.GetNode<MeshInstance3D>("WarmInteriorInset").MaterialOverride = new StandardMaterial3D
+        {
+            AlbedoColor = Color.FromHtml("e1bc85"),
+            AlbedoTexture = curtain,
+            EmissionEnabled = true,
+            Emission = Color.FromHtml("bd9766"),
+            EmissionTexture = curtain,
+            EmissionEnergyMultiplier = .35f,
+            Roughness = .92f
+        };
         var sillRelativeToGlass = sillTop - glassLocal.Y;
         var sillDetail = new Node3D
         {
             Name = "SillHouseholdDetail",
-            Position = new Vector3(0f, sillRelativeToGlass + .012f, .010f)
+            Position = new Vector3(0f, sillRelativeToGlass + .012f, .038f),
+            Scale = new Vector3(1.08f, 1.08f, 1f),
+            Visible = false
         };
+        _mainStreetSideWindowHousehold = sillDetail;
         sillDetail.SetMeta("presentationOnly", true);
         sillDetail.SetMeta("visualOnly", true);
         _mainStreetSideWindowReveal.AddChild(sillDetail);
 
-        AddSideWindowMitten(sillDetail, "LeftChildMitten", new(-windowWidth * .25f, .057f, .020f), "76504a", -8f);
-        AddSideWindowMitten(sillDetail, "RightChildMitten", new(windowWidth * .25f, .057f, .020f), "65756e", 7f);
+        AddSideWindowMitten(sillDetail, "LeftChildMitten", new(-windowWidth * .21f, .071f, .026f), "76504a", -8f);
+        AddSideWindowMitten(sillDetail, "RightChildMitten", new(windowWidth * .21f, .071f, .026f), "65756e", 7f);
 
-        var cup = new Node3D { Name = "ChildCup", Position = new(0f, .058f, .022f) };
+        var cup = new Node3D { Name = "ChildCup", Position = new(0f, .071f, .030f) };
         cup.SetMeta("presentationOnly", true);
         cup.SetMeta("visualOnly", true);
         sillDetail.AddChild(cup);
-        DiscoveryCylinder(cup, "CupBody", .061f, .052f, .10f, Vector3.Zero, "d7d0bc");
-        DiscoveryCylinder(cup, "CupRim", .067f, .067f, .012f, new(0f, .050f, 0f), "ede4ca");
-        AddVisualBox(cup, "CupHandle", new(.055f, .052f, .022f), new(.064f, 0f, 0f), "c6bea9", "ceramic", rollDegrees: 8f);
+        DiscoveryCylinder(cup, "CupBody", .071f, .060f, .114f, Vector3.Zero, "d7d0bc");
+        DiscoveryCylinder(cup, "CupRim", .078f, .078f, .014f, new(0f, .057f, 0f), "ede4ca");
+        AddVisualBox(cup, "CupHandle", new(.062f, .056f, .024f), new(.074f, 0f, 0f), "c6bea9", "ceramic", rollDegrees: 8f);
 
         var fogMark = new Node3D
         {
             Name = "FogCircleAndEars",
-            Position = new(-windowWidth * .24f, windowHeight * .17f, .030f),
-            Scale = Vector3.One * .70f
+            Position = new(-windowWidth * .24f, windowHeight * .16f, .050f),
+            Scale = Vector3.One * .86f,
+            Visible = false
         };
+        _mainStreetSideWindowFog = fogMark;
         fogMark.SetMeta("presentationOnly", true);
         fogMark.SetMeta("visualOnly", true);
         _mainStreetSideWindowReveal.AddChild(fogMark);
-        foreach (var part in new[] { ("FogCircle", Vector3.Zero, .089f, .095f),
-            ("FogLeftEar", new Vector3(-.068f, .073f, 0f), .027f, .033f),
-            ("FogRightEar", new Vector3(.068f, .073f, 0f), .027f, .033f) })
+        foreach (var part in new[] { ("FogCircle", Vector3.Zero, .102f, .112f),
+            ("FogLeftEar", new Vector3(-.075f, .081f, 0f), .032f, .040f),
+            ("FogRightEar", new Vector3(.075f, .081f, 0f), .032f, .040f) })
         {
             fogMark.AddChild(new MeshInstance3D
             {
@@ -131,7 +152,8 @@ public partial class Act1ConnectedWorld
             });
         }
 
-        var shutterWidth = windowWidth + .14f;
+        // Leave a narrow pane visible beside the leaf at its -42° rest pose.
+        var shutterWidth = windowWidth + .04f;
         var shutterHeight = windowHeight + .14f;
         var shutterDepth = windowDepth + .055f;
         var shutterCenter = glassLocal + frontLocal * (windowDepth * .5f + .095f);
@@ -194,18 +216,18 @@ public partial class Act1ConnectedWorld
         var palm = new MeshInstance3D
         {
             Name = "Palm",
-            Mesh = new SphereMesh { Radius = .073f, Height = .145f, RadialSegments = 12, Rings = 6 },
+            Mesh = new SphereMesh { Radius = .084f, Height = .17f, RadialSegments = 12, Rings = 6 },
             MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "fabric")
         };
-        palm.Scale = new Vector3(.88f, .76f, .58f);
+        palm.Scale = new Vector3(.92f, .80f, .62f);
         palm.SetMeta("presentationOnly", true);
         palm.SetMeta("visualOnly", true);
         mitten.AddChild(palm);
         var thumb = new MeshInstance3D
         {
             Name = "Thumb",
-            Position = new(.052f, -.005f, .016f),
-            Mesh = new SphereMesh { Radius = .035f, Height = .075f, RadialSegments = 10, Rings = 5 },
+            Position = new(.058f, -.005f, .018f),
+            Mesh = new SphereMesh { Radius = .040f, Height = .086f, RadialSegments = 10, Rings = 5 },
             MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "fabric")
         };
         thumb.RotationDegrees = new(0f, 0f, -18f);
@@ -363,9 +385,15 @@ public partial class Act1ConnectedWorld
             && _mainStreetSideWindowShutter is not null
             && _mainStreetSideWindowFound != windowFound)
         {
-            _mainStreetSideWindowReveal.Visible = windowFound;
+            // The warm inset is a restrained pre-action clue; only the household
+            // details are gated until the shutter is actually opened.
+            _mainStreetSideWindowReveal.Visible = true;
+            if (_mainStreetSideWindowHousehold is not null)
+                _mainStreetSideWindowHousehold.Visible = windowFound;
+            if (_mainStreetSideWindowFog is not null)
+                _mainStreetSideWindowFog.Visible = windowFound;
             _mainStreetSideWindowTurn?.Kill();
-            var targetYaw = windowFound ? Mathf.DegToRad(-160f) : 0f;
+            var targetYaw = windowFound ? Mathf.DegToRad(-160f) : Mathf.DegToRad(-42f);
             if (_mainStreetSideWindowFound == false && windowFound && exterior)
             {
                 _mainStreetSideWindowTurn = CreateTween();
