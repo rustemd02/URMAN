@@ -17,6 +17,7 @@ from pathlib import Path
 
 import bpy
 from mathutils import Vector
+from mathutils.bvhtree import BVHTree
 
 
 CHARACTERS = (
@@ -183,6 +184,35 @@ def faceted_head(
     return obj
 
 
+def head_front_y(head: bpy.types.Object, x: float, z: float) -> float:
+    """Return the actual front surface at one local face landmark."""
+    bpy.context.view_layer.update()
+    bvh = BVHTree.FromPolygons(
+        [vertex.co for vertex in head.data.vertices],
+        [polygon.vertices[:] for polygon in head.data.polygons],
+    )
+    hit, _normal, _index, _distance = bvh.ray_cast(
+        (x - head.location.x, -1.0, z - head.location.z),
+        (0.0, 1.0, 0.0),
+        2.0,
+    )
+    if hit is None or hit.y >= 0.0:
+        raise RuntimeError(f"No front surface for {head.name} at ({x}, {z})")
+    return hit.y + head.location.y
+
+
+def seat_face_feature(head: bpy.types.Object, feature: bpy.types.Object) -> None:
+    """Seat the actual rotated prism 2.5 mm into the faceted front."""
+    bpy.context.view_layer.update()
+    points = [feature.matrix_world @ vertex.co for vertex in feature.data.vertices]
+    depths = [point.y - head_front_y(head, point.x, point.z) for point in points]
+    feature.location.y += 0.0025 - max(depths)
+    bpy.context.view_layer.update()
+    points = [feature.matrix_world @ vertex.co for vertex in feature.data.vertices]
+    depths = [point.y - head_front_y(head, point.x, point.z) for point in points]
+    assert 0.002 <= max(depths) <= 0.003 and min(depths) < -0.003, feature.name
+
+
 def faceted_torso(
     name: str,
     location: tuple[float, float, float],
@@ -340,6 +370,7 @@ def faceted_eye_with_brow(
     brow_size: tuple[float, float, float],
     surface: bpy.types.Material,
     asset_id: str,
+    head: bpy.types.Object,
 ) -> bpy.types.Object:
     """Keep the eye/brow pair in one low-poly LOD mesh and material slot."""
     eye = faceted_prism(
@@ -366,6 +397,8 @@ def faceted_eye_with_brow(
         rotation=(0.0, 0.0, math.radians(4.0) if "Left" in name else math.radians(-4.0)),
         vertices=6,
     )
+    seat_face_feature(head, eye)
+    seat_face_feature(head, brow)
     bpy.ops.object.select_all(action="DESELECT")
     eye.select_set(True)
     brow.select_set(True)
@@ -443,7 +476,15 @@ def create_character(
     arm_right_rotation = -0.14 + stance * 0.75
     head_z = 1.57 * height_scale
     hair_z = head_z + 0.17
-    scarf_z = 1.27 * height_scale
+    body_top = 0.16 + 1.05 * (0.98 + 0.02 * height_scale)
+    head_bottom = head_z - 0.17
+    neck_bottom = body_top - 0.015
+    neck_top = head_bottom + 0.030
+    neck_center = (neck_bottom + neck_top) * 0.5
+    neck_height = neck_top - neck_bottom
+    scarf_bottom = body_top - 0.010
+    scarf_height = max(0.085, head_bottom - 0.035 - scarf_bottom)
+    scarf_z = scarf_bottom + scarf_height * 0.5
     coat_surface = material(f"{prefix}Coat", coat_color)
     accent_surface = material(f"{prefix}Accent", accent_color)
     empty_anchor(f"{prefix}_Anchor", (x, 0.0, z))
@@ -591,8 +632,8 @@ def create_character(
         )
     faceted_prism(
         f"{prefix}_Neck_LOD0",
-        (0.15, 0.145, 0.19),
-        (x, 0.0, head_z - 0.235),
+        (0.15, 0.145, neck_height),
+        (x, 0.0, neck_center),
         materials["skin"],
         asset_id,
         128,
@@ -600,7 +641,7 @@ def create_character(
         top_ratio=1.0,
         vertices=8,
     )
-    faceted_head(
+    head = faceted_head(
         f"{prefix}_Head_LOD0",
         (x, 0.0, head_z),
         materials["skin"],
@@ -623,7 +664,7 @@ def create_character(
     )
     faceted_prism(
         f"{prefix}_ScarfBand_LOD0",
-        (0.40 * shoulder_scale, 0.31, 0.085),
+        (0.40 * shoulder_scale, 0.31, scarf_height),
         (x, -0.015, scarf_z),
         material(f"{prefix}Scarf", accent_color),
         asset_id,
@@ -672,6 +713,7 @@ def create_character(
         (0.062 * head_scale, 0.014, 0.010),
         materials["eye"],
         asset_id,
+        head,
     )
     faceted_eye_with_brow(
         f"{prefix}_FaceEyeRight_LOD0",
@@ -681,8 +723,9 @@ def create_character(
         (0.062 * head_scale, 0.014, 0.010),
         materials["eye"],
         asset_id,
+        head,
     )
-    faceted_prism(
+    nose = faceted_prism(
         f"{prefix}_FaceNose_LOD0",
         (0.044, 0.048, 0.056),
         (x, face_y - 0.006, face_z - 0.017),
@@ -694,7 +737,8 @@ def create_character(
         rotation=(0.0, 0.0, math.radians(22.5)),
         vertices=6,
     )
-    faceted_prism(
+    seat_face_feature(head, nose)
+    mouth = faceted_prism(
         f"{prefix}_FaceMouth_LOD0",
         (0.060, 0.016, 0.012),
         (x, face_y - 0.014, face_z - 0.080),
@@ -706,6 +750,7 @@ def create_character(
         rotation=(0.0, 0.0, math.radians(22.5)),
         vertices=6,
     )
+    seat_face_feature(head, mouth)
     if has_beard:
         faceted_prism(
             f"{prefix}_FaceBeard_LOD0",

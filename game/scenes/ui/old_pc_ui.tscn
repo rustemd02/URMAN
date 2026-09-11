@@ -2,6 +2,54 @@
 
 [ext_resource path="res://scripts/OldPcUi.cs" type="Script" id="1_ui"]
 
+[sub_resource type="StyleBoxFlat" id="OldPcPanel"]
+bg_color = Color(0.095, 0.13, 0.115, 0.99)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.31, 0.43, 0.35, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+content_margin_left = 28.0
+content_margin_top = 24.0
+content_margin_right = 28.0
+content_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="OldPcInset"]
+bg_color = Color(0.045, 0.07, 0.06, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.31, 0.26, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+content_margin_left = 12.0
+content_margin_top = 9.0
+content_margin_right = 12.0
+content_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxFlat" id="OldPcFocus"]
+bg_color = Color(0.13, 0.22, 0.17, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.56, 0.68, 0.56, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
 [node name="OldPcUi" type="CanvasLayer"]
 layer = 20
 script = ExtResource("1_ui")
@@ -23,17 +71,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.025, 0.035, 0.03, 0.96)
+color = Color(0.015, 0.025, 0.02, 0.94)
 
 [node name="Computer" type="PanelContainer" parent="Screen"]
 layout_mode = 1
 anchors_preset = 15
-anchor_left = 0.06
+anchor_left = 0.13
 anchor_top = 0.06
-anchor_right = 0.94
+anchor_right = 0.87
 anchor_bottom = 0.94
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("OldPcPanel")
 
 [node name="Layout" type="VBoxContainer" parent="Screen/Computer"]
 layout_mode = 2
@@ -45,12 +94,17 @@ layout_mode = 2
 [node name="Title" type="Label" parent="Screen/Computer/Layout/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.56, 0.88, 0.68, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.62, 0.76, 0.66, 1)
+theme_override_font_sizes/font_size = 30
 text = "DedOS 3.11 — АРХИВ КЫРЛАЙ"
 
 [node name="Close" type="Button" parent="Screen/Computer/Layout/Header"]
 layout_mode = 2
+focus_mode = 2
+custom_minimum_size = Vector2(0, 44)
+theme_override_styles/normal = SubResource("OldPcInset")
+theme_override_styles/hover = SubResource("OldPcFocus")
+theme_override_styles/focus = SubResource("OldPcFocus")
 text = "Закрыть [Esc]"
 
 [node name="SearchRow" type="HBoxContainer" parent="Screen/Computer/Layout"]
@@ -59,36 +113,49 @@ layout_mode = 2
 [node name="Query" type="LineEdit" parent="Screen/Computer/Layout/SearchRow"]
 layout_mode = 2
 size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 44)
+theme_override_styles/normal = SubResource("OldPcInset")
+theme_override_styles/focus = SubResource("OldPcFocus")
+theme_override_font_sizes/font_size = 19
 placeholder_text = "Поиск: Марат, урман, граница..."
 
 [node name="Search" type="Button" parent="Screen/Computer/Layout/SearchRow"]
 layout_mode = 2
+focus_mode = 2
+custom_minimum_size = Vector2(110, 44)
+theme_override_styles/normal = SubResource("OldPcInset")
+theme_override_styles/hover = SubResource("OldPcFocus")
+theme_override_styles/focus = SubResource("OldPcFocus")
 text = "Искать"
 
 [node name="WorkArea" type="HSplitContainer" parent="Screen/Computer/Layout"]
 layout_mode = 2
 size_flags_vertical = 3
-split_offset = 380
+split_offset = 400
 
 [node name="Results" type="ItemList" parent="Screen/Computer/Layout/WorkArea"]
-custom_minimum_size = Vector2(360, 0)
+custom_minimum_size = Vector2(380, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 17
+focus_mode = 2
+theme_override_styles/panel = SubResource("OldPcInset")
+theme_override_styles/focus = SubResource("OldPcFocus")
+theme_override_font_sizes/font_size = 18
 
 [node name="ReaderArea" type="VBoxContainer" parent="Screen/Computer/Layout/WorkArea"]
 layout_mode = 2
 
 [node name="DocumentTitle" type="Label" parent="Screen/Computer/Layout/WorkArea/ReaderArea"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.88, 0.78, 0.52, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.68, 0.79, 0.66, 1)
+theme_override_font_sizes/font_size = 25
 text = "АРХИВ КЫРЛАЙ"
 autowrap_mode = 2
 
 [node name="Reader" type="RichTextLabel" parent="Screen/Computer/Layout/WorkArea/ReaderArea"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 18
+theme_override_colors/default_color = Color(0.69, 0.78, 0.7, 1)
+theme_override_font_sizes/normal_font_size = 20
 text = "Введите поисковый запрос или выберите запись."
 fit_content = false
 scroll_active = true
@@ -105,5 +172,10 @@ autowrap_mode = 2
 
 [node name="Save" type="Button" parent="Screen/Computer/Layout/Footer"]
 layout_mode = 2
+focus_mode = 2
+custom_minimum_size = Vector2(0, 44)
+theme_override_styles/normal = SubResource("OldPcInset")
+theme_override_styles/hover = SubResource("OldPcFocus")
+theme_override_styles/focus = SubResource("OldPcFocus")
 disabled = true
 text = "В журнал"

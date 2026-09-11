@@ -1,5 +1,9 @@
 # «УРМАН» — handoff атмосферной демки первого акта
 
+Исторический срез от 24 августа. Текущее задание и зимний baseline описаны в
+[хэндовере законченного Акта I от 11 сентября](../production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md).
+Статусы и численные результаты ниже относятся к своему запуску.
+
 Дата сборки: 2026-08-24
 Статус: **production connected-world integration; visual 360° gate OPEN; не готовая демка, не release и не art lock**
 

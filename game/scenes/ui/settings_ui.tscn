@@ -1,6 +1,41 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource path="res://scripts/SettingsUi.cs" type="Script" id="1_ui"]
+
+[sub_resource type="Theme" id="SettingsTypography"]
+default_font_size = 20
+
+[sub_resource type="StyleBoxFlat" id="SettingsPanel"]
+bg_color = Color(0.105, 0.12, 0.115, 0.99)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.37, 0.28, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 32.0
+content_margin_top = 30.0
+content_margin_right = 32.0
+content_margin_bottom = 28.0
+
+[sub_resource type="StyleBoxFlat" id="SettingsFocus"]
+bg_color = Color(0.18, 0.16, 0.11, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.83, 0.65, 0.33, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 15.0
+content_margin_top = 7.0
+content_margin_right = 15.0
+content_margin_bottom = 7.0
 
 [node name="SettingsUi" type="CanvasLayer"]
 layer = 30
@@ -23,21 +58,24 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.02, 0.025, 0.022, 0.86)
+color = Color(0.02, 0.025, 0.022, 0.9)
 
 [node name="Panel" type="PanelContainer" parent="Screen"]
+theme = SubResource("SettingsTypography")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -340.0
+offset_left = -480.0
 offset_top = -470.0
-offset_right = 340.0
+offset_right = 480.0
 offset_bottom = 470.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("SettingsPanel")
+theme_override_font_sizes/font_size = 20
 
 [node name="Layout" type="VBoxContainer" parent="Screen/Panel"]
 layout_mode = 2
@@ -45,19 +83,31 @@ theme_override_constants/separation = 18
 
 [node name="Title" type="Label" parent="Screen/Panel/Layout"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.86, 0.72, 0.47, 1)
-theme_override_font_sizes/font_size = 27
+theme_override_colors/font_color = Color(0.9, 0.75, 0.46, 1)
+theme_override_font_sizes/font_size = 30
 text = "НАСТРОЙКИ"
 
-[node name="FovRow" type="HBoxContainer" parent="Screen/Panel/Layout"]
+[node name="BodyScroll" type="ScrollContainer" parent="Screen/Panel/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="Body" type="VBoxContainer" parent="Screen/Panel/Layout/BodyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="FovRow" type="HBoxContainer" parent="Screen/Panel/Layout/BodyScroll/Body"]
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Screen/Panel/Layout/FovRow"]
+[node name="Label" type="Label" parent="Screen/Panel/Layout/BodyScroll/Body/FovRow"]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 text = "Поле зрения"
 
-[node name="Fov" type="HSlider" parent="Screen/Panel/Layout/FovRow"]
+[node name="Fov" type="HSlider" parent="Screen/Panel/Layout/BodyScroll/Body/FovRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 65.0
@@ -65,21 +115,22 @@ max_value = 90.0
 step = 1.0
 value = 75.0
 
-[node name="Value" type="Label" parent="Screen/Panel/Layout/FovRow"]
+[node name="Value" type="Label" parent="Screen/Panel/Layout/BodyScroll/Body/FovRow"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 text = "75°"
 horizontal_alignment = 2
 
-[node name="SensitivityRow" type="HBoxContainer" parent="Screen/Panel/Layout"]
+[node name="SensitivityRow" type="HBoxContainer" parent="Screen/Panel/Layout/BodyScroll/Body"]
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Screen/Panel/Layout/SensitivityRow"]
+[node name="Label" type="Label" parent="Screen/Panel/Layout/BodyScroll/Body/SensitivityRow"]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 text = "Чувствительность мыши"
 
-[node name="Sensitivity" type="HSlider" parent="Screen/Panel/Layout/SensitivityRow"]
+[node name="Sensitivity" type="HSlider" parent="Screen/Panel/Layout/BodyScroll/Body/SensitivityRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 0.02
@@ -87,33 +138,40 @@ max_value = 1.0
 step = 0.01
 value = 0.16
 
-[node name="Value" type="Label" parent="Screen/Panel/Layout/SensitivityRow"]
+[node name="Value" type="Label" parent="Screen/Panel/Layout/BodyScroll/Body/SensitivityRow"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 text = "0,16"
 horizontal_alignment = 2
 
-[node name="HeadBob" type="CheckBox" parent="Screen/Panel/Layout"]
+[node name="HeadBob" type="CheckBox" parent="Screen/Panel/Layout/BodyScroll/Body"]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
+focus_mode = 2
 text = "Лёгкое покачивание камеры при ходьбе"
 
-[node name="ReducedMotion" type="CheckBox" parent="Screen/Panel/Layout"]
+[node name="ReducedMotion" type="CheckBox" parent="Screen/Panel/Layout/BodyScroll/Body"]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
+focus_mode = 2
 text = "Уменьшить движение и переходы"
 
-[node name="HighContrast" type="CheckBox" parent="Screen/Panel/Layout"]
+[node name="HighContrast" type="CheckBox" parent="Screen/Panel/Layout/BodyScroll/Body"]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
+focus_mode = 2
 text = "Высокий контраст текста"
 
-[node name="TextScaleRow" type="HBoxContainer" parent="Screen/Panel/Layout"]
+[node name="TextScaleRow" type="HBoxContainer" parent="Screen/Panel/Layout/BodyScroll/Body"]
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Screen/Panel/Layout/TextScaleRow"]
+[node name="Label" type="Label" parent="Screen/Panel/Layout/BodyScroll/Body/TextScaleRow"]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 text = "Размер текста"
 
-[node name="TextScale" type="HSlider" parent="Screen/Panel/Layout/TextScaleRow"]
+[node name="TextScale" type="HSlider" parent="Screen/Panel/Layout/BodyScroll/Body/TextScaleRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 0.8
@@ -121,51 +179,57 @@ max_value = 1.6
 step = 0.05
 value = 1.0
 
-[node name="Value" type="Label" parent="Screen/Panel/Layout/TextScaleRow"]
+[node name="Value" type="Label" parent="Screen/Panel/Layout/BodyScroll/Body/TextScaleRow"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 text = "1,00×"
 horizontal_alignment = 2
 
-[node name="Subtitles" type="CheckBox" parent="Screen/Panel/Layout"]
+[node name="Subtitles" type="CheckBox" parent="Screen/Panel/Layout/BodyScroll/Body"]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
+focus_mode = 2
 text = "Субтитры для воспроизводимого аудио"
 
-[node name="AudioDescriptions" type="CheckBox" parent="Screen/Panel/Layout"]
+[node name="AudioDescriptions" type="CheckBox" parent="Screen/Panel/Layout/BodyScroll/Body"]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
+focus_mode = 2
 text = "Текстовые описания, если аудио недоступно"
 
-[node name="GraphicsRow" type="HBoxContainer" parent="Screen/Panel/Layout"]
+[node name="GraphicsRow" type="HBoxContainer" parent="Screen/Panel/Layout/BodyScroll/Body"]
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Screen/Panel/Layout/GraphicsRow"]
+[node name="Label" type="Label" parent="Screen/Panel/Layout/BodyScroll/Body/GraphicsRow"]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 text = "Качество 3D"
 
-[node name="Graphics" type="OptionButton" parent="Screen/Panel/Layout/GraphicsRow"]
+[node name="Graphics" type="OptionButton" parent="Screen/Panel/Layout/BodyScroll/Body/GraphicsRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="BindingsTitle" type="Label" parent="Screen/Panel/Layout"]
+[node name="BindingsTitle" type="Label" parent="Screen/Panel/Layout/BodyScroll/Body"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.78, 0.67, 0.48, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 21
 text = "УПРАВЛЕНИЕ"
 
-[node name="BindingScroll" type="ScrollContainer" parent="Screen/Panel/Layout"]
-custom_minimum_size = Vector2(0, 190)
+[node name="BindingScroll" type="MarginContainer" parent="Screen/Panel/Layout/BodyScroll/Body"]
+custom_minimum_size = Vector2(0, 220)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Bindings" type="VBoxContainer" parent="Screen/Panel/Layout/BindingScroll"]
+[node name="Bindings" type="VBoxContainer" parent="Screen/Panel/Layout/BodyScroll/Body/BindingScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
 [node name="Status" type="Label" parent="Screen/Panel/Layout"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.63, 0.68, 0.61, 1)
+theme_override_colors/font_color = Color(0.72, 0.7, 0.62, 1)
+theme_override_font_sizes/font_size = 16
 text = "Esc / Menu — закрыть"
 autowrap_mode = 2
 
@@ -175,16 +239,28 @@ alignment = 2
 
 [node name="Save" type="Button" parent="Screen/Panel/Layout/Buttons"]
 layout_mode = 2
+focus_mode = 2
+custom_minimum_size = Vector2(0, 44)
+theme_override_styles/focus = SubResource("SettingsFocus")
 text = "Сохранить"
 
 [node name="Load" type="Button" parent="Screen/Panel/Layout/Buttons"]
 layout_mode = 2
+focus_mode = 2
+custom_minimum_size = Vector2(0, 44)
+theme_override_styles/focus = SubResource("SettingsFocus")
 text = "Загрузить"
 
 [node name="Apply" type="Button" parent="Screen/Panel/Layout/Buttons"]
 layout_mode = 2
+focus_mode = 2
+custom_minimum_size = Vector2(0, 44)
+theme_override_styles/focus = SubResource("SettingsFocus")
 text = "Применить"
 
 [node name="Close" type="Button" parent="Screen/Panel/Layout/Buttons"]
 layout_mode = 2
+focus_mode = 2
+custom_minimum_size = Vector2(0, 44)
+theme_override_styles/focus = SubResource("SettingsFocus")
 text = "Закрыть"

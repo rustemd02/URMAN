@@ -529,16 +529,25 @@ def setup_scene() -> None:
 
 
 def export_glb(objects: list[bpy.types.Object], out_path: str,
-               root_name: str) -> None:
+               root_name: str, preserve_hierarchy: bool = False) -> None:
+    if preserve_hierarchy:
+        bpy.context.view_layer.update()
     for obj in bpy.data.objects:
         obj.select_set(False)
     for obj in objects:
-        bake_transforms(obj)
+        if not preserve_hierarchy or obj.type == "MESH":
+            bake_transforms(obj)
     root = bpy.data.objects.new(root_name, None)
     bpy.context.scene.collection.objects.link(root)
     root.empty_display_type = "PLAIN_AXES"
     for obj in objects:
-        obj.parent = root
+        if preserve_hierarchy:
+            if obj.parent is None:
+                world_matrix = obj.matrix_world.copy()
+                obj.parent = root
+                obj.matrix_world = world_matrix
+        else:
+            obj.parent = root
         obj.select_set(True)
     root.select_set(True)
     bpy.context.view_layer.objects.active = root
@@ -547,7 +556,7 @@ def export_glb(objects: list[bpy.types.Object], out_path: str,
         filepath=out_path,
         export_format="GLB",
         use_selection=True,
-        export_apply=True,
+        export_apply=not preserve_hierarchy,
     )
 
 

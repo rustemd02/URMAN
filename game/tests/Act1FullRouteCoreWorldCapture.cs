@@ -15,8 +15,8 @@ namespace Urman.Godot.Tests;
 /// </summary>
 public partial class Act1FullRouteCoreWorldCapture : Node
 {
-    private const int CaptureWidth = 1280;
-    private const int CaptureHeight = 720;
+    private static int CaptureWidth => DisplayServer.WindowGetSize().X;
+    private static int CaptureHeight => DisplayServer.WindowGetSize().Y;
     private const int WarmupFrames = 18;
     private const int SettleFrames = 8;
     private const string OutputArgumentPrefix = "--urman-act1-core-output=";
@@ -47,6 +47,12 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("east_holding_entry", "main_street", "village_day", "from_house", new(24f, (float)Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(24f, -20f) + .05f, -20f), new(23f, .45f, -11f), "forward", "near-mid-far"),
         Frame("east_holding_return", "main_street", "village_day", "from_house", new(24f, (float)Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(24f, -15f) + .05f, -15f), new(19f, .45f, -23f), "back", "near-mid-far"),
 
+        // Same player-height pose as the chimney diagnostic that exposed
+        // floating face / collar pieces on the existing background character.
+        Frame("resident_contact_detail", "main_street", "village_day", "arrival",
+            new(-12.559999f, -.1847323f, .5680003f),
+            new(-24.56f, 4.3218613f, -7.4319997f), "detail", "existing character face and collar contact"),
+
         // Babai / Ebi yard
         Frame("babai_yard_forward", "babai_yard", "village_day", "from_house", new(-20f, .05f, 6.5f), new(-8f, 1.55f, 12f), "forward", "near-mid-far"),
         Frame("babai_yard_back", "babai_yard", "village_day", "from_house", new(-20f, .05f, 6.5f), new(-30f, 1.55f, -5f), "back", "near-mid-far"),
@@ -58,6 +64,13 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("house_exterior_forward", "house_exterior", "village_day", "from_house", new(-28f, .05f, 7f), new(-28f, 1.55f, -1f), "forward", "near-mid-far"),
         Frame("house_exterior_back", "house_exterior", "village_day", "from_house", new(-28f, .05f, 7f), new(-13f, 1.45f, 14f), "back", "near-mid-far"),
         Frame("house_exterior_depth", "house_exterior", "village_day", "from_house", new(-24f, .05f, 7.5f), new(-28f, 1.55f, -6f), "forward", "near-mid-far"),
+
+        Frame("babai_door_detail", "house_exterior", "village_day", "from_house",
+            new(-28.2f, AgentBAct1HeightField.CollisionGround(-28.2f, 6f) + .05f, 6f),
+            new(-29.7f, AgentBAct1HeightField.CollisionGround(-29.7f, 4.3f) + .65f, 4.3f), "detail", "cleared doorstep and shovel"),
+        Frame("babai_firewood_detail", "babai_yard", "village_day", "from_house",
+            new(-28.2f, AgentBAct1HeightField.CollisionGround(-28.2f, 6f) + .05f, 6f),
+            new(-33.15f, AgentBAct1HeightField.CollisionGround(-33.15f, 3.88f) + .7f, 3.88f), "detail", "firewood under shelter"),
 
         // House interior
         Frame("house_interior_forward", "house_interior", "house_old_pc", "entry", new(-25.2f, .05f, 1.8f), new(-28f, 1.45f, -2.2f), "forward", "interior-360"),
@@ -130,6 +143,10 @@ public partial class Act1FullRouteCoreWorldCapture : Node
 
     private async Task CaptureAsync()
     {
+        if (System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_BENCHMARK") == "1"
+            && (System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_MONO_SNOW") == "1"
+                || System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_SNOW_SWEEP") == "1"))
+            throw new InvalidOperationException("Diagnostic material/sweep capture cannot be a production benchmark.");
         var outputDirectory = Path.GetFullPath(RequireArgument(OutputArgumentPrefix));
         if (!Directory.Exists(outputDirectory))
         {
@@ -158,6 +175,151 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         var core = connectedWorld.GetNodeOrNull<Node3D>("Act1CoreWorldGreybox")
             ?? throw new InvalidOperationException("Act1ConnectedWorld is missing Act1CoreWorldGreybox.");
         var presentationAudit = AuditPresentationOnlyLayer(core);
+        var backdropGround = FindDescendants(core).OfType<MeshInstance3D>()
+            .Where(mesh => mesh.Mesh is not null && (mesh.Name == "BackdropGround" || mesh.Name == "RidgeSurface"))
+            .Select(mesh => (Vertices: mesh.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array().Select(mesh.ToGlobal).ToArray(),
+                Indices: mesh.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Index].AsInt32Array())).ToArray();
+        var footingCount = 0;
+        foreach (var footing in FindDescendants(core).OfType<Node3D>().Where(node => node.HasMeta("groundContactDepth")))
+        {
+            var point = footing.GlobalPosition;
+            float? support = null;
+            foreach (var ground in backdropGround)
+            for (var i = 0; i < ground.Indices.Length; i += 3)
+            {
+                var a = ground.Vertices[ground.Indices[i]]; var b = ground.Vertices[ground.Indices[i + 1]]; var c = ground.Vertices[ground.Indices[i + 2]];
+                var denominator = (b.Z - c.Z) * (a.X - c.X) + (c.X - b.X) * (a.Z - c.Z);
+                var u = ((b.Z - c.Z) * (point.X - c.X) + (c.X - b.X) * (point.Z - c.Z)) / denominator;
+                var v = ((c.Z - a.Z) * (point.X - c.X) + (a.X - c.X) * (point.Z - c.Z)) / denominator;
+                if (u < -.00001f || v < -.00001f || u + v > 1.00001f) continue;
+                support = Mathf.Max(support ?? float.MinValue, u * a.Y + v * b.Y + (1 - u - v) * c.Y);
+            }
+            support ??= AgentBAct1HeightField.CollisionGround(point.X, point.Z);
+            var expected = support.Value - footing.GetMeta("groundContactDepth").AsSingle();
+            if (Mathf.Abs(point.Y - expected) > .005f)
+                throw new InvalidOperationException($"Backdrop footing is not grounded to rendered triangles: {footing.GetPath()}");
+            footingCount++;
+        }
+        GD.Print($"winter-backdrop-contact: {footingCount} roots checked against rendered apron / ridges / physical terrain triangles");
+        foreach (var bank in FindDescendants(core).OfType<MeshInstance3D>().Where(node => node.HasMeta("snowBankHeight")))
+        {
+            var vertices = bank.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+            foreach (var vertex in vertices)
+            {
+                var point = bank.GlobalTransform * vertex;
+                var road = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
+                var rise = point.Y - AgentBAct1HeightField.CollisionGround(point.X, point.Z);
+                if (!point.IsFinite() || (road.Distance <= road.HalfWidth && Mathf.Abs(rise) > .05f))
+                    throw new InvalidOperationException($"Snow bank obstructs the visible route: {bank.GetPath()}");
+            }
+        }
+        foreach (var mesh in FindDescendants(core).OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null))
+        {
+            var name = mesh.Name.ToString().ToLowerInvariant();
+            if (!name.Contains("stone") && !name.Contains("rock") && !name.Contains("boulder")) continue;
+            var center = mesh.GlobalTransform * mesh.Mesh.GetAabb().GetCenter();
+            var road = AgentBAct1HeightField.RoadInfo(center.X, center.Z);
+            if (center.Z > -86f && road.Distance < Math.Min(road.HalfWidth, 2.0))
+                GD.Print($"winter-road-debris: {mesh.GetPath()} center={center}");
+        }
+        if (System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_PLACEMENT_AUDIT") == "1")
+        {
+            var intrusions = new List<object>();
+            foreach (var mesh in FindDescendants(core).OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree()
+                && mesh.Mesh is not null && mesh.Name.ToString().Contains("Fence", StringComparison.OrdinalIgnoreCase)))
+            {
+                var bounds = mesh.GlobalTransform * mesh.Mesh.GetAabb();
+                if (bounds.Position.Y > AgentBAct1HeightField.CollisionGround(bounds.GetCenter().X, bounds.GetCenter().Z) + 2) continue;
+                var worst = 0f; var sample = Vector3.Zero;
+                for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
+                foreach (var vertex in mesh.Mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                {
+                    var point = mesh.ToGlobal(vertex);
+                    var road = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
+                    var depth = (float)(road.HalfWidth - road.Distance);
+                    if (depth <= worst) continue;
+                    worst = depth; sample = point;
+                }
+                if (worst > .1f) intrusions.Add(new { owner = mesh.GetPath().ToString(), intrusion_m = worst,
+                    x = sample.X, y = sample.Y, z = sample.Z });
+            }
+            File.WriteAllText(Path.Combine(outputDirectory, "fence_road_intrusions.json"), JsonSerializer.Serialize(intrusions, ReceiptJsonOptions));
+        }
+        var maxRoadGap = 0f;
+        var minRoadGap = float.MaxValue;
+        var worstRoadPoint = Vector3.Zero;
+        var roadVertexCount = 0;
+        foreach (var roadMesh in FindDescendants(core.GetNode<Node3D>("AgentBExteriorWorld/AgentB_TerrainRoadKit"))
+            .OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree() && mesh.Name.ToString().StartsWith("Road_", StringComparison.Ordinal)))
+        {
+            var roadArrays = roadMesh.Mesh.SurfaceGetArrays(0);
+            var roadVertices = roadArrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+            var roadIndices = roadArrays[(int)Mesh.ArrayType.Index].AsInt32Array();
+            var centers = Enumerable.Range(0, roadIndices.Length / 3).Select(index =>
+                (roadVertices[roadIndices[index * 3]] + roadVertices[roadIndices[index * 3 + 1]] + roadVertices[roadIndices[index * 3 + 2]]) / 3f);
+            var roadTransform = roadMesh.GlobalTransform;
+            foreach (var vertex in roadVertices.Concat(centers))
+            {
+                var point = roadTransform * vertex;
+                var query = PhysicsRayQueryParameters3D.Create(point + Vector3.Up, point - Vector3.Up, 1);
+                var hit = core.GetWorld3D().DirectSpaceState.IntersectRay(query);
+                if (hit.Count == 0 || hit["collider"].AsGodotObject() is not Node collider
+                    || !collider.HasMeta("collisionOwner") || collider.GetMeta("collisionOwner").AsString() != "act1-exterior-terrain") continue;
+                roadVertexCount++;
+                var signedGap = point.Y - hit["position"].AsVector3().Y;
+                minRoadGap = Mathf.Min(minRoadGap, signedGap);
+                var gap = Mathf.Abs(signedGap);
+                if (gap > maxRoadGap) { maxRoadGap = gap; worstRoadPoint = point; }
+            }
+        }
+        GD.Print($"winter-road-collision: samples={roadVertexCount} max_gap={maxRoadGap:F4}m min_gap={minRoadGap:F4}m at {worstRoadPoint}");
+        if (roadVertexCount == 0 || minRoadGap < -.001f)
+            throw new InvalidOperationException($"Road intersects terrain or lacks probes: minimum gap {minRoadGap}");
+        if (maxRoadGap > .051f)
+            throw new InvalidOperationException($"Road presentation/collider gap exceeds 5cm: {maxRoadGap} at {worstRoadPoint}");
+        var foliage = core.GetNode<Node3D>("AgentBExteriorWorld/AgentB_PlantedFoliage");
+        var foliageGeometry = new List<object>();
+        var exterior = core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld");
+        foreach (var species in new[] { "Birch", "Linden", "BirdCherry", "Spruce" })
+        foreach (var (prefix, low, high) in new[] { ("Winter", 2000, 6000), ("WinterLight", 600, 1500), ("WinterFar", 100, 400) })
+        {
+            var variant = $"{prefix}{species}_1";
+            var mesh = exterior.FoliageMesh(variant, "village");
+            var triangles = Enumerable.Range(0, mesh.GetSurfaceCount()).Sum(surface =>
+            {
+                var arrays = mesh.SurfaceGetArrays(surface);
+                var indices = arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
+                return (indices.Length > 0 ? indices.Length : arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array().Length) / 3;
+            });
+            if (triangles < low || triangles > high || mesh.GetSurfaceCount() > 3)
+                throw new InvalidOperationException($"Winter geometry budget: {variant} {triangles} triangles, {mesh.GetSurfaceCount()} surfaces");
+            foliageGeometry.Add(new { variant, triangles, surfaces = mesh.GetSurfaceCount() });
+        }
+        File.WriteAllText(Path.Combine(outputDirectory, "foliage_geometry.json"), JsonSerializer.Serialize(foliageGeometry, ReceiptJsonOptions));
+        var foliageVerticesChecked = 0;
+        void CheckFoliage(Mesh source, Transform3D transform, Node owner)
+        {
+            for (var surface = 0; surface < source.GetSurfaceCount(); surface++)
+            foreach (var vertex in source.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+            {
+                var point = transform * vertex;
+                if (point.Y > 6f) continue;
+                foliageVerticesChecked++;
+                var road = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
+                if (road.Distance > road.HalfWidth) continue;
+                if (point.Y < AgentBAct1HeightField.CollisionGround(point.X, point.Z) + 2.5f)
+                    throw new InvalidOperationException($"Low foliage enters cleared road: {owner.GetPath()} at {point}");
+            }
+        }
+        foreach (var mesh in FindDescendants(foliage).OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is ArrayMesh))
+            CheckFoliage(mesh.Mesh, mesh.GlobalTransform, mesh);
+        foreach (var group in FindDescendants(foliage).OfType<MultiMeshInstance3D>().Where(group => group.IsVisibleInTree()))
+        {
+            var multi = group.Multimesh;
+            for (var instance = 0; instance < multi.InstanceCount; instance++)
+                CheckFoliage(multi.Mesh, group.GlobalTransform * multi.GetInstanceTransform(instance), group);
+        }
+        GD.Print($"winter-road-foliage: checked={foliageVerticesChecked} low foliage vertices; trunks/boughs clear");
         var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController
             ?? throw new InvalidOperationException("Production first-person player is missing.");
         var camera = player.GetNode<Camera3D>("Head/Camera3D");
@@ -176,16 +338,100 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             $"low_quality={visibleMaterials.Count(material => material.GetShaderParameter("low_quality").AsBool())}");
 
         var captures = new List<FrameReceipt>(Frames.Count);
-        foreach (var spec in Frames)
+        if (System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_MONO_SNOW") == "1")
+        {
+            foreach (var material in FindDescendants(main).OfType<MeshInstance3D>()
+                .SelectMany(mesh => Enumerable.Range(0, mesh.Mesh?.GetSurfaceCount() ?? 0)
+                    .Select(mesh.GetActiveMaterial)).OfType<ShaderMaterial>().Distinct())
+            {
+                if (!material.GetShaderParameter("snow_material").AsBool()) continue;
+                material.SetShaderParameter("has_albedo_texture", false);
+                material.SetShaderParameter("base_color", Color.FromHtml("e8edf0"));
+                material.SetShaderParameter("variation", 0f);
+                material.SetShaderParameter("snow_sparkle", 0f);
+                material.SetShaderParameter("has_snow_micro", false);
+                material.SetShaderParameter("vertex_pigment", false);
+            }
+        }
+        var shift = new Vector3(float.TryParse(System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_SHIFT_X"),
+            System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var shiftX) ? shiftX : 0f, 0f, 0f);
+        var captureFrames = Frames.Where(frame => string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_FRAMES"))
+            || System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_FRAMES")!.Split(',').Contains(frame.Id)).ToList();
+        var buildingBounds = FindDescendants(core).OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree()
+            && mesh.Mesh is not null && new[] { "Roof", "Wall", "Facade" }.Any(token => mesh.Name.ToString().Contains(token, StringComparison.OrdinalIgnoreCase)))
+            .Select(mesh => mesh.GlobalTransform * mesh.Mesh.GetAabb()).ToArray();
+        var plantedBounds = FindDescendants(foliage).OfType<Node3D>().Where(node => node.HasMeta("plantPosition"))
+            .Select(node => (Owner: node, Bounds: node.GlobalTransform * node.GetChild<MeshInstance3D>(0).Mesh.GetAabb())).ToArray();
+        if (System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_FOLIAGE_REFERENCES") == "1")
+        foreach (var variant in new[] { "WinterBirch_1", "WinterLinden_1", "WinterBirdCherry_1" })
+        {
+            var candidates = FindDescendants(foliage).OfType<Node3D>()
+                .Where(node => node.HasMeta("plantPosition") && node.GetMeta("plantVariant").AsString() == variant && node.GlobalPosition.Z > -40)
+                .OrderBy(node => Math.Abs(node.GlobalPosition.X) + Math.Abs(node.GlobalPosition.Z));
+            var found = false;
+            foreach (var tree in candidates)
+            {
+                var near = tree.GetChild<MeshInstance3D>(0);
+                var height = near.Mesh.GetAabb().Size.Y * tree.Scale.Y;
+                var root = tree.GlobalPosition;
+                foreach (var angle in new[] { 0f, Mathf.Pi * .5f, -Mathf.Pi * .5f, Mathf.Pi })
+                {
+                    var side = new Vector3(-Mathf.Sign(root.X), 0, .18f).Rotated(Vector3.Up, angle).Normalized();
+                    var eye = root + side * Mathf.Max(2.2f, height) + Vector3.Up * height * .44f;
+                    if (plantedBounds.Any(other => other.Owner != tree && other.Bounds.HasPoint(eye))) continue;
+                    if (buildingBounds.Any(bounds => bounds.HasPoint(eye) || new[] { .1f, .48f, .9f }
+                        .Any(level => bounds.IntersectsSegment(eye, root + Vector3.Up * height * level)))) continue;
+                    if (new[] { .1f, .48f, .9f }.Any(level => core.GetWorld3D().DirectSpaceState.IntersectRay(
+                        PhysicsRayQueryParameters3D.Create(eye, root + Vector3.Up * height * level, 1)).Count > 0)) continue;
+                    captureFrames.Add(Frame($"foliage_{variant}", "main_street", "village_day", "arrival",
+                        eye - Vector3.Up * 1.7f, root + Vector3.Up * height * .48f, "reference", "actual planted tree"));
+                    GD.Print($"winter-foliage-reference: {variant} root={root} height={height} eye={eye}");
+                    found = true; break;
+                }
+                if (found) break;
+            }
+            if (!found) throw new InvalidOperationException($"No unobstructed production foliage reference for {variant}");
+        }
+        if (System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_SMOKE_REFERENCES") == "1")
+        foreach (var smoke in core.GetNode<Node3D>("VillageLife").GetChildren().OfType<CpuParticles3D>())
+        {
+            Vector3? reference = null;
+            foreach (var distance in new[] { 12f, 8f, 18f })
+            {
+                for (var angle = 0; angle < 12; angle++)
+                {
+                    var direction = new Vector3(Mathf.Cos(angle * Mathf.Tau / 12f), 0f, Mathf.Sin(angle * Mathf.Tau / 12f));
+                    var point = smoke.GlobalPosition + direction * distance;
+                    point.Y = AgentBAct1HeightField.CollisionGround(point.X, point.Z) + .05f;
+                    var eye = point + Vector3.Up * 1.7f;
+                    if (buildingBounds.Any(bounds => bounds.HasPoint(eye)
+                        || bounds.IntersectsSegment(eye, smoke.GlobalPosition + Vector3.Up * .2f))) continue;
+                    reference = point; break;
+                }
+                if (reference is not null) break;
+            }
+            if (reference is null) throw new InvalidOperationException($"No unobstructed chimney reference: {smoke.Name}");
+            captureFrames.Add(Frame(smoke.Name + "_detail", "arrival", "village_day", "arrival",
+                reference.Value, smoke.GlobalPosition + Vector3.Up * 1.4f,
+                "reference", "player-height diagnostic of actual chimney top and plume"));
+        }
+        foreach (var spec in captureFrames)
         {
             main.SwitchZone(spec.LogicalZoneId, spec.SpawnPointId);
             await WaitForFramesAsync(SettleFrames);
-            player.ApplyZoneSpawn(spec.PlayerPosition, 0f);
+            player.ApplyZoneSpawn(spec.PlayerPosition + shift, 0f);
             camera.Current = true;
-            camera.LookAt(spec.Target, Vector3.Up);
+            camera.LookAt(spec.Target + shift, Vector3.Up);
             await WaitForFramesAsync(SettleFrames);
             await WaitForRenderedFrameAsync();
 
+            if (spec.Id.StartsWith("ChimneySmoke", StringComparison.Ordinal))
+            {
+                var smoke = core.GetNode<Node3D>("VillageLife").GetNode<CpuParticles3D>(spec.Id.Replace("_detail", string.Empty));
+                var sourceChimney = GetNode<MeshInstance3D>(smoke.GetMeta("chimneyOwner").AsString());
+                GD.Print($"smoke-state: {smoke.Name} emitting={smoke.Emitting} speed={smoke.SpeedScale} bounds={smoke.CaptureAabb()} "
+                    + $"emitter={smoke.GlobalPosition} actual_chimney_bounds={sourceChimney.GlobalTransform * sourceChimney.Mesh.GetAabb()} screen={camera.UnprojectPosition(smoke.GlobalPosition)}");
+            }
             if (viewport.GetCamera3D() != camera)
             {
                 throw new InvalidOperationException($"Production camera is not rendering the root viewport for {spec.Id}.");
@@ -196,7 +442,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             // actual camera state per frame so duplicate-hash defects have a
             // causal receipt instead of a silent retry.
             var actualForward = -camera.GlobalTransform.Basis.Z;
-            var expectedForward = (spec.Target - camera.GlobalPosition).Normalized();
+            var expectedForward = (spec.Target + shift - camera.GlobalPosition).Normalized();
             var aimDeviationDegrees = Mathf.RadToDeg(Mathf.Acos(Mathf.Clamp(actualForward.Dot(expectedForward), -1f, 1f)));
             if (aimDeviationDegrees > 0.5f)
             {
@@ -236,9 +482,30 @@ public partial class Act1FullRouteCoreWorldCapture : Node
                 + $"cam_fwd=({actualForward.X:F3},{actualForward.Y:F3},{actualForward.Z:F3}) aim_deviation_deg={aimDeviationDegrees:F3} "
                 + $"sha256={sha256[..12]} same_as_prev={(previousSha is not null && previousSha == sha256).ToString().ToLowerInvariant()}");
 
+            var environments = FindDescendants(main).OfType<WorldEnvironment>()
+                .Where(node => node.Environment is not null).ToArray();
+            if (environments.Length != 1)
+                throw new InvalidOperationException($"Capture has {environments.Length} active environments, expected one.");
+            var environment = environments[0].Environment;
+            var sun = FindDescendants(main).OfType<DirectionalLight3D>().FirstOrDefault(light => light.IsVisibleInTree());
             captures.Add(new FrameReceipt
             {
                 FrameId = spec.Id,
+                Atmosphere = new Dictionary<string, object>
+                {
+                    ["owner"] = environments[0].GetPath().ToString(),
+                    ["ambient_energy"] = environment.AmbientLightEnergy,
+                    ["ambient_color"] = environment.AmbientLightColor.ToHtml(),
+                    ["fog_density"] = environment.FogDensity,
+                    ["fog_height_density"] = environment.FogHeightDensity,
+                    ["ssao_radius"] = environment.SsaoRadius,
+                    ["ssao_intensity"] = environment.SsaoIntensity,
+                    ["glow"] = environment.GlowEnabled,
+                    ["adjustments"] = environment.AdjustmentEnabled,
+                    ["exposure"] = environment.TonemapExposure,
+                    ["sun_energy"] = sun?.LightEnergy ?? 0f,
+                    ["sun_rotation"] = ScalarVector.From(sun?.GlobalRotationDegrees ?? Vector3.Zero)
+                },
                 VisualZone = spec.VisualZone,
                 LogicalZone = spec.LogicalZoneId,                ActiveZoneId = connectedWorld.ActiveZoneId,
                 SpawnPointId = spec.SpawnPointId,
@@ -247,7 +514,8 @@ public partial class Act1FullRouteCoreWorldCapture : Node
                 Camera = new CameraReceipt
                 {
                     GlobalPosition = ScalarVector.From(camera.GlobalPosition),
-                    Target = ScalarVector.From(spec.Target)
+                    Target = ScalarVector.From(spec.Target + shift),
+                    Fov = camera.Fov
                 },
                 OutputFile = fileName,
                 OutputPath = Path.GetFullPath(outputPath),
@@ -256,6 +524,14 @@ public partial class Act1FullRouteCoreWorldCapture : Node
                 Sha256 = sha256
             });
         }
+
+        if (System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_SNOW_SWEEP") == "1")
+            await CaptureSnowSweepAsync(main, player, camera, outputDirectory);
+        if (System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_BENCHMARK") == "1")
+            await CapturePerformanceAsync(this, main, player, camera, outputDirectory);
+
+        if (System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_VILLAGE_LIFE") == "1")
+            await CaptureVillageLifeAsync(main, player, camera, outputDirectory);
 
         var traversal = BuildTraversalReceipt();
         WriteReceipt(outputDirectory, presentationAudit, captures, traversal);
@@ -274,6 +550,133 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         GC.Collect();
         await WaitForFramesAsync(1);
         GetTree().Quit(0);
+    }
+
+    private async Task CaptureVillageLifeAsync(Main main, FirstPersonController player, Camera3D camera, string output)
+    {
+        main.SwitchZone("village_day", "arrival");
+        await WaitForFramesAsync(180);
+        var world = main.ConnectedWorld!;
+        var life = world.GetNode<Node3D>("Act1CoreWorldGreybox/VillageLife");
+        var cat = life.GetNode<Node3D>("YardCat");
+        var resident = life.GetNode<Node3D>("ResidentAtFirewood");
+        var smoke = life.GetChildren().OfType<CpuParticles3D>().ToArray();
+        if (smoke.Length != 2 || FindDescendants(life).Any(node => node is CollisionObject3D or WorldEnvironment))
+            throw new InvalidOperationException("Village life must have two chimneys and no physics / environment owner.");
+        world.SetProcess(false);
+        var accessibility = player.Accessibility;
+        player.ApplyAccessibilitySettings(accessibility with { ReducedMotion = false });
+        var rows = new List<object>();
+        var seen = new HashSet<int>();
+        var frameDirectory = Path.Combine(output, "cat_walk_frames");
+        Directory.CreateDirectory(frameDirectory);
+        var videoFrame = 0;
+        var eventStarts = new List<object>();
+        var previousEvent = life.GetMeta("event").AsInt32();
+        var recording = false;
+        var elapsed = 0f;
+        for (var step = 0; step < 30 * 900 && (seen.Count < 3 || previousEvent != 0); step++)
+        {
+            // Advance the existing presentation owner at the delivery video's
+            // fixed timestep; never force an event, pose or RNG result.
+            var updateStart = Time.GetTicksUsec();
+            world._Process(1.0 / 30.0);
+            var updateMs = (Time.GetTicksUsec() - updateStart) / 1000.0;
+            elapsed += 1f / 30f;
+            var current = life.GetMeta("event").AsInt32();
+            var eventTime = life.GetMeta("eventTime", 0f).AsSingle();
+            if (current != 0 && current != previousEvent)
+            {
+                recording = !seen.Contains(current);
+                if (recording)
+                {
+                    var target = current == 1 ? new Vector3(-27.6f, AgentBAct1HeightField.CollisionGround(-27.6f, 6.4f) + .25f, 6.4f)
+                        : current == 2 ? new Vector3(0f, 17f, -5f) : resident.GlobalPosition + Vector3.Up;
+                    var eye = current == 1 ? new Vector3(-27.6f, AgentBAct1HeightField.CollisionGround(-27.6f, 9.6f) + 1.7f, 9.6f)
+                        : current == 2 ? new Vector3(0f, 1.7f, 18f) : resident.GlobalPosition + new Vector3(-8f, 1.7f, 7f);
+                    if (current == 3)
+                    {
+                        var architecture = FindDescendants(world).OfType<MeshInstance3D>()
+                            .Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree()
+                                && new[] { "Wall", "Facade", "Roof" }.Any(token => mesh.Name.ToString().Contains(token, StringComparison.Ordinal)))
+                            .Select(mesh => mesh.GlobalTransform * mesh.Mesh.GetAabb()).ToArray();
+                        var candidates = new[] { new Vector3(-8f, 0f, 7f), new Vector3(8f, 0f, 7f),
+                            new Vector3(-8f, 0f, -7f), new Vector3(8f, 0f, -7f), new Vector3(0f, 0f, 8f) }
+                            .Select(offset => resident.GlobalPosition + offset + Vector3.Up * 1.7f).ToArray();
+                        eye = candidates.FirstOrDefault(candidate => !architecture.Any(bounds => bounds.HasPoint(candidate)
+                            || bounds.IntersectsSegment(candidate, target)), Vector3.Zero);
+                        if (eye == Vector3.Zero) throw new InvalidOperationException("No visible resident reference from the yard.");
+                    }
+                    player.ApplyZoneSpawn(eye - Vector3.Up * 1.7f, 0f);
+                    camera.LookAt(target);
+                    var referenceStart = Time.GetTicksUsec();
+                    await WaitForRenderedFrameAsync();
+                    // Includes the reference view change / render scheduling,
+                    // excludes PNG readback and encoding; not steady-state FPS.
+                    eventStarts.Add(new { kind = current, update_cpu_ms = updateMs,
+                        first_visible_reference_ms = (Time.GetTicksUsec() - referenceStart) / 1000.0 });
+                    using var before = GetViewport().GetTexture().GetImage();
+                    before.SavePng(Path.Combine(output, $"life_{current}_before.png"));
+                    rows.Add(new { kind = current, at_seconds = elapsed, eye = ScalarVector.From(camera.GlobalPosition),
+                        target = ScalarVector.From(target), fov = camera.Fov });
+                }
+            }
+            if (recording && current == 1)
+            {
+                await WaitForRenderedFrameAsync();
+                using var image = GetViewport().GetTexture().GetImage();
+                image.SavePng(Path.Combine(frameDirectory, $"frame_{videoFrame++:D3}.png"));
+            }
+            if (recording && current != 0 && !seen.Contains(current)
+                && eventTime >= (current == 1 ? 2.5f : current == 2 ? 6f : 4.5f))
+            {
+                await WaitForRenderedFrameAsync();
+                using var image = GetViewport().GetTexture().GetImage();
+                image.SavePng(Path.Combine(output, $"life_{current}_during.png"));
+                seen.Add(current);
+            }
+            if (current == 0 && previousEvent != 0)
+            {
+                var wait = life.GetMeta("nextWait").AsSingle();
+                if (wait < 45f || wait > 120f) throw new InvalidOperationException("Ambient event gap out of bounds.");
+                rows.Add(new { finished = previousEvent, at_seconds = elapsed, wait_seconds = wait });
+                recording = false;
+            }
+            if (Mathf.Abs(cat.GlobalPosition.Y - AgentBAct1HeightField.CollisionGround(cat.GlobalPosition.X, cat.GlobalPosition.Z) + .01f) > .001f)
+                throw new InvalidOperationException("Cat ground anchor diverged from physical terrain.");
+            previousEvent = current;
+        }
+        if (seen.Count != 3) throw new InvalidOperationException("Did not observe all three ambient events.");
+        foreach (var zone in new[] { "house_old_pc", "zirat_road", "kara_urman_night" })
+        {
+            main.SwitchZone(zone, zone == "house_old_pc" ? "entry" : zone == "zirat_road" ? "village_side" : "village_path");
+            world._Process(1.0 / 30.0);
+            if (life.Visible || life.GetMeta("motionAllowed").AsBool()) throw new InvalidOperationException($"Life leaked into {zone}");
+        }
+        main.SwitchZone("village_day", "arrival");
+        player.ApplyAccessibilitySettings(accessibility with { ReducedMotion = true });
+        world._Process(1.0 / 30.0);
+        if (life.GetMeta("motionAllowed").AsBool() || smoke.Any(particle => particle.SpeedScale != 0f))
+            throw new InvalidOperationException("Reduced motion did not stop village life.");
+        player.ApplyAccessibilitySettings(accessibility with { ReducedMotion = false });
+        player.SetModalOpen(true);
+        world._Process(1.0 / 30.0);
+        if (life.GetMeta("motionAllowed").AsBool()) throw new InvalidOperationException("Village life continued under modal.");
+        player.SetModalOpen(false);
+        player.ApplyAccessibilitySettings(accessibility);
+        world.SetProcess(true);
+        File.WriteAllText(Path.Combine(output, "village_life_receipt.json"), JsonSerializer.Serialize(new
+        {
+            mode = "existing presentation owner advanced at 30Hz; natural randomized events; no save writes",
+            event_start_cost = eventStarts,
+            simulated_seconds = elapsed, observed_kinds = seen.Order().ToArray(), cat_video_frames = videoFrame,
+            checks = "two chimney tops; zero collision/environment owners; cat ground contact; gaps 45-120s; quiet zones; reduced motion; modal",
+            resident_meshes = FindDescendants(resident).OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree())
+                .Select(mesh => new { name = mesh.Name.ToString(), center = ScalarVector.From((mesh.GlobalTransform * mesh.Mesh.GetAabb()).GetCenter()) }),
+            chimneys = smoke.Select(particle => new { owner = particle.GetMeta("chimneyOwner").AsString(),
+                position = ScalarVector.From(particle.GlobalPosition), amount = particle.Amount }), events = rows
+        }, ReceiptJsonOptions));
+        GD.Print($"village-life: PASS observed={seen.Count} simulated_seconds={elapsed:F2} cat_video_frames={videoFrame}");
     }
 
     private static PresentationAudit AuditPresentationOnlyLayer(Node3D core)
@@ -440,6 +843,92 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         return argument[prefix.Length..];
     }
 
+    internal static async Task CapturePerformanceAsync(Node host, Main main, FirstPersonController player, Camera3D camera, string outputDirectory)
+    {
+        var viewport = host.GetViewport();
+        player.SetPhysicsProcess(false);
+        camera.MakeCurrent();
+        main.SwitchZone("village_day", "arrival");
+        player.ApplyZoneSpawn(new Vector3(-2.2f, .05f, 2.4f), 0f);
+        camera.LookAt(new Vector3(0f, 1.45f, -15f), Vector3.Up);
+        DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Disabled);
+        var warmup = Time.GetTicksMsec();
+        while (Time.GetTicksMsec() - warmup < 12000)
+        {
+            await host.ToSignal(host.GetTree(), SceneTree.SignalName.ProcessFrame);
+            await host.ToSignal(host.GetTree(), SceneTree.SignalName.ProcessFrame);
+            RenderingServer.ForceDraw(false);
+        }
+        var samples = new List<double>();
+        var start = Time.GetTicksMsec();
+        while (Time.GetTicksMsec() - start < 60000)
+        {
+            var tick = Time.GetTicksUsec();
+            await host.ToSignal(host.GetTree(), SceneTree.SignalName.ProcessFrame);
+            RenderingServer.ForceDraw(false);
+            samples.Add((Time.GetTicksUsec() - tick) / 1000.0);
+        }
+        var sorted = samples.OrderBy(value => value).ToArray();
+        var measurement = new
+        {
+            renderer = RenderingServer.GetVideoAdapterName(), preset = player.GraphicsPreset,
+            width = viewport.GetVisibleRect().Size.X, height = viewport.GetVisibleRect().Size.Y, fov = camera.Fov,
+            render_scale = viewport.Scaling3DScale, msaa = viewport.Msaa3D.ToString(),
+            warmup_seconds = 12, sample_seconds = 60, sample_count = samples.Count,
+            average_ms = samples.Average(), p95_ms = sorted[(int)((sorted.Length - 1) * .95)],
+            max_ms = sorted[^1], fps = 1000.0 / samples.Average(),
+            nodes = FindDescendants(main).Count(),
+            mesh_instances = FindDescendants(main).OfType<MeshInstance3D>().Count(),
+            draw_calls = Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame),
+            primitives = Performance.GetMonitor(Performance.Monitor.RenderTotalPrimitivesInFrame),
+            note = "Root viewport; vsync disabled; explicit hidden-window draw included in wall frame time."
+        };
+        File.WriteAllText(Path.Combine(outputDirectory, "performance.json"), JsonSerializer.Serialize(measurement, ReceiptJsonOptions));
+        GD.Print("winter-performance: " + JsonSerializer.Serialize(measurement));
+    }
+
+    private async Task CaptureSnowSweepAsync(Main main, FirstPersonController player, Camera3D camera, string outputDirectory)
+    {
+        main.SwitchZone("village_day", "arrival");
+        player.ApplyZoneSpawn(new Vector3(-2.2f, .05f, 2.4f), 0f);
+        camera.LookAt(new Vector3(-1.2f, -.1f, -7f), Vector3.Up);
+        // Material isolation: moving weather/branches are not shimmering.
+        foreach (var particles in FindDescendants(main).OfType<CpuParticles3D>()) particles.Visible = false;
+        PainterlyMaterialLibrary.SetWindMotion(false);
+        for (var settle = 0; settle < 8; settle++) await WaitForRenderedFrameAsync();
+        var directory = Path.Combine(outputDirectory, "snow_sweep_frames");
+        Directory.CreateDirectory(directory);
+        var view = camera.GlobalTransform;
+        byte[]? stationary = null;
+        const int frameCount = 90;
+        for (var frame = 0; frame < frameCount; frame++)
+        {
+            var yaw = Mathf.Max(0, frame - 29) * .0015f;
+            camera.GlobalTransform = new Transform3D(new Basis(Vector3.Up, yaw) * view.Basis, view.Origin);
+            await WaitForRenderedFrameAsync();
+            using var shot = GetViewport().GetTexture().GetImage();
+            if (frame < 30)
+            {
+                using var region = shot.GetRegion(new Rect2I(CaptureWidth * 3 / 10, CaptureHeight * 3 / 4, CaptureWidth * 4 / 10, CaptureHeight / 5));
+                var pixels = region.GetData();
+                if (stationary is not null && !pixels.SequenceEqual(stationary))
+                    throw new InvalidOperationException($"Stationary snow ROI changes at frame {frame} with wind/weather hidden.");
+                stationary = pixels;
+            }
+            var path = Path.Combine(directory, $"snow_{frame:D3}.png");
+            if (File.Exists(path) || shot.SavePng(path) != Error.Ok)
+                throw new IOException($"Cannot write fresh snow sweep frame: {path}");
+        }
+        File.WriteAllText(Path.Combine(outputDirectory, "snow_sweep_receipt.json"), JsonSerializer.Serialize(new
+        {
+            frames = frameCount, fps = 30, width = CaptureWidth, height = CaptureHeight,
+            stationary_frames = 30, stationary_snow_roi_identical = true,
+            yaw_degrees = Mathf.RadToDeg(60 * .0015f), fov = camera.Fov,
+            note = "First second stationary, then slow yaw. Weather and wind hidden only for material isolation."
+        }, new JsonSerializerOptions { WriteIndented = true }));
+        GD.Print($"winter-snow-sweep: PASS stationary30 + slow yaw60 frames, {directory}");
+    }
+
     private async Task WaitForFramesAsync(int count)
     {
         for (var index = 0; index < count; index++)
@@ -550,6 +1039,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
 
     private sealed class FrameReceipt
     {
+        [JsonPropertyName("atmosphere")] public Dictionary<string, object> Atmosphere { get; set; } = new();
         [JsonPropertyName("frame_id")] public string FrameId { get; set; } = string.Empty;
         [JsonPropertyName("visual_zone")] public string VisualZone { get; set; } = string.Empty;
         [JsonPropertyName("logical_zone")] public string LogicalZone { get; set; } = string.Empty;
@@ -568,6 +1058,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
     private sealed class CameraReceipt
     {
         [JsonPropertyName("global_position")] public ScalarVector GlobalPosition { get; set; } = new();
+        [JsonPropertyName("fov")] public float Fov { get; set; }
         [JsonPropertyName("target")] public ScalarVector Target { get; set; } = new();
     }
 

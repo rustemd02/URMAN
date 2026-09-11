@@ -174,6 +174,7 @@ public static class GeneratedCharacterKitDressing
 
         var name = NodeName(mesh);
         var color = name.Contains("Head", StringComparison.Ordinal) || name.Contains("FaceNose", StringComparison.Ordinal)
+            || name.Contains("Ear", StringComparison.Ordinal) || name.Contains("Neck", StringComparison.Ordinal)
             ? "a47c68"
             : name.Contains("Hair", StringComparison.Ordinal) || name.Contains("Hat", StringComparison.Ordinal) || name.Contains("FaceBeard", StringComparison.Ordinal)
                 ? "332e2b"
@@ -185,6 +186,8 @@ public static class GeneratedCharacterKitDressing
         var surface = name.Contains("Head", StringComparison.Ordinal)
             || name.Contains("Hair", StringComparison.Ordinal)
             || name.Contains("Face", StringComparison.Ordinal)
+            || name.Contains("Ear", StringComparison.Ordinal)
+            || name.Contains("Neck", StringComparison.Ordinal)
             ? string.Empty
             : "cloth";
         mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface);

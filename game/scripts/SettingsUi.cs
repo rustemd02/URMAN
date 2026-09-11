@@ -55,19 +55,19 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         AddToGroup(AccessibilityPresentation.TargetGroup);
         _screen = GetNode<Control>("Screen");
         _panel = GetNode<Control>("Screen/Panel");
-        _fov = GetNode<HSlider>("Screen/Panel/Layout/FovRow/Fov");
-        _fovValue = GetNode<Label>("Screen/Panel/Layout/FovRow/Value");
-        _sensitivity = GetNode<HSlider>("Screen/Panel/Layout/SensitivityRow/Sensitivity");
-        _sensitivityValue = GetNode<Label>("Screen/Panel/Layout/SensitivityRow/Value");
-        _headBob = GetNode<CheckBox>("Screen/Panel/Layout/HeadBob");
-        _reducedMotion = GetNode<CheckBox>("Screen/Panel/Layout/ReducedMotion");
-        _highContrast = GetNode<CheckBox>("Screen/Panel/Layout/HighContrast");
-        _subtitles = GetNode<CheckBox>("Screen/Panel/Layout/Subtitles");
-        _audioDescriptions = GetNode<CheckBox>("Screen/Panel/Layout/AudioDescriptions");
-        _textScale = GetNode<HSlider>("Screen/Panel/Layout/TextScaleRow/TextScale");
-        _textScaleValue = GetNode<Label>("Screen/Panel/Layout/TextScaleRow/Value");
-        _graphics = GetNode<OptionButton>("Screen/Panel/Layout/GraphicsRow/Graphics");
-        _bindings = GetNode<VBoxContainer>("Screen/Panel/Layout/BindingScroll/Bindings");
+        _fov = GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/FovRow/Fov");
+        _fovValue = GetNode<Label>("Screen/Panel/Layout/BodyScroll/Body/FovRow/Value");
+        _sensitivity = GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/SensitivityRow/Sensitivity");
+        _sensitivityValue = GetNode<Label>("Screen/Panel/Layout/BodyScroll/Body/SensitivityRow/Value");
+        _headBob = GetNode<CheckBox>("Screen/Panel/Layout/BodyScroll/Body/HeadBob");
+        _reducedMotion = GetNode<CheckBox>("Screen/Panel/Layout/BodyScroll/Body/ReducedMotion");
+        _highContrast = GetNode<CheckBox>("Screen/Panel/Layout/BodyScroll/Body/HighContrast");
+        _subtitles = GetNode<CheckBox>("Screen/Panel/Layout/BodyScroll/Body/Subtitles");
+        _audioDescriptions = GetNode<CheckBox>("Screen/Panel/Layout/BodyScroll/Body/AudioDescriptions");
+        _textScale = GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/TextScaleRow/TextScale");
+        _textScaleValue = GetNode<Label>("Screen/Panel/Layout/BodyScroll/Body/TextScaleRow/Value");
+        _graphics = GetNode<OptionButton>("Screen/Panel/Layout/BodyScroll/Body/GraphicsRow/Graphics");
+        _bindings = GetNode<VBoxContainer>("Screen/Panel/Layout/BodyScroll/Body/BindingScroll/Bindings");
         _status = GetNode<Label>("Screen/Panel/Layout/Status");
         _graphics.AddItem("Низкое", 0);
         _graphics.AddItem("Среднее", 1);
@@ -94,8 +94,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
     private void BuildVolumeRows()
     {
         AudioSettingsService.EnsureBuses();
-        var layout = GetNode<VBoxContainer>("Screen/Panel/Layout");
-        var buttons = GetNode<HBoxContainer>("Screen/Panel/Layout/Buttons");
+        var body = GetNode<VBoxContainer>("Screen/Panel/Layout/BodyScroll/Body");
         foreach (var (busName, label) in new[]
                  {
                      (AudioSettingsService.MasterBus, "Общая громкость"),
@@ -105,6 +104,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
                  })
         {
             var row = new HBoxContainer { Name = $"{busName}VolumeRow" };
+            row.CustomMinimumSize = new Vector2(0, 44);
             var name = new Label
             {
                 Text = label,
@@ -129,8 +129,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
             row.AddChild(name);
             row.AddChild(slider);
             row.AddChild(value);
-            layout.AddChild(row);
-            layout.MoveChild(row, buttons.GetIndex());
+            body.AddChild(row);
         }
     }
 
@@ -216,7 +215,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
             "high" => 2,
             _ => 1
         };
-        _status.Text = "Motion blur не используется в текущем renderer-профиле.";
+        _status.Text = "Изменения применяются кнопкой «Применить».";
         RefreshBindingLabels();
         _screen.Visible = true;
         RefreshSaveLoadAvailability();
@@ -364,14 +363,14 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         foreach (var action in InputBindingService.RemappableActions)
         {
-            var row = new HBoxContainer();
+            var row = new HBoxContainer { CustomMinimumSize = new Vector2(0, 44) };
             row.AddChild(new Label
             {
                 Text = ActionLabels[action],
                 CustomMinimumSize = new Vector2(245, 0),
                 SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
             });
-            var button = new Button { CustomMinimumSize = new Vector2(210, 0) };
+            var button = new Button { CustomMinimumSize = new Vector2(210, 44) };
             button.Pressed += () => BeginRemap(action);
             row.AddChild(button);
             _bindings.AddChild(row);
@@ -381,7 +380,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         var restoreButton = new Button
         {
             Text = "Сбросить управление",
-            CustomMinimumSize = new Vector2(210, 0)
+            CustomMinimumSize = new Vector2(210, 44)
         };
         restoreButton.Pressed += () =>
         {

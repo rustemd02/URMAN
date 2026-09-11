@@ -189,6 +189,26 @@ public partial class Act1ConnectedWorld : Node3D
     private bool _runtimeBridgeSubscribed;
     private bool _logicalZonePresentationSuppressionsReapplied;
     private bool _built;
+    private Node3D? _villageLife;
+    private Node3D? _yardCat;
+    private Node3D[] _crows = [];
+    private CpuParticles3D[] _chimneySmoke = [];
+    private (Node3D Node, Basis RestBasis, float Phase)[] _catLegs = [];
+    private (Node3D Node, Basis RestBasis, float Side)[] _birdWings = [];
+    private Skeleton3D? _residentSkeleton;
+    private (int Bone, Quaternion Rotation)[] _residentRest = [];
+    private readonly RandomNumberGenerator _lifeRandom = new();
+    private FirstPersonController? _lifePlayer;
+    private AudioCueUi? _lifeCue;
+    private float _lifeWait = 28f;
+    private float _lifeTime;
+    private int _lifeEvent;
+    private int _lastLifeEvent;
+    private bool _catAtEastEnd;
+    private float _catStartYaw;
+    private Vector3 _catStart;
+    private Vector3 _catEnd;
+
 
     public IReadOnlyDictionary<string, Node3D> ZoneInstances => _zoneInstances;
 
@@ -543,6 +563,23 @@ public partial class Act1ConnectedWorld : Node3D
             return;
         }
 
+        // Isolated wet-season studies place puddle proxies over their flat
+        // roads. The connected winter heightfield owns those surfaces now.
+        if (zoneId is "village_day" or "zirat_road" or "kara_urman_night")
+        foreach (var puddle in zone.GetChildren().OfType<Node3D>().Where(node => node.HasMeta("puddleGeometry")))
+            HidePresentationNode(puddle);
+
+        if (zoneId == "kara_urman_night" && zone.GetNodeOrNull<MeshInstance3D>("BoundaryStoneNear") is { Mesh: not null } stone)
+        {
+            var bounds = stone.GlobalTransform * stone.Mesh.GetAabb();
+            var ground = Enumerable.Range(0, 8).Min(corner =>
+            {
+                var point = bounds.GetEndpoint(corner);
+                return AgentBAct1HeightField.CollisionGround(point.X, point.Z);
+            });
+            stone.GlobalPosition += Vector3.Up * (ground - .04f - bounds.Position.Y);
+        }
+
         // A few benchmark-only props are useful in their isolated camera
         // studies but become accidental route blockers or floating lights
         // when the five scenes share one exterior. Keep the source scenes
@@ -756,6 +793,9 @@ public partial class Act1ConnectedWorld : Node3D
         };
         for (var index = 0; index < poles.Length; index++)
         {
+            var world = infrastructure.ToGlobal(poles[index]);
+            world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z) - .04f;
+            poles[index] = infrastructure.ToLocal(world);
             AddVisualUtilityPole(infrastructure, $"VillageUtilityPole{index}", poles[index], 5.8f + index % 2 * 0.25f);
         }
 
@@ -851,24 +891,17 @@ public partial class Act1ConnectedWorld : Node3D
         // Unreachable background layers (T3): near village rows, mid woodland
         // bands and far snow ridges, all beyond the walkable envelope.
         AddDistantHouseRow(core, "BackdropNearHousesWest",
-            new Vector3(-96f, (float)AgentBAct1HeightField.Ground(-96f, 4f), 4f), 9, 9.5f, 6f, 1.0f);
+            new Vector3(-76f, 0f, 4f), 3, 19f, 88f, 1.0f);
         AddDistantHouseRow(core, "BackdropNearHousesEast",
-            new Vector3(74f, (float)AgentBAct1HeightField.Ground(74f, -18f), -18f), 8, 9.0f, -8f, 0.95f);
-        AddDistantForestBand(core, "BackdropMidWoodlandWest",
-            new Vector3(-150f, (float)AgentBAct1HeightField.Ground(-150f, -30f), -30f), 34, 8.0f, 4f, 1.15f, false);
-        AddDistantForestBand(core, "BackdropMidWoodlandEast",
-            new Vector3(120f, (float)AgentBAct1HeightField.Ground(120f, -40f), -40f), 30, 8.5f, -6f, 1.1f, false);
-        AddDistantForestBand(core, "BackdropMidForestNorth",
-            new Vector3(-70f, (float)AgentBAct1HeightField.Ground(-70f, -170f), -170f), 30, 9.0f, 2f, 1.25f, true);
+            new Vector3(74f, 0f, -18f), 3, 22f, 94f, 0.95f);
         AddDistantRidge(core, "BackdropFarRidgeWest",
-            new Vector3(-240f, (float)AgentBAct1HeightField.Ground(-240f, -60f), -60f), 320f, 26f, 60f, 8f);
+            new Vector3(-240f, (float)AgentBAct1HeightField.Ground(-240f, -60f), -60f), 220f, 8f, 90f, 8f);
         AddDistantRidge(core, "BackdropFarRidgeEast",
-            new Vector3(230f, (float)AgentBAct1HeightField.Ground(230f, -70f), -70f), 300f, 22f, 55f, -6f);
+            new Vector3(230f, (float)AgentBAct1HeightField.Ground(230f, -70f), -70f), 210f, 7f, 85f, -6f);
         AddDistantRidge(core, "BackdropFarRidgeNorth",
-            new Vector3(-40f, (float)AgentBAct1HeightField.Ground(-40f, -260f), -260f), 520f, 30f, 70f, 0f);
+            new Vector3(-40f, (float)AgentBAct1HeightField.Ground(-40f, -260f), -260f), 250f, 10f, 110f, 0f);
+        AddBackdropGround(core);
         AddMainStreetSnowBanks(core);
-        AddDistantMinaret(core, "DistantMinaretFar",
-            new Vector3(150f, (float)AgentBAct1HeightField.Ground(150f, -60f), -60f), 1.4f);
 
         // The first connected-world pass used generic SphereMesh "faceted
         // masses" as horizon placeholders. In a first-person frame these
@@ -905,7 +938,223 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAct1AuthoredExteriorKit(core);
         BuildAct1SightlineClosurePass(core);
         BuildAgentBExteriorWorld(core);
+        AddDistantForestBand(core, "BackdropMidWoodlandWest",
+            new Vector3(-150f, (float)AgentBAct1HeightField.Ground(-150f, -30f), -30f), 34, 8.0f, 87f, 1.15f, false);
+        AddDistantForestBand(core, "BackdropMidWoodlandEast",
+            new Vector3(120f, (float)AgentBAct1HeightField.Ground(120f, -40f), -40f), 30, 8.5f, 94f, 1.1f, false);
+        AddDistantForestBand(core, "BackdropMidForestNorth",
+            new Vector3(-70f, (float)AgentBAct1HeightField.Ground(-70f, -170f), -170f), 30, 9.0f, 2f, 1.25f, true);
+        AddDistantForestBand(core, "BackdropFarForestNorth",
+            new Vector3(-20f, 0f, -350f), 36, 9f, 0f, 1.6f, true);
+        BindAuthoredWinterTrees(core);
         ApplyAct1DaylightPresentationPass(core);
+        ReplaceKitWinterShrubs(core);
+        BuildVillageLife(core);
+    }
+
+    private void BuildVillageLife(Node3D core)
+    {
+        _villageLife = new Node3D { Name = "VillageLife" };
+        _villageLife.SetMeta("presentationOnly", true);
+        _villageLife.SetMeta("collisionOwner", "none");
+        _villageLife.SetMeta("event", 0);
+        core.AddChild(_villageLife);
+        _lifeRandom.Randomize();
+        _lifeWait = _lifeRandom.RandfRange(24f, 38f);
+
+        var source = ResourceLoader.Load<PackedScene>(VillageExteriorKitScenePath).Instantiate<Node3D>();
+        var cat = FindDescendants<Node3D>(source).Single(node => node.Name == "AmbientCat");
+        _yardCat = AttachAct1ExteriorKitComponent(_villageLife, cat, "YardCat", Vector3.Zero,
+            0f, Vector3.One, "village_day@babai-cleared-approach");
+        _yardCat.GlobalPosition = LifeGround(-28.3f, 6.4f);
+        _yardCat.RotationDegrees = new Vector3(0f, 90f, 0f);
+        _catLegs = FindDescendants<Node3D>(cat)
+            .Where(node => node.Name.ToString().StartsWith("CatLeg", StringComparison.Ordinal))
+            .Select(node => (node, node.Basis,
+                node.Name == "CatLegFrontL" || node.Name == "CatLegBackR" ? 0f : Mathf.Pi)).ToArray();
+        var crow = FindDescendants<Node3D>(source).Single(node => node.Name == "AmbientCrow");
+        var bird = AttachAct1ExteriorKitComponent(_villageLife, crow, "Crow0", Vector3.Zero,
+            90f, Vector3.One, "village_day@above-street");
+        _crows = [bird, (Node3D)bird.Duplicate(), (Node3D)bird.Duplicate()];
+        for (var i = 0; i < _crows.Length; i++)
+        {
+            if (i > 0) { _crows[i].Name = $"Crow{i}"; _villageLife.AddChild(_crows[i]); }
+            _crows[i].Visible = false;
+        }
+        _birdWings = _crows.SelectMany(FindDescendants<Node3D>)
+            .Where(node => node.Name == "BirdWingL" || node.Name == "BirdWingR")
+            .Select(node => (node, node.Basis, node.Name == "BirdWingL" ? -1f : 1f)).ToArray();
+        foreach (var mesh in FindDescendants<MeshInstance3D>(_villageLife))
+        for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
+        {
+            var materialName = mesh.GetActiveMaterial(surface)?.ResourceName ?? string.Empty;
+            var isCat = _yardCat.IsAncestorOf(mesh);
+            var color = isCat ? materialName.Contains("WetSlate", StringComparison.Ordinal) ? "382f2b"
+                    : materialName.Contains("LightFace", StringComparison.Ordinal) ? "b5aaa0" : "65544a"
+                : materialName.Contains("WetSlate", StringComparison.Ordinal) ? "242a2e" : "394149";
+            mesh.SetSurfaceOverrideMaterial(surface, PainterlyMaterialLibrary.ForColor(color));
+        }
+        source.Free();
+
+        // One anonymous background resident uses the existing neutral winter
+        // character kit. No NPC, interaction, route or persistent identity.
+        var residentHost = new Node3D { Name = "ResidentAtFirewood" };
+        _villageLife.AddChild(residentHost);
+        residentHost.GlobalPosition = LifeGround(-13.3f, -1.5f);
+        residentHost.RotationDegrees = new Vector3(0f, -90f, 0f);
+        var resident = GeneratedCharacterKitDressing.Attach(residentHost, "background_resident",
+            "CouncilWitness", Vector3.Zero);
+        foreach (var player in FindDescendants<AnimationPlayer>(resident)) player.Stop();
+        _residentSkeleton = FindDescendants<Skeleton3D>(resident)
+            .Single(skeleton => skeleton.GetParent().Name.ToString().StartsWith("CouncilWitness", StringComparison.Ordinal));
+        _residentSkeleton.ResetBonePoses();
+        _residentRest = new[] { "Spine", "Head", "Arm.L", "Arm.R" }
+            .Select(name => { var bone = _residentSkeleton.FindBone(name);
+                return (bone, _residentSkeleton.GetBonePoseRotation(bone)); }).ToArray();
+
+        var radial = new GradientTexture2D
+        {
+            Width = 64, Height = 64, Fill = GradientTexture2D.FillEnum.Radial,
+            FillFrom = new Vector2(.5f, .5f), FillTo = new Vector2(.5f, 1f),
+            Gradient = new Gradient { Colors = [Colors.White, new Color(1f, 1f, 1f, 0f)], Offsets = [0f, 1f] }
+        };
+        var smokeMaterial = new StandardMaterial3D
+        {
+            AlbedoColor = new Color(.50f, .52f, .54f, .36f), AlbedoTexture = radial,
+            VertexColorUseAsAlbedo = true, Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+            BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled,
+            CullMode = BaseMaterial3D.CullModeEnum.Disabled, Roughness = 1f
+        };
+        var smokeMesh = new QuadMesh { Size = Vector2.One, Material = smokeMaterial };
+        var anchors = new List<Vector3>();
+        var roofMeshes = FindDescendants<MeshInstance3D>(core).Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree()
+            && (mesh.Name.ToString().Contains("Roof", StringComparison.OrdinalIgnoreCase)
+                || mesh.Name.ToString().Contains("Chimney", StringComparison.OrdinalIgnoreCase))).ToArray();
+        foreach (var chimney in FindDescendants<MeshInstance3D>(core)
+            .Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree()
+                && mesh.Name.ToString().Contains("Chimney", StringComparison.OrdinalIgnoreCase))
+            .OrderBy(mesh => mesh.GlobalPosition.DistanceSquaredTo(new Vector3(-12f, 0f, 8f))))
+        {
+            var bounds = chimney.GlobalTransform * chimney.Mesh.GetAabb();
+            var top = bounds.GetCenter(); top.Y = bounds.End.Y;
+            if (top.Z < -40f || top.Z > 40f || Mathf.Abs(top.X) > 42f
+                || anchors.Any(anchor => anchor.DistanceTo(top) < 14f)) continue;
+            // IsVisibleInTree does not prove that a kit chimney emerges above
+            // overlapping authored roofs. Reject covered outlets using real faces.
+            var covered = false;
+            foreach (var roof in roofMeshes)
+            {
+                if (roof == chimney) continue;
+                var roofBounds = roof.GlobalTransform * roof.Mesh.GetAabb();
+                if (top.X < roofBounds.Position.X || top.X > roofBounds.End.X
+                    || top.Z < roofBounds.Position.Z || top.Z > roofBounds.End.Z || roofBounds.End.Y <= top.Y + .03f) continue;
+                var from = roof.ToLocal(top + Vector3.Up * .03f);
+                var direction = roof.GlobalBasis.Inverse() * Vector3.Up;
+                var faces = roof.Mesh.GetFaces();
+                for (var face = 0; face < faces.Length; face += 3)
+                    if (Geometry3D.RayIntersectsTriangle(from, direction, faces[face], faces[face + 1], faces[face + 2]).VariantType != Variant.Type.Nil)
+                    { covered = true; break; }
+                if (covered) break;
+            }
+            if (covered) continue;
+            anchors.Add(top);
+            GD.Print($"village-chimney: {chimney.GetPath()} top={top}");
+            var scale = new Curve(); scale.AddPoint(new Vector2(0f, .20f)); scale.AddPoint(new Vector2(1f, 1.65f));
+            var smoke = new CpuParticles3D
+            {
+                Name = $"ChimneySmoke{anchors.Count}", Emitting = true, Amount = 18, Lifetime = 6.5, Preprocess = 4,
+                LocalCoords = false, Mesh = smokeMesh, Direction = new Vector3(.20f, 1f, .10f),
+                Spread = 8f, Gravity = new Vector3(.08f, .04f, .045f),
+                InitialVelocityMin = .45f, InitialVelocityMax = .65f,
+                ScaleAmountMin = .8f, ScaleAmountMax = 1.1f, ScaleAmountCurve = scale,
+                ColorRamp = new Gradient { Offsets = [0f, .15f, .65f, 1f],
+                    Colors = [new Color(1f, 1f, 1f, 0f), Colors.White,
+                        new Color(1f, 1f, 1f, .55f), new Color(1f, 1f, 1f, 0f)] },
+                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+            };
+            _villageLife.AddChild(smoke);
+            smoke.GlobalPosition = top;
+            smoke.Restart();
+            smoke.SetMeta("chimneyOwner", chimney.GetPath().ToString());
+            if (anchors.Count == 2) break;
+        }
+        _chimneySmoke = _villageLife.GetChildren().OfType<CpuParticles3D>().ToArray();
+        if (anchors.Count != 2) throw new InvalidOperationException("Village life requires two uncovered chimney tops.");
+    }
+
+    private static Vector3 LifeGround(float x, float z) =>
+        new(x, AgentBAct1HeightField.CollisionGround(x, z) - .01f, z);
+
+    public override void _Process(double delta)
+    {
+        if (_villageLife is null) return;
+        _lifePlayer ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        _lifeCue ??= GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
+        var inhabited = ActiveZoneId == "village_day";
+        _villageLife.Visible = inhabited;
+        var moving = inhabited && _lifePlayer is not null && !_lifePlayer.ModalOpen
+            && !_lifePlayer.ReducedMotion && _lifeCue?.IsPresenting != true;
+        foreach (var smoke in _chimneySmoke)
+            smoke.SpeedScale = moving ? 1f : 0f;
+        _villageLife.SetMeta("motionAllowed", moving);
+        if (!moving) return;
+        var elapsed = (float)Math.Min(delta, .1);
+        if (_lifeEvent == 0)
+        {
+            _lifeWait -= elapsed;
+            if (_lifeWait > 0f) return;
+            // Avoid consecutive repeats without creating a schedule or NPC simulation.
+            _lifeEvent = ((_lastLifeEvent + _lifeRandom.RandiRange(0, 1)) % 3) + 1;
+            _lastLifeEvent = _lifeEvent;
+            _lifeTime = 0f;
+            _catStart = _yardCat!.GlobalPosition;
+            _catEnd = LifeGround(_catAtEastEnd ? -28.3f : -26.9f, 6.4f);
+            _catStartYaw = _yardCat.Rotation.Y;
+        }
+        _lifeTime += elapsed;
+        var duration = _lifeEvent == 1 ? 6f : _lifeEvent == 2 ? 12f : 9f;
+        var t = Mathf.Clamp(_lifeTime / duration, 0f, 1f);
+        if (_lifeEvent == 1)
+        {
+            var position = _catStart.Lerp(_catEnd, Mathf.Clamp((t - .15f) / .85f, 0f, 1f));
+            _yardCat!.GlobalPosition = LifeGround(position.X, position.Z);
+            _yardCat.Rotation = new Vector3(0f, Mathf.LerpAngle(_catStartYaw,
+                _catAtEastEnd ? -Mathf.Pi * .5f : Mathf.Pi * .5f, Mathf.SmoothStep(0f, .15f, t)), 0f);
+            var envelope = Mathf.Min(1f, Mathf.Min(t, 1f - t) * 12f);
+            foreach (var (leg, rest, phase) in _catLegs)
+                leg.Basis = rest * new Basis(Vector3.Right, Mathf.Sin(_lifeTime * 11f + phase) * .23f * envelope);
+        }
+        else if (_lifeEvent == 2)
+        {
+            for (var i = 0; i < _crows.Length; i++)
+            {
+                _crows[i].Visible = t < 1f;
+                _crows[i].GlobalPosition = new Vector3(-50f + t * 120f - i * 1.5f, 17f + i * .7f, -5f - i * 2f);
+            }
+            foreach (var (wing, rest, side) in _birdWings)
+                wing.Basis = rest * new Basis(Vector3.Back, side * Mathf.Sin(_lifeTime * 13f) * .5f);
+        }
+        else if (_residentSkeleton is not null)
+        {
+            // Briefly brush snow from sleeves beside the woodpile, with feet fixed.
+            var envelope = Mathf.SmoothStep(0f, .2f, t) * (1f - Mathf.SmoothStep(.8f, 1f, t));
+            for (var index = 0; index < _residentRest.Length; index++)
+            {
+                var angle = index switch { 0 => .08f, 1 => -.12f,
+                    2 => -.48f + .06f * Mathf.Sin(_lifeTime * 5f),
+                    _ => -.42f - .06f * Mathf.Sin(_lifeTime * 5f) };
+                var (bone, rest) = _residentRest[index];
+                _residentSkeleton.SetBonePoseRotation(bone, rest * new Quaternion(Vector3.Right, angle * envelope));
+            }
+        }
+        _villageLife.SetMeta("event", _lifeEvent);
+        _villageLife.SetMeta("eventTime", _lifeTime);
+        if (t < 1f) return;
+        if (_lifeEvent == 1) _catAtEastEnd = !_catAtEastEnd;
+        _lifeEvent = 0;
+        _lifeWait = _lifeRandom.RandfRange(45f, 120f);
+        _villageLife.SetMeta("event", 0);
+        _villageLife.SetMeta("nextWait", _lifeWait);
     }
 
     private static void HideCoreBlockoutBuildingVolumes(Node3D core)
@@ -996,6 +1245,18 @@ public partial class Act1ConnectedWorld : Node3D
             hidden++;
         }
 
+        // Winter clearing buries the old wet-season puddle beds and ford
+        // stones on the road; lowering the road must not expose them again.
+        foreach (var mesh in meshes.Where(mesh => mesh.Name.ToString().StartsWith("Puddle_", StringComparison.Ordinal)
+            || mesh.Name.ToString().StartsWith("FordStone_", StringComparison.Ordinal)))
+        {
+            var center = mesh.GlobalTransform * mesh.Mesh.GetAabb().GetCenter();
+            var road = AgentBAct1HeightField.RoadInfo(center.X, center.Z);
+            if (road.Distance > road.HalfWidth + .45) continue;
+            mesh.Visible = false;
+            mesh.SetMeta("suppressionReason", "winter cleared road covers wet-season bed/ford stones");
+        }
+
         roadKit.SetMeta("suppressedOverlappingRoadDecorFamilies", string.Join('|', requiredNames));
         roadKit.SetMeta("suppressedOverlappingRoadDecorMeshCount", hidden);
         roadKit.SetMeta(
@@ -1026,24 +1287,19 @@ public partial class Act1ConnectedWorld : Node3D
             return;
         }
 
-        // Winter, Act I season lock (decision_log 2026-09-10): snow bounce is
-        // bright and cold, so ambient is stronger than the wet-autumn pass but
-        // stays blue so shadows keep their cold separation.
-        environment.AmbientLightEnergy = karaNight ? 0.58f : zirat ? 0.78f : 0.86f;
-        if (!karaNight)
-        {
-            environment.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
-            environment.AmbientLightColor = Color.FromHtml(zirat ? "b6c3cd" : "c3d2de");
-            environment.AmbientLightSkyContribution = 0.30f;
-        }
+        // Neutral snow bounce keeps the key-light direction readable.
+        environment.AmbientLightEnergy = karaNight ? .52f : zirat ? .64f : .69f;
+        environment.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
+        environment.AmbientLightColor = Color.FromHtml(karaNight ? "a1aebb" : zirat ? "c0c8d0" : "ccd4dc");
+        environment.AmbientLightSkyContribution = .30f;
         // Frost haze: cold pale blue-grey that the far houses and forest melt
         // into, so distant snow does not read as a flat white wall.
         environment.FogLightColor = karaNight
             ? Color.FromHtml("6c7f95")
             : zirat ? Color.FromHtml("a7b5c1") : Color.FromHtml("aebecd");
-        environment.FogDensity = karaNight ? 0.0060f : zirat ? 0.0042f : 0.0030f;
+        environment.FogDensity = karaNight ? .0044f : zirat ? .0038f : .0030f;
         environment.FogHeight = karaNight ? 0.95f : 1.0f;
-        environment.FogHeightDensity = karaNight ? 0.085f : zirat ? 0.055f : 0.048f;
+        environment.FogHeightDensity = karaNight ? .05f : zirat ? .03f : .025f;
         environment.FogAerialPerspective = karaNight ? 0.66f : zirat ? 0.60f : 0.64f;
         environment.FogSkyAffect = karaNight ? 0.22f : zirat ? 0.22f : 0.20f;
         environment.FogSunScatter = karaNight ? 0.07f : zirat ? 0.06f : 0.09f;
@@ -1051,24 +1307,16 @@ public partial class Act1ConnectedWorld : Node3D
         // Snow is the brightest surface in frame; exposure protects its detail.
         environment.TonemapExposure = karaNight ? 1.04f : zirat ? 0.90f : 0.92f;
 
-        // Track 1 Step 1: post-processing in the single environment owner.
-        // Glow catches warm windows and the horizon; SSAO seats houses,
-        // fences and trees on the ground; Adjustments give the painterly
-        // grade. Exposure stays zonal and untouched.
-        environment.GlowEnabled = true;
-        environment.GlowIntensity = karaNight ? 0.34f : 0.46f;
-        environment.GlowStrength = 1.0f;
-        environment.GlowBloom = 0.10f;
-        environment.GlowBlendMode = global::Godot.Environment.GlowBlendModeEnum.Softlight;
-        environment.GlowHdrThreshold = 1.0f;
+        // Contact shading stays local; broad halos and full-frame grading
+        // are unnecessary after the snow/foliage geometry pass.
+        environment.GlowEnabled = false;
         environment.SsaoEnabled = true;
-        environment.SsaoIntensity = karaNight ? 1.2f : zirat ? 1.4f : 1.5f;
-        environment.SsaoRadius = karaNight ? 1.2f : 1.5f;
-        environment.AdjustmentEnabled = true;
-        // Winter: a touch more contrast, a touch less saturation — cold and
-        // clean rather than the warmer autumn grade.
-        environment.AdjustmentSaturation = karaNight ? 1.10f : zirat ? 1.08f : 1.10f;
-        environment.AdjustmentContrast = karaNight ? 1.07f : zirat ? 1.08f : 1.08f;
+        environment.SsaoIntensity = .75f;
+        environment.SsaoRadius = .4f;
+        environment.AdjustmentEnabled = false;
+        environment.AdjustmentBrightness = 1f;
+        environment.AdjustmentSaturation = 1f;
+        environment.AdjustmentContrast = 1f;
 
         if (environment.Sky?.SkyMaterial is ProceduralSkyMaterial sky)
         {
@@ -1101,8 +1349,8 @@ public partial class Act1ConnectedWorld : Node3D
             sun.LightColor = karaNight
                 ? Color.FromHtml("9fb6d4")
                 : zirat ? Color.FromHtml("e8eef4") : Color.FromHtml("f6f0e4");
-            sun.LightEnergy = karaNight ? 0.55f : zirat ? 1.10f : 1.45f;
-            sun.ShadowOpacity = karaNight ? 0.30f : zirat ? 0.44f : 0.50f;
+            sun.LightEnergy = karaNight ? .55f : zirat ? 1.05f : 1.38f;
+            sun.ShadowOpacity = karaNight ? .38f : zirat ? .50f : .56f;
             sun.ShadowEnabled = true;
             sun.RotationDegrees = karaNight
                 ? new Vector3(-52f, -28f, 0f)
@@ -1379,8 +1627,8 @@ public partial class Act1ConnectedWorld : Node3D
                 Roughness = 0.5f,
                 MetallicSpecular = 0.3f
             },
-            ["FapPathEarth"] = PainterlyMaterialLibrary.ForColor("4a554d", "earth"),
-            ["FapPathEarthDark"] = PainterlyMaterialLibrary.ForColor("3b4842", "earth"),
+            ["FapPathEarth"] = PainterlyMaterialLibrary.ForColor("cbd2d4", "snow_trampled"),
+            ["FapPathEarthDark"] = PainterlyMaterialLibrary.ForColor("bbc5ca", "snow_trampled"),
             ["FapPuddleWater"] = PainterlyMaterialLibrary.ForColor("313d47", "ice"),
             ["DampEarth"] = PainterlyMaterialLibrary.ForColor("f1f5f9", "snow_ground"),
             ["DampEarthDark"] = PainterlyMaterialLibrary.ForColor("eaf0f5", "snow_ground"),
@@ -1402,7 +1650,7 @@ public partial class Act1ConnectedWorld : Node3D
             ["AB_road_rut"] = PainterlyMaterialLibrary.ForColor("cdd6dd", "snow_road"),
             ["AB_road_kara"] = PainterlyMaterialLibrary.ForColor("b9c4ce", "snow_trampled"),
             ["AB_water_dark"] = PainterlyMaterialLibrary.ForColor("2c3740", "ice"),
-            ["AB_grass"] = PainterlyMaterialLibrary.ForColor("647159", "grass"),
+            ["AB_grass"] = PainterlyMaterialLibrary.ForColor("827a65", "grass"),
             ["AB_grass_dry"] = PainterlyMaterialLibrary.ForColor("d5d9d2", "snow_grass"),
             // Shared imported birch/shrub surfaces must use the same
             // painterly grade as the connected Kara edge, not raw PBR.
@@ -2003,8 +2251,8 @@ public partial class Act1ConnectedWorld : Node3D
             presentation,
             components[7].Root!,
             "WetVillageRoadReturnCulvert",
-            returnStreetAnchor + returnSide * 5.05f + returnDirection * 1.5f,
-            returnYaw,
+            new Vector3(-5.2f, AgentBAct1HeightField.CollisionGround(-5.2f, -48.5f) - .04f, -48.5f),
+            0f,
             Vector3.One * 0.92f,
             "house_to_zirat@return-street-culvert-landmark",
             WetVillageRoadKitScenePath);
@@ -3039,10 +3287,10 @@ public partial class Act1ConnectedWorld : Node3D
             // street fence (probe-verified FernShrubBreak owner). Bind them to
             // the same muted bog palette as the native foliage owners.
             ["Shrub_BlueGreen"] = PainterlyMaterialLibrary.ForColor("48553f", "foliage"),
-            ["Fern_MossGreen"] = PainterlyMaterialLibrary.ForColor("4e5c48", "foliage"),
-            ["Fern_LeafLight"] = PainterlyMaterialLibrary.ForColor("5c6b4c", "foliage"),
-            ["Grass_SedgeMuted"] = PainterlyMaterialLibrary.ForColor("647159", "foliage"),
-            ["Grass_SedgeDryTips"] = PainterlyMaterialLibrary.ForColor("827b55", "foliage"),
+            ["Fern_MossGreen"] = PainterlyMaterialLibrary.ForColor("827a65", "grass"),
+            ["Fern_LeafLight"] = PainterlyMaterialLibrary.ForColor("918875", "grass"),
+            ["Grass_SedgeMuted"] = PainterlyMaterialLibrary.ForColor("827a65", "grass"),
+            ["Grass_SedgeDryTips"] = PainterlyMaterialLibrary.ForColor("918875", "grass"),
             ["Moss_WetOlive"] = PainterlyMaterialLibrary.ForColor("4c5a45", "foliage"),
             ["Fence_DampWood"] = PainterlyMaterialLibrary.ForColor("594a39", "wood_fence"),
             ["Fence_CutWood"] = PainterlyMaterialLibrary.ForColor("6d5c48", "wood")
@@ -3201,13 +3449,28 @@ public partial class Act1ConnectedWorld : Node3D
             houseYaw + 90f,
             Vector3.One * 1.05f,
             "house_old_pc@yard-firewood");
+        AddVisualCanopy(presentation, "BabaiFirewoodShelter",
+            housePlacement.Origin + houseSide * -5.7f - houseApproach * 3.0f,
+            2.7f, 2.2f, houseYaw + 90f, "626b66", "605044");
+        // Match the legacy FirewoodCollision with the same repaired log kit.
+        // The physics owner remains in village_day; only its visible counterpart is placed here.
+        var streetFirewood = presentation.GetNode<Node3D>("BabaiYardAuthoredWoodpile").Duplicate() as Node3D
+            ?? throw new InvalidOperationException("Cannot duplicate the authored firewood presentation.");
+        streetFirewood.Name = "MainStreetPhysicalFirewood";
+        presentation.AddChild(streetFirewood);
+        streetFirewood.GlobalPosition = new(5f, AgentBAct1HeightField.CollisionGround(5f, 2.3f) - .04f, 2.3f);
+        streetFirewood.RotationDegrees = Vector3.Zero;
+        streetFirewood.Scale = new(.9f, 1.25f, 1.1f);
+        AddVisualSnowShovel(presentation, "BabaiSnowShovel", new(-29.7f, 0f, 4.3f), -20f);
+        AddVisualLandformSurface(presentation, "BabaiClearedDoorApproach", 1.15f, .018f, 3.1f,
+            new(-28f, .015f, 5.0f), "cbd3d8", "snow_trampled", 0f, true);
         AttachAct1ExteriorKitComponent(
             presentation,
             components[5].Root!,
             "MainStreetArrivalAuthoredWell",
-            new Vector3(-6.8f, 0f, 4.6f),
+            new Vector3(-4.9f, 0f, 4.6f),
             0f,
-            Vector3.One * 0.70f,
+            Vector3.One * 0.90f,
             "village_day@arrival-main-street-landmark");
 
         // One authored near/mid pass closes the first-person arrival and the
@@ -3523,7 +3786,7 @@ public partial class Act1ConnectedWorld : Node3D
         holdingPath.AddPoint(new(21f, 0f, -8.5f), new(.5f, 0f, -1.2f));
         AddVisualLandformSurface(perimeterParcels, "EastStreetPlotAccessPath",
             1.1f, .025f, holdingPath.GetBakedLength(), new(0f, .02f, 0f),
-            "685b49", "earth", 0f, true, holdingPath);
+            "cbd3d8", "snow_trampled", 0f, true, holdingPath);
         AddAct1AuthoredExteriorParcel(
             perimeterParcels,
             new Act1ExteriorParcelComponentPlacement(
@@ -4329,9 +4592,9 @@ public partial class Act1ConnectedWorld : Node3D
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
                 "MainStreetEastNeighborFence",
-                new(-4.0f, 0f, 1.0f),
+                new(-4.0f, 0f, 2.0f),
                 90f,
-                new Vector3(1.10f, 0.70f, 1f),
+                new Vector3(0.55f, 0.70f, 1f),
                 "village_day@main-street-east-partial-fence"),
             new Act1ExteriorParcelComponentPlacement(
                 "Gate_CrookedTimber",
@@ -4438,7 +4701,7 @@ public partial class Act1ConnectedWorld : Node3D
             new Act1ExteriorParcelComponentPlacement(
                 "FenceSegment_RoughPicket",
                 "ReturnStreetDistantFence",
-                new(5.1f, 0f, 4.0f),
+                new(4.1f, 0f, 4.0f),
                 returnYaw - 14f,
                 new Vector3(1.34f, 0.50f, 1f),
                 "zirat_road@return-street-distant-fence"),
@@ -4756,9 +5019,14 @@ public partial class Act1ConnectedWorld : Node3D
         if (assetSource == VillageExteriorKitScenePath)
         {
             var groundAnchor = placement.GlobalPosition;
-            groundAnchor.Y = (float)AgentBAct1HeightField.Ground(groundAnchor.X, groundAnchor.Z) + 0.03f;
+            var yardProp = component.Name.ToString().StartsWith("Woodpile_", StringComparison.Ordinal)
+                || component.Name.ToString().StartsWith("FenceSegment_", StringComparison.Ordinal)
+                || component.Name.ToString().StartsWith("Gate_", StringComparison.Ordinal)
+                || component.Name.ToString().StartsWith("Well_", StringComparison.Ordinal);
+            groundAnchor.Y = yardProp ? AgentBAct1HeightField.CollisionGround(groundAnchor.X, groundAnchor.Z) - .04f
+                : (float)AgentBAct1HeightField.Ground(groundAnchor.X, groundAnchor.Z) + .03f;
             placement.GlobalPosition = groundAnchor;
-            placement.SetMeta("groundContactPolicy", "yard parcel anchor follows shared terrain");
+            placement.SetMeta("groundContactPolicy", yardProp ? "yard prop root embedded 4cm in physical terrain" : "dwelling preserves existing threshold alignment");
         }
         return placement;
     }
@@ -5110,7 +5378,7 @@ public partial class Act1ConnectedWorld : Node3D
             Vector3 Grounded(float x, float z, float lift)
             {
                 var world = parent.ToGlobal(new Vector3(x, 0f, z));
-                world.Y = (float)AgentBAct1HeightField.Ground(world.X, world.Z) + lift;
+                world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z) + lift;
                 return parent.ToLocal(world);
             }
             for (var row = 0; row < rows; row++)
@@ -5136,26 +5404,26 @@ public partial class Act1ConnectedWorld : Node3D
                     foreach (var index in new[] { a, a + 6, a + 5, a, a + 1, a + 6 })
                         soil.AddVertex(points[index]);
                 }
-                // Patchy planting and one partly harvested bed imply use;
-                // no collision, collectible or farming mechanic is introduced.
+                // Harvested winter beds retain a few flattened dry stalks.
+                // Snow covers the soil; no growing summer foliage remains.
                 for (var plant = 0; plant < 11; plant++)
                 {
-                    if ((row == rows - 1 && plant > 5) || (plant + row * 3) % 9 == 0) continue;
+                    if ((row == rows - 1 && plant > 5) || (plant + row) % 3 != 0) continue;
                     var z = 16f + plant * 0.88f;
                     var offset = 0.14f * Mathf.Sin(plant * 2.3f + row);
                     var root = Grounded(x + offset, z, 0.013f
                         + 0.13f * (1f - Mathf.Pow(offset / 0.67f, 2f))
                         * Mathf.Sin((z - 15.5f) / 10.8f * Mathf.Pi));
-                    for (var blade = 0; blade < 7; blade++)
+                    for (var blade = 0; blade < 2; blade++)
                     {
                         var angle = blade * Mathf.Tau / 7f + plant * 1.7f;
                         var direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
                         var across = new Vector3(direction.Z, 0f, -direction.X);
                         var length = 0.29f + 0.045f * Mathf.Sin(plant + blade * 2f);
-                        var middle = root + direction * length * 0.52f + Vector3.Up * 0.16f;
-                        var tip = root + direction * length + Vector3.Up * 0.065f;
-                        var left = middle - across * 0.085f;
-                        var right = middle + across * 0.085f;
+                        var middle = root + direction * length * 0.52f + Vector3.Up * 0.045f;
+                        var tip = root + direction * length + Vector3.Up * 0.015f;
+                        var left = middle - across * 0.015f;
+                        var right = middle + across * 0.015f;
                         foreach (var vertex in new[] { root, left, middle, root, middle, right,
                                      left, tip, middle, middle, tip, right,
                                      middle, left, root, right, middle, root,
@@ -5168,8 +5436,8 @@ public partial class Act1ConnectedWorld : Node3D
             leaves.GenerateNormals();
             foreach (var (suffix, mesh, material) in new[]
                      {
-                         ("Beds", soil.Commit(), PainterlyMaterialLibrary.ForColor("665847", "earth")),
-                         ("Planting", leaves.Commit(), PainterlyMaterialLibrary.ForColor("64754f", "foliage"))
+                         ("Beds", soil.Commit(), PainterlyMaterialLibrary.ForColor("d6dce0", "snow_ground")),
+                         ("Planting", leaves.Commit(), PainterlyMaterialLibrary.ForColor("746959"))
                      })
             {
                 var visual = new MeshInstance3D { Name = name + suffix, Mesh = mesh, MaterialOverride = material };
@@ -5251,7 +5519,7 @@ public partial class Act1ConnectedWorld : Node3D
         AddCoreBuilding(parent, "BabaiEbiHouseSideOutbuilding", new(-37.8f, 0f, -5.6f), new(5.5f, 2.3f, 4.3f), 2.3f, 90f, "59625b", "403c37", "817562", true, false);
         AddVisualFenceRun(parent, "BabaiEbiHouseBackFence", new(-36.0f, 0f, -10.2f), new(-20.0f, 0f, -10.2f));
         AddVisualFenceRun(parent, "BabaiEbiHouseApproachFenceWest", new(-36.0f, 0f, 0.8f), new(-34.0f, 0f, 5.4f));
-        AddVisualFenceRun(parent, "BabaiEbiHouseApproachFenceEast", new(-22.0f, 0f, 0.8f), new(-22.0f, 0f, 5.3f));
+        AddVisualFenceRun(parent, "BabaiEbiHouseApproachFenceEast", new(-22.0f, 0f, 3.0f), new(-22.0f, 0f, 5.3f));
         // The west lateral turn previously ended on a flat field beyond the
         // house wall. A restrained distant parcel keeps that 360-degree read
         // rural and continuous without entering the route or yard envelope.
@@ -5458,7 +5726,7 @@ public partial class Act1ConnectedWorld : Node3D
             parent,
             "FapOppositeFieldNeighborFence",
             placement.Origin - side * 13.0f - front * 5.0f,
-            placement.Origin - side * 28.0f - front * 12.0f);
+            placement.Origin - side * 24.0f - front * 10.0f);
         AddVisualTree(parent, "FapOppositeFieldNeighborBirch", placement.Origin - side * 25.0f - front * 6.0f, 8.2f, VegetationStyle.Birch, "596047");
         AddVisualTree(parent, "FapOppositeFieldNeighborConifer", placement.Origin - side * 25.0f - front * 24.0f, 6.0f, VegetationStyle.Conifer, "30483f");
         // The capture's fixed right turn looks along the open east field
@@ -5578,7 +5846,7 @@ public partial class Act1ConnectedWorld : Node3D
             access.AddPoint(new(-28.6f, 0f, -67.4f), new(1f, 0f, 0f), new(-.3f, 0f, 0f));
             access.AddPoint(new(-29.3f, 0f, -67.4f), new(.3f, 0f, 0f));
             AddVisualLandformSurface(parent, "ZiratWestHoldingAccess", 1.15f, .02f,
-                access.GetBakedLength(), new(0f, .012f, 0f), "655e4e", "earth", 0f, true, access);
+                access.GetBakedLength(), new(0f, .012f, 0f), "c6cfd5", "snow_trampled", 0f, true, access);
         }
         AddVisualFenceRun(parent, "ZiratEastLateralFence", new(24f, 0f, -71f), new(32f, 0f, -71f));
         AddAuthoredHouse(parent, "ZiratEastNearMidHouse", new(23f, 1.0f, -59f), 0.36f, -90f);
@@ -6290,8 +6558,12 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualCanopy(parent, "StreetWoodCanopyEast", new(10.4f, 0f, -5.4f), 2.5f, 3.4f, -86f, "7a644b", "504238");
         AddVisualShed(parent, "StreetShedWest", new(-12.2f, 0f, -2.8f), 0.74f, 102f, "806d58", "4d3e34");
         AddVisualShed(parent, "StreetShedEast", new(12.6f, 0f, -17.4f), 0.66f, -78f, "69746b", "3e4440");
-        AddVisualWoodpile(parent, "StreetWoodpileWest", new(-8.2f, 0f, 2.5f), 1.1f, 90f);
-        AddVisualWoodpile(parent, "StreetWoodpileEast", new(8.8f, 0f, -13.6f), 0.88f, -78f);
+        AddVisualWoodpile(parent, "StreetWoodpileWest", new(-10.2f, 0f, 6.4f), 1.1f, 90f);
+        AddVisualWoodpile(parent, "StreetWoodpileEast", new(10.4f, 0f, -5.4f), 0.88f, -78f);
+        AddVisualLandformSurface(parent, "StreetWestWoodApproach", .85f, .018f, 4.2f,
+            new(-8.1f, .015f, 6.4f), "c8d0d6", "snow_trampled", 90f, true);
+        AddVisualLandformSurface(parent, "StreetEastWoodApproach", .65f, .016f, 3.4f,
+            new(8.7f, .015f, -5.4f), "d8dfe3", "snow_trampled", 90f, true);
 
         AddVisualFenceRun(parent, "StreetParcelWestNear", new(-7.4f, 0f, 10.8f), new(-8.6f, 0f, 17.4f));
         AddVisualFenceRun(parent, "StreetParcelWestFar", new(-15.2f, 0f, -0.8f), new(-21.4f, 0f, 5.8f));
@@ -6618,12 +6890,15 @@ public partial class Act1ConnectedWorld : Node3D
         bool conformToTerrain = false,
         Curve3D? centerline = null)
     {
-        const int crossSections = 5;
-        var lengthSections = centerline is null ? 7 : Mathf.CeilToInt(length / .5f) + 1;
+        var snowBank = surface == "snow_ground";
+        var crossSections = snowBank ? 9 : 5;
+        var lengthSections = conformToTerrain || centerline is not null ? Mathf.CeilToInt(length / .4f) + 1 : 7;
         var vertices = new Vector3[crossSections * lengthSections];
         var normals = new Vector3[vertices.Length];
         var uvs = new Vector2[vertices.Length];
-        var xProfile = new[] { -0.5f, -0.24f, 0f, 0.24f, 0.5f };
+        var xProfile = snowBank
+            ? new[] { -.5f, -.38f, -.26f, -.12f, 0f, .12f, .26f, .38f, .5f }
+            : new[] { -0.5f, -0.24f, 0f, 0.24f, 0.5f };
         var phase = name.Length * 0.37f;
         var localTransform = new Transform3D(new Basis(Vector3.Up, Mathf.DegToRad(yawDegrees)), center);
         var worldTransform = parent.GlobalTransform * localTransform;
@@ -6642,6 +6917,14 @@ public partial class Act1ConnectedWorld : Node3D
                     profile * width * endFade,
                     height * (0.18f + 0.82f * crown) + breakup,
                     z);
+                if (snowBank)
+                {
+                    var cap = Mathf.Pow(Mathf.Max(0f, Mathf.Sin(zT * Mathf.Pi)), .7f);
+                    var rounded = Mathf.Pow(Mathf.Max(0f, 1f - 4f * profile * profile), 1.4f);
+                    vertices[vertexIndex].X *= .94f + .10f * Mathf.Sin(zT * 8f + phase);
+                    vertices[vertexIndex].Y = -.025f + cap * rounded
+                        * (height + .035f * Mathf.Sin(zT * 9f + phase));
+                }
                 if (centerline is not null)
                 {
                     var distance = zT * length;
@@ -6649,14 +6932,20 @@ public partial class Act1ConnectedWorld : Node3D
                         - centerline.SampleBaked(Mathf.Max(0f, distance - .05f))).Normalized();
                     var side = new Vector3(tangent.Z, 0f, -tangent.X);
                     vertices[vertexIndex] = centerline.SampleBaked(distance)
-                        + side * (profile * width * endFade)
+                        + side * vertices[vertexIndex].X
                         + Vector3.Up * vertices[vertexIndex].Y;
                 }
                 if (conformToTerrain)
                 {
                     var world = worldTransform * vertices[vertexIndex];
-                    world.Y = (float)AgentBAct1HeightField.Ground(world.X, world.Z)
-                        + center.Y + vertices[vertexIndex].Y;
+                    var rise = vertices[vertexIndex].Y;
+                    if (snowBank)
+                    {
+                        var road = AgentBAct1HeightField.RoadInfo(world.X, world.Z);
+                        rise *= Mathf.SmoothStep(0f, 1f, (float)(road.Distance - road.HalfWidth) / .65f);
+                    }
+                    world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z)
+                        + center.Y + rise;
                     vertices[vertexIndex] = worldTransform.AffineInverse() * world;
                 }
                 normals[vertexIndex] = Vector3.Up;
@@ -6933,19 +7222,57 @@ public partial class Act1ConnectedWorld : Node3D
         canopy.SetMeta("presentationRole", "open yard canopy / shelter");
         parent.AddChild(canopy);
 
-        foreach (var (x, z, height) in new[]
-                 {
-                     (-width * 0.5f, -depth * 0.5f, 1.95f),
-                     (width * 0.5f, -depth * 0.5f, 1.82f),
-                     (-width * 0.5f, depth * 0.5f, 1.72f),
-                     (width * 0.5f, depth * 0.5f, 1.88f)
-                 })
+        var anchorWorld = canopy.GlobalPosition;
+        anchorWorld.Y = AgentBAct1HeightField.CollisionGround(anchorWorld.X, anchorWorld.Z) - .04f;
+        canopy.GlobalPosition = anchorWorld;
+        foreach (var x in new[] { -width * .5f, width * .5f })
+        foreach (var z in new[] { -depth * .5f, depth * .5f })
         {
-            AddVisualBox(canopy, "Post", new(0.12f, height, 0.12f), new(x, height * 0.5f, z), postColor, "wood_fence");
+            var world = canopy.ToGlobal(new Vector3(x, 0, z));
+            world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z) - .04f;
+            var bottom = canopy.ToLocal(world).Y;
+            var top = 2.08f + Mathf.Tan(Mathf.DegToRad(5)) * x - .08f;
+            AddVisualBox(canopy, "Post", new(.12f, top - bottom, .12f),
+                new(x, (top + bottom) * .5f, z), postColor, "wood_fence");
         }
 
         AddVisualBox(canopy, "Roof", new(width + 0.30f, 0.18f, depth + 0.32f), new(0f, 2.08f, 0f), roofColor, "wood", rollDegrees: 5f);
+        AddVisualBox(canopy, "RoofSnow", new(width + .26f, .12f, depth + .28f), new(0, 2.23f, 0), "e8edf0", "snow_roof", rollDegrees: 5f);
         AddVisualBox(canopy, "RoofRidge", new(width * 0.72f, 0.10f, 0.16f), new(0f, 2.26f, 0f), postColor, "wood");
+    }
+
+    private static void AddVisualSnowShovel(Node3D parent, string name, Vector3 anchor, float yawDegrees)
+    {
+        var shovel = new Node3D { Name = name, Position = anchor,
+            RotationDegrees = new Vector3(0, yawDegrees, -8) };
+        shovel.SetMeta("visualOnly", true);
+        shovel.SetMeta("presentationOnly", true);
+        shovel.SetMeta("presentationRole", "snow shovel beside the cleared doorstep");
+        parent.AddChild(shovel);
+        var world = shovel.GlobalPosition;
+        world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z) - .035f;
+        shovel.GlobalPosition = world;
+        shovel.AddChild(new MeshInstance3D { Name = "WoodHandle", Position = new(0, .78f, .025f),
+            Mesh = new CylinderMesh { TopRadius = .016f, BottomRadius = .019f, Height = 1.05f, RadialSegments = 8 },
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("897356", "wood") });
+        AddVisualBox(shovel, "Grip", new(.16f, .035f, .04f), new(0, 1.33f, .025f), "50534d", "metal");
+        // Rounded-corner scoop with a shallow curved cross-section and thickness.
+        var outline = new Vector2[] { new(-.17f, 0), new(.17f, 0), new(.23f, .04f),
+            new(.23f, .25f), new(.18f, .31f), new(-.18f, .31f), new(-.23f, .25f), new(-.23f, .04f) };
+        var tool = new SurfaceTool(); tool.Begin(Mesh.PrimitiveType.Triangles);
+        Vector3 Point(Vector2 p, float back) => new(p.X, p.Y, .08f * Mathf.Pow(p.X / .23f, 2) + back);
+        void Triangle(Vector3 a, Vector3 b, Vector3 c) { tool.AddVertex(a); tool.AddVertex(b); tool.AddVertex(c); }
+        for (var i = 0; i < outline.Length; i++)
+        {
+            var next = (i + 1) % outline.Length;
+            var a = Point(outline[i], 0); var b = Point(outline[next], 0);
+            var c = Point(outline[i], .018f); var d = Point(outline[next], .018f);
+            Triangle(new(0, .15f, 0), a, b); Triangle(new(0, .15f, .018f), d, c);
+            Triangle(a, c, b); Triangle(b, c, d);
+        }
+        tool.Index(); tool.GenerateNormals();
+        shovel.AddChild(new MeshInstance3D { Name = "Scoop", Mesh = tool.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("677579", "metal") });
     }
 
     private static void AddVisualWoodpile(Node3D parent, string name, Vector3 anchor, float scale, float yawDegrees)
@@ -6960,6 +7287,9 @@ public partial class Act1ConnectedWorld : Node3D
         pile.SetMeta("visualOnly", true);
         pile.SetMeta("presentationRole", "stacked firewood yard detail");
         parent.AddChild(pile);
+        var root = pile.GlobalPosition;
+        root.Y = AgentBAct1HeightField.CollisionGround(root.X, root.Z) - .065f;
+        pile.GlobalPosition = root;
 
         AddVisualBox(pile, "LogBottomA", new(1.65f, 0.18f, 0.24f), new(-0.08f, 0.12f, 0f), "6c5845", "wood_bark", rollDegrees: -4f);
         AddVisualBox(pile, "LogBottomB", new(1.42f, 0.18f, 0.22f), new(0.12f, 0.32f, 0.08f), "7a6048", "wood_bark", rollDegrees: 5f);
@@ -7131,20 +7461,26 @@ public partial class Act1ConnectedWorld : Node3D
 
         for (var index = 0; index < count; index++)
         {
-            var x = index * spacing;
+            var x = (index - (count - 1) * .5f) * spacing + Mathf.Sin(index * 2.37f) * 4.5f;
+            var z = Mathf.Sin(index * 1.71f) * 9f;
+            var world = row.ToGlobal(new Vector3(x, 0f, z));
+            world.Y = BackdropGroundHeight(world.X, world.Z) - .04f;
+            var footing = new Node3D { Name = $"House{index}", Position = row.ToLocal(world) };
+            row.AddChild(footing);
+            footing.RotationDegrees = new Vector3(0, Mathf.Sin(index * 2.71f) * 16, 0);
+            footing.SetMeta("groundContactDepth", .04f);
             var width = 6.4f * scale * (0.85f + (index % 3) * 0.12f);
             var depth = 5.4f * scale;
             var height = 2.9f * scale;
-            AddVisualBox(row, $"DistantHouseWall{index}", new(width, height, depth),
-                new(x, height * 0.5f, (index % 4) * 0.35f * scale), index % 2 == 0 ? "8b8c84" : "84837a", "plaster");
-            AddVisualBox(row, $"DistantHouseRoof{index}", new(width + 0.8f, 0.34f, depth + 0.9f),
-                new(x, height + 0.16f, 0f), "6e7570", "roof");
-            AddVisualBox(row, $"DistantHouseRoofSnow{index}", new(width + 0.74f, 0.14f, depth + 0.84f),
-                new(x, height + 0.38f, 0f), "eef2f6", "snow_ground");
-            AddVisualBox(row, $"DistantHouseChimney{index}", new(0.55f, 1.5f, 0.55f),
-                new(x + width * 0.24f, height + 0.95f, 0f), "6f6a60", "stone");
-            AddVisualBox(row, $"DistantHouseFence{index}", new(width * 0.9f, 1.05f, 0.12f),
-                new(x, 0.52f, depth * 0.62f), "6f6455", "wood_fence");
+            AddVisualBox(footing, $"DistantHouseWall{index}", new(width, height, depth),
+                new(0f, height * 0.5f, 0f), index % 2 == 0 ? "8b8c84" : "84837a", "plaster");
+            AddVisualPitchedRoof(footing, $"DistantHouseRoof{index}", width, depth, height, 1.25f * scale, .4f, "6e7570");
+            var roofSnow = AddVisualPitchedRoof(footing, $"DistantHouseRoofSnow{index}", width, depth, height + .14f, 1.25f * scale, .37f, "e8edf0");
+            roofSnow.MaterialOverride = PainterlyMaterialLibrary.ForColor("e8edf0", "snow_roof");
+            AddVisualBox(footing, $"DistantHouseChimney{index}", new(0.55f, 1.5f, 0.55f),
+                new(width * 0.24f, height + 0.95f, 0f), "6f6a60", "stone");
+            AddVisualBox(footing, $"DistantHouseFence{index}", new(width * 0.9f, 1.05f, 0.12f),
+                new(0f, 0.52f, depth * 0.62f), "6f6455", "wood_fence");
         }
     }
 
@@ -7160,31 +7496,47 @@ public partial class Act1ConnectedWorld : Node3D
         band.SetMeta("presentationRole", conifer ? "unreachable dark forest band" : "unreachable winter woodland band");
         parent.AddChild(band);
 
+        var roofs = AgentBAct1ExteriorLayer.BuildingRoofBounds(parent);
+        var ridgeGeometry = FindDescendants<MeshInstance3D>(parent)
+            .Where(mesh => mesh.Name == "RidgeSurface" && mesh.Mesh is not null)
+            .Select(mesh => (Vertices: mesh.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array()
+                .Select(vertex => mesh.ToGlobal(vertex)).ToArray(),
+                Indices: mesh.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Index].AsInt32Array())).ToArray();
         for (var index = 0; index < count; index++)
         {
-            var x = index * spacing;
+            var x = (index - (count - 1) * .5f) * spacing + Mathf.Sin(index * 2.37f) * spacing * .44f;
             var height = (conifer ? 7.5f : 6.2f) * scale * (0.8f + (index % 5) * 0.09f);
-            var z = ((index * 7) % 5 - 2) * 1.1f * scale;
-            AddVisualBox(band, $"BandTrunk{index}", new(0.32f * scale, height * 0.55f, 0.32f * scale),
-                new(x, height * 0.275f, z), "5c5546", "bark_pine");
-            if (conifer)
+            var z = (Mathf.Sin(index * 1.71f) * 13f + Mathf.Cos(index * 2.37f) * 7f) * scale;
+            var world = band.ToGlobal(new Vector3(x, 0f, z));
+            var support = BackdropGroundHeight(world.X, world.Z);
+            // A woodland root may lie on the foot of a snow ridge. Sample
+            // its rendered triangles as well as the apron beneath it.
+            foreach (var geometry in ridgeGeometry)
+            for (var i = 0; i < geometry.Indices.Length; i += 3)
             {
-                AddVisualConeCrown(band, $"BandCrownDark{index}", new(x, height * 0.55f, z),
-                    1.15f * scale, height * 0.62f, "3d4a44", "foliage");
-                AddVisualConeCrown(band, $"BandCrownSnow{index}", new(x, height * 0.74f, z),
-                    0.95f * scale, height * 0.42f, "dfe7ee", "snow_ground");
+                var a = geometry.Vertices[geometry.Indices[i]];
+                var b = geometry.Vertices[geometry.Indices[i + 1]];
+                var c = geometry.Vertices[geometry.Indices[i + 2]];
+                var denominator = (b.Z - c.Z) * (a.X - c.X) + (c.X - b.X) * (a.Z - c.Z);
+                var u = ((b.Z - c.Z) * (world.X - c.X) + (c.X - b.X) * (world.Z - c.Z)) / denominator;
+                var v = ((c.Z - a.Z) * (world.X - c.X) + (a.X - c.X) * (world.Z - c.Z)) / denominator;
+                if (u >= 0 && v >= 0 && u + v <= 1)
+                    support = Mathf.Max(support, u * a.Y + v * b.Y + (1 - u - v) * c.Y);
             }
-            else
+            world.Y = support - .04f;
+            if (AgentBAct1ExteriorLayer.UnderBuildingRoof(world, roofs)) continue;
+            var footing = new Node3D { Name = $"Tree{index}", Position = band.ToLocal(world) };
+            band.AddChild(footing);
+            footing.SetMeta("groundContactDepth", .04f);
+            var variant = conifer ? "WinterFarSpruce_1" : index % 3 == 0 ? "WinterFarLinden_1" : "WinterFarBirch_1";
+            var source = parent.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").FoliageMesh(variant, conifer ? "kara" : "village");
+            var sourceHeight = source.GetAabb().Size.Y;
+            footing.AddChild(new MeshInstance3D
             {
-                // Bare winter woodland: a vertical twig mass, not a box. Two
-                // stacked cones keep the silhouette round from every angle.
-                AddVisualConeCrown(band, $"BandCrownTwig{index}", new(x, height * 0.60f, z),
-                    1.30f * scale, height * 0.46f, "6b6455", "wood_bark");
-                AddVisualConeCrown(band, $"BandCrownTwigTop{index}", new(x, height * 0.80f, z),
-                    0.95f * scale, height * 0.30f, "756d5c", "wood_bark");
-                AddVisualConeCrown(band, $"BandCrownSnow{index}", new(x, height * 0.90f, z),
-                    0.80f * scale, height * 0.20f, "e6ecf1", "snow_ground");
-            }
+                Name = $"BandTree{index}", Mesh = source,
+                Scale = Vector3.One * (height / sourceHeight),
+                RotationDegrees = new Vector3(0, index * 137.51f, 0)
+            });
         }
     }
 
@@ -7200,73 +7552,109 @@ public partial class Act1ConnectedWorld : Node3D
         ridge.SetMeta("presentationRole", "far snow ridge silhouette");
         parent.AddChild(ridge);
 
-        AddVisualBox(ridge, "RidgeBody", new(length, height, depth), new(0f, height * 0.5f, 0f), "b9c6d2", "snow_ground");
-        AddVisualBox(ridge, "RidgeCrest", new(length * 0.86f, height * 0.34f, depth * 0.7f),
-            new(0f, height * 1.02f, 0f), "d6dee6", "snow_ground");
+        var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        const int along = 32, across = 16;
+        Vector3 Point(int x, int z)
+        {
+            var u = x / (float)along * 2f - 1f;
+            var v = z / (float)across * 2f - 1f;
+            var local = new Vector3(u * length * .5f, 0f, v * depth * .5f);
+            var world = ridge.ToGlobal(local);
+            var dome = Mathf.Pow(Mathf.Max(0f, 1f - u * u), 1.5f)
+                * Mathf.Pow(Mathf.Max(0f, 1f - v * v), 2f);
+            world.Y = (float)AgentBAct1HeightField.Ground(world.X, world.Z) + .01f
+                + height * dome * (.72f + .18f * Mathf.Sin(u * 8f + v * 3f) + .1f * Mathf.Cos(u * 17f));
+            return ridge.ToLocal(world);
+        }
+        for (var z = 0; z < across; z++)
+        for (var x = 0; x < along; x++)
+        foreach (var point in new[] { Point(x,z), Point(x+1,z), Point(x,z+1),
+                     Point(x+1,z), Point(x+1,z+1), Point(x,z+1) })
+            surface.AddVertex(point);
+        surface.Index();
+        surface.GenerateNormals();
+        ridge.AddChild(new MeshInstance3D { Name = "RidgeSurface", Mesh = surface.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("c4cdd3", "snow_ground") });
+    }
+
+    private static float BackdropGroundHeight(float x, float z)
+    {
+        // Match the actual eight-metre apron triangles, not the continuous
+        // source noise between their vertices. Interior roots use the collider.
+        var minX = AgentBAct1HeightField.MinX; var maxX = AgentBAct1HeightField.MaxX;
+        var minZ = AgentBAct1HeightField.MinZ; var maxZ = AgentBAct1HeightField.MaxZ;
+        if (x >= minX && x <= maxX && z >= minZ && z <= maxZ)
+            return AgentBAct1HeightField.CollisionGround(x, z);
+        var bounds = x < minX ? new Vector4(-420, minX, -420, 360)
+            : x > maxX ? new Vector4(maxX, 420, -420, 360)
+            : z < minZ ? new Vector4(minX, maxX, -420, minZ)
+            : new Vector4(minX, maxX, maxZ, 360);
+        var dx = (bounds.Y - bounds.X) / Mathf.Ceil((bounds.Y - bounds.X) / 8f);
+        var dz = (bounds.W - bounds.Z) / Mathf.Ceil((bounds.W - bounds.Z) / 8f);
+        var gx = (x - bounds.X) / dx; var gz = (z - bounds.Z) / dz;
+        var u = gx - Mathf.Floor(gx); var v = gz - Mathf.Floor(gz);
+        var x0 = bounds.X + Mathf.Floor(gx) * dx; var z0 = bounds.Z + Mathf.Floor(gz) * dz;
+        var a = (float)AgentBAct1HeightField.Ground(x0, z0);
+        var b = (float)AgentBAct1HeightField.Ground(x0 + dx, z0);
+        var c = (float)AgentBAct1HeightField.Ground(x0, z0 + dz);
+        var d = (float)AgentBAct1HeightField.Ground(x0 + dx, z0 + dz);
+        return u + v <= 1 ? a * (1 - u - v) + b * u + c * v
+            : b * (1 - v) + d * (u + v - 1) + c * (1 - u);
+    }
+
+    private static void AddBackdropGround(Node3D parent)
+    {
+        var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        void Rectangle(float minX, float maxX, float minZ, float maxZ)
+        {
+            var nx = Mathf.CeilToInt((maxX - minX) / 8f);
+            var nz = Mathf.CeilToInt((maxZ - minZ) / 8f);
+            Vector3 Point(int x, int z)
+            {
+                var wx = Mathf.Lerp(minX, maxX, x / (float)nx);
+                var wz = Mathf.Lerp(minZ, maxZ, z / (float)nz);
+                return parent.ToLocal(new Vector3(wx, (float)AgentBAct1HeightField.Ground(wx, wz), wz));
+            }
+            for (var z = 0; z < nz; z++)
+            for (var x = 0; x < nx; x++)
+            foreach (var point in new[] { Point(x,z), Point(x+1,z), Point(x,z+1),
+                         Point(x+1,z), Point(x+1,z+1), Point(x,z+1) })
+                surface.AddVertex(point);
+        }
+        Rectangle(-420f, AgentBAct1HeightField.MinX, -420f, 360f);
+        Rectangle(AgentBAct1HeightField.MaxX, 420f, -420f, 360f);
+        Rectangle(AgentBAct1HeightField.MinX, AgentBAct1HeightField.MaxX, -420f, AgentBAct1HeightField.MinZ);
+        Rectangle(AgentBAct1HeightField.MinX, AgentBAct1HeightField.MaxX, AgentBAct1HeightField.MaxZ, 360f);
+        surface.Index();
+        surface.GenerateNormals();
+        var ground = new MeshInstance3D { Name = "BackdropGround", Mesh = surface.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("dce3e8", "snow_ground") };
+        ground.SetMeta("presentationOnly", true);
+        ground.SetMeta("collisionOwner", "none");
+        parent.AddChild(ground);
     }
 
     /// <summary>
     /// Winter yard props: a haystack and a second wattle run, plus painted
     /// village trim accents (shutters/frames in muted blue-green).
     /// </summary>
-    /// <summary>
-    /// Unplowed snow bank pushed up along the road by the plough: long, low,
-    /// slightly irregular mounds that make the cleared lane read as a lane.
-    /// </summary>
-    /// <summary>
-    /// Faceted conical crown for distant silhouettes: cheap, reads as a tree
-    /// from any camera angle, and never as a floating box.
-    /// </summary>
-    private static void AddVisualConeCrown(Node3D parent, string name, Vector3 position,
-        float radius, float height, string color, string surface)
-    {
-        var cone = new MeshInstance3D
-        {
-            Name = name,
-            Position = position,
-            Mesh = new CylinderMesh
-            {
-                TopRadius = 0.06f,
-                BottomRadius = radius,
-                Height = height,
-                RadialSegments = 7,
-                Rings = 1
-            },
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface)
-        };
-        cone.SetMeta("visualOnly", true);
-        cone.SetMeta("presentationRole", "faceted tree crown silhouette");
-        parent.AddChild(cone);
-    }
-
     private static void AddSnowBank(Node3D parent, string name, Vector3 anchor, Vector3 to,
         float width, float height, float yawJitter)
     {
-        var bank = new Node3D { Name = name, Position = anchor };
-        bank.SetMeta("visualOnly", true);
-        bank.SetMeta("presentationRole", "unplowed snow bank along the road");
-        parent.AddChild(bank);
-
-        var delta = to - anchor;
-        var length = delta.Length();
-        if (length < 0.5f)
-        {
-            return;
-        }
-
-        var yaw = Mathf.RadToDeg(Mathf.Atan2(delta.X, delta.Z));
-        var segments = Mathf.Max(2, Mathf.RoundToInt(length / 4.2f));
-        for (var index = 0; index < segments; index++)
-        {
-            var t = (index + 0.5f) / segments;
-            var point = anchor + delta * t;
-            var wobble = Mathf.Sin(index * 2.1f + yawJitter) * 0.22f;
-            AddVisualBox(bank, $"SnowBank{index}",
-                new(width * (1.0f + wobble * 0.3f), height * (1.0f + wobble * 0.4f), length / segments + 0.35f),
-                new(point.X, height * 0.5f + wobble * 0.06f, point.Z),
-                index % 2 == 0 ? "f2f6f9" : "e9eff4", "snow_ground",
-                yawDegrees: yaw + wobble * 8f);
-        }
+        var curve = new Curve3D { BakeInterval = .2f };
+        curve.AddPoint(new Vector3(anchor.X, 0f, anchor.Z));
+        var middle = (anchor + to) * .5f;
+        middle.X += Mathf.Sin(yawJitter) * .12f;
+        middle.Y = 0f;
+        curve.AddPoint(middle);
+        curve.AddPoint(new Vector3(to.X, 0f, to.Z));
+        var mesh = AddVisualLandformSurface(parent, name, width, height,
+            curve.GetBakedLength(), Vector3.Zero, "e8edf0", "snow_ground", 0f, true, curve);
+        mesh.SetMeta("snowBankHeight", height);
+        mesh.SetMeta("presentationOnly", true);
+        mesh.SetMeta("collisionOwner", "none");
     }
 
     /// <summary>
@@ -7309,15 +7697,21 @@ public partial class Act1ConnectedWorld : Node3D
 
             foreach (var side in new[] { -1f, 1f })
             {
-                var offset = halfWidth + 1.05f;
                 var wobble = Mathf.Sin(z * 0.7f + side) * 0.25f;
-                AddVisualBox(root, $"StreetBank{(side > 0 ? "E" : "W")}_{Mathf.RoundToInt(z)}",
-                    new(1.25f, 0.42f, 3.6f),
-                    new(bestX + side * (offset + wobble), 0.20f, z),
-                    Mathf.RoundToInt(z) % 2 == 0 ? "f2f6f9" : "e9eff4", "snow_ground",
-                    yawDegrees: wobble * 10f);
+                var bankX = bestX + side * (halfWidth + .9f + wobble);
+                var atBank = AgentBAct1HeightField.RoadInfo(bankX, z);
+                // House/FAP approaches cross the bank: keep those gates clear.
+                if (atBank.Distance - atBank.HalfWidth > .7f)
+                    AddSnowBank(root, $"StreetBank{(side > 0 ? "E" : "W")}_{Mathf.RoundToInt(z)}",
+                        new(bankX, 0f, z - 2.5f), new(bankX + wobble * .5f, 0f, z + 2.5f),
+                        1.65f, .48f + .11f * Mathf.Sin(z * .31f + side), z + side);
             }
         }
+        foreach (var side in new[] { -1f, 1f })
+            AddSnowBank(root, side < 0 ? "UnplowedWest" : "UnplowedEast",
+                new(side * 6.1f, 0f, 14f), new(side * 6.8f, 0f, -12f),
+                3.1f, side < 0 ? .32f : .38f, side * 2.3f);
+
     }
 
     private static void AddVisualHaystack(Node3D parent, string name, Vector3 anchor, float scale, float yawDegrees)
@@ -7370,7 +7764,9 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static void AddVisualGrassClump(Node3D parent, string name, Vector3 origin, float size, string color)
     {
-        var grass = new Node3D { Name = name, Position = origin };
+        var world = parent.ToGlobal(origin);
+        world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z) - .04f;
+        var grass = new Node3D { Name = name, Position = parent.ToLocal(world) };
         grass.SetMeta("visualOnly", true);
         grass.SetMeta("vegetationStyle", "low-poly-grass-tuft");
         parent.AddChild(grass);
@@ -7386,8 +7782,8 @@ public partial class Act1ConnectedWorld : Node3D
             var height = size * (0.30f + phase * 0.30f);
             var middle = root + Vector3.Up * height * 0.65f + outward * size * 0.09f;
             var tip = root + Vector3.Up * height + outward * size * (0.16f + phase * 0.14f);
-            var points = new[] { root - across * size * 0.025f, root + across * size * 0.025f,
-                middle - across * size * 0.016f, middle + across * size * 0.016f, tip };
+            var points = new[] { root - across * size * 0.008f, root + across * size * 0.008f,
+                middle - across * size * 0.004f, middle + across * size * 0.004f, tip };
             foreach (var vertex in new[] { 0, 1, 2, 1, 3, 2, 2, 3, 4, 2, 1, 0, 2, 3, 1, 4, 3, 2 })
             {
                 surface.SetUV(new Vector2(points[vertex].X, points[vertex].Y));
@@ -7396,7 +7792,7 @@ public partial class Act1ConnectedWorld : Node3D
         }
         surface.GenerateNormals();
         grass.AddChild(new MeshInstance3D { Name = "BentGrassBlades", Mesh = surface.Commit(),
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "grass") });
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("8b816d", "grass") });
     }
 
     private static void AddVisualStoneCluster(Node3D parent, string name, Vector3 origin, float size, string color)
@@ -7405,6 +7801,9 @@ public partial class Act1ConnectedWorld : Node3D
         stones.SetMeta("visualOnly", true);
         stones.SetMeta("presentationRole", "small field / road stone cluster");
         parent.AddChild(stones);
+        var root = stones.GlobalPosition;
+        root.Y = AgentBAct1HeightField.CollisionGround(root.X, root.Z);
+        stones.GlobalPosition = root;
         foreach (var (offset, scale) in new[]
                  {
                      (new Vector3(-0.26f, 0.10f, 0.02f), new Vector3(0.52f, 0.28f, 0.40f)),
@@ -7892,7 +8291,7 @@ public partial class Act1ConnectedWorld : Node3D
         Vector3 Grounded(Vector3 point)
         {
             var world = parent.ToGlobal(point);
-            world.Y = (float)AgentBAct1HeightField.Ground(world.X, world.Z);
+            world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z) - .04f;
             return parent.ToLocal(world);
         }
         var posts = Math.Clamp((int)(length / 2.8f), 2, 8);
@@ -8325,9 +8724,20 @@ public partial class Act1ConnectedWorld : Node3D
         gate.SetMeta("visualOnly", true);
         gate.SetMeta("presentationRole", "parcel gate; route remains open");
         parent.AddChild(gate);
+        var support = gate.GlobalPosition;
+        support.Y = AgentBAct1HeightField.CollisionGround(support.X, support.Z) - .04f;
+        gate.GlobalPosition = support;
 
         AddVisualBox(gate, "PostLeft", new(0.14f, height + 0.32f, 0.14f), new(-width * 0.5f, (height + 0.32f) * 0.5f, 0f), "594a39", "wood");
         AddVisualBox(gate, "PostRight", new(0.14f, height + 0.18f, 0.14f), new(width * 0.5f, (height + 0.18f) * 0.5f, 0f), "594a39", "wood");
+        foreach (var postName in new[] { "PostLeft", "PostRight" })
+        {
+            var post = gate.GetNode<MeshInstance3D>(postName);
+            var point = post.GlobalPosition;
+            var halfHeight = ((BoxMesh)post.Mesh).Size.Y * .5f;
+            point.Y = AgentBAct1HeightField.CollisionGround(point.X, point.Z) - .04f + halfHeight;
+            post.GlobalPosition = point;
+        }
         AddVisualBox(gate, "Header", new(width + 0.28f, 0.12f, 0.14f), new(0f, height + 0.24f, 0f), "594a39", "wood");
         AddVisualBox(gate, "Leaf", new(width * 0.86f, height * 0.72f, 0.08f), new(0f, height * 0.42f, 0f), "6d5943", "wood");
         AddVisualBox(gate, "LeafBrace", new(width * 0.70f, 0.08f, 0.10f), new(0f, height * 0.42f, -0.06f), "8a6b50", "wood", rollDegrees: -7f);
@@ -8353,20 +8763,32 @@ public partial class Act1ConnectedWorld : Node3D
         shed.SetMeta("presentationRole", "near/mid parcel shed silhouette");
         parent.AddChild(shed);
 
-        AddVisualBox(shed, "Wall", new(3.7f, 2.15f, 2.8f), new(0f, 1.08f, 0f), wallColor, "plaster");
+        var support = shed.GlobalPosition;
+        support.Y = AgentBAct1HeightField.CollisionGround(support.X, support.Z) - .04f;
+        shed.GlobalPosition = support;
+        var wall = AddVisualBox(shed, "Wall", new(3.7f, 2.15f, 2.8f), new(0f, 1.08f, 0f), wallColor, "plaster");
+        var arrays = wall.Mesh.SurfaceGetArrays(0);
+        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+        for (var i = 0; i < vertices.Length; i++)
+        {
+            if (vertices[i].Y >= 0f) continue;
+            var point = wall.ToGlobal(vertices[i]);
+            point.Y = AgentBAct1HeightField.CollisionGround(point.X, point.Z) - .04f;
+            vertices[i] = wall.ToLocal(point);
+        }
+        arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+        using var grounded = new ArrayMesh();
+        grounded.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+        using var normals = new SurfaceTool();
+        normals.CreateFrom(grounded, 0);
+        normals.GenerateNormals();
+        wall.Mesh = normals.Commit();
         AddVisualBox(shed, "RoofLeft", new(2.2f, 0.26f, 3.25f), new(-0.86f, 2.34f, 0f), roofColor, "wood", rollDegrees: 19f);
         AddVisualBox(shed, "RoofRight", new(2.2f, 0.26f, 3.25f), new(0.86f, 2.34f, 0f), roofColor, "wood", rollDegrees: -19f);
         AddVisualBox(shed, "Door", new(0.92f, 1.58f, 0.08f), new(-0.82f, 0.80f, 1.43f), "4b382c", "wood");
         AddVisualBox(shed, "DoorFrame", new(1.12f, 0.10f, 0.10f), new(-0.82f, 1.68f, 1.47f), "6d5845", "wood");
         AddVisualBox(shed, "LeanTo", new(1.65f, 0.12f, 0.84f), new(1.28f, 1.22f, 1.25f), roofColor, "wood", rollDegrees: 8f);
     }
-
-    /// <summary>
-    /// Act I season lock (decision_log 2026-09-10): winter foliage is bare.
-    /// Kept as a field, not a const, so the summer crown path stays compiled
-    /// and a future season toggle does not need this method rewritten.
-    /// </summary>
-    private static bool WinterSeasonLock = true;
 
     private static void AddVisualTree(
         Node3D parent,
@@ -8379,12 +8801,12 @@ public partial class Act1ConnectedWorld : Node3D
         // Near holdings use the same uneven ground as distant trees. Keeping
         // their old y=0 roots leaves a visible gap above depressed yards.
         var worldAnchor = parent.ToGlobal(origin);
-        worldAnchor.Y = (float)AgentBAct1HeightField.Ground(worldAnchor.X, worldAnchor.Z);
+        worldAnchor.Y = AgentBAct1HeightField.CollisionGround(worldAnchor.X, worldAnchor.Z) - .04f;
 
         // Winter road policy: a tree on the carriageway or its shoulder reads
         // as a mistake. Skip it (presentation only, no gameplay owner).
         var road = AgentBAct1HeightField.RoadInfo(worldAnchor.X, worldAnchor.Z);
-        if ((float)(road.Distance - road.HalfWidth) < 2.2f)
+        if ((float)(road.Distance - road.HalfWidth) < Mathf.Max(2.2f, height * (style == VegetationStyle.Conifer && worldAnchor.Z <= -86f ? .68f : .43f)))
         {
             return;
         }
@@ -8417,354 +8839,93 @@ public partial class Act1ConnectedWorld : Node3D
     }
 
     private static void AddVisualConifer(Node3D parent, string name, Vector3 origin, float height, string foliageColor)
-    {
-        var phase = VegetationHash(origin, 0.7f);
-        var lean = Mathf.Lerp(-3.5f, 3.5f, VegetationHash(origin, 1.7f));
-        var tree = new Node3D
-        {
-            Name = name,
-            Position = origin,
-            RotationDegrees = new Vector3(lean * 0.35f, VegetationHash(origin, 2.3f) * 360f, lean)
-        };
-        tree.SetMeta("visualOnly", true);
-        tree.SetMeta("vegetationStyle", "irregular-low-poly-conifer");
-        parent.AddChild(tree);
-
-        var trunkWidth = Mathf.Lerp(0.17f, 0.25f, phase);
-        tree.AddChild(new MeshInstance3D
-        {
-            Name = "Trunk",
-            Position = new Vector3(0f, height * 0.5f, 0f),
-            Mesh = new CylinderMesh { BottomRadius = trunkWidth,
-                TopRadius = 0.02f, Height = height, RadialSegments = 9 },
-            MaterialOverride = PainterlyMaterialLibrary.ForColor("40352d", "bark_pine")
-        });
-        // Two-layer crown replaces the flat single-plane column: an open
-        // outer skirt of drooping needle fans over a darker inner fill, so
-        // the silhouette keeps sky gaps from every side but gains layered
-        // depth. The skirt profile peaks in the lower third like a real
-        // pine and tapers into a short upturned leader. No closed cone
-        // shell; the same silhouette must work from beneath the crown.
-        var skirt = new SurfaceTool();
-        skirt.Begin(Mesh.PrimitiveType.Triangles);
-        var fill = new SurfaceTool();
-        fill.Begin(Mesh.PrimitiveType.Triangles);
-        var tiers = 12;
-        for (var tier = 0; tier < tiers; tier++)
-        {
-            var level = 0.24f + tier * 0.062f;
-            var profile = 1f - Mathf.Pow(Mathf.Abs(level - 0.38f) / 0.72f, 1.35f);
-            var branches = tier < tiers - 2 ? 6 : 4;
-            for (var branch = 0; branch < branches; branch++)
-            {
-                var angle = branch * Mathf.Tau / branches + tier * 2.399963f + phase * 4f;
-                var axis = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
-                var side = new Vector3(-axis.Z, 0f, axis.X);
-                var length = height * (0.30f + 0.34f * profile)
-                    * (0.82f + 0.18f * Mathf.Sin(branch * 3.7f + tier + phase));
-                for (var spray = 0; spray < 5; spray++)
-                {
-                    var t = 0.15f + spray * 0.19f;
-                    var hand = spray % 2 == 0 ? 1f : -1f;
-                    var droop = t * t * 0.34f;
-                    var center = axis * (length * t)
-                        + Vector3.Up * (height * level - length * droop);
-                    var twig = (axis * 0.60f + side * hand * 0.65f).Normalized();
-                    var across = new Vector3(-twig.Z, 0f, twig.X);
-                    var size = length * (0.34f - t * 0.12f);
-                    var root = center - twig * size * 0.30f;
-                    var tip = center + twig * size - Vector3.Up * size * 0.35f;
-                    var left = center + across * size * 0.55f + Vector3.Up * size * 0.55f;
-                    var right = center - across * size * 0.55f + Vector3.Up * size * 0.10f;
-                    foreach (var vertex in new[] { root, left, tip, root, tip, right,
-                        tip, left, root, right, tip, root })
-                    {
-                        skirt.SetUV(new Vector2(vertex.X, vertex.Z));
-                        skirt.AddVertex(vertex);
-                    }
-                    var innerSize = size * 0.72f;
-                    var innerRoot = center - twig * innerSize * 0.50f - axis * length * 0.10f;
-                    var innerTip = center + twig * innerSize * 0.80f;
-                    var innerLeft = center + across * innerSize * 0.50f
-                        + Vector3.Up * innerSize * 0.40f - axis * length * 0.08f;
-                    var innerRight = center - across * innerSize * 0.40f
-                        - Vector3.Up * innerSize * 0.05f;
-                    foreach (var vertex in new[] { innerRoot, innerLeft, innerTip,
-                        innerRoot, innerTip, innerRight })
-                    {
-                        fill.SetUV(new Vector2(vertex.X, vertex.Z));
-                        fill.AddVertex(vertex);
-                    }
-                }
-            }
-        }
-        for (var tip = 0; tip < 5; tip++)
-        {
-            var angle = tip * Mathf.Tau / 5f + phase * 3f;
-            var axis = new Vector3(Mathf.Cos(angle) * 0.35f, 1f, Mathf.Sin(angle) * 0.35f).Normalized();
-            var center = Vector3.Up * height * (0.93f + tip * 0.015f);
-            var size = height * 0.075f * (1f - tip * 0.12f);
-            var across = new Vector3(-axis.Z, 0f, axis.X);
-            var rootP = center - axis * size * 0.30f;
-            var tipP = center + axis * size;
-            var leftP = center + across * size * 0.50f + Vector3.Up * size * 0.20f;
-            var rightP = center - across * size * 0.50f - Vector3.Up * size * 0.10f;
-            foreach (var vertex in new[] { rootP, leftP, tipP, rootP, tipP, rightP,
-                tipP, leftP, rootP, rightP, tipP, rootP })
-            {
-                skirt.SetUV(new Vector2(vertex.X, vertex.Z));
-                skirt.AddVertex(vertex);
-            }
-        }
-        skirt.GenerateNormals();
-        fill.GenerateNormals();
-        tree.AddChild(new MeshInstance3D
-        {
-            Name = "BranchCrown",
-            Mesh = skirt.Commit(),
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(foliageColor, "foliage")
-        });
-        tree.AddChild(new MeshInstance3D
-        {
-            Name = "CrownInner",
-            Mesh = fill.Commit(),
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(
-                DarkerFoliageHex(foliageColor, 0.76f), "foliage")
-        });
-
-        AddVegetationGroundAccents(tree, name, origin, Mathf.Clamp(height * 0.065f, 0.24f, 0.52f), phase);
-    }
+        => AddAuthoredWinterTree(parent, name, origin, height, "WinterSpruce_1");
 
     private static void AddVisualBirch(Node3D parent, string name, Vector3 origin, float height, string foliageColor)
-        => AddDeciduousTree(parent, name, origin, height, foliageColor, true);
+        => AddAuthoredWinterTree(parent, name, origin, height, "WinterBirch_1");
 
     private static void AddVisualBroadleaf(Node3D parent, string name, Vector3 origin, float height, string foliageColor)
-        => AddDeciduousTree(parent, name, origin, height, foliageColor, false);
-
-    private static void AddDeciduousTree(Node3D parent, string name, Vector3 origin,
-        float height, string foliageColor, bool birch)
-    {
-        var phase = VegetationHash(origin, birch ? 15.1f : 27.1f);
-        var tree = new Node3D
-        {
-            Name = name, Position = origin,
-            RotationDegrees = new Vector3(0f, phase * 360f, 0f)
-        };
-        tree.SetMeta("visualOnly", true);
-        tree.SetMeta("vegetationStyle", birch ? "pendulous-branch-birch" : "low-fork-orchard-tree");
-        parent.AddChild(tree);
-
-        // These primary boughs describe two different whole-tree habits.
-        // Variation rotates the accepted form; it does not invent a random
-        // silhouette or stack three small crowns on a pole.
-        Vector3[] tips = birch
-            ? [new(-.25f,.63f,.10f), new(.23f,.72f,-.10f),
-               new(-.12f,.84f,-.23f), new(.12f,.86f,.19f),
-               new(-.06f,1f,.02f), new(.25f,.54f,.16f),
-               new(-.23f,.48f,-.17f)]
-            : [new(-.35f,.55f,.13f), new(.33f,.60f,-.18f),
-               new(-.17f,.80f,-.28f), new(.19f,.83f,.25f),
-               new(-.04f,.95f,.03f), new(.30f,.45f,.24f),
-               new(-.30f,.42f,-.23f)];
-        var bark = new SurfaceTool();
-        bark.Begin(Mesh.PrimitiveType.Triangles);
-        var leaves = new SurfaceTool();
-        leaves.Begin(Mesh.PrimitiveType.Triangles);
-        void Limb(Vector3 start, Vector3 end, float bottom, float top)
-        {
-            var axis = (end - start).Normalized();
-            var across = axis.Cross(Vector3.Forward).Normalized();
-            var cylinder = new CylinderMesh
-            {
-                BottomRadius = bottom, TopRadius = top,
-                Height = start.DistanceTo(end), RadialSegments = 7, Rings = 1
-            };
-            bark.AppendFrom(cylinder, 0, new Transform3D(
-                new Basis(across, axis, across.Cross(axis)), (start + end) * .5f));
-        }
-        var fork = new Vector3(.018f, birch ? .37f : .23f, -.012f) * height;
-        var trunkRadius = height * (birch ? .024f : .030f);
-        Limb(Vector3.Zero, fork, trunkRadius * 1.3f, trunkRadius * .64f);
-        Limb(fork, new Vector3(-.04f, .94f, .025f) * height,
-            trunkRadius * .64f, .008f);
-
-        var leafMesh = CreateLeafSprays(phase, birch, 18, 7);
-        for (var branch = 0; branch < tips.Length; branch++)
-        {
-            var tip = tips[branch] * height;
-            var basePoint = fork.Lerp(new Vector3(-.04f, .84f, .025f) * height,
-                birch ? branch / 12f : branch / 22f);
-            var elbow = basePoint.Lerp(tip, .55f) + Vector3.Up * height * .055f;
-            Limb(basePoint, elbow, trunkRadius * .42f, trunkRadius * .21f);
-            Limb(elbow, tip, trunkRadius * .21f, .009f);
-            var radial = new Vector3(tip.X, 0f, tip.Z).Normalized();
-            var lateral = new Vector3(-radial.Z, 0f, radial.X);
-            for (var twig = 0; twig < 5; twig++)
-            {
-                var t = .30f + twig * .16f;
-                var junction = elbow.Lerp(tip, t);
-                var hand = twig % 2 == 0 ? -1f : 1f;
-                var reach = height * (birch ? .10f : .12f) * (1f - twig * .08f);
-                var bend = junction + lateral * hand * reach + radial * reach * .3f;
-                var end = bend + Vector3.Down * height * (birch ? .13f : .035f);
-                Limb(junction, bend, .015f, .009f);
-                Limb(bend, end, .009f, .003f);
-                // Leaf groups follow actual hanging shoots, including the
-                // lower canopy, rather than float at unrelated sphere centers.
-                var crownScale = height * (birch ? .105f : .103f);
-                var stretch = birch ? 1.55f : .80f;
-                var basis = Basis.FromEuler(new Vector3(.25f * hand,
-                    branch * 1.7f + twig, .20f * hand))
-                    .Scaled(new Vector3(crownScale, crownScale * stretch, crownScale));
-                leaves.AppendFrom(leafMesh, 0,
-                    new Transform3D(basis, bend.Lerp(end, .55f)));
-                // Second, smaller spray at the hanging tip fills the lower
-                // canopy so the crown reads airy but continuous, not as a
-                // sparse umbrella on a pole.
-                var tipBasis = Basis.FromEuler(new Vector3(-.30f * hand,
-                    branch * 2.9f - twig, .35f * hand))
-                    .Scaled(new Vector3(crownScale * .78f, crownScale * stretch * .9f, crownScale * .78f));
-                leaves.AppendFrom(leafMesh, 0,
-                    new Transform3D(tipBasis, end.Lerp(bend, .25f)));
-            }
-        }
-        tree.AddChild(new MeshInstance3D
-        {
-            Name = "BranchSkeleton", Mesh = bark.Commit(),
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(
-                birch ? "aaa99a" : "655447", birch ? "bark_birch" : "bark_pine")
-        });
-        // Winter season lock: deciduous trees are bare, so the flat leaf-card
-        // crown is skipped entirely and the branch skeleton carries the
-        // silhouette (with snow through the material layer). The summer
-        // crown path stays in code for a future season toggle.
-        if (!WinterSeasonLock)
-        {
-            tree.AddChild(new MeshInstance3D
-            {
-                Name = "BranchCrown", Mesh = leaves.Commit(),
-                MaterialOverride = PainterlyMaterialLibrary.ForColor(
-                    foliageColor, birch ? "leaf_birch" : "foliage")
-            });
-        }
-        AddVegetationGroundAccents(tree, name, origin, Mathf.Clamp(height * .06f, .2f, .48f), phase);
-    }
-
-    private static ArrayMesh CreateLeafSprays(float phase, bool birch, int shoots = 48, int leafCount = 9)
-    {
-        // Open, overlapping shoots rather than a solid crown shell. Folded
-        // leaves have real silhouettes from below as well as from the road.
-        var surface = new SurfaceTool();
-        surface.Begin(Mesh.PrimitiveType.Triangles);
-        for (var shoot = 0; shoot < shoots; shoot++)
-        {
-            var angle = shoot * 2.399963f + phase * Mathf.Tau;
-            var y = 1f - 2f * (shoot + 0.5f) / shoots;
-            var radius = Mathf.Sqrt(1f - y * y);
-            var direction = new Vector3(Mathf.Cos(angle) * radius, y, Mathf.Sin(angle) * radius);
-            var length = 1.0f + 0.15f * Mathf.Sin(shoot * 4.17f + phase * 11f);
-            var side = direction.Cross(Vector3.Up).Normalized();
-            var normal = side.Cross(direction).Normalized();
-            for (var leaf = 0; leaf < leafCount; leaf++)
-            {
-                var along = 0.45f + leaf * 0.09f;
-                var hand = leaf % 2 == 0 ? 1f : -1f;
-                var center = direction * (length * along)
-                    + side * (hand * 0.12f * along)
-                    + Vector3.Down * (birch ? 0.20f : 0.07f) * along * along;
-                var axis = (direction * 0.45f + side * hand).Normalized();
-                var across = normal.Cross(axis).Normalized();
-                var size = (birch ? 0.25f : 0.28f)
-                    * (0.85f + 0.15f * Mathf.Sin(shoot * 3.1f + leaf * 2.7f));
-                var root = center - axis * size;
-                var tip = center + axis * size;
-                var left = center + across * size * 0.58f + normal * size * 0.18f;
-                var right = center - across * size * 0.58f + normal * size * 0.18f;
-                // Both faces are explicit: no global material cull change.
-                foreach (var vertex in new[] { root, left, tip, root, tip, right,
-                    tip, left, root, right, tip, root })
-                {
-                    surface.SetUV(new Vector2(vertex.X, vertex.Z));
-                    surface.AddVertex(vertex);
-                }
-            }
-        }
-        surface.GenerateNormals();
-        return surface.Commit();
-    }
+        => AddAuthoredWinterTree(parent, name, origin, height, "WinterLinden_1");
 
     private static void AddVisualShrub(Node3D parent, string name, Vector3 origin, float size, string foliageColor)
+        => AddAuthoredWinterTree(parent, name, origin, size * 1.3f, "WinterBirdCherry_1");
+
+    private static void AddAuthoredWinterTree(Node3D parent, string name, Vector3 origin, float height, string variant)
     {
-        var phase = VegetationHash(origin, 41.1f);
-        var shrub = new Node3D
+        var tree = new Node3D { Name = name, Position = origin,
+            RotationDegrees = new Vector3(0, VegetationHash(origin, 15.1f) * 360f, 0) };
+        parent.AddChild(tree);
+        tree.SetMeta("visualOnly", true);
+        tree.SetMeta("winterVariant", variant);
+        tree.SetMeta("winterHeight", height);
+    }
+
+    private static void BindAuthoredWinterTrees(Node3D core)
+    {
+        var layer = core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld");
+        var roofs = AgentBAct1ExteriorLayer.BuildingRoofBounds(core);
+        foreach (var tree in FindDescendants<Node3D>(core).Where(node => node.HasMeta("winterVariant")).ToArray())
         {
-            Name = name,
-            Position = origin,
-            RotationDegrees = new Vector3(0f, VegetationHash(origin, 42.7f) * 360f, 0f)
-        };
-        shrub.SetMeta("visualOnly", true);
-        shrub.SetMeta("vegetationStyle", "low-poly-shrub-cluster");
-        parent.AddChild(shrub);
-        var material = PainterlyMaterialLibrary.ForColor(foliageColor, "foliage");
-        var spread = Mathf.Lerp(0.84f, 1.20f, phase);
-        var clusters = new[]
-                 {
-                     (new Vector3(-0.28f, 0.28f, 0.04f), new Vector3(0.54f, 0.38f, 0.48f)),
-                     (new Vector3(0.24f, 0.34f, -0.12f), new Vector3(0.48f, 0.42f, 0.52f)),
-                     (new Vector3(0.02f, 0.47f, 0.16f), new Vector3(0.42f, 0.36f, 0.40f))
-                 };
-        for (var index = 0; index < clusters.Length; index++)
-        {
-            var (offset, scale) = clusters[index];
-            var clusterPhase = VegetationHash(origin, 43.1f + index);
-            // Winter bush: a low snow-laden mound with a couple of dry twigs
-            // instead of a green leaf mass.
-            shrub.AddChild(new MeshInstance3D
+            var root = tree.GlobalPosition;
+            root.Y = AgentBAct1HeightField.CollisionGround(root.X, root.Z) - .04f;
+            tree.GlobalPosition = root;
+            if (AgentBAct1ExteriorLayer.UnderBuildingRoof(root, roofs))
+            { tree.Visible = false; tree.SetMeta("roofOverlapSuppressed", true); continue; }
+            var variant = tree.GetMeta("winterVariant").AsString();
+            var region = root.Z <= -86 ? "kara" : root.Z <= -58 ? "zirat" : "village";
+            var source = layer.FoliageMesh(variant, region);
+            var scale = tree.GetMeta("winterHeight").AsSingle() / source.GetAabb().Size.Y;
+            tree.Scale = Vector3.One * scale;
+            var blocksRoad = false;
+            for (var surface = 0; surface < source.GetSurfaceCount() && !blocksRoad; surface++)
+            foreach (var vertex in source.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
             {
-                Name = $"SnowMound{index}",
-                Position = new Vector3(
-                    offset.X * size * spread + Mathf.Lerp(-0.05f, 0.05f, clusterPhase) * size,
-                    offset.Y * size * Mathf.Lerp(0.55f, 0.75f, phase),
-                    offset.Z * size * spread + Mathf.Lerp(-0.05f, 0.05f, VegetationHash(origin, 46.1f + index)) * size),
-                Scale = new Vector3(
-                    scale.X * size * Mathf.Lerp(0.90f, 1.20f, clusterPhase),
-                    scale.Y * size * Mathf.Lerp(0.60f, 0.80f, phase),
-                    scale.Z * size * Mathf.Lerp(0.90f, 1.20f, clusterPhase)),
-                RotationDegrees = new Vector3(0f, clusterPhase * 50f, 0f),
-                Mesh = new CylinderMesh
-                {
-                    TopRadius = size * 0.22f,
-                    BottomRadius = size * 0.52f,
-                    Height = size * 0.55f,
-                    RadialSegments = 7,
-                    Rings = 1
-                },
-                MaterialOverride = PainterlyMaterialLibrary.ForColor(
-                    clusterPhase > 0.5f ? "f2f6f9" : "e9eff4", "snow_ground")
-            });
-            for (var twigIndex = 0; twigIndex < 2; twigIndex++)
+                var point = tree.ToGlobal(vertex);
+                if (point.Y > AgentBAct1HeightField.CollisionGround(point.X, point.Z) + 2.5f) continue;
+                var road = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
+                if (road.Distance - road.HalfWidth >= .1) continue;
+                blocksRoad = true; break;
+            }
+            if (blocksRoad) { tree.Visible = false; tree.SetMeta("roadEnvelopeSuppressed", true); continue; }
+            var tiers = new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) };
+            for (var lod = 0; lod < tiers.Length; lod++)
             {
-                shrub.AddChild(new MeshInstance3D
-                {
-                    Name = $"WinterTwig{index}_{twigIndex}",
-                    Position = new Vector3(
-                        offset.X * size * spread + (twigIndex == 0 ? -0.08f : 0.09f) * size,
-                        offset.Y * size * 0.72f + 0.28f * size,
-                        offset.Z * size * spread + (twigIndex == 0 ? 0.05f : -0.06f) * size),
-                    RotationDegrees = new Vector3(12f - twigIndex * 24f, clusterPhase * 60f + twigIndex * 40f, 0f),
-                    Mesh = new CylinderMesh
-                    {
-                        TopRadius = 0.006f,
-                        BottomRadius = 0.014f,
-                        Height = size * 0.55f,
-                        RadialSegments = 5,
-                        Rings = 1
-                    },
-                    MaterialOverride = PainterlyMaterialLibrary.ForColor("6b5f4c", "wood_bark")
-                });
+                var mesh = new MeshInstance3D { Name = $"BranchSkeletonLOD{lod}", Mesh = layer.FoliageMesh(tiers[lod], region) };
+                tree.AddChild(mesh);
+                AgentBAct1ExteriorLayer.ConfigureFoliageRange(mesh, tiers.Length == 1 ? -1 : lod, false);
             }
         }
-        AddVegetationGroundAccents(shrub, name, origin, Mathf.Clamp(size * 0.72f, 0.22f, 0.72f), phase);
+    }
+
+    private static void ReplaceKitWinterShrubs(Node3D core)
+    {
+        var layer = core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld");
+        foreach (var mesh in FindDescendants<MeshInstance3D>(core).Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null).ToArray())
+        {
+            var names = Enumerable.Range(0, mesh.Mesh.GetSurfaceCount())
+                .Select(surface => mesh.Mesh.SurfaceGetMaterial(surface)?.ResourceName ?? "").ToArray();
+            if (!names.Any(name => name is "Shrub_BlueGreen" or "ShrubGreen" or "FapShrubGreen" or "FapShrubLight")) continue;
+            var bounds = mesh.GlobalTransform * mesh.Mesh.GetAabb();
+            var root = bounds.GetCenter();
+            root.Y = AgentBAct1HeightField.CollisionGround(root.X, root.Z) - .04f;
+            var region = root.Z <= -86 ? "kara" : root.Z <= -58 ? "zirat" : "village";
+            var source = layer.FoliageMesh("WinterBirdCherry_1", region);
+            for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++) mesh.SetSurfaceOverrideMaterial(surface, null);
+            mesh.MaterialOverride = null;
+            mesh.Mesh = source;
+            mesh.GlobalTransform = new Transform3D(mesh.GlobalBasis.Orthonormalized()
+                .Scaled(Vector3.One * (Mathf.Clamp(bounds.Size.Y, .55f, 1.7f) / source.GetAabb().Size.Y)), root);
+            mesh.SetMeta("presentationOnly", true);
+            mesh.SetMeta("winterShrubReplacement", true);
+            AgentBAct1ExteriorLayer.ConfigureFoliageRange(mesh, 0, true);
+            for (var lod = 1; lod <= 2; lod++)
+            {
+                var child = new MeshInstance3D { Name = $"WinterShrubLOD{lod}",
+                    Mesh = layer.FoliageMesh(lod == 1 ? "WinterLightBirdCherry_1" : "WinterFarBirdCherry_1", region) };
+                mesh.AddChild(child);
+                AgentBAct1ExteriorLayer.ConfigureFoliageRange(child, lod, true);
+            }
+        }
     }
 
     private static string DarkerFoliageHex(string hex, float factor)
@@ -8779,56 +8940,6 @@ public partial class Act1ConnectedWorld : Node3D
         return value - Mathf.Floor(value);
     }
 
-    private static void AddVegetationGroundAccents(Node3D parent, string name, Vector3 origin, float size, float phase)
-    {
-        if (phase > 0.34f)
-        {
-            var mossPhase = VegetationHash(origin, 51.1f);
-            var moss = new MeshInstance3D
-            {
-                Name = $"{name}MossBase",
-                Position = new Vector3(
-                    Mathf.Lerp(-size * 0.22f, size * 0.22f, mossPhase),
-                    size * 0.10f,
-                    Mathf.Lerp(-size * 0.24f, size * 0.24f, VegetationHash(origin, 52.7f))),
-                Scale = new Vector3(size * Mathf.Lerp(0.72f, 1.12f, mossPhase), size * 0.16f, size * Mathf.Lerp(0.42f, 0.68f, mossPhase)),
-                RotationDegrees = new Vector3(0f, mossPhase * 180f, Mathf.Lerp(-10f, 10f, phase)),
-                Mesh = new SphereMesh { Radius = 1f, Height = 2f, RadialSegments = 6, Rings = 2 },
-                MaterialOverride = PainterlyMaterialLibrary.ForColor(mossPhase > 0.5f ? "53634e" : "465a43", "foliage")
-            };
-            moss.SetMeta("visualOnly", true);
-            moss.SetMeta("vegetationStyle", "low-poly-moss-contact");
-            parent.AddChild(moss);
-        }
-
-        if (phase < 0.68f)
-        {
-            return;
-        }
-
-        var sedge = new Node3D { Name = $"{name}Sedge", Position = new Vector3(0f, 0f, size * 0.12f) };
-        sedge.SetMeta("visualOnly", true);
-        sedge.SetMeta("vegetationStyle", "low-poly-sedge-accent");
-        parent.AddChild(sedge);
-        var bladeCount = VegetationHash(origin, 53.9f) > 0.55f ? 3 : 2;
-        for (var index = 0; index < bladeCount; index++)
-        {
-            var bladePhase = VegetationHash(origin, 55.1f + index);
-            var bladeHeight = size * Mathf.Lerp(0.78f, 1.35f, bladePhase);
-            AddVisualBox(
-                sedge,
-                $"Blade{index}",
-                new(0.035f * size, bladeHeight, 0.055f * size),
-                new(
-                    Mathf.Lerp(-size * 0.48f, size * 0.48f, bladePhase),
-                    bladeHeight * 0.5f,
-                    Mathf.Lerp(-size * 0.18f, size * 0.28f, VegetationHash(origin, 58.1f + index))),
-                bladePhase > 0.5f ? "59634a" : "4e5d48",
-                "foliage",
-                yawDegrees: Mathf.Lerp(-28f, 32f, bladePhase),
-                rollDegrees: index % 2 == 0 ? -14f : 11f);
-        }
-    }
 
     private static void HidePresentationNode(Node node)
     {

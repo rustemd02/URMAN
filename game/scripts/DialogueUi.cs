@@ -14,6 +14,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
     private RuntimeBridge? _bridge;
     private CompiledDialogueContent? _dialogue;
     private CompiledDialogueNodeContent? _node;
+    private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
     public bool IsOpen => _screen.Visible;
 
@@ -30,10 +31,27 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _choices = GetNode<VBoxContainer>("Screen/Panel/Layout/Choices");
         _continue = GetNode<Button>("Screen/Panel/Layout/Continue");
         _continue.Pressed += Close;
+        GetViewport().SizeChanged += RefitToViewport;
+        if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+        {
+            ApplyAccessibilitySettings(player.Accessibility);
+        }
     }
 
-    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings) =>
+    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
+    {
+        _accessibility = settings;
         AccessibilityPresentation.ApplyToControl(_panel, settings);
+        RefitToViewport();
+    }
+
+    private void RefitToViewport()
+    {
+        var width = Mathf.Min(_panel.GetViewportRect().Size.X - 48f, 860f * (float)_accessibility.TextScale);
+        _panel.AnchorLeft = _panel.AnchorRight = .5f;
+        _panel.OffsetLeft = -width * .5f;
+        _panel.OffsetRight = width * .5f;
+    }
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {
@@ -101,9 +119,13 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
                 Text = _bridge.ResolveText(choice.TextId),
                 SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
             };
+            button.AddThemeStyleboxOverride("normal", _continue.GetThemeStylebox("normal"));
+            button.AddThemeStyleboxOverride("hover", _continue.GetThemeStylebox("hover"));
+            button.AddThemeStyleboxOverride("focus", _continue.GetThemeStylebox("focus"));
             button.Pressed += () => Choose(choice);
             _choices.AddChild(button);
         }
+        AccessibilityPresentation.ApplyToControl(_panel, _accessibility);
 
         _continue.Visible = _choices.GetChildCount() == 0;
         (_choices.GetChildCount() > 0 ? (Control)_choices.GetChild(0) : _continue).GrabFocus();

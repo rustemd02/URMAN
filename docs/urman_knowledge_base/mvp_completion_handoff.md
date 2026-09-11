@@ -1,5 +1,11 @@
 # MVP Completion Handoff
 
+Superseded product brief, 2026-09-11:
+[Finished Act I handover](../production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md)
+and its [launch prompt](../production/URMAN_ACT_I_FINISHED_PRODUCT_PROMPT_RU.md).
+The dated material below is retained as history. Its demo-only exclusions do
+not limit the newly requested whole-Act-I product completion.
+
 Status: product execution handoff. Current delivery target amended 2026-08-14 to
 the Act 1 atmospheric demo; the full-game continuation below is deferred.
 Presentation baseline updated 2026-08-10; architecture baseline updated 2026-07-18.

@@ -15,13 +15,27 @@
 
 Главный сырой источник: `../../URMAN_Codex_Context.md`.
 
+## Текущее поручение — законченный Акт I, 2026-09-11
+
+После технической приёмки зимнего визуала автор запросил подробный хэндовер
+для самостоятельного доведения всей главы: gameplay, сценария, интерьеров,
+персонажей, звука, UI/меню и поставки. Текущий продуктовый brief —
+[Доведение Акта I до законченной игры](../production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md),
+парный [промпт исполнителя](../production/URMAN_ACT_I_FINISHED_PRODUCT_PROMPT_RU.md).
+Это задание на будущую реализацию, а не заявление о готовности игры.
+Оно расширяет прежний greybox/winter scope, сохраняет канон и действующих
+технических владельцев. Акты II–V не входят в этот запуск. Художественными
+источниками остаются существующие style/layout/reference документы;
+новая очередь задач и новая style bible не создаются.
+
 ## Файлы
 
 - `mindmap.md` — центральная карта проекта.
 - `project_brief.md` — короткий high-level бриф.
 - `canon.md` — hard canon, soft canon, гипотезы и противоречия.
 - `mvp_scope.md` — вертикальный срез MVP.
-- `mvp_completion_handoff.md` — главный handoff-документ: что именно не хватает до полноценного MVP и в каком порядке это добивать.
+- `../production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md` — текущий подробный хэндовер законченного Акта I и критерии результата.
+- `mvp_completion_handoff.md` — исторический handoff MVP; текущий продуктовый объём задан новым хэндовером от 2026-09-11.
 - `chapter1_mvp_campaign.md` — сценарный lock 40–60-минутной первой главы / MVP vertical slice: акты, сцены, clue graph, NPC reactions, татарский язык, fear escalation и финал «Не отвечай».
 - `gameplay.md` — core loop, расследование, диалоги, язык, интерфейсы.
 - `old_pc.md` — продуктовый и сценарный lock старого ПК бабая.
@@ -82,9 +96,12 @@ mindmap
 
 ## Текущее состояние
 
-Проект имеет завершённую modular architecture: portable campaign modules, transactional kernel, capability providers, Content Lab и retired legacy owners. Это готовность достраивать MVP, а не заявление «MVP готов». Главный product blocker — довести и проверить целостный опыт игрока, ассеты, звук, UX и плейтестовый release gate. Сначала смотреть `chapter1_mvp_campaign.md`, затем `mvp_completion_handoff.md` и `playtest_plan.md`; старые runtime paths в historical sections не восстанавливать.
+Проект имеет завершённую modular architecture: portable campaign modules, transactional kernel, capability providers, Content Lab и retired legacy owners. Это готовность достраивать MVP, а не заявление «MVP готов». Зимний визуальный проход технически принят 2026-09-11; главный product blocker — довести и проверить целостный опыт игрока, людей, интерьеры, звук, UX и поставку. Сначала смотреть новый хэндовер законченного Акта I, `chapter1_mvp_campaign.md` и актуальную часть `playtest_plan.md`; старые runtime paths и web-команды из historical sections не восстанавливать.
 
-## Текущий продуктовый объём — connected greybox Акта I (2026-08-15)
+## Исторический продуктовый объём — connected greybox Акта I (2026-08-15)
+
+Раздел фиксирует прежний этап. Текущая цель расширена хэндовером 2026-09-11;
+прежние исключения release-проверок не освобождают от доведения нового продукта.
 
 Активная цель больше не считает набор изолированных benchmark-сцен
 атмосферной демкой. Сначала нужно собрать одну компактную территорию в

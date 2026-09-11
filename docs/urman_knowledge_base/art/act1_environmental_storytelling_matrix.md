@@ -52,8 +52,8 @@ unlabelled decorative prop; clues are always carried by interaction targets
 
 | Prop | Placement | Role | Collision / interaction |
 |---|---|---|---|
-| `BackdropNearHousesWest/East` | 70–100 m west/east of the street | distant village rows with snow roofs and chimneys | none (presentationOnly) |
+| `BackdropNearHousesWest/East` | 70–100 m west/east of the street | six scattered dwellings with pitched snow roofs and chimneys | none (presentationOnly) |
 | `BackdropMidWoodlandWest/East`, `BackdropMidForestNorth` | 120–170 m | winter woodland bands; the north band is dark conifer forest | none (presentationOnly) |
 | `BackdropFarRidgeWest/East/North` | 230–260 m | far snow ridges dissolving into frost haze | none (presentationOnly) |
-| `DistantMinaretFar` | 150 m east skyline | second minaret silhouette for depth; cultural review open | none (presentationOnly) |
+| `BackdropFarForestNorth` | 320–380 m north | нерегулярный хвойный горизонт за низкой грядой | none (presentationOnly) |
 | `BabaiYardHaystack` | Babai yard | winter haystack (стог сена) | none (visualOnly) |

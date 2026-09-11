@@ -47,6 +47,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private float _headBobPhase;
 
     public bool ModalOpen => _modalOpen;
+    internal int PresentationTransformRevision { get; private set; }
 
     public string CurrentInputDevice => _inputDevice;
 
@@ -63,6 +64,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
     {
+        _accessibility = settings;
         if (_interactionPrompt is null)
         {
             return;
@@ -156,6 +158,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     public void ApplyPortableTransform(PlayerTransform transform)
     {
+        PresentationTransformRevision++;
         GlobalPosition = new Vector3(
             (float)transform.Position.X,
             (float)transform.Position.Y,

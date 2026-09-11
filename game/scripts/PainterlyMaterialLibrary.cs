@@ -42,8 +42,15 @@ public static class PainterlyMaterialLibrary
         // press the snow down — darker, flatter, matte.
         // Live frost sparkle: view-dependent micro-glints on snow surfaces.
         uniform float snow_sparkle = 0.0;
+        uniform bool snow_material = false;
+        uniform bool has_snow_micro = false;
+        uniform sampler2D snow_micro_response : filter_linear_mipmap_anisotropic, repeat_enable;
+        uniform sampler2D snow_micro_normal : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
+        uniform vec2 snow_roughness_range = vec2(0.82, 0.95);
+        uniform float snow_relief_scale = 1.0;
         uniform sampler2D trample_map : hint_default_black, filter_linear, repeat_disable;
         uniform bool has_trample_map = false;
+        uniform bool trample_ground_surface = false;
         uniform vec2 trample_origin = vec2(0.0);
         uniform float trample_extent = 0.0;
 
@@ -81,9 +88,32 @@ public static class PainterlyMaterialLibrary
             return mix(vec3(1.0), tint, strength);
         }
 
+        vec4 snow_trample_at(vec3 position) {
+            if (!trample_ground_surface || !has_trample_map || trample_extent <= 0.0) return vec4(0.0);
+            vec2 uv = (position.xz - trample_origin) / trample_extent;
+            if (any(lessThan(uv, vec2(0.0))) || any(greaterThan(uv, vec2(1.0)))) return vec4(0.0);
+            vec4 field = textureLod(trample_map, uv, 0.0);
+            float support = field.b / max(field.a, 0.00001);
+            return abs(position.y - support) < 0.12 ? field : vec4(0.0);
+        }
+
         void vertex() {
             world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
             world_normal = normalize(MODEL_NORMAL_MATRIX * NORMAL);
+            // Ground microrelief is normal detail: its sub-centimetre height
+            // cannot be represented by metre-wide base triangles. Displacing
+            // newly refined vertices here would split coarse/fine borders.
+            if (has_snow_micro && !low_quality && !trample_ground_surface) {
+                float up = smoothstep(0.45, 0.85, world_normal.y);
+                float height = (textureLod(snow_micro_response, world_position.xz, 0.0).r - 0.5)
+                    * 0.004 * snow_relief_scale * up;
+                VERTEX += transpose(MODEL_NORMAL_MATRIX) * vec3(0.0, height, 0.0);
+                world_position.y += height;
+            }
+            vec4 trail = snow_trample_at(world_position);
+            float pressed_height = (trail.r + trail.g) * smoothstep(0.55, 0.85, world_normal.y);
+            VERTEX += transpose(MODEL_NORMAL_MATRIX) * vec3(0.0, pressed_height, 0.0);
+            world_position.y += pressed_height;
             if (wind_enabled && wind_sway > 0.0) {
                 float phase = TIME * 1.6 + world_position.x * 0.55 + world_position.z * 0.4;
                 float gust = sin(phase) * 0.65 + sin(phase * 2.3 + 1.7) * 0.35;
@@ -131,7 +161,9 @@ public static class PainterlyMaterialLibrary
             graded_texture = clamp((graded_texture - vec3(0.5)) * 1.18 + vec3(0.5), 0.0, 1.0);
             // Texture-dominant balance: the albedo painting owns the value
             // range; base_color acts as a light tint over it.
-            vec3 tinted_texture = base_color.rgb * (vec3(0.30) + graded_texture * 1.75);
+            vec3 tinted_texture = snow_material
+                ? base_color.rgb * (vec3(0.90) + graded_texture * 0.12)
+                : base_color.rgb * (vec3(0.30) + graded_texture * 1.75);
             vec3 painted_color = has_albedo_texture
                 ? mix(base_color.rgb, tinted_texture, texture_strength)
                 : base_color.rgb;
@@ -164,7 +196,7 @@ public static class PainterlyMaterialLibrary
             // Thin leaves receive light on their reverse face; this remains
             // light-dependent, not emission that would glow in the forest.
             if (vertex_pigment) {
-                ALBEDO *= COLOR.rgb;
+                ALBEDO *= snow_material ? mix(vec3(1.0), COLOR.rgb, 0.28) : COLOR.rgb;
             }
             // Winter snow blanket: up-facing surfaces take a matte, slightly
             // mottled snow layer on top of the existing paint, so roofs,
@@ -181,40 +213,41 @@ public static class PainterlyMaterialLibrary
                 ROUGHNESS = mix(ROUGHNESS, 0.92, snow_cover);
                 SPECULAR = mix(SPECULAR, 0.05, snow_cover);
             }
-            // Trail compression: only near-horizontal surfaces inside the
-            // rolling window; packed snow is darker, rougher and matte.
-            if (has_trample_map && trample_extent > 0.0) {
-                float trail_ground = smoothstep(0.55, 0.85, normalize(world_normal).y);
-                if (trail_ground > 0.0) {
-                    vec2 trail_uv = (world_position.xz - trample_origin) / trample_extent;
-                    if (trail_uv.x >= 0.0 && trail_uv.x <= 1.0
-                        && trail_uv.y >= 0.0 && trail_uv.y <= 1.0) {
-                        float packed = clamp(texture(trample_map, trail_uv).a, 0.0, 1.0)
-                            * trail_ground;
-                        ALBEDO = mix(ALBEDO, ALBEDO * vec3(0.84, 0.87, 0.90), packed);
-                        ROUGHNESS = mix(ROUGHNESS, 0.82, packed * 0.7);
-                        SPECULAR = mix(SPECULAR, 0.03, packed);
-                        // Light ridge on the rising edge of the pressed trail
-                        // reads as displaced snow pushed aside by the step.
-                        vec2 trail_texel = 1.0 / vec2(textureSize(trample_map, 0));
-                        float trail_dx = texture(trample_map, trail_uv + vec2(trail_texel.x * 2.0, 0.0)).a;
-                        float trail_dy = texture(trample_map, trail_uv + vec2(0.0, trail_texel.y * 2.0)).a;
-                        float trail_ridge = clamp((trail_dx - packed) + (trail_dy - packed), 0.0, 1.0);
-                        ALBEDO += vec3(0.90, 0.94, 1.0) * trail_ridge * 0.12;
-                    }
+            // One generated height field supplies geometry, normal and
+            // roughness. Grain changes only the light-dependent BRDF; there
+            // is no added albedo, emission, TIME noise or shadow sparkle.
+            if (snow_material) {
+                METALLIC = 0.0;
+                ROUGHNESS = clamp(ROUGHNESS, snow_roughness_range.x, snow_roughness_range.y);
+                if (has_snow_micro && !low_quality) {
+                    vec3 response = texture(snow_micro_response, world_position.xz).rgb;
+                    float pixel_metres = max(length(dFdx(world_position.xz)), length(dFdy(world_position.xz)));
+                    float detail = 1.0 - smoothstep(0.006, 0.03, pixel_metres);
+                    vec3 micro = texture(snow_micro_normal, world_position.xz).rgb * 2.0 - 1.0;
+                    vec3 slope = vec3(micro.x, 0.0, micro.y) / max(micro.z, 0.2);
+                    vec3 surface_normal = normalize(world_normal + slope * snow_relief_scale
+                        * smoothstep(0.45, 0.85, world_normal.y) * detail);
+                    NORMAL = normalize((VIEW_MATRIX * vec4(surface_normal, 0.0)).xyz);
+                    float grain = response.b * detail * snow_sparkle;
+                    ROUGHNESS = clamp(mix(snow_roughness_range.x, snow_roughness_range.y, response.g)
+                        - grain * 0.04, snow_roughness_range.x, snow_roughness_range.y);
+                    SPECULAR = specular_value + grain * 0.08;
                 }
             }
-            // Frost sparkle: sparse high-frequency glints that only appear on
-            // snow and only at grazing view angles, so walking past the field
-            // makes the surface shimmer like real frost without confetti.
-            if (snow_sparkle > 0.0) {
-                float flake_a = painter_value_noise(world_position.xz * 34.0 + world_position.y * 7.0);
-                float flake_b = painter_value_noise(world_position.xz * 61.0 + 19.3);
-                float flakes = smoothstep(0.74, 0.98, flake_a * 0.55 + flake_b * 0.45);
-                float grazing = pow(1.0 - clamp(dot(normalize(NORMAL), normalize(VIEW)), 0.0, 1.0), 1.6);
-                float glint = flakes * grazing * snow_sparkle;
-                ALBEDO += vec3(0.85, 0.90, 1.00) * glint * 0.34;
-                SPECULAR = clamp(SPECULAR + glint * 0.25, 0.0, 1.0);
+            vec4 trail = snow_trample_at(world_position);
+            if (trail.a > 0.0) {
+                float texel = trample_extent / float(textureSize(trample_map, 0).x);
+                vec4 left = snow_trample_at(world_position - vec3(texel, 0.0, 0.0));
+                vec4 right = snow_trample_at(world_position + vec3(texel, 0.0, 0.0));
+                vec4 back = snow_trample_at(world_position - vec3(0.0, 0.0, texel));
+                vec4 front = snow_trample_at(world_position + vec3(0.0, 0.0, texel));
+                float dx = (right.r + right.g - left.r - left.g) / (2.0 * texel);
+                float dz = (front.r + front.g - back.r - back.g) / (2.0 * texel);
+                float up = smoothstep(0.55, 0.85, world_normal.y);
+                NORMAL = normalize(NORMAL + (VIEW_MATRIX * vec4(-dx, 0.0, -dz, 0.0)).xyz * up);
+                float packed = clamp(-trail.r / 0.035, 0.0, 1.0) * up;
+                ALBEDO *= mix(1.0, 0.91, packed);
+                ROUGHNESS = mix(ROUGHNESS, clamp(0.79, snow_roughness_range.x, snow_roughness_range.y), packed);
             }
             BACKLIGHT = ALBEDO * leaf_transmission;
         }
@@ -238,7 +271,7 @@ public static class PainterlyMaterialLibrary
         ["wood_fence"] = ("res://assets/textures/painterly/weathered_wood_boards_v2_albedo.png", new Vector2(0.8f, 0.8f)),
         ["wood_furniture"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.95f, 0.95f)),
         ["wood_prop"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.9f, 0.9f)),
-        ["wood_bark"] = ("res://assets/textures/painterly/weathered_wood_boards_v4_albedo.png", new Vector2(1.05f, 1.05f)),
+        ["wood_bark"] = ("res://assets/textures/painterly/bark_pine_v1_albedo.png", new Vector2(1.05f, 1.05f)),
         ["earth"] = ("res://assets/textures/painterly/damp_earth_v3_albedo.png", new Vector2(0.55f, 1.1f)),
         ["terrain"] = ("res://assets/textures/painterly/damp_earth_v5_albedo.png", new Vector2(1.3f, 2.6f)),
         ["wet_road"] = ("res://assets/textures/painterly/damp_earth_v3_albedo.png", new Vector2(0.55f, 1.1f)),
@@ -270,7 +303,7 @@ public static class PainterlyMaterialLibrary
         ["snow_trampled"] = ("res://assets/textures/painterly/snow_trampled_v1_albedo.png", new Vector2(1.6f, 1.6f)),
         ["snow_roof"] = ("res://assets/textures/painterly/snow_roof_v1_albedo.png", new Vector2(1.0f, 1.0f)),
         ["ice"] = ("res://assets/textures/painterly/ice_patch_v1_albedo.png", new Vector2(1.4f, 1.4f)),
-        ["bark_birch_winter"] = ("res://assets/textures/painterly/birch_bark_winter_v1_albedo.png", new Vector2(0.55f, 1.1f)),
+        ["bark_birch_winter"] = ("res://assets/textures/painterly/bark_birch_v2_albedo.png", new Vector2(0.55f, 1.1f)),
         ["rowan_berries"] = ("res://assets/textures/painterly/rowan_berries_v1_albedo.png", new Vector2(1.0f, 1.0f)),
         ["wattle"] = ("res://assets/textures/painterly/wattle_weave_v1_albedo.png", new Vector2(0.9f, 0.9f)),
         ["frost_window"] = ("res://assets/textures/painterly/frost_window_v1_albedo.png", new Vector2(1.0f, 1.0f))
@@ -368,7 +401,7 @@ public static class PainterlyMaterialLibrary
         var shadow = new Color(color.R * 0.54f, color.G * 0.56f, color.B * 0.58f, color.A);
         var material = new ShaderMaterial { Shader = PainterlyShader };
         material.SetShaderParameter("base_color", color);
-        material.SetShaderParameter("vertex_pigment", surface is "terrain" or "wet_road");
+        material.SetShaderParameter("vertex_pigment", surface is "terrain" or "wet_road" or "snow_road");
         material.SetShaderParameter("shadow_color", shadow);
         // Keep the brush rhythm stable for a semantic surface. The old cache
         // count made the same material change appearance with call order and
@@ -504,12 +537,12 @@ public static class PainterlyMaterialLibrary
         // response without adding textures or a second material owner.
         var surfaceGrade = surface switch
         {
-            "snow_ground" => (Roughness: 0.93f, Specular: 0.06f, WetGrade: 0.0f),
-            "snow_road" => (Roughness: 0.86f, Specular: 0.12f, WetGrade: 0.35f),
-            "snow_trampled" => (Roughness: 0.88f, Specular: 0.10f, WetGrade: 0.22f),
+            "snow_ground" => (Roughness: 0.90f, Specular: 0.28f, WetGrade: 0.0f),
+            "snow_road" => (Roughness: 0.68f, Specular: 0.28f, WetGrade: 0.0f),
+            "snow_trampled" => (Roughness: 0.81f, Specular: 0.28f, WetGrade: 0.0f),
             "snow_grass" => (Roughness: 0.93f, Specular: 0.06f, WetGrade: 0.0f),
-            "snow_roof" => (Roughness: 0.94f, Specular: 0.05f, WetGrade: 0.10f),
-            "ice" => (Roughness: 0.42f, Specular: 0.38f, WetGrade: 0.90f),
+            "snow_roof" => (Roughness: 0.92f, Specular: 0.28f, WetGrade: 0.0f),
+            "ice" => (Roughness: 0.26f, Specular: 0.40f, WetGrade: 0.0f),
             "grass" => (Roughness: 0.94f, Specular: 0.06f, WetGrade: 0.45f),
             "grass_tuft" => (Roughness: 0.94f, Specular: 0.06f, WetGrade: 0.45f),
             "roof" => (Roughness: 0.88f, Specular: 0.10f, WetGrade: 0.50f),
@@ -572,6 +605,36 @@ public static class PainterlyMaterialLibrary
                 material.SetShaderParameter("albedo_texture", texture);
                 material.SetShaderParameter("has_albedo_texture", true);
                 material.SetShaderParameter("texture_scale", winterDescriptor.Scale);
+            }
+        }
+
+        var snowMaterial = surface is "snow_ground" or "snow_road" or "snow_trampled" or "snow_grass" or "snow_roof" or "ice";
+        material.SetShaderParameter("snow_material", snowMaterial);
+        material.SetShaderParameter("trample_ground_surface", surface is "snow_ground" or "snow_road" or "snow_trampled" or "snow_grass");
+        material.SetMeta("snowTrampleBlocked", surface is "water" or "ice");
+        if (snowMaterial)
+        {
+            material.SetShaderParameter("snow_roughness_range", surface switch
+            {
+                "snow_road" => new Vector2(.55f, .78f),
+                "snow_trampled" => new Vector2(.72f, .88f),
+                "ice" => new Vector2(.18f, .35f),
+                _ => new Vector2(.82f, .95f)
+            });
+            material.SetShaderParameter("snow_relief_scale", surface switch
+            {
+                "snow_road" => .4f, "snow_trampled" => .65f, "ice" => .15f, _ => 1f
+            });
+            if (surface == "ice") material.SetShaderParameter("snow_sparkle", 0f);
+            if (!SuppressTextureLoadsForHeadlessTests)
+            {
+                foreach (var textureName in new[] { "snow_micro_response", "snow_micro_normal" })
+                {
+                    var path = $"res://assets/textures/painterly/{textureName}.png";
+                    material.SetShaderParameter(textureName, ResourceLoader.Load<Texture2D>(path)
+                        ?? throw new InvalidOperationException($"Snow response texture missing: {path}"));
+                }
+                material.SetShaderParameter("has_snow_micro", true);
             }
         }
 

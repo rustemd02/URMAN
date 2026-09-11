@@ -25,7 +25,7 @@ import agent_b_common as ab  # noqa: E402
 
 
 def _conifer_branch_spray(name, centre, spread, lobe_width, thickness,
-                          seed, material, lobe_count=3):
+                          seed, material, lobe_count=3, station_count=5):
     """Build one broken, low-poly conifer spray as a single mesh.
 
     Each spray is a small fan of tapered extruded ribbons.  The lobes share
@@ -47,12 +47,12 @@ def _conifer_branch_spray(name, centre, spread, lobe_width, thickness,
         tip_lift = rng.uniform(-thickness * 1.15, thickness * 1.25)
         branch_sag = thickness * rng.uniform(0.24, 0.46)
         side_bias = rng.uniform(-lobe_width * 0.18, lobe_width * 0.18)
-        stations = (
-            (root, 0.52),
-            (spread * 0.22, 0.48),
-            (spread * 0.48, 0.35),
-            (spread * 0.73, 0.24),
-            (length, 0.045),
+        station_count = max(4, min(8, station_count))
+        stations = tuple(
+            (root if station_index == 0 else
+             length * station_index / (station_count - 1),
+             max(0.045, 0.52 - 0.475 * station_index / (station_count - 1)))
+            for station_index in range(station_count)
         )
         start = len(verts)
         for station, width_ratio in stations:
@@ -574,134 +574,469 @@ def dead_stump(index, height):
     return [stump, root]
 
 
-def _bare_branch(name, origin, length, angle_z, pitch, r1, r2, material,
-                 droop=0.0, segments=5):
-    """One tapering winter branch; droop bends the far end downward."""
-    branch = ab.make_cylinder(name, origin, r1, r2, length, segments=segments,
-                              axis="x")
-    ab.rotate_around(branch, pitch, "y", (0.0, 0.0, 0.0))
-    ab.rotate_around(branch, angle_z, "z", (0.0, 0.0, 0.0))
-    if droop:
-        for vertex in branch.data.vertices:
-            local = branch.matrix_local @ vertex.co
-            reach = max(0.0, (local - Vector(origin)).length / max(length, 0.001))
-            vertex.co.z -= droop * reach * reach * length * 0.5
-    ab.assign_material(branch, material)
-    return branch
+def _point_on_polyline(points, t):
+    """Return an attachment point on the same centreline used for the tube."""
+    if len(points) == 1:
+        return Vector(points[0])
+    lengths = []
+    total = 0.0
+    for first, second in zip(points, points[1:]):
+        length = (Vector(second) - Vector(first)).length
+        lengths.append(length)
+        total += length
+    target = max(0.0, min(1.0, t)) * max(total, 1e-6)
+    walked = 0.0
+    for index, length in enumerate(lengths):
+        if target <= walked + length or index == len(lengths) - 1:
+            local_t = (target - walked) / max(length, 1e-6)
+            return Vector(points[index]).lerp(Vector(points[index + 1]), local_t)
+        walked += length
+    return Vector(points[-1])
 
 
-def _snow_on_branch(name, origin, length, angle_z, pitch, width):
-    """Thin matte snow strip resting on the upper side of a branch."""
-    strip = ab.make_cylinder(name, origin, width, width * 0.6, length * 0.72,
-                             segments=4, axis="x")
-    ab.rotate_around(strip, pitch, "y", (0.0, 0.0, 0.0))
-    ab.rotate_around(strip, angle_z, "z", (0.0, 0.0, 0.0))
-    for vertex in strip.data.vertices:
-        vertex.co.z += width * 0.55
-    ab.assign_material(strip, "AB_snow")
-    return strip
+def _append_polyline_tube(vertices, faces, points, radii, sides=5, flatten=1.0):
+    """Append one connected, tapering tube around an explicit 3D centreline."""
+    assert len(points) == len(radii) and len(points) >= 2
+    rings = []
+    for index, point in enumerate(points):
+        point = Vector(point)
+        if index == 0:
+            tangent = Vector(points[1]) - point
+        elif index == len(points) - 1:
+            tangent = point - Vector(points[index - 1])
+        else:
+            tangent = Vector(points[index + 1]) - Vector(points[index - 1])
+        tangent.normalize()
+        reference = Vector((0.0, 0.0, 1.0))
+        if abs(tangent.dot(reference)) > 0.92:
+            reference = Vector((1.0, 0.0, 0.0))
+        side = tangent.cross(reference).normalized()
+        up = side.cross(tangent).normalized()
+        ring = []
+        for side_index in range(sides):
+            angle = math.tau * side_index / sides
+            vertex = point + (side * math.cos(angle) + up * math.sin(angle) * flatten) * radii[index]
+            vertex.z = max(0.0, vertex.z)
+            ring.append(len(vertices))
+            vertices.append(tuple(vertex))
+        rings.append(ring)
+    for ring_index, (first, second) in enumerate(zip(rings, rings[1:])):
+        for side_index in range(sides):
+            next_side = (side_index + 1) % sides
+            face = (first[side_index], second[side_index],
+                    second[next_side], first[next_side])
+            first_vertex = Vector(vertices[face[0]])
+            second_vertex = Vector(vertices[face[1]])
+            third_vertex = Vector(vertices[face[2]])
+            face_normal = (second_vertex - first_vertex).cross(
+                third_vertex - first_vertex).normalized()
+            ring_center = Vector(points[ring_index])
+            radial = (sum((Vector(vertices[index]) for index in face),
+                          Vector()) / 4.0 - ring_center).normalized()
+            assert face_normal.dot(radial) > 1e-5, (
+                "polyline tube winding", ring_index, side_index,
+                face_normal.dot(radial))
+            faces.append(face)
+    # The ring basis has side x up == -tangent: the first cap faces down,
+    # while the last cap must reverse its winding to face up the centreline.
+    faces.append(tuple(rings[0]))
+    faces.append(tuple(reversed(rings[-1])))
+
+
+def _bare_branch(name, vertices, faces, centreline, radii, segments=5):
+    """Append a tapering branch; children must attach to this centreline."""
+    _append_polyline_tube(vertices, faces, centreline, radii, sides=segments)
+    return centreline
+
+
+def _append_snow_cap(vertices, faces, centreline, radius, width, seed):
+    """Append a short flattened snow mantle with rounded pointed ends."""
+    centre = _point_on_polyline(centreline, 0.58)
+    before = _point_on_polyline(centreline, 0.52)
+    after = _point_on_polyline(centreline, 0.64)
+    tangent = (after - before).normalized()
+    side = tangent.cross(Vector((0.0, 0.0, 1.0)))
+    if side.length < 1e-5:
+        side = tangent.cross(Vector((1.0, 0.0, 0.0)))
+    side.normalize()
+    upper = Vector((0.0, 0.0, 1.0)) - tangent * tangent.z
+    if upper.length < 1e-5:
+        upper = Vector((0.0, 0.0, 1.0))
+    upper.normalize()
+    thickness = width * (0.24 + 0.05 * (seed % 3))
+    half_length = min((Vector(centreline[-1]) - Vector(centreline[0])).length * 0.16,
+                      width * 2.7)
+    centre_offset = radius * 0.42 + thickness * 0.32
+    stations = ((-half_length, 0.42), (-half_length * 0.45, 0.78),
+                (0.0, 1.0), (half_length * 0.48, 0.72),
+                (half_length, 0.18))
+    cross_sections = 6
+    rings = []
+    for along, width_ratio in stations:
+        point = centre + tangent * along
+        half_width = width * width_ratio
+        cap_centre = point + upper * centre_offset
+        ring_start = len(vertices)
+        for cross_index in range(cross_sections):
+            angle = math.tau * cross_index / cross_sections
+            vertices.append(tuple(
+                cap_centre + side * (half_width * math.cos(angle))
+                + upper * (thickness * 0.5 * math.sin(angle))))
+        rings.append(tuple(range(ring_start, ring_start + cross_sections)))
+    for first, second in zip(rings, rings[1:]):
+        for cross_index in range(cross_sections):
+            next_cross = (cross_index + 1) % cross_sections
+            faces.append((first[cross_index], second[cross_index],
+                          second[next_cross], first[next_cross]))
+    first_tip = len(vertices)
+    vertices.append(tuple(centre - tangent * half_length + upper * centre_offset))
+    last_tip = len(vertices)
+    vertices.append(tuple(centre + tangent * half_length + upper * centre_offset))
+    for cross_index in range(cross_sections):
+        next_cross = (cross_index + 1) % cross_sections
+        faces.append((first_tip, rings[0][next_cross], rings[0][cross_index]))
+        faces.append((last_tip, rings[-1][cross_index], rings[-1][next_cross]))
+
+
+def _append_berry(vertices, faces, centre, radius):
+    """Append one tiny low-poly berry to the single optional berry mesh."""
+    centre = Vector(centre)
+    start = len(vertices)
+    vertices.extend((
+        tuple(centre + Vector((0.0, 0.0, radius))),
+        tuple(centre + Vector((radius, 0.0, 0.0))),
+        tuple(centre + Vector((0.0, radius, 0.0))),
+        tuple(centre + Vector((-radius, 0.0, 0.0))),
+        tuple(centre + Vector((0.0, -radius, 0.0))),
+        tuple(centre + Vector((0.0, 0.0, -radius))),
+    ))
+    faces.extend((
+        (start, start + 1, start + 2), (start, start + 2, start + 3),
+        (start, start + 3, start + 4), (start, start + 4, start + 1),
+        (start + 5, start + 2, start + 1), (start + 5, start + 3, start + 2),
+        (start + 5, start + 4, start + 3), (start + 5, start + 1, start + 4),
+    ))
+
+
+def _smooth_winter_surfaces(objects, tier):
+    """Smooth only winter bark and snow; needles stay deliberately faceted."""
+    if tier not in ("near", "light"):
+        return
+    for obj in objects:
+        if obj.name.endswith("_Trunk") or obj.name.endswith("_Snow"):
+            for polygon in obj.data.polygons:
+                polygon.use_smooth = True
+
+
+def _winter_trunk_centerline(height, lean_x, lean_y, seed, offset=(0.0, 0.0), count=6):
+    points = []
+    for index in range(count):
+        t = index / (count - 1)
+        sway = math.sin(seed * 0.31 + t * 4.6) * height * 0.012 * t * (1.0 - t * 0.35)
+        points.append((
+            offset[0] + lean_x * height * t ** 1.45 + sway,
+            offset[1] + lean_y * height * t ** 1.35 + math.cos(seed + t * 3.2) * height * 0.008 * t,
+            height * t,
+        ))
+    return points
+
+
+def _assert_winter_variant(prefix, objects, tier):
+    assert len(objects) <= 3, f"{prefix}: too many mesh objects"
+    assert any(obj.name == f"{prefix}_Trunk" for obj in objects), prefix
+    triangle_count = 0
+    for obj in objects:
+        assert obj.name.startswith(prefix + "_"), obj.name
+        assert obj.data.materials and obj.data.materials[0].name in {
+            "AB_bark", "AB_bark_birch", "AB_bark_dark", "AB_snow",
+            "AB_foliage_rowan", "AB_foliage_spruce"
+        }, obj.name
+        for vertex in obj.data.vertices:
+            assert all(math.isfinite(value) for value in vertex.co), (prefix, obj.name)
+        triangle_count += sum(max(1, len(polygon.vertices) - 2)
+                              for polygon in obj.data.polygons)
+    trunk = next(obj for obj in objects if obj.name == f"{prefix}_Trunk")
+    min_z = min(vertex.co.z for vertex in trunk.data.vertices)
+    assert -1e-5 <= min_z <= 1e-5, (prefix, min_z)
+    limits = {"near": (2000, 6000), "light": (600, 1500), "far": (100, 400)}
+    low, high = limits[tier]
+    assert low <= triangle_count <= high, (prefix, tier, triangle_count)
+    print(f"AGENTB_WINTER_VARIANT {prefix} tier={tier} triangles={triangle_count} objects={len(objects)}")
+
+
+def _winter_habit_records(species, index, height, spread, branches,
+                          seed_offset, droop):
+    """Return one rooted trunk and the shared primary fork paths for all LODs."""
+    habit_key = f"Winter{species}_{index}:{seed_offset:.2f}"
+    rng = random.Random(ab.stable_hash(habit_key))
+    if species == "BirdCherry":
+        stem_specs = (
+            ((0.00, 0.00), 1.00, 0.00, 0.00),
+            ((-0.16, 0.04), 0.82, -0.06, 0.02),
+            ((0.14, -0.05), 0.74, 0.07, -0.02),
+        )
+    else:
+        stem_specs = (((0.0, 0.0), 1.0, rng.uniform(-0.05, 0.05),
+                       rng.uniform(-0.04, 0.04)),)
+
+    stems = []
+    primaries = []
+    for stem_index, (offset, height_scale, lean_x, lean_y) in enumerate(stem_specs):
+        stem_height = height * height_scale
+        # Every tier uses these exact six centreline stations. Detail changes
+        # only by radial sides and secondary/fine branch omission.
+        trunk_points = _winter_trunk_centerline(
+            stem_height, lean_x, lean_y, seed_offset + stem_index * 7.3,
+            offset=offset, count=6)
+        trunk_radii = [stem_height * (0.039 - 0.038 * t)
+                       for t in (i / 5.0 for i in range(6))]
+        stems.append((trunk_points, trunk_radii, stem_index))
+
+        if species == "BirdCherry":
+            primary_count = 2
+        elif species in ("Birch", "Linden", "Maple"):
+            primary_count = 5
+        else:
+            primary_count = 5
+        if species in ("Linden", "Maple"):
+            levels = tuple(0.28 + 0.20 * i / max(primary_count - 1, 1)
+                           for i in range(primary_count))
+        else:
+            levels = tuple(0.34 + 0.56 * i / max(primary_count - 1, 1)
+                           for i in range(primary_count))
+        for branch_index, level in enumerate(levels):
+            branch_rng = random.Random(ab.stable_hash(
+                f"{habit_key}:primary:{stem_index}:{branch_index}"))
+            # Uneven azimuths are intentional: these are fork paths, not a
+            # radial bottlebrush repeated around the trunk.
+            angle = (seed_offset * 0.17 + stem_index * 1.91
+                     + branch_index * 1.23
+                     + branch_rng.uniform(-0.43, 0.43))
+            if species in ("Linden", "Maple"):
+                length_factor = 0.60 - 0.08 * level
+                rise_factor = 1.00 - 0.12 * level
+            elif species == "Birch":
+                length_factor = 0.40 - 0.10 * level
+                rise_factor = 0.22 - 0.06 * level
+            elif species == "BirdCherry":
+                length_factor = 0.43 - 0.12 * level
+                rise_factor = 0.12 - 0.10 * level
+            else:
+                length_factor = 0.42 - 0.12 * level
+                rise_factor = -droop * (0.42 + level) + 0.10 * (1.0 - level)
+            length = stem_height * spread * length_factor * branch_rng.uniform(0.88, 1.12)
+            origin = _point_on_polyline(trunk_points, level)
+            radial = Vector((math.cos(angle), math.sin(angle), 0.0))
+            rise = length * rise_factor
+            bend = branch_rng.uniform(-0.08, 0.08) * length
+            if species == "Birch":
+                # Ascend out of the trunk, then let the outer bough hang.
+                branch_points = [
+                    origin,
+                    origin + radial * length * 0.20 + Vector((0.0, 0.0, rise * 0.58)),
+                    origin + radial * length * 0.48 + Vector((0.0, 0.0, rise * 1.08)),
+                    origin + radial * length * 0.78 + Vector((0.0, 0.0, rise * 0.78 + bend)),
+                    origin + radial * length + Vector((0.0, 0.0, rise * 0.18)),
+                ]
+            elif species in ("Linden", "Maple"):
+                # Five broad, ascending forks form the open crown.
+                branch_points = [
+                    origin,
+                    origin + radial * length * 0.19 + Vector((0.0, 0.0, rise * 0.30)),
+                    origin + radial * length * 0.43 + Vector((0.0, 0.0, rise * 0.64)),
+                    origin + radial * length * 0.72 + Vector((0.0, 0.0, rise * 0.91 + bend)),
+                    origin + radial * length + Vector((0.0, 0.0, rise)),
+                ]
+            else:
+                branch_points = [
+                    origin,
+                    origin + radial * length * 0.20 + Vector((0.0, 0.0, rise * 0.28)),
+                    origin + radial * length * 0.48 + Vector((0.0, 0.0, rise * 0.67)),
+                    origin + radial * length * 0.76 + Vector((0.0, 0.0, rise * 0.92 + bend)),
+                    origin + radial * length + Vector((0.0, 0.0, rise)),
+                ]
+            primary_r1 = stem_height * (0.016 - 0.008 * level)
+            primary_radii = [primary_r1 * factor
+                             for factor in (1.0, 0.82, 0.60, 0.36, 0.12)]
+            primaries.append((branch_points, primary_radii, level, stem_index,
+                              branch_index, angle, length, primary_r1))
+    return stems, primaries
 
 
 def winter_tree_variant(species, index, height, spread=1.0, branches=18,
                         twigs=2, berry=False, bark="AB_bark", droop=0.0,
-                        seed_offset=0.0, snow_density=0.8):
-    """Bare winter deciduous tree with a full branch crown.
+                        seed_offset=0.0, snow_density=0.8, tier="near"):
+    """Bare, connected winter deciduous tree built from shared fork paths.
 
-    Winter reads through the branch skeleton, so each tree gets a layered
-    crown: 16-22 primary branches spiralling up the trunk, secondary twigs
-    along them, snow strips resting on the upper side and snow caps at the
-    top forks. No leaf crown at all.
+    Near, Light and Far use the same rooted trunk and primary polylines. The
+    lower tiers remove secondary/fine shoots and radial sides; no leaf crowns
+    are authored on deciduous variants.
     """
-    prefix = f"Winter{species}_{index}"
-    rng = random.Random(ab.stable_hash(f"{prefix}:{seed_offset:.2f}"))
-    objs = []
-    trunk = ab.make_cylinder(f"{prefix}_Trunk", (0, 0, 0), height * 0.033,
-                             height * 0.012, height, segments=7)
-    _shape_trunk(trunk, height, rng.uniform(-0.05, 0.05), rng.uniform(-0.04, 0.04),
-                 index + int(seed_offset))
+    prefix = f"Winter{'' if tier == 'near' else tier.capitalize()}{species}_{index}"
+    wood_vertices, wood_faces = [], []
+    snow_vertices, snow_faces = [], []
+    berry_vertices, berry_faces = [], []
+    stems, primary_records = _winter_habit_records(
+        species, index, height, spread, branches, seed_offset, droop)
+    habit_key = f"Winter{species}_{index}:{seed_offset:.2f}"
+    trunk_sides = 6 if tier == "near" else 4 if tier == "light" else 3
+    branch_sides = 6 if tier == "near" else 4 if tier == "light" else 3
+    for trunk_points, trunk_radii, stem_index in stems:
+        _bare_branch(f"{prefix}_Trunk", wood_vertices, wood_faces,
+                     trunk_points, trunk_radii, segments=trunk_sides)
+
+    for points, radii, level, stem_index, branch_index, angle, length, primary_r1 in primary_records:
+        _bare_branch(f"{prefix}_Primary{stem_index}_{branch_index}",
+                     wood_vertices, wood_faces, points, radii,
+                     segments=branch_sides)
+        secondary_count = 0
+        if tier == "near":
+            secondary_count = 2 if species in ("Birch", "Linden", "Maple") else 3
+        elif tier == "light":
+            secondary_count = 2
+        for secondary_index in range(secondary_count):
+            secondary_rng = random.Random(ab.stable_hash(
+                f"{habit_key}:secondary:{stem_index}:{branch_index}:{secondary_index}"))
+            along = 0.42 + secondary_index * 0.20 + secondary_rng.uniform(-0.045, 0.045)
+            secondary_origin = _point_on_polyline(points, along)
+            primary_tangent = (_point_on_polyline(points, min(1.0, along + 0.08))
+                               - _point_on_polyline(points, max(0.0, along - 0.08))).normalized()
+            secondary_angle = angle + (1 if secondary_index % 2 else -1) * (
+                0.72 + secondary_rng.uniform(-0.20, 0.20))
+            secondary_direction = Vector((math.cos(secondary_angle),
+                                          math.sin(secondary_angle),
+                                          0.10 + secondary_rng.uniform(-0.10, 0.18)))
+            secondary_direction.normalize()
+            secondary_length = length * (0.28 - 0.025 * secondary_index)
+            secondary_points = [
+                secondary_origin,
+                secondary_origin + (primary_tangent * 0.22 + secondary_direction * 0.78) * secondary_length * 0.34,
+                secondary_origin + (primary_tangent * 0.10 + secondary_direction * 0.90) * secondary_length * 0.68,
+                secondary_origin + secondary_direction * secondary_length,
+            ]
+            secondary_r1 = primary_r1 * 0.50
+            secondary_radii = [secondary_r1 * factor
+                               for factor in (1.0, 0.66, 0.34, 0.10)]
+            _bare_branch(f"{prefix}_Secondary{stem_index}_{branch_index}_{secondary_index}",
+                         wood_vertices, wood_faces, secondary_points,
+                         secondary_radii, segments=branch_sides)
+            if tier != "near":
+                continue
+            fine_count = max(2, min(4, twigs))
+            for twig_index in range(fine_count):
+                twig_rng = random.Random(ab.stable_hash(
+                    f"{habit_key}:fine:{stem_index}:{branch_index}:{secondary_index}:{twig_index}"))
+                twig_along = 0.30 + twig_index * 0.16 + twig_rng.uniform(-0.035, 0.035)
+                twig_origin = _point_on_polyline(secondary_points, twig_along)
+                twig_tangent = (_point_on_polyline(secondary_points, min(1.0, twig_along + 0.08))
+                                - _point_on_polyline(secondary_points, max(0.0, twig_along - 0.08))).normalized()
+                twig_angle = secondary_angle + twig_rng.uniform(-0.80, 0.80)
+                twig_direction = Vector((math.cos(twig_angle), math.sin(twig_angle),
+                                         twig_rng.uniform(-0.30, 0.30)))
+                twig_direction.normalize()
+                twig_length = secondary_length * twig_rng.uniform(0.34, 0.58)
+                twig_points = [
+                    twig_origin,
+                    twig_origin + (twig_tangent * 0.24 + twig_direction * 0.76) * twig_length * 0.34,
+                    twig_origin + (twig_tangent * 0.10 + twig_direction * 0.90) * twig_length * 0.68,
+                    twig_origin + twig_direction * twig_length,
+                ]
+                twig_radius = secondary_r1 * 0.34
+                twig_radii = [twig_radius * factor for factor in (1.0, 0.56, 0.26, 0.08)]
+                _bare_branch(f"{prefix}_Twig{stem_index}_{branch_index}_{secondary_index}_{twig_index}",
+                             wood_vertices, wood_faces, twig_points, twig_radii,
+                             segments=4)
+                if berry and twig_index == 0 and branch_index % 2 == 0:
+                    _append_berry(berry_vertices, berry_faces,
+                                  _point_on_polyline(twig_points, 0.90),
+                                  max(0.018, height * 0.008))
+
+    candidates = [record for record in primary_records
+                  if record[2] >= 0.58 or record[0][-1].z >= height * 0.58]
+    cap_count = min(len(candidates), 4 if tier == "near" else 3 if tier == "light" else 1)
+    for cap_index, (points, radii, _level, _stem, _branch, _angle, _length, _r1) in enumerate(candidates[:cap_count]):
+        _append_snow_cap(snow_vertices, snow_faces, points,
+                         radii[min(2, len(radii) - 1)],
+                         max(0.032, height * (0.013 if tier == "near" else 0.010)),
+                         cap_index + int(seed_offset))
+
+    objects = []
+    trunk = ab.mesh_from_pydata(f"{prefix}_Trunk", wood_vertices, wood_faces)
     ab.assign_material(trunk, bark)
-    objs.append(trunk)
-
-    def branch_direction(angle, pitch):
-        return Vector((math.cos(pitch) * math.cos(angle),
-                       math.cos(pitch) * math.sin(angle),
-                       -math.sin(pitch)))
-
-    for branch_index in range(branches):
-        level = 0.30 + 0.64 * (branch_index / max(branches - 1, 1))
-        angle = branch_index * 2.399963 + rng.uniform(-0.22, 0.22)
-        length = height * spread * (0.34 - 0.17 * level) * rng.uniform(0.82, 1.20)
-        pitch = rng.uniform(-0.42, 0.38) - 0.10 * level
-        origin = (0.0, 0.0, height * level)
-        r1 = height * 0.0092 * (1.20 - 0.60 * level)
-        r2 = r1 * 0.18
-        branch = _bare_branch(f"{prefix}_Branch{branch_index}", origin, length,
-                              angle, pitch, r1, r2, bark,
-                              droop=droop * (0.8 + 1.05 * level))
-        objs.append(branch)
-        if rng.random() <= snow_density:
-            objs.append(_snow_on_branch(f"{prefix}_BranchSnow{branch_index}",
-                                        origin, length, angle, pitch,
-                                        max(0.030, height * 0.011)))
-
-        direction = branch_direction(angle, pitch)
-        for twig_index in range(twigs):
-            along = rng.uniform(0.42, 0.86)
-            twig_origin = (origin[0] + direction.x * length * along,
-                           origin[1] + direction.y * length * along,
-                           origin[2] + direction.z * length * along)
-            twig_length = length * rng.uniform(0.34, 0.62)
-            twig_angle = angle + rng.uniform(-0.95, 0.95)
-            twig_pitch = pitch + rng.uniform(-0.45, 0.55)
-            twig = _bare_branch(f"{prefix}_Twig{branch_index}_{twig_index}",
-                                twig_origin, twig_length, twig_angle, twig_pitch,
-                                r2 * 0.72, r2 * 0.14, bark,
-                                droop=droop * (1.35 + 0.9 * level), segments=4)
-            objs.append(twig)
-            if rng.random() <= snow_density * 0.7:
-                objs.append(_snow_on_branch(
-                    f"{prefix}_TwigSnow{branch_index}_{twig_index}", twig_origin,
-                    twig_length, twig_angle, twig_pitch,
-                    max(0.022, height * 0.008)))
-            if berry and twig_index == 0 and branch_index % 2 == 0:
-                cluster = ab.make_cylinder(
-                    f"{prefix}_Berries{branch_index}", twig_origin,
-                    r2 * 3.4, r2 * 1.4, twig_length * 0.5, segments=5, axis="x")
-                ab.rotate_around(cluster, twig_pitch, "y", (0.0, 0.0, 0.0))
-                ab.rotate_around(cluster, twig_angle, "z", (0.0, 0.0, 0.0))
-                ab.assign_material(cluster, "AB_foliage_rowan")
-                objs.append(cluster)
-
-    # Snow caps resting on the top forks.
-    for cap_index in range(3):
-        cap = ab.make_cylinder(f"{prefix}_SnowCap{cap_index}",
-                               (rng.uniform(-0.25, 0.25), rng.uniform(-0.25, 0.25),
-                                height * (0.90 + 0.035 * cap_index)),
-                               height * 0.030, height * 0.012, height * 0.075,
-                               segments=4, axis="x")
-        ab.rotate_around(cap, rng.uniform(-0.5, 0.5), "y", (0.0, 0.0, 0.0))
-        ab.assign_material(cap, "AB_snow")
-        objs.append(cap)
-    return objs
-
-
-def winter_spruce_variant(index, height):
-    """Snow-laden young spruce for the forest transition and Kara edge."""
-    prefix = f"WinterSpruce_{index}"
-    objs = spruce_variant(index, height)
-    for obj in objs:
-        obj.name = obj.name.replace(f"Spruce_{index}", prefix)
-    tiers = [obj for obj in objs if "Tier" in obj.name]
-    for tier_index, tier in enumerate(tiers):
-        snow = ab.make_cylinder(f"{prefix}_Snow{tier_index}", (0, 0, 0),
-                                height * 0.055, height * 0.02, height * 0.30,
-                                segments=4, axis="x")
-        ab.rotate_around(snow, 0.25, "y", (0.0, 0.0, 0.0))
-        ab.rotate_around(snow, tier_index * 1.7, "z", (0.0, 0.0, 0.0))
-        snow.location.z = height * (0.24 + 0.16 * tier_index)
+    objects.append(trunk)
+    if snow_faces:
+        snow = ab.mesh_from_pydata(f"{prefix}_Snow", snow_vertices, snow_faces)
         ab.assign_material(snow, "AB_snow")
-        objs.append(snow)
-    return objs
+        objects.append(snow)
+    if berry_faces:
+        berries = ab.mesh_from_pydata(f"{prefix}_Berries", berry_vertices, berry_faces)
+        ab.assign_material(berries, "AB_foliage_rowan")
+        objects.append(berries)
+    _smooth_winter_surfaces(objects, tier)
+    _assert_winter_variant(prefix, objects, tier)
+    return objects
+
+
+def winter_spruce_variant(index, height, tier="near"):
+    """Drooping, rounded needle boughs; every tier retains the same rooted habit."""
+    prefix = f"Winter{'' if tier == 'near' else tier.capitalize()}Spruce_{index}"
+    trunk = ab.make_cylinder(f"{prefix}_Trunk", (0, 0, 0), height * .029, height * .001,
+                             height, segments=6)
+    _shape_trunk(trunk, height, (index - 2) * .024,
+                 (index % 2 - .5) * .024, index + 13.0)
+    ab.assign_material(trunk, "AB_bark_dark")
+    vertices, faces, snow_vertices, snow_faces = [], [], [], []
+    levels = range(12) if tier == "near" else (0, 2, 4, 6, 8, 11)
+    branches = (0, 1, 2) if tier != "far" else (0, 2)
+    stations = 6 if tier == "near" else 4 if tier == "light" else 3
+    cap_limit = 4 if tier == "near" else 3 if tier == "light" else 1
+    caps = 0
+    for level in levels:
+        for branch in branches:
+            rng = random.Random(ab.stable_hash(f"spruce:{index}:{level}:{branch}"))
+            angle = level * 1.17 + branch * math.tau / 3 + rng.uniform(-.22, .22)
+            length = height * (.27 - .21 * level / 11) * rng.uniform(.88, 1.1)
+            centre = Vector((math.sin(index + level) * height * .016,
+                             math.cos(index + level) * height * .012,
+                             height * (.22 + .74 * level / 11)))
+            direction = Vector((math.cos(angle), math.sin(angle), 0))
+            points, radii = [], []
+            for station in range(stations):
+                t = station / (stations - 1)
+                point = centre + direction * length * t
+                point.z -= length * (.52 * t - .14 * math.sin(math.pi * t))
+                points.append(point)
+                radii.append(length * (.10 + .32 * math.sin(math.pi * t)) * (1 - .88 * t))
+            _append_polyline_tube(vertices, faces, points, radii,
+                                  sides=6 if tier != "far" else 4, flatten=.80)
+            if tier == "near":
+                attachment = _point_on_polyline(points, .46)
+                fork_direction = Vector((math.cos(angle + .75), math.sin(angle + .75), -.45))
+                fork_points = [attachment + fork_direction * length * .54 * t
+                               for t in (0.0, .30, .68, 1.0)]
+                _append_polyline_tube(vertices, faces, fork_points,
+                                      [length * r for r in (.09, .16, .10, .009)],
+                                      sides=5, flatten=.72)
+            if level >= 4 and caps < cap_limit and branch == 0:
+                # The cap is embedded in the actual upper needle bough,
+                # following the same drooping path rather than its old level.
+                radius = length * (.10 + .32 * math.sin(math.pi * .58)) * (1 - .88 * .58)
+                _append_snow_cap(snow_vertices, snow_faces, points,
+                                 max(.001, radius * .80 - .003) / .42,
+                                 radius * .72, level + index)
+                caps += 1
+    needles = ab.mesh_from_pydata(f"{prefix}_Needles", vertices, faces)
+    ab.assign_material(needles, "AB_foliage_spruce")
+    needle_heights = [vertex.co.z for vertex in needles.data.vertices]
+    assert min(needle_heights) > height * .02 and max(needle_heights) > height * .8
+    snow = ab.mesh_from_pydata(f"{prefix}_Snow", snow_vertices, snow_faces)
+    ab.assign_material(snow, "AB_snow")
+    objects = [trunk, needles, snow]
+    _smooth_winter_surfaces(objects, tier)
+    for polygon in needles.data.polygons:
+        polygon.use_smooth = tier != "far"
+    _assert_winter_variant(prefix, objects, tier)
+    return objects
 
 
 def main() -> None:
@@ -741,49 +1076,81 @@ def main() -> None:
     # bare branch skeletons with snow, no leaf crowns.
     for spec in (
         # species, index, height, spread, branches, twigs, berries, bark, droop, seed
-        ("Birch", 1, 6.2, 1.05, 20, 3, False, "AB_bark_birch", 0.55, 11.0),
-        ("Birch", 2, 7.4, 0.95, 22, 2, False, "AB_bark_birch", 0.48, 23.0),
-        ("Linden", 1, 6.8, 1.25, 20, 3, False, "AB_bark", 0.14, 31.0),
-        ("Linden", 2, 5.6, 1.35, 18, 3, False, "AB_bark", 0.12, 43.0),
-        ("Maple", 1, 6.0, 1.15, 19, 3, False, "AB_bark", 0.18, 53.0),
-        ("Rowan", 1, 4.6, 1.20, 17, 2, True, "AB_bark", 0.24, 61.0),
-        ("Rowan", 2, 5.4, 1.10, 18, 2, True, "AB_bark", 0.22, 71.0),
-        ("BirdCherry", 1, 5.2, 1.30, 18, 3, True, "AB_bark_dark", 0.46, 83.0),
-        ("Willow", 1, 4.2, 1.45, 20, 3, False, "AB_bark", 0.85, 97.0),
-        ("Willow", 2, 5.0, 1.40, 21, 3, False, "AB_bark", 0.78, 103.0),
+        ("Birch", 1, 6.2, 1.05, 20, 4, False, "AB_bark_birch", 0.55, 11.0),
+        ("Birch", 2, 7.4, 0.95, 22, 4, False, "AB_bark_birch", 0.48, 23.0),
+        ("Linden", 1, 6.8, 1.25, 20, 4, False, "AB_bark", 0.14, 31.0),
+        ("Linden", 2, 5.6, 1.35, 18, 4, False, "AB_bark", 0.12, 43.0),
+        ("Maple", 1, 6.0, 1.15, 19, 4, False, "AB_bark", 0.18, 53.0),
+        ("Rowan", 1, 4.6, 1.20, 17, 4, True, "AB_bark", 0.24, 61.0),
+        ("Rowan", 2, 5.4, 1.10, 18, 4, True, "AB_bark", 0.22, 71.0),
+        ("BirdCherry", 1, 2.6, 1.30, 18, 4, True, "AB_bark_dark", 0.46, 83.0),
+        ("Willow", 1, 4.2, 1.45, 20, 4, False, "AB_bark", 0.85, 97.0),
+        ("Willow", 2, 5.0, 1.40, 21, 4, False, "AB_bark", 0.78, 103.0),
     ):
         species, idx, h, spread, br, tw, berry, bark, droop, seed = spec
         objects.extend(winter_tree_variant(species, idx, h, spread, br, tw, berry,
                                            bark, droop, seed))
         variants.append((f"Winter{species}_{idx}", None))
-    # Light crown variants for the mass-planted belt/rim layers: fewer
-    # branches keep the instance budget sane while the near-village trees
-    # keep the full crown.
+    # Matching light variants keep the same rooted primary habit and drop only
+    # fine branch detail for the 24-60 m native visibility tier.
     for spec in (
-        ("Birch", 1, 6.0, 1.0, 10, 1, False, "AB_bark_birch", 0.45, 201.0),
-        ("Birch", 2, 6.8, 0.95, 11, 1, False, "AB_bark_birch", 0.42, 211.0),
-        ("Linden", 1, 6.2, 1.2, 10, 1, False, "AB_bark", 0.15, 221.0),
-        ("Rowan", 1, 5.0, 1.1, 9, 1, True, "AB_bark", 0.22, 231.0),
-        ("Willow", 1, 4.6, 1.35, 11, 1, False, "AB_bark", 0.72, 241.0),
+        ("Birch", 1, 6.2, 1.05, 20, 1, False, "AB_bark_birch", 0.55, 11.0),
+        ("Birch", 2, 7.4, 0.95, 22, 1, False, "AB_bark_birch", 0.48, 23.0),
+        ("Linden", 1, 6.8, 1.25, 20, 1, False, "AB_bark", 0.14, 31.0),
+        ("Linden", 2, 5.6, 1.35, 18, 1, False, "AB_bark", 0.12, 43.0),
+        ("Maple", 1, 6.0, 1.15, 19, 1, False, "AB_bark", 0.18, 53.0),
+        ("Rowan", 1, 4.6, 1.20, 17, 1, True, "AB_bark", 0.24, 61.0),
+        ("Rowan", 2, 5.4, 1.10, 18, 1, True, "AB_bark", 0.22, 71.0),
+        ("BirdCherry", 1, 2.6, 1.30, 18, 1, True, "AB_bark_dark", 0.46, 83.0),
+        ("Willow", 1, 4.2, 1.45, 20, 1, False, "AB_bark", 0.85, 97.0),
+        ("Willow", 2, 5.0, 1.40, 21, 1, False, "AB_bark", 0.78, 103.0),
     ):
         species, idx, h, spread, br, tw, berry, bark, droop, seed = spec
         light_objects = winter_tree_variant(species, idx, h, spread, br, tw, berry,
-                                            bark, droop, seed, snow_density=0.55)
-        for obj in light_objects:
-            obj.name = obj.name.replace(f"Winter{species}_{idx}", f"WinterLight{species}_{idx}", 1)
+                                            bark, droop, seed, snow_density=0.55,
+                                            tier="light")
         objects.extend(light_objects)
         variants.append((f"WinterLight{species}_{idx}", None))
 
+    # Far tier for every full winter deciduous family. It preserves the same
+    # trunk/primary branch seed and removes fine shoots for the 60 m+ range.
+    for spec in (
+        ("Birch", 1, 6.2, 1.05, 20, 0, False, "AB_bark_birch", 0.55, 11.0),
+        ("Birch", 2, 7.4, 0.95, 22, 0, False, "AB_bark_birch", 0.48, 23.0),
+        ("Linden", 1, 6.8, 1.25, 20, 0, False, "AB_bark", 0.14, 31.0),
+        ("Linden", 2, 5.6, 1.35, 18, 0, False, "AB_bark", 0.12, 43.0),
+        ("Maple", 1, 6.0, 1.15, 19, 0, False, "AB_bark", 0.18, 53.0),
+        ("Rowan", 1, 4.6, 1.20, 17, 0, True, "AB_bark", 0.24, 61.0),
+        ("Rowan", 2, 5.4, 1.10, 18, 0, True, "AB_bark", 0.22, 71.0),
+        ("BirdCherry", 1, 2.6, 1.30, 18, 0, True, "AB_bark_dark", 0.46, 83.0),
+        ("Willow", 1, 4.2, 1.45, 20, 0, False, "AB_bark", 0.85, 97.0),
+        ("Willow", 2, 5.0, 1.40, 21, 0, False, "AB_bark", 0.78, 103.0),
+    ):
+        species, idx, h, spread, br, tw, berry, bark, droop, seed = spec
+        far_objects = winter_tree_variant(species, idx, h, spread, br, tw, berry,
+                                          bark, droop, seed, snow_density=0.55,
+                                          tier="far")
+        objects.extend(far_objects)
+        variants.append((f"WinterFar{species}_{idx}", None))
+
     for spec in ((1, 2.8), (2, 3.4)):
-        objects.extend(winter_spruce_variant(*spec))
+        objects.extend(winter_spruce_variant(*spec, tier="near"))
         variants.append((f"WinterSpruce_{spec[0]}", None))
+    for spec in ((1, 2.8), (2, 3.4)):
+        objects.extend(winter_spruce_variant(*spec, tier="light"))
+        variants.append((f"WinterLightSpruce_{spec[0]}", None))
+    for spec in ((1, 2.8), (2, 3.4)):
+        objects.extend(winter_spruce_variant(*spec, tier="far"))
+        variants.append((f"WinterFarSpruce_{spec[0]}", None))
 
     # Lay variants on a 12 m grid; Godot composer locates each by name.
     bpy.context.view_layer.update()
     offsets: list[str] = []
+    variant_origins: dict[str, tuple[float, float]] = {}
     for idx, (name, _) in enumerate(variants):
         ox = (idx % 8) * 12.0
         oy = (idx // 8) * 12.0
+        variant_origins[name] = (ox, oy)
         offsets.append(f"{name}:{ox:.1f},{oy:.1f}")
         for obj in objects:
             if obj.name == name or obj.name.startswith(name + "_"):
@@ -794,6 +1161,27 @@ def main() -> None:
                         assert abs(point.x - ox) < 2.5 and abs(point.y - oy) < 2.5 and -.3 < point.z < 2.0, (
                             f"Shrub part escaped its preview cell: {obj.name} {tuple(point)}")
 
+    # Keep a native root marker at the authored board origin. Mesh vertices
+    # already contain their preview-cell translation, so parent children with
+    # world matrices preserved; the marker is the only authoritative pivot.
+    winter_roots: list[bpy.types.Object] = []
+    winter_names = {name for name, _ in variants if name.startswith("Winter")}
+    for name in sorted(winter_names):
+        ox, oy = variant_origins[name]
+        root_marker = bpy.data.objects.new(f"{name}_Root", None)
+        bpy.context.scene.collection.objects.link(root_marker)
+        root_marker.location = (ox, oy, 0.0)
+        root_marker["native_root_pivot"] = True
+        root_marker["winter_variant"] = name
+        bpy.context.view_layer.update()
+        for obj in objects:
+            if obj.name == name or obj.name.startswith(name + "_"):
+                world_matrix = obj.matrix_world.copy()
+                obj.parent = root_marker
+                obj.matrix_world = world_matrix
+        winter_roots.append(root_marker)
+    bpy.context.view_layer.update()
+
     root = os.environ.get("AGENTB_OUT", HERE)
     glb_path = os.path.join(root, "game/assets/models/agent_b_act1",
                             "agentb_foliage_kit.glb")
@@ -803,7 +1191,8 @@ def main() -> None:
     if os.path.isfile(glb_path):
         with open(glb_path, "rb") as handle:
             previous_glb_digest = hashlib.sha256(handle.read()).digest()
-    ab.export_glb(objects, glb_path, "URMAN_AgentB_FoliageKit")
+    ab.export_glb(objects + winter_roots, glb_path,
+                  "URMAN_AgentB_FoliageKit", preserve_hierarchy=True)
     with open(glb_path, "rb") as handle:
         current_glb_digest = hashlib.sha256(handle.read()).digest()
     # Blender creates a transient Render Result image datablock in some

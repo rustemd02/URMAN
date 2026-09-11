@@ -3,11 +3,20 @@
 ```mermaid
 mindmap
   root((УРМАН))
-    Current demo target [MVP][TECH]
+    Finished Act I product brief 2026-09-11 [MVP][TECH][OPEN]
+      URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md and launch prompt
+      Three deliberate investigation cycles and reactive dialogue [MVP][OPEN]
+      Warm personal memory / cold village records [NARRATIVE][ASSET]
+      House / FAP / close characters / physical Timur scene [ASSET][OPEN]
+      Authored winter sound and real Marat / Rinat recordings [ASSET][OPEN]
+      Full UI / menu / saves / standalone package [TECH][OPEN]
+      Human first-time playtest / culture / native platform evidence [RISK][OPEN]
+      Brief delivered; product implementation is not claimed complete
+    Historical demo scope and technical baseline [MVP][TECH]
       `game/scenes/act1_demo.tscn` default launch
       16 Chapter 1 beats / five local builders composed into one map [OPEN]
       Arrival → old PC → FAP → zirat → Kara-Urman edge
-      Connected Act I greybox is the primary blocker [MVP][TECH][RISK]
+      Connected Act I greybox was the 2026-08-15 production target [MVP][TECH]
         One world: entry → road → Babay/Äbi yard + house → village street → FAP → zirat → forest edge
         360° first-person continuity / near-mid-far review required
         Benchmark frames, texture candidates and FPS probes are supporting evidence only
@@ -636,3 +645,107 @@ Gameplay пока остаётся рискованной зоной. Есть �
 - `[OPEN]` Authored density, near/mid/far composition, night Kara readability,
   cultural/language review, release-host performance and human playtest remain
   gates before any prod-ready or art-lock claim.
+
+## Зимний визуал Акта I — работа 2026-09-10
+
+- [MVP][ASSET][TECH] Исполняется `docs/production/URMAN_VISUAL_ART_DIRECTION_PLAN_RU.md`, по фазам с кадрами и узкими проверками.
+- [TECH] Достоверный baseline: 48 камер × 1080p/720p; пять реально открытых UI; FOV и отдельные render counters.
+- [TECH] Фон: опора каждого экземпляра, ряды вне деревни, низкие нерегулярные гряды и визуальная поверхность вне физического terrain.
+- [ASSET] Эталон снега: 26 м улицы, округлые навалы и свободные подходы; проверка однотонным материалом.
+- [RISK][OPEN] 67 тыс. MeshInstance3D в исходном мире; объединение ветвей и конечный frame time обязательны до приёмки.
+- [OPEN] Культурное ревью существующего минарета/орнаментов не заменяется техническими capture-проверками.
+- [TECH] Зимняя дорога: существующий Road_* следует неизменным осям; визуальная
+  опора — треугольники AgentB_TerrainCollision, проверяемые лучевым capture.
+  [RISK] Плотность растительности и форма зимних ветвей требовали фазы 6 в
+  историческом baseline; bounded Phase 6 evidence теперь зафиксирован ниже.
+
+### Phase 6 contact/foliage evidence — 2026-09-10
+
+- [MVP][ASSET][TECH] `contact1080`: 11 фактических кадров (8 world + 3
+  reference forms), 111 roots checked against rendered apron/collider и 36
+  native `WinterRoot` pivot-ов.
+- [TECH][ASSET] Near/Light/Far используют общие 2–3 surfaces; ground cover
+  размещён через 12 м MultiMesh без тысяч branch Mesh nodes. Один existing
+  asset kit и shader, gameplay changes нет.
+- [TECH] M4 Pro medium 1080p, FOV 75, scale 0,9, MSAA 2×: core contact
+  avg 14,057 / p95 15,396 / max 29,874 мс, 10 449 draws, 1 853 474
+  primitives; phase0 baseline avg 74,076 / p95 110,173, 71 081 draws.
+  Hidden ForceDraw wall time не равен visible gameplay FPS.
+- [TECH][RISK] `phase06/trample1024`: avg 12,952 / p95 14,032 / max
+  21,09 мс; 21 real steps CPU mean 14,154, max 19,657 мс. Окно 24 м и
+  маска 1024 без изменений; CPU/release-host risk остаётся.
+- [MVP][TECH] Narrow demo PASS, physical 335,27 м PASS, save walkthrough
+  restored, build 0 errors/diff PASS; evidence root —
+  `/Users/unterlantas/Documents/URMAN_visual_20260910`, включая
+  `phase06/contact1080`, `phase06/trample1024/snapshots` и
+  `phase06/footprints_road_after_foliage.mp4` (104 frames, 3,466667 s).
+- [RISK] Roof rejection проверяет root против roof AABB, не полный объём
+  кроны; это остаётся targeted edge case для наклонных/широких посадок.
+- [OPEN] Финальные фазы 7–10 не выполнены; общий план не завершён и art lock
+  этим evidence не объявляется.
+
+
+### Фаза 7: дворы, опоры и границы — 2026-09-11
+
+- [ASSET][TECH] Дрова 3/2/1 под навесом, лопата и очищенные подходы;
+  различия ухода за соседними дворами через существующий exterior kit.
+- [TECH] Посадка фоновых объектов учитывает реальные треугольники гряд,
+  фона и грунта; проверены 136 опор. Шесть разнесённых дальних домов,
+  нерегулярные древесные группы, северный лес за грядой, один минарет.
+- [TECH] Четыре декоративных забора выведены из дорожной полосы.
+  Видимые колодец, поленница и лесные препятствия объясняют сохранённые
+  коллайдеры. Внешняя граница грунта ограничена существующим рельефом.
+- [TECH] 26 общих кадров `phase07/final1080` и четыре последних кадра
+  `phase07/snowed_obstacles1080`; физический маршрут 335,27 м пройден,
+  сохранения восстановлены. M4 Pro medium 1080p: 13,946 мс в среднем,
+  p95 14,893 мс в capture-режиме ForceDraw.
+- [OPEN] Фазы 8–10 и финальная общая приёмка ещё выполняются.
+
+
+### Фаза 8: свет — 2026-09-11
+
+- [TECH] Один внешний WorldEnvironment: Glow/adjustments выключены,
+  SSAO 0,4 м / 0,75, дневное солнце 31°, FogDensity 0,003–0,0044.
+- [TECH] `phase08/final1080`: 11 кадров и фактические зональные параметры;
+  возврат из интерьера сохраняет дневной профиль. Маршрут 335,27 м пройден.
+- [TECH] `phase08/snow_light_sweep.mp4`: неподвижный снег стабилен 30 кадров,
+  затем медленный поворот; M4 Pro capture p95 14,866 мс.
+- [OPEN] Бытовые события, UI и общая финальная приёмка ещё выполняются.
+
+### Зимний визуал: бытовая жизнь (фаза 9)
+
+- [TECH] `Act1ConnectedWorld`: один активный тип фонового действия, паузы 45–120 с; нет NPC расписания, новых коллизий или сохранений.
+- [ASSET] Существующий village exterior kit: кот 1016 треугольников и ворона 167; два дымящих дома. Фоновый житель — визуальный `Proposal` через существующий character kit.
+- [TECH] Модальные окна, сюжетные аудиоподсказки и reduced motion приостанавливают действия; зират, лес и интерьеры исключены. `AmbientAudioDirector` сохраняет владение фоновым звуком.
+- [TECH] Зазоры лица и воротника исправлены в исходном character kit; `phase09/final_verified1080`, видео кота 6 с, физический маршрут 335,27 м и capture p95 13,866 мс подтверждены.
+- [TECH] Фаза 10 и локальная техническая приёмка завершены 2026-09-11; итог ниже.
+
+### Фаза 10: UI/readability evidence — 2026-09-11
+
+- [MVP][TECH][UX] Bounded UI-pass принят по 34 реальным PNG/JSON capture в
+  `/Users/unterlantas/Documents/URMAN_visual_20260910/phase10/accepted_ui`:
+  17 кадров 1280×720 и 17 кадров 1920×1080; пять экранов, baseline/filled/large
+  состояния, 19 записей журнала и документ на 807 символов.
+- [LANG][UX] Все receipts содержат татарские глифы
+  `ӘәӨөҮүҖҗҢңҺһ`; зафиксирован keyboard focus. Длинный old-PC/document reader
+  и settings `BodyScroll/Body` дают фактическое покрытие scroll-контрактов.
+- [TECH][ACCESSIBILITY] Масштаб 1/1.6 меняет размеры шрифтов, не transform
+  всего root; в large capture доходит до 48 px без выхода панели из 720p.
+- [TECH][UX] `navigation.log`: menu-safe open, entry focus, rollback без apply,
+  explicit apply persists. Old PC reader отображает реальный документ, settings
+  использует `BodyScroll` и Theme 20 px; новые runtime-owner не добавлены.
+- [OPEN] Фаза 10 UI/readability принята локально; human first-time usability,
+  культурное/языковое sign-off и release-host остаются вне локальной технической приёмки.
+
+
+### Зимний визуал: итоговая локальная проверка — 2026-09-11
+
+- [MVP][TECH] Фазы 0–10 выполнены: `URMAN_visual_20260910/final`, 56 кадров
+  1080p + 56 кадров 720p, 48 неизменных baseline-камер, physical walk 335,27 м PASS.
+- [TECH] M4 Pro medium1080 ForceDraw: mean 12,448 / p95 13,592 мс;
+  после следов p95 14,191 мс. Draw calls 10 391, примитивы 1 864 576.
+- [ASSET][TECH] Два итоговых видео следов (накат/целина), 104 кадра / 30 FPS,
+  10/21 отпечаток и два сдвига 1024-маски; видео полностью декодированы.
+- [RISK] CPU штампа до 19,397 мс; M1/Windows и обычное игровое окно требуют
+  собственного замера. Art lock / first-time usability / cultural sign-off
+  не выводятся из локальных smoke/capture результатов.

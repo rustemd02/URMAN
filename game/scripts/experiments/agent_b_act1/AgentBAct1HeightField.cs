@@ -53,6 +53,13 @@ public static class AgentBAct1HeightField
 
     private static readonly float[] HalfWidths = { 2.8f, 2.3f, 1.4f, 2.1f, 1.75f };
 
+    private static readonly ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes =
+    {
+        (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
+        (HouseAxis, HalfWidths[2]), (ZiratAxis, HalfWidths[3]), (KaraAxis, HalfWidths[4])
+    };
+    private static readonly System.Lazy<Vector3[]> CollisionFaces = new(BuildTerrainFaces);
+
     private static readonly (float X, float Z, float Radius)[] Yards =
     {
         (-30f, 0f, 9.0f), (31f, -28f, 7.5f), (6.5f, -70f, 8.5f),
@@ -116,13 +123,7 @@ public static class AgentBAct1HeightField
     {
         double best = double.MaxValue;
         double width = 3.0;
-        ((float X, float Z)[] Points, double HalfWidth)[] axes =
-        {
-            (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
-            (HouseAxis, HalfWidths[2]), (ZiratAxis, HalfWidths[3]),
-            (KaraAxis, HalfWidths[4])
-        };
-        foreach (var (points, halfWidth) in axes)
+        foreach (var (points, halfWidth) in RoadAxes)
         {
             for (var i = 0; i < points.Length - 1; i++)
             {
@@ -227,6 +228,35 @@ public static class AgentBAct1HeightField
         var jx = (ValueNoise(x * 0.9, z * 0.77) - 0.5) * 2.0 * margin;
         var jy = (ValueNoise(z * 0.9 + 3.1, x * 0.77) - 0.5) * 2.0 * margin;
         return Ground(x + (float)jx, z + (float)-jy * -1f);
+    }
+
+    /// <summary>Presentation support sampled from the unchanged traversal triangles.</summary>
+    public static float CollisionGround(float x, float z)
+    {
+        var columns = (int)((MaxX - MinX) / Step);
+        var rows = (int)((MaxZ - MinZ) / Step);
+        var column = (int)System.Math.Floor((x - MinX) / Step);
+        var row = (int)System.Math.Floor((z - MinZ) / Step);
+        var faces = CollisionFaces.Value;
+        // Jitter is bounded below one grid cell; only these nine cells can
+        // contain the query. This is the collider's actual diagonal/winding.
+        for (var iy = System.Math.Max(0, row - 1); iy <= System.Math.Min(rows - 1, row + 1); iy++)
+        for (var ix = System.Math.Max(0, column - 1); ix <= System.Math.Min(columns - 1, column + 1); ix++)
+        for (var triangle = 0; triangle < 2; triangle++)
+        {
+            var index = (iy * columns + ix) * 6 + triangle * 3;
+            var a = faces[index]; var b = faces[index + 1]; var c = faces[index + 2];
+            var denominator = (b.Z - c.Z) * (a.X - c.X) + (c.X - b.X) * (a.Z - c.Z);
+            var u = ((b.Z - c.Z) * (x - c.X) + (c.X - b.X) * (z - c.Z)) / denominator;
+            var v = ((c.Z - a.Z) * (x - c.X) + (a.X - c.X) * (z - c.Z)) / denominator;
+            if (u >= -.00001f && v >= -.00001f && u + v <= 1.00001f)
+                return u * a.Y + v * b.Y + (1f - u - v) * c.Y;
+        }
+        // Beyond the physical terrain the existing analytic field supports
+        // the presentation-only horizon; no traversal surface is invented.
+        if (x > MinX + Step && x < MaxX - Step && z > MinZ + Step && z < MaxZ - Step)
+            throw new System.InvalidOperationException($"Terrain triangle missing at {x}, {z}");
+        return (float)Ground(x, z);
     }
 
     public static Vector3[] BuildTerrainFaces()

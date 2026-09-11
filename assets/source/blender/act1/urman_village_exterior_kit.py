@@ -2,9 +2,9 @@
 
 The six canonical components already exist as a Blender source asset. This
 script preserves their names and preview-board anchors, refreshes the
-full-volume authored pass, and adds three optional, genuinely different
-village parcel variants for later composition. All geometry is presentation
-only and uses the existing project material library.
+full-volume authored pass, and adds optional village parcel and ambient animal
+variants for later composition. All geometry is presentation-only and uses
+the existing project material library.
 
 Run with Blender 4.5+:
   blender --background --python assets/source/blender/act1/urman_village_exterior_kit.py -- --root <repo>
@@ -18,12 +18,34 @@ import sys
 from pathlib import Path
 
 import bpy
+from mathutils import Vector
 
 
 KIT_ROOT = "URMAN_VillageExteriorKit"
 DWELLING_ROOT = "DwellingFacade_TimberPlaster"
 WELL_ROOT = "Well_YardLandmark"
+WOODPILE_ROOT = "Woodpile_StackedLogs"
+CAT_ROOT = "AmbientCat"
+CROW_ROOT = "AmbientCrow"
 GLB_NAME = "urman_village_exterior_kit.glb"
+
+ANIMAL_ROOTS = (CAT_ROOT, CROW_ROOT)
+CAT_CHILDREN = (
+    "CatBody",
+    "CatHead",
+    "CatTail",
+    "CatLegFrontL",
+    "CatLegFrontR",
+    "CatLegBackL",
+    "CatLegBackR",
+)
+CROW_CHILDREN = ("BirdBody", "BirdWingL", "BirdWingR")
+CAT_MATERIALS = ("URMAN_Stone_Mossy", "URMAN_Roof_WetSlate", "URMAN_Stone_LightFace")
+CROW_MATERIALS = ("URMAN_Roof_WetSlate", "URMAN_Stone_Mossy")
+
+WOODPILE_GEOMETRY_PASS = "stable three-tier horizontal woodpile v1"
+WOODPILE_LOG_NAMES = tuple(f"Woodpile_Log_{index:02d}_LOD0" for index in range(6))
+WOODPILE_SUPPORT_NAMES = ("Woodpile_SupportLeft_LOD0", "Woodpile_SupportRight_LOD0")
 
 
 def arguments() -> argparse.Namespace:
@@ -109,6 +131,457 @@ def mesh_object(
         bpy.data.meshes.remove(old_mesh)
     mesh.name = f"{name}Mesh"
     return obj
+
+
+def animal_empty(
+    name: str,
+    parent: bpy.types.Object,
+    location: tuple[float, float, float],
+    role: str,
+    asset_id: str,
+) -> bpy.types.Object:
+    obj = bpy.data.objects.get(name)
+    if obj is None:
+        obj = bpy.data.objects.new(name, None)
+        bpy.context.collection.objects.link(obj)
+    if obj.type != "EMPTY":
+        raise RuntimeError(f"Expected animal empty for {name}, got {obj.type}")
+    if obj.parent is not parent:
+        obj.parent = parent
+    obj.rotation_mode = "XYZ"
+    obj.location = location
+    obj.rotation_euler = (0.0, 0.0, 0.0)
+    obj.scale = (1.0, 1.0, 1.0)
+    obj.hide_render = False
+    obj.hide_viewport = False
+    obj["urman_asset_id"] = asset_id
+    obj["component_root"] = name
+    obj["license"] = "Project-original"
+    obj["scale_meters"] = 1.0
+    obj["collision"] = "none"
+    obj["presentation_only"] = True
+    obj["lod_status"] = "LOD0"
+    obj["asset_role"] = role
+    obj["forward_axis"] = "-Y (Blender) -> +Z (Godot)"
+    obj["local_pivot"] = "ground anchor at local X=0, Y=0, Z=0"
+    return obj
+
+
+def append_y_profile(
+    vertices: list[tuple[float, float, float]],
+    faces: list[tuple[int, ...]],
+    material_indices: list[int],
+    sections: tuple[tuple[float, float, float, float], ...],
+    segments: int,
+    side_material,
+    cap_material: int = 0,
+) -> None:
+    """Append a smooth, low-poly animal mass aligned to the forward -Y axis."""
+    if len(sections) < 2 or segments < 6:
+        raise RuntimeError("Invalid animal profile")
+    rings: list[list[int]] = []
+    for y, radius_x, radius_z, center_z in sections:
+        ring: list[int] = []
+        for index in range(segments):
+            angle = 2.0 * math.pi * index / segments
+            ring.append(len(vertices))
+            vertices.append((radius_x * math.cos(angle), y, center_z + radius_z * math.sin(angle)))
+        rings.append(ring)
+    faces.append(tuple(reversed(rings[0])))
+    material_indices.append(cap_material)
+    for ring_index in range(len(rings) - 1):
+        for segment in range(segments):
+            faces.append((
+                rings[ring_index][segment],
+                rings[ring_index][(segment + 1) % segments],
+                rings[ring_index + 1][(segment + 1) % segments],
+                rings[ring_index + 1][segment],
+            ))
+            material_indices.append(side_material(ring_index, segment))
+    faces.append(tuple(rings[-1]))
+    material_indices.append(cap_material)
+
+
+def append_ear(
+    vertices: list[tuple[float, float, float]],
+    faces: list[tuple[int, ...]],
+    material_indices: list[int],
+    base: tuple[float, float, float],
+    width: float,
+    depth: float,
+    apex: tuple[float, float, float],
+    material_index: int,
+) -> None:
+    x, y, z = base
+    start = len(vertices)
+    vertices.extend(((x - width, y - depth, z), (x + width, y - depth, z),
+                     (x + width * 0.82, y + depth, z + 0.008),
+                     (x - width * 0.82, y + depth, z + 0.008), apex))
+    faces.extend(((start, start + 1, start + 4), (start + 1, start + 2, start + 4),
+                  (start + 2, start + 3, start + 4), (start + 3, start, start + 4),
+                  (start + 3, start + 2, start + 1, start)))
+    material_indices.extend((material_index,) * 5)
+
+
+def append_muzzle(
+    vertices: list[tuple[float, float, float]],
+    faces: list[tuple[int, ...]],
+    material_indices: list[int],
+) -> None:
+    append_y_profile(
+        vertices,
+        faces,
+        material_indices,
+        ((-0.30, 0.040, 0.038, 0.238), (-0.285, 0.055, 0.045, 0.240),
+         (-0.255, 0.050, 0.042, 0.242)),
+        12,
+        lambda _ring, _segment: 2,
+        cap_material=2,
+    )
+
+
+def append_tube(
+    vertices: list[tuple[float, float, float]],
+    faces: list[tuple[int, ...]],
+    material_indices: list[int],
+    points: tuple[tuple[float, float, float], ...],
+    radii: tuple[float, ...],
+    segments: int,
+) -> None:
+    if len(points) != len(radii) or len(points) < 2 or segments < 6:
+        raise RuntimeError("Invalid animal tube")
+    rings: list[list[int]] = []
+    for index, point in enumerate(points):
+        previous = points[max(0, index - 1)]
+        following = points[min(len(points) - 1, index + 1)]
+        tangent = Vector(tuple(following[i] - previous[i] for i in range(3))).normalized()
+        side = tangent.cross(Vector((0.0, 0.0, 1.0)))
+        if side.length < 1e-5:
+            side = tangent.cross(Vector((1.0, 0.0, 0.0)))
+        side.normalize()
+        up = side.cross(tangent).normalized()
+        ring: list[int] = []
+        for segment in range(segments):
+            angle = 2.0 * math.pi * segment / segments
+            offset = side * (math.cos(angle) * radii[index]) + up * (math.sin(angle) * radii[index])
+            ring.append(len(vertices))
+            vertices.append(tuple(point[i] + offset[i] for i in range(3)))
+        rings.append(ring)
+    faces.append(tuple(reversed(rings[0])))
+    material_indices.append(1)
+    for ring_index in range(len(rings) - 1):
+        for segment in range(segments):
+            faces.append((rings[ring_index][segment], rings[ring_index][(segment + 1) % segments],
+                          rings[ring_index + 1][(segment + 1) % segments], rings[ring_index + 1][segment]))
+            material_indices.append(0 if (segment + ring_index) % 5 else 1)
+    faces.append(tuple(rings[-1]))
+    material_indices.append(1)
+
+
+def append_vertical_leg(
+    vertices: list[tuple[float, float, float]],
+    faces: list[tuple[int, ...]],
+    material_indices: list[int],
+    joint_z: float,
+    rear: bool,
+    side_sign: float,
+) -> None:
+    rings: list[list[int]] = []
+    centers = ((0.0, 0.0, 0.0), (0.006 * side_sign, -0.004, -0.080),
+               (-0.004 * side_sign, -0.002, -0.155),
+               (0.008 * side_sign, -0.010 if not rear else 0.012, -(joint_z - 0.030)),
+               (0.010 * side_sign, -0.032 if not rear else 0.018, -joint_z))
+    radii = (0.036, 0.031, 0.026, 0.028, 0.030)
+    segments = 10
+    for ring_index, ((cx, cy, cz), radius) in enumerate(zip(centers, radii)):
+        ring: list[int] = []
+        for segment in range(segments):
+            angle = 2.0 * math.pi * segment / segments
+            ring.append(len(vertices))
+            vertices.append((cx + radius * math.cos(angle), cy + radius * math.sin(angle), cz))
+        rings.append(ring)
+    faces.append(tuple(reversed(rings[0])))
+    material_indices.append(0)
+    for ring_index in range(len(rings) - 1):
+        for segment in range(segments):
+            faces.append((rings[ring_index][segment], rings[ring_index][(segment + 1) % segments],
+                          rings[ring_index + 1][(segment + 1) % segments], rings[ring_index + 1][segment]))
+            material_indices.append(1 if ring_index == 1 and segment in (2, 3, 4) else 0)
+    faces.append(tuple(rings[-1]))
+    material_indices.append(1)
+
+
+def smooth_animal(obj: bpy.types.Object) -> bpy.types.Object:
+    for polygon in obj.data.polygons:
+        polygon.use_smooth = True
+    return obj
+
+
+def animal_mesh(
+    name: str,
+    parent: bpy.types.Object,
+    vertices: list[tuple[float, float, float]],
+    faces: list[tuple[int, ...]],
+    materials: tuple[str, ...],
+    material_indices: list[int],
+    role: str,
+    asset_id: str,
+    location: tuple[float, float, float] = (0.0, 0.0, 0.0),
+) -> bpy.types.Object:
+    obj = mesh_object(
+        name,
+        parent,
+        vertices,
+        faces,
+        materials,
+        material_indices,
+        location=location,
+        role=role,
+        asset_id=asset_id,
+        component_root=parent.name,
+        geometry_pass="optional ambient animal presentation v1",
+    )
+    return smooth_animal(obj)
+
+
+def author_ambient_cat(parent: bpy.types.Object) -> None:
+    asset_id = "urman.act1.village.ambient_cat"
+    cat = animal_empty(CAT_ROOT, parent, (0.0, -28.0, 0.0), "optional ambient winter cat", asset_id)
+    cat["cat_shoulder_height_m"] = 0.28
+    cat["cat_torso_length_m"] = 0.42
+    cat["cat_nose_to_rump_m"] = 0.60
+    cat["cat_tail_length_m"] = 0.32
+    cat["mesh_children_max"] = 9
+
+    vertices: list[tuple[float, float, float]] = []
+    faces: list[tuple[int, ...]] = []
+    indices: list[int] = []
+    body_sections = ((-0.12, 0.055, 0.060, 0.190), (-0.06, 0.092, 0.082, 0.195),
+                     (0.04, 0.105, 0.085, 0.195), (0.15, 0.110, 0.085, 0.195),
+                     (0.25, 0.112, 0.080, 0.190), (0.30, 0.080, 0.068, 0.180))
+    append_y_profile(vertices, faces, indices, body_sections, 20,
+                     lambda ring, segment: 1 if ring in (1, 3, 4) and segment in (2, 3, 4, 5) else 0)
+    animal_mesh("CatBody", cat, vertices, faces, CAT_MATERIALS, indices,
+                "softened low-poly feline torso and haunch", asset_id)
+
+    vertices, faces, indices = [], [], []
+    head_sections = ((-0.27, 0.045, 0.045, 0.245), (-0.25, 0.072, 0.065, 0.250),
+                     (-0.22, 0.086, 0.078, 0.255), (-0.17, 0.088, 0.080, 0.255),
+                     (-0.12, 0.064, 0.064, 0.250))
+    append_y_profile(vertices, faces, indices, head_sections, 18,
+                     lambda ring, segment: 1 if ring in (1, 2) and segment in (2, 3, 4, 5) else 0)
+    append_muzzle(vertices, faces, indices)
+    append_ear(vertices, faces, indices, (-0.050, -0.205, 0.310), 0.048, 0.034,
+                (-0.042, -0.190, 0.388), 1)
+    append_ear(vertices, faces, indices, (0.052, -0.175, 0.308), 0.044, 0.032,
+                (0.061, -0.162, 0.378), 1)
+    animal_mesh("CatHead", cat, vertices, faces, CAT_MATERIALS, indices,
+                "feline head with muzzle and asymmetrical ears", asset_id)
+
+    vertices, faces, indices = [], [], []
+    append_tube(vertices, faces, indices,
+                ((0.0, 0.27, 0.18), (0.0, 0.32, 0.20), (0.015, 0.37, 0.23),
+                 (0.045, 0.42, 0.26), (0.070, 0.47, 0.23), (0.080, 0.52, 0.17)),
+                (0.035, 0.032, 0.027, 0.022, 0.017, 0.010), 12)
+    animal_mesh("CatTail", cat, vertices, faces, CAT_MATERIALS, indices,
+                "connected tapered curved feline tail", asset_id)
+
+    for name, location, rear, side_sign in (
+        ("CatLegFrontL", (-0.065, -0.07, 0.230), False, -1.0),
+        ("CatLegFrontR", (0.065, -0.07, 0.230), False, 1.0),
+        ("CatLegBackL", (-0.076, 0.235, 0.210), True, -1.0),
+        ("CatLegBackR", (0.076, 0.235, 0.210), True, 1.0),
+    ):
+        vertices, faces, indices = [], [], []
+        append_vertical_leg(vertices, faces, indices, location[2], rear, side_sign)
+        leg = animal_mesh(name, cat, vertices, faces, CAT_MATERIALS, indices,
+                          "animation-safe feline leg with grounded paw", asset_id, location)
+        leg["animation_pivot"] = "hip" if rear else "shoulder"
+        leg["ground_paw_z_m"] = 0.0
+
+
+def append_wing(
+    vertices: list[tuple[float, float, float]],
+    faces: list[tuple[int, ...]],
+    material_indices: list[int],
+    sign: float,
+) -> None:
+    outline = ((0.0, 0.020, 0.050), (0.075 * sign, 0.008, 0.105),
+               (0.170 * sign, -0.020, 0.080), (0.240 * sign, -0.055, -0.018),
+               (0.180 * sign, -0.020, -0.075), (0.070 * sign, 0.010, -0.042))
+    start = len(vertices)
+    vertices.extend(outline)
+    vertices.extend((x, y - 0.022, z - 0.006) for x, y, z in outline)
+    faces.extend(((start, start + 1, start + 2), (start, start + 2, start + 3),
+                  (start, start + 3, start + 4), (start, start + 4, start + 5),
+                  (start + 6, start + 8, start + 7), (start + 6, start + 9, start + 8),
+                  (start + 6, start + 10, start + 9), (start + 6, start + 11, start + 10)))
+    material_indices.extend((0, 0, 0, 1, 0, 0, 0, 1))
+    for index in range(6):
+        next_index = (index + 1) % 6
+        faces.append((start + index, start + next_index, start + 6 + next_index, start + 6 + index))
+        material_indices.append(1 if index in (2, 3) else 0)
+
+
+def author_ambient_crow(parent: bpy.types.Object) -> None:
+    asset_id = "urman.act1.village.ambient_crow"
+    crow = animal_empty(CROW_ROOT, parent, (3.0, -28.0, 1.0), "optional ambient crow in flight", asset_id)
+    crow["bird_body_length_m"] = 0.30
+    crow["bird_wingspan_m"] = 0.65
+    crow["bird_flying_center"] = "local origin"
+    crow["mesh_children_max"] = 3
+
+    vertices: list[tuple[float, float, float]] = []
+    faces: list[tuple[int, ...]] = []
+    indices: list[int] = []
+    body_sections = ((-0.13, 0.032, 0.030, 0.0), (-0.095, 0.064, 0.060, 0.0),
+                     (-0.025, 0.085, 0.075, 0.0), (0.065, 0.072, 0.062, 0.0),
+                     (0.13, 0.030, 0.032, 0.0))
+    append_y_profile(vertices, faces, indices, body_sections, 12,
+                     lambda ring, segment: 1 if ring == 1 and segment in (2, 3, 4, 5) else 0)
+    beak_start = len(vertices)
+    vertices.extend(((-0.018, -0.13, 0.018), (0.018, -0.13, 0.018),
+                     (0.0, -0.235, 0.006), (-0.014, -0.13, -0.010), (0.014, -0.13, -0.010)))
+    faces.extend(((beak_start, beak_start + 1, beak_start + 2),
+                  (beak_start + 1, beak_start + 4, beak_start + 2),
+                  (beak_start + 4, beak_start + 3, beak_start + 2),
+                  (beak_start + 3, beak_start, beak_start + 2),
+                  (beak_start + 3, beak_start + 4, beak_start + 1, beak_start)))
+    indices.extend((1, 1, 1, 1, 1))
+    tail_start = len(vertices)
+    vertices.extend(((-0.040, 0.105, 0.018), (0.040, 0.105, 0.018),
+                     (0.025, 0.275, 0.005), (-0.025, 0.275, 0.005),
+                     (0.0, 0.205, -0.040)))
+    faces.extend(((tail_start, tail_start + 1, tail_start + 2),
+                  (tail_start, tail_start + 2, tail_start + 3),
+                  (tail_start + 3, tail_start + 2, tail_start + 4),
+                  (tail_start + 4, tail_start + 1, tail_start),
+                  (tail_start, tail_start + 4, tail_start + 3)))
+    indices.extend((0, 0, 1, 1, 1))
+    animal_mesh("BirdBody", crow, vertices, faces, CROW_MATERIALS, indices,
+                "plain corvid body with coherent beak and tail", asset_id)
+
+    for name, location, sign in (
+        ("BirdWingL", (-0.085, -0.020, 0.040), -1.0),
+        ("BirdWingR", (0.085, -0.020, 0.040), 1.0),
+    ):
+        vertices, faces, indices = [], [], []
+        append_wing(vertices, faces, indices, sign)
+        wing = animal_mesh(name, crow, vertices, faces, CROW_MATERIALS, indices,
+                           "animation-safe corvid wing in flight pose", asset_id, location)
+        wing["animation_pivot"] = "shoulder"
+
+
+def clear_animal_roots(root: bpy.types.Object) -> None:
+    for name in ANIMAL_ROOTS:
+        animal = bpy.data.objects.get(name)
+        if animal is not None:
+            for obj in reversed(list(animal.children_recursive)):
+                mesh = obj.data if obj.type == "MESH" else None
+                bpy.data.objects.remove(obj, do_unlink=True)
+                if mesh is not None and mesh.users == 0:
+                    bpy.data.meshes.remove(mesh)
+            bpy.data.objects.remove(animal, do_unlink=True)
+        for obj in list(bpy.data.objects):
+            if obj.name.startswith(f"{name}."):
+                mesh = obj.data if obj.type == "MESH" else None
+                bpy.data.objects.remove(obj, do_unlink=True)
+                if mesh is not None and mesh.users == 0:
+                    bpy.data.meshes.remove(mesh)
+
+
+def author_ambient_animals(root: bpy.types.Object) -> None:
+    clear_animal_roots(root)
+    author_ambient_cat(root)
+    author_ambient_crow(root)
+
+
+def animal_bounds(root: bpy.types.Object, children: tuple[str, ...]) -> tuple[list[float], list[float]]:
+    points = [root.matrix_world.inverted() @ obj.matrix_world @ vertex.co
+              for name in children
+              for obj in (bpy.data.objects[name],)
+              for vertex in obj.data.vertices]
+    return ([min(point[i] for point in points) for i in range(3)],
+            [max(point[i] for point in points) for i in range(3)])
+
+
+def validate_animal_meshes(
+    root: bpy.types.Object,
+    animal_name: str,
+    children: tuple[str, ...],
+    expected_location: tuple[float, float, float],
+    triangle_range: tuple[int, int],
+    maximum_materials: int,
+) -> tuple[int, list[float], list[float]]:
+    animal = bpy.data.objects.get(animal_name)
+    if animal is None or animal.parent is not root or animal.type != "EMPTY":
+        raise RuntimeError(f"Animal root hierarchy changed: {animal_name}")
+    if tuple(round(value, 5) for value in animal.location) != expected_location:
+        raise RuntimeError(f"Animal preview anchor changed: {animal_name}={tuple(animal.location)}")
+    actual_children = tuple(child.name for child in animal.children if child.type == "MESH")
+    if set(actual_children) != set(children) or len(actual_children) != len(children):
+        raise RuntimeError(f"Animal mesh hierarchy changed: {animal_name}={sorted(actual_children)}")
+    materials = set()
+    triangles = 0
+    for name in children:
+        child = bpy.data.objects.get(name)
+        if child is None or child.parent is not animal or child.type != "MESH":
+            raise RuntimeError(f"Missing animal mesh: {animal_name}/{name}")
+        child.data.calc_loop_triangles()
+        if not child.data.materials or not child.data.loop_triangles:
+            raise RuntimeError(f"Invalid animal mesh: {animal_name}/{name}")
+        if any(polygon.area <= 1e-10 for polygon in child.data.polygons):
+            raise RuntimeError(f"Degenerate animal polygon: {animal_name}/{name}")
+        triangles += len(child.data.loop_triangles)
+        materials.update(material.name for material in child.data.materials if material is not None)
+    if triangles < triangle_range[0] or triangles > triangle_range[1]:
+        raise RuntimeError(f"Animal triangle budget changed: {animal_name}={triangles}")
+    if len(materials) > maximum_materials:
+        raise RuntimeError(f"Animal material budget changed: {animal_name}={sorted(materials)}")
+    bounds_min, bounds_max = animal_bounds(animal, children)
+    if any(bounds_max[i] - bounds_min[i] <= 0.01 for i in range(3)):
+        raise RuntimeError(f"Animal bounds are degenerate: {animal_name}={bounds_min}..{bounds_max}")
+    return triangles, bounds_min, bounds_max
+
+
+def validate_animals(root: bpy.types.Object) -> None:
+    cat_triangles, cat_min, cat_max = validate_animal_meshes(
+        root, CAT_ROOT, CAT_CHILDREN, (0.0, -28.0, 0.0), (1000, 2000), 3)
+    cat = bpy.data.objects[CAT_ROOT]
+    if abs(cat_max[2] - 0.388) > 0.003 or abs(cat_min[2]) > 1e-6:
+        raise RuntimeError(f"Cat ground/height bounds changed: {cat_min}..{cat_max}")
+    body = bpy.data.objects["CatBody"]
+    body.data.calc_loop_triangles()
+    body_y = [vertex.co.y for vertex in body.data.vertices]
+    body_z = [vertex.co.z for vertex in body.data.vertices]
+    if abs(max(body_z) - 0.28) > 1e-6:
+        raise RuntimeError(f"Cat shoulder height changed: {max(body_z)}")
+    if abs(max(body_y) - min(body_y) - 0.42) > 1e-6:
+        raise RuntimeError(f"Cat torso length changed: {min(body_y)}..{max(body_y)}")
+    cat_head = bpy.data.objects["CatHead"]
+    head_y = [vertex.co.y for vertex in cat_head.data.vertices]
+    if abs(max(body_y) - min(head_y) - 0.60) > 1e-6:
+        raise RuntimeError(f"Cat nose-to-rump length changed: {min(head_y)}..{max(body_y)}")
+    for name in CAT_CHILDREN[3:]:
+        leg = bpy.data.objects[name]
+        if abs(leg.location.z - (0.23 if "Front" in name else 0.21)) > 1e-6:
+            raise RuntimeError(f"Cat leg pivot changed: {name}={tuple(leg.location)}")
+        paw_min = min((leg.matrix_world @ vertex.co).z for vertex in leg.data.vertices)
+        if abs(paw_min) > 1e-6:
+            raise RuntimeError(f"Cat paw is not grounded: {name} z={paw_min}")
+    crow_triangles, crow_min, crow_max = validate_animal_meshes(
+        root, CROW_ROOT, CROW_CHILDREN, (3.0, -28.0, 1.0), (120, 300), 3)
+    crow = bpy.data.objects[CROW_ROOT]
+    for name, expected in (("BirdBody", (0.0, 0.0, 0.0)),
+                           ("BirdWingL", (-0.085, -0.020, 0.040)),
+                           ("BirdWingR", (0.085, -0.020, 0.040))):
+        if tuple(round(value, 5) for value in bpy.data.objects[name].location) != expected:
+            raise RuntimeError(f"Crow child pivot changed: {name}")
+    if abs(crow_max[0] - crow_min[0] - 0.65) > 0.015:
+        raise RuntimeError(f"Crow wingspan changed: {crow_min[0]}..{crow_max[0]}")
+    print(f"animal-pass: cat_meshes=7 cat_triangles={cat_triangles} cat_bounds={cat_min}..{cat_max} "
+          f"crow_meshes=3 crow_triangles={crow_triangles} crow_bounds={crow_min}..{crow_max} "
+          f"axes=Blender:-Y/Godot:+Z materials=cat<=3/crow<=3")
 
 
 def chamfered_box(
@@ -859,6 +1332,85 @@ def cylinder_mesh(
         [0] * len(faces),
         role=role,
     )
+
+
+def woodpile_log(
+    name: str,
+    parent: bpy.types.Object,
+    length: float,
+    center: tuple[float, float, float],
+    radius: float,
+    row: int,
+) -> bpy.types.Object:
+    if not 1.60 <= length <= 1.85 or not 0.16 <= radius <= 0.18:
+        raise RuntimeError(f"Woodpile log outside contract: {name} length={length} radius={radius}")
+    log = cylinder_mesh(
+        name,
+        parent,
+        -length / 2.0,
+        length / 2.0,
+        center,
+        radius,
+        ("URMAN_Bark_Muted", "URMAN_Wood_Dark"),
+        axis="X",
+        segments=8,
+        role="stable horizontal stacked firewood log",
+    )
+    log["urman_asset_id"] = "urman.act1.village.woodpile"
+    log["component_root"] = WOODPILE_ROOT
+    log["geometry_pass"] = WOODPILE_GEOMETRY_PASS
+    log["woodpile_axis"] = "X"
+    log["woodpile_length_m"] = length
+    log["woodpile_radius_m"] = radius
+    log["woodpile_segments"] = 8
+    log["woodpile_row"] = row
+    # cylinder_mesh's two caps are the first two polygons; preserve the
+    # existing bark side and endwood material contract without a new helper.
+    for polygon in log.data.polygons[:2]:
+        polygon.material_index = 1
+    log.data.calc_loop_triangles()
+    log["triangle_count"] = len(log.data.loop_triangles)
+    return log
+
+
+def author_woodpile(parent: bpy.types.Object) -> None:
+    if parent.name != WOODPILE_ROOT or parent.type != "EMPTY":
+        raise RuntimeError(f"Expected existing woodpile root, got {parent.name}:{parent.type}")
+    if parent.get("local_pivot") != "ground anchor at local X=0, Y=0, Z=0":
+        raise RuntimeError("Woodpile preview anchor metadata changed")
+
+    anchor = (tuple(parent.location), tuple(parent.rotation_euler), tuple(parent.scale))
+    expected_names = set(WOODPILE_LOG_NAMES + WOODPILE_SUPPORT_NAMES)
+    for child in list(parent.children):
+        if child.type == "MESH" and child.name not in expected_names:
+            bpy.data.objects.remove(child, do_unlink=True)
+
+    for index, (y, length) in enumerate(((-0.32, 1.78), (0.0, 1.76), (0.32, 1.74))):
+        woodpile_log(WOODPILE_LOG_NAMES[index], parent, length, (0.0, y, 0.32), 0.16, 0)
+    for index, y in enumerate((-0.16, 0.16), start=3):
+        woodpile_log(WOODPILE_LOG_NAMES[index], parent, 1.72, (0.0, y, 0.57372583), 0.16, 1)
+    woodpile_log(WOODPILE_LOG_NAMES[5], parent, 1.68, (0.0, 0.0, 0.82745166), 0.16, 2)
+
+    for name, x in zip(WOODPILE_SUPPORT_NAMES, (-0.56, 0.56)):
+        support = variant_box(
+            name,
+            parent,
+            (x, 0.0, 0.08),
+            (0.18, 0.92, 0.16),
+            ("URMAN_Wood_WetShadow",),
+            WOODPILE_ROOT,
+            "woodpile transverse lower support beam",
+            chamfer=0.025,
+            geometry_pass=WOODPILE_GEOMETRY_PASS,
+        )
+        support["urman_asset_id"] = "urman.act1.village.woodpile"
+        support["woodpile_support_base_z_m"] = 0.0
+        support["woodpile_support_top_z_m"] = 0.16
+
+    current_anchor = (tuple(parent.location), tuple(parent.rotation_euler), tuple(parent.scale))
+    if any(abs(a - b) > 1e-6 for before, after in zip(anchor, current_anchor) for a, b in zip(before, after)):
+        raise RuntimeError("Woodpile preview anchor transform changed")
+
 
 
 def irregular_post(
@@ -1642,13 +2194,13 @@ def author_well(parent: bpy.types.Object) -> None:
     )
 
 
-def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types.Object) -> None:
+def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types.Object, woodpile: bpy.types.Object) -> None:
     required_components = {
         "DwellingFacade_TimberPlaster",
         "OutbuildingShed_Low",
         "FenceSegment_RoughPicket",
         "Gate_CrookedTimber",
-        "Woodpile_StackedLogs",
+        WOODPILE_ROOT,
         WELL_ROOT,
     }
     actual_components = {child.name for child in root.children}
@@ -1657,7 +2209,7 @@ def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types
         raise RuntimeError(f"Canonical component roots changed: expected at least={sorted(required_components)} actual={sorted(actual_components)}")
     if not variant_components.issubset(actual_components):
         raise RuntimeError(f"Variant parcel roots missing: expected={sorted(variant_components)} actual={sorted(actual_components)}")
-    unexpected_components = actual_components - required_components - variant_components
+    unexpected_components = actual_components - required_components - variant_components - set(ANIMAL_ROOTS)
     if unexpected_components:
         raise RuntimeError(f"Unexpected direct component roots: {sorted(unexpected_components)}")
     if any(abs(value) > 1e-6 for value in root.location) or any(abs(value) > 1e-6 for value in root.rotation_euler) or any(abs(value - 1.0) > 1e-6 for value in root.scale):
@@ -1753,6 +2305,95 @@ def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types
             well_max_z = max(well_max_z, z)
     if well_min_z > 0.12 or well_max_z < 2.45:
         raise RuntimeError(f"Well landmark is not grounded/readable: z={well_min_z:.3f}..{well_max_z:.3f}")
+    if woodpile.parent is not root or woodpile.type != "EMPTY":
+        raise RuntimeError("Woodpile root hierarchy changed")
+    if woodpile.get("local_pivot") != "ground anchor at local X=0, Y=0, Z=0":
+        raise RuntimeError("Woodpile local pivot contract changed")
+    woodpile_meshes = {child.name: child for child in woodpile.children if child.type == "MESH"}
+    expected_woodpile_meshes = set(WOODPILE_LOG_NAMES + WOODPILE_SUPPORT_NAMES)
+    if set(woodpile_meshes) != expected_woodpile_meshes:
+        raise RuntimeError(f"Woodpile mesh contract changed: expected={sorted(expected_woodpile_meshes)} actual={sorted(woodpile_meshes)}")
+    row_bounds: dict[int, list[float]] = {}
+    log_sections: dict[str, tuple[float, float, list[tuple[float, float]]]] = {}
+    woodpile_min_z = float("inf")
+    woodpile_max_z = float("-inf")
+    for name in WOODPILE_LOG_NAMES:
+        log = woodpile_meshes[name]
+        if log.parent is not woodpile or log.get("woodpile_axis") != "X" or log.get("woodpile_segments") != 8:
+            raise RuntimeError(f"Woodpile log parent/axis/segments changed: {name}")
+        if any(abs(value) > 1e-6 for value in log.rotation_euler):
+            raise RuntimeError(f"Woodpile log is no longer horizontal: {name}")
+        length = float(log.get("woodpile_length_m", 0.0))
+        radius = float(log.get("woodpile_radius_m", 0.0))
+        if not 1.60 <= length <= 1.85 or not 0.16 <= radius <= 0.18:
+            raise RuntimeError(f"Woodpile log bounds changed: {name} length={length} radius={radius}")
+        if abs(log.dimensions.x - length) > 1e-5 or abs(log.dimensions.y - radius * 2.0) > 1e-5 or abs(log.dimensions.z - radius * 2.0) > 1e-5:
+            raise RuntimeError(f"Woodpile log dimensions changed: {name} dimensions={tuple(log.dimensions)}")
+        log.data.calc_loop_triangles()
+        if len(log.data.loop_triangles) == 0 or len(log.data.materials) < 2:
+            raise RuntimeError(f"Invalid woodpile log mesh/materials: {name}")
+        row = int(log["woodpile_row"])
+        local_z = [log.location.z + vertex.co.z for vertex in log.data.vertices]
+        cross_section = [(log.location.y + vertex.co.y, log.location.z + vertex.co.z) for vertex in log.data.vertices[:8]]
+        center_y = sum(point[0] for point in cross_section) / len(cross_section)
+        center_z = sum(point[1] for point in cross_section) / len(cross_section)
+        log_sections[name] = (center_y, center_z, cross_section)
+        bottom, top = min(local_z), max(local_z)
+        row_bounds.setdefault(row, [float("inf"), float("-inf")])
+        row_bounds[row][0] = min(row_bounds[row][0], bottom)
+        row_bounds[row][1] = max(row_bounds[row][1], top)
+        woodpile_min_z = min(woodpile_min_z, bottom)
+        woodpile_max_z = max(woodpile_max_z, top)
+    support_bounds: list[tuple[float, float]] = []
+    for name in WOODPILE_SUPPORT_NAMES:
+        support = woodpile_meshes[name]
+        if support.parent is not woodpile or any(abs(value) > 1e-6 for value in support.rotation_euler):
+            raise RuntimeError(f"Woodpile support transform changed: {name}")
+        local_z = [vertex.co.z + support.location.z for vertex in support.data.vertices]
+        support_min_z, support_max_z = min(local_z), max(local_z)
+        if abs(support_min_z) > 1e-5 or abs(support_max_z - 0.16) > 1e-5:
+            raise RuntimeError(f"Woodpile support is not grounded: {name} z={support_min_z:.3f}..{support_max_z:.3f}")
+        support_bounds.append((support_min_z, support_max_z))
+        woodpile_min_z = min(woodpile_min_z, support_min_z)
+        woodpile_max_z = max(woodpile_max_z, support_max_z)
+    if set(row_bounds) != {0, 1, 2} or any(len([name for name in WOODPILE_LOG_NAMES if int(woodpile_meshes[name]["woodpile_row"]) == row]) != count for row, count in ((0, 3), (1, 2), (2, 1))):
+        raise RuntimeError(f"Woodpile row composition changed: {row_bounds}")
+    def projection_overlap(first_name: str, second_name: str) -> float:
+        first_y, first_z, first_polygon = log_sections[first_name]
+        second_y, second_z, second_polygon = log_sections[second_name]
+        dy, dz = second_y - first_y, second_z - first_z
+        distance = math.hypot(dy, dz)
+        if distance <= 1e-6:
+            raise RuntimeError(f"Coincident woodpile log centers: {first_name}, {second_name}")
+        direction = (dy / distance, dz / distance)
+        first_projection = [point[0] * direction[0] + point[1] * direction[1] for point in first_polygon]
+        second_projection = [point[0] * direction[0] + point[1] * direction[1] for point in second_polygon]
+        overlap = min(max(first_projection), max(second_projection)) - max(min(first_projection), min(second_projection))
+        if overlap < -1e-5 or overlap > 0.020:
+            raise RuntimeError(f"Woodpile geometric contact changed: {first_name}/{second_name} overlap={overlap:.6f}")
+        return overlap
+
+    contact_pairs = (
+        (WOODPILE_LOG_NAMES[0], WOODPILE_LOG_NAMES[1]),
+        (WOODPILE_LOG_NAMES[1], WOODPILE_LOG_NAMES[2]),
+        (WOODPILE_LOG_NAMES[0], WOODPILE_LOG_NAMES[3]),
+        (WOODPILE_LOG_NAMES[1], WOODPILE_LOG_NAMES[3]),
+        (WOODPILE_LOG_NAMES[1], WOODPILE_LOG_NAMES[4]),
+        (WOODPILE_LOG_NAMES[2], WOODPILE_LOG_NAMES[4]),
+        (WOODPILE_LOG_NAMES[3], WOODPILE_LOG_NAMES[5]),
+        (WOODPILE_LOG_NAMES[4], WOODPILE_LOG_NAMES[5]),
+    )
+    contact_overlaps = [projection_overlap(first, second) for first, second in contact_pairs]
+    if woodpile_min_z < -1e-5 or abs(woodpile_max_z - 0.98745166) > 1e-5:
+        raise RuntimeError(f"Woodpile overall bounds changed: z={woodpile_min_z:.3f}..{woodpile_max_z:.3f}")
+    woodpile_triangles = sum(len(mesh.data.loop_triangles) for mesh in woodpile_meshes.values())
+    print(
+        "woodpile-pass: "
+        f"meshes={len(woodpile_meshes)} triangles={woodpile_triangles} rows=3/2/1 "
+        f"z={woodpile_min_z:.3f}..{woodpile_max_z:.3f} support_z=0.000..0.160 "
+        f"contact_projection={','.join(f'{value:.6f}' for value in contact_overlaps)} "
+        f"root={woodpile.name} local_pivot={woodpile.get('local_pivot')}"
+    )
     variant_summaries: list[str] = []
     for variant_name, expected_location in VARIANT_LAYOUT.items():
         variant = bpy.data.objects[variant_name]
@@ -1835,6 +2476,7 @@ def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types
     }
     if len(kit_meshes) <= 0 or kit_triangles <= 0:
         raise RuntimeError("Authored kit has no renderable geometry")
+    validate_animals(root)
     print(
         "kit-pass: "
         f"direct_roots={len(root.children)} meshes={len(kit_meshes)} triangles={kit_triangles} "
@@ -1866,7 +2508,8 @@ def main() -> None:
     root = bpy.data.objects.get(KIT_ROOT)
     dwelling = bpy.data.objects.get(DWELLING_ROOT)
     well = bpy.data.objects.get(WELL_ROOT)
-    if root is None or dwelling is None or well is None or dwelling.parent is not root or well.parent is not root:
+    woodpile = bpy.data.objects.get(WOODPILE_ROOT)
+    if root is None or dwelling is None or well is None or woodpile is None or dwelling.parent is not root or well.parent is not root or woodpile.parent is not root:
         raise RuntimeError("Baseline kit root/component hierarchy is incomplete")
 
     clear_variant_roots(root)
@@ -1876,7 +2519,9 @@ def main() -> None:
     author_gate_variation(bpy.data.objects["Gate_CrookedTimber"])
     author_gate_joinery(bpy.data.objects["Gate_CrookedTimber"])
     author_well(well)
+    author_woodpile(woodpile)
     author_variant_parcels(root)
+    author_ambient_animals(root)
     scene = bpy.context.scene
     scene["generator"] = "assets/source/blender/act1/urman_village_exterior_kit.py"
     scene["asset_status"] = "v6 inhabited rural architecture candidate with pierced walls, vertical windows, boarded gables and side seni; requires in-game art review"
@@ -1885,9 +2530,10 @@ def main() -> None:
     scene["variant_geometry_pass"] = "v3 full-depth adult-scale dwellings with enclosed seni; preserved outbuilding and yard components"
     scene["variant_composition_pass"] = VARIANT_COMPOSITION_PASS
     scene["well_geometry_pass"] = "v1 staggered masonry/timber ring, leaning posts, pitched eave roof and restrained bucket/rope cue"
+    scene["woodpile_geometry_pass"] = WOODPILE_GEOMETRY_PASS
     scene["texture_policy"] = "geometry and existing basic materials only; no texture files"
     bpy.context.view_layer.update()
-    validate(root, dwelling, well)
+    validate(root, dwelling, well, woodpile)
 
     save_versions = bpy.context.preferences.filepaths.save_version
     bpy.context.preferences.filepaths.save_version = 0

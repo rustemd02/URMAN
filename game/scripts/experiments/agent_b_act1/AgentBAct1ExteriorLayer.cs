@@ -28,6 +28,19 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private CpuParticles3D? _rain;
     private SnowTrampleField? _snowTrample;
     private readonly List<OmniLight3D> _karaAccentLights = new();
+    private readonly Dictionary<(string Variant, string Region), ArrayMesh> _foliageMeshes = new();
+    internal static Aabb[] BuildingRoofBounds(Node root) => EnumerateDescendants<MeshInstance3D>(root)
+        .Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null
+            && mesh.Name.ToString().Contains("Roof", StringComparison.OrdinalIgnoreCase))
+        .Select(mesh => mesh.GlobalTransform * mesh.Mesh.GetAabb())
+        .Where(bounds => bounds.Size.X > 1 && bounds.Size.Z > 1).ToArray();
+
+    internal static bool UnderBuildingRoof(Vector3 root, Aabb[] roofs) => roofs.Any(bounds =>
+        root.X >= bounds.Position.X - .35f && root.X <= bounds.End.X + .35f
+        && root.Z >= bounds.Position.Z - .35f && root.Z <= bounds.End.Z + .35f
+        && bounds.End.Y > root.Y + .4f);
+
+    internal ArrayMesh FoliageMesh(string variant, string region) => _foliageMeshes[(variant, region)];
     private bool _built;
     private bool _exteriorPresentationEnabled;
 
@@ -87,7 +100,66 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
 
         BuildTerrainCollision();
+        ConformRoadPresentation();
         BuildArchitectureCollision();
+        // These seven meshes have physical trimeshes. Retain the authored upper
+        // silhouette, but extend the hidden lower half into the snow so the
+        // unchanged raised collider no longer appears to float above the ground.
+        foreach (var mesh in EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_KaraEdgeKit")).ToArray())
+        {
+            var name = mesh.Name.ToString();
+            if (!name.StartsWith("KaraRoot_") && !name.StartsWith("FallenLog_K") && !name.StartsWith("KaraStone_")) continue;
+            var source = mesh.Mesh;
+            if (source is null) continue;
+            if (name.StartsWith("FallenLog_K"))
+            {
+                // Deadfall rests on two tapered broken branches. Their feet
+                // explain the raised trunk without turning it into a solid wall.
+                var points = source.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array()
+                    .Select(vertex => mesh.ToGlobal(vertex)).OrderBy(point => point.X).ToArray();
+                foreach (var t in new[] { .2f, .8f })
+                {
+                    var top = points.First().Lerp(points.Last(), t);
+                    var bottom = new Vector3(top.X + (t - .5f) * .45f,
+                        AgentBAct1HeightField.CollisionGround(top.X, top.Z) - .04f, top.Z + (t < .5f ? -.34f : .27f));
+                    var support = new MeshInstance3D { Name = "DeadfallBrokenBranch",
+                        Mesh = new CylinderMesh { Height = top.DistanceTo(bottom), TopRadius = .045f, BottomRadius = .11f,
+                            RadialSegments = 7, Rings = 1 },
+                        MaterialOverride = PainterlyMaterialLibrary.ForColor("655b51", "bark_pine") };
+                    AddChild(support);
+                    support.GlobalTransform = new Transform3D(new Basis(new Quaternion(Vector3.Up,
+                        (top - bottom).Normalized())), (top + bottom) * .5f);
+                }
+                mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("655b51", "bark_pine");
+                continue;
+            }
+            var reshaped = new ArrayMesh();
+            for (var i = 0; i < source.GetSurfaceCount(); i++)
+            {
+                var arrays = source.SurfaceGetArrays(i);
+                var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                var center = vertices.Select(vertex => mesh.ToGlobal(vertex)).Aggregate(Vector3.Zero, (sum, point) => sum + point) / vertices.Length;
+                for (var v = 0; v < vertices.Length; v++)
+                {
+                    var point = mesh.ToGlobal(vertices[v]);
+                    if (point.Y >= center.Y) continue;
+                    point.X = center.X + (point.X - center.X) * 1.15f;
+                    point.Z = center.Z + (point.Z - center.Z) * 1.15f;
+                    point.Y = Mathf.Min(point.Y, AgentBAct1HeightField.CollisionGround(point.X, point.Z) - .04f);
+                    vertices[v] = mesh.ToLocal(point);
+                }
+                arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+                using var surfaceMesh = new ArrayMesh();
+                surfaceMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+                using var surface = new SurfaceTool();
+                surface.CreateFrom(surfaceMesh, 0);
+                surface.GenerateNormals();
+                surface.SetMaterial(source.SurfaceGetMaterial(i));
+                surface.Commit(reshaped);
+            }
+            mesh.Mesh = reshaped;
+            mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("747b7c", name.StartsWith("KaraStone_") ? "plaster" : "bark_pine");
+        }
         PlantFoliage();
         BuildEnvironment();
         BuildKaraAccentLights();
@@ -148,6 +220,56 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var shape = new ConcavePolygonShape3D();
         shape.SetFaces(AgentBAct1HeightField.BuildTerrainFaces());
         body.AddChild(new CollisionShape3D { Name = "AgentB_TerrainFaces", Shape = shape });
+    }
+
+    private void ConformRoadPresentation()
+    {
+        var kit = GetNode<Node3D>("AgentB_TerrainRoadKit");
+        foreach (var mesh in EnumerateDescendants<MeshInstance3D>(kit))
+        {
+            var name = mesh.Name.ToString();
+            if (mesh.Mesh is not ArrayMesh original || (name != "Terrain_Main" && !name.StartsWith("Road_", StringComparison.Ordinal))) continue;
+            var result = new ArrayMesh();
+            if (name == "Terrain_Main")
+            {
+                var surface = new SurfaceTool();
+                surface.Begin(Mesh.PrimitiveType.Triangles);
+                foreach (var vertex in AgentBAct1HeightField.BuildTerrainFaces())
+                {
+                    surface.SetUV(new Vector2(vertex.X, vertex.Z));
+                    surface.AddVertex(mesh.ToLocal(ToGlobal(vertex)));
+                }
+                surface.Index();
+                surface.GenerateNormals();
+                surface.Commit(result);
+                result.SurfaceSetMaterial(0, original.SurfaceGetMaterial(0));
+            }
+            else
+            {
+                for (var index = 0; index < original.GetSurfaceCount(); index++)
+                {
+                    var arrays = original.SurfaceGetArrays(index).Duplicate(true);
+                    var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                    for (var i = 0; i < vertices.Length; i++)
+                    {
+                        var point = ToLocal(mesh.ToGlobal(vertices[i]));
+                        point.Y += AgentBAct1HeightField.CollisionGround(point.X, point.Z)
+                            - (float)AgentBAct1HeightField.Ground(point.X, point.Z);
+                        vertices[i] = mesh.ToLocal(ToGlobal(point));
+                    }
+                    arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+                    var reshaped = new ArrayMesh();
+                    reshaped.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+                    var surface = new SurfaceTool();
+                    surface.CreateFrom(reshaped, 0);
+                    surface.GenerateNormals();
+                    surface.Commit(result);
+                    result.SurfaceSetMaterial(index, original.SurfaceGetMaterial(index));
+                }
+            }
+            mesh.Mesh = result;
+            mesh.SetMeta("supportOwner", "AgentB_TerrainCollision");
+        }
     }
 
     private void BuildArchitectureCollision()
@@ -587,57 +709,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             "karaGesturePresentation",
             "suppressed; authored connected-world Kara forest-edge presentation owns silhouettes and depth");
 
-        // These exact Agent B meshes are the repeated brown faceted boulders,
-        // fallen props and root banks occupying the lower foreground of the
-        // Kara approach cameras. Hide their draw only; keep the existing
-        // collision owner and route envelope unchanged.
-        var foregroundBoulders = EnumerateDescendants<MeshInstance3D>(karaKit)
-            .Where(mesh => mesh.Name.ToString().StartsWith("KaraRoot_", System.StringComparison.Ordinal))
-            .ToArray();
-        if (foregroundBoulders.Length != 4)
-        {
-            throw new System.InvalidOperationException(
-                $"Agent B Kara kit foreground boulder owner changed: expected KaraRoot_0..3, found {foregroundBoulders.Length}.");
-        }
+        // Root banks, fallen logs and stones retain physical trimeshes.
+        // Keep their matching authored surfaces visible so the player can
+        // read the obstacle; presentation suppression must not hide physics.
 
-        foreach (var mesh in foregroundBoulders)
-        {
-            mesh.Visible = false;
-        }
-
-        karaKit.SetMeta("hiddenKaraForegroundBoulderFamily", "KaraRoot_0..3");
-        karaKit.SetMeta("hiddenKaraForegroundBoulderMeshCount", foregroundBoulders.Length);
-
-        var clutterFamilies = new[]
-        {
-            (Prefix: "FallenLog_K", MetaName: "hiddenKaraFallenLogMeshCount"),
-            (Prefix: "KaraStone_", MetaName: "hiddenKaraStoneMeshCount")
-        };
-        var hiddenClutterCount = foregroundBoulders.Length;
-        foreach (var (prefix, metaName) in clutterFamilies)
-        {
-            var clutter = EnumerateDescendants<MeshInstance3D>(karaKit)
-                .Where(mesh => mesh.Name.ToString().StartsWith(prefix, System.StringComparison.Ordinal))
-                .ToArray();
-            if (clutter.Length == 0)
-            {
-                throw new System.InvalidOperationException(
-                    $"Agent B Kara kit is missing the declared foreground clutter family {prefix}; cannot clear the route-facing prop scatter.");
-            }
-
-            foreach (var mesh in clutter)
-            {
-                mesh.Visible = false;
-            }
-
-            karaKit.SetMeta(metaName, clutter.Length);
-            hiddenClutterCount += clutter.Length;
-        }
-
-        karaKit.SetMeta(
-            "hiddenKaraForegroundClutterFamilies",
-            "KaraRoot_*|FallenLog_K*|KaraStone_*");
-        karaKit.SetMeta("hiddenKaraForegroundClutterMeshCount", hiddenClutterCount);
     }
 
     private static bool ShouldCollide(string name)
@@ -659,270 +734,274 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     private void PlantFoliage()
     {
-        var kit = GetNodeOrNull<Node3D>("AgentB_FoliageKit");
-        if (kit is null)
+        var kit = GetNode<Node3D>("AgentB_FoliageKit");
+        var parts = EnumerateDescendants<Node3D>(kit)
+            .Where(node => VariantKey(node.Name.ToString()) is not null && HasMeshInSubtree(node))
+            .GroupBy(node => VariantKey(node.Name.ToString())!)
+            .ToDictionary(group => group.Key, group => group.ToList(), StringComparer.Ordinal);
+        var geometry = new Dictionary<string, (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices)>(StringComparer.Ordinal);
+        var graded = _foliageMeshes;
+        (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices) Geometry(string variant)
         {
-            return;
+            if (geometry.TryGetValue(variant, out var cached)) return cached;
+            if (!parts.TryGetValue(variant, out var sources))
+                throw new InvalidOperationException($"Missing winter foliage geometry: {variant}");
+            var meshes = sources.SelectMany(EnumerateSelfAndDescendants<MeshInstance3D>).Distinct()
+                .Where(mesh => mesh.Mesh is ArrayMesh).ToArray();
+            var sourceVertices = meshes.SelectMany(mesh => Enumerable.Range(0, mesh.Mesh!.GetSurfaceCount())
+                .SelectMany(surface => mesh.Mesh!.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                .Select(vertex => ToLocal(mesh.ToGlobal(vertex)))).ToArray();
+            Vector3 pivot;
+            if (variant.StartsWith("Winter", StringComparison.Ordinal))
+            {
+                var root = sources.SingleOrDefault(node => node.Name == variant + "_Root")
+                    ?? throw new InvalidOperationException($"Winter variant lacks native root pivot: {variant}");
+                pivot = ToLocal(root.GlobalPosition);
+            }
+            else
+            {
+                var trunk = FindTrunkBase(sources, variant);
+                pivot = trunk.HasValue ? new Vector3(trunk.Value.PivotXZ.X, trunk.Value.BaseY, trunk.Value.PivotXZ.Y)
+                    : new Vector3(sourceVertices.Average(vertex => vertex.X), sourceVertices.Min(vertex => vertex.Y), sourceVertices.Average(vertex => vertex.Z));
+            }
+            var groups = new Dictionary<string, List<(MeshInstance3D Mesh, int Surface)>>(StringComparer.Ordinal);
+            foreach (var mesh in meshes)
+            for (var surface = 0; surface < mesh.Mesh!.GetSurfaceCount(); surface++)
+            {
+                var name = mesh.Name.ToString();
+                var materialName = mesh.Mesh.SurfaceGetMaterial(surface)?.ResourceName ?? "";
+                var kind = name.Contains("Snow", StringComparison.OrdinalIgnoreCase) || materialName.Contains("snow", StringComparison.OrdinalIgnoreCase) ? "snow"
+                    : name.Contains("Berries", StringComparison.OrdinalIgnoreCase) ? "berries"
+                    : new[] { "Trunk", "Branch", "Twig", "Root", "Stump" }.Any(token => name.Contains(token, StringComparison.OrdinalIgnoreCase)) ? "bark"
+                    : name.Contains("Stone", StringComparison.OrdinalIgnoreCase) ? "stone" : "foliage";
+                if (!groups.TryGetValue(kind, out var group)) groups[kind] = group = new();
+                group.Add((mesh, surface));
+            }
+            var result = new ArrayMesh();
+            foreach (var group in groups.Values)
+            {
+                using var surface = new SurfaceTool();
+                surface.Begin(Mesh.PrimitiveType.Triangles);
+                foreach (var part in group)
+                {
+                    var transform = GlobalTransform.AffineInverse() * part.Mesh.GlobalTransform;
+                    transform.Origin -= pivot;
+                    surface.AppendFrom(part.Mesh.Mesh!, part.Surface, transform);
+                }
+                surface.Index();
+                surface.Commit(result);
+            }
+            if (variant.StartsWith("Winter", StringComparison.Ordinal) && !result.GetAabb().Grow(.02f).HasPoint(Vector3.Zero))
+                throw new InvalidOperationException($"Native winter root is outside its rebased geometry: {variant}");
+            cached = (result, groups.Keys.ToArray(), sourceVertices.Select(vertex => vertex - pivot).Where(vertex => vertex.Y < 3.2f).ToArray());
+            geometry[variant] = cached;
+            return cached;
         }
-
-        var templates = new Dictionary<string, List<Node3D>>(System.StringComparer.Ordinal);
-        foreach (var node in EnumerateDescendants<Node3D>(kit))
+        ArrayMesh RegionalMesh(string variant, string region)
         {
-            var key = VariantKey(node.Name.ToString());
-            if (key is null || !HasMeshInSubtree(node))
-            {
-                continue;
-            }
-
-            if (!templates.TryGetValue(key, out var list))
-            {
-                list = new List<Node3D>();
-                templates[key] = list;
-            }
-
-            list.Add(node);
+            if (graded.TryGetValue((variant, region), out var cached)) return cached;
+            var source = Geometry(variant);
+            var result = (ArrayMesh)source.Mesh.Duplicate();
+            for (var surface = 0; surface < source.Kinds.Length; surface++)
+                result.SurfaceSetMaterial(surface, RegionalFoliageMaterial(variant, source.Kinds[surface], region));
+            graded[(variant, region)] = result;
+            return result;
         }
 
         var plants = new Node3D { Name = "AgentB_PlantedFoliage" };
+        AddChild(plants);
         plants.SetMeta("presentationOnly", true);
         plants.SetMeta("visualOnly", true);
-        plants.SetMeta(
-            "variationPolicy",
-            "deterministic per-entry scale/yaw and near-mid-far value grades; no new foliage entries");
-        AddChild(plants);
-        // The GLB is a source library, not a second world layer. Keep its
-        // authored template families available for deterministic extraction,
-        // then hide the source root so the template board cannot leak into
-        // the playable village or double every planted family.
+        plants.SetMeta("variationPolicy", "shared rooted meshes; native distance LOD; 12m ground-cover cells");
         kit.Visible = false;
         kit.SetMeta("templateSourceHidden", true);
-        kit.SetMeta(
-            "templateSourcePolicy",
-            "template geometry is hidden after extraction; only deterministic planted copies are visible");
-
-        var plannedEntries = BuildDensifiedPlan();
-        var plantedEntryCount = 0;
-        var suppressedKaraFoliageEntryCount = 0;
-        var minimumRoadClearance = float.MaxValue;
-        var invalidPlacements = new List<string>();
-        foreach (var (position, variant) in plannedEntries)
+        kit.SetMeta("templateSourcePolicy", "hidden source library; shared geometry is rebased once per variant");
+        var batches = new Dictionary<(Vector2I Cell, string Variant, string Region, int Lod), List<Transform3D>>();
+        var roofs = BuildingRoofBounds(GetParent());
+        var plan = BuildDensifiedPlan();
+        var suppressed = 0;
+        var suppressedKara = 0;
+        var minimumClearance = float.MaxValue;
+        foreach (var (position, sourceVariant) in plan)
         {
-            if (!templates.TryGetValue(variant, out var parts))
+            var smallShrub = sourceVariant.StartsWith("Shrub_", StringComparison.Ordinal);
+            var groundCover = smallShrub || sourceVariant.StartsWith("Fern_", StringComparison.Ordinal)
+                || sourceVariant.StartsWith("Sedge_", StringComparison.Ordinal) || sourceVariant.StartsWith("GrassTuft_", StringComparison.Ordinal);
+            var variant = sourceVariant.Replace("WinterLight", "Winter", StringComparison.Ordinal);
+            if (smallShrub) variant = "WinterBirdCherry_1";
+            if (variant.StartsWith("Birch_", StringComparison.Ordinal)) variant = "WinterBirch_1";
+            if (variant.Contains("Spruce", StringComparison.Ordinal) || variant.StartsWith("Pine_", StringComparison.Ordinal))
+                variant = position.Y <= -86f ? variant.StartsWith("WinterSpruce_", StringComparison.Ordinal) ? variant : "WinterSpruce_1" : "WinterLinden_1";
+            var template = Geometry(variant);
+            var road = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
+            var clearance = (float)(road.Distance - road.HalfWidth);
+            if (clearance < .25f) throw new InvalidOperationException($"Foliage placement enters road: {variant}@{position}");
+            minimumClearance = Mathf.Min(minimumClearance, clearance);
+            var depth = Mathf.Clamp((-position.Y - 8f) / 118f, 0, 1);
+            var horizontal = Mathf.Lerp(1.04f, .90f, depth) * Mathf.Lerp(.92f, 1.08f, DeterministicPhase(position, 2.7f));
+            var vertical = Mathf.Lerp(1.02f, .90f, depth) * Mathf.Lerp(.93f, 1.07f, DeterministicPhase(position, 4.9f));
+            if (smallShrub) { horizontal *= .38f; vertical *= .35f; }
+            var basis = new Basis(Vector3.Up, Mathf.DegToRad(Mathf.Lerp(-14, 14, DeterministicPhase(position, 8.1f))))
+                .Scaled(new Vector3(horizontal, vertical, horizontal));
+            var target = new Vector3(position.X, AgentBAct1HeightField.CollisionGround(position.X, position.Y) - .04f, position.Y);
+            var karaSuppression = position.Y <= -86f && new[] { "Birch_", "Spruce_", "MossStone_", "Stump_" }
+                .Any(prefix => sourceVariant.StartsWith(prefix, StringComparison.Ordinal));
+            var hidden = karaSuppression || position.Y > -86f && DeterministicPhase(position, 17.3f) < .75f
+                && new[] { "FallenBranch_", "GrassTuft_", "MossStone_" }.Any(prefix => sourceVariant.StartsWith(prefix, StringComparison.Ordinal));
+            if (karaSuppression) suppressedKara++;
+            var worldRoot = ToGlobal(target);
+            hidden |= UnderBuildingRoof(worldRoot, roofs);
+            if (!hidden)
+            foreach (var sample in template.LowVertices)
             {
-                continue;
+                var point = target + basis * sample;
+                if (point.Y - target.Y > 2.6f) continue;
+                var edge = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
+                if (edge.Distance - edge.HalfWidth >= .1) continue;
+                hidden = true; break;
             }
-
-            var roadInfo = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
-            var roadClearance = (float)(roadInfo.Distance - roadInfo.HalfWidth);
-            if (roadClearance < 0.25f)
+            if (hidden) { suppressed++; continue; }
+            var region = position.Y <= -86f ? "kara" : position.Y <= -58f ? "zirat" : "village";
+            var hasLods = variant.StartsWith("Winter", StringComparison.Ordinal);
+            var tiers = hasLods ? new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) }
+                : new[] { variant };
+            var tree = groundCover ? null : new Node3D { Name = $"{variant}_Plant{plants.GetChildCount()}", Position = target, Basis = basis };
+            if (tree is not null)
             {
-                invalidPlacements.Add(
-                    $"{variant}@({position.X:F2},{position.Y:F2}) clearance={roadClearance:F2}m");
-                continue;
+                plants.AddChild(tree);
+                tree.SetMeta("presentationOnly", true);
+                tree.SetMeta("plantVariant", variant);
+                tree.SetMeta("plantPosition", target);
             }
-
-            minimumRoadClearance = Mathf.Min(minimumRoadClearance, roadClearance);
-
-            plantedEntryCount++;
-
-            // Keep the accepted plan and planted-node counts intact while
-            // hiding repeated low silhouettes in the village/zirat day
-            // envelope. Kara's authored kit owns its large near/mid/far edge,
-            // so hide only the repeated high foliage and random stone/stump
-            // accents there; sparse fern/grass contact remains.
-            var suppressKaraRepeatedFoliage = position.Y <= -86f
-                && (variant.StartsWith("Birch_", System.StringComparison.Ordinal)
-                    || variant.StartsWith("Spruce_", System.StringComparison.Ordinal)
-                    || variant.StartsWith("MossStone_", System.StringComparison.Ordinal)
-                    || variant.StartsWith("Stump_", System.StringComparison.Ordinal));
-            if (suppressKaraRepeatedFoliage)
+            for (var lod = 0; lod < tiers.Length; lod++)
             {
-                suppressedKaraFoliageEntryCount++;
-            }
-
-            var suppressPlantedCopy = position.Y > -86f
-                && (variant.StartsWith("FallenBranch_", System.StringComparison.Ordinal)
-                    || variant.StartsWith("GrassTuft_", System.StringComparison.Ordinal)
-                    || variant.StartsWith("MossStone_", System.StringComparison.Ordinal))
-                && DeterministicPhase(position, 17.3f) < 0.75f;
-            suppressPlantedCopy |= suppressKaraRepeatedFoliage;
-
-            // Foliage source meshes are intentionally laid out on a Blender
-            // preview board. Their imported node origins stay at zero while
-            // the vertices retain the board offset (for example Pine_2 is
-            // authored around x=48). Rebase from the actual mesh geometry,
-            // not from Node3D.GlobalPosition, or a planted tree teleports far
-            // outside its declared parcel and can become a route-wide visual
-            // occluder.
-            var horizontalSum = Vector2.Zero;
-            var visualPartCount = 0;
-            foreach (var part in parts)
-            {
-                foreach (var mesh in EnumerateSelfAndDescendants<MeshInstance3D>(part))
+                var mesh = RegionalMesh(tiers[lod], region);
+                if (groundCover)
                 {
-                    if (mesh.Mesh is null)
-                    {
-                        continue;
-                    }
-
-                    var meshCenter = mesh.GlobalTransform * mesh.Mesh.GetAabb().GetCenter();
-                    horizontalSum += new Vector2(meshCenter.X, meshCenter.Z);
-                    visualPartCount++;
+                    var cell = new Vector2I(Mathf.FloorToInt(position.X / 12f), Mathf.FloorToInt(position.Y / 12f));
+                    var key = (cell, tiers[lod], region, hasLods ? lod : -1);
+                    if (!batches.TryGetValue(key, out var instances)) batches[key] = instances = new();
+                    instances.Add(new Transform3D(basis, target));
                 }
-            }
-
-            var centroid = visualPartCount > 0
-                ? horizontalSum / visualPartCount
-                : parts.Aggregate(Vector2.Zero, (sum, part) => sum + new Vector2(part.GlobalPosition.X, part.GlobalPosition.Z)) / parts.Count;
-            var groundY = (float)AgentBAct1HeightField.Ground(position.X, position.Y);
-            var target = new Vector3(position.X, groundY, position.Y);
-            var depth = Mathf.Clamp((-position.Y - 8f) / 118f, 0f, 1f);
-            var horizontalScale = Mathf.Lerp(1.04f, 0.90f, depth)
-                * Mathf.Lerp(0.92f, 1.08f, DeterministicPhase(position, 2.7f));
-            var verticalScale = Mathf.Lerp(1.02f, 0.90f, depth)
-                * Mathf.Lerp(0.93f, 1.07f, DeterministicPhase(position, 4.9f));
-            if (position.Y <= -86f)
-            {
-                // Kara gets a slightly broader, lower canopy so the existing
-                // edge families feel denser without growing into the road.
-                horizontalScale *= 1.04f;
-                verticalScale *= 0.98f;
-            }
-
-            var yaw = Mathf.Lerp(-14f, 14f, DeterministicPhase(position, 8.1f));
-            var yawRadians = Mathf.DegToRad(yaw);
-            var cosYaw = Mathf.Cos(yawRadians);
-            var sinYaw = Mathf.Sin(yawRadians);
-            foreach (var part in parts)
-            {
-                var sourceGeometrySum = Vector2.Zero;
-                var sourceGeometryCount = 0;
-                var sourceMeshes = EnumerateSelfAndDescendants<MeshInstance3D>(part)
-                    .Where(mesh => mesh.Mesh is not null)
-                    .ToArray();
-                foreach (var mesh in sourceMeshes)
+                else
                 {
-                    var meshCenter = mesh.GlobalTransform * mesh.Mesh!.GetAabb().GetCenter();
-                    sourceGeometrySum += new Vector2(meshCenter.X, meshCenter.Z);
-                    sourceGeometryCount++;
+                    var instance = new MeshInstance3D { Name = $"{variant}_LOD{lod}", Mesh = mesh };
+                    tree!.AddChild(instance);
+                    ConfigureFoliageRange(instance, hasLods ? lod : -1, false);
                 }
-
-                var sourceGeometryCenter = sourceGeometryCount > 0
-                    ? sourceGeometrySum / sourceGeometryCount
-                    : new Vector2(part.GlobalPosition.X, part.GlobalPosition.Z);
-                if (part.Duplicate() is not Node3D copy)
-                {
-                    continue;
-                }
-
-                // Regional bark/leaf grading depends on semantic part names.
-                // Preserve those on repeated variants instead of @MeshInstance3D.
-                plants.AddChild(copy, forceReadableName: true);
-                copy.Visible = !suppressPlantedCopy;
-                // Use the source geometry center for both the family offset and
-                // the copied root. Remove that part's preview-board offset from
-                // its vertices once, so the root stays near the target while
-                // the visible world AABB remains unchanged.
-                var sourcePosition = part.GlobalPosition;
-                var sourceOffset = new Vector2(
-                    sourceGeometryCenter.X - centroid.X,
-                    sourceGeometryCenter.Y - centroid.Y);
-                var rotatedOffset = new Vector2(
-                    sourceOffset.X * cosYaw - sourceOffset.Y * sinYaw,
-                    sourceOffset.X * sinYaw + sourceOffset.Y * cosYaw);
-                var rootRebaseSourceOffset = new Vector2(
-                    sourcePosition.X - sourceGeometryCenter.X,
-                    sourcePosition.Z - sourceGeometryCenter.Y);
-                var rotatedRootRebaseOffset = new Vector2(
-                    rootRebaseSourceOffset.X * cosYaw - rootRebaseSourceOffset.Y * sinYaw,
-                    rootRebaseSourceOffset.X * sinYaw + rootRebaseSourceOffset.Y * cosYaw);
-                var rootRebaseDelta = new Vector3(
-                    rotatedRootRebaseOffset.X * horizontalScale,
-                    0f,
-                    rotatedRootRebaseOffset.Y * horizontalScale);
-
-                copy.GlobalPosition = new Vector3(
-                    target.X + rotatedOffset.X * horizontalScale,
-                    target.Y + sourcePosition.Y * verticalScale,
-                    target.Z + rotatedOffset.Y * horizontalScale);
-                copy.RotationDegrees = part.RotationDegrees + new Vector3(0f, yaw, 0f);
-                copy.Scale = new Vector3(
-                    part.Scale.X * horizontalScale,
-                    part.Scale.Y * verticalScale,
-                    part.Scale.Z * horizontalScale);
-
-                var copiedMeshes = EnumerateSelfAndDescendants<MeshInstance3D>(copy)
-                    .Where(mesh => mesh.Mesh is not null)
-                    .ToArray();
-                if (copiedMeshes.Length != sourceMeshes.Length)
-                {
-                    throw new InvalidOperationException(
-                        $"Foliage family '{variant}' duplicated with mismatched mesh parts.");
-                }
-
-                for (var meshIndex = 0; meshIndex < sourceMeshes.Length; meshIndex++)
-                {
-                    var sourceMesh = sourceMeshes[meshIndex];
-                    var copiedMesh = copiedMeshes[meshIndex];
-                    if (sourceMesh.Mesh is not ArrayMesh sourceArrayMesh)
-                    {
-                        throw new InvalidOperationException(
-                            $"Foliage family '{variant}' requires ArrayMesh source geometry.");
-                    }
-
-                    // Preserve the old rendered transform exactly: the old
-                    // node-origin root was rootRebaseDelta away from this
-                    // geometry-centred root, so apply that delta once in the
-                    // copied mesh's local vertex space.
-                    var localRootRebaseDelta = copiedMesh.GlobalTransform.Basis.Inverse() * rootRebaseDelta;
-                    var rebasedMesh = new ArrayMesh();
-                    for (var surface = 0; surface < sourceArrayMesh.GetSurfaceCount(); surface++)
-                    {
-                        var arrays = sourceArrayMesh.SurfaceGetArrays(surface).Duplicate(true);
-                        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
-                        for (var vertexIndex = 0; vertexIndex < vertices.Length; vertexIndex++)
-                        {
-                            vertices[vertexIndex] += localRootRebaseDelta;
-                        }
-
-                        arrays[(int)Mesh.ArrayType.Vertex] = vertices;
-                        rebasedMesh.AddSurfaceFromArrays(
-                            sourceArrayMesh.SurfaceGetPrimitiveType(surface),
-                            arrays);
-                        if (sourceArrayMesh.SurfaceGetMaterial(surface) is Material material)
-                        {
-                            rebasedMesh.SurfaceSetMaterial(surface, material);
-                        }
-                    }
-
-                    copiedMesh.Mesh = rebasedMesh;
-                }
-                RegradeRegionalFoliage(copy, variant, position.Y);
             }
         }
-
-        if (invalidPlacements.Count > 0)
+        foreach (var (key, transforms) in batches)
         {
-            throw new System.InvalidOperationException(
-                "Agent B foliage placements overlap the protected road envelope: "
-                + string.Join(" | ", invalidPlacements));
+            var origin = new Vector3(key.Cell.X * 12f + 6f, 0, key.Cell.Y * 12f + 6f);
+            var multi = new MultiMesh { TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+                Mesh = RegionalMesh(key.Variant, key.Region), InstanceCount = transforms.Count };
+            for (var index = 0; index < transforms.Count; index++)
+            {
+                var transform = transforms[index]; transform.Origin -= origin;
+                multi.SetInstanceTransform(index, transform);
+            }
+            var group = new MultiMeshInstance3D { Name = $"{key.Variant}_Cell{key.Cell.X}_{key.Cell.Y}", Position = origin, Multimesh = multi };
+            plants.AddChild(group);
+            group.SetMeta("presentationOnly", true);
+            group.SetMeta("plantVariant", key.Variant);
+            ConfigureFoliageRange(group, key.Lod, true);
         }
-
-        SetMeta("plantedVariantCount", templates.Count);
-        SetMeta("plannedFoliageEntryCount", plannedEntries.Count);
-        SetMeta("plantedFoliageEntryCount", plantedEntryCount);
+        foreach (var region in new[] { "village", "zirat", "kara" })
+        foreach (var variant in new[] { "WinterBirch_1", "WinterLinden_1", "WinterBirdCherry_1",
+                     "WinterLightBirch_1", "WinterLightLinden_1", "WinterLightBirdCherry_1",
+                     "WinterFarBirch_1", "WinterFarLinden_1", "WinterFarBirdCherry_1",
+                     "WinterSpruce_1", "WinterLightSpruce_1", "WinterFarSpruce_1" })
+            RegionalMesh(variant, region);
+        SetMeta("roadEnvelopeSuppressedFoliageEntryCount", suppressed);
+        SetMeta("plantedVariantCount", parts.Count);
+        SetMeta("plannedFoliageEntryCount", plan.Count);
+        SetMeta("plantedFoliageEntryCount", plan.Count);
         SetMeta("plantedFoliageNodeCount", plants.GetChildCount());
-        SetMeta("suppressedKaraFoliageEntryCount", suppressedKaraFoliageEntryCount);
-        SetMeta("minimumFoliageRoadClearance", minimumRoadClearance);
-        SetMeta(
-            "foliagePlacementPolicy",
-            "all planted entries fail closed at >=0.25m from the authored road envelope; foliage remains presentation-only");
-        SetMeta(
-            "foliageRebasePolicy",
-            "planted copies remove source preview-board X/Z offsets from mesh geometry while preserving vertical ground pivots");
-        SetMeta(
-            "regionalFoliageGradePolicy",
-            "all planted foliage uses deterministic near/mid/far values; Kara retains sparse contact planting while authored Kara silhouettes own the edge");
+        SetMeta("suppressedKaraFoliageEntryCount", suppressedKara);
+        SetMeta("minimumFoliageRoadClearance", minimumClearance);
+        SetMeta("foliagePlacementPolicy", "roots and full lower silhouette clear road; suppressed entries remain counted separately");
+        SetMeta("foliageRebasePolicy", "one layer-space root pivot per shared geometry variant");
+        SetMeta("regionalFoliageGradePolicy", "semantic snow/bark/dry ground cover; winter deciduous village, conifers at Kara only");
+        foreach (var template in kit.GetChildren()) template.Free();
+        kit.SetMeta("templateSourcePolicy", "source owner retained; template instances released after shared geometry extraction");
+    }
+
+    internal static void ConfigureFoliageRange(GeometryInstance3D instance, int lod, bool groundCover)
+    {
+        instance.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self;
+        instance.VisibilityRangeBegin = lod switch { 1 => 24, 2 => 60, _ => 0 };
+        instance.VisibilityRangeBeginMargin = lod switch { 1 => 2, 2 => 4, _ => 0 };
+        instance.VisibilityRangeEnd = lod switch { 0 => 26, 1 => 64, _ => groundCover ? 85 : 0 };
+        instance.VisibilityRangeEndMargin = lod switch { 0 => 2, 1 => 4, _ => groundCover ? 5 : 0 };
+    }
+
+    private static Material RegionalFoliageMaterial(string variant, string kind, string region)
+    {
+        var birch = variant.Contains("Birch", StringComparison.Ordinal);
+        var conifer = variant.Contains("Spruce", StringComparison.Ordinal);
+        return kind switch
+        {
+            "snow" => PainterlyMaterialLibrary.ForColor("e8edf0", "snow_roof"),
+            "berries" => PainterlyMaterialLibrary.ForColor("784239", "rowan_berries"),
+            "bark" => PainterlyMaterialLibrary.ForColor(birch ? "c9c2ad" : region == "kara" ? "504c43" : "685e50", birch ? "bark_birch_winter" : "wood_bark"),
+            "stone" => PainterlyMaterialLibrary.ForColor("74766d", "stone"),
+            _ => PainterlyMaterialLibrary.ForColor(conifer ? "455749" : "827a65", conifer ? "foliage" : "grass")
+        };
+    }
+
+    private (Vector2 PivotXZ, float BaseY)? FindTrunkBase(List<Node3D> parts, string variant)
+    {
+        var trunkMeshes = parts
+            .SelectMany(EnumerateSelfAndDescendants<MeshInstance3D>)
+            .Where(mesh => mesh.Name.ToString().EndsWith("_Trunk", System.StringComparison.Ordinal))
+            .Distinct()
+            .ToArray();
+        if (trunkMeshes.Length == 0)
+        {
+            return null;
+        }
+
+        var worldVertices = new List<Vector3>();
+        foreach (var mesh in trunkMeshes)
+        {
+            if (mesh.Mesh is not ArrayMesh sourceArrayMesh)
+            {
+                throw new InvalidOperationException(
+                    $"Foliage family '{variant}' requires ArrayMesh trunk geometry.");
+            }
+
+            for (var surface = 0; surface < sourceArrayMesh.GetSurfaceCount(); surface++)
+            {
+                var vertices = sourceArrayMesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                foreach (var vertex in vertices)
+                {
+                    worldVertices.Add(ToLocal(mesh.ToGlobal(vertex)));
+                }
+            }
+        }
+
+        if (worldVertices.Count == 0)
+        {
+            throw new InvalidOperationException(
+                $"Foliage family '{variant}' declares a trunk without vertices.");
+        }
+
+        var minY = worldVertices.Min(vertex => vertex.Y);
+        var baseSum = Vector2.Zero;
+        var baseVertexCount = 0;
+        foreach (var vertex in worldVertices)
+        {
+            if (vertex.Y > minY + .02f)
+            {
+                continue;
+            }
+
+            baseSum += new Vector2(vertex.X, vertex.Z);
+            baseVertexCount++;
+        }
+
+        return (baseSum / baseVertexCount, minY);
     }
 
     /// <summary>
@@ -1290,79 +1369,6 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         planned.Add((position + new Vector2(rng.RandfRange(-1.6f, 1.6f), rng.RandfRange(-1.6f, 1.6f)), undergrowth));
     }
 
-    private static void RegradeRegionalFoliage(Node3D copy, string variant, float routeZ = 0f)
-    {
-        var isBirch = variant.StartsWith("Birch_", System.StringComparison.Ordinal)
-            || variant.Contains("Birch_", System.StringComparison.Ordinal);
-        var isConifer = variant.StartsWith("Pine_", System.StringComparison.Ordinal)
-            || variant.StartsWith("Spruce_", System.StringComparison.Ordinal)
-            || variant.Contains("Spruce_", System.StringComparison.Ordinal);
-        var isKara = routeZ <= -86f;
-        var isZirat = routeZ <= -58f;
-        var depth = Mathf.Clamp((-routeZ - 8f) / 118f, 0f, 1f);
-        var foliageColor = isKara
-            ? isBirch ? "465643" : isConifer ? "33483e" : "3d5040"
-            : isZirat
-                ? isBirch ? "56644d" : isConifer ? "3f5444" : "4e6049"
-                : depth > 0.35f
-                    ? isBirch ? "5d6c51" : isConifer ? "475b49" : "56674d"
-                    : isBirch ? "647354" : isConifer ? "4c624d" : "5c6d50";
-        var foliageSurface = isBirch ? "leaf_birch" : "foliage";
-        var foliage = Urman.Godot.PainterlyMaterialLibrary.ForColor(foliageColor, foliageSurface);
-        var foliageShadow = Urman.Godot.PainterlyMaterialLibrary.ForColor(
-            isKara ? "2f4138" : isZirat ? "465640" : "506047",
-            foliageSurface);
-        var foliageLight = Urman.Godot.PainterlyMaterialLibrary.ForColor(
-            isKara ? "425440" : isZirat ? "5b694e" : "687857",
-            foliageSurface);
-        var trunk = Urman.Godot.PainterlyMaterialLibrary.ForColor(
-            isKara
-                ? isBirch ? "5b5b50" : "48443c"
-                : isBirch ? "625f54" : "51483c",
-            isBirch ? "bark_birch" : "bark_pine");
-        var groundAccent = Urman.Godot.PainterlyMaterialLibrary.ForColor(
-            isKara ? "465843" : isZirat ? "596049" : "5e6c50",
-            "foliage");
-        var stone = Urman.Godot.PainterlyMaterialLibrary.ForColor(
-            isKara ? "5d625a" : "696b60",
-            "stone");
-        var rebound = 0;
-        foreach (var mesh in EnumerateSelfAndDescendants<MeshInstance3D>(copy))
-        {
-            if (mesh.Mesh is null)
-            {
-                continue;
-            }
-
-            var name = mesh.Name.ToString();
-            var material = name.Contains("Trunk", System.StringComparison.Ordinal)
-                || name.Contains("Root", System.StringComparison.Ordinal)
-                || name.Contains("Stump", System.StringComparison.Ordinal)
-                || name.Contains("Branch", System.StringComparison.Ordinal)
-                ? trunk
-                : name.Contains("Stone", System.StringComparison.Ordinal)
-                    ? stone
-                    : name.Contains("Moss", System.StringComparison.Ordinal)
-                        ? groundAccent
-                        : name.EndsWith("0", System.StringComparison.Ordinal)
-                            ? foliageShadow
-                            : name.EndsWith("2", System.StringComparison.Ordinal)
-                                ? foliageLight
-                                : foliage;
-            for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
-            {
-                mesh.SetSurfaceOverrideMaterial(surface, material);
-                rebound++;
-            }
-        }
-
-        copy.SetMeta("presentationOnly", true);
-        copy.SetMeta("visualOnly", true);
-        copy.SetMeta("runtimeStateOwnership", "RuntimeBridge");
-        copy.SetMeta("regionalFoliageDepthBand", isKara ? "kara" : isZirat ? "zirat" : depth > 0.35f ? "mid" : "near");
-        copy.SetMeta("regionalFoliageMaterialReboundCount", rebound);
-    }
-
     private static bool HasMeshInSubtree(Node node) =>
         node is MeshInstance3D || EnumerateDescendants<MeshInstance3D>(node).Any();
 
@@ -1383,6 +1389,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     {
         string[] families =
         {
+            "WinterFarBirdCherry", "WinterFarSpruce", "WinterFarBirch", "WinterFarLinden", "WinterFarMaple", "WinterFarRowan", "WinterFarWillow",
             "WinterLightBirdCherry", "WinterLightSpruce", "WinterLightBirch",
             "WinterLightLinden", "WinterLightMaple", "WinterLightRowan",
             "WinterLightWillow",

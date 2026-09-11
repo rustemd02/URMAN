@@ -2,6 +2,54 @@
 
 [ext_resource path="res://scripts/DocumentUi.cs" type="Script" id="1_ui"]
 
+[sub_resource type="StyleBoxFlat" id="DocumentPanel"]
+bg_color = Color(0.84, 0.77, 0.63, 1)
+border_width_left = 7
+border_width_top = 7
+border_width_right = 7
+border_width_bottom = 7
+border_color = Color(0.105, 0.09, 0.07, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+content_margin_left = 36.0
+content_margin_top = 30.0
+content_margin_right = 36.0
+content_margin_bottom = 28.0
+
+[sub_resource type="StyleBoxFlat" id="DocumentButton"]
+bg_color = Color(0.74, 0.64, 0.46, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.27, 0.22, 0.16, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="DocumentFocus"]
+bg_color = Color(0.82, 0.69, 0.43, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.12, 0.09, 0.06, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 15.0
+content_margin_top = 7.0
+content_margin_right = 15.0
+content_margin_bottom = 7.0
+
 [node name="DocumentUi" type="CanvasLayer"]
 layer = 21
 script = ExtResource("1_ui")
@@ -23,21 +71,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.025, 0.03, 0.026, 0.86)
+color = Color(0.025, 0.03, 0.026, 0.9)
 
 [node name="Document" type="PanelContainer" parent="Screen"]
 layout_mode = 1
 anchors_preset = 15
-anchor_left = 0.16
-anchor_top = 0.1
-anchor_right = 0.84
-anchor_bottom = 0.9
+anchor_left = 0.14
+anchor_top = 0.08
+anchor_right = 0.86
+anchor_bottom = 0.92
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("DocumentPanel")
 
 [node name="Layout" type="VBoxContainer" parent="Screen/Document"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 16
 
 [node name="Header" type="HBoxContainer" parent="Screen/Document/Layout"]
 layout_mode = 2
@@ -45,14 +94,18 @@ layout_mode = 2
 [node name="Title" type="Label" parent="Screen/Document/Layout/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.89, 0.78, 0.55, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.25, 0.2, 0.14, 1)
+theme_override_font_sizes/font_size = 30
 text = "ДОКУМЕНТ"
 autowrap_mode = 2
 
 [node name="Close" type="Button" parent="Screen/Document/Layout/Header"]
 layout_mode = 2
 focus_mode = 2
+custom_minimum_size = Vector2(0, 44)
+theme_override_styles/normal = SubResource("DocumentButton")
+theme_override_styles/hover = SubResource("DocumentFocus")
+theme_override_styles/focus = SubResource("DocumentFocus")
 text = "Закрыть [Esc]"
 
 [node name="Reader" type="VBoxContainer" parent="Screen/Document/Layout"]
@@ -64,8 +117,9 @@ theme_override_constants/separation = 8
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 2
-theme_override_colors/default_color = Color(0.84, 0.82, 0.74, 1)
-theme_override_font_sizes/normal_font_size = 19
+theme_override_colors/default_color = Color(0.21, 0.17, 0.12, 1)
+theme_override_font_sizes/normal_font_size = 20
+theme_override_constants/line_separation = 6
 text = "Документ не выбран."
 fit_content = false
 scroll_active = true
@@ -76,11 +130,16 @@ layout_mode = 2
 [node name="Status" type="Label" parent="Screen/Document/Layout/Footer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.58, 0.62, 0.54, 1)
+theme_override_colors/font_color = Color(0.32, 0.27, 0.19, 1)
+theme_override_font_sizes/font_size = 16
 text = "Документ найден в зоне"
 autowrap_mode = 2
 
 [node name="Save" type="Button" parent="Screen/Document/Layout/Footer"]
 layout_mode = 2
 focus_mode = 2
+custom_minimum_size = Vector2(0, 44)
+theme_override_styles/normal = SubResource("DocumentButton")
+theme_override_styles/hover = SubResource("DocumentFocus")
+theme_override_styles/focus = SubResource("DocumentFocus")
 text = "В журнал"

@@ -54,6 +54,25 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _accessibility = settings;
         RefitToViewport();
         AccessibilityPresentation.ApplyToControl(_documentView, settings);
+        var ink = settings.HighContrast ? Colors.Black : new Color("34291c");
+        _title.AddThemeColorOverride("font_color", ink);
+        _title.AddThemeColorOverride("font_shadow_color", Colors.Transparent);
+        _title.AddThemeConstantOverride("shadow_offset_x", 0);
+        _title.AddThemeConstantOverride("shadow_offset_y", 0);
+        _body.AddThemeColorOverride("default_color", ink);
+        _status.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.Black : new Color("5b4d39"));
+        _status.AddThemeColorOverride("font_shadow_color", Colors.Transparent);
+        _status.AddThemeConstantOverride("shadow_offset_x", 0);
+        _status.AddThemeConstantOverride("shadow_offset_y", 0);
+        foreach (var button in new[] { _close, _save })
+        {
+            button.AddThemeColorOverride("font_color", ink);
+            button.AddThemeColorOverride("font_hover_color", Colors.Black);
+            button.AddThemeColorOverride("font_pressed_color", Colors.Black);
+            button.AddThemeColorOverride("font_focus_color", Colors.Black);
+            button.AddThemeColorOverride("font_outline_color", Colors.Transparent);
+            button.AddThemeConstantOverride("outline_size", 0);
+        }
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
@@ -132,10 +151,9 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
             return;
         }
 
-        var scale = Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f);
         var size = new Vector2(
-            Mathf.Max(1f, Mathf.Min(viewport.X * 0.68f, viewport.X / scale - 24f)),
-            Mathf.Max(1f, Mathf.Min(viewport.Y * 0.80f, viewport.Y / scale - 24f)));
+            Mathf.Max(1f, Mathf.Min(viewport.X * 0.72f, 860f * Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f))),
+            Mathf.Max(1f, Mathf.Min(viewport.Y * 0.84f, viewport.Y - 24f)));
         _documentView.AnchorLeft = 0.5f;
         _documentView.AnchorTop = 0.5f;
         _documentView.AnchorRight = 0.5f;

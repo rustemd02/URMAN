@@ -2,6 +2,57 @@
 
 [ext_resource path="res://scripts/DialogueUi.cs" type="Script" id="1_ui"]
 
+[sub_resource type="Theme" id="DialogueTypography"]
+default_font_size = 20
+
+[sub_resource type="StyleBoxFlat" id="DialoguePanel"]
+bg_color = Color(0.13, 0.125, 0.105, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.48, 0.39, 0.26, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 28.0
+content_margin_top = 22.0
+content_margin_right = 28.0
+content_margin_bottom = 22.0
+
+[sub_resource type="StyleBoxFlat" id="DialogueButton"]
+bg_color = Color(0.19, 0.18, 0.15, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.42, 0.37, 0.27, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="DialogueFocus"]
+bg_color = Color(0.31, 0.25, 0.16, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.84, 0.66, 0.34, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 15.0
+content_margin_top = 7.0
+content_margin_right = 15.0
+content_margin_bottom = 7.0
+
 [node name="DialogueUi" type="CanvasLayer"]
 layer = 15
 script = ExtResource("1_ui")
@@ -24,43 +75,55 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.02, 0.025, 0.022, 0.52)
+color = Color(0.02, 0.025, 0.022, 0.2)
 
 [node name="Panel" type="PanelContainer" parent="Screen"]
+theme = SubResource("DialogueTypography")
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 90.0
-offset_top = -390.0
-offset_right = -90.0
-offset_bottom = -55.0
+anchor_left = 0.05
+anchor_right = 0.95
+offset_left = 0.0
+offset_top = -372.0
+offset_right = 0.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/panel = SubResource("DialoguePanel")
+theme_override_font_sizes/font_size = 20
 
 [node name="Layout" type="VBoxContainer" parent="Screen/Panel"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 12
 
 [node name="Speaker" type="Label" parent="Screen/Panel/Layout"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.89, 0.71, 0.43, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.9, 0.73, 0.42, 1)
+theme_override_font_sizes/font_size = 24
 text = "СОБЕСЕДНИК"
 
 [node name="Line" type="RichTextLabel" parent="Screen/Panel/Layout"]
-custom_minimum_size = Vector2(0, 105)
+custom_minimum_size = Vector2(0, 118)
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 21
+theme_override_colors/default_color = Color(0.91, 0.87, 0.77, 1)
+theme_override_font_sizes/normal_font_size = 22
 text = "..."
-fit_content = true
+fit_content = false
+scroll_active = true
 
 [node name="Choices" type="VBoxContainer" parent="Screen/Panel/Layout"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 8
 
 [node name="Continue" type="Button" parent="Screen/Panel/Layout"]
 layout_mode = 2
+focus_mode = 2
+custom_minimum_size = Vector2(0, 44)
+theme_override_styles/normal = SubResource("DialogueButton")
+theme_override_styles/hover = SubResource("DialogueFocus")
+theme_override_styles/focus = SubResource("DialogueFocus")
 text = "Продолжить"

@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""Procedural winter snow albedos for УРМАН (Act I winter season lock).
+"""Procedural winter snow albedos and micro maps for УРМАН (Act I winter season lock).
 
 The winter brief (docs/production/URMAN_WINTER_TEXTURE_BRIEF_RU.md) lists the
 same families for an optional ImageGen upgrade pass. These painterly albedos
 are generated deterministically here so the snow has real relief, drifts and
 packed detail instead of a flat white sheet; if the ImageGen files ever land
-with the same names, the runtime picks them up automatically.
+with the same names, the runtime picks them up automatically. The micro
+response and normal maps are separate packed data maps, not albedo inputs:
+response.R is normalized microheight, response.G is shader-mapped roughness
+variation, response.B is a static grain mask, and normal encodes the matching
+height gradient.
 
 Design rules (design_style.md -> Winter):
 - warm-white snow with cool blue hollows, never blown-out pure white;
@@ -117,15 +121,15 @@ def snow_trampled() -> Image.Image:
 
 
 def snow_road() -> Image.Image:
-    rut = np.repeat(((np.cos(np.linspace(0, math.tau * 5.0, SIZE, dtype=np.float32))[None, :] * 0.5 + 0.5) ** 2),
-                    SIZE, axis=0)
-    wobble = _fbm((SIZE, SIZE), 3, SEED + 66, base=3.0)
-    band = np.clip((rut - 0.42) * 2.4, 0.0, 1.0) * (0.75 + wobble * 0.5)
-    grit = np.clip((_fbm((SIZE, SIZE), 4, SEED + 77, base=17.0) - 0.66) * 4.0, 0.0, 1.0)
-    relief = _shade(0.74 + (wobble - 0.5) * 0.22 - band * 0.30, 0.7)
-    rgb = _to_snow_rgb(relief, (0.895, 0.905, 0.920), (0.560, 0.605, 0.670), gamma=0.95)
-    rgb -= grit[..., None] * np.array([0.02, 0.12, 0.20])
-    rgb -= band[..., None] * np.array([0.06, 0.075, 0.095])
+    packed_field = _fbm((SIZE, SIZE), 5, SEED + 66, base=2.7)
+    packed_mottle = _fbm((SIZE, SIZE), 4, SEED + 71, base=8.5)
+    packed = np.clip((packed_field - 0.46) * 2.2, 0.0, 1.0)
+    packed *= 0.58 + packed_mottle * 0.42
+    grit = np.clip((_fbm((SIZE, SIZE), 4, SEED + 77, base=19.0) - 0.68) * 4.0, 0.0, 1.0)
+    relief = _shade(0.74 + (packed_mottle - 0.5) * 0.18 - packed * 0.19, 0.7)
+    rgb = _to_snow_rgb(relief, (0.910, 0.915, 0.920), (0.610, 0.655, 0.700), gamma=0.95)
+    rgb -= grit[..., None] * np.array([0.025, 0.030, 0.035])
+    rgb -= packed[..., None] * np.array([0.060, 0.065, 0.070])
     rgb += _specks((SIZE, SIZE), SEED + 9, 0.0009, 0.12)[..., None]
     return Image.fromarray((np.clip(rgb, 0, 1) * 255).astype(np.uint8))
 
@@ -163,6 +167,63 @@ def snow_roof() -> Image.Image:
     return Image.fromarray((np.clip(rgb, 0, 1) * 255).astype(np.uint8))
 
 
+def snow_micro_maps() -> tuple[Image.Image, Image.Image]:
+    """Return packed response/normal maps for a periodic 1 m snow tile.
+
+    The normal uses the exact 8-bit height stored in response.R, converted back
+    to metres, with central differences at a 2 px radius (2 / 1024 m).
+    """
+    height = sum(
+        weight * _value_noise((SIZE, SIZE), frequency, SEED + 300 + index * 11)
+        for index, (frequency, weight) in enumerate(
+            ((4, 0.50), (8, 0.25), (16, 0.15), (32, 0.10)))
+    ).astype(np.float32)
+    height = (height - height.min()) / (height.max() - height.min())
+    height_u8 = np.rint(height * 255.0).astype(np.uint8)
+    encoded_height = height_u8.astype(np.float32) / 255.0
+
+    radius = 2
+    texel_m = 1.0 / SIZE
+    height_m = (encoded_height - 0.5) * 0.004
+    dh_dx = (np.roll(height_m, -radius, axis=1) - np.roll(height_m, radius, axis=1)) / (2 * radius * texel_m)
+    dh_dz = (np.roll(height_m, -radius, axis=0) - np.roll(height_m, radius, axis=0)) / (2 * radius * texel_m)
+    normal = np.stack((-dh_dx, -dh_dz, np.ones_like(height_m)), axis=-1)
+    normal /= np.linalg.norm(normal, axis=-1, keepdims=True)
+    normal_rgb = np.clip(normal * 0.5 + 0.5, 0.0, 1.0)
+
+    slope = np.hypot(dh_dx, dh_dz)
+    slope_variation = np.clip(slope / (np.percentile(slope, 95) + 1e-8), 0.0, 1.0)
+    roughness_variation = np.clip(
+        0.5 + 0.35 * (encoded_height - 0.5) + 0.35 * (slope_variation - 0.5), 0.0, 1.0)
+
+    neighbors = [
+        np.roll(encoded_height, (row, column), axis=(0, 1))
+        for row in (-1, 0, 1)
+        for column in (-1, 0, 1)
+        if row or column
+    ]
+    local_peaks = encoded_height > np.maximum.reduce(neighbors)
+    peak_indices = np.flatnonzero(local_peaks)
+    grain_count = round(SIZE * SIZE * 0.0025)
+    if peak_indices.size < grain_count:
+        peak_indices = np.flatnonzero(encoded_height >= np.percentile(encoded_height, 99.75))
+    strongest = peak_indices[np.argsort(encoded_height.flat[peak_indices])[-grain_count:]]
+    grain = np.zeros((SIZE, SIZE), dtype=np.uint8)
+    grain.flat[strongest] = 255
+
+    response = np.stack((height_u8, np.rint(roughness_variation * 255.0).astype(np.uint8), grain), axis=-1)
+    assert np.isfinite(response).all() and np.isfinite(normal_rgb).all()
+    assert response.min() >= 0 and response.max() <= 255
+    assert normal_rgb.min() >= 0.0 and normal_rgb.max() <= 1.0
+    assert np.allclose(np.linalg.norm(normal, axis=-1), 1.0, atol=1e-6)
+    assert 0.001 <= float(np.count_nonzero(grain)) / grain.size <= 0.005
+    assert np.isfinite(dh_dx[:, (0, -1)]).all() and np.isfinite(dh_dz[(0, -1), :]).all()
+    assert max(float(np.abs(dh_dx).max()), float(np.abs(dh_dz).max())) < 1.0
+
+    return (Image.fromarray(response),
+            Image.fromarray(np.rint(normal_rgb * 255.0).astype(np.uint8)))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=None)
@@ -171,6 +232,7 @@ def main() -> int:
     out = root / "game/assets/textures/painterly"
     out.mkdir(parents=True, exist_ok=True)
 
+    micro_response, micro_normal = snow_micro_maps()
     outputs = {
         "snow_fresh_v1_albedo.png": snow_fresh(1),
         "snow_fresh_v2_albedo.png": snow_fresh(2),
@@ -180,6 +242,8 @@ def main() -> int:
         "ice_patch_v1_albedo.png": ice_patch(1),
         "ice_patch_v2_albedo.png": ice_patch(2),
         "snow_roof_v1_albedo.png": snow_roof(),
+        "snow_micro_response.png": micro_response,
+        "snow_micro_normal.png": micro_normal,
     }
     for name, image in outputs.items():
         image.save(out / name)

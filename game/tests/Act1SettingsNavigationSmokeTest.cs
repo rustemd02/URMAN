@@ -41,7 +41,7 @@ public partial class Act1SettingsNavigationSmokeTest : Node
         //    entry focus, gameplay stays gated.
         demo.MainMenu.SettingsButton?.EmitSignal(BaseButton.SignalName.Pressed);
         await Frames(2);
-        var fov = settings.GetNode<HSlider>("Screen/Panel/Layout/FovRow/Fov");
+        var fov = settings.GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/FovRow/Fov");
         if (!settings.IsOpen || !demo.MainMenuVisible || !player.ModalOpen || !fov.HasFocus())
         {
             Fail($"Settings did not open menu-safely with entry focus (open={settings.IsOpen} menu={demo.MainMenuVisible} modal={player.ModalOpen} focus={fov.HasFocus()}).");
@@ -70,7 +70,7 @@ public partial class Act1SettingsNavigationSmokeTest : Node
 
         demo.MainMenu.SettingsButton?.EmitSignal(BaseButton.SignalName.Pressed);
         await Frames(2);
-        if (!settings.IsOpen || settings.GetNode<HSlider>("Screen/Panel/Layout/FovRow/Fov").Value != liveFov)
+        if (!settings.IsOpen || settings.GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/FovRow/Fov").Value != liveFov)
         {
             Fail("Reopened settings did not show the live values after rollback.");
             return;
@@ -78,7 +78,7 @@ public partial class Act1SettingsNavigationSmokeTest : Node
 
         // 3) Explicit apply commits: live FOV changes and persists to the
         //    user store, while the main menu remains beneath.
-        settings.GetNode<HSlider>("Screen/Panel/Layout/FovRow/Fov").Value = 88;
+        settings.GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/FovRow/Fov").Value = 88;
         settings.GetNode<Button>("Screen/Panel/Layout/Buttons/Apply").EmitSignal(BaseButton.SignalName.Pressed);
         await Frames(2);
         if (player.CaptureSettings().FieldOfView != 88

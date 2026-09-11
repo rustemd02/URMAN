@@ -55,6 +55,9 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _accessibility = settings;
         RefitToViewport();
         AccessibilityPresentation.ApplyToControl(_book, settings);
+        _title.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("f0c46b"));
+        _body.AddThemeColorOverride("default_color", settings.HighContrast ? Colors.White : new Color("e0d6c2"));
+        _source.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("aaa18f"));
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
@@ -172,10 +175,9 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             return;
         }
 
-        var scale = Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f);
         var size = new Vector2(
-            Mathf.Max(1f, Mathf.Min(viewport.X * 0.76f, viewport.X / scale - 24f)),
-            Mathf.Max(1f, Mathf.Min(viewport.Y * 0.82f, viewport.Y / scale - 24f)));
+            Mathf.Max(1f, Mathf.Min(viewport.X * 0.80f, 1200f * Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f))),
+            Mathf.Max(1f, Mathf.Min(viewport.Y * 0.86f, viewport.Y - 24f)));
         _book.AnchorLeft = 0.5f;
         _book.AnchorTop = 0.5f;
         _book.AnchorRight = 0.5f;

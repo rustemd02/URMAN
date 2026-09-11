@@ -28,6 +28,15 @@ HOUSE_AXIS = [(-1.2, -8), (-6, -5.5), (-12, -2.5), (-19, 0), (-24, 1.2)]
 
 ALL_AXES = MAIN_AXIS + ZIRAT_AXIS[1:] + KARA_AXIS[1:]
 
+ROAD_MAIN_HALF_WIDTH = 2.0
+ROAD_WHEEL_CENTER_SEPARATION = 1.56
+ROAD_RUT_WIDTH = 0.28
+ROAD_MAIN_RUT_DEPTH = 0.03
+ROAD_FAP_RUT_DEPTH = 0.022
+ROAD_ZIRAT_RUT_DEPTH = 0.02
+ROAD_SURFACE_MAX_ABOVE_GROUND = 0.045
+ZIRAT_START_BLENDER_Y = -ZIRAT_AXIS[0][1]
+
 # Yard plateaus (Godot space): (x, z, radius)
 YARDS = [
     (-30, 0, 9.0),      # babai/ebi yard
@@ -66,7 +75,10 @@ def _deformed_ribbon(name: str, points: list[tuple[float, float]],
                      profile: list[tuple[float, float]], spacing: float,
                      height_lookup, lateral_wander: float = 0.0,
                      height_wander: float = 0.0, z_pad: float = 0.025,
-                     edge_wander: float = 0.0) -> object:
+                     edge_wander: float = 0.0,
+                     profile_height_modifier=None,
+                     smooth_normals: bool = False,
+                     max_surface_above_ground: float | None = None) -> object:
     """Build a ground-hugging ribbon with authored, bounded variation.
 
     The route axes remain unchanged.  Only presentation vertices wander a
@@ -89,6 +101,8 @@ def _deformed_ribbon(name: str, points: list[tuple[float, float]],
         rise = (ab.value_noise(sy * 0.11 - seed,
                                sx * 0.11 + seed) - 0.5) * 2.0
         for lateral, rel_height in profile:
+            if profile_height_modifier is not None:
+                rel_height = profile_height_modifier(sx, sy, lateral, rel_height)
             lateral_offset = lateral + wander * lateral_wander
             if edge_wander:
                 # Keep the centreline stable while the two shoulders break
@@ -116,38 +130,94 @@ def _deformed_ribbon(name: str, points: list[tuple[float, float]],
             c = a + cols + 1
             d = a + cols
             faces.append((a, b, c, d) if reverse_winding else (a, d, c, b))
-    return ab.mesh_from_pydata(name, verts, faces)
+
+    if max_surface_above_ground is not None:
+        assert height_lookup is not None, f"{name} requires a ground lookup for height bounds"
+        max_above_ground = max(
+            vertex[2] - height_lookup(vertex[0], vertex[1])
+            for vertex in verts
+        )
+        assert max_above_ground <= max_surface_above_ground + 1e-6, (
+            f"{name} surface exceeds {max_surface_above_ground:.3f}m above h_ground: "
+            f"{max_above_ground:.4f}m"
+        )
+
+    obj = ab.mesh_from_pydata(name, verts, faces)
+    if smooth_normals:
+        for polygon in obj.data.polygons:
+            polygon.use_smooth = True
+    return obj
+
+
+def _rut_shape(lateral: float) -> float:
+    distance = abs(abs(lateral) - ROAD_WHEEL_CENTER_SEPARATION * 0.5)
+    normalized = max(0.0, min(1.0, 1.0 - distance / (ROAD_RUT_WIDTH * 0.5)))
+    return 0.5 - 0.5 * math.cos(math.pi * normalized)
+
+
+def _road_surface_height(lateral: float, half_width: float, crown: float) -> float:
+    edge = max(0.0, min(1.0, (abs(lateral) / half_width - 0.68) / 0.32))
+    edge = edge * edge * (3.0 - 2.0 * edge)
+    return crown - edge * 0.018
 
 
 def _painterly_road_profile(half_width: float,
-                            rut_depth: float = 0.05,
-                            crown: float = 0.12) -> list[tuple[float, float]]:
-    """Raised, shallow crowned track with seated ruts and broken shoulders.
+                            rut_depth: float = 0.03,
+                            crown: float = 0.034,
+                            vehicle_ruts: bool = True) -> list[tuple[float, float]]:
+    """Low, rounded presentation profile over the unchanged height field.
 
-    The road is a visual layer over the existing Agent B height field. Keep
-    every rut above that field's road crown so the exported presentation does
-    not disappear into the broad Terrain_Main surface.
+    Vehicle profiles have two fine, rounded wheel depressions. Footpaths use
+    the same seated shoulder language without vehicle ruts.
     """
+    assert half_width > 0.0
+    assert 0.0 <= rut_depth <= 0.05
+    assert 0.0 < crown <= ROAD_SURFACE_MAX_ABOVE_GROUND
+    if vehicle_ruts:
+        assert 1.45 <= ROAD_WHEEL_CENTER_SEPARATION <= 1.65
+        assert 0.22 <= ROAD_RUT_WIDTH <= 0.35
+        assert 0.02 <= rut_depth <= 0.05
+        centre = ROAD_WHEEL_CENTER_SEPARATION * 0.5
+        rut_half_width = ROAD_RUT_WIDTH * 0.5
+        lateral_points = [
+            -half_width, -half_width * 0.94, -half_width * 0.84,
+            -centre - rut_half_width, -centre - 0.10, -centre - 0.06,
+            -centre - 0.03, -centre, -centre + 0.03, -centre + 0.06,
+            -centre + 0.10, -centre + rut_half_width,
+            -0.48, -0.24, 0.0, 0.24, 0.48,
+            centre - rut_half_width, centre - 0.10, centre - 0.06,
+            centre - 0.03, centre, centre + 0.03, centre + 0.06,
+            centre + 0.10, centre + rut_half_width,
+            half_width * 0.84, half_width * 0.94, half_width,
+        ]
+    else:
+        lateral_points = [
+            -half_width, -half_width * 0.92, -half_width * 0.72,
+            -half_width * 0.48, 0.0, half_width * 0.48,
+            half_width * 0.72, half_width * 0.92, half_width,
+        ]
+
     hw = half_width
-    profile = [
-        (-hw, 0.004),
-        (-hw * 0.88, 0.014),
-        (-hw * 0.72, 0.026),
-        (-hw * 0.56, -rut_depth * 0.20),
-        (-hw * 0.40, -rut_depth),
-        (-hw * 0.19, -rut_depth * 0.22),
-        (0.0, crown),
-        (hw * 0.19, -rut_depth * 0.22),
-        (hw * 0.40, -rut_depth),
-        (hw * 0.56, -rut_depth * 0.20),
-        (hw * 0.72, 0.026),
-        (hw * 0.88, 0.014),
-        (hw, 0.004),
-    ]
-    # The collision owner is the continuous ground, not this thin visual skin.
-    # Keep the wet wheel tracks above it, with a shallow readable crown.
-    return [(lateral, max(0.008, height + rut_depth) * 0.35)
-            for lateral, height in profile]
+    profile = []
+    for lateral in lateral_points:
+        height = _road_surface_height(lateral, hw, crown)
+        if vehicle_ruts:
+            height -= rut_depth * _rut_shape(lateral)
+        profile.append((lateral, height))
+
+    assert len(profile) == (29 if vehicle_ruts else 9)
+    assert profile[0][0] == -half_width and profile[-1][0] == half_width
+    assert all(profile[index][0] < profile[index + 1][0]
+               for index in range(len(profile) - 1))
+    assert max(height for _, height in profile) <= ROAD_SURFACE_MAX_ABOVE_GROUND
+    if vehicle_ruts:
+        assert math.isclose(2.0 * rut_half_width, ROAD_RUT_WIDTH)
+        for centre in (-ROAD_WHEEL_CENTER_SEPARATION * 0.5,
+                       ROAD_WHEEL_CENTER_SEPARATION * 0.5):
+            centre_height = next(height for lateral, height in profile
+                                 if math.isclose(lateral, centre))
+            assert math.isclose(centre_height, crown - rut_depth)
+    return profile
 
 
 def _forest_floor_weight(x: float, y: float) -> float:
@@ -157,7 +227,8 @@ def _forest_floor_weight(x: float, y: float) -> float:
 
 
 def _assign_road_materials(obj: object, profile: list[tuple[float, float]],
-                           crown_material: str = "AB_road_crown") -> None:
+                           crown_material: str = "AB_road_crown",
+                           vehicle_ruts: bool = True) -> None:
     """Paint worn tracks continuously, not as hard parallel material bands."""
     import bpy
 
@@ -176,18 +247,26 @@ def _assign_road_materials(obj: object, profile: list[tuple[float, float]],
     assert len(obj.data.vertices) % len(profile) == 0, "road vertex/profile alignment changed"
     for index, vertex in enumerate(obj.data.vertices):
         x, y, _ = vertex.co
-        lateral = abs(profile[index % len(profile)][0]) / abs(profile[0][0])
+        normalizedrut = abs(profile[index % len(profile)][0]) / max(abs(profile[0][0]), 1e-6)
         noise = ab.value_noise(x * 0.65 + 9.0, y * 0.65)
-        wet = math.exp(-((lateral - 0.43 - (noise - 0.5) * 0.10) / 0.15) ** 2)
-        wet *= 0.35 + 0.65 * noise
-        edge = max(0.0, min(1.0, (lateral - 0.76) / 0.24))
-        dry = (0.43, 0.405, 0.35)
-        damp = (0.31, 0.305, 0.27)
-        verge = (0.34, 0.39, 0.29)
-        forest = _forest_floor_weight(x, y)
-        verge = tuple(a + (b - a) * forest for a, b in zip(verge, (0.36, 0.35, 0.31)))
-        rgb = [(dry[c] * (1.0 - wet) + damp[c] * wet) * (1.0 - edge) + verge[c] * edge
+        if vehicle_ruts:
+            rut_centre = ROAD_WHEEL_CENTER_SEPARATION * 0.5 / abs(profile[0][0])
+            rut_half_width = ROAD_RUT_WIDTH * 0.5 / abs(profile[0][0])
+            rut_wear = math.exp(-((normalizedrut - rut_centre)
+                                   / max(rut_half_width * 1.25, 0.01)) ** 2)
+            packed = rut_wear * (0.58 + 0.42 * noise)
+        else:
+            packed = 0.0
+        edge = max(0.0, min(1.0, (normalizedrut - 0.78) / 0.22))
+        surface = (0.84, 0.85, 0.86)
+        packed_surface = (0.66, 0.68, 0.70)
+        shoulder = (0.90, 0.91, 0.92)
+        rgb = [surface[c] * (1.0 - packed) + packed_surface[c] * packed
                for c in range(3)]
+        rgb = [value * (1.0 - edge * 0.25) + shoulder[c] * edge * 0.25
+               for c, value in enumerate(rgb)]
+        variation = (noise - 0.5) * 0.025
+        rgb = [max(0.0, min(1.0, value + variation)) for value in rgb]
         pigment.data[index].color = tuple(
             c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
             for c in rgb) + (1.0,)
@@ -660,6 +739,54 @@ def build_terrain() -> list:
     return objects
 
 
+def _broken_rut_strength(x: float, y: float, threshold: float,
+                         seed: float) -> float:
+    noise = ab.value_noise(x * 0.075 + seed, y * 0.075 - seed)
+    upper_threshold = min(1.0, threshold + 0.15)
+    normalized = max(
+        0.0,
+        min(1.0, (noise - threshold) / max(upper_threshold - threshold, 1e-6)),
+    )
+    return normalized * normalized * (3.0 - 2.0 * normalized)
+
+
+def _main_rut_height(x: float, y: float, lateral: float,
+                     rel_height: float) -> float:
+    shape = _rut_shape(lateral)
+    if shape <= 0.0:
+        return rel_height
+    side = -1.0 if lateral < 0.0 else 1.0
+    depth_variation = (
+        ab.value_noise(x * 0.14 + 91.0 + side * 5.0,
+                       y * 0.14 - 13.0 - side * 3.0) - 0.5
+    ) * 0.002
+    if y < ZIRAT_START_BLENDER_Y:
+        return rel_height + (ROAD_MAIN_RUT_DEPTH - (
+            ROAD_MAIN_RUT_DEPTH + depth_variation
+        )) * shape
+
+    strength = _broken_rut_strength(x, y, 0.55, 31.0)
+    effective_depth = max(0.0, ROAD_ZIRAT_RUT_DEPTH + depth_variation) * strength
+    return rel_height + (
+        ROAD_MAIN_RUT_DEPTH - effective_depth
+    ) * shape
+
+
+def _fap_rut_height(x: float, y: float, lateral: float,
+                    rel_height: float) -> float:
+    shape = _rut_shape(lateral)
+    if shape <= 0.0:
+        return rel_height
+    side = -1.0 if lateral < 0.0 else 1.0
+    depth_variation = (
+        ab.value_noise(x * 0.14 + 121.0 + side * 5.0,
+                       y * 0.14 + 17.0 - side * 3.0) - 0.5
+    ) * 0.002
+    strength = _broken_rut_strength(x, y, 0.40, 47.0)
+    effective_depth = max(0.0, ROAD_FAP_RUT_DEPTH + depth_variation) * strength
+    return rel_height + (ROAD_FAP_RUT_DEPTH - effective_depth) * shape
+
+
 def build_roads() -> list:
     objects = []
     # Visible road continues around the rear holdings, not into a transverse
@@ -671,38 +798,53 @@ def build_roads() -> list:
     # older Act1WorldLayout arrival-to-house-yard presentation connector.
     house_b = [ab.P(x, z) for x, z in HOUSE_AXIS]
 
-    road_profile = _painterly_road_profile(2.8, 0.05, 0.14)
+    assert 3.8 <= ROAD_MAIN_HALF_WIDTH * 2.0 <= 4.2
+    assert math.isclose(ROAD_WHEEL_CENTER_SEPARATION, 1.56)
+    assert math.isclose(ROAD_RUT_WIDTH, 0.28)
+    assert math.isclose(ROAD_MAIN_RUT_DEPTH, 0.03)
+    road_profile = _painterly_road_profile(
+        ROAD_MAIN_HALF_WIDTH, ROAD_MAIN_RUT_DEPTH, 0.040)
     road = _deformed_ribbon("Road_Main", main_b, road_profile,
-                            spacing=1.0, height_lookup=h_ground,
-                            lateral_wander=0.10, height_wander=0.008,
-                            z_pad=0.045, edge_wander=0.16)
-    _assign_road_materials(road, road_profile)
+                            spacing=0.25, height_lookup=h_ground,
+                            lateral_wander=0.10, height_wander=0.003,
+                            z_pad=0.0, edge_wander=0.16,
+                            profile_height_modifier=_main_rut_height,
+                            smooth_normals=True,
+                            max_surface_above_ground=ROAD_SURFACE_MAX_ABOVE_GROUND)
+    _assign_road_materials(road, road_profile, vehicle_ruts=True)
     objects.append(road)
 
-    fap_profile = _painterly_road_profile(2.3, 0.045, 0.115)
+    fap_profile = _painterly_road_profile(2.0, ROAD_FAP_RUT_DEPTH, 0.035)
     fap_road = _deformed_ribbon("Road_FapBranch", fap_b, fap_profile,
-                                spacing=1.0, height_lookup=h_ground,
-                                lateral_wander=0.08, height_wander=0.040,
-                                z_pad=0.045, edge_wander=0.12)
-    _assign_road_materials(fap_road, fap_profile, "AB_earth_path")
+                                spacing=0.25, height_lookup=h_ground,
+                                lateral_wander=0.08, height_wander=0.003,
+                                z_pad=0.0, edge_wander=0.12,
+                                profile_height_modifier=_fap_rut_height,
+                                smooth_normals=True,
+                                max_surface_above_ground=ROAD_SURFACE_MAX_ABOVE_GROUND)
+    _assign_road_materials(fap_road, fap_profile, "AB_earth_path", vehicle_ruts=True)
     objects.append(fap_road)
 
-    house_profile = _painterly_road_profile(1.5, 0.04, 0.095)
+    house_profile = _painterly_road_profile(1.5, 0.0, 0.028, vehicle_ruts=False)
     house_path = _deformed_ribbon("Road_HousePath", house_b, house_profile,
-                                  spacing=1.0, height_lookup=h_ground,
-                                  lateral_wander=0.06, height_wander=0.032,
-                                  z_pad=0.045, edge_wander=0.08)
-    _assign_road_materials(house_path, house_profile, "AB_earth_path")
+                                  spacing=0.25, height_lookup=h_ground,
+                                  lateral_wander=0.06, height_wander=0.003,
+                                  z_pad=0.0, edge_wander=0.08,
+                                  smooth_normals=True,
+                                  max_surface_above_ground=ROAD_SURFACE_MAX_ABOVE_GROUND)
+    _assign_road_materials(house_path, house_profile, "AB_earth_path", vehicle_ruts=False)
     objects.append(house_path)
 
-    kara_profile = _painterly_road_profile(1.7, 0.045, 0.105)
+    kara_profile = _painterly_road_profile(1.7, 0.0, 0.028, vehicle_ruts=False)
     kara_path = _deformed_ribbon("Road_KaraPath", kara_b, kara_profile,
-                                 spacing=1.0, height_lookup=h_ground,
-                                 lateral_wander=0.07, height_wander=0.040,
-                                 z_pad=0.045, edge_wander=0.10)
+                                 spacing=0.25, height_lookup=h_ground,
+                                 lateral_wander=0.07, height_wander=0.003,
+                                 z_pad=0.0, edge_wander=0.10,
+                                 smooth_normals=True,
+                                 max_surface_above_ground=ROAD_SURFACE_MAX_ABOVE_GROUND)
     # Keep the continuous Kara route readable at night instead of letting
     # the darkest Kara palette turn the path into a black slab.
-    _assign_road_materials(kara_path, kara_profile, "AB_road_crown")
+    _assign_road_materials(kara_path, kara_profile, "AB_road_crown", vehicle_ruts=False)
     objects.append(kara_path)
 
     # Keep the published Rut_* names for the existing presentation suppression

@@ -10,12 +10,14 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
     private Control _computer = null!;
     private LineEdit _query = null!;
     private ItemList _results = null!;
+    private Label _title = null!;
     private Label _documentTitle = null!;
     private RichTextLabel _reader = null!;
     private Label _status = null!;
     private Button _save = null!;
     private RuntimeBridge? _bridge;
     private string? _activeDocumentId;
+    private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
     public string StatusText => _status?.Text ?? string.Empty;
 
@@ -28,6 +30,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         AddToGroup(AccessibilityPresentation.TargetGroup);
         _screen = GetNode<Control>("Screen");
         _computer = GetNode<Control>("Screen/Computer");
+        _title = GetNode<Label>("Screen/Computer/Layout/Header/Title");
         _query = GetNode<LineEdit>("Screen/Computer/Layout/SearchRow/Query");
         _results = GetNode<ItemList>("Screen/Computer/Layout/WorkArea/Results");
         _documentTitle = GetNode<Label>("Screen/Computer/Layout/WorkArea/ReaderArea/DocumentTitle");
@@ -44,14 +47,27 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _save.Pressed += () => PlayFoley("paper_open");
         // AUDIO-010: presentation-only interaction foley on the SFX bus.
         _foley = UiFoley.Attach(this);
+        if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+        {
+            ApplyAccessibilitySettings(player.Accessibility);
+        }
     }
 
     private AudioStreamPlayer? _foley;
 
     private void PlayFoley(string sample) => UiFoley.Play(_foley, sample);
 
-    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings) =>
+    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
+    {
+        _accessibility = settings;
         AccessibilityPresentation.ApplyToControl(_computer, settings);
+        _title.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("a5c7ad"));
+        _documentTitle.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("b7c9b0"));
+        _reader.AddThemeColorOverride("default_color", settings.HighContrast ? Colors.White : new Color("b9c8b1"));
+        _status.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("94b19a"));
+        _results.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("aebcac"));
+        _results.AddThemeColorOverride("font_selected_color", settings.HighContrast ? Colors.White : new Color("d0b46d"));
+    }
 
     public override void _ExitTree()
     {
