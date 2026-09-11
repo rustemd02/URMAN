@@ -200,6 +200,11 @@ public static class GeneratedCharacterKitDressing
         var isFaceInk = name.Contains("FaceEyeIris", StringComparison.Ordinal)
             || name.Contains("FaceBrow", StringComparison.Ordinal)
             || name.Contains("FaceMouth", StringComparison.Ordinal);
+        var faceInk = name.Contains("FaceMouth", StringComparison.Ordinal)
+            ? "684039"
+            : name.Contains("FaceBrow", StringComparison.Ordinal)
+                ? hair
+                : "3f302c";
         var isEyeWhite = name.Contains("FaceEye", StringComparison.Ordinal)
             && !name.Contains("Eyelid", StringComparison.Ordinal)
             && !isFaceInk;
@@ -221,7 +226,7 @@ public static class GeneratedCharacterKitDressing
                     : isEyeWhite
                     ? "d8cbb4"
                     : isFaceInk
-                    ? "2f2522"
+                    ? faceInk
                     : name.Contains("ShoulderCuff", StringComparison.Ordinal) || name.Contains("Scarf", StringComparison.Ordinal)
                       || name.Contains("Apron", StringComparison.Ordinal) || name.Contains("CardiganPlacket", StringComparison.Ordinal)
                     ? accent

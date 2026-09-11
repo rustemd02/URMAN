@@ -330,6 +330,8 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAct1YardDiscoveries();
         BuildAct1QuietCareDiscoveries();
         BuildAct1OptionalDiscoveries();
+        BuildBabaiYardSideGateExploration();
+        BuildAct1KaraOptionalDiscoveries();
         foreach (var placement in Act1WorldLayout.Placements)
         {
             var zone = _zoneInstances[placement.ZoneId];
@@ -1318,18 +1320,22 @@ public partial class Act1ConnectedWorld : Node3D
         // Neutral snow bounce keeps the key-light direction readable.
         environment.AmbientLightEnergy = karaNight ? .52f : zirat ? .64f : .48f;
         environment.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
-        environment.AmbientLightColor = Color.FromHtml(karaNight ? "a1aebb" : zirat ? "c0c8d0" : "b2c4df");
+        // Keep the snow bounce cool enough to separate shaded faces from the
+        // warm low winter key; the existing sun remains the only outdoor key.
+        environment.AmbientLightColor = Color.FromHtml(karaNight ? "a1aebb" : zirat ? "c0c8d0" : "a8bfe1");
         environment.AmbientLightSkyContribution = .30f;
         // Frost haze: cold pale blue-grey that the far houses and forest melt
         // into, so distant snow does not read as a flat white wall.
         environment.FogLightColor = karaNight
             ? Color.FromHtml("6c7f95")
-            : zirat ? Color.FromHtml("a7b5c1") : Color.FromHtml("bfd1dd");
+            : zirat ? Color.FromHtml("a7b5c1") : Color.FromHtml("b9cfdd");
         environment.FogDensity = karaNight ? .0044f : zirat ? .0038f : .0022f;
         environment.FogHeight = karaNight ? 0.95f : 1.0f;
         environment.FogHeightDensity = karaNight ? .05f : zirat ? .03f : .025f;
         environment.FogAerialPerspective = karaNight ? 0.66f : zirat ? 0.60f : 0.64f;
-        environment.FogSkyAffect = karaNight ? 0.22f : zirat ? 0.22f : 0.20f;
+        // Let the procedural sky carry its blue gradient instead of washing
+        // every roof and distant facade into the same grey veil.
+        environment.FogSkyAffect = karaNight ? 0.22f : zirat ? 0.22f : 0.14f;
         environment.FogSunScatter = karaNight ? 0.07f : zirat ? 0.06f : 0.09f;
         environment.TonemapMode = global::Godot.Environment.ToneMapper.Agx;
         // Snow is the brightest surface in frame; exposure protects its detail.
@@ -1350,23 +1356,23 @@ public partial class Act1ConnectedWorld : Node3D
         {
             sky.SkyTopColor = karaNight
                 ? Color.FromHtml("1b2836")
-                : zirat ? Color.FromHtml("7f95a8") : Color.FromHtml("86adc4");
+                : zirat ? Color.FromHtml("7f95a8") : Color.FromHtml("6694ad");
             sky.SkyHorizonColor = karaNight
                 ? Color.FromHtml("3c4c60")
-                : zirat ? Color.FromHtml("c3cdd6") : Color.FromHtml("e0eaf0");
+                : zirat ? Color.FromHtml("c3cdd6") : Color.FromHtml("d3e3ea");
             sky.GroundHorizonColor = karaNight
                 ? Color.FromHtml("2c3a4a")
-                : zirat ? Color.FromHtml("9aa7b1") : Color.FromHtml("b9c3cc");
+                : zirat ? Color.FromHtml("9aa7b1") : Color.FromHtml("a4b5c1");
             sky.GroundBottomColor = karaNight
                 ? Color.FromHtml("141d28")
-                : zirat ? Color.FromHtml("6d7883") : Color.FromHtml("8d99a3");
+                : zirat ? Color.FromHtml("6d7883") : Color.FromHtml("71828f");
             // Soft day sun disc/halo from the active sun direction; the kara
             // night keeps a bare cold sky with no disc.
             sky.SunAngleMax = karaNight ? 0f : 3.0f;
             sky.SunCurve = 0.12f;
             sky.SkyCoverModulate = karaNight
                 ? new Color(0.60f, 0.68f, 0.76f, 0.26f)
-                : zirat ? new Color(0.90f, 0.93f, 0.95f, 0.50f) : new Color(0.93f, 0.96f, 0.98f, 0.24f);
+                : zirat ? new Color(0.90f, 0.93f, 0.95f, 0.50f) : new Color(0.86f, 0.94f, 0.98f, 0.30f);
         }
 
         var sun = layer.GetNodeOrNull<DirectionalLight3D>("AgentBSun");
@@ -1376,7 +1382,7 @@ public partial class Act1ConnectedWorld : Node3D
             // Pale winter sun: warm-white on the snow, long blue shadows.
             sun.LightColor = karaNight
                 ? Color.FromHtml("9fb6d4")
-                : zirat ? Color.FromHtml("e8eef4") : Color.FromHtml("fff0da");
+                : zirat ? Color.FromHtml("e8eef4") : Color.FromHtml("ffe7c9");
             sun.LightEnergy = karaNight ? .55f : zirat ? 1.05f : 1.65f;
             sun.ShadowOpacity = karaNight ? .38f : zirat ? .50f : .82f;
             sun.ShadowEnabled = true;
@@ -1731,6 +1737,19 @@ public partial class Act1ConnectedWorld : Node3D
         // (VariantB outbuildings only — design_style forbids ornament spread).
         var parcelTints = new (string Marker, string Source, string Color)[]
         {
+            // Mounted direct components lose their optional Variant* ancestor.
+            // These exact placement names are the camera-facing houses in the
+            // MainStreet, connective-street and return evidence frames; keep
+            // their restrained warm/cool split before generic variant rules.
+            ("MainStreetForwardWestFacade", "URMAN_Plaster_Ochre", "a08d6f"),
+            ("MainStreetForwardWestFacade", "URMAN_Wood_Dark", "605044"),
+            ("MainStreetEastNeighborFacade", "URMAN_Plaster_Ochre", "7b8d86"),
+            ("MainStreetEastNeighborFacade", "URMAN_Wood_Dark", "4f6a63"),
+            ("MainStreetEastNeighborFacade", "URMAN_Wood_Weathered", "93a4a9"),
+            ("ConnectiveStreetDeepBanyaYardParcel", "URMAN_Plaster_Ochre", "9a8d75"),
+            ("ConnectiveStreetDeepBanyaYardParcel", "URMAN_Wood_Dark", "554e40"),
+            ("ReturnStreetDistantLowFacade", "URMAN_Plaster_Ochre", "6f716a"),
+            ("ReturnStreetDistantLowFacade", "URMAN_Wood_Dark", "4f463b"),
             ("VariantA", "URMAN_Plaster_Ochre", "93876f"),
             ("VariantC", "URMAN_Plaster_Ochre", "9a8d75"),
             ("BabaiEbi", "URMAN_Plaster_Ochre", "a08d6f"),

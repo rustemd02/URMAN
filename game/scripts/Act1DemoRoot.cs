@@ -892,6 +892,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 ? AvailableCue(bridge, "zirat-roadside-clue", "Осмотреть след у зиратской дороги.")
                 ?? AvailableCue(bridge, "zirat-road-to-forest", "Идти к кромке Кара-Урмана.")
                 : AvailableCue(bridge, "zirat-road-to-forest", "Идти к кромке Кара-Урмана."),
+        "urman.chapter1:scene/forest-approach" => AvailableCue(
+            bridge,
+            "forest-approach-to-forest",
+            "Дальше — к кромке леса."),
         "urman.chapter1:scene/forest" => null,
         _ => null
     };

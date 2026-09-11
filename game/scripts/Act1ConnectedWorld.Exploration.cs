@@ -178,6 +178,8 @@ public partial class Act1ConnectedWorld
         UpdateAct1YardDiscoveries();
         UpdateAct1QuietCareDiscoveries();
         UpdateAct1OptionalDiscoveries();
+        UpdateBabaiYardSideGateExploration();
+        UpdateAct1KaraOptionalDiscoveries();
         UpdateFapServiceExploration();
     }
 }

@@ -122,14 +122,15 @@ public partial class Act1FinalStateSmokeTest : Node
             return;
         }
 
-        // 3) Enter the forest: the single terminal beat completes once.
+        // 3) Reach the forest approach, then cross its existing endpoint.
         if (!bridge.IsInteractionAvailable(Interaction("zirat-road-to-forest"))
-            || !await Advance(bridge, "zirat-road-to-forest", "forest")
+            || !await Advance(bridge, "zirat-road-to-forest", "forest-approach")
+            || !await Advance(bridge, "forest-approach-to-forest", "forest")
             || !await WaitForIntervention(bridge)
             || FinalKnowledge(bridge.SelectRuntimeState()) != "confirmed"
             || !BeatIsCompleted(bridge.SelectRuntimeState(), "cliffhanger-hard-cut"))
         {
-            Fail("The forest entry did not complete the single terminal beat.");
+            Fail("The forest approach endpoint did not complete the single terminal beat.");
             return;
         }
 
@@ -145,7 +146,8 @@ public partial class Act1FinalStateSmokeTest : Node
         }
 
         // 5) Complete the ending again after the restore: exactly once.
-        if (!await Advance(bridge, "zirat-road-to-forest", "forest")
+        if (!await Advance(bridge, "zirat-road-to-forest", "forest-approach")
+            || !await Advance(bridge, "forest-approach-to-forest", "forest")
             || !await WaitForIntervention(bridge)
             || FinalKnowledge(bridge.SelectRuntimeState()) != "confirmed"
             || !BeatIsCompleted(bridge.SelectRuntimeState(), "cliffhanger-hard-cut"))
@@ -154,11 +156,11 @@ public partial class Act1FinalStateSmokeTest : Node
             return;
         }
 
-        // 6) Post-terminal repeat: the forest approach is scene-locked and
+        // 6) Post-terminal repeat: the approach endpoint is scene-locked and
         //    cannot duplicate the terminal beat or mutate the state.
         var terminalState = bridge.SelectRuntimeState().GetRawText();
-        if (bridge.IsInteractionAvailable(Interaction("zirat-road-to-forest"))
-            || await bridge.DispatchInteractionAsync(Interaction("zirat-road-to-forest"))
+        if (bridge.IsInteractionAvailable(Interaction("forest-approach-to-forest"))
+            || await bridge.DispatchInteractionAsync(Interaction("forest-approach-to-forest"))
             || bridge.SelectRuntimeState().GetRawText() != terminalState)
         {
             Fail("A post-terminal forest dispatch mutated the terminal state.");

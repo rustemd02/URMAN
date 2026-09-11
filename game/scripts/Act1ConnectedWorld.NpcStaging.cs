@@ -43,11 +43,12 @@ public partial class Act1ConnectedWorld
         if (_rinatAlerted != alerted)
         {
             // The alert is authored while Aidar is indoors: Rinat is already
-            // at the forest shoulder on arrival, rather than spawning at his line.
-            var at = alerted ? new Vector3(2.2f, 0, -105f) : new Vector3(2.15f, 0, -1.7f);
+            // ahead at the forest endpoint before Aidar arrives, with no relocation
+            // during the optional approach or on the final cue.
+            var at = alerted ? new Vector3(1.85f, 0, -124f) : new Vector3(2.15f, 0, -1.7f);
             at.Y = AgentBAct1HeightField.CollisionGround(at.X, at.Z);
             _rinatNpc.Position = at;
-            _rinatNpc.RotationDegrees = new(0, alerted ? -38f : 12f, 0);
+            _rinatNpc.RotationDegrees = new(0, alerted ? -23f : 12f, 0);
             _rinatNpc.SetMeta("anchor", at);
             _rinatAlerted = alerted;
         }

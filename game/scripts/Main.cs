@@ -1,4 +1,5 @@
 using Godot;
+using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
 
@@ -241,7 +242,7 @@ public partial class Main : Node3D
         // Godot yaw 0 faces -Z. These Act 1 destinations deliberately face
         // the next route landmark rather than preserving the doorway-facing
         // direction from the previous compact zone.
-        ("village_day", "from_house") => new(new Vector3(-2.2f, 0.05f, 2.4f), 0f),
+        ("village_day", "from_house") => new(AgentBAct1Layout.HouseDoorApproach, AgentBAct1Layout.HouseDoorYawDegrees + 180f),
         ("village_day", "from_forest") => new(new Vector3(1.8f, 0.05f, -12.5f), 180f),
         ("house_old_pc", _) => new(new Vector3(0, 0.05f, 3.8f), 0f),
         ("fap_clinic", _) => new(new Vector3(0, 0.05f, 4.8f), 0f),

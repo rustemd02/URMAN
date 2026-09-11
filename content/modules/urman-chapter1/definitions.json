@@ -2652,6 +2652,38 @@
      "kara_urman_night"
     ],
     "targetJournalEntryId": "urman.chapter1:knowledge/discovery-connective-street-repair-bench"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-babai-yard-loose-side-gate-board",
+    "labelTextId": "urman.chapter1:text/discover-babai-yard-loose-side-gate-board",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board",
+      "sourceId": "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board"
    }
   ]
  },
@@ -2754,6 +2786,110 @@
     "worldLocations": [
      "fap_clinic"
     ]
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-kara-old-forestry-side-track",
+    "labelTextId": "urman.chapter1:text/discover-kara-old-forestry-side-track",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-kara-old-forestry-side-track",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-kara-old-forestry-side-track",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-kara-old-forestry-side-track",
+      "sourceId": "urman.chapter1:knowledge/discovery-kara-old-forestry-side-track"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-kara-old-forestry-side-track"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-kara-warm-window-clearing",
+    "labelTextId": "urman.chapter1:text/discover-kara-warm-window-clearing",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-kara-warm-window-clearing",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-kara-warm-window-clearing",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-kara-warm-window-clearing",
+      "sourceId": "urman.chapter1:knowledge/discovery-kara-warm-window-clearing"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-kara-warm-window-clearing"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-kara-branch-profile",
+    "labelTextId": "urman.chapter1:text/discover-kara-branch-profile",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-kara-branch-profile",
+       "status": "confirmed"
+      }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-kara-branch-profile",
+       "status": "hypothesis"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-kara-branch-profile",
+      "status": "hypothesis"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-kara-branch-profile",
+      "sourceId": "urman.chapter1:knowledge/discovery-kara-branch-profile"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-kara-branch-profile"
    }
   ]
  },
@@ -3292,7 +3428,7 @@
      }
     ],
     "effects": [],
-    "targetSceneId": "urman.chapter1:scene/forest"
+    "targetSceneId": "urman.chapter1:scene/forest-approach"
    }
   ]
  },
@@ -3316,6 +3452,50 @@
   "onEnter": [],
   "onExit": [],
   "interactions": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/forest-approach",
+  "sceneType": "route",
+  "title": {
+   "default": "Forest approach",
+   "translations": {
+    "ru": "Подход к кромке Кара-Урмана"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/scene-forest-title"
+  ],
+  "entryConditions": [
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
+    "status": "confirmed"
+   },
+   {
+    "op": "npc.state",
+    "characterId": "urman.chapter1:character/rinat",
+    "stateKey": "alerted",
+    "value": true
+   },
+   {
+    "op": "beat.state",
+    "beatId": "urman.chapter1:beat/rinat-visible-before-edge",
+    "state": "completed"
+   }
+  ],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/forest-approach-to-forest",
+    "labelTextId": "urman.chapter1:text/continue",
+    "conditions": [],
+    "effects": [],
+    "targetSceneId": "urman.chapter1:scene/forest"
+   }
+  ]
  },
  {
   "schemaVersion": 1,
@@ -5126,6 +5306,146 @@
    "default": "Домотать рукоять лопаты",
    "translations": {
     "ru": "Домотать рукоять лопаты"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board",
+  "kind": "route",
+  "title": {
+   "default": "Боковой выход",
+   "translations": {
+    "ru": "Боковой выход"
+   }
+  },
+  "summary": {
+   "default": "Проём сбоку закрыли деревянным щитом. Крепление расшаталось: щит можно отвести и пройти к крыльцу, а выйти через обычную калитку.",
+   "translations": {
+    "ru": "Проём сбоку закрыли деревянным щитом. Крепление расшаталось: щит можно отвести и пройти к крыльцу, а выйти через обычную калитку."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-babai-yard-loose-side-gate-board",
+  "value": {
+   "default": "Отвести расшатанный щит",
+   "translations": {
+    "ru": "Отвести расшатанный щит"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-kara-old-forestry-side-track",
+  "kind": "route",
+  "title": {
+   "default": "Колея за ветками",
+   "translations": {
+    "ru": "Колея за ветками"
+   }
+  },
+  "summary": {
+   "default": "Колея уходит в сторону от дороги, за лежащий ствол. Ветки поперёк входа можно отвести. Дальше тропа огибает корни и снова выходит на дорогу.",
+   "translations": {
+    "ru": "Колея уходит в сторону от дороги, за лежащий ствол. Ветки поперёк входа можно отвести. Дальше тропа огибает корни и снова выходит на дорогу."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-kara-old-forestry-side-track",
+  "value": {
+   "default": "Оттащить упавшую ветку",
+   "translations": {
+    "ru": "Оттащить упавшую ветку"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-kara-warm-window-clearing",
+  "kind": "fact",
+  "title": {
+   "default": "Последнее окно",
+   "translations": {
+    "ru": "Последнее окно"
+   }
+  },
+  "summary": {
+   "default": "Между елями видно окно на окраине. Отсюда оно совсем маленькое. Пока горит свет, легко представить, что до деревни рукой подать.",
+   "translations": {
+    "ru": "Между елями видно окно на окраине. Отсюда оно совсем маленькое. Пока горит свет, легко представить, что до деревни рукой подать."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-kara-warm-window-clearing",
+  "value": {
+   "default": "Найти окно между елями",
+   "translations": {
+    "ru": "Найти окно между елями"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-kara-branch-profile",
+  "kind": "hypothesis",
+  "title": {
+   "default": "Два шага в сторону",
+   "translations": {
+    "ru": "Два шага в сторону"
+   }
+  },
+  "summary": {
+   "default": "Издалека — чьё-то плечо и длинная рука. Шаг в сторону: ствол, раздвоенная ветка. Я всё равно оглянулся.",
+   "translations": {
+    "ru": "Издалека — чьё-то плечо и длинная рука. Шаг в сторону: ствол, раздвоенная ветка. Я всё равно оглянулся."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-kara-branch-profile",
+  "value": {
+   "default": "Рассмотреть силуэт сбоку",
+   "translations": {
+    "ru": "Рассмотреть силуэт сбоку"
    }
   },
   "purpose": "ui"

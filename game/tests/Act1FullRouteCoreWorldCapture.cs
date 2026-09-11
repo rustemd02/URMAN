@@ -101,6 +101,9 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("street_repair_bench", "connective_street", "village_day", "from_house", new(-9.8f, AgentBAct1HeightField.CollisionGround(-9.8f, -26.1f) + .05f, -26.1f), new(-11.84f, 0.5f, -26.58f), "detail", "optional discovery before action"),
         Frame("street_repair_bench_used", "connective_street", "village_day", "from_house", new(-9.8f, AgentBAct1HeightField.CollisionGround(-9.8f, -26.1f) + .05f, -26.1f), new(-11.84f, 0.5f, -26.58f), "detail", "optional discovery after action", "connective-street-repair-bench"),
 
+        Frame("yard_side_board", "babai_yard", "village_day", "from_house", new(-23.2f, AgentBAct1HeightField.CollisionGround(-23.2f, -.7f) + .05f, -.7f), new(-25.2f, .80f, -.7f), "detail", "side opening before action"),
+        Frame("yard_side_board_used", "babai_yard", "village_day", "from_house", new(-23.2f, AgentBAct1HeightField.CollisionGround(-23.2f, -.7f) + .05f, -.7f), new(-25.2f, .80f, -.7f), "detail", "side opening after action", "babai-yard-loose-side-gate-board"),
+
         // House interior
         Frame("house_photo_detail", "house_interior", "house_old_pc", "entry", new(-30.1f, .05f, -2.9f), new(-30.1f, 1.45f, -4.60f), "detail", "painted family photograph front"),
         Frame("house_tin_detail", "house_interior", "house_old_pc", "entry", new(-31.97f, .05f, 2.0f), new(-31.97f, .98f, 3.70f), "detail", "sewing tin on the threshold chest"),
@@ -147,6 +150,9 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("zirat_holding_return", "zirat", "zirat_road", "village_side", new(-23f, (float)AgentBAct1HeightField.Ground(-23f, -63.8f) + .05f, -63.8f), new(-7f, 1f, -61f), "back", "near-mid-far"),
 
         // Kara-Urman edge / cliffhanger approach
+        Frame("kara_warm_window", "kara_approach", "kara_urman_night", "village_path", new(4.45f, AgentBAct1HeightField.CollisionGround(4.45f, -114.55f) + .05f, -114.55f), new(-8.8f, 1.35f, -97.2f), "detail", "actual window sightline from optional clearing"),
+        Frame("kara_profile_front", "kara_approach", "kara_urman_night", "village_path", new(3.4f, AgentBAct1HeightField.CollisionGround(3.4f, -114.4f) + .05f, -114.4f), new(5.65f, 1.9f, -118.2f), "detail", "ambiguous branch before stepping sideways"),
+        Frame("kara_profile_side", "kara_approach", "kara_urman_night", "village_path", new(8.8f, AgentBAct1HeightField.CollisionGround(8.8f, -117.4f) + .05f, -117.4f), new(5.65f, 1.9f, -118.2f), "detail", "ordinary branch from the side"),
         Frame("kara_approach_forward", "kara_approach", "kara_urman_night", "village_path", new(0f, .05f, -103f), new(0f, 1.50f, -120f), "forward", "near-mid-far"),
         Frame("kara_approach_back", "kara_approach", "kara_urman_night", "village_path", new(0f, .05f, -103f), new(0f, 1.50f, -93f), "back", "near-mid-far"),
         Frame("kara_approach_left", "kara_approach", "kara_urman_night", "village_path", new(0f, .05f, -103f), new(-12f, 1.85f, -116f), "left", "lateral"),

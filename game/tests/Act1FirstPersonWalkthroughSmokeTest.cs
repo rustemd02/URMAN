@@ -94,6 +94,49 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
+        if (OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY") == "kara-side")
+        {
+            foreach (var point in AgentBAct1Layout.MainRoadAxis.Skip(1).Concat(AgentBAct1Layout.ZiratRoadAxis.Skip(1)).Concat(AgentBAct1Layout.KaraRoadAxis.Skip(1).Take(2)))
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"kara-approach-{point.X}-{point.Y}")) return;
+            foreach (var point in new Vector2[] { new(-2.20f,-104.50f), new(-3.45f,-105.40f), new(-4.30f,-106.55f) })
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"kara-side-entry-{point.X}-{point.Y}")) return;
+            var gate = main.ConnectedWorld.GetZoneInstance("kara_urman_night")!.GetNode<StaticBody3D>("KaraOldForestryGateCollision");
+            if (gate.CollisionLayer != 1) { Fail("Kara branch starts without its closed collider."); return; }
+            var sceneBefore = bridge.ActiveSceneId;
+            if (!await InteractAt(player, ray, Interaction("discover-kara-old-forestry-side-track"))) return;
+            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+            await Frames(40);
+            if (gate.CollisionLayer != 0 || bridge.ActiveSceneId != sceneBefore)
+            { Fail("Kara branch failed to clear while preserving the scene."); return; }
+            foreach (var point in new Vector2[] { new(-4.88f,-107.65f), new(-5.55f,-109.45f), new(-5.65f,-112.10f), new(-5.85f,-115.15f), new(-6.15f,-117.60f), new(-5.25f,-119.50f), new(-3.55f,-119.30f), new(-2.10f,-121.45f), new(.6f,-122.5f), new(0,-117), new(1.1f,-110), new(-.4f,-103) })
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"kara-side-loop-{point.X}-{point.Y}")) return;
+            GD.Print($"act1-discovery-walk: PASS loop=kara-side mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+
+        if (OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY") == "babai-side")
+        {
+            foreach (var point in AgentBAct1Layout.WalkChain.Skip(1).Take(3).Concat(AgentBAct1Layout.HousePathAxis.Skip(1)))
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"yard-approach-{point.X}-{point.Y}")) return;
+            var gate = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("BabaiYardSideGateCollision");
+            if (gate.CollisionLayer != 1) { Fail("Babai side board starts without its closed collider."); return; }
+            if (!await WalkTo(player, new(-24f, player.GlobalPosition.Y, -.7f), "yard-board-approach")) return;
+            var sceneBefore = bridge.ActiveSceneId;
+            if (!await InteractAt(player, ray, Interaction("discover-babai-yard-loose-side-gate-board"))) return;
+            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+            await Frames(35);
+            if (gate.CollisionLayer != 0 || bridge.ActiveSceneId != sceneBefore)
+            { Fail("Babai side board failed to clear its collider while preserving the scene."); return; }
+            foreach (var point in new Vector2[] { new(-24.35f,-.70f), new(-26.05f,-.70f), new(-26.05f,.20f), new(-26.05f,2.60f), new(-25.20f,2.60f), new(-24.42f,2.40f), new(-24.42f,1.70f) })
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"yard-side-loop-{point.X}-{point.Y}")) return;
+            GD.Print($"act1-discovery-walk: PASS loop=babai-side mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+
         // Arrival -> house. Keep the authored signpost clear, then resolve the
         // door's connected-world position from its named interaction target.
         var arrivalTarget = FindInteraction(Interaction("arrival-enter-house"), GetTree().Root);
@@ -103,7 +146,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
-        var expectedHouseExterior = AgentBAct1Layout.HouseExteriorSpawn;
+        var expectedHouseExterior = AgentBAct1Layout.HouseDoorPortalCenter;
         if (Mathf.Abs(arrivalTarget.GlobalPosition.X - expectedHouseExterior.X) > 0.01f
             || Mathf.Abs(arrivalTarget.GlobalPosition.Z - expectedHouseExterior.Z) > 0.01f)
         {
@@ -139,10 +182,9 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             }
         }
 
-        var houseApproach = new Vector3(
-            expectedHouseExterior.X,
-            player.GlobalPosition.Y,
-            expectedHouseExterior.Z + InteractionStandOff);
+        foreach (var point in new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.6f), new(-26.05f,.2f) })
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"house-yard-entry-{point.X}-{point.Y}")) return;
+        var houseApproach = AgentBAct1Layout.HouseDoorApproach;
         if (!await WalkTo(player, houseApproach, "house-door-approach")
             || !await InteractAt(player, ray, Interaction("arrival-enter-house")))
         {
@@ -276,6 +318,11 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         await Frames(4);
         AssertState(main, bridge, "village_day", "crossroad_signs_inspect", "res://scenes/zones/style_benchmark_day_street.tscn");
         if (HasFailed()) return;
+
+        if (HorizontalDistance(player.GlobalPosition, houseApproach) > .3f)
+        { Fail("Leaving the house did not return to its physical door."); return; }
+        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.6f), new(-25.2f,2.6f), new(-24.42f,2.4f) }.Concat(AgentBAct1Layout.HousePathAxis.Reverse()).Append(new Vector2(-.4f,2f)))
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"house-exit-street-{point.X}-{point.Y}")) return;
 
         // The street conversation is a physical detective beat, not an
         // optional hint: Alsu's account must confirm the contradiction before
@@ -424,6 +471,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             if (!await WalkTo(player, new Vector3(point.X, player.GlobalPosition.Y, point.Y),
                 $"house-return-{point.X}-{point.Y}")) return;
         }
+        foreach (var point in new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.6f), new(-26.05f,.2f), new(houseApproach.X,houseApproach.Z) })
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"house-return-yard-{point.X}-{point.Y}")) return;
         if (!await InteractAt(player, ray, Interaction("official-to-internal-register")))
         {
             return;
@@ -541,6 +590,12 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         {
             return;
         }
+        await Frames(8);
+        AssertState(main, bridge, "kara_urman_night", "forest-approach", "res://scenes/zones/style_benchmark_kara_urman_night.tscn");
+        if (HasFailed()) return;
+        foreach (var point in AgentBAct1Layout.KaraRoadAxis.Skip(3).SkipLast(1).Append(new Vector2(.6f, -121f)))
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"forest-approach-{point.X}-{point.Y}")) return;
+        if (!await InteractAt(player, ray, Interaction("forest-approach-to-forest"))) return;
         await Frames(8);
         AssertState(main, bridge, "kara_urman_night", "forest", "res://scenes/zones/style_benchmark_kara_urman_night.tscn");
         if (HasFailed()) return;

@@ -310,26 +310,29 @@ public partial class StyleBenchmarkZone : Node3D
             "Поговорить с Ринатом",
             dialogueId: "urman.chapter1:dialogue/rinat_no_key");
 
-        MakeInteractionBox(
+        var houseDoor = MakeInteractionBox(
             "HouseDoor",
-            new(1.2f, 2.1f, 0.25f),
-            // Existing persistent-world exterior anchor, not the local
-            // house_old_pc interior entry transform.
-            new(AgentBAct1Layout.HouseExteriorSpawn.X, 1.05f, AgentBAct1Layout.HouseExteriorSpawn.Z),
+            AgentBAct1Layout.HouseDoorProxySize,
+            // Align the interaction body to the actual portal in the authored
+            // facade; the interior entry transform remains a separate spawn.
+            AgentBAct1Layout.HouseDoorPortalCenter,
             "6d5844",
             "urman.chapter1:interaction/arrival-enter-house",
             "Войти в дом бабая и әби",
             "house_old_pc",
             "entry");
-        MakeInteractionBox(
+        houseDoor.RotationDegrees = new(0f, AgentBAct1Layout.HouseDoorYawDegrees, 0f);
+        var returnToHouseRegister = MakeInteractionBox(
             "ReturnToHouseRegister",
-            new(1.2f, 2.1f, 0.25f),
-            new(AgentBAct1Layout.HouseExteriorSpawn.X, 1.05f, AgentBAct1Layout.HouseExteriorSpawn.Z),
+            AgentBAct1Layout.HouseDoorProxySize,
+            AgentBAct1Layout.HouseDoorPortalCenter,
             "6d5844",
             "urman.chapter1:interaction/official-to-internal-register",
             "Войти и сверить справку с реестром на старом ПК",
             "house_old_pc",
             "entry");
+        returnToHouseRegister.RotationDegrees =
+            new(0f, AgentBAct1Layout.HouseDoorYawDegrees, 0f);
         MakeInteractionBox(
             "RoadToFap",
             new(2.1f, 1.5f, 0.3f),

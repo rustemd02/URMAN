@@ -81,8 +81,27 @@ public static class AgentBAct1Layout
     // Babai/ebi yard: house rotated east, front veranda around x=-26.
     public static readonly Vector3 BabaiHouseCenter = new(-30f, 0f, -1f);
     public static readonly Vector3 BabaiYardSpawn = new(-24.4f, 0.05f, 1.7f);
-    // Old PC interior is narrative; exterior landmark = the house front.
-    public static readonly Vector3 HouseExteriorSpawn = new(-25.9f, 0.05f, 0.9f);
+
+    // The hero facade is mounted at (-28, -3.4) with the authored 0.82
+    // scale. These values are the centre of its real GLB portal after the
+    // imported preview origin is removed (local portal centre x=-1.42,
+    // y=1.425, z=1.325). Target and player approach share this portal.
+    public const float HouseDoorYawDegrees = 64.72228f;
+    public static readonly Vector3 HouseDoorPortalCenter = new(
+        -27.51474f,
+        (float)AgentBAct1HeightField.Ground(-28f, -3.4f) + .03f + 1.425f * .82f,
+        -1.88315f);
+    public static readonly Vector3 HouseDoorOutwardDirection =
+        new(.90424865f, 0f, .42700631f);
+    private static readonly Vector3 HouseDoorApproachXZ = new(
+        HouseDoorPortalCenter.X + HouseDoorOutwardDirection.X * 1.5f,
+        0f,
+        HouseDoorPortalCenter.Z + HouseDoorOutwardDirection.Z * 1.5f);
+    public static readonly Vector3 HouseDoorApproach = new(
+        HouseDoorApproachXZ.X,
+        AgentBAct1HeightField.CollisionGround(HouseDoorApproachXZ.X, HouseDoorApproachXZ.Z) + .05f,
+        HouseDoorApproachXZ.Z);
+    public static readonly Vector3 HouseDoorProxySize = new(1.02f, 1.84f, .18f);
     // FAP clinic sits east of the branch end, facade to the road.
     public static readonly Vector3 FapCenter = new(30f, 0f, -28f);
     public static readonly Vector3 FapSpawn = new(24f, 0.05f, -24f);
@@ -102,7 +121,7 @@ public static class AgentBAct1Layout
     {
         new("arrival", new Vector3(0f, 0.05f, 9f)),
         new("house_yard", new Vector3(-24.4f, 0.05f, 1.7f)),
-        new("house_exterior", new Vector3(-25.9f, 0.05f, 0.9f)),
+        new("house_exterior", HouseDoorApproach),
         new("back_to_street", new Vector3(-3.5f, 0.05f, -2.8f)),
         new("main_street", new Vector3(-2.2f, 0.05f, -8f)),
         new("fap_branch", new Vector3(10f, 0.05f, -17f)),
@@ -129,10 +148,11 @@ public static class AgentBAct1Layout
         new(-20f, 1.5f),
         new(-23f, 2.6f),
         new(-25.2f, 2.6f),      // through the open yard gate (gap z 1.75-3.45)
-        new(-24.4f, 1.7f),      // house_yard
-        new(-26.5f, 1.4f),
-        new(-25.9f, 0.9f),      // house_exterior (in front of the veranda)
-        new(-26.5f, 1.4f),      // the way back out through the gate
+        new(-26.05f, 2.6f),    // inside the original yard gate
+        new(-26.05f, .2f),
+        new(HouseDoorApproach.X, HouseDoorApproach.Z),
+        new(-26.05f, .2f),
+        new(-26.05f, 2.6f),
         new(-25.2f, 2.6f),
         new(-22.5f, 2.4f),
         new(-16f, -0.5f),

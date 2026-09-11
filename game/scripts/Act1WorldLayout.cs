@@ -1,4 +1,5 @@
 using Godot;
+using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
 
@@ -49,7 +50,7 @@ public static class Act1WorldLayout
             false,
             SpawnPoints(
                 ("arrival", new SpawnTransform(new(0f, 0.05f, 9f), 0f)),
-                ("from_house", new SpawnTransform(new(-2.2f, 0.05f, 2.4f), 0f)),
+                ("from_house", new SpawnTransform(AgentBAct1Layout.HouseDoorApproach, AgentBAct1Layout.HouseDoorYawDegrees + 180f)),
                 ("from_fap", new SpawnTransform(new(28f, 0.05f, -25f), 80f)),
                 ("from_forest", new SpawnTransform(new(1.8f, 0.05f, -12.5f), 180f)),
                 ("default", new SpawnTransform(new(0f, 0.05f, 9f), 0f)))),

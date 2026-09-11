@@ -41,7 +41,7 @@ public partial class ChapterOneFlowSmokeTest : Node
             || rinatActor.GlobalPosition.Z < -5f)
         { Fail("Act I exterior people are hidden or Rinat starts at the late position."); return; }
 
-        foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-childhood-spinner", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench", "connective-street-return-bench", "fap-exterior-care-porch", "main-street-side-window", "connective-street-repair-bench" })
+        foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-childhood-spinner", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench", "connective-street-return-bench", "fap-exterior-care-porch", "main-street-side-window", "connective-street-repair-bench", "babai-yard-loose-side-gate-board", "kara-old-forestry-side-track", "kara-warm-window-clearing", "kara-branch-profile" })
             if (!await Discover(bridge, slug)) return;
         await ToSignal(GetTree().CreateTimer(.6), SceneTreeTimer.SignalName.Timeout);
         var restBenchSnow = main.ConnectedWorld.GetNode<Node3D>("Act1CoreWorldGreybox/ZiratMemoryField/DiscoveryRestBench/SnowOnRepairedSeat");
@@ -70,6 +70,8 @@ public partial class ChapterOneFlowSmokeTest : Node
         var sledCover = core.GetNode<Node3D>("BabaiEbiYard/BabaiYardSled/SledBlueRepairCover");
         var nookMitten = core.GetNode<Node3D>("Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/StoredMendedMitten");
         var serviceGate = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("FapServiceGateCollision");
+        var yardGate = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("BabaiYardSideGateCollision");
+        var yardBoard = core.GetNode<Node3D>("BabaiYardSideGateExploration/BabaiYardLooseSideGate/LooseBoardHinge");
         var serviceFence = main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("FapServiceFenceCollision");
         var bagShelf = core.GetNode<Node3D>("ConnectiveStreetReturn/ConnectiveReturnCareBench/BagRestShelf");
         var carePorch = core.GetNode<Node3D>("FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch");
@@ -83,7 +85,8 @@ public partial class ChapterOneFlowSmokeTest : Node
             || main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("ConnectiveRepairBenchCollision").CollisionLayer != 0
             || main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("ConnectiveReturnCareBenchCollision").CollisionLayer != 0)
         { Fail("Loaded care and street discoveries lost their reveal or retained indoor physics."); return; }
-        if (arrivalSnow.Visible || Mathf.Abs(wellMitten.Rotation.Y - Mathf.Pi) > .01f
+        if (yardGate.CollisionLayer != 0 || Mathf.Abs(yardBoard.Rotation.Y - Mathf.Pi / 2) > .01f
+            || arrivalSnow.Visible || Mathf.Abs(wellMitten.Rotation.Y - Mathf.Pi) > .01f
             || Mathf.Abs(signBoard.RotationDegrees.Y - 176f) > .1f
             || sledCover.Visible || !nookMitten.Visible
             || serviceGate.CollisionLayer != 0 || serviceFence.CollisionLayer != 0)
@@ -202,8 +205,15 @@ public partial class ChapterOneFlowSmokeTest : Node
             return;
         }
 
-        if (!await Advance(bridge, "zirat-road-to-forest", "forest")) return;
+        if (!await Advance(bridge, "zirat-road-to-forest", "forest-approach")) return;
         main.SwitchZone("kara_urman_night", "village_path");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var approachAudio = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_do_not_answer_rule") != "hidden"
+            || BeatState(bridge.SelectRuntimeState(), "cliffhanger-hard-cut") == "completed"
+            || approachAudio?.LastAssetId is "urman.chapter1:asset/audio-marat-voice" or "urman.chapter1:asset/audio-rinat-interruption")
+        { Fail("Optional forest approach started the finale before the endpoint."); return; }
+        if (!await Advance(bridge, "forest-approach-to-forest", "forest")) return;
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
         var state = bridge.SelectRuntimeState();
@@ -285,7 +295,8 @@ public partial class ChapterOneFlowSmokeTest : Node
             || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-zirat-outer-rest-bench") != "hidden"
             || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-house-interior-photo-back") != "hidden")
         { Fail("New Game retained optional discovery presentation or knowledge."); return; }
-        if (!arrivalSnow.Visible || wellMitten.Rotation.Y != 0
+        if (yardGate.CollisionLayer != 1 || yardBoard.Rotation.Y != 0
+            || !arrivalSnow.Visible || wellMitten.Rotation.Y != 0
             || Mathf.Abs(signBoard.RotationDegrees.Y + 4f) > .1f
             || !sledCover.Visible || nookMitten.Visible
             || serviceGate.CollisionLayer != 1 || serviceFence.CollisionLayer != 1

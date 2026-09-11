@@ -34,12 +34,11 @@ public partial class FirstPersonInteractionSmokeTest : Node
             return;
         }
 
-        // This focused ray/input smoke stages at the existing exterior house
-        // anchor. The full walkthrough below proves arrival discovery through
-        // production movement; this test keeps its narrower ray contract.
-        var houseExterior = AgentBAct1Layout.HouseExteriorSpawn;
-        player.GlobalPosition = new Vector3(houseExterior.X, 0.05f, houseExterior.Z + 1.7f);
-        player.RotationDegrees = Vector3.Zero;
+        // Stage on the physical approach normal of the authored GLB portal,
+        // rather than the legacy yard anchor. The target and player Y values
+        // both come from the shared Agent B heightfield contract.
+        player.GlobalPosition = AgentBAct1Layout.HouseDoorApproach;
+        player.RotationDegrees = new Vector3(0f, AgentBAct1Layout.HouseDoorYawDegrees, 0f);
         await PhysicsFrames(2);
         if (!AssertRayTarget(ray, "urman.chapter1:interaction/arrival-enter-house"))
         {

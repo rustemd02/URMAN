@@ -1,5 +1,6 @@
 using System.Linq;
 using Godot;
+using Urman.Experiments.AgentBAct1;
 using Urman.Core.Persistence;
 
 namespace Urman.Godot.Tests;
@@ -180,7 +181,7 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         await InteractAt(player, ray, Interaction("house-to-route"));
         await Frames(4);
         AssertState(main, bridge, "village_day", "crossroad_signs_inspect", "res://scenes/zones/style_benchmark_day_street.tscn");
-        AssertRouteFacing(main, 0f, "house-exit-to-fap");
+        AssertRouteFacing(main, AgentBAct1Layout.HouseDoorYawDegrees + 180f, "house-exit-to-yard");
 
         if (bridge.IsInteractionAvailable(Interaction("route-to-fap")))
         {
@@ -320,6 +321,9 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         }
 
         await InteractAt(player, ray, Interaction("zirat-road-to-forest"));
+        await Frames(8);
+        AssertState(main, bridge, "kara_urman_night", "forest-approach", "res://scenes/zones/style_benchmark_kara_urman_night.tscn");
+        await InteractAt(player, ray, Interaction("forest-approach-to-forest"));
         await Frames(8);
         AssertState(main, bridge, "kara_urman_night", "forest", "res://scenes/zones/style_benchmark_kara_urman_night.tscn");
         AssertRouteFacing(main, 0f, "forest-entry-to-cliffhanger");
