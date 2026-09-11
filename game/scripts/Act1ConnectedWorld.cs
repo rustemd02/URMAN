@@ -630,6 +630,9 @@ public partial class Act1ConnectedWorld : Node3D
         }
         else if (string.Equals(zoneId, "village_day", StringComparison.Ordinal))
         {
+            // Repeated benchmark trees receive anonymous Godot names, so
+            // prefix suppression alone leaves invisible trunks across the road.
+            HideBenchmarkTreeBodies(zone);
             // In the connected village the signpost is a direction, not a
             // teleport to the clinic. Keep the existing narrative interaction
             // but place it at the authored FAP entry apron.
