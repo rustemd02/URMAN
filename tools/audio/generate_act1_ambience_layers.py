@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Generate deterministic, project-original ambience layer stems for Act I.
 
-The five sub-zone beds have deliberately different sonic roles: open wet
-arrival, warm domestic yard, fading return street, dry institutional FAP and
-open zirat air. They remain restrained procedural production candidates, not
-field recordings, voice performances or a final mix (AUDIO-014/CULTURE-004).
+The four procedural sub-zone beds have deliberately different sonic roles:
+open wet arrival, warm domestic yard, fading return street and dry
+institutional FAP. The source-backed ``zirat_wind.wav`` stem is deliberately
+omitted from this generator; its external CC0 preview conversion is recorded
+separately. These procedural beds remain production candidates, not field
+recordings, voice performances or a final mix (AUDIO-014/CULTURE-004).
 """
 
 from __future__ import annotations
@@ -87,17 +89,6 @@ def make_stem(kind: str, seed: int) -> list[float]:
                 (6.42, 0.055, 840.0, 620.0, 0.009, 2.4),
             ))
             value = hum + radiator + paper + ticks + 0.009 * slow[index]
-        elif kind == "zirat_wind":
-            # Open remembrance space: moving air, grass contact and a distant
-            # low boundary line. No ritual marker, score-like pulse or stinger.
-            wind = 0.060 * slow[index] + 0.018 * gust[index]
-            grass = 0.012 * detail[index] + 0.004 * fine[index]
-            boundary = 0.007 * math.sin(2.0 * math.pi * (78 + 2 * math.sin(t * 0.22)) * t)
-            gust_events = event_mix(t, (
-                (1.30, 0.92, 62.0, 46.0, 0.013, 0.4),
-                (5.18, 1.05, 58.0, 42.0, 0.011, 2.1),
-            ))
-            value = wind + grass + boundary + gust_events
         elif kind == "village_arrival":
             # Arrival under wet open sky: broad rain/air bed, road resonance and
             # two very quiet distant calls rather than a constant bird tone.
@@ -164,7 +155,6 @@ def write_wav(path: Path, samples: list[float]) -> None:
 def main() -> None:
     for kind, seed in (
         ("fap_institutional", 4601),
-        ("zirat_wind", 5707),
         ("village_arrival", 6803),
         ("village_yard", 7901),
         ("village_return", 8117),

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "kind": "urman.ambient_audio_manifest",
   "status": "runtime-foundation; production-candidate sound-design pass",
-  "note": "Project-original procedural sound-design stems prove the Godot playback path and the Act 1 two-player zone crossfade. The five Act I sub-zone beds are intentionally differentiated for wet arrival, domestic yard, receding return, FAP interior and zirat air. They are not final field recordings or character voice performances; authored voice, final ambience mix and cultural review remain release gates.",
+  "note": "Project-original procedural sound-design stems prove the Godot playback path and the Act 1 two-player zone crossfade. Four Act I sub-zone beds remain procedural for wet arrival, domestic yard, receding return and FAP interior; zirat_wind is source-backed from a documented CC0 public HQ preview with a separately prepared PCM candidate. None are final field recordings or character voice performances; authored voice, final ambience mix, loop listening and cultural review remain release gates.",
   "stems": [
     {
       "id": "ambient.village-day",
@@ -83,11 +83,17 @@
         "zirat_road"
       ],
       "loop": true,
-      "source": "tools/audio/generate_act1_ambience_layers.py",
-      "seed": 5707,
-      "license": "Project-original",
-      "design": "Open wind and grass contact with a restrained low boundary line; remembrance space without ritual or horror cues.",
-      "status": "technical-runtime-pass; authored-mix-open"
+      "source": "https://freesound.org/people/Magnesus/sounds/606960/",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/606/606960_2008500-hq.mp3",
+      "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; the CDN URL is the documented HQ preview.",
+      "sourcePreviewSha256": "f79c4e29617140bb6510c0bc6a65a2323cf004d020f51e7a3b494664646d9d17",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "preparedSha256": "d228420a9808f5862aae97780a8ef79e735e9e897ef7d7d7f79ddc498c95f7cd",
+      "conversion": "macOS afconvert to LEI16@24000 mono, then stdlib RIFF PCM normalization and 0.25 s equal-power loop overlap; peak ceiling 0.70",
+      "license": "CC0-1.0",
+      "design": "Open remembrance space with restrained external forest wind; final listening, mix, loop and cultural review remain open.",
+      "status": "technical-runtime-pass; recorded CC0 preview; listening/mix/cultural review open"
     },
     {
       "id": "ambient.village-arrival",
