@@ -389,9 +389,9 @@ public static class PainterlyMaterialLibrary
         GC.Collect();
     }
 
-    public static Material ForColor(string htmlColor, string surface = "")
+    public static Material ForColor(string htmlColor, string surface = "", bool sheltered = false)
     {
-        var cacheKey = $"{surface}:{htmlColor}";
+        var cacheKey = $"{surface}:{htmlColor}:{(sheltered ? "sheltered" : "exposed")}";
         if (Materials.TryGetValue(cacheKey, out var existing))
         {
             return existing;
@@ -403,6 +403,7 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("base_color", color);
         material.SetShaderParameter("vertex_pigment", surface is "terrain" or "wet_road" or "snow_road");
         material.SetShaderParameter("shadow_color", shadow);
+        material.SetMeta("sheltered", sheltered);
         // Keep the brush rhythm stable for a semantic surface. The old cache
         // count made the same material change appearance with call order and
         // amplified broad world-space banding on long walls and roads.
@@ -483,7 +484,7 @@ public static class PainterlyMaterialLibrary
             "stone" => 0.14f,
             _ => 0.0f
         });
-        material.SetShaderParameter("snow_sparkle", surface switch
+        var snowSparkle = surface switch
         {
             "snow_ground" => 0.55f,
             "snow_roof" => 0.65f,
@@ -497,8 +498,9 @@ public static class PainterlyMaterialLibrary
             "foliage" or "leaf_birch" or "rowan_berries" => 0.20f,
             "grass" or "grass_tuft" => 0.35f,
             _ => 0.0f
-        });
-        material.SetShaderParameter("snow_coverage", surface switch
+        };
+        material.SetShaderParameter("snow_sparkle", sheltered ? 0f : snowSparkle);
+        var snowCoverage = surface switch
         {
             // Full-snow families own their own albedo, no blanket needed.
             "snow_ground" or "snow_road" or "snow_trampled" or "snow_grass" or "snow_roof" or "ice" => 0.0f,
@@ -513,7 +515,8 @@ public static class PainterlyMaterialLibrary
             "grass" or "grass_tuft" => 0.72f,
             "fabric" or "cloth" or "fabric_pattern" => 0.30f,
             _ => 0.0f
-        });
+        };
+        material.SetShaderParameter("snow_coverage", sheltered ? 0f : snowCoverage);
         material.SetShaderParameter("cell_jitter", surface switch
         {
             "grass" => 0.20f,

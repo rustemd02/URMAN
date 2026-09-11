@@ -225,11 +225,13 @@ def faceted_torso(
 ) -> bpy.types.Object:
     """Build a low-poly torso with a chest, waist and gently tapered hem."""
     rings = (
-        (0.00, 0.185, 0.120, -0.004),
-        (0.14, 0.204, 0.132, -0.006),
-        (0.50, 0.218, 0.145, -0.004),
-        (0.88, 0.258, 0.160, 0.000),
-        (1.05, 0.264, 0.156, 0.003),
+        # Start above the knee line so the trousers remain a visible leg
+        # silhouette instead of disappearing inside the lower torso volume.
+        (0.58, 0.185, 0.120, -0.004),
+        (0.70, 0.204, 0.132, -0.006),
+        (0.90, 0.218, 0.145, -0.004),
+        (1.10, 0.258, 0.160, 0.000),
+        (1.20, 0.264, 0.156, 0.003),
     )
     sides = 10
     vertices: list[tuple[float, float, float]] = []
@@ -476,7 +478,7 @@ def create_character(
     arm_right_rotation = -0.14 + stance * 0.75
     head_z = 1.57 * height_scale
     hair_z = head_z + 0.17
-    body_top = 0.16 + 1.05 * (0.98 + 0.02 * height_scale)
+    body_top = 1.36 * height_scale
     head_bottom = head_z - 0.17
     neck_bottom = body_top - 0.015
     neck_top = head_bottom + 0.030
@@ -495,13 +497,13 @@ def create_character(
         asset_id,
         512,
         width_scale=torso_scale,
-        height_scale=0.98 + 0.02 * height_scale,
+        height_scale=(body_top - 0.16) / 1.20,
         depth_scale=0.98,
     )
     faceted_prism(
         f"{prefix}_ShoulderWrap_LOD0",
         (0.56 * shoulder_scale, 0.34, 0.18),
-        (x, -0.01, 1.01 * height_scale),
+        (x, -0.01, 1.25 * height_scale),
         coat_surface,
         asset_id,
         256,
@@ -512,9 +514,9 @@ def create_character(
     tapered_segment(
         f"{prefix}_SleeveLeft_LOD0",
         (
-            (x - arm_x * 0.82, -0.005, 1.08 * height_scale),
-            (x - arm_x * 1.04, 0.000, 0.79 * height_scale),
-            (x - arm_x * 0.94, -0.012, 0.50 * height_scale),
+            (x - arm_x * 0.82, -0.005, 1.29 * height_scale),
+            (x - arm_x * 1.04, 0.000, 1.02 * height_scale),
+            (x - arm_x * 0.94, -0.012, 0.78 * height_scale),
         ),
         (0.108 * shoulder_scale, 0.094 * shoulder_scale, 0.070 * shoulder_scale),
         coat_surface,
@@ -526,9 +528,9 @@ def create_character(
     tapered_segment(
         f"{prefix}_SleeveRight_LOD0",
         (
-            (x + arm_x * 0.82, -0.005, 1.08 * height_scale),
-            (x + arm_x * 1.04, 0.000, 0.79 * height_scale),
-            (x + arm_x * 0.94, -0.012, 0.50 * height_scale),
+            (x + arm_x * 0.82, -0.005, 1.29 * height_scale),
+            (x + arm_x * 1.04, 0.000, 1.02 * height_scale),
+            (x + arm_x * 0.94, -0.012, 0.78 * height_scale),
         ),
         (0.108 * shoulder_scale, 0.094 * shoulder_scale, 0.070 * shoulder_scale),
         coat_surface,
@@ -546,7 +548,7 @@ def create_character(
         faceted_prism(
             f"{prefix}_ShoulderCuff{side}_LOD0",
             (0.18 * shoulder_scale, 0.27, 0.10),
-            (side_x, -0.005, 0.48 * height_scale),
+            (side_x, -0.005, 0.76 * height_scale),
             accent_surface,
             asset_id,
             128,
@@ -558,7 +560,7 @@ def create_character(
     faceted_prism(
         f"{prefix}_CoatHem_LOD0",
         (0.46 * torso_scale, 0.30, 0.10),
-        (x, -0.005, 0.23),
+        (x, -0.005, 0.79 * height_scale),
         coat_surface,
         asset_id,
         128,
@@ -570,7 +572,7 @@ def create_character(
         faceted_prism(
             f"{prefix}_ApronFront_LOD0",
             (0.30, 0.028, 0.54),
-            (x, -0.172, 0.72 * height_scale),
+            (x, -0.172, 1.02 * height_scale),
             accent_surface,
             asset_id,
             128,
@@ -582,7 +584,7 @@ def create_character(
         faceted_prism(
             f"{prefix}_CardiganPlacket_LOD0",
             (0.052, 0.028, 0.62),
-            (x, -0.174, 0.78 * height_scale),
+            (x, -0.174, 1.06 * height_scale),
             accent_surface,
             asset_id,
             96,
@@ -597,8 +599,8 @@ def create_character(
     tapered_segment(
         f"{prefix}_TrouserLeft_LOD0",
         (
-            (x - leg_offset, 0.000, 0.49),
-            (x - leg_offset * 0.96, -0.004, 0.28),
+            (x - leg_offset, 0.000, 0.82),
+            (x - leg_offset * 0.96, -0.004, 0.46),
             (x - leg_offset * 0.94, -0.010, 0.095),
         ),
         (0.108, 0.095, 0.073),
@@ -611,8 +613,8 @@ def create_character(
     tapered_segment(
         f"{prefix}_TrouserRight_LOD0",
         (
-            (x + leg_offset, 0.000, 0.49),
-            (x + leg_offset * 0.96, -0.004, 0.28),
+            (x + leg_offset, 0.000, 0.82),
+            (x + leg_offset * 0.96, -0.004, 0.46),
             (x + leg_offset * 0.94, -0.010, 0.095),
         ),
         (0.108, 0.095, 0.073),
@@ -664,7 +666,7 @@ def create_character(
     )
     faceted_prism(
         f"{prefix}_ScarfBand_LOD0",
-        (0.40 * shoulder_scale, 0.31, scarf_height),
+        (0.29 * shoulder_scale, 0.24, scarf_height),
         (x, -0.015, scarf_z),
         material(f"{prefix}Scarf", accent_color),
         asset_id,
@@ -685,15 +687,15 @@ def create_character(
             top_ratio=0.96,
             vertices=6,
         )
-    # The existing material adapter dispatches skin through the Head token.
-    # Route these meshes to the arm bones before the generic head mapping.
+    # Keep the established HeadHand names so the Godot adapter can route hands
+    # to skin before the generic head mapping and the rig can bind them to arms.
     for side, side_x in (("Left", x - arm_x), ("Right", x + arm_x)):
         side_sign = -1.0 if side == "Left" else 1.0
         tapered_segment(
             f"{prefix}_HeadHand{side}_LOD0",
             (
-                (side_x, -0.020, 0.405 * height_scale),
-                (side_x + side_sign * 0.016, -0.030, 0.335 * height_scale),
+                (side_x, -0.020, 0.69 * height_scale),
+                (side_x + side_sign * 0.016, -0.030, 0.62 * height_scale),
             ),
             (0.073 * shoulder_scale, 0.055 * shoulder_scale),
             materials["skin"],
@@ -740,7 +742,7 @@ def create_character(
     seat_face_feature(head, nose)
     mouth = faceted_prism(
         f"{prefix}_FaceMouth_LOD0",
-        (0.060, 0.016, 0.012),
+        (0.044, 0.010, 0.008),
         (x, face_y - 0.014, face_z - 0.080),
         materials["eye"],
         asset_id,
@@ -754,7 +756,7 @@ def create_character(
     if has_beard:
         faceted_prism(
             f"{prefix}_FaceBeard_LOD0",
-            (0.135, 0.030, 0.115),
+            (0.135, 0.024, 0.078),
             (x, face_y - 0.006, face_z - 0.080),
             materials["hair"],
             asset_id,
@@ -834,27 +836,27 @@ def add_animation_rig(prefix: str, origin_x: float) -> bpy.types.Object:
     root.head = (0.0, 0.0, 0.0)
     root.tail = (0.0, 0.0, 0.12)
     spine = edit_bones.new("Spine")
-    spine.head = (0.0, 0.0, 0.28)
-    spine.tail = (0.0, 0.0, 1.28)
+    spine.head = (0.0, 0.0, 0.82)
+    spine.tail = (0.0, 0.0, 1.40)
     spine.parent = root
     head = edit_bones.new("Head")
-    head.head = (0.0, 0.0, 1.28)
+    head.head = (0.0, 0.0, 1.40)
     head.tail = (0.0, 0.0, 1.95)
     head.parent = spine
     arm_l = edit_bones.new("Arm.L")
-    arm_l.head = (-0.28, 0.0, 1.12)
-    arm_l.tail = (-0.48, 0.0, 0.62)
+    arm_l.head = (-0.28, 0.0, 1.29)
+    arm_l.tail = (-0.32, 0.0, 0.76)
     arm_l.parent = spine
     arm_r = edit_bones.new("Arm.R")
-    arm_r.head = (0.28, 0.0, 1.12)
-    arm_r.tail = (0.48, 0.0, 0.62)
+    arm_r.head = (0.28, 0.0, 1.29)
+    arm_r.tail = (0.32, 0.0, 0.76)
     arm_r.parent = spine
     leg_l = edit_bones.new("Leg.L")
-    leg_l.head = (-0.16, 0.0, 0.50)
+    leg_l.head = (-0.16, 0.0, 0.82)
     leg_l.tail = (-0.16, 0.0, 0.04)
     leg_l.parent = root
     leg_r = edit_bones.new("Leg.R")
-    leg_r.head = (0.16, 0.0, 0.50)
+    leg_r.head = (0.16, 0.0, 0.82)
     leg_r.tail = (0.16, 0.0, 0.04)
     leg_r.parent = root
     bpy.ops.object.mode_set(mode="OBJECT")

@@ -273,7 +273,7 @@
       "id": "FINISH-04",
       "title": "Home FAP cast and contextual village presentation",
       "milestone": "M5",
-      "status": "ready",
+      "status": "in_progress",
       "active_owner": null,
       "depends_on": [],
       "owner": "finished-act1",
@@ -291,7 +291,8 @@
         "Narrow existing path selected from handover section 28 after inspecting actual owner."
       ],
       "evidence": [],
-      "blocked_reason": null
+      "blocked_reason": null,
+      "result": "Indoor snow removed; character adult proportions/source rigs and FAP floor contact calibrated; source and GLBs updated. Three1080 frames in interior_calibration_v3. Full six-character close/dialogue/animation acceptance remains open."
     },
     {
       "id": "FINISH-03",

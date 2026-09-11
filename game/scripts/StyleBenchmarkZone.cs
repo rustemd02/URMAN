@@ -494,16 +494,6 @@ public partial class StyleBenchmarkZone : Node3D
                 offset = new Vector3(-7.95f, 0f, 7.90f);
                 scale = 1.08f;
             }
-            else if (meshName.StartsWith("HouseInterior_Daybed", StringComparison.Ordinal)
-                     || meshName.StartsWith("HouseInterior_RightShelf", StringComparison.Ordinal)
-                     || meshName.StartsWith("HouseInterior_RightRunner", StringComparison.Ordinal))
-            {
-                // Keep the right-side cluster in the side-turn composition,
-                // but bring its authored near edge forward enough to register
-                // in the reverse view as well.
-                offset = new Vector3(0f, 0f, 1.10f);
-                scale = meshName.StartsWith("HouseInterior_RightRunner", StringComparison.Ordinal) ? 1.02f : 1.06f;
-            }
             else if (meshName.StartsWith("HouseInterior_StorageBasket", StringComparison.Ordinal))
             {
                 offset = new Vector3(0f, 0f, 4.00f);
@@ -575,8 +565,8 @@ public partial class StyleBenchmarkZone : Node3D
         SetMeta("houseInteriorLegacyVisualsSuppressed", string.Join("|", replacedHouseVisuals));
         var daybedCollision = MakeCollisionBox(
             "HouseInteriorDaybedCollision",
-            new(1.20f, 0.64f, 2.80f),
-            new(4.95f, 0.32f, 0.95f));
+            new(1.36f, 0.78f, 2.95f),
+            new(4.78f, 0.39f, 1.25f));
         daybedCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
         var storageChestCollision = MakeCollisionBox(
             "HouseInteriorStorageChestCollision",
@@ -590,7 +580,7 @@ public partial class StyleBenchmarkZone : Node3D
         hearthCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
         SetMeta(
             "houseInteriorFloorCollisionProxies",
-            "HouseInteriorDaybedCollision(1.20x0.64x2.80)@(4.95,0.32,0.95)|HouseInteriorStorageChestCollision(1.82x0.74x0.92)@(3.95,0.39,-4.38)|HouseInteriorHearthCollision(1.10x1.04x0.90)@(-5.00,0.64,0.55)");
+            "HouseInteriorDaybedCollision(1.36x0.78x2.95)@(4.78,0.39,1.25)|HouseInteriorStorageChestCollision(1.82x0.74x0.92)@(3.95,0.39,-4.38)|HouseInteriorHearthCollision(1.10x1.04x0.90)@(-5.00,0.64,0.55)");
         SetMeta(
             "houseInteriorLivedInCluster",
             "authored hearth with flue|left-wall cupboard|quiet tableware|floor storage basket; presentation-only GLB with hearth floor proxy");
@@ -614,13 +604,6 @@ public partial class StyleBenchmarkZone : Node3D
             new(2.8f, 0, -1.45f),
             yawDegrees: -24f,
             presentationHostName: "MansurPresentation");
-        if (GetNodeOrNull<Node3D>("MansurPresentation/Npc_mansur") is { } mansurPresentation)
-        {
-            // Keep the interaction target at its authored location, but return
-            // visual weight to the PC and document chain in the entry view.
-            mansurPresentation.Scale = Vector3.One * 0.78f;
-            mansurPresentation.SetMeta("stylePresentationScale", 0.78f);
-        }
         MakeInteractionBox(
             "MansurNpc",
             new(0.62f, 1.8f, 0.46f),
@@ -1465,31 +1448,31 @@ public partial class StyleBenchmarkZone : Node3D
                 // Keep the source's material roles, but raise the usable
                 // first-person value range so silhouettes survive the cold
                 // institutional mood instead of collapsing into green-black.
-                ["FapPaintedSage"] = PainterlyMaterialLibrary.ForColor("7b8d86", "plaster"),
-                ["FapPaintedDustyBlue"] = PainterlyMaterialLibrary.ForColor("5f7a83", "plaster"),
-                ["FapPaintedTimber"] = PainterlyMaterialLibrary.ForColor("806f58", "wood_furniture"),
-                ["FapDarkTimber"] = PainterlyMaterialLibrary.ForColor("50473b", "wood_bark"),
-                ["FapBirchPale"] = PainterlyMaterialLibrary.ForColor("a39579", "bark_birch"),
-                ["FapBirchBarkMark"] = PainterlyMaterialLibrary.ForColor("6e604d", "bark_birch"),
-                ["FapShrubGreen"] = PainterlyMaterialLibrary.ForColor("4f6351", "foliage"),
-                ["FapShrubLight"] = PainterlyMaterialLibrary.ForColor("72846a", "foliage"),
-                ["FapOldRoof"] = PainterlyMaterialLibrary.ForColor("3f4c49", "roof_metal"),
-                ["FapRoofEdge"] = PainterlyMaterialLibrary.ForColor("56605a", "roof_metal"),
-                ["FapWetStone"] = PainterlyMaterialLibrary.ForColor("59635f", "stone"),
-                ["FapRainMetal"] = PainterlyMaterialLibrary.ForColor("708584"),
-                ["FapRainMetalDark"] = PainterlyMaterialLibrary.ForColor("4b5d5b"),
-                ["FapDoorWood"] = PainterlyMaterialLibrary.ForColor("695542", "wood"),
-                ["FapDoorInset"] = PainterlyMaterialLibrary.ForColor("51453a", "wood"),
-                ["FapFoundationStone"] = PainterlyMaterialLibrary.ForColor("6f7973", "stone"),
-                ["FapVentDark"] = PainterlyMaterialLibrary.ForColor("3e4b47"),
-                ["FapWindowCool"] = PainterlyMaterialLibrary.ForColor("779ba3"),
-                ["FapWindowWarm"] = PainterlyMaterialLibrary.ForColor("b18b62"),
-                ["FapShedWall"] = PainterlyMaterialLibrary.ForColor("788b80", "plaster"),
-                ["FapNoticeBlank"] = PainterlyMaterialLibrary.ForColor("c1ae85"),
-                ["FapPathEarth"] = PainterlyMaterialLibrary.ForColor("4f5145", "earth"),
-                ["FapPathEarthDark"] = PainterlyMaterialLibrary.ForColor("3b4038", "earth"),
-                ["FapPuddleWater"] = PainterlyMaterialLibrary.ForColor("465f61", "water"),
-                ["FapWayfindingBlank"] = PainterlyMaterialLibrary.ForColor("8f987f")
+                ["FapPaintedSage"] = PainterlyMaterialLibrary.ForColor("7b8d86", "plaster", sheltered: true),
+                ["FapPaintedDustyBlue"] = PainterlyMaterialLibrary.ForColor("5f7a83", "plaster", sheltered: true),
+                ["FapPaintedTimber"] = PainterlyMaterialLibrary.ForColor("806f58", "wood_furniture", sheltered: true),
+                ["FapDarkTimber"] = PainterlyMaterialLibrary.ForColor("50473b", "wood_bark", sheltered: true),
+                ["FapBirchPale"] = PainterlyMaterialLibrary.ForColor("a39579", "bark_birch", sheltered: true),
+                ["FapBirchBarkMark"] = PainterlyMaterialLibrary.ForColor("6e604d", "bark_birch", sheltered: true),
+                ["FapShrubGreen"] = PainterlyMaterialLibrary.ForColor("4f6351", "foliage", sheltered: true),
+                ["FapShrubLight"] = PainterlyMaterialLibrary.ForColor("72846a", "foliage", sheltered: true),
+                ["FapOldRoof"] = PainterlyMaterialLibrary.ForColor("3f4c49", "roof_metal", sheltered: true),
+                ["FapRoofEdge"] = PainterlyMaterialLibrary.ForColor("56605a", "roof_metal", sheltered: true),
+                ["FapWetStone"] = PainterlyMaterialLibrary.ForColor("59635f", "stone", sheltered: true),
+                ["FapRainMetal"] = PainterlyMaterialLibrary.ForColor("708584", sheltered: true),
+                ["FapRainMetalDark"] = PainterlyMaterialLibrary.ForColor("4b5d5b", sheltered: true),
+                ["FapDoorWood"] = PainterlyMaterialLibrary.ForColor("695542", "wood", sheltered: true),
+                ["FapDoorInset"] = PainterlyMaterialLibrary.ForColor("51453a", "wood", sheltered: true),
+                ["FapFoundationStone"] = PainterlyMaterialLibrary.ForColor("6f7973", "stone", sheltered: true),
+                ["FapVentDark"] = PainterlyMaterialLibrary.ForColor("3e4b47", sheltered: true),
+                ["FapWindowCool"] = PainterlyMaterialLibrary.ForColor("779ba3", sheltered: true),
+                ["FapWindowWarm"] = PainterlyMaterialLibrary.ForColor("b18b62", sheltered: true),
+                ["FapShedWall"] = PainterlyMaterialLibrary.ForColor("788b80", "plaster", sheltered: true),
+                ["FapNoticeBlank"] = PainterlyMaterialLibrary.ForColor("c1ae85", sheltered: true),
+                ["FapPathEarth"] = PainterlyMaterialLibrary.ForColor("4f5145", "earth", sheltered: true),
+                ["FapPathEarthDark"] = PainterlyMaterialLibrary.ForColor("3b4038", "earth", sheltered: true),
+                ["FapPuddleWater"] = PainterlyMaterialLibrary.ForColor("465f61", "water", sheltered: true),
+                ["FapWayfindingBlank"] = PainterlyMaterialLibrary.ForColor("8f987f", sheltered: true)
             }
             : new Dictionary<string, Material>(StringComparer.Ordinal)
             {
@@ -1520,12 +1503,17 @@ public partial class StyleBenchmarkZone : Node3D
             }
 
             var meshName = mesh.Name.ToString();
+            var fapFloor = meshName.StartsWith("FapInteriorShell_Floor", StringComparison.Ordinal);
+            var fapCeiling = meshName.StartsWith("FapInteriorShell_Ceiling", StringComparison.Ordinal);
             if (isFap
                 && ((meshName.StartsWith("FapInteriorShell_", StringComparison.Ordinal)
                      && meshName.Contains("Wall", StringComparison.Ordinal))
-                    || meshName.StartsWith("FapInteriorWallPanel_", StringComparison.Ordinal)))
+                    || meshName.StartsWith("FapInteriorWallPanel_", StringComparison.Ordinal)
+                    || fapFloor || fapCeiling))
             {
-                var wall = PainterlyMaterialLibrary.ForColor("7b8d86", "wall_institution");
+                var wall = PainterlyMaterialLibrary.ForColor(
+                    fapFloor ? "797d77" : fapCeiling ? "b5b4a4" : "7b8d86",
+                    "wall_institution", sheltered: true);
                 for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
                 {
                     mesh.SetSurfaceOverrideMaterial(surface, wall);
@@ -2048,7 +2036,12 @@ public partial class StyleBenchmarkZone : Node3D
             AddChild(host);
         }
 
-        var npc = GeneratedCharacterKitDressing.Attach(host, characterId, prefix, anchor);
+        var npc = GeneratedCharacterKitDressing.Attach(
+            host,
+            characterId,
+            prefix,
+            anchor,
+            sheltered: ZoneKind is BenchmarkKind.HouseOldPc or BenchmarkKind.FapClinic);
         if (!GeneratedCharacterKitDressing.PlayClip(npc, "Idle"))
         {
             npc.QueueFree();
@@ -2110,6 +2103,9 @@ public partial class StyleBenchmarkZone : Node3D
         AddChild(body);
     }
 
-    private static Material Material(string htmlColor, string surface = "") =>
-        PainterlyMaterialLibrary.ForColor(htmlColor, surface);
+    private Material Material(string htmlColor, string surface = "") =>
+        PainterlyMaterialLibrary.ForColor(
+            htmlColor,
+            surface,
+            sheltered: ZoneKind is BenchmarkKind.HouseOldPc or BenchmarkKind.FapClinic);
 }

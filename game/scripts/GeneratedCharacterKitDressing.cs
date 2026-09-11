@@ -18,7 +18,12 @@ public static class GeneratedCharacterKitDressing
     private const float Lod1End = 48f;
     private const float Lod1EndMargin = 4f;
 
-    public static Node3D Attach(Node3D parent, string characterId, string prefix, Vector3 anchor)
+    public static Node3D Attach(
+        Node3D parent,
+        string characterId,
+        string prefix,
+        Vector3 anchor,
+        bool sheltered = false)
     {
         var packed = ResourceLoader.Load<PackedScene>(ScenePath);
         if (packed is null)
@@ -31,6 +36,7 @@ public static class GeneratedCharacterKitDressing
         instance.SetMeta("assetSource", ScenePath);
         instance.SetMeta("characterId", characterId);
         instance.SetMeta("characterPrefix", prefix);
+        instance.SetMeta("sheltered", sheltered);
         instance.SetMeta("lodPolicy", "LOD0 0-18m; LOD1 14-48m; self-fade");
         instance.SetMeta("collisionPolicy", "no character collision meshes; interaction targets and zone colliders own physics");
         parent.AddChild(instance);
@@ -61,7 +67,7 @@ public static class GeneratedCharacterKitDressing
             }
 
             ConfigureVisibilityRange(mesh);
-            ApplyPainterlyMaterial(mesh, prefix);
+            ApplyPainterlyMaterial(mesh, prefix, sheltered);
         }
 
         var lod0 = selected.Count(mesh => mesh.Visible && NodeName(mesh).Contains("_LOD0", StringComparison.Ordinal));
@@ -156,41 +162,48 @@ public static class GeneratedCharacterKitDressing
         }
     }
 
-    private static void ApplyPainterlyMaterial(MeshInstance3D mesh, string prefix)
+    private static void ApplyPainterlyMaterial(MeshInstance3D mesh, string prefix, bool sheltered)
     {
         var (coat, accent) = prefix switch
         {
             "Mansur" => ("5e4638", "80654a"),
-            "Gulsina" => ("6b5960", "9c765e"),
+            "Gulsina" => ("6b5960", "b6a389"),
             "Alsu" => ("43535a", "9b7656"),
             "TimurHazrat" => ("4f5b55", "8c795a"),
             "CouncilElder" => ("5f5145", "806c50"),
             "CouncilWitness" => ("4d5960", "9a775d"),
-            "Naila" => ("625247", "a68563"),
+            "Naila" => ("a0aaa3", "728887"),
             "ArchiveClerk" => ("50575c", "9a7b62"),
             "PactKeeper" => ("4e4542", "a27b58"),
             _ => throw new ArgumentOutOfRangeException(nameof(prefix), prefix, "Unknown generated character prefix.")
         };
 
         var name = NodeName(mesh);
-        var color = name.Contains("Head", StringComparison.Ordinal) || name.Contains("FaceNose", StringComparison.Ordinal)
+        var hair = prefix is "Mansur" or "Gulsina" ? "827b70" : "332e2b";
+        var isHand = name.Contains("Hand", StringComparison.Ordinal);
+        var color = isHand || name.Contains("Head", StringComparison.Ordinal) || name.Contains("FaceNose", StringComparison.Ordinal)
             || name.Contains("Ear", StringComparison.Ordinal) || name.Contains("Neck", StringComparison.Ordinal)
             ? "a47c68"
-            : name.Contains("Hair", StringComparison.Ordinal) || name.Contains("Hat", StringComparison.Ordinal) || name.Contains("FaceBeard", StringComparison.Ordinal)
+            : name.Contains("Hair", StringComparison.Ordinal) || name.Contains("FaceBeard", StringComparison.Ordinal)
+                ? hair
+                : name.Contains("Hat", StringComparison.Ordinal) || name.Contains("Boot", StringComparison.Ordinal)
                 ? "332e2b"
+                : name.Contains("Trouser", StringComparison.Ordinal)
+                    ? "494640"
                 : name.Contains("FaceEye", StringComparison.Ordinal) || name.Contains("FaceMouth", StringComparison.Ordinal)
                     ? "171311"
                     : name.Contains("Shoulder", StringComparison.Ordinal) || name.Contains("Scarf", StringComparison.Ordinal)
+                      || name.Contains("Apron", StringComparison.Ordinal) || name.Contains("CardiganPlacket", StringComparison.Ordinal)
                     ? accent
                     : coat;
-        var surface = name.Contains("Head", StringComparison.Ordinal)
+        var surface = isHand || name.Contains("Head", StringComparison.Ordinal)
             || name.Contains("Hair", StringComparison.Ordinal)
             || name.Contains("Face", StringComparison.Ordinal)
             || name.Contains("Ear", StringComparison.Ordinal)
             || name.Contains("Neck", StringComparison.Ordinal)
             ? string.Empty
             : "cloth";
-        mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface);
+        mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface, sheltered);
         mesh.SetMeta("painterlyMaterial", surface.Length == 0 ? "shader" : surface);
     }
 

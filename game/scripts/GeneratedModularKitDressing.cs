@@ -317,7 +317,9 @@ public static class GeneratedModularKitDressing
             return;
         }
 
-        mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface);
+        var sheltered = name.StartsWith("HouseInterior_", StringComparison.Ordinal)
+                         || name.StartsWith("OldPc_", StringComparison.Ordinal);
+        mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface, sheltered);
         mesh.SetMeta("painterlyMaterial", surface.Length == 0 ? "shader" : surface);
     }
 

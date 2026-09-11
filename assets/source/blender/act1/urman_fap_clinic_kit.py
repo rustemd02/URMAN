@@ -1034,7 +1034,7 @@ def build_interior(parent: bpy.types.Object) -> None:
     ib(
         "FapInteriorShell_Floor_LOD0",
         parent,
-        (0.0, 0.0, 0.06),
+        (0.0, 0.0, -0.06),
         (11.55, 11.55, 0.12),
         "FapPaintedDustyBlue",
         0.045,
