@@ -170,7 +170,27 @@ def faceted_prism(
     # crown uses the same rounded UV-sphere primitive as other soft features.
     hair_cap = "_Hair_LOD" in name
     rounded = "_Face" in name or "_Ear" in name or "_HairBun" in name
-    if hair_cap:
+    if "_FaceNose" in name:
+        # A continuous bridge and a shallow tip, rather than a ball attached
+        # to the face. Back vertices are embedded by seat_face_feature below.
+        mesh = bpy.data.meshes.new(f"{name}Mesh")
+        mesh.from_pydata(
+            [(-.18, .20, .50), (.18, .20, .50),
+             (-.44, .20, -.50), (.44, .20, -.50),
+             (-.32, -.60, -.18), (.32, -.60, -.18),
+             (0, -.34, .22)],
+            [],
+            [(6, 1, 0), (2, 4, 6, 0), (5, 3, 1, 6),
+             (4, 5, 6), (2, 3, 5, 4), (0, 1, 3, 2)],
+        )
+        mesh.update()
+        bpy.ops.object.select_all(action="DESELECT")
+        obj = bpy.data.objects.new(name, mesh)
+        bpy.context.collection.objects.link(obj)
+        bpy.context.view_layer.objects.active = obj
+        obj.select_set(True)
+        obj.location = location
+    elif hair_cap:
         bpy.ops.mesh.primitive_uv_sphere_add(
             segments=12, ring_count=6, radius=1.0, location=location,
         )
@@ -897,15 +917,15 @@ def create_character(
             tapered_segment(
                 f"{prefix}_HairLock{side}_LOD0",
                 (
-                    (x + side_sign * 0.17 * head_scale, -0.045, head_z + 0.015),
-                    (x + side_sign * 0.19 * head_scale, -0.040, head_z - 0.115),
-                    (x + side_sign * 0.15 * head_scale, -0.030, lock_end),
+                    (x + side_sign * 0.12 * head_scale, -0.010, head_z + 0.130),
+                    (x + side_sign * 0.18 * head_scale, -0.028, head_z - 0.085),
+                    (x + side_sign * 0.20 * head_scale, 0.015, lock_end),
                 ),
-                (0.036 * head_scale, 0.031 * head_scale, 0.022 * head_scale),
+                (0.065 * head_scale, 0.055 * head_scale, 0.018 * head_scale),
                 materials["hair"],
                 asset_id,
                 128,
-                depth_scale=1.05,
+                depth_scale=0.60,
                 sides=7,
             )
     faceted_prism(
@@ -997,7 +1017,6 @@ def create_character(
         96,
         bottom_ratio=0.76,
         top_ratio=0.94,
-        rotation=(0.0, 0.0, math.radians(22.5)),
         vertices=10,
     )
     seat_face_feature(head, nose)

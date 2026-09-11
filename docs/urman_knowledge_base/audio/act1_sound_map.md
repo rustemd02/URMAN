@@ -31,7 +31,10 @@ sensationalism — tension is built from ordinary sound going quiet or wrong.
 - Priority ladder: voice → spot events → bed. Silence is an authored choice,
   never a bug cover or a fog mask.
 - Footsteps (AUDIO-004) and UI foley (AUDIO-010) are presentation-only: they
-  never write state.
+  never write state. The source-backed `door_creak.wav` candidate from
+  soundofsong (Freesound 647646, CC0) is routed by the existing
+  `InteractionTarget` owner through `UiFoley.PlayWorld` at the active house
+  portal or gate proxy. Human listening and final mix review remain open.
 
 ## Footsteps (AUDIO-004, winter runtime)
 
@@ -113,3 +116,19 @@ re-enters the normal SetZone path and restarts the appropriate bed. The
 existing chapter flow check covers final silence and fresh-session restart.
 Physical Marat/Rinat recordings and final winter-bed listening/mix are still
 open; this lifecycle fix is not voice or audio-quality acceptance.
+
+## Recorded door and gate foley — 2026-09-11
+The soundofsong 647646 CC0 preview conversion replaces the procedural
+door sample. Successful InteractionTarget actions own playback; zone
+polling no longer triggers it during load. House entry uses the active
+interior HouseExit, exit uses the exterior HouseDoor, and four opening
+gates use their physical interaction proxy. Zone-changing sounds live
+on Main so replacing an isolated zone cannot destroy the one-shot.
+Pause, load/reset and menu paths pause or clear world players; a sound
+created after an awaited action also respects the already-open pause menu.
+Native Metal Act1AudioTransitionSmokeTest passed actual HouseDoor.Interact,
+source position, SFX attenuation, pause/resume, natural finish, explicit
+clear and silent save restoration. This is runtime evidence, not human
+listening or final mix acceptance.
+
+Взаимодействие после ожидания записи checkpoint или открытия документа проверяет прежний kernel, готовность загрузки, существование target и реальное состояние главного меню. Это не позволяет старому действию переключить зону или заново включить звук после load/restart/menu. Отдельного счётчика жизненного цикла у аудио нет. Нативный `lifecycle_guard_native_audio.log` подтвердил вход через настоящий `HouseDoor.Interact`, позицию звука у `HouseExit`, отклонение presentation в меню/для прежнего kernel после load, паузу и очистку one-shot, а также переходы пяти зон. Это техническая проверка с Dummy audio; художественное прослушивание остаётся открытым.

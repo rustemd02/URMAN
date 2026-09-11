@@ -18,6 +18,7 @@ Blender использован для создания моделей.
 Сведения о лицензиях компонентов Godot доступны ниже.
 
 Запись лесного ветра: Magnesus, «Wind in forest», Freesound 606960, CC0 1.0. Подготовленный фрагмент общедоступного HQ preview.
+Дверной скрип: soundofsong, «door creak 1.wav», Freesound 647646, CC0 1.0. Подготовленный фрагмент общедоступного HQ preview.
 
 Записи окружения (Freesound, CC0 1.0; подготовленные фрагменты HQ preview):
 callmethefoo — Soft Room Tone, 744447.

@@ -116,9 +116,10 @@ public partial class Act1ConnectedWorld
             BabaiYardSideGateSlug,
             new(.60f, .92f, .62f),
             new(-24.72f, 1.00f, -.47f),
-            journal: true);
+            journal: false);
         target.SetMeta("targetRole", "yard-side gate latch, approached from the village-side yard");
         target.SetMeta("physicalAction", "отвести расшатанный щит");
+        target.WorldFoleySample = "door_creak";
         target.SetMeta("targetWorldPosition", target.GlobalPosition);
         target.SetMeta("routeReconnect", "HouseExteriorApproach/BabaiEbiHouseEntryPath");
 

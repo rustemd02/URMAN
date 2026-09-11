@@ -52,34 +52,66 @@ public partial class Act1ConnectedWorld
         activeWoodpile.SetMeta(
             "yardDiscoveryProp",
             "active authored replacement; legacy BabaiEbiYard/BabaiYardWoodpile is suppressed");
-        // The spinner is a child of the scaled authored placement. Derive its
-        // contact height from the imported woodpile mesh bounds instead of a
-        // guessed world Y, so it stays on the upper log when the kit scale or
-        // source geometry changes. SpinnerBody's local bottom is 0.01 m.
-        var woodpileTopY = float.MinValue;
+        // Find the rendered surface at the spinner's planned local XZ. A max
+        // transformed AABB can belong to a neighboring log, leaving the prop
+        // floating above the support point. Work in the authored placement's
+        // local space so its child anchor, yaw, and scale stay in agreement.
+        var woodpileTopLocalY = float.MinValue;
         foreach (var mesh in FindDescendants<MeshInstance3D>(activeWoodpile))
         {
             var meshData = mesh.Mesh;
             if (meshData is null) continue;
-            woodpileTopY = Mathf.Max(
-                woodpileTopY,
-                (mesh.GlobalTransform * meshData.GetAabb()).End.Y);
+            var faces = meshData.GetFaces();
+            for (var face = 0; face + 2 < faces.Length; face += 3)
+            {
+                var a = activeWoodpile.ToLocal(mesh.GlobalTransform * faces[face]);
+                var b = activeWoodpile.ToLocal(mesh.GlobalTransform * faces[face + 1]);
+                var c = activeWoodpile.ToLocal(mesh.GlobalTransform * faces[face + 2]);
+                woodpileTopLocalY = Mathf.Max(
+                    woodpileTopLocalY, Mathf.Max(a.Y, Mathf.Max(b.Y, c.Y)));
+            }
         }
-        if (woodpileTopY == float.MinValue)
+        if (woodpileTopLocalY == float.MinValue)
         {
             throw new InvalidOperationException(
-                "Act I authored yard is missing mesh bounds for the spinner support.");
+                "Act I authored yard is missing mesh faces for the spinner support.");
         }
-        var woodpileTopLocalY = activeWoodpile.ToLocal(new Vector3(
-            activeWoodpile.GlobalPosition.X,
-            woodpileTopY,
-            activeWoodpile.GlobalPosition.Z)).Y;
+
+        // The planned support is the child origin (local XZ 0,0). Intersect a
+        // downward ray with the actual triangles and choose the highest hit at
+        // that point; this follows the upper log's sloped/cylindrical surface.
+        var supportRayFrom = new Vector3(0f, woodpileTopLocalY + .05f, 0f);
+        var spinnerSupportLocalY = float.MinValue;
+        foreach (var mesh in FindDescendants<MeshInstance3D>(activeWoodpile))
+        {
+            var meshData = mesh.Mesh;
+            if (meshData is null) continue;
+            var faces = meshData.GetFaces();
+            for (var face = 0; face + 2 < faces.Length; face += 3)
+            {
+                var a = activeWoodpile.ToLocal(mesh.GlobalTransform * faces[face]);
+                var b = activeWoodpile.ToLocal(mesh.GlobalTransform * faces[face + 1]);
+                var c = activeWoodpile.ToLocal(mesh.GlobalTransform * faces[face + 2]);
+                var hit = Geometry3D.RayIntersectsTriangle(
+                    supportRayFrom, Vector3.Down, a, b, c);
+                if (hit.VariantType != Variant.Type.Nil)
+                {
+                    spinnerSupportLocalY = Mathf.Max(
+                        spinnerSupportLocalY, hit.AsVector3().Y);
+                }
+            }
+        }
+        if (spinnerSupportLocalY == float.MinValue)
+        {
+            throw new InvalidOperationException(
+                "Act I authored yard has no woodpile triangle under the spinner support.");
+        }
         _yardSpinner = new Node3D
         {
             Name = "YardChildhoodSpinner",
-            // Center the top on the highest log's authored footprint; the
-            // woodpile bounds above supply its exact contact height.
-            Position = new Vector3(0f, woodpileTopLocalY - .01f, 0f)
+            // SpinnerBody center .10 minus half-height .18/2 leaves a local
+            // bottom of .01 m, so place that bottom on the triangle hit.
+            Position = new Vector3(0f, spinnerSupportLocalY - .01f, 0f)
         };
         _yardSpinner.SetMeta("presentationOnly", true);
         _yardSpinner.SetMeta("physicalAction", "spin the worn wooden top");
@@ -97,10 +129,16 @@ public partial class Act1ConnectedWorld
             YardSpinnerSlug,
             new(.75f, .85f, .75f),
             village.ToLocal(_yardSpinner.GlobalPosition),
-            journal: true);
+            // The compiled interaction still records the journal entry. Keep
+            // the target free of JournalUi auto-open so the first spin stays
+            // visible in the world.
+            journal: false);
         spinnerTarget.SetMeta("activePropPath",
             "Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiYardAuthoredWoodpile/YardChildhoodSpinner");
         spinnerTarget.SetMeta("physicalAction", "spin the worn wooden top");
+        spinnerTarget.PresentationRepeatAvailable = () =>
+            _yardSpinnerFound == true && IsYardSpinnerExteriorZone();
+        spinnerTarget.PresentationRepeat = SpinYardSpinner;
 
         activeSled.SetMeta("yardDiscoveryProp", "active connected-world sled; no hidden legacy duplicate");
         // The original anchor sits behind the front palisade. Pull the sled
@@ -229,13 +267,42 @@ public partial class Act1ConnectedWorld
         porchTarget.SetMeta("physicalAction", "move the porch crate aside");
     }
 
+    private bool IsYardSpinnerExteriorZone() =>
+        ActiveZoneId is "village_day" or "zirat_road" or "kara_urman_night";
+
+    private void SpinYardSpinner()
+    {
+        if (_yardSpinner is null
+            || !GodotObject.IsInstanceValid(_yardSpinner)
+            || !IsYardSpinnerExteriorZone())
+        {
+            return;
+        }
+
+        _yardSpinnerSpin?.Kill();
+        if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { ReducedMotion: true })
+        {
+            _yardSpinnerSpin = null;
+            return;
+        }
+
+        _yardSpinnerSpin = CreateTween();
+        _yardSpinnerSpin.TweenProperty(
+            _yardSpinner,
+            "rotation:y",
+            _yardSpinner.Rotation.Y + Mathf.Tau * 5f,
+            1.7f)
+            .SetTrans(Tween.TransitionType.Cubic)
+            .SetEase(Tween.EaseType.Out);
+    }
+
     private void UpdateAct1YardDiscoveries()
     {
         if (_runtimeBridge?.ActiveSceneId is null) return;
         var knowledge = _runtimeBridge.SelectRuntimeState().GetProperty("knowledge");
         bool Found(string slug) => knowledge.TryGetProperty(DiscoveryPrefix + slug, out var entry)
             && entry.GetProperty("status").GetString() is "confirmed" or "hypothesis";
-        var exterior = ActiveZoneId is "village_day" or "zirat_road" or "kara_urman_night";
+        var exterior = IsYardSpinnerExteriorZone();
 
         var spinnerFound = Found(YardSpinnerSlug);
         if (_yardSpinner is not null && _yardSpinnerFound != spinnerFound)
@@ -243,12 +310,7 @@ public partial class Act1ConnectedWorld
             _yardSpinnerSpin?.Kill();
             if (_yardSpinnerFound == false && spinnerFound && exterior)
             {
-                _yardSpinnerSpin = CreateTween();
-                _yardSpinnerSpin.TweenProperty(
-                    _yardSpinner,
-                    "rotation:y",
-                    _yardSpinner.Rotation.Y + Mathf.Tau * 6f,
-                    1.7f);
+                SpinYardSpinner();
             }
             else if (!spinnerFound)
             {

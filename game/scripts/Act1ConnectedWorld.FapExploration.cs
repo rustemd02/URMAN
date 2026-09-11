@@ -132,9 +132,10 @@ public partial class Act1ConnectedWorld
             FapServiceExplorationSlug,
             new(.60f, 1.0f, .60f),
             new(35.25f, 1.05f, -25.82f),
-            journal: true);
+            journal: false);
         target.SetMeta("targetRole", "inside east-post service-gate latch");
         target.SetMeta("targetWorldPosition", new Vector3(35.69f, 0f, -25.29f));
+        target.WorldFoleySample = "door_creak";
 
         // Fence shapes mirror the three visible runs; only the horizontal gate
         // leaf is state-gated. The east side remains open, so closing the leaf

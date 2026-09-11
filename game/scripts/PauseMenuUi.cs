@@ -162,6 +162,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         Visible = true;
         DisarmAll();
         (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.SetPaused(true);
+        UiFoley.SetWorldPaused(GetTree(), true);
         FindPlayer()?.SetModalOpen(true);
         Input.MouseMode = Input.MouseModeEnum.Visible;
         SetStatus(string.Empty);
@@ -174,6 +175,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         Visible = false;
         DisarmAll();
         (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.SetPaused(false);
+        UiFoley.SetWorldPaused(GetTree(), false);
         FindPlayer()?.SetModalOpen(false);
         Input.MouseMode = Input.MouseModeEnum.Captured;
     }
@@ -400,6 +402,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private void ShowMainMenu()
     {
         (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.ResetPresentation();
+        UiFoley.StopWorld(GetTree());
         Resume();
         ShowMainMenuRequested?.Invoke();
     }

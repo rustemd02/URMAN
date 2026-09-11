@@ -83,9 +83,10 @@ public partial class Act1ConnectedWorld
             MainStreetFencedServiceLaneSlug,
             new Vector3(.90f, 1.55f, .90f),
             village.ToLocal(mainRoadSide + Vector3.Up * .72f),
-            journal: true);
+            journal: false);
         mainTarget.SetMeta("activePropPath", mainGateLatch.GetPath().ToString());
         mainTarget.SetMeta("targetWorldPosition", mainRoadSide);
+        mainTarget.WorldFoleySample = "door_creak";
         mainTarget.SetMeta("physicalAction", "slide the gate latch and use the service lane");
         mainTarget.SetMeta("routePoints", FormatBypassRoute(mainRoute));
         mainTarget.SetMeta("reconnectsTo", "MainStreet -> village-to-fap-branch");
@@ -202,9 +203,10 @@ public partial class Act1ConnectedWorld
             ConnectiveStreetShedBypassSlug,
             new Vector3(.95f, 1.55f, .95f),
             village.ToLocal(targetPoint + Vector3.Up * .72f),
-            journal: true);
+            journal: false);
         connectiveTarget.SetMeta("activePropPath", connectiveOpenBay.GetPath().ToString());
         connectiveTarget.SetMeta("targetWorldPosition", targetPoint);
+        connectiveTarget.WorldFoleySample = "door_creak";
         connectiveTarget.SetMeta("physicalAction", "check the exit behind the shed");
         connectiveTarget.SetMeta("routePoints", FormatBypassRoute(connectiveRoute));
         connectiveTarget.SetMeta("routeRole", "house-to-zirat-return -> sheltered yard drive; return through the same gate");

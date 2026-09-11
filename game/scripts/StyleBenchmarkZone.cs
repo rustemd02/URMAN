@@ -322,6 +322,7 @@ public partial class StyleBenchmarkZone : Node3D
             "house_old_pc",
             "entry");
         houseDoor.RotationDegrees = new(0f, AgentBAct1Layout.HouseDoorYawDegrees, 0f);
+        houseDoor.WorldFoleySample = "door_creak";
         var returnToHouseRegister = MakeInteractionBox(
             "ReturnToHouseRegister",
             AgentBAct1Layout.HouseDoorProxySize,
@@ -333,6 +334,7 @@ public partial class StyleBenchmarkZone : Node3D
             "entry");
         returnToHouseRegister.RotationDegrees =
             new(0f, AgentBAct1Layout.HouseDoorYawDegrees, 0f);
+        returnToHouseRegister.WorldFoleySample = "door_creak";
         MakeInteractionBox(
             "RoadToFap",
             new(2.1f, 1.5f, 0.3f),
@@ -629,7 +631,7 @@ public partial class StyleBenchmarkZone : Node3D
             "urman.chapter1:interaction/talk-gulsina",
             "Поговорить с әби",
             dialogueId: "urman.chapter1:dialogue/gulsina_yaramyy");
-        MakeInteractionBox(
+        var houseExit = MakeInteractionBox(
             "HouseExit",
             new(1.3f, 2.1f, 0.22f),
             new(0, 1.05f, 4.82f),
@@ -638,6 +640,7 @@ public partial class StyleBenchmarkZone : Node3D
             "Выйти на улицу",
             "village_day",
             "from_house");
+        houseExit.WorldFoleySample = "door_creak";
         var rinatSeat = MakeBox(
             "RinatAbsentChairSeat",
             new(0.9f, 0.12f, 0.8f),
@@ -835,7 +838,6 @@ public partial class StyleBenchmarkZone : Node3D
         MakeBoundaryCharm(new(2.05f, 0.0f, -7.4f), new(0.78f, 0.56f, 0.18f));
         MakeBranch(new(-4.4f, 3.2f, -5.2f), new(-2.0f, 2.5f, -7.0f), "40352f");
         MakeBranch(new(4.2f, 3.0f, -4.1f), new(2.2f, 2.25f, -6.4f), "3a302c");
-        MakeFireflies();
 
         MakeFence(-3.7f, -5.5f, 11);
         MakeBox("BoundaryPostLeft", new(0.16f, 1.55f, 0.16f), new(-1.6f, 0.78f, -7.7f), "786d58", surface: "wood");
@@ -1787,33 +1789,6 @@ public partial class StyleBenchmarkZone : Node3D
         AddChild(branch);
         branch.LookAt(end, Vector3.Up);
         branch.RotateObjectLocal(Vector3.Right, Mathf.Pi * 0.5f);
-    }
-
-    private void MakeFireflies()
-    {
-        var glow = new StandardMaterial3D
-        {
-            AlbedoColor = Color.FromHtml("d4c38b"),
-            EmissionEnabled = true,
-            Emission = Color.FromHtml("9a8d5f"),
-            EmissionEnergyMultiplier = 1.5f
-        };
-        var points = new[]
-        {
-            new Vector3(-2.7f, 1.35f, 2.2f), new Vector3(2.45f, 1.8f, 0.2f),
-            new Vector3(-3.1f, 2.05f, -3.7f), new Vector3(3.2f, 1.25f, -5.5f)
-        };
-        for (var index = 0; index < points.Length; index++)
-        {
-            AddChild(new MeshInstance3D
-            {
-                Name = $"Firefly{index}",
-                Position = points[index],
-                Scale = Vector3.One * 0.045f,
-                Mesh = new SphereMesh { Radius = 1, Height = 2, RadialSegments = 6, Rings = 3 },
-                MaterialOverride = glow
-            });
-        }
     }
 
     private void MakeHouse(Vector3 origin, string wallColor, string roofColor, bool warmWindow)

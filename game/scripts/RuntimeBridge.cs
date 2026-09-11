@@ -27,6 +27,7 @@ public partial class RuntimeBridge : Node
     public string CampaignResourcePath { get; set; } = CompiledCampaignRepository.ResourcePath;
 
     private RuntimeKernel? _kernel;
+    internal RuntimeKernel? SessionIdentity => _loadingSlot ? null : _kernel;
     private CapabilityHost? _capabilities;
     private QuestCapabilitySessionOrchestrator? _questCapabilities;
     private LogicalClock _clock = new();
@@ -224,6 +225,9 @@ public partial class RuntimeBridge : Node
         }
 
         _loadingSlot = true;
+        // A load is a presentation boundary even while the atomic store is
+        // reading. Do not let a pre-load world one-shot leak into the result.
+        UiFoley.StopWorld(GetTree());
         var audio = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
         var wasPaused = audio?.IsPaused ?? false;
         audio?.SetPaused(true);
@@ -976,6 +980,7 @@ public partial class RuntimeBridge : Node
 
     private void ResetAudioCuePresentation()
     {
+        UiFoley.StopWorld(GetTree());
         if (GetTree().GetFirstNodeInGroup("audio_cue_ui") is AudioCueUi audioCueUi)
         {
             audioCueUi.ResetPresentation();

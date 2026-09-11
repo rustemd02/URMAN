@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace Urman.Godot;
@@ -25,10 +26,21 @@ public partial class InteractionTarget : StaticBody3D
     [Export]
     public string JournalEntryId { get; set; } = string.Empty;
 
+    // Empty by default so ordinary targets remain silent. Owners of physical
+    // doors/gates opt in at construction without coupling RuntimeBridge to foley.
+    internal string WorldFoleySample { get; set; } = string.Empty;
+
     private uint _activeCollisionLayer;
     internal uint ActiveCollisionLayer => _activeCollisionLayer;
     private bool? _available;
     private RuntimeBridge? _bridge;
+
+    // Presentation-only repeat actions stay outside RuntimeBridge state. The
+    // one-shot interaction still owns the journal/knowledge commit; a caller
+    // may expose a local repeat after that commit without creating another
+    // journal entry or persistence owner.
+    internal Func<bool>? PresentationRepeatAvailable { get; set; }
+    internal Action? PresentationRepeat { get; set; }
 
     public override void _Ready()
     {
@@ -45,15 +57,44 @@ public partial class InteractionTarget : StaticBody3D
         }
 
         _bridge = null;
+        PresentationRepeatAvailable = null;
+        PresentationRepeat = null;
     }
 
-    public bool IsAvailable() => _available == true;
+    public bool IsAvailable() =>
+        _available == true
+        || (_available == false && PresentationRepeatAvailable?.Invoke() == true);
 
     public async void Interact()
     {
         AttachRuntimeBridge();
+        if (!IsAvailable())
+        {
+            return;
+        }
+
+        // Once the authored interaction has been committed, the target can
+        // perform a local presentation repeat. It deliberately bypasses the
+        // narrative dispatcher, so New Game/load retain one journal record.
+        if (_available != true)
+        {
+            if (PresentationRepeatAvailable?.Invoke() != true || PresentationRepeat is null)
+            {
+                return;
+            }
+
+            PresentationRepeat();
+            return;
+        }
+
         var bridge = _bridge;
-        if (bridge is null || !IsAvailable() || !await bridge.DispatchInteractionAsync(InteractionId))
+        if (bridge is null || bridge.SessionIdentity is not { } session)
+        {
+            return;
+        }
+
+        if (!await bridge.DispatchInteractionAsync(InteractionId)
+            || !IsPresentationCurrent(bridge, session))
         {
             return;
         }
@@ -68,21 +109,57 @@ public partial class InteractionTarget : StaticBody3D
             bridge.OpenDialogueUi(DialogueId);
         }
 
-        if (!string.IsNullOrWhiteSpace(DocumentId) && await bridge.OpenDocumentAsync(DocumentId))
+        if (!string.IsNullOrWhiteSpace(DocumentId))
         {
-            bridge.OpenDocumentUi(DocumentId);
+            var opened = await bridge.OpenDocumentAsync(DocumentId);
+            if (!IsPresentationCurrent(bridge, session)) return;
+            if (opened) bridge.OpenDocumentUi(DocumentId);
         }
 
         if (!string.IsNullOrWhiteSpace(JournalEntryId)
             && bridge.JournalEntries().Any(entry => entry.EntryId == JournalEntryId))
             (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.Open(bridge, JournalEntryId);
 
+        // Capture the source before a non-connected Main queues this target
+        // for deletion during SwitchZone. World foley must be hosted by the
+        // stable zone manager whenever the interaction changes zones.
+        var sourcePosition = GlobalPosition;
+        Main? main = null;
         if (!string.IsNullOrWhiteSpace(TargetZoneId))
         {
-            var main = GetTree().GetFirstNodeInGroup("zone_manager") as Main;
+            main = GetTree().GetFirstNodeInGroup("zone_manager") as Main;
             main?.SwitchZone(TargetZoneId, TargetSpawnPointId);
         }
+
+        if (!string.IsNullOrWhiteSpace(WorldFoleySample))
+        {
+            // Entering the house changes logical zone, so resolve the source
+            // from the active interior portal after the switch. Leaving the
+            // house resolves the exterior portal where the player arrives.
+            var source = sourcePosition;
+            if (TargetZoneId == "house_old_pc"
+                && main?.FindChild("HouseExit", true, false) is Node3D houseExit)
+            {
+                source = houseExit.GlobalPosition;
+            }
+            else if (InteractionId == "urman.chapter1:interaction/house-to-route"
+                && main?.FindChild("HouseDoor", true, false) is Node3D houseDoor)
+            {
+                source = houseDoor.GlobalPosition;
+            }
+
+            Node host = main is not null ? main : this;
+            UiFoley.PlayWorld(host, source, WorldFoleySample);
+        }
     }
+
+    // Persistence can finish after load/restart, menu return, or zone disposal.
+    // Reuse the actual session and menu state instead of a separate lifecycle clock.
+    internal bool IsPresentationCurrent(RuntimeBridge bridge, Urman.Core.Runtime.RuntimeKernel session) =>
+        GodotObject.IsInstanceValid(this) && !IsQueuedForDeletion() && IsInsideTree()
+        && GodotObject.IsInstanceValid(bridge) && !bridge.IsQueuedForDeletion() && bridge.IsInsideTree()
+        && ReferenceEquals(session, bridge.SessionIdentity)
+        && !GetTree().GetNodesInGroup("main_menu").OfType<MainMenuUi>().Any(menu => !menu.IsDismissed);
 
     private void RefreshAvailability()
     {
@@ -94,7 +171,12 @@ public partial class InteractionTarget : StaticBody3D
         }
 
         _available = available;
-        CollisionLayer = available ? _activeCollisionLayer : 0;
+        // RuntimeStateChanged subscribers are ordered by attachment. If this
+        // target refreshes after Act1ConnectedWorld.ApplyInteractionRouting,
+        // preserve the ray layer for an authored local repeat instead of
+        // clobbering the routing pass with zero.
+        var repeatAvailable = !available && PresentationRepeatAvailable?.Invoke() == true;
+        CollisionLayer = available || repeatAvailable ? _activeCollisionLayer : 0;
         foreach (var child in GetChildren())
         {
             if (child is MeshInstance3D mesh)

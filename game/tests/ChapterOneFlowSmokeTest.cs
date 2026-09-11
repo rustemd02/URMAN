@@ -41,7 +41,59 @@ public partial class ChapterOneFlowSmokeTest : Node
             || rinatActor.GlobalPosition.Z < -5f)
         { Fail("Act I exterior people are hidden or Rinat starts at the late position."); return; }
 
-        foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-childhood-spinner", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench", "connective-street-return-bench", "fap-exterior-care-porch", "main-street-side-window", "connective-street-repair-bench", "babai-yard-loose-side-gate-board", "kara-old-forestry-side-track", "kara-warm-window-clearing", "kara-branch-profile", "main-street-fenced-service-lane", "connective-street-shed-bypass", "zirat-outer-culvert-crossing", "house-exterior-rear-minaret-view" })
+        for (var frame = 0; frame < 2; frame++)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var spinnerTarget = main.ConnectedWorld.GetZoneInstance("village_day")?
+            .GetNodeOrNull<InteractionTarget>("Discovery_babai-yard-childhood-spinner");
+        var journalScreen = (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?
+            .GetNodeOrNull<Control>("Screen");
+        if (spinnerTarget is null
+            || journalScreen is null
+            || journalScreen.Visible
+            || !spinnerTarget.IsAvailable()
+            || !string.IsNullOrEmpty(spinnerTarget.JournalEntryId)
+            || !PhysicalRayHits(spinnerTarget))
+        { Fail("Yard spinner did not expose a ray-only first-action target without an open journal."); return; }
+
+        var spinnerStateBefore = bridge.SelectRuntimeState().GetRawText();
+        var spinnerJournalCountBefore = bridge.JournalEntries().Count;
+        var firstSpinnerStateChanges = 0;
+        void OnFirstSpinnerStateChanged() => firstSpinnerStateChanges++;
+        bridge.RuntimeStateChanged += OnFirstSpinnerStateChanged;
+        spinnerTarget.Interact();
+        for (var frame = 0; frame < 60 && firstSpinnerStateChanges == 0; frame++)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        for (var frame = 0; frame < 2; frame++)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        bridge.RuntimeStateChanged -= OnFirstSpinnerStateChanged;
+        if (journalScreen.Visible
+            || firstSpinnerStateChanges == 0
+            || spinnerStateBefore == bridge.SelectRuntimeState().GetRawText()
+            || bridge.JournalEntries().Count != spinnerJournalCountBefore + 1
+            || !bridge.JournalEntries().Any(entry => entry.EntryId == ChapterPrefix + "knowledge/discovery-babai-yard-childhood-spinner")
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-babai-yard-childhood-spinner") != "confirmed"
+            || !spinnerTarget.IsAvailable()
+            || spinnerTarget.CollisionLayer != 4u)
+        { Fail("Yard spinner first action did not commit once while leaving the journal UI closed and the ray target enabled."); return; }
+
+        if (!PhysicalRayHits(spinnerTarget))
+        { Fail("Yard spinner repeat target lost its physical ray hit after the first action."); return; }
+        var spinnerRepeatStateBefore = bridge.SelectRuntimeState().GetRawText();
+        var spinnerRepeatJournalCount = bridge.JournalEntries().Count;
+        var repeatSpinnerStateChanges = 0;
+        void OnRepeatSpinnerStateChanged() => repeatSpinnerStateChanges++;
+        bridge.RuntimeStateChanged += OnRepeatSpinnerStateChanged;
+        spinnerTarget.Interact();
+        for (var frame = 0; frame < 3; frame++)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        bridge.RuntimeStateChanged -= OnRepeatSpinnerStateChanged;
+        if (journalScreen.Visible
+            || repeatSpinnerStateChanges != 0
+            || spinnerRepeatStateBefore != bridge.SelectRuntimeState().GetRawText()
+            || spinnerRepeatJournalCount != bridge.JournalEntries().Count)
+        { Fail("Yard spinner repeat created a runtime or journal event, or opened the journal UI."); return; }
+
+        foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench", "connective-street-return-bench", "fap-exterior-care-porch", "main-street-side-window", "connective-street-repair-bench", "babai-yard-loose-side-gate-board", "kara-old-forestry-side-track", "kara-warm-window-clearing", "kara-branch-profile", "main-street-fenced-service-lane", "connective-street-shed-bypass", "zirat-outer-culvert-crossing", "house-exterior-rear-minaret-view" })
             if (!await Discover(bridge, slug)) return;
         await ToSignal(GetTree().CreateTimer(.6), SceneTreeTimer.SignalName.Timeout);
         var restBenchSnow = main.ConnectedWorld.GetNode<Node3D>("Act1CoreWorldGreybox/ZiratMemoryField/DiscoveryRestBench/SnowOnRepairedSeat");
@@ -60,6 +112,7 @@ public partial class ChapterOneFlowSmokeTest : Node
             || house.GetNode<Node3D>("DiscoverySewingTin/HingedLid").Rotation.X > -1.8f
             || !bridge.LearnedVocabulary().Any(entry => entry.Term == "өй" && entry.Status == "confirmed")
             || restBenchSnow.Scale.X > .01f
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-babai-yard-childhood-spinner") != "confirmed"
             || main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("RestBenchCollision").CollisionLayer != 0
             || bridge.ActiveSceneId != Scene("house"))
         { Fail("Restored photo, tin or explicit home vocabulary did not match shared discovery state."); return; }
@@ -306,7 +359,9 @@ public partial class ChapterOneFlowSmokeTest : Node
             || repairedLight.Visible
             || restBenchSnow.Scale.X != 1f
             || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-zirat-outer-rest-bench") != "hidden"
-            || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-house-interior-photo-back") != "hidden")
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-house-interior-photo-back") != "hidden"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-babai-yard-childhood-spinner") != "hidden"
+            || bridge.JournalEntries().Any(entry => entry.EntryId == ChapterPrefix + "knowledge/discovery-babai-yard-childhood-spinner"))
         { Fail("New Game retained optional discovery presentation or knowledge."); return; }
         if (yardGate.CollisionLayer != 1 || yardBoard.Rotation.Y != 0
             || !arrivalSnow.Visible || wellMitten.Rotation.Y != 0
@@ -329,6 +384,14 @@ public partial class ChapterOneFlowSmokeTest : Node
         GD.Print("chapter-one-flow-smoke: authored route -> visible people -> final silence -> menu -> fresh session");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
+    }
+
+    private static bool PhysicalRayHits(InteractionTarget target)
+    {
+        var eye = target.GlobalPosition + new Vector3(0f, .6f, 1.5f);
+        var hit = target.GetWorld3D().DirectSpaceState.IntersectRay(
+            PhysicsRayQueryParameters3D.Create(eye, target.GlobalPosition, 5));
+        return hit.Count > 0 && hit["collider"].AsGodotObject() == target;
     }
 
     private async Task<bool> Discover(RuntimeBridge bridge, string slug)
