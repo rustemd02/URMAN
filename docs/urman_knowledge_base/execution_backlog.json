@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "kind": "urman.execution_backlog",
-  "updated": "2026-09-03",
-  "goal_key": "urman-act1-atmospheric-demo",
-  "goal_statement": "Собрать и проверить играбельную атмосферную демо-версию первого акта УРМАН на Godot 4.7.1 .NET: фиксированное первое лицо, компактные 3D-зоны, расследование Марата, старый ПК, татарский языковой слой и клиффхэнгер «Не отвечай».",
+  "updated": "2026-09-11",
+  "goal_key": "urman-act1-finished-product",
+  "goal_statement": "Довести Акт I до законченного локального продукта по URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md; общая готовность требует всех игровых, художественных, звуковых, UI, save, performance и native-package подтверждений.",
   "long_term_goal": "Полная миграция УРМАН на Godot 4.7.1 .NET и C# с последующим производством 6–8-часовой игры, desktop acceptance и отдельным absence-gated решением о web retirement остаётся долгосрочным направлением, но не текущим демо-объёмом.",
   "current_scope": {
-    "name": "Act 1 atmospheric playable demo",
+    "name": "Finished Act I local product candidate",
     "status": "in_progress",
     "entrypoint": "game/scenes/act1_demo.tscn",
     "route": [
@@ -38,7 +38,7 @@
   },
   "role": "Машиночитаемая очередь исполнения. Она не заменяет goal, канон, decision log, архитектуру или evidence.",
   "authority": {
-    "goal": "current Codex work is narrowed to urman-act1-atmospheric-demo; the full migration remains long-term scope",
+    "goal": "Current user request: finished Act I, native Luna max subagents, one writer, regular verified commits and pushes on existing main.",
     "goal_frame": "docs/aegis/work/2026-08-10-godot-full-migration/10-intent.md",
     "canonical_sources": [
       "AGENTS.md",
@@ -50,7 +50,7 @@
     "human_index": "docs/urman_knowledge_base/backlog.md",
     "roadmap": "docs/urman_knowledge_base/roadmap.md",
     "evidence_root": "docs/aegis/work/2026-08-10-godot-full-migration/",
-    "active_queue_tracker": "URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md (root, untracked user input; authoritative task queue for the Act I repo-grounded run)",
+    "active_queue_tracker": "docs/production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md (product acceptance); this JSON is the single executable queue.",
     "superseded_trackers": [
       "URMAN_ACT_I_MVP_FULL_TASK_TRACKER_RU_2026-09-03.md — retired as authority, kept as provenance (fictional verification commands and studio-role model); never cite its commands as real"
     ],
@@ -176,6 +176,197 @@
     }
   ],
   "tasks": [
+    {
+      "id": "FINISH-08",
+      "title": "External release confirmation",
+      "milestone": "M5",
+      "status": "blocked",
+      "active_owner": null,
+      "depends_on": [],
+      "owner": "finished-act1",
+      "scope": [
+        "docs/urman_knowledge_base/open_questions.md"
+      ],
+      "deliverable": "Rights-cleared physical voice, cultural review, new-player observation and real host checks; never invent approval.",
+      "done_when": [
+        "Rights-cleared physical voice, cultural review, new-player observation and real host checks; never invent approval."
+      ],
+      "verify": [
+        "Narrow existing path selected from handover section 28 after inspecting actual owner."
+      ],
+      "evidence": [],
+      "blocked_reason": "Requires actual external participation and evidence."
+    },
+    {
+      "id": "FINISH-07",
+      "title": "Final performance traversal and standalone candidate",
+      "milestone": "M5",
+      "status": "ready",
+      "active_owner": null,
+      "depends_on": [],
+      "owner": "finished-act1",
+      "scope": [
+        "eng/benchmark-act1-demo-package.sh",
+        "game/scripts/SnowTrampleField.cs",
+        "eng/export-desktop-release.sh"
+      ],
+      "deliverable": "Full ordinary input pass; targeted existing smoke; native package launched; 60s measured heavy views meet handover section24 or remain explicitly open.",
+      "done_when": [
+        "Full ordinary input pass; targeted existing smoke; native package launched; 60s measured heavy views meet handover section24 or remain explicitly open."
+      ],
+      "verify": [
+        "Narrow existing path selected from handover section 28 after inspecting actual owner."
+      ],
+      "evidence": [],
+      "blocked_reason": null
+    },
+    {
+      "id": "FINISH-06",
+      "title": "Product UI menus save resume and credits",
+      "milestone": "M5",
+      "status": "ready",
+      "active_owner": null,
+      "depends_on": [],
+      "owner": "finished-act1",
+      "scope": [
+        "game/scripts/MainMenuUi.cs",
+        "game/scripts/PauseMenuUi.cs",
+        "game/scripts/Act1DemoRoot.cs",
+        "game/scripts/OldPcUi.cs",
+        "game/scripts/JournalUi.cs"
+      ],
+      "deliverable": "Normal and large text/UI input states, safe freshest continue, truthful credits and end-to-menu lifecycle.",
+      "done_when": [
+        "Normal and large text/UI input states, safe freshest continue, truthful credits and end-to-menu lifecycle."
+      ],
+      "verify": [
+        "Narrow existing path selected from handover section 28 after inspecting actual owner."
+      ],
+      "evidence": [],
+      "blocked_reason": null
+    },
+    {
+      "id": "FINISH-05",
+      "title": "Winter sound and complete cue lifecycle",
+      "milestone": "M5",
+      "status": "ready",
+      "active_owner": null,
+      "depends_on": [],
+      "owner": "finished-act1",
+      "scope": [
+        "game/scripts/AudioCueUi.cs",
+        "game/scripts/FootstepAudioController.cs",
+        "game/scripts/AmbientAudioDirector.cs",
+        "tools/audio"
+      ],
+      "deliverable": "Winter surfaces and ambience; reduced motion retains footsteps; caption-independent queue; real licensed final voices or explicit external recording gap.",
+      "done_when": [
+        "Winter surfaces and ambience; reduced motion retains footsteps; caption-independent queue; real licensed final voices or explicit external recording gap."
+      ],
+      "verify": [
+        "Narrow existing path selected from handover section 28 after inspecting actual owner."
+      ],
+      "evidence": [],
+      "blocked_reason": null
+    },
+    {
+      "id": "FINISH-04",
+      "title": "Home FAP cast and contextual village presentation",
+      "milestone": "M5",
+      "status": "ready",
+      "active_owner": null,
+      "depends_on": [],
+      "owner": "finished-act1",
+      "scope": [
+        "tools/blender",
+        "game/scripts/GeneratedCharacterKitDressing.cs",
+        "game/scripts/GeneratedModularKitDressing.cs",
+        "game/scripts/Act1ConnectedWorld.cs"
+      ],
+      "deliverable": "Mandatory scenes/people reviewed in real first-person motion and 1080p/720p frames; winter exterior strengths retained.",
+      "done_when": [
+        "Mandatory scenes/people reviewed in real first-person motion and 1080p/720p frames; winter exterior strengths retained."
+      ],
+      "verify": [
+        "Narrow existing path selected from handover section 28 after inspecting actual owner."
+      ],
+      "evidence": [],
+      "blocked_reason": null
+    },
+    {
+      "id": "FINISH-03",
+      "title": "Three investigation cycles and staged final route",
+      "milestone": "M5",
+      "status": "ready",
+      "active_owner": null,
+      "depends_on": [],
+      "owner": "finished-act1",
+      "scope": [
+        "content/modules/urman-chapter1",
+        "content/modules/urman-oldpc",
+        "game/scripts/RuntimeBridge.cs"
+      ],
+      "deliverable": "Three distinguishable player-driven cycles, source return, incomplete inference feedback, Timur and prepared Rinat.",
+      "done_when": [
+        "Three distinguishable player-driven cycles, source return, incomplete inference feedback, Timur and prepared Rinat."
+      ],
+      "verify": [
+        "Narrow existing path selected from handover section 28 after inspecting actual owner."
+      ],
+      "evidence": [],
+      "blocked_reason": null
+    },
+    {
+      "id": "FINISH-02",
+      "title": "First 8–12 minute playable investigation slice",
+      "milestone": "M5",
+      "status": "ready",
+      "active_owner": null,
+      "depends_on": [],
+      "owner": "finished-act1",
+      "scope": [
+        "content/modules/urman-chapter1",
+        "game/scripts/JournalUi.cs",
+        "game/scripts/DialogueUi.cs"
+      ],
+      "deliverable": "Early meaningful choices and first evidence/application/reaction loop with polished home, character, audio and save.",
+      "done_when": [
+        "Early meaningful choices and first evidence/application/reaction loop with polished home, character, audio and save."
+      ],
+      "verify": [
+        "Narrow existing path selected from handover section 28 after inspecting actual owner."
+      ],
+      "evidence": [],
+      "blocked_reason": null
+    },
+    {
+      "id": "FINISH-01",
+      "title": "Native release export and timed package baseline",
+      "milestone": "M5",
+      "status": "done",
+      "active_owner": "/root",
+      "depends_on": [],
+      "owner": "finished-act1",
+      "scope": [
+        "eng/export-desktop-release.sh",
+        "game/scripts/Act1DemoRoot.cs",
+        "game/export_presets.cfg"
+      ],
+      "deliverable": "Native macOS/Windows files plus honest 12s warmup/60s window-renderer baseline; ordinary UI baseline recorded.",
+      "done_when": [
+        "Native macOS/Windows files plus honest 12s warmup/60s window-renderer baseline; ordinary UI baseline recorded."
+      ],
+      "verify": [
+        "Narrow existing path selected from handover section 28 after inspecting actual owner."
+      ],
+      "evidence": [
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/native_export_v3.log",
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/native_v3/desktop-artifact-receipt.json",
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/native_v3/window_probe.log"
+      ],
+      "blocked_reason": null,
+      "result": "Native export and baseline instrumentation verified; runtime texture exclusions/remap fixed. Native 1080p medium baseline FAIL: avg13.601ms,p95 44.206ms,p99 47.464ms,long14.914%; performance work remains FINISH-07."
+    },
     {
       "id": "BASE-001",
       "title": "Зафиксировать baseline и golden fixtures",

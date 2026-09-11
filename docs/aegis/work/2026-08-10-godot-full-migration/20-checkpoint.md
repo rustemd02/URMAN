@@ -1,3 +1,18 @@
+# Current continuation — finished Act I, 2026-09-11
+
+- Authority: `docs/production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md`, full user attachment at `/Users/unterlantas/.codex/attachments/6991f080-1dd4-4095-8371-6210eb550dab/pasted-text.txt`; latest direct request additionally authorizes regular commits/pushes and native GPT-5.6 Luna max. No new branch/worktree. Historical restrictions below are superseded only within this Act I task.
+- TaskStartSnapshot: main at `1f42f95`, clean worktree, ahead origin/main by 1; 54 GiB available. Active create_goal has no token budget.
+- Single queue: `docs/urman_knowledge_base/execution_backlog.json`, FINISH-01…08. One writer; build/import/generation/capture/graph updates serialized.
+- Baseline read: AGENTS, KB README/current decisions/questions/weak points, complete finished-product handover; relevant narrative/audio/art authorities being traced by main and three native Luna max read-only agents (investigation_audit, audio_delivery_audit, visual_audit). Tool exposes priority service tier, no separate Fast toggle.
+- Evidence root: `/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911`. Preserve `/Users/unterlantas/Documents/URMAN_visual_20260910` unchanged.
+- Source baseline launch reached arrival on real Metal/M4 Pro. CUA getApp by bundle and path timed out twice; no ordinary-input playthrough claimed. Own PID48375 terminated, protective runner restored saves/preferences byte-for-byte. Preexisting headless PID39503 belongs to another session and remains untouched.
+- Userdata protection: evidence-root `protected_run.py` backs up existing files in savegames plus settings.json/audio-settings.json; finally restores hashes and removes only files newly created by child. Wrap each game/smoke invocation. Do not overlap runs or use broad verify-godot.
+- FINISH-01: native_v3 export PASS (233 PCK entries each; .NET/native archives), runtime material exclusions and imported winter resource lookup fixed. Actual macOS window probe at1080 medium/.9/MSAA2/FOV75 completed12s+60s: avg13.601ms,p9544.206ms,p9947.464ms,long14.914%, FAIL. No world errors. This is a verified failing baseline, not performance acceptance. CUA gets app; screenshot call waited until probe exit, no final frame obtained. Next: indoor/character calibration and investigation; FINISH-07 owns native frame pacing. Evidence native_export_v3.log + native_v3/window_probe.log/receipt under evidence root.
+- Open external facts: no physical Marat/Rinat final voice established; rights/cultural/human/Windows/signing approvals must not be fabricated. Finish independent local work before closure assessment.
+- Drift: original product scope retained; legacy acts II–V/web retirement below are historical and out of scope. No completion claim.
+
+---
+
 # Todo Checkpoint Draft — старт Godot migration
 
 Date: 2026-08-10

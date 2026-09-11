@@ -597,7 +597,7 @@ public static class PainterlyMaterialLibrary
         }
         else if (!SuppressTextureLoadsForHeadlessTests
             && WinterTextures.TryGetValue(surface, out var winterDescriptor)
-            && global::Godot.FileAccess.FileExists(winterDescriptor.Path))
+            && ResourceLoader.Exists(winterDescriptor.Path))
         {
             var texture = ResourceLoader.Load<Texture2D>(winterDescriptor.Path);
             if (texture is not null)

@@ -437,3 +437,21 @@ Graph нужен и для журнала игрока, и для внутрен
 ## Engine Compatibility Boundary
 
 Portable contracts используют JSON/Markdown, валидируемые IDs и ссылки. Godot-specific scene paths, nodes, resources и input actions живут только в `Urman.Godot` и его registries. `Urman.Core`, `Urman.Content` и сохранения не ссылаются на Godot assemblies.
+
+## Самостоятельная сборка Акта I — 2026-09-11
+
+`eng/export-desktop-release.sh <пустой внешний каталог>` создаёт unsigned
+`macos/URMAN.zip` с `URMAN.app`, `windows/URMAN.exe` с .NET-зависимостями и
+`URMAN-windows-x86_64.zip`. Существующие проверки состава PCK и native-архивов
+работают на фактически экспортированных файлах; ошибка удаляет только новый
+комплект этого запуска. Проверка PCK берёт обязательные текстуры из
+`PainterlyMaterialLibrary`: старый release-фильтр ошибочно исключал используемые
+v2–v5 материалы, из-за чего обычное окно оставалось без мира, хотя headless
+bootstrap проходил. Headless не доказывает загрузку GPU-ресурсов.
+
+Существующий `Act1DemoRoot` выполняет пакетный probe в точке приезда: 12 секунд
+прогрева, 60 секунд кадров, среднее/p95/p99/max и доля кадров дольше 33,3 мс.
+Меню, headless, короткий диагностический запуск и незавершённая сборка мира
+не получают PASS. Это статический замер одной точки, а не проверка плавности
+всего маршрута. Windows host launch и подпись/notarization остаются отдельными
+неподтверждёнными требованиями.

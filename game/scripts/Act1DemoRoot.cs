@@ -41,7 +41,24 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private AudioStreamPlayer? _doorFoley;
     private string? _lastHeardZone;
     private bool _performanceProbe;
-    private int _performanceWarmupFrames;
+    private const string PerformanceProbeModeMenu = "menu";
+    private const string PerformanceProbeModeGameplay = "gameplay";
+    private const double DefaultPerformanceWarmupSeconds = 12.0;
+    private const double DefaultPerformanceDurationSeconds = 60.0;
+    private const double MaximumPerformanceWarmupSeconds = 300.0;
+    private const double MaximumPerformanceDurationSeconds = 600.0;
+    private const double TargetMinimumFps = 58.0;
+    private const double TargetP95Milliseconds = 18.0;
+    private const double TargetP99Milliseconds = 25.0;
+    private const double TargetLongFrameFraction = 0.005;
+    private string _performanceProbeMode = PerformanceProbeModeGameplay;
+    private bool _performanceProbeConfigurationValid = true;
+    private bool _performanceWindowed;
+    private bool _performanceRealRenderer;
+    private double _performanceWarmupSeconds = DefaultPerformanceWarmupSeconds;
+    private double _performanceDurationSeconds = DefaultPerformanceDurationSeconds;
+    private double _performanceWarmupElapsed;
+    private double _performanceMeasurementElapsed;
     private ulong _performanceLastTicks;
     private readonly List<double> _performanceWarmupSamples = [];
     private readonly List<double> _performanceSamples = [];
@@ -119,12 +136,15 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         CallDeferred(nameof(AttachRuntimeBridge));
 
         var commandLine = OS.GetCmdlineArgs();
-        _performanceProbe = commandLine.Contains("--urman-perf-probe", StringComparer.Ordinal);
+        _performanceProbe = commandLine.Contains("--urman-perf-probe", StringComparer.Ordinal)
+            || commandLine.Any(argument => argument.StartsWith(
+                "--urman-perf-probe-mode=",
+                StringComparison.Ordinal));
         _startupPerformanceGuard = !_performanceProbe
             && !commandLine.Contains("--no-auto-performance-fallback", StringComparer.Ordinal);
         if (_performanceProbe)
         {
-            _performanceWarmupFrames = 20;
+            ConfigurePerformanceProbe(commandLine);
             _performanceLastTicks = Time.GetTicksUsec();
         }
 
@@ -276,27 +296,62 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private void RecordPerformanceProbeFrame()
     {
+        if (_main.ConnectedWorld?.IsBuilt != true)
+        {
+            GD.Print("act1-demo-package-performance: status=INVALID reason=world-build-failed");
+            FinishPerformanceProbe(2);
+            return;
+        }
         var now = Time.GetTicksUsec();
         var frameMilliseconds = (now - _performanceLastTicks) / 1000.0;
         _performanceLastTicks = now;
-        if (_performanceWarmupFrames > 0)
+        if (!_performanceProbeConfigurationValid)
+        {
+            GD.Print(string.Join(' ',
+                "act1-demo-package-performance:",
+                "status=INVALID",
+                $"mode={_performanceProbeMode}",
+                "reason=invalid-probe-arguments"));
+            FinishPerformanceProbe(2);
+            return;
+        }
+
+        if (!_performanceWindowed || !_performanceRealRenderer)
+        {
+            GD.Print(string.Join(' ',
+                "act1-demo-package-performance:",
+                "status=HEADLESS_INVALID",
+                $"mode={_performanceProbeMode}",
+                $"display_driver={ProbeToken(DisplayServer.GetName())}",
+                $"adapter={ProbeToken(RenderingServer.GetVideoAdapterName())}",
+                "window_fps_valid=false",
+                "reason=windowed-rendering-device-required"));
+            FinishPerformanceProbe(2);
+            return;
+        }
+
+        if (_performanceWarmupElapsed < _performanceWarmupSeconds)
         {
             _performanceWarmupSamples.Add(frameMilliseconds);
-            _performanceWarmupFrames--;
+            _performanceWarmupElapsed += frameMilliseconds / 1000.0;
             return;
         }
 
         _performanceSamples.Add(frameMilliseconds);
-        if (_performanceSamples.Count < 60)
+        _performanceMeasurementElapsed += frameMilliseconds / 1000.0;
+        if (_performanceMeasurementElapsed < _performanceDurationSeconds)
         {
             return;
         }
 
         var sorted = _performanceSamples.OrderBy(value => value).ToArray();
         var average = _performanceSamples.Average();
-        var p95 = sorted[(int)Math.Floor((sorted.Length - 1) * 0.95)];
+        var p95 = Percentile(sorted, 0.95);
+        var p99 = Percentile(sorted, 0.99);
         var maximum = _performanceSamples.Max();
         var fps = 1000.0 / Math.Max(average, 0.001);
+        var longFrameFraction = _performanceSamples.Count(value => value > 33.3)
+            / (double)_performanceSamples.Count;
         var warmupAverage = _performanceWarmupSamples.Count == 0
             ? 0
             : _performanceWarmupSamples.Average();
@@ -304,26 +359,180 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             ? 0
             : _performanceWarmupSamples.Max();
         var player = _player;
-        var renderer = RenderingServer.GetRenderingDevice() is null
-            ? "unavailable"
-            : "Godot RenderingDevice";
+        var viewport = GetViewport();
+        var windowSize = DisplayServer.WindowGetSize();
+        var viewportSize = viewport.GetVisibleRect().Size;
+        var renderingMethod = ProjectSettings
+            .GetSetting("rendering/renderer/rendering_method", "unknown")
+            .AsString();
+        var camera = player?.GetNodeOrNull<Camera3D>("Head/Camera3D");
+        var performancePass = _performanceWindowed
+            && _performanceRealRenderer
+            && string.Equals(_performanceProbeMode, PerformanceProbeModeGameplay, StringComparison.Ordinal)
+            && _performanceWarmupSeconds >= DefaultPerformanceWarmupSeconds
+            && _performanceDurationSeconds >= DefaultPerformanceDurationSeconds
+            && fps >= TargetMinimumFps
+            && p95 <= TargetP95Milliseconds
+            && p99 <= TargetP99Milliseconds
+            && longFrameFraction <= TargetLongFrameFraction
+            && maximum <= 100.0;
+        var shortProbe = _performanceWarmupSeconds < DefaultPerformanceWarmupSeconds
+            || _performanceDurationSeconds < DefaultPerformanceDurationSeconds;
+        var status = !_performanceWindowed || !_performanceRealRenderer
+            ? "HEADLESS_INVALID"
+            : !string.Equals(_performanceProbeMode, PerformanceProbeModeGameplay, StringComparison.Ordinal)
+                ? "MENU_DIAGNOSTIC"
+                : shortProbe ? "DIAGNOSTIC_SHORT"
+                : performancePass ? "PASS" : "FAIL";
 
         GD.Print(string.Join(' ',
             "act1-demo-package-performance:",
+            $"status={status}",
+            $"mode={_performanceProbeMode}",
+            "sample=village_day@arrival",
             $"avg={average.ToString("F3", CultureInfo.InvariantCulture)}ms",
             $"p95={p95.ToString("F3", CultureInfo.InvariantCulture)}ms",
+            $"p99={p99.ToString("F3", CultureInfo.InvariantCulture)}ms",
             $"max={maximum.ToString("F3", CultureInfo.InvariantCulture)}ms",
+            $"long_frame_fraction={longFrameFraction.ToString("F5", CultureInfo.InvariantCulture)}",
             $"warmup_avg={warmupAverage.ToString("F3", CultureInfo.InvariantCulture)}ms",
             $"warmup_max={warmupMaximum.ToString("F3", CultureInfo.InvariantCulture)}ms",
-            $"fps={fps.ToString("F2", CultureInfo.InvariantCulture)}",
-            $"renderer={renderer}",
+            $"warmup_seconds={_performanceWarmupElapsed.ToString("F2", CultureInfo.InvariantCulture)}",
+            $"sample_seconds={_performanceMeasurementElapsed.ToString("F2", CultureInfo.InvariantCulture)}",
+            $"sample_count={_performanceSamples.Count}",
+            $"fps={(_performanceWindowed && _performanceRealRenderer ? fps.ToString("F2", CultureInfo.InvariantCulture) : "n/a")}",
+            $"window_fps_valid={(_performanceWindowed && _performanceRealRenderer).ToString().ToLowerInvariant()}",
+            $"display_driver={ProbeToken(DisplayServer.GetName())}",
+            $"adapter={ProbeToken(RenderingServer.GetVideoAdapterName())}",
+            $"rendering_method={ProbeToken(renderingMethod)}",
             $"preset={player?.GraphicsPreset ?? "unknown"}",
-            $"scale={GetViewport().Scaling3DScale.ToString("F2", CultureInfo.InvariantCulture)}",
-            $"msaa={GetViewport().Msaa3D}"));
+            $"scale={viewport.Scaling3DScale.ToString("F2", CultureInfo.InvariantCulture)}",
+            $"msaa={viewport.Msaa3D}",
+            $"fov={(camera?.Fov ?? 0).ToString("F1", CultureInfo.InvariantCulture)}",
+            $"window={windowSize.X}x{windowSize.Y}",
+            $"viewport={viewportSize.X.ToString("F0", CultureInfo.InvariantCulture)}x{viewportSize.Y.ToString("F0", CultureInfo.InvariantCulture)}",
+            $"vsync={DisplayServer.WindowGetVsyncMode()}",
+            $"engine_fps={Performance.GetMonitor(Performance.Monitor.TimeFps).ToString("F2", CultureInfo.InvariantCulture)}",
+            $"process_ms={(Performance.GetMonitor(Performance.Monitor.TimeProcess) * 1000.0).ToString("F3", CultureInfo.InvariantCulture)}",
+            $"physics_ms={(Performance.GetMonitor(Performance.Monitor.TimePhysicsProcess) * 1000.0).ToString("F3", CultureInfo.InvariantCulture)}",
+            $"draw_calls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame).ToString("F0", CultureInfo.InvariantCulture)}",
+            $"primitives={Performance.GetMonitor(Performance.Monitor.RenderTotalPrimitivesInFrame).ToString("F0", CultureInfo.InvariantCulture)}"));
 
+        var exitCode = !string.Equals(_performanceProbeMode, PerformanceProbeModeGameplay, StringComparison.Ordinal)
+            || shortProbe
+            ? 2
+            : performancePass ? 0 : 1;
+        FinishPerformanceProbe(exitCode);
+    }
+
+    private void ConfigurePerformanceProbe(IReadOnlyList<string> commandLine)
+    {
+        var modeArgument = commandLine.FirstOrDefault(argument => argument.StartsWith(
+            "--urman-perf-probe-mode=",
+            StringComparison.Ordinal));
+        if (modeArgument is not null)
+        {
+            _performanceProbeMode = modeArgument["--urman-perf-probe-mode=".Length..]
+                .Trim()
+                .ToLowerInvariant();
+            if (_performanceProbeMode is not PerformanceProbeModeMenu
+                and not PerformanceProbeModeGameplay)
+            {
+                _performanceProbeConfigurationValid = false;
+            }
+        }
+
+        _performanceWarmupSeconds = ParsePerformanceSeconds(
+            commandLine,
+            "--urman-perf-warmup-seconds=",
+            DefaultPerformanceWarmupSeconds,
+            0,
+            MaximumPerformanceWarmupSeconds);
+        _performanceDurationSeconds = ParsePerformanceSeconds(
+            commandLine,
+            "--urman-perf-duration-seconds=",
+            DefaultPerformanceDurationSeconds,
+            1,
+            MaximumPerformanceDurationSeconds);
+        if (double.IsNaN(_performanceWarmupSeconds) || double.IsNaN(_performanceDurationSeconds))
+        {
+            _performanceProbeConfigurationValid = false;
+            _performanceWarmupSeconds = DefaultPerformanceWarmupSeconds;
+            _performanceDurationSeconds = DefaultPerformanceDurationSeconds;
+        }
+
+        _performanceWindowed = !commandLine.Contains("--headless", StringComparer.Ordinal)
+            && !string.Equals(
+                DisplayServer.GetName(),
+                "headless",
+                StringComparison.OrdinalIgnoreCase);
+        _performanceRealRenderer = RenderingServer.GetRenderingDevice() is not null;
+        if (_performanceWindowed
+            && commandLine.Contains("--urman-perf-no-vsync", StringComparer.Ordinal))
+        {
+            DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Disabled);
+        }
+
+        if (string.Equals(_performanceProbeMode, PerformanceProbeModeGameplay, StringComparison.Ordinal))
+        {
+            // A gameplay probe must never report the main-menu overlay as a
+            // world baseline. This is presentation-only and does not touch
+            // RuntimeBridge, SaveGameV3 or the user's settings.
+            _mainMenu?.Dismiss();
+            _mainMenu = null;
+            _player?.SetModalOpen(false);
+        }
+    }
+
+    private static double ParsePerformanceSeconds(
+        IReadOnlyList<string> commandLine,
+        string prefix,
+        double fallback,
+        double minimum,
+        double maximum)
+    {
+        var argument = commandLine.FirstOrDefault(value => value.StartsWith(prefix, StringComparison.Ordinal));
+        if (argument is null)
+        {
+            return fallback;
+        }
+
+        var valueText = argument[prefix.Length..];
+        if (!double.TryParse(
+                valueText,
+                NumberStyles.Float,
+                CultureInfo.InvariantCulture,
+                out var value)
+            || !double.IsFinite(value)
+            || value < minimum
+            || value > maximum)
+        {
+            return double.NaN;
+        }
+
+        return value;
+    }
+
+    private static double Percentile(double[] sortedValues, double fraction)
+    {
+        if (sortedValues.Length == 0)
+        {
+            return 0;
+        }
+
+        var index = (int)Math.Ceiling(sortedValues.Length * fraction) - 1;
+        return sortedValues[Math.Clamp(index, 0, sortedValues.Length - 1)];
+    }
+
+    private static string ProbeToken(string value) => string.IsNullOrWhiteSpace(value)
+        ? "unknown"
+        : value.Replace(' ', '_').Replace('\t', '_');
+
+    private void FinishPerformanceProbe(int exitCode)
+    {
         _performanceProbe = false;
         _main.QueueFree();
-        GetTree().Quit(fps >= 10.0 ? 0 : 1);
+        GetTree().Quit(exitCode);
     }
 
     private void RecordStartupPerformanceGuard(double delta)

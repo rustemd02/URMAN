@@ -179,8 +179,11 @@ def read_pck(path: Path) -> tuple[bytes, dict[str, tuple[int, int]]]:
             fail(f"{path.name} contains a duplicate resource path: {name}")
         entries[name] = (data_offset, data_size)
 
-    if cursor != len(raw):
-        fail(f"{path.name} has trailing bytes after its resource index")
+    # Native Windows exports append at most seven zero alignment bytes before
+    # their size/magic footer; extracted PCKs retain that alignment.
+    trailing = raw[cursor:]
+    if len(trailing) > 7 or any(trailing):
+        fail(f"{path.name} has non-alignment bytes after its resource index")
     return raw, entries
 
 
@@ -195,14 +198,16 @@ def require_prefix(entries: dict[str, tuple[int, int]], prefix: str, suffix: str
         fail(f"required derived resource is missing or ambiguous: {prefix}*{suffix}")
 
 
-production_textures = (
-    "weathered_wood_boards_albedo",
-    "damp_earth_albedo",
-    "aged_plaster_albedo",
-    "pine_foliage_albedo",
-    "mossy_stone_v2_albedo",
-    "old_fabric_v2_albedo",
-)
+# Keep the scope gate aligned with the shared runtime material owner.
+import re
+material_source = Path("game/scripts/PainterlyMaterialLibrary.cs").read_text()
+texture_pattern = r"res://assets/textures/painterly/([a-z0-9_]+)\.png"
+required_source, optional_source = material_source.split("private static readonly Dictionary<string, (string Path, Vector2 Scale)> WinterTextures", 1)
+production_textures = set(re.findall(texture_pattern, required_source))
+# Winter entries intentionally fall back to their painted base until authored.
+production_textures.update(name for name in re.findall(texture_pattern, optional_source)
+                           if Path(f"game/assets/textures/painterly/{name}.png").is_file())
+production_textures.update(("snow_micro_response", "snow_micro_normal"))
 
 candidate_textures = (
     "aged_plaster_v2_albedo.png",
@@ -222,6 +227,8 @@ candidate_textures = (
     "weathered_wood_boards_v5_albedo.png",
     "weathered_wood_boards_v6_albedo.png",
 )
+
+candidate_textures = tuple(name for name in candidate_textures if Path(name).stem not in production_textures)
 
 ambient_stems = (
     "village_day_ambience",
