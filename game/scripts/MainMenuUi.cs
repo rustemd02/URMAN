@@ -14,7 +14,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     public const string ContinueSlot = "quick";
 
     /// <summary>SAVE-004: the runtime also maintains a rolling checkpoint
-    /// slot; Continue falls back to it when the quick slot is absent.</summary>
+    /// slot; Continue selects the newest valid quick/checkpoint payload.</summary>
     public const string CheckpointSlot = "checkpoint";
 
     private Label? _title;
@@ -25,7 +25,14 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private Button? _continueButton;
     private Button? _settingsButton;
     private Button? _quitButton;
+    private Button? _aboutButton;
+    private VBoxContainer? _layout;
+    private VBoxContainer? _about;
+    private ScrollContainer? _scroll;
+    private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
     private bool _continueAvailable;
+    private bool _newGameArmed;
+    private string? _continueDescription;
 
     public event Action? NewGameRequested;
     public event Action? ContinueRequested;
@@ -35,6 +42,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     public Button? NewGameButton => _newGameButton;
     public Button? ContinueButton => _continueButton;
     public Button? SettingsButton => _settingsButton;
+    public Button? AboutButton => _aboutButton;
     public bool IsDismissed { get; private set; }
 
     public override void _Ready()
@@ -44,15 +52,26 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         Layer = 100;
         Name = "Act1MainMenu";
         BuildLayout();
+        GetViewport().SizeChanged += FitToViewport;
         Input.MouseMode = Input.MouseModeEnum.Visible;
         ApplyAccessibilitySettings(
             (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.Accessibility
             ?? AccessibilitySettingsSnapshot.Default);
     }
 
-    public void SetContinueAvailable(bool available)
+    public override void _ExitTree() => GetViewport().SizeChanged -= FitToViewport;
+
+    private void FitToViewport()
+    {
+        var size = GetViewport().GetVisibleRect().Size;
+        if (_scroll is not null) _scroll.CustomMinimumSize = new Vector2(0, Math.Max(200, Math.Min(560, size.Y - 116)));
+        if (_panel is not null) _panel.CustomMinimumSize = new Vector2(Math.Min(560, size.X - 32), 0);
+    }
+
+    public void SetContinueAvailable(bool available, string? description = null)
     {
         _continueAvailable = available;
+        _continueDescription = description;
         if (_continueButton is not null)
         {
             _continueButton.Visible = available;
@@ -64,8 +83,14 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
         if (_continueHint is not null)
         {
-            _continueHint.Visible = !available;
+            _continueHint.Visible = true;
+            _continueHint.Text = available ? description ?? "Последнее сохранение" : "Продолжить · подходящее сохранение не найдено";
         }
+    }
+
+    public void ShowStatus(string text)
+    {
+        if (_continueHint is not null) { _continueHint.Text = text; _continueHint.Visible = true; }
     }
 
     public void Dismiss()
@@ -81,6 +106,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
     {
+        _accessibility = settings;
         var scale = Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f);
         var textColor = settings.HighContrast ? Colors.White : new Color(0.89f, 0.84f, 0.73f);
         if (_title is not null)
@@ -119,7 +145,8 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             _panel.AddThemeStyleboxOverride("panel", PanelStyle(settings.HighContrast));
         }
 
-        foreach (var button in new[] { _newGameButton, _continueButton, _settingsButton, _quitButton })
+        if (_about is not null) AccessibilityPresentation.ApplyToControl(_about, settings);
+        foreach (var button in new[] { _newGameButton, _continueButton, _settingsButton, _aboutButton, _quitButton })
         {
             if (button is null)
             {
@@ -174,13 +201,21 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         margin.AddThemeConstantOverride("margin_bottom", 42);
         _panel.AddChild(margin);
 
+        _scroll = new ScrollContainer { Name = "MenuScroll", FollowFocus = true,
+            HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled,
+            CustomMinimumSize = new Vector2(0, Math.Min(560, GetViewport().GetVisibleRect().Size.Y - 116)) };
+        margin.AddChild(_scroll);
         var layout = new VBoxContainer
         {
             Name = "Layout",
-            Alignment = BoxContainer.AlignmentMode.Center
+            Alignment = BoxContainer.AlignmentMode.Center,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
         };
         layout.AddThemeConstantOverride("separation", 12);
-        margin.AddChild(layout);
+        var contents = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        _scroll.AddChild(contents);
+        contents.AddChild(layout);
+        _layout = layout;
 
         _title = new Label
         {
@@ -202,11 +237,22 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         layout.AddChild(new Control { CustomMinimumSize = new Vector2(0, 18) });
 
         _newGameButton = MenuButton("NewGameButton", "Новая игра");
-        _newGameButton.Pressed += () => NewGameRequested?.Invoke();
+        _newGameButton.Pressed += () =>
+        {
+            if (_continueAvailable && !_newGameArmed)
+            {
+                _newGameArmed = true;
+                _newGameButton.Text = "Начать новую игру";
+                ShowStatus("Автосохранение будет заменяться.\nРучное сохранение останется. Esc — отмена.");
+                return;
+            }
+            DisarmNewGame();
+            NewGameRequested?.Invoke();
+        };
         layout.AddChild(_newGameButton);
 
         _continueButton = MenuButton("ContinueButton", "Продолжить");
-        _continueButton.Pressed += () => ContinueRequested?.Invoke();
+        _continueButton.Pressed += () => { DisarmNewGame(); ContinueRequested?.Invoke(); };
         _continueButton.Visible = false;
         layout.AddChild(_continueButton);
 
@@ -214,6 +260,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             Name = "ContinueUnavailable",
             Text = "Продолжить  ·  сохранение не найдено",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
             HorizontalAlignment = HorizontalAlignment.Center,
             CustomMinimumSize = new Vector2(360, 48),
             MouseFilter = Control.MouseFilterEnum.Ignore
@@ -221,8 +268,12 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         layout.AddChild(_continueHint);
 
         _settingsButton = MenuButton("SettingsButton", "Настройки");
-        _settingsButton.Pressed += () => SettingsRequested?.Invoke();
+        _settingsButton.Pressed += () => { DisarmNewGame(); SettingsRequested?.Invoke(); };
         layout.AddChild(_settingsButton);
+
+        _aboutButton = MenuButton("AboutButton", "Об игре и титры");
+        _aboutButton.Pressed += OpenAbout;
+        layout.AddChild(_aboutButton);
 
         _quitButton = MenuButton("QuitButton", "Выход");
         _quitButton.Pressed += () => QuitRequested?.Invoke();
@@ -230,6 +281,58 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
         _newGameButton.GrabFocus();
         SetContinueAvailable(_continueAvailable);
+    }
+
+    public override void _UnhandledInput(InputEvent inputEvent)
+    {
+        if (_about is not null && inputEvent.IsActionPressed("ui_cancel"))
+        { CloseAbout(); GetViewport().SetInputAsHandled(); }
+        else if (_newGameArmed && inputEvent.IsActionPressed("ui_cancel"))
+        { DisarmNewGame(); GetViewport().SetInputAsHandled(); }
+    }
+
+    private void DisarmNewGame()
+    {
+        _newGameArmed = false;
+        if (_newGameButton is not null) _newGameButton.Text = "Новая игра";
+        SetContinueAvailable(_continueAvailable, _continueDescription);
+    }
+
+    private void OpenAbout()
+    {
+        if (_about is not null || _scroll is null || _layout is null) return;
+        DisarmNewGame();
+        _layout.Hide();
+        _about = new VBoxContainer { Name = "About", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        _layout.GetParent().AddChild(_about);
+        var back = MenuButton("Back", "Назад");
+        back.Pressed += CloseAbout;
+        _about.AddChild(back);
+        var text = new RichTextLabel { Name = "Credits", FitContent = true, ScrollActive = false,
+            SelectionEnabled = true, CustomMinimumSize = new Vector2(360, 0),
+            Text = global::Godot.FileAccess.GetFileAsString("res://content/credits.ru.txt") };
+        _about.AddChild(text);
+        var licenses = MenuButton("Licenses", "Лицензии Godot");
+        _about.AddChild(licenses);
+        licenses.Pressed += () =>
+        {
+            text.Text = Engine.GetLicenseText() + "\n\n" + global::Godot.Json.Stringify(Engine.GetCopyrightInfo(), "  ")
+                + "\n\n" + string.Join("\n\n", Engine.GetLicenseInfo().Select(entry => $"{entry.Key}\n{entry.Value}"));
+            licenses.Disabled = true;
+            _scroll.ScrollVertical = 0;
+            back.GrabFocus();
+        };
+        AccessibilityPresentation.ApplyToControl(_about, _accessibility);
+        _scroll.ScrollVertical = 0;
+        back.GrabFocus();
+    }
+
+    private void CloseAbout()
+    {
+        _about?.QueueFree();
+        _about = null;
+        _layout?.Show();
+        _aboutButton?.GrabFocus();
     }
 
     private Button MenuButton(string name, string text)

@@ -245,7 +245,7 @@ ambient_stems = (
 foley_stems = ("door_creak", "keyboard_key", "paper_open", "ui_click")
 footstep_stems = tuple(
     f"step_{surface}_{variant:02d}"
-    for surface in ("wet_road", "mud", "grass", "wood", "interior_floor")
+    for surface in ("snow_packed", "snow_soft", "wood", "interior_floor")
     for variant in range(3)
 )
 
@@ -343,6 +343,7 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
         require_prefix(entries, ".godot/exported/", f"-{scene.rsplit('/', 1)[-1]}.scn")
 
     require(entries, "project.binary")
+    require(entries, "content/credits.ru.txt")
     content_name = "content/urman.chapter1.compiled.v1.json"
     require(entries, content_name)
     content_offset, content_size = entries[content_name]

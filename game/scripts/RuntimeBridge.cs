@@ -65,6 +65,7 @@ public partial class RuntimeBridge : Node
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {
+        if (FindPlayer()?.ModalOpen != false) return;
         if (inputEvent.IsActionPressed("quick_save"))
         {
             QuickSave();
@@ -97,7 +98,7 @@ public partial class RuntimeBridge : Node
 
     public async Task<bool> SaveSlotAsync(string slot)
     {
-        if (_kernel is null || _capabilities is null || _saveStore is null || FindPlayer() is not { } player)
+        if (_loadingSlot || _kernel is null || _capabilities is null || _saveStore is null || FindPlayer() is not { } player)
         {
             GD.PushWarning("Quick save is unavailable before the runtime and player are ready.");
             return false;
@@ -144,6 +145,36 @@ public partial class RuntimeBridge : Node
     /// </summary>
     public bool HasLoadableSlot(string slot) => IsSlotAvailable(slot);
 
+    public async Task<(string Slot, string Description)?> FindContinueAsync()
+    {
+        if (_saveStore is null) return null;
+        (string Slot, string Description)? newest = null;
+        var latestTime = DateTime.MinValue;
+        foreach (var slot in new[] { "quick", CheckpointSlot })
+        {
+            try
+            {
+                var loaded = await _saveStore.LoadAsync(slot, _content.CampaignFingerprint);
+                var path = loaded.RecoveredFromBackup ? _saveStore.BackupPath(slot) : _saveStore.SlotPath(slot);
+                var time = File.GetLastWriteTimeUtc(path);
+                if (time < latestTime) continue;
+                latestTime = time;
+                var place = loaded.Save.CurrentZone.Value switch
+                {
+                    "house_old_pc" => "Дом", "fap_clinic" => "ФАП",
+                    "zirat_road" => "Дорога к зирату", "kara_urman_night" => "Кромка леса", _ => "Кырлай"
+                };
+                newest = (slot, $"{place} · {time.ToLocalTime():dd.MM HH:mm}");
+            }
+            catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException)
+            {
+                // The store validates both primary and backup; an incompatible
+                // or damaged slot stays untouched and is not offered to Continue.
+            }
+        }
+        return newest;
+    }
+
     /// <summary>
     /// SAVE-003 New Game contract: begin a fresh narrative session without
     /// deleting any existing slot (Continue must keep working) and without
@@ -155,7 +186,7 @@ public partial class RuntimeBridge : Node
     public async Task<bool> StartNewGameAsync()
     {
         var player = FindPlayer();
-        if (_content is null || player is null)
+        if (_loadingSlot || _content is null || player is null)
         {
             GD.PushWarning("New game is unavailable before the runtime and player are ready.");
             return false;
@@ -186,12 +217,16 @@ public partial class RuntimeBridge : Node
 
     public async Task<bool> LoadSlotAsync(string slot)
     {
-        if (_saveStore is null || FindPlayer() is not { } player)
+        if (_loadingSlot || _saveStore is null || FindPlayer() is not { } player)
         {
             GD.PushWarning("Quick load is unavailable before the runtime and player are ready.");
             return false;
         }
 
+        _loadingSlot = true;
+        var audio = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
+        var wasPaused = audio?.IsPaused ?? false;
+        audio?.SetPaused(true);
         try
         {
             var result = await _saveStore.LoadAsync(slot, _content.CampaignFingerprint);
@@ -203,7 +238,7 @@ public partial class RuntimeBridge : Node
             }
 
             player.ApplyPortableTransform(result.Save.PlayerTransform);
-            player.ApplySettings(result.Save.Settings);
+            // Current profile settings remain authoritative across story loads.
             ReplayIncompleteFinale();
             GD.Print(result.RecoveredFromBackup
                 ? "SaveGameV3 restored from the last working backup."
@@ -214,6 +249,11 @@ public partial class RuntimeBridge : Node
         {
             GD.PushError($"SaveGameV3 load failed: {exception.Message}");
             return false;
+        }
+        finally
+        {
+            _loadingSlot = false;
+            if (audio is not null && IsInstanceValid(audio)) audio.SetPaused(wasPaused);
         }
     }
 
@@ -236,6 +276,7 @@ public partial class RuntimeBridge : Node
 
     private string? _lastCheckpointScene;
     private bool _checkpointBusy;
+    private bool _loadingSlot;
 
     public async Task<bool> DispatchInteractionAsync(string interactionId)
     {
@@ -261,7 +302,7 @@ public partial class RuntimeBridge : Node
 
     private async Task SaveCheckpointAsync(bool force = false)
     {
-        if (_checkpointBusy || _content is null || ActiveSceneId is not { } scene)
+        if (_loadingSlot || _checkpointBusy || _content is null || ActiveSceneId is not { } scene)
         {
             return;
         }
@@ -272,9 +313,10 @@ public partial class RuntimeBridge : Node
         }
 
         _checkpointBusy = true;
+        var session = _kernel;
         try
         {
-            if (await SaveSlotAsync(CheckpointSlot))
+            if (await SaveSlotAsync(CheckpointSlot) && ReferenceEquals(session, _kernel))
             {
                 _lastCheckpointScene = scene;
                 GD.Print($"checkpoint: auto-saved at {scene}");
@@ -992,6 +1034,7 @@ public partial class RuntimeBridge : Node
     {
         _kernel?.Dispose();
         _kernel = kernel;
+        _lastCheckpointScene = null;
     }
 
     private void ReplaceCapabilities(CapabilityHost capabilities)

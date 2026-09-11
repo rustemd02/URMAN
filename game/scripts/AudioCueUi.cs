@@ -44,6 +44,8 @@ public partial class AudioCueUi : CanvasLayer, IAccessibilitySettingsTarget
     /// </summary>
     public string? VisibleText => _panel is not null && _panel.Visible ? _label.Text : null;
 
+    public bool IsPaused => _paused;
+
     public bool IsPresenting => _presentationActive
         || _pendingCues.Count > 0
         || _player is not null
@@ -117,6 +119,8 @@ public partial class AudioCueUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             _player.StreamPaused = paused;
         }
+        if (!paused && !_presentationActive && _gapRemainingSeconds <= 0d && _pendingCues.Count > 0)
+            PresentNextCue();
     }
 
     public void ResetPresentation()

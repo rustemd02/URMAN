@@ -97,7 +97,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _activeDocumentId = null;
         _documentTitle.Text = "АРХИВ КЫРЛАЙ";
         _reader.Text = "Введите слово или выберите запись слева. Некоторые документы откроются только после того, как Айдар найдёт связанную улику или поймёт татарское слово.";
-        _status.Text = "DedOS 3.11 · локальный архив";
+        _status.Text = "Локальный архив · Кырлай";
         _save.Disabled = true;
         RefreshResults();
         SetPlayerModal(true);

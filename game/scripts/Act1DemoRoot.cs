@@ -37,6 +37,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private double _endingDelay;
     private bool _endingShown;
     private bool _endingPending;
+    private bool _menuBusy;
     private RuntimeBridge? _bridge;
     private AudioStreamPlayer? _doorFoley;
     private string? _lastHeardZone;
@@ -192,7 +193,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             HideRouteCue();
         }
 
-        if (_endingShown || !_endingPending)
+        if (_endingShown || !_endingPending || MainMenuVisible || IntroVisible || _pauseMenu?.IsOpen == true)
         {
             return;
         }
@@ -241,6 +242,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             _bridge = bridge;
             _bridge.RuntimeStateChanged += OnRuntimeStateChanged;
+            RefreshMenuContinueAvailability();
             EvaluateEndingState();
             return;
         }
@@ -581,6 +583,12 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {
+        if (_endingScreen is not null && inputEvent.IsActionPressed("ui_cancel"))
+        {
+            ReturnFromEnding();
+            GetViewport().SetInputAsHandled();
+            return;
+        }
         if (_introScreen is null)
         {
             return;
@@ -631,26 +639,28 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _mainMenu.QuitRequested += () => GetTree().Quit();
         AddChild(_mainMenu);
 
-        // Continue availability needs the bridge, which lives inside the
-        // already-added main scene; refresh once the deferred attach runs.
-        CallDeferred(nameof(RefreshMenuContinueAvailability));
+        // Initial lookup begins when the bridge attaches. Do not allow a
+        // fresh start before we know whether the confirmation is needed.
+        if (_mainMenu.NewGameButton is { } newGame) newGame.Disabled = true;
+        if (_bridge is not null) CallDeferred(nameof(RefreshMenuContinueAvailability));
     }
 
-    private void RefreshMenuContinueAvailability()
+    private async void RefreshMenuContinueAvailability()
     {
         if (_mainMenu is { IsDismissed: false } menu)
         {
-            var bridge = _bridge;
-            menu.SetContinueAvailable(
-                bridge is not null
-                && (bridge.HasLoadableSlot(MainMenuUi.ContinueSlot)
-                    || bridge.HasLoadableSlot(MainMenuUi.CheckpointSlot)));
+            var candidate = _bridge is { } bridge ? await bridge.FindContinueAsync() : null;
+            if (IsInstanceValid(menu) && !menu.IsDismissed)
+            {
+                menu.SetContinueAvailable(candidate is not null, candidate?.Description);
+                if (menu.NewGameButton is { } newGame) { newGame.Disabled = false; newGame.GrabFocus(); }
+            }
         }
     }
 
     private async Task OnMenuStartSessionAsync(bool startNewGame)
     {
-        if (_mainMenu is null || !MainMenuVisible)
+        if (_menuBusy || _mainMenu is null || !MainMenuVisible)
         {
             return;
         }
@@ -661,28 +671,31 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return;
         }
 
-        if (startNewGame)
+        _menuBusy = true;
+        try
         {
-            await bridge.StartNewGameAsync();
-        }
-        else
-        {
-            // SAVE-004 (verified green): Continue prefers the quick slot and
-            // falls back to the rolling checkpoint written after stable beats.
-            var slot = bridge.HasLoadableSlot(MainMenuUi.ContinueSlot)
-                ? MainMenuUi.ContinueSlot
-                : bridge.HasLoadableSlot(MainMenuUi.CheckpointSlot)
-                    ? MainMenuUi.CheckpointSlot
-                    : null;
-            if (slot is null)
+            var candidate = startNewGame ? null : await bridge.FindContinueAsync();
+            var success = startNewGame
+                ? await bridge.StartNewGameAsync()
+                : candidate is { } save && await bridge.LoadSlotAsync(save.Slot);
+            if (!success)
             {
+                _mainMenu?.ShowStatus("Не удалось загрузить сеанс. Сохранения оставлены без изменений.");
                 return;
             }
-
-            await bridge.LoadSlotAsync(slot);
+            _endingShown = false;
+            _endingPending = false;
+            _endingDelay = 0;
+            if (startNewGame) ShowIntroAfterMenu();
+            else
+            {
+                _mainMenu?.Dismiss();
+                _mainMenu = null;
+                _player?.SetModalOpen(false);
+                EvaluateEndingState();
+            }
         }
-
-        ShowIntroAfterMenu();
+        finally { _menuBusy = false; }
     }
 
     private void ShowIntroAfterMenu()
@@ -981,17 +994,34 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var title = Label("НЕ ОТВЕЧАЙ", 58, new Color(0.88f, 0.78f, 0.59f));
         title.Modulate = new Color(1, 1, 1, 0);
         stack.AddChild(title);
-        var caption = Label("Конец демо", 20, new Color(0.65f, 0.68f, 0.64f));
+        var caption = Label("Конец Акта I", 20, new Color(0.65f, 0.68f, 0.64f));
         caption.Modulate = new Color(1, 1, 1, 0);
         stack.AddChild(caption);
         _endingTitle = title;
         _endingCaption = caption;
+        var returnButton = new Button { Name = "ReturnToMenu", Text = "В главное меню", CustomMinimumSize = new Vector2(280, 48) };
+        stack.AddChild(returnButton);
+        returnButton.Pressed += ReturnFromEnding;
+        returnButton.GrabFocus();
 
-        var tween = CreateTween().SetParallel(true);
+        var tween = screen.CreateTween().SetParallel(true);
         tween.TweenProperty(shade, "color", new Color(0.008f, 0.01f, 0.009f, 1f), 1.1f);
         tween.TweenProperty(title, "modulate", new Color(1, 1, 1, 1), 0.65f).SetDelay(0.85f);
         tween.TweenProperty(caption, "modulate", new Color(1, 1, 1, 1), 0.65f).SetDelay(1.1f);
         ApplyAccessibilitySettings(player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
+    }
+
+    private void ReturnFromEnding()
+    {
+        if (_endingScreen is not null && IsInstanceValid(_endingScreen)) _endingScreen.GetParent().QueueFree();
+        _endingScreen = null;
+        _endingStack = null;
+        _endingTitle = null;
+        _endingCaption = null;
+        _endingPending = false;
+        // Keep the completed card suppressed while the main menu is open.
+        (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.ResetPresentation();
+        BuildMainMenu();
     }
 
     private static Control FullScreenControl(string name) => new Control

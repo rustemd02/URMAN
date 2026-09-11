@@ -27,6 +27,7 @@ public static class Act1MainMenuTestSupport
         }
 
         button.EmitSignal(BaseButton.SignalName.Pressed);
+        if (button.Text == "Начать новую игру") button.EmitSignal(BaseButton.SignalName.Pressed);
         frames = timeoutFrames;
         while (!demo.IntroVisible && frames-- > 0)
         {

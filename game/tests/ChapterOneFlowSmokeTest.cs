@@ -25,6 +25,7 @@ public partial class ChapterOneFlowSmokeTest : Node
             Fail("Chapter 1 flow could not start through the main menu.");
             return;
         }
+        demo._UnhandledInput(new InputEventKey { Keycode = Key.Enter, PhysicalKeycode = Key.Enter, Pressed = true });
         var main = demo.DemoMain;
         var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
         if (bridge is null || bridge.ActiveSceneId != Scene("arrival_vehicle_dusk"))
@@ -187,13 +188,23 @@ public partial class ChapterOneFlowSmokeTest : Node
         }
         if (!demo.DemoEnded
             || demo.EndingTitleText != "НЕ ОТВЕЧАЙ"
-            || demo.EndingCaptionText != "Конец демо")
+            || demo.EndingCaptionText != "Конец Акта I")
         {
-            Fail($"Act 1 demo did not present the НЕ ОТВЕЧАЙ / Конец демо fade-to-black after the cliffhanger (ended={demo.DemoEnded}, pending={demo.EndingPending}, delay={demo.EndingDelaySeconds:F3}, presenting={audioCue.IsPresenting}, visible='{audioCue.VisibleText}', history={audioCue.PresentedHistory.Count}).");
+            Fail($"Act 1 demo did not present the НЕ ОТВЕЧАЙ / Конец Акта I fade-to-black after the cliffhanger (ended={demo.DemoEnded}, pending={demo.EndingPending}, delay={demo.EndingDelaySeconds:F3}, presenting={audioCue.IsPresenting}, visible='{audioCue.VisibleText}', history={audioCue.PresentedHistory.Count}).");
             return;
         }
 
-        GD.Print("chapter-one-flow-smoke: 16 authored beats -> five walkable zones -> final rule");
+        var returnButton = demo.FindChild("ReturnToMenu", true, false) as Button;
+        if (returnButton is null) { Fail("Ending has no return-to-menu action."); return; }
+        returnButton.EmitSignal(BaseButton.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!demo.MainMenuVisible || audioCue.IsPresenting)
+        { Fail("Ending did not return to a silent main menu."); return; }
+        if (!await this.StartThroughMainMenuAsync(demo)
+            || demo.DemoEnded || bridge.ActiveSceneId != Scene("arrival_vehicle_dusk"))
+        { Fail("A second playthrough retained the completed ending."); return; }
+
+        GD.Print("chapter-one-flow-smoke: authored route -> final rule -> menu -> fresh session");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
     }
@@ -221,7 +232,7 @@ public partial class ChapterOneFlowSmokeTest : Node
         state.GetProperty("knowledge").GetProperty($"{ChapterPrefix}knowledge/{localId}").GetProperty("status").GetString()!;
 
     private static string BeatState(System.Text.Json.JsonElement state, string localId) =>
-        state.GetProperty("beats").GetProperty($"{ChapterPrefix}beat/{localId}").GetString()!;
+        state.GetProperty("beats").TryGetProperty($"{ChapterPrefix}beat/{localId}", out var beat) ? beat.GetString()! : "not-started";
 
     private static string Interaction(string localId) => $"{ChapterPrefix}interaction/{localId}";
 

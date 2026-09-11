@@ -224,8 +224,8 @@
       "id": "FINISH-06",
       "title": "Product UI menus save resume and credits",
       "milestone": "M5",
-      "status": "ready",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "main",
       "depends_on": [],
       "owner": "finished-act1",
       "scope": [
@@ -242,7 +242,9 @@
       "verify": [
         "Narrow existing path selected from handover section 28 after inspecting actual owner."
       ],
-      "evidence": [],
+      "evidence": [
+        "2026-09-11: newest validated Continue + profile preserved on load + credits and licenses + ending-to-menu/restart. menu_lifecycle_build_v9, menu_user_settings_smoke, menu_ui, menu_cold_continue_v2 and menu_ending_flow_v3 PASS; 1280x720 normal/1.6 menu/credits frames inspected. Export credits inventory not yet re-exported; remaining full UI input/movement acceptance open."
+      ],
       "blocked_reason": null
     },
     {

@@ -5,9 +5,8 @@ namespace Urman.Godot.Tests;
 
 /// <summary>
 /// UIUX-007 / SAVE-006 focused smoke: user preferences persist across a cold
-/// launch independently of story saves; a story slot restore brings its own
-/// settings without being affected by the preferences store; deleting the
-/// store never touches narrative state.
+/// launch independently of story saves; a story restore preserves current
+/// profile settings; deleting the store never touches narrative state.
 /// </summary>
 public partial class Act1UserSettingsSmokeTest : Node
 {
@@ -53,8 +52,7 @@ public partial class Act1UserSettingsSmokeTest : Node
         }
 
         // 2) A story save carries its own settings snapshot; restoring it
-        //    brings those settings back while the store keeps the latest
-        //    applied ones — the two owners are versioned separately.
+        //    must keep the latest live profile; story progress does not own preferences.
         if (!await bridge.SaveSlotAsync(StorySlot))
         {
             Fail("User settings smoke could not write the story slot.");
@@ -69,13 +67,12 @@ public partial class Act1UserSettingsSmokeTest : Node
         }
 
         // Separation already proven above (store=70 while the slot held 82).
-        // Restoring the slot applies the slot's snapshot and the store — as
-        // the latest-applied mirror — follows to 82.
+        // Restoring the slot leaves the latest profile at 70.
         if (!await bridge.LoadSlotAsync(StorySlot)
-            || player.CaptureSettings().FieldOfView != 82
-            || UserSettingsStore.TryLoad()?.FieldOfView != 82)
+            || player.CaptureSettings().FieldOfView != 70
+            || UserSettingsStore.TryLoad()?.FieldOfView != 70)
         {
-            Fail("Story slot restore did not carry its own settings independently of the store.");
+            Fail("Story slot restore overwrote the current profile.");
             return;
         }
 
@@ -90,7 +87,7 @@ public partial class Act1UserSettingsSmokeTest : Node
 
         player.ApplySettings(player.CaptureSettings() with { FieldOfView = 90 });
         if (!await bridge.LoadSlotAsync(StorySlot)
-            || player.CaptureSettings().FieldOfView != 82
+            || player.CaptureSettings().FieldOfView != 90
             || bridge.CurrentZoneId != "village_day")
         {
             Fail("Story restore broke after the preferences store reset.");

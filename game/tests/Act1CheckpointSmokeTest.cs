@@ -71,7 +71,8 @@ public partial class Act1CheckpointSmokeTest : Node
         if (!bridge.IsInteractionAvailable(Interaction("talk-naila"))
             || !await bridge.DispatchInteractionAsync(Interaction("talk-naila"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("naila_medical_record"), "official-wording")
-            || !await Advance(bridge, "fap-to-document-desk", "fap_pressure_document_desk")
+            || !await Advance(bridge, "fap-to-document-desk", "fap_pressure_document_desk")) return;
+        if (!await bridge.SaveSlotAsync("checkpoint-before-evidence")
             || !await Advance(bridge, "fap-document-desk-to-official-record", "evidence-official-death")) return;
 
         // Stable FAP-evidence beat: the rolling checkpoint must exist now.
@@ -80,6 +81,16 @@ public partial class Act1CheckpointSmokeTest : Node
             Fail("No checkpoint was written after the FAP evidence beat.");
             return;
         }
+
+        // Returning to the same stable scene in a restored session must write
+        // a fresh checkpoint rather than retaining the old session guard.
+        var checkpointPath = ProjectSettings.GlobalizePath("user://savegames/checkpoint.savegame-v3.json");
+        var previousWrite = DateTime.UtcNow.AddDays(-1);
+        System.IO.File.SetLastWriteTimeUtc(checkpointPath, previousWrite);
+        if (!await bridge.LoadSlotAsync("checkpoint-before-evidence")
+            || !await Advance(bridge, "fap-document-desk-to-official-record", "evidence-official-death")
+            || System.IO.File.GetLastWriteTimeUtc(checkpointPath) <= previousWrite.AddSeconds(1))
+        { Fail("Restored session skipped a repeated checkpoint scene."); return; }
 
         // Continue to the internal register and the language reread: the
         // checkpoint is rewritten at each checkpoint-scene entry.

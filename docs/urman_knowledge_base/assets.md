@@ -1,5 +1,12 @@
 # Assets
 
+2026-09-11, прямое уточнение пользователя: красивый арт-стиль уровня ориентиров
+Zelda BOTW/TOTK — обязательная цель текущей реализации. Критерии: выразительные
+силуэты, цельные цветовые массы, живописные материалы, свет, глубина и композиция
+обычных игровых ракурсов. Зимний Кырлай и татарский культурный код сохраняются.
+Техническая корректность импорта/полигонов не заменяет художественную приёмку;
+добавление постэффектов само по себе этот критерий не закрывает.
+
 2026-09-10: generated 19 built-in ImageGen painterly albedo candidates across
 12 missing surface families (grass, roofs, bark, birch leaves, log walls,
 wallpaper, institutional wall, ornament, carpet, household fabric and carved
@@ -855,3 +862,19 @@ demo or art acceptance. Babai remains near-wall heavy; Kara side dressing is
 busy; the reverse Zirat view still leans on the existing village framing; and
 full near/mid/far traversal, cultural review, target-hardware performance,
 wayfinding and final art lock remain open.
+
+## Зимний реестр и реальные шаги — 2026-09-11
+
+Реестр синхронизирован с source/generator/GLB зимнего изменения `1f42f95`.
+Исходники и экспорт уже были изменены вместе; ошибочными оставались прежние
+SHA, материалы и счётчики реестра. Текущие байты совпадают с тем коммитом.
+Village exterior: 725 mesh nodes / 21 845 triangles / 15 materials; terrain:
+61 / 72 296 / 11; foliage: 218 / 74 454 / 15. Счётчики получены из GLB,
+повторная генерация и визуальная приёмка не заявляются.
+
+Добавлены 12 активных CC0 шагов из собственного footstep manifest: packed/soft
+snow, wood, interior floor. Каждый имеет SHA исходника и результата, лицензию,
+генератор и ссылку на provenance. Release validator требует именно эти четыре
+семьи; исторические wet-road/mud/grass не являются активной библиотекой Акта I.
+Проверка реестра — целостность 67 записей; финальное прослушивание и art lock
+остаются отдельными открытыми требованиями.

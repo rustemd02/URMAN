@@ -96,7 +96,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.62, 0.76, 0.66, 1)
 theme_override_font_sizes/font_size = 30
-text = "DedOS 3.11 — АРХИВ КЫРЛАЙ"
+text = "АРХИВ · КЫРЛАЙ"
 
 [node name="Close" type="Button" parent="Screen/Computer/Layout/Header"]
 layout_mode = 2
@@ -167,7 +167,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.58, 0.75, 0.62, 1)
-text = "DedOS 3.11 · локальный архив"
+text = "Локальный архив · Кырлай"
 autowrap_mode = 2
 
 [node name="Save" type="Button" parent="Screen/Computer/Layout/Footer"]
