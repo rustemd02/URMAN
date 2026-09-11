@@ -168,7 +168,7 @@ public static class GeneratedCharacterKitDressing
         {
             "Mansur" => ("5e4638", "80654a"),
             "Gulsina" => ("6b5960", "b6a389"),
-            "Alsu" => ("43535a", "9b7656"),
+            "Alsu" => ("7b594c", "c0a884"),
             "TimurHazrat" => ("4f5b55", "8c795a"),
             "CouncilElder" => ("5f5145", "806c50"),
             "CouncilWitness" => ("4d5960", "9a775d"),
