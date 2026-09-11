@@ -2062,7 +2062,7 @@ public partial class StyleBenchmarkZone : Node3D
         host.SetMeta("npcCount", host.GetChildren().OfType<Node3D>().Count());
     }
 
-    private void MakeInteractionBox(
+    internal InteractionTarget MakeInteractionBox(
         string name,
         Vector3 size,
         Vector3 position,
@@ -2105,6 +2105,7 @@ public partial class StyleBenchmarkZone : Node3D
         });
         body.SetMeta("proxyVisualHidden", true);
         AddChild(body);
+        return body;
     }
 
     private Material Material(string htmlColor, string surface = "") =>

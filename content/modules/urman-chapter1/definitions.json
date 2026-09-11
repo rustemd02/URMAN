@@ -366,9 +366,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-timur-restraint",
   "value": {
-   "default": "“Do not turn truth into pride, Aidar. Marat already took that road.”",
+   "default": "«Айдар, ты совсем замёрз. Постой здесь, за забором меньше дует». Тимур ждёт, пока я подойду. «Ты всё спрашиваешь про Марата. Что именно ты узнал?»",
    "translations": {
-    "ru": "«Не превращай правду в гордость, Айдар. Марат уже пошёл этим путём», — тихо говорит Тимур."
+    "ru": "«Айдар, ты совсем замёрз. Постой здесь, за забором меньше дует». Тимур ждёт, пока я подойду. «Ты всё спрашиваешь про Марата. Что именно ты узнал?»"
    }
   },
   "purpose": "dialogue"
@@ -1923,12 +1923,26 @@
       ],
       "effects": [],
       "nextNodeId": "boundary-reply"
+     },
+     {
+      "id": "ask-silence",
+      "textId": "urman.chapter1:text/choice-timur-silence",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "silence-reply"
+     },
+     {
+      "id": "ask-grandparents",
+      "textId": "urman.chapter1:text/choice-timur-grandparents",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "grandparents-reply"
      }
     ]
    },
    {
     "id": "boundary-reply",
-    "speakerRole": "timur",
+    "speakerRole": "timur-hazrat",
     "textId": "urman.chapter1:text/dialogue-timur-boundary-reply",
     "conditions": [],
     "effects": [
@@ -1939,6 +1953,22 @@
       "value": true
      }
     ],
+    "choices": []
+   },
+   {
+    "id": "silence-reply",
+    "speakerRole": "timur-hazrat",
+    "textId": "urman.chapter1:text/dialogue-timur-silence-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "grandparents-reply",
+    "speakerRole": "timur-hazrat",
+    "textId": "urman.chapter1:text/dialogue-timur-grandparents-reply",
+    "conditions": [],
+    "effects": [],
     "choices": []
    }
   ]
@@ -2068,7 +2098,10 @@
       "value": true
      }
     ],
-    "effects": []
+    "effects": [],
+    "worldLocations": [
+     "house_old_pc"
+    ]
    },
    {
     "id": "urman.chapter1:interaction/talk-gulsina",
@@ -2151,7 +2184,7 @@
    },
    {
     "id": "urman.chapter1:interaction/route-to-mosque",
-    "labelTextId": "urman.chapter1:text/continue",
+    "labelTextId": "urman.chapter1:text/talk-timur-outdoors",
     "conditions": [
      {
       "op": "knowledge.status",
@@ -2160,7 +2193,12 @@
      }
     ],
     "effects": [],
-    "targetSceneId": "urman.chapter1:scene/mosque"
+    "targetDialogueId": "urman.chapter1:dialogue/timur_restraint",
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ]
    }
   ]
  },
@@ -3304,9 +3342,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-timur-boundary-reply",
   "value": {
-   "default": "Timur pours the tea to the brim and does not hurry. “I do not know what happened, Aidar, and I will not pretend. I only know that anger here is expensive, and silence is not always a lie. Sometimes silence is the felt strip on the door: it holds, so the house does not slam.”",
+   "default": "«Две записи об одном человеке — и две разные истории. Это нужно выяснить. Только не начинай с обвинения: спроси, кто сделал пометку и что он видел сам». Тимур понижает голос. «Марат тоже торопился. Не повторяй его путь вслепую».",
    "translations": {
-    "ru": "Тимур наливает чай до края и не торопится. «Я не знаю, что случилось, Айдар, и притворяться не буду. Знаю только, что злость здесь дорогая, а молчание не всегда ложь. Иногда молчание — это войлок на двери: он держит, чтобы дом не хлопал»."
+    "ru": "«Две записи об одном человеке — и две разные истории. Это нужно выяснить. Только не начинай с обвинения: спроси, кто сделал пометку и что он видел сам». Тимур понижает голос. «Марат тоже торопился. Не повторяй его путь вслепую»."
    }
   },
   "purpose": "dialogue"
@@ -3964,5 +4002,60 @@
     }
    }
   ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/talk-timur-outdoors",
+  "value": {
+   "default": "Поговорить с Тимуром хәзрәтом",
+   "translations": {
+    "ru": "Поговорить с Тимуром хәзрәтом"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-timur-silence",
+  "value": {
+   "default": "Почему здесь все говорят намёками?",
+   "translations": {
+    "ru": "Почему здесь все говорят намёками?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-timur-grandparents",
+  "value": {
+   "default": "Я злюсь на бабая. Он явно что-то знает.",
+   "translations": {
+    "ru": "Я злюсь на бабая. Он явно что-то знает."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-timur-silence-reply",
+  "value": {
+   "default": "«Иногда человек молчит, потому что боится ошибиться. Иногда — потому что ему удобно молчать. По одной паузе ты этого не различишь. Спроси о конкретном дне, о том, кто был рядом. Такой вопрос труднее обойти».",
+   "translations": {
+    "ru": "«Иногда человек молчит, потому что боится ошибиться. Иногда — потому что ему удобно молчать. По одной паузе ты этого не различишь. Спроси о конкретном дне, о том, кто был рядом. Такой вопрос труднее обойти»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-timur-grandparents-reply",
+  "value": {
+   "default": "«Может быть, знает. Тебе не обязательно делать вид, что ты ничего не заметил. Но и он не обязан сразу найти слова. Скажи, что именно тебя испугало, — без ловушки в вопросе. Вы ведь ещё можете поговорить».",
+   "translations": {
+    "ru": "«Может быть, знает. Тебе не обязательно делать вид, что ты ничего не заметил. Но и он не обязан сразу найти слова. Скажи, что именно тебя испугало, — без ловушки в вопросе. Вы ведь ещё можете поговорить»."
+   }
+  },
+  "purpose": "dialogue"
  }
 ]

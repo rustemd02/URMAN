@@ -54,6 +54,10 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             new(-24.56f, 4.3218613f, -7.4319997f), "detail", "existing character face and collar contact"),
 
         // Babai / Ebi yard
+        Frame("alsu_conversation_close", "main_street", "village_day", "arrival", new(.1f, .05f, 4.1f), new(.85f, 1.35f, 2.05f), "detail", "Alsu visible beside her interaction"),
+        Frame("timur_conversation_close", "connective_street_return", "village_day", "from_house", new(-1.4f, .05f, -17.6f), new(-3.8f, 1.4f, -19f), "detail", "Timur outdoor conversation shoulder"),
+        Frame("rinat_village_close", "main_street", "village_day", "arrival", new(2.3f, .05f, .6f), new(2.15f, 1.4f, -1.7f), "detail", "Rinat before alert"),
+
         Frame("babai_yard_forward", "babai_yard", "village_day", "from_house", new(-20f, .05f, 6.5f), new(-8f, 1.55f, 12f), "forward", "near-mid-far"),
         Frame("babai_yard_back", "babai_yard", "village_day", "from_house", new(-20f, .05f, 6.5f), new(-30f, 1.55f, -5f), "back", "near-mid-far"),
         Frame("babai_yard_left", "babai_yard", "village_day", "from_house", new(-20f, .05f, 6.5f), new(-34f, 1.55f, 6f), "left", "lateral"),

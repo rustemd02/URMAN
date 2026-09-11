@@ -96,11 +96,16 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         }
     }
 
-    public void Open(RuntimeBridge bridge)
+    public void Open(RuntimeBridge bridge, string? selectedEntryId = null)
     {
         if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = bridge;
         _bridge.RuntimeStateChanged += OnRuntimeStateChanged;
+        if (selectedEntryId is not null)
+        {
+            ActiveEntryId = selectedEntryId;
+            _tabs.CurrentTab = 0;
+        }
         Refresh();
         UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;

@@ -72,7 +72,9 @@ public sealed record CompiledInteractionContent(
     string? TargetSceneId,
     string? TargetDialogueId,
     string? TargetDocumentId,
-    CompiledJournalActionContent? JournalAction = null);
+    CompiledJournalActionContent? JournalAction = null,
+    IReadOnlyList<string>? WorldLocations = null,
+    string? TargetJournalEntryId = null);
 
 public sealed record CompiledSceneContent(
     string Id,
@@ -150,6 +152,25 @@ public sealed class CompiledCampaignRepository
         _knowledgeInitialStatuses = knowledgeInitialStatuses;
         _vocabularyInitialStatuses = vocabularyInitialStatuses;
         VocabularyEntries = vocabularyEntries;
+        foreach (var interaction in _interactionsById.Values)
+        {
+            if (interaction.WorldLocations is { } locations
+                && (locations.Count == 0 || locations.Distinct(StringComparer.Ordinal).Count() != locations.Count
+                    || locations.Any(location => !Act1WorldLayout.ContainsZone(location))
+                    || interaction.TargetSceneId is not null || interaction.JournalAction is not null))
+                throw new InvalidDataException($"Invalid world interaction {interaction.Id}.");
+            if (interaction.TargetJournalEntryId is { } entryId)
+            {
+                var record = interaction.Effects.EnumerateArray().FirstOrDefault(effect =>
+                    effect.GetProperty("op").GetString() == "journal.record"
+                    && effect.GetProperty("entryId").GetString() == entryId);
+                if (!_journalSourcesById.ContainsKey(entryId) || record.ValueKind == JsonValueKind.Undefined
+                    || !_journalSourcesById.ContainsKey(record.GetProperty("sourceId").GetString()!)
+                    || interaction.TargetSceneId is not null || interaction.TargetDialogueId is not null
+                    || interaction.TargetDocumentId is not null || interaction.JournalAction is not null)
+                    throw new InvalidDataException($"Journal target {entryId} must be recorded by {interaction.Id}.");
+            }
+        }
         foreach (var action in JournalActions)
         {
             var journal = action.JournalAction!;
@@ -392,7 +413,10 @@ public sealed class CompiledCampaignRepository
             interaction.TryGetProperty("targetDocumentId", out var documentId) ? documentId.GetString() : null,
             interaction.TryGetProperty("journalAction", out var journal)
                 ? new CompiledJournalActionContent(journal.GetProperty("sourceIds").EnumerateArray().Select(id => id.GetString()!).ToArray(),
-                    journal.GetProperty("resultTextId").GetString()!) : null)).ToArray());
+                    journal.GetProperty("resultTextId").GetString()!) : null,
+            interaction.TryGetProperty("worldLocations", out var locations)
+                ? locations.EnumerateArray().Select(location => location.GetString()!).ToArray() : null,
+            interaction.TryGetProperty("targetJournalEntryId", out var journalEntry) ? journalEntry.GetString() : null)).ToArray());
 
     private static CompiledDialogueContent ReadDialogue(JsonElement dialogue)
     {

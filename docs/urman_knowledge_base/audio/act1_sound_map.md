@@ -89,3 +89,12 @@ mix and cultural review remain open.
 - Fog or silence used to hide unfinished visuals.
 - A second ambience owner or scene-local loops.
 - TTS or placeholder voice presented as final (AUDIO-012 gate).
+
+### Ending silence — 2026-09-11
+The existing AmbientAudioDirector stops both continuous bed players when the
+closing card is shown after the authored cue queue drains. This is a hard
+presentation stop, with no write to player volume settings. New Game / load
+re-enters the normal SetZone path and restarts the appropriate bed. The
+existing chapter flow check covers final silence and fresh-session restart.
+Physical Marat/Rinat recordings and final winter-bed listening/mix are still
+open; this lifecycle fix is not voice or audio-quality acceptance.

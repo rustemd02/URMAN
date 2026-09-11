@@ -22,6 +22,9 @@ public partial class InteractionTarget : StaticBody3D
     [Export]
     public string DocumentId { get; set; } = string.Empty;
 
+    [Export]
+    public string JournalEntryId { get; set; } = string.Empty;
+
     private uint _activeCollisionLayer;
     private bool? _available;
     private RuntimeBridge? _bridge;
@@ -68,6 +71,10 @@ public partial class InteractionTarget : StaticBody3D
         {
             bridge.OpenDocumentUi(DocumentId);
         }
+
+        if (!string.IsNullOrWhiteSpace(JournalEntryId)
+            && bridge.JournalEntries().Any(entry => entry.EntryId == JournalEntryId))
+            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.Open(bridge, JournalEntryId);
 
         if (!string.IsNullOrWhiteSpace(TargetZoneId))
         {

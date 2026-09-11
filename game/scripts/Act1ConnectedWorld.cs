@@ -296,6 +296,11 @@ public partial class Act1ConnectedWorld : Node3D
 
             ApplyLogicalZonePresentationSuppressions(zone, placement.ZoneId);
 
+            if (zone is StyleBenchmarkZone village && placement.ZoneId == "village_day")
+                village.MakeInteractionBox("TimurHazratNpc", new(.65f, 1.8f, .5f), new(-3.8f, .9f, -19f),
+                    "506058", "urman.chapter1:interaction/route-to-mosque", "Поговорить с Тимуром хәзрәтом",
+                    dialogueId: "urman.chapter1:dialogue/timur_restraint");
+
             var environments = FindDescendants<WorldEnvironment>(zone)
                 .Select(environment => new EnvironmentBinding(
                     environment,
@@ -332,7 +337,9 @@ public partial class Act1ConnectedWorld : Node3D
         // owner; route, collision, interaction and RuntimeBridge owners above
         // remain unchanged.
         BuildAct1CoreWorldGreybox();
+        BuildAct1NpcStaging();
         AttachRuntimeBridge();
+        UpdateAct1NpcStaging();
         ConnectorCount = Act1WorldLayout.Connectors.Count;
         SetMeta("logicalZoneInstanceCount", LogicalZoneInstanceCount);
         SetMeta("placementCount", PlacementCount);
@@ -533,7 +540,11 @@ public partial class Act1ConnectedWorld : Node3D
         _runtimeBridgeSubscribed = true;
     }
 
-    private void OnRuntimeStateChanged() => ApplyInteractionRouting();
+    private void OnRuntimeStateChanged()
+    {
+        UpdateAct1NpcStaging();
+        ApplyInteractionRouting();
+    }
 
     private void ApplyInteractionRouting()
     {
@@ -543,7 +554,8 @@ public partial class Act1ConnectedWorld : Node3D
             var isActiveZone = string.Equals(candidateZoneId, ActiveZoneId, StringComparison.Ordinal);
             foreach (var binding in bindings)
             {
-                var enabled = isActiveZone && binding.Node.IsAvailable();
+                var enabled = (isActiveZone || _runtimeBridge?.IsWorldInteraction(binding.Node.InteractionId) == true)
+                    && binding.Node.IsAvailable();
                 binding.Node.CollisionLayer = enabled ? binding.CollisionLayer : 0;
                 binding.Node.CollisionMask = enabled ? binding.CollisionMask : 0;
                 if (enabled)

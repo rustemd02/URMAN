@@ -102,6 +102,17 @@ public partial class AmbientAudioDirector : Node
         CurrentStreamPath = string.Empty;
     }
 
+    public void StopForEnding()
+    {
+        _crossfadeTween?.Kill();
+        foreach (var player in _players)
+            if (IsUsablePlayer(player)) player.Stop();
+        _activePlayerIndex = -1;
+        CurrentStemId = string.Empty;
+        CurrentStreamPath = string.Empty;
+        SetMeta("ambientStatus", "chapter-ended-silent");
+    }
+
     public void SetZone(string zoneId) => SetZone(zoneId, subKey: null);
 
     /// <summary>

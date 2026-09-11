@@ -274,3 +274,23 @@ paths, результат проверок, влияние на канон и о
 An existing scene interaction may carry optional `journalAction: {sourceIds: [idA, idB], resultTextId}`. Exactly two distinct document/knowledge sources are required; scene/dialogue/document transition targets cannot coexist with it. `CompiledCampaignRepository` checks source and localized-text closure on load. JournalUi projects choices; RuntimeBridge validates the selected pair and dispatches the same `content.apply` command. The kernel checks source presence against the transaction's journal before applying effects. Physical interaction dispatch rejects journal actions. No second narrative state or save format is introduced.
 
 Keep observation and conclusion separate. Record key document sources in their `openEffects` and physical observations with `journal.record`. A wrong hypothesis has authored feedback and no destructive effects; the successful choice changes existing knowledge/vocabulary state. Do not also confirm that conclusion in `onEnter` or a document's `knowledgeRefs`.
+
+### Physical world interactions (Act I, 2026-09-11)
+An optional scene interaction may declare `worldLocations` with one or more
+existing Act I logical locations. It is available by the player's location
+and its authored conditions, independent of the active investigation scene.
+Such an action cannot target another scene or be a journal comparison and
+never executes its source scene's `onExit`. Successful effects force the
+existing checkpoint; the kernel remains the sole discovery-state owner.
+Outdoor walks do not automatically switch logical locations, so an optional
+exterior find normally allows all three exterior IDs. The old-PC power action
+now declares `house_old_pc` instead of a runtime ID special case.
+
+`targetJournalEntryId` selects a recorded entry in the existing journal. The
+action must contain a matching `journal.record`, with both entry/source IDs
+known to the journal projection. It excludes the other targets and
+`journalAction`. Physical targets pass it to `JournalUi.Open`; they only open
+that entry after a successful commit. A physical reveal need not open a panel.
+Visible geometry and any removable collision must explicitly project the
+saved knowledge on initial construction, load and new game; declaring
+`worldLocations` alone does not create a secret or a passage.

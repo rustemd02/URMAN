@@ -162,6 +162,7 @@ public partial class FullGameZone : Node3D
                 Prompt = bridge.ResolveText(interaction.LabelTextId),
                 DialogueId = interaction.TargetDialogueId ?? string.Empty,
                 DocumentId = interaction.TargetDocumentId ?? string.Empty,
+                JournalEntryId = interaction.TargetJournalEntryId ?? string.Empty,
                 TargetZoneId = interaction.TargetSceneId is not null && ZoneByScene.TryGetValue(interaction.TargetSceneId, out var nextZone)
                     ? nextZone
                     : string.Empty,

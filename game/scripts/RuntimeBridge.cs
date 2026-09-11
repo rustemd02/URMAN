@@ -290,7 +290,7 @@ public partial class RuntimeBridge : Node
             var dispatched = await DispatchCompiledInteractionAsync(interaction);
             if (dispatched)
             {
-                await SaveCheckpointAsync();
+                await SaveCheckpointAsync(force: interaction.WorldLocations is not null && interaction.Effects.GetArrayLength() > 0);
             }
 
             return dispatched;
@@ -378,6 +378,9 @@ public partial class RuntimeBridge : Node
     public string? ActiveSceneId => _kernel?.SelectState().TryGetProperty("activeScene", out var activeScene) == true
         ? activeScene.GetString()
         : null;
+
+    public bool IsWorldInteraction(string interactionId) =>
+        _content.TryGetInteraction(interactionId, out var interaction) && interaction.WorldLocations is not null;
 
     public bool IsInteractionAvailable(string interactionId)
     {
@@ -771,9 +774,8 @@ public partial class RuntimeBridge : Node
     }
 
     private bool OwnsInteraction(CompiledInteractionContent interaction, JsonElement state) =>
-        // The archive remains usable on returning home; opening it never advances a scene.
-        interaction.Id == "urman.chapter1:interaction/oldpc-power"
-            ? CurrentZoneId == "house_old_pc"
+        interaction.WorldLocations is { } locations
+            ? locations.Contains(CurrentZoneId, StringComparer.Ordinal)
             : state.TryGetProperty("activeScene", out var scene) && scene.GetString() == interaction.SourceSceneId;
 
     private async Task<bool> DispatchCompiledInteractionAsync(CompiledInteractionContent interaction)
@@ -792,7 +794,7 @@ public partial class RuntimeBridge : Node
 
         var conditions = Elements(interaction.Conditions).ToList();
         var effects = new List<JsonElement>();
-        if (state.GetProperty("activeScene").GetString() == interaction.SourceSceneId)
+        if (interaction.WorldLocations is null && state.GetProperty("activeScene").GetString() == interaction.SourceSceneId)
             effects.AddRange(Elements(_content.RequireScene(interaction.SourceSceneId).OnExit));
 
         effects.AddRange(Elements(interaction.Effects));

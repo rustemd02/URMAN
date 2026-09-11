@@ -966,6 +966,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private void ShowEnding()
     {
         _endingShown = true;
+        (GetTree().GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector)?.StopForEnding();
         HideRouteCue();
         var player = _player;
         player?.SetModalOpen(true);

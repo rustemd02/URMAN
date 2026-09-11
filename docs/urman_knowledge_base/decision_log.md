@@ -3217,3 +3217,17 @@ Accepted по прямому запросу пользователя. Цель �
 24 находки, 3 проходимые петли и 1 локальное раскрывающее доступ действие;
 интерес и красота отдельно подтверждаются игровыми кадрами/прохождением.
 Массовое добавление одинаковых collectibles не закрывает требование.
+
+## 2026-09-11 — physical discoveries and Act I people
+Accepted within the user's autonomous finished-Act-I scope: authored
+`worldLocations` extends existing scene interactions for persistent optional
+exploration, without a second state registry or source-scene exit effects.
+Selected journal presentation reuses `journal.record` and JournalUi. The
+archive uses this same location contract. Optional finds remain production
+work until physical paths/reveals and ordinary traversal are verified.
+
+Accepted staging repair: show the existing Alsu host outside the suppressed
+legacy street, place Timur's conversation on the street, and project the
+existing Rinat alert into his earlier/later physical position. Timur's three
+responses concern evidence, silence and family; no new forest rule or cultural
+claim is introduced. The closing card stops the continuous ambience bed.
