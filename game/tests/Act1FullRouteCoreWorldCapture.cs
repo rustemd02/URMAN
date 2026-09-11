@@ -109,6 +109,8 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("fap_interior_right", "fap_interior", "fap_clinic", "waiting_room", new(26f, .05f, -30.4f), new(32.2f, 1.45f, -29.2f), "right", "interior-360"),
 
         // Zirat
+        Frame("zirat_rest_bench", "zirat", "village_day", "from_house", new(-4.5f, AgentBAct1HeightField.CollisionGround(-4.5f, -50.4f) + .05f, -50.4f), new(-5f, AgentBAct1HeightField.CollisionGround(-5f, -52f) + .48f, -52f), "detail", "roadside repaired bench before brushing"),
+        Frame("zirat_rest_bench_used", "zirat", "village_day", "from_house", new(-4.5f, AgentBAct1HeightField.CollisionGround(-4.5f, -50.4f) + .05f, -50.4f), new(-5f, AgentBAct1HeightField.CollisionGround(-5f, -52f) + .48f, -52f), "detail", "new seat plank after brushing", "zirat-outer-rest-bench"),
         Frame("zirat_clue_close", "zirat", "zirat_road", "village_side", new(-3.2f, .05f, -74.1f), new(-3.55f, .62f, -75.70f), "left", "near"),
         Frame("zirat_forward", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(0f, 1.50f, -75f), "forward", "near-mid-far"),
         Frame("zirat_back", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(0f, 1.50f, -44f), "back", "near-mid-far"),

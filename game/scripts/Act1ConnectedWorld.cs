@@ -324,6 +324,7 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAct1CoreWorldGreybox();
         BuildAct1NpcStaging();
         BuildAct1InteriorDiscoveries();
+        BuildRoadsideDiscoveries();
         foreach (var placement in Act1WorldLayout.Placements)
         {
             var zone = _zoneInstances[placement.ZoneId];

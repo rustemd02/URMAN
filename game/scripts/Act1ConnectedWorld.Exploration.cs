@@ -142,6 +142,7 @@ public partial class Act1ConnectedWorld
             foreach (var binding in bindings)
                 if (binding.Node.HasMeta("discoverySlug"))
                     binding.Node.Prompt = _runtimeBridge.ResolveText("urman.chapter1:text/discover-" + binding.Node.GetMeta("discoverySlug").AsString());
+        UpdateRoadsideDiscoveries(Found("zirat-outer-rest-bench"));
         var photo = Found("house-interior-photo-back");
         if (_familyPhoto is not null && _photoFound != photo)
         {

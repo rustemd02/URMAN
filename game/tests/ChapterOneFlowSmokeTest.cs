@@ -41,6 +41,11 @@ public partial class ChapterOneFlowSmokeTest : Node
             || rinatActor.GlobalPosition.Z < -5f)
         { Fail("Act I exterior people are hidden or Rinat starts at the late position."); return; }
 
+        if (!await Discover(bridge, "zirat-outer-rest-bench")) return;
+        await ToSignal(GetTree().CreateTimer(.6), SceneTreeTimer.SignalName.Timeout);
+        var restBenchSnow = main.ConnectedWorld.GetNode<Node3D>("Act1CoreWorldGreybox/ZiratMemoryField/DiscoveryRestBench/SnowOnRepairedSeat");
+        if (restBenchSnow.Scale.X > .01f)
+        { Fail("Roadside bench discovery did not reveal its repaired seat."); return; }
         if (!await Advance(bridge, "arrival-enter-house", "house")) return;
         main.SwitchZone("house_old_pc", "entry");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -53,6 +58,8 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (Mathf.Abs(house.GetNode<Node3D>("DiscoveryFamilyPhoto").Rotation.Y - Mathf.Pi) > .01f
             || house.GetNode<Node3D>("DiscoverySewingTin/HingedLid").Rotation.X > -1.8f
             || !bridge.LearnedVocabulary().Any(entry => entry.Term == "өй" && entry.Status == "confirmed")
+            || restBenchSnow.Scale.X > .01f
+            || main.ConnectedWorld.GetZoneInstance("village_day")!.GetNode<StaticBody3D>("RestBenchCollision").CollisionLayer != 0
             || bridge.ActiveSceneId != Scene("house"))
         { Fail("Restored photo, tin or explicit home vocabulary did not match shared discovery state."); return; }
 
@@ -248,6 +255,8 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (house.GetNode<Node3D>("DiscoveryFamilyPhoto").Rotation.Y != 0
             || house.GetNode<Node3D>("DiscoverySewingTin/HingedLid").Rotation.X != 0
             || repairedLight.Visible
+            || restBenchSnow.Scale.X != 1f
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-zirat-outer-rest-bench") != "hidden"
             || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-house-interior-photo-back") != "hidden")
         { Fail("New Game retained optional discovery presentation or knowledge."); return; }
         GD.Print("chapter-one-flow-smoke: authored route -> visible people -> final silence -> menu -> fresh session");
