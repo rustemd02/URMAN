@@ -532,5 +532,11 @@ exploration20_full_walk_v2.log, без walk-obstacle. Красота мира, �
 CharacterBody/E маршрут — 78,02 м (`rear_house_physical_round4.log`), без
 пересечений стен и оград. `landmark_round4_flow.log` подтверждает все 24
 взаимодействия, загрузку/сброс и прежний сюжетный финал. После изменения
-видимых лесных банков повторный Kara walk — 157,32 м, без walk-obstacle
+видимых камней у лесной колеи повторный Kara walk — 157,32 м, без walk-obstacle
 (`kara_side_physical_round4.log`). Сохранены прежние физические границы.
+
+2026-09-11: после этих коллизий повторён весь существующий физический
+сюжетный walkthrough: 403,14 м, cliffhanger=completed, без walk-obstacle
+и runtime errors (`full_walk_round4.log`). Кадр перед финалом подтверждает,
+что Ринат обращён к подходящему игроку. Это scripted movement/ray/UI check,
+а не наблюдение за новым игроком или замер обычного 45–60-минутного сеанса.

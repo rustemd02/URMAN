@@ -275,7 +275,8 @@
         "Narrow existing path selected from handover section 28 after inspecting actual owner."
       ],
       "evidence": [
-        "2026-09-11: newest validated Continue + profile preserved on load + credits and licenses + ending-to-menu/restart. menu_lifecycle_build_v9, menu_user_settings_smoke, menu_ui, menu_cold_continue_v2 and menu_ending_flow_v3 PASS; 1280x720 normal/1.6 menu/credits frames inspected. Export credits inventory not yet re-exported; remaining full UI input/movement acceptance open."
+        "2026-09-11: newest validated Continue + profile preserved on load + credits and licenses + ending-to-menu/restart. menu_lifecycle_build_v9, menu_user_settings_smoke, menu_ui, menu_cold_continue_v2 and menu_ending_flow_v3 PASS; 1280x720 normal/1.6 menu/credits frames inspected. Export credits inventory not yet re-exported; remaining full UI input/movement acceptance open.",
+        "2026-09-11 current native Metal MainMenu smoke PASS 720p/1080p, normal/1.6 captures reviewed: menu_720_round4.log, menu_1080_round4.log and ui_acceptance/menu_720,menu_1080. User profile restored byte-for-byte. Background art and ordinary full acceptance remain open."
       ],
       "blocked_reason": null
     },
