@@ -275,6 +275,10 @@ act1_kits = (
     ("assets/generated", "urman_act1_village_landmark_kit"),
     ("assets/generated", "urman_modular_kit"),
     ("assets/generated", "urman_character_kit"),
+    # AgentBAct1ExteriorLayer resolves these two production foliage scenes
+    # dynamically from FoliageMesh; their imported scenes are release deps.
+    ("assets/models/act1", "urman_winter_pine"),
+    ("assets/models/act1", "urman_winter_dead_tree"),
 )
 
 # AgentBAct1ExteriorLayer is the current canonical exterior presentation
@@ -378,6 +382,15 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
     for texture in production_textures:
         require(entries, f"assets/textures/painterly/{texture}.png.import")
         require_prefix(entries, f".godot/imported/{texture}.png-", ".ctex")
+
+    # Pine's embedded Leaf_Pine_C mask is extracted by Godot and consumed by
+    # AgentBAct1ExteriorLayer when it replaces the imported needle material.
+    require(entries, "assets/models/act1/urman_winter_pine_Leaf_Pine_C.png.import")
+    require_prefix(
+        entries,
+        ".godot/imported/urman_winter_pine_Leaf_Pine_C.png-",
+        ".ctex",
+    )
 
     print(f"act1-release: {label} PCK scope PASS entries={len(entries)}")
 

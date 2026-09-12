@@ -39,12 +39,14 @@ the first playable frame:
 | `zirat_road` | `scenes/zones/chapter1_zirat_road.tscn` |
 | `kara_urman_night` | `scenes/zones/style_benchmark_kara_urman_night.tscn` |
 
-`Act1ConnectedWorld` dynamically loads the five Act I GLBs
+`Act1ConnectedWorld` dynamically loads the five zone Act I GLBs
 `urman_village_exterior_kit`, `urman_wet_village_road_kit`,
 `urman_fap_clinic_kit`, `urman_zirat_roadside_kit` and
 `urman_kara_forest_edge_kit`, plus the generated village landmark kit. Its
 canonical `AgentBAct1ExteriorLayer` presentation owner also loads five
-runtime Agent B kits under `assets/models/agent_b_act1/`.
+runtime Agent B kits under `assets/models/agent_b_act1/` and resolves the
+production `urman_winter_pine.glb` / `urman_winter_dead_tree.glb` foliage
+scenes dynamically when it builds the authored Kara trees.
 `GeneratedModularKitDressing` and `GeneratedCharacterKitDressing` dynamically
 load the modular and character GLBs. These paths therefore cannot safely be
 discovered by a selected-scenes/selected-resources export alone.
@@ -119,6 +121,9 @@ is not loaded by the launch path and is excluded from the release presets.
 - `assets/models/act1/urman_fap_clinic_kit.glb`
 - `assets/models/act1/urman_zirat_roadside_kit.glb`
 - `assets/models/act1/urman_kara_forest_edge_kit.glb`
+- `assets/models/act1/urman_winter_pine.glb`
+- `assets/models/act1/urman_winter_dead_tree.glb`
+- `assets/models/act1/urman_winter_pine_Leaf_Pine_C.png` (Godot-extracted Pine alpha mask)
 - `assets/generated/urman_act1_village_landmark_kit.glb`
 - `assets/generated/urman_modular_kit.glb`
 - `assets/generated/urman_character_kit.glb`
@@ -138,7 +143,13 @@ dependency; the verifier fails closed on an unlisted sibling or derivative.
 Godot may package imported `.scn`/texture derivatives rather than the source
 GLB/PNG bytes. The source paths above are the runtime resource identities; the
 matching imported derivatives are dependencies of those resources and are
-covered by the same export run.
+covered by the same export run. For the two winter GLBs, the matching
+`.glb.import` files and `.godot/imported/*.scn` derivatives are required; the
+Pine material additionally requires
+`urman_winter_pine_Leaf_Pine_C.png.import` and its single imported `.ctex`.
+The Quaternius GLTF/BIN/PNG files and project BLEND files under
+`assets/source/` remain CC0 provenance and authoring inputs; they are not
+runtime requirements and are not part of the required PCK mapping.
 
 ### Materials, weather and audio
 
@@ -217,9 +228,10 @@ The reproducible package-scope command is now:
 
 With no arguments it exports both named Act I presets into an exact temporary directory, parses
 the Godot 4.7.1 PCK index, checks the required launch/world/audio/material
-paths, requires the five exact Agent B runtime GLBs and their imported
-derivatives, rejects full-game/test/unlisted-agent/candidate/secrets/
-developer-cache/SDK paths, and boots each PCK headlessly with Dummy audio. No exported binary or
+paths, requires the five exact Agent B runtime GLBs, the two winter foliage
+GLBs, their imported derivatives, and the Pine alpha derivative, rejects
+full-game/test/unlisted-agent/candidate/secrets/developer-cache/SDK paths,
+and boots each PCK headlessly with Dummy audio. No exported binary or
 receipt is written to the repository. Godot injects exactly two engine runtime
 indices, `.godot/uid_cache.bin` and `.godot/global_script_class_cache.cfg`;
 the verifier allows those two paths but rejects other developer-cache trees.
@@ -295,3 +307,8 @@ Remaining gates include:
 - Tatar, cultural, religious and local-context sign-off;
 - accessibility, motion comfort and first-time-player playtest;
 - exact RC manifest, human go/no-go and final release notes.
+
+
+### 2026-09-12 — winter foliage dependency gate
+
+The existing scope gate now requires the two dynamically loaded winter GLBs and the imported Pine alpha texture. Both PCKs extracted from native R5 (`b22a62f`) passed with 281 entries and headless/Dummy bootstrap. This adds explicit dependency coverage; it does not establish Windows host execution or signing.
