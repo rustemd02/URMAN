@@ -8985,6 +8985,12 @@ public partial class Act1ConnectedWorld : Node3D
         var roofs = AgentBAct1ExteriorLayer.BuildingRoofBounds(core);
         foreach (var tree in FindDescendants<Node3D>(core).Where(node => node.HasMeta("winterVariant")).ToArray())
         {
+            // Dressing replacements may suppress the empty root before meshes bind.
+            if (HasTrueMeta(tree, "connectedWorldHidden"))
+            {
+                tree.Visible = false;
+                continue;
+            }
             var root = tree.GlobalPosition;
             root.Y = AgentBAct1HeightField.CollisionGround(root.X, root.Z) - .04f;
             tree.GlobalPosition = root;
