@@ -149,7 +149,8 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             return;
         }
 
-        if (CanOpenPause?.Invoke() == true)
+        if (CanOpenPause?.Invoke() == true
+            && FindPlayer() is { ModalOpen: false })
         {
             Open();
             GetViewport().SetInputAsHandled();

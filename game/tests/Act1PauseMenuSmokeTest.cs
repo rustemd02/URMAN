@@ -56,6 +56,14 @@ public partial class Act1PauseMenuSmokeTest : Node
         }
 
         var pause = GetTree().GetFirstNodeInGroup("pause_menu") as PauseMenuUi;
+        var journal = demo.DemoMain!.GetNode<JournalUi>("JournalUi");
+        journal.Open(bridge);
+        if (await TryPause() || journal.GetNode<Control>("Screen").Visible || player.ModalOpen)
+        {
+            Fail("Escape must close the journal without opening pause over it.");
+            return;
+        }
+
         if (pause is null || !await TryPause())
         {
             Fail("Pause smoke could not open the pause shell with the pause action.");
