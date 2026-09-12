@@ -6096,7 +6096,7 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualFenceRun(parent, "KaraSideLandmarkFence", new(8.0f, 0f, -106.0f), new(10.5f, 0f, -114.5f));
         AddVisualBox(parent, "KaraSideLandmarkPost", new(0.18f, 2.0f, 0.18f), new(10.3f, 1.0f, -114.3f), "574d3d", "wood", rollDegrees: -3f);
         AddVisualBox(parent, "KaraSideLandmarkHeader", new(2.8f, 0.14f, 0.16f), new(9.3f, 1.92f, -113.0f), "574d3d", "wood", yawDegrees: -16f, rollDegrees: 7f);
-        AddVisualTree(parent, "KaraMixedMassWestNear", origin + new Vector3(-9.5f, 0f, 6.5f), 8.1f, VegetationStyle.Broadleaf, "405445");
+        AddVisualTree(parent, "KaraMixedMassWestNear", origin + new Vector3(-23.45f, 0f, 12.55f), 6.1f, VegetationStyle.Broadleaf, "405445");
         AddVisualTree(parent, "KaraMixedMassEastNear", origin + new Vector3(9.0f, 0f, 3.8f), 7.3f, VegetationStyle.Birch, "526052");
         AddVisualTree(parent, "KaraMixedMassWestMid", origin + new Vector3(-11.5f, 0f, -8.0f), 9.6f, VegetationStyle.Conifer, "2e4439");
         AddVisualTree(parent, "KaraMixedMassEastMid", origin + new Vector3(12.0f, 0f, -12.0f), 8.9f, VegetationStyle.Broadleaf, "3b5043");
@@ -8957,7 +8957,8 @@ public partial class Act1ConnectedWorld : Node3D
     }
 
     private static void AddVisualConifer(Node3D parent, string name, Vector3 origin, float height, string foliageColor)
-        => AddAuthoredWinterTree(parent, name, origin, height, "WinterSpruce_1");
+        => AddAuthoredWinterTree(parent, name, origin, height,
+            VegetationHash(origin, 33.7f) < .5f ? "WinterSpruce_1" : "WinterSpruce_2");
 
     private static void AddVisualBirch(Node3D parent, string name, Vector3 origin, float height, string foliageColor)
         => AddAuthoredWinterTree(parent, name, origin, height, "WinterBirch_1");

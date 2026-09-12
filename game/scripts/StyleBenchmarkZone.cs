@@ -145,7 +145,7 @@ public partial class StyleBenchmarkZone : Node3D
                 : Color.FromHtml("a5b0ab"),
             // Keep the clinic's cold institutional base restrained so the
             // window and document pools can establish the room's depth.
-            AmbientLightEnergy = night ? 0.82f : houseInterior ? 0.58f : fapInterior ? 0.58f : zirat ? 0.72f : 0.78f,
+            AmbientLightEnergy = night ? 0.82f : houseInterior ? 0.58f : fapInterior ? 0.48f : zirat ? 0.72f : 0.78f,
             SsaoEnabled = interior,
             SsaoIntensity = 0.55f,
             SsaoRadius = 0.30f,
@@ -742,10 +742,10 @@ public partial class StyleBenchmarkZone : Node3D
         AddChild(new OmniLight3D
         {
             Name = "RoomFill",
-            Position = new(0, 2.25f, 2.55f),
+            Position = new(0, 2.5f, .5f),
             LightColor = Color.FromHtml("958878"),
-            LightEnergy = 0.42f,
-            OmniRange = 6.8f,
+            LightEnergy = 0.56f,
+            OmniRange = 8.5f,
             ShadowEnabled = false
         });
 
@@ -1083,7 +1083,7 @@ public partial class StyleBenchmarkZone : Node3D
             Name = "FapWindowColdFill",
             Position = new(-4.7f, 2.0f, -1.35f),
             LightColor = Color.FromHtml("7899a2"),
-            LightEnergy = 0.64f,
+            LightEnergy = 0.44f,
             OmniRange = 6.0f,
             ShadowEnabled = false
         });

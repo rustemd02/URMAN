@@ -106,6 +106,14 @@ public partial class Act1ConnectedWorld
         _ = connectiveOpenBay.Mesh
             ?? throw new InvalidOperationException(
                 "The active connective open bay has no source mesh.");
+        // BuildAct1OptionalDiscoveries runs immediately before this route owner,
+        // so use its existing bench node as the physical side-pocket destination.
+        // This keeps the route tied to the active OpenBay placement instead of
+        // duplicating a brittle world-space endpoint.
+        var repairBench = returnStreet.GetNodeOrNull<Node3D>("ConnectiveStreetRepairBench")
+            ?? throw new InvalidOperationException(
+                "The connective shed bypass requires the existing OpenBay repair bench.");
+        var openBayOutward = BypassHorizontal(connectiveOpenBay.GlobalTransform.Basis.Z);
 
         var connectiveYard = FindDescendants<Node3D>(connectiveParcel)
             .FirstOrDefault(node => string.Equals(
@@ -158,9 +166,12 @@ public partial class Act1ConnectedWorld
         var gateInside = BypassGrounded(gateCenterGround - roadward * gateCrossingOffset);
         var driveEntry = BypassGrounded(new Vector3(-10f, 0f, -27.2f));
         var shedCorner = BypassGrounded(new Vector3(-11.3f, 0f, -26.7f));
-        var shedNorthEast = BypassGrounded(new Vector3(-11.5f, 0f, -24f));
-        var shedNorthWest = BypassGrounded(new Vector3(-15.5f, 0f, -24f));
-        var driveExit = BypassGrounded(new Vector3(-16f, 0f, -26f));
+        // OptionalDiscoveries places the bench .85m in front of OpenBay. Stop
+        // .82m beyond its centre, leaving the authored .29m bench half-depth
+        // plus the player's .35m capsule radius clear of its collider.
+        const float repairBenchApproachOffset = .82f;
+        var repairBenchApproach = BypassGrounded(
+            repairBench.GlobalPosition + openBayOutward * repairBenchApproachOffset);
         EnsureBypassSegmentClearOfBounds(
             gateInside,
             driveEntry,
@@ -168,9 +179,12 @@ public partial class Act1ConnectedWorld
             .45f,
             "gate-inside to ConnectiveWestHouseDrive");
         EnsureBypassSegmentClearOfBounds(driveEntry, shedCorner, shedBounds, .45f, "drive to shed corner");
-        EnsureBypassSegmentClearOfBounds(shedCorner, shedNorthEast, shedBounds, .45f, "east shed wall");
-        EnsureBypassSegmentClearOfBounds(shedNorthEast, shedNorthWest, shedBounds, .45f, "north shed wall");
-        EnsureBypassSegmentClearOfBounds(shedNorthWest, driveExit, shedBounds, .45f, "west shed wall");
+        EnsureBypassSegmentClearOfBounds(
+            shedCorner,
+            repairBenchApproach,
+            shedBounds,
+            .45f,
+            "shed corner to OpenBay repair bench");
 
         var connectiveRoute = new[]
         {
@@ -179,9 +193,7 @@ public partial class Act1ConnectedWorld
             gateInside,
             driveEntry,
             shedCorner,
-            shedNorthEast,
-            shedNorthWest,
-            driveExit
+            repairBenchApproach
         };
         returnStreet.SetMeta(
             "connectiveShedBypassRoute",
@@ -193,9 +205,7 @@ public partial class Act1ConnectedWorld
         AddBypassTrack(returnStreet, "ConnectiveShedBypassGateCrossing", gateRoadSide, gateInside);
         AddBypassTrack(returnStreet, "ConnectiveShedBypassTrack1", gateInside, driveEntry);
         AddBypassTrack(returnStreet, "ConnectiveShedBypassTrack2", driveEntry, shedCorner);
-        AddBypassTrack(returnStreet, "ConnectiveShedBypassTrack3", shedCorner, shedNorthEast);
-        AddBypassTrack(returnStreet, "ConnectiveShedBypassTrack4", shedNorthEast, shedNorthWest);
-        AddBypassTrack(returnStreet, "ConnectiveShedBypassTrack5", shedNorthWest, driveExit);
+        AddBypassTrack(returnStreet, "ConnectiveShedBypassTrack3", shedCorner, repairBenchApproach);
 
         var targetPoint = BypassGrounded(gateRoadSide + roadward * .20f);
         var connectiveTarget = DiscoveryTarget(
@@ -209,7 +219,7 @@ public partial class Act1ConnectedWorld
         connectiveTarget.WorldFoleySample = "door_creak";
         connectiveTarget.SetMeta("physicalAction", "check the exit behind the shed");
         connectiveTarget.SetMeta("routePoints", FormatBypassRoute(connectiveRoute));
-        connectiveTarget.SetMeta("routeRole", "house-to-zirat-return -> sheltered yard drive; return through the same gate");
+        connectiveTarget.SetMeta("routeRole", "house-to-zirat-return -> OpenBay repair bench side pocket; return through the same gate");
 
         _act1BypassCollision = CreateBypassCollisionBody(village);
         AddBypassCollisionBox(_act1BypassCollision, "MainStreetServiceFence", mainFenceStart, mainFenceEnd, .18f, 1.18f);
