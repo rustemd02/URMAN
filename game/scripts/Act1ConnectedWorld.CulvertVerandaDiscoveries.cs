@@ -136,12 +136,19 @@ public partial class Act1ConnectedWorld
             });
         }
 
+        // The journal mentions a fresh shovel scrape beyond the crossing.
+        // Keep its cut and pushed snow on the outer bank, away from the graves.
+        AddVisualLandformSurface(zirat, "CulvertFreshShovelScrape", .48f, .012f, 1.05f,
+            new(6.02f, 0f, culvertZ - .08f), "bacbd4", "snow_trampled", 78f, true);
+        AddVisualLandformSurface(zirat, "CulvertPushedSnowLip", .28f, .10f, .60f,
+            new(6.57f, .025f, culvertZ - .18f), "e3ebef", "snow_ground", -12f, true);
+
         var target = DiscoveryTarget(
             village,
             ZiratOuterCulvertSlug,
             new(2.65f, 1.05f, 1.08f),
             village.ToLocal(bridge.GlobalPosition + Vector3.Up * .58f),
-            journal: true);
+            journal: false);
         target.SetMeta("activePropPath", outerBanks.GetPath().ToString());
         target.SetMeta("sourceAsset", ZiratRoadsideKitScenePath);
         target.SetMeta("supportSourcePath", sourcePath);

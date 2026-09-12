@@ -1792,7 +1792,7 @@
       "source_file": "eng/toolchain.json",
       "source_location": "L10",
       "id": "eng_toolchain_godot",
-      "community": 101,
+      "community": 761,
       "norm_label": "godot"
     },
     {
@@ -1801,7 +1801,7 @@
       "source_file": "eng/toolchain.json",
       "source_location": "L11",
       "id": "eng_toolchain_godot_version",
-      "community": 101,
+      "community": 761,
       "norm_label": "version"
     },
     {
@@ -1810,7 +1810,7 @@
       "source_file": "eng/toolchain.json",
       "source_location": "L12",
       "id": "eng_toolchain_godot_url",
-      "community": 101,
+      "community": 761,
       "norm_label": "url"
     },
     {
@@ -1819,7 +1819,7 @@
       "source_file": "eng/toolchain.json",
       "source_location": "L13",
       "id": "eng_toolchain_godot_sha256",
-      "community": 101,
+      "community": 761,
       "norm_label": "sha256"
     },
     {
@@ -1828,7 +1828,7 @@
       "source_file": "eng/toolchain.json",
       "source_location": "L14",
       "id": "eng_toolchain_godot_exporttemplates",
-      "community": 760,
+      "community": 761,
       "norm_label": "exporttemplates"
     },
     {
@@ -1837,7 +1837,7 @@
       "source_file": "eng/toolchain.json",
       "source_location": "L15",
       "id": "eng_toolchain_exporttemplates_url",
-      "community": 760,
+      "community": 761,
       "norm_label": "url"
     },
     {
@@ -1846,7 +1846,7 @@
       "source_file": "eng/toolchain.json",
       "source_location": "L16",
       "id": "eng_toolchain_exporttemplates_sha256",
-      "community": 760,
+      "community": 761,
       "norm_label": "sha256"
     },
     {
@@ -1855,7 +1855,7 @@
       "source_file": "eng/toolchain.json",
       "source_location": "L17",
       "id": "eng_toolchain_exporttemplates_bytes",
-      "community": 760,
+      "community": 761,
       "norm_label": "bytes"
     },
     {
@@ -3293,7 +3293,7 @@
       "source_file": "tools/blender/export_kara_forest_edge_kit.py",
       "source_location": "L503",
       "id": "blender_export_kara_forest_edge_kit_bent_trunk",
-      "community": 55,
+      "community": 709,
       "norm_label": "bent_trunk()"
     },
     {
@@ -3320,7 +3320,7 @@
       "source_file": "tools/blender/export_kara_forest_edge_kit.py",
       "source_location": "L592",
       "id": "blender_export_kara_forest_edge_kit_young_spruce",
-      "community": 55,
+      "community": 709,
       "norm_label": "young_spruce()"
     },
     {
@@ -3428,7 +3428,7 @@
       "source_file": "tools/blender/export_kara_forest_edge_kit.py",
       "source_location": "L511",
       "id": "blender_export_kara_forest_edge_kit_rationale_511",
-      "community": 55,
+      "community": 709,
       "norm_label": "create a few-ring bent trunk so silhouettes are not stacked cones."
     },
     {
@@ -3446,7 +3446,7 @@
       "source_file": "tools/blender/export_kara_forest_edge_kit.py",
       "source_location": "L600",
       "id": "blender_export_kara_forest_edge_kit_rationale_600",
-      "community": 55,
+      "community": 709,
       "norm_label": "build one small, asymmetrical spruce from a bent trunk and tiers."
     },
     {
@@ -3779,7 +3779,7 @@
       "source_file": "tools/blender/export_zirat_roadside_kit.py",
       "source_location": "L200",
       "id": "blender_export_zirat_roadside_kit_sedge_cluster",
-      "community": 385,
+      "community": 764,
       "norm_label": "sedge_cluster()"
     },
     {
@@ -3914,7 +3914,7 @@
       "source_file": "tools/blender/export_zirat_roadside_kit.py",
       "source_location": "L209",
       "id": "blender_export_zirat_roadside_kit_rationale_209",
-      "community": 385,
+      "community": 764,
       "norm_label": "create three irregular blades in one mesh; no repeated cone primitives."
     },
     {
@@ -10088,7 +10088,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
       "id": "contracts_stress_contracts_schema_defs_spatial_placement_outcome",
-      "community": 35,
+      "community": 785,
       "norm_label": "spatial-placement-outcome"
     },
     {
@@ -10097,7 +10097,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_type",
-      "community": 35,
+      "community": 785,
       "norm_label": "type"
     },
     {
@@ -10106,7 +10106,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_required",
-      "community": 35,
+      "community": 785,
       "norm_label": "required"
     },
     {
@@ -10115,7 +10115,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_properties",
-      "community": 35,
+      "community": 785,
       "norm_label": "properties"
     },
     {
@@ -10160,7 +10160,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_additionalproperties",
-      "community": 35,
+      "community": 785,
       "norm_label": "additionalproperties"
     },
     {
@@ -10214,7 +10214,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_defs_spatial_audio_probe_event",
-      "community": 773,
+      "community": 18,
       "norm_label": "spatial-audio-probe-event"
     },
     {
@@ -10223,7 +10223,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_type",
-      "community": 773,
+      "community": 18,
       "norm_label": "type"
     },
     {
@@ -10232,7 +10232,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_required",
-      "community": 773,
+      "community": 18,
       "norm_label": "required"
     },
     {
@@ -10241,7 +10241,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_properties",
-      "community": 773,
+      "community": 18,
       "norm_label": "properties"
     },
     {
@@ -10250,7 +10250,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_additionalproperties",
-      "community": 773,
+      "community": 18,
       "norm_label": "additionalproperties"
     },
     {
@@ -10259,7 +10259,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_defs_spatial_audio_probe_outcome",
-      "community": 771,
+      "community": 35,
       "norm_label": "spatial-audio-probe-outcome"
     },
     {
@@ -10268,7 +10268,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_type",
-      "community": 771,
+      "community": 35,
       "norm_label": "type"
     },
     {
@@ -10277,7 +10277,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_required",
-      "community": 771,
+      "community": 35,
       "norm_label": "required"
     },
     {
@@ -10286,7 +10286,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_properties",
-      "community": 771,
+      "community": 35,
       "norm_label": "properties"
     },
     {
@@ -10295,7 +10295,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_additionalproperties",
-      "community": 771,
+      "community": 35,
       "norm_label": "additionalproperties"
     },
     {
@@ -10349,7 +10349,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_defs_crafting_event",
-      "community": 18,
+      "community": 774,
       "norm_label": "crafting-event"
     },
     {
@@ -10358,7 +10358,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_type",
-      "community": 18,
+      "community": 774,
       "norm_label": "type"
     },
     {
@@ -10367,7 +10367,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_required",
-      "community": 18,
+      "community": 774,
       "norm_label": "required"
     },
     {
@@ -10376,7 +10376,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_properties",
-      "community": 18,
+      "community": 774,
       "norm_label": "properties"
     },
     {
@@ -10385,7 +10385,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_additionalproperties",
-      "community": 18,
+      "community": 774,
       "norm_label": "additionalproperties"
     },
     {
@@ -10439,7 +10439,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L15",
       "id": "contracts_stress_contracts_schema_defs_scheduler_window_config",
-      "community": 10,
+      "community": 781,
       "norm_label": "scheduler-window-config"
     },
     {
@@ -10448,7 +10448,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L15",
       "id": "contracts_stress_contracts_schema_scheduler_window_config_type",
-      "community": 10,
+      "community": 781,
       "norm_label": "type"
     },
     {
@@ -10457,7 +10457,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L15",
       "id": "contracts_stress_contracts_schema_scheduler_window_config_required",
-      "community": 10,
+      "community": 781,
       "norm_label": "required"
     },
     {
@@ -10466,7 +10466,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L15",
       "id": "contracts_stress_contracts_schema_scheduler_window_config_properties",
-      "community": 10,
+      "community": 781,
       "norm_label": "properties"
     },
     {
@@ -10475,7 +10475,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L15",
       "id": "contracts_stress_contracts_schema_scheduler_window_config_additionalproperties",
-      "community": 10,
+      "community": 781,
       "norm_label": "additionalproperties"
     },
     {
@@ -10619,7 +10619,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_defs_role_binding_event",
-      "community": 18,
+      "community": 162,
       "norm_label": "role-binding-event"
     },
     {
@@ -10628,7 +10628,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_type",
-      "community": 18,
+      "community": 162,
       "norm_label": "type"
     },
     {
@@ -10637,7 +10637,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_required",
-      "community": 18,
+      "community": 162,
       "norm_label": "required"
     },
     {
@@ -10646,7 +10646,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_properties",
-      "community": 18,
+      "community": 162,
       "norm_label": "properties"
     },
     {
@@ -10655,7 +10655,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_additionalproperties",
-      "community": 18,
+      "community": 162,
       "norm_label": "additionalproperties"
     },
     {
@@ -10664,7 +10664,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_defs_role_binding_outcome",
-      "community": 765,
+      "community": 35,
       "norm_label": "role-binding-outcome"
     },
     {
@@ -10673,7 +10673,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_type",
-      "community": 765,
+      "community": 35,
       "norm_label": "type"
     },
     {
@@ -10682,7 +10682,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_required",
-      "community": 765,
+      "community": 35,
       "norm_label": "required"
     },
     {
@@ -10691,7 +10691,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_properties",
-      "community": 765,
+      "community": 35,
       "norm_label": "properties"
     },
     {
@@ -10700,7 +10700,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_additionalproperties",
-      "community": 765,
+      "community": 35,
       "norm_label": "additionalproperties"
     },
     {
@@ -10709,7 +10709,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_defs_evidence_compare_config",
-      "community": 709,
+      "community": 10,
       "norm_label": "evidence-compare-config"
     },
     {
@@ -10718,7 +10718,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_type",
-      "community": 709,
+      "community": 10,
       "norm_label": "type"
     },
     {
@@ -10727,7 +10727,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_required",
-      "community": 709,
+      "community": 10,
       "norm_label": "required"
     },
     {
@@ -10736,7 +10736,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_properties",
-      "community": 709,
+      "community": 10,
       "norm_label": "properties"
     },
     {
@@ -10745,7 +10745,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_additionalproperties",
-      "community": 709,
+      "community": 10,
       "norm_label": "additionalproperties"
     },
     {
@@ -10889,7 +10889,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_defs_timed_choice_event",
-      "community": 785,
+      "community": 18,
       "norm_label": "timed-choice-event"
     },
     {
@@ -10898,7 +10898,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_type",
-      "community": 785,
+      "community": 18,
       "norm_label": "type"
     },
     {
@@ -10907,7 +10907,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_required",
-      "community": 785,
+      "community": 18,
       "norm_label": "required"
     },
     {
@@ -10916,7 +10916,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_properties",
-      "community": 785,
+      "community": 18,
       "norm_label": "properties"
     },
     {
@@ -10925,7 +10925,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_additionalproperties",
-      "community": 785,
+      "community": 18,
       "norm_label": "additionalproperties"
     },
     {
@@ -10934,7 +10934,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L26",
       "id": "contracts_stress_contracts_schema_defs_timed_choice_outcome",
-      "community": 822,
+      "community": 35,
       "norm_label": "timed-choice-outcome"
     },
     {
@@ -10943,7 +10943,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L26",
       "id": "contracts_stress_contracts_schema_timed_choice_outcome_type",
-      "community": 822,
+      "community": 35,
       "norm_label": "type"
     },
     {
@@ -10952,7 +10952,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L26",
       "id": "contracts_stress_contracts_schema_timed_choice_outcome_required",
-      "community": 822,
+      "community": 35,
       "norm_label": "required"
     },
     {
@@ -10961,7 +10961,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L26",
       "id": "contracts_stress_contracts_schema_timed_choice_outcome_properties",
-      "community": 822,
+      "community": 35,
       "norm_label": "properties"
     },
     {
@@ -10970,7 +10970,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L26",
       "id": "contracts_stress_contracts_schema_timed_choice_outcome_additionalproperties",
-      "community": 822,
+      "community": 35,
       "norm_label": "additionalproperties"
     },
     {
@@ -11114,7 +11114,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
       "id": "contracts_stress_contracts_schema_defs_audio_workbench_config",
-      "community": 10,
+      "community": 765,
       "norm_label": "audio-workbench-config"
     },
     {
@@ -11123,7 +11123,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_type",
-      "community": 10,
+      "community": 765,
       "norm_label": "type"
     },
     {
@@ -11132,7 +11132,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_required",
-      "community": 10,
+      "community": 765,
       "norm_label": "required"
     },
     {
@@ -11141,7 +11141,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_properties",
-      "community": 10,
+      "community": 765,
       "norm_label": "properties"
     },
     {
@@ -11150,7 +11150,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_additionalproperties",
-      "community": 10,
+      "community": 765,
       "norm_label": "additionalproperties"
     },
     {
@@ -11294,7 +11294,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_defs_environment_sim_event",
-      "community": 162,
+      "community": 777,
       "norm_label": "environment-sim-event"
     },
     {
@@ -11303,7 +11303,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_type",
-      "community": 162,
+      "community": 777,
       "norm_label": "type"
     },
     {
@@ -11312,7 +11312,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_required",
-      "community": 162,
+      "community": 777,
       "norm_label": "required"
     },
     {
@@ -11321,7 +11321,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_properties",
-      "community": 162,
+      "community": 777,
       "norm_label": "properties"
     },
     {
@@ -11330,7 +11330,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_additionalproperties",
-      "community": 162,
+      "community": 777,
       "norm_label": "additionalproperties"
     },
     {
@@ -11384,7 +11384,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_defs_stealth_space_config",
-      "community": 777,
+      "community": 10,
       "norm_label": "stealth-space-config"
     },
     {
@@ -11393,7 +11393,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_type",
-      "community": 777,
+      "community": 10,
       "norm_label": "type"
     },
     {
@@ -11402,7 +11402,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_required",
-      "community": 777,
+      "community": 10,
       "norm_label": "required"
     },
     {
@@ -11411,7 +11411,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_properties",
-      "community": 777,
+      "community": 10,
       "norm_label": "properties"
     },
     {
@@ -11420,7 +11420,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_additionalproperties",
-      "community": 777,
+      "community": 10,
       "norm_label": "additionalproperties"
     },
     {
@@ -11474,7 +11474,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_defs_stealth_space_outcome",
-      "community": 35,
+      "community": 795,
       "norm_label": "stealth-space-outcome"
     },
     {
@@ -11483,7 +11483,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_type",
-      "community": 35,
+      "community": 795,
       "norm_label": "type"
     },
     {
@@ -11492,7 +11492,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_required",
-      "community": 35,
+      "community": 795,
       "norm_label": "required"
     },
     {
@@ -11501,7 +11501,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_properties",
-      "community": 35,
+      "community": 795,
       "norm_label": "properties"
     },
     {
@@ -11510,7 +11510,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_additionalproperties",
-      "community": 35,
+      "community": 795,
       "norm_label": "additionalproperties"
     },
     {
@@ -11519,7 +11519,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
       "id": "contracts_stress_contracts_schema_defs_content_instantiator_config",
-      "community": 10,
+      "community": 771,
       "norm_label": "content-instantiator-config"
     },
     {
@@ -11528,7 +11528,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_type",
-      "community": 10,
+      "community": 771,
       "norm_label": "type"
     },
     {
@@ -11537,7 +11537,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_required",
-      "community": 10,
+      "community": 771,
       "norm_label": "required"
     },
     {
@@ -11546,7 +11546,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_properties",
-      "community": 10,
+      "community": 771,
       "norm_label": "properties"
     },
     {
@@ -11555,7 +11555,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_additionalproperties",
-      "community": 10,
+      "community": 771,
       "norm_label": "additionalproperties"
     },
     {
@@ -11609,7 +11609,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_defs_content_instantiator_outcome",
-      "community": 35,
+      "community": 773,
       "norm_label": "content-instantiator-outcome"
     },
     {
@@ -11618,7 +11618,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_type",
-      "community": 35,
+      "community": 773,
       "norm_label": "type"
     },
     {
@@ -11627,7 +11627,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_required",
-      "community": 35,
+      "community": 773,
       "norm_label": "required"
     },
     {
@@ -11636,7 +11636,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_properties",
-      "community": 35,
+      "community": 773,
       "norm_label": "properties"
     },
     {
@@ -11645,7 +11645,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_additionalproperties",
-      "community": 35,
+      "community": 773,
       "norm_label": "additionalproperties"
     },
     {
@@ -11654,7 +11654,7 @@
       "source_file": "tests/e2e/lab-run-replacement.test.mjs",
       "source_location": "L1",
       "id": "tests_e2e_lab_run_replacement_test_mjs",
-      "community": 5,
+      "community": 114,
       "norm_label": "lab-run-replacement.test.mjs"
     },
     {
@@ -11663,7 +11663,7 @@
       "source_file": "tests/e2e/lab-run-replacement.test.mjs",
       "source_location": "L7",
       "id": "e2e_lab_run_replacement_test_activerun",
-      "community": 5,
+      "community": 114,
       "norm_label": "activerun"
     },
     {
@@ -11672,7 +11672,7 @@
       "source_file": "tests/e2e/lab-run-replacement.test.mjs",
       "source_location": "L9",
       "id": "e2e_lab_run_replacement_test_result",
-      "community": 5,
+      "community": 114,
       "norm_label": "result"
     },
     {
@@ -13058,7 +13058,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_properties_narrativeorder",
-      "community": 774,
+      "community": 103,
       "norm_label": "narrativeorder"
     },
     {
@@ -13067,7 +13067,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_type",
-      "community": 774,
+      "community": 103,
       "norm_label": "type"
     },
     {
@@ -13076,7 +13076,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_minitems",
-      "community": 774,
+      "community": 103,
       "norm_label": "minitems"
     },
     {
@@ -13085,7 +13085,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_uniqueitems",
-      "community": 774,
+      "community": 103,
       "norm_label": "uniqueitems"
     },
     {
@@ -13094,7 +13094,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_items",
-      "community": 774,
+      "community": 103,
       "norm_label": "items"
     },
     {
@@ -17864,7 +17864,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
       "id": "schemas_common_schema_properties_severity",
-      "community": 218,
+      "community": 202,
       "norm_label": "severity"
     },
     {
@@ -17873,7 +17873,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
       "id": "schemas_common_schema_severity_enum",
-      "community": 218,
+      "community": 202,
       "norm_label": "enum"
     },
     {
@@ -17882,7 +17882,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L68",
       "id": "schemas_common_schema_properties_kind",
-      "community": 202,
+      "community": 218,
       "norm_label": "kind"
     },
     {
@@ -17891,7 +17891,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L68",
       "id": "schemas_common_schema_kind_const",
-      "community": 202,
+      "community": 218,
       "norm_label": "const"
     },
     {
@@ -27098,7 +27098,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1reducedmotionsmoketest_cs",
-      "community": 247,
+      "community": 803,
       "norm_label": "act1reducedmotionsmoketest.cs"
     },
     {
@@ -27107,7 +27107,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L10",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest",
-      "community": 247,
+      "community": 803,
       "norm_label": "act1reducedmotionsmoketest"
     },
     {
@@ -27116,7 +27116,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L12",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest_ready",
-      "community": 247,
+      "community": 803,
       "norm_label": "._ready()"
     },
     {
@@ -27125,7 +27125,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L86",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest_frames",
-      "community": 247,
+      "community": 803,
       "norm_label": ".frames()"
     },
     {
@@ -27134,7 +27134,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L94",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest_fail",
-      "community": 247,
+      "community": 803,
       "norm_label": ".fail()"
     },
     {
@@ -27143,7 +27143,7 @@
       "source_file": "game/tests/Act1AudioSettingsSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1audiosettingssmoketest_cs",
-      "community": 23,
+      "community": 798,
       "norm_label": "act1audiosettingssmoketest.cs"
     },
     {
@@ -27152,7 +27152,7 @@
       "source_file": "game/tests/Act1AudioSettingsSmokeTest.cs",
       "source_location": "L11",
       "id": "tests_act1audiosettingssmoketest_act1audiosettingssmoketest",
-      "community": 23,
+      "community": 798,
       "norm_label": "act1audiosettingssmoketest"
     },
     {
@@ -27161,7 +27161,7 @@
       "source_file": "game/tests/Act1AudioSettingsSmokeTest.cs",
       "source_location": "L13",
       "id": "tests_act1audiosettingssmoketest_act1audiosettingssmoketest_ready",
-      "community": 23,
+      "community": 798,
       "norm_label": "._ready()"
     },
     {
@@ -27170,7 +27170,7 @@
       "source_file": "game/tests/Act1AudioSettingsSmokeTest.cs",
       "source_location": "L157",
       "id": "tests_act1audiosettingssmoketest_act1audiosettingssmoketest_frames",
-      "community": 23,
+      "community": 798,
       "norm_label": ".frames()"
     },
     {
@@ -27179,7 +27179,7 @@
       "source_file": "game/tests/Act1AudioSettingsSmokeTest.cs",
       "source_location": "L165",
       "id": "tests_act1audiosettingssmoketest_act1audiosettingssmoketest_fail",
-      "community": 23,
+      "community": 798,
       "norm_label": ".fail()"
     },
     {
@@ -28419,7 +28419,7 @@
       "label": ".WalkTo()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L750",
+      "source_location": "L752",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_walkto",
       "community": 87,
       "norm_label": ".walkto()"
@@ -28428,7 +28428,7 @@
       "label": ".InteractAt()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L861",
+      "source_location": "L863",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_interactat",
       "community": 87,
       "norm_label": ".interactat()"
@@ -28437,7 +28437,7 @@
       "label": ".AimAt()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L908",
+      "source_location": "L910",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_aimat",
       "community": 87,
       "norm_label": ".aimat()"
@@ -28446,7 +28446,7 @@
       "label": ".ApproachPosition()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L924",
+      "source_location": "L926",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_approachposition",
       "community": 87,
       "norm_label": ".approachposition()"
@@ -28455,7 +28455,7 @@
       "label": ".SetYaw()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L941",
+      "source_location": "L943",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_setyaw",
       "community": 87,
       "norm_label": ".setyaw()"
@@ -28464,7 +28464,7 @@
       "label": ".AssertState()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L946",
+      "source_location": "L948",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_assertstate",
       "community": 87,
       "norm_label": ".assertstate()"
@@ -28473,7 +28473,7 @@
       "label": ".AssertDocument()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L956",
+      "source_location": "L958",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_assertdocument",
       "community": 87,
       "norm_label": ".assertdocument()"
@@ -28482,7 +28482,7 @@
       "label": ".CloseDocument()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L965",
+      "source_location": "L967",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_closedocument",
       "community": 87,
       "norm_label": ".closedocument()"
@@ -28491,7 +28491,7 @@
       "label": ".PressInteract()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L971",
+      "source_location": "L973",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_pressinteract",
       "community": 87,
       "norm_label": ".pressinteract()"
@@ -28500,7 +28500,7 @@
       "label": ".PhysicsFrames()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L991",
+      "source_location": "L993",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_physicsframes",
       "community": 87,
       "norm_label": ".physicsframes()"
@@ -28509,7 +28509,7 @@
       "label": ".Frames()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L999",
+      "source_location": "L1001",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_frames",
       "community": 87,
       "norm_label": ".frames()"
@@ -28518,7 +28518,7 @@
       "label": ".Interaction()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1007",
+      "source_location": "L1009",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_interaction",
       "community": 87,
       "norm_label": ".interaction()"
@@ -28527,7 +28527,7 @@
       "label": ".TryReadRoutePoints()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1009",
+      "source_location": "L1011",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_tryreadroutepoints",
       "community": 87,
       "norm_label": ".tryreadroutepoints()"
@@ -28536,7 +28536,7 @@
       "label": ".WalkRoutePoints()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1045",
+      "source_location": "L1047",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_walkroutepoints",
       "community": 87,
       "norm_label": ".walkroutepoints()"
@@ -28545,7 +28545,7 @@
       "label": ".FindInteraction()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1061",
+      "source_location": "L1063",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_findinteraction",
       "community": 87,
       "norm_label": ".findinteraction()"
@@ -28554,7 +28554,7 @@
       "label": ".HorizontalDistance()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1080",
+      "source_location": "L1082",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_horizontaldistance",
       "community": 87,
       "norm_label": ".horizontaldistance()"
@@ -28563,7 +28563,7 @@
       "label": ".YawTo()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1083",
+      "source_location": "L1085",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_yawto",
       "community": 87,
       "norm_label": ".yawto()"
@@ -28572,7 +28572,7 @@
       "label": ".KnowledgeStatus()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1086",
+      "source_location": "L1088",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_knowledgestatus",
       "community": 87,
       "norm_label": ".knowledgestatus()"
@@ -28581,7 +28581,7 @@
       "label": ".VocabularyStatus()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1089",
+      "source_location": "L1091",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_vocabularystatus",
       "community": 87,
       "norm_label": ".vocabularystatus()"
@@ -28590,7 +28590,7 @@
       "label": ".NpcState()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1092",
+      "source_location": "L1094",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_npcstate",
       "community": 87,
       "norm_label": ".npcstate()"
@@ -28599,7 +28599,7 @@
       "label": ".HasFailed()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1095",
+      "source_location": "L1097",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_hasfailed",
       "community": 87,
       "norm_label": ".hasfailed()"
@@ -28608,7 +28608,7 @@
       "label": ".Fail()",
       "file_type": "code",
       "source_file": "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
-      "source_location": "L1097",
+      "source_location": "L1099",
       "id": "tests_act1firstpersonwalkthroughsmoketest_act1firstpersonwalkthroughsmoketest_fail",
       "community": 87,
       "norm_label": ".fail()"
@@ -30473,7 +30473,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L585",
       "id": "scripts_act1connectedworld_act1connectedworld_applylogicalzonepresentationsuppressions",
-      "community": 0,
+      "community": 319,
       "norm_label": ".applylogicalzonepresentationsuppressions()"
     },
     {
@@ -30482,7 +30482,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L714",
       "id": "scripts_act1connectedworld_act1connectedworld_reapplylogicalzonepresentationsuppressions",
-      "community": 0,
+      "community": 319,
       "norm_label": ".reapplylogicalzonepresentationsuppressions()"
     },
     {
@@ -30491,7 +30491,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L734",
       "id": "scripts_act1connectedworld_act1connectedworld_buildconnectorpresentation",
-      "community": 73,
+      "community": 0,
       "norm_label": ".buildconnectorpresentation()"
     },
     {
@@ -30518,7 +30518,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L854",
       "id": "scripts_act1connectedworld_act1connectedworld_applyconnectedworldpresentationsuppressions",
-      "community": 0,
+      "community": 319,
       "norm_label": ".applyconnectedworldpresentationsuppressions()"
     },
     {
@@ -30932,7 +30932,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L6365",
       "id": "scripts_act1connectedworld_act1connectedworld_addcorerootcluster",
-      "community": 114,
+      "community": 0,
       "norm_label": ".addcorerootcluster()"
     },
     {
@@ -30941,7 +30941,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L6387",
       "id": "scripts_act1connectedworld_act1connectedworld_addcoreforestbranch",
-      "community": 114,
+      "community": 0,
       "norm_label": ".addcoreforestbranch()"
     },
     {
@@ -31121,7 +31121,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L7383",
       "id": "scripts_act1connectedworld_act1connectedworld_addvisualsweepwell",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addvisualsweepwell()"
     },
     {
@@ -31130,7 +31130,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L7412",
       "id": "scripts_act1connectedworld_act1connectedworld_addvisualwattlefence",
-      "community": 73,
+      "community": 609,
       "norm_label": ".addvisualwattlefence()"
     },
     {
@@ -31139,7 +31139,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L7443",
       "id": "scripts_act1connectedworld_act1connectedworld_addvisualpalisade",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addvisualpalisade()"
     },
     {
@@ -31148,7 +31148,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L7469",
       "id": "scripts_act1connectedworld_act1connectedworld_addvisualsled",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addvisualsled()"
     },
     {
@@ -31229,7 +31229,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L7835",
       "id": "scripts_act1connectedworld_act1connectedworld_addvisualhaystack",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addvisualhaystack()"
     },
     {
@@ -31238,7 +31238,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L7851",
       "id": "scripts_act1connectedworld_act1connectedworld_addvisualstreetlandmark",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addvisualstreetlandmark()"
     },
     {
@@ -31310,7 +31310,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8308",
       "id": "scripts_act1connectedworld_act1connectedworld_addinteriorlandmark",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addinteriorlandmark()"
     },
     {
@@ -31319,7 +31319,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8342",
       "id": "scripts_act1connectedworld_act1connectedworld_addvisualstrip",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addvisualstrip()"
     },
     {
@@ -31328,7 +31328,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8376",
       "id": "scripts_act1connectedworld_act1connectedworld_addvisualfenceposts",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addvisualfenceposts()"
     },
     {
@@ -31382,7 +31382,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8614",
       "id": "scripts_act1connectedworld_act1connectedworld_addfapwindow",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addfapwindow()"
     },
     {
@@ -31391,7 +31391,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8625",
       "id": "scripts_act1connectedworld_act1connectedworld_addgravemarker",
-      "community": 609,
+      "community": 0,
       "norm_label": ".addgravemarker()"
     },
     {
@@ -31427,7 +31427,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8691",
       "id": "scripts_act1connectedworld_act1connectedworld_hastruemeta",
-      "community": 0,
+      "community": 319,
       "norm_label": ".hastruemeta()"
     },
     {
@@ -31445,7 +31445,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8703",
       "id": "scripts_act1connectedworld_act1connectedworld_isprotectedlogicalgameplaynode",
-      "community": 0,
+      "community": 319,
       "norm_label": ".isprotectedlogicalgameplaynode()"
     },
     {
@@ -31454,7 +31454,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8716",
       "id": "scripts_act1connectedworld_act1connectedworld_hidepresentationnodes",
-      "community": 0,
+      "community": 319,
       "norm_label": ".hidepresentationnodes()"
     },
     {
@@ -31463,7 +31463,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8745",
       "id": "scripts_act1connectedworld_act1connectedworld_tryverifypresentationsuppressiontarget",
-      "community": 0,
+      "community": 319,
       "norm_label": ".tryverifypresentationsuppressiontarget()"
     },
     {
@@ -31472,7 +31472,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8794",
       "id": "scripts_act1connectedworld_act1connectedworld_isbenchmarktreebodywithdecorativecollision",
-      "community": 0,
+      "community": 319,
       "norm_label": ".isbenchmarktreebodywithdecorativecollision()"
     },
     {
@@ -31481,7 +31481,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8814",
       "id": "scripts_act1connectedworld_act1connectedworld_hidebenchmarktreebodies",
-      "community": 0,
+      "community": 319,
       "norm_label": ".hidebenchmarktreebodies()"
     },
     {
@@ -31562,7 +31562,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L8988",
       "id": "scripts_act1connectedworld_act1connectedworld_bindauthoredwintertrees",
-      "community": 0,
+      "community": 319,
       "norm_label": ".bindauthoredwintertrees()"
     },
     {
@@ -31598,7 +31598,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L9075",
       "id": "scripts_act1connectedworld_act1connectedworld_hidepresentationnode",
-      "community": 0,
+      "community": 319,
       "norm_label": ".hidepresentationnode()"
     },
     {
@@ -31625,7 +31625,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L9130",
       "id": "scripts_act1connectedworld_act1connectedworld_addvisualbox",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addvisualbox()"
     },
     {
@@ -31661,7 +31661,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L1",
       "id": "game_scripts_usersettingsstore_cs",
-      "community": 319,
+      "community": 700,
       "norm_label": "usersettingsstore.cs"
     },
     {
@@ -31670,7 +31670,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L13",
       "id": "scripts_usersettingsstore_usersettingsstore",
-      "community": 319,
+      "community": 700,
       "norm_label": "usersettingsstore"
     },
     {
@@ -31679,7 +31679,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L15",
       "id": "game_scripts_usersettingsstore_cs_int",
-      "community": 319,
+      "community": 700,
       "norm_label": "int"
     },
     {
@@ -31688,7 +31688,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L19",
       "id": "scripts_usersettingsstore_usersettingsstore_tryload",
-      "community": 319,
+      "community": 700,
       "norm_label": ".tryload()"
     },
     {
@@ -31697,7 +31697,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L44",
       "id": "scripts_usersettingsstore_usersettingsstore_save",
-      "community": 319,
+      "community": 700,
       "norm_label": ".save()"
     },
     {
@@ -31706,7 +31706,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L60",
       "id": "scripts_usersettingsstore_usersettingsstore_delete",
-      "community": 319,
+      "community": 700,
       "norm_label": ".delete()"
     },
     {
@@ -33335,7 +33335,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
       "source_location": "L1",
       "id": "game_scripts_act1connectedworld_karaoptionaldiscoveries_cs",
-      "community": 114,
+      "community": 81,
       "norm_label": "act1connectedworld.karaoptionaldiscoveries.cs"
     },
     {
@@ -33344,7 +33344,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
       "source_location": "L7",
       "id": "scripts_act1connectedworld_karaoptionaldiscoveries_act1connectedworld",
-      "community": 114,
+      "community": 81,
       "norm_label": "act1connectedworld"
     },
     {
@@ -33353,7 +33353,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
       "source_location": "L9",
       "id": "game_scripts_act1connectedworld_karaoptionaldiscoveries_cs_string",
-      "community": 114,
+      "community": 81,
       "norm_label": "string"
     },
     {
@@ -33362,7 +33362,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
       "source_location": "L13",
       "id": "game_scripts_act1connectedworld_karaoptionaldiscoveries_cs_node3d",
-      "community": 114,
+      "community": 81,
       "norm_label": "node3d"
     },
     {
@@ -33371,7 +33371,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
       "source_location": "L14",
       "id": "game_scripts_act1connectedworld_karaoptionaldiscoveries_cs_staticbody3d",
-      "community": 114,
+      "community": 81,
       "norm_label": "staticbody3d"
     },
     {
@@ -33380,52 +33380,52 @@
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
       "source_location": "L16",
       "id": "game_scripts_act1connectedworld_karaoptionaldiscoveries_cs_vector3",
-      "community": 114,
+      "community": 81,
       "norm_label": "vector3"
     },
     {
       "label": "bool",
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
-      "source_location": "L18",
+      "source_location": "L19",
       "id": "game_scripts_act1connectedworld_karaoptionaldiscoveries_cs_bool",
-      "community": 114,
+      "community": 81,
       "norm_label": "bool"
     },
     {
       "label": "Tween",
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
-      "source_location": "L19",
+      "source_location": "L20",
       "id": "game_scripts_act1connectedworld_karaoptionaldiscoveries_cs_tween",
-      "community": 114,
+      "community": 81,
       "norm_label": "tween"
     },
     {
       "label": ".BuildAct1KaraOptionalDiscoveries()",
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
-      "source_location": "L21",
+      "source_location": "L22",
       "id": "scripts_act1connectedworld_karaoptionaldiscoveries_act1connectedworld_buildact1karaoptionaldiscoveries",
-      "community": 114,
+      "community": 81,
       "norm_label": ".buildact1karaoptionaldiscoveries()"
     },
     {
       "label": ".UpdateAct1KaraOptionalDiscoveries()",
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
-      "source_location": "L463",
+      "source_location": "L486",
       "id": "scripts_act1connectedworld_karaoptionaldiscoveries_act1connectedworld_updateact1karaoptionaldiscoveries",
-      "community": 114,
+      "community": 81,
       "norm_label": ".updateact1karaoptionaldiscoveries()"
     },
     {
       "label": ".SetKaraCollisionEnabled()",
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
-      "source_location": "L498",
+      "source_location": "L524",
       "id": "scripts_act1connectedworld_karaoptionaldiscoveries_act1connectedworld_setkaracollisionenabled",
-      "community": 114,
+      "community": 81,
       "norm_label": ".setkaracollisionenabled()"
     },
     {
@@ -35216,7 +35216,7 @@
       "source_file": "game/scripts/AmbientAudioDirector.cs",
       "source_location": "L1",
       "id": "game_scripts_ambientaudiodirector_cs",
-      "community": 803,
+      "community": 544,
       "norm_label": "ambientaudiodirector.cs"
     },
     {
@@ -35450,7 +35450,7 @@
       "source_file": "game/scripts/AmbientAudioDirector.cs",
       "source_location": "L340",
       "id": "scripts_ambientaudiodirector_ambientmanifest",
-      "community": 803,
+      "community": 544,
       "norm_label": "ambientmanifest"
     },
     {
@@ -35459,7 +35459,7 @@
       "source_file": "game/scripts/AmbientAudioDirector.cs",
       "source_location": "L346",
       "id": "scripts_ambientaudiodirector_ambientstem",
-      "community": 803,
+      "community": 544,
       "norm_label": "ambientstem"
     },
     {
@@ -36816,7 +36816,7 @@
       "label": ".BuildHouseExteriorView()",
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs",
-      "source_location": "L157",
+      "source_location": "L164",
       "id": "scripts_act1connectedworld_culvertverandadiscoveries_act1connectedworld_buildhouseexteriorview",
       "community": 81,
       "norm_label": ".buildhouseexteriorview()"
@@ -36825,7 +36825,7 @@
       "label": ".UpdateAct1CulvertVerandaDiscoveries()",
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs",
-      "source_location": "L221",
+      "source_location": "L228",
       "id": "scripts_act1connectedworld_culvertverandadiscoveries_act1connectedworld_updateact1culvertverandadiscoveries",
       "community": 81,
       "norm_label": ".updateact1culvertverandadiscoveries()"
@@ -53855,7 +53855,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L32",
       "id": "agent_b_act1_agent_b_common_stable_hash",
-      "community": 761,
+      "community": 24,
       "norm_label": "stable_hash()"
     },
     {
@@ -53927,7 +53927,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L168",
       "id": "agent_b_act1_agent_b_common_mesh_from_pydata",
-      "community": 761,
+      "community": 24,
       "norm_label": "mesh_from_pydata()"
     },
     {
@@ -53936,7 +53936,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L176",
       "id": "agent_b_act1_agent_b_common_make_box",
-      "community": 761,
+      "community": 24,
       "norm_label": "make_box()"
     },
     {
@@ -53954,7 +53954,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L238",
       "id": "agent_b_act1_agent_b_common_rotate_around",
-      "community": 798,
+      "community": 24,
       "norm_label": "rotate_around()"
     },
     {
@@ -53981,7 +53981,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L271",
       "id": "agent_b_act1_agent_b_common_bake_transforms",
-      "community": 764,
+      "community": 24,
       "norm_label": "bake_transforms()"
     },
     {
@@ -54071,7 +54071,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L451",
       "id": "agent_b_act1_agent_b_common_make_puddle",
-      "community": 795,
+      "community": 24,
       "norm_label": "make_puddle()"
     },
     {
@@ -54080,7 +54080,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L482",
       "id": "agent_b_act1_agent_b_common_make_patch",
-      "community": 761,
+      "community": 24,
       "norm_label": "make_patch()"
     },
     {
@@ -54098,7 +54098,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L531",
       "id": "agent_b_act1_agent_b_common_export_glb",
-      "community": 764,
+      "community": 24,
       "norm_label": "export_glb()"
     },
     {
@@ -54152,7 +54152,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L240",
       "id": "agent_b_act1_agent_b_common_rationale_240",
-      "community": 798,
+      "community": 24,
       "norm_label": "rotate local vertices about a pivot point."
     },
     {
@@ -54161,7 +54161,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L272",
       "id": "agent_b_act1_agent_b_common_rationale_272",
-      "community": 764,
+      "community": 24,
       "norm_label": "fold object rotation and scale into vertex data with exact     world-preservatio"
     },
     {
@@ -54197,7 +54197,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L453",
       "id": "agent_b_act1_agent_b_common_rationale_453",
-      "community": 795,
+      "community": 24,
       "norm_label": "flat dark water disc in blender coordinates."
     },
     {
@@ -54206,7 +54206,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L485",
       "id": "agent_b_act1_agent_b_common_rationale_485",
-      "community": 761,
+      "community": 24,
       "norm_label": "rough ground patch hugging terrain, edges jittered. coordinates are     passed i"
     },
     {
@@ -58058,7 +58058,7 @@
       "source_file": "src/lab/run-replacement.mjs",
       "source_location": "L1",
       "id": "src_lab_run_replacement_mjs",
-      "community": 5,
+      "community": 114,
       "norm_label": "run-replacement.mjs"
     },
     {
@@ -58067,7 +58067,7 @@
       "source_file": "src/lab/run-replacement.mjs",
       "source_location": "L5",
       "id": "lab_run_replacement_replaceactivelabrun",
-      "community": 5,
+      "community": 114,
       "norm_label": "replaceactivelabrun()"
     },
     {
@@ -58211,7 +58211,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L1",
       "id": "src_lab_main_ts",
-      "community": 5,
+      "community": 114,
       "norm_label": "main.ts"
     },
     {
@@ -58220,7 +58220,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L6",
       "id": "lab_main_labpack",
-      "community": 5,
+      "community": 114,
       "norm_label": "labpack"
     },
     {
@@ -58229,7 +58229,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L20",
       "id": "lab_main_swapkind",
-      "community": 5,
+      "community": 114,
       "norm_label": "swapkind"
     },
     {
@@ -58238,7 +58238,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L22",
       "id": "lab_main_labcatalog",
-      "community": 5,
+      "community": 114,
       "norm_label": "labcatalog"
     },
     {
@@ -58247,7 +58247,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L30",
       "id": "lab_main_appelement",
-      "community": 5,
+      "community": 114,
       "norm_label": "appelement"
     },
     {
@@ -58256,7 +58256,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L38",
       "id": "lab_main_state",
-      "community": 5,
+      "community": 114,
       "norm_label": "state"
     },
     {
@@ -58265,7 +58265,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L50",
       "id": "lab_main_selectedpack",
-      "community": 5,
+      "community": 114,
       "norm_label": "selectedpack()"
     },
     {
@@ -58274,7 +58274,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L56",
       "id": "lab_main_selectcampaign",
-      "community": 5,
+      "community": 114,
       "norm_label": "selectcampaign()"
     },
     {
@@ -58283,7 +58283,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L65",
       "id": "lab_main_isruntimelaunchable",
-      "community": 5,
+      "community": 114,
       "norm_label": "isruntimelaunchable()"
     },
     {
@@ -58292,7 +58292,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L71",
       "id": "lab_main_selectedcompiledrunpack",
-      "community": 5,
+      "community": 114,
       "norm_label": "selectedcompiledrunpack()"
     },
     {
@@ -58301,7 +58301,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L77",
       "id": "lab_main_inspectionpack",
-      "community": 5,
+      "community": 114,
       "norm_label": "inspectionpack()"
     },
     {
@@ -58310,7 +58310,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L81",
       "id": "lab_main_syncinspectionselection",
-      "community": 5,
+      "community": 114,
       "norm_label": "syncinspectionselection()"
     },
     {
@@ -58319,7 +58319,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L90",
       "id": "lab_main_resolverunselection",
-      "community": 5,
+      "community": 114,
       "norm_label": "resolverunselection()"
     },
     {
@@ -58328,7 +58328,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L108",
       "id": "lab_main_escape",
-      "community": 5,
+      "community": 114,
       "norm_label": "escape()"
     },
     {
@@ -58337,7 +58337,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L112",
       "id": "lab_main_option",
-      "community": 5,
+      "community": 114,
       "norm_label": "option()"
     },
     {
@@ -58346,7 +58346,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L116",
       "id": "lab_main_selectoptions",
-      "community": 5,
+      "community": 114,
       "norm_label": "selectoptions()"
     },
     {
@@ -58355,7 +58355,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L120",
       "id": "lab_main_startisolatedrun",
-      "community": 5,
+      "community": 114,
       "norm_label": "startisolatedrun()"
     },
     {
@@ -58364,7 +58364,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L155",
       "id": "lab_main_disposerun",
-      "community": 5,
+      "community": 114,
       "norm_label": "disposerun()"
     },
     {
@@ -58373,7 +58373,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L171",
       "id": "lab_main_invokesamplecapability",
-      "community": 5,
+      "community": 114,
       "norm_label": "invokesamplecapability()"
     },
     {
@@ -58382,7 +58382,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L191",
       "id": "lab_main_render",
-      "community": 5,
+      "community": 114,
       "norm_label": "render()"
     },
     {
@@ -74890,6 +74890,15 @@
       "id": "urman_knowledge_base_gameplay_2026_09_12_\u0440\u0430\u043a\u0443\u0440\u0441_\u043b\u0435\u0441\u043d\u043e\u0433\u043e_\u0441\u0438\u043b\u0443\u044d\u0442\u0430",
       "community": 68,
       "norm_label": "2026-09-12 \u2014 \u0440\u0430\u043a\u0443\u0440\u0441 \u043b\u0435\u0441\u043d\u043e\u0433\u043e \u0441\u0438\u043b\u0443\u044d\u0442\u0430"
+    },
+    {
+      "label": "2026-09-12 \u2014 \u0432\u0438\u0434\u0438\u043c\u0430\u044f \u0440\u0430\u0441\u0447\u0438\u0441\u0442\u043a\u0430 \u0434\u0432\u0443\u0445 \u043e\u0431\u0445\u043e\u0434\u043e\u0432",
+      "file_type": "document",
+      "source_file": "docs/urman_knowledge_base/gameplay.md",
+      "source_location": "L584",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0432\u0438\u0434\u0438\u043c\u0430\u044f_\u0440\u0430\u0441\u0447\u0438\u0441\u0442\u043a\u0430_\u0434\u0432\u0443\u0445_\u043e\u0431\u0445\u043e\u0434\u043e\u0432",
+      "community": 68,
+      "norm_label": "2026-09-12 \u2014 \u0432\u0438\u0434\u0438\u043c\u0430\u044f \u0440\u0430\u0441\u0447\u0438\u0441\u0442\u043a\u0430 \u0434\u0432\u0443\u0445 \u043e\u0431\u0445\u043e\u0434\u043e\u0432"
     },
     {
       "label": "design_style.md",
@@ -92150,7 +92159,7 @@
       "source_file": "src/runtime/bootstrap/runtime-bootstrap.mjs",
       "source_location": "L522",
       "id": "bootstrap_runtime_bootstrap_production_old_pc_instance_id",
-      "community": 5,
+      "community": 114,
       "norm_label": "production_old_pc_instance_id"
     },
     {
@@ -92896,7 +92905,7 @@
       "file_type": "rationale",
       "source_file": "tools/blender/export_kara_forest_edge_kit.py",
       "source_location": "L420",
-      "community": 55,
+      "community": 709,
       "norm_label": "create a few-ring bent trunk so silhouettes are not stacked cones.",
       "id": "blender_export_kara_forest_edge_kit_rationale_420"
     },
@@ -92914,7 +92923,7 @@
       "file_type": "rationale",
       "source_file": "tools/blender/export_kara_forest_edge_kit.py",
       "source_location": "L509",
-      "community": 55,
+      "community": 709,
       "norm_label": "build one small, asymmetrical spruce from a bent trunk and tiers.",
       "id": "blender_export_kara_forest_edge_kit_rationale_509"
     },
@@ -94403,7 +94412,7 @@
       "file_type": "code",
       "source_file": "game/tests/WinterTrampleCapture.cs",
       "source_location": "L63",
-      "community": 346,
+      "community": 56,
       "norm_label": ".walk()",
       "id": "tests_wintertramplecapture_wintertramplecapture_walk"
     },
@@ -94781,7 +94790,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L237",
-      "community": 798,
+      "community": 24,
       "norm_label": "rotate local vertices about a pivot point.",
       "id": "agent_b_act1_agent_b_common_rationale_237"
     },
@@ -94790,7 +94799,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L269",
-      "community": 764,
+      "community": 24,
       "norm_label": "fold object rotation and scale into vertex data with exact     world-preservatio",
       "id": "agent_b_act1_agent_b_common_rationale_269"
     },
@@ -94826,7 +94835,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L450",
-      "community": 795,
+      "community": 24,
       "norm_label": "flat dark water disc in blender coordinates.",
       "id": "agent_b_act1_agent_b_common_rationale_450"
     },
@@ -94835,7 +94844,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L482",
-      "community": 761,
+      "community": 24,
       "norm_label": "rough ground patch hugging terrain, edges jittered. coordinates are     passed i",
       "id": "agent_b_act1_agent_b_common_rationale_482"
     },
@@ -98696,7 +98705,7 @@
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L7192",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addtraversalstrip()",
       "id": "scripts_act1connectedworld_act1connectedworld_addtraversalstrip"
     },
@@ -98705,7 +98714,7 @@
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L7225",
-      "community": 73,
+      "community": 0,
       "norm_label": ".addtraversalbox()",
       "id": "scripts_act1connectedworld_act1connectedworld_addtraversalbox"
     },
@@ -101063,7 +101072,7 @@
       "file_type": "rationale",
       "source_file": "tools/blender/export_zirat_roadside_kit.py",
       "source_location": "L199",
-      "community": 385,
+      "community": 764,
       "norm_label": "create three irregular blades in one mesh; no repeated cone primitives.",
       "id": "blender_export_zirat_roadside_kit_rationale_199"
     },
@@ -104852,7 +104861,7 @@
       "file_type": "rationale",
       "source_file": "tools/blender/export_kara_forest_edge_kit.py",
       "source_location": "L250",
-      "community": 55,
+      "community": 709,
       "norm_label": "create a few-ring bent trunk so silhouettes are not stacked cones.",
       "id": "blender_export_kara_forest_edge_kit_rationale_250"
     },
@@ -104861,7 +104870,7 @@
       "file_type": "rationale",
       "source_file": "tools/blender/export_kara_forest_edge_kit.py",
       "source_location": "L286",
-      "community": 55,
+      "community": 709,
       "norm_label": "build one small, asymmetrical spruce from a bent trunk and tiers.",
       "id": "blender_export_kara_forest_edge_kit_rationale_286"
     },
@@ -104933,7 +104942,7 @@
       "file_type": "rationale",
       "source_file": "tools/blender/export_zirat_roadside_kit.py",
       "source_location": "L271",
-      "community": 385,
+      "community": 764,
       "norm_label": "create three irregular blades in one mesh; no repeated cone primitives.",
       "id": "blender_export_zirat_roadside_kit_rationale_271"
     },
@@ -105266,7 +105275,7 @@
       "file_type": "rationale",
       "source_file": "tools/blender/export_zirat_roadside_kit.py",
       "source_location": "L255",
-      "community": 385,
+      "community": 764,
       "norm_label": "create three irregular blades in one mesh; no repeated cone primitives.",
       "id": "blender_export_zirat_roadside_kit_rationale_255"
     },
@@ -106364,7 +106373,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L236",
-      "community": 798,
+      "community": 24,
       "norm_label": "rotate local vertices about a pivot point.",
       "id": "agent_b_act1_agent_b_common_rationale_236"
     },
@@ -106373,7 +106382,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L268",
-      "community": 764,
+      "community": 24,
       "norm_label": "fold object rotation and scale into vertex data with exact     world-preservatio",
       "id": "agent_b_act1_agent_b_common_rationale_268"
     },
@@ -106409,7 +106418,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L449",
-      "community": 795,
+      "community": 24,
       "norm_label": "flat dark water disc in blender coordinates.",
       "id": "agent_b_act1_agent_b_common_rationale_449"
     },
@@ -106418,7 +106427,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_common.py",
       "source_location": "L481",
-      "community": 761,
+      "community": 24,
       "norm_label": "rough ground patch hugging terrain, edges jittered. coordinates are     passed i",
       "id": "agent_b_act1_agent_b_common_rationale_481"
     },
@@ -106607,7 +106616,7 @@
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L885",
-      "community": 0,
+      "community": 319,
       "norm_label": ".hideredundantcorefoliage()",
       "id": "scripts_act1connectedworld_act1connectedworld_hideredundantcorefoliage"
     },
@@ -106616,7 +106625,7 @@
       "file_type": "code",
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L924",
-      "community": 0,
+      "community": 319,
       "norm_label": ".isredundantcorefoliageroot()",
       "id": "scripts_act1connectedworld_act1connectedworld_isredundantcorefoliageroot"
     },
@@ -164270,6 +164279,17 @@
       "source_location": "L81",
       "weight": 1.0,
       "source": "scripts_act1connectedworld_karaoptionaldiscoveries_act1connectedworld_buildact1karaoptionaldiscoveries",
+      "target": "scripts_act1connectedworld_act1connectedworld_addvisuallandformsurface"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "game/scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs",
+      "source_location": "L141",
+      "weight": 1.0,
+      "source": "scripts_act1connectedworld_culvertverandadiscoveries_act1connectedworld_buildziratouterculvert",
       "target": "scripts_act1connectedworld_act1connectedworld_addvisuallandformsurface"
     },
     {
@@ -247420,6 +247440,16 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docs/urman_knowledge_base/gameplay.md",
+      "source_location": "L584",
+      "weight": 1.0,
+      "source": "urman_knowledge_base_gameplay_\u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0439_\u043c\u0438\u0440_\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u0430\u044f_\u043f\u0440\u0438\u0451\u043c\u043a\u0430_2026_09_11",
+      "target": "urman_knowledge_base_gameplay_2026_09_12_\u0432\u0438\u0434\u0438\u043c\u0430\u044f_\u0440\u0430\u0441\u0447\u0438\u0441\u0442\u043a\u0430_\u0434\u0432\u0443\u0445_\u043e\u0431\u0445\u043e\u0434\u043e\u0432",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/urman_knowledge_base/design_style.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -247723,9 +247753,9 @@
       "source_file": "docs/urman_knowledge_base/design_style.md",
       "source_location": "L328",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "urman_knowledge_base_design_style_next_art_tests",
-      "target": "urman_knowledge_base_design_style_2026_09_12_\u0434\u0430\u043b\u044c\u043d\u044f\u044f_\u0434\u044b\u043c\u043a\u0430_\u043b\u0435\u0441\u0430_\u0438_\u0430\u043a\u0446\u0435\u043d\u0442\u044b_\u0432\u044a\u0435\u0437\u0434\u0430",
-      "confidence_score": 1.0
+      "target": "urman_knowledge_base_design_style_2026_09_12_\u0434\u0430\u043b\u044c\u043d\u044f\u044f_\u0434\u044b\u043c\u043a\u0430_\u043b\u0435\u0441\u0430_\u0438_\u0430\u043a\u0446\u0435\u043d\u0442\u044b_\u0432\u044a\u0435\u0437\u0434\u0430"
     },
     {
       "relation": "contains",
@@ -281100,5 +281130,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "99a2b58e456842a25b15cc433d43463fef6d73a9"
+  "built_at_commit": "3183401c425be175d3d46f518ca2775ce765d5b0"
 }

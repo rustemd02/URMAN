@@ -98,7 +98,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"culvert-approach-{point.X}-{point.Y}")) return;
             if (!await WalkTo(player, new(1.1f, player.GlobalPosition.Y, -67f), "culvert-roadside")) return;
             if (!await InteractAt(player, ray, Interaction("discover-zirat-outer-culvert-crossing"))) return;
-            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+            if (player.ModalOpen || (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Control>("Screen").Visible == true)
+            { Fail("Culvert reveal was hidden by an automatic journal modal."); return; }
             await Frames(35);
             foreach (var point in new Vector2[] { new(2.35f,-67f), new(3.65f,-67f), new(4.95f,-67f), new(5.8f,-65.8f), new(3.5f,-63.3f), new(.3f,-64f) })
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"culvert-crossing-{point.X}-{point.Y}")) return;
@@ -237,7 +238,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             if (gate.CollisionLayer != 1) { Fail("Kara branch starts without its closed collider."); return; }
             var sceneBefore = bridge.ActiveSceneId;
             if (!await InteractAt(player, ray, Interaction("discover-kara-old-forestry-side-track"))) return;
-            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+            if (player.ModalOpen || (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Control>("Screen").Visible == true)
+            { Fail("Kara branch movement was hidden by an automatic journal modal."); return; }
             await Frames(40);
             if (gate.CollisionLayer != 0 || bridge.ActiveSceneId != sceneBefore)
             { Fail("Kara branch failed to clear while preserving the scene."); return; }

@@ -15,6 +15,7 @@ public partial class Act1ConnectedWorld
     private StaticBody3D? _karaSideTrackBoundaryCollision;
     private Vector3 _karaSideTrackBranchRest;
     private Vector3 _karaSideTrackBranchCleared;
+    private Vector3 _karaSideTrackBranchClearedRotation;
     private bool? _karaSideTrackFound;
     private Tween? _karaSideTrackMove;
 
@@ -143,12 +144,33 @@ public partial class Act1ConnectedWorld
         _karaSideTrackBranch.SetMeta("physicalAction", "move the fallen branch from the old track");
         _karaSideTrackBranch.SetMeta("clearanceAfterMoveMetres", 1.45f);
         gate.AddChild(_karaSideTrackBranch);
-        AddVisualBox(_karaSideTrackBranch, "FallenBranchMain", new(1.70f, .24f, .18f),
-            new(0f, .72f, 0f), "4a392d", "wood_bark", rollDegrees: 5f);
-        AddVisualBox(_karaSideTrackBranch, "FallenBranchFork", new(.78f, .14f, .14f),
-            new(-.24f, .87f, .06f), "5b4536", "wood_bark", yawDegrees: -22f, rollDegrees: -6f);
+        AddCoreForestBranch(_karaSideTrackBranch, "FallenBranchMain",
+            new(-.85f, .646f, 0f), new(.85f, .794f, 0f), "4a392d", .105f, .075f, 9);
+        AddCoreForestBranch(_karaSideTrackBranch, "FallenBranchFork",
+            new(-.55f, .68f, 0f), new(.12f, .97f, .206f), "5b4536", .065f, .03f, 8);
         AddVisualBox(_karaSideTrackBranch, "FallenBranchLatch", new(.14f, .16f, .12f),
             new(.66f, .90f, -.10f), "49382d", "metal");
+
+        // Lay the cleared branch along the bank, then seat its actual lower
+        // surface on the same terrain triangles used by visible snow.
+        var bankStart = gate.ToGlobal(_karaSideTrackBranchCleared + new Vector3(-.85f, 0f, 0f));
+        var bankEnd = gate.ToGlobal(_karaSideTrackBranchCleared + new Vector3(.85f, 0f, 0f));
+        var bankRise = AgentBAct1HeightField.CollisionGround(bankEnd.X, bankEnd.Z)
+            - AgentBAct1HeightField.CollisionGround(bankStart.X, bankStart.Z);
+        _karaSideTrackBranchClearedRotation = new Vector3(0f, 0f,
+            Mathf.Atan2(bankRise, 1.70f) - Mathf.Atan2(.148f, 1.70f));
+        _karaSideTrackBranch.Position = _karaSideTrackBranchCleared;
+        _karaSideTrackBranch.Rotation = _karaSideTrackBranchClearedRotation;
+        var mainBranch = _karaSideTrackBranch.GetNode<MeshInstance3D>("FallenBranchMain");
+        var groundGap = float.PositiveInfinity;
+        foreach (var vertex in mainBranch.Mesh.GetFaces())
+        {
+            var point = mainBranch.GlobalTransform * vertex;
+            groundGap = Mathf.Min(groundGap, point.Y - AgentBAct1HeightField.CollisionGround(point.X, point.Z));
+        }
+        _karaSideTrackBranchCleared.Y -= groundGap;
+        _karaSideTrackBranch.Position = _karaSideTrackBranchRest;
+        _karaSideTrackBranch.Rotation = Vector3.Zero;
 
         AddVisualBox(gate, "GateGuideWest", new(.16f, .82f, 1.20f),
             new(.82f, .41f, .58f), "514333", "wood_bark");
@@ -226,12 +248,13 @@ public partial class Act1ConnectedWorld
             KaraSideTrackSlug,
             new(.72f, .88f, .62f),
             kara.ToLocal(targetWorld),
-            journal: true);
+            journal: false);
         sideTarget.SetMeta("activePropPath", "Act1CoreWorldGreybox/KaraForestEdge/KaraForestryBranchGate/KaraForestryMovedBranch");
         sideTarget.SetMeta("physicalAction", "move the fallen branch from the old track");
         sideTarget.SetMeta("targetRole", "west-post latch; accessible before crossing the gate");
         sideTarget.SetMeta("targetWorldPosition", targetWorld);
         sideTarget.SetMeta("routeReconnects", "KaraForestEdge road at both endpoints");
+        sideTarget.WorldFoleySample = "door_creak";
 
         // A small real clearing and an ordinary distant facade make the warm
         // window a sightline from a place in the forest, rather than a journal
@@ -477,14 +500,17 @@ public partial class Act1ConnectedWorld
         {
             _karaSideTrackMove?.Kill();
             var destination = sideTrackFound ? _karaSideTrackBranchCleared : _karaSideTrackBranchRest;
+            var rotation = sideTrackFound ? _karaSideTrackBranchClearedRotation : Vector3.Zero;
             if (_karaSideTrackFound == false && sideTrackFound && exteriorActive)
             {
                 _karaSideTrackMove = CreateTween();
                 _karaSideTrackMove.TweenProperty(_karaSideTrackBranch, "position", destination, .55f);
+                _karaSideTrackMove.Parallel().TweenProperty(_karaSideTrackBranch, "rotation", rotation, .55f);
             }
             else
             {
                 _karaSideTrackBranch.Position = destination;
+                _karaSideTrackBranch.Rotation = rotation;
             }
             _karaSideTrackFound = sideTrackFound;
         }
