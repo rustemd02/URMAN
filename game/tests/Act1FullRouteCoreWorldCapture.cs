@@ -31,18 +31,18 @@ public partial class Act1FullRouteCoreWorldCapture : Node
     private static readonly IReadOnlyList<FrameSpec> Frames =
     [
         // Arrival
-        Frame("arrival_forward", "arrival", "village_day", "arrival", new(0f, .05f, 9f), new(0f, 1.45f, -10f), "forward", "near-mid-far"),
-        Frame("arrival_back", "arrival", "village_day", "arrival", new(0f, .05f, 9f), new(0f, 1.45f, 32f), "back", "near-mid-far"),
-        Frame("arrival_left", "arrival", "village_day", "arrival", new(0f, .05f, 9f), new(-16f, 1.55f, 25f), "left", "lateral"),
-        Frame("arrival_right", "arrival", "village_day", "arrival", new(0f, .05f, 9f), new(16f, 1.55f, 26f), "right", "lateral"),
-        Frame("arrival_depth", "arrival", "village_day", "arrival", new(0f, .05f, 14f), new(0f, 1.60f, 45f), "forward", "near-mid-far"),
+        Frame("arrival_forward", "arrival", "village_day", "arrival", GroundedPosition(0f, 9f), new(0f, 1.45f, -10f), "forward", "near-mid-far"),
+        Frame("arrival_back", "arrival", "village_day", "arrival", GroundedPosition(0f, 9f), new(0f, 1.45f, 32f), "back", "near-mid-far"),
+        Frame("arrival_left", "arrival", "village_day", "arrival", GroundedPosition(0f, 9f), new(-16f, 1.55f, 25f), "left", "lateral"),
+        Frame("arrival_right", "arrival", "village_day", "arrival", GroundedPosition(0f, 9f), new(16f, 1.55f, 26f), "right", "lateral"),
+        Frame("arrival_depth", "arrival", "village_day", "arrival", GroundedPosition(0f, 14f), new(0f, 1.60f, 45f), "forward", "near-mid-far"),
 
         // Main street
-        Frame("main_street_forward", "main_street", "village_day", "from_house", new(-2.2f, .05f, 2.4f), new(0f, 1.45f, -15f), "forward", "near-mid-far"),
-        Frame("main_street_back", "main_street", "village_day", "from_house", new(-2.2f, .05f, 2.4f), new(0f, 1.45f, 13f), "back", "near-mid-far"),
-        Frame("main_street_left", "main_street", "village_day", "from_house", new(-2.2f, .05f, 2.4f), new(-18f, 1.55f, -5f), "left", "lateral"),
-        Frame("main_street_right", "main_street", "village_day", "from_house", new(-2.2f, .05f, 2.4f), new(18f, 1.55f, -9f), "right", "lateral"),
-        Frame("main_street_depth", "main_street", "village_day", "from_house", new(0f, .05f, -3f), new(0f, 1.60f, -28f), "forward", "near-mid-far"),
+        Frame("main_street_forward", "main_street", "village_day", "from_house", GroundedPosition(-2.2f, 2.4f), new(0f, 1.45f, -15f), "forward", "near-mid-far"),
+        Frame("main_street_back", "main_street", "village_day", "from_house", GroundedPosition(-2.2f, 2.4f), new(0f, 1.45f, 13f), "back", "near-mid-far"),
+        Frame("main_street_left", "main_street", "village_day", "from_house", GroundedPosition(-2.2f, 2.4f), new(-18f, 1.55f, -5f), "left", "lateral"),
+        Frame("main_street_right", "main_street", "village_day", "from_house", GroundedPosition(-2.2f, 2.4f), new(18f, 1.55f, -9f), "right", "lateral"),
+        Frame("main_street_depth", "main_street", "village_day", "from_house", GroundedPosition(0f, -3f), new(0f, 1.60f, -28f), "forward", "near-mid-far"),
         // Close player-height views of the actual branch-side holding, not
         // only the distant street silhouette. Keep both directions auditable.
         Frame("east_holding_entry", "main_street", "village_day", "from_house", new(24f, (float)Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(24f, -20f) + .05f, -20f), new(23f, .45f, -11f), "forward", "near-mid-far"),
@@ -55,20 +55,20 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             new(-24.56f, 4.3218613f, -7.4319997f), "detail", "existing character face and collar contact"),
 
         // Babai / Ebi yard
-        Frame("alsu_conversation_close", "main_street", "village_day", "arrival", new(.1f, .05f, 4.1f), new(.85f, 1.35f, 2.05f), "detail", "Alsu visible beside her interaction"),
-        Frame("timur_conversation_close", "connective_street_return", "village_day", "from_house", new(-1.4f, .05f, -17.6f), new(-3.8f, 1.4f, -19f), "detail", "Timur outdoor conversation shoulder"),
-        Frame("rinat_village_close", "main_street", "village_day", "arrival", new(-.8f, .05f, -1.5f), new(-1.5f, 1.4f, -3.8f), "detail", "Rinat before alert"),
+        Frame("alsu_conversation_close", "main_street", "village_day", "arrival", GroundedPosition(.1f, 4.1f), new(.85f, 1.35f, 2.05f), "detail", "Alsu visible beside her interaction"),
+        Frame("timur_conversation_close", "connective_street_return", "village_day", "from_house", GroundedPosition(-1.4f, -17.6f), new(-3.8f, 1.4f, -19f), "detail", "Timur outdoor conversation shoulder"),
+        Frame("rinat_village_close", "main_street", "village_day", "arrival", GroundedPosition(-.8f, -1.5f), new(-1.5f, 1.4f, -3.8f), "detail", "Rinat before alert"),
 
-        Frame("babai_yard_forward", "babai_yard", "village_day", "from_house", new(-20f, .05f, 6.5f), new(-8f, 1.55f, 12f), "forward", "near-mid-far"),
-        Frame("babai_yard_back", "babai_yard", "village_day", "from_house", new(-20f, .05f, 6.5f), new(-30f, 1.55f, -5f), "back", "near-mid-far"),
-        Frame("babai_yard_left", "babai_yard", "village_day", "from_house", new(-20f, .05f, 6.5f), new(-34f, 1.55f, 6f), "left", "lateral"),
-        Frame("babai_yard_right", "babai_yard", "village_day", "from_house", new(-20f, .05f, 6.5f), new(-8f, 1.55f, 5f), "right", "lateral"),
-        Frame("babai_yard_depth", "babai_yard", "village_day", "from_house", new(-20f, .05f, 9f), new(-20f, 1.60f, 22f), "forward", "near-mid-far"),
+        Frame("babai_yard_forward", "babai_yard", "village_day", "from_house", GroundedPosition(-20f, 6.5f), new(-8f, 1.55f, 12f), "forward", "near-mid-far"),
+        Frame("babai_yard_back", "babai_yard", "village_day", "from_house", GroundedPosition(-20f, 6.5f), new(-30f, 1.55f, -5f), "back", "near-mid-far"),
+        Frame("babai_yard_left", "babai_yard", "village_day", "from_house", GroundedPosition(-20f, 6.5f), new(-34f, 1.55f, 6f), "left", "lateral"),
+        Frame("babai_yard_right", "babai_yard", "village_day", "from_house", GroundedPosition(-20f, 6.5f), new(-8f, 1.55f, 5f), "right", "lateral"),
+        Frame("babai_yard_depth", "babai_yard", "village_day", "from_house", GroundedPosition(-20f, 9f), new(-20f, 1.60f, 22f), "forward", "near-mid-far"),
 
         // House exterior / approach
-        Frame("house_exterior_forward", "house_exterior", "village_day", "from_house", new(-28f, .05f, 7f), new(-28f, 1.55f, -1f), "forward", "near-mid-far"),
-        Frame("house_exterior_back", "house_exterior", "village_day", "from_house", new(-28f, .05f, 7f), new(-13f, 1.45f, 14f), "back", "near-mid-far"),
-        Frame("house_exterior_depth", "house_exterior", "village_day", "from_house", new(-24f, .05f, 7.5f), new(-28f, 1.55f, -6f), "forward", "near-mid-far"),
+        Frame("house_exterior_forward", "house_exterior", "village_day", "from_house", GroundedPosition(-28f, 7f), new(-28f, 1.55f, -1f), "forward", "near-mid-far"),
+        Frame("house_exterior_back", "house_exterior", "village_day", "from_house", GroundedPosition(-28f, 7f), new(-13f, 1.45f, 14f), "back", "near-mid-far"),
+        Frame("house_exterior_depth", "house_exterior", "village_day", "from_house", GroundedPosition(-24f, 7.5f), new(-28f, 1.55f, -6f), "forward", "near-mid-far"),
 
         Frame("babai_door_detail", "house_exterior", "village_day", "from_house",
             new(-28.2f, AgentBAct1HeightField.CollisionGround(-28.2f, 6f) + .05f, 6f),
@@ -121,16 +121,16 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("house_interior_right", "house_interior", "house_old_pc", "entry", new(-31.8f, .05f, 1.8f), new(-24.2f, 1.5f, -1f), "right", "interior-360"),
 
         // Connective street and return
-        Frame("connective_street_return_forward", "connective_street_return", "village_day", "from_forest", new(-15.4f, .05f, -22f), new(-7f, 1.50f, -40f), "forward", "near-mid-far"),
-        Frame("connective_street_return_back", "connective_street_return", "village_day", "from_forest", new(-7f, .05f, -41.5f), new(-20f, 1.50f, -24f), "back", "near-mid-far"),
-        Frame("connective_street_return_depth", "connective_street_return", "village_day", "from_forest", new(-3f, .05f, -50f), new(0f, 1.60f, -67f), "forward", "near-mid-far"),
+        Frame("connective_street_return_forward", "connective_street_return", "village_day", "from_forest", GroundedPosition(-15.4f, -22f), new(-7f, 1.50f, -40f), "forward", "near-mid-far"),
+        Frame("connective_street_return_back", "connective_street_return", "village_day", "from_forest", GroundedPosition(-7f, -41.5f), new(-20f, 1.50f, -24f), "back", "near-mid-far"),
+        Frame("connective_street_return_depth", "connective_street_return", "village_day", "from_forest", GroundedPosition(-3f, -50f), new(0f, 1.60f, -67f), "forward", "near-mid-far"),
 
         // FAP exterior
-        Frame("fap_exterior_forward", "fap_exterior", "village_day", "arrival", new(14f, .05f, -16f), new(29f, 1.60f, -30f), "forward", "near-mid-far"),
-        Frame("fap_exterior_back", "fap_exterior", "village_day", "arrival", new(14f, .05f, -16f), new(4f, 1.50f, -8f), "back", "near-mid-far"),
-        Frame("fap_exterior_left", "fap_exterior", "village_day", "arrival", new(14f, .05f, -16f), new(17f, 1.55f, -28f), "left", "lateral"),
-        Frame("fap_exterior_right", "fap_exterior", "village_day", "arrival", new(14f, .05f, -16f), new(33f, 1.55f, -21f), "right", "lateral"),
-        Frame("fap_exterior_depth", "fap_exterior", "village_day", "arrival", new(19f, .05f, -21f), new(29f, 1.60f, -33f), "forward", "near-mid-far"),
+        Frame("fap_exterior_forward", "fap_exterior", "village_day", "arrival", GroundedPosition(14f, -16f), new(29f, 1.60f, -30f), "forward", "near-mid-far"),
+        Frame("fap_exterior_back", "fap_exterior", "village_day", "arrival", GroundedPosition(14f, -16f), new(4f, 1.50f, -8f), "back", "near-mid-far"),
+        Frame("fap_exterior_left", "fap_exterior", "village_day", "arrival", GroundedPosition(14f, -16f), new(17f, 1.55f, -28f), "left", "lateral"),
+        Frame("fap_exterior_right", "fap_exterior", "village_day", "arrival", GroundedPosition(14f, -16f), new(33f, 1.55f, -21f), "right", "lateral"),
+        Frame("fap_exterior_depth", "fap_exterior", "village_day", "arrival", GroundedPosition(19f, -21f), new(29f, 1.60f, -33f), "forward", "near-mid-far"),
 
         // FAP interior
         Frame("fap_interior_forward", "fap_interior", "fap_clinic", "waiting_room", new(29.6f, .05f, -27.2f), new(28f, 1.45f, -32.2f), "forward", "interior-360"),
@@ -141,12 +141,12 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         // Zirat
         Frame("zirat_rest_bench", "zirat", "village_day", "from_house", new(-4.5f, AgentBAct1HeightField.CollisionGround(-4.5f, -50.4f) + .05f, -50.4f), new(-5f, AgentBAct1HeightField.CollisionGround(-5f, -52f) + .48f, -52f), "detail", "roadside repaired bench before brushing"),
         Frame("zirat_rest_bench_used", "zirat", "village_day", "from_house", new(-4.5f, AgentBAct1HeightField.CollisionGround(-4.5f, -50.4f) + .05f, -50.4f), new(-5f, AgentBAct1HeightField.CollisionGround(-5f, -52f) + .48f, -52f), "detail", "new seat plank after brushing", "zirat-outer-rest-bench"),
-        Frame("zirat_clue_close", "zirat", "zirat_road", "village_side", new(-3.2f, .05f, -74.1f), new(-3.55f, .62f, -75.70f), "left", "near"),
-        Frame("zirat_forward", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(0f, 1.50f, -75f), "forward", "near-mid-far"),
-        Frame("zirat_back", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(0f, 1.50f, -44f), "back", "near-mid-far"),
-        Frame("zirat_left", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(-16f, 1.55f, -64f), "left", "lateral"),
-        Frame("zirat_right", "zirat", "zirat_road", "village_side", new(0f, .05f, -56f), new(16f, 1.55f, -68f), "right", "lateral"),
-        Frame("zirat_depth", "zirat", "zirat_road", "village_side", new(0f, .05f, -72f), new(0f, 1.60f, -92f), "forward", "near-mid-far"),
+        Frame("zirat_clue_close", "zirat", "zirat_road", "village_side", GroundedPosition(-3.2f, -74.1f), new(-3.55f, .62f, -75.70f), "left", "near"),
+        Frame("zirat_forward", "zirat", "zirat_road", "village_side", GroundedPosition(0f, -56f), new(0f, 1.50f, -75f), "forward", "near-mid-far"),
+        Frame("zirat_back", "zirat", "zirat_road", "village_side", GroundedPosition(0f, -56f), new(0f, 1.50f, -44f), "back", "near-mid-far"),
+        Frame("zirat_left", "zirat", "zirat_road", "village_side", GroundedPosition(0f, -56f), new(-16f, 1.55f, -64f), "left", "lateral"),
+        Frame("zirat_right", "zirat", "zirat_road", "village_side", GroundedPosition(0f, -56f), new(16f, 1.55f, -68f), "right", "lateral"),
+        Frame("zirat_depth", "zirat", "zirat_road", "village_side", GroundedPosition(0f, -72f), new(0f, 1.60f, -92f), "forward", "near-mid-far"),
 
         // Last inhabited holding: outside entry and inside return sightlines.
         Frame("zirat_holding_entry", "zirat", "zirat_road", "village_side", new(-17f, (float)AgentBAct1HeightField.Ground(-17f, -63f) + .05f, -63f), new(-28f, 1f, -64f), "left", "near-mid-far"),
@@ -159,11 +159,11 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("kara_warm_window", "kara_approach", "kara_urman_night", "village_path", new(4.45f, AgentBAct1HeightField.CollisionGround(4.45f, -114.55f) + .05f, -114.55f), new(-8.8f, 1.35f, -97.2f), "detail", "actual window sightline from optional clearing"),
         Frame("kara_profile_front", "kara_approach", "kara_urman_night", "village_path", new(3.4f, AgentBAct1HeightField.CollisionGround(3.4f, -114.4f) + .05f, -114.4f), new(6.0f, 1.9f, -117.0f), "detail", "ambiguous branch before stepping sideways"),
         Frame("kara_profile_side", "kara_approach", "kara_urman_night", "village_path", new(8.8f, AgentBAct1HeightField.CollisionGround(8.8f, -117.4f) + .05f, -117.4f), new(6.0f, 1.9f, -117.0f), "detail", "ordinary branch from the side"),
-        Frame("kara_approach_forward", "kara_approach", "kara_urman_night", "village_path", new(0f, .05f, -103f), new(0f, 1.50f, -120f), "forward", "near-mid-far"),
-        Frame("kara_approach_back", "kara_approach", "kara_urman_night", "village_path", new(0f, .05f, -103f), new(0f, 1.50f, -93f), "back", "near-mid-far"),
-        Frame("kara_approach_left", "kara_approach", "kara_urman_night", "village_path", new(0f, .05f, -103f), new(-12f, 1.85f, -116f), "left", "lateral"),
-        Frame("kara_approach_right", "kara_approach", "kara_urman_night", "village_path", new(0f, .05f, -103f), new(12f, 1.85f, -118f), "right", "lateral"),
-        Frame("kara_approach_depth", "kara_approach", "kara_urman_night", "village_path", new(0f, .05f, -112f), new(0f, 1.90f, -132f), "forward", "near-mid-far")
+        Frame("kara_approach_forward", "kara_approach", "kara_urman_night", "village_path", GroundedPosition(0f, -103f), new(0f, 1.50f, -120f), "forward", "near-mid-far"),
+        Frame("kara_approach_back", "kara_approach", "kara_urman_night", "village_path", GroundedPosition(0f, -103f), new(0f, 1.50f, -93f), "back", "near-mid-far"),
+        Frame("kara_approach_left", "kara_approach", "kara_urman_night", "village_path", GroundedPosition(0f, -103f), new(-12f, 1.85f, -116f), "left", "lateral"),
+        Frame("kara_approach_right", "kara_approach", "kara_urman_night", "village_path", GroundedPosition(0f, -103f), new(12f, 1.85f, -118f), "right", "lateral"),
+        Frame("kara_approach_depth", "kara_approach", "kara_urman_night", "village_path", GroundedPosition(0f, -112f), new(0f, 1.90f, -132f), "forward", "near-mid-far")
     ];
 
     private static readonly IReadOnlyList<WaypointSpec> Waypoints =
@@ -879,6 +879,11 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             }
         }
     }
+
+    // Static exterior camera anchors use the same surface as the player.
+    // Indoor and already-authored absolute reference poses stay unchanged.
+    private static Vector3 GroundedPosition(float x, float z) =>
+        new(x, AgentBAct1HeightField.CollisionGround(x, z) + .05f, z);
 
     private static FrameSpec Frame(
         string id,

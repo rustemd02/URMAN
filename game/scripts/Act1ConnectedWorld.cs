@@ -1375,7 +1375,7 @@ public partial class Act1ConnectedWorld : Node3D
             sky.SunCurve = 0.12f;
             sky.SkyCoverModulate = karaNight
                 ? new Color(0.60f, 0.68f, 0.76f, 0.26f)
-                : zirat ? new Color(0.90f, 0.93f, 0.95f, 0.50f) : new Color(0.86f, 0.94f, 0.98f, 0.30f);
+                : zirat ? new Color(0.90f, 0.93f, 0.95f, 0.50f) : new Color(0.86f, 0.94f, 0.98f, 0.68f);
         }
 
         var sun = layer.GetNodeOrNull<DirectionalLight3D>("AgentBSun");
@@ -3618,7 +3618,7 @@ public partial class Act1ConnectedWorld : Node3D
         AddAct1AuthoredExteriorParcel(
             arrivalParcels,
             new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
+                "VillageParcel_VariantB_PlasterAnnex/VillageParcel_VariantB_PlasterAnnex_Dwelling",
                 "ArrivalForwardEastFacade",
                 new(7.8f, 0f, -3.6f),
                 -4f,

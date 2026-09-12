@@ -52,10 +52,10 @@ SILHOUETTE_PROFILES = {
 TORSO_BOTTOM_LIFTS = {
     "Mansur": -0.035,
     "Gulsina": 0.115,
-    "Alsu": 0.145,
+    "Alsu": 0.075,
     "TimurHazrat": -0.005,
     "CouncilElder": -0.030,
-    "CouncilWitness": 0.085,
+    "CouncilWitness": 0.015,
     "Naila": 0.135,
     "ArchiveClerk": 0.065,
     "PactKeeper": -0.025,
@@ -877,7 +877,7 @@ def create_character(
             materials["skin"],
             asset_id,
             128,
-            depth_scale=0.96,
+            depth_scale=0.45 if prefix == "CouncilWitness" and side == "Right" else 0.96,
             sides=8,
         )
         tapered_segment(
@@ -932,6 +932,7 @@ def _make_action(
     name: str,
     frames: tuple[int, ...],
     poses: dict[str, tuple[tuple[float, float, float], ...]],
+    cyclic: bool = True,
 ) -> bpy.types.Action:
     action = bpy.data.actions.new(f"{prefix}_{name}")
     action.use_fake_user = True
@@ -944,8 +945,10 @@ def _make_action(
             bone.rotation_euler = rotation
             bone.keyframe_insert(data_path="rotation_euler", frame=frame, group=bone_name)
 
+    if cyclic:
+        for curve in action.fcurves:
+            curve.modifiers.new(type="CYCLES")
     for curve in action.fcurves:
-        curve.modifiers.new(type="CYCLES")
         for key in curve.keyframe_points:
             key.interpolation = "BEZIER"
     return action
@@ -988,6 +991,14 @@ def add_animation_rig(prefix: str, origin_x: float) -> bpy.types.Object:
     arm_r.head = (0.28, 0.0, 1.29)
     arm_r.tail = (0.32, 0.0, 0.76)
     arm_r.parent = spine
+    if prefix == "CouncilWitness":
+        # CouncilWitness alone gets an independent wrist.
+        witness_height, witness_shoulder, *_ = SILHOUETTE_PROFILES[prefix]
+        witness_arm_x = 0.29 * witness_shoulder
+        hand_r = edit_bones.new("Hand.R")
+        hand_r.head = (witness_arm_x, -0.018, 0.75 * witness_height)
+        hand_r.tail = (witness_arm_x + 0.014, -0.049, 0.61 * witness_height)
+        hand_r.parent = arm_r
     leg_l = edit_bones.new("Leg.L")
     leg_l.head = (-0.16, 0.0, 0.82)
     leg_l.tail = (-0.16, 0.0, 0.04)
@@ -1004,33 +1015,56 @@ def add_animation_rig(prefix: str, origin_x: float) -> bpy.types.Object:
         world_matrix = obj.matrix_world.copy()
         obj.parent = armature
         obj.parent_type = "BONE"
-        obj.parent_bone = _bone_for_mesh(obj.name)
+        if prefix == "CouncilWitness" and (
+            obj.name.startswith("CouncilWitness_HeadHandRight_")
+            or obj.name.startswith("CouncilWitness_HeadHandThumbRight_")
+        ):
+            obj.parent_bone = "Hand.R"
+        else:
+            obj.parent_bone = _bone_for_mesh(obj.name)
         obj.matrix_world = world_matrix
 
     frames = (1, 20, 40)
+    idle_poses = {
+        "Spine": ((0.0, -0.012, 0.0), (0.0, 0.016, 0.0), (0.0, -0.012, 0.0)),
+        "Head": ((0.0, 0.008, 0.0), (0.0, -0.012, 0.0), (0.0, 0.008, 0.0)),
+        "Arm.L": ((0.0, 0.0, -0.018), (0.0, 0.0, 0.012), (0.0, 0.0, -0.018)),
+        "Arm.R": ((0.0, 0.0, 0.018), (0.0, 0.0, -0.012), (0.0, 0.0, 0.018)),
+    }
+    if prefix == "CouncilWitness":
+        # Idle keys clear the stop wrist when the clip changes.
+        idle_poses["Hand.R"] = ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0))
     _make_action(
         armature,
         prefix,
         "Idle",
         frames,
-        {
-            "Spine": ((0.0, -0.012, 0.0), (0.0, 0.016, 0.0), (0.0, -0.012, 0.0)),
-            "Head": ((0.0, 0.008, 0.0), (0.0, -0.012, 0.0), (0.0, 0.008, 0.0)),
-            "Arm.L": ((0.0, 0.0, -0.018), (0.0, 0.0, 0.012), (0.0, 0.0, -0.018)),
-            "Arm.R": ((0.0, 0.0, 0.018), (0.0, 0.0, -0.012), (0.0, 0.0, 0.018)),
-        },
+        idle_poses,
     )
+    tension_poses = {
+        "Spine": ((0.0, -0.025, 0.0), (0.0, 0.035, 0.0), (0.0, -0.025, 0.0)),
+        "Head": ((0.025, 0.016, 0.0), (-0.035, -0.022, 0.0), (0.025, 0.016, 0.0)),
+        "Arm.L": ((0.0, 0.0, -0.05), (0.0, 0.0, 0.028), (0.0, 0.0, -0.05)),
+        "Arm.R": ((0.0, 0.0, 0.05), (0.0, 0.0, -0.028), (0.0, 0.0, 0.05)),
+    }
+    tension_cyclic = True
+    if prefix == "CouncilWitness":
+        # CouncilWitness stop: Arm.R raises; Hand.R turns the palm upward.
+        tension_poses = {
+            "Spine": ((0.0, -0.012, 0.0), (0.0, 0.035, 0.0), (0.0, 0.035, 0.0)),
+            "Head": ((0.0, 0.008, 0.0), (-0.035, -0.022, 0.0), (-0.035, -0.022, 0.0)),
+            "Arm.L": ((0.0, 0.0, -0.018), (0.0, 0.0, 0.012), (0.0, 0.0, 0.012)),
+            "Arm.R": ((0.0, 0.0, 0.018), (-1.2, 0.0, 0.12), (-1.2, 0.0, 0.12)),
+            "Hand.R": ((0.0, 0.0, 0.0), (-1.64159265, -0.16, -3.02159265), (-1.64159265, -0.16, -3.02159265)),
+        }
+        tension_cyclic = False
     tension = _make_action(
         armature,
         prefix,
         "Tension",
         frames,
-        {
-            "Spine": ((0.0, -0.025, 0.0), (0.0, 0.035, 0.0), (0.0, -0.025, 0.0)),
-            "Head": ((0.025, 0.016, 0.0), (-0.035, -0.022, 0.0), (0.025, 0.016, 0.0)),
-            "Arm.L": ((0.0, 0.0, -0.05), (0.0, 0.0, 0.028), (0.0, 0.0, -0.05)),
-            "Arm.R": ((0.0, 0.0, 0.05), (0.0, 0.0, -0.028), (0.0, 0.0, 0.05)),
-        },
+        tension_poses,
+        cyclic=tension_cyclic,
     )
     # Blender's glTF exporter emits the active action for every armature, but
     # only discovers additional actions on a multi-armature scene through NLA

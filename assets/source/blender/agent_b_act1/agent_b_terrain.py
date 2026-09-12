@@ -78,7 +78,10 @@ def _deformed_ribbon(name: str, points: list[tuple[float, float]],
                      edge_wander: float = 0.0,
                      profile_height_modifier=None,
                      smooth_normals: bool = False,
-                     max_surface_above_ground: float | None = None) -> object:
+                     max_surface_above_ground: float | None = None,
+                     end_fade_length: float = 0.0,
+                     end_width_ratio: float = 1.0,
+                     end_height_ratio: float = 0.0) -> object:
     """Build a ground-hugging ribbon with authored, bounded variation.
 
     The route axes remain unchanged.  Only presentation vertices wander a
@@ -87,6 +90,14 @@ def _deformed_ribbon(name: str, points: list[tuple[float, float]],
     """
     samples = ab.sample_polyline(points, spacing)
     seed = (ab.stable_hash(name) % 1000) * 0.01
+    assert end_fade_length >= 0.0
+    assert 0.0 < end_width_ratio <= 1.0
+    assert 0.0 <= end_height_ratio <= 1.0
+    path_length = sum(
+        math.hypot(points[index + 1][0] - points[index][0],
+                   points[index + 1][1] - points[index][1])
+        for index in range(len(points) - 1)
+    )
     verts = []
     faces = []
     cols = len(profile)
@@ -94,6 +105,13 @@ def _deformed_ribbon(name: str, points: list[tuple[float, float]],
     profile_max = max(profile[0][0], profile[-1][0])
     reverse_winding = profile[-1][0] < profile[0][0]
     for index, (sx, sy, tx, ty) in enumerate(samples):
+        end_blend = 0.0
+        if end_fade_length > 0.0:
+            remaining = path_length * (1.0 - index / max(len(samples) - 1, 1))
+            linear = 1.0 - min(1.0, remaining / end_fade_length)
+            end_blend = linear * linear * (3.0 - 2.0 * linear)
+        lateral_scale = 1.0 - (1.0 - end_width_ratio) * end_blend
+        height_scale = end_height_ratio + (1.0 - end_height_ratio) * (1.0 - end_blend)
         normal_x = -ty
         normal_y = tx
         wander = (ab.value_noise(sx * 0.15 + seed,
@@ -119,10 +137,12 @@ def _deformed_ribbon(name: str, points: list[tuple[float, float]],
                 ) - 0.5) * 2.0
                 lateral_offset += edge_noise * edge_wander * edge_ratio * edge_ratio
             lateral_offset = max(profile_min, min(profile_max, lateral_offset))
+            lateral_offset *= lateral_scale
             x = sx + normal_x * lateral_offset
             y = sy + normal_y * lateral_offset
             base = height_lookup(x, y) if height_lookup else 0.0
-            verts.append([x, y, base + rel_height + rise * height_wander + z_pad])
+            verts.append([x, y,
+                          base + (rel_height + rise * height_wander) * height_scale + z_pad])
     for row in range(len(samples) - 1):
         for col in range(cols - 1):
             a = row * cols + col
@@ -841,7 +861,12 @@ def build_roads() -> list:
                                  lateral_wander=0.07, height_wander=0.003,
                                  z_pad=0.0, edge_wander=0.10,
                                  smooth_normals=True,
-                                 max_surface_above_ground=ROAD_SURFACE_MAX_ABOVE_GROUND)
+                                 max_surface_above_ground=ROAD_SURFACE_MAX_ABOVE_GROUND,
+                                 end_fade_length=3.0,
+                                 end_width_ratio=0.05,
+                                 # Keep the final road a few millimetres above
+                                 # the terrain to avoid coplanar z-fighting.
+                                 end_height_ratio=0.18)
     # Keep the continuous Kara route readable at night instead of letting
     # the darkest Kara palette turn the path into a black slab.
     _assign_road_materials(kara_path, kara_profile, "AB_road_crown", vehicle_ruts=False)

@@ -1630,10 +1630,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             for (var x = 0; x < width; x++)
             {
                 var angle = (x / (float)width) * Mathf.Tau;
-                var cx = Mathf.Cos(angle) * 0.7f;
-                var cz = Mathf.Sin(angle) * 0.7f;
-                var mask = bandNoise.GetNoise3D(cx, v * 5.2f, cz);
-                var detail = detailNoise.GetNoise3D(cx * 1.4f, v * 8.0f, cz * 1.4f);
+                var cx = Mathf.Cos(angle) * 1.8f;
+                var cz = Mathf.Sin(angle) * 1.8f;
+                var mask = bandNoise.GetNoise3D(cx, v * 12.0f, cz);
+                var detail = detailNoise.GetNoise3D(cx * 1.4f, v * 18.0f, cz * 1.4f);
                 var bands = Mathf.SmoothStep(-0.15f, 0.45f, mask);
                 var wisps = Mathf.SmoothStep(0.02f, 0.62f, detail);
                 var alpha = Mathf.Clamp(bands * Mathf.Lerp(0.35f, 1f, wisps), 0f, 0.82f);

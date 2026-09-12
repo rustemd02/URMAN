@@ -129,14 +129,33 @@ for prefix in prefixes:
     }
     if actions != {f"{prefix}_Idle", f"{prefix}_Tension"} or f"{prefix}_Tension" not in tension_strips:
         missing_animation.append(f"{prefix}:{sorted(actions)}")
+    if prefix == "CouncilWitness":
+        hand_bone = rig.data.bones.get("Hand.R")
+        if hand_bone is None or hand_bone.parent is None or hand_bone.parent.name != "Arm.R":
+            missing_animation.append(f"{prefix}:Hand.R must be a child of Arm.R")
+        idle_action = bpy.data.actions.get(f"{prefix}_Idle")
+        tension_action = bpy.data.actions.get(f"{prefix}_Tension")
+        has_idle_hand_keys = idle_action is not None and any(
+            'pose.bones["Hand.R"]' in curve.data_path for curve in idle_action.fcurves
+        )
+        has_tension_hand_keys = tension_action is not None and any(
+            'pose.bones["Hand.R"]' in curve.data_path for curve in tension_action.fcurves
+        )
+        if not has_idle_hand_keys or not has_tension_hand_keys:
+            missing_animation.append(f"{prefix}:Hand.R must be keyed in Idle and Tension")
 if missing_animation:
     raise RuntimeError(f"Character animation clips missing: {missing_animation}")
 
 for obj in mesh_objects:
     for side, bone in (("Left", "Arm.L"), ("Right", "Arm.R")):
         if f"Hand{side}" in obj.name or f"HandThumb{side}" in obj.name:
-            if obj.parent_type != "BONE" or obj.parent_bone != bone:
-                raise RuntimeError(f"Hand must follow {bone}: {obj.name} follows {obj.parent_bone}")
+            witness_right = (
+                obj.name.startswith("CouncilWitness_HeadHandRight_")
+                or obj.name.startswith("CouncilWitness_HeadHandThumbRight_")
+            )
+            expected_bone = "Hand.R" if witness_right else bone
+            if obj.parent_type != "BONE" or obj.parent_bone != expected_bone:
+                raise RuntimeError(f"Hand must follow {expected_bone}: {obj.name} follows {obj.parent_bone}")
 
 policy = scene.get("collision_policy")
 if policy != "no collision meshes; Godot interaction targets and zone colliders own physics":
