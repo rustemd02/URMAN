@@ -388,9 +388,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/audio-marat-caption",
   "value": {
-   "default": "A familiar voice—Marat's voice—comes from beyond the edge.",
+   "default": "A familiar voice: Kazan boy… do not fall behind.",
    "translations": {
-    "ru": "Из-за кромки звучит знакомый голос Марата."
+    "ru": "Знакомый голос: «Казанский… не отставай»."
    }
   },
   "purpose": "caption"
@@ -410,9 +410,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/audio-rinat-caption",
   "value": {
-   "default": "Rinat interrupts before Aidar speaks.",
+   "default": "Rinat: Do not answer.",
    "translations": {
-    "ru": "Ринат прерывает Айдара до ответа."
+    "ru": "Ринат: «Не отвечай»."
    }
   },
   "purpose": "caption"

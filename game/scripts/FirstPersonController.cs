@@ -6,7 +6,6 @@ namespace Urman.Godot;
 public partial class FirstPersonController : CharacterBody3D, IAccessibilitySettingsTarget
 {
     private const string InteractionAction = "interact";
-    private const string UnavailablePrompt = "Сейчас недоступно";
     // ponytail: two physics frames keep overlapping targets stable; replace
     // with measured dwell/angle selection if authored target density grows.
     private const int FocusSwitchFrames = 2;
@@ -342,7 +341,12 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         var available = target.IsAvailable();
         var hint = InteractionHint;
         var completed = !available && target.GetMeta("discoveryCompleted", false).AsBool();
-        var label = available ? target.Prompt : completed ? "Осмотрено" : UnavailablePrompt;
+        if (!available && !completed)
+        {
+            SetInteractionPrompt(string.Empty);
+            return;
+        }
+        var label = available ? target.Prompt : "Осмотрено";
         if (target != _promptTarget
             || available != _promptTargetAvailable
             || !string.Equals(hint, _promptHint, StringComparison.Ordinal)
@@ -368,6 +372,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             if (_focusedTarget is { } unavailable
                 && string.IsNullOrEmpty(unavailable.JournalEntryId)
                 && !unavailable.IsAvailable()
+                && unavailable.GetMeta("discoveryCompleted", false).AsBool()
                 && IsStillFocused(unavailable))
             {
                 _focusCandidate = null;

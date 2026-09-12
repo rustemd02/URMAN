@@ -326,7 +326,7 @@ public partial class ChapterOneFlowSmokeTest : Node
         audioCue.Present(CompiledCampaignRepository.Load().ResolveAudio(
             "urman.chapter1:asset/audio-rinat-interruption",
             "runtime-test:caption-fallback"));
-        if (audioCue.LastPresentedText != "Ринат прерывает Айдара до ответа.")
+        if (audioCue.LastPresentedText != "Ринат: «Не отвечай».")
         {
             Fail("Audio cue did not fall back to the authored caption when audio descriptions were disabled.");
             return;

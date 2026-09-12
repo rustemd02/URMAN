@@ -136,3 +136,8 @@ listening or final mix acceptance.
 ## Original voice recording handoff — 2026-09-12
 
 The [recording brief](act1_voice_recording_brief.md) fixes the existing spoken lines, performance variants, delivery format, rights information, caption IDs and planned physical paths for the two missing recordings. No actor recording, rights grant, registry hash or listening acceptance is claimed.
+
+
+## 2026-09-12 — финальные слова в обычных субтитрах
+
+`audio-marat-caption` теперь показывает «Знакомый голос: „Казанский… не отставай“», `audio-rinat-caption` — «Ринат: „Не отвечай“». Раньше они описывали появление голоса и вмешательство, не передавая самих слов. Английский fallback синхронизирован; подробные `NonAudioCue` transcripts и последовательность очереди сохранены. Это исправление канала субтитров и не замена двух отсутствующих актёрских записей. Минимально обновлено точное ожидание существующего ChapterOneFlow; content compile, game build и этот smoke прошли, пользовательские данные восстановлены.

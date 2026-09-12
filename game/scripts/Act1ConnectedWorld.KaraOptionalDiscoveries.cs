@@ -470,7 +470,7 @@ public partial class Act1ConnectedWorld
         // This ordinary E target is the existing KaraRoadAxis endpoint. Its
         // empty TargetZoneId keeps the player in the connected Kara world;
         // only RuntimeBridge advances from the approach scene to forest.
-        var endpointWorld = KaraGround(.6f, -7.5f, .72f);
+        var endpointWorld = KaraGround(.6f, -7.5f, 1.25f);
         var endpoint = kara.MakeInteractionBox(
             "KaraForestApproachEndpoint",
             new(1.80f, 1.50f, .55f),
