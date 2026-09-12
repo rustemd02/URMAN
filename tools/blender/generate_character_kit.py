@@ -340,11 +340,11 @@ def hat(
     profiles = {
         # A low, softly domed winter cap for the elder silhouettes.
         "wool_cap": (
-            (-0.075, 0.17, 0.15),
-            (-0.035, 0.19, 0.165),
-            (0.018, 0.18, 0.156),
-            (0.060, 0.135, 0.12),
-            (0.083, 0.07, 0.06),
+            (-0.075, 0.16, 0.145),
+            (-0.035, 0.175, 0.155),
+            (0.018, 0.165, 0.148),
+            (0.060, 0.125, 0.112),
+            (0.083, 0.065, 0.057),
         ),
         # Slightly narrower and taller so Timur reads as a distinct, neat
         # working cap while remaining culturally restrained.
@@ -672,7 +672,8 @@ def create_character(
             "CouncilElder": "council_cap",
             "PactKeeper": "council_cap",
         }.get(prefix, "wool_cap")
-        hat(f"{prefix}_Hat_LOD0", (x, 0.0, head_z + 0.22 * head_scale), materials["hair"], asset_id, style=hat_style)
+        hat_offset = 0.20 if prefix == "Mansur" else 0.22
+        hat(f"{prefix}_Hat_LOD0", (x, 0.0, head_z + hat_offset * head_scale), materials["hair"], asset_id, style=hat_style)
 
     for obj in bpy.context.scene.objects:
         if obj.name == f"{prefix}_Hat_LOD0":
