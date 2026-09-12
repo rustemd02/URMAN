@@ -197,7 +197,7 @@ public partial class Act1ConnectedWorld
             HouseExteriorViewSlug,
             new(.9f, .9f, .9f),
             village.ToLocal(eye + sightline * 1.6f),
-            journal: true);
+            journal: false);
         target.SetMeta("activePropPath", rearCorner.GetPath().ToString());
         target.SetMeta("sourceFacadePath", facade.GetPath().ToString());
         target.SetMeta("sourceCornerPath", rearCorner.GetPath().ToString());

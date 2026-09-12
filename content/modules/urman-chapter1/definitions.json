@@ -2735,8 +2735,7 @@
      "village_day",
      "zirat_road",
      "kara_urman_night"
-    ],
-    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view"
+    ]
    },
    {
     "id": "urman.chapter1:interaction/discover-main-street-fenced-service-lane",
@@ -2904,8 +2903,7 @@
     ],
     "worldLocations": [
      "fap_clinic"
-    ],
-    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-fap-interior-height-marks"
+    ]
    },
    {
     "id": "urman.chapter1:interaction/discover-fap-interior-repaired-desk-object",
@@ -2997,8 +2995,7 @@
      "village_day",
      "zirat_road",
      "kara_urman_night"
-    ],
-    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-kara-warm-window-clearing"
+    ]
    },
    {
     "id": "urman.chapter1:interaction/discover-kara-branch-profile",
@@ -4980,9 +4977,9 @@
    }
   },
   "summary": {
-   "default": "Под свежей краской остались отметки роста. Нижняя совсем низко, возле потёртой ручки — ещё одна. Кто-то рос и возвращался сюда снова.",
+   "default": "Под отслоившейся краской остались отметки роста. Нижняя совсем низко, возле потёртой ручки — ещё одна. Кто-то рос и возвращался сюда снова.",
    "translations": {
-    "ru": "Под свежей краской остались отметки роста. Нижняя совсем низко, возле потёртой ручки — ещё одна. Кто-то рос и возвращался сюда снова."
+    "ru": "Под отслоившейся краской остались отметки роста. Нижняя совсем низко, возле потёртой ручки — ещё одна. Кто-то рос и возвращался сюда снова."
    }
   },
   "initialStatus": "hidden",
@@ -4997,9 +4994,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/discover-fap-interior-height-marks",
   "value": {
-   "default": "Рассмотреть косяк сбоку",
+   "default": "Снять отслоившуюся полоску краски",
    "translations": {
-    "ru": "Рассмотреть косяк сбоку"
+    "ru": "Снять отслоившуюся полоску краски"
    }
   },
   "purpose": "ui"

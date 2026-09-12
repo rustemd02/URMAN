@@ -108,6 +108,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("house_photo_detail", "house_interior", "house_old_pc", "entry", new(-30.1f, .05f, -2.9f), new(-30.1f, 1.45f, -4.60f), "detail", "painted family photograph front"),
         Frame("house_tin_detail", "house_interior", "house_old_pc", "entry", new(-31.97f, .05f, 2.0f), new(-31.97f, .98f, 3.70f), "detail", "sewing tin on the threshold chest"),
         Frame("fap_height_detail", "fap_interior", "fap_clinic", "waiting_room", new(28.86f, .05f, -25.5f), new(28.86f, 1.15f, -24.49f), "detail", "pencil growth marks inside entry"),
+        Frame("fap_height_used", "fap_interior", "fap_clinic", "waiting_room", new(28.86f, .05f, -25.5f), new(28.86f, 1.15f, -24.49f), "detail", "growth marks after removing loose paint", "fap-interior-height-marks"),
         Frame("fap_lamp_detail", "fap_interior", "fap_clinic", "waiting_room", new(29.17f, .05f, -32.85f), new(29.17f, 1.15f, -34.15f), "detail", "repaired desk lamp before use"),
         Frame("house_photo_used", "house_interior", "house_old_pc", "entry", new(-30.1f, .05f, -2.9f), new(-30.1f, 1.45f, -4.60f), "detail", "photo after authored action", "house-interior-photo-back"),
         Frame("house_tin_used", "house_interior", "house_old_pc", "entry", new(-31.97f, .05f, 2.0f), new(-31.97f, .98f, 3.70f), "detail", "open tin after authored action", "house-interior-language-tin"),

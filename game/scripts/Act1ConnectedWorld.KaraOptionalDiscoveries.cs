@@ -306,7 +306,7 @@ public partial class Act1ConnectedWorld
             KaraWarmWindowSlug,
             new(2.35f, 1.55f, 2.35f),
             kara.ToLocal(clearingWorld + Vector3.Up * .72f),
-            journal: true);
+            journal: false);
         warmTarget.SetMeta("activePropPath", "Act1CoreWorldGreybox/KaraForestEdge/KaraWarmWindowClearing/KaraWarmWindowClearingSurface");
         warmTarget.SetMeta("sightlineTarget", "Act1CoreWorldGreybox/KaraForestEdge/KaraLastWarmWindowHouse/CoreFrontWindow");
         warmTarget.SetMeta("physicalAction", "find the last window between the spruces");

@@ -3426,9 +3426,9 @@
           }
         },
         "summary": {
-          "default": "\u041F\u043E\u0434 \u0441\u0432\u0435\u0436\u0435\u0439 \u043A\u0440\u0430\u0441\u043A\u043E\u0439 \u043E\u0441\u0442\u0430\u043B\u0438\u0441\u044C \u043E\u0442\u043C\u0435\u0442\u043A\u0438 \u0440\u043E\u0441\u0442\u0430. \u041D\u0438\u0436\u043D\u044F\u044F \u0441\u043E\u0432\u0441\u0435\u043C \u043D\u0438\u0437\u043A\u043E, \u0432\u043E\u0437\u043B\u0435 \u043F\u043E\u0442\u0451\u0440\u0442\u043E\u0439 \u0440\u0443\u0447\u043A\u0438 \u2014 \u0435\u0449\u0451 \u043E\u0434\u043D\u0430. \u041A\u0442\u043E-\u0442\u043E \u0440\u043E\u0441 \u0438 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u043B\u0441\u044F \u0441\u044E\u0434\u0430 \u0441\u043D\u043E\u0432\u0430.",
+          "default": "\u041F\u043E\u0434 \u043E\u0442\u0441\u043B\u043E\u0438\u0432\u0448\u0435\u0439\u0441\u044F \u043A\u0440\u0430\u0441\u043A\u043E\u0439 \u043E\u0441\u0442\u0430\u043B\u0438\u0441\u044C \u043E\u0442\u043C\u0435\u0442\u043A\u0438 \u0440\u043E\u0441\u0442\u0430. \u041D\u0438\u0436\u043D\u044F\u044F \u0441\u043E\u0432\u0441\u0435\u043C \u043D\u0438\u0437\u043A\u043E, \u0432\u043E\u0437\u043B\u0435 \u043F\u043E\u0442\u0451\u0440\u0442\u043E\u0439 \u0440\u0443\u0447\u043A\u0438 \u2014 \u0435\u0449\u0451 \u043E\u0434\u043D\u0430. \u041A\u0442\u043E-\u0442\u043E \u0440\u043E\u0441 \u0438 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u043B\u0441\u044F \u0441\u044E\u0434\u0430 \u0441\u043D\u043E\u0432\u0430.",
           "translations": {
-            "ru": "\u041F\u043E\u0434 \u0441\u0432\u0435\u0436\u0435\u0439 \u043A\u0440\u0430\u0441\u043A\u043E\u0439 \u043E\u0441\u0442\u0430\u043B\u0438\u0441\u044C \u043E\u0442\u043C\u0435\u0442\u043A\u0438 \u0440\u043E\u0441\u0442\u0430. \u041D\u0438\u0436\u043D\u044F\u044F \u0441\u043E\u0432\u0441\u0435\u043C \u043D\u0438\u0437\u043A\u043E, \u0432\u043E\u0437\u043B\u0435 \u043F\u043E\u0442\u0451\u0440\u0442\u043E\u0439 \u0440\u0443\u0447\u043A\u0438 \u2014 \u0435\u0449\u0451 \u043E\u0434\u043D\u0430. \u041A\u0442\u043E-\u0442\u043E \u0440\u043E\u0441 \u0438 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u043B\u0441\u044F \u0441\u044E\u0434\u0430 \u0441\u043D\u043E\u0432\u0430."
+            "ru": "\u041F\u043E\u0434 \u043E\u0442\u0441\u043B\u043E\u0438\u0432\u0448\u0435\u0439\u0441\u044F \u043A\u0440\u0430\u0441\u043A\u043E\u0439 \u043E\u0441\u0442\u0430\u043B\u0438\u0441\u044C \u043E\u0442\u043C\u0435\u0442\u043A\u0438 \u0440\u043E\u0441\u0442\u0430. \u041D\u0438\u0436\u043D\u044F\u044F \u0441\u043E\u0432\u0441\u0435\u043C \u043D\u0438\u0437\u043A\u043E, \u0432\u043E\u0437\u043B\u0435 \u043F\u043E\u0442\u0451\u0440\u0442\u043E\u0439 \u0440\u0443\u0447\u043A\u0438 \u2014 \u0435\u0449\u0451 \u043E\u0434\u043D\u0430. \u041A\u0442\u043E-\u0442\u043E \u0440\u043E\u0441 \u0438 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u043B\u0441\u044F \u0441\u044E\u0434\u0430 \u0441\u043D\u043E\u0432\u0430."
           }
         },
         "initialStatus": "hidden",
@@ -5245,8 +5245,7 @@
               "village_day",
               "zirat_road",
               "kara_urman_night"
-            ],
-            "targetJournalEntryId": "urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view"
+            ]
           },
           {
             "id": "urman.chapter1:interaction/discover-main-street-fenced-service-lane",
@@ -5829,8 +5828,7 @@
             ],
             "worldLocations": [
               "fap_clinic"
-            ],
-            "targetJournalEntryId": "urman.chapter1:knowledge/discovery-fap-interior-height-marks"
+            ]
           },
           {
             "id": "urman.chapter1:interaction/discover-fap-interior-repaired-desk-object",
@@ -5922,8 +5920,7 @@
               "village_day",
               "zirat_road",
               "kara_urman_night"
-            ],
-            "targetJournalEntryId": "urman.chapter1:knowledge/discovery-kara-warm-window-clearing"
+            ]
           },
           {
             "id": "urman.chapter1:interaction/discover-kara-branch-profile",
@@ -8051,9 +8048,9 @@
         "schemaVersion": 1,
         "id": "urman.chapter1:text/discover-fap-interior-height-marks",
         "value": {
-          "default": "\u0420\u0430\u0441\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043A\u043E\u0441\u044F\u043A \u0441\u0431\u043E\u043A\u0443",
+          "default": "\u0421\u043D\u044F\u0442\u044C \u043E\u0442\u0441\u043B\u043E\u0438\u0432\u0448\u0443\u044E\u0441\u044F \u043F\u043E\u043B\u043E\u0441\u043A\u0443 \u043A\u0440\u0430\u0441\u043A\u0438",
           "translations": {
-            "ru": "\u0420\u0430\u0441\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043A\u043E\u0441\u044F\u043A \u0441\u0431\u043E\u043A\u0443"
+            "ru": "\u0421\u043D\u044F\u0442\u044C \u043E\u0442\u0441\u043B\u043E\u0438\u0432\u0448\u0443\u044E\u0441\u044F \u043F\u043E\u043B\u043E\u0441\u043A\u0443 \u043A\u0440\u0430\u0441\u043A\u0438"
           }
         },
         "purpose": "ui"
@@ -9307,7 +9304,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "65a5f876b23e642f02186bfea45d3ba8346ca7eeedefa1dc8fa603a7f7206706"
+      "sha256": "1ee76aeb3a69e1703008f0333cd42213cf0e753289542a653ef9a96a73da94ce"
     },
     {
       "moduleId": "urman.core",
@@ -9325,5 +9322,5 @@
       "sha256": "c5f6da9646e805176ada5893a495a63ff06e4da1457b003f54c34318815037ee"
     }
   ],
-  "campaignFingerprint": "3174b66022b5ab41943946575bd0d5982901617fc0d770a509f4f0e923381116"
+  "campaignFingerprint": "0988de3c73d5043d525a2057d6195660aa4f2da10f84d1a741961f1851d54c9c"
 }

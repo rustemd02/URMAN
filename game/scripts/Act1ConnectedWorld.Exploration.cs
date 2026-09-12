@@ -8,7 +8,8 @@ public partial class Act1ConnectedWorld
     private Node3D? _sewingTinLid;
     private OmniLight3D? _repairedLampLight;
     private MeshInstance3D? _repairedLampBulb;
-    private bool? _photoFound, _tinFound, _lampFound;
+    private MeshInstance3D? _heightMarksCover;
+    private bool? _photoFound, _tinFound, _lampFound, _heightMarksFound;
     private Tween? _photoTurn, _tinOpen;
     private AudioStreamPlayer? _discoveryFoley;
 
@@ -74,8 +75,19 @@ public partial class Act1ConnectedWorld
                 new(0, .85f + i * .098f, 0), "b9ac89", rollDegrees: i % 2 == 0 ? 2 : -3);
         }
         // The inside of the entrance faces -Z. These are family pencil marks,
-        // not an invented medical growth chart or new plot evidence.
-        DiscoveryTarget(fap, "fap-interior-height-marks", new(.24f, .82f, .08f), new(.86f, 1.16f, 5.47f), true);
+        // not an invented medical growth chart or new plot evidence. A loose
+        // strip of paint covers the marks until the player removes it.
+        _heightMarksCover = AddVisualBox(
+            marks,
+            "LoosePaintOverHeightMarks",
+            new(.16f, .70f, .004f),
+            new(0f, 1.144f, -.007f),
+            "d8d5c8",
+            "plaster");
+        _heightMarksCover.SetMeta("presentationOnly", true);
+        AddVisualBox(_heightMarksCover, "LiftedPaintEdge", new(.15f, .10f, .003f),
+            new(0, .31f, -.020f), "d8d5c8", "plaster").RotationDegrees = new(-20, 0, -2);
+        DiscoveryTarget(fap, "fap-interior-height-marks", new(.24f, .82f, .08f), new(.86f, 1.16f, 5.47f), false);
 
         var lamp = new Node3D { Name = "DiscoveryRepairedLamp", Position = new(1.17f, 1.023f, -4.15f) };
         fap.AddChild(lamp);
@@ -146,6 +158,12 @@ public partial class Act1ConnectedWorld
                 if (binding.Node.HasMeta("discoverySlug"))
                     binding.Node.Prompt = _runtimeBridge.ResolveText("urman.chapter1:text/discover-" + binding.Node.GetMeta("discoverySlug").AsString());
         UpdateRoadsideDiscoveries(Found("zirat-outer-rest-bench"));
+        var heightMarksFound = Found("fap-interior-height-marks");
+        if (_heightMarksCover is not null && _heightMarksFound != heightMarksFound)
+        {
+            _heightMarksCover.Visible = !heightMarksFound;
+            _heightMarksFound = heightMarksFound;
+        }
         var photo = Found("house-interior-photo-back");
         if (_familyPhoto is not null && _photoFound != photo)
         {
