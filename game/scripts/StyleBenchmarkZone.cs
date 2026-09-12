@@ -1544,6 +1544,11 @@ public partial class StyleBenchmarkZone : Node3D
                 continue;
             }
 
+            if (isFap && meshName.StartsWith("FapInteriorScreen_Panel", StringComparison.Ordinal))
+            {
+                material = PainterlyMaterialLibrary.ForColor("5f7a83", "cloth", sheltered: true);
+            }
+
             for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
             {
                 mesh.SetSurfaceOverrideMaterial(surface, material);
