@@ -203,7 +203,8 @@
       "evidence": [
         "Explicit user steering 2026-09-11; current gameplay/hand-over/mindmap/decision owners updated; implementation pending.",
         "2026-09-11 24 functional optional discoveries; existing flow covers ray/journal/load/New Game. Main service loop53.87m, shed side pocket107.32m to existing OpenBay repair bench (2026-09-12 connective_shed_bench_walk.log; prior route123.64m), culvert87.33m, rearhouse84.02m physically walked with no visible architecture crossings; prior3loops retained. Art and ordinary interest acceptance remain open; see gameplay.md and external physical receipts.",
-        "2026-09-12: floating black cone at Kara profile removed by retaining numeric names for both legacy benchmark branches so existing suppression matches them. Three native frames reviewed; CPU main-tree probe proves owner. Original Stand21/Pine diagnosis rejected, no tree/shader change."
+        "2026-09-12: floating black cone at Kara profile removed by retaining numeric names for both legacy benchmark branches so existing suppression matches them. Three native frames reviewed; CPU main-tree probe proves owner. Original Stand21/Pine diagnosis rejected, no tree/shader change.",
+        "2026-09-12 far Stand11 moved west within existing Kara visual row (X -1 to -8.5, Z -145), creating narrow central snow opening. Native depth/window/profile frames viewed; no terrain/collision/discovery changes. Overall forest art and ordinary exploration interest remain OPEN."
       ],
       "blocked_reason": null
     },
@@ -283,7 +284,8 @@
         "2026-09-11: newest validated Continue + profile preserved on load + credits and licenses + ending-to-menu/restart. menu_lifecycle_build_v9, menu_user_settings_smoke, menu_ui, menu_cold_continue_v2 and menu_ending_flow_v3 PASS; 1280x720 normal/1.6 menu/credits frames inspected. Export credits inventory not yet re-exported; remaining full UI input/movement acceptance open.",
         "2026-09-11 current native Metal MainMenu smoke PASS 720p/1080p, normal/1.6 captures reviewed: menu_720_round4.log, menu_1080_round4.log and ui_acceptance/menu_720,menu_1080. User profile restored byte-for-byte. Background art and ordinary full acceptance remain open.",
         "2026-09-12 ordinary native b683d57 menu/New Game/save/Continue/journal/settings/exit exposed settings behind menus and premature comparison guidance. Source fixes: Settings layer110 and return focus; journal uses existing JournalActions readiness for the canonical pair, general question before both sources. Existing settings_navigation and journal_flow smoke pass. Fresh native visual recheck pending; full player acceptance open.",
-        "2026-09-12: original winter menu art native720/1080 normal+1.6 reviewed; MainMenu smoke PASS; historical-fingerprint temporary probe PASS refusal, clear retained-files hint, confirmation/Escape, byte-exact preservation. R5→R6 migration absent, explicit boundary documented."
+        "2026-09-12: original winter menu art native720/1080 normal+1.6 reviewed; MainMenu smoke PASS; historical-fingerprint temporary probe PASS refusal, clear retained-files hint, confirmation/Escape, byte-exact preservation. R5→R6 migration absent, explicit boundary documented.",
+        "2026-09-12 ordinary R6 CUA: incompatible Continue hint, New Game confirmation/Escape, intro E, journal without tt_yul, single Escape journal close, separate pause/confirmed exit PASS; userdata byte-exact. Intro contrast flaw fixed in next source with dark panel/18px/3-line controls. Existing launch smoke and temporary native1280x720 normal/1.6/gamepad capture PASS; temporary code restored. Full movement not verified by CUA taps."
       ],
       "blocked_reason": null
     },

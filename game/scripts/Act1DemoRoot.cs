@@ -817,13 +817,23 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         screen.AddChild(center);
         var stack = new VBoxContainer { Alignment = BoxContainer.AlignmentMode.Center };
         stack.AddThemeConstantOverride("separation", 12);
-        center.AddChild(stack);
+        var panel = new PanelContainer { Name = "IntroPanel", MouseFilter = Control.MouseFilterEnum.Ignore };
+        panel.AddThemeStyleboxOverride("panel", new StyleBoxFlat
+        {
+            BgColor = new Color(0.025f, 0.043f, 0.038f, 0.97f),
+            ContentMarginLeft = 32, ContentMarginRight = 32,
+            ContentMarginTop = 28, ContentMarginBottom = 28,
+            CornerRadiusTopLeft = 6, CornerRadiusTopRight = 6,
+            CornerRadiusBottomLeft = 6, CornerRadiusBottomRight = 6
+        });
+        center.AddChild(panel);
+        panel.AddChild(stack);
         _introStack = stack;
         stack.AddChild(Label("УРМАН", 56, new Color(0.88f, 0.78f, 0.59f)));
         stack.AddChild(Label("Акт I — Возвращение", 24, new Color(0.72f, 0.72f, 0.66f)));
         stack.AddChild(Label("Я снова в Кырлае. Снег. Десять лет молчания.", 18, new Color(0.57f, 0.62f, 0.59f)));
         stack.AddChild(Label("Первая цель: войти в дом и повидать бабая и әби.", 18, new Color(0.72f, 0.74f, 0.68f)));
-        _introControls = Label(string.Empty, 15, new Color(0.48f, 0.54f, 0.52f));
+        _introControls = Label(string.Empty, 18, new Color(0.48f, 0.54f, 0.52f));
         stack.AddChild(_introControls);
 
         _introTween = CreateTween();
@@ -1024,8 +1034,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
         var player = _player;
         _introControls.Text = player?.CurrentInputDevice == "gamepad"
-            ? "Левый стик — идти   ·   правый стик — смотреть   ·   A — начать / осмотреть\nY — журнал   ·   Start — меню   ·   Нажмите A, чтобы продолжить"
-            : "WASD — идти   ·   мышь — смотреть   ·   E — начать / осмотреть\nJ — журнал   ·   Esc — меню   ·   Нажмите E или левую кнопку мыши, чтобы продолжить";
+            ? "Левый стик — идти   ·   правый стик — смотреть\nA — начать / осмотреть   ·   Y — журнал   ·   Start — меню\nНажмите A, чтобы продолжить"
+            : "WASD — идти   ·   мышь — смотреть\nE — начать / осмотреть   ·   J — журнал   ·   Esc — меню\nНажмите E или левую кнопку мыши, чтобы продолжить";
     }
 
     private void DismissIntro()
