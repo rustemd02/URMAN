@@ -311,94 +311,125 @@ public partial class Act1ConnectedWorld
         warmTarget.SetMeta("sightlineTarget", "Act1CoreWorldGreybox/KaraForestEdge/KaraLastWarmWindowHouse/CoreFrontWindow");
         warmTarget.SetMeta("physicalAction", "find the last window between the spruces");
 
-        // One ordinary trunk profile and a nearby stone make the side-view
-        // observation reproducible. The silhouette is deliberately static and
-        // remains an ambiguous tree profile; no creature, actor or reveal is
-        // created by this optional discovery.
-        var profileRoot = KaraGround(6.25f, -3.25f);
-        // The profile is still an ordinary branch silhouette, but its trunk,
-        // shoulder and twigs bend through short tapered segments instead of
-        // reading as one set of straight dark poles.
+        // Two ordinary bent stems keep the profile ambiguous from the front:
+        // stem A is the taller trunk with a short branch, while stem B grows
+        // from its own ground point before bending into the retained shoulder
+        // and long branch. No creature, actor or reveal is created here.
+        var profileRoot = KaraGround(6.0f, -2.0f);
+        var profileStemA = KaraGround(6.38f, -2.38f);
+        var profileStemB = KaraGround(5.62f, -1.62f);
+
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileTrunk",
-            profileRoot + new Vector3(0f, .04f, 0f),
-            profileRoot + new Vector3(-.05f, 1.25f, .03f),
-            "4b4034",
+            profileStemA + new Vector3(0f, .04f, 0f),
+            profileStemA + new Vector3(-.05f, 1.25f, .03f),
+            "756d60",
             .14f,
-            .070f,
+            .10f,
             radialSegments: 8);
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileTrunkUpper",
-            profileRoot + new Vector3(-.05f, 1.25f, .03f),
-            profileRoot + new Vector3(.10f, 2.25f, .12f),
-            "4b4034",
-            .085f,
-            .050f,
+            profileStemA + new Vector3(-.05f, 1.25f, .03f),
+            profileStemA + new Vector3(.10f, 2.25f, .12f),
+            "756d60",
+            .10f,
+            .065f,
             radialSegments: 8);
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileTrunkTip",
-            profileRoot + new Vector3(.10f, 2.25f, .12f),
-            profileRoot + new Vector3(.08f, 3.10f, .16f),
-            "4b4034",
-            .060f,
-            .026f,
+            profileStemA + new Vector3(.10f, 2.25f, .12f),
+            profileStemA + new Vector3(.08f, 3.10f, .16f),
+            "756d60",
+            .065f,
+            .012f,
+            radialSegments: 8);
+
+        // The shoulder grows from a separate, grounded stem.
+        AddCoreForestBranch(
+            forest,
+            "KaraBranchProfileSecondaryStemBase",
+            profileStemB + new Vector3(0f, .04f, 0f),
+            profileStemB + new Vector3(-.08f, .78f, .02f),
+            "756d60",
+            .13f,
+            .11f,
             radialSegments: 8);
         AddCoreForestBranch(
             forest,
-            "KaraBranchProfileShoulder",
-            profileRoot + new Vector3(-.01f, 1.86f, .06f),
-            profileRoot + new Vector3(-.46f, 2.28f, .10f),
-            "4b4034",
+            "KaraBranchProfileSecondaryStemMid",
+            profileStemB + new Vector3(-.08f, .78f, .02f),
+            profileStemB + new Vector3(-.02f, 1.35f, .04f),
+            "756d60",
             .11f,
-            .055f,
+            .095f,
+            radialSegments: 8);
+        AddCoreForestBranch(
+            forest,
+            "KaraBranchProfileSecondaryStemUpper",
+            profileStemB + new Vector3(-.02f, 1.35f, .04f),
+            profileStemB + new Vector3(-.01f, 1.86f, .06f),
+            "756d60",
+            .095f,
+            .085f,
+            radialSegments: 8);
+
+        AddCoreForestBranch(
+            forest,
+            "KaraBranchProfileShoulder",
+            profileStemB + new Vector3(-.01f, 1.86f, .06f),
+            profileStemB + new Vector3(-.46f, 2.28f, .10f),
+            "756d60",
+            .085f,
+            .060f,
             radialSegments: 8);
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileShoulderTip",
-            profileRoot + new Vector3(-.46f, 2.28f, .10f),
-            profileRoot + new Vector3(-.94f, 2.62f, .12f),
-            "4b4034",
+            profileStemB + new Vector3(-.46f, 2.28f, .10f),
+            profileStemB + new Vector3(-.94f, 2.62f, .12f),
+            "756d60",
             .060f,
-            .026f,
+            .042f,
             radialSegments: 8);
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileLongArm",
-            profileRoot + new Vector3(-.88f, 2.60f, .12f),
-            profileRoot + new Vector3(-1.32f, 2.72f, .16f),
-            "4b4034",
-            .072f,
-            .034f,
+            profileStemB + new Vector3(-.94f, 2.62f, .12f),
+            profileStemB + new Vector3(-1.32f, 2.72f, .16f),
+            "756d60",
+            .042f,
+            .027f,
             radialSegments: 8);
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileLongArmTip",
-            profileRoot + new Vector3(-1.32f, 2.72f, .16f),
-            profileRoot + new Vector3(-1.72f, 2.74f, .21f),
-            "4b4034",
-            .039f,
-            .015f,
+            profileStemB + new Vector3(-1.32f, 2.72f, .16f),
+            profileStemB + new Vector3(-1.72f, 2.74f, .21f),
+            "756d60",
+            .027f,
+            .008f,
             radialSegments: 8);
+
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileSideTwig",
-            profileRoot + new Vector3(.04f, 2.25f, .08f),
-            profileRoot + new Vector3(.45f, 2.50f, .02f),
-            "5c4636",
+            profileStemA + new Vector3(.10f, 2.25f, .12f),
+            profileStemA + new Vector3(.45f, 2.50f, .02f),
+            "756d60",
             .060f,
             .028f,
             radialSegments: 8);
         AddCoreForestBranch(
             forest,
             "KaraBranchProfileSideTwigTip",
-            profileRoot + new Vector3(.45f, 2.50f, .02f),
-            profileRoot + new Vector3(.85f, 2.80f, -.02f),
-            "5c4636",
-            .030f,
-            .012f,
+            profileStemA + new Vector3(.45f, 2.50f, .02f),
+            profileStemA + new Vector3(.85f, 2.80f, -.02f),
+            "756d60",
+            .028f,
+            .008f,
             radialSegments: 8);
         var profileStone = profileRoot + new Vector3(1.05f, 0f, .22f);
         AddVisualStoneCluster(forest, "KaraBranchProfileStone", profileStone, .62f, "62675f", organic: true);

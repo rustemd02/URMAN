@@ -6003,6 +6003,8 @@ public partial class Act1ConnectedWorld : Node3D
                 (float)AgentBAct1HeightField.Ground(spec.X, spec.Z), spec.Z);
             AddVisualTree(parent, $"KaraSlopeStand{index}", anchor, spec.Height,
                 spec.Style, spec.Style == VegetationStyle.Birch ? "4a5949" : "30473b");
+            // Road clearance can reject the tree; its roots must disappear with it.
+            if (!parent.HasNode($"KaraSlopeStand{index}")) continue;
             // Roots emerge from the trunk and disappear into soil, not a prop row.
             for (var root = 0; root < 3; root++)
             {
