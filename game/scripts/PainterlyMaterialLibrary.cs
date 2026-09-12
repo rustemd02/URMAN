@@ -340,6 +340,8 @@ public static class PainterlyMaterialLibrary
     {
         foreach (var material in Materials.Values)
         {
+            // Other surfaces never sample the mask; rebinding them stalls every footstep.
+            if (!material.GetShaderParameter("trample_ground_surface").AsBool()) continue;
             if (!material.GetShaderParameter("has_trample_map").AsBool()
                 && mask is null)
             {

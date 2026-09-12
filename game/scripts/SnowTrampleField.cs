@@ -99,20 +99,25 @@ public partial class SnowTrampleField : Node3D
         var strength = .85f + .08f * Mathf.Sin(_totalStamps * 1.71f);
         _stamps.Add((foot, Mathf.Atan2(direction.Y, direction.X), strength, support, packed ? .010f : .035f));
         _totalStamps++;
-        if (_totalStamps == 1 || position.DistanceTo(_windowCentre) > WindowExtent * .2f)
+        var rebuild = _totalStamps == 1 || position.DistanceTo(_windowCentre) > WindowExtent * .2f;
+        if (rebuild)
         {
             var pixel = WindowExtent / _mask.GetWidth();
             _windowCentre = (position / pixel).Floor() * pixel;
         }
         var half = WindowExtent * .5f - .4f;
-        _stamps.RemoveAll(stamp => Mathf.Abs(stamp.Position.X - _windowCentre.X) > half
-            || Mathf.Abs(stamp.Position.Y - _windowCentre.Y) > half);
+        rebuild |= _stamps.RemoveAll(stamp => Mathf.Abs(stamp.Position.X - _windowCentre.X) > half
+            || Mathf.Abs(stamp.Position.Y - _windowCentre.Y) > half) > 0;
         // ponytail: at most 512 recent impressions in the 24 m presentation window.
-        if (_stamps.Count > 512) _stamps.RemoveRange(0, _stamps.Count - 512);
+        if (_stamps.Count > 512)
+        {
+            _stamps.RemoveRange(0, _stamps.Count - 512);
+            rebuild = true;
+        }
         var started = System.Diagnostics.Stopwatch.GetTimestamp();
-        Redraw();
+        Redraw(rebuild);
         var redrawn = System.Diagnostics.Stopwatch.GetTimestamp();
-        RefineGround();
+        RefineGround(rebuild);
         SetMeta("snowTrampleRedrawMs", System.Diagnostics.Stopwatch.GetElapsedTime(started, redrawn).TotalMilliseconds);
         SetMeta("snowTrampleMeshMs", System.Diagnostics.Stopwatch.GetElapsedTime(redrawn).TotalMilliseconds);
         SetMeta("snowTrampleUpdateMs", System.Diagnostics.Stopwatch.GetElapsedTime(started).TotalMilliseconds);
@@ -151,15 +156,19 @@ public partial class SnowTrampleField : Node3D
         return true;
     }
 
-    private void Redraw()
+    private void Redraw(bool rebuild)
     {
-        _mask.Fill(new Color(0f, 0f, 0f, 0f));
+        if (rebuild) _mask.Fill(new Color(0f, 0f, 0f, 0f));
         var size = _mask.GetWidth();
         var pixel = WindowExtent / size;
         var origin = _windowCentre - Vector2.One * (WindowExtent * .5f);
-        var minimum = 0f; var maximum = 0f;
-        foreach (var stamp in _stamps)
+        var minimum = rebuild ? 0f : GetMeta("snowTrampleMinHeight", 0f).AsSingle();
+        var maximum = rebuild ? 0f : GetMeta("snowTrampleMaxHeight", 0f).AsSingle();
+        // With the same origin and retained stamps, the old mask already
+        // contains the exact prefix of the ordered raster operation.
+        for (var index = rebuild ? 0 : _stamps.Count - 1; index < _stamps.Count; index++)
         {
+            var stamp = _stamps[index];
             var centre = (stamp.Position - origin) / pixel;
             var radius = Mathf.CeilToInt(.22f / pixel);
             var cosine = Mathf.Cos(stamp.Rotation);
@@ -224,7 +233,9 @@ public partial class SnowTrampleField : Node3D
         public readonly MeshInstance3D Node;
         public readonly ArrayMesh Original;
         public readonly List<(Vector3[] Vertices, Vector3[] Normals, Vector2[] Uv, Color[] Colors, int[] Indices)> Surfaces = new();
+        public readonly List<(Vector3 Min, Vector3 Max)[]> Bounds = new();
         public readonly HashSet<(int Surface, int Triangle)> Refined = new();
+        private Transform3D _boundsTransform;
         public GroundSurface(MeshInstance3D node, ArrayMesh original)
         {
             Node = node; Original = original;
@@ -237,31 +248,53 @@ public partial class SnowTrampleField : Node3D
                 Surfaces.Add((v, a[(int)Mesh.ArrayType.Normal].AsVector3Array(),
                     a[(int)Mesh.ArrayType.TexUV].AsVector2Array(), a[(int)Mesh.ArrayType.Color].AsColorArray(), indices));
             }
+            RefreshBounds();
+        }
+
+        public bool RefreshBounds()
+        {
+            var transform = Node.GlobalTransform;
+            if (Bounds.Count == Surfaces.Count && transform == _boundsTransform) return false;
+            _boundsTransform = transform;
+            Bounds.Clear();
+            foreach (var data in Surfaces)
+            {
+                var bounds = new (Vector3 Min, Vector3 Max)[data.Indices.Length / 3];
+                for (var t = 0; t < data.Indices.Length; t += 3)
+                {
+                    var a = transform * data.Vertices[data.Indices[t]];
+                    var b = transform * data.Vertices[data.Indices[t + 1]];
+                    var c = transform * data.Vertices[data.Indices[t + 2]];
+                    bounds[t / 3] = (a.Min(b).Min(c), a.Max(b).Max(c));
+                }
+                Bounds.Add(bounds);
+            }
+            return true;
         }
     }
 
-    private void RefineGround()
+    private void RefineGround(bool rebuild)
     {
         var triangleCount = 0;
         var counts = new List<string>();
         foreach (var ground in _ground)
         {
-            var selected = new HashSet<(int Surface, int Triangle)>();
+            var reselect = ground.RefreshBounds() || rebuild;
+            var selected = reselect ? new HashSet<(int Surface, int Triangle)>()
+                : new HashSet<(int Surface, int Triangle)>(ground.Refined);
             var transform = ground.Node.GlobalTransform;
             for (var s = 0; s < ground.Surfaces.Count; s++)
             {
                 var data = ground.Surfaces[s];
                 for (var t = 0; t < data.Indices.Length; t += 3)
                 {
-                    var a = transform * data.Vertices[data.Indices[t]];
-                    var b = transform * data.Vertices[data.Indices[t + 1]];
-                    var c = transform * data.Vertices[data.Indices[t + 2]];
-                    var min = a.Min(b).Min(c); var max = a.Max(b).Max(c);
+                    var (min, max) = ground.Bounds[s][t / 3];
                     var half = WindowExtent * .5f;
                     if (min.X > _windowCentre.X + half || max.X < _windowCentre.X - half
                         || min.Z > _windowCentre.Y + half || max.Z < _windowCentre.Y - half) continue;
-                    foreach (var stamp in _stamps)
+                    for (var stampIndex = reselect ? 0 : _stamps.Count - 1; stampIndex < _stamps.Count; stampIndex++)
                     {
+                        var stamp = _stamps[stampIndex];
                         if (stamp.Position.X < min.X - .27f || stamp.Position.X > max.X + .27f
                             || stamp.Position.Y < min.Z - .27f || stamp.Position.Y > max.Z + .27f) continue;
                         selected.Add((s, t));
