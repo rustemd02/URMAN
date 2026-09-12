@@ -557,7 +557,8 @@ public partial class StyleBenchmarkZone : Node3D
             "CupboardDoorLine",
             "WovenRug",
             "RugStripeA",
-            "RugStripeB"
+            "RugStripeB",
+            "WallShelf"
         };
         foreach (var legacyVisualName in replacedHouseVisuals)
         {
@@ -593,8 +594,34 @@ public partial class StyleBenchmarkZone : Node3D
             "houseInteriorLivedInCluster",
             "authored hearth with flue|left-wall cupboard|quiet tableware|floor storage basket; presentation-only GLB with hearth floor proxy");
         MakeCrtHeroDetail();
-        MakeBox("LampStem", new(0.08f, 0.95f, 0.08f), new(2.15f, 1.48f, -3.25f), "6c573e", collision: false);
-        MakeBox("LampShade", new(0.72f, 0.42f, 0.72f), new(2.15f, 2.0f, -3.25f), "b98a53", collision: false);
+        MakeCylinder("LampStem", .035f, .64f, new(2.15f, 1.32f, -3.25f), "6c573e");
+        var lampShade = new MeshInstance3D
+        {
+            Name = "LampShade",
+            Position = new(2.15f, 1.74f, -3.25f),
+            Mesh = new CylinderMesh
+            {
+                TopRadius = 0.18f,
+                BottomRadius = 0.28f,
+                Height = 0.28f,
+                RadialSegments = 8,
+                CapTop = false,
+                CapBottom = false
+            },
+            MaterialOverride = new StandardMaterial3D
+            {
+                AlbedoColor = Color.FromHtml("b98a53"),
+                AlbedoTexture = GD.Load<Texture2D>("res://assets/textures/painterly/old_fabric_v3_albedo.png"),
+                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps,
+                Roughness = 0.96f,
+                CullMode = BaseMaterial3D.CullModeEnum.Disabled,
+                EmissionEnabled = true,
+                Emission = Color.FromHtml("bd9766"),
+                EmissionEnergyMultiplier = .25f
+            }
+        };
+        lampShade.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+        AddChild(lampShade);
         MakeBox("FamilyPhoto", new(0.58f, 0.72f, 0.06f), new(-2.1f, 1.45f, -4.82f), "8a7358", collision: false);
         MakeBox("FamilyPhotoInner", new(0.42f, 0.55f, 0.025f), new(-2.1f, 1.45f, -4.77f), "b7a17c", collision: false);
         MakeBox("WallTextile", new(1.45f, 0.92f, 0.04f), new(4.25f, 1.85f, -4.78f), "69483f", collision: false);
@@ -721,7 +748,7 @@ public partial class StyleBenchmarkZone : Node3D
         var lamp = new OmniLight3D
         {
             Name = "WarmTableLamp",
-            Position = new(2.15f, 2.1f, -3.25f),
+            Position = new(2.15f, 1.70f, -3.25f),
             LightColor = Color.FromHtml("c5aa8d"),
             LightEnergy = 1.45f,
             OmniRange = 4.75f,
