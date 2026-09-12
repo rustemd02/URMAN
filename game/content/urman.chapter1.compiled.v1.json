@@ -1143,6 +1143,73 @@
               }
             ],
             "choices": []
+          },
+          {
+            "id": "follow-up",
+            "speakerRole": "naila",
+            "textId": "urman.chapter1:text/dialogue-naila-follow-up",
+            "conditions": [],
+            "effects": [],
+            "choices": [
+              {
+                "id": "press-contradiction",
+                "textId": "urman.chapter1:text/choice-naila-contradiction",
+                "conditions": [
+                  {
+                    "op": "knowledge.status",
+                    "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+                    "status": "confirmed"
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "separate-record"
+              },
+              {
+                "id": "ask-wording",
+                "textId": "urman.chapter1:text/dialogue-naila-ask-record",
+                "conditions": [
+                  {
+                    "op": "not",
+                    "condition": {
+                      "op": "knowledge.status",
+                      "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+                      "status": "confirmed"
+                    }
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "wording-detail"
+              },
+              {
+                "id": "ask-transfer",
+                "textId": "urman.chapter1:text/choice-naila-transfer",
+                "conditions": [
+                  {
+                    "op": "not",
+                    "condition": {
+                      "op": "knowledge.status",
+                      "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+                      "status": "confirmed"
+                    }
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "transfer-detail"
+              }
+            ]
+          }
+        ],
+        "entryRoutes": [
+          {
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/naila",
+                "stateKey": "record_access_granted",
+                "value": true
+              }
+            ],
+            "nodeId": "follow-up"
           }
         ]
       },
@@ -6520,6 +6587,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/dialogue-naila-follow-up",
+        "value": {
+          "default": "Naila asks, \u201CWhat else do you want to clarify, Aidar?\u201D",
+          "translations": {
+            "ru": "\u00AB\u0427\u0442\u043E \u0435\u0449\u0451 \u0445\u043E\u0447\u0435\u0448\u044C \u0443\u0442\u043E\u0447\u043D\u0438\u0442\u044C, \u0410\u0439\u0434\u0430\u0440?\u00BB \u2014 \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442 \u041D\u0430\u0438\u043B\u044F."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/dialogue-naila-medical-record",
         "value": {
           "default": "Naila keeps a hand on the folder. \u201CYou came about Marat? I cannot open other people\u2019s medical files for you. Tell me exactly what you want to clarify.\u201D",
@@ -7559,7 +7637,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "80c6f298e180d844ce5b589f93281a0f3698a726c2ed6038e296d99d2db2645c"
+      "sha256": "1277fd2876b631fbffea639c9fb93f83931930baf1b812aeea45023db02ce02a"
     },
     {
       "moduleId": "urman.core",
@@ -7572,5 +7650,5 @@
       "sha256": "c5f6da9646e805176ada5893a495a63ff06e4da1457b003f54c34318815037ee"
     }
   ],
-  "campaignFingerprint": "c6440c3167ee8c8cdf824921e98a36f268ffc3312cfdeec16a5a525a6e487c70"
+  "campaignFingerprint": "f2d7a0ae568dcfd9349501d40086e338343cef1bd954c56a3588e70eea88f9ec"
 }

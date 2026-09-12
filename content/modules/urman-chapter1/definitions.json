@@ -331,6 +331,17 @@
  },
  {
   "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-naila-follow-up",
+  "value": {
+   "default": "Naila asks, “What else do you want to clarify, Aidar?”",
+   "translations": {
+    "ru": "«Что ещё хочешь уточнить, Айдар?» — спрашивает Наиля."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-naila-ask-record",
   "value": {
    "default": "What does “in connection with an accident” mean?",
@@ -1952,6 +1963,73 @@
      }
     ],
     "choices": []
+   },
+   {
+    "id": "follow-up",
+    "speakerRole": "naila",
+    "textId": "urman.chapter1:text/dialogue-naila-follow-up",
+    "conditions": [],
+    "effects": [],
+    "choices": [
+     {
+      "id": "press-contradiction",
+      "textId": "urman.chapter1:text/choice-naila-contradiction",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "separate-record"
+     },
+     {
+      "id": "ask-wording",
+      "textId": "urman.chapter1:text/dialogue-naila-ask-record",
+      "conditions": [
+       {
+        "op": "not",
+        "condition": {
+         "op": "knowledge.status",
+         "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+         "status": "confirmed"
+        }
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "wording-detail"
+     },
+     {
+      "id": "ask-transfer",
+      "textId": "urman.chapter1:text/choice-naila-transfer",
+      "conditions": [
+       {
+        "op": "not",
+        "condition": {
+         "op": "knowledge.status",
+         "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+         "status": "confirmed"
+        }
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "transfer-detail"
+     }
+    ]
+   }
+  ],
+  "entryRoutes": [
+   {
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/naila",
+      "stateKey": "record_access_granted",
+      "value": true
+     }
+    ],
+    "nodeId": "follow-up"
    }
   ]
  },
