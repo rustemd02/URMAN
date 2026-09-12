@@ -7486,11 +7486,43 @@ public partial class Act1ConnectedWorld : Node3D
         sled.SetMeta("presentationRole", "wooden sled (салазки) yard detail");
         parent.AddChild(sled);
 
-        AddVisualBox(sled, "SledRunnerWest", new(0.07f, 0.09f, 1.20f), new(-0.24f, 0.22f, 0f), "5b4a3a", "wood");
-        AddVisualBox(sled, "SledRunnerEast", new(0.07f, 0.09f, 1.20f), new(0.24f, 0.22f, 0f), "5b4a3a", "wood");
-        AddVisualBox(sled, "SledDeck", new(0.62f, 0.09f, 0.92f), new(0f, 0.36f, 0.05f), "7a6349", "wood_prop");
-        AddVisualBox(sled, "SledBack", new(0.62f, 0.34f, 0.08f), new(0f, 0.52f, -0.42f), "6d5741", "wood_prop");
-        AddVisualBox(sled, "SledSnow", new(0.62f, 0.05f, 0.92f), new(0f, 0.43f, 0.05f), "eef2f6", "snow_ground");
+        // Keep the bearing height used by yard grounding; the raised noses
+        // and open seat make these salazki readable before the repair reveal.
+        var runnerProfile = new Vector2[]
+        {
+            new(-.60f, .22f), new(.24f, .22f), new(.38f, .25f),
+            new(.49f, .33f), new(.55f, .45f), new(.56f, .53f)
+        };
+        foreach (var x in new[] { -.24f, .24f })
+        {
+            var side = x < 0f ? "West" : "East";
+            for (var part = 0; part < runnerProfile.Length - 1; part++)
+            {
+                var start = new Vector3(x, runnerProfile[part].Y, runnerProfile[part].X);
+                var end = new Vector3(x, runnerProfile[part + 1].Y, runnerProfile[part + 1].X);
+                var runner = AddVisualBox(sled, $"SledRunner{side}{part}",
+                    new(.07f, .09f, start.DistanceTo(end) + .012f), (start + end) * .5f,
+                    "5b4a3a", "wood_prop");
+                runner.LookAt(sled.ToGlobal(end), Vector3.Up);
+            }
+            foreach (var z in new[] { -.32f, .35f })
+                AddVisualBox(sled, $"SledSupport{side}{z}", new(.065f, .19f, .07f),
+                    new(x, .33f, z), "69543f", "wood_prop");
+            AddVisualBox(sled, $"SledBackPost{side}", new(.055f, .34f, .055f),
+                new(x, .49f, -.42f), "69543f", "wood_prop");
+        }
+        for (var slat = 0; slat < 4; slat++)
+        {
+            var x = -.225f + slat * .15f;
+            AddVisualBox(sled, $"SledSeatSlat{slat}", new(.13f, .055f, .92f),
+                new(x, .42f, .05f), slat % 2 == 0 ? "8c7354" : "766048", "wood_prop");
+            // Patchy snow leaves the slat ends and the gaps visible.
+            AddVisualBox(sled, $"SledSeatSnow{slat}", new(.105f, .018f, .55f + slat % 2 * .12f),
+                new(x, .457f, -.04f + slat % 2 * .06f), "eef2f6", "snow_ground");
+        }
+        foreach (var y in new[] { .48f, .60f })
+            AddVisualBox(sled, $"SledBackRail{y}", new(.62f, .065f, .055f),
+                new(0f, y, -.42f), "80684f", "wood_prop");
     }
 
     /// <summary>
