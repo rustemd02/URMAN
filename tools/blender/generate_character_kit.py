@@ -785,8 +785,7 @@ def create_character(
         obj.name = f"{prefix}_{part}_LOD0"
         obj.location = (x, 0.0, head_z)
         for vertex in obj.data.vertices:
-            vertex.co.x *= head_scale
-            vertex.co.y *= head_scale
+            vertex.co *= head_scale
         bpy.context.collection.objects.link(obj)
         tag(obj, asset_id, budget)
         obj["license"] = "CC0-1.0; derived from Quaternius Universal Base Characters"
