@@ -384,12 +384,13 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
 
     require(entries, "assets/textures/ui/act1_menu_winter_v1.png.import")
     require_prefix(entries, ".godot/imported/act1_menu_winter_v1.png-", ".ctex")
-    # The native boot splash loads PNG bytes before texture imports are ready.
-    boot_image = "assets/textures/ui/act1_menu_winter_v1.png"
-    require(entries, boot_image)
-    boot_offset, boot_size = entries[boot_image]
-    if boot_size < 8 or raw[boot_offset : boot_offset + 8] != b"\x89PNG\r\n\x1a\n":
-        fail(f"{label} native boot splash is not a PNG payload")
+    # Native startup artwork loads PNG bytes before texture imports are ready.
+    for image_name in ("act1_menu_winter_v1", "urman_app_icon_v1"):
+        image_path = f"assets/textures/ui/{image_name}.png"
+        require(entries, image_path)
+        image_offset, image_size = entries[image_path]
+        if image_size < 8 or raw[image_offset : image_offset + 8] != b"\x89PNG\r\n\x1a\n":
+            fail(f"{label} native startup image is not a PNG payload: {image_path}")
 
     # Pine's embedded Leaf_Pine_C mask is extracted by Godot and consumed by
     # AgentBAct1ExteriorLayer when it replaces the imported needle material.

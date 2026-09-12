@@ -2102,7 +2102,7 @@
       "label": "run_headless()",
       "file_type": "code",
       "source_file": "eng/verify-act1-release-package.sh",
-      "source_location": "L411",
+      "source_location": "L412",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -10619,7 +10619,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_defs_role_binding_event",
-      "community": 18,
+      "community": 162,
       "norm_label": "role-binding-event"
     },
     {
@@ -10628,7 +10628,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_type",
-      "community": 18,
+      "community": 162,
       "norm_label": "type"
     },
     {
@@ -10637,7 +10637,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_required",
-      "community": 18,
+      "community": 162,
       "norm_label": "required"
     },
     {
@@ -10646,7 +10646,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_properties",
-      "community": 18,
+      "community": 162,
       "norm_label": "properties"
     },
     {
@@ -10655,7 +10655,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
       "id": "contracts_stress_contracts_schema_role_binding_event_additionalproperties",
-      "community": 18,
+      "community": 162,
       "norm_label": "additionalproperties"
     },
     {
@@ -10889,7 +10889,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_defs_timed_choice_event",
-      "community": 789,
+      "community": 18,
       "norm_label": "timed-choice-event"
     },
     {
@@ -10898,7 +10898,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_type",
-      "community": 789,
+      "community": 18,
       "norm_label": "type"
     },
     {
@@ -10907,7 +10907,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_required",
-      "community": 789,
+      "community": 18,
       "norm_label": "required"
     },
     {
@@ -10916,7 +10916,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_properties",
-      "community": 789,
+      "community": 18,
       "norm_label": "properties"
     },
     {
@@ -10925,7 +10925,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_additionalproperties",
-      "community": 789,
+      "community": 18,
       "norm_label": "additionalproperties"
     },
     {
@@ -11294,7 +11294,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_defs_environment_sim_event",
-      "community": 162,
+      "community": 770,
       "norm_label": "environment-sim-event"
     },
     {
@@ -11303,7 +11303,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_type",
-      "community": 162,
+      "community": 770,
       "norm_label": "type"
     },
     {
@@ -11312,7 +11312,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_required",
-      "community": 162,
+      "community": 770,
       "norm_label": "required"
     },
     {
@@ -11321,7 +11321,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_properties",
-      "community": 162,
+      "community": 770,
       "norm_label": "properties"
     },
     {
@@ -11330,7 +11330,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_additionalproperties",
-      "community": 162,
+      "community": 770,
       "norm_label": "additionalproperties"
     },
     {
@@ -13958,7 +13958,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L1",
       "id": "content_schemas_quest_schema_json",
-      "community": 2,
+      "community": 653,
       "norm_label": "quest.schema.json"
     },
     {
@@ -13967,7 +13967,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L2",
       "id": "schemas_quest_schema_schema",
-      "community": 2,
+      "community": 653,
       "norm_label": "$schema"
     },
     {
@@ -13976,7 +13976,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L3",
       "id": "schemas_quest_schema_id",
-      "community": 2,
+      "community": 653,
       "norm_label": "$id"
     },
     {
@@ -13985,7 +13985,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L4",
       "id": "schemas_quest_schema_schemaversion",
-      "community": 2,
+      "community": 653,
       "norm_label": "schemaversion"
     },
     {
@@ -13994,7 +13994,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L5",
       "id": "schemas_quest_schema_type",
-      "community": 2,
+      "community": 653,
       "norm_label": "type"
     },
     {
@@ -14003,7 +14003,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L6",
       "id": "schemas_quest_schema_required",
-      "community": 2,
+      "community": 653,
       "norm_label": "required"
     },
     {
@@ -14057,7 +14057,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L10",
       "id": "schemas_quest_schema_properties_titletextid",
-      "community": 148,
+      "community": 116,
       "norm_label": "titletextid"
     },
     {
@@ -14066,7 +14066,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L10",
       "id": "schemas_quest_schema_titletextid_ref",
-      "community": 148,
+      "community": 116,
       "norm_label": "$ref"
     },
     {
@@ -14192,7 +14192,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L17",
       "id": "schemas_quest_schema_additionalproperties",
-      "community": 2,
+      "community": 653,
       "norm_label": "additionalproperties"
     },
     {
@@ -14210,7 +14210,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L19",
       "id": "schemas_quest_schema_defs_stage",
-      "community": 173,
+      "community": 2,
       "norm_label": "stage"
     },
     {
@@ -14219,7 +14219,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L20",
       "id": "schemas_quest_schema_stage_type",
-      "community": 173,
+      "community": 2,
       "norm_label": "type"
     },
     {
@@ -14228,7 +14228,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L21",
       "id": "schemas_quest_schema_stage_required",
-      "community": 173,
+      "community": 2,
       "norm_label": "required"
     },
     {
@@ -14318,7 +14318,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L27",
       "id": "schemas_quest_schema_stage_additionalproperties",
-      "community": 173,
+      "community": 2,
       "norm_label": "additionalproperties"
     },
     {
@@ -15956,7 +15956,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
       "id": "schemas_scene_schema_properties_assetrefs",
-      "community": 275,
+      "community": 221,
       "norm_label": "assetrefs"
     },
     {
@@ -15965,7 +15965,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
       "id": "schemas_scene_schema_assetrefs_type",
-      "community": 275,
+      "community": 221,
       "norm_label": "type"
     },
     {
@@ -15974,7 +15974,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
       "id": "schemas_scene_schema_assetrefs_uniqueitems",
-      "community": 275,
+      "community": 221,
       "norm_label": "uniqueitems"
     },
     {
@@ -15983,7 +15983,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
       "id": "schemas_scene_schema_assetrefs_items",
-      "community": 275,
+      "community": 221,
       "norm_label": "items"
     },
     {
@@ -16001,7 +16001,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L13",
       "id": "schemas_scene_schema_properties_textrefs",
-      "community": 815,
+      "community": 275,
       "norm_label": "textrefs"
     },
     {
@@ -16010,7 +16010,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L13",
       "id": "schemas_scene_schema_textrefs_type",
-      "community": 815,
+      "community": 275,
       "norm_label": "type"
     },
     {
@@ -16019,7 +16019,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L13",
       "id": "schemas_scene_schema_textrefs_uniqueitems",
-      "community": 815,
+      "community": 275,
       "norm_label": "uniqueitems"
     },
     {
@@ -16028,7 +16028,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L13",
       "id": "schemas_scene_schema_textrefs_items",
-      "community": 815,
+      "community": 275,
       "norm_label": "items"
     },
     {
@@ -16091,7 +16091,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L16",
       "id": "schemas_scene_schema_properties_onexit",
-      "community": 221,
+      "community": 824,
       "norm_label": "onexit"
     },
     {
@@ -16100,7 +16100,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L16",
       "id": "schemas_scene_schema_onexit_type",
-      "community": 221,
+      "community": 824,
       "norm_label": "type"
     },
     {
@@ -16109,7 +16109,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L16",
       "id": "schemas_scene_schema_onexit_items",
-      "community": 221,
+      "community": 824,
       "norm_label": "items"
     },
     {
@@ -17288,7 +17288,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L1",
       "id": "content_schemas_common_schema_json",
-      "community": 105,
+      "community": 821,
       "norm_label": "common.schema.json"
     },
     {
@@ -17297,7 +17297,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L2",
       "id": "schemas_common_schema_schema",
-      "community": 105,
+      "community": 821,
       "norm_label": "$schema"
     },
     {
@@ -17306,7 +17306,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L3",
       "id": "schemas_common_schema_id",
-      "community": 105,
+      "community": 821,
       "norm_label": "$id"
     },
     {
@@ -17315,7 +17315,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L4",
       "id": "schemas_common_schema_schemaversion",
-      "community": 105,
+      "community": 821,
       "norm_label": "schemaversion"
     },
     {
@@ -17333,7 +17333,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_defs_schemaversion",
-      "community": 105,
+      "community": 823,
       "norm_label": "schemaversion"
     },
     {
@@ -17342,7 +17342,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_schemaversion_type",
-      "community": 105,
+      "community": 823,
       "norm_label": "type"
     },
     {
@@ -17351,7 +17351,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_schemaversion_const",
-      "community": 105,
+      "community": 823,
       "norm_label": "const"
     },
     {
@@ -17405,7 +17405,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L14",
       "id": "schemas_common_schema_defs_contentid",
-      "community": 105,
+      "community": 822,
       "norm_label": "contentid"
     },
     {
@@ -17414,7 +17414,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L15",
       "id": "schemas_common_schema_contentid_type",
-      "community": 105,
+      "community": 822,
       "norm_label": "type"
     },
     {
@@ -17423,7 +17423,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L16",
       "id": "schemas_common_schema_contentid_pattern",
-      "community": 105,
+      "community": 822,
       "norm_label": "pattern"
     },
     {
@@ -17459,7 +17459,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L22",
       "id": "schemas_common_schema_defs_filereference",
-      "community": 820,
+      "community": 105,
       "norm_label": "filereference"
     },
     {
@@ -17468,7 +17468,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L23",
       "id": "schemas_common_schema_filereference_type",
-      "community": 820,
+      "community": 105,
       "norm_label": "type"
     },
     {
@@ -17477,7 +17477,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L24",
       "id": "schemas_common_schema_filereference_pattern",
-      "community": 820,
+      "community": 105,
       "norm_label": "pattern"
     },
     {
@@ -17486,7 +17486,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L26",
       "id": "schemas_common_schema_defs_schemareference",
-      "community": 822,
+      "community": 105,
       "norm_label": "schemareference"
     },
     {
@@ -17495,7 +17495,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L27",
       "id": "schemas_common_schema_schemareference_type",
-      "community": 822,
+      "community": 105,
       "norm_label": "type"
     },
     {
@@ -17504,7 +17504,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L28",
       "id": "schemas_common_schema_schemareference_pattern",
-      "community": 822,
+      "community": 105,
       "norm_label": "pattern"
     },
     {
@@ -26405,7 +26405,7 @@
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_journalflowsmoketest_cs",
-      "community": 653,
+      "community": 247,
       "norm_label": "journalflowsmoketest.cs"
     },
     {
@@ -26414,7 +26414,7 @@
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L6",
       "id": "tests_journalflowsmoketest_journalflowsmoketest",
-      "community": 653,
+      "community": 247,
       "norm_label": "journalflowsmoketest"
     },
     {
@@ -26423,7 +26423,7 @@
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L8",
       "id": "game_tests_journalflowsmoketest_cs_string",
-      "community": 653,
+      "community": 247,
       "norm_label": "string"
     },
     {
@@ -26432,7 +26432,7 @@
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L10",
       "id": "tests_journalflowsmoketest_journalflowsmoketest_ready",
-      "community": 653,
+      "community": 247,
       "norm_label": "._ready()"
     },
     {
@@ -26441,7 +26441,7 @@
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L144",
       "id": "tests_journalflowsmoketest_journalflowsmoketest_frames",
-      "community": 653,
+      "community": 247,
       "norm_label": ".frames()"
     },
     {
@@ -26450,7 +26450,7 @@
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L152",
       "id": "tests_journalflowsmoketest_journalflowsmoketest_input",
-      "community": 653,
+      "community": 247,
       "norm_label": ".input()"
     },
     {
@@ -26459,7 +26459,7 @@
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L155",
       "id": "tests_journalflowsmoketest_journalflowsmoketest_fail",
-      "community": 653,
+      "community": 247,
       "norm_label": ".fail()"
     },
     {
@@ -26522,7 +26522,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1footstepsmoketest_cs",
-      "community": 247,
+      "community": 789,
       "norm_label": "act1footstepsmoketest.cs"
     },
     {
@@ -26531,7 +26531,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L11",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest",
-      "community": 247,
+      "community": 789,
       "norm_label": "act1footstepsmoketest"
     },
     {
@@ -26540,7 +26540,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L13",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest_ready",
-      "community": 247,
+      "community": 789,
       "norm_label": "._ready()"
     },
     {
@@ -26549,7 +26549,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L133",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest_frames",
-      "community": 247,
+      "community": 789,
       "norm_label": ".frames()"
     },
     {
@@ -26558,7 +26558,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L141",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest_fail",
-      "community": 247,
+      "community": 789,
       "norm_label": ".fail()"
     },
     {
@@ -27098,7 +27098,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1reducedmotionsmoketest_cs",
-      "community": 247,
+      "community": 815,
       "norm_label": "act1reducedmotionsmoketest.cs"
     },
     {
@@ -27107,7 +27107,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L10",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest",
-      "community": 247,
+      "community": 815,
       "norm_label": "act1reducedmotionsmoketest"
     },
     {
@@ -27116,7 +27116,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L12",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest_ready",
-      "community": 247,
+      "community": 815,
       "norm_label": "._ready()"
     },
     {
@@ -27125,7 +27125,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L86",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest_frames",
-      "community": 247,
+      "community": 815,
       "norm_label": ".frames()"
     },
     {
@@ -27134,7 +27134,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L94",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest_fail",
-      "community": 247,
+      "community": 815,
       "norm_label": ".fail()"
     },
     {
@@ -50732,7 +50732,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1026",
       "id": "urman_route_map_route_graph_transitions_turn_90_default",
-      "community": 821,
+      "community": 258,
       "norm_label": "turn_90_default"
     },
     {
@@ -50741,7 +50741,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1027",
       "id": "urman_route_map_route_graph_turn_90_default_durationms",
-      "community": 821,
+      "community": 258,
       "norm_label": "durationms"
     },
     {
@@ -50750,7 +50750,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1031",
       "id": "urman_route_map_route_graph_turn_90_default_assetid",
-      "community": 821,
+      "community": 258,
       "norm_label": "assetid"
     },
     {
@@ -50759,7 +50759,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1032",
       "id": "urman_route_map_route_graph_turn_90_default_overlayassetid",
-      "community": 821,
+      "community": 258,
       "norm_label": "overlayassetid"
     },
     {
@@ -50768,7 +50768,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1033",
       "id": "urman_route_map_route_graph_turn_90_default_behavior",
-      "community": 821,
+      "community": 258,
       "norm_label": "behavior"
     },
     {
@@ -50777,7 +50777,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1035",
       "id": "urman_route_map_route_graph_transitions_step_forward_default",
-      "community": 258,
+      "community": 820,
       "norm_label": "step_forward_default"
     },
     {
@@ -50786,7 +50786,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1036",
       "id": "urman_route_map_route_graph_step_forward_default_durationms",
-      "community": 258,
+      "community": 820,
       "norm_label": "durationms"
     },
     {
@@ -50795,7 +50795,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1040",
       "id": "urman_route_map_route_graph_step_forward_default_assetid",
-      "community": 258,
+      "community": 820,
       "norm_label": "assetid"
     },
     {
@@ -50804,7 +50804,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1041",
       "id": "urman_route_map_route_graph_step_forward_default_behavior",
-      "community": 258,
+      "community": 820,
       "norm_label": "behavior"
     },
     {
@@ -50813,7 +50813,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1042",
       "id": "urman_route_map_route_graph_step_forward_default_status",
-      "community": 258,
+      "community": 820,
       "norm_label": "status"
     },
     {
@@ -55808,7 +55808,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L51",
       "id": "act1_urman_village_exterior_kit_arguments",
-      "community": 710,
+      "community": 362,
       "norm_label": "arguments()"
     },
     {
@@ -56087,7 +56087,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1126",
       "id": "act1_urman_village_exterior_kit_variant_branch",
-      "community": 650,
+      "community": 652,
       "norm_label": "variant_branch()"
     },
     {
@@ -56258,7 +56258,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1729",
       "id": "act1_urman_village_exterior_kit_author_gate_joinery",
-      "community": 362,
+      "community": 650,
       "norm_label": "author_gate_joinery()"
     },
     {
@@ -56321,7 +56321,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1872",
       "id": "act1_urman_village_exterior_kit_clear_variant_roots",
-      "community": 710,
+      "community": 362,
       "norm_label": "clear_variant_roots()"
     },
     {
@@ -56366,7 +56366,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L2512",
       "id": "act1_urman_village_exterior_kit_main",
-      "community": 710,
+      "community": 362,
       "norm_label": "main()"
     },
     {
@@ -56411,7 +56411,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1134",
       "id": "act1_urman_village_exterior_kit_rationale_1134",
-      "community": 650,
+      "community": 652,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue."
     },
     {
@@ -56474,7 +56474,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1730",
       "id": "act1_urman_village_exterior_kit_rationale_1730",
-      "community": 362,
+      "community": 650,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner."
     },
     {
@@ -59975,7 +59975,7 @@
       "source_file": "src/runtime/contracts/json-value.mjs",
       "source_location": "L69",
       "id": "contracts_json_value_deepfreeze",
-      "community": 66,
+      "community": 224,
       "norm_label": "deepfreeze()"
     },
     {
@@ -59984,7 +59984,7 @@
       "source_file": "src/runtime/contracts/json-value.mjs",
       "source_location": "L75",
       "id": "contracts_json_value_clonejsonvalue",
-      "community": 66,
+      "community": 78,
       "norm_label": "clonejsonvalue()"
     },
     {
@@ -59993,7 +59993,7 @@
       "source_file": "src/runtime/contracts/json-value.mjs",
       "source_location": "L82",
       "id": "contracts_json_value_clonepersistedjsonvalue",
-      "community": 66,
+      "community": 224,
       "norm_label": "clonepersistedjsonvalue()"
     },
     {
@@ -63242,7 +63242,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L1",
       "id": "src_runtime_kernel_state_store_mjs",
-      "community": 66,
+      "community": 224,
       "norm_label": "state-store.mjs"
     },
     {
@@ -63251,7 +63251,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L3",
       "id": "kernel_state_store_immutableclone",
-      "community": 66,
+      "community": 224,
       "norm_label": "immutableclone()"
     },
     {
@@ -63260,7 +63260,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L5",
       "id": "kernel_state_store_validkey",
-      "community": 66,
+      "community": 224,
       "norm_label": "validkey()"
     },
     {
@@ -63269,7 +63269,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L9",
       "id": "kernel_state_store_statestore",
-      "community": 66,
+      "community": 224,
       "norm_label": "statestore"
     },
     {
@@ -63278,7 +63278,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L12",
       "id": "kernel_state_store_statestore_constructor",
-      "community": 66,
+      "community": 224,
       "norm_label": ".constructor()"
     },
     {
@@ -63287,7 +63287,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L19",
       "id": "kernel_state_store_statestore_select",
-      "community": 66,
+      "community": 224,
       "norm_label": ".select()"
     },
     {
@@ -63296,7 +63296,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L24",
       "id": "kernel_state_store_statestore_snapshot",
-      "community": 66,
+      "community": 224,
       "norm_label": ".snapshot()"
     },
     {
@@ -63305,7 +63305,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L28",
       "id": "kernel_state_store_statestore_reducetransaction",
-      "community": 66,
+      "community": 224,
       "norm_label": ".reducetransaction()"
     },
     {
@@ -63359,7 +63359,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L1",
       "id": "src_runtime_kernel_runtime_kernel_mjs",
-      "community": 66,
+      "community": 7,
       "norm_label": "runtime-kernel.mjs"
     },
     {
@@ -63368,7 +63368,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L15",
       "id": "kernel_runtime_kernel_immutableclone",
-      "community": 66,
+      "community": 7,
       "norm_label": "immutableclone()"
     },
     {
@@ -63377,7 +63377,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L19",
       "id": "kernel_runtime_kernel_validkey",
-      "community": 66,
+      "community": 7,
       "norm_label": "validkey()"
     },
     {
@@ -63386,7 +63386,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L23",
       "id": "kernel_runtime_kernel_rejected",
-      "community": 66,
+      "community": 7,
       "norm_label": "rejected()"
     },
     {
@@ -63395,7 +63395,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L27",
       "id": "kernel_runtime_kernel_checkedarray",
-      "community": 66,
+      "community": 7,
       "norm_label": "checkedarray()"
     },
     {
@@ -63404,7 +63404,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L33",
       "id": "kernel_runtime_kernel_preflightclaims",
-      "community": 66,
+      "community": 7,
       "norm_label": "preflightclaims()"
     },
     {
@@ -63413,7 +63413,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L58",
       "id": "kernel_runtime_kernel_preflightcommit",
-      "community": 66,
+      "community": 7,
       "norm_label": "preflightcommit()"
     },
     {
@@ -63422,7 +63422,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L79",
       "id": "kernel_runtime_kernel_cloneclaims",
-      "community": 66,
+      "community": 7,
       "norm_label": "cloneclaims()"
     },
     {
@@ -63431,7 +63431,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L83",
       "id": "kernel_runtime_kernel_applyclaims",
-      "community": 66,
+      "community": 7,
       "norm_label": "applyclaims()"
     },
     {
@@ -63440,7 +63440,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L105",
       "id": "kernel_runtime_kernel_claimssnapshot",
-      "community": 66,
+      "community": 7,
       "norm_label": "claimssnapshot()"
     },
     {
@@ -63449,7 +63449,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L110",
       "id": "kernel_runtime_kernel_exactobject",
-      "community": 66,
+      "community": 7,
       "norm_label": "exactobject()"
     },
     {
@@ -63458,7 +63458,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L123",
       "id": "kernel_runtime_kernel_nonemptystring",
-      "community": 66,
+      "community": 7,
       "norm_label": "nonemptystring()"
     },
     {
@@ -63467,7 +63467,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L128",
       "id": "kernel_runtime_kernel_snapshotresult",
-      "community": 66,
+      "community": 224,
       "norm_label": "snapshotresult()"
     },
     {
@@ -63476,7 +63476,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L153",
       "id": "kernel_runtime_kernel_restoreresult",
-      "community": 66,
+      "community": 7,
       "norm_label": "restoreresult()"
     },
     {
@@ -63485,7 +63485,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L178",
       "id": "kernel_runtime_kernel_restoresnapshot",
-      "community": 66,
+      "community": 7,
       "norm_label": "restoresnapshot()"
     },
     {
@@ -63494,7 +63494,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L249",
       "id": "kernel_runtime_kernel_runtimekernel",
-      "community": 66,
+      "community": 7,
       "norm_label": "runtimekernel"
     },
     {
@@ -63503,7 +63503,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L260",
       "id": "kernel_runtime_kernel_runtimekernel_constructor",
-      "community": 66,
+      "community": 7,
       "norm_label": ".constructor()"
     },
     {
@@ -63512,7 +63512,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L282",
       "id": "kernel_runtime_kernel_runtimekernel_fromsnapshot",
-      "community": 66,
+      "community": 7,
       "norm_label": ".fromsnapshot()"
     },
     {
@@ -63521,7 +63521,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L295",
       "id": "kernel_runtime_kernel_runtimekernel_context",
-      "community": 66,
+      "community": 7,
       "norm_label": ".context()"
     },
     {
@@ -63530,7 +63530,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L297",
       "id": "kernel_runtime_kernel_runtimekernel_select",
-      "community": 66,
+      "community": 7,
       "norm_label": ".select()"
     },
     {
@@ -63539,7 +63539,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L301",
       "id": "kernel_runtime_kernel_runtimekernel_query",
-      "community": 66,
+      "community": 7,
       "norm_label": ".query()"
     },
     {
@@ -63548,7 +63548,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L309",
       "id": "kernel_runtime_kernel_runtimekernel_subscribe",
-      "community": 66,
+      "community": 7,
       "norm_label": ".subscribe()"
     },
     {
@@ -63557,7 +63557,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L311",
       "id": "kernel_runtime_kernel_runtimekernel_dispatch",
-      "community": 66,
+      "community": 7,
       "norm_label": ".dispatch()"
     },
     {
@@ -63566,7 +63566,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L317",
       "id": "kernel_runtime_kernel_runtimekernel_record",
-      "community": 66,
+      "community": 7,
       "norm_label": ".#record()"
     },
     {
@@ -63575,7 +63575,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L322",
       "id": "kernel_runtime_kernel_runtimekernel_dispatchserial",
-      "community": 66,
+      "community": 7,
       "norm_label": ".#dispatchserial()"
     },
     {
@@ -63584,7 +63584,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L434",
       "id": "kernel_runtime_kernel_runtimekernel_exportsnapshot",
-      "community": 66,
+      "community": 7,
       "norm_label": ".exportsnapshot()"
     },
     {
@@ -77831,7 +77831,7 @@
       "source_file": "docs/urman_knowledge_base/chapter1_mvp_campaign.md",
       "source_location": "L120",
       "id": "urman_knowledge_base_chapter1_mvp_campaign_1_\u043a\u043e\u0440\u043e\u0442\u043a\u0430\u044f_\u0444\u043e\u0440\u043c\u0443\u043b\u0430_\u0433\u043b\u0430\u0432\u044b",
-      "community": 770,
+      "community": 382,
       "norm_label": "1. \u043a\u043e\u0440\u043e\u0442\u043a\u0430\u044f \u0444\u043e\u0440\u043c\u0443\u043b\u0430 \u0433\u043b\u0430\u0432\u044b"
     },
     {
@@ -77840,7 +77840,7 @@
       "source_file": "docs/urman_knowledge_base/chapter1_mvp_campaign.md",
       "source_location": "L122",
       "id": "urman_knowledge_base_chapter1_mvp_campaign_\u043b\u043e\u0433\u043b\u0430\u0439\u043d",
-      "community": 770,
+      "community": 382,
       "norm_label": "\u043b\u043e\u0433\u043b\u0430\u0438\u043d"
     },
     {
@@ -77849,7 +77849,7 @@
       "source_file": "docs/urman_knowledge_base/chapter1_mvp_campaign.md",
       "source_location": "L126",
       "id": "urman_knowledge_base_chapter1_mvp_campaign_\u044d\u043c\u043e\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u0434\u0443\u0433\u0430_\u0430\u0439\u0434\u0430\u0440\u0430",
-      "community": 770,
+      "community": 382,
       "norm_label": "\u044d\u043c\u043e\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u0434\u0443\u0433\u0430 \u0430\u0438\u0434\u0430\u0440\u0430"
     },
     {
@@ -77858,7 +77858,7 @@
       "source_file": "docs/urman_knowledge_base/chapter1_mvp_campaign.md",
       "source_location": "L133",
       "id": "urman_knowledge_base_chapter1_mvp_campaign_\u0434\u0443\u0433\u0430_\u0438\u0433\u0440\u043e\u043a\u0430",
-      "community": 770,
+      "community": 382,
       "norm_label": "\u0434\u0443\u0433\u0430 \u0438\u0433\u0440\u043e\u043a\u0430"
     },
     {
@@ -77867,7 +77867,7 @@
       "source_file": "docs/urman_knowledge_base/chapter1_mvp_campaign.md",
       "source_location": "L138",
       "id": "urman_knowledge_base_chapter1_mvp_campaign_\u0433\u043b\u0430\u0432\u043d\u044b\u0439_\u0432\u043e\u043f\u0440\u043e\u0441_\u0433\u043b\u0430\u0432\u044b",
-      "community": 770,
+      "community": 382,
       "norm_label": "\u0433\u043b\u0430\u0432\u043d\u044b\u0438 \u0432\u043e\u043f\u0440\u043e\u0441 \u0433\u043b\u0430\u0432\u044b"
     },
     {
@@ -77876,7 +77876,7 @@
       "source_file": "docs/urman_knowledge_base/chapter1_mvp_campaign.md",
       "source_location": "L142",
       "id": "urman_knowledge_base_chapter1_mvp_campaign_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439_\u043a\u0440\u044e\u0447\u043e\u043a",
-      "community": 770,
+      "community": 382,
       "norm_label": "\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0438 \u043a\u0440\u044e\u0447\u043e\u043a"
     },
     {
@@ -92599,7 +92599,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1723",
-      "community": 362,
+      "community": 650,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1723"
     },
@@ -94331,7 +94331,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1131",
-      "community": 650,
+      "community": 652,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_1131"
     },
@@ -94349,7 +94349,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1181",
-      "community": 652,
+      "community": 362,
       "norm_label": "dress each optional parcel edge with sparse, non-blocking local history.",
       "id": "act1_urman_village_exterior_kit_rationale_1181"
     },
@@ -94385,7 +94385,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1720",
-      "community": 362,
+      "community": 650,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1720"
     },
@@ -94421,7 +94421,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L666",
-      "community": 650,
+      "community": 652,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_666"
     },
@@ -94484,7 +94484,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1255",
-      "community": 362,
+      "community": 650,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1255"
     },
@@ -94520,7 +94520,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L661",
-      "community": 650,
+      "community": 652,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_661"
     },
@@ -94583,7 +94583,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1171",
-      "community": 362,
+      "community": 650,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1171"
     },
@@ -100442,7 +100442,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1180",
-      "community": 652,
+      "community": 362,
       "norm_label": "author_shed_joinery()",
       "id": "act1_urman_village_exterior_kit_author_shed_joinery"
     },
@@ -100469,7 +100469,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L659",
-      "community": 650,
+      "community": 652,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_659"
     },
@@ -100532,7 +100532,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1294",
-      "community": 362,
+      "community": 650,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1294"
     },
@@ -101729,7 +101729,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1318",
-      "community": 710,
+      "community": 362,
       "norm_label": "author_dwelling_joinery()",
       "id": "act1_urman_village_exterior_kit_author_dwelling_joinery"
     },
@@ -101783,7 +101783,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1319",
-      "community": 710,
+      "community": 362,
       "norm_label": "add a few readable hand-built cues to the otherwise reusable facade.",
       "id": "act1_urman_village_exterior_kit_rationale_1319"
     },
@@ -101810,7 +101810,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1611",
-      "community": 652,
+      "community": 362,
       "norm_label": "give the shed a small offset utility lean-to instead of a plain box read.",
       "id": "act1_urman_village_exterior_kit_rationale_1611"
     },
@@ -101837,7 +101837,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1724",
-      "community": 362,
+      "community": 650,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1724"
     },
@@ -102809,7 +102809,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1591",
-      "community": 652,
+      "community": 362,
       "norm_label": "give the shed a small offset utility lean-to instead of a plain box read.",
       "id": "act1_urman_village_exterior_kit_rationale_1591"
     },
@@ -102836,7 +102836,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1704",
-      "community": 362,
+      "community": 650,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1704"
     },
@@ -242044,9 +242044,9 @@
       "source_file": "game/assets/textures/ui/README.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "game_assets_textures_ui_readme_md",
-      "target": "ui_readme_act_i_interface_artwork",
-      "confidence_score": 1.0
+      "target": "ui_readme_act_i_interface_artwork"
     },
     {
       "relation": "contains",
@@ -242064,9 +242064,9 @@
       "source_file": "game/assets/textures/ui/README.md",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_readme_act_i_interface_artwork",
-      "target": "ui_readme_exact_generation_prompt",
-      "confidence_score": 1.0
+      "target": "ui_readme_exact_generation_prompt"
     },
     {
       "relation": "contains",
@@ -242074,9 +242074,9 @@
       "source_file": "game/assets/textures/ui/README.md",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_readme_act_i_interface_artwork",
-      "target": "ui_readme_application_icon",
-      "confidence_score": 1.0
+      "target": "ui_readme_application_icon"
     },
     {
       "relation": "contains",
@@ -282392,5 +282392,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8cc55b169cd7027aa6323233c35cfe59b176db92"
+  "built_at_commit": "b350abb66a7e2f314122133a7fc4c052ef8d42f8"
 }

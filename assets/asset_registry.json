@@ -1696,7 +1696,7 @@
       "license": "Original AI-generated project artwork; no third-party source assets",
       "textureBudget": 2048,
       "runtimeBinding": "project.godot application/config/icon; native desktop export fallback",
-      "status": "runtime-bound; native export icon validation pending",
+      "status": "runtime-bound; macOS ICNS and Windows RT_ICON resources extracted from R19 and visually verified",
       "releaseDisposition": "include-in-act1-release; application icon",
       "generator": "OpenAI ImageGen built-in; original 1254x1254 PNG",
       "scale": 1.0,
