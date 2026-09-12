@@ -842,12 +842,12 @@
       "id": "urman.act1.fap_clinic_kit",
       "source": "assets/source/blender/act1/urman_fap_clinic_kit.blend",
       "derived": "game/assets/models/act1/urman_fap_clinic_kit.glb",
-      "sourceSha256": "0b24e44a8356561335afabe7a61ed95ff66376b45654ba8a27e0ac663aafa35b",
-      "derivedSha256": "108b5f51d3fec570449467c6f6b5f4080af78facdd48b77d3234ab81e01d256b",
+      "sourceSha256": "64511d68fd21cfd9fd0fb87f9f01c0b854c45d46f5454bd9da0277d31f98f128",
+      "derivedSha256": "7252a415bde50e5d1266ae2332aa506976be89ccc164145c7190b1f3c705771d",
       "generator": "assets/source/blender/act1/urman_fap_clinic_kit.py; Blender 4.5.12 LTS",
       "license": "Project-original",
       "scale": 1.0,
-      "triangleBudget": 12110,
+      "triangleBudget": 12214,
       "textureBudget": 0,
       "materials": [
         "FapBirchBarkMark",
@@ -877,9 +877,9 @@
         "FapWindowWarm"
       ],
       "collision": "none; presentation-only exterior/interior geometry; Godot floor/collision and interaction targets remain authoritative",
-      "lod": "377 LOD0 + 28 authored LOD1 presentation meshes / 12 110 triangles / 25 authored materials; FAP detail LOD1 self-fades at 10-28 m in Godot",
+      "lod": "377 LOD0 + 28 authored LOD1 presentation meshes / 12 214 triangles / 25 authored materials; FAP detail LOD1 self-fades at 10-28 m in Godot",
       "components": "URMAN_FapClinicKit: FapFacade_Main|FapEntryPorch|FapWayfindingBoard|FapServiceShed|FapFenceRun|FapGate|FapBench|FapNoticeBoard|FapRainAwning|FapPathPuddleCluster|FapBirchShrubMass|FapInteriorSet",
-      "interior": "FapInteriorSet: 225 meshes (197 LOD0 + 28 LOD1; 5 468 + 448 triangles); examination cot, folding privacy screen, inset-door medicine cabinet, enamel instrument trolley/basin stand, waiting bench, wall radiator/pipes, open supply shelf, blank examination chart, coat hook rail, wash unit, attendant stool, blank records pinboard, records desk, reception counter, tall storage cabinet and partial-height zoning partition; Wave25 arrangement rotates the cot/privacy screen into the left mid-room, aligns the reception counter with the Naila-to-records diagonal, places the full-height storage anchor on the left wall, and keeps the center aisle and runtime interaction coordinates open",
+      "interior": "FapInteriorSet: 225 meshes (197 LOD0 + 28 LOD1; 5 532 + 488 triangles); examination cot, folding privacy screen, inset-door medicine cabinet, enamel instrument trolley/basin stand, waiting bench, wall radiator/pipes, open supply shelf, blank examination chart, coat hook rail, wash unit, attendant stool, blank records pinboard, records desk, reception counter, tall storage cabinet and partial-height zoning partition; Wave25 arrangement rotates the cot/privacy screen into the left mid-room, aligns the reception counter with the Naila-to-records diagonal, places the full-height storage anchor on the left wall, and keeps the center aisle and runtime interaction coordinates open",
       "status": "authored geometry-only Wave25 presentation pass; runtime, first-person, medical/local-context and final art review remain open",
       "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-05 HEAD"
     },

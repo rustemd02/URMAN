@@ -1547,8 +1547,8 @@ def build_interior(parent: bpy.types.Object) -> None:
     ib(
         "FapInteriorBench_Back_LOD0",
         parent,
-        (3.72, -2.63, 1.16),
-        (2.24, 0.12, 0.92),
+        (3.72, -2.63, 0.90),
+        (2.24, 0.12, 0.50),
         "FapDarkTimber",
         0.04,
         role="compact rural waiting bench back",
@@ -2307,7 +2307,7 @@ def build_interior(parent: bpy.types.Object) -> None:
     ib(
         "FapInteriorBench_BackRail_LOD0",
         parent,
-        (3.72, -2.92, 1.68),
+        (3.72, -2.63, 1.17),
         (2.05, 0.16, 0.12),
         "FapPaintedTimber",
         0.020,
