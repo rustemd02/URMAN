@@ -546,6 +546,29 @@ def create_character(
             (x + arm_x * 0.76, -0.095, 1.02 * height_scale),
             (x + 0.085, mansur_hand_y, mansur_hand_z),
         )
+    elif prefix == "Alsu":
+        # Keep the guide's shoulders and anchor fixed, but fold her forearms
+        # together in front of the coat for a restrained cold-weather stance.
+        # This reuses the existing Arm.L/Arm.R mesh ownership; no prop or bone
+        # is introduced, and the existing Idle/Tension clips remain valid.
+        alsu_hand_y = -0.188
+        alsu_hand_z = 0.94 * height_scale
+        alsu_cuff_angle = math.atan2(
+            arm_x * 0.76 - 0.062,
+            alsu_hand_z - 1.02 * height_scale,
+        )
+        sleeve_left_points = (
+            (x - arm_x * 0.68, -0.010, 1.30 * height_scale),
+            (x - arm_x * 0.86, -0.025, 1.16 * height_scale),
+            (x - arm_x * 0.76, -0.090, 1.02 * height_scale),
+            (x - 0.062, alsu_hand_y, alsu_hand_z),
+        )
+        sleeve_right_points = (
+            (x + arm_x * 0.68, -0.010, 1.30 * height_scale),
+            (x + arm_x * 0.86, -0.025, 1.16 * height_scale),
+            (x + arm_x * 0.76, -0.090, 1.02 * height_scale),
+            (x + 0.062, alsu_hand_y, alsu_hand_z),
+        )
     else:
         sleeve_left_points = (
             (x - arm_x * 0.68, -0.010, 1.30 * height_scale),
@@ -609,6 +632,11 @@ def create_character(
         cuff_specs = (
             ("Left", x - 0.085, mansur_hand_y, mansur_hand_z, mansur_cuff_angle),
             ("Right", x + 0.085, mansur_hand_y, mansur_hand_z, -mansur_cuff_angle),
+        )
+    elif prefix == "Alsu":
+        cuff_specs = (
+            ("Left", x - 0.062, alsu_hand_y, alsu_hand_z, alsu_cuff_angle),
+            ("Right", x + 0.062, alsu_hand_y, alsu_hand_z, -alsu_cuff_angle),
         )
     else:
         cuff_specs = (
@@ -812,6 +840,20 @@ def create_character(
             thumb_points = (
                 (x + side_sign * 0.020, mansur_hand_y - 0.032, mansur_hand_z - 0.034),
                 (x + side_sign * 0.004, mansur_hand_y - 0.050, mansur_hand_z - 0.024),
+            )
+        elif prefix == "Alsu":
+            side_x = x + side_sign * 0.062
+            hand_points = (
+                # A smaller, lower convergence keeps the hands readable on
+                # Alsu's narrow coat without changing the named hand meshes.
+                (side_x, alsu_hand_y, alsu_hand_z),
+                (x + side_sign * 0.042, alsu_hand_y - 0.024, alsu_hand_z - 0.012),
+                (x + side_sign * 0.023, alsu_hand_y - 0.032, alsu_hand_z - 0.026),
+                (x + side_sign * 0.010, alsu_hand_y - 0.030, alsu_hand_z - 0.038),
+            )
+            thumb_points = (
+                (x + side_sign * 0.015, alsu_hand_y - 0.030, alsu_hand_z - 0.025),
+                (x + side_sign * 0.003, alsu_hand_y - 0.045, alsu_hand_z - 0.010),
             )
         else:
             side_x = x + side_sign * arm_x

@@ -346,7 +346,8 @@
       ],
       "evidence": [
         "2026-09-12 d1b9749: fitted Mansur cap/age atlas, household CRT/table/chair scale, round FAP stool, Gulsina folded-towel rest pose; actual native close/general frames reviewed, Blender verifiers/import/build/registry pass. Overall character/art acceptance remains open.",
-        "2026-09-12: Gulsina head wrap source/import/native side + authored warning turn verified, 9rig/190LOD pairs. Character face age and overall art acceptance remain open."
+        "2026-09-12: Gulsina head wrap source/import/native side + authored warning turn verified, 9rig/190LOD pairs. Character face age and overall art acceptance remain open.",
+        "2026-09-12: Alsu warm-hands pose uses existing sleeve/cuff/hand generator and arm rigs;9rig190LODpairs verifier PASS, native arrival+conversation frames root/Luna reviewed no visible clipping. Source+GLB+registry updated. Gulsina external OldLady and subtle cheek deformation rejected; facial age and overall character art remain OPEN."
       ],
       "blocked_reason": null,
       "result": "Indoor snow removed; character adult proportions/source rigs and FAP floor contact calibrated; source and GLBs updated. Three1080 frames in interior_calibration_v3. Full six-character close/dialogue/animation acceptance remains open."
