@@ -1109,10 +1109,10 @@ public partial class StyleBenchmarkZone : Node3D
         AddChild(new OmniLight3D
         {
             Name = "FapNailaPractical",
-            Position = new(3.70f, 2.05f, 0.0f),
+            Position = new(2.65f, 2.15f, 1.05f),
             LightColor = Color.FromHtml("cda47c"),
-            LightEnergy = 0.76f,
-            OmniRange = 3.0f,
+            LightEnergy = 0.90f,
+            OmniRange = 2.8f,
             ShadowEnabled = true
         });
         AddChild(new OmniLight3D
