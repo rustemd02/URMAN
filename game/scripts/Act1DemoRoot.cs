@@ -70,6 +70,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private double _performanceMeasurementElapsed;
     private ulong _performanceLastTicks;
     private (int Gen0, int Gen1, int Gen2, long Allocated) _performanceLastGc;
+    private (ulong Surface, ulong Draw) _performanceLastPipelines;
     private readonly List<double> _performanceWarmupSamples = [];
     private readonly List<double> _performanceSamples = [];
     private readonly List<string> _performanceStallReports = new(8);
@@ -167,6 +168,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             ConfigurePerformanceProbe(commandLine);
             _performanceLastTicks = Time.GetTicksUsec();
             _performanceLastGc = (GC.CollectionCount(0), GC.CollectionCount(1), GC.CollectionCount(2), GC.GetTotalAllocatedBytes(false));
+            _performanceLastPipelines = (RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.PipelineCompilationsSurface),
+                RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.PipelineCompilationsDraw));
         }
 
         if (_startupPerformanceGuard)
@@ -341,6 +344,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         // individual stalls attributable instead of hiding them in percentiles.
         var gc = (Gen0: GC.CollectionCount(0), Gen1: GC.CollectionCount(1),
             Gen2: GC.CollectionCount(2), Allocated: GC.GetTotalAllocatedBytes(false));
+        var pipelines = (Surface: RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.PipelineCompilationsSurface),
+            Draw: RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.PipelineCompilationsDraw));
         if (frameMilliseconds > 100.0)
         {
             var warming = _performanceWarmupElapsed < _performanceWarmupSeconds;
@@ -353,9 +358,12 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 + $"allocated_delta={gc.Allocated - _performanceLastGc.Allocated} focused={DisplayServer.WindowIsFocused()} "
                 + $"life_event={life?.GetMeta("event", 0).AsInt32() ?? 0} life_time={life?.GetMeta("eventTime", 0f).AsDouble() ?? 0:F3} "
                 + $"last_process_ms={Performance.GetMonitor(Performance.Monitor.TimeProcess) * 1000.0:F3} "
-                + $"last_physics_ms={Performance.GetMonitor(Performance.Monitor.TimePhysicsProcess) * 1000.0:F3}"));
+                + $"last_physics_ms={Performance.GetMonitor(Performance.Monitor.TimePhysicsProcess) * 1000.0:F3} "
+                + $"pipeline_surface_delta={pipelines.Surface - _performanceLastPipelines.Surface} "
+                + $"pipeline_draw_delta={pipelines.Draw - _performanceLastPipelines.Draw}"));
         }
         _performanceLastGc = gc;
+        _performanceLastPipelines = pipelines;
 
         if (_performanceWarmupElapsed < _performanceWarmupSeconds)
         {
