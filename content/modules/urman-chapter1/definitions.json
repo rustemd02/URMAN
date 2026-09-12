@@ -2036,11 +2036,6 @@
     "op": "beat.set-state",
     "beatId": "urman.chapter1:beat/arrival",
     "state": "completed"
-   },
-   {
-    "op": "vocabulary.set-status",
-    "vocabularyId": "urman.chapter1:vocabulary/tt_yul",
-    "status": "guessed"
    }
   ],
   "onExit": [],

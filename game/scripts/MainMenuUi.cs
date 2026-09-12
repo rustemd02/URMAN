@@ -31,6 +31,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private ScrollContainer? _scroll;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
     private bool _continueAvailable;
+    private bool _existingSavePresent;
     private bool _newGameArmed;
     private string? _continueDescription;
 
@@ -68,9 +69,13 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         if (_panel is not null) _panel.CustomMinimumSize = new Vector2(Math.Min(560, size.X - 32), 0);
     }
 
-    public void SetContinueAvailable(bool available, string? description = null)
+    public void SetContinueAvailable(
+        bool available,
+        string? description = null,
+        bool existingSavePresent = false)
     {
         _continueAvailable = available;
+        _existingSavePresent = existingSavePresent || available;
         _continueDescription = description;
         if (_continueButton is not null)
         {
@@ -84,7 +89,11 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         if (_continueHint is not null)
         {
             _continueHint.Visible = true;
-            _continueHint.Text = available ? description ?? "Последнее сохранение" : "Продолжить · подходящее сохранение не найдено";
+            _continueHint.Text = available
+                ? description ?? "Последнее сохранение"
+                : existingSavePresent
+                    ? "Продолжить · не удалось загрузить подходящее сохранение\nФайлы сохранений оставлены без изменений."
+                    : "Продолжить · подходящее сохранение не найдено";
         }
     }
 
@@ -167,6 +176,18 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void BuildLayout()
     {
+        AddChild(new TextureRect
+        {
+            Name = "MenuArt",
+            Texture = ResourceLoader.Load<Texture2D>("res://assets/textures/ui/act1_menu_winter_v1.png")
+                ?? throw new InvalidOperationException("Act I menu illustration is missing."),
+            AnchorRight = 1f,
+            AnchorBottom = 1f,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCovered,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            TextureFilter = CanvasItem.TextureFilterEnum.Linear
+        });
         var screen = new ColorRect
         {
             Name = "MenuScreen",
@@ -239,11 +260,11 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _newGameButton = MenuButton("NewGameButton", "Новая игра");
         _newGameButton.Pressed += () =>
         {
-            if (_continueAvailable && !_newGameArmed)
+            if (_existingSavePresent && !_newGameArmed)
             {
                 _newGameArmed = true;
                 _newGameButton.Text = "Начать новую игру";
-                ShowStatus("Автосохранение будет заменяться.\nРучное сохранение останется. Esc — отмена.");
+                ShowStatus("Автосохранение будет заменяться.\nРучное сохранение заменится, если сохранить игру. Esc — отмена.");
                 return;
             }
             DisarmNewGame();
@@ -295,7 +316,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         _newGameArmed = false;
         if (_newGameButton is not null) _newGameButton.Text = "Новая игра";
-        SetContinueAvailable(_continueAvailable, _continueDescription);
+        SetContinueAvailable(_continueAvailable, _continueDescription, _existingSavePresent);
     }
 
     private void OpenAbout()

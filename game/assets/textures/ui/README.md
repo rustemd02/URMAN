@@ -1,0 +1,12 @@
+# Act I menu illustration
+
+Original image generated with built-in OpenAI ImageGen on 2026-09-12. No image references or external source assets. This is menu key art, not a captured gameplay frame or evidence of world art acceptance.
+
+- Runtime: `act1_menu_winter_v1.png`, 1672 × 941, unmodified opaque PNG.
+- SHA-256: `2afdd76a4356ddfa42a92a8ebe002c4cd8a9303a3482e0ad76f1d8aeebbfc420`.
+- Generation source filename: `exec-22e5ae41-c3da-404f-aa81-68f57cd4548b.png`.
+- Binding: `MainMenuUi.BuildLayout`, native TextureRect with aspect-cover crop.
+
+## Exact generation prompt
+
+Create a finished landscape illustration for the main menu of URMAN, an original intimate Tatar mystery adventure. Widescreen 16:9, ideally 2048x1152 or larger. Original painterly cel-shaded adventure art with the luminous color design, coherent broad value shapes and inviting environmental depth associated with Zelda Breath of the Wild / Tears of the Kingdom. NOT a screenshot, no typography, no UI, no logos, no characters or creatures. A winter evening in a modest real Tatar village near Kyr lay in Tatarstan: low timber houses with delicately carved painted window frames and teal-green trim, a few small warm amber windows, weathered picket fences, a narrow well-trodden snow lane winding between yards toward a dark spruce and pine forest. One small understated village mosque roof with a single slender minaret in the far left distance, respectful and architecturally plausible, no domes dominating the picture, no church. Low hills, birches bare of leaves, rounded snow on roofs and boughs, soft indigo shadows, muted turquoise dusk, golden light touches, gentle atmospheric perspective. Slightly mysterious yet a place the player wants to explore. Composition is essential: beautiful lived-in village in LEFT third, layered winter forest framing RIGHT third, central vertical 32 percent reserved for quiet low-detail dusk sky / distant snow path because a menu panel will cover it. Camera at human eye level, three-quarter view from outside a fence with a small side passage leading off the lane. No high mountains, no medieval castles, no gothic horror, no pumpkins, no fantasy giant trees, no bright neon magic, no generic monsters. Elegant handmade brushwork, visibly painted surfaces, restrained cel shading and warm-cool contrast, cohesive premium indie game key art, readable large forms, no clutter. Full bleed opaque image.

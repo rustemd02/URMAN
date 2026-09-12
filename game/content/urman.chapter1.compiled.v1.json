@@ -3661,11 +3661,6 @@
             "op": "beat.set-state",
             "beatId": "urman.chapter1:beat/arrival",
             "state": "completed"
-          },
-          {
-            "op": "vocabulary.set-status",
-            "vocabularyId": "urman.chapter1:vocabulary/tt_yul",
-            "status": "guessed"
           }
         ],
         "onExit": [],
@@ -7273,7 +7268,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "1ee76aeb3a69e1703008f0333cd42213cf0e753289542a653ef9a96a73da94ce"
+      "sha256": "f56185c7ca0fcd19a8d030828647d55f9a9bfb645203dfeef4b94c9adcab2df2"
     },
     {
       "moduleId": "urman.core",
@@ -7286,5 +7281,5 @@
       "sha256": "c5f6da9646e805176ada5893a495a63ff06e4da1457b003f54c34318815037ee"
     }
   ],
-  "campaignFingerprint": "589643db90f5b18a8a8f8d986511dca9405c5f8b962f25f14fcb7a4619f9067c"
+  "campaignFingerprint": "774cf31e2d254b94e9319dfbf75fe4f97db980d52feac33d23334dceef08bbf1"
 }

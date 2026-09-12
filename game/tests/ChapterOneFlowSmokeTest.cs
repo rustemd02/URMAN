@@ -93,8 +93,9 @@ public partial class ChapterOneFlowSmokeTest : Node
             || spinnerRepeatJournalCount != bridge.JournalEntries().Count)
         { Fail("Yard spinner repeat created a runtime or journal event, or opened the journal UI."); return; }
 
-        if (await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-yul-road"))
-        { Fail("The optional yul question was available before reading the sign reverse."); return; }
+        if (bridge.LearnedVocabulary().Any(entry => entry.Id == ChapterPrefix + "vocabulary/tt_yul")
+            || await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-yul-road"))
+        { Fail("The road word or its optional question was exposed before reading the sign reverse."); return; }
 
         foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench", "connective-street-return-bench", "fap-exterior-care-porch", "main-street-side-window", "connective-street-repair-bench", "babai-yard-loose-side-gate-board", "kara-old-forestry-side-track", "kara-warm-window-clearing", "kara-branch-profile", "main-street-fenced-service-lane", "connective-street-shed-bypass", "zirat-outer-culvert-crossing", "house-exterior-rear-minaret-view" })
             if (!await Discover(bridge, slug)) return;

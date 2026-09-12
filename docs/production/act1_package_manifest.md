@@ -312,3 +312,11 @@ Remaining gates include:
 ### 2026-09-12 — winter foliage dependency gate
 
 The existing scope gate now requires the two dynamically loaded winter GLBs and the imported Pine alpha texture. Both PCKs extracted from native R5 (`b22a62f`) passed with 281 entries and headless/Dummy bootstrap. This adds explicit dependency coverage; it does not establish Windows host execution or signing.
+
+### 2026-09-12 menu illustration dependency
+
+The main menu binds `assets/textures/ui/act1_menu_winter_v1.png`; package verification requires its `.png.import` plus exactly one nonempty imported `.ctex`. Original ImageGen provenance and exact prompt are in `game/assets/textures/ui/README.md`. This dependency enters the next package after R5.
+
+### R5 → R6 save boundary
+
+R6 removes the premature arrival grant of `tt_yul`. Its chapter campaign fingerprint is `774cf31e2d254b94e9319dfbf75fe4f97db980d52feac33d23334dceef08bbf1` (R5: `589643db90f5b18a8a8f8d986511dca9405c5f8b962f25f14fcb7a4619f9067c`). Existing R5 saves are not migrated. The menu declines incompatible Continue, retains the files, and confirms New Game; later saves may overwrite the corresponding slots. Preserve the R5 package with its saves to continue an R5 playthrough.

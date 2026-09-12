@@ -728,10 +728,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         if (_mainMenu is { IsDismissed: false } menu)
         {
-            var candidate = _bridge is { } bridge ? await bridge.FindContinueAsync() : null;
+            var bridge = _bridge;
+            var candidate = bridge is null ? null : await bridge.FindContinueAsync();
+            var existingSavePresent = bridge is not null
+                && (bridge.IsSlotAvailable(MainMenuUi.ContinueSlot)
+                    || bridge.IsSlotAvailable(RuntimeBridge.CheckpointSlot));
             if (IsInstanceValid(menu) && !menu.IsDismissed)
             {
-                menu.SetContinueAvailable(candidate is not null, candidate?.Description);
+                menu.SetContinueAvailable(candidate is not null, candidate?.Description, existingSavePresent);
                 if (menu.NewGameButton is { } newGame) { newGame.Disabled = false; newGame.GrabFocus(); }
             }
         }

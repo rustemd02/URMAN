@@ -35,3 +35,6 @@ Quaternius — Universal Base Characters Standard, CC0 1.0.
 Quaternius — Stylized Nature MegaKit Standard, CC0 1.0.
 Источник: quaternius.com/packs/stylizednaturemegakit.html
 Для УРМАНА подготовлены масштаб, уровни детализации, материалы коры и заснеженной хвои.
+
+Зимняя иллюстрация главного меню
+Создана для УРМАНА с помощью OpenAI ImageGen.

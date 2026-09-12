@@ -280,7 +280,8 @@
       "evidence": [
         "2026-09-11: newest validated Continue + profile preserved on load + credits and licenses + ending-to-menu/restart. menu_lifecycle_build_v9, menu_user_settings_smoke, menu_ui, menu_cold_continue_v2 and menu_ending_flow_v3 PASS; 1280x720 normal/1.6 menu/credits frames inspected. Export credits inventory not yet re-exported; remaining full UI input/movement acceptance open.",
         "2026-09-11 current native Metal MainMenu smoke PASS 720p/1080p, normal/1.6 captures reviewed: menu_720_round4.log, menu_1080_round4.log and ui_acceptance/menu_720,menu_1080. User profile restored byte-for-byte. Background art and ordinary full acceptance remain open.",
-        "2026-09-12 ordinary native b683d57 menu/New Game/save/Continue/journal/settings/exit exposed settings behind menus and premature comparison guidance. Source fixes: Settings layer110 and return focus; journal uses existing JournalActions readiness for the canonical pair, general question before both sources. Existing settings_navigation and journal_flow smoke pass. Fresh native visual recheck pending; full player acceptance open."
+        "2026-09-12 ordinary native b683d57 menu/New Game/save/Continue/journal/settings/exit exposed settings behind menus and premature comparison guidance. Source fixes: Settings layer110 and return focus; journal uses existing JournalActions readiness for the canonical pair, general question before both sources. Existing settings_navigation and journal_flow smoke pass. Fresh native visual recheck pending; full player acceptance open.",
+        "2026-09-12: original winter menu art native720/1080 normal+1.6 reviewed; MainMenu smoke PASS; historical-fingerprint temporary probe PASS refusal, clear retained-files hint, confirmation/Escape, byte-exact preservation. R5→R6 migration absent, explicit boundary documented."
       ],
       "blocked_reason": null
     },
@@ -394,7 +395,8 @@
       ],
       "evidence": [
         "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/early_dialogue_smoke.log",
-        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/early_corridor_smoke.log"
+        "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/early_corridor_smoke.log",
+        "2026-09-12: tt_yul is first learned from sign reverse, not arrival; both packs regenerated, ChapterOneFlow PASS including optional Alsu question and ending/new session. New campaign fingerprint creates explicit R5→R6 save boundary."
       ],
       "blocked_reason": null
     },

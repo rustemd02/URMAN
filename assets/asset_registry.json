@@ -1669,6 +1669,23 @@
       "releaseDisposition": "include-in-act1-release; WinterPine cutout material dependency",
       "sourceSha256": "86f7ff7a214f5424de48d269568f36a15485e61c80677e426c7be9f45181eef9",
       "derivedSha256": "86f7ff7a214f5424de48d269568f36a15485e61c80677e426c7be9f45181eef9"
+    },
+    {
+      "id": "texture.ui.act1-menu-winter-v1",
+      "source": "Original built-in OpenAI ImageGen illustration 2026-09-12; no reference images; exact prompt and provenance in game/assets/textures/ui/README.md",
+      "derived": "game/assets/textures/ui/act1_menu_winter_v1.png",
+      "derivedSha256": "2afdd76a4356ddfa42a92a8ebe002c4cd8a9303a3482e0ad76f1d8aeebbfc420",
+      "license": "Original AI-generated project artwork; no third-party source assets",
+      "textureBudget": 2048,
+      "runtimeBinding": "MainMenuUi.BuildLayout MenuArt TextureRect; main menu only",
+      "status": "runtime-bound; native menu 720p/1080p normal and 1.6 text verified; world art lock remains open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced",
+      "generator": "OpenAI ImageGen built-in; original 1672x941 PNG",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "materials": [],
+      "collision": "not applicable",
+      "lod": "native UI texture filtering; aspect-cover crop"
     }
   ]
 }

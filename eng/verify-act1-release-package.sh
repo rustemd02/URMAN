@@ -383,6 +383,9 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
         require(entries, f"assets/textures/painterly/{texture}.png.import")
         require_prefix(entries, f".godot/imported/{texture}.png-", ".ctex")
 
+    require(entries, "assets/textures/ui/act1_menu_winter_v1.png.import")
+    require_prefix(entries, ".godot/imported/act1_menu_winter_v1.png-", ".ctex")
+
     # Pine's embedded Leaf_Pine_C mask is extracted by Godot and consumed by
     # AgentBAct1ExteriorLayer when it replaces the imported needle material.
     require(entries, "assets/models/act1/urman_winter_pine_Leaf_Pine_C.png.import")
