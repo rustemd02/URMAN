@@ -440,11 +440,16 @@ def create_house_interior(materials: dict[str, bpy.types.Material]) -> None:
         800,
         bevel_width=0.045,
     )
-    for name, x in (("HouseInterior_TableLegLeft_LOD0", -1.35), ("HouseInterior_TableLegRight_LOD0", 1.35)):
+    for name, x, z in (
+        ("HouseInterior_TableLegLeft_LOD0", -1.35, -3.10),
+        ("HouseInterior_TableLegRight_LOD0", 1.35, -3.10),
+        ("HouseInterior_TableLegBackLeft_LOD0", -1.35, -4.10),
+        ("HouseInterior_TableLegBackRight_LOD0", 1.35, -4.10),
+    ):
         house_interior_cube(
             name,
             (0.18, 0.82, 0.18),
-            (x, 0.40, -3.60),
+            (x, 0.40, z),
             materials["wood_dark"],
             320,
             bevel_width=0.022,
@@ -459,27 +464,32 @@ def create_house_interior(materials: dict[str, bpy.types.Material]) -> None:
     )
     house_interior_cube(
         "HouseInterior_ChairSeat_LOD0",
-        (0.90, 0.12, 0.86),
-        (-2.15, 0.52, -1.25),
+        (0.52, 0.07, 0.50),
+        (-2.15, 0.435, -1.25),
         materials["wood"],
         420,
         bevel_width=0.035,
     )
     house_interior_tapered_box(
         "HouseInterior_ChairBack_LOD0",
-        1.05,
-        (-2.02, 1.00, -0.83),
-        (0.92, 0.14),
-        (0.78, 0.12),
+        0.64,
+        (-2.15, 0.77, -1.015),
+        (0.52, 0.06),
+        (0.48, 0.045),
         materials["wood"],
         420,
-        bevel_width=0.04,
+        bevel_width=0.015,
     )
-    for name, x in (("HouseInterior_ChairLegLeft_LOD0", -2.42), ("HouseInterior_ChairLegRight_LOD0", -1.88)):
+    for name, x, z in (
+        ("HouseInterior_ChairLegLeft_LOD0", -2.34, -1.41),
+        ("HouseInterior_ChairLegRight_LOD0", -1.96, -1.41),
+        ("HouseInterior_ChairLegBackLeft_LOD0", -2.34, -1.04),
+        ("HouseInterior_ChairLegBackRight_LOD0", -1.96, -1.04),
+    ):
         house_interior_cube(
             name,
-            (0.12, 0.48, 0.12),
-            (x, 0.24, -1.25),
+            (0.07, 0.40, 0.07),
+            (x, 0.20, z),
             materials["wood_dark"],
             220,
             bevel_width=0.018,
@@ -856,8 +866,8 @@ def create_house_lived_in_cluster(materials: dict[str, bpy.types.Material]) -> N
     )
     folio = house_interior_cube(
         "HouseInterior_OldPcDocumentFolio_LOD0",
-        (0.82, 0.06, 0.72),
-        (-0.98, 0.97, -3.52),
+        (0.38, 0.028, 0.48),
+        (-0.98, 0.912, -3.52),
         materials["plaster"],
         300,
         bevel_width=0.018,

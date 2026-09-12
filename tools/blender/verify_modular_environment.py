@@ -13,10 +13,10 @@ expected = scene.get("lod1_mesh_count")
 legacy_lod1 = [obj for obj in lod1 if not obj.name.startswith("HouseInterior_")]
 house_interior_lod1 = [obj for obj in lod1 if obj.name.startswith("HouseInterior_")]
 # Keep the existing 49-mesh environment contract fail-closed while adding the
-# authored 84-mesh interior family and its restrained lived-in clusters.
-if expected != len(lod1) or expected != 133 or len(legacy_lod1) != 49 or len(house_interior_lod1) != 84:
+# authored 88-mesh interior family and its restrained lived-in clusters.
+if expected != len(lod1) or expected != 137 or len(legacy_lod1) != 49 or len(house_interior_lod1) != 88:
     raise RuntimeError(
-        "Expected 133 LOD1 meshes (49 legacy + 84 HouseInterior), "
+        "Expected 137 LOD1 meshes (49 legacy + 88 HouseInterior), "
         f"got scene={expected!r}, actual={len(lod1)}, "
         f"legacy={len(legacy_lod1)}, house_interior={len(house_interior_lod1)}"
     )
@@ -66,11 +66,15 @@ house_interior_required = {
     "HouseInterior_TableTop",
     "HouseInterior_TableLegLeft",
     "HouseInterior_TableLegRight",
+    "HouseInterior_TableLegBackLeft",
+    "HouseInterior_TableLegBackRight",
     "HouseInterior_TableApron",
     "HouseInterior_ChairSeat",
     "HouseInterior_ChairBack",
     "HouseInterior_ChairLegLeft",
     "HouseInterior_ChairLegRight",
+    "HouseInterior_ChairLegBackLeft",
+    "HouseInterior_ChairLegBackRight",
     "HouseInterior_CupboardBody",
     "HouseInterior_CupboardDoor",
     "HouseInterior_RugField",
@@ -213,9 +217,9 @@ house_interior_lod0 = [
     for obj in scene.objects
     if obj.type == "MESH" and obj.name.startswith("HouseInterior_") and "_LOD0" in obj.name
 ]
-if scene.get("house_interior_lod0_count") != 84 or len(house_interior_lod0) != 84:
+if scene.get("house_interior_lod0_count") != 88 or len(house_interior_lod0) != 88:
     raise RuntimeError(
-        "Expected 84 HouseInterior LOD0 meshes, "
+        "Expected 88 HouseInterior LOD0 meshes, "
         f"got scene={scene.get('house_interior_lod0_count')!r}, actual={len(house_interior_lod0)}"
     )
 actual_house_interior = {obj.name.replace("_LOD0", "") for obj in house_interior_lod0}

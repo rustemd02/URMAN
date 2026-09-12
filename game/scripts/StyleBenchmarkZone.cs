@@ -379,12 +379,12 @@ public partial class StyleBenchmarkZone : Node3D
         MakeBox("Table", new(3.2f, 0.14f, 1.35f), new(0, 0.82f, -3.6f), "57402e", surface: "wood");
         MakeBox("TableLegL", new(0.18f, 0.82f, 0.18f), new(-1.35f, 0.4f, -3.6f), "463326", surface: "wood");
         MakeBox("TableLegR", new(0.18f, 0.82f, 0.18f), new(1.35f, 0.4f, -3.6f), "463326", surface: "wood");
-        MakeDisc("Mouse", new(0.24f, 0.055f, 0.34f), new(0.92f, 0.96f, -2.82f), "6f6d61");
-        MakeBox("DocumentStack", new(0.72f, 0.045f, 0.95f), new(-1.05f, 0.94f, -3.0f), "b0a17e", collision: false);
-        MakeBox("DocumentShadow", new(0.76f, 0.025f, 0.98f), new(-1.01f, 0.91f, -3.04f), "5f5140", collision: false);
-        MakeRotatedBox("DocumentTopPage", new(0.58f, 0.018f, 0.76f), new(-0.95f, 0.98f, -3.02f), new(0, -4, 1), "d3c39d");
-        MakeBox("DocumentRedMark", new(0.36f, 0.022f, 0.025f), new(-0.95f, 1.0f, -3.18f), "9b5a4c", collision: false);
-        MakeCup(new(-1.82f, 1.08f, -3.18f));
+        MakeDisc("Mouse", new(0.09f, 0.035f, 0.13f), new(0.46f, 0.925f, -3.22f), "6f6d61");
+        MakeBox("DocumentStack", new(0.36f, 0.035f, 0.46f), new(-1.05f, 0.915f, -3.30f), "b0a17e", collision: false);
+        MakeBox("DocumentShadow", new(0.38f, 0.015f, 0.48f), new(-1.03f, 0.899f, -3.32f), "5f5140", collision: false);
+        MakeRotatedBox("DocumentTopPage", new(0.30f, 0.008f, 0.40f), new(-0.98f, 0.941f, -3.29f), new(0, -4, 1), "d3c39d");
+        MakeBox("DocumentRedMark", new(0.18f, 0.009f, 0.01f), new(-0.98f, 0.947f, -3.37f), "9b5a4c", collision: false);
+        MakeCup(new(-1.34f, 0.94f, -3.62f));
         MakeRotatedBox("ChairSeat", new(0.9f, 0.12f, 0.86f), new(-2.15f, 0.52f, -1.25f), new(0, -18, 0), "684b37", "wood");
         MakeRotatedBox("ChairBack", new(0.9f, 1.05f, 0.12f), new(-2.02f, 1.0f, -0.83f), new(0, -18, 0), "684b37", "wood");
         MakeBox("Cupboard", new(1.45f, 2.35f, 0.72f), new(-4.85f, 1.17f, -3.9f), "70563e", surface: "wood");
@@ -397,10 +397,11 @@ public partial class StyleBenchmarkZone : Node3D
         MakeBox("WallShelf", new(2.2f, 0.12f, 0.45f), new(-3.85f, 2.05f, -4.6f), "503b2c", surface: "wood");
         MakeBox("CurtainLeft", new(0.42f, 1.55f, 0.05f), new(2.05f, 2.1f, -4.78f), "8d806f", collision: false, surface: "fabric_pattern");
         MakeBox("CurtainRight", new(0.42f, 1.55f, 0.05f), new(3.05f, 2.1f, -4.78f), "8d806f", collision: false, surface: "fabric_pattern");
+        var oldPcAnchor = new Vector3(0, 1.15f, -3.68f);
         MakeInteractionBox(
             "OldPc",
-            new(1.4f, 1.15f, 0.72f),
-            new(0, 1.46f, -3.68f),
+            new(0.94f, 0.66f, 0.50f),
+            oldPcAnchor + new Vector3(.14f, 0, 0),
             "3b403c",
             "urman.chapter1:interaction/oldpc-power",
             "Включить старый компьютер");
@@ -408,8 +409,8 @@ public partial class StyleBenchmarkZone : Node3D
             this,
             "style-house-old-pc",
             ["OldPc_"],
-            new(0f, 1.46f, -3.68f),
-            uniformScale: 1.0f,
+            oldPcAnchor,
+            uniformScale: 0.45f,
             yawDegrees: 0f);
         oldPc.Name = "GeneratedOldPcAct1";
         oldPc.SetMeta("stylePresentationModule", "OldPc_project_original");
@@ -593,7 +594,7 @@ public partial class StyleBenchmarkZone : Node3D
         SetMeta(
             "houseInteriorLivedInCluster",
             "authored hearth with flue|left-wall cupboard|quiet tableware|floor storage basket; presentation-only GLB with hearth floor proxy");
-        MakeCrtHeroDetail();
+        PainterlyEnvironmentDetails.AddCable(this, new Vector3(.60f, .94f, -3.78f), new Vector3(.60f, .10f, -2.8f));
         MakeCylinder("LampStem", .035f, .64f, new(2.15f, 1.32f, -3.25f), "6c573e");
         var lampShade = new MeshInstance3D
         {
@@ -779,7 +780,7 @@ public partial class StyleBenchmarkZone : Node3D
         AddChild(new OmniLight3D
         {
             Name = "CrtScreenGlow",
-            Position = new(0, 1.5f, -3.0f),
+            Position = oldPcAnchor + new Vector3(0, .04f, .24f),
             LightColor = Color.FromHtml("78a59a"),
             LightEnergy = 0.78f,
             OmniRange = 3.8f,
@@ -1777,20 +1778,6 @@ public partial class StyleBenchmarkZone : Node3D
         }
     }
 
-    private void MakeCrtHeroDetail()
-    {
-        MakeBox("CrtInnerScreen", new(0.74f, 0.43f, 0.018f), new(0, 1.54f, -3.305f), "6e968b", collision: false);
-        for (var row = 0; row < 4; row++)
-        {
-            MakeBox($"CrtScanline{row}", new(0.62f, 0.012f, 0.01f), new(0, 1.41f + row * 0.085f, -3.292f), row == 2 ? "9db5a3" : "547e74", collision: false);
-        }
-        for (var column = 0; column < 3; column++)
-        {
-            MakeBox($"CrtVent{column}", new(0.035f, 0.42f, 0.02f), new(1.25f + (column - 1) * 0.11f, 1.58f, -3.315f), "343a35", collision: false);
-        }
-        PainterlyEnvironmentDetails.AddCable(this, new Vector3(1.58f, 0.88f, -3.7f), new Vector3(1.58f, 0.46f, -2.8f));
-    }
-
     private void MakeFallenLog(Vector3 position, float length, Vector3 rotationDegrees) =>
         MakeLog(position, length, rotationDegrees, "5d4635");
 
@@ -1868,14 +1855,14 @@ public partial class StyleBenchmarkZone : Node3D
         {
             Name = "TeaCup",
             Position = position,
-            Mesh = new CylinderMesh { TopRadius = 0.16f, BottomRadius = 0.18f, Height = 0.22f, RadialSegments = 8 },
+            Mesh = new CylinderMesh { TopRadius = 0.06f, BottomRadius = 0.038f, Height = 0.09f, RadialSegments = 16, CapTop = false },
             MaterialOverride = Material("8d6b55", "plaster")
         });
         AddChild(new MeshInstance3D
         {
             Name = "TeaSurface",
-            Position = position + new Vector3(0, 0.115f, 0),
-            Mesh = new CylinderMesh { TopRadius = 0.125f, BottomRadius = 0.125f, Height = 0.012f, RadialSegments = 8 },
+            Position = position + new Vector3(0, 0.037f, 0),
+            Mesh = new CylinderMesh { TopRadius = 0.051f, BottomRadius = 0.051f, Height = 0.006f, RadialSegments = 16 },
             MaterialOverride = Material("3d3029")
         });
     }

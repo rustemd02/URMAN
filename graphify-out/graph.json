@@ -2895,7 +2895,7 @@
       "label": "create_house_lived_in_cluster()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L644",
+      "source_location": "L654",
       "id": "blender_generate_modular_environment_create_house_lived_in_cluster",
       "community": 184,
       "norm_label": "create_house_lived_in_cluster()"
@@ -2904,7 +2904,7 @@
       "label": "create_house()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L897",
+      "source_location": "L907",
       "id": "blender_generate_modular_environment_create_house",
       "community": 184,
       "norm_label": "create_house()"
@@ -2913,7 +2913,7 @@
       "label": "create_fence()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1008",
+      "source_location": "L1018",
       "id": "blender_generate_modular_environment_create_fence",
       "community": 184,
       "norm_label": "create_fence()"
@@ -2922,7 +2922,7 @@
       "label": "create_yard_props()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1031",
+      "source_location": "L1041",
       "id": "blender_generate_modular_environment_create_yard_props",
       "community": 184,
       "norm_label": "create_yard_props()"
@@ -2931,7 +2931,7 @@
       "label": "create_boundary_gate()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1105",
+      "source_location": "L1115",
       "id": "blender_generate_modular_environment_create_boundary_gate",
       "community": 184,
       "norm_label": "create_boundary_gate()"
@@ -2940,7 +2940,7 @@
       "label": "create_road()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1135",
+      "source_location": "L1145",
       "id": "blender_generate_modular_environment_create_road",
       "community": 184,
       "norm_label": "create_road()"
@@ -2949,7 +2949,7 @@
       "label": "create_pine()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1147",
+      "source_location": "L1157",
       "id": "blender_generate_modular_environment_create_pine",
       "community": 184,
       "norm_label": "create_pine()"
@@ -2958,7 +2958,7 @@
       "label": "create_furniture_and_pc()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1182",
+      "source_location": "L1192",
       "id": "blender_generate_modular_environment_create_furniture_and_pc",
       "community": 184,
       "norm_label": "create_furniture_and_pc()"
@@ -2967,7 +2967,7 @@
       "label": "generate_lod1_variants()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1294",
+      "source_location": "L1304",
       "id": "blender_generate_modular_environment_generate_lod1_variants",
       "community": 184,
       "norm_label": "generate_lod1_variants()"
@@ -2976,7 +2976,7 @@
       "label": "normalize_export_uvs()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1329",
+      "source_location": "L1339",
       "id": "blender_generate_modular_environment_normalize_export_uvs",
       "community": 184,
       "norm_label": "normalize_export_uvs()"
@@ -2985,7 +2985,7 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1345",
+      "source_location": "L1355",
       "id": "blender_generate_modular_environment_main",
       "community": 184,
       "norm_label": "main()"
@@ -3057,8 +3057,8 @@
       "label": "Add one restrained domestic cluster without narrowing the interaction lane.",
       "file_type": "rationale",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L645",
-      "id": "blender_generate_modular_environment_rationale_645",
+      "source_location": "L655",
+      "id": "blender_generate_modular_environment_rationale_655",
       "community": 184,
       "norm_label": "add one restrained domestic cluster without narrowing the interaction lane."
     },
@@ -3066,8 +3066,8 @@
       "label": "Create readable, non-interactive village yard anchors for first-person framing.",
       "file_type": "rationale",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1032",
-      "id": "blender_generate_modular_environment_rationale_1032",
+      "source_location": "L1042",
+      "id": "blender_generate_modular_environment_rationale_1042",
       "community": 184,
       "norm_label": "create readable, non-interactive village yard anchors for first-person framing."
     },
@@ -3075,8 +3075,8 @@
       "label": "Create a quiet threshold gate beside the authored PineA anchor.      The Blender",
       "file_type": "rationale",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1106",
-      "id": "blender_generate_modular_environment_rationale_1106",
+      "source_location": "L1116",
+      "id": "blender_generate_modular_environment_rationale_1116",
       "community": 184,
       "norm_label": "create a quiet threshold gate beside the authored pinea anchor.      the blender"
     },
@@ -3084,8 +3084,8 @@
       "label": "Create deterministic, rebuildable LOD1 meshes for every visible LOD0 mesh.",
       "file_type": "rationale",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1295",
-      "id": "blender_generate_modular_environment_rationale_1295",
+      "source_location": "L1305",
+      "id": "blender_generate_modular_environment_rationale_1305",
       "community": 184,
       "norm_label": "create deterministic, rebuildable lod1 meshes for every visible lod0 mesh."
     },
@@ -3093,8 +3093,8 @@
       "label": "Remove sub-ULP bevel UV drift before writing the source/export pair.",
       "file_type": "rationale",
       "source_file": "tools/blender/generate_modular_environment.py",
-      "source_location": "L1330",
-      "id": "blender_generate_modular_environment_rationale_1330",
+      "source_location": "L1340",
+      "id": "blender_generate_modular_environment_rationale_1340",
       "community": 184,
       "norm_label": "remove sub-ulp bevel uv drift before writing the source/export pair."
     },
@@ -4787,7 +4787,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L1",
       "id": "tests_integration_content_closure_whole_pack_closure_test_mjs",
-      "community": 239,
+      "community": 144,
       "norm_label": "whole-pack-closure.test.mjs"
     },
     {
@@ -4796,7 +4796,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L13",
       "id": "content_closure_whole_pack_closure_test_root",
-      "community": 239,
+      "community": 144,
       "norm_label": "root"
     },
     {
@@ -4805,7 +4805,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L15",
       "id": "content_closure_whole_pack_closure_test_relative",
-      "community": 239,
+      "community": 144,
       "norm_label": "relative()"
     },
     {
@@ -4814,7 +4814,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L19",
       "id": "content_closure_whole_pack_closure_test_findnamedfiles",
-      "community": 239,
+      "community": 144,
       "norm_label": "findnamedfiles()"
     },
     {
@@ -4823,7 +4823,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L30",
       "id": "content_closure_whole_pack_closure_test_modulemanifestpaths",
-      "community": 239,
+      "community": 144,
       "norm_label": "modulemanifestpaths()"
     },
     {
@@ -4832,7 +4832,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L39",
       "id": "content_closure_whole_pack_closure_test_campaigns",
-      "community": 239,
+      "community": 144,
       "norm_label": "campaigns()"
     },
     {
@@ -4841,7 +4841,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L52",
       "id": "content_closure_whole_pack_closure_test_modulepaths",
-      "community": 239,
+      "community": 144,
       "norm_label": "modulepaths"
     },
     {
@@ -4850,7 +4850,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L67",
       "id": "content_closure_whole_pack_closure_test_content",
-      "community": 239,
+      "community": 144,
       "norm_label": "content"
     },
     {
@@ -4859,7 +4859,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L78",
       "id": "content_closure_whole_pack_closure_test_closure",
-      "community": 239,
+      "community": 144,
       "norm_label": "closure"
     },
     {
@@ -4868,7 +4868,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L79",
       "id": "content_closure_whole_pack_closure_test_assets",
-      "community": 239,
+      "community": 144,
       "norm_label": "assets"
     },
     {
@@ -4877,7 +4877,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L82",
       "id": "content_closure_whole_pack_closure_test_texts",
-      "community": 239,
+      "community": 144,
       "norm_label": "texts"
     },
     {
@@ -4886,7 +4886,7 @@
       "source_file": "tests/integration/content-closure/whole-pack-closure.test.mjs",
       "source_location": "L84",
       "id": "content_closure_whole_pack_closure_test_resolved",
-      "community": 239,
+      "community": 144,
       "norm_label": "resolved"
     },
     {
@@ -5165,7 +5165,7 @@
       "source_file": "tests/integration/persistence-cutover/production-persistence-gateway.test.mjs",
       "source_location": "L84",
       "id": "persistence_cutover_production_persistence_gateway_test_createruntimepersistence",
-      "community": 22,
+      "community": 85,
       "norm_label": "createruntimepersistence()"
     },
     {
@@ -10196,7 +10196,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_defs_crafting_event",
-      "community": 18,
+      "community": 162,
       "norm_label": "crafting-event"
     },
     {
@@ -10205,7 +10205,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_type",
-      "community": 18,
+      "community": 162,
       "norm_label": "type"
     },
     {
@@ -10214,7 +10214,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_required",
-      "community": 18,
+      "community": 162,
       "norm_label": "required"
     },
     {
@@ -10223,7 +10223,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_properties",
-      "community": 18,
+      "community": 162,
       "norm_label": "properties"
     },
     {
@@ -10232,7 +10232,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
       "id": "contracts_stress_contracts_schema_crafting_event_additionalproperties",
-      "community": 18,
+      "community": 162,
       "norm_label": "additionalproperties"
     },
     {
@@ -10736,7 +10736,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_defs_timed_choice_event",
-      "community": 760,
+      "community": 18,
       "norm_label": "timed-choice-event"
     },
     {
@@ -10745,7 +10745,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_type",
-      "community": 760,
+      "community": 18,
       "norm_label": "type"
     },
     {
@@ -10754,7 +10754,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_required",
-      "community": 760,
+      "community": 18,
       "norm_label": "required"
     },
     {
@@ -10763,7 +10763,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_properties",
-      "community": 760,
+      "community": 18,
       "norm_label": "properties"
     },
     {
@@ -10772,7 +10772,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
       "id": "contracts_stress_contracts_schema_timed_choice_event_additionalproperties",
-      "community": 760,
+      "community": 18,
       "norm_label": "additionalproperties"
     },
     {
@@ -11141,7 +11141,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_defs_environment_sim_event",
-      "community": 162,
+      "community": 658,
       "norm_label": "environment-sim-event"
     },
     {
@@ -11150,7 +11150,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_type",
-      "community": 162,
+      "community": 658,
       "norm_label": "type"
     },
     {
@@ -11159,7 +11159,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_required",
-      "community": 162,
+      "community": 658,
       "norm_label": "required"
     },
     {
@@ -11168,7 +11168,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_properties",
-      "community": 162,
+      "community": 658,
       "norm_label": "properties"
     },
     {
@@ -11177,7 +11177,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
       "id": "contracts_stress_contracts_schema_environment_sim_event_additionalproperties",
-      "community": 162,
+      "community": 658,
       "norm_label": "additionalproperties"
     },
     {
@@ -11537,7 +11537,7 @@
       "source_file": "tests/e2e/content-lab-and-default-campaign.test.mjs",
       "source_location": "L1",
       "id": "tests_e2e_content_lab_and_default_campaign_test_mjs",
-      "community": 348,
+      "community": 6,
       "norm_label": "content-lab-and-default-campaign.test.mjs"
     },
     {
@@ -11546,7 +11546,7 @@
       "source_file": "tests/e2e/content-lab-and-default-campaign.test.mjs",
       "source_location": "L11",
       "id": "e2e_content_lab_and_default_campaign_test_delay",
-      "community": 348,
+      "community": 6,
       "norm_label": "delay()"
     },
     {
@@ -11564,7 +11564,7 @@
       "source_file": "tests/e2e/content-lab-and-default-campaign.test.mjs",
       "source_location": "L24",
       "id": "e2e_content_lab_and_default_campaign_test_waitforvalue",
-      "community": 348,
+      "community": 6,
       "norm_label": "waitforvalue()"
     },
     {
@@ -11573,7 +11573,7 @@
       "source_file": "tests/e2e/content-lab-and-default-campaign.test.mjs",
       "source_location": "L33",
       "id": "e2e_content_lab_and_default_campaign_test_setselectexpression",
-      "community": 348,
+      "community": 6,
       "norm_label": "setselectexpression()"
     },
     {
@@ -11582,7 +11582,7 @@
       "source_file": "tests/e2e/content-lab-and-default-campaign.test.mjs",
       "source_location": "L37",
       "id": "e2e_content_lab_and_default_campaign_test_runvitebuild",
-      "community": 348,
+      "community": 6,
       "norm_label": "runvitebuild()"
     },
     {
@@ -11816,7 +11816,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L11",
       "id": "support_chrome_cdp_driver_delay",
-      "community": 671,
+      "community": 6,
       "norm_label": "delay()"
     },
     {
@@ -11888,7 +11888,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L102",
       "id": "support_chrome_cdp_driver_cdpconnection",
-      "community": 774,
+      "community": 6,
       "norm_label": "cdpconnection"
     },
     {
@@ -11897,7 +11897,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L109",
       "id": "support_chrome_cdp_driver_cdpconnection_constructor",
-      "community": 774,
+      "community": 6,
       "norm_label": ".constructor()"
     },
     {
@@ -11906,7 +11906,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L116",
       "id": "support_chrome_cdp_driver_cdpconnection_request",
-      "community": 671,
+      "community": 6,
       "norm_label": ".request()"
     },
     {
@@ -11915,7 +11915,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L126",
       "id": "support_chrome_cdp_driver_cdpconnection_events",
-      "community": 774,
+      "community": 6,
       "norm_label": ".events()"
     },
     {
@@ -11924,7 +11924,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L130",
       "id": "support_chrome_cdp_driver_cdpconnection_close",
-      "community": 774,
+      "community": 6,
       "norm_label": ".close()"
     },
     {
@@ -11933,7 +11933,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L137",
       "id": "support_chrome_cdp_driver_cdpconnection_receive",
-      "community": 774,
+      "community": 6,
       "norm_label": ".#receive()"
     },
     {
@@ -11942,7 +11942,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L150",
       "id": "support_chrome_cdp_driver_cdpconnection_failpending",
-      "community": 774,
+      "community": 6,
       "norm_label": ".#failpending()"
     },
     {
@@ -11960,7 +11960,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L167",
       "id": "support_chrome_cdp_driver_evaluatefailure",
-      "community": 671,
+      "community": 6,
       "norm_label": "evaluatefailure()"
     },
     {
@@ -11987,7 +11987,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L197",
       "id": "support_chrome_cdp_driver_chromepage",
-      "community": 671,
+      "community": 6,
       "norm_label": "chromepage"
     },
     {
@@ -11996,7 +11996,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L203",
       "id": "support_chrome_cdp_driver_chromepage_constructor",
-      "community": 671,
+      "community": 6,
       "norm_label": ".constructor()"
     },
     {
@@ -12005,7 +12005,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L209",
       "id": "support_chrome_cdp_driver_chromepage_goto",
-      "community": 671,
+      "community": 6,
       "norm_label": ".goto()"
     },
     {
@@ -12014,7 +12014,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L214",
       "id": "support_chrome_cdp_driver_chromepage_evaluate",
-      "community": 671,
+      "community": 6,
       "norm_label": ".evaluate()"
     },
     {
@@ -12023,7 +12023,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L226",
       "id": "support_chrome_cdp_driver_chromepage_click",
-      "community": 671,
+      "community": 6,
       "norm_label": ".click()"
     },
     {
@@ -12032,7 +12032,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L231",
       "id": "support_chrome_cdp_driver_chromepage_waitfor",
-      "community": 671,
+      "community": 6,
       "norm_label": ".waitfor()"
     },
     {
@@ -12041,7 +12041,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L241",
       "id": "support_chrome_cdp_driver_chromepage_text",
-      "community": 671,
+      "community": 6,
       "norm_label": ".text()"
     },
     {
@@ -12050,7 +12050,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L246",
       "id": "support_chrome_cdp_driver_chromepage_focus",
-      "community": 671,
+      "community": 6,
       "norm_label": ".focus()"
     },
     {
@@ -12059,7 +12059,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L252",
       "id": "support_chrome_cdp_driver_chromepage_screenshot",
-      "community": 671,
+      "community": 6,
       "norm_label": ".screenshot()"
     },
     {
@@ -12068,7 +12068,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L257",
       "id": "support_chrome_cdp_driver_chromepage_events",
-      "community": 671,
+      "community": 6,
       "norm_label": ".events()"
     },
     {
@@ -12086,7 +12086,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L269",
       "id": "support_chrome_cdp_driver_chromepage_waitforready",
-      "community": 671,
+      "community": 6,
       "norm_label": ".#waitforready()"
     },
     {
@@ -12113,7 +12113,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L315",
       "id": "support_chrome_cdp_driver_evaluate",
-      "community": 671,
+      "community": 6,
       "norm_label": "evaluate()"
     },
     {
@@ -12176,7 +12176,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L1",
       "id": "tests_e2e_support_vite_test_server_mjs",
-      "community": 348,
+      "community": 6,
       "norm_label": "vite-test-server.mjs"
     },
     {
@@ -12185,7 +12185,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L6",
       "id": "support_vite_test_server_delay",
-      "community": 348,
+      "community": 6,
       "norm_label": "delay()"
     },
     {
@@ -12194,7 +12194,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L10",
       "id": "support_vite_test_server_availableport",
-      "community": 348,
+      "community": 6,
       "norm_label": "availableport()"
     },
     {
@@ -12203,7 +12203,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L22",
       "id": "support_vite_test_server_waitforhttp",
-      "community": 348,
+      "community": 6,
       "norm_label": "waitforhttp()"
     },
     {
@@ -12212,7 +12212,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L38",
       "id": "support_vite_test_server_stop",
-      "community": 348,
+      "community": 6,
       "norm_label": "stop()"
     },
     {
@@ -12221,7 +12221,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L47",
       "id": "support_vite_test_server_waitforexit",
-      "community": 348,
+      "community": 6,
       "norm_label": "waitforexit()"
     },
     {
@@ -12230,7 +12230,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L62",
       "id": "support_vite_test_server_startvitetestserver",
-      "community": 348,
+      "community": 6,
       "norm_label": "startvitetestserver()"
     },
     {
@@ -12905,7 +12905,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_properties_narrativeorder",
-      "community": 818,
+      "community": 103,
       "norm_label": "narrativeorder"
     },
     {
@@ -12914,7 +12914,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_type",
-      "community": 818,
+      "community": 103,
       "norm_label": "type"
     },
     {
@@ -12923,7 +12923,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_minitems",
-      "community": 818,
+      "community": 103,
       "norm_label": "minitems"
     },
     {
@@ -12932,7 +12932,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_uniqueitems",
-      "community": 818,
+      "community": 103,
       "norm_label": "uniqueitems"
     },
     {
@@ -12941,7 +12941,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_items",
-      "community": 818,
+      "community": 103,
       "norm_label": "items"
     },
     {
@@ -15749,7 +15749,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L9",
       "id": "schemas_scene_schema_properties_id",
-      "community": 190,
+      "community": 221,
       "norm_label": "id"
     },
     {
@@ -15758,7 +15758,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L9",
       "id": "schemas_scene_schema_id_ref",
-      "community": 190,
+      "community": 221,
       "norm_label": "$ref"
     },
     {
@@ -15803,7 +15803,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
       "id": "schemas_scene_schema_properties_assetrefs",
-      "community": 221,
+      "community": 275,
       "norm_label": "assetrefs"
     },
     {
@@ -15812,7 +15812,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
       "id": "schemas_scene_schema_assetrefs_type",
-      "community": 221,
+      "community": 275,
       "norm_label": "type"
     },
     {
@@ -15821,7 +15821,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
       "id": "schemas_scene_schema_assetrefs_uniqueitems",
-      "community": 221,
+      "community": 275,
       "norm_label": "uniqueitems"
     },
     {
@@ -15830,7 +15830,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
       "id": "schemas_scene_schema_assetrefs_items",
-      "community": 221,
+      "community": 275,
       "norm_label": "items"
     },
     {
@@ -15884,7 +15884,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L14",
       "id": "schemas_scene_schema_properties_entryconditions",
-      "community": 807,
+      "community": 221,
       "norm_label": "entryconditions"
     },
     {
@@ -15893,7 +15893,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L14",
       "id": "schemas_scene_schema_entryconditions_type",
-      "community": 807,
+      "community": 221,
       "norm_label": "type"
     },
     {
@@ -15902,7 +15902,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L14",
       "id": "schemas_scene_schema_entryconditions_items",
-      "community": 807,
+      "community": 221,
       "norm_label": "items"
     },
     {
@@ -16064,7 +16064,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L26",
       "id": "schemas_scene_schema_properties_effects",
-      "community": 275,
+      "community": 190,
       "norm_label": "effects"
     },
     {
@@ -16073,7 +16073,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L26",
       "id": "schemas_scene_schema_effects_type",
-      "community": 275,
+      "community": 190,
       "norm_label": "type"
     },
     {
@@ -16082,7 +16082,7 @@
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L26",
       "id": "schemas_scene_schema_effects_items",
-      "community": 275,
+      "community": 190,
       "norm_label": "items"
     },
     {
@@ -17135,7 +17135,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L1",
       "id": "content_schemas_common_schema_json",
-      "community": 819,
+      "community": 105,
       "norm_label": "common.schema.json"
     },
     {
@@ -17144,7 +17144,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L2",
       "id": "schemas_common_schema_schema",
-      "community": 819,
+      "community": 105,
       "norm_label": "$schema"
     },
     {
@@ -17153,7 +17153,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L3",
       "id": "schemas_common_schema_id",
-      "community": 819,
+      "community": 105,
       "norm_label": "$id"
     },
     {
@@ -17162,7 +17162,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L4",
       "id": "schemas_common_schema_schemaversion",
-      "community": 819,
+      "community": 105,
       "norm_label": "schemaversion"
     },
     {
@@ -17180,7 +17180,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_defs_schemaversion",
-      "community": 105,
+      "community": 745,
       "norm_label": "schemaversion"
     },
     {
@@ -17189,7 +17189,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_schemaversion_type",
-      "community": 105,
+      "community": 745,
       "norm_label": "type"
     },
     {
@@ -17198,7 +17198,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_schemaversion_const",
-      "community": 105,
+      "community": 745,
       "norm_label": "const"
     },
     {
@@ -17207,7 +17207,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L7",
       "id": "schemas_common_schema_defs_moduleid",
-      "community": 105,
+      "community": 707,
       "norm_label": "moduleid"
     },
     {
@@ -17216,7 +17216,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L8",
       "id": "schemas_common_schema_moduleid_type",
-      "community": 105,
+      "community": 707,
       "norm_label": "type"
     },
     {
@@ -17225,7 +17225,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L9",
       "id": "schemas_common_schema_moduleid_pattern",
-      "community": 105,
+      "community": 707,
       "norm_label": "pattern"
     },
     {
@@ -17252,7 +17252,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L14",
       "id": "schemas_common_schema_defs_contentid",
-      "community": 822,
+      "community": 105,
       "norm_label": "contentid"
     },
     {
@@ -17261,7 +17261,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L15",
       "id": "schemas_common_schema_contentid_type",
-      "community": 822,
+      "community": 105,
       "norm_label": "type"
     },
     {
@@ -17270,7 +17270,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L16",
       "id": "schemas_common_schema_contentid_pattern",
-      "community": 822,
+      "community": 105,
       "norm_label": "pattern"
     },
     {
@@ -17279,7 +17279,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L18",
       "id": "schemas_common_schema_defs_exactversion",
-      "community": 105,
+      "community": 671,
       "norm_label": "exactversion"
     },
     {
@@ -17288,7 +17288,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L19",
       "id": "schemas_common_schema_exactversion_type",
-      "community": 105,
+      "community": 671,
       "norm_label": "type"
     },
     {
@@ -17297,7 +17297,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L20",
       "id": "schemas_common_schema_exactversion_pattern",
-      "community": 105,
+      "community": 671,
       "norm_label": "pattern"
     },
     {
@@ -17306,7 +17306,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L22",
       "id": "schemas_common_schema_defs_filereference",
-      "community": 771,
+      "community": 105,
       "norm_label": "filereference"
     },
     {
@@ -17315,7 +17315,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L23",
       "id": "schemas_common_schema_filereference_type",
-      "community": 771,
+      "community": 105,
       "norm_label": "type"
     },
     {
@@ -17324,7 +17324,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L24",
       "id": "schemas_common_schema_filereference_pattern",
-      "community": 771,
+      "community": 105,
       "norm_label": "pattern"
     },
     {
@@ -17333,7 +17333,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L26",
       "id": "schemas_common_schema_defs_schemareference",
-      "community": 105,
+      "community": 740,
       "norm_label": "schemareference"
     },
     {
@@ -17342,7 +17342,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L27",
       "id": "schemas_common_schema_schemareference_type",
-      "community": 105,
+      "community": 740,
       "norm_label": "type"
     },
     {
@@ -17351,7 +17351,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L28",
       "id": "schemas_common_schema_schemareference_pattern",
-      "community": 105,
+      "community": 740,
       "norm_label": "pattern"
     },
     {
@@ -17666,7 +17666,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L65",
       "id": "schemas_common_schema_properties_id",
-      "community": 218,
+      "community": 202,
       "norm_label": "id"
     },
     {
@@ -17675,7 +17675,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L65",
       "id": "schemas_common_schema_id_ref",
-      "community": 218,
+      "community": 202,
       "norm_label": "$ref"
     },
     {
@@ -17684,7 +17684,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L66",
       "id": "schemas_common_schema_properties_description",
-      "community": 202,
+      "community": 218,
       "norm_label": "description"
     },
     {
@@ -17693,7 +17693,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L66",
       "id": "schemas_common_schema_description_type",
-      "community": 202,
+      "community": 218,
       "norm_label": "type"
     },
     {
@@ -17702,7 +17702,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L66",
       "id": "schemas_common_schema_description_minlength",
-      "community": 202,
+      "community": 218,
       "norm_label": "minlength"
     },
     {
@@ -17729,7 +17729,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L68",
       "id": "schemas_common_schema_properties_kind",
-      "community": 218,
+      "community": 202,
       "norm_label": "kind"
     },
     {
@@ -17738,7 +17738,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L68",
       "id": "schemas_common_schema_kind_const",
-      "community": 218,
+      "community": 202,
       "norm_label": "const"
     },
     {
@@ -26369,7 +26369,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1footstepsmoketest_cs",
-      "community": 707,
+      "community": 247,
       "norm_label": "act1footstepsmoketest.cs"
     },
     {
@@ -26378,7 +26378,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L11",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest",
-      "community": 707,
+      "community": 247,
       "norm_label": "act1footstepsmoketest"
     },
     {
@@ -26387,7 +26387,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L13",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest_ready",
-      "community": 707,
+      "community": 247,
       "norm_label": "._ready()"
     },
     {
@@ -26396,7 +26396,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L133",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest_frames",
-      "community": 707,
+      "community": 247,
       "norm_label": ".frames()"
     },
     {
@@ -26405,7 +26405,7 @@
       "source_file": "game/tests/Act1FootstepSmokeTest.cs",
       "source_location": "L141",
       "id": "tests_act1footstepsmoketest_act1footstepsmoketest_fail",
-      "community": 707,
+      "community": 247,
       "norm_label": ".fail()"
     },
     {
@@ -27998,7 +27998,7 @@
       "source_file": "game/tests/Act1SaveLifecycleSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1savelifecyclesmoketest_cs",
-      "community": 247,
+      "community": 643,
       "norm_label": "act1savelifecyclesmoketest.cs"
     },
     {
@@ -28007,7 +28007,7 @@
       "source_file": "game/tests/Act1SaveLifecycleSmokeTest.cs",
       "source_location": "L11",
       "id": "tests_act1savelifecyclesmoketest_act1savelifecyclesmoketest",
-      "community": 247,
+      "community": 643,
       "norm_label": "act1savelifecyclesmoketest"
     },
     {
@@ -28016,7 +28016,7 @@
       "source_file": "game/tests/Act1SaveLifecycleSmokeTest.cs",
       "source_location": "L13",
       "id": "game_tests_act1savelifecyclesmoketest_cs_string",
-      "community": 247,
+      "community": 643,
       "norm_label": "string"
     },
     {
@@ -28025,7 +28025,7 @@
       "source_file": "game/tests/Act1SaveLifecycleSmokeTest.cs",
       "source_location": "L16",
       "id": "tests_act1savelifecyclesmoketest_act1savelifecyclesmoketest_ready",
-      "community": 247,
+      "community": 643,
       "norm_label": "._ready()"
     },
     {
@@ -28034,7 +28034,7 @@
       "source_file": "game/tests/Act1SaveLifecycleSmokeTest.cs",
       "source_location": "L118",
       "id": "tests_act1savelifecyclesmoketest_act1savelifecyclesmoketest_deleteslot",
-      "community": 247,
+      "community": 643,
       "norm_label": ".deleteslot()"
     },
     {
@@ -28043,7 +28043,7 @@
       "source_file": "game/tests/Act1SaveLifecycleSmokeTest.cs",
       "source_location": "L130",
       "id": "tests_act1savelifecyclesmoketest_act1savelifecyclesmoketest_fail",
-      "community": 247,
+      "community": 643,
       "norm_label": ".fail()"
     },
     {
@@ -30779,7 +30779,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L6359",
       "id": "scripts_act1connectedworld_act1connectedworld_addcorerootcluster",
-      "community": 0,
+      "community": 609,
       "norm_label": ".addcorerootcluster()"
     },
     {
@@ -30788,7 +30788,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L6381",
       "id": "scripts_act1connectedworld_act1connectedworld_addcoreforestbranch",
-      "community": 0,
+      "community": 609,
       "norm_label": ".addcoreforestbranch()"
     },
     {
@@ -30923,7 +30923,7 @@
       "source_file": "game/scripts/Act1ConnectedWorld.cs",
       "source_location": "L7105",
       "id": "scripts_act1connectedworld_act1connectedworld_buildirregularparcelpatchmesh",
-      "community": 0,
+      "community": 609,
       "norm_label": ".buildirregularparcelpatchmesh()"
     },
     {
@@ -31508,7 +31508,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L1",
       "id": "game_scripts_usersettingsstore_cs",
-      "community": 788,
+      "community": 319,
       "norm_label": "usersettingsstore.cs"
     },
     {
@@ -31517,7 +31517,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L13",
       "id": "scripts_usersettingsstore_usersettingsstore",
-      "community": 788,
+      "community": 319,
       "norm_label": "usersettingsstore"
     },
     {
@@ -31526,7 +31526,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L15",
       "id": "game_scripts_usersettingsstore_cs_int",
-      "community": 788,
+      "community": 319,
       "norm_label": "int"
     },
     {
@@ -31535,7 +31535,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L19",
       "id": "scripts_usersettingsstore_usersettingsstore_tryload",
-      "community": 788,
+      "community": 319,
       "norm_label": ".tryload()"
     },
     {
@@ -31544,7 +31544,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L44",
       "id": "scripts_usersettingsstore_usersettingsstore_save",
-      "community": 788,
+      "community": 319,
       "norm_label": ".save()"
     },
     {
@@ -31553,7 +31553,7 @@
       "source_file": "game/scripts/UserSettingsStore.cs",
       "source_location": "L60",
       "id": "scripts_usersettingsstore_usersettingsstore_delete",
-      "community": 788,
+      "community": 319,
       "norm_label": ".delete()"
     },
     {
@@ -31785,7 +31785,7 @@
       "label": ".BuildKaraUrmanNight()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L800",
+      "source_location": "L801",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_buildkaraurmannight",
       "community": 26,
       "norm_label": ".buildkaraurmannight()"
@@ -31794,7 +31794,7 @@
       "label": ".BuildFapClinic()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L925",
+      "source_location": "L926",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_buildfapclinic",
       "community": 26,
       "norm_label": ".buildfapclinic()"
@@ -31803,70 +31803,70 @@
       "label": ".AttachFapInteriorSet()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1148",
+      "source_location": "L1149",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_attachfapinteriorset",
-      "community": 26,
+      "community": 415,
       "norm_label": ".attachfapinteriorset()"
     },
     {
       "label": ".AttachAuthoredKitComponents()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1267",
+      "source_location": "L1268",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_attachauthoredkitcomponents",
-      "community": 26,
+      "community": 415,
       "norm_label": ".attachauthoredkitcomponents()"
     },
     {
       "label": ".AttachAuthoredKitComponent()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1379",
+      "source_location": "L1380",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_attachauthoredkitcomponent",
-      "community": 26,
+      "community": 415,
       "norm_label": ".attachauthoredkitcomponent()"
     },
     {
       "label": ".RegradeAuthoredKitMaterials()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1448",
+      "source_location": "L1449",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_regradeauthoredkitmaterials",
-      "community": 26,
+      "community": 415,
       "norm_label": ".regradeauthoredkitmaterials()"
     },
     {
       "label": ".Descendants()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1584",
+      "source_location": "L1585",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_descendants",
-      "community": 26,
+      "community": 415,
       "norm_label": ".descendants()"
     },
     {
       "label": ".ComposeImportedAncestorBasis()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1596",
+      "source_location": "L1597",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_composeimportedancestorbasis",
-      "community": 26,
+      "community": 415,
       "norm_label": ".composeimportedancestorbasis()"
     },
     {
       "label": ".ClearExtractedSceneOwnership()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1610",
+      "source_location": "L1611",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_clearextractedsceneownership",
-      "community": 26,
+      "community": 415,
       "norm_label": ".clearextractedsceneownership()"
     },
     {
       "label": ".BuildZiratRoad()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1619",
+      "source_location": "L1620",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_buildziratroad",
       "community": 26,
       "norm_label": ".buildziratroad()"
@@ -31875,7 +31875,7 @@
       "label": ".MakeClothesline()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1693",
+      "source_location": "L1694",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makeclothesline",
       "community": 26,
       "norm_label": ".makeclothesline()"
@@ -31884,7 +31884,7 @@
       "label": ".MakeCrateStack()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1707",
+      "source_location": "L1708",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecratestack",
       "community": 26,
       "norm_label": ".makecratestack()"
@@ -31893,7 +31893,7 @@
       "label": ".MakeHaySheaf()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1718",
+      "source_location": "L1719",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makehaysheaf",
       "community": 26,
       "norm_label": ".makehaysheaf()"
@@ -31902,7 +31902,7 @@
       "label": ".MakeSignpost()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1727",
+      "source_location": "L1728",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makesignpost",
       "community": 26,
       "norm_label": ".makesignpost()"
@@ -31911,7 +31911,7 @@
       "label": ".MakeShelfStillLife()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1749",
+      "source_location": "L1750",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makeshelfstilllife",
       "community": 26,
       "norm_label": ".makeshelfstilllife()"
@@ -31920,7 +31920,7 @@
       "label": ".MakeWallCalendar()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1759",
+      "source_location": "L1760",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makewallcalendar",
       "community": 26,
       "norm_label": ".makewallcalendar()"
@@ -31929,25 +31929,16 @@
       "label": ".MakeRadioAndHerbs()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1769",
+      "source_location": "L1770",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makeradioandherbs",
       "community": 26,
       "norm_label": ".makeradioandherbs()"
     },
     {
-      "label": ".MakeCrtHeroDetail()",
-      "file_type": "code",
-      "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1780",
-      "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecrtherodetail",
-      "community": 26,
-      "norm_label": ".makecrtherodetail()"
-    },
-    {
       "label": ".MakeFallenLog()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1794",
+      "source_location": "L1781",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makefallenlog",
       "community": 26,
       "norm_label": ".makefallenlog()"
@@ -31956,7 +31947,7 @@
       "label": ".MakeStump()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1797",
+      "source_location": "L1784",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makestump",
       "community": 26,
       "norm_label": ".makestump()"
@@ -31965,7 +31956,7 @@
       "label": ".MakeBoundaryCharm()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1803",
+      "source_location": "L1790",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makeboundarycharm",
       "community": 26,
       "norm_label": ".makeboundarycharm()"
@@ -31974,7 +31965,7 @@
       "label": ".MakeBranch()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1809",
+      "source_location": "L1796",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makebranch",
       "community": 26,
       "norm_label": ".makebranch()"
@@ -31983,7 +31974,7 @@
       "label": ".MakeHouse()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1824",
+      "source_location": "L1811",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makehouse",
       "community": 26,
       "norm_label": ".makehouse()"
@@ -31992,7 +31983,7 @@
       "label": ".MakeFence()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1844",
+      "source_location": "L1831",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makefence",
       "community": 26,
       "norm_label": ".makefence()"
@@ -32001,7 +31992,7 @@
       "label": ".MakeLog()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1847",
+      "source_location": "L1834",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makelog",
       "community": 26,
       "norm_label": ".makelog()"
@@ -32010,7 +32001,7 @@
       "label": ".MakeCup()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1865",
+      "source_location": "L1852",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecup",
       "community": 26,
       "norm_label": ".makecup()"
@@ -32019,7 +32010,7 @@
       "label": ".MakePine()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1883",
+      "source_location": "L1870",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makepine",
       "community": 26,
       "norm_label": ".makepine()"
@@ -32028,7 +32019,7 @@
       "label": ".ForestFoliageColor()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1892",
+      "source_location": "L1879",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_forestfoliagecolor",
       "community": 26,
       "norm_label": ".forestfoliagecolor()"
@@ -32037,7 +32028,7 @@
       "label": ".AttachPresentationPine()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1902",
+      "source_location": "L1889",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_attachpresentationpine",
       "community": 26,
       "norm_label": ".attachpresentationpine()"
@@ -32046,7 +32037,7 @@
       "label": ".MakeUtilityPole()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1916",
+      "source_location": "L1903",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makeutilitypole",
       "community": 26,
       "norm_label": ".makeutilitypole()"
@@ -32055,7 +32046,7 @@
       "label": ".MakeGrassTuft()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1919",
+      "source_location": "L1906",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makegrasstuft",
       "community": 26,
       "norm_label": ".makegrasstuft()"
@@ -32064,7 +32055,7 @@
       "label": ".AddShrub()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1922",
+      "source_location": "L1909",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_addshrub",
       "community": 26,
       "norm_label": ".addshrub()"
@@ -32073,7 +32064,7 @@
       "label": ".MakeDisc()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1925",
+      "source_location": "L1912",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makedisc",
       "community": 26,
       "norm_label": ".makedisc()"
@@ -32082,7 +32073,7 @@
       "label": ".MakeRotatedBox()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1938",
+      "source_location": "L1925",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makerotatedbox",
       "community": 26,
       "norm_label": ".makerotatedbox()"
@@ -32091,7 +32082,7 @@
       "label": ".MakeCylinder()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1957",
+      "source_location": "L1944",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecylinder",
       "community": 26,
       "norm_label": ".makecylinder()"
@@ -32100,7 +32091,7 @@
       "label": ".MakeBox()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L1976",
+      "source_location": "L1963",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makebox",
       "community": 26,
       "norm_label": ".makebox()"
@@ -32109,7 +32100,7 @@
       "label": ".MakeCollisionBox()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L2001",
+      "source_location": "L1988",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecollisionbox",
       "community": 26,
       "norm_label": ".makecollisionbox()"
@@ -32118,7 +32109,7 @@
       "label": ".SuppressPrimitiveVisual()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L2014",
+      "source_location": "L2001",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_suppressprimitivevisual",
       "community": 26,
       "norm_label": ".suppressprimitivevisual()"
@@ -32127,7 +32118,7 @@
       "label": ".AttachAct1Npc()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L2030",
+      "source_location": "L2017",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_attachact1npc",
       "community": 26,
       "norm_label": ".attachact1npc()"
@@ -32136,7 +32127,7 @@
       "label": ".MakeInteractionBox()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L2073",
+      "source_location": "L2060",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makeinteractionbox",
       "community": 26,
       "norm_label": ".makeinteractionbox()"
@@ -32145,7 +32136,7 @@
       "label": ".Material()",
       "file_type": "code",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L2122",
+      "source_location": "L2109",
       "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_material",
       "community": 26,
       "norm_label": ".material()"
@@ -35045,7 +35036,7 @@
       "source_file": "game/scripts/AmbientAudioDirector.cs",
       "source_location": "L1",
       "id": "game_scripts_ambientaudiodirector_cs",
-      "community": 820,
+      "community": 544,
       "norm_label": "ambientaudiodirector.cs"
     },
     {
@@ -35279,7 +35270,7 @@
       "source_file": "game/scripts/AmbientAudioDirector.cs",
       "source_location": "L340",
       "id": "scripts_ambientaudiodirector_ambientmanifest",
-      "community": 820,
+      "community": 544,
       "norm_label": "ambientmanifest"
     },
     {
@@ -35288,7 +35279,7 @@
       "source_file": "game/scripts/AmbientAudioDirector.cs",
       "source_location": "L346",
       "id": "scripts_ambientaudiodirector_ambientstem",
-      "community": 820,
+      "community": 544,
       "norm_label": "ambientstem"
     },
     {
@@ -35513,7 +35504,7 @@
       "source_file": "game/scripts/SnowTrampleField.cs",
       "source_location": "L1",
       "id": "game_scripts_snowtramplefield_cs",
-      "community": 768,
+      "community": 631,
       "norm_label": "snowtramplefield.cs"
     },
     {
@@ -35567,7 +35558,7 @@
       "source_file": "game/scripts/SnowTrampleField.cs",
       "source_location": "L19",
       "id": "game_scripts_snowtramplefield_cs_list",
-      "community": 768,
+      "community": 631,
       "norm_label": "list"
     },
     {
@@ -35693,7 +35684,7 @@
       "source_file": "game/scripts/SnowTrampleField.cs",
       "source_location": "L222",
       "id": "scripts_snowtramplefield_groundsurface",
-      "community": 768,
+      "community": 631,
       "norm_label": "groundsurface"
     },
     {
@@ -35702,7 +35693,7 @@
       "source_file": "game/scripts/SnowTrampleField.cs",
       "source_location": "L224",
       "id": "game_scripts_snowtramplefield_cs_meshinstance3d",
-      "community": 768,
+      "community": 631,
       "norm_label": "meshinstance3d"
     },
     {
@@ -35711,7 +35702,7 @@
       "source_file": "game/scripts/SnowTrampleField.cs",
       "source_location": "L225",
       "id": "arraymesh",
-      "community": 768,
+      "community": 631,
       "norm_label": "arraymesh"
     },
     {
@@ -35720,7 +35711,7 @@
       "source_file": "game/scripts/SnowTrampleField.cs",
       "source_location": "L227",
       "id": "game_scripts_snowtramplefield_cs_hashset",
-      "community": 768,
+      "community": 631,
       "norm_label": "hashset"
     },
     {
@@ -37286,7 +37277,7 @@
       "source_file": "game/scripts/RuntimeBridge.cs",
       "source_location": "L429",
       "id": "scripts_runtimebridge_runtimebridge_requiredialogue",
-      "community": 96,
+      "community": 804,
       "norm_label": ".requiredialogue()"
     },
     {
@@ -37304,7 +37295,7 @@
       "source_file": "game/scripts/RuntimeBridge.cs",
       "source_location": "L433",
       "id": "scripts_runtimebridge_runtimebridge_requiredocument",
-      "community": 96,
+      "community": 804,
       "norm_label": ".requiredocument()"
     },
     {
@@ -37349,7 +37340,7 @@
       "source_file": "game/scripts/RuntimeBridge.cs",
       "source_location": "L521",
       "id": "scripts_runtimebridge_runtimebridge_enterdialoguenodeasync",
-      "community": 96,
+      "community": 804,
       "norm_label": ".enterdialoguenodeasync()"
     },
     {
@@ -37358,7 +37349,7 @@
       "source_file": "game/scripts/RuntimeBridge.cs",
       "source_location": "L535",
       "id": "scripts_runtimebridge_runtimebridge_opendocumentasync",
-      "community": 96,
+      "community": 804,
       "norm_label": ".opendocumentasync()"
     },
     {
@@ -37376,7 +37367,7 @@
       "source_file": "game/scripts/RuntimeBridge.cs",
       "source_location": "L574",
       "id": "scripts_runtimebridge_runtimebridge_opendocumentui",
-      "community": 96,
+      "community": 804,
       "norm_label": ".opendocumentui()"
     },
     {
@@ -37385,7 +37376,7 @@
       "source_file": "game/scripts/RuntimeBridge.cs",
       "source_location": "L582",
       "id": "scripts_runtimebridge_runtimebridge_choosedialogueasync",
-      "community": 96,
+      "community": 804,
       "norm_label": ".choosedialogueasync()"
     },
     {
@@ -37484,7 +37475,7 @@
       "source_file": "game/scripts/RuntimeBridge.cs",
       "source_location": "L831",
       "id": "scripts_runtimebridge_runtimebridge_dispatchcontentapplyasync",
-      "community": 96,
+      "community": 804,
       "norm_label": ".dispatchcontentapplyasync()"
     },
     {
@@ -37493,7 +37484,7 @@
       "source_file": "game/scripts/RuntimeBridge.cs",
       "source_location": "L878",
       "id": "scripts_runtimebridge_runtimebridge_elements",
-      "community": 96,
+      "community": 804,
       "norm_label": ".elements()"
     },
     {
@@ -37583,7 +37574,7 @@
       "source_file": "game/scripts/RuntimeBridge.cs",
       "source_location": "L997",
       "id": "scripts_runtimebridge_runtimebridge_onaudiocuestarted",
-      "community": 30,
+      "community": 75,
       "norm_label": ".onaudiocuestarted()"
     },
     {
@@ -37997,7 +37988,7 @@
       "source_file": "game/scripts/FirstPersonController.cs",
       "source_location": "L476",
       "id": "scripts_firstpersoncontroller_firstpersoncontroller_formatinteractionhint",
-      "community": 279,
+      "community": 75,
       "norm_label": ".formatinteractionhint()"
     },
     {
@@ -47177,7 +47168,7 @@
       "source_file": "",
       "source_location": "",
       "id": "idisposable",
-      "community": 745,
+      "community": 778,
       "norm_label": "idisposable"
     },
     {
@@ -47402,7 +47393,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L1",
       "id": "src_dotnet_urman_core_capabilities_oldpc_oldpccapabilityprovider_cs",
-      "community": 765,
+      "community": 427,
       "norm_label": "oldpccapabilityprovider.cs"
     },
     {
@@ -47411,7 +47402,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L8",
       "id": "oldpc_oldpccapabilityprovider_oldpccapabilityprovider",
-      "community": 765,
+      "community": 427,
       "norm_label": "oldpccapabilityprovider"
     },
     {
@@ -47420,7 +47411,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L10",
       "id": "src_dotnet_urman_core_capabilities_oldpc_oldpccapabilityprovider_cs_string",
-      "community": 765,
+      "community": 427,
       "norm_label": "string"
     },
     {
@@ -47429,7 +47420,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L13",
       "id": "src_dotnet_urman_core_capabilities_oldpc_oldpccapabilityprovider_cs_ireadonlylist",
-      "community": 765,
+      "community": 427,
       "norm_label": "ireadonlylist"
     },
     {
@@ -47438,7 +47429,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L35",
       "id": "oldpc_oldpccapabilityprovider_oldpccapabilityprovider_validateconfig",
-      "community": 765,
+      "community": 427,
       "norm_label": ".validateconfig()"
     },
     {
@@ -47447,7 +47438,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L40",
       "id": "oldpc_oldpccapabilityprovider_oldpccapabilityprovider_createsession",
-      "community": 765,
+      "community": 427,
       "norm_label": ".createsession()"
     },
     {
@@ -47942,7 +47933,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L1",
       "id": "src_dotnet_urman_core_contracts_runtimecontracts_cs",
-      "community": 745,
+      "community": 778,
       "norm_label": "runtimecontracts.cs"
     },
     {
@@ -47951,7 +47942,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L85",
       "id": "contracts_runtimecontracts_iruntimekernel",
-      "community": 745,
+      "community": 778,
       "norm_label": "iruntimekernel"
     },
     {
@@ -47960,7 +47951,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L87",
       "id": "contracts_runtimecontracts_iruntimekernel_dispatchasync",
-      "community": 745,
+      "community": 778,
       "norm_label": ".dispatchasync()"
     },
     {
@@ -47969,7 +47960,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L88",
       "id": "contracts_runtimecontracts_iruntimekernel_capturesnapshot",
-      "community": 745,
+      "community": 778,
       "norm_label": ".capturesnapshot()"
     },
     {
@@ -47978,7 +47969,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L91",
       "id": "contracts_runtimecontracts_icapabilityprovider",
-      "community": 765,
+      "community": 778,
       "norm_label": "icapabilityprovider"
     },
     {
@@ -47987,7 +47978,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L96",
       "id": "contracts_runtimecontracts_icapabilityprovider_validateconfig",
-      "community": 765,
+      "community": 778,
       "norm_label": ".validateconfig()"
     },
     {
@@ -47996,7 +47987,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L97",
       "id": "contracts_runtimecontracts_icapabilityprovider_createsession",
-      "community": 765,
+      "community": 778,
       "norm_label": ".createsession()"
     },
     {
@@ -48005,7 +47996,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L100",
       "id": "contracts_runtimecontracts_icapabilitysession",
-      "community": 745,
+      "community": 778,
       "norm_label": "icapabilitysession"
     },
     {
@@ -48014,7 +48005,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L102",
       "id": "contracts_runtimecontracts_icapabilitysession_restore",
-      "community": 745,
+      "community": 778,
       "norm_label": ".restore()"
     },
     {
@@ -48023,7 +48014,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L103",
       "id": "contracts_runtimecontracts_icapabilitysession_start",
-      "community": 745,
+      "community": 778,
       "norm_label": ".start()"
     },
     {
@@ -48032,7 +48023,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L104",
       "id": "contracts_runtimecontracts_icapabilitysession_handle",
-      "community": 745,
+      "community": 778,
       "norm_label": ".handle()"
     },
     {
@@ -48041,7 +48032,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L105",
       "id": "contracts_runtimecontracts_icapabilitysession_capturestate",
-      "community": 745,
+      "community": 778,
       "norm_label": ".capturestate()"
     },
     {
@@ -48050,7 +48041,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L106",
       "id": "contracts_runtimecontracts_icapabilitysession_stop",
-      "community": 745,
+      "community": 778,
       "norm_label": ".stop()"
     },
     {
@@ -48122,7 +48113,7 @@
       "source_file": "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
       "source_location": "L1",
       "id": "src_dotnet_urman_core_runtime_runtimekernel_cs",
-      "community": 790,
+      "community": 747,
       "norm_label": "runtimekernel.cs"
     },
     {
@@ -48275,7 +48266,7 @@
       "source_file": "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
       "source_location": "L237",
       "id": "runtime_runtimekernel_runtimekernel_reject",
-      "community": 774,
+      "community": 662,
       "norm_label": ".reject()"
     },
     {
@@ -48347,7 +48338,7 @@
       "source_file": "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
       "source_location": "L354",
       "id": "runtime_runtimekernel_resourceconflictexception",
-      "community": 790,
+      "community": 747,
       "norm_label": "resourceconflictexception"
     },
     {
@@ -48356,7 +48347,7 @@
       "source_file": "",
       "source_location": "",
       "id": "exception",
-      "community": 790,
+      "community": 747,
       "norm_label": "exception"
     },
     {
@@ -48941,7 +48932,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L1",
       "id": "src_dotnet_urman_core_persistence_savegamev3_cs",
-      "community": 5,
+      "community": 348,
       "norm_label": "savegamev3.cs"
     },
     {
@@ -49004,7 +48995,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L208",
       "id": "persistence_savegamev3_worldlocationidjsonconverter",
-      "community": 5,
+      "community": 348,
       "norm_label": "worldlocationidjsonconverter"
     },
     {
@@ -49013,7 +49004,7 @@
       "source_file": "",
       "source_location": "",
       "id": "jsonconverter",
-      "community": 5,
+      "community": 348,
       "norm_label": "jsonconverter"
     },
     {
@@ -49022,7 +49013,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L210",
       "id": "persistence_savegamev3_worldlocationidjsonconverter_read",
-      "community": 5,
+      "community": 348,
       "norm_label": ".read()"
     },
     {
@@ -49031,7 +49022,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L213",
       "id": "persistence_savegamev3_worldlocationidjsonconverter_write",
-      "community": 5,
+      "community": 348,
       "norm_label": ".write()"
     },
     {
@@ -49040,7 +49031,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L217",
       "id": "persistence_savegamev3_spawnpointidjsonconverter",
-      "community": 5,
+      "community": 348,
       "norm_label": "spawnpointidjsonconverter"
     },
     {
@@ -49049,7 +49040,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L219",
       "id": "persistence_savegamev3_spawnpointidjsonconverter_read",
-      "community": 5,
+      "community": 348,
       "norm_label": ".read()"
     },
     {
@@ -49058,7 +49049,7 @@
       "source_file": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
       "source_location": "L222",
       "id": "persistence_savegamev3_spawnpointidjsonconverter_write",
-      "community": 5,
+      "community": 348,
       "norm_label": ".write()"
     },
     {
@@ -49463,7 +49454,7 @@
       "source_file": "src-dotnet/Urman.Content/Resolvers/ResolverCatalog.cs",
       "source_location": "L23",
       "id": "resolvers_resolvercatalog_resolverexception",
-      "community": 790,
+      "community": 747,
       "norm_label": "resolverexception"
     },
     {
@@ -51704,7 +51695,7 @@
       "source_file": "scripts/playtest-mvp-smoke.mjs",
       "source_location": "L1",
       "id": "scripts_playtest_mvp_smoke_mjs",
-      "community": 348,
+      "community": 6,
       "norm_label": "playtest-mvp-smoke.mjs"
     },
     {
@@ -51713,7 +51704,7 @@
       "source_file": "scripts/playtest-mvp-smoke.mjs",
       "source_location": "L6",
       "id": "scripts_playtest_mvp_smoke_default_mvp_journey",
-      "community": 348,
+      "community": 6,
       "norm_label": "default_mvp_journey"
     },
     {
@@ -51722,7 +51713,7 @@
       "source_file": "scripts/playtest-mvp-smoke.mjs",
       "source_location": "L24",
       "id": "scripts_playtest_mvp_smoke_journey_dialogue_continue_after",
-      "community": 348,
+      "community": 6,
       "norm_label": "journey_dialogue_continue_after"
     },
     {
@@ -51731,7 +51722,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L1",
       "id": "scripts_check_runtime_architecture_mjs",
-      "community": 239,
+      "community": 144,
       "norm_label": "check-runtime-architecture.mjs"
     },
     {
@@ -51740,7 +51731,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L7",
       "id": "scripts_check_runtime_architecture_dev_only_prefixes",
-      "community": 239,
+      "community": 144,
       "norm_label": "dev_only_prefixes"
     },
     {
@@ -51749,7 +51740,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L12",
       "id": "scripts_check_runtime_architecture_generic_or_composition_prefixes",
-      "community": 239,
+      "community": 144,
       "norm_label": "generic_or_composition_prefixes"
     },
     {
@@ -51758,7 +51749,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L28",
       "id": "scripts_check_runtime_architecture_scene_identifier_base",
-      "community": 239,
+      "community": 144,
       "norm_label": "scene_identifier_base"
     },
     {
@@ -51767,7 +51758,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L29",
       "id": "scripts_check_runtime_architecture_scene_identifier",
-      "community": 239,
+      "community": 144,
       "norm_label": "scene_identifier"
     },
     {
@@ -51776,7 +51767,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L30",
       "id": "scripts_check_runtime_architecture_non_type_literal",
-      "community": 239,
+      "community": 144,
       "norm_label": "non_type_literal"
     },
     {
@@ -51785,7 +51776,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L31",
       "id": "scripts_check_runtime_architecture_retired_owner_paths",
-      "community": 239,
+      "community": 144,
       "norm_label": "retired_owner_paths"
     },
     {
@@ -51794,7 +51785,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L70",
       "id": "scripts_check_runtime_architecture_isdevelopmentonly",
-      "community": 239,
+      "community": 144,
       "norm_label": "isdevelopmentonly()"
     },
     {
@@ -51803,7 +51794,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L74",
       "id": "scripts_check_runtime_architecture_isgenericorcomposition",
-      "community": 239,
+      "community": 144,
       "norm_label": "isgenericorcomposition()"
     },
     {
@@ -51812,7 +51803,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L78",
       "id": "scripts_check_runtime_architecture_isbrowserstorageowner",
-      "community": 239,
+      "community": 144,
       "norm_label": "isbrowserstorageowner()"
     },
     {
@@ -51821,7 +51812,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L82",
       "id": "scripts_check_runtime_architecture_browserpersistencefactoryviolation",
-      "community": 239,
+      "community": 144,
       "norm_label": "browserpersistencefactoryviolation()"
     },
     {
@@ -51830,7 +51821,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L87",
       "id": "scripts_check_runtime_architecture_diagnostic",
-      "community": 239,
+      "community": 144,
       "norm_label": "diagnostic()"
     },
     {
@@ -51839,7 +51830,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L91",
       "id": "scripts_check_runtime_architecture_sourcefiles",
-      "community": 239,
+      "community": 144,
       "norm_label": "sourcefiles()"
     },
     {
@@ -51848,7 +51839,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L107",
       "id": "scripts_check_runtime_architecture_importviolation",
-      "community": 239,
+      "community": 144,
       "norm_label": "importviolation()"
     },
     {
@@ -51857,7 +51848,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L113",
       "id": "scripts_check_runtime_architecture_retiredcallerviolation",
-      "community": 239,
+      "community": 144,
       "norm_label": "retiredcallerviolation()"
     },
     {
@@ -51866,7 +51857,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L118",
       "id": "scripts_check_runtime_architecture_narrativecontentidviolation",
-      "community": 239,
+      "community": 144,
       "norm_label": "narrativecontentidviolation()"
     },
     {
@@ -51875,7 +51866,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L127",
       "id": "scripts_check_runtime_architecture_hardcodedscenecontrolviolation",
-      "community": 239,
+      "community": 144,
       "norm_label": "hardcodedscenecontrolviolation()"
     },
     {
@@ -51884,7 +51875,7 @@
       "source_file": "scripts/check-runtime-architecture.mjs",
       "source_location": "L139",
       "id": "scripts_check_runtime_architecture_checkruntimearchitecture",
-      "community": 239,
+      "community": 144,
       "norm_label": "checkruntimearchitecture()"
     },
     {
@@ -56285,7 +56276,7 @@
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L84",
       "id": "act1_urman_wet_village_road_kit_material",
-      "community": 391,
+      "community": 451,
       "norm_label": "material()"
     },
     {
@@ -56294,7 +56285,7 @@
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L91",
       "id": "act1_urman_wet_village_road_kit_mesh_object",
-      "community": 391,
+      "community": 451,
       "norm_label": "mesh_object()"
     },
     {
@@ -56456,7 +56447,7 @@
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L648",
       "id": "act1_urman_wet_village_road_kit_terrain_mass",
-      "community": 387,
+      "community": 451,
       "norm_label": "terrain_mass()"
     },
     {
@@ -56690,7 +56681,7 @@
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L660",
       "id": "act1_urman_wet_village_road_kit_rationale_660",
-      "community": 387,
+      "community": 451,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip."
     },
     {
@@ -56789,7 +56780,7 @@
       "source_file": "src/main.ts",
       "source_location": "L1",
       "id": "src_main_ts",
-      "community": 415,
+      "community": 63,
       "norm_label": "main.ts"
     },
     {
@@ -56798,7 +56789,7 @@
       "source_file": "src/main.ts",
       "source_location": "L8",
       "id": "src_main_container",
-      "community": 415,
+      "community": 63,
       "norm_label": "container"
     },
     {
@@ -56807,7 +56798,7 @@
       "source_file": "src/main.ts",
       "source_location": "L10",
       "id": "src_main_runtime",
-      "community": 415,
+      "community": 63,
       "norm_label": "runtime"
     },
     {
@@ -56816,7 +56807,7 @@
       "source_file": "src/main.ts",
       "source_location": "L15",
       "id": "src_main_persistence",
-      "community": 415,
+      "community": 63,
       "norm_label": "persistence"
     },
     {
@@ -56825,7 +56816,7 @@
       "source_file": "src/main.ts",
       "source_location": "L19",
       "id": "src_main_game",
-      "community": 415,
+      "community": 63,
       "norm_label": "game"
     },
     {
@@ -58220,7 +58211,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L1",
       "id": "src_lab_e2e_harness_ts",
-      "community": 415,
+      "community": 22,
       "norm_label": "e2e-harness.ts"
     },
     {
@@ -58229,7 +58220,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L8",
       "id": "lab_e2e_harness_window",
-      "community": 415,
+      "community": 22,
       "norm_label": "window"
     },
     {
@@ -58238,7 +58229,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L17",
       "id": "lab_e2e_harness_appelement",
-      "community": 415,
+      "community": 22,
       "norm_label": "appelement"
     },
     {
@@ -58247,7 +58238,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L23",
       "id": "lab_e2e_harness_reset",
-      "community": 415,
+      "community": 22,
       "norm_label": "reset()"
     },
     {
@@ -59570,7 +59561,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L1",
       "id": "src_runtime_contracts_runtime_contracts_mjs",
-      "community": 700,
+      "community": 7,
       "norm_label": "runtime-contracts.mjs"
     },
     {
@@ -59579,7 +59570,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L3",
       "id": "contracts_runtime_contracts_commandstatus",
-      "community": 700,
+      "community": 7,
       "norm_label": "commandstatus"
     },
     {
@@ -59588,7 +59579,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L8",
       "id": "contracts_runtime_contracts_runtimeerrorcode",
-      "community": 700,
+      "community": 7,
       "norm_label": "runtimeerrorcode"
     },
     {
@@ -59597,7 +59588,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L17",
       "id": "contracts_runtime_contracts_runtimefailure",
-      "community": 700,
+      "community": 7,
       "norm_label": "runtimefailure"
     },
     {
@@ -59606,7 +59597,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L18",
       "id": "contracts_runtime_contracts_runtimefailure_constructor",
-      "community": 700,
+      "community": 7,
       "norm_label": ".constructor()"
     },
     {
@@ -59615,7 +59606,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L26",
       "id": "contracts_runtime_contracts_preflighterror",
-      "community": 700,
+      "community": 7,
       "norm_label": "preflighterror"
     },
     {
@@ -59624,7 +59615,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L27",
       "id": "contracts_runtime_contracts_preflighterror_constructor",
-      "community": 700,
+      "community": 7,
       "norm_label": ".constructor()"
     },
     {
@@ -59633,7 +59624,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L30",
       "id": "contracts_runtime_contracts_conflicterror",
-      "community": 700,
+      "community": 7,
       "norm_label": "conflicterror"
     },
     {
@@ -59642,7 +59633,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L31",
       "id": "contracts_runtime_contracts_conflicterror_constructor",
-      "community": 700,
+      "community": 7,
       "norm_label": ".constructor()"
     },
     {
@@ -59651,7 +59642,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L34",
       "id": "contracts_runtime_contracts_unknowncommanderror",
-      "community": 700,
+      "community": 7,
       "norm_label": "unknowncommanderror"
     },
     {
@@ -59660,7 +59651,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L35",
       "id": "contracts_runtime_contracts_unknowncommanderror_constructor",
-      "community": 700,
+      "community": 7,
       "norm_label": ".constructor()"
     },
     {
@@ -59669,7 +59660,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L38",
       "id": "contracts_runtime_contracts_duplicateoccurrence",
-      "community": 700,
+      "community": 7,
       "norm_label": "duplicateoccurrence"
     },
     {
@@ -59678,7 +59669,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L39",
       "id": "contracts_runtime_contracts_duplicateoccurrence_constructor",
-      "community": 700,
+      "community": 7,
       "norm_label": ".constructor()"
     },
     {
@@ -59687,7 +59678,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L45",
       "id": "contracts_runtime_contracts_occurrenceconflict",
-      "community": 700,
+      "community": 7,
       "norm_label": "occurrenceconflict"
     },
     {
@@ -59696,7 +59687,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L46",
       "id": "contracts_runtime_contracts_occurrenceconflict_constructor",
-      "community": 700,
+      "community": 7,
       "norm_label": ".constructor()"
     },
     {
@@ -59705,7 +59696,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L51",
       "id": "contracts_runtime_contracts_registryerrorcode",
-      "community": 700,
+      "community": 7,
       "norm_label": "registryerrorcode"
     },
     {
@@ -59750,7 +59741,7 @@
       "source_file": "src/runtime/contracts/json-value.mjs",
       "source_location": "L69",
       "id": "contracts_json_value_deepfreeze",
-      "community": 144,
+      "community": 224,
       "norm_label": "deepfreeze()"
     },
     {
@@ -59759,7 +59750,7 @@
       "source_file": "src/runtime/contracts/json-value.mjs",
       "source_location": "L75",
       "id": "contracts_json_value_clonejsonvalue",
-      "community": 144,
+      "community": 78,
       "norm_label": "clonejsonvalue()"
     },
     {
@@ -59768,7 +59759,7 @@
       "source_file": "src/runtime/contracts/json-value.mjs",
       "source_location": "L82",
       "id": "contracts_json_value_clonepersistedjsonvalue",
-      "community": 700,
+      "community": 224,
       "norm_label": "clonepersistedjsonvalue()"
     },
     {
@@ -60695,7 +60686,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L1",
       "id": "src_runtime_persistence_game_snapshot_v2_mjs",
-      "community": 22,
+      "community": 85,
       "norm_label": "game-snapshot-v2.mjs"
     },
     {
@@ -60704,7 +60695,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L20",
       "id": "persistence_game_snapshot_v2_kernel_validation_pack",
-      "community": 22,
+      "community": 85,
       "norm_label": "kernel_validation_pack"
     },
     {
@@ -60713,7 +60704,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L24",
       "id": "persistence_game_snapshot_v2_kernel_validation_registry",
-      "community": 22,
+      "community": 85,
       "norm_label": "kernel_validation_registry"
     },
     {
@@ -60722,7 +60713,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L26",
       "id": "persistence_game_snapshot_v2_errormessage",
-      "community": 22,
+      "community": 85,
       "norm_label": "errormessage()"
     },
     {
@@ -60731,7 +60722,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L30",
       "id": "persistence_game_snapshot_v2_nonemptystring",
-      "community": 22,
+      "community": 85,
       "norm_label": "nonemptystring()"
     },
     {
@@ -60740,7 +60731,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L35",
       "id": "persistence_game_snapshot_v2_exactversion",
-      "community": 22,
+      "community": 85,
       "norm_label": "exactversion()"
     },
     {
@@ -60749,7 +60740,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L40",
       "id": "persistence_game_snapshot_v2_exactobject",
-      "community": 22,
+      "community": 85,
       "norm_label": "exactobject()"
     },
     {
@@ -60758,7 +60749,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L50",
       "id": "persistence_game_snapshot_v2_safesequence",
-      "community": 22,
+      "community": 85,
       "norm_label": "safesequence()"
     },
     {
@@ -60767,7 +60758,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L55",
       "id": "persistence_game_snapshot_v2_jsonclone",
-      "community": 22,
+      "community": 85,
       "norm_label": "jsonclone()"
     },
     {
@@ -60776,7 +60767,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L63",
       "id": "persistence_game_snapshot_v2_normalizeclaim",
-      "community": 22,
+      "community": 85,
       "norm_label": "normalizeclaim()"
     },
     {
@@ -60785,7 +60776,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L73",
       "id": "persistence_game_snapshot_v2_normalizebinding",
-      "community": 22,
+      "community": 85,
       "norm_label": "normalizebinding()"
     },
     {
@@ -60794,7 +60785,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L92",
       "id": "persistence_game_snapshot_v2_normalizecapabilitysnapshot",
-      "community": 22,
+      "community": 85,
       "norm_label": "normalizecapabilitysnapshot()"
     },
     {
@@ -60803,7 +60794,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L107",
       "id": "persistence_game_snapshot_v2_uniqueby",
-      "community": 22,
+      "community": 85,
       "norm_label": "uniqueby()"
     },
     {
@@ -60812,7 +60803,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L115",
       "id": "persistence_game_snapshot_v2_normalizeruntimesnapshot",
-      "community": 22,
+      "community": 85,
       "norm_label": "normalizeruntimesnapshot()"
     },
     {
@@ -60821,7 +60812,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L136",
       "id": "persistence_game_snapshot_v2_normalizeworldsnapshot",
-      "community": 22,
+      "community": 85,
       "norm_label": "normalizeworldsnapshot()"
     },
     {
@@ -60830,7 +60821,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L152",
       "id": "persistence_game_snapshot_v2_descriptorcatalog",
-      "community": 22,
+      "community": 85,
       "norm_label": "descriptorcatalog()"
     },
     {
@@ -60839,7 +60830,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L183",
       "id": "persistence_game_snapshot_v2_validatecapabilitycompatibility",
-      "community": 22,
+      "community": 85,
       "norm_label": "validatecapabilitycompatibility()"
     },
     {
@@ -60848,7 +60839,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L221",
       "id": "persistence_game_snapshot_v2_parsesnapshot",
-      "community": 22,
+      "community": 85,
       "norm_label": "parsesnapshot()"
     },
     {
@@ -60857,7 +60848,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L263",
       "id": "persistence_game_snapshot_v2_decodegamesnapshotv2",
-      "community": 22,
+      "community": 85,
       "norm_label": "decodegamesnapshotv2()"
     },
     {
@@ -60866,7 +60857,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L267",
       "id": "persistence_game_snapshot_v2_trydecodegamesnapshotv2",
-      "community": 22,
+      "community": 85,
       "norm_label": "trydecodegamesnapshotv2()"
     },
     {
@@ -60875,7 +60866,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L281",
       "id": "persistence_game_snapshot_v2_encodegamesnapshotv2",
-      "community": 22,
+      "community": 85,
       "norm_label": "encodegamesnapshotv2()"
     },
     {
@@ -60884,7 +60875,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L315",
       "id": "persistence_game_snapshot_v2_withstagingcleanuphandler",
-      "community": 22,
+      "community": 85,
       "norm_label": "withstagingcleanuphandler()"
     },
     {
@@ -60893,7 +60884,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L330",
       "id": "persistence_game_snapshot_v2_uniquerollbackoccurrenceid",
-      "community": 22,
+      "community": 85,
       "norm_label": "uniquerollbackoccurrenceid()"
     },
     {
@@ -60902,7 +60893,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L337",
       "id": "persistence_game_snapshot_v2_disposestage",
-      "community": 22,
+      "community": 85,
       "norm_label": "disposestage()"
     },
     {
@@ -60911,7 +60902,7 @@
       "source_file": "src/runtime/persistence/game-snapshot-v2.mjs",
       "source_location": "L359",
       "id": "persistence_game_snapshot_v2_restoregamesnapshotv2",
-      "community": 22,
+      "community": 85,
       "norm_label": "restoregamesnapshotv2()"
     },
     {
@@ -60920,7 +60911,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L1",
       "id": "src_runtime_persistence_production_persistence_gateway_mjs",
-      "community": 415,
+      "community": 22,
       "norm_label": "production-persistence-gateway.mjs"
     },
     {
@@ -60929,7 +60920,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L7",
       "id": "persistence_production_persistence_gateway_legacy_gameplay_storage_keys",
-      "community": 415,
+      "community": 22,
       "norm_label": "legacy_gameplay_storage_keys"
     },
     {
@@ -60938,7 +60929,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L14",
       "id": "persistence_production_persistence_gateway_retired_capability_or_test_storage_keys",
-      "community": 415,
+      "community": 22,
       "norm_label": "retired_capability_or_test_storage_keys"
     },
     {
@@ -60947,7 +60938,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L15",
       "id": "persistence_production_persistence_gateway_legacy_reset_keys",
-      "community": 415,
+      "community": 22,
       "norm_label": "legacy_reset_keys"
     },
     {
@@ -60956,7 +60947,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L21",
       "id": "persistence_production_persistence_gateway_storageport",
-      "community": 415,
+      "community": 22,
       "norm_label": "storageport()"
     },
     {
@@ -60965,7 +60956,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L28",
       "id": "persistence_production_persistence_gateway_frozen",
-      "community": 415,
+      "community": 22,
       "norm_label": "frozen()"
     },
     {
@@ -60974,7 +60965,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L32",
       "id": "persistence_production_persistence_gateway_errordetails",
-      "community": 415,
+      "community": 22,
       "norm_label": "errordetails()"
     },
     {
@@ -60983,7 +60974,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L36",
       "id": "persistence_production_persistence_gateway_legacyresetproposal",
-      "community": 415,
+      "community": 22,
       "norm_label": "legacyresetproposal()"
     },
     {
@@ -60992,7 +60983,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L51",
       "id": "persistence_production_persistence_gateway_currentv2resetproposal",
-      "community": 415,
+      "community": 22,
       "norm_label": "currentv2resetproposal()"
     },
     {
@@ -61001,7 +60992,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L68",
       "id": "persistence_production_persistence_gateway_resetrequired",
-      "community": 415,
+      "community": 22,
       "norm_label": "resetrequired()"
     },
     {
@@ -61010,7 +61001,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L77",
       "id": "persistence_production_persistence_gateway_resetfailure",
-      "community": 415,
+      "community": 22,
       "norm_label": "resetfailure()"
     },
     {
@@ -61019,7 +61010,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L85",
       "id": "persistence_production_persistence_gateway_parsestoredsnapshot",
-      "community": 415,
+      "community": 22,
       "norm_label": "parsestoredsnapshot()"
     },
     {
@@ -61028,7 +61019,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L101",
       "id": "persistence_production_persistence_gateway_createproductionpersistencegateway",
-      "community": 415,
+      "community": 22,
       "norm_label": "createproductionpersistencegateway()"
     },
     {
@@ -61037,7 +61028,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L194",
       "id": "persistence_production_persistence_gateway_createbrowserproductionpersistencegateway",
-      "community": 415,
+      "community": 22,
       "norm_label": "createbrowserproductionpersistencegateway()"
     },
     {
@@ -61064,7 +61055,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L15",
       "id": "persistence_snapshot_errors_snapshotcodecerror",
-      "community": 416,
+      "community": 22,
       "norm_label": "snapshotcodecerror"
     },
     {
@@ -61073,7 +61064,7 @@
       "source_file": "src/runtime/persistence/snapshot-errors.mjs",
       "source_location": "L16",
       "id": "persistence_snapshot_errors_snapshotcodecerror_constructor",
-      "community": 416,
+      "community": 22,
       "norm_label": ".constructor()"
     },
     {
@@ -61271,7 +61262,7 @@
       "source_file": "src/runtime/modules/oldpc/dedos-app-registry.mjs",
       "source_location": "L1",
       "id": "src_runtime_modules_oldpc_dedos_app_registry_mjs",
-      "community": 740,
+      "community": 78,
       "norm_label": "dedos-app-registry.mjs"
     },
     {
@@ -61280,7 +61271,7 @@
       "source_file": "src/runtime/modules/oldpc/dedos-app-registry.mjs",
       "source_location": "L3",
       "id": "oldpc_dedos_app_registry_fields",
-      "community": 740,
+      "community": 78,
       "norm_label": "fields()"
     },
     {
@@ -61289,7 +61280,7 @@
       "source_file": "src/runtime/modules/oldpc/dedos-app-registry.mjs",
       "source_location": "L12",
       "id": "oldpc_dedos_app_registry_dedosappregistry",
-      "community": 740,
+      "community": 78,
       "norm_label": "dedosappregistry"
     },
     {
@@ -61298,7 +61289,7 @@
       "source_file": "src/runtime/modules/oldpc/dedos-app-registry.mjs",
       "source_location": "L15",
       "id": "oldpc_dedos_app_registry_dedosappregistry_constructor",
-      "community": 740,
+      "community": 78,
       "norm_label": ".constructor()"
     },
     {
@@ -61307,7 +61298,7 @@
       "source_file": "src/runtime/modules/oldpc/dedos-app-registry.mjs",
       "source_location": "L20",
       "id": "oldpc_dedos_app_registry_dedosappregistry_register",
-      "community": 740,
+      "community": 78,
       "norm_label": ".register()"
     },
     {
@@ -61316,7 +61307,7 @@
       "source_file": "src/runtime/modules/oldpc/dedos-app-registry.mjs",
       "source_location": "L32",
       "id": "oldpc_dedos_app_registry_dedosappregistry_ids",
-      "community": 740,
+      "community": 78,
       "norm_label": ".ids()"
     },
     {
@@ -61325,7 +61316,7 @@
       "source_file": "src/runtime/modules/oldpc/dedos-app-registry.mjs",
       "source_location": "L34",
       "id": "oldpc_dedos_app_registry_dedosappregistry_create",
-      "community": 740,
+      "community": 78,
       "norm_label": ".create()"
     },
     {
@@ -61334,7 +61325,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-errors.mjs",
       "source_location": "L1",
       "id": "src_runtime_modules_oldpc_oldpc_errors_mjs",
-      "community": 740,
+      "community": 78,
       "norm_label": "oldpc-errors.mjs"
     },
     {
@@ -61343,7 +61334,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-errors.mjs",
       "source_location": "L1",
       "id": "oldpc_oldpc_errors_oldpcerrorcode",
-      "community": 740,
+      "community": 78,
       "norm_label": "oldpcerrorcode"
     },
     {
@@ -61352,7 +61343,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-errors.mjs",
       "source_location": "L20",
       "id": "oldpc_oldpc_errors_oldpcerror",
-      "community": 643,
+      "community": 78,
       "norm_label": "oldpcerror"
     },
     {
@@ -61361,7 +61352,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-errors.mjs",
       "source_location": "L12",
       "id": "oldpc_oldpc_errors_oldpcerror_constructor",
-      "community": 643,
+      "community": 78,
       "norm_label": ".constructor()"
     },
     {
@@ -61370,7 +61361,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L1",
       "id": "src_runtime_modules_oldpc_oldpc_capability_mjs",
-      "community": 658,
+      "community": 78,
       "norm_label": "oldpc-capability.mjs"
     },
     {
@@ -61379,7 +61370,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L5",
       "id": "oldpc_oldpc_capability_default_command_types",
-      "community": 658,
+      "community": 78,
       "norm_label": "default_command_types"
     },
     {
@@ -61388,7 +61379,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L11",
       "id": "oldpc_oldpc_capability_nonemptystring",
-      "community": 658,
+      "community": 78,
       "norm_label": "nonemptystring()"
     },
     {
@@ -61397,7 +61388,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L16",
       "id": "oldpc_oldpc_capability_requireruntimecontext",
-      "community": 658,
+      "community": 78,
       "norm_label": "requireruntimecontext()"
     },
     {
@@ -61406,7 +61397,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L25",
       "id": "oldpc_oldpc_capability_commandtypes",
-      "community": 658,
+      "community": 78,
       "norm_label": "commandtypes()"
     },
     {
@@ -61415,7 +61406,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L36",
       "id": "oldpc_oldpc_capability_exactkeys",
-      "community": 658,
+      "community": 78,
       "norm_label": "exactkeys()"
     },
     {
@@ -61424,7 +61415,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L47",
       "id": "oldpc_oldpc_capability_normalizesnapshot",
-      "community": 658,
+      "community": 78,
       "norm_label": "normalizesnapshot()"
     },
     {
@@ -61433,7 +61424,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L64",
       "id": "oldpc_oldpc_capability_defaultsnapshot",
-      "community": 658,
+      "community": 78,
       "norm_label": "defaultsnapshot()"
     },
     {
@@ -61442,7 +61433,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L75",
       "id": "oldpc_oldpc_capability_iscommitted",
-      "community": 658,
+      "community": 78,
       "norm_label": "iscommitted()"
     },
     {
@@ -61460,7 +61451,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L95",
       "id": "oldpc_oldpc_capability_oldpccapabilitysession_constructor",
-      "community": 658,
+      "community": 78,
       "norm_label": ".constructor()"
     },
     {
@@ -61631,7 +61622,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-capability.mjs",
       "source_location": "L250",
       "id": "oldpc_oldpc_capability_createoldpccapabilitydescriptor",
-      "community": 658,
+      "community": 78,
       "norm_label": "createoldpccapabilitydescriptor()"
     },
     {
@@ -61640,7 +61631,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L1",
       "id": "src_runtime_modules_oldpc_oldpc_content_catalog_mjs",
-      "community": 643,
+      "community": 78,
       "norm_label": "oldpc-content-catalog.mjs"
     },
     {
@@ -61649,7 +61640,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L4",
       "id": "oldpc_oldpc_content_catalog_old_pc_types",
-      "community": 643,
+      "community": 78,
       "norm_label": "old_pc_types"
     },
     {
@@ -61658,7 +61649,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L12",
       "id": "oldpc_oldpc_content_catalog_canon_statuses",
-      "community": 643,
+      "community": 78,
       "norm_label": "canon_statuses"
     },
     {
@@ -61667,7 +61658,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L13",
       "id": "oldpc_oldpc_content_catalog_reliability_statuses",
-      "community": 643,
+      "community": 78,
       "norm_label": "reliability_statuses"
     },
     {
@@ -61676,7 +61667,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L24",
       "id": "oldpc_oldpc_content_catalog_nonemptystring",
-      "community": 643,
+      "community": 78,
       "norm_label": "nonemptystring()"
     },
     {
@@ -61685,7 +61676,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L31",
       "id": "oldpc_oldpc_content_catalog_requirearray",
-      "community": 643,
+      "community": 78,
       "norm_label": "requirearray()"
     },
     {
@@ -61694,7 +61685,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L38",
       "id": "oldpc_oldpc_content_catalog_requirejsonarray",
-      "community": 643,
+      "community": 78,
       "norm_label": "requirejsonarray()"
     },
     {
@@ -61703,7 +61694,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L45",
       "id": "oldpc_oldpc_content_catalog_owndata",
-      "community": 643,
+      "community": 78,
       "norm_label": "owndata()"
     },
     {
@@ -61712,7 +61703,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L55",
       "id": "oldpc_oldpc_content_catalog_localizeddefault",
-      "community": 643,
+      "community": 78,
       "norm_label": "localizeddefault()"
     },
     {
@@ -61721,7 +61712,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L63",
       "id": "oldpc_oldpc_content_catalog_metadata",
-      "community": 643,
+      "community": 78,
       "norm_label": "metadata()"
     },
     {
@@ -61730,7 +61721,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L88",
       "id": "oldpc_oldpc_content_catalog_moduleprefix",
-      "community": 643,
+      "community": 78,
       "norm_label": "moduleprefix()"
     },
     {
@@ -61739,7 +61730,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L93",
       "id": "oldpc_oldpc_content_catalog_normalizeddocument",
-      "community": 643,
+      "community": 78,
       "norm_label": "normalizeddocument()"
     },
     {
@@ -61748,7 +61739,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L128",
       "id": "oldpc_oldpc_content_catalog_normalizesearchterm",
-      "community": 783,
+      "community": 78,
       "norm_label": "normalizesearchterm()"
     },
     {
@@ -61757,7 +61748,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L132",
       "id": "oldpc_oldpc_content_catalog_searchabletext",
-      "community": 643,
+      "community": 78,
       "norm_label": "searchabletext()"
     },
     {
@@ -61766,7 +61757,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L150",
       "id": "oldpc_oldpc_content_catalog_oldpccontentcatalog",
-      "community": 783,
+      "community": 78,
       "norm_label": "oldpccontentcatalog"
     },
     {
@@ -61775,7 +61766,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L154",
       "id": "oldpc_oldpc_content_catalog_oldpccontentcatalog_constructor",
-      "community": 783,
+      "community": 78,
       "norm_label": ".constructor()"
     },
     {
@@ -61784,7 +61775,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L169",
       "id": "oldpc_oldpc_content_catalog_oldpccontentcatalog_ids",
-      "community": 783,
+      "community": 78,
       "norm_label": ".ids()"
     },
     {
@@ -61793,7 +61784,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L171",
       "id": "oldpc_oldpc_content_catalog_oldpccontentcatalog_get",
-      "community": 783,
+      "community": 78,
       "norm_label": ".get()"
     },
     {
@@ -61802,7 +61793,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L177",
       "id": "oldpc_oldpc_content_catalog_oldpccontentcatalog_sections",
-      "community": 783,
+      "community": 78,
       "norm_label": ".sections()"
     },
     {
@@ -61811,7 +61802,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L182",
       "id": "oldpc_oldpc_content_catalog_oldpccontentcatalog_search",
-      "community": 783,
+      "community": 78,
       "norm_label": ".search()"
     },
     {
@@ -61820,7 +61811,7 @@
       "source_file": "src/runtime/modules/oldpc/oldpc-content-catalog.mjs",
       "source_location": "L196",
       "id": "oldpc_oldpc_content_catalog_oldpccontentcatalog_suggestedterms",
-      "community": 783,
+      "community": 78,
       "norm_label": ".suggestedterms()"
     },
     {
@@ -63017,7 +63008,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L1",
       "id": "src_runtime_kernel_state_store_mjs",
-      "community": 700,
+      "community": 224,
       "norm_label": "state-store.mjs"
     },
     {
@@ -63026,7 +63017,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L3",
       "id": "kernel_state_store_immutableclone",
-      "community": 700,
+      "community": 224,
       "norm_label": "immutableclone()"
     },
     {
@@ -63035,7 +63026,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L5",
       "id": "kernel_state_store_validkey",
-      "community": 700,
+      "community": 224,
       "norm_label": "validkey()"
     },
     {
@@ -63044,7 +63035,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L9",
       "id": "kernel_state_store_statestore",
-      "community": 700,
+      "community": 224,
       "norm_label": "statestore"
     },
     {
@@ -63053,7 +63044,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L12",
       "id": "kernel_state_store_statestore_constructor",
-      "community": 700,
+      "community": 224,
       "norm_label": ".constructor()"
     },
     {
@@ -63062,7 +63053,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L19",
       "id": "kernel_state_store_statestore_select",
-      "community": 700,
+      "community": 224,
       "norm_label": ".select()"
     },
     {
@@ -63071,7 +63062,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L24",
       "id": "kernel_state_store_statestore_snapshot",
-      "community": 700,
+      "community": 224,
       "norm_label": ".snapshot()"
     },
     {
@@ -63080,7 +63071,7 @@
       "source_file": "src/runtime/kernel/state-store.mjs",
       "source_location": "L28",
       "id": "kernel_state_store_statestore_reducetransaction",
-      "community": 700,
+      "community": 224,
       "norm_label": ".reducetransaction()"
     },
     {
@@ -63134,7 +63125,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L1",
       "id": "src_runtime_kernel_runtime_kernel_mjs",
-      "community": 700,
+      "community": 7,
       "norm_label": "runtime-kernel.mjs"
     },
     {
@@ -63143,7 +63134,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L15",
       "id": "kernel_runtime_kernel_immutableclone",
-      "community": 700,
+      "community": 7,
       "norm_label": "immutableclone()"
     },
     {
@@ -63152,7 +63143,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L19",
       "id": "kernel_runtime_kernel_validkey",
-      "community": 700,
+      "community": 7,
       "norm_label": "validkey()"
     },
     {
@@ -63161,7 +63152,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L23",
       "id": "kernel_runtime_kernel_rejected",
-      "community": 700,
+      "community": 7,
       "norm_label": "rejected()"
     },
     {
@@ -63170,7 +63161,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L27",
       "id": "kernel_runtime_kernel_checkedarray",
-      "community": 700,
+      "community": 7,
       "norm_label": "checkedarray()"
     },
     {
@@ -63179,7 +63170,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L33",
       "id": "kernel_runtime_kernel_preflightclaims",
-      "community": 700,
+      "community": 7,
       "norm_label": "preflightclaims()"
     },
     {
@@ -63188,7 +63179,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L58",
       "id": "kernel_runtime_kernel_preflightcommit",
-      "community": 700,
+      "community": 7,
       "norm_label": "preflightcommit()"
     },
     {
@@ -63197,7 +63188,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L79",
       "id": "kernel_runtime_kernel_cloneclaims",
-      "community": 700,
+      "community": 7,
       "norm_label": "cloneclaims()"
     },
     {
@@ -63206,7 +63197,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L83",
       "id": "kernel_runtime_kernel_applyclaims",
-      "community": 700,
+      "community": 7,
       "norm_label": "applyclaims()"
     },
     {
@@ -63215,7 +63206,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L105",
       "id": "kernel_runtime_kernel_claimssnapshot",
-      "community": 700,
+      "community": 7,
       "norm_label": "claimssnapshot()"
     },
     {
@@ -63224,7 +63215,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L110",
       "id": "kernel_runtime_kernel_exactobject",
-      "community": 700,
+      "community": 7,
       "norm_label": "exactobject()"
     },
     {
@@ -63233,7 +63224,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L123",
       "id": "kernel_runtime_kernel_nonemptystring",
-      "community": 700,
+      "community": 7,
       "norm_label": "nonemptystring()"
     },
     {
@@ -63242,7 +63233,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L128",
       "id": "kernel_runtime_kernel_snapshotresult",
-      "community": 700,
+      "community": 224,
       "norm_label": "snapshotresult()"
     },
     {
@@ -63251,7 +63242,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L153",
       "id": "kernel_runtime_kernel_restoreresult",
-      "community": 700,
+      "community": 7,
       "norm_label": "restoreresult()"
     },
     {
@@ -63260,7 +63251,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L178",
       "id": "kernel_runtime_kernel_restoresnapshot",
-      "community": 700,
+      "community": 7,
       "norm_label": "restoresnapshot()"
     },
     {
@@ -63269,7 +63260,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L249",
       "id": "kernel_runtime_kernel_runtimekernel",
-      "community": 700,
+      "community": 7,
       "norm_label": "runtimekernel"
     },
     {
@@ -63278,7 +63269,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L260",
       "id": "kernel_runtime_kernel_runtimekernel_constructor",
-      "community": 700,
+      "community": 7,
       "norm_label": ".constructor()"
     },
     {
@@ -63287,7 +63278,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L282",
       "id": "kernel_runtime_kernel_runtimekernel_fromsnapshot",
-      "community": 700,
+      "community": 7,
       "norm_label": ".fromsnapshot()"
     },
     {
@@ -63296,7 +63287,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L295",
       "id": "kernel_runtime_kernel_runtimekernel_context",
-      "community": 700,
+      "community": 7,
       "norm_label": ".context()"
     },
     {
@@ -63305,7 +63296,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L297",
       "id": "kernel_runtime_kernel_runtimekernel_select",
-      "community": 700,
+      "community": 7,
       "norm_label": ".select()"
     },
     {
@@ -63314,7 +63305,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L301",
       "id": "kernel_runtime_kernel_runtimekernel_query",
-      "community": 700,
+      "community": 7,
       "norm_label": ".query()"
     },
     {
@@ -63323,7 +63314,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L309",
       "id": "kernel_runtime_kernel_runtimekernel_subscribe",
-      "community": 700,
+      "community": 7,
       "norm_label": ".subscribe()"
     },
     {
@@ -63332,7 +63323,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L311",
       "id": "kernel_runtime_kernel_runtimekernel_dispatch",
-      "community": 700,
+      "community": 7,
       "norm_label": ".dispatch()"
     },
     {
@@ -63341,7 +63332,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L317",
       "id": "kernel_runtime_kernel_runtimekernel_record",
-      "community": 700,
+      "community": 7,
       "norm_label": ".#record()"
     },
     {
@@ -63350,7 +63341,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L322",
       "id": "kernel_runtime_kernel_runtimekernel_dispatchserial",
-      "community": 700,
+      "community": 7,
       "norm_label": ".#dispatchserial()"
     },
     {
@@ -63359,7 +63350,7 @@
       "source_file": "src/runtime/kernel/runtime-kernel.mjs",
       "source_location": "L434",
       "id": "kernel_runtime_kernel_runtimekernel_exportsnapshot",
-      "community": 700,
+      "community": 7,
       "norm_label": ".exportsnapshot()"
     },
     {
@@ -64151,7 +64142,7 @@
       "source_file": "src/game/Game.ts",
       "source_location": "L1",
       "id": "src_game_game_ts",
-      "community": 212,
+      "community": 624,
       "norm_label": "game.ts"
     },
     {
@@ -64160,7 +64151,7 @@
       "source_file": "src/game/Game.ts",
       "source_location": "L6",
       "id": "game_game_inputhandler",
-      "community": 212,
+      "community": 624,
       "norm_label": "inputhandler"
     },
     {
@@ -64169,7 +64160,7 @@
       "source_file": "src/game/Game.ts",
       "source_location": "L8",
       "id": "game_game_presentationmodel",
-      "community": 212,
+      "community": 624,
       "norm_label": "presentationmodel"
     },
     {
@@ -64178,7 +64169,7 @@
       "source_file": "src/game/Game.ts",
       "source_location": "L23",
       "id": "game_game_presentationasset",
-      "community": 212,
+      "community": 624,
       "norm_label": "presentationasset"
     },
     {
@@ -64187,7 +64178,7 @@
       "source_file": "src/game/Game.ts",
       "source_location": "L29",
       "id": "game_game_navigationrequest",
-      "community": 212,
+      "community": 624,
       "norm_label": "navigationrequest"
     },
     {
@@ -64196,7 +64187,7 @@
       "source_file": "src/game/Game.ts",
       "source_location": "L34",
       "id": "game_game_dialoguehandoffrequest",
-      "community": 212,
+      "community": 624,
       "norm_label": "dialoguehandoffrequest"
     },
     {
@@ -64205,7 +64196,7 @@
       "source_file": "src/game/Game.ts",
       "source_location": "L40",
       "id": "game_game_runtimehandoffrequest",
-      "community": 212,
+      "community": 624,
       "norm_label": "runtimehandoffrequest"
     },
     {
@@ -64214,7 +64205,7 @@
       "source_file": "src/game/Game.ts",
       "source_location": "L42",
       "id": "game_game_gameoptions",
-      "community": 212,
+      "community": 624,
       "norm_label": "gameoptions"
     },
     {
@@ -64223,7 +64214,7 @@
       "source_file": "src/game/Game.ts",
       "source_location": "L47",
       "id": "game_game_isdialoguehandoff",
-      "community": 86,
+      "community": 624,
       "norm_label": "isdialoguehandoff()"
     },
     {
@@ -64340,7 +64331,7 @@
       "source_file": "src/game/Game.ts",
       "source_location": "L193",
       "id": "game_game_game_queuehandoff",
-      "community": 86,
+      "community": 624,
       "norm_label": ".queuehandoff()"
     },
     {
@@ -64790,7 +64781,7 @@
       "source_file": "src/os/apps/browser.ts",
       "source_location": "L1",
       "id": "src_os_apps_browser_ts",
-      "community": 212,
+      "community": 72,
       "norm_label": "browser.ts"
     },
     {
@@ -64799,7 +64790,7 @@
       "source_file": "src/os/apps/browser.ts",
       "source_location": "L3",
       "id": "apps_browser_renderbrowser",
-      "community": 212,
+      "community": 72,
       "norm_label": "renderbrowser()"
     },
     {
@@ -64808,7 +64799,7 @@
       "source_file": "src/os/apps/browser.ts",
       "source_location": "L5",
       "id": "apps_browser_initbrowser",
-      "community": 212,
+      "community": 72,
       "norm_label": "initbrowser()"
     },
     {
@@ -64817,7 +64808,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L1",
       "id": "src_os_apps_notepad_ts",
-      "community": 72,
+      "community": 239,
       "norm_label": "notepad.ts"
     },
     {
@@ -64826,7 +64817,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L3",
       "id": "apps_notepad_escapehtml",
-      "community": 72,
+      "community": 239,
       "norm_label": "escapehtml()"
     },
     {
@@ -64835,7 +64826,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L12",
       "id": "apps_notepad_createdefaultnotepadstate",
-      "community": 72,
+      "community": 239,
       "norm_label": "createdefaultnotepadstate()"
     },
     {
@@ -64844,7 +64835,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L28",
       "id": "apps_notepad_readnotepadstate",
-      "community": 72,
+      "community": 239,
       "norm_label": "readnotepadstate()"
     },
     {
@@ -64853,7 +64844,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L35",
       "id": "apps_notepad_writenotepadstate",
-      "community": 72,
+      "community": 239,
       "norm_label": "writenotepadstate()"
     },
     {
@@ -64862,7 +64853,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L39",
       "id": "apps_notepad_formattimestamp",
-      "community": 72,
+      "community": 239,
       "norm_label": "formattimestamp()"
     },
     {
@@ -64871,7 +64862,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L48",
       "id": "apps_notepad_rendernotepad",
-      "community": 72,
+      "community": 239,
       "norm_label": "rendernotepad()"
     },
     {
@@ -64880,7 +64871,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L189",
       "id": "apps_notepad_initnotepad",
-      "community": 72,
+      "community": 239,
       "norm_label": "initnotepad()"
     },
     {
@@ -64934,7 +64925,7 @@
       "source_file": "src/os/apps/oldPcHub.ts",
       "source_location": "L15",
       "id": "apps_oldpchub_oldpchubmodel",
-      "community": 212,
+      "community": 624,
       "norm_label": "oldpchubmodel"
     },
     {
@@ -64943,7 +64934,7 @@
       "source_file": "src/os/apps/oldPcHub.ts",
       "source_location": "L24",
       "id": "apps_oldpchub_oldpchubcontroller",
-      "community": 212,
+      "community": 624,
       "norm_label": "oldpchubcontroller"
     },
     {
@@ -65033,7 +65024,7 @@
       "source_file": "src/os/apps/oldPcHub.ts",
       "source_location": "L140",
       "id": "apps_oldpchub_renderoldpchub",
-      "community": 212,
+      "community": 72,
       "norm_label": "renderoldpchub()"
     },
     {
@@ -65042,7 +65033,7 @@
       "source_file": "src/os/apps/oldPcHub.ts",
       "source_location": "L143",
       "id": "apps_oldpchub_initoldpchub",
-      "community": 212,
+      "community": 72,
       "norm_label": "initoldpchub()"
     },
     {
@@ -73558,6 +73549,15 @@
       "id": "urman_knowledge_base_assets_2026_09_12_\u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0439_\u0442\u043a\u0430\u043d\u0435\u0432\u044b\u0439_\u0430\u0431\u0430\u0436\u0443\u0440_\u0434\u043e\u043c\u0430",
       "community": 59,
       "norm_label": "2026-09-12 \u2014 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0438 \u0442\u043a\u0430\u043d\u0435\u0432\u044b\u0438 \u0430\u0431\u0430\u0436\u0443\u0440 \u0434\u043e\u043c\u0430"
+    },
+    {
+      "label": "2026-09-12 \u2014 \u043c\u0430\u0441\u0448\u0442\u0430\u0431 \u0438 \u043e\u043f\u043e\u0440\u044b \u0440\u0430\u0431\u043e\u0447\u0435\u0433\u043e \u043c\u0435\u0441\u0442\u0430 \u0434\u043e\u043c\u0430",
+      "file_type": "document",
+      "source_file": "docs/urman_knowledge_base/assets.md",
+      "source_location": "L1082",
+      "id": "urman_knowledge_base_assets_2026_09_12_\u043c\u0430\u0441\u0448\u0442\u0430\u0431_\u0438_\u043e\u043f\u043e\u0440\u044b_\u0440\u0430\u0431\u043e\u0447\u0435\u0433\u043e_\u043c\u0435\u0441\u0442\u0430_\u0434\u043e\u043c\u0430",
+      "community": 59,
+      "norm_label": "2026-09-12 \u2014 \u043c\u0430\u0441\u0448\u0442\u0430\u0431 \u0438 \u043e\u043f\u043e\u0440\u044b \u0440\u0430\u0431\u043e\u0447\u0435\u0433\u043e \u043c\u0435\u0441\u0442\u0430 \u0434\u043e\u043c\u0430"
     },
     {
       "label": "route_navigation_product_lock.md",
@@ -91641,6 +91641,60 @@
       "norm_label": "legacy_mainmap_scene_id"
     },
     {
+      "label": "Add one restrained domestic cluster without narrowing the interaction lane.",
+      "file_type": "rationale",
+      "source_file": "tools/blender/generate_modular_environment.py",
+      "source_location": "L645",
+      "community": 184,
+      "norm_label": "add one restrained domestic cluster without narrowing the interaction lane.",
+      "id": "blender_generate_modular_environment_rationale_645"
+    },
+    {
+      "label": "Create readable, non-interactive village yard anchors for first-person framing.",
+      "file_type": "rationale",
+      "source_file": "tools/blender/generate_modular_environment.py",
+      "source_location": "L1032",
+      "community": 184,
+      "norm_label": "create readable, non-interactive village yard anchors for first-person framing.",
+      "id": "blender_generate_modular_environment_rationale_1032"
+    },
+    {
+      "label": "Create a quiet threshold gate beside the authored PineA anchor.      The Blender",
+      "file_type": "rationale",
+      "source_file": "tools/blender/generate_modular_environment.py",
+      "source_location": "L1106",
+      "community": 184,
+      "norm_label": "create a quiet threshold gate beside the authored pinea anchor.      the blender",
+      "id": "blender_generate_modular_environment_rationale_1106"
+    },
+    {
+      "label": "Create deterministic, rebuildable LOD1 meshes for every visible LOD0 mesh.",
+      "file_type": "rationale",
+      "source_file": "tools/blender/generate_modular_environment.py",
+      "source_location": "L1295",
+      "community": 184,
+      "norm_label": "create deterministic, rebuildable lod1 meshes for every visible lod0 mesh.",
+      "id": "blender_generate_modular_environment_rationale_1295"
+    },
+    {
+      "label": "Remove sub-ULP bevel UV drift before writing the source/export pair.",
+      "file_type": "rationale",
+      "source_file": "tools/blender/generate_modular_environment.py",
+      "source_location": "L1330",
+      "community": 184,
+      "norm_label": "remove sub-ulp bevel uv drift before writing the source/export pair.",
+      "id": "blender_generate_modular_environment_rationale_1330"
+    },
+    {
+      "label": ".MakeCrtHeroDetail()",
+      "file_type": "code",
+      "source_file": "game/scripts/StyleBenchmarkZone.cs",
+      "source_location": "L1780",
+      "community": 26,
+      "norm_label": ".makecrtherodetail()",
+      "id": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecrtherodetail"
+    },
+    {
       "label": "Map a generated mesh to the smallest useful presentation bone.",
       "file_type": "rationale",
       "source_file": "tools/blender/generate_character_kit.py",
@@ -92527,7 +92581,7 @@
       "file_type": "code",
       "source_file": "game/scripts/SnowTrampleField.cs",
       "source_location": "L224",
-      "community": 768,
+      "community": 631,
       "norm_label": "meshinstance3d",
       "id": "meshinstance3d"
     },
@@ -93719,7 +93773,7 @@
       "file_type": "code",
       "source_file": "game/tests/WinterTrampleCapture.cs",
       "source_location": "L63",
-      "community": 346,
+      "community": 56,
       "norm_label": ".walk()",
       "id": "tests_wintertramplecapture_wintertramplecapture_walk"
     },
@@ -101081,7 +101135,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L606",
-      "community": 387,
+      "community": 451,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip.",
       "id": "act1_urman_wet_village_road_kit_rationale_606"
     },
@@ -101252,7 +101306,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L586",
-      "community": 387,
+      "community": 451,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip.",
       "id": "act1_urman_wet_village_road_kit_rationale_586"
     },
@@ -104051,7 +104105,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L585",
-      "community": 387,
+      "community": 451,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip.",
       "id": "act1_urman_wet_village_road_kit_rationale_585"
     },
@@ -105482,7 +105536,7 @@
       "file_type": "code",
       "source_file": "game/scripts/JournalUi.cs",
       "source_location": "L18",
-      "community": 765,
+      "community": 427,
       "norm_label": "ireadonlylist",
       "id": "ireadonlylist"
     },
@@ -106843,7 +106897,7 @@
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/roadmap.md",
       "source_location": "L95",
-      "community": 318,
+      "community": 32,
       "norm_label": "goals",
       "id": "urman_knowledge_base_roadmap_goals_95"
     },
@@ -106996,7 +107050,7 @@
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/roadmap.md",
       "source_location": "L89",
-      "community": 32,
+      "community": 318,
       "norm_label": "goals",
       "id": "urman_knowledge_base_roadmap_goals_89"
     },
@@ -107257,7 +107311,7 @@
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/roadmap.md",
       "source_location": "L137",
-      "community": 318,
+      "community": 329,
       "norm_label": "risks",
       "id": "urman_knowledge_base_roadmap_risks_137"
     },
@@ -107275,7 +107329,7 @@
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/roadmap.md",
       "source_location": "L156",
-      "community": 329,
+      "community": 341,
       "norm_label": "goals",
       "id": "urman_knowledge_base_roadmap_goals_156"
     },
@@ -112346,6 +112400,16 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "tools/blender/generate_modular_environment.py",
+      "source_location": "L655",
+      "weight": 1.0,
+      "source": "blender_generate_modular_environment_rationale_655",
+      "target": "blender_generate_modular_environment_create_house_lived_in_cluster",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "tools/blender/generate_modular_environment.py",
       "source_location": "L645",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -112404,6 +112468,16 @@
       "confidence_score": 1.0,
       "source": "blender_generate_modular_environment_main",
       "target": "blender_generate_modular_environment_create_yard_props"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "tools/blender/generate_modular_environment.py",
+      "source_location": "L1042",
+      "weight": 1.0,
+      "source": "blender_generate_modular_environment_rationale_1042",
+      "target": "blender_generate_modular_environment_create_yard_props",
+      "confidence_score": 1.0
     },
     {
       "relation": "rationale_for",
@@ -112475,6 +112549,16 @@
       "confidence_score": 1.0,
       "source": "blender_generate_modular_environment_main",
       "target": "blender_generate_modular_environment_create_boundary_gate"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "tools/blender/generate_modular_environment.py",
+      "source_location": "L1116",
+      "weight": 1.0,
+      "source": "blender_generate_modular_environment_rationale_1116",
+      "target": "blender_generate_modular_environment_create_boundary_gate",
+      "confidence_score": 1.0
     },
     {
       "relation": "rationale_for",
@@ -112579,6 +112663,16 @@
       "confidence_score": 1.0,
       "source": "blender_generate_modular_environment_main",
       "target": "blender_generate_modular_environment_generate_lod1_variants"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "tools/blender/generate_modular_environment.py",
+      "source_location": "L1305",
+      "weight": 1.0,
+      "source": "blender_generate_modular_environment_rationale_1305",
+      "target": "blender_generate_modular_environment_generate_lod1_variants",
+      "confidence_score": 1.0
     },
     {
       "relation": "rationale_for",
@@ -112711,6 +112805,16 @@
       "confidence_score": 1.0,
       "source": "blender_generate_modular_environment_main",
       "target": "blender_generate_modular_environment_normalize_export_uvs"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "tools/blender/generate_modular_environment.py",
+      "source_location": "L1340",
+      "weight": 1.0,
+      "source": "blender_generate_modular_environment_rationale_1340",
+      "target": "blender_generate_modular_environment_normalize_export_uvs",
+      "confidence_score": 1.0
     },
     {
       "relation": "rationale_for",
@@ -165454,16 +165558,6 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L616",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "scripts_stylebenchmarkzone_stylebenchmarkzone",
-      "target": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecrtherodetail"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L630",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -165689,6 +165783,16 @@
       "confidence_score": 1.0,
       "source": "scripts_stylebenchmarkzone_stylebenchmarkzone",
       "target": "scripts_stylebenchmarkzone_stylebenchmarkzone_material"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "game/scripts/StyleBenchmarkZone.cs",
+      "source_location": "L616",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_stylebenchmarkzone_stylebenchmarkzone",
+      "target": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecrtherodetail"
     },
     {
       "relation": "method",
@@ -166056,17 +166160,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L280",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "scripts_stylebenchmarkzone_stylebenchmarkzone_buildhouseoldpc",
-      "target": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecrtherodetail"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L597",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -166116,6 +166209,17 @@
       "confidence_score": 1.0,
       "source": "scripts_stylebenchmarkzone_stylebenchmarkzone_buildhouseoldpc",
       "target": "scripts_stylebenchmarkzone_stylebenchmarkzone_attachact1npc"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "game/scripts/StyleBenchmarkZone.cs",
+      "source_location": "L280",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_stylebenchmarkzone_stylebenchmarkzone_buildhouseoldpc",
+      "target": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecrtherodetail"
     },
     {
       "relation": "calls",
@@ -166749,17 +166853,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "game/scripts/StyleBenchmarkZone.cs",
-      "source_location": "L618",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecrtherodetail",
-      "target": "scripts_stylebenchmarkzone_stylebenchmarkzone_makebox"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "game/scripts/StyleBenchmarkZone.cs",
       "source_location": "L631",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -166951,6 +167044,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecollisionbox",
+      "target": "scripts_stylebenchmarkzone_stylebenchmarkzone_makebox"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "game/scripts/StyleBenchmarkZone.cs",
+      "source_location": "L618",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_stylebenchmarkzone_stylebenchmarkzone_makecrtherodetail",
       "target": "scripts_stylebenchmarkzone_stylebenchmarkzone_makebox"
     },
     {
@@ -244933,6 +245037,16 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docs/urman_knowledge_base/assets.md",
+      "source_location": "L1082",
+      "weight": 1.0,
+      "source": "urman_knowledge_base_assets_\u0442\u043e\u0447\u043a\u0430_\u043f\u043e\u0432\u043e\u0440\u043e\u0442\u0430_\u043f\u0435\u0440\u0441\u043e\u043d\u0430\u0436\u0435\u0439_2026_09_11",
+      "target": "urman_knowledge_base_assets_2026_09_12_\u043c\u0430\u0441\u0448\u0442\u0430\u0431_\u0438_\u043e\u043f\u043e\u0440\u044b_\u0440\u0430\u0431\u043e\u0447\u0435\u0433\u043e_\u043c\u0435\u0441\u0442\u0430_\u0434\u043e\u043c\u0430",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/urman_knowledge_base/route_navigation_product_lock.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -247106,9 +247220,9 @@
       "source_file": "docs/urman_knowledge_base/technical_architecture.md",
       "source_location": "L513",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "urman_knowledge_base_technical_architecture_\u043c\u0435\u043d\u044e_\u043f\u0440\u043e\u0444\u0438\u043b\u044c_\u0438_\u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u0438\u0435_\u0430\u043a\u0442\u0430_i_2026_09_11",
-      "target": "urman_knowledge_base_technical_architecture_2026_09_12_parent_local_anchor_\u0438\u043c\u043f\u043e\u0440\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0445_modular_assets",
-      "confidence_score": 1.0
+      "target": "urman_knowledge_base_technical_architecture_2026_09_12_parent_local_anchor_\u0438\u043c\u043f\u043e\u0440\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0445_modular_assets"
     },
     {
       "relation": "contains",
@@ -279423,5 +279537,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ed63720b450a053f4b8cd226a896a65989aad83a"
+  "built_at_commit": "9ba5175667aed1c89b677717d9080614cea86e9a"
 }

@@ -99,10 +99,10 @@ public partial class FirstPersonInteractionSmokeTest : Node
         mansurDialogue.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
         await Frames(2);
 
-        // The house target is within 2.7 m of the production interaction ray.
-        // Its body, rather than the non-colliding CRT meshes, must receive E.
-        player.GlobalPosition = new Vector3(0, 0.05f, -0.65f);
-        player.RotationDegrees = Vector3.Zero;
+        // Approach the desk and look down at the tabletop-sized CRT, within
+        // the production ray's 2.7 m reach. Its physical target must receive E.
+        player.GlobalPosition = new Vector3(0, 0.05f, -1.2f);
+        player.ApplySmokeLook(-14f, 0f);
         await PhysicsFrames(2);
         if (!AssertRayTarget(ray, "urman.chapter1:interaction/oldpc-power"))
         {
