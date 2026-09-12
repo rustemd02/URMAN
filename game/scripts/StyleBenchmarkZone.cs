@@ -1805,7 +1805,8 @@ public partial class StyleBenchmarkZone : Node3D
             Mesh = new CylinderMesh { TopRadius = 0.035f, BottomRadius = 0.07f, Height = direction.Length(), RadialSegments = 6 },
             MaterialOverride = Material(color, "wood")
         };
-        AddChild(branch);
+        // Keep the numeric suffix recognized by connected-world suppression.
+        AddChild(branch, forceReadableName: true);
         branch.LookAt(end, Vector3.Up);
         branch.RotateObjectLocal(Vector3.Right, Mathf.Pi * 0.5f);
     }

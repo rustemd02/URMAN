@@ -240,7 +240,7 @@ public static class GeneratedCharacterKitDressing
             : name.Contains("Hair", StringComparison.Ordinal) || name.Contains("FaceBeard", StringComparison.Ordinal)
                 ? hair
                 : name.Contains("Hat", StringComparison.Ordinal)
-                    ? hair
+                    ? prefix == "Gulsina" ? "bbb09a" : hair
                     : name.Contains("Boot", StringComparison.Ordinal)
                         ? "494640"
                         : name.Contains("Trouser", StringComparison.Ordinal)

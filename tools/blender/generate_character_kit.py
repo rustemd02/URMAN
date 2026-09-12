@@ -21,7 +21,7 @@ from mathutils import Vector
 
 CHARACTERS = (
     ("Mansur", (0.36, 0.25, 0.18, 1.0), (0.58, 0.42, 0.24, 1.0), True, True),
-    ("Gulsina", (0.38, 0.28, 0.34, 1.0), (0.63, 0.45, 0.28, 1.0), False, False),
+    ("Gulsina", (0.38, 0.28, 0.34, 1.0), (0.63, 0.45, 0.28, 1.0), True, False),
     ("Alsu", (0.22, 0.35, 0.38, 1.0), (0.56, 0.39, 0.24, 1.0), False, False),
     ("TimurHazrat", (0.28, 0.38, 0.34, 1.0), (0.47, 0.42, 0.29, 1.0), True, True),
     ("CouncilElder", (0.38, 0.30, 0.23, 1.0), (0.52, 0.40, 0.26, 1.0), True, True),
@@ -346,6 +346,14 @@ def hat(
             (0.060, 0.125, 0.112),
             (0.083, 0.065, 0.057),
         ),
+        # A soft household head wrap follows the existing cap topology.
+        "head_wrap": (
+            (-0.065, 0.148, 0.142),
+            (-0.032, 0.164, 0.154),
+            (0.008, 0.160, 0.150),
+            (0.043, 0.125, 0.116),
+            (0.068, 0.062, 0.058),
+        ),
         # Slightly narrower and taller so Timur reads as a distinct, neat
         # working cap while remaining culturally restrained.
         "prayer_cap": (
@@ -376,6 +384,76 @@ def hat(
             next_side = (side + 1) % sides
             faces.append((lower + side, lower + next_side, upper + next_side, upper + side))
     faces.append(tuple((len(rings) - 1) * sides + side for side in range(sides)))
+    if style == "head_wrap":
+        # The back of the wrap is one shallow folded cloth panel in this same
+        # Hat mesh. Blender front is -Y, so the panel sits behind the head;
+        # its closed thickness keeps both sides visible without z-fighting.
+        panel = len(vertices)
+        shell = []
+        for z, rx, ry in ((-0.020, 0.145, 0.155), (-0.105, 0.140, 0.265), (-0.230, 0.080, 0.205)):
+            for step in range(7):
+                angle = math.pi * step / 6
+                shell.append((rx * math.cos(angle), 0.01 + ry * math.sin(angle), z))
+        vertices.extend(shell)
+        vertices.extend((x, y + 0.009, z) for x, y, z in shell)
+        n = len(shell)
+        for ring in range(2):
+            for step in range(6):
+                a = panel + ring * 7 + step
+                b, c, d = a + 1, a + 8, a + 7
+                faces.extend(((a, b, c, d), (d + n, c + n, b + n, a + n)))
+            a, d = panel + ring * 7, panel + (ring + 1) * 7
+            faces.append((a, d, d + n, a + n))
+            b, c = a + 6, d + 6
+            faces.append((c, b, b + n, c + n))
+        for step in range(6):
+            a, b = panel + step, panel + step + 1
+            faces.append((b, a, a + n, b + n))
+            d, c = panel + 14 + step, panel + 15 + step
+            faces.append((d, c, c + n, d + n))
+        # A small faceted knot and two short folded ends complete the wrap
+        # silhouette while staying inside the established Hat object/budget.
+        knot = len(vertices)
+        vertices.extend((
+            (-0.034, 0.257, -0.079),
+            (0.000, 0.287, -0.096),
+            (0.034, 0.257, -0.079),
+            (0.000, 0.257, -0.120),
+            (0.000, 0.232, -0.096),
+            (0.000, 0.257, -0.060),
+        ))
+        faces.extend((
+            (knot + 1, knot + 0, knot + 5),
+            (knot + 2, knot + 1, knot + 5),
+            (knot + 4, knot + 2, knot + 5),
+            (knot + 0, knot + 4, knot + 5),
+            (knot + 0, knot + 1, knot + 3),
+            (knot + 1, knot + 2, knot + 3),
+            (knot + 2, knot + 4, knot + 3),
+            (knot + 4, knot + 0, knot + 3),
+        ))
+        for side_sign in (-1.0, 1.0):
+            tail = len(vertices)
+            x0 = 0.032 * side_sign
+            x1 = 0.058 * side_sign
+            tip = 0.050 * side_sign
+            vertices.extend((
+                (x0, 0.260, -0.105),
+                (x1, 0.260, -0.092),
+                (tip, 0.248, -0.166),
+                (x0, 0.272, -0.105),
+                (x1, 0.272, -0.092),
+                (tip, 0.260, -0.166),
+            ))
+            faces.extend((
+                (tail + 0, tail + 1, tail + 2),
+                (tail + 5, tail + 4, tail + 3),
+                (tail + 0, tail + 3, tail + 4, tail + 1),
+                (tail + 1, tail + 4, tail + 5, tail + 2),
+                (tail + 2, tail + 5, tail + 3, tail + 0),
+            ))
+            if side_sign > 0:
+                faces[-5:] = [tuple(reversed(face)) for face in faces[-5:]]
     mesh = bpy.data.meshes.new(f"{name}Mesh")
     mesh.from_pydata(vertices, [], faces)
     mesh.update()
@@ -772,12 +850,13 @@ def create_character(
         )
     if has_hat:
         hat_style = {
+            "Gulsina": "head_wrap",
             "Mansur": "wool_cap",
             "TimurHazrat": "prayer_cap",
             "CouncilElder": "council_cap",
             "PactKeeper": "council_cap",
         }.get(prefix, "wool_cap")
-        hat_offset = 0.20 if prefix == "Mansur" else 0.22
+        hat_offset = 0.16 if prefix == "Gulsina" else 0.20 if prefix == "Mansur" else 0.22
         hat(f"{prefix}_Hat_LOD0", (x, 0.0, head_z + hat_offset * head_scale), materials["hair"], asset_id, style=hat_style)
 
     for obj in bpy.context.scene.objects:
