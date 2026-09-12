@@ -451,3 +451,32 @@ Luna scoped review не нашёл блокера счётчика. Хеш sourc
 один результат не устанавливает причинность и не объясняет старые задержки.
 R22/R21-repeat/R17 FAIL остаются открытыми; полный движущийся маршрут
 и обычное прохождение этим стационарным замером не доказаны.
+
+### 2026-09-13 — весь физический маршрут с подтверждённым фокусом
+
+Source `6d88ed2` (runtime `ae7cf06`), существующий
+`Act1FirstPersonWalkthroughSmokeTest` с временным R17 timing-hook.
+Обычный оконный драйвер (`--windowed --audio-driver Dummy`), M4 Pro Metal
+Forward+, output/viewport1920×1080, Medium/.9/MSAA2/FOV75, VSyncDisabled,
+12с прогрева после подтверждения focus и отсутствия паузы.
+
+403,43м реальных input actions/CharacterBody/ray до cliffhanger: PASS.
+14 905 кадров /130,982с;113,79FPS, avg8,788мс, p9512,346, p9922,212,
+max72,279мс, >33,3мс0,03355%. Все14 905 кадров focused=true;
+focus_lost_frames=0. Численные пороги этого прогона соблюдены.
+Пик помечен approach-oldpc-power при modal=true, GC0/pipeline0;
+метка этапа не доказывает стоимость конкретной функции или причину.
+
+В первой попытке с историческими `--headless --display-driver macos`
+ожидание focus/unpaused истекло до измерения; результат NOT_MEASURED.
+CUA exact-path/bundle-ID timeout не доказывает блокировку macOS.
+Второй запуск получил фокус автоматически, без CUA-действий; exit0.
+Обе попытки восстановили source/build(0ошибок/0предупреждений)/userdata.
+Evidence вне repo: `motion_focused_r30`, `motion_windowed_r30`,
+`capture_motion_windowed_r30.py`, checked_receipt.json и acceptance.md.
+
+R17 max404,892мс остаётся историческим FAIL. Новый max72,279мс при
+других условиях и версии не доказывает найденную причину/исправление.
+Это source scripted motion: меню/интро/choices программные, сравнения
+через bridge; не обычный игрок, не packaged motion и не прослушивание.
+Полная приёмка готового пакета и объяснение старых пиков остаются открытыми.
