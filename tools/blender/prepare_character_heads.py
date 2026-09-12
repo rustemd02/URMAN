@@ -101,6 +101,14 @@ for gender, center, cut in [("Female", 1.64, 1.49), ("Male", 1.68, 1.57)]:
             v.co = Vector((v.co.x * 1.4, v.co.y * 1.4, (v.co.z - center) * 1.4))
             if gender == "Male" and v.co.z < -0.105:
                 v.co.z = -0.105 + (v.co.z + 0.105) * 2.15
+                if part == "Head" and v.co.y > 0:
+                    # Fit the posterior neck into the winter collar instead
+                    # of stretching the source shoulder flare behind the head.
+                    taper = min(1.0, (-v.co.z - 0.105) / 0.105)
+                    taper = taper * taper * (3.0 - 2.0 * taper)
+                    taper *= min(1.0, v.co.y / 0.151)
+                    v.co.x *= 1.0 - 0.35 * taper
+                    v.co.y *= 1.0 - 0.55 * taper
         for f in ob.data.polygons:
             f.use_smooth = True
         ob.vertex_groups.clear()
