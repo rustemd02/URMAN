@@ -335,9 +335,9 @@ public static class GeneratedModularKitDressing
     private static void AlignAnchor(Node3D instance, MeshInstance3D referenceMesh, Vector3 anchor)
     {
         // The Blender exporter performs the Y-up conversion. Aligning by the
-        // imported node's actual world position keeps the placement stable even
-        // if that conversion changes between exporter versions.
-        instance.Position += anchor - referenceMesh.GlobalPosition;
+        // imported node position is converted to the same parent-local space
+        // as the caller's anchor; connected zones need not be at world zero.
+        instance.Position += anchor - instance.GetParent<Node3D>().ToLocal(referenceMesh.GlobalPosition);
         instance.SetMeta("anchor", anchor);
         instance.SetMeta("anchorReference", referenceMesh.Name);
     }

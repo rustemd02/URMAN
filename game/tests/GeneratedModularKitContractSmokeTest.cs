@@ -34,7 +34,7 @@ public partial class GeneratedModularKitContractSmokeTest : Node
     public override async void _Ready()
     {
         PainterlyMaterialLibrary.SuppressTextureLoadsForHeadlessTests = true;
-        var host = new Node3D { Name = "GeneratedModularKitContractHost" };
+        var host = new Node3D { Name = "GeneratedModularKitContractHost", Position = new(-28f, 0f, 0f) };
         AddChild(host);
 
         try
@@ -116,6 +116,10 @@ public partial class GeneratedModularKitContractSmokeTest : Node
             .OfType<MeshInstance3D>()
             .ToArray();
         var visible = allMeshes.Where(mesh => mesh.Visible).ToArray();
+        var reference = allMeshes.First(mesh => NameOf(mesh) == instance.GetMeta("anchorReference").AsString());
+        var expectedAnchor = instance.GetParent<Node3D>().ToGlobal(instance.GetMeta("anchor").AsVector3());
+        if (reference.GlobalPosition.DistanceTo(expectedAnchor) > .001f)
+            return "selected reference mesh must align with the parent-local anchor in a translated zone";
         var visibleLod0 = visible.Where(mesh => NameOf(mesh).Contains("_LOD0", StringComparison.Ordinal)).ToArray();
         var visibleLod1 = visible.Where(mesh => NameOf(mesh).Contains("_LOD1", StringComparison.Ordinal)).ToArray();
         if (visible.Length != family.ExpectedPerLod * 2
