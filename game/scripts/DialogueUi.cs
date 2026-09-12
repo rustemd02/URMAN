@@ -96,7 +96,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         UiFoley.Play(_foley, "ui_click");
         _screen.Visible = true;
         SetPlayerModal(true);
-        if (!await ShowNodeAsync(_dialogue.StartNodeId, applyEffects: true))
+        if (!await ShowNodeAsync(bridge.ResolveDialogueStartNodeId(_dialogue), applyEffects: true))
         {
             _speaker.Text = "...";
             _line.Text = "Айдару пока нечем продолжить этот разговор.";

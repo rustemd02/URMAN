@@ -209,7 +209,21 @@ public sealed partial class ContentCompiler
             return new(null, diagnostics);
         }
 
-        return new(pack, diagnostics);
+        foreach (var dialogue in registries["dialogues"].Values)
+        {
+            if (dialogue["entryRoutes"] is not JsonArray routes) continue;
+            var nodes = RequiredObjects(dialogue, "nodes")
+                .Select(node => RequiredString(node, "id")).ToHashSet(StringComparer.Ordinal);
+            for (var index = 0; index < routes.Count; index++)
+            {
+                var nodeId = RequiredString(routes[index]!.AsObject(), "nodeId");
+                if (!nodes.Contains(nodeId))
+                    diagnostics.Add(new("MissingDialogueEntryNode", Relative(root, campaignPath),
+                        $"/dialogues/{RequiredString(dialogue, "id")}/entryRoutes/{index}/nodeId",
+                        $"Dialogue entry node {nodeId} does not exist."));
+            }
+        }
+        return new(diagnostics.Count == 0 ? pack : null, diagnostics);
     }
 
     private static JsonObject BuildCampaign(

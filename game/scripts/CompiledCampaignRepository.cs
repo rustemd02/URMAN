@@ -98,10 +98,13 @@ public sealed record CompiledDialogueNodeContent(
     JsonElement Effects,
     IReadOnlyList<CompiledDialogueChoiceContent> Choices);
 
+public sealed record CompiledDialogueEntryContent(string NodeId, JsonElement Conditions);
+
 public sealed record CompiledDialogueContent(
     string Id,
     string StartNodeId,
-    IReadOnlyDictionary<string, CompiledDialogueNodeContent> Nodes);
+    IReadOnlyDictionary<string, CompiledDialogueNodeContent> Nodes,
+    IReadOnlyList<CompiledDialogueEntryContent> EntryRoutes);
 
 public sealed record CompiledQuestContent(string Id, JsonElement Definition);
 
@@ -434,7 +437,13 @@ public sealed class CompiledCampaignRepository
                     choice.GetProperty("effects").Clone(),
                     choice.TryGetProperty("nextNodeId", out var nextNodeId) ? nextNodeId.GetString() : null)).ToArray()))
             .ToDictionary(node => node.Id, StringComparer.Ordinal);
-        return new(dialogue.GetProperty("id").GetString()!, dialogue.GetProperty("startNodeId").GetString()!, nodes);
+        var entries = dialogue.TryGetProperty("entryRoutes", out var routes)
+            ? routes.EnumerateArray().Select(route => new CompiledDialogueEntryContent(
+                route.GetProperty("nodeId").GetString()!, route.GetProperty("conditions").Clone())).ToArray()
+            : [];
+        if (entries.Any(entry => !nodes.ContainsKey(entry.NodeId)))
+            throw new InvalidDataException($"Dialogue {dialogue.GetProperty("id").GetString()} has an unknown entry node.");
+        return new(dialogue.GetProperty("id").GetString()!, dialogue.GetProperty("startNodeId").GetString()!, nodes, entries);
     }
 
     private static IReadOnlyDictionary<string, string> InitialStatuses(JsonElement root, string registry) =>

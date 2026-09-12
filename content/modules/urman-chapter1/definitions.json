@@ -309,6 +309,17 @@
  },
  {
   "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-mansur-follow-up",
+  "value": {
+   "default": "“Did you find anything, Aidar?” Mansur asks.",
+   "translations": {
+    "ru": "«Нашёл что-нибудь, Айдар?» — спрашивает Мансур."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-naila-medical-record",
   "value": {
    "default": "Naila keeps a hand on the folder. “You came about Marat? I cannot open other people’s medical files for you. Tell me exactly what you want to clarify.”",
@@ -1713,6 +1724,92 @@
     ]
    },
    {
+    "id": "follow-up",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-follow-up",
+    "conditions": [],
+    "effects": [],
+    "choices": [
+     {
+      "id": "ask-about-javap",
+      "textId": "urman.chapter1:text/choice-mansur-javap",
+      "conditions": [
+       {
+        "op": "vocabulary.status",
+        "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "javap-reply"
+     },
+     {
+      "id": "offer-help",
+      "textId": "urman.chapter1:text/choice-mansur-offer-help",
+      "conditions": [
+       {
+        "op": "not",
+        "condition": {
+         "op": "knowledge.status",
+         "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+         "status": "confirmed"
+        }
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "offer-help-reply"
+     },
+     {
+      "id": "ask-why-not-himself",
+      "textId": "urman.chapter1:text/choice-mansur-why",
+      "conditions": [
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/mansur",
+        "stateKey": "pc_access_granted",
+        "value": true
+       },
+       {
+        "op": "not",
+        "condition": {
+         "op": "knowledge.status",
+         "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+         "status": "confirmed"
+        }
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "why-reply"
+     },
+     {
+      "id": "show-official-notice",
+      "textId": "urman.chapter1:text/choice-mansur-marat",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "marat-reply"
+     },
+     {
+      "id": "remember-blue-mittens",
+      "textId": "urman.chapter1:text/choice-mansur-blue-mittens",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "blue-mittens-reply"
+     }
+    ]
+   },
+   {
     "id": "why-reply",
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-why-reply",
@@ -1751,6 +1848,19 @@
     "conditions": [],
     "effects": [],
     "choices": []
+   }
+  ],
+  "entryRoutes": [
+   {
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/mansur",
+      "stateKey": "pc_access_granted",
+      "value": true
+     }
+    ],
+    "nodeId": "follow-up"
    }
   ]
  },

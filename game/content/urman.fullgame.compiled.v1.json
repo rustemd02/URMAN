@@ -965,6 +965,92 @@
             ]
           },
           {
+            "id": "follow-up",
+            "speakerRole": "mansur",
+            "textId": "urman.chapter1:text/dialogue-mansur-follow-up",
+            "conditions": [],
+            "effects": [],
+            "choices": [
+              {
+                "id": "ask-about-javap",
+                "textId": "urman.chapter1:text/choice-mansur-javap",
+                "conditions": [
+                  {
+                    "op": "vocabulary.status",
+                    "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+                    "status": "confirmed"
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "javap-reply"
+              },
+              {
+                "id": "offer-help",
+                "textId": "urman.chapter1:text/choice-mansur-offer-help",
+                "conditions": [
+                  {
+                    "op": "not",
+                    "condition": {
+                      "op": "knowledge.status",
+                      "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+                      "status": "confirmed"
+                    }
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "offer-help-reply"
+              },
+              {
+                "id": "ask-why-not-himself",
+                "textId": "urman.chapter1:text/choice-mansur-why",
+                "conditions": [
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/mansur",
+                    "stateKey": "pc_access_granted",
+                    "value": true
+                  },
+                  {
+                    "op": "not",
+                    "condition": {
+                      "op": "knowledge.status",
+                      "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+                      "status": "confirmed"
+                    }
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "why-reply"
+              },
+              {
+                "id": "show-official-notice",
+                "textId": "urman.chapter1:text/choice-mansur-marat",
+                "conditions": [
+                  {
+                    "op": "knowledge.status",
+                    "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+                    "status": "confirmed"
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "marat-reply"
+              },
+              {
+                "id": "remember-blue-mittens",
+                "textId": "urman.chapter1:text/choice-mansur-blue-mittens",
+                "conditions": [
+                  {
+                    "op": "knowledge.status",
+                    "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+                    "status": "confirmed"
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "blue-mittens-reply"
+              }
+            ]
+          },
+          {
             "id": "why-reply",
             "speakerRole": "mansur",
             "textId": "urman.chapter1:text/dialogue-mansur-why-reply",
@@ -1003,6 +1089,19 @@
             "conditions": [],
             "effects": [],
             "choices": []
+          }
+        ],
+        "entryRoutes": [
+          {
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/mansur",
+                "stateKey": "pc_access_granted",
+                "value": true
+              }
+            ],
+            "nodeId": "follow-up"
           }
         ]
       },
@@ -7913,6 +8012,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/dialogue-mansur-follow-up",
+        "value": {
+          "default": "\u201CDid you find anything, Aidar?\u201D Mansur asks.",
+          "translations": {
+            "ru": "\u00AB\u041D\u0430\u0448\u0451\u043B \u0447\u0442\u043E-\u043D\u0438\u0431\u0443\u0434\u044C, \u0410\u0439\u0434\u0430\u0440?\u00BB \u2014 \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442 \u041C\u0430\u043D\u0441\u0443\u0440."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/dialogue-mansur-javap-reply",
         "value": {
           "default": "Mansur looks away. \u201CI do not know what Marat heard that time. Where was he? The note mentions the forest edge, doesn\u2019t it? Read it again, Aidar. Show me the place, not just one word.\u201D",
@@ -9480,7 +9590,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "254ee04333c07fb1f23295587a0812465a9fc3ae3e71d958bb1a7dbe1eda0e31"
+      "sha256": "80c6f298e180d844ce5b589f93281a0f3698a726c2ed6038e296d99d2db2645c"
     },
     {
       "moduleId": "urman.core",
@@ -9498,5 +9608,5 @@
       "sha256": "c5f6da9646e805176ada5893a495a63ff06e4da1457b003f54c34318815037ee"
     }
   ],
-  "campaignFingerprint": "52056c1904a0cd81dd82def1a0716b4f54b834b2cf0a1d1cc98c43617bd6637a"
+  "campaignFingerprint": "3dd6b49bc511c60e2130ab03859f836613561d5ee33fc9a59791f0d8ce1b5ab2"
 }

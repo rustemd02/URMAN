@@ -428,6 +428,10 @@ public partial class RuntimeBridge : Node
 
     public CompiledDialogueContent RequireDialogue(string dialogueId) => _content.RequireDialogue(dialogueId);
 
+    public string ResolveDialogueStartNodeId(CompiledDialogueContent dialogue) =>
+        dialogue.EntryRoutes.FirstOrDefault(route => EvaluateConditions(route.Conditions))?.NodeId
+        ?? dialogue.StartNodeId;
+
     public CompiledSceneContent RequireScene(string sceneId) => _content.RequireScene(sceneId);
 
     public CompiledDocumentContent RequireDocument(string documentId) => _content.RequireDocument(documentId);

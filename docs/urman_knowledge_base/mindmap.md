@@ -464,6 +464,8 @@ mindmap
         Cliffhanger route
       Quest system [MVP]
       Dialogue system [MVP]
+        Conditional entry before node effects [TECH]
+        Mansur first request and repeat questions [NARRATIVE]
       Knowledge keys [MVP]
       Inventory
       Save system [MVP]

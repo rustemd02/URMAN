@@ -294,3 +294,19 @@ that entry after a successful commit. A physical reveal need not open a panel.
 Visible geometry and any removable collision must explicitly project the
 saved knowledge on initial construction, load and new game; declaring
 `worldLocations` alone does not create a secret or a passage.
+
+
+### Conditional dialogue entry (2026-09-13)
+
+A dialogue may declare ordered `entryRoutes: [{conditions, nodeId}]`.
+Each route has at least one existing content condition and targets a node in
+that dialogue. RuntimeBridge chooses the first matching route from current
+shared state **before** DialogueUi applies any node effects. No match (or no
+routes) uses the existing `startNodeId`. The selected node still runs its
+normal conditions/effects; a denied node does not try other entry routes.
+The compiler and compiled repository reject missing target nodes.
+
+Mansur uses existing `pc_access_granted` for his repeat entry; the original
+start node grants access only after entry selection. No visited-state store,
+UI-specific NPC IDs or save schema change is introduced. Content changes
+still change the campaign fingerprint and can invalidate older saves.

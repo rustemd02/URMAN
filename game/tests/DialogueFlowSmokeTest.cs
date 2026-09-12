@@ -141,8 +141,10 @@ public partial class DialogueFlowSmokeTest : Node
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         var memoryText = bridge.ResolveText("urman.chapter1:text/choice-mansur-blue-mittens");
         var mansurChoices = dialogueUi.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices");
-        if (mansurChoices.GetChildren().OfType<Button>().Any(button => button.Text == memoryText))
-        { Fail("The sled question was visible before its discovery."); return; }
+        if (mansurChoices.GetChildren().OfType<Button>().Any(button => button.Text == memoryText)
+            || dialogueUi.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text != bridge.ResolveText("urman.chapter1:text/dialogue-mansur-pc-request")
+            || !mansurChoices.GetChildren().OfType<Button>().Any(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-mansur-offer-help")))
+        { Fail("Mansur's first request changed or exposed the undiscovered sled question."); return; }
         dialogueUi._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
         main.SwitchZone("village_day", "entry");
         if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/discover-babai-yard-sled-repair"))
@@ -150,8 +152,10 @@ public partial class DialogueFlowSmokeTest : Node
         bridge.OpenDialogueUi(mansurDialogue);
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         var memoryButton = mansurChoices.GetChildren().OfType<Button>().SingleOrDefault(button => button.Text == memoryText);
-        if (memoryButton is null)
-        { Fail("The sled discovery did not unlock Mansur's optional question."); return; }
+        if (memoryButton is null
+            || dialogueUi.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text != bridge.ResolveText("urman.chapter1:text/dialogue-mansur-follow-up")
+            || mansurChoices.GetChildren().OfType<Button>().Any(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-mansur-offer-help")))
+        { Fail("Mansur's repeat request replayed exposition, retained completed PC help or lost the new discovery question."); return; }
         memoryButton.EmitSignal(Button.SignalName.Pressed);
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         if (dialogueUi.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text
