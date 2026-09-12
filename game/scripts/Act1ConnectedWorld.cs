@@ -6084,7 +6084,7 @@ public partial class Act1ConnectedWorld : Node3D
             AddVisualTree(parent, $"KaraWatershedStand{index}", parent.ToLocal(anchor),
                 tree.Height, index >= 24 && index % 4 == 0 ? VegetationStyle.Birch : VegetationStyle.Conifer,
                 index < 6 ? "243c33" : index < 17 || Mathf.Abs(tree.X) < 30f ? "344b43" : "40574f");
-            if (index is 2 or 3)
+            if (index is 2 or 3 or 10 or 20)
                 parent.GetNodeOrNull<Node3D>($"KaraWatershedStand{index}")?.SetMeta("winterVariant", "WinterPine");
             if (index >= 24 && Mathf.Abs(tree.X) < 36f)
             {
