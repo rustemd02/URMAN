@@ -40,7 +40,7 @@ public partial class Act1ConnectedWorld
         {
             ("BenchSeat", new(1.8f, .53f, .42f), new(4.9f, benchGround + .265f, 6.1f)),
             ("BenchBack", new(1.8f, .50f, .12f), new(4.9f, benchGround + .75f, 6.27f)),
-            ("SignPost", new(.16f, 1.95f, .16f), new(-2.05f, signGround + .98f, 5.8f))
+            ("SignPost", new(.11f, 1.80f, .11f), new(-2.05f, signGround + .90f, 5.8f))
         })
             _arrivalDiscoveryCollision.AddChild(new CollisionShape3D
             { Name = name, Position = village.ToLocal(at), Shape = new BoxShape3D { Size = size } });
@@ -148,7 +148,7 @@ public partial class Act1ConnectedWorld
         sign.SetMeta("presentationRole", "reused wayfinding board with readable reverse word");
         parent.AddChild(sign);
 
-        AddVisualBox(sign, "Post", new(.16f, 1.95f, .16f), new(0f, .98f, 0f), "594939", "wood");
+        AddVisualBox(sign, "Post", new(.11f, 1.80f, .11f), new(0f, .90f, 0f), "594939", "wood");
         _mainStreetSignBoard = new Node3D
         {
             Name = "Board",
@@ -158,9 +158,10 @@ public partial class Act1ConnectedWorld
             RotationDegrees = new(0f, -4f, 0f)
         };
         sign.AddChild(_mainStreetSignBoard);
-        AddVisualBox(_mainStreetSignBoard, "BoardFace", new(1.15f, .46f, .08f),
+        AddVisualBox(_mainStreetSignBoard, "BoardFace", new(1.15f, .28f, .08f),
             Vector3.Zero, "806b4f", "wood");
-        DiscoveryLabel(_mainStreetSignBoard, "FrontArrow", "→", new(.36f, 0f, .058f), .0015f);
+        var frontArrow = DiscoveryLabel(_mainStreetSignBoard, "FrontArrow", "→", new(.36f, 0f, .058f), .0015f);
+        frontArrow.Modulate = new Color("c8b794");
         var frontText = DiscoveryLabel(_mainStreetSignBoard, "FrontText", "ФАП",
             new(-.23f, 0f, .058f), .0015f);
         frontText.Modulate = new Color("c8b794");
@@ -168,10 +169,11 @@ public partial class Act1ConnectedWorld
         _mainStreetSignReverseSide = new Node3D { Name = "ReverseSide", Visible = false };
         _mainStreetSignBoard.AddChild(_mainStreetSignReverseSide);
         AddVisualBox(_mainStreetSignReverseSide, "PeelingPaintStrip", new(.74f, .045f, .012f),
-            new(0f, .17f, -.047f), "d1c3a0", "wood_furniture");
+            new(0f, .10f, -.047f), "d1c3a0", "wood_furniture");
         var reverseArrow = DiscoveryLabel(_mainStreetSignReverseSide, "ReverseArrow", "←",
             new(-.38f, 0f, -.058f), .0015f);
         reverseArrow.RotationDegrees = new(0f, 180f, 0f);
+        reverseArrow.Modulate = new Color("e2d5b8");
         var reverseText = DiscoveryLabel(_mainStreetSignReverseSide, "ReverseText", "юл",
             new(-.08f, 0f, -.058f), .0015f);
         reverseText.RotationDegrees = new(0f, 180f, 0f);
