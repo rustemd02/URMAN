@@ -637,11 +637,15 @@ def create_character(
         tapered_segment(
             f"{prefix}_HeadHand{side}_LOD0",
             (
+                # Keep the wrist embedded in the rotated cuff. Four short rings
+                # give the palm a rounded mitten-like end without changing the
+                # established HeadHand mesh or Arm.L/Arm.R binding.
                 (side_x, -0.018, 0.75 * height_scale),
-                (side_x + side_sign * 0.010, -0.030, 0.65 * height_scale),
-                (side_x + side_sign * 0.020, -0.046, 0.57 * height_scale),
+                (side_x + side_sign * 0.004, -0.026, 0.69 * height_scale),
+                (side_x + side_sign * 0.010, -0.040, 0.64 * height_scale),
+                (side_x + side_sign * 0.014, -0.049, 0.61 * height_scale),
             ),
-            (0.060 * shoulder_scale, 0.053 * shoulder_scale, 0.045 * shoulder_scale),
+            (0.045 * shoulder_scale, 0.056 * shoulder_scale, 0.049 * shoulder_scale, 0.034 * shoulder_scale),
             materials["skin"],
             asset_id,
             128,
@@ -651,10 +655,10 @@ def create_character(
         tapered_segment(
             f"{prefix}_HeadHandThumb{side}_LOD0",
             (
-                (side_x + side_sign * 0.016, -0.044, 0.63 * height_scale),
-                (side_x + side_sign * 0.048, -0.066, 0.59 * height_scale),
+                (side_x + side_sign * 0.012, -0.040, 0.65 * height_scale),
+                (side_x + side_sign * 0.040, -0.058, 0.61 * height_scale),
             ),
-            (0.028 * shoulder_scale, 0.018 * shoulder_scale),
+            (0.024 * shoulder_scale, 0.016 * shoulder_scale),
             materials["skin"],
             asset_id,
             64,
