@@ -73,6 +73,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private (ulong Surface, ulong Draw) _performanceLastPipelines;
     private readonly List<double> _performanceWarmupSamples = [];
     private readonly List<double> _performanceSamples = [];
+    private int _performanceFocusedSamples;
     private readonly List<string> _performanceStallReports = new(8);
     private bool _startupPerformanceGuard;
     private int _startupGuardWarmupFrames;
@@ -380,6 +381,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             Gen2: GC.CollectionCount(2), Allocated: GC.GetTotalAllocatedBytes(false));
         var pipelines = (Surface: RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.PipelineCompilationsSurface),
             Draw: RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.PipelineCompilationsDraw));
+        var focused = DisplayServer.WindowIsFocused();
         if (frameMilliseconds > 100.0)
         {
             var warming = _performanceWarmupElapsed < _performanceWarmupSeconds;
@@ -389,7 +391,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 + $"target={ProbeToken(_performanceSample.Label)} "
                 + $"elapsed_s={_performanceWarmupElapsed + _performanceMeasurementElapsed + frameMilliseconds / 1000.0:F3} frame_ms={frameMilliseconds:F3} "
                 + $"gc0_delta={gc.Gen0 - _performanceLastGc.Gen0} gc1_delta={gc.Gen1 - _performanceLastGc.Gen1} gc2_delta={gc.Gen2 - _performanceLastGc.Gen2} "
-                + $"allocated_delta={gc.Allocated - _performanceLastGc.Allocated} focused={DisplayServer.WindowIsFocused()} "
+                + $"allocated_delta={gc.Allocated - _performanceLastGc.Allocated} focused={focused} "
                 + $"life_event={life?.GetMeta("event", 0).AsInt32() ?? 0} life_time={life?.GetMeta("eventTime", 0f).AsDouble() ?? 0:F3} "
                 + $"last_process_ms={Performance.GetMonitor(Performance.Monitor.TimeProcess) * 1000.0:F3} "
                 + $"last_physics_ms={Performance.GetMonitor(Performance.Monitor.TimePhysicsProcess) * 1000.0:F3} "
@@ -407,6 +409,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         }
 
         _performanceSamples.Add(frameMilliseconds);
+        if (focused) _performanceFocusedSamples++;
         _performanceMeasurementElapsed += frameMilliseconds / 1000.0;
         if (_performanceMeasurementElapsed < _performanceDurationSeconds)
         {
@@ -474,6 +477,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             $"warmup_seconds={_performanceWarmupElapsed.ToString("F2", CultureInfo.InvariantCulture)}",
             $"sample_seconds={_performanceMeasurementElapsed.ToString("F2", CultureInfo.InvariantCulture)}",
             $"sample_count={_performanceSamples.Count}",
+            $"focused_sample_count={_performanceFocusedSamples}",
+            $"focused_sample_fraction={(_performanceFocusedSamples / (double)_performanceSamples.Count).ToString("F5", CultureInfo.InvariantCulture)}",
             $"fps={(_performanceWindowed && _performanceRealRenderer ? fps.ToString("F2", CultureInfo.InvariantCulture) : "n/a")}",
             $"window_fps_valid={(_performanceWindowed && _performanceRealRenderer).ToString().ToLowerInvariant()}",
             $"display_driver={ProbeToken(DisplayServer.GetName())}",
