@@ -6143,7 +6143,7 @@ public partial class Act1ConnectedWorld : Node3D
         // remain legible from the fixed first-person camera.
         AddVisualTree(karaClosure, "KaraClosureNearConiferWest", new(-8.4f, 0f, 9.5f), 8.0f, VegetationStyle.Conifer, "30483f");
         AddVisualTree(karaClosure, "KaraClosureNearBirchEast", new(11.0f, 0f, 7.0f), 5.8f, VegetationStyle.Birch, "596047");
-        AddVisualTree(karaClosure, "KaraClosureMidBroadleafWest", new(-13.0f, 0f, 2.0f), 8.0f, VegetationStyle.Broadleaf, "405445");
+        AddAuthoredWinterTree(karaClosure, "KaraClosureMidBroadleafWest", new(-13.0f, 0f, 2.0f), 8.0f, "WinterDeadTree");
         AddVisualTree(karaClosure, "KaraClosureMidConiferEast", new(12.4f, 0f, -2.5f), 8.4f, VegetationStyle.Conifer, "2e4439");
         AddVisualTree(karaClosure, "KaraClosureDeepBirchWest", new(-14.5f, 0f, -7.5f), 11.1f, VegetationStyle.Birch, "596047");
         AddVisualTree(karaClosure, "KaraClosureDeepBroadleafEast", new(15.0f, 0f, -10.5f), 10.7f, VegetationStyle.Broadleaf, "3b5043");

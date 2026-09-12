@@ -17,6 +17,7 @@ mindmap
       Warm personal memory / cold village records [NARRATIVE][ASSET]
       House / FAP / close characters / physical Timur scene [ASSET][OPEN]
         CC0 Quaternius heads and hair with original clothing and rigs; close-view art review open
+      CC0 winter dead-tree silhouette with shared terrain and road guards [ASSET]
       Authored winter sound and real Marat / Rinat recordings [ASSET][OPEN]
       Full UI / menu / saves / standalone package [TECH][OPEN]
       Human first-time playtest / culture / native platform evidence [RISK][OPEN]

@@ -360,8 +360,9 @@ public partial class ChapterOneFlowSmokeTest : Node
         { Fail("A second playthrough retained the completed ending."); return; }
 
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (rinatActor.GlobalPosition.Z < -5f || ambience.ActivePlayerIndex < 0)
-        { Fail("New Game did not restore early Rinat staging and ambience."); return; }
+        if (rinatActor.GlobalPosition.Z < -5f || ambience.ActivePlayerIndex < 0
+            || Mathf.Abs(house.GetNode<Node3D>("Act1NpcPresentation/Npc_gulsina").RotationDegrees.Y - 28f) > .1f)
+        { Fail("New Game did not restore early NPC staging and ambience."); return; }
         if (house.GetNode<Node3D>("DiscoveryFamilyPhoto").Rotation.Y != 0
             || house.GetNode<Node3D>("DiscoverySewingTin/HingedLid").Rotation.X != 0
             || repairedLight.Visible

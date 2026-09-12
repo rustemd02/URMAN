@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "urman.execution_backlog",
-  "updated": "2026-09-11",
+  "updated": "2026-09-12",
   "goal_key": "urman-act1-finished-product",
   "goal_statement": "Довести Акт I до законченного локального продукта по URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md; общая готовность требует всех игровых, художественных, звуковых, UI, save, performance и native-package подтверждений. Обязательные уточнения пользователя 2026-09-11: красивый арт-стиль BOTW/TOTK и исследуемый открытый мир с множеством секретов, скрытых проходов и осмысленных действий с окружением; без интересных локаций цель не завершена.",
   "long_term_goal": "Полная миграция УРМАН на Godot 4.7.1 .NET и C# с последующим производством 6–8-часовой игры, desktop acceptance и отдельным absence-gated решением о web retirement остаётся долгосрочным направлением, но не текущим демо-объёмом.",
@@ -249,7 +249,8 @@
       ],
       "evidence": [
         "2026-09-11 current source window probe, village_day@arrival, M4 Pro 1080p medium0.9/MSAA2: 12s warmup +60.01s, avg9.372ms,p9516.686,p9917.188,max22.976,106.70FPS,0 long frames; source_perf_stalls/run.log. Current standalone package, other heavy views and ordinary full traversal remain open.",
-        "2026-09-12 native_20260912_r1 exported from b683d57, scope and artifact receipt PASS; ordinary macOS save/Continue/exit verified. 1080p medium0.9 MSAA2 12s+60s real window samples: FAP119.93FPS/max15.885ms and Kara119.38FPS/max25.421ms PASS; arrival102.04FPS/max111.563ms and house110.98FPS/max123.457ms FAIL max100ms. GC absent at stalls; root cause open, thresholds unchanged. Logs outside repo, details in act1_demo_handoff.md."
+        "2026-09-12 native_20260912_r1 exported from b683d57, scope and artifact receipt PASS; ordinary macOS save/Continue/exit verified. 1080p medium0.9 MSAA2 12s+60s real window samples: FAP119.93FPS/max15.885ms and Kara119.38FPS/max25.421ms PASS; arrival102.04FPS/max111.563ms and house110.98FPS/max123.457ms FAIL max100ms. GC absent at stalls; root cause open, thresholds unchanged. Logs outside repo, details in act1_demo_handoff.md.",
+        "2026-09-12 native R4 from d1b9749: macOS/Windows export + PCK closure PASS. M4 Pro window/viewport1080 Medium .9/MSAA2/FOV75, 12s warmup +60s per target: arrival118.39FPS p959.144/p999.414/max13.970; house120FPS p959.468/p999.801/max10.798; FAP119.99FPS p959.441/p999.660/max17.526; Kara120FPS p959.297/p999.609/max12.124; long0 in all four. Warmup maxima up to518.931ms and full traversal acceptance remain open. External native_20260912_r4/acceptance.md and logs."
       ],
       "blocked_reason": null
     },
@@ -333,7 +334,9 @@
       "verify": [
         "Narrow existing path selected from handover section 28 after inspecting actual owner."
       ],
-      "evidence": [],
+      "evidence": [
+        "2026-09-12 d1b9749: fitted Mansur cap/age atlas, household CRT/table/chair scale, round FAP stool, Gulsina folded-towel rest pose; actual native close/general frames reviewed, Blender verifiers/import/build/registry pass. Overall character/art acceptance remains open."
+      ],
       "blocked_reason": null,
       "result": "Indoor snow removed; character adult proportions/source rigs and FAP floor contact calibrated; source and GLBs updated. Three1080 frames in interior_calibration_v3. Full six-character close/dialogue/animation acceptance remains open."
     },

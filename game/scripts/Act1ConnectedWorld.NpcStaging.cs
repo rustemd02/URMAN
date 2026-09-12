@@ -8,6 +8,11 @@ public partial class Act1ConnectedWorld
     private Node3D? _rinatNpc;
     private bool? _rinatAlerted;
     private bool? _rinatTension;
+    private Node3D? _gulsinaNpc;
+    private bool? _gulsinaWarningHeard;
+    private Tween? _gulsinaTurn;
+    private float _gulsinaRestYaw;
+    private object? _gulsinaSession;
 
     private void BuildAct1NpcStaging()
     {
@@ -24,19 +29,62 @@ public partial class Act1ConnectedWorld
         alsu.Position = new(.85f, AgentBAct1HeightField.CollisionGround(.85f, 2.05f), 2.05f);
         alsu.RotationDegrees = new(0, -15f, 0);
 
+        _gulsinaNpc = _zoneInstances["house_old_pc"]
+            .GetNode<Node3D>("Act1NpcPresentation/Npc_gulsina");
+        _gulsinaRestYaw = _gulsinaNpc.Rotation.Y;
+
         _rinatNpc = _zoneInstances["zirat_road"].GetNode<Node3D>("Act1NpcPresentation/Npc_rinat");
         _rinatNpc.Reparent(host, keepGlobalTransform: true);
         var timur = GeneratedCharacterKitDressing.Attach(host, "timur_hazrat", "TimurHazrat",
             new(-3.8f, AgentBAct1HeightField.CollisionGround(-3.8f, -19f), -19f));
         timur.Name = "Npc_timur_hazrat";
         timur.RotationDegrees = new(0, 55f, 0);
-        host.SetMeta("runtimeStateOwnership", "RuntimeBridge; presentation projects Rinat.alerted and final knowledge");
+        host.SetMeta("runtimeStateOwnership",
+            "RuntimeBridge; presentation projects Gulsina.warning_heard, Rinat.alerted and final knowledge");
     }
 
     private void UpdateAct1NpcStaging()
     {
-        if (_rinatNpc is null || _runtimeBridge?.ActiveSceneId is null) return;
+        if (_rinatNpc is null || _gulsinaNpc is null || _runtimeBridge?.ActiveSceneId is null) return;
+        if (!ReferenceEquals(_gulsinaSession, _runtimeBridge.SessionIdentity))
+        {
+            _gulsinaSession = _runtimeBridge.SessionIdentity;
+            _gulsinaWarningHeard = null;
+            _gulsinaTurn?.Kill();
+            _gulsinaNpc.Rotation = new Vector3(0f, _gulsinaRestYaw, 0f);
+        }
         var state = _runtimeBridge.SelectRuntimeState();
+        var warningHeard = state.TryGetProperty("npc", out var npcState)
+            && npcState.TryGetProperty("urman.chapter1:character/gulsina", out var gulsina)
+            && gulsina.TryGetProperty("warning_heard", out var warning)
+            && warning.ValueKind == System.Text.Json.JsonValueKind.True;
+        if (_gulsinaWarningHeard != warningHeard)
+        {
+            var newlyHeard = _gulsinaWarningHeard == false && warningHeard;
+            _gulsinaWarningHeard = warningHeard;
+            _gulsinaTurn?.Kill();
+            if (!warningHeard)
+            {
+                _gulsinaNpc.Rotation = new Vector3(0f, _gulsinaRestYaw, 0f);
+            }
+            else if (newlyHeard && ActiveZoneId == "house_old_pc"
+                && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+            {
+                // This gesture belongs to the spoken warning, not a later
+                // zone entry before the player has reached the new spawn.
+                var toPlayer = _gulsinaNpc.GetParent<Node3D>().ToLocal(player.GlobalPosition) - _gulsinaNpc.Position;
+                toPlayer.Y = 0f;
+                if (toPlayer.LengthSquared() > .0001f)
+                {
+                    var targetYaw = _gulsinaNpc.Rotation.Y + Mathf.AngleDifference(
+                        _gulsinaNpc.Rotation.Y, Mathf.DegToRad(DirectionYaw(toPlayer)));
+                    _gulsinaTurn = CreateTween();
+                    _gulsinaTurn.SetTrans(Tween.TransitionType.Sine);
+                    _gulsinaTurn.SetEase(Tween.EaseType.Out);
+                    _gulsinaTurn.TweenProperty(_gulsinaNpc, "rotation:y", targetYaw, .48f);
+                }
+            }
+        }
         var alerted = state.TryGetProperty("npc", out var people)
             && people.TryGetProperty("urman.chapter1:character/rinat", out var rinat)
             && rinat.TryGetProperty("alerted", out var alert) && alert.ValueKind == System.Text.Json.JsonValueKind.True;

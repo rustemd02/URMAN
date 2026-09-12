@@ -247,7 +247,7 @@
         "TimurHazratTrousers"
       ],
       "collision": "none; character GLB has no collision meshes; Godot interaction targets and zone colliders own physics",
-      "lod": "189 LOD0 / 189 LOD1 meshes; 31890 triangles total (21267 LOD0 + 10613 LOD1); 46 materials; shorter rounded hands, Gulsina towel rest pose, fitted coat plackets and CC0 heads/hair; Godot range 0–18m / 14–48m integrated",
+      "lod": "189 LOD0 / 189 LOD1 meshes; 31922 triangles total (21295 LOD0 + 10627 LOD1); 46 materials; shorter rounded hands, Gulsina towel rest pose, fitted coat plackets and CC0 heads/hair; Godot range 0–18m / 14–48m integrated",
       "animation": "9 project-original armatures with Idle/Tension clips; Godot AnimationPlayer Idle/Tension playback smoke-tested",
       "status": "CC0 head/hair integration; close-view clothing, age, expression, audio and cultural review open",
       "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD",
@@ -1597,6 +1597,32 @@
       ],
       "collision": "not applicable",
       "lod": "mipmaps; existing Head LOD0/LOD1"
+    },
+    {
+      "id": "winter.dead_tree.v1",
+      "source": "assets/source/blender/urman_winter_dead_tree.blend",
+      "derived": "game/assets/models/act1/urman_winter_dead_tree.glb",
+      "generator": "tools/blender/prepare_winter_dead_tree.py; Blender 4.5.12 LTS",
+      "license": "CC0-1.0; Quaternius Stylized Nature MegaKit Standard derivative",
+      "scale": 1.0,
+      "triangleBudget": 5802,
+      "textureBudget": 0,
+      "materials": [
+        "AB_bark"
+      ],
+      "collision": "none; presentation-only, existing heightfield and road/roof guards",
+      "lod": "LOD0 5802 triangles 0–26m; LOD1 2901 triangles 24–64m; LOD2 1160 triangles 60m+; normalized height 1m",
+      "status": "source/import/build and three native Kara views verified; overall forest art acceptance open",
+      "releaseDisposition": "include-in-act1-release; KaraClosureMidBroadleafWest replacement",
+      "originalSource": {
+        "source": "assets/source/quaternius/stylized_nature/DeadTree_3.gltf",
+        "sha256": "aa74a47c69259f217388d7b3e2871d76c0385449fc1efd92299c2e55417fdffc",
+        "author": "Quaternius",
+        "url": "https://quaternius.com/packs/stylizednaturemegakit.html",
+        "licenseFile": "assets/source/quaternius/stylized_nature/License_Standard.txt"
+      },
+      "sourceSha256": "8273b205d3676fe14c365ed7d0fb2f7f2829e802387b949a5ccd9d94350e802e",
+      "derivedSha256": "884a6e1ad3342c28a3a15e9d788f618f4aaff06edc52b41d1e26fe011637fe78"
     }
   ]
 }

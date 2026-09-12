@@ -40,7 +40,27 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         && root.Z >= bounds.Position.Z - .35f && root.Z <= bounds.End.Z + .35f
         && bounds.End.Y > root.Y + .4f);
 
-    internal ArrayMesh FoliageMesh(string variant, string region) => _foliageMeshes[(variant, region)];
+    internal ArrayMesh FoliageMesh(string variant, string region)
+    {
+        if (_foliageMeshes.TryGetValue((variant, region), out var cached)) return cached;
+        if (variant is not ("WinterDeadTree" or "WinterLightDeadTree" or "WinterFarDeadTree"))
+            throw new InvalidOperationException($"Missing winter foliage geometry: {variant}");
+        var source = ResourceLoader.Load<PackedScene>("res://assets/models/act1/urman_winter_dead_tree.glb").Instantiate<Node3D>();
+        try
+        {
+            var names = new[] { "WinterDeadTree", "WinterLightDeadTree", "WinterFarDeadTree" };
+            for (var lod = 0; lod < names.Length; lod++)
+            {
+                var template = EnumerateDescendants<MeshInstance3D>(source).Single(node => node.Name == $"WinterDeadTree_LOD{lod}");
+                var mesh = (ArrayMesh)template.Mesh!.Duplicate();
+                for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
+                    mesh.SurfaceSetMaterial(surface, RegionalFoliageMaterial(variant, "bark", region));
+                _foliageMeshes[(names[lod], region)] = mesh;
+            }
+        }
+        finally { source.Free(); }
+        return _foliageMeshes[(variant, region)];
+    }
     private bool _built;
     private bool _exteriorPresentationEnabled;
 
