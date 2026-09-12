@@ -2493,8 +2493,7 @@
      "village_day",
      "zirat_road",
      "kara_urman_night"
-    ],
-    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair"
+    ]
    },
    {
     "id": "urman.chapter1:interaction/discover-house-exterior-porch-nook",
@@ -3985,9 +3984,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-gulsina-marat-reply",
   "value": {
-   "default": "Gulsina stirs the tea: “Officially it is all decided, you say. For us it is not decided, it is survived. If you want words about him, go to Timur hazrat — he is not afraid of words. I only feed people here.”",
+   "default": "“Sometimes I think he is about to come round for you. Like he used to.” Gulsina falls quiet for a moment. “Go and talk to Timur hazrat, Aidar. It is still hard for me.”",
    "translations": {
-    "ru": "Гөлсинә помешивает чай: «Официально, говоришь, всё решено. У нас же не решено — у нас пережито. Хочешь слов про него — скажи Тимур хәзрәт, что спрашиваешь: он слов не боится. А я здесь людей кормлю»."
+    "ru": "«Иногда кажется, он сейчас зайдёт за тобой. Как раньше». Гөлсинә ненадолго замолкает. «Ты с Тимуром хәзрәтом поговори, Айдар. Мне пока трудно»."
    }
   },
   "purpose": "dialogue"
@@ -3996,9 +3995,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-gulsina-yaramyy-reply",
   "value": {
-   "default": "“You ask why. I did not invent it, and my mother did not invent it. Some words in this house are like the stove: you do not argue with them, you keep warm by them.”",
+   "default": "“I know you are not a little boy anymore. But keep away from the forest in the evening. I worry less when you are home.”",
    "translations": {
-    "ru": "«Ты спрашиваешь почему. Я не придумала, и моя мама не придумывала. Некоторые слова в этом доме как печь: с ними не спорят, у них греются»."
+    "ru": "«Я знаю, ты не маленький. Но вечером к лесу не ходи. Мне спокойнее, когда ты дома»."
    }
   },
   "purpose": "dialogue"
@@ -4095,9 +4094,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-mansur-why-reply",
   "value": {
-   "default": "Mansur does not take offense: “The eyes are not the same anymore, and some folders I do not open twice. A person reads a page once — and carries it. I have carried enough.”",
+   "default": "Mansur takes a moment to answer: “My eyes are not what they were. And I have not opened Marat’s files in a long time. Have a look, Aidar. I’ll stay here.”",
    "translations": {
-    "ru": "Мансур не обижается: «Глаза уже не те, а некоторые папки я и второй раз не открою. Человек страницу читает один раз — и носит её в себе. Мне своего ношения хватает»."
+    "ru": "Мансур отвечает не сразу: «Глаза уже не те. А Маратовы записи я давно не открывал. Посмотри сам, Айдар. Я здесь побуду»."
    }
   },
   "purpose": "dialogue"

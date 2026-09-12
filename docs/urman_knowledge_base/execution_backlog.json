@@ -208,7 +208,8 @@
         "2026-09-12: Kara atmosphere V3 separates distant trees while preserving dark sky and warm window; arrival two existing facades gain muted blue-green timber trim. Six native 1080p frames reviewed; C# build PASS. Source-window Kara 12s+60s PASS144.93FPS/max11.455ms, warm207.954ms separately. Native final export still pending; overall art/interest remain OPEN. See design_style.md.",
         "2026-09-12: culvert and Kara side gate no longer hide physical reveals with auto-journal. Existing narrow CharacterBody routes PASS87.33m/157.33m; source native720 movies28.10s/49.27s retained, no teleport, userdata exact. Added authored shovel scrape, tapered branch with slope-seated cleared pose. C#0/0; v5native4frames. Ordinary exploration/art acceptance and foley listening remain OPEN.",
         "2026-09-12: completed one-shot discoveries show Осмотрено without E from existing confirmed knowledge; culvert native28.1s physical route/HUD assertion PASS. Five existing Kara trees use accepted WinterPine; four1080p frames root/Luna reviewed, path/window clear. No new assets/collision; final package performance and overall art/interest remain OPEN.",
-        "2026-09-12 d1d20d4: exact native pixel/ray identifies KaraShelteredRegrowth6; four existing regrowth6–9 now use WinterPine. Matched A/B plus depth/front/side/forward frames reviewed; same position/height/ground/LOD/collision. Road endpoint taper removes broad gray cap, existing route unchanged. Limited visual improvement; overall beautiful, interesting exploration remains OPEN. External kara_spruce_owner_probe_v3 and kara_regrowth_cluster_views."
+        "2026-09-12 d1d20d4: exact native pixel/ray identifies KaraShelteredRegrowth6; four existing regrowth6–9 now use WinterPine. Matched A/B plus depth/front/side/forward frames reviewed; same position/height/ground/LOD/collision. Road endpoint taper removes broad gray cap, existing route unchanged. Limited visual improvement; overall beautiful, interesting exploration remains OPEN. External kara_spruce_owner_probe_v3 and kara_regrowth_cluster_views.",
+        "2026-09-12: sled cover reveal no longer auto-opens journal; physical target and authored targetJournalEntryId agree, journal.record/knowledge unchanged. Native real InteractionTarget.Interact capture PASS cover hidden/journal closed/entry retained; two1080 frames reviewed, temporary capture restored, build0/0/userdata exact. External sled_real_interaction_r11. Waypoint capture is not physical traversal or general interest acceptance."
       ],
       "blocked_reason": null
     },
@@ -415,7 +416,8 @@
       "evidence": [
         "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/early_dialogue_smoke.log",
         "/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/early_corridor_smoke.log",
-        "2026-09-12: tt_yul is first learned from sign reverse, not arrival; both packs regenerated, ChapterOneFlow PASS including optional Alsu question and ending/new session. New campaign fingerprint creates explicit R5→R6 save boundary."
+        "2026-09-12: tt_yul is first learned from sign reverse, not arrival; both packs regenerated, ChapterOneFlow PASS including optional Alsu question and ending/new session. New campaign fingerprint creates explicit R5→R6 save boundary.",
+        "2026-09-12: three optional Mansur/Gulsina answers replace abstract aphorisms with ordinary speech, childhood memory and protective avoidance; Timur direction retained, RU/EN synchronized. Luna editorial review and existing ChapterOneFlow PASS; content compiled. No choices/conditions/effects changed. Overall character/emotional acceptance remains open."
       ],
       "blocked_reason": null
     },

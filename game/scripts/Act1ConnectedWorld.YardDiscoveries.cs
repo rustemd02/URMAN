@@ -194,7 +194,7 @@ public partial class Act1ConnectedWorld
             YardSledSlug,
             new(.82f, .82f, 1.10f),
             village.ToLocal(activeSled.GlobalPosition + Vector3.Up * .45f),
-            journal: true);
+            journal: false);
         sledTarget.SetMeta("activePropPath", "Act1CoreWorldGreybox/BabaiEbiYard/BabaiYardSled");
         sledTarget.SetMeta("physicalAction", "inspect the two repairs on the runners");
 
