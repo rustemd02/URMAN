@@ -422,6 +422,45 @@ def create_character(
     arm_right_rotation = -0.14 + stance * 0.75
     head_z = 1.57 * height_scale
     body_top = 1.36 * height_scale
+    if prefix == "Gulsina":
+        # Blender front is -Y. Keep both shoulders fixed, then bend the
+        # elbows outward before bringing the forearms forward and inward to
+        # the towel. The towel sits just in front of the existing apron.
+        towel_y = -0.218
+        towel_z = coat_hem_z + 0.060
+        wrist_y = towel_y + 0.068
+        wrist_z = towel_z + 0.028
+        sleeve_left_points = (
+            (x - arm_x * 0.68, -0.010, 1.30 * height_scale),
+            (x - arm_x * 0.84, -0.034, 1.12 * height_scale),
+            (x - arm_x * 0.70, -0.105, 0.98 * height_scale),
+            (x - arm_x * 0.45, wrist_y, wrist_z),
+        )
+        sleeve_right_points = (
+            (x + arm_x * 0.68, -0.010, 1.30 * height_scale),
+            (x + arm_x * 0.84, -0.034, 1.12 * height_scale),
+            (x + arm_x * 0.70, -0.105, 0.98 * height_scale),
+            (x + arm_x * 0.45, wrist_y, wrist_z),
+        )
+        # faceted_prism rotates around Y, so align its thin Z axis with the
+        # elbow-to-wrist X/Z projection; the -Y depth remains front-facing.
+        gulsina_cuff_angle = math.atan2(
+            arm_x * 0.25,
+            wrist_z - 0.98 * height_scale,
+        )
+    else:
+        sleeve_left_points = (
+            (x - arm_x * 0.68, -0.010, 1.30 * height_scale),
+            (x - arm_x * 0.86, -0.004, 1.20 * height_scale),
+            (x - arm_x * 1.00, -0.002, 1.04 * height_scale),
+            (x - arm_x * 0.92, -0.012, 0.77 * height_scale),
+        )
+        sleeve_right_points = (
+            (x + arm_x * 0.68, -0.010, 1.30 * height_scale),
+            (x + arm_x * 0.86, -0.004, 1.20 * height_scale),
+            (x + arm_x * 1.00, -0.002, 1.04 * height_scale),
+            (x + arm_x * 0.92, -0.012, 0.77 * height_scale),
+        )
     # The imported head includes the existing neck down to about -0.21;
     # use that boundary when fitting the smaller winter collar.
     head_bottom = head_z - 0.21
@@ -443,14 +482,7 @@ def create_character(
     )
     tapered_segment(
         f"{prefix}_SleeveLeft_LOD0",
-        (
-            # A small embedded cap, shoulder crest, elbow, then cuff keeps
-            # the sleeve attached to the sloped torso instead of a flat plate.
-            (x - arm_x * 0.68, -0.010, 1.30 * height_scale),
-            (x - arm_x * 0.86, -0.004, 1.20 * height_scale),
-            (x - arm_x * 1.00, -0.002, 1.04 * height_scale),
-            (x - arm_x * 0.92, -0.012, 0.77 * height_scale),
-        ),
+        sleeve_left_points,
         (0.055 * shoulder_scale * sleeve_scale, 0.102 * shoulder_scale * sleeve_scale, 0.094 * shoulder_scale * sleeve_scale, 0.074 * shoulder_scale * sleeve_scale),
         coat_surface,
         asset_id,
@@ -460,13 +492,7 @@ def create_character(
     )
     tapered_segment(
         f"{prefix}_SleeveRight_LOD0",
-        (
-            # Mirror the same four ring profile on the right sleeve.
-            (x + arm_x * 0.68, -0.010, 1.30 * height_scale),
-            (x + arm_x * 0.86, -0.004, 1.20 * height_scale),
-            (x + arm_x * 1.00, -0.002, 1.04 * height_scale),
-            (x + arm_x * 0.92, -0.012, 0.77 * height_scale),
-        ),
+        sleeve_right_points,
         (0.055 * shoulder_scale * sleeve_scale, 0.102 * shoulder_scale * sleeve_scale, 0.094 * shoulder_scale * sleeve_scale, 0.074 * shoulder_scale * sleeve_scale),
         coat_surface,
         asset_id,
@@ -476,14 +502,21 @@ def create_character(
     )
     # A small accent cuff gives the sleeve a readable end at conversation
     # distance. The name retains the existing Godot accent-material dispatch.
-    for side, side_x, side_rotation in (
-        ("Left", x - arm_x, arm_left_rotation),
-        ("Right", x + arm_x, arm_right_rotation),
-    ):
+    if prefix == "Gulsina":
+        cuff_specs = (
+            ("Left", x - arm_x * 0.45, wrist_y, wrist_z, gulsina_cuff_angle),
+            ("Right", x + arm_x * 0.45, wrist_y, wrist_z, -gulsina_cuff_angle),
+        )
+    else:
+        cuff_specs = (
+            ("Left", x - arm_x, -0.005, 0.755 * height_scale, arm_left_rotation),
+            ("Right", x + arm_x, -0.005, 0.755 * height_scale, arm_right_rotation),
+        )
+    for side, side_x, side_y, side_z, side_rotation in cuff_specs:
         faceted_prism(
             f"{prefix}_ShoulderCuff{side}_LOD0",
             (0.132 * shoulder_scale * cuff_scale, 0.165 * cuff_scale, 0.055 * cuff_scale),
-            (side_x, -0.005, 0.755 * height_scale),
+            (side_x, side_y, side_z),
             accent_surface,
             asset_id,
             128,
@@ -538,13 +571,27 @@ def create_character(
     if prefix == "Gulsina":
         faceted_prism(
             f"{prefix}_ApronFront_LOD0",
-            (0.34, 0.035, 0.56),
-            (x, -0.172, coat_hem_z + 0.30),
+            (0.38, 0.010, 0.64),
+            (x, -0.200, 0.89),
             accent_surface,
             asset_id,
             128,
-            bottom_ratio=1.04,
-            top_ratio=0.90,
+            bottom_ratio=1.07,
+            top_ratio=0.65,
+            vertices=8,
+        )
+        # One shallow folded bundle, held against the existing apron. Its
+        # neutral project-original mesh defaults to Spine in _bone_for_mesh;
+        # no new bone or runtime state is introduced.
+        faceted_prism(
+            f"{prefix}_TeaTowel_LOD0",
+            (0.28, 0.05, 0.12),
+            (x, towel_y, towel_z),
+            accent_surface,
+            asset_id,
+            96,
+            bottom_ratio=1.02,
+            top_ratio=0.96,
             vertices=8,
         )
     elif prefix == "Naila":
@@ -632,11 +679,25 @@ def create_character(
     )
     # Keep the established HeadHand names so the Godot adapter can route hands
     # to skin before the generic head mapping and the rig can bind them to arms.
-    for side, side_x in (("Left", x - arm_x), ("Right", x + arm_x)):
-        side_sign = -1.0 if side == "Left" else 1.0
-        tapered_segment(
-            f"{prefix}_HeadHand{side}_LOD0",
-            (
+    for side, side_sign in (("Left", -1.0), ("Right", 1.0)):
+        if prefix == "Gulsina":
+            side_x = x + side_sign * arm_x * 0.45
+            hand_points = (
+                # The first ring overlaps the rotated cuff; the remaining
+                # rings move inward and toward the -Y face of the towel.
+                (side_x, wrist_y - 0.004, wrist_z),
+                (x + side_sign * 0.115, towel_y + 0.020, towel_z + 0.018),
+                (x + side_sign * 0.098, towel_y - 0.004, towel_z + 0.004),
+                (x + side_sign * 0.090, towel_y - 0.018, towel_z - 0.006),
+            )
+            thumb_points = (
+                (x + side_sign * 0.090, towel_y - 0.018, towel_z + 0.005),
+                # Thumb tips turn across the front face, toward the centre.
+                (x + side_sign * 0.060, towel_y - 0.028, towel_z + 0.030),
+            )
+        else:
+            side_x = x + side_sign * arm_x
+            hand_points = (
                 # Keep the wrist embedded in the rotated cuff. Four short rings
                 # give the palm a rounded mitten-like end without changing the
                 # established HeadHand mesh or Arm.L/Arm.R binding.
@@ -644,7 +705,14 @@ def create_character(
                 (side_x + side_sign * 0.004, -0.026, 0.69 * height_scale),
                 (side_x + side_sign * 0.010, -0.040, 0.64 * height_scale),
                 (side_x + side_sign * 0.014, -0.049, 0.61 * height_scale),
-            ),
+            )
+            thumb_points = (
+                (side_x + side_sign * 0.012, -0.040, 0.65 * height_scale),
+                (side_x + side_sign * 0.040, -0.058, 0.61 * height_scale),
+            )
+        tapered_segment(
+            f"{prefix}_HeadHand{side}_LOD0",
+            hand_points,
             (0.045 * shoulder_scale, 0.056 * shoulder_scale, 0.049 * shoulder_scale, 0.034 * shoulder_scale),
             materials["skin"],
             asset_id,
@@ -654,10 +722,7 @@ def create_character(
         )
         tapered_segment(
             f"{prefix}_HeadHandThumb{side}_LOD0",
-            (
-                (side_x + side_sign * 0.012, -0.040, 0.65 * height_scale),
-                (side_x + side_sign * 0.040, -0.058, 0.61 * height_scale),
-            ),
+            thumb_points,
             (0.024 * shoulder_scale, 0.016 * shoulder_scale),
             materials["skin"],
             asset_id,

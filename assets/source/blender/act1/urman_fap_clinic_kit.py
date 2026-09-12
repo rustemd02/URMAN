@@ -1933,41 +1933,72 @@ def build_interior(parent: bpy.types.Object) -> None:
         0.018,
         role="plain wash-unit faucet spout",
     )
+    # Keep the authored floor-plan anchor, but use a low rounded cushion and
+    # compact grounded support so the stool reads as household clinic furniture.
+    # The initial ib() call keeps the existing allow_new contract; mesh_object()
+    # then replaces only the seat silhouette with four tapered 12-sided rings.
     ib(
         "FapInteriorStool_Seat_LOD0",
         parent,
-        (-2.15, 0.42, 0.82),
-        (0.78, 0.66, 0.15),
+        (-2.15, 0.42, 0.56),
+        (0.50, 0.50, 0.08),
         "FapPaintedDustyBlue",
-        0.055,
+        0.030,
         role="small attendant stool padded seat",
+    )
+    seat_center_z = 0.56
+    seat_rings = ((0.52, 0.23), (0.535, 0.25), (0.585, 0.25), (0.60, 0.23))
+    seat_vertices = [
+        (radius * math.cos(2.0 * math.pi * index / 12.0),
+         radius * math.sin(2.0 * math.pi * index / 12.0),
+         z - seat_center_z)
+        for z, radius in seat_rings
+        for index in range(12)
+    ]
+    seat_faces: list[tuple[int, ...]] = [tuple(reversed(range(12))), tuple(range(36, 48))]
+    seat_faces.extend(
+        (ring * 12 + index,
+         ring * 12 + (index + 1) % 12,
+         (ring + 1) * 12 + (index + 1) % 12,
+         (ring + 1) * 12 + index)
+        for ring in range(3)
+        for index in range(12)
+    )
+    mesh_object(
+        "FapInteriorStool_Seat_LOD0",
+        parent,
+        seat_vertices,
+        seat_faces,
+        ("FapPaintedDustyBlue",),
+        location=(-2.15, 0.42, seat_center_z),
+        role="small attendant stool softly rounded padded seat",
     )
     ib(
         "FapInteriorStool_Stem_LOD0",
         parent,
-        (-2.15, 0.42, 0.49),
-        (0.13, 0.13, 0.56),
+        (-2.15, 0.42, 0.335),
+        (0.10, 0.10, 0.37),
         "FapRainMetalDark",
-        0.025,
-        role="attendant stool central metal stem",
+        0.022,
+        role="attendant stool compact metal stem",
     )
     ib(
         "FapInteriorStool_Base_LOD0",
         parent,
-        (-2.15, 0.42, 0.20),
-        (0.74, 0.62, 0.10),
+        (-2.15, 0.42, 0.105),
+        (0.50, 0.42, 0.09),
         "FapRainMetal",
-        0.035,
-        role="attendant stool low faceted base",
+        0.028,
+        role="attendant stool grounded low faceted base",
     )
     ib(
         "FapInteriorStool_FootRing_LOD0",
         parent,
-        (-2.15, 0.42, 0.34),
-        (0.62, 0.08, 0.08),
+        (-2.15, 0.42, 0.24),
+        (0.42, 0.07, 0.07),
         "FapRainMetalDark",
-        0.018,
-        role="attendant stool foot ring",
+        0.016,
+        role="attendant stool compact foot ring",
     )
     ib(
         "FapInteriorNoticeBoard_Panel_LOD0",

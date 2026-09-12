@@ -843,6 +843,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var horizontal = Mathf.Lerp(1.04f, .90f, depth) * Mathf.Lerp(.92f, 1.08f, DeterministicPhase(position, 2.7f));
             var vertical = Mathf.Lerp(1.02f, .90f, depth) * Mathf.Lerp(.93f, 1.07f, DeterministicPhase(position, 4.9f));
             if (smallShrub) { horizontal *= .38f; vertical *= .35f; }
+            if (sourceVariant.StartsWith("Sedge_", StringComparison.Ordinal))
+            {
+                horizontal *= .62f;
+                vertical *= .78f;
+            }
             var basis = new Basis(Vector3.Up, Mathf.DegToRad(Mathf.Lerp(-14, 14, DeterministicPhase(position, 8.1f))))
                 .Scaled(new Vector3(horizontal, vertical, horizontal));
             var target = new Vector3(position.X, AgentBAct1HeightField.CollisionGround(position.X, position.Y) - .04f, position.Y);

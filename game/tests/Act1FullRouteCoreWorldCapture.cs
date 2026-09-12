@@ -114,6 +114,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         Frame("house_tin_used", "house_interior", "house_old_pc", "entry", new(-31.97f, .05f, 2.0f), new(-31.97f, .98f, 3.70f), "detail", "open tin after authored action", "house-interior-language-tin"),
         Frame("fap_lamp_used", "fap_interior", "fap_clinic", "waiting_room", new(29.17f, .05f, -32.85f), new(29.17f, 1.15f, -34.15f), "detail", "lamp after authored action", "fap-interior-repaired-desk-object"),
         Frame("mansur_conversation_close", "house_interior", "house_old_pc", "entry", new(-24.7f, .05f, -.2f), new(-25.2f, 1.48f, -1.45f), "detail", "Mansur face at conversation distance"),
+        Frame("gulsina_conversation_close", "house_interior", "house_old_pc", "entry", new(-32.0f, .05f, -1.15f), new(-31.2f, 1.10f, -2.8f), "detail", "Gulsina hands and folded household towel"),
         Frame("house_interior_forward", "house_interior", "house_old_pc", "entry", new(-25.2f, .05f, 1.8f), new(-28f, 1.45f, -2.2f), "forward", "interior-360"),
         Frame("house_interior_back", "house_interior", "house_old_pc", "entry", new(-27.4f, .05f, -1.6f), new(-29f, 1.45f, 3.2f), "back", "interior-360"),
         Frame("house_interior_left", "house_interior", "house_old_pc", "entry", new(-25.2f, .05f, -0.2f), new(-32.2f, 1.5f, -0.8f), "left", "interior-360"),

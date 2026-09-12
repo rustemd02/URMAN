@@ -250,7 +250,8 @@ public static class GeneratedCharacterKitDressing
                     : isFaceInk
                     ? faceInk
                     : name.Contains("ShoulderCuff", StringComparison.Ordinal) || name.Contains("Scarf", StringComparison.Ordinal)
-                      || name.Contains("Apron", StringComparison.Ordinal) || name.Contains("CardiganPlacket", StringComparison.Ordinal)
+                      || name.Contains("Apron", StringComparison.Ordinal) || name.Contains("TeaTowel", StringComparison.Ordinal)
+                      || name.Contains("CardiganPlacket", StringComparison.Ordinal)
                       || name.Contains("CoatFrontPlacket", StringComparison.Ordinal)
                     ? accent
                     : coat;

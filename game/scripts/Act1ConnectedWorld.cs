@@ -1332,10 +1332,10 @@ public partial class Act1ConnectedWorld : Node3D
         environment.FogLightColor = karaNight
             ? Color.FromHtml("6c7f95")
             : zirat ? Color.FromHtml("a7b5c1") : Color.FromHtml("b9cfdd");
-        environment.FogDensity = karaNight ? .0044f : zirat ? .0038f : .0022f;
+        environment.FogDensity = karaNight ? .009f : zirat ? .0038f : .0022f;
         environment.FogHeight = karaNight ? 0.95f : 1.0f;
         environment.FogHeightDensity = karaNight ? .05f : zirat ? .03f : .025f;
-        environment.FogAerialPerspective = karaNight ? 0.66f : zirat ? 0.60f : 0.64f;
+        environment.FogAerialPerspective = karaNight ? 0.78f : zirat ? 0.60f : 0.64f;
         // Let the procedural sky carry its blue gradient instead of washing
         // every roof and distant facade into the same grey veil.
         environment.FogSkyAffect = karaNight ? 0.22f : zirat ? 0.22f : 0.14f;

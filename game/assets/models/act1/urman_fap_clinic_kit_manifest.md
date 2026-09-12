@@ -31,7 +31,7 @@ masses to the walls/periphery.
 - Root: `URMAN_FapClinicKit`
 - Scale: **1 Blender unit = 1 metre**; metric scene; +Z is up.
 - Front convention: local **−Y faces the entry/approach front**.
-- Source meshes: **405** presentation meshes (377 LOD0 + 28 LOD1); **12,110** source triangles.
+- Source meshes: **405** presentation meshes (377 LOD0 + 28 LOD1); **12,214** source triangles.
 - Materials: **25** basic muted wet-weather node materials.
 - Source images: **0**; image-texture nodes: **0**.
 
@@ -60,7 +60,7 @@ placed independently by a later `Act1ConnectedWorld` composition pass.
 | `FapRainAwning` | `(4.92, 0.85, 0.00)` | 7 | 276 | Secondary metal rain canopy with fascia, gutter, downpipe, braces and drain foot |
 | `FapPathPuddleCluster` | `(0.00, -4.50, 0.00)` | 11 | 384 | Uneven path core/fork, five shallow explicitly triangulated puddle solids and four edge stones |
 | `FapBirchShrubMass` | `(9.25, 3.40, 0.00)` | 22 | 668 | Three pale birch trunks with bark marks, branches, faceted crowns and low shrubs |
-| `FapInteriorSet` | `(0.00, 0.00, 0.00)` | 197 LOD0 + 28 LOD1 | 5,468 + 448 LOD1 | Authored 12 m shell with floor, ceiling, four wall volumes, recessed entry threshold, lower wall band, side-window recess/trim silhouettes and ceiling practical, plus restrained cot, folding privacy screen, medicine cabinet, enamel trolley/basin, waiting bench, radiator/pipes, supply shelf, blank examination chart, coat hook rail, wash unit, attendant stool, blank records pinboard, records desk, reception counter, tall storage cabinet and partial-height zoning partition |
+| `FapInteriorSet` | `(0.00, 0.00, 0.00)` | 197 LOD0 + 28 LOD1 | 5,532 + 488 LOD1 | Authored 12 m shell with floor, ceiling, four wall volumes, recessed entry threshold, lower wall band, side-window recess/trim silhouettes and ceiling practical, plus restrained cot, folding privacy screen, medicine cabinet, enamel trolley/basin, waiting bench, radiator/pipes, supply shelf, blank examination chart, coat hook rail, wash unit, attendant stool, blank records pinboard, records desk, reception counter, tall storage cabinet and partial-height zoning partition |
 
 Preview-board offsets are neutral source arrangement only; they are not
 runtime world coordinates. The local origin of each root is a ground anchor.
@@ -103,7 +103,7 @@ roughness values. No raster images, external assets, downloaded content,
 lights, cameras, collision-like mesh names, physics nodes or runtime data are
 present.
 
-## Verification evidence
+## Earlier verification evidence (before the 2026-09-12 round stool)
 
 Pinned Blender 4.5.12 LTS source reopen:
 
@@ -180,14 +180,17 @@ names or direct-root/parent contract errors.
 Current artifact sizes and SHA-256 (2026-09-12):
 
 ```text
-4132798 bytes  38b8f46bd7e727426407b54bfca0e5da67ce4c497f707ed0f538955689442c9e  assets/source/blender/act1/urman_fap_clinic_kit.blend
-857336 bytes  6357dcf203b5fe516df1d3eb8be8a450713aacc2e3d68347342fe0b4e1ae24b3  game/assets/models/act1/urman_fap_clinic_kit.glb
+4137926 bytes  0b24e44a8356561335afabe7a61ed95ff66376b45654ba8a27e0ac663aafa35b  assets/source/blender/act1/urman_fap_clinic_kit.blend
+864312 bytes  108b5f51d3fec570449467c6f6b5f4080af78facdd48b77d3234ab81e01d256b  game/assets/models/act1/urman_fap_clinic_kit.glb
 ```
 
 The reception counter now has a 6 cm top. Trolley legs extend to wheel tops
 at z=.24 m, preserving their former upper contact at z=1.21 m. Existing
 component names, mesh count, footprint and collision ownership are unchanged.
-The generator validation reports 405 meshes and 12,110 triangles. These hashes
+The round stool has a .50 m cushion, top at z=.60 m, and a base on the .06 m floor.
+The current generator validation reports 405 meshes and 12,214 triangles
+(6,194 exterior + 5,532 interior LOD0 + 488 interior LOD1). The earlier detailed
+reopen/import tables above remain historical evidence. These hashes
 identify this generation; no repeated-export determinism claim is made here.
 
 The connected-world `BuildFapClinic` presentation pass extracts only the
