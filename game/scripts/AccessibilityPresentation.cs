@@ -55,6 +55,13 @@ public static class AccessibilityPresentation
             }
             else if (node is ItemList itemList)
             {
+                // ItemList draws focus over its rows; keep only the outline.
+                if (itemList.GetThemeStylebox("focus") is StyleBoxFlat { DrawCenter: true } focus)
+                {
+                    var outline = (StyleBoxFlat)focus.Duplicate();
+                    outline.DrawCenter = false;
+                    itemList.AddThemeStyleboxOverride("focus", outline);
+                }
                 ApplyFontScale(itemList, "font_size", (float)settings.TextScale, 18);
                 itemList.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("e5dbc7"));
                 itemList.AddThemeColorOverride("font_selected_color", settings.HighContrast ? Colors.White : new Color("f0c46b"));
