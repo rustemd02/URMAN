@@ -179,8 +179,9 @@ public static class GeneratedCharacterKitDressing
         };
 
         var name = NodeName(mesh);
-        if ((name.StartsWith(prefix + "_Head_", StringComparison.Ordinal)
-             || name.StartsWith(prefix + "_FaceEyes_", StringComparison.Ordinal))
+        var isHead = name.StartsWith(prefix + "_Head_", StringComparison.Ordinal);
+        var isFaceEyes = name.StartsWith(prefix + "_FaceEyes_", StringComparison.Ordinal);
+        if ((isHead || isFaceEyes)
             && mesh.Mesh?.SurfaceGetMaterial(0) is StandardMaterial3D sourceFace)
         {
             var face = (StandardMaterial3D)sourceFace.Duplicate();
@@ -189,6 +190,12 @@ public static class GeneratedCharacterKitDressing
             face.Roughness = 1f;
             face.MetallicSpecular = 0f;
             face.Metallic = 0f;
+            if (prefix == "Mansur" && isHead)
+            {
+                const string ageAlbedoPath = "res://assets/textures/characters/mansur_age_v1_albedo.png";
+                face.AlbedoTexture = ResourceLoader.Load<Texture2D>(ageAlbedoPath)
+                    ?? throw new InvalidOperationException($"Mansur age albedo is missing: {ageAlbedoPath}.");
+            }
             mesh.MaterialOverride = face;
             mesh.SetMeta("painterlyMaterial", "CC0 textured face; native toon diffuse");
             return;

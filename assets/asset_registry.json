@@ -1578,6 +1578,25 @@
       ],
       "collision": "not applicable",
       "lod": "not applicable"
+    },
+    {
+      "id": "texture.character.mansur-age-v1",
+      "source": "Quaternius Universal Base Characters Standard CC0 male albedo, edited with built-in ImageGen 2026-09-12; exact prompt and provenance in game/assets/textures/characters/README.md",
+      "derived": "game/assets/textures/characters/mansur_age_v1_albedo.png",
+      "derivedSha256": "1a650889ed159b6cc39ca9dd5f9f24b595d61916aa8893e05d9bc53d74668608",
+      "license": "ImageGen-derived modification of Quaternius CC0 1.0 texture; upstream license in assets/source/blender/characters/Quaternius_CC0_License.txt",
+      "textureBudget": 1024,
+      "runtimeBinding": "GeneratedCharacterKitDressing/ApplyPainterlyMaterial; Mansur Head LOD0+LOD1 only; eyes and normal unchanged",
+      "status": "runtime-bound; native face/UV review passed; overall character art lock open",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced",
+      "generator": "OpenAI ImageGen built-in; sips normalized 1254 square to 1024 square",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "materials": [
+        "QuaterniusMale_HeadMaterial"
+      ],
+      "collision": "not applicable",
+      "lod": "mipmaps; existing Head LOD0/LOD1"
     }
   ]
 }
