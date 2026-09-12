@@ -13,6 +13,8 @@ config_version=5
 config/name="URMAN"
 run/main_scene="res://scenes/act1_demo.tscn"
 config/features=PackedStringArray("4.7", "C#")
+boot_splash/image="res://assets/textures/ui/act1_menu_winter_v1.png"
+boot_splash/bg_color=Color(0.008, 0.012, 0.011, 1)
 
 [display]
 
