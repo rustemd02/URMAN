@@ -93,7 +93,7 @@ public partial class Act1ConnectedWorld
             // The alert is authored while Aidar is indoors: Rinat is already
             // ahead at the forest endpoint before Aidar arrives, with no relocation
             // during the optional approach or on the final cue.
-            var at = alerted ? new Vector3(1.85f, 0, -124f) : new Vector3(2.15f, 0, -1.7f);
+            var at = alerted ? new Vector3(1.85f, 0, -124f) : new Vector3(-1.5f, 0, -3.8f);
             at.Y = AgentBAct1HeightField.CollisionGround(at.X, at.Z);
             _rinatNpc.Position = at;
             _rinatNpc.RotationDegrees = new(0, alerted ? -23f : 12f, 0);

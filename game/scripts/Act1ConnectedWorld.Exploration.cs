@@ -156,7 +156,11 @@ public partial class Act1ConnectedWorld
         foreach (var bindings in _interactionsByZone.Values)
             foreach (var binding in bindings)
                 if (binding.Node.HasMeta("discoverySlug"))
-                    binding.Node.Prompt = _runtimeBridge.ResolveText("urman.chapter1:text/discover-" + binding.Node.GetMeta("discoverySlug").AsString());
+                {
+                    var slug = binding.Node.GetMeta("discoverySlug").AsString();
+                    binding.Node.Prompt = _runtimeBridge.ResolveText("urman.chapter1:text/discover-" + slug);
+                    binding.Node.SetMeta("discoveryCompleted", Found(slug));
+                }
         UpdateRoadsideDiscoveries(Found("zirat-outer-rest-bench"));
         var heightMarksFound = Found("fap-interior-height-marks");
         if (_heightMarksCover is not null && _heightMarksFound != heightMarksFound)

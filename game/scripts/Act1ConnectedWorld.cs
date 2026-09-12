@@ -6010,6 +6010,8 @@ public partial class Act1ConnectedWorld : Node3D
                 spec.Style, spec.Style == VegetationStyle.Birch ? "4a5949" : "30473b");
             // Road clearance can reject the tree; its roots must disappear with it.
             if (!parent.HasNode($"KaraSlopeStand{index}")) continue;
+            if (index is 3 or 7)
+                parent.GetNode<Node3D>($"KaraSlopeStand{index}").SetMeta("winterVariant", "WinterPine");
             // Roots emerge from the trunk and disappear into soil, not a prop row.
             for (var root = 0; root < 3; root++)
             {
@@ -6079,6 +6081,8 @@ public partial class Act1ConnectedWorld : Node3D
             AddVisualTree(parent, $"KaraWatershedStand{index}", parent.ToLocal(anchor),
                 tree.Height, index >= 24 && index % 4 == 0 ? VegetationStyle.Birch : VegetationStyle.Conifer,
                 index < 6 ? "243c33" : index < 17 || Mathf.Abs(tree.X) < 30f ? "344b43" : "40574f");
+            if (index is 2 or 3)
+                parent.GetNodeOrNull<Node3D>($"KaraWatershedStand{index}")?.SetMeta("winterVariant", "WinterPine");
             if (index >= 24 && Mathf.Abs(tree.X) < 36f)
             {
                 var shrubAnchor = anchor + new Vector3(tree.X < 0f ? 1.8f : -1.8f, 0f, 1.4f);
@@ -6105,6 +6109,7 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualTree(parent, "KaraMixedMassWestNear", origin + new Vector3(-23.45f, 0f, 12.55f), 6.1f, VegetationStyle.Broadleaf, "405445");
         AddVisualTree(parent, "KaraMixedMassEastNear", origin + new Vector3(9.0f, 0f, 3.8f), 7.3f, VegetationStyle.Birch, "526052");
         AddVisualTree(parent, "KaraMixedMassWestMid", origin + new Vector3(-11.5f, 0f, -8.0f), 9.6f, VegetationStyle.Conifer, "2e4439");
+        parent.GetNodeOrNull<Node3D>("KaraMixedMassWestMid")?.SetMeta("winterVariant", "WinterPine");
         AddVisualTree(parent, "KaraMixedMassEastMid", origin + new Vector3(12.0f, 0f, -12.0f), 8.9f, VegetationStyle.Broadleaf, "3b5043");
         var karaFarForestMassWest = AddCoreFacetedMass(parent, "KaraFarForestMassWest", origin + new Vector3(-12.0f, 4.6f, -28.5f), new(8.0f, 4.6f, 2.8f), "2f4439");
         var karaFarForestMassEast = AddCoreFacetedMass(parent, "KaraFarForestMassEast", origin + new Vector3(11.0f, 4.0f, -30.0f), new(7.0f, 4.0f, 2.6f), "3a5042");

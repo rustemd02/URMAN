@@ -307,7 +307,7 @@ public partial class StyleBenchmarkZone : Node3D
         MakeInteractionBox(
             "RinatNpc",
             new(0.65f, 1.75f, 0.48f),
-            new(2.15f, 0.88f, -1.7f),
+            new(-1.5f, 0.88f, -3.8f),
             "4d5551",
             "urman.chapter1:interaction/talk-rinat",
             "Поговорить с Ринатом",

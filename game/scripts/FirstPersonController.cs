@@ -341,7 +341,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
         var available = target.IsAvailable();
         var hint = InteractionHint;
-        var label = available ? target.Prompt : UnavailablePrompt;
+        var completed = !available && target.GetMeta("discoveryCompleted", false).AsBool();
+        var label = available ? target.Prompt : completed ? "Осмотрено" : UnavailablePrompt;
         if (target != _promptTarget
             || available != _promptTargetAvailable
             || !string.Equals(hint, _promptHint, StringComparison.Ordinal)
@@ -351,7 +352,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             _promptTargetAvailable = available;
             _promptHint = hint;
             _promptLabel = label;
-            SetInteractionPrompt($"{hint} {label}");
+            SetInteractionPrompt(completed ? label : $"{hint} {label}");
         }
 
         if (candidate == target && available && Input.IsActionJustPressed(InteractionAction))
