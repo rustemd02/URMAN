@@ -742,10 +742,16 @@ def create_character(
         tuple(max(0.0, channel * 0.72) for channel in coat_color[:3]) + (1.0,),
     )
     # A restrained knee/calf profile breaks the straight winter-trouser tubes.
-    # Retain the hip/ankle and existing rigid Leg.L / Leg.R attachment.
+    # Retain the ankle and existing rigid Leg.L / Leg.R attachment.
     shaped_trousers = prefix in {"Mansur", "CouncilWitness"}
     for side, direction in (("Left", -1), ("Right", 1)):
-        if shaped_trousers:
+        if prefix == "Alsu":
+            # Hide the upper trouser caps inside her narrow coat; feet stay put.
+            rings = ((0.48, 0.000, 0.88), (0.78, 0.000, 0.65),
+                     (0.94, -0.035, 0.47), (0.94, 0.008, 0.30),
+                     (0.94, -0.010, 0.095))
+            radii = (0.105, 0.112, 0.085, 0.096, 0.065)
+        elif shaped_trousers:
             rings = ((1.0, 0.000, 0.88), (0.98, 0.000, 0.65),
                      (0.96, -0.035, 0.47), (0.94, 0.008, 0.30),
                      (0.94, -0.010, 0.095))
