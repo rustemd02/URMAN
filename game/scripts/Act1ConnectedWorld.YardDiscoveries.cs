@@ -260,7 +260,7 @@ public partial class Act1ConnectedWorld
             PorchNookSlug,
             new(.92f, .78f, .92f),
             village.ToLocal(_porchNookBox.GlobalPosition + Vector3.Up * .28f),
-            journal: true);
+            journal: false);
         porchTarget.SetMeta(
             "activePropPath",
             "Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HouseExteriorPorchNookBox");

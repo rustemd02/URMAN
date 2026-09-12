@@ -191,7 +191,7 @@ public partial class Act1ConnectedWorld
             MainStreetSideWindowSlug,
             new(windowWidth + .45f, windowHeight + .55f, .95f),
             village.ToLocal(targetPosition),
-            journal: true);
+            journal: false);
         target.SetMeta("activePropPath", glass.GetPath().ToString());
         target.SetMeta("physicalAction", "open the exterior shutter");
         target.SetMeta("sourceSillPath", sill.GetPath().ToString());
@@ -364,7 +364,7 @@ public partial class Act1ConnectedWorld
             ConnectiveStreetRepairBenchSlug,
             new(2.15f, 1.55f, 1.50f),
             village.ToLocal(bench.GlobalPosition + Vector3.Up * .68f),
-            journal: true);
+            journal: false);
         target.SetMeta("activePropPath", bench.GetPath().ToString());
         target.SetMeta("physicalAction", "finish wrapping the shovel handle");
         target.SetMeta("anchorSource", openBay.GetPath().ToString());

@@ -125,7 +125,7 @@ public partial class Act1ConnectedWorld
             ConnectiveStreetBenchSlug,
             new(2.10f, 1.45f, 1.05f),
             village.ToLocal(bench.GlobalPosition + Vector3.Up * .76f),
-            journal: true);
+            journal: false);
         benchTarget.SetMeta(
             "activePropPath",
             "Act1CoreWorldGreybox/ConnectiveStreetReturn/ConnectiveReturnCareBench");
@@ -294,7 +294,7 @@ public partial class Act1ConnectedWorld
             FapCarePorchSlug,
             new(.78f, .85f, .82f),
             village.ToLocal(_fapCareCup.GlobalPosition + Vector3.Up * .08f),
-            journal: true);
+            journal: false);
         careTarget.SetMeta(
             "activePropPath",
             "Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapCareEnamelCup");
