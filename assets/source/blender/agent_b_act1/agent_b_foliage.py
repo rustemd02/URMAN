@@ -997,10 +997,12 @@ def winter_spruce_variant(index, height, tier="near"):
                 continue
             rng = random.Random(ab.stable_hash(f"spruce:{index}:{level}:{branch}"))
             angle = level * 1.17 + branch * math.tau / 3 + rng.uniform(-.22, .22)
-            length = height * .27 * (1.0 - level / 12.0) ** .65 * rng.uniform(.88, 1.1)
+            length = height * .27 * (1.0 - level / 12.0) ** .65 * rng.uniform(.62, 1.1)
+            # Shared seeds keep gaps and uneven branch heights in all LODs.
+            # Short boughs open the crown without widening its road envelope.
             centre = Vector((math.sin(index + level) * height * .016,
                              math.cos(index + level) * height * .012,
-                             height * (.22 + .74 * level / 11)))
+                             height * (.22 + .74 * level / 11 + rng.uniform(-.022, .022))))
             direction = Vector((math.cos(angle), math.sin(angle), 0))
             points, radii = [], []
             for station in range(stations):
