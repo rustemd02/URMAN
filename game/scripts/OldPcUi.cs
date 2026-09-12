@@ -120,7 +120,10 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
             _reader.Text = "Выберите запись слева, чтобы открыть документ. Некоторые записи пока закрыты для Айдара.";
             _save.Disabled = true;
             RefreshResults();
-            _status.Text = $"Найдено записей: {_results.ItemCount}";
+            var found = Enumerable.Range(0, _results.ItemCount).Count(_results.IsItemSelectable);
+            _status.Text = $"Найдено записей: {found}";
+            if (found == 0)
+                _reader.Text = "Совпадений нет. Попробуйте имя, название места или короткое слово из найденной записи.";
         }
         catch (Exception exception)
         {
@@ -130,7 +133,9 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async void OpenDocument(long index)
     {
-        if (_bridge is null)
+        if (_bridge is null
+            || index < 0 || index >= _results.ItemCount
+            || !_results.IsItemSelectable((int)index))
         {
             return;
         }
@@ -186,11 +191,27 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
 
         var query = _query.Text.Trim();
         _results.Clear();
-        foreach (var document in _bridge.OldPcDocuments.Where(document => Matches(document, query)))
+        var hasRestrictedRecords = false;
+        foreach (var document in _bridge.OldPcDocuments)
         {
-            var accessible = _bridge.IsOldPcDocumentAccessible(document.Id);
-            var index = _results.AddItem($"{(accessible ? "" : "🔒 ")}{document.Title}\n{SectionLabel(document.Section)}");
+            if (!_bridge.IsOldPcDocumentAccessible(document.Id))
+            {
+                hasRestrictedRecords = true;
+                continue;
+            }
+            if (!Matches(document, query)) continue;
+            var index = _results.AddItem(document.Title);
             _results.SetItemMetadata(index, document.Id);
+            if (document.Id == _activeDocumentId)
+            {
+                _results.Select(index);
+                _results.EnsureCurrentIsVisible();
+            }
+        }
+        if (hasRestrictedRecords)
+        {
+            var index = _results.AddItem("🔒 Закрытые записи");
+            _results.SetItemSelectable(index, false);
         }
     }
 
@@ -226,6 +247,4 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
             .Concat(document.SuggestedTerms)
             .Any(value => value.Contains(query, StringComparison.CurrentCultureIgnoreCase));
     }
-
-    private static string SectionLabel(string section) => section.Replace('_', ' ').ToUpperInvariant();
 }
