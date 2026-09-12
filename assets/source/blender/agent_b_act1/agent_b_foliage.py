@@ -995,7 +995,7 @@ def winter_spruce_variant(index, height, tier="near"):
         for branch in branches:
             rng = random.Random(ab.stable_hash(f"spruce:{index}:{level}:{branch}"))
             angle = level * 1.17 + branch * math.tau / 3 + rng.uniform(-.22, .22)
-            length = height * (.27 - .21 * level / 11) * rng.uniform(.88, 1.1)
+            length = height * .27 * (1.0 - level / 12.0) ** .65 * rng.uniform(.88, 1.1)
             centre = Vector((math.sin(index + level) * height * .016,
                              math.cos(index + level) * height * .012,
                              height * (.22 + .74 * level / 11)))
@@ -1004,9 +1004,9 @@ def winter_spruce_variant(index, height, tier="near"):
             for station in range(stations):
                 t = station / (stations - 1)
                 point = centre + direction * length * t
-                point.z -= length * (.52 * t - .14 * math.sin(math.pi * t))
+                point.z -= length * (.40 * t - .12 * math.sin(math.pi * t))
                 points.append(point)
-                radii.append(length * (.10 + .32 * math.sin(math.pi * t)) * (1 - .88 * t))
+                radii.append(length * (.19 + .28 * math.sin(math.pi * t)) * (1 - .88 * t))
             _append_polyline_tube(vertices, faces, points, radii,
                                   sides=6 if tier != "far" else 4, flatten=.80)
             if tier == "near":
@@ -1020,7 +1020,7 @@ def winter_spruce_variant(index, height, tier="near"):
             if level >= 4 and caps < cap_limit and branch == 0:
                 # The cap is embedded in the actual upper needle bough,
                 # following the same drooping path rather than its old level.
-                radius = length * (.10 + .32 * math.sin(math.pi * .58)) * (1 - .88 * .58)
+                radius = length * (.19 + .28 * math.sin(math.pi * .58)) * (1 - .88 * .58)
                 _append_snow_cap(snow_vertices, snow_faces, points,
                                  max(.001, radius * .80 - .003) / .42,
                                  radius * .72, level + index)
