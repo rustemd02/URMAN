@@ -2343,11 +2343,11 @@ def build_interior(parent: bpy.types.Object) -> None:
     ib(
         "FapInteriorReceptionCounter_ServiceShelf_LOD0",
         parent,
-        (4.25, -0.15, 1.48),
-        (1.25, 0.20, 0.10),
+        (4.25, -0.15, 1.035),
+        (1.25, 0.20, 0.03),
         "FapPaintedTimber",
-        0.018,
-        role="back-mounted reception service shelf",
+        0.008,
+        role="low service ledge resting on reception worktop",
     )
     ib(
         "FapInteriorWallPanel_LeftEntry_LOD0",
