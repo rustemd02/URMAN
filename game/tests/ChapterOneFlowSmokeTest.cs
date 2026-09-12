@@ -254,8 +254,29 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (!await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")) return;
         if (!await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/tw_shurale_urman_boundary")
+            || await bridge.ChooseDialogueAsync(Dialogue("mansur_pc_request"), "ask-for-help", "ask-about-javap")
             || !await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" }))
-        { Fail("The language evidence comparison was rejected."); return; }
+        { Fail("The language comparison failed or Mansur's question was exposed before learning the word."); return; }
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        var mansurTarget = house.GetNode<InteractionTarget>("MansurNpc");
+        if (!mansurTarget.IsAvailable() || !PhysicalRayHits(mansurTarget))
+        { Fail("Mansur cannot be approached after the archive comparison."); return; }
+        var investigationScene = bridge.ActiveSceneId;
+        mansurTarget.Interact();
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var mansurDialogue = (DialogueUi)GetTree().GetFirstNodeInGroup("dialogue_ui");
+        var javapQuestion = mansurDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>()
+            .FirstOrDefault(button => button.Text == bridge.ResolveText(ChapterPrefix + "text/choice-mansur-javap"));
+        if (!mansurDialogue.IsOpen || javapQuestion is null)
+        { Fail("The learned word did not open a usable question in Mansur's dialogue."); return; }
+        javapQuestion.EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!mansurDialogue.IsOpen
+            || mansurDialogue.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text != bridge.ResolveText(ChapterPrefix + "text/dialogue-mansur-javap-reply")
+            || bridge.ActiveSceneId != investigationScene)
+        { Fail("Mansur's response was missing or reset the active investigation scene."); return; }
+        mansurDialogue._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
         if (!await Advance(bridge, "boundary-source-to-reread", "evidence-tatarwiki-reread")) return;
         if (!await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
         if (!await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch"))

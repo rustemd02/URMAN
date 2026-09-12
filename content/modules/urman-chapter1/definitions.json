@@ -853,6 +853,7 @@
    "urman.chapter1:scene/evidence-edge-sketch"
   ],
   "applicationTargets": [
+   "urman.chapter1:dialogue/mansur_pc_request",
    "urman.chapter1:dialogue/rinat_internal_register",
    "urman.chapter1:scene/forest"
   ],
@@ -1650,6 +1651,19 @@
     ],
     "choices": [
      {
+      "id": "ask-about-javap",
+      "textId": "urman.chapter1:text/choice-mansur-javap",
+      "conditions": [
+       {
+        "op": "vocabulary.status",
+        "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "javap-reply"
+     },
+     {
       "id": "offer-help",
       "textId": "urman.chapter1:text/choice-mansur-offer-help",
       "conditions": [],
@@ -1726,6 +1740,14 @@
     "id": "blue-mittens-reply",
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-blue-mittens-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "javap-reply",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-javap-reply",
     "conditions": [],
     "effects": [],
     "choices": []
@@ -2186,7 +2208,10 @@
     "labelTextId": "urman.chapter1:text/inspect",
     "conditions": [],
     "effects": [],
-    "targetDialogueId": "urman.chapter1:dialogue/mansur_pc_request"
+    "targetDialogueId": "urman.chapter1:dialogue/mansur_pc_request",
+    "worldLocations": [
+     "house_old_pc"
+    ]
    },
    {
     "id": "urman.chapter1:interaction/oldpc-power",
@@ -4173,6 +4198,28 @@
    "default": "He holds the printout for a long time without reading it. “So that is the wording they gave your grandmother on the phone, word for word. You see — a paper agrees with itself. Papers always do.”",
    "translations": {
     "ru": "Он долго держит распечатку, не читая. «Вот, значит, как сформулировали — бабушке по телефону слово в слово так и сказали. Видишь — бумага сходится с бумагой. Бумага всегда сходится»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-mansur-javap",
+  "value": {
+   "default": "Babai, why are a voice and “җавап” written side by side?",
+   "translations": {
+    "ru": "Бабай, почему голос и «җавап» стоят рядом?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-mansur-javap-reply",
+  "value": {
+   "default": "Mansur looks away. “I do not know what Marat heard that time. Where was he? The note mentions the forest edge, doesn’t it? Read it again, Aidar. Show me the place, not just one word.”",
+   "translations": {
+    "ru": "Мансур отводит взгляд. «Я не знаю, что Марат тогда услышал. Где он был? В той заметке ведь кромка указана. Перечитай её, Айдар. Ты мне место покажи, а не одно слово»."
    }
   },
   "purpose": "dialogue"
