@@ -1292,3 +1292,14 @@ Root и Luna просмотрели оба ракурса: торцы скрыт
 LOD-меша, 376 других совпадают. 21 579 LOD0 + 10 779 LOD1 = 32 358 треугольников;
 9 rigs / 190 LOD-пар. Character-asset-smoke, import, registry и C# build PASS.
 Временный capture восстановлен, userdata побайтно восстановлены.
+
+
+### 2026-09-12 — деревья обрамляют задний вид на минарет
+
+Ближайшая existing WinterBirch_2 в (-33,82144; -12,23175) повёрнута на +90°
+в AgentBAct1ExteriorLayer до проверки низких ветвей и дороги. Все LOD
+поворачиваются вместе; положение и масштаб прежние. Existing
+ArrivalClosureForwardFarWestBroadleaf в (-35; -15) имеет высоту 5,2 м вместо
+7,4 м. Геометрия источников, минарет и коллизии маршрута не менялись.
+Native `minaret_view_before` → `minaret_view_v1` показывает свободную верхнюю
+часть ориентира; arrival_forward также просмотрен. Подробности — в gameplay.md.

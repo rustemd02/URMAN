@@ -5251,7 +5251,7 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualLandformSegment(parent, "ArrivalClosureReverseEastBank", new(24.0f, 0f, 42.0f), new(34.5f, 0f, 58.0f), 2.55f, 0.36f, "4d5a4b", "earth", 0.02f);
         AddVisualTree(parent, "ArrivalClosureForwardWestBirch", new(-24.5f, 0f, -4.0f), 7.8f, VegetationStyle.Birch, "596047");
         AddVisualTree(parent, "ArrivalClosureForwardEastConifer", new(25.0f, 0f, -6.0f), 9.1f, VegetationStyle.Conifer, "30483f");
-        AddVisualTree(parent, "ArrivalClosureForwardFarWestBroadleaf", new(-35.0f, 0f, -15.0f), 7.4f, VegetationStyle.Broadleaf, "48553f");
+        AddVisualTree(parent, "ArrivalClosureForwardFarWestBroadleaf", new(-35.0f, 0f, -15.0f), 5.2f, VegetationStyle.Broadleaf, "48553f");
         AddVisualTree(parent, "ArrivalClosureForwardFarEastBirch", new(35.5f, 0f, -17.5f), 8.3f, VegetationStyle.Birch, "596047");
         AddVisualTree(parent, "ArrivalClosureReverseWestConifer", new(-34.5f, 0f, 59.5f), 10.0f, VegetationStyle.Conifer, "30483f");
         AddVisualTree(parent, "ArrivalClosureReverseEastBroadleaf", new(35.0f, 0f, 60.0f), 8.2f, VegetationStyle.Broadleaf, "48553f");

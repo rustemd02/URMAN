@@ -882,6 +882,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
             var basis = new Basis(Vector3.Up, Mathf.DegToRad(Mathf.Lerp(-14, 14, DeterministicPhase(position, 8.1f))))
                 .Scaled(new Vector3(horizontal, vertical, horizontal));
+            // Turn this rooted birch away from the rear-house minaret view.
+            // Match its placement, not the generated Plant child number.
+            if (variant == "WinterBirch_2"
+                && position.DistanceSquaredTo(new Vector2(-33.82144f, -12.23175f)) < .01f)
+                basis = new Basis(Vector3.Up, Mathf.Pi * .5f) * basis;
             var target = new Vector3(position.X, AgentBAct1HeightField.CollisionGround(position.X, position.Y) - .04f, position.Y);
             var karaSuppression = position.Y <= -86f && new[] { "Birch_", "Spruce_", "MossStone_", "Stump_" }
                 .Any(prefix => sourceVariant.StartsWith(prefix, StringComparison.Ordinal));
