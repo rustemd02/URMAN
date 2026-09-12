@@ -71,6 +71,7 @@ public partial class Act1CheckpointSmokeTest : Node
         if (!bridge.IsInteractionAvailable(Interaction("talk-naila"))
             || !await bridge.DispatchInteractionAsync(Interaction("talk-naila"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("naila_medical_record"), "official-wording")
+            || !await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "official-wording", "ask-wording")
             || !await Advance(bridge, "fap-to-document-desk", "fap_pressure_document_desk")) return;
         if (!await bridge.SaveSlotAsync("checkpoint-before-evidence")
             || !await Advance(bridge, "fap-document-desk-to-official-record", "evidence-official-death")) return;

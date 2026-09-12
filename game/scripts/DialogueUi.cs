@@ -196,6 +196,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         "gulsina" => "ӘБИ ГӨЛСИНӘ",
         "mansur" => "БАБАЙ МАНСУР",
         "alsu" => "АЛСУ",
+        "naila" => "НАИЛЯ",
         "rinat" => "РИНАТ",
         "timur" => "ТИМУР ХӘЗРӘТ",
         _ => role.ToUpperInvariant()

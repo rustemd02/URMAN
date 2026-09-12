@@ -224,6 +224,13 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             Fail("Physical corridor did not open Naila's dialogue before the document desk.");
             return;
         }
+        var nailaQuestion = nailaDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>()
+            .FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/dialogue-naila-ask-record"));
+        if (nailaQuestion is null)
+        { Fail("Naila's initial wording question was missing."); return; }
+        nailaQuestion.EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
         nailaDialogue.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
         await Frames(4);
         if (nailaDialogue.IsOpen || player.ModalOpen

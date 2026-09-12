@@ -311,9 +311,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-naila-medical-record",
   "value": {
-   "default": "Naila keeps her voice even: “The note uses precise official medical wording. That is how it is recorded.”",
+   "default": "Naila keeps a hand on the folder. “You came about Marat? I cannot open other people’s medical files for you. Tell me exactly what you want to clarify.”",
    "translations": {
-    "ru": "Наиля говорит ровно: «В записи использована точная официальная медицинская формулировка. Так и записано»."
+    "ru": "Наиля придерживает папку ладонью. «Ты про Марата? Чужие карты я тебе не открою. Скажи, что именно ты хочешь уточнить»."
    }
   },
   "purpose": "dialogue"
@@ -322,9 +322,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-naila-ask-record",
   "value": {
-   "default": "Ask why the wording is so formal and precise.",
+   "default": "What does “in connection with an accident” mean?",
    "translations": {
-    "ru": "Спросить, почему формулировка такая официальная и точная."
+    "ru": "Что значит «на фоне несчастного случая»?"
    }
   },
   "purpose": "dialogue"
@@ -1768,14 +1768,7 @@
     "speakerRole": "naila",
     "textId": "urman.chapter1:text/dialogue-naila-medical-record",
     "conditions": [],
-    "effects": [
-     {
-      "op": "npc.set-state",
-      "characterId": "urman.chapter1:character/naila",
-      "stateKey": "record_access_granted",
-      "value": true
-     }
-    ],
+    "effects": [],
     "choices": [
      {
       "id": "press-contradiction",
@@ -1789,6 +1782,20 @@
       ],
       "effects": [],
       "nextNodeId": "separate-record"
+     },
+     {
+      "id": "ask-wording",
+      "textId": "urman.chapter1:text/dialogue-naila-ask-record",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "wording-detail"
+     },
+     {
+      "id": "ask-transfer",
+      "textId": "urman.chapter1:text/choice-naila-transfer",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "transfer-detail"
      }
     ]
    },
@@ -1802,6 +1809,36 @@
       "op": "vocabulary.set-status",
       "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
       "status": "confirmed"
+     }
+    ],
+    "choices": []
+   },
+   {
+    "id": "wording-detail",
+    "speakerRole": "naila",
+    "textId": "urman.chapter1:text/dialogue-naila-wording-detail",
+    "conditions": [],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/naila",
+      "stateKey": "record_access_granted",
+      "value": true
+     }
+    ],
+    "choices": []
+   },
+   {
+    "id": "transfer-detail",
+    "speakerRole": "naila",
+    "textId": "urman.chapter1:text/dialogue-naila-transfer-detail",
+    "conditions": [],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/naila",
+      "stateKey": "record_access_granted",
+      "value": true
      }
     ],
     "choices": []
@@ -2919,7 +2956,10 @@
     "labelTextId": "urman.chapter1:text/inspect",
     "conditions": [],
     "effects": [],
-    "targetDialogueId": "urman.chapter1:dialogue/naila_medical_record"
+    "targetDialogueId": "urman.chapter1:dialogue/naila_medical_record",
+    "worldLocations": [
+     "fap_clinic"
+    ]
    },
    {
     "id": "urman.chapter1:interaction/fap-to-document-desk",
@@ -4220,6 +4260,39 @@
    "default": "Mansur looks away. “I do not know what Marat heard that time. Where was he? The note mentions the forest edge, doesn’t it? Read it again, Aidar. Show me the place, not just one word.”",
    "translations": {
     "ru": "Мансур отводит взгляд. «Я не знаю, что Марат тогда услышал. Где он был? В той заметке ведь кромка указана. Перечитай её, Айдар. Ты мне место покажи, а не одно слово»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-naila-transfer",
+  "value": {
+   "default": "Who was the case passed to?",
+   "translations": {
+    "ru": "Кому передали дело?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-naila-wording-detail",
+  "value": {
+   "default": "“That is the wording in the notice. It does not say what kind of accident. I can show you this line about Marat. Read it for yourself.”",
+   "translations": {
+    "ru": "«Так написано в справке. Какой именно случай — здесь не указано. Эту строку про Марата я тебе покажу. Прочитай сам»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-naila-transfer-detail",
+  "value": {
+   "default": "“The notice says it was passed to the district officer for formal closure. I can show you that part about Marat. What happened after the handover is not written here.”",
+   "translations": {
+    "ru": "«В справке — участковому, для формального закрытия. Этот фрагмент про Марата я тебе покажу. Что было после передачи, здесь не написано»."
    }
   },
   "purpose": "dialogue"

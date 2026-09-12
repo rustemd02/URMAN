@@ -77,6 +77,7 @@ public partial class FullGameFlowSmokeTest : Node
             || !bridge.IsInteractionAvailable(ChapterInteraction("talk-naila"))
             || !await bridge.DispatchInteractionAsync(ChapterInteraction("talk-naila"))
             || !await bridge.EnterDialogueNodeAsync(ChapterDialogue("naila_medical_record"), "official-wording")
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("naila_medical_record"), "official-wording", "ask-wording")
             || !bridge.IsInteractionAvailable(ChapterInteraction("fap-to-document-desk")))
         {
             Fail("Full-game Chapter 1 flow could not apply Naila's authored medical-record dialogue gate.");

@@ -213,17 +213,35 @@ public partial class ChapterOneFlowSmokeTest : Node
             .GetNode<OmniLight3D>("DiscoveryRepairedLamp/RepairedDeskLight");
         if (!repairedLight.IsVisibleInTree()) { Fail("The repaired lamp did not light its desk."); return; }
 
+        var nailaTarget = main.ConnectedWorld.GetZoneInstance("fap_clinic")!
+            .GetNode<InteractionTarget>("NailaNpc");
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         if (bridge.IsInteractionAvailable(Interaction("fap-to-document-desk"))
-            || !bridge.IsInteractionAvailable(Interaction("talk-naila"))
-            || !await bridge.DispatchInteractionAsync(Interaction("talk-naila"))
-            || !await bridge.EnterDialogueNodeAsync(Dialogue("naila_medical_record"), "official-wording")
+            || !nailaTarget.IsAvailable() || !PhysicalRayHits(nailaTarget))
+        { Fail("Naila's first encounter was unavailable or granted access before a question."); return; }
+        nailaTarget.Interact();
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var nailaDialogue = (DialogueUi)GetTree().GetFirstNodeInGroup("dialogue_ui");
+        var wordingQuestion = nailaDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>()
+            .FirstOrDefault(button => button.Text == bridge.ResolveText(ChapterPrefix + "text/dialogue-naila-ask-record"));
+        if (!nailaDialogue.IsOpen || wordingQuestion is null
+            || bridge.IsInteractionAvailable(Interaction("fap-to-document-desk"))
+            || await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "official-wording", "press-contradiction"))
+        { Fail("Naila lacked an initial question, exposed the contradiction, or granted access on greeting."); return; }
+        wordingQuestion.EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!nailaDialogue.IsOpen
+            || nailaDialogue.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text != bridge.ResolveText(ChapterPrefix + "text/dialogue-naila-wording-detail")
             || !bridge.IsInteractionAvailable(Interaction("fap-to-document-desk")))
-        {
-            Fail("Chapter 1 flow could not apply Naila's authored medical-record dialogue gate.");
-            return;
-        }
+        { Fail("Naila's wording answer did not grant access to the record."); return; }
+        nailaDialogue._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        if (!await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "official-wording", "ask-transfer"))
+        { Fail("Naila's alternative handover question was unavailable."); return; }
 
         if (!await Advance(bridge, "fap-to-document-desk", "fap_pressure_document_desk")) return;
+        if (!nailaTarget.IsAvailable())
+        { Fail("Naila became unavailable after opening access to her document desk."); return; }
         if (!await Advance(bridge, "fap-document-desk-to-official-record", "evidence-official-death")) return;
         if (!await Advance(bridge, "official-to-internal-register", "evidence-internal-register")) return;
         main.SwitchZone("house_old_pc", "entry");

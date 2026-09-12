@@ -68,6 +68,7 @@ public partial class Act1FinalStateSmokeTest : Node
         if (!bridge.IsInteractionAvailable(Interaction("talk-naila"))
             || !await bridge.DispatchInteractionAsync(Interaction("talk-naila"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("naila_medical_record"), "official-wording")
+            || !await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "official-wording", "ask-wording")
             || !await Advance(bridge, "fap-to-document-desk", "fap_pressure_document_desk")
             || !await Advance(bridge, "fap-document-desk-to-official-record", "evidence-official-death")
             || !await Advance(bridge, "official-to-internal-register", "evidence-internal-register")) return;
