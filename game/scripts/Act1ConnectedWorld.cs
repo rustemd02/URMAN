@@ -188,7 +188,7 @@ public partial class Act1ConnectedWorld : Node3D
     private RuntimeBridge? _runtimeBridge;
     private bool _runtimeBridgeSubscribed;
     private bool _logicalZonePresentationSuppressionsReapplied;
-    private bool _built;
+    private bool _buildStarted;
     private Node3D? _villageLife;
     private Node3D? _yardCat;
     private Node3D[] _crows = [];
@@ -233,7 +233,7 @@ public partial class Act1ConnectedWorld : Node3D
 
     public string ActiveZoneId { get; private set; } = string.Empty;
 
-    public bool IsBuilt => _built;
+    public bool IsBuilt { get; private set; }
 
     public int ActiveDirectionalLightCount { get; private set; }
 
@@ -262,12 +262,12 @@ public partial class Act1ConnectedWorld : Node3D
 
     public void Build()
     {
-        if (_built)
+        if (_buildStarted)
         {
             return;
         }
 
-        _built = true;
+        _buildStarted = true;
         PersistentInstanceIdentity = GetInstanceId().ToString(CultureInfo.InvariantCulture);
         SetMeta("worldOwner", nameof(Act1ConnectedWorld));
         SetMeta("persistentInstanceIdentity", PersistentInstanceIdentity);
@@ -372,6 +372,7 @@ public partial class Act1ConnectedWorld : Node3D
 
         SetActiveLogicalZone("village_day");
         CallDeferred(nameof(ReapplyLogicalZonePresentationSuppressions));
+        IsBuilt = true;
     }
 
     public bool ContainsZone(string zoneId) => _zoneInstances.ContainsKey(zoneId);
@@ -399,7 +400,7 @@ public partial class Act1ConnectedWorld : Node3D
 
     public void SetActiveLogicalZone(string zoneId)
     {
-        if (!_built)
+        if (!_buildStarted)
         {
             Build();
         }

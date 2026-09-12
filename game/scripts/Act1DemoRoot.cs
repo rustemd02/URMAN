@@ -130,6 +130,26 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _Ready()
     {
+        try
+        {
+            InitializeDemo();
+        }
+        catch (Exception exception)
+        {
+            GD.PushError($"Act I startup failed: {exception}");
+            if (DisplayServer.GetName() != "headless")
+            {
+                OS.Alert(
+                    "Не удалось запустить Акт I.\nЗаново распакуйте архив игры и повторите запуск.",
+                    "УРМАН — ошибка запуска");
+            }
+
+            GetTree().Quit(1);
+        }
+    }
+
+    private void InitializeDemo()
+    {
         AddToGroup(AccessibilityPresentation.TargetGroup);
         var commandLine = OS.GetCmdlineArgs();
         _performanceProbe = commandLine.Contains("--urman-perf-probe", StringComparer.Ordinal)
@@ -155,8 +175,22 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _main.EnableZoneTransitionFade = true;
         _main.EnableAct1ConnectedWorld = true;
         AddChild(_main);
-        _player = _main.GetNodeOrNull<FirstPersonController>("Player");
+        _player = _main.GetNodeOrNull<FirstPersonController>("Player")
+            ?? throw new InvalidOperationException("Act I player did not load.");
+        // A child _Ready exception is logged by Godot instead of propagating
+        // through AddChild. Check the completed owners before exposing a menu.
+        if (_main.ConnectedWorld?.IsBuilt != true
+            || _main.GetNodeOrNull<RuntimeBridge>("RuntimeBridge")?.SessionIdentity is null)
+        {
+            throw new InvalidOperationException("Act I world or campaign did not finish loading.");
+        }
+
         BuildMainMenu();
+        if (_mainMenu?.NewGameButton is null)
+        {
+            throw new InvalidOperationException("Act I main menu did not load.");
+        }
+
         BuildPauseMenu();
         BuildRouteCue();
         CallDeferred(nameof(AttachRuntimeBridge));
