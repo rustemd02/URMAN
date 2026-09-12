@@ -20,6 +20,7 @@ public static class PainterlyMaterialLibrary
         uniform bool vertex_pigment = false;
         uniform sampler2D albedo_texture : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
         uniform bool has_albedo_texture = false;
+        uniform bool cut_wood_end = false;
         // Safe mode skips the three triplanar texture reads below. The normal
         // medium profile keeps the full painterly material unchanged.
         uniform bool low_quality = false;
@@ -167,7 +168,18 @@ public static class PainterlyMaterialLibrary
             vec3 painted_color = has_albedo_texture
                 ? mix(base_color.rgb, tinted_texture, texture_strength)
                 : base_color.rgb;
-            vec3 painted_shadow = has_albedo_texture ? painted_color * 0.86 : shadow_color.rgb;
+            // End caps use their local cross-section UVs, so grain belongs
+            // to each log instead of projecting board stripes across a pile.
+            if (cut_wood_end) {
+                vec2 grain = UV * 2.0 - vec2(1.0);
+                grain += vec2(sin(grain.y * 7.0), cos(grain.x * 6.0)) * 0.035;
+                float ring = smoothstep(0.72, 0.98,
+                    sin(length(grain) * 33.0 + sin(grain.x * 9.0) * 0.35));
+                // Fade rings below pixel size instead of shimmering at distance.
+                ring *= 1.0 - smoothstep(0.65, 1.5, fwidth(length(grain) * 33.0));
+                painted_color *= 1.0 - ring * 0.22;
+            }
+            vec3 painted_shadow = has_albedo_texture || cut_wood_end ? painted_color * 0.86 : shadow_color.rgb;
             float edge_wash = 0.95 + 0.05 * clamp(dot(normalize(world_normal), vec3(0.0, 1.0, 0.0)), 0.0, 1.0);
             float macro_pigment = clamp(
                 0.98 + stroke * variation * 0.08 + broad_stroke * variation * 0.16,
@@ -426,6 +438,7 @@ public static class PainterlyMaterialLibrary
         var shadow = new Color(color.R * 0.54f, color.G * 0.56f, color.B * 0.58f, color.A);
         var material = new ShaderMaterial { Shader = PainterlyShader };
         material.SetShaderParameter("base_color", color);
+        material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
         material.SetShaderParameter("vertex_pigment", surface is "terrain" or "wet_road" or "snow_road");
         material.SetShaderParameter("shadow_color", shadow);
         material.SetMeta("sheltered", sheltered);
@@ -615,7 +628,7 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("wind_enabled", _windMotion);
         material.SetShaderParameter("low_quality", _lowQualityMaterials);
         if (!SuppressTextureLoadsForHeadlessTests
-            && SurfaceTextures.TryGetValue(surface, out var textureDescriptor))
+            && SurfaceTextures.TryGetValue(surface == "bark_pine" ? "wood_bark" : surface, out var textureDescriptor))
         {
             var texture = ResourceLoader.Load<Texture2D>(textureDescriptor.Path)
                 ?? throw new InvalidOperationException($"Painterly texture is missing: {textureDescriptor.Path}.");

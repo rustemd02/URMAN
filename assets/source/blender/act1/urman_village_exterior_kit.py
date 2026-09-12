@@ -1351,7 +1351,7 @@ def woodpile_log(
         length / 2.0,
         center,
         radius,
-        ("URMAN_Bark_Muted", "URMAN_Wood_Dark"),
+        ("URMAN_Bark_Muted", "URMAN_Wood_CutEnd"),
         axis="X",
         segments=8,
         role="stable horizontal stacked firewood log",
@@ -1366,8 +1366,15 @@ def woodpile_log(
     log["woodpile_row"] = row
     # cylinder_mesh's two caps are the first two polygons; preserve the
     # existing bark side and endwood material contract without a new helper.
+    end_uv = log.data.uv_layers.new(name="UVMap")
     for polygon in log.data.polygons[:2]:
         polygon.material_index = 1
+        for loop_index in polygon.loop_indices:
+            point = log.data.vertices[log.data.loops[loop_index].vertex_index].co
+            end_uv.data[loop_index].uv = (
+                (point.y - center[1]) / (2.0 * radius) + 0.5,
+                (point.z - center[2]) / (2.0 * radius) + 0.5,
+            )
     log.data.calc_loop_triangles()
     log["triangle_count"] = len(log.data.loop_triangles)
     return log
@@ -2332,6 +2339,9 @@ def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types
         log.data.calc_loop_triangles()
         if len(log.data.loop_triangles) == 0 or len(log.data.materials) < 2:
             raise RuntimeError(f"Invalid woodpile log mesh/materials: {name}")
+        if any(log.data.materials[face.material_index].name != "URMAN_Wood_CutEnd"
+               for face in log.data.polygons[:2]):
+            raise RuntimeError(f"Woodpile cut ends lost their material: {name}")
         row = int(log["woodpile_row"])
         local_z = [log.location.z + vertex.co.z for vertex in log.data.vertices]
         cross_section = [(log.location.y + vertex.co.y, log.location.z + vertex.co.z) for vertex in log.data.vertices[:8]]
@@ -2519,6 +2529,8 @@ def main() -> None:
     author_gate_variation(bpy.data.objects["Gate_CrookedTimber"])
     author_gate_joinery(bpy.data.objects["Gate_CrookedTimber"])
     author_well(well)
+    cut_end = bpy.data.materials.get("URMAN_Wood_CutEnd") or bpy.data.materials.new("URMAN_Wood_CutEnd")
+    cut_end.diffuse_color = (0.70, 0.60, 0.44, 1.0)
     author_woodpile(woodpile)
     author_variant_parcels(root)
     author_ambient_animals(root)

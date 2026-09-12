@@ -1711,8 +1711,8 @@ public partial class Act1ConnectedWorld : Node3D
                 Roughness = 0.4f
             },
             ["URMAN_Well_DarkWater"] = PainterlyMaterialLibrary.ForColor("2c3740", "ice"),
-            ["URMAN_Wood_CutEnd"] = PainterlyMaterialLibrary.ForColor("5f5344", "wood"),
-            ["URMAN_Bark_Muted"] = PainterlyMaterialLibrary.ForColor("68705a", "bark_pine"),
+            ["URMAN_Wood_CutEnd"] = PainterlyMaterialLibrary.ForColor("b39a70", "wood_cut"),
+            ["URMAN_Bark_Muted"] = PainterlyMaterialLibrary.ForColor("715943", "bark_pine"),
             ["URMAN_Metal_Dulled"] = PainterlyMaterialLibrary.ForColor("5a5f5c", "stone"),
             // Zirat roadside kit members that are outside the kara-scoped
             // table: the raw albedo left pale stone/shrub groupings and pale

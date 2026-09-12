@@ -925,8 +925,8 @@
       "id": "urman.act1.village_exterior_kit",
       "source": "assets/source/blender/act1/urman_village_exterior_kit.blend",
       "derived": "game/assets/models/act1/urman_village_exterior_kit.glb",
-      "sourceSha256": "90ee538ac6f9fe8d90417206c9b33eda3fb85a19c80f152295ff36fdfa8d8fd0",
-      "derivedSha256": "b7071edac99cf3dc5a3754930eb8da403fbe2b79bf1255813671d1cc659fbea0",
+      "sourceSha256": "be42005d81c1ccfe2ba421496cc4975618b9bdc75a129f311b0ac3ecd8c66ecb",
+      "derivedSha256": "85cda9fd1d0f2d025056a8927ca7b92348e4e76fa6340908a35cc459b1b6d37d",
       "generator": "assets/source/blender/act1/urman_village_exterior_kit.py; Blender 4.5.12 LTS",
       "license": "Project-original",
       "scale": 1.0,
@@ -947,11 +947,12 @@
         "URMAN_Roof_MossTone",
         "URMAN_Bark_Muted",
         "URMAN_Window_WarmInset",
-        "URMAN_Well_DarkWater"
+        "URMAN_Well_DarkWater",
+        "URMAN_Wood_CutEnd"
       ],
       "collision": "none; presentation-only geometry; Godot floor/collision and interaction targets remain authoritative",
-      "lod": "725 exported mesh nodes / 21,845 exported triangles / 15 materials; winter source and GLB from 1f42f95; existing runtime placement/LOD policy unchanged",
-      "status": "production-canonical winter Act I dependency; source/generator/GLB committed together in 1f42f95; registry synchronized from those exact bytes; visual/cultural art-lock open",
+      "lod": "725 exported mesh nodes / 21,845 exported triangles / 16 materials; six log end-cap UV/material assignments; geometry and runtime placement/LOD unchanged",
+      "status": "production-canonical winter dependency; textured bark and local end-grain presentation verified in native close/route frames; full art/cultural acceptance open",
       "releaseDisposition": "include-in-act1-release; current runtime dependency; visual/cultural gates open",
       "components": "URMAN_VillageExteriorKit: DwellingFacade_TimberPlaster|OutbuildingShed_Low|FenceSegment_RoughPicket|Gate_CrookedTimber|Woodpile_StackedLogs|Well_YardLandmark|VillageParcel_VariantA_TimberGable|VillageParcel_VariantB_PlasterAnnex|VillageParcel_VariantC_BanyaYard"
     },
