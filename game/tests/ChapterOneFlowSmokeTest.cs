@@ -93,6 +93,9 @@ public partial class ChapterOneFlowSmokeTest : Node
             || spinnerRepeatJournalCount != bridge.JournalEntries().Count)
         { Fail("Yard spinner repeat created a runtime or journal event, or opened the journal UI."); return; }
 
+        if (await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-yul-road"))
+        { Fail("The optional yul question was available before reading the sign reverse."); return; }
+
         foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench", "connective-street-return-bench", "fap-exterior-care-porch", "main-street-side-window", "connective-street-repair-bench", "babai-yard-loose-side-gate-board", "kara-old-forestry-side-track", "kara-warm-window-clearing", "kara-branch-profile", "main-street-fenced-service-lane", "connective-street-shed-bypass", "zirat-outer-culvert-crossing", "house-exterior-rear-minaret-view" })
             if (!await Discover(bridge, slug)) return;
         await ToSignal(GetTree().CreateTimer(.6), SceneTreeTimer.SignalName.Timeout);
@@ -194,6 +197,9 @@ public partial class ChapterOneFlowSmokeTest : Node
             Fail("Chapter 1 Alsu route dialogue did not unlock the FAP route through the shared runtime path.");
             return;
         }
+
+        if (!await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-yul-road"))
+        { Fail("The confirmed sign word did not unlock its optional Alsu question."); return; }
 
         if (!await Advance(bridge, "route-to-fap", "fap_waiting_room_day")) return;
         main.SwitchZone("fap_clinic", "waiting_room");

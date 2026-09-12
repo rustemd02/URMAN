@@ -171,9 +171,11 @@ def faceted_torso(
         (0.51 + bottom_lift, 0.212, 0.146, -0.010),
         (0.74 + bottom_lift * 0.55, 0.206, 0.154, -0.009),
         (0.98 + bottom_lift * 0.18, 0.222, 0.162, -0.006),
-        (1.10, 0.250, 0.166, -0.001),
+        # Keep the shoulder crest slightly inside the sleeve volume; the
+        # existing four-ring sleeve still overlaps this contour.
+        (1.10, 0.242, 0.162, -0.001),
         # The outer shoulder crest and narrow neck ring replace the flat yoke cap.
-        (1.14, 0.262, 0.170, 0.001),
+        (1.14, 0.252, 0.164, 0.001),
         (1.20, 0.155, 0.120, 0.003),
     )
     sides = 10
@@ -429,7 +431,7 @@ def create_character(
     coat_surface = material(f"{prefix}Coat", coat_color)
     accent_surface = material(f"{prefix}Accent", accent_color)
     empty_anchor(f"{prefix}_Anchor", (x, 0.0, z))
-    faceted_torso(
+    torso = faceted_torso(
         f"{prefix}_Body_LOD0",
         (x, 0.0, 0.16),
         coat_surface,
@@ -449,7 +451,7 @@ def create_character(
             (x - arm_x * 1.00, -0.002, 1.04 * height_scale),
             (x - arm_x * 0.92, -0.012, 0.77 * height_scale),
         ),
-        (0.055 * shoulder_scale * sleeve_scale, 0.114 * shoulder_scale * sleeve_scale, 0.101 * shoulder_scale * sleeve_scale, 0.074 * shoulder_scale * sleeve_scale),
+        (0.055 * shoulder_scale * sleeve_scale, 0.102 * shoulder_scale * sleeve_scale, 0.094 * shoulder_scale * sleeve_scale, 0.074 * shoulder_scale * sleeve_scale),
         coat_surface,
         asset_id,
         256,
@@ -465,7 +467,7 @@ def create_character(
             (x + arm_x * 1.00, -0.002, 1.04 * height_scale),
             (x + arm_x * 0.92, -0.012, 0.77 * height_scale),
         ),
-        (0.055 * shoulder_scale * sleeve_scale, 0.114 * shoulder_scale * sleeve_scale, 0.101 * shoulder_scale * sleeve_scale, 0.074 * shoulder_scale * sleeve_scale),
+        (0.055 * shoulder_scale * sleeve_scale, 0.102 * shoulder_scale * sleeve_scale, 0.094 * shoulder_scale * sleeve_scale, 0.074 * shoulder_scale * sleeve_scale),
         coat_surface,
         asset_id,
         256,
@@ -501,6 +503,38 @@ def create_character(
         top_ratio=1.0,
         vertices=8,
     )
+    if prefix not in {"Gulsina", "Naila"}:
+        # Intersect each real front edge (sides 9 -> 0) with x=0. This keeps
+        # the seam on the generated polygon after irregularity and scaling,
+        # including the torso's actual z scale and object location.
+        front_points = []
+        for ring_index in (1, 2, 4):
+            edge_left = torso.data.vertices[ring_index * 10 + 9].co
+            edge_right = torso.data.vertices[ring_index * 10 + 0].co
+            edge_t = -edge_left.x / (edge_right.x - edge_left.x)
+            front_points.append(
+                (
+                    torso.location.x,
+                    torso.location.y + edge_left.y + (edge_right.y - edge_left.y) * edge_t,
+                    torso.location.z + edge_left.z + (edge_right.z - edge_left.z) * edge_t,
+                )
+            )
+        placket_radius = 0.018 * shoulder_scale
+        placket_depth_scale = 0.92
+        placket_offset = placket_radius * placket_depth_scale - 0.003
+        tapered_segment(
+            f"{prefix}_CoatFrontPlacket_LOD0",
+            tuple(
+                (point[0], point[1] + placket_offset, point[2])
+                for point in front_points
+            ),
+            (placket_radius, placket_radius, placket_radius),
+            accent_surface,
+            asset_id,
+            96,
+            depth_scale=placket_depth_scale,
+            sides=6,
+        )
     if prefix == "Gulsina":
         faceted_prism(
             f"{prefix}_ApronFront_LOD0",

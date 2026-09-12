@@ -244,6 +244,7 @@ public static class GeneratedCharacterKitDressing
                     ? faceInk
                     : name.Contains("ShoulderCuff", StringComparison.Ordinal) || name.Contains("Scarf", StringComparison.Ordinal)
                       || name.Contains("Apron", StringComparison.Ordinal) || name.Contains("CardiganPlacket", StringComparison.Ordinal)
+                      || name.Contains("CoatFrontPlacket", StringComparison.Ordinal)
                     ? accent
                     : coat;
         var surface = isHand || name.Contains("Head", StringComparison.Ordinal)
