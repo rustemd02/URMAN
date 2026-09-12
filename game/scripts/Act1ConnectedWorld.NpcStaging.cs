@@ -6,8 +6,13 @@ namespace Urman.Godot;
 public partial class Act1ConnectedWorld
 {
     private Node3D? _rinatNpc;
-    private bool? _rinatAlerted;
+    private Node3D? _rinatCoreHost;
+    private Node3D? _rinatHouseHost;
+    private string? _rinatStage;
     private bool? _rinatTension;
+    private object? _rinatSession;
+    private bool? _rinatAlerted;
+    private Tween? _rinatTurn;
     private Node3D? _gulsinaNpc;
     private bool? _gulsinaWarningHeard;
     private Tween? _gulsinaTurn;
@@ -33,6 +38,9 @@ public partial class Act1ConnectedWorld
             .GetNode<Node3D>("Act1NpcPresentation/Npc_gulsina");
         _gulsinaRestYaw = _gulsinaNpc.Rotation.Y;
 
+        _rinatCoreHost = host;
+        _rinatHouseHost = _zoneInstances["house_old_pc"]
+            .GetNode<Node3D>("Act1NpcPresentation");
         _rinatNpc = _zoneInstances["zirat_road"].GetNode<Node3D>("Act1NpcPresentation/Npc_rinat");
         _rinatNpc.Reparent(host, keepGlobalTransform: true);
         var timur = GeneratedCharacterKitDressing.Attach(host, "timur_hazrat", "TimurHazrat",
@@ -46,13 +54,26 @@ public partial class Act1ConnectedWorld
     private void UpdateAct1NpcStaging()
     {
         if (_rinatNpc is null || _gulsinaNpc is null || _runtimeBridge?.ActiveSceneId is null) return;
-        if (!ReferenceEquals(_gulsinaSession, _runtimeBridge.SessionIdentity))
+        var session = _runtimeBridge.SessionIdentity;
+        if (session is null) return;
+        if (!ReferenceEquals(_gulsinaSession, session))
         {
-            _gulsinaSession = _runtimeBridge.SessionIdentity;
+            _gulsinaSession = session;
             _gulsinaWarningHeard = null;
             _gulsinaTurn?.Kill();
             _gulsinaNpc.Rotation = new Vector3(0f, _gulsinaRestYaw, 0f);
         }
+        if (!ReferenceEquals(_rinatSession, session))
+        {
+            // New Game and a successful load replace the RuntimeKernel. Clear
+            // only presentation caches; RuntimeBridge remains the state owner.
+            _rinatSession = session;
+            _rinatStage = null;
+            _rinatTension = null;
+            _rinatAlerted = null;
+            _rinatTurn?.Kill();
+        }
+
         var state = _runtimeBridge.SelectRuntimeState();
         var warningHeard = state.TryGetProperty("npc", out var npcState)
             && npcState.TryGetProperty("urman.chapter1:character/gulsina", out var gulsina)
@@ -67,39 +88,68 @@ public partial class Act1ConnectedWorld
             {
                 _gulsinaNpc.Rotation = new Vector3(0f, _gulsinaRestYaw, 0f);
             }
-            else if (newlyHeard && ActiveZoneId == "house_old_pc"
-                && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+            else if (newlyHeard && ActiveZoneId == "house_old_pc")
             {
-                // This gesture belongs to the spoken warning, not a later
-                // zone entry before the player has reached the new spawn.
-                var toPlayer = _gulsinaNpc.GetParent<Node3D>().ToLocal(player.GlobalPosition) - _gulsinaNpc.Position;
-                toPlayer.Y = 0f;
-                if (toPlayer.LengthSquared() > .0001f)
-                {
-                    var targetYaw = _gulsinaNpc.Rotation.Y + Mathf.AngleDifference(
-                        _gulsinaNpc.Rotation.Y, Mathf.DegToRad(DirectionYaw(toPlayer)));
-                    _gulsinaTurn = CreateTween();
-                    _gulsinaTurn.SetTrans(Tween.TransitionType.Sine);
-                    _gulsinaTurn.SetEase(Tween.EaseType.Out);
-                    _gulsinaTurn.TweenProperty(_gulsinaNpc, "rotation:y", targetYaw, .48f);
-                }
+                _gulsinaTurn = TurnNpcTowardsPlayer(_gulsinaNpc);
             }
         }
+
         var alerted = state.TryGetProperty("npc", out var people)
             && people.TryGetProperty("urman.chapter1:character/rinat", out var rinat)
             && rinat.TryGetProperty("alerted", out var alert) && alert.ValueKind == System.Text.Json.JsonValueKind.True;
+        var fapVisited = state.TryGetProperty("npc", out var fapPeople)
+            && fapPeople.TryGetProperty("urman.chapter1:character/naila", out var naila)
+            && naila.TryGetProperty("record_access_granted", out var recordAccess)
+            && recordAccess.ValueKind == System.Text.Json.JsonValueKind.True;
+        var routeReached = state.TryGetProperty("knowledge", out var knowledgeState)
+            && knowledgeState.TryGetProperty("urman.chapter1:knowledge/route_kara_urman_edge_hint", out var routeHint)
+            && routeHint.TryGetProperty("status", out var routeStatus)
+            && routeStatus.GetString() == "confirmed";
+
+        // The forest stage has precedence over the FAP marker. Alerting occurs
+        // when the house dialogue starts, so Rinat stays beside the target
+        // until the authored zirat-road transition confirms the departure.
+        var forestStage = alerted && routeReached;
+        var houseStage = !forestStage && (fapVisited || alerted);
+        var desiredStage = forestStage ? "forest" : houseStage ? "house" : "village";
+        if (_rinatStage != desiredStage)
+        {
+            _rinatTurn?.Kill();
+            var desiredHost = desiredStage == "house" ? _rinatHouseHost : _rinatCoreHost;
+            if (desiredHost is null) return;
+
+            var at = desiredStage switch
+            {
+                "house" => new Vector3(4.05f, 0f, -2.65f),
+                "forest" => new Vector3(1.85f, 0f, -124f),
+                _ => new Vector3(-1.5f, 0f, -3.8f)
+            };
+            if (desiredStage != "house")
+            {
+                at.Y = AgentBAct1HeightField.CollisionGround(at.X, at.Z);
+            }
+
+            if (!ReferenceEquals(_rinatNpc.GetParent(), desiredHost))
+            {
+                _rinatNpc.Reparent(desiredHost, keepGlobalTransform: false);
+            }
+            _rinatNpc.Position = at;
+            // At home, face the room entrance until the first conversation
+            // turns the actor toward the player. Exterior directions stay authored.
+            _rinatNpc.RotationDegrees = new(0, desiredStage == "forest" ? -23f : desiredStage == "house" ? 0f : 12f, 0);
+            _rinatNpc.SetMeta("anchor", at);
+            _rinatNpc.SetMeta("rinatStage", desiredStage);
+            _rinatStage = desiredStage;
+        }
+
         if (_rinatAlerted != alerted)
         {
-            // The alert is authored while Aidar is indoors: Rinat is already
-            // ahead at the forest endpoint before Aidar arrives, with no relocation
-            // during the optional approach or on the final cue.
-            var at = alerted ? new Vector3(1.85f, 0, -124f) : new Vector3(-1.5f, 0, -3.8f);
-            at.Y = AgentBAct1HeightField.CollisionGround(at.X, at.Z);
-            _rinatNpc.Position = at;
-            _rinatNpc.RotationDegrees = new(0, alerted ? -23f : 12f, 0);
-            _rinatNpc.SetMeta("anchor", at);
+            var newlyAlerted = _rinatAlerted == false && alerted;
             _rinatAlerted = alerted;
+            if (newlyAlerted && houseStage && ActiveZoneId == "house_old_pc")
+                _rinatTurn = TurnNpcTowardsPlayer(_rinatNpc);
         }
+
         var tension = state.TryGetProperty("knowledge", out var knowledge)
             && knowledge.TryGetProperty("urman.chapter1:knowledge/clue_do_not_answer_rule", out var rule)
             && rule.GetProperty("status").GetString() == "confirmed";
@@ -108,5 +158,19 @@ public partial class Act1ConnectedWorld
             GeneratedCharacterKitDressing.PlayClip(_rinatNpc, tension ? "Tension" : "Idle");
             _rinatTension = tension;
         }
+    }
+
+    private Tween? TurnNpcTowardsPlayer(Node3D npc)
+    {
+        if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player) return null;
+        var toPlayer = npc.GetParent<Node3D>().ToLocal(player.GlobalPosition) - npc.Position;
+        toPlayer.Y = 0f;
+        if (toPlayer.LengthSquared() <= .0001f) return null;
+        var yaw = npc.Rotation.Y + Mathf.AngleDifference(npc.Rotation.Y, Mathf.DegToRad(DirectionYaw(toPlayer)));
+        var turn = CreateTween();
+        turn.SetTrans(Tween.TransitionType.Sine);
+        turn.SetEase(Tween.EaseType.Out);
+        turn.TweenProperty(npc, "rotation:y", yaw, .48f);
+        return turn;
     }
 }

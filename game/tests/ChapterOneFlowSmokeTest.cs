@@ -228,6 +228,14 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (!await Advance(bridge, "official-to-internal-register", "evidence-internal-register")) return;
         main.SwitchZone("house_old_pc", "entry");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var houseRinatHost = house.GetNode<Node3D>("Act1NpcPresentation");
+        var houseRinat = houseRinatHost.GetNodeOrNull<Node3D>("Npc_rinat");
+        if (houseRinat is null
+            || !ReferenceEquals(houseRinat, rinatActor)
+            || Mathf.Abs(houseRinat.Position.X - 4.05f) > .01f
+            || Mathf.Abs(houseRinat.Position.Y) > .01f
+            || Mathf.Abs(houseRinat.Position.Z + 2.65f) > .01f)
+        { Fail("Rinat was not staged as a live actor beside the home evidence target."); return; }
         if (!await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict")
             || !await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" }))
         { Fail("The first evidence comparison was rejected."); return; }
@@ -239,6 +247,8 @@ public partial class ChapterOneFlowSmokeTest : Node
             Fail("Chapter 1 flow could not apply Rinat's authored internal-register dialogue.");
             return;
         }
+        if (!ReferenceEquals(rinatActor.GetParent(), houseRinatHost))
+        { Fail("Rinat left the house before the internal-register response completed."); return; }
 
         if (!await Advance(bridge, "internal-register-to-saved-message", "evidence-saved-message")) return;
         if (!await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")) return;
@@ -252,7 +262,7 @@ public partial class ChapterOneFlowSmokeTest : Node
         { Fail("Could not read the edge sketch."); return; }
         main.SwitchZone("village_day", "from_house");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (rinatActor.GlobalPosition.Z > -100f
+        if (!ReferenceEquals(rinatActor.GetParent(), houseRinatHost)
             || !bridge.IsInteractionAvailable(Interaction("route-to-mosque"))
             || !await bridge.DispatchInteractionAsync(Interaction("route-to-mosque"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("timur_restraint"), "restraint")
@@ -269,6 +279,8 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (!await Advance(bridge, "edge-sketch-to-zirat-road", "zirat-road")) return;
         main.SwitchZone("zirat_road", "village_side");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!ReferenceEquals(rinatActor.GetParent(), people) || rinatActor.GlobalPosition.Z > -120f)
+        { Fail("Rinat did not move from the house to the forest stage at zirat-road."); return; }
 
         var ziratClue = Interaction("zirat-roadside-clue");
         if (!bridge.IsInteractionAvailable(ziratClue)
@@ -361,7 +373,8 @@ public partial class ChapterOneFlowSmokeTest : Node
         { Fail("A second playthrough retained the completed ending."); return; }
 
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (rinatActor.GlobalPosition.Z < -5f || ambience.ActivePlayerIndex < 0
+        if (!ReferenceEquals(rinatActor.GetParent(), people)
+            || rinatActor.GlobalPosition.Z < -5f || ambience.ActivePlayerIndex < 0
             || Mathf.Abs(house.GetNode<Node3D>("Act1NpcPresentation/Npc_gulsina").RotationDegrees.Y - 28f) > .1f)
         { Fail("New Game did not restore early NPC staging and ambience."); return; }
         if (house.GetNode<Node3D>("DiscoveryFamilyPhoto").Rotation.Y != 0

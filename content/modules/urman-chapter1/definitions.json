@@ -2310,7 +2310,26 @@
    {
     "id": "urman.chapter1:interaction/talk-rinat",
     "labelTextId": "urman.chapter1:text/inspect",
-    "conditions": [],
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/naila",
+       "stateKey": "record_access_granted",
+       "value": true
+      }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/rinat",
+       "stateKey": "alerted",
+       "value": true
+      }
+     }
+    ],
     "effects": [],
     "targetDialogueId": "urman.chapter1:dialogue/rinat_no_key"
    },

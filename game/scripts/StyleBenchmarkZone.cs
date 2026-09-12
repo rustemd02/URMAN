@@ -674,34 +674,12 @@ public partial class StyleBenchmarkZone : Node3D
             "village_day",
             "from_house");
         houseExit.WorldFoleySample = "door_creak";
-        var rinatSeat = MakeBox(
-            "RinatAbsentChairSeat",
-            new(0.9f, 0.12f, 0.8f),
-            new(3.15f, 0.52f, -2.82f),
-            "684b37",
-            collision: false,
-            surface: "wood");
-        rinatSeat.SetMeta("act1CharacterCue", "rinat-absent-presence");
-        var rinatCoat = MakeBox(
-            "RinatAbsentCoat",
-            new(0.92f, 1.2f, 0.1f),
-            new(3.15f, 1.25f, -2.42f),
-            "58656a",
-            collision: false,
-            surface: "fabric");
-        rinatCoat.SetMeta("act1CharacterCue", "rinat-absent-presence");
-        var rinatRadio = MakeBox(
-            "RinatVoiceRadio",
-            new(0.34f, 0.18f, 0.26f),
-            new(3.15f, 1.03f, -2.15f),
-            "313a37",
-            collision: false,
-            surface: "wood");
-        rinatRadio.SetMeta("act1CharacterCue", "rinat-voice-anchor");
+        // Connected-world staging brings the existing Rinat actor here
+        // after the FAP visit; this target owns the home conversation.
         MakeInteractionBox(
             "InternalRegisterToRinat",
             new(0.65f, 1.78f, 0.48f),
-            new(3.15f, 0.89f, -2.45f),
+            new(4.05f, 0.89f, -2.65f),
             "4c5652",
             "urman.chapter1:interaction/internal-register-to-rinat",
             "Спросить Рината о внутреннем реестре",

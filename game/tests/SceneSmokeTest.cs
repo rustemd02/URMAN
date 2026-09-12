@@ -350,14 +350,21 @@ public partial class SceneSmokeTest : Node
 
         if (interactionName == "GulsinaNpc")
         {
-            var cue = scene.GetNodeOrNull<StaticBody3D>("RinatAbsentCoat");
-            var radio = scene.GetNodeOrNull<StaticBody3D>("RinatVoiceRadio");
-            if (cue is null
-                || radio is null
-                || cue.GetMeta("act1CharacterCue").AsString() != "rinat-absent-presence"
-                || radio.GetMeta("act1CharacterCue").AsString() != "rinat-voice-anchor")
+            // The live Rinat is attached by Act1ConnectedWorld, not by this
+            // standalone house scene. Keep this smoke focused on the authored
+            // interaction contract.
+            var rinatTarget = scene.GetNodeOrNull<InteractionTarget>("InternalRegisterToRinat");
+            var targetMesh = rinatTarget?.GetNodeOrNull<MeshInstance3D>(
+                "HiddenInteractionProxyVisual/HiddenInteractionProxyMesh");
+            var targetShape = rinatTarget?.GetNodeOrNull<CollisionShape3D>(
+                "InteractionProxyCollisionShape");
+            if (rinatTarget is null
+                || rinatTarget.InteractionId != "urman.chapter1:interaction/internal-register-to-rinat"
+                || targetMesh is null
+                || targetMesh.Visible
+                || targetShape is null)
             {
-                return "House route needs a visible Rinat absence/voice cue beside the physical dialogue target";
+                return "House must retain the hidden internal-register target for the live Rinat conversation";
             }
         }
 

@@ -4820,7 +4820,26 @@
           {
             "id": "urman.chapter1:interaction/talk-rinat",
             "labelTextId": "urman.chapter1:text/inspect",
-            "conditions": [],
+            "conditions": [
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/naila",
+                  "stateKey": "record_access_granted",
+                  "value": true
+                }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/rinat",
+                  "stateKey": "alerted",
+                  "value": true
+                }
+              }
+            ],
             "effects": [],
             "targetDialogueId": "urman.chapter1:dialogue/rinat_no_key"
           },
@@ -9299,7 +9318,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "a4adaa92644b22127b2fb0612f6ecd7b410f1b859567e5d3d327a756474c8561"
+      "sha256": "4d6fa2f31881ce51c44c7212ecfa93e8ec6097ca15446aa575a1c0ee6f817153"
     },
     {
       "moduleId": "urman.core",
@@ -9317,5 +9336,5 @@
       "sha256": "c5f6da9646e805176ada5893a495a63ff06e4da1457b003f54c34318815037ee"
     }
   ],
-  "campaignFingerprint": "c230d5d896ce64ea003faf7c465c698b2e443098d37bd18931ef48f14178c50d"
+  "campaignFingerprint": "8c90245abbd4f027768ab997ef308ba74162c9fb506cc1a6ccecc231b1628fdc"
 }
