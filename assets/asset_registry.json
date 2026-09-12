@@ -1678,7 +1678,7 @@
       "derivedSha256": "2afdd76a4356ddfa42a92a8ebe002c4cd8a9303a3482e0ad76f1d8aeebbfc420",
       "license": "Original AI-generated project artwork; no third-party source assets",
       "textureBudget": 2048,
-      "runtimeBinding": "MainMenuUi.BuildLayout MenuArt TextureRect; main menu only",
+      "runtimeBinding": "MainMenuUi.BuildLayout MenuArt TextureRect; native boot splash",
       "status": "runtime-bound; native menu 720p/1080p normal and 1.6 text verified; world art lock remains open",
       "releaseDisposition": "include-in-act1-release; runtime-referenced",
       "generator": "OpenAI ImageGen built-in; original 1672x941 PNG",
@@ -1687,6 +1687,23 @@
       "materials": [],
       "collision": "not applicable",
       "lod": "native UI texture filtering; aspect-cover crop"
+    },
+    {
+      "id": "texture.ui.urman-app-icon-v1",
+      "source": "Original built-in OpenAI ImageGen 2026-09-12; no reference images; exact prompt in game/assets/textures/ui/README.md",
+      "derived": "game/assets/textures/ui/urman_app_icon_v1.png",
+      "derivedSha256": "15e7cb818b0341ede7b40c9b9e3aec3d57f74354f1b704b2152ba3ce24014060",
+      "license": "Original AI-generated project artwork; no third-party source assets",
+      "textureBudget": 2048,
+      "runtimeBinding": "project.godot application/config/icon; native desktop export fallback",
+      "status": "runtime-bound; native export icon validation pending",
+      "releaseDisposition": "include-in-act1-release; application icon",
+      "generator": "OpenAI ImageGen built-in; original 1254x1254 PNG",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "materials": [],
+      "collision": "not applicable",
+      "lod": "desktop exporter derives native icon sizes"
     }
   ]
 }
