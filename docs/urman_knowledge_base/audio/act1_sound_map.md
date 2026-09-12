@@ -132,3 +132,7 @@ clear and silent save restoration. This is runtime evidence, not human
 listening or final mix acceptance.
 
 Взаимодействие после ожидания записи checkpoint или открытия документа проверяет прежний kernel, готовность загрузки, существование target и реальное состояние главного меню. Это не позволяет старому действию переключить зону или заново включить звук после load/restart/menu. Отдельного счётчика жизненного цикла у аудио нет. Нативный `lifecycle_guard_native_audio.log` подтвердил вход через настоящий `HouseDoor.Interact`, позицию звука у `HouseExit`, отклонение presentation в меню/для прежнего kernel после load, паузу и очистку one-shot, а также переходы пяти зон. Это техническая проверка с Dummy audio; художественное прослушивание остаётся открытым.
+
+## Original voice recording handoff — 2026-09-12
+
+The [recording brief](act1_voice_recording_brief.md) fixes the existing spoken lines, performance variants, delivery format, rights information, caption IDs and planned physical paths for the two missing recordings. No actor recording, rights grant, registry hash or listening acceptance is claimed.
