@@ -1,16 +1,16 @@
 # Graph Report - URMAN  (2026-09-12)
 
 ## Corpus Check
-- 671 files · ~937,414 words
+- 671 files · ~937,963 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 12075 nodes · 16727 edges · 817 communities (631 shown, 186 thin omitted)
+- 12076 nodes · 16728 edges · 810 communities (628 shown, 182 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 208 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9c96eace`
+- Built from commit: `d1d20d4e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -703,7 +703,6 @@
 - [[_COMMUNITY_Community 706|Community 706]]
 - [[_COMMUNITY_Community 707|Community 707]]
 - [[_COMMUNITY_Community 708|Community 708]]
-- [[_COMMUNITY_Community 709|Community 709]]
 - [[_COMMUNITY_Community 710|Community 710]]
 - [[_COMMUNITY_Community 711|Community 711]]
 - [[_COMMUNITY_Community 712|Community 712]]
@@ -766,7 +765,6 @@
 - [[_COMMUNITY_Community 771|Community 771]]
 - [[_COMMUNITY_Community 772|Community 772]]
 - [[_COMMUNITY_Community 774|Community 774]]
-- [[_COMMUNITY_Community 775|Community 775]]
 - [[_COMMUNITY_Community 776|Community 776]]
 - [[_COMMUNITY_Community 777|Community 777]]
 - [[_COMMUNITY_Community 778|Community 778]]
@@ -777,7 +775,6 @@
 - [[_COMMUNITY_Community 783|Community 783]]
 - [[_COMMUNITY_Community 785|Community 785]]
 - [[_COMMUNITY_Community 786|Community 786]]
-- [[_COMMUNITY_Community 787|Community 787]]
 - [[_COMMUNITY_Community 788|Community 788]]
 - [[_COMMUNITY_Community 789|Community 789]]
 - [[_COMMUNITY_Community 790|Community 790]]
@@ -795,7 +792,6 @@
 - [[_COMMUNITY_Community 803|Community 803]]
 - [[_COMMUNITY_Community 805|Community 805]]
 - [[_COMMUNITY_Community 806|Community 806]]
-- [[_COMMUNITY_Community 807|Community 807]]
 - [[_COMMUNITY_Community 808|Community 808]]
 - [[_COMMUNITY_Community 809|Community 809]]
 - [[_COMMUNITY_Community 811|Community 811]]
@@ -819,17 +815,17 @@
 
 ## Surprising Connections (you probably didn't know these)
 - `write_wav()` --calls--> `bytes`  [INFERRED]
-  tools/audio/generate_act1_foley.py → eng/toolchain.json
-- `write_wav()` --calls--> `bytes`  [INFERRED]
   tools/audio/generate_act1_ambience_layers.py → eng/toolchain.json
-- `write_wav()` --calls--> `bytes`  [INFERRED]
-  tools/audio/generate_act1_footsteps.py → eng/toolchain.json
 - `convert()` --calls--> `PATH`  [INFERRED]
   tools/audio/generate_act1_footsteps.py → eng/dotnet-env.sh
 - `main()` --calls--> `PATH`  [INFERRED]
   tools/audio/generate_act1_ambience_layers.py → eng/dotnet-env.sh
+- `import_source()` --calls--> `PATH`  [INFERRED]
+  tools/blender/prepare_character_heads.py → eng/dotnet-env.sh
+- `main()` --calls--> `PATH`  [INFERRED]
+  tools/blender/generate_modular_environment.py → eng/dotnet-env.sh
 
-## Communities (817 total, 186 thin omitted)
+## Communities (810 total, 182 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.05
@@ -845,23 +841,23 @@ Nodes (13): additionalProperties, oneOf, $defs, Composition, Objective, $id, add
 
 ### Community 3 - "Community 3"
 Cohesion: 0.03
-Nodes (62): createActiveSceneDescriptors(), descriptor(), baseRegistry, byId, canary(), CANARY_CAPABILITY_PROVIDER, capability, capabilityDispose (+54 more)
+Nodes (60): baseRegistry, byId, canary(), CANARY_CAPABILITY_PROVIDER, capability, capabilityDispose, capabilityHost, capabilityInit (+52 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.03
 Nodes (65): AssetDefinition, CampaignManifest, CapabilityManifest, CharacterDefinition, CommonCampaignId, CommonCapabilityRequirement, CommonContentId, CommonDependency (+57 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.08
-Nodes (37): ContentRuleEngine, activateStage(), activeCapabilityMap(), appendFragment(), capabilityInstanceId(), clone(), conditionsPass(), createQuestInstance() (+29 more)
+Cohesion: 0.11
+Nodes (36): activateStage(), activeCapabilityMap(), appendFragment(), capabilityInstanceId(), clone(), conditionsPass(), createQuestInstance(), createQuestRun() (+28 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.06
 Nodes (28): delay(), waitForValue(), withPage(), DEFAULT_MVP_JOURNEY, JOURNEY_DIALOGUE_CONTINUE_AFTER, CdpConnection, chromeCandidates(), ChromePage (+20 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.04
-Nodes (47): deepFreeze(), OrderedEventBus, accessorCommand, arrayKernel, arrayWithAccessor, asyncBus, asyncErrors, asyncOrder (+39 more)
+Cohesion: 0.03
+Nodes (51): ConflictError, DuplicateOccurrence, OccurrenceConflict, PreflightError, deepFreeze(), OrderedEventBus, accessorCommand, arrayKernel (+43 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.23
@@ -881,7 +877,7 @@ Nodes (45): Authoring-файл, CampaignManifest, Capability provider, Clue grap
 
 ### Community 12 - "Community 12"
 Cohesion: 0.07
-Nodes (31): amberAssets, amberGuide, amberName, amberVisual, audio, capabilityRegistry(), cases, closure (+23 more)
+Nodes (32): amberAssets, amberGuide, amberName, amberVisual, audio, capabilityRegistry(), cases, closure (+24 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.01
@@ -920,8 +916,8 @@ Cohesion: 0.05
 Nodes (41): additionalProperties, items, type, uniqueItems, additionalProperties, properties, required, type (+33 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.05
-Nodes (42): appElement, reset(), Window, applied, CAMPAIGN_FINGERPRINT, createRuntime(), failed, failingStorage (+34 more)
+Cohesion: 0.06
+Nodes (39): appElement, reset(), Window, applied, CAMPAIGN_FINGERPRINT, createRuntime(), failed, failingStorage (+31 more)
 
 ### Community 24 - "Community 24"
 Cohesion: 0.14
@@ -1048,7 +1044,7 @@ Cohesion: 0.14
 Nodes (5): EarthScene, float, int, TextureCandidateAbDiagnostic, WoodScene
 
 ### Community 57 - "Community 57"
-Cohesion: 0.07
+Cohesion: 0.06
 Nodes (24): AudioStreamPlayer, bool, Control, double, AudioStreamPlayer, bool, Control, double (+16 more)
 
 ### Community 58 - "Community 58"
@@ -1072,20 +1068,16 @@ Cohesion: 0.07
 Nodes (25): anyOfSchema, brokenRefSchema, brokenSchemas, capability, cases, dangerousNames, declaredProperties, definitions (+17 more)
 
 ### Community 63 - "Community 63"
-Cohesion: 0.10
-Nodes (24): createDialogueReactionSession(), advanceQuests(), applyStateEffects(), array(), commandPlan(), conditionDescriptors(), contentId(), createNewRun() (+16 more)
+Cohesion: 0.08
+Nodes (30): createActiveSceneDescriptors(), descriptor(), createDialogueReactionSession(), advanceQuests(), applyStateEffects(), array(), commandPlan(), conditionDescriptors() (+22 more)
 
 ### Community 64 - "Community 64"
 Cohesion: 0.07
 Nodes (26): 10. Hard visual acceptance checklist, 11. Финальный статус документа, 1. Визуальное обещание, 2. Контракт против текущего визуального дефекта, 3.1 Рельеф и мокрый грунт, 3.2 Дорога и обочины, 3.3 Флора: трава, осока, папоротники, кусты, молодые ели, мох, валежник, 3.4 Деревья и лесные массы (+18 more)
 
-### Community 65 - "Community 65"
-Cohesion: 0.09
-Nodes (26): assets, campaigns(), closure, content, findNamedFiles(), moduleManifestPaths(), modulePaths, resolved (+18 more)
-
 ### Community 66 - "Community 66"
-Cohesion: 0.05
-Nodes (45): assertJsonValue(), boundaryFingerprint(), canonicalJson(), cloneJsonValue(), clonePersistedJsonValue(), deepFreeze(), descriptorValueFingerprint(), functionFingerprint() (+37 more)
+Cohesion: 0.07
+Nodes (35): assertJsonValue(), boundaryFingerprint(), canonicalJson(), cloneJsonValue(), clonePersistedJsonValue(), deepFreeze(), descriptorValueFingerprint(), functionFingerprint() (+27 more)
 
 ### Community 67 - "Community 67"
 Cohesion: 0.07
@@ -1132,12 +1124,12 @@ Cohesion: 0.08
 Nodes (24): acceptance, calibration_scope, candidate_environment_resource_cloned, collision_changed, glb_or_registry_changed, materials_changed, overridden_node_types, packed_scene_changed (+16 more)
 
 ### Community 78 - "Community 78"
-Cohesion: 0.09
-Nodes (23): catalog, commands, contentRegistry(), descriptor, document(), host, initial, { kernel } (+15 more)
+Cohesion: 0.04
+Nodes (48): DedOsAppRegistry, fields(), commandTypes(), DEFAULT_COMMAND_TYPES, defaultSnapshot(), exactKeys(), nonEmptyString(), normalizeSnapshot() (+40 more)
 
 ### Community 79 - "Community 79"
-Cohesion: 0.17
-Nodes (19): activeActionOccurrenceId(), activeSessionScope(), nonEmptyString(), normalizePresentationHost(), requireContentRegistry(), requireResolver(), requireRuntimeContext(), activeProviderError (+11 more)
+Cohesion: 0.18
+Nodes (11): activeActionOccurrenceId(), activeSessionScope(), nonEmptyString(), normalizePresentationHost(), requireContentRegistry(), requireResolver(), requireRuntimeContext(), dialogueDefinition() (+3 more)
 
 ### Community 80 - "Community 80"
 Cohesion: 0.19
@@ -1172,8 +1164,8 @@ Cohesion: 0.09
 Nodes (22): dependencies, three, devDependencies, @types/three, typescript, vite, name, scripts (+14 more)
 
 ### Community 89 - "Community 89"
-Cohesion: 0.06
-Nodes (30): conditionPack, conditions, descriptor, effectPack, effects, fixturePack(), inheritedCapability, inheritedCondition (+22 more)
+Cohesion: 0.05
+Nodes (34): CommandStatus, RegistryErrorCode, RuntimeErrorCode, UnknownCommandError, conditionPack, conditions, descriptor, effectPack (+26 more)
 
 ### Community 90 - "Community 90"
 Cohesion: 0.09
@@ -1216,16 +1208,16 @@ Cohesion: 0.10
 Nodes (20): Automated Checks, code:bash (./eng/verify-dotnet.sh), code:bash (npm run validate:old-pc), code:text (http://localhost:5173/), code:text (http://localhost:5173/?scene=village), code:text (http://localhost:5173/?scene=computer), Cultural And Language Review, Current playtest target — Act 1 demo (+12 more)
 
 ### Community 101 - "Community 101"
-Cohesion: 0.15
-Nodes (12): blender, platform, sha256, url, version, dotnet, platform, runtime (+4 more)
+Cohesion: 0.12
+Nodes (16): blender, platform, sha256, url, version, dotnet, platform, runtime (+8 more)
 
 ### Community 102 - "Community 102"
 Cohesion: 0.12
 Nodes (12): int, IReadOnlyDictionary, JsonSerializerOptions, string, Vector2I, Act1VisualReviewCapture, CameraReceipt, FrameReceipt (+4 more)
 
 ### Community 103 - "Community 103"
-Cohesion: 0.10
-Nodes (21): properties, items, type, $ref, items, type, items, minItems (+13 more)
+Cohesion: 0.12
+Nodes (16): properties, items, type, $ref, items, type, items, minItems (+8 more)
 
 ### Community 104 - "Community 104"
 Cohesion: 0.10
@@ -1288,8 +1280,8 @@ Cohesion: 0.08
 Nodes (24): 1967, **`Айдар`**, Алсу, Вкладка 1, ГЕЙМПЛЕЙ, Геймплей мысли, `Имам Тимур хәзрәт`, **`Как они выглядят`** (+16 more)
 
 ### Community 119 - "Community 119"
-Cohesion: 0.14
-Nodes (6): immutableModel(), JournalProjection, RoutePresentationRenderer, dialogueStartEntry(), modelsForAudio(), ScenePresentationSession
+Cohesion: 0.24
+Nodes (3): dialogueStartEntry(), modelsForAudio(), ScenePresentationSession
 
 ### Community 120 - "Community 120"
 Cohesion: 0.15
@@ -1380,8 +1372,8 @@ Cohesion: 0.26
 Nodes (3): float, string, GeneratedModularKitDressing
 
 ### Community 144 - "Community 144"
-Cohesion: 0.09
-Nodes (37): AudioResolver, accessibilityFor(), AssetResolver, ensureReferences(), fieldReference(), hashText(), localizedValue(), normalizedVariables() (+29 more)
+Cohesion: 0.05
+Nodes (63): assets, campaigns(), closure, content, findNamedFiles(), moduleManifestPaths(), modulePaths, resolved (+55 more)
 
 ### Community 145 - "Community 145"
 Cohesion: 0.14
@@ -1400,8 +1392,8 @@ Cohesion: 0.07
 Nodes (27): capture_process_count, captured_at_utc, core_layer, forbidden_gameplay_node_count, name, presentation_only, visual_mesh_count, visual_zone_count (+19 more)
 
 ### Community 150 - "Community 150"
-Cohesion: 0.12
-Nodes (39): snapshotOf(), assertCampaignLockMatches(), createCampaignLock(), dependency(), exactObject(), exactVersion(), fingerprint(), lockedModule() (+31 more)
+Cohesion: 0.14
+Nodes (37): assertCampaignLockMatches(), createCampaignLock(), dependency(), exactObject(), exactVersion(), fingerprint(), lockedModule(), nonEmptyString() (+29 more)
 
 ### Community 151 - "Community 151"
 Cohesion: 0.19
@@ -1601,7 +1593,7 @@ Nodes (13): $ref, requiredAssets, requiredAudio, resourceClaims, items, type, un
 
 ### Community 202 - "Community 202"
 Cohesion: 0.15
-Nodes (13): $ref, RevealNotBeforeInvariant, $ref, const, afterId, id, kind, subjectId (+5 more)
+Nodes (13): $ref, RevealNotBeforeInvariant, $ref, afterId, id, severity, subjectId, additionalProperties (+5 more)
 
 ### Community 203 - "Community 203"
 Cohesion: 0.15
@@ -1661,7 +1653,7 @@ Nodes (3): JsonElement, Harness, QuestLifecycleReducerTests
 
 ### Community 218 - "Community 218"
 Cohesion: 0.17
-Nodes (12): RequiredReachableInvariant, minLength, type, description, severity, targetId, additionalProperties, properties (+4 more)
+Nodes (12): RequiredReachableInvariant, minLength, type, const, description, kind, targetId, additionalProperties (+4 more)
 
 ### Community 219 - "Community 219"
 Cohesion: 0.17
@@ -1672,8 +1664,8 @@ Cohesion: 0.17
 Nodes (12): VocabularyCondition, VocabularyEffect, vocabularyId, additionalProperties, properties, required, type, additionalProperties (+4 more)
 
 ### Community 221 - "Community 221"
-Cohesion: 0.17
-Nodes (12): $ref, items, type, properties, capabilityConfigRef, onExit, sceneType, schemaVersion (+4 more)
+Cohesion: 0.15
+Nodes (13): items, type, uniqueItems, $ref, properties, assetRefs, capabilityConfigRef, sceneType (+5 more)
 
 ### Community 223 - "Community 223"
 Cohesion: 0.17
@@ -1698,6 +1690,10 @@ Nodes (16): Boulder depth pass — 2026-09-11, code:text (.tools/blender/Blender
 ### Community 228 - "Community 228"
 Cohesion: 0.14
 Nodes (13): code:text (root: URMAN_WetVillageRoadKit (EMPTY)), code:text (RoadCrown_SunkenWet: meshes=5 triangles=326 z=0.029489..0.21), code:text (run 1 GLB SHA-256: 5baae8899afd74f61f9ce9489ac8c4e9ee3a3db60), code:text (1913540 bytes  assets/source/blender/act1/urman_wet_village_), code:text (1936517 bytes  assets/source/blender/act1/urman_wet_village_), Deliverables, Explicit open gates, Geometry and material policy (+5 more)
+
+### Community 229 - "Community 229"
+Cohesion: 0.22
+Nodes (3): immutableModel(), DialogueReactionSession, JournalProjection
 
 ### Community 230 - "Community 230"
 Cohesion: 0.10
@@ -1753,15 +1749,15 @@ Nodes (3): FamilyContract, float, GeneratedModularKitContractSmokeTest
 
 ### Community 244 - "Community 244"
 Cohesion: 0.07
-Nodes (23): accessible, bindingsFor(), cancelled, capabilityDescriptors(), compileStressPack(), contract, CONTRACT_SCHEMA_URL, CONTRACTS_URL (+15 more)
+Nodes (26): accessible, bindingsFor(), cancelled, capabilityDescriptors(), compileStressPack(), contract, CONTRACT_SCHEMA_URL, CONTRACTS_URL (+18 more)
 
 ### Community 246 - "Community 246"
 Cohesion: 0.18
 Nodes (10): capabilityRequirements, entrypoint, exactVersion, id, invariants, modules, narrativeOrder, roleBindings (+2 more)
 
 ### Community 247 - "Community 247"
-Cohesion: 0.10
-Nodes (8): Vector3, Node, Act1FootstepSmokeTest, AgentBWalkProbe, AmbientAudioSmokeTest, DialogueFlowSmokeTest, PlayerSettingsSmokeTest, ZoneFlowSmokeTest
+Cohesion: 0.11
+Nodes (8): int, Vector3, Node, Act1DemoPerformanceSmokeTest, AgentBWalkProbe, DialogueFlowSmokeTest, PlayerSettingsSmokeTest, ZoneFlowSmokeTest
 
 ### Community 248 - "Community 248"
 Cohesion: 0.23
@@ -1810,6 +1806,10 @@ Nodes (15): 13.1. Архитектура данных, 13.2. Основные м
 ### Community 260 - "Community 260"
 Cohesion: 0.18
 Nodes (11): `Архив Кырлайскаго волостного правленiя`, **`Дѣло особаго хожденiя`**, **`Особая записка при томъ же дѣлѣ`**, **`Постановили:`**, **`Примѣчанiе писаря:`**, **`Присутствовали:`**, **`Разсуждали:`**, **`Слушали:`** (+3 more)
+
+### Community 261 - "Community 261"
+Cohesion: 0.16
+Nodes (3): containedInputHandler(), CapabilitySceneSession, RouteNavigationSession
 
 ### Community 262 - "Community 262"
 Cohesion: 0.31
@@ -1861,7 +1861,7 @@ Nodes (10): type, additionalProperties, properties, required, type, CancelPolicy
 
 ### Community 275 - "Community 275"
 Cohesion: 0.14
-Nodes (14): items, type, uniqueItems, items, type, items, type, $ref (+6 more)
+Nodes (14): items, type, items, type, $ref, items, type, conditions (+6 more)
 
 ### Community 276 - "Community 276"
 Cohesion: 0.20
@@ -2116,8 +2116,8 @@ Cohesion: 0.22
 Nodes (9): **`1. Завязка (Экспозиция)`**, **`2. Развитие (Детектив & Редфлаги)`**, **`3. Поворот (The Big Twist)`**, **`4. Финал (Вариативность)`**, URMAN, **`Групповые чаты и NPC`**, **`Деревенские жители (Массовка и Лор)`**, **`Основные персонажи (Сюжетные)`** (+1 more)
 
 ### Community 348 - "Community 348"
-Cohesion: 0.32
-Nodes (12): CANON_STATUSES, localizedDefault(), metadata(), modulePrefix(), nonEmptyString(), normalizedDocument(), OLD_PC_TYPES, ownData() (+4 more)
+Cohesion: 0.26
+Nodes (4): DeterministicScheduler, nonEmptyString(), normalizedJob(), tick()
 
 ### Community 349 - "Community 349"
 Cohesion: 0.25
@@ -2357,7 +2357,7 @@ Nodes (5): Canon, Contradictions / Needs Resolution, Hard Canon, Hypotheses, Sof
 
 ### Community 416 - "Community 416"
 Cohesion: 0.05
-Nodes (29): afterFire, before, bindings, CAMPAIGN_FINGERPRINT, CAPABILITY, capabilityRegistry(), contentPack, descriptor (+21 more)
+Nodes (31): afterFire, before, bindings, CAMPAIGN_FINGERPRINT, CAPABILITY, capabilityRegistry(), contentPack, descriptor (+23 more)
 
 ### Community 419 - "Community 419"
 Cohesion: 0.12
@@ -2457,7 +2457,7 @@ Nodes (17): 0. Зафиксированные решения (канон-уро�
 
 ### Community 449 - "Community 449"
 Cohesion: 0.08
-Nodes (26): 2026-09-11 — журнал редких задержек, 2026-09-12 — рывки после шага по снегу, Act 1 demo entrypoint probe (2026-08-15), Canonical source-tree launch path (2026-08-15), code:bash (./eng/benchmark-godot.sh), code:bash (./eng/run-act1-demo-safe.sh), code:bash (. ./eng/dotnet-env.sh), code:bash (./eng/benchmark-act1-demo-package.sh) (+18 more)
+Nodes (27): 2026-09-11 — журнал редких задержек, 2026-09-12 — кандидат R10 из d1d20d4, 2026-09-12 — рывки после шага по снегу, Act 1 demo entrypoint probe (2026-08-15), Canonical source-tree launch path (2026-08-15), code:bash (./eng/benchmark-godot.sh), code:bash (./eng/run-act1-demo-safe.sh), code:bash (. ./eng/dotnet-env.sh) (+19 more)
 
 ### Community 450 - "Community 450"
 Cohesion: 0.13
@@ -2667,6 +2667,10 @@ Nodes (13): AudioEffectAmplify, Dictionary, AudioStreamPlayer, bool, Dictionary,
 Cohesion: 0.25
 Nodes (8): bent_trunk(), Create a few-ring bent trunk so silhouettes are not stacked cones., Build one small, asymmetrical spruce from a bent trunk and tiers., Create a few-ring bent trunk so silhouettes are not stacked cones., Build one small, asymmetrical spruce from a bent trunk and tiers., Create a few-ring bent trunk so silhouettes are not stacked cones., Build one small, asymmetrical spruce from a bent trunk and tiers., young_spruce()
 
+### Community 575 - "Community 575"
+Cohesion: 0.18
+Nodes (3): ICapabilityProvider, IRuntimeKernel, FakeProvider
+
 ### Community 607 - "Community 607"
 Cohesion: 0.29
 Nodes (7): baked_component_bounds(), Return the post-extraction local bounds represented by baked vertices., Return the post-extraction local bounds represented by baked vertices., Return the post-extraction local bounds represented by baked vertices., Return the post-extraction local bounds represented by baked vertices., Return the post-extraction local bounds represented by baked vertices., Return the post-extraction local bounds represented by baked vertices.
@@ -2715,10 +2719,6 @@ Nodes (12): Act I content pack, Asset manifests (без GLB/Blend binaries), Aut
 Cohesion: 0.50
 Nodes (3): Contract coverage already proven, MAP-012 Verification Receipt — Canonical Eye Height / FOV / Reduced Motion, Open (human, stays with this task)
 
-### Community 624 - "Community 624"
-Cohesion: 0.36
-Nodes (7): commandTypes(), DEFAULT_COMMAND_TYPES, defaultSnapshot(), exactKeys(), nonEmptyString(), normalizeSnapshot(), requireRuntimeContext()
-
 ### Community 625 - "Community 625"
 Cohesion: 0.33
 Nodes (5): code:block1 (frame=23 id=connective_street_return_forward cam_pos=(-15.40), Former blocker removed: "все три текущих capture вида одинаковы", MAP-006 Verification Receipt — FAP Egress → Return Street → Zirat Continuity, Open (human, stays with this task), Persistent-world continuity anchors (one map, no scene swap)
@@ -2727,17 +2727,13 @@ Nodes (5): code:block1 (frame=23 id=connective_street_return_forward cam_pos=(-1
 Cohesion: 0.40
 Nodes (4): Branch read chain (interaction → signboard → road → destination), MAP-005 Inspection Receipt — FAP Branch Sightline & Landmarks, Open (human, stays with this task), Verdict
 
-### Community 627 - "Community 627"
-Cohesion: 0.31
-Nodes (3): DedOsAppRegistry, fields(), OldPcErrorCode
-
 ### Community 629 - "Community 629"
 Cohesion: 0.13
 Nodes (10): Dictionary<string, AudioStreamRandomizer>, FirstPersonController, AudioStreamPlayer, Dictionary<string, AudioStream[]>, FirstPersonController, float, int, string (+2 more)
 
 ### Community 630 - "Community 630"
-Cohesion: 0.06
-Nodes (26): cleanupRecord, clock, deliveries, disposed, handledInputs, host, lifecycle, model (+18 more)
+Cohesion: 0.08
+Nodes (19): cleanupRecord, clock, deliveries, disposed, handledInputs, host, lifecycle, model (+11 more)
 
 ### Community 631 - "Community 631"
 Cohesion: 0.09
@@ -2775,6 +2771,10 @@ Nodes (10): _field_bank(), Short, broken low-poly bank used to close distant fie
 Cohesion: 0.25
 Nodes (6): plugin, source, VALID_OPTIONS, createViteContentPlugin(), viteContentPlugin(), ViteContentPluginOptions
 
+### Community 644 - "Community 644"
+Cohesion: 0.19
+Nodes (11): ActiveLifecycle, disposable(), activeProviderError, ActiveProviderErrorCode, capabilitySceneDefinition(), requireAdapter(), requireCapabilityProvider(), resolveCapabilityDefinition() (+3 more)
+
 ### Community 645 - "Community 645"
 Cohesion: 0.33
 Nodes (5): Act I Environmental Storytelling Matrix (NARR-016), Cross-cutting false-positive controls, Unreachable winter backdrops (2026-09-10, T3), Winter / authenticity props (2026-09-10, decision_log), Zone/room matrix
@@ -2790,6 +2790,10 @@ Nodes (10): 0. OPENCODE AUTONOMOUS EXECUTION CONTRACT, AUTONOMOUS STOP CONDITION
 ### Community 648 - "Community 648"
 Cohesion: 0.08
 Nodes (26): _bone_for_mesh(), Map a generated mesh to the smallest useful presentation bone., Map a generated mesh to the smallest useful presentation bone., Map a generated mesh to the smallest useful presentation bone., Map a generated mesh to the smallest useful presentation bone., Map a generated mesh to the smallest useful presentation bone., Map a generated mesh to the smallest useful presentation bone., Map a generated mesh to the smallest useful presentation bone. (+18 more)
+
+### Community 649 - "Community 649"
+Cohesion: 0.40
+Nodes (5): items, minItems, type, uniqueItems, narrativeOrder
 
 ### Community 650 - "Community 650"
 Cohesion: 0.09
@@ -2828,8 +2832,8 @@ Cohesion: 0.20
 Nodes (10): bake_mesh_object_transforms(), Leave mesh children in a neutral local transform after baking., Leave mesh children in a neutral local transform after baking., Bake legacy child object transforms without changing component roots., Bake legacy child object transforms without changing component roots., Leave mesh children in a neutral local transform after baking., Leave mesh children in a neutral local transform after baking., Bake legacy child object transforms without changing component roots. (+2 more)
 
 ### Community 661 - "Community 661"
-Cohesion: 0.25
-Nodes (8): bytes, sha256, url, godot, exportTemplates, sha256, url, version
+Cohesion: 0.50
+Nodes (3): Exception, ResolverException, ResourceConflictException
 
 ### Community 662 - "Community 662"
 Cohesion: 0.14
@@ -2944,8 +2948,8 @@ Cohesion: 0.20
 Nodes (10): _faceted_rock(), Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder. (+2 more)
 
 ### Community 700 - "Community 700"
-Cohesion: 0.48
-Nodes (6): convert(), main(), normalize_pcm_wav(), Write afconvert's PCM payload with the standard 16-bit RIFF header., step_sample(), write_wav()
+Cohesion: 0.67
+Nodes (3): items, type, onExit
 
 ### Community 701 - "Community 701"
 Cohesion: 0.18
@@ -3028,8 +3032,8 @@ Cohesion: 0.09
 Nodes (23): foot_shape(), Build one bent, tapered low-poly segment with a readable joint flow., Build one bent, tapered low-poly segment with a readable joint flow., Build one bent, tapered low-poly segment with a readable joint flow., Use a low-poly toe/heel wedge instead of a rectangular boot block., Use a low-poly toe/heel wedge instead of a rectangular boot block., Use a low-poly toe/heel wedge instead of a rectangular boot block., Build one bent, tapered low-poly segment with a readable joint flow. (+15 more)
 
 ### Community 723 - "Community 723"
-Cohesion: 0.26
-Nodes (11): close_loop(), event_mix(), main(), make_stem(), prepare(), Return restrained deterministic tonal events with soft attack/release., Return restrained deterministic tonal events with soft attack/release., Ease the tail to the first sample while retaining the full 8 s stem. (+3 more)
+Cohesion: 0.17
+Nodes (16): close_loop(), event_mix(), main(), make_stem(), prepare(), Return restrained deterministic tonal events with soft attack/release., Return restrained deterministic tonal events with soft attack/release., Ease the tail to the first sample while retaining the full 8 s stem. (+8 more)
 
 ### Community 724 - "Community 724"
 Cohesion: 0.25
@@ -3092,8 +3096,8 @@ Cohesion: 0.18
 Nodes (11): faceted_prism(), Create a restrained faceted taper for readable human proportions., Create a restrained faceted taper for readable human proportions., Create a restrained faceted taper for readable human proportions., Create a restrained faceted taper for readable human proportions., Create a restrained faceted taper for readable human proportions., Create a restrained faceted taper for readable human proportions., Create a restrained faceted taper for readable human proportions. (+3 more)
 
 ### Community 747 - "Community 747"
-Cohesion: 0.15
-Nodes (9): Exception, ResolverCatalog, ResolverDetails, ResolverErrors, ResolverException, ResolverJson, ResourceConflictException, IReadOnlyDictionary (+1 more)
+Cohesion: 0.20
+Nodes (6): ResolverCatalog, ResolverDetails, ResolverErrors, ResolverJson, IReadOnlyDictionary, Regex
 
 ### Community 761 - "Community 761"
 Cohesion: 0.40
@@ -3144,8 +3148,8 @@ Cohesion: 0.40
 Nodes (5): spatial-audio-probe-outcome, additionalProperties, properties, required, type
 
 ### Community 778 - "Community 778"
-Cohesion: 0.08
-Nodes (8): ICapabilityProvider, ICapabilitySession, IRuntimeKernel, IDisposable, bool, int, FakeProvider, FakeSession
+Cohesion: 0.13
+Nodes (5): ICapabilitySession, IDisposable, bool, int, FakeSession
 
 ### Community 780 - "Community 780"
 Cohesion: 0.25
@@ -3156,16 +3160,12 @@ Cohesion: 0.15
 Nodes (13): 2026-09-11 — physical discoveries and Act I people, 2026-09-11 — бытовые действия между сюжетными узлами, 2026-09-11 — исходники лиц и волос персонажей, 2026-09-11 — место финала и дверь дома, 2026-09-11 — необязательные наружные действия, 2026-09-11 — отделить выбор находки от препятствия, 2026-09-11 — физический результат домашних находок, 2026-09-12 — актуализация режима текущего запуска (+5 more)
 
 ### Community 783 - "Community 783"
-Cohesion: 0.57
-Nodes (7): click(), door_creak(), keyboard_key(), main(), paper_open(), write_wav(), int
+Cohesion: 0.19
+Nodes (17): click(), door_creak(), keyboard_key(), main(), paper_open(), write_wav(), convert(), main() (+9 more)
 
 ### Community 785 - "Community 785"
 Cohesion: 0.40
 Nodes (5): Create three irregular blades in one mesh; no repeated cone primitives., Create three irregular blades in one mesh; no repeated cone primitives., Create three irregular blades in one mesh; no repeated cone primitives., Create three irregular blades in one mesh; no repeated cone primitives., sedge_cluster()
-
-### Community 787 - "Community 787"
-Cohesion: 0.53
-Nodes (5): main(), make_stem(), smooth_noise(), write_wav(), Random
 
 ### Community 788 - "Community 788"
 Cohesion: 0.40
@@ -3215,10 +3215,6 @@ Nodes (3): 28. Технические проверки и честные кад�
 Cohesion: 0.67
 Nodes (3): SchemaReference, pattern, type
 
-### Community 807 - "Community 807"
-Cohesion: 0.50
-Nodes (4): textRefs, items, type, uniqueItems
-
 ### Community 808 - "Community 808"
 Cohesion: 0.67
 Nodes (3): items, type, entryConditions
@@ -3244,21 +3240,21 @@ Cohesion: 0.40
 Nodes (5): turn_90_default, assetId, behavior, durationMs, overlayAssetId
 
 ## Knowledge Gaps
-- **6243 isolated node(s):** `name`, `version`, `type`, `dev`, `build` (+6238 more)
+- **6244 isolated node(s):** `name`, `version`, `type`, `dev`, `build` (+6239 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **186 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **182 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `PATH` connect `Community 476` to `Community 385`, `Community 650`, `Community 204`, `Community 174`, `Community 723`, `Community 55`, `Community 184`, `Community 121`, `Community 700`?**
-  _High betweenness centrality (0.041) - this node is a cross-community bridge._
+- **Why does `PATH` connect `Community 476` to `Community 385`, `Community 650`, `Community 204`, `Community 174`, `Community 783`, `Community 723`, `Community 55`, `Community 184`, `Community 121`?**
+  _High betweenness centrality (0.038) - this node is a cross-community bridge._
 - **Why does `List` connect `Community 174` to `Community 300`, `Community 302`, `Community 662`, `Community 184`, `Community 57`?**
-  _High betweenness centrality (0.029) - this node is a cross-community bridge._
-- **Why does `Act1DemoRoot` connect `Community 57` to `Community 320`, `Community 773`, `Community 122`, `Community 454`, `Community 810`, `Community 300`, `Community 174`, `Community 783`, `Community 784`, `Community 51`, `Community 629`, `Community 247`, `Community 760`, `Community 666`?**
   _High betweenness centrality (0.026) - this node is a cross-community bridge._
+- **Why does `Act1DemoRoot` connect `Community 57` to `Community 320`, `Community 122`, `Community 454`, `Community 810`, `Community 300`, `Community 174`, `Community 783`, `Community 51`, `Community 629`, `Community 247`, `Community 666`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
 - **What connects `name`, `version`, `type` to the rest of the system?**
-  _6873 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _6874 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.048501487073896135 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
