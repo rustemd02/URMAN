@@ -31,7 +31,7 @@ Quaternius — Universal Base Characters Standard, CC0 1.0.
 Источник: quaternius.com/packs/universalbasecharacters.html
 Для УРМАНА подготовлены производные головы, глаза, брови, волосы и бороды; одежда, роли и анимации созданы для проекта.
 
-Зимнее сухое дерево
+Сосны и сухое дерево зимнего леса
 Quaternius — Stylized Nature MegaKit Standard, CC0 1.0.
 Источник: quaternius.com/packs/stylizednaturemegakit.html
-Для УРМАНА подготовлены масштаб, уровни детализации и общий материал коры.
+Для УРМАНА подготовлены масштаб, уровни детализации, материалы коры и заснеженной хвои.

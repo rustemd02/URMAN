@@ -1456,7 +1456,6 @@ public partial class Act1ConnectedWorld : Node3D
                      ("KaraForestEdge/KaraApproachUnderstoryWest", "remove a foreground understory clump that occludes the path"),
                      ("KaraForestEdge/KaraApproachUnderstoryEast", "remove a foreground understory clump that occludes the path"),
                      ("KaraForestEdge/KaraApproachStoneWest", "remove an isolated Kara foreground stone; the forest edge remains grounded by its banks"),
-                     ("KaraForestEdge/KaraDeepForestClosureGrouping/KaraClosureNearConiferWest", "remove the confirmed near-west canopy occluder from the fixed first-person Kara aperture; retain the closure grouping and route collision"),
                      ("KaraForestEdge/KaraDeepForestClosureGrouping/KaraClosureNearBirchEast", "remove the confirmed near-east canopy occluder from the fixed first-person Kara aperture; retain the closure grouping and route collision"),
                      ("KaraForestEdge/KaraReturnContinuityBirchWest", "remove the confirmed pale return-facing Kara cutout from the fixed first-person aperture; retain the return continuity boundary")
                  })
@@ -6141,13 +6140,13 @@ public partial class Act1ConnectedWorld : Node3D
         // Threshold aperture pass: six existing side masses are kept as dark
         // framing but moved outward/reduced so the route and distant forest
         // remain legible from the fixed first-person camera.
-        AddVisualTree(karaClosure, "KaraClosureNearConiferWest", new(-8.4f, 0f, 9.5f), 8.0f, VegetationStyle.Conifer, "30483f");
+        AddAuthoredWinterTree(karaClosure, "KaraClosureNearConiferWest", new(-8.4f, 0f, 9.5f), 8.0f, "WinterPine");
         AddVisualTree(karaClosure, "KaraClosureNearBirchEast", new(11.0f, 0f, 7.0f), 5.8f, VegetationStyle.Birch, "596047");
         AddAuthoredWinterTree(karaClosure, "KaraClosureMidBroadleafWest", new(-13.0f, 0f, 2.0f), 8.0f, "WinterDeadTree");
-        AddVisualTree(karaClosure, "KaraClosureMidConiferEast", new(12.4f, 0f, -2.5f), 8.4f, VegetationStyle.Conifer, "2e4439");
+        AddAuthoredWinterTree(karaClosure, "KaraClosureMidConiferEast", new(12.4f, 0f, -2.5f), 8.4f, "WinterPine");
         AddVisualTree(karaClosure, "KaraClosureDeepBirchWest", new(-14.5f, 0f, -7.5f), 11.1f, VegetationStyle.Birch, "596047");
         AddVisualTree(karaClosure, "KaraClosureDeepBroadleafEast", new(15.0f, 0f, -10.5f), 10.7f, VegetationStyle.Broadleaf, "3b5043");
-        AddVisualTree(karaClosure, "KaraClosureFarConiferWest", new(-20.0f, 0f, -15.5f), 10.3f, VegetationStyle.Conifer, "2e4439");
+        AddAuthoredWinterTree(karaClosure, "KaraClosureFarConiferWest", new(-20.0f, 0f, -15.5f), 10.3f, "WinterPine");
         AddVisualTree(karaClosure, "KaraClosureFarBirchEast", new(21.0f, 0f, -18.5f), 9.9f, VegetationStyle.Birch, "596047");
         AddVisualShrub(karaClosure, "KaraClosureShrubWest", new(-6.8f, 0f, 6.0f), 0.88f, "3f4d40");
         AddVisualShrub(karaClosure, "KaraClosureShrubEast", new(7.0f, 0f, 4.8f), 0.80f, "3b4b3e");

@@ -43,18 +43,30 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     internal ArrayMesh FoliageMesh(string variant, string region)
     {
         if (_foliageMeshes.TryGetValue((variant, region), out var cached)) return cached;
-        if (variant is not ("WinterDeadTree" or "WinterLightDeadTree" or "WinterFarDeadTree"))
+        var pine = variant is "WinterPine" or "WinterLightPine" or "WinterFarPine";
+        if (!pine && variant is not ("WinterDeadTree" or "WinterLightDeadTree" or "WinterFarDeadTree"))
             throw new InvalidOperationException($"Missing winter foliage geometry: {variant}");
-        var source = ResourceLoader.Load<PackedScene>("res://assets/models/act1/urman_winter_dead_tree.glb").Instantiate<Node3D>();
+        var source = ResourceLoader.Load<PackedScene>(pine ? "res://assets/models/act1/urman_winter_pine.glb" : "res://assets/models/act1/urman_winter_dead_tree.glb").Instantiate<Node3D>();
         try
         {
-            var names = new[] { "WinterDeadTree", "WinterLightDeadTree", "WinterFarDeadTree" };
+            var names = pine ? new[] { "WinterPine", "WinterLightPine", "WinterFarPine" }
+                : new[] { "WinterDeadTree", "WinterLightDeadTree", "WinterFarDeadTree" };
             for (var lod = 0; lod < names.Length; lod++)
             {
-                var template = EnumerateDescendants<MeshInstance3D>(source).Single(node => node.Name == $"WinterDeadTree_LOD{lod}");
+                var template = EnumerateDescendants<MeshInstance3D>(source).Single(node => node.Name == $"{(pine ? "WinterPine" : "WinterDeadTree")}_LOD{lod}");
                 var mesh = (ArrayMesh)template.Mesh!.Duplicate();
                 for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
-                    mesh.SurfaceSetMaterial(surface, RegionalFoliageMaterial(variant, "bark", region));
+                {
+                    var imported = mesh.SurfaceGetMaterial(surface) as StandardMaterial3D;
+                    if (pine && (imported is null || imported.ResourceName is not ("AB_bark" or "AB_needles")))
+                        throw new InvalidOperationException("Pine material names must remain AB_bark and AB_needles after import.");
+                    if (pine && imported!.ResourceName == "AB_needles")
+                    {
+                        var alpha = imported.AlbedoTexture ?? throw new InvalidOperationException("Pine needles are missing their alpha texture.");
+                        mesh.SurfaceSetMaterial(surface, PainterlyMaterialLibrary.ForCutout("455749", alpha, "foliage"));
+                    }
+                    else mesh.SurfaceSetMaterial(surface, RegionalFoliageMaterial(variant, "bark", region));
+                }
                 _foliageMeshes[(names[lod], region)] = mesh;
             }
         }

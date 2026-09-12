@@ -1,6 +1,6 @@
-# Зимнее сухое дерево
+# Деревья зимнего леса
 
-Источник: Quaternius, Stylized Nature MegaKit Standard, DeadTree_3.
+Источник: Quaternius, Stylized Nature MegaKit Standard, DeadTree_3 и Pine_3.
 https://quaternius.com/packs/stylizednaturemegakit.html
 https://quaternius.itch.io/stylized-nature-megakit
 
@@ -8,3 +8,6 @@ https://quaternius.itch.io/stylized-nature-megakit
 SHA-256 полученного ZIP: `298f6732b872e4cf7b30e6e7abf9641c7f6dc6b326df37ac089533ed7e3d58c9`.
 
 Исходные glTF, bin и две карты сохранены без изменения. Подготовка для УРМАНА нормализует высоту до 1 м, ставит основание на ноль, убирает исходные карты из runtime и создаёт два упрощённых LOD. Дерево использует общий материал коры и существующие проверки рельефа, крыши, дороги и дальности. Никаких коллизий и игрового состояния ассет не содержит.
+
+
+Для Pine_3 сохранены исходные glTF/bin, Bark_NormalTree, Bark_NormalTree_Normal и Leaf_Pine_C без изменений. `tools/blender/prepare_winter_pine.py` проверяет их SHA, нормализует высоту и создаёт три LOD. Упрощается только кора: все 462 треугольника хвои и UV остаются во всех LOD. Leaf_Pine_C (2048×2048) используется как маска прозрачности; общий painterly-материал УРМАНА задаёт зимний цвет и снег только на верхней стороне карточек. Суффикс `_alpha` намеренно не используется в имени материала: Godot распознаёт его как import directive и меняет имя/режим прозрачности.

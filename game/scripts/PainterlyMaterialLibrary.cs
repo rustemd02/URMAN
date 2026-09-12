@@ -254,6 +254,14 @@ public static class PainterlyMaterialLibrary
         """;
 
     private static readonly Shader PainterlyShader = new() { Code = ShaderSource };
+    private static readonly Shader CutoutShader = new()
+    {
+        Code = ShaderSource
+            .Replace("render_mode diffuse_burley, specular_schlick_ggx;", "render_mode diffuse_burley, specular_schlick_ggx, cull_disabled;")
+            .Replace("float snow_up = clamp(normalize(world_normal).y,", "float snow_up = clamp(normalize(world_normal).y * (FRONT_FACING ? 1.0 : -1.0),")
+            .Replace("void fragment() {", "uniform sampler2D cutout_texture : filter_linear_mipmap_anisotropic, repeat_disable;\nvoid fragment() {\nALPHA = texture(cutout_texture, UV).a;\nALPHA_SCISSOR_THRESHOLD = 0.2;")
+    };
+
     private static readonly Dictionary<string, (string Path, Vector2 Scale)> SurfaceTextures = new(StringComparer.Ordinal)
     {
         // Phase 1A promotion (prod-ready plan): per-family candidate chosen
@@ -391,6 +399,17 @@ public static class PainterlyMaterialLibrary
         GC.Collect();
         GC.WaitForPendingFinalizers();
         GC.Collect();
+    }
+
+    public static Material ForCutout(string htmlColor, Texture2D alphaTexture, string surface)
+    {
+        var cacheKey = $"cutout:{surface}:{htmlColor}:{alphaTexture.GetInstanceId()}";
+        if (Materials.TryGetValue(cacheKey, out var existing)) return existing;
+        var material = (ShaderMaterial)ForColor(htmlColor, surface).Duplicate();
+        material.Shader = CutoutShader;
+        material.SetShaderParameter("cutout_texture", alphaTexture);
+        Materials[cacheKey] = material;
+        return material;
     }
 
     public static Material ForColor(string htmlColor, string surface = "", bool sheltered = false)
