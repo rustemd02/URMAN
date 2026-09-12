@@ -986,13 +986,15 @@ def winter_spruce_variant(index, height, tier="near"):
                  (index % 2 - .5) * .024, index + 13.0)
     ab.assign_material(trunk, "AB_bark_dark")
     vertices, faces, snow_vertices, snow_faces = [], [], [], []
-    levels = range(12) if tier == "near" else (0, 2, 4, 6, 8, 11)
+    levels = range(12)
     branches = (0, 1, 2) if tier != "far" else (0, 2)
-    stations = 6 if tier == "near" else 4 if tier == "light" else 3
+    stations = 6 if tier == "near" else 3
     cap_limit = 4 if tier == "near" else 3 if tier == "light" else 1
     caps = 0
     for level in levels:
         for branch in branches:
+            if tier == "far" and level >= 10 and branch != 0:
+                continue
             rng = random.Random(ab.stable_hash(f"spruce:{index}:{level}:{branch}"))
             angle = level * 1.17 + branch * math.tau / 3 + rng.uniform(-.22, .22)
             length = height * .27 * (1.0 - level / 12.0) ** .65 * rng.uniform(.88, 1.1)
@@ -1008,7 +1010,7 @@ def winter_spruce_variant(index, height, tier="near"):
                 points.append(point)
                 radii.append(length * (.19 + .28 * math.sin(math.pi * t)) * (1 - .88 * t))
             _append_polyline_tube(vertices, faces, points, radii,
-                                  sides=6 if tier != "far" else 4, flatten=.80)
+                                  sides=6 if tier == "near" else 5 if tier == "light" else 3, flatten=.80)
             if tier == "near":
                 attachment = _point_on_polyline(points, .46)
                 fork_direction = Vector((math.cos(angle + .75), math.sin(angle + .75), -.45))

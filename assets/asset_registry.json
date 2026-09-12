@@ -1079,13 +1079,13 @@
       "id": "urman.act1.agentb.foliage_kit",
       "source": "assets/source/blender/agent_b_act1/agentb_foliage_kit.blend",
       "derived": "game/assets/models/agent_b_act1/agentb_foliage_kit.glb",
-      "sourceSha256": "384777dfe351ef55d65ca70374c509857aef636eab7612381ff7880656034b47",
-      "derivedSha256": "09a4f755814fa4ccb49656fef7d81dd0cecdfd518818c2efaa82603c7d301d05",
+      "sourceSha256": "653ca0ca39b9c6ea21fa9fdf8a57fb1f52cad0565b51f49e95d3241a3dc78d8d",
+      "derivedSha256": "928b115c1e3ac4076a21f8b660c4925fc210f296f1f957b0c6aae50866471932",
       "generator": "assets/source/blender/agent_b_act1/agent_b_foliage.py; Blender 4.5.12 LTS",
       "license": "Project-original",
       "scale": 1.0,
       "collision": "none; source root is hidden after extraction and planted copies remain presentation-only",
-      "lod": "218 exported mesh nodes / 74,454 exported triangles / 15 materials; WinterLinden_1 spread narrowed for near/light/far; winter spruce fuller rooted bough profile with narrow tip; placement/LOD policy unchanged",
+      "lod": "218 exported mesh nodes / 74,878 exported triangles / 15 materials; spruce near unchanged at 4004 triangles; light 1136 and far 388 preserve all 12 crown levels while simplifying branch sections; native LOD ranges unchanged",
       "status": "production-canonical winter Act I dependency; source/generator/GLB hashes synchronized after 2026-09-12 spruce crown refinement; visual/cultural art-lock open",
       "releaseDisposition": "include-in-act1-release; current runtime dependency; visual/cultural gates open",
       "components": "URMAN_AgentB_FoliageKit",
@@ -1106,7 +1106,7 @@
         "AB_snow",
         "AB_foliage_rowan"
       ],
-      "triangleBudget": 74454
+      "triangleBudget": 74878
     },
     {
       "id": "urman.act1.agentb.zirat_kit",
