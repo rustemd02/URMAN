@@ -161,11 +161,12 @@ def read_pck(path: Path) -> tuple[bytes, dict[str, tuple[int, int]]]:
             fail(f"{path.name} index ends inside entry {entry_number}")
         data_offset, data_size = struct.unpack_from("<QQ", raw, cursor)
         cursor += 16 + 16 + 4
+        # Godot PCK v4 stores payload offsets relative to the file-data base.
+        # Offset zero is the first payload, not a missing-resource sentinel.
+        data_offset += data_base
         if data_offset > len(raw) or data_size > len(raw) - data_offset:
             fail(f"{path.name} has an out-of-bounds payload: {name}")
-        # Godot 4.7 can retain a zero offset for an imported, non-runtime
-        # sample. All actual payloads must remain before the index.
-        if data_offset and (data_offset < data_base or data_offset + data_size > index_base):
+        if data_offset < data_base or data_offset + data_size > index_base:
             fail(f"{path.name} has a payload overlapping its index: {name}")
 
         if "\\" in name or name.startswith("/") or any(part in {"", ".", ".."} for part in name.split("/")):
@@ -351,8 +352,6 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
     content_name = "content/urman.chapter1.compiled.v1.json"
     require(entries, content_name)
     content_offset, content_size = entries[content_name]
-    if content_offset == 0:
-        fail(f"{label} Act I content has no payload")
     content_payload = raw[content_offset : content_offset + content_size]
     if b'"schemaVersion": 1' not in content_payload or b'"id": "urman.chapter1"' not in content_payload:
         fail(f"{label} content does not contain the chapter-one campaign marker")
@@ -385,6 +384,12 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
 
     require(entries, "assets/textures/ui/act1_menu_winter_v1.png.import")
     require_prefix(entries, ".godot/imported/act1_menu_winter_v1.png-", ".ctex")
+    # The native boot splash loads PNG bytes before texture imports are ready.
+    boot_image = "assets/textures/ui/act1_menu_winter_v1.png"
+    require(entries, boot_image)
+    boot_offset, boot_size = entries[boot_image]
+    if boot_size < 8 or raw[boot_offset : boot_offset + 8] != b"\x89PNG\r\n\x1a\n":
+        fail(f"{label} native boot splash is not a PNG payload")
 
     # Pine's embedded Leaf_Pine_C mask is extracted by Godot and consumed by
     # AgentBAct1ExteriorLayer when it replaces the imported needle material.
