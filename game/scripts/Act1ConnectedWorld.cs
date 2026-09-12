@@ -6043,6 +6043,9 @@ public partial class Act1ConnectedWorld : Node3D
             AddVisualTree(parent, $"KaraShelteredRegrowth{index}",
                 new Vector3(sapling.X, 0f, sapling.Z), sapling.Height,
                 VegetationStyle.Conifer, "3c5140");
+            if (index is 6 or 7 or 8 or 9)
+                parent.GetNodeOrNull<Node3D>($"KaraShelteredRegrowth{index}")
+                    ?.SetMeta("winterVariant", "WinterPine");
         }
         foreach (var (name, x, z, radius) in new[]
                  { ("West", -8.7f, -110.5f, 1.2f), ("East", 9.8f, -116.5f, 1.5f),

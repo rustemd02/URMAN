@@ -382,3 +382,10 @@ frames. Все следы и деформация включены. Средни
 `snow_ground_bindings_road` / `snow_ground_bindings_fresh` во внешнем каталоге.
 C# build: 0 ошибок/предупреждений. Независимый Luna source-review не нашёл
 расхождений replay, сброса окна/лимита или material-routing.
+
+Видео итоговых следов: `snow_ground_bindings_mp4/*.mp4`, по 104 кадра,
+1920×1080, 30 FPS, 3,467 с. MP4 sample tables проверены, AVFoundation полностью
+декодировал оба файла. Это немые записи геометрии: исходный PNG capture
+не содержит звука. Receipts `snow_ground_bindings_atom_receipt.json` и
+`snow_ground_bindings_full_decode.json`; после просмотра декодированных кадров исходные PNG-последовательности
+удалены по `snow_ground_bindings_frame_cleanup.json`; ключевые snapshots сохранены.
