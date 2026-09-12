@@ -114,6 +114,11 @@ test('old-PC records have one-way canonical presentation links and typed unlock 
     op: 'knowledge.status',
     knowledgeId: 'urman.chapter1:knowledge/clue_marat_official_death_version',
     status: 'confirmed',
+  }, {
+    op: 'npc.state',
+    characterId: 'urman.chapter1:character/naila',
+    stateKey: 'record_access_granted',
+    value: true,
   }]);
   const edge = byId(documents, 'urman.oldpc:document/doc_kara_urman_edge_sketch');
   assert.equal(edge.accessConditions[0].op, 'all');

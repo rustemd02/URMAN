@@ -28,11 +28,17 @@ public partial class OldPcFlowSmokeTest : Node
         }
 
         await bridge.HandleOldPcInputAsync(Input("open", OfficialNotice));
-        if (!bridge.IsOldPcDocumentAccessible(InternalRegister))
-        {
-            Fail("Official notice did not unlock the internal register.");
-            return;
-        }
+        if (bridge.IsOldPcDocumentAccessible(InternalRegister))
+        { Fail("The first notice bypassed Naila's record permission."); return; }
+        var sceneBeforeRejectedOpen = bridge.ActiveSceneId;
+        var earlyOpenRejected = false;
+        try { await bridge.HandleOldPcInputAsync(Input("open", InternalRegister)); }
+        catch (InvalidOperationException) { earlyOpenRejected = true; }
+        if (!earlyOpenRejected || bridge.ActiveSceneId != sceneBeforeRejectedOpen)
+        { Fail("An early register open was accepted or changed the scene."); return; }
+        if (!await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "official-wording", "ask-wording")
+            || !bridge.IsOldPcDocumentAccessible(InternalRegister))
+        { Fail("Naila's authored answer did not unlock the register after the notice."); return; }
 
         await bridge.HandleOldPcInputAsync(Input("open", InternalRegister));
         if (bridge.IsOldPcDocumentAccessible(SavedMessage)
@@ -55,7 +61,7 @@ public partial class OldPcFlowSmokeTest : Node
             return;
         }
 
-        GD.Print("oldpc-flow-smoke: official notice -> internal register -> authored quest completed -> saved message unlocked");
+        GD.Print("oldpc-flow-smoke: official notice -> rejected early register -> Naila answer -> internal register -> authored quest completed -> saved message unlocked");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }

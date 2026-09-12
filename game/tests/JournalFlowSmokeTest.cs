@@ -97,6 +97,8 @@ public partial class JournalFlowSmokeTest : Node
         var compare = "urman.chapter1:interaction/compare-records-contradiction";
         if (await bridge.CompareJournalSourcesAsync(compare, pair))
         { Fail("Comparison accepted a source that was not found."); return; }
+        if (!await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "official-wording", "ask-wording"))
+        { Fail("Journal flow could not obtain Naila's authored record permission."); return; }
         await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "open", documentId = register }));
         var before = bridge.ActiveSceneId;
         if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() == "confirmed")
