@@ -52,7 +52,8 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         var width = Mathf.Max(1f, Mathf.Min(viewport.X - 48f, 860f * scale));
         // Large text needs room for the line and the choice buttons together.
         // Keep the bottom edge stable while growing upward inside the viewport.
-        var height = Mathf.Max(1f, Mathf.Min(viewport.Y - 48f, 400f + 160f * (scale - 1f)));
+        var extraChoicesHeight = Mathf.Max(0, _choices.GetChildCount() - 3) * (44f * scale + 8f);
+        var height = Mathf.Max(1f, Mathf.Min(viewport.Y - 48f, 400f + 160f * (scale - 1f) + extraChoicesHeight));
         _panel.AnchorLeft = _panel.AnchorRight = .5f;
         _panel.AnchorTop = _panel.AnchorBottom = 1f;
         _panel.OffsetLeft = -width * .5f;
@@ -134,6 +135,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
             _choices.AddChild(button);
         }
         AccessibilityPresentation.ApplyToControl(_panel, _accessibility);
+        RefitToViewport();
 
         _continue.Visible = _choices.GetChildCount() == 0;
         (_choices.GetChildCount() > 0 ? (Control)_choices.GetChild(0) : _continue).GrabFocus();

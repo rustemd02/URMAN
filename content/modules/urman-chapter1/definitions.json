@@ -1682,6 +1682,19 @@
       ],
       "effects": [],
       "nextNodeId": "marat-reply"
+     },
+     {
+      "id": "remember-blue-mittens",
+      "textId": "urman.chapter1:text/choice-mansur-blue-mittens",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "blue-mittens-reply"
      }
     ]
    },
@@ -1705,6 +1718,14 @@
     "id": "marat-reply",
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-marat-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "blue-mittens-reply",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-blue-mittens-reply",
     "conditions": [],
     "effects": [],
     "choices": []
@@ -4119,6 +4140,28 @@
    "default": "Mansur nods toward the chair: “Sit down. I’m here, beside you.”",
    "translations": {
     "ru": "Мансур кивает на стул: «Садись. Я здесь, рядом»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-mansur-blue-mittens",
+  "value": {
+   "default": "Remember how I got paint on my mittens?",
+   "translations": {
+    "ru": "Помнишь, как я испачкал рукавицы?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-mansur-blue-mittens-reply",
+  "value": {
+   "default": "“I remember. I told you to keep your mittens clean. And there you were, already grabbing the crossbar.”",
+   "translations": {
+    "ru": "«Помню. Я тебе — рукавицы не пачкай. А ты уже за перекладину взялся»."
    }
   },
   "purpose": "dialogue"

@@ -133,7 +133,36 @@ public partial class DialogueFlowSmokeTest : Node
             return;
         }
 
-        GD.Print("dialogue-flow-smoke: Gulsina vocabulary + Rinat authored choice through shared kernel state");
+        const string mansurDialogue = "urman.chapter1:dialogue/mansur_pc_request";
+        const string memoryChoice = "remember-blue-mittens";
+        if (await bridge.ChooseDialogueAsync(mansurDialogue, "ask-for-help", memoryChoice))
+        { Fail("Mansur remembered the sled before Aidar found it."); return; }
+        bridge.OpenDialogueUi(mansurDialogue);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var memoryText = bridge.ResolveText("urman.chapter1:text/choice-mansur-blue-mittens");
+        var mansurChoices = dialogueUi.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices");
+        if (mansurChoices.GetChildren().OfType<Button>().Any(button => button.Text == memoryText))
+        { Fail("The sled question was visible before its discovery."); return; }
+        dialogueUi._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        main.SwitchZone("village_day", "entry");
+        if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/discover-babai-yard-sled-repair"))
+        { Fail("The authored sled discovery was rejected."); return; }
+        bridge.OpenDialogueUi(mansurDialogue);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var memoryButton = mansurChoices.GetChildren().OfType<Button>().SingleOrDefault(button => button.Text == memoryText);
+        if (memoryButton is null)
+        { Fail("The sled discovery did not unlock Mansur's optional question."); return; }
+        memoryButton.EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (dialogueUi.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text
+            != bridge.ResolveText("urman.chapter1:text/dialogue-mansur-blue-mittens-reply")
+            || !dialogueUi.GetNode<Button>("Screen/Panel/Layout/Continue").Visible)
+        { Fail("The optional sled question did not present Mansur's terminal reply."); return; }
+        dialogueUi._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
+        if (dialogueUi.IsOpen || player.ModalOpen)
+        { Fail("Mansur's sled reply did not release the player."); return; }
+
+        GD.Print("dialogue-flow-smoke: Gulsina vocabulary + Rinat choice + discovery-gated Mansur memory through production UI");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }

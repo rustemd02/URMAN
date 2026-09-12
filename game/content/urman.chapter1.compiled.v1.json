@@ -885,6 +885,19 @@
                 ],
                 "effects": [],
                 "nextNodeId": "marat-reply"
+              },
+              {
+                "id": "remember-blue-mittens",
+                "textId": "urman.chapter1:text/choice-mansur-blue-mittens",
+                "conditions": [
+                  {
+                    "op": "knowledge.status",
+                    "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+                    "status": "confirmed"
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "blue-mittens-reply"
               }
             ]
           },
@@ -908,6 +921,14 @@
             "id": "marat-reply",
             "speakerRole": "mansur",
             "textId": "urman.chapter1:text/dialogue-mansur-marat-reply",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "blue-mittens-reply",
+            "speakerRole": "mansur",
+            "textId": "urman.chapter1:text/dialogue-mansur-blue-mittens-reply",
             "conditions": [],
             "effects": [],
             "choices": []
@@ -5818,6 +5839,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/choice-mansur-blue-mittens",
+        "value": {
+          "default": "Remember how I got paint on my mittens?",
+          "translations": {
+            "ru": "\u041F\u043E\u043C\u043D\u0438\u0448\u044C, \u043A\u0430\u043A \u044F \u0438\u0441\u043F\u0430\u0447\u043A\u0430\u043B \u0440\u0443\u043A\u0430\u0432\u0438\u0446\u044B?"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/choice-mansur-marat",
         "value": {
           "default": "Show him the official notice.",
@@ -6209,6 +6241,17 @@
           "default": "\u201CI know you are not a little boy anymore. But keep away from the forest in the evening. I worry less when you are home.\u201D",
           "translations": {
             "ru": "\u00AB\u042F\u00A0\u0437\u043D\u0430\u044E, \u0442\u044B \u043D\u0435 \u043C\u0430\u043B\u0435\u043D\u044C\u043A\u0438\u0439. \u041D\u043E \u0432\u0435\u0447\u0435\u0440\u043E\u043C \u043A\u00A0\u043B\u0435\u0441\u0443 \u043D\u0435 \u0445\u043E\u0434\u0438. \u041C\u043D\u0435 \u0441\u043F\u043E\u043A\u043E\u0439\u043D\u0435\u0435, \u043A\u043E\u0433\u0434\u0430 \u0442\u044B \u0434\u043E\u043C\u0430\u00BB."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/dialogue-mansur-blue-mittens-reply",
+        "value": {
+          "default": "\u201CI remember. I told you to keep your mittens clean. And there you were, already grabbing the crossbar.\u201D",
+          "translations": {
+            "ru": "\u00AB\u041F\u043E\u043C\u043D\u044E. \u042F \u0442\u0435\u0431\u0435 \u2014 \u0440\u0443\u043A\u0430\u0432\u0438\u0446\u044B \u043D\u0435 \u043F\u0430\u0447\u043A\u0430\u0439. \u0410 \u0442\u044B \u0443\u0436\u0435 \u0437\u0430 \u043F\u0435\u0440\u0435\u043A\u043B\u0430\u0434\u0438\u043D\u0443 \u0432\u0437\u044F\u043B\u0441\u044F\u00BB."
           }
         },
         "purpose": "dialogue"
@@ -7286,7 +7329,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "c3c7dd17a3e05b692f04d1d46fd60b872c836d7ac530897a2a45bf80ab91a6d9"
+      "sha256": "d067d55bdff994a852e64cd0b2ec1f00b797aac2c6b51b7ae40b3453e4727a05"
     },
     {
       "moduleId": "urman.core",
@@ -7299,5 +7342,5 @@
       "sha256": "c5f6da9646e805176ada5893a495a63ff06e4da1457b003f54c34318815037ee"
     }
   ],
-  "campaignFingerprint": "4d6cbd5646e7991be873f8fbdcf572836ceb24449204791e5e1f0b2742dc6805"
+  "campaignFingerprint": "4d8029f7fed5fd8875d95238621c05921bfcc6f743c5386a37eee1189ee5c5ee"
 }
