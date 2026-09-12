@@ -1330,15 +1330,15 @@ public partial class Act1ConnectedWorld : Node3D
         // Frost haze: cold pale blue-grey that the far houses and forest melt
         // into, so distant snow does not read as a flat white wall.
         environment.FogLightColor = karaNight
-            ? Color.FromHtml("6c7f95")
+            ? Color.FromHtml("90a8b8")
             : zirat ? Color.FromHtml("a7b5c1") : Color.FromHtml("b9cfdd");
         environment.FogDensity = karaNight ? .009f : zirat ? .0038f : .0022f;
         environment.FogHeight = karaNight ? 0.95f : 1.0f;
         environment.FogHeightDensity = karaNight ? .05f : zirat ? .03f : .025f;
-        environment.FogAerialPerspective = karaNight ? 0.78f : zirat ? 0.60f : 0.64f;
+        environment.FogAerialPerspective = karaNight ? 0.35f : zirat ? 0.60f : 0.64f;
         // Let the procedural sky carry its blue gradient instead of washing
         // every roof and distant facade into the same grey veil.
-        environment.FogSkyAffect = karaNight ? 0.22f : zirat ? 0.22f : 0.14f;
+        environment.FogSkyAffect = karaNight ? 0.08f : zirat ? 0.22f : 0.14f;
         environment.FogSunScatter = karaNight ? 0.07f : zirat ? 0.06f : 0.09f;
         environment.TonemapMode = global::Godot.Environment.ToneMapper.Agx;
         // Snow is the brightest surface in frame; exposure protects its detail.
@@ -1745,6 +1745,11 @@ public partial class Act1ConnectedWorld : Node3D
             // their restrained warm/cool split before generic variant rules.
             ("MainStreetForwardWestFacade", "URMAN_Plaster_Ochre", "a08d6f"),
             ("MainStreetForwardWestFacade", "URMAN_Wood_Dark", "605044"),
+            // Arrival-facing dwellings keep warm plaster while their existing
+            // timber trim, gable boards and window surrounds carry a restrained
+            // painted blue-green accent; no new geometry or material owner.
+            ("ArrivalForwardWestFacade", "URMAN_Wood_Weathered", "597b7d"),
+            ("ArrivalForwardEastFacade", "URMAN_Wood_Weathered", "637f84"),
             ("MainStreetEastNeighborFacade", "URMAN_Plaster_Ochre", "7b8d86"),
             ("MainStreetEastNeighborFacade", "URMAN_Wood_Dark", "4f6a63"),
             ("MainStreetEastNeighborFacade", "URMAN_Wood_Weathered", "93a4a9"),
