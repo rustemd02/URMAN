@@ -96,7 +96,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _screen.Visible = true;
         _activeDocumentId = null;
         _documentTitle.Text = "АРХИВ КЫРЛАЙ";
-        _reader.Text = "Введите слово или выберите запись слева. Некоторые документы откроются только после того, как Айдар найдёт связанную улику или поймёт татарское слово.";
+        _reader.Text = "Введите слово или выберите запись слева. ✓ — запись уже открывали. Закрытые записи появятся после связанной улики или понятого татарского слова.";
         _status.Text = "Локальный архив · Кырлай";
         _save.Disabled = true;
         RefreshResults();
@@ -190,6 +190,9 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         }
 
         var query = _query.Text.Trim();
+        var opened = _bridge.SelectRuntimeState().GetProperty("presentation")
+            .GetProperty("openedDocumentIds").EnumerateArray()
+            .Select(item => item.GetString()!).ToHashSet(StringComparer.Ordinal);
         _results.Clear();
         var hasRestrictedRecords = false;
         foreach (var document in _bridge.OldPcDocuments)
@@ -200,7 +203,9 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
                 continue;
             }
             if (!Matches(document, query)) continue;
-            var index = _results.AddItem(document.Title);
+            var wasOpened = opened.Contains(document.Id);
+            var index = _results.AddItem(wasOpened ? $"✓ {document.Title}" : document.Title);
+            _results.SetItemTooltip(index, wasOpened ? "Уже открывали" : "Ещё не открывали");
             _results.SetItemMetadata(index, document.Id);
             if (document.Id == _activeDocumentId)
             {
