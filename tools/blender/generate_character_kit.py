@@ -448,6 +448,26 @@ def create_character(
             arm_x * 0.25,
             wrist_z - 0.98 * height_scale,
         )
+    elif prefix == "Mansur":
+        # Keep Mansur's shoulders and ground anchor unchanged, but bring both
+        # forearms forward and together over the lower coat. This is a quiet
+        # elder-at-rest silhouette for the house conversation; it uses the
+        # existing Arm.L/Arm.R parentage and does not add a prop or bone.
+        mansur_hand_y = -0.190
+        mansur_hand_z = 0.79 * height_scale
+        mansur_cuff_angle = math.atan2(arm_x * .76 - .085, mansur_hand_z - 1.02 * height_scale)
+        sleeve_left_points = (
+            (x - arm_x * 0.68, -0.010, 1.30 * height_scale),
+            (x - arm_x * 0.86, -0.025, 1.16 * height_scale),
+            (x - arm_x * 0.76, -0.095, 1.02 * height_scale),
+            (x - 0.085, mansur_hand_y, mansur_hand_z),
+        )
+        sleeve_right_points = (
+            (x + arm_x * 0.68, -0.010, 1.30 * height_scale),
+            (x + arm_x * 0.86, -0.025, 1.16 * height_scale),
+            (x + arm_x * 0.76, -0.095, 1.02 * height_scale),
+            (x + 0.085, mansur_hand_y, mansur_hand_z),
+        )
     else:
         sleeve_left_points = (
             (x - arm_x * 0.68, -0.010, 1.30 * height_scale),
@@ -506,6 +526,11 @@ def create_character(
         cuff_specs = (
             ("Left", x - arm_x * 0.45, wrist_y, wrist_z, gulsina_cuff_angle),
             ("Right", x + arm_x * 0.45, wrist_y, wrist_z, -gulsina_cuff_angle),
+        )
+    elif prefix == "Mansur":
+        cuff_specs = (
+            ("Left", x - 0.085, mansur_hand_y, mansur_hand_z, mansur_cuff_angle),
+            ("Right", x + 0.085, mansur_hand_y, mansur_hand_z, -mansur_cuff_angle),
         )
     else:
         cuff_specs = (
@@ -694,6 +719,21 @@ def create_character(
                 (x + side_sign * 0.090, towel_y - 0.018, towel_z + 0.005),
                 # Thumb tips turn across the front face, toward the centre.
                 (x + side_sign * 0.060, towel_y - 0.028, towel_z + 0.030),
+            )
+        elif prefix == "Mansur":
+            side_x = x + side_sign * 0.085
+            hand_points = (
+                # Overlap the cuff, then converge both palms just in front of
+                # the coat. The last rings overlap at the centre without
+                # changing the existing hand mesh or Arm.L/Arm.R binding.
+                (side_x, mansur_hand_y, mansur_hand_z),
+                (x + side_sign * 0.058, mansur_hand_y - 0.028, mansur_hand_z - 0.018),
+                (x + side_sign * 0.030, mansur_hand_y - 0.034, mansur_hand_z - 0.036),
+                (x + side_sign * 0.012, mansur_hand_y - 0.030, mansur_hand_z - 0.050),
+            )
+            thumb_points = (
+                (x + side_sign * 0.020, mansur_hand_y - 0.032, mansur_hand_z - 0.034),
+                (x + side_sign * 0.004, mansur_hand_y - 0.050, mansur_hand_z - 0.024),
             )
         else:
             side_x = x + side_sign * arm_x
