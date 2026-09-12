@@ -461,7 +461,7 @@ public partial class Act1ConnectedWorld
             KaraBranchProfileSlug,
             new(2.10f, 2.25f, 1.65f),
             kara.ToLocal(profileRoot + Vector3.Up * 1.15f),
-            journal: true);
+            journal: false);
         profileTarget.SetMeta("activePropPath", "Act1CoreWorldGreybox/KaraForestEdge/KaraBranchProfileTrunk");
         profileTarget.SetMeta("physicalAction", "check the silhouette from the side");
         profileTarget.SetMeta("opticalAmbiguityOnly", true);
