@@ -559,7 +559,9 @@ public partial class StyleBenchmarkZone : Node3D
             "WovenRug",
             "RugStripeA",
             "RugStripeB",
-            "WallShelf"
+            "WallShelf",
+            "CurtainLeft",
+            "CurtainRight"
         };
         foreach (var legacyVisualName in replacedHouseVisuals)
         {
