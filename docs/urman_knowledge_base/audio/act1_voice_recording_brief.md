@@ -172,4 +172,3 @@ sh eng/apply-act1-voice-recordings.sh <папка-с-записями>          
 пользовательская громкость шины не меняется), `act1_audio_transition_smoke_test`,
 `act1_final_state_smoke_test`, `chapter_one_flow_smoke_test` — все PASS. Слышимость
 и уместность −6 дБ всё равно оценивает человек при прослушивании.
-
