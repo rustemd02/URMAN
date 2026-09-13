@@ -23,7 +23,8 @@ public static class GeneratedCharacterKitDressing
         string characterId,
         string prefix,
         Vector3 anchor,
-        bool sheltered = false)
+        bool sheltered = false,
+        bool idleMotion = true)
     {
         var packed = ResourceLoader.Load<PackedScene>(ScenePath);
         if (packed is null)
@@ -98,6 +99,13 @@ public static class GeneratedCharacterKitDressing
 
         var idleClip = $"{prefix}_Idle";
         animationPlayer.Play(idleClip);
+        // The imported clip is inert (see NpcIdleMotion), so visible life comes
+        // from a bone-level idle component. Callers that drive their own sway
+        // pass idleMotion: false to keep a single animation owner.
+        if (idleMotion)
+        {
+            instance.AddChild(new NpcIdleMotion { Name = "NpcIdleMotion" });
+        }
         // Attach can run while a zone is still being assembled off-tree (for
         // example in the scene smoke test), so persist a stable node name
         // rather than calling GetPath before the instance enters SceneTree.

@@ -330,6 +330,71 @@ public partial class SceneSmokeTest : Node
             return "NPC must be playing authored Idle while exposing both Idle and Tension clips";
         }
 
+        // Playing is metadata; motion is geometry. The review pack could only
+        // show that cast frames differ over time, and part of that difference
+        // could come from snow or branch sway, so sample the skeleton itself:
+        // if the authored Idle clip moves no bone between two positions inside
+        // it, the NPC is a statue that merely reports a running player.
+        var skeleton = npc.FindChildren("*", nameof(Skeleton3D), recursive: true, owned: false)
+            .OfType<Skeleton3D>().FirstOrDefault();
+        if (skeleton is null || skeleton.GetBoneCount() == 0)
+        {
+            return "NPC has no skeleton, so its animation cannot be observed";
+        }
+
+        var idleAnimation = player.GetAnimation($"{expectedPrefix}_Idle");
+        if (idleAnimation is null || idleAnimation.Length <= 0.05)
+        {
+            return "NPC Idle clip has no usable length to sample";
+        }
+
+        // The imported clip is inert in this engine build: its tracks are named
+        // after the bones ("<rig>/Skeleton3D:Spine") and playing them moves
+        // neither the bone pose, nor the bone's global pose, nor the visible
+        // mesh - measured here before NpcIdleMotion existed. Visible life is
+        // therefore owned by NpcIdleMotion, and that is what this contract
+        // checks: over time a character's bones must actually move.
+        var idleMotion = npc.GetNodeOrNull<NpcIdleMotion>("NpcIdleMotion");
+        if (idleMotion is null)
+        {
+            return "NPC has no idle motion component, so the character would stand frozen";
+        }
+
+        var idleBones = new[] { "Spine", "Head", "Arm.L", "Arm.R" }
+            .Select(name => skeleton.FindBone(name))
+            .Where(bone => bone >= 0)
+            .ToArray();
+        if (idleBones.Length == 0)
+        {
+            return "NPC skeleton exposes none of the idle bones (Spine/Head/Arm.L/Arm.R)";
+        }
+
+        var visibleMesh = npc.FindChildren("*", nameof(MeshInstance3D), recursive: true, owned: false)
+            .OfType<MeshInstance3D>().FirstOrDefault(mesh => mesh.IsVisibleInTree());
+        var before = idleBones.Select(bone => skeleton.GetBonePoseRotation(bone)).ToArray();
+        var meshBefore = visibleMesh?.GlobalPosition ?? Vector3.Zero;
+        idleMotion._Process(1.0);
+        var movedBones = 0;
+        var largestAngle = 0f;
+        for (var index = 0; index < idleBones.Length; index++)
+        {
+            var current = skeleton.GetBonePoseRotation(idleBones[index]);
+            var angle = before[index].AngleTo(current);
+            if (angle > 0.004f)
+            {
+                movedBones++;
+                largestAngle = Mathf.Max(largestAngle, angle);
+            }
+        }
+
+        var meshMoved = visibleMesh is not null && !meshBefore.IsEqualApprox(visibleMesh.GlobalPosition);
+        GD.Print($"npc-idle-motion: {expectedPrefix} bones={idleBones.Length} movedBones={movedBones} "
+            + $"largestAngle={largestAngle:F4} meshMoved={meshMoved}");
+        if (movedBones == 0)
+        {
+            return $"NPC idle motion moves none of its {idleBones.Length} bones, so the character stands frozen";
+        }
+
         if (interactionName.Length == 0)
         {
             return string.Empty;
