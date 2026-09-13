@@ -52,6 +52,7 @@ public partial class Act1BindingConflictSmokeTest : Node
         var capture = InputBindingService.Capture();
         var interactKey = (Key)(capture.First(binding => binding.Action == "interact").KeyboardPhysicalKeycode);
         var journalDefault = capture.First(binding => binding.Action == "journal").KeyboardPhysicalKeycode;
+        var baselineHint = player.InteractionHint;
 
         // 1) Begin rebinding `journal` onto interact's key: the first press
         //    only warns; the second identical press applies the conflict.
@@ -113,7 +114,44 @@ public partial class Act1BindingConflictSmokeTest : Node
             }
         }
 
-        GD.Print("act1-binding-conflict: PASS two-step conflicting rebind + conflicting action preserved + restore defaults");
+        // 3) A rebind must move the on-screen interaction hint too, not only the
+        //    input map. InputMap has no change signal, so the documented settings
+        //    and modal boundaries are the invalidation points.
+        var rebindKey = Key.U;
+        settings.BeginRemap("interact");
+        settings._UnhandledInput(new InputEventKey
+        {
+            Keycode = rebindKey,
+            PhysicalKeycode = rebindKey,
+            Pressed = true,
+            Echo = false
+        });
+        await Frames(1);
+        if (settings.IsAwaitingRemap)
+        {
+            Fail("Rebinding interact onto a free key did not finish in one press.");
+            return;
+        }
+
+        player.SetModalOpen(true);
+        player.SetModalOpen(false);
+        var reboundHint = player.InteractionHint;
+        if (reboundHint != $"[{OS.GetKeycodeString(rebindKey)}]" || reboundHint == baselineHint)
+        {
+            Fail($"The interaction hint did not follow the rebind: baseline={baselineHint} rebound={reboundHint}.");
+            return;
+        }
+
+        InputBindingService.RestoreDefaults();
+        player.SetModalOpen(true);
+        player.SetModalOpen(false);
+        if (player.InteractionHint != baselineHint)
+        {
+            Fail($"The interaction hint did not return to the default after restore: {player.InteractionHint}.");
+            return;
+        }
+
+        GD.Print("act1-binding-conflict: PASS two-step conflicting rebind + conflicting action preserved + restore defaults + prompt follows the rebind");
         settings.Close();
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
