@@ -14,6 +14,20 @@ public partial class Act1UiReadabilitySmokeTest : Node
 {
     public override async void _Ready()
     {
+        // An unhandled exception in an async void _Ready never reaches Quit,
+        // so the harness would hang instead of failing. Report it loudly.
+        try
+        {
+            await RunAsync();
+        }
+        catch (Exception exception)
+        {
+            Fail($"UI readability smoke aborted: {exception.GetType().Name}: {exception.Message}");
+        }
+    }
+
+    private async Task RunAsync()
+    {
         var main = ResourceLoader.Load<PackedScene>("res://scenes/main.tscn")?.Instantiate<Main>();
         if (main is null)
         {
@@ -172,7 +186,16 @@ public partial class Act1UiReadabilitySmokeTest : Node
             await Frames(2);
             await SaveShot("journal" + suffix, journal.GetNode<Control>("Screen/Book"), width, height);
             journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 1;
-            var pair = new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" };
+            // Story-gated documents (the internal register needs Naila's access) are not
+            // part of every journal state, so compare the two sources the journal
+            // actually holds instead of a fixed pair.
+            var pair = bridge.JournalEntries().Select(entry => entry.SourceId)
+                .Distinct(StringComparer.Ordinal).Take(2).ToArray();
+            if (pair.Length < 2)
+            {
+                Fail($"Filled journal exposes only {pair.Length} distinct comparison sources.");
+                return;
+            }
             for (var slot = 0; slot < 2; slot++)
             {
                 var picker = journal.GetNode<OptionButton>($"Screen/Book/Layout/Comparisons/Layout/Source{slot + 1}/Source");
@@ -202,6 +225,38 @@ public partial class Act1UiReadabilitySmokeTest : Node
             await Frames(3);
             if (oldPc.ActiveDocumentId != longest.Id) { Fail("Old PC did not open the selected real document."); return; }
             await SaveShot("oldpc" + suffix, oldPc.GetNode<Control>("Screen/Computer"), width, height);
+
+            // Empty search: the archive must say so in readable words at every
+            // resolution and text scale instead of leaving a blank work area.
+            var query = oldPc.GetNode<LineEdit>("Screen/Computer/Layout/SearchRow/Query");
+            query.Text = "ъъъъ";
+            oldPc.GetNode<Button>("Screen/Computer/Layout/SearchRow/Search")
+                .EmitSignal(Button.SignalName.Pressed);
+            await Frames(3);
+            var reader = oldPc.GetNode<RichTextLabel>("Screen/Computer/Layout/WorkArea/ReaderArea/Reader");
+            if (!oldPc.StatusText.Contains("Найдено записей: 0", StringComparison.Ordinal)
+                || !reader.Text.Contains("Совпадений нет", StringComparison.Ordinal))
+            {
+                Fail($"The empty archive search is unreadable at {width}x{height} scale={scale}: status='{oldPc.StatusText}' reader='{reader.Text}'");
+                return;
+            }
+            await SaveShot("oldpc_no_matches" + suffix, oldPc.GetNode<Control>("Screen/Computer"), width, height);
+
+            // Clearing the query must bring the archive back: the empty state
+            // cannot be a dead end, and the next pass must start unfiltered.
+            query.Text = string.Empty;
+            oldPc.GetNode<Button>("Screen/Computer/Layout/SearchRow/Search")
+                .EmitSignal(Button.SignalName.Pressed);
+            await Frames(3);
+            // The footer counts selectable records, so gated entries stay listed
+            // but unselectable and never inflate the restored count.
+            var selectable = Enumerable.Range(0, results.ItemCount).Count(results.IsItemSelectable);
+            if (selectable == 0
+                || !oldPc.StatusText.Contains($"Найдено записей: {selectable}", StringComparison.Ordinal))
+            {
+                Fail($"Clearing the archive query did not restore the list at {width}x{height} scale={scale}: status='{oldPc.StatusText}' items={results.ItemCount} selectable={selectable}");
+                return;
+            }
             oldPc._UnhandledInput(Cancel());
 
             bridge.OpenDialogueUi(Dialogue("mansur_pc_request"));
@@ -216,7 +271,7 @@ public partial class Act1UiReadabilitySmokeTest : Node
             await Frames(2);
             if (player.ModalOpen) { Fail("Extended UI capture left a modal owner open."); return; }
         }
-        GD.Print($"act1-ui-readability: PASS 2 resolutions x 5 critical UIs; scales 1/1.6; journal entries={bridge.JournalEntries().Count}; longest document={longest.Id} chars={longest.BodyMarkdown.Length}; focus and Tatar glyphs");
+        GD.Print($"act1-ui-readability: PASS 2 resolutions x 5 critical UIs + empty archive search; scales 1/1.6; journal entries={bridge.JournalEntries().Count}; longest document={longest.Id} chars={longest.BodyMarkdown.Length}; focus and Tatar glyphs");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }
