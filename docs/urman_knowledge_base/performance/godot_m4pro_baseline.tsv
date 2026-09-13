@@ -59,3 +59,11 @@ packaged_release_r41_native	n/a	8.713	n/a	8.840	114.73	PASS
 # fingerprint is unchanged and r42 loads saves written by r39/r40/r41.
 packaged_release_r42_native	n/a	9.223	n/a	9.615	108.42	PASS
 # samples=12 min_fps=104 max_fps=111 mean_fps=108.4; the skinned character path costs about 6 FPS against r41 (114.7)
+# 2026-09-14: packaged r42 measured with the project's own package probe (eng/benchmark-act1-demo-package.sh,
+# gameplay mode, real Metal window, 1280x720 window / 1920x1080 viewport, VSync disabled). This is the run
+# that supplies per-frame percentiles, so the earlier 'p95 honestly n/a' note no longer applies.
+# caveat: focused_sample_fraction=0.00000 (window not focused during sampling) and one arrival gameplay
+# sample, not the heaviest view; release hardware still unmeasured.
+packaged_release_r42_probe_60s		n/a	8.708	9.667	16.542	114.84	PASS
+# 60.01 s, 6891 frames, p99=9.863 ms, long_frame_fraction=0.00000, warmup 12 s avg 8.963 ms with a one-off
+# 177.449 ms startup stall; draw_calls=13067 primitives=2299113
