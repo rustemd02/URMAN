@@ -91,7 +91,29 @@ public partial class Act1SettingsNavigationSmokeTest : Node
             return;
         }
 
-        GD.Print("act1-settings-navigation: PASS menu-safe open + entry focus + rollback without apply + explicit apply persists");
+        // 4) Each accessibility row must write its own field. Nothing else in the
+        //    suite touches these controls, so a mis-wired checkbox would be invisible.
+        //    The slider value is taken from the widget's own range and step instead of
+        //    assuming one.
+        var scaleSlider = settings.GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/TextScaleRow/TextScale");
+        var scaleTarget = Mathf.Min(scaleSlider.MaxValue, scaleSlider.MinValue + scaleSlider.Step * 3);
+        settings.GetNode<CheckBox>("Screen/Panel/Layout/BodyScroll/Body/ReducedMotion").ButtonPressed = true;
+        settings.GetNode<CheckBox>("Screen/Panel/Layout/BodyScroll/Body/HighContrast").ButtonPressed = true;
+        settings.GetNode<CheckBox>("Screen/Panel/Layout/BodyScroll/Body/Subtitles").ButtonPressed = false;
+        settings.GetNode<CheckBox>("Screen/Panel/Layout/BodyScroll/Body/AudioDescriptions").ButtonPressed = true;
+        scaleSlider.Value = scaleTarget;
+        settings.GetNode<Button>("Screen/Panel/Layout/Buttons/Apply").EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        var accessibility = player.CaptureSettings().Accessibility;
+        if (!accessibility.ReducedMotion || !accessibility.HighContrast || accessibility.Subtitles
+            || !accessibility.AudioDescriptions || Math.Abs(accessibility.TextScale - scaleTarget) > 0.001)
+        {
+            Fail($"Accessibility rows did not map to their own fields: reduced={accessibility.ReducedMotion} contrast={accessibility.HighContrast} "
+                + $"subtitles={accessibility.Subtitles} descriptions={accessibility.AudioDescriptions} scale={accessibility.TextScale} target={scaleTarget}");
+            return;
+        }
+
+        GD.Print("act1-settings-navigation: PASS menu-safe open + entry focus + rollback without apply + explicit apply persists + accessibility rows map to their fields");
         RestoreStore(storeBackup);
         UserSettingsStore.Delete();
         await GodotSmokeCleanup.ReleaseAsync(demo);
