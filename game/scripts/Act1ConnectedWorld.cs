@@ -372,6 +372,9 @@ public partial class Act1ConnectedWorld : Node3D
 
         SetActiveLogicalZone("village_day");
         CallDeferred(nameof(ReapplyLogicalZonePresentationSuppressions));
+        // Parcel facades are attached across several build steps, so the painted
+        // window surrounds are applied once the frame's construction is finished.
+        CallDeferred(nameof(DressDeferredPaintedWindowSurrounds));
         IsBuilt = true;
     }
 
@@ -3402,6 +3405,7 @@ public partial class Act1ConnectedWorld : Node3D
             "placementPolicy",
             "extract named authored roots, clear preview-board offsets, and place only in declared Act I parcels");
         core.AddChild(presentation);
+
 
         var packed = ResourceLoader.Load<PackedScene>(VillageExteriorKitScenePath)
             ?? throw new InvalidOperationException(
@@ -9313,4 +9317,50 @@ public partial class Act1ConnectedWorld : Node3D
             }
         }
     }
+    /// <summary>
+    /// Presentation-only repaint of the parcel window surrounds. A Tatar village facade is
+    /// identified by its painted nalichnik, while the kit bakes a weathered-wood reveal that
+    /// reads as a plain hole in the wall. Only visual meshes are touched: collision, routes,
+    /// interactions and runtime state keep their existing owners.
+    /// </summary>
+    private void DressDeferredPaintedWindowSurrounds()
+    {
+        if (FindChild("Act1AuthoredExteriorKitPresentation", true, false) is Node3D presentation)
+        {
+            DressPaintedWindowSurrounds(presentation);
+        }
+    }
+
+    private static void DressPaintedWindowSurrounds(Node3D presentation)
+    {
+        const string paint = "ded3c2";
+        var material = PainterlyMaterialLibrary.ForColor(paint, "wood_facade");
+        var painted = 0;
+        foreach (var mesh in FindDescendants<MeshInstance3D>(presentation))
+        {
+            var name = mesh.Name.ToString();
+            if (!name.Contains("Window", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var isSurround = name.EndsWith("_Jamb1_LOD0", StringComparison.Ordinal)
+                || name.EndsWith("_Jamb-1_LOD0", StringComparison.Ordinal)
+                || name.EndsWith("_Rail1_LOD0", StringComparison.Ordinal)
+                || name.EndsWith("_Rail-1_LOD0", StringComparison.Ordinal);
+            if (!isSurround)
+            {
+                continue;
+            }
+
+            mesh.MaterialOverride = material;
+            mesh.SetMeta("windowSurroundPaint", paint);
+            mesh.SetMeta("presentationOwnership", "presentation-only");
+            painted++;
+        }
+
+        presentation.SetMeta("paintedWindowSurroundCount", painted);
+        GD.Print($"act1-window-surrounds: painted={painted}");
+    }
+
 }
