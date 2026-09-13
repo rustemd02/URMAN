@@ -166,7 +166,29 @@ public partial class DialogueFlowSmokeTest : Node
         if (dialogueUi.IsOpen || player.ModalOpen)
         { Fail("Mansur's sled reply did not release the player."); return; }
 
-        GD.Print("dialogue-flow-smoke: Gulsina vocabulary + Rinat choice + discovery-gated Mansur memory through production UI");
+        if (!bridge.SelectRuntimeState().GetProperty("npc")
+                .GetProperty("urman.chapter1:character/mansur")
+                .GetProperty("mittens_asked").GetBoolean())
+        { Fail("Asking Mansur about the sled did not record that the question was already asked."); return; }
+
+        bridge.OpenDialogueUi(mansurDialogue);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var againText = bridge.ResolveText("urman.chapter1:text/choice-mansur-blue-mittens-again");
+        var againButton = mansurChoices.GetChildren().OfType<Button>().SingleOrDefault(button => button.Text == againText);
+        if (againButton is null
+            || mansurChoices.GetChildren().OfType<Button>().Any(button => button.Text == memoryText))
+        { Fail("Mansur's return visit did not offer the follow-up question about the paint instead of the first one."); return; }
+        againButton.EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (dialogueUi.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text
+            != bridge.ResolveText("urman.chapter1:text/dialogue-mansur-blue-mittens-again-reply")
+            || !dialogueUi.GetNode<Button>("Screen/Panel/Layout/Continue").Visible)
+        { Fail("Mansur's return visit did not present the closing reply about the paint."); return; }
+        dialogueUi._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
+        if (dialogueUi.IsOpen || player.ModalOpen)
+        { Fail("Mansur's closing reply did not release the player."); return; }
+
+        GD.Print("dialogue-flow-smoke: Gulsina vocabulary + Rinat choice + discovery-gated Mansur memory and its return visit through production UI");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }

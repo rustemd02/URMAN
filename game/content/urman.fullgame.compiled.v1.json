@@ -957,10 +957,45 @@
                     "op": "knowledge.status",
                     "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
                     "status": "confirmed"
+                  },
+                  {
+                    "op": "not",
+                    "condition": {
+                      "op": "npc.state",
+                      "characterId": "urman.chapter1:character/mansur",
+                      "stateKey": "mittens_asked",
+                      "value": true
+                    }
+                  }
+                ],
+                "effects": [
+                  {
+                    "op": "npc.set-state",
+                    "characterId": "urman.chapter1:character/mansur",
+                    "stateKey": "mittens_asked",
+                    "value": true
+                  }
+                ],
+                "nextNodeId": "blue-mittens-reply"
+              },
+              {
+                "id": "remember-blue-mittens-again",
+                "textId": "urman.chapter1:text/choice-mansur-blue-mittens-again",
+                "conditions": [
+                  {
+                    "op": "knowledge.status",
+                    "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+                    "status": "confirmed"
+                  },
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/mansur",
+                    "stateKey": "mittens_asked",
+                    "value": true
                   }
                 ],
                 "effects": [],
-                "nextNodeId": "blue-mittens-reply"
+                "nextNodeId": "blue-mittens-again-reply"
               }
             ]
           },
@@ -1043,10 +1078,45 @@
                     "op": "knowledge.status",
                     "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
                     "status": "confirmed"
+                  },
+                  {
+                    "op": "not",
+                    "condition": {
+                      "op": "npc.state",
+                      "characterId": "urman.chapter1:character/mansur",
+                      "stateKey": "mittens_asked",
+                      "value": true
+                    }
+                  }
+                ],
+                "effects": [
+                  {
+                    "op": "npc.set-state",
+                    "characterId": "urman.chapter1:character/mansur",
+                    "stateKey": "mittens_asked",
+                    "value": true
+                  }
+                ],
+                "nextNodeId": "blue-mittens-reply"
+              },
+              {
+                "id": "remember-blue-mittens-again",
+                "textId": "urman.chapter1:text/choice-mansur-blue-mittens-again",
+                "conditions": [
+                  {
+                    "op": "knowledge.status",
+                    "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+                    "status": "confirmed"
+                  },
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/mansur",
+                    "stateKey": "mittens_asked",
+                    "value": true
                   }
                 ],
                 "effects": [],
-                "nextNodeId": "blue-mittens-reply"
+                "nextNodeId": "blue-mittens-again-reply"
               },
               {
                 "id": "leave-to-computer",
@@ -1101,6 +1171,14 @@
             "id": "javap-reply",
             "speakerRole": "mansur",
             "textId": "urman.chapter1:text/dialogue-mansur-javap-reply",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "blue-mittens-again-reply",
+            "speakerRole": "mansur",
+            "textId": "urman.chapter1:text/dialogue-mansur-blue-mittens-again-reply",
             "conditions": [],
             "effects": [],
             "choices": []
@@ -7660,6 +7738,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/choice-mansur-blue-mittens-again",
+        "value": {
+          "default": "\u201CBabai, where did that paint come from?\u201D",
+          "translations": {
+            "ru": "\u00AB\u0411\u0430\u0431\u0430\u0439, \u0430 \u043A\u0440\u0430\u0441\u043A\u0430 \u2014 \u043E\u0442\u043A\u0443\u0434\u0430?\u00BB"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/choice-mansur-follow-up",
         "value": {
           "default": "Ask something else.",
@@ -8095,6 +8184,17 @@
           "default": "\u201CI know you are not a little boy anymore. But keep away from the forest in the evening. I worry less when you are home.\u201D",
           "translations": {
             "ru": "\u00AB\u042F\u00A0\u0437\u043D\u0430\u044E, \u0442\u044B \u043D\u0435 \u043C\u0430\u043B\u0435\u043D\u044C\u043A\u0438\u0439. \u041D\u043E \u0432\u0435\u0447\u0435\u0440\u043E\u043C \u043A\u00A0\u043B\u0435\u0441\u0443 \u043D\u0435 \u0445\u043E\u0434\u0438. \u041C\u043D\u0435 \u0441\u043F\u043E\u043A\u043E\u0439\u043D\u0435\u0435, \u043A\u043E\u0433\u0434\u0430 \u0442\u044B \u0434\u043E\u043C\u0430\u00BB."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/dialogue-mansur-blue-mittens-again-reply",
+        "value": {
+          "default": "\u201CFrom the runners, where else. Thick, blue \u2014 I never put it away after that winter. I thought you two would still go sledding.\u201D",
+          "translations": {
+            "ru": "\u00AB\u0421 \u043F\u043E\u043B\u043E\u0437\u044C\u0435\u0432, \u043E\u0442\u043A\u0443\u0434\u0430 \u0436 \u0435\u0449\u0451. \u0413\u0443\u0441\u0442\u0430\u044F, \u0441\u0438\u043D\u044F\u044F. \u042F \u0435\u0451 \u0441 \u0442\u043E\u0439 \u0437\u0438\u043C\u044B \u043D\u0435 \u0443\u0431\u0438\u0440\u0430\u043B \u2014 \u0434\u0443\u043C\u0430\u043B, \u0435\u0449\u0451 \u043A\u0430\u0442\u0430\u0442\u044C\u0441\u044F \u0431\u0443\u0434\u0435\u0442\u0435\u00BB."
           }
         },
         "purpose": "dialogue"
@@ -9701,7 +9801,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "a225d2c79055706440aa40c76327414dd00d7c0088eb2a2f0dac11754ed2be2e"
+      "sha256": "7e6d968bb66ff1d6c147dfcd9238b71e4e500a578f3425ed466b5bdc7623ff38"
     },
     {
       "moduleId": "urman.core",
@@ -9719,5 +9819,5 @@
       "sha256": "90def45ccb600998d6a5b05ad34ffcd9ebe9aa0435ded2e95223f2f4b5e47822"
     }
   ],
-  "campaignFingerprint": "dc41d8736f92fa995cc3c9f2f55028eca1ae8190d09e966ad4fdef3ebaccde51"
+  "campaignFingerprint": "4b29eafcb84b0ea36ae18b7661a9e31c380d9a0f57c7ab232d484a249ba192e6"
 }

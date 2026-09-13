@@ -1727,10 +1727,45 @@
         "op": "knowledge.status",
         "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
         "status": "confirmed"
+       },
+       {
+        "op": "not",
+        "condition": {
+         "op": "npc.state",
+         "characterId": "urman.chapter1:character/mansur",
+         "stateKey": "mittens_asked",
+         "value": true
+        }
+       }
+      ],
+      "effects": [
+       {
+        "op": "npc.set-state",
+        "characterId": "urman.chapter1:character/mansur",
+        "stateKey": "mittens_asked",
+        "value": true
+       }
+      ],
+      "nextNodeId": "blue-mittens-reply"
+     },
+     {
+      "id": "remember-blue-mittens-again",
+      "textId": "urman.chapter1:text/choice-mansur-blue-mittens-again",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+        "status": "confirmed"
+       },
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/mansur",
+        "stateKey": "mittens_asked",
+        "value": true
        }
       ],
       "effects": [],
-      "nextNodeId": "blue-mittens-reply"
+      "nextNodeId": "blue-mittens-again-reply"
      }
     ]
    },
@@ -1813,10 +1848,45 @@
         "op": "knowledge.status",
         "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
         "status": "confirmed"
+       },
+       {
+        "op": "not",
+        "condition": {
+         "op": "npc.state",
+         "characterId": "urman.chapter1:character/mansur",
+         "stateKey": "mittens_asked",
+         "value": true
+        }
+       }
+      ],
+      "effects": [
+       {
+        "op": "npc.set-state",
+        "characterId": "urman.chapter1:character/mansur",
+        "stateKey": "mittens_asked",
+        "value": true
+       }
+      ],
+      "nextNodeId": "blue-mittens-reply"
+     },
+     {
+      "id": "remember-blue-mittens-again",
+      "textId": "urman.chapter1:text/choice-mansur-blue-mittens-again",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+        "status": "confirmed"
+       },
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/mansur",
+        "stateKey": "mittens_asked",
+        "value": true
        }
       ],
       "effects": [],
-      "nextNodeId": "blue-mittens-reply"
+      "nextNodeId": "blue-mittens-again-reply"
      },
      {
       "id": "leave-to-computer",
@@ -1871,6 +1941,14 @@
     "id": "javap-reply",
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-javap-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "blue-mittens-again-reply",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-blue-mittens-again-reply",
     "conditions": [],
     "effects": [],
     "choices": []
@@ -6134,6 +6212,28 @@
    "default": "Ask something else.",
    "translations": {
     "ru": "Спросить ещё что-нибудь"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-mansur-blue-mittens-again",
+  "value": {
+   "default": "“Babai, where did that paint come from?”",
+   "translations": {
+    "ru": "«Бабай, а краска — откуда?»"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-mansur-blue-mittens-again-reply",
+  "value": {
+   "default": "“From the runners, where else. Thick, blue — I never put it away after that winter. I thought you two would still go sledding.”",
+   "translations": {
+    "ru": "«С полозьев, откуда ж ещё. Густая, синяя. Я её с той зимы не убирал — думал, ещё кататься будете»."
    }
   },
   "purpose": "dialogue"
