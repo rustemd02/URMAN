@@ -309,6 +309,11 @@ public static class PainterlyMaterialLibrary
         ["wallpaper"] = ("res://assets/textures/painterly/wallpaper_old_v1_albedo.png", new Vector2(1.1f, 1.1f)),
         ["log_wall"] = ("res://assets/textures/painterly/log_wall_v1_albedo.png", new Vector2(0.9f, 0.9f)),
         ["wall_institution"] = ("res://assets/textures/painterly/wall_institution_v1_albedo.png", new Vector2(1.3f, 1.0f)),
+        // A walked-on institutional floor. The FAP room previously bound the floor to a
+        // texture-less flat colour, so a third of the frame read as an empty plane. Reuse
+        // the aged-plaster family at a much larger tiling rather than authoring a new
+        // albedo: at floor angle it reads as worn lino with soft mottling.
+        ["floor_institution"] = ("res://assets/textures/painterly/aged_plaster_v3_albedo.png", new Vector2(2.6f, 2.6f)),
         // GeneratedCharacterKitDressing keeps the semantic name `cloth` in
         // node metadata. Make that owner explicit instead of silently
         // falling back to a texture-less shader material.
@@ -453,6 +458,7 @@ public static class PainterlyMaterialLibrary
             "wood_furniture" or "wood_prop" => 0.28f,
             "wood_bark" => 0.25f,
             "plaster" => 0.26f,
+            "floor_institution" => 0.30f,
             "foliage" => 0.29f,
             "grass" => 0.38f,
             "roof" or "roof_metal" => 0.24f,
@@ -592,6 +598,9 @@ public static class PainterlyMaterialLibrary
             "bark_pine" => (Roughness: 0.92f, Specular: 0.08f, WetGrade: 0.22f),
             "leaf_birch" => (Roughness: 0.95f, Specular: 0.06f, WetGrade: 0.12f),
             "log_wall" or "wallpaper" or "wall_institution" => (Roughness: 0.94f, Specular: 0.06f, WetGrade: 0.02f),
+            // Worn lino keeps a faint sheen the walls do not have, but stays far from
+            // the wet-weather response: this is indoor surface wear, not water.
+            "floor_institution" => (Roughness: 0.87f, Specular: 0.15f, WetGrade: 0.05f),
             "carpet" => (Roughness: 0.98f, Specular: 0.04f, WetGrade: 0.0f),
             "fabric_pattern" => (Roughness: 0.96f, Specular: 0.05f, WetGrade: 0.02f),
             "ornament_trim" or "wood_carved" => (Roughness: 0.88f, Specular: 0.10f, WetGrade: 0.15f),
