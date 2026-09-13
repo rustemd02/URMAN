@@ -301,6 +301,16 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
 
         if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { SavedMessage, BoundarySource }))
         { Fail("The voice comparison was rejected."); return; }
+        var voiceConclusion = bridge.SelectRuntimeState();
+        if (KnowledgeStatus(voiceConclusion, "clue_folklore_as_survival_rule") != "hypothesis"
+            || KnowledgeStatus(voiceConclusion, "clue_voice_answer_is_dangerous_hint") != "hypothesis"
+            || VocabularyStatus(voiceConclusion, "tt_tavysh") != "confirmed"
+            || VocabularyStatus(voiceConclusion, "tt_javap") != "confirmed")
+        {
+            Fail("The voice comparison did not record both hypotheses and the two confirmed words.");
+            return;
+        }
+
         await InteractAt(player, ray, Interaction("boundary-source-to-reread"));
         await Frames(6);
         AssertDocument(BoundarySource);
