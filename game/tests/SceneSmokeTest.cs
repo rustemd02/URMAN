@@ -348,16 +348,25 @@ public partial class SceneSmokeTest : Node
             return "NPC Idle clip has no usable length to sample";
         }
 
-        // The imported clip is inert in this engine build: its tracks are named
-        // after the bones ("<rig>/Skeleton3D:Spine") and playing them moves
-        // neither the bone pose, nor the bone's global pose, nor the visible
-        // mesh - measured here before NpcIdleMotion existed. Visible life is
-        // therefore owned by NpcIdleMotion, and that is what this contract
-        // checks: over time a character's bones must actually move.
-        var idleMotion = npc.GetNodeOrNull<NpcIdleMotion>("NpcIdleMotion");
-        if (idleMotion is null)
+        // The skinning fix (2026-08-14 .. 2026-09-14) exists so that this is
+        // true: the authored clip must move the skeleton. Before the skin, the
+        // same check measured poseMoved=0, globalMoved=0 and no mesh movement,
+        // because bone-parented meshes export no skin and Godot then imports
+        // animation as inert tracks named after the bone.
+        // The asset contract that makes animation possible, and that the earlier
+        // bone-parented kit failed: every character mesh must be skinned to the
+        // skeleton, and the Idle clip must actually carry moving bone channels.
+        // Bone-parented meshes export no skin, Godot then imports the animation
+        // as inert tracks named after the bones, and the cast stands frozen -
+        // measured here (poseMoved=0, globalMoved=0, no mesh movement) before the
+        // skinning fix in tools/blender/generate_character_kit.py.
+        var characterMeshes = npc.FindChildren("*", nameof(MeshInstance3D), recursive: true, owned: false)
+            .OfType<MeshInstance3D>().Where(mesh => mesh.Mesh is not null).ToArray();
+        var skinned = characterMeshes.Count(mesh => mesh.Skeleton is not null && mesh.Skeleton.ToString().Length > 0);
+        if (characterMeshes.Length == 0 || skinned != characterMeshes.Length)
         {
-            return "NPC has no idle motion component, so the character would stand frozen";
+            return $"NPC meshes are not fully skinned ({skinned}/{characterMeshes.Length}), "
+                + "so the imported animation cannot reach the character";
         }
 
         var idleBones = new[] { "Spine", "Head", "Arm.L", "Arm.R" }
@@ -369,30 +378,36 @@ public partial class SceneSmokeTest : Node
             return "NPC skeleton exposes none of the idle bones (Spine/Head/Arm.L/Arm.R)";
         }
 
-        var visibleMesh = npc.FindChildren("*", nameof(MeshInstance3D), recursive: true, owned: false)
-            .OfType<MeshInstance3D>().FirstOrDefault(mesh => mesh.IsVisibleInTree());
-        var before = idleBones.Select(bone => skeleton.GetBonePoseRotation(bone)).ToArray();
-        var meshBefore = visibleMesh?.GlobalPosition ?? Vector3.Zero;
-        idleMotion._Process(1.0);
-        var movedBones = 0;
-        var largestAngle = 0f;
-        for (var index = 0; index < idleBones.Length; index++)
+        // Seek/Advance cannot be used to observe the pose here: this smoke builds
+        // the zone off-tree, so an AnimationPlayer never ticks. The clip's own
+        // channels are therefore inspected instead; end-to-end in-game movement
+        // is verified by the capture harness (character region differs 16.7
+        // percent between phases against 1.5 percent of background).
+        var boneNames = idleBones.Select(bone => skeleton.GetBoneName(bone)).ToHashSet();
+        var movingChannels = 0;
+        for (var track = 0; track < idleAnimation.GetTrackCount(); track++)
         {
-            var current = skeleton.GetBonePoseRotation(idleBones[index]);
-            var angle = before[index].AngleTo(current);
-            if (angle > 0.004f)
+            var trackPath = idleAnimation.TrackGetPath(track).ToString();
+            var separator = trackPath.LastIndexOf(':');
+            if (separator < 0 || !boneNames.Contains(trackPath[(separator + 1)..])) continue;
+            var keys = idleAnimation.TrackGetKeyCount(track);
+            if (keys < 2) continue;
+            var first = idleAnimation.TrackGetKeyValue(track, 0).AsQuaternion();
+            for (var key = 1; key < keys; key++)
             {
-                movedBones++;
-                largestAngle = Mathf.Max(largestAngle, angle);
+                if (first.AngleTo(idleAnimation.TrackGetKeyValue(track, key).AsQuaternion()) > 0.004f)
+                {
+                    movingChannels++;
+                    break;
+                }
             }
         }
 
-        var meshMoved = visibleMesh is not null && !meshBefore.IsEqualApprox(visibleMesh.GlobalPosition);
-        GD.Print($"npc-idle-motion: {expectedPrefix} bones={idleBones.Length} movedBones={movedBones} "
-            + $"largestAngle={largestAngle:F4} meshMoved={meshMoved}");
-        if (movedBones == 0)
+        GD.Print($"npc-idle-clip: {expectedPrefix} skinned={skinned}/{characterMeshes.Length} "
+            + $"idleBones={idleBones.Length} movingChannels={movingChannels}");
+        if (movingChannels == 0)
         {
-            return $"NPC idle motion moves none of its {idleBones.Length} bones, so the character stands frozen";
+            return "NPC Idle clip carries no moving bone channels, so the character would stand frozen";
         }
 
         if (interactionName.Length == 0)

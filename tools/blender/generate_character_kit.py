@@ -1030,6 +1030,7 @@ def add_animation_rig(prefix: str, origin_x: float) -> bpy.types.Object:
     armature.data["license"] = "Project-original"
     armature.data["collision"] = "none"
     armature.data["animation_clips"] = "Idle,Tension"
+    armature.data["skin_policy"] = "rigid skin per piece: one vertex group per bone at weight 1.0 plus an Armature modifier; no bone parenting"
 
     edit_bones = armature.data.edit_bones
     root = edit_bones.new("Root")
@@ -1073,16 +1074,35 @@ def add_animation_rig(prefix: str, origin_x: float) -> bpy.types.Object:
         if obj.type != "MESH" or not obj.name.startswith(f"{prefix}_"):
             continue
         world_matrix = obj.matrix_world.copy()
-        obj.parent = armature
-        obj.parent_type = "BONE"
         if prefix == "CouncilWitness" and (
             obj.name.startswith("CouncilWitness_HeadHandRight_")
             or obj.name.startswith("CouncilWitness_HeadHandThumbRight_")
         ):
-            obj.parent_bone = "Hand.R"
+            bone_name = "Hand.R"
         else:
-            obj.parent_bone = _bone_for_mesh(obj.name)
+            bone_name = _bone_for_mesh(obj.name)
+
+        # Skin each piece to its bone instead of bone-parenting it. A
+        # bone-parented mesh exports as a node hanging off a joint with no skin,
+        # and Godot then imports the animation as tracks named after the bone
+        # ("<rig>/Skeleton3D:Spine"), which move nothing at all: measured in
+        # SceneSmokeTest, the bone pose, the bone's global pose and the visible
+        # mesh all stayed put while the clip reported itself playing. With a
+        # real skin the glTF carries joints and Godot lands the clips on bone
+        # poses, so the authored Idle/Tension finally do something.
+        obj.parent = armature
+        obj.parent_type = "OBJECT"
         obj.matrix_world = world_matrix
+        for group in list(obj.vertex_groups):
+            obj.vertex_groups.remove(group)
+        group = obj.vertex_groups.new(name=bone_name)
+        group.add([vertex.index for vertex in obj.data.vertices], 1.0, "REPLACE")
+        for modifier in [item for item in obj.modifiers if item.type == "ARMATURE"]:
+            obj.modifiers.remove(modifier)
+        skin = obj.modifiers.new("URMAN_CHARACTER_SKIN", "ARMATURE")
+        skin.object = armature
+        skin.use_vertex_groups = True
+        skin.use_bone_envelopes = False
 
     frames = (1, 20, 40)
     idle_poses = {

@@ -1040,7 +1040,7 @@ public partial class Act1ConnectedWorld : Node3D
         residentHost.GlobalPosition = LifeGround(-13.3f, -1.5f);
         residentHost.RotationDegrees = new Vector3(0f, -90f, 0f);
         var resident = GeneratedCharacterKitDressing.Attach(residentHost, "background_resident",
-            "CouncilWitness", Vector3.Zero, idleMotion: false);
+            "CouncilWitness", Vector3.Zero);
         foreach (var player in FindDescendants<AnimationPlayer>(resident)) player.Stop();
         _residentSkeleton = FindDescendants<Skeleton3D>(resident)
             .Single(skeleton => skeleton.GetParent().Name.ToString().StartsWith("CouncilWitness", StringComparison.Ordinal));

@@ -146,6 +146,33 @@ for prefix in prefixes:
 if missing_animation:
     raise RuntimeError(f"Character animation clips missing: {missing_animation}")
 
+# Pieces are bound by a rigid skin, not by bone parenting: bone-parented meshes
+# export no skin, which made every imported Idle/Tension track inert in Godot
+# (measured before the fix: the clip played and moved nothing). The binding is
+# therefore read from the single vertex group at weight 1.0 plus the Armature
+# modifier, and the same expected-bone contract is enforced.
+skin_bindings = 0
+for obj in mesh_objects:
+    armature_modifiers = [item for item in obj.modifiers if item.type == "ARMATURE"]
+    groups = [group.name for group in obj.vertex_groups]
+    if len(armature_modifiers) != 1 or len(groups) != 1:
+        raise RuntimeError(
+            f"Piece must carry exactly one Armature modifier and one vertex group: "
+            f"{obj.name} has {len(armature_modifiers)} modifiers and groups={groups}")
+    if obj.parent_type != "OBJECT":
+        raise RuntimeError(f"Skinned piece must be object-parented to its rig: {obj.name} is {obj.parent_type}")
+    group = obj.vertex_groups[groups[0]]
+    weighted = 0
+    for vertex in obj.data.vertices:
+        for assignment in vertex.groups:
+            if assignment.group == group.index:
+                if abs(assignment.weight - 1.0) > 1e-3:
+                    raise RuntimeError(f"Rigid skin weight must be 1.0: {obj.name} vertex {vertex.index} is {assignment.weight}")
+                weighted += 1
+    if weighted != len(obj.data.vertices):
+        raise RuntimeError(f"Every vertex must be weighted: {obj.name} has {weighted}/{len(obj.data.vertices)}")
+    skin_bindings += 1
+
 for obj in mesh_objects:
     for side, bone in (("Left", "Arm.L"), ("Right", "Arm.R")):
         if f"Hand{side}" in obj.name or f"HandThumb{side}" in obj.name:
@@ -154,11 +181,12 @@ for obj in mesh_objects:
                 or obj.name.startswith("CouncilWitness_HeadHandThumbRight_")
             )
             expected_bone = "Hand.R" if witness_right else bone
-            if obj.parent_type != "BONE" or obj.parent_bone != expected_bone:
-                raise RuntimeError(f"Hand must follow {expected_bone}: {obj.name} follows {obj.parent_bone}")
+            actual_bone = obj.vertex_groups[0].name
+            if actual_bone != expected_bone:
+                raise RuntimeError(f"Hand must follow {expected_bone}: {obj.name} follows {actual_bone}")
 
 policy = scene.get("collision_policy")
 if policy != "no collision meshes; Godot interaction targets and zone colliders own physics":
     raise RuntimeError(f"Unexpected collision policy: {policy!r}")
 
-print(f"character-asset-smoke: {len(prefixes)} prefixes, {len(lod0)} LOD0/{len(lod1)} LOD1 meshes; face/clothing detail; Idle/Tension clips; no collision meshes")
+print(f"character-asset-smoke: {len(prefixes)} prefixes, {len(lod0)} LOD0/{len(lod1)} LOD1 meshes; face/clothing detail; Idle/Tension clips; {skin_bindings} rigid skin bindings; no collision meshes")
