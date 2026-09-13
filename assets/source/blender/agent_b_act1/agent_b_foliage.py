@@ -1033,19 +1033,37 @@ def winter_spruce_variant(index, height, tier="near"):
             for station in range(stations):
                 t = station / (stations - 1)
                 point = centre + direction * length * t
-                point.z -= length * (.40 * t - .12 * math.sin(math.pi * t))
+                point.z -= length * (.52 * t - .10 * math.sin(math.pi * t))
                 points.append(point)
-                radii.append(length * (.19 + .28 * math.sin(math.pi * t)) * (1 - .88 * t))
+                # Slender needle boughs: the previous band reached 47 percent
+                # of the bough length at mid-span, so twelve tiers of wide flat
+                # blades stacked into visible saucers. Halving the caliper lets
+                # the tiers merge into one soft crown instead.
+                radii.append(length * (.13 + .21 * math.sin(math.pi * t)) * (1 - .90 * t))
             _append_polyline_tube(vertices, faces, points, radii,
                                   sides=6 if tier == "near" else 5 if tier == "light" else 3, flatten=.80)
             if tier == "near":
                 attachment = _point_on_polyline(points, .46)
                 fork_direction = Vector((math.cos(angle + .75), math.sin(angle + .75), -.45))
                 fork_points = [attachment + fork_direction * length * .54 * t
-                               for t in (0.0, .30, .68, 1.0)]
+                               for t in (0.0, .30, 0.68, 1.0)]
                 _append_polyline_tube(vertices, faces, fork_points,
                                       [length * r for r in (.09, .16, .10, .009)],
                                       sides=5, flatten=.72)
+                # One shorter spray between the tiers breaks the radial
+                # symmetry that made every level read as the same saucer.
+                spray_angle = angle + 1.94
+                spray_direction = Vector((math.cos(spray_angle), math.sin(spray_angle), 0))
+                spray_length = length * .62
+                spray_base = centre + Vector((0.0, 0.0, -height * .012))
+                spray_points = [
+                    spray_base + spray_direction * spray_length * t
+                    - Vector((0.0, 0.0, spray_length * .46 * t))
+                    for t in (0.0, 0.34, 0.70, 1.0)
+                ]
+                _append_polyline_tube(vertices, faces, spray_points,
+                                      [spray_length * r for r in (.11, .17, .10, .008)],
+                                      sides=5, flatten=.76)
             if level >= 4 and caps < cap_limit and branch == 0:
                 # The cap is embedded in the actual upper needle bough,
                 # following the same drooping path rather than its old level.
