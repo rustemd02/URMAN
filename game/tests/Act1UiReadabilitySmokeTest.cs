@@ -213,11 +213,37 @@ public partial class Act1UiReadabilitySmokeTest : Node
             await SaveShot("document_long" + suffix, document.GetNode<Control>("Screen/Document"), width, height);
             var body = document.GetNode<RichTextLabel>("Screen/Document/Layout/Reader/Body");
 
+            // Accessibility: the text-scale setting must reach the actual font size, not
+            // only the layout. ApplyFontScale keeps the untouched base size in meta and
+            // sets round(base * clamp(scale, 0.8, 1.6)), so both the formula and the fact
+            // that enlarged text really grows can be pinned here.
+            const string baseMeta = "accessibilityBase_normal_font_size";
+            if (!body.HasMeta(baseMeta))
+            {
+                Fail("Text scale did not record a base font size for the document reader.");
+                return;
+            }
+            var baseSize = body.GetMeta(baseMeta).AsInt32();
+            var expectedSize = Mathf.RoundToInt(baseSize * Mathf.Clamp((float)scale, 0.8f, 1.6f));
+            var actualSize = body.GetThemeFontSize("normal_font_size");
+            if (actualSize != expectedSize)
+            {
+                Fail($"Text scale did not reach the reader font at {width}x{height} scale={scale}: {actualSize} vs {expectedSize} (base {baseSize}).");
+                return;
+            }
+            if (scale > 1.0 && actualSize <= baseSize)
+            {
+                Fail($"Enlarged text did not grow the reader font at {width}x{height}: {actualSize} vs base {baseSize}.");
+                return;
+            }
+
             // Accessibility: high contrast must change rendered colours, not merely
             // persist a flag. PlayerSettingsSmokeTest covers the round trip; this
             // checks that the main reading surface actually reacts. The document is a
             // light page, so DocumentUi intentionally uses dark ink normally and pure
             // black under high contrast - white here would be unreadable on parchment.
+            // This block restores Default at the end, which resets TextScale to 1.0, so
+            // the text-scale check above must run before it.
             var normalInk = new Color("34291c");
             if (body.GetThemeColor("default_color") != normalInk)
             {
@@ -319,7 +345,7 @@ public partial class Act1UiReadabilitySmokeTest : Node
             await Frames(2);
             if (player.ModalOpen) { Fail("Extended UI capture left a modal owner open."); return; }
         }
-        GD.Print($"act1-ui-readability: PASS 2 resolutions x 5 critical UIs + empty archive search + read/restricted archive marks + high-contrast reader; scales 1/1.6; journal entries={bridge.JournalEntries().Count}; longest document={longest.Id} chars={longest.BodyMarkdown.Length}; focus and Tatar glyphs");
+        GD.Print($"act1-ui-readability: PASS 2 resolutions x 5 critical UIs + empty archive search + read/restricted archive marks + high-contrast and text-scale effects; scales 1/1.6; journal entries={bridge.JournalEntries().Count}; longest document={longest.Id} chars={longest.BodyMarkdown.Length}; focus and Tatar glyphs");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }
