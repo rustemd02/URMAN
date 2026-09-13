@@ -14,12 +14,30 @@ if [ "$#" -ne 1 ]; then
   exit 2
 fi
 
-CANDIDATE=${URMAN_M10_CANDIDATE:-/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/native_20260914_r34_candidate}
-GUARD=${URMAN_GUARD:-/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/protected_run.py}
+# Candidate resolution: an explicit URMAN_M10_CANDIDATE wins, otherwise take the
+# newest exported candidate so this kit cannot rot into pointing at a build that
+# has been superseded and deleted. Candidate directories live next to the guard.
+EVIDENCE_ROOT=${URMAN_M10_EVIDENCE_ROOT:-/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911}
+GUARD=${URMAN_GUARD:-$EVIDENCE_ROOT/protected_run.py}
+if [ -n "${URMAN_M10_CANDIDATE:-}" ]; then
+  CANDIDATE=$URMAN_M10_CANDIDATE
+else
+  CANDIDATE=
+  for dir in $(ls -d "$EVIDENCE_ROOT"/native_*_candidate 2>/dev/null | sort -r); do
+    if [ -x "$dir/launch/URMAN.app/Contents/MacOS/URMAN" ]; then CANDIDATE=$dir; break; fi
+  done
+  [ -n "$CANDIDATE" ] || {
+    echo "$0: no unpacked candidate found under $EVIDENCE_ROOT" >&2
+    echo "$0: export one with eng/export-desktop-release.sh and unpack macos/URMAN.zip into <dir>/launch/" >&2
+    echo "$0: or pass URMAN_M10_CANDIDATE=<dir>" >&2
+    exit 1
+  }
+fi
 BINARY="$CANDIDATE/launch/URMAN.app/Contents/MacOS/URMAN"
 INTERVAL=${URMAN_M10_SHOT_SECONDS:-20}
 MAX_MINUTES=${URMAN_M10_MAX_MINUTES:-90}
 
+echo "act1-m10-session: candidate=$CANDIDATE"
 [ -x "$BINARY" ] || { echo "candidate binary not found: $BINARY" >&2; exit 1; }
 [ -f "$GUARD" ] || { echo "userdata guard not found: $GUARD" >&2; exit 1; }
 command -v screencapture >/dev/null 2>&1 || { echo "screencapture is required" >&2; exit 1; }
