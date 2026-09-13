@@ -119,7 +119,10 @@ public partial class FullGameFlowSmokeTest : Node
             Fail("Full-game Chapter 1 zirat roadside interaction did not confirm Marat's last-route clue.");
             return;
         }
-        if (!await AdvanceChapterOne(bridge, main, "zirat-road-to-forest", "forest")) return;
+        // The authored route stages Kara-Urman in two steps, like the corridor,
+        // checkpoint and interruption smokes already follow.
+        if (!await AdvanceChapterOne(bridge, main, "zirat-road-to-forest", "forest-approach")) return;
+        if (!await AdvanceChapterOne(bridge, main, "forest-approach-to-forest", "forest")) return;
         main.SwitchZone("kara_urman_night", "village_path");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
