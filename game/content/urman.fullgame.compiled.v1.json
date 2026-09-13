@@ -1078,13 +1078,6 @@
                 "conditions": [],
                 "effects": [],
                 "nextNodeId": "follow-up"
-              },
-              {
-                "id": "leave-to-computer",
-                "textId": "urman.chapter1:text/choice-mansur-leave",
-                "conditions": [],
-                "effects": [],
-                "nextNodeId": null
               }
             ]
           },
@@ -9708,7 +9701,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "07c99caf416a32ee917ff60fd9092bd90692189329bd0623d88393944a1ae6a6"
+      "sha256": "a225d2c79055706440aa40c76327414dd00d7c0088eb2a2f0dac11754ed2be2e"
     },
     {
       "moduleId": "urman.core",
@@ -9726,5 +9719,5 @@
       "sha256": "90def45ccb600998d6a5b05ad34ffcd9ebe9aa0435ded2e95223f2f4b5e47822"
     }
   ],
-  "campaignFingerprint": "c296cd85840ef0bd67d0adbb35b06c4638b5c2ab02561c7fa2fe44f629541b94"
+  "campaignFingerprint": "dc41d8736f92fa995cc3c9f2f55028eca1ae8190d09e966ad4fdef3ebaccde51"
 }

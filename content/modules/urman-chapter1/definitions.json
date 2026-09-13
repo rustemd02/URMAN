@@ -1848,13 +1848,6 @@
       "conditions": [],
       "effects": [],
       "nextNodeId": "follow-up"
-     },
-     {
-      "id": "leave-to-computer",
-      "textId": "urman.chapter1:text/choice-mansur-leave",
-      "conditions": [],
-      "effects": [],
-      "nextNodeId": null
      }
     ]
    },
