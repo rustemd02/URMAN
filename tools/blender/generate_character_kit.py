@@ -465,6 +465,59 @@ def hat(
     return obj
 
 
+def face_features(
+    prefix: str,
+    head_obj,
+    head_scale: float,
+    materials: dict,
+    asset_id: str,
+) -> None:
+    """Add readable facial features to the CC0 base head.
+
+    The licensed base head has a flat front plane with recessed eye sockets
+    and no nose or mouth, so at conversational distance it reads as a blank
+    mask. Each feature is parented to the copied head object, so it inherits
+    the head's exact transform (Blender front is -Y); names follow the
+    vocabulary the Godot dressing already colours (FaceEyeWhite, FaceEyeIris,
+    FaceNose*, FaceMouth*, Ear*), which keeps this pass to one file.
+    """
+    skin = materials["skin"]
+    eye_white = material(f"{prefix}EyeWhite", (0.87, 0.85, 0.80, 1.0), 0.55)
+    iris = material(f"{prefix}Iris", (0.17, 0.12, 0.09, 1.0), 0.45)
+    mouth = material(f"{prefix}FaceMouth", (0.34, 0.17, 0.15, 1.0), 0.7)
+
+    def put(name: str, size: tuple[float, float, float],
+            local: tuple[float, float, float], surface, budget: int = 24) -> None:
+        obj = cube(
+            f"{prefix}_{name}_LOD0",
+            tuple(value * head_scale for value in size),
+            (0.0, 0.0, 0.0),
+            surface,
+            asset_id,
+            budget,
+        )
+        obj.parent = head_obj
+        obj.matrix_parent_inverse = head_obj.matrix_world.inverted()
+        obj.location = tuple(value * head_scale for value in local)
+
+    # Head-local anchors measured from the CC0 templates: face plane y=-0.161,
+    # eyes recessed at y=-0.106, sockets open between them.
+    for side, sign in (("L", -1.0), ("R", 1.0)):
+        put(f"FaceEyeWhite{side}", (0.030, 0.016, 0.018),
+            (sign * 0.036, -0.133, 0.026), eye_white, 12)
+        put(f"FaceEyeIris{side}", (0.014, 0.012, 0.014),
+            (sign * 0.036, -0.142, 0.024), iris, 12)
+    put("FaceNoseBridge", (0.022, 0.018, 0.048),
+        (0.0, -0.160, 0.010), skin, 24)
+    put("FaceNoseTip", (0.028, 0.022, 0.024),
+        (0.0, -0.169, -0.018), skin, 24)
+    put("FaceMouthLine", (0.044, 0.010, 0.010),
+        (0.0, -0.166, -0.050), mouth, 12)
+    for side, sign in (("L", -1.0), ("R", 1.0)):
+        put(f"Ear{side}", (0.012, 0.030, 0.038),
+            (sign * 0.120, -0.006, 0.004), skin, 24)
+
+
 def empty_anchor(name: str, location: tuple[float, float, float]) -> bpy.types.Object:
     bpy.ops.object.empty_add(type="PLAIN_AXES", location=location)
     obj = bpy.context.object
@@ -784,6 +837,7 @@ def create_character(
     parts.append(("Hair", f"Quaternius_Hair{hair_style}", hair_budget))
     if has_beard:
         parts.append(("FaceBeard", "Quaternius_HairBeard", 250))
+    head_object = None
     for part, source_name, budget in parts:
         source = head_templates[source_name]
         obj = source.copy()
@@ -795,6 +849,9 @@ def create_character(
         bpy.context.collection.objects.link(obj)
         tag(obj, asset_id, budget)
         obj["license"] = "CC0-1.0; derived from Quaternius Universal Base Characters"
+        if part == "Head":
+            head_object = obj
+    face_features(prefix, head_object, head_scale, materials, asset_id)
     faceted_prism(
         f"{prefix}_ScarfBand_LOD0",
         (0.24 * shoulder_scale, 0.18, scarf_height),
