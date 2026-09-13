@@ -55,3 +55,7 @@ packaged_release_r40_native	n/a	8.850	n/a	9.259	113.00	PASS
 # so the campaign fingerprint is unchanged and r41 loads saves written by r39 and r40.
 packaged_release_r41_native	n/a	8.713	n/a	8.840	114.73	PASS
 # samples=11 min_fps=113 max_fps=117 mean_fps=114.7; dev probe after the change: 103.97 FPS, avg 9.618 ms
+# 2026-09-14: candidate r42, exported AFTER the character skinning fix. Asset-only change, so the campaign
+# fingerprint is unchanged and r42 loads saves written by r39/r40/r41.
+packaged_release_r42_native	n/a	9.223	n/a	9.615	108.42	PASS
+# samples=12 min_fps=104 max_fps=111 mean_fps=108.4; the skinned character path costs about 6 FPS against r41 (114.7)
