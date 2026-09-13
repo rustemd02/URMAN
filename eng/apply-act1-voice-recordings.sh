@@ -7,32 +7,76 @@ set -eu
 # the audio checks. It never invents audio: every input is a real WAV supplied by
 # the recordist, and the script refuses anything outside the brief's spec.
 #
-# usage: apply-act1-voice-recordings.sh <input-dir> [--dry-run]
-#   <input-dir> must contain marat_call.wav and rinat_warning.wav
+# usage: apply-act1-voice-recordings.sh <input-dir> [--take N] [--dry-run]
+#   The folder may hold the final files (marat_call.wav, rinat_warning.wav) or the
+#   raw takes the recording brief asks for (marat_call_take01.wav .. take03.wav,
+#   rinat_warning_take01.wav .. take03.wav). Raw takes are never guessed at: the
+#   caller must say which take was chosen with --take N.
+#   room_tone.wav is accepted and reported, but it is not a game asset.
 #   --dry-run validates and prints the planned change without touching the repo
 
 URMAN_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$URMAN_ROOT"
 
-if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
-  echo "usage: $0 <input-dir> [--dry-run]" >&2
-  exit 2
-fi
-
-INPUT_DIR=$1
+INPUT_DIR=
 DRY_RUN=0
-if [ "${2:-}" = "--dry-run" ]; then DRY_RUN=1; fi
+TAKE=
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --dry-run) DRY_RUN=1 ;;
+    --take) shift; [ "$#" -gt 0 ] || { echo "--take needs a number" >&2; exit 2; }; TAKE=$1 ;;
+    --take=*) TAKE=${1#--take=} ;;
+    -*) echo "unknown option: $1" >&2; exit 2 ;;
+    *) [ -z "$INPUT_DIR" ] || { echo "only one input directory is accepted" >&2; exit 2; }; INPUT_DIR=$1 ;;
+  esac
+  shift
+done
+[ -n "$INPUT_DIR" ] || { echo "usage: $0 <input-dir> [--take N] [--dry-run]" >&2; exit 2; }
+case "$TAKE" in
+  "") ;;
+  *[!0-9]*) echo "--take must be a number, got: $TAKE" >&2; exit 2 ;;
+  *) [ "$TAKE" -ge 1 ] && [ "$TAKE" -le 9 ] || { echo "--take must be between 1 and 9" >&2; exit 2; } ;;
+esac
 if [ ! -d "$INPUT_DIR" ]; then
   echo "input directory not found: $INPUT_DIR" >&2
   exit 1
 fi
 case "$INPUT_DIR" in "$URMAN_ROOT"|"$URMAN_ROOT"/*) echo "input must live outside the repository" >&2; exit 1 ;; esac
 
-MARAT_SRC="$INPUT_DIR/marat_call.wav"
-RINAT_SRC="$INPUT_DIR/rinat_warning.wav"
-for f in "$MARAT_SRC" "$RINAT_SRC"; do
-  [ -f "$f" ] || { echo "missing recording: $f" >&2; exit 1; }
-done
+# Resolve one line: the final file wins; otherwise an explicitly chosen take.
+resolve_recording() {
+  base=$1
+  if [ -f "$INPUT_DIR/$base.wav" ]; then
+    printf '%s\n' "$INPUT_DIR/$base.wav"
+    return 0
+  fi
+  padded="$INPUT_DIR/${base}_take0$TAKE.wav"
+  plain="$INPUT_DIR/${base}_take$TAKE.wav"
+  takes=$(ls "$INPUT_DIR/${base}_take"*.wav 2>/dev/null || true)
+  if [ -z "$takes" ]; then
+    echo "missing recording: expected $INPUT_DIR/$base.wav" >&2
+    echo "  or raw takes named ${base}_take01.wav .. ${base}_take03.wav with --take N" >&2
+    return 1
+  fi
+  if [ -z "$TAKE" ]; then
+    echo "raw takes found for $base, but no take was chosen:" >&2
+    for take in $takes; do echo "  $take" >&2; done
+    echo "  pick one explicitly, for example: $0 $INPUT_DIR --take 2" >&2
+    return 1
+  fi
+  if [ -f "$padded" ]; then printf '%s\n' "$padded"; return 0; fi
+  if [ -f "$plain" ]; then printf '%s\n' "$plain"; return 0; fi
+  echo "take $TAKE not found for $base; present:" >&2
+  for take in $takes; do echo "  $take" >&2; done
+  return 1
+}
+
+MARAT_SRC=$(resolve_recording marat_call) || exit 1
+RINAT_SRC=$(resolve_recording rinat_warning) || exit 1
+
+if [ -f "$INPUT_DIR/room_tone.wav" ]; then
+  echo "room tone received: $INPUT_DIR/room_tone.wav (kept as the recordist's cleanup material; not a game asset)"
+fi
 
 DEST_DIR="$URMAN_ROOT/game/assets/audio/act1/voice"
 
