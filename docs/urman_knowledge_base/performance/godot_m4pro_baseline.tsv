@@ -47,3 +47,7 @@ packaged_release_r38_native	n/a	8.969	n/a	9.346	111.50	PASS
 # Same method: unpacked URMAN.app, --print-fps --quit-after 1500 under protected_run.py, real Metal.
 packaged_release_r39_native	n/a	9.022	n/a	9.615	110.83	PASS
 # samples=12 min_fps=104 max_fps=116 mean_fps=110.8; cold start not re-measured for r39 (r38: 4.93/4.73/4.61 s)
+# 2026-09-14: candidate r40, exported AFTER the FAP floor material change. Materials-only C# edit, so the
+# campaign fingerprint is unchanged and r40 loads saves written by r39.
+packaged_release_r40_native	n/a	8.850	n/a	9.259	113.00	PASS
+# samples=12 min_fps=108 max_fps=116 mean_fps=113.0; cold start not re-measured (r38: 4.93/4.73/4.61 s)
