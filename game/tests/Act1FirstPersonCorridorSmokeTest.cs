@@ -84,6 +84,19 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             Fail("Physical corridor did not open Mansur's request dialogue before the old PC.");
             return;
         }
+        var mansurActor = main.ConnectedWorld?.FindChild("MansurNpc", true, false) as Node3D;
+        if (mansurActor is null)
+        {
+            Fail("The corridor could not find the staged Mansur actor beside the old PC.");
+            return;
+        }
+        var mansurFacing = mansurActor.GetMeta("conversationFacing", "unset").AsString();
+        var mansurDistance = mansurActor.GlobalPosition.DistanceTo(player.GlobalPosition);
+        if (mansurFacing != "towards-player" || mansurDistance > 2.9f)
+        {
+            Fail($"Mansur did not turn to the player at dialogue distance: facing={mansurFacing} distance={mansurDistance:0.00}m");
+            return;
+        }
         var mansurChoices = mansurDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
             .GetChildren().OfType<Button>().ToArray();
         var offerHelp = mansurChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-mansur-offer-help"));
