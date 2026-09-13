@@ -131,6 +131,22 @@ public partial class Act1MainMenuSmokeTest : Node
             return;
         }
 
+        // Exit affordance: the Quit button must exist, be reachable and be wired to
+        // a handler. Actually pressing it is deliberately not exercised here because
+        // that would terminate the test process, so "exit really closes the app"
+        // stays a human observation; the wiring is checked without pressing.
+        var quitButton = demo.MainMenu?.FindChild("QuitButton", true, false) as Button;
+        if (quitButton is null || !quitButton.Visible || quitButton.Disabled)
+        {
+            Fail("The main menu does not offer a reachable Quit affordance.");
+            return;
+        }
+        if (quitButton.GetSignalConnectionList(BaseButton.SignalName.Pressed).Count == 0)
+        {
+            Fail("The Quit affordance is not connected to any handler.");
+            return;
+        }
+
         continueButton.EmitSignal(BaseButton.SignalName.Pressed);
         var frames = 900;
         while (bridge.CurrentZoneId != expectedZone && frames-- > 0)
@@ -151,7 +167,7 @@ public partial class Act1MainMenuSmokeTest : Node
             return;
         }
 
-        GD.Print("act1-main-menu: PASS menu gate + settings from menu + checkpoint-based Continue restore + truthful unloadable-save message");
+        GD.Print("act1-main-menu: PASS menu gate + settings from menu + checkpoint-based Continue restore + truthful unloadable-save message + wired Quit affordance");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
     }
