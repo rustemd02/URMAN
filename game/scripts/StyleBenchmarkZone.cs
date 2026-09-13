@@ -913,6 +913,13 @@ public partial class StyleBenchmarkZone : Node3D
         MakeBox("ClinicCeiling", new(12, 0.18f, 12), new(0, 3.4f, 0), "7b8580", collision: false, surface: "plaster");
         MakeBox("ClinicCeilingFixtureHousing", new(1.35f, 0.12f, 0.52f), new(0, 3.22f, -0.5f), "65736d", collision: false);
         MakeBox("ClinicCeilingFixtureLens", new(0.88f, 0.025f, 0.22f), new(0, 3.145f, -0.5f), "9ca9a2", collision: false);
+        // The clinic ceiling is a large plain plaster plane; two shallow ribs and
+        // a second diffuser at the far end read as a built-in institutional
+        // ceiling instead of an empty band above the room.
+        MakeBox("ClinicCeilingRibNear", new(12, 0.09f, 0.26f), new(0, 3.30f, -3.9f), "6f7a75", collision: false, surface: "plaster");
+        MakeBox("ClinicCeilingRibFar", new(12, 0.09f, 0.26f), new(0, 3.30f, 3.9f), "6f7a75", collision: false, surface: "plaster");
+        MakeBox("ClinicCeilingFixtureHousingFar", new(1.35f, 0.12f, 0.52f), new(0, 3.22f, 2.4f), "65736d", collision: false);
+        MakeBox("ClinicCeilingFixtureLensFar", new(0.88f, 0.025f, 0.22f), new(0, 3.145f, 2.4f), "9ca9a2", collision: false);
         AttachFapInteriorSet();
 
         MakeBox("ClinicDoorPanel", new(1.12f, 2.05f, 0.08f), new(0, 1.05f, 5.84f), "687871", collision: false);
