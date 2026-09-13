@@ -1,7 +1,7 @@
 # Graph Report - URMAN  (2026-09-13)
 
 ## Corpus Check
-- 675 files · ~964,371 words
+- 675 files · ~964,791 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2c31d0c5`
+- Built from commit: `afa24fc9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -1245,8 +1245,8 @@ Cohesion: 0.10
 Nodes (19): Audit Of Existing First10 Batch, Batch 1 Plan — Remaining P0 Characters, Batch 1 Result, Batch 1 Started, Batch 2/4 Route And Support Location Integration, Batch 2 Started — P0 Route / Location Screens, Batch 3 Comms UI Completion, Batch 3 Integrated — UI Systems (+11 more)
 
 ### Community 105 - "Community 105"
-Cohesion: 0.10
-Nodes (19): $ref, pattern, type, $defs, CampaignId, ContentId, JsonValue, ModuleId (+11 more)
+Cohesion: 0.12
+Nodes (16): $ref, pattern, type, $defs, CampaignId, ContentId, ExactVersion, JsonValue (+8 more)
 
 ### Community 106 - "Community 106"
 Cohesion: 0.12
@@ -1454,7 +1454,7 @@ Nodes (5): createJournalPresenter(), createVocabularyPresenter(), RuntimeProject
 
 ### Community 162 - "Community 162"
 Cohesion: 0.13
-Nodes (14): additionalProperties, properties, required, type, $defs, audio-workbench-config, evidence-compare-config, additionalProperties (+6 more)
+Nodes (14): additionalProperties, properties, required, type, $defs, crafting-config, spatial-audio-probe-config, $id (+6 more)
 
 ### Community 163 - "Community 163"
 Cohesion: 0.13
@@ -1565,8 +1565,8 @@ Cohesion: 0.15
 Nodes (14): KnowledgeCondition, KnowledgeEffect, additionalProperties, properties, required, type, additionalProperties, properties (+6 more)
 
 ### Community 190 - "Community 190"
-Cohesion: 0.15
-Nodes (13): $ref, properties, $ref, id, labelTextId, targetDialogueId, targetDocumentId, targetJournalEntryId (+5 more)
+Cohesion: 0.14
+Nodes (14): items, type, properties, $ref, effects, labelTextId, targetDialogueId, targetDocumentId (+6 more)
 
 ### Community 192 - "Community 192"
 Cohesion: 0.08
@@ -1589,8 +1589,8 @@ Cohesion: 0.15
 Nodes (12): Agent B / Act I Experimental World Report — УРМАН (Кырлай), ASSETS, FILES, HONEST FAILURES, OPEN GATES, STATUS, TRAVERSAL, VARIANT (+4 more)
 
 ### Community 197 - "Community 197"
-Cohesion: 0.18
-Nodes (11): author_gate_variation(), Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate. (+3 more)
+Cohesion: 0.10
+Nodes (21): author_dwelling_side_back(), author_gate_variation(), Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Use the existing deterministic box primitive for new kit details.      The exter, Use the existing deterministic box primitive for new kit details.      The exter, Add quiet threshold and post-cap variation to the existing gate. (+13 more)
 
 ### Community 198 - "Community 198"
 Cohesion: 0.13
@@ -1681,8 +1681,8 @@ Cohesion: 0.17
 Nodes (12): VocabularyCondition, VocabularyEffect, vocabularyId, additionalProperties, properties, required, type, additionalProperties (+4 more)
 
 ### Community 221 - "Community 221"
-Cohesion: 0.15
-Nodes (13): items, type, uniqueItems, $ref, properties, assetRefs, capabilityConfigRef, sceneType (+5 more)
+Cohesion: 0.14
+Nodes (14): $ref, items, type, $ref, properties, capabilityConfigRef, entryConditions, id (+6 more)
 
 ### Community 223 - "Community 223"
 Cohesion: 0.17
@@ -1869,8 +1869,8 @@ Cohesion: 0.20
 Nodes (10): type, additionalProperties, properties, required, type, CancelPolicy, items, type (+2 more)
 
 ### Community 275 - "Community 275"
-Cohesion: 0.14
-Nodes (14): items, type, items, type, $ref, items, type, conditions (+6 more)
+Cohesion: 0.13
+Nodes (15): items, type, uniqueItems, items, type, $ref, items, type (+7 more)
 
 ### Community 276 - "Community 276"
 Cohesion: 0.20
@@ -2017,8 +2017,8 @@ Cohesion: 0.06
 Nodes (36): Criteria, Criteria, Criteria, Criteria, Criteria, Criteria, Criteria, Criteria (+28 more)
 
 ### Community 319 - "Community 319"
-Cohesion: 0.12
-Nodes (19): arguments(), author_dwelling_joinery(), author_dwelling_side_back(), author_shed_joinery(), clear_variant_roots(), main(), Dress each optional parcel edge with sparse, non-blocking local history., Use the existing deterministic box primitive for new kit details.      The exter (+11 more)
+Cohesion: 0.33
+Nodes (6): Add one restrained fallen/leaning branch as an authored contact cue., Add one restrained fallen/leaning branch as an authored contact cue., Add one restrained fallen/leaning branch as an authored contact cue., Add one restrained fallen/leaning branch as an authored contact cue., Add one restrained fallen/leaning branch as an authored contact cue., variant_branch()
 
 ### Community 320 - "Community 320"
 Cohesion: 0.29
@@ -2273,8 +2273,8 @@ Cohesion: 0.33
 Nodes (5): Construction (canonical owners), MAP-003 Inspection Receipt — Seven-Connector Traversal Contract, Mechanical coverage verdict, Open (human, stays with this task), Per-connector audit (layout data, ground envelope bounds x ∈ [−43,43], z ∈ [−152,+56])
 
 ### Community 387 - "Community 387"
-Cohesion: 0.25
-Nodes (9): build_shoulder(), Source-basis height for a slumped, asymmetric mud shoulder., Source-basis height for a slumped, asymmetric mud shoulder., Build one broken mud shoulder with an integrated wet-pocket rhythm., Build one broken mud shoulder with an integrated wet-pocket rhythm., Build one broken mud shoulder with an integrated wet-pocket rhythm., Source-basis height for a slumped, asymmetric mud shoulder., Build one broken mud shoulder with an integrated wet-pocket rhythm. (+1 more)
+Cohesion: 0.15
+Nodes (14): build_shoulder(), Build one irregular low-poly berm with a sloped crest, not a strip., Build one irregular low-poly berm with a sloped crest, not a strip., Build one irregular low-poly berm with a sloped crest, not a strip., Build one irregular low-poly berm with a sloped crest, not a strip., Source-basis height for a slumped, asymmetric mud shoulder., Source-basis height for a slumped, asymmetric mud shoulder., Build one broken mud shoulder with an integrated wet-pocket rhythm. (+6 more)
 
 ### Community 388 - "Community 388"
 Cohesion: 0.43
@@ -2289,8 +2289,8 @@ Cohesion: 0.29
 Nodes (6): sdk, allowPrerelease, rollForward, version, test, runner
 
 ### Community 391 - "Community 391"
-Cohesion: 0.20
-Nodes (10): Build one continuous faceted lane with an authored cross-section., Build one continuous faceted lane with an authored cross-section., Build one continuous faceted lane with an authored cross-section., Authored non-crown road variant sharing the crown's height contract., Build a distinct segment while retaining the shared road profile., Build a distinct segment while retaining the shared road profile., Build a distinct segment while retaining the shared road profile., Build a distinct segment while retaining the shared road profile. (+2 more)
+Cohesion: 0.18
+Nodes (12): material(), mesh_object(), Build one continuous faceted lane with an authored cross-section., Build one continuous faceted lane with an authored cross-section., Build one continuous faceted lane with an authored cross-section., Authored non-crown road variant sharing the crown's height contract., Build a distinct segment while retaining the shared road profile., Build a distinct segment while retaining the shared road profile. (+4 more)
 
 ### Community 392 - "Community 392"
 Cohesion: 0.33
@@ -2477,8 +2477,8 @@ Cohesion: 0.13
 Nodes (14): CRITICAL PATH, DIRECTIVE TO CODEX, FIRST WAVE, MVP LOCK, RELEASE GATES, RISKS/QUESTIONS, STOP DOING, SYSTEM PLAN (+6 more)
 
 ### Community 451 - "Community 451"
-Cohesion: 0.10
-Nodes (22): build_ditch(), ditch_height(), ditch_water_pocket(), material(), mesh_object(), Build an uneven drainage channel rather than a linear side slab., Build one faceted 8-sided ditch bed + inset water surface., Build an uneven drainage channel rather than a linear side slab. (+14 more)
+Cohesion: 0.14
+Nodes (15): build_ditch(), ditch_height(), ditch_water_pocket(), Build an uneven drainage channel rather than a linear side slab., Build one faceted 8-sided ditch bed + inset water surface., Build an uneven drainage channel rather than a linear side slab., Source-basis height for a shallow channel with raised banks., Source-basis height for a shallow channel with raised banks. (+7 more)
 
 ### Community 453 - "Community 453"
 Cohesion: 0.10
@@ -2817,8 +2817,8 @@ Cohesion: 0.18
 Nodes (11): _integrated_puddle(), Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta (+3 more)
 
 ### Community 652 - "Community 652"
-Cohesion: 0.09
-Nodes (23): author_variant_composition(), Add a small faceted moss/contact patch without using a foliage cone., Add a small faceted moss/contact patch without using a foliage cone., Build a low irregular shrub from three offset faceted contact clumps., Build a low irregular shrub from three offset faceted contact clumps., Add one restrained fallen/leaning branch as an authored contact cue., Add one restrained fallen/leaning branch as an authored contact cue., Dress each optional parcel edge with sparse, non-blocking local history. (+15 more)
+Cohesion: 0.10
+Nodes (21): author_shed_joinery(), author_variant_composition(), Add a small faceted moss/contact patch without using a foliage cone., Add a small faceted moss/contact patch without using a foliage cone., Build a low irregular shrub from three offset faceted contact clumps., Build a low irregular shrub from three offset faceted contact clumps., Dress each optional parcel edge with sparse, non-blocking local history., Dress each optional parcel edge with sparse, non-blocking local history. (+13 more)
 
 ### Community 653 - "Community 653"
 Cohesion: 0.24
@@ -2838,7 +2838,7 @@ Nodes (7): Handoff для GPT-5.6 Pro: направление MVP УРМАНА, 
 
 ### Community 658 - "Community 658"
 Cohesion: 0.40
-Nodes (5): additionalProperties, properties, required, type, content-instantiator-config
+Nodes (5): environment-sim-config, additionalProperties, properties, required, type
 
 ### Community 659 - "Community 659"
 Cohesion: 0.15
@@ -3001,8 +3001,8 @@ Cohesion: 0.29
 Nodes (7): additionalProperties, properties, required, type, journalAction, resultTextId, sourceIds
 
 ### Community 710 - "Community 710"
-Cohesion: 0.22
-Nodes (9): author_rural_dwelling(), author_variant_parcels(), One inhabited house: pierced wall shell, boarded gables and enclosed side seni., One inhabited house: pierced wall shell, boarded gables and enclosed side seni., One inhabited house: pierced wall shell, boarded gables and enclosed side seni., One inhabited house: pierced wall shell, boarded gables and enclosed side seni., One inhabited house: pierced wall shell, boarded gables and enclosed side seni., One inhabited house: pierced wall shell, boarded gables and enclosed side seni. (+1 more)
+Cohesion: 0.15
+Nodes (14): arguments(), author_dwelling_joinery(), author_rural_dwelling(), author_variant_parcels(), clear_variant_roots(), main(), Add a few readable hand-built cues to the otherwise reusable facade., One inhabited house: pierced wall shell, boarded gables and enclosed side seni. (+6 more)
 
 ### Community 711 - "Community 711"
 Cohesion: 0.33
@@ -3174,7 +3174,7 @@ Nodes (5): DedOSOptions, BaseScene, ComputerScene, ComputerSceneOptions, DedOSFa
 
 ### Community 778 - "Community 778"
 Cohesion: 0.40
-Nodes (5): additionalProperties, properties, required, type, custody-transfer-outcome
+Nodes (5): role-binding-outcome, additionalProperties, properties, required, type
 
 ### Community 780 - "Community 780"
 Cohesion: 0.25
@@ -3202,7 +3202,7 @@ Nodes (5): evidence-compare-event, additionalProperties, properties, required, t
 
 ### Community 789 - "Community 789"
 Cohesion: 0.40
-Nodes (5): role-binding-event, additionalProperties, properties, required, type
+Nodes (5): timed-choice-event, additionalProperties, properties, required, type
 
 ### Community 790 - "Community 790"
 Cohesion: 0.50
@@ -3258,7 +3258,7 @@ Nodes (3): pattern, type, nodeId
 
 ### Community 808 - "Community 808"
 Cohesion: 0.67
-Nodes (3): items, type, entryConditions
+Nodes (3): ModuleId, pattern, type
 
 ### Community 810 - "Community 810"
 Cohesion: 0.50
@@ -3290,7 +3290,7 @@ Nodes (3): Exception, ResolverException, ResourceConflictException
 
 ### Community 822 - "Community 822"
 Cohesion: 0.67
-Nodes (3): ExactVersion, pattern, type
+Nodes (3): SchemaVersion, const, type
 
 ### Community 823 - "Community 823"
 Cohesion: 0.50
@@ -3316,7 +3316,7 @@ Nodes (5): turn_90_default, assetId, behavior, durationMs, overlayAssetId
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `PATH` connect `Community 476` to `Community 385`, `Community 204`, `Community 653`, `Community 174`, `Community 723`, `Community 55`, `Community 184`, `Community 121`, `Community 319`?**
+- **Why does `PATH` connect `Community 476` to `Community 385`, `Community 710`, `Community 204`, `Community 653`, `Community 174`, `Community 723`, `Community 55`, `Community 184`, `Community 121`?**
   _High betweenness centrality (0.034) - this node is a cross-community bridge._
 - **Why does `Act1DemoRoot` connect `Community 57` to `Community 320`, `Community 709`, `Community 122`, `Community 454`, `Community 811`, `Community 300`, `Community 174`, `Community 824`, `Community 51`, `Community 821`, `Community 629`, `Community 23`, `Community 696`, `Community 666`, `Community 247`?**
   _High betweenness centrality (0.034) - this node is a cross-community bridge._
