@@ -221,10 +221,11 @@ public partial class AudioCueUi : CanvasLayer, IAccessibilitySettingsTarget
         }
 
         var stream = cue.Playable ? PlayAudio(cue.AssetUrl) : null;
-        if (stream is not null)
-        {
-            HoldVoiceDuck();
-        }
+        // Every Act I cue is a narrative voice moment, so the world drops for its
+        // duration whether or not the recording exists yet: the caption and the
+        // background change must arrive together, and the finale's silence beat
+        // must not depend on a file that is still being recorded.
+        HoldVoiceDuck();
 
         _remainingSeconds = Math.Max(
             stream is not null ? Math.Max(0d, stream.GetLength()) : 0d,
