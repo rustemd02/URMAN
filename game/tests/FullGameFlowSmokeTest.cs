@@ -151,6 +151,15 @@ public partial class FullGameFlowSmokeTest : Node
 
         main.SwitchZone("fullgame_act2_house", "entry");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        // Scope note, printed before the check so the log explains it even on failure:
+        // this run completes Act I only. Acts II-V are deliberately not implemented
+        // (the handover states that compiling both campaigns is not an instruction to
+        // build the later acts), so the Act 2 entrypoint legitimately has no dressing,
+        // authored layout, generated kit or NPC presentation yet. The check below is
+        // intentionally left failing rather than skipped: a skipped whole-game harness
+        // would quietly claim a full-game walk it never performed.
+        GD.Print("full-game-flow-smoke: Act I route and the data-driven Chapter 1 -> Act 2 transition verified; "
+            + "Acts II-V content is out of scope for this run and is not built, so the walk stops here by design");
         if (!HasProductionDressing(main) || !HasAuthoredInteractionLayout(main)
             || !HasGeneratedKit(main, "act2-family-house")
             || !HasNpcPresentation(main, "fullgame_act2_house"))

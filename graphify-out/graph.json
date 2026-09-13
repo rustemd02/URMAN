@@ -11004,7 +11004,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L26",
       "id": "contracts_stress_contracts_schema_defs_timed_choice_outcome",
-      "community": 35,
+      "community": 495,
       "norm_label": "timed-choice-outcome"
     },
     {
@@ -11013,7 +11013,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L26",
       "id": "contracts_stress_contracts_schema_timed_choice_outcome_type",
-      "community": 35,
+      "community": 495,
       "norm_label": "type"
     },
     {
@@ -11022,7 +11022,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L26",
       "id": "contracts_stress_contracts_schema_timed_choice_outcome_required",
-      "community": 35,
+      "community": 495,
       "norm_label": "required"
     },
     {
@@ -11031,7 +11031,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L26",
       "id": "contracts_stress_contracts_schema_timed_choice_outcome_properties",
-      "community": 35,
+      "community": 495,
       "norm_label": "properties"
     },
     {
@@ -11040,7 +11040,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L26",
       "id": "contracts_stress_contracts_schema_timed_choice_outcome_additionalproperties",
-      "community": 35,
+      "community": 495,
       "norm_label": "additionalproperties"
     },
     {
@@ -11139,7 +11139,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L29",
       "id": "contracts_stress_contracts_schema_defs_custody_transfer_outcome",
-      "community": 833,
+      "community": 35,
       "norm_label": "custody-transfer-outcome"
     },
     {
@@ -11148,7 +11148,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L29",
       "id": "contracts_stress_contracts_schema_custody_transfer_outcome_type",
-      "community": 833,
+      "community": 35,
       "norm_label": "type"
     },
     {
@@ -11157,7 +11157,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L29",
       "id": "contracts_stress_contracts_schema_custody_transfer_outcome_required",
-      "community": 833,
+      "community": 35,
       "norm_label": "required"
     },
     {
@@ -11166,7 +11166,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L29",
       "id": "contracts_stress_contracts_schema_custody_transfer_outcome_properties",
-      "community": 833,
+      "community": 35,
       "norm_label": "properties"
     },
     {
@@ -11175,7 +11175,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L29",
       "id": "contracts_stress_contracts_schema_custody_transfer_outcome_additionalproperties",
-      "community": 833,
+      "community": 35,
       "norm_label": "additionalproperties"
     },
     {
@@ -11724,7 +11724,7 @@
       "source_file": "tests/e2e/lab-run-replacement.test.mjs",
       "source_location": "L1",
       "id": "tests_e2e_lab_run_replacement_test_mjs",
-      "community": 495,
+      "community": 575,
       "norm_label": "lab-run-replacement.test.mjs"
     },
     {
@@ -11733,7 +11733,7 @@
       "source_file": "tests/e2e/lab-run-replacement.test.mjs",
       "source_location": "L7",
       "id": "e2e_lab_run_replacement_test_activerun",
-      "community": 495,
+      "community": 575,
       "norm_label": "activerun"
     },
     {
@@ -11742,7 +11742,7 @@
       "source_file": "tests/e2e/lab-run-replacement.test.mjs",
       "source_location": "L9",
       "id": "e2e_lab_run_replacement_test_result",
-      "community": 495,
+      "community": 575,
       "norm_label": "result"
     },
     {
@@ -11760,7 +11760,7 @@
       "source_file": "tests/e2e/content-lab-and-default-campaign.test.mjs",
       "source_location": "L1",
       "id": "tests_e2e_content_lab_and_default_campaign_test_mjs",
-      "community": 723,
+      "community": 6,
       "norm_label": "content-lab-and-default-campaign.test.mjs"
     },
     {
@@ -11769,7 +11769,7 @@
       "source_file": "tests/e2e/content-lab-and-default-campaign.test.mjs",
       "source_location": "L11",
       "id": "e2e_content_lab_and_default_campaign_test_delay",
-      "community": 723,
+      "community": 6,
       "norm_label": "delay()"
     },
     {
@@ -11787,7 +11787,7 @@
       "source_file": "tests/e2e/content-lab-and-default-campaign.test.mjs",
       "source_location": "L24",
       "id": "e2e_content_lab_and_default_campaign_test_waitforvalue",
-      "community": 723,
+      "community": 6,
       "norm_label": "waitforvalue()"
     },
     {
@@ -11796,7 +11796,7 @@
       "source_file": "tests/e2e/content-lab-and-default-campaign.test.mjs",
       "source_location": "L33",
       "id": "e2e_content_lab_and_default_campaign_test_setselectexpression",
-      "community": 723,
+      "community": 6,
       "norm_label": "setselectexpression()"
     },
     {
@@ -11805,7 +11805,7 @@
       "source_file": "tests/e2e/content-lab-and-default-campaign.test.mjs",
       "source_location": "L37",
       "id": "e2e_content_lab_and_default_campaign_test_runvitebuild",
-      "community": 723,
+      "community": 6,
       "norm_label": "runvitebuild()"
     },
     {
@@ -12039,7 +12039,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L11",
       "id": "support_chrome_cdp_driver_delay",
-      "community": 745,
+      "community": 6,
       "norm_label": "delay()"
     },
     {
@@ -12111,7 +12111,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L102",
       "id": "support_chrome_cdp_driver_cdpconnection",
-      "community": 817,
+      "community": 6,
       "norm_label": "cdpconnection"
     },
     {
@@ -12120,7 +12120,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L109",
       "id": "support_chrome_cdp_driver_cdpconnection_constructor",
-      "community": 817,
+      "community": 6,
       "norm_label": ".constructor()"
     },
     {
@@ -12129,7 +12129,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L116",
       "id": "support_chrome_cdp_driver_cdpconnection_request",
-      "community": 745,
+      "community": 6,
       "norm_label": ".request()"
     },
     {
@@ -12138,7 +12138,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L126",
       "id": "support_chrome_cdp_driver_cdpconnection_events",
-      "community": 817,
+      "community": 6,
       "norm_label": ".events()"
     },
     {
@@ -12147,7 +12147,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L130",
       "id": "support_chrome_cdp_driver_cdpconnection_close",
-      "community": 817,
+      "community": 6,
       "norm_label": ".close()"
     },
     {
@@ -12156,7 +12156,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L137",
       "id": "support_chrome_cdp_driver_cdpconnection_receive",
-      "community": 817,
+      "community": 6,
       "norm_label": ".#receive()"
     },
     {
@@ -12165,7 +12165,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L150",
       "id": "support_chrome_cdp_driver_cdpconnection_failpending",
-      "community": 817,
+      "community": 176,
       "norm_label": ".#failpending()"
     },
     {
@@ -12183,7 +12183,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L167",
       "id": "support_chrome_cdp_driver_evaluatefailure",
-      "community": 745,
+      "community": 6,
       "norm_label": "evaluatefailure()"
     },
     {
@@ -12210,7 +12210,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L197",
       "id": "support_chrome_cdp_driver_chromepage",
-      "community": 745,
+      "community": 6,
       "norm_label": "chromepage"
     },
     {
@@ -12219,7 +12219,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L203",
       "id": "support_chrome_cdp_driver_chromepage_constructor",
-      "community": 745,
+      "community": 6,
       "norm_label": ".constructor()"
     },
     {
@@ -12228,7 +12228,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L209",
       "id": "support_chrome_cdp_driver_chromepage_goto",
-      "community": 745,
+      "community": 6,
       "norm_label": ".goto()"
     },
     {
@@ -12237,7 +12237,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L214",
       "id": "support_chrome_cdp_driver_chromepage_evaluate",
-      "community": 745,
+      "community": 6,
       "norm_label": ".evaluate()"
     },
     {
@@ -12246,7 +12246,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L226",
       "id": "support_chrome_cdp_driver_chromepage_click",
-      "community": 745,
+      "community": 6,
       "norm_label": ".click()"
     },
     {
@@ -12255,7 +12255,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L231",
       "id": "support_chrome_cdp_driver_chromepage_waitfor",
-      "community": 745,
+      "community": 6,
       "norm_label": ".waitfor()"
     },
     {
@@ -12264,7 +12264,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L241",
       "id": "support_chrome_cdp_driver_chromepage_text",
-      "community": 745,
+      "community": 6,
       "norm_label": ".text()"
     },
     {
@@ -12273,7 +12273,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L246",
       "id": "support_chrome_cdp_driver_chromepage_focus",
-      "community": 745,
+      "community": 6,
       "norm_label": ".focus()"
     },
     {
@@ -12282,7 +12282,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L252",
       "id": "support_chrome_cdp_driver_chromepage_screenshot",
-      "community": 745,
+      "community": 6,
       "norm_label": ".screenshot()"
     },
     {
@@ -12291,7 +12291,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L257",
       "id": "support_chrome_cdp_driver_chromepage_events",
-      "community": 745,
+      "community": 6,
       "norm_label": ".events()"
     },
     {
@@ -12309,7 +12309,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L269",
       "id": "support_chrome_cdp_driver_chromepage_waitforready",
-      "community": 745,
+      "community": 6,
       "norm_label": ".#waitforready()"
     },
     {
@@ -12336,7 +12336,7 @@
       "source_file": "tests/e2e/support/chrome-cdp-driver.mjs",
       "source_location": "L315",
       "id": "support_chrome_cdp_driver_evaluate",
-      "community": 745,
+      "community": 6,
       "norm_label": "evaluate()"
     },
     {
@@ -12399,7 +12399,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L1",
       "id": "tests_e2e_support_vite_test_server_mjs",
-      "community": 723,
+      "community": 6,
       "norm_label": "vite-test-server.mjs"
     },
     {
@@ -12408,7 +12408,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L6",
       "id": "support_vite_test_server_delay",
-      "community": 723,
+      "community": 6,
       "norm_label": "delay()"
     },
     {
@@ -12417,7 +12417,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L10",
       "id": "support_vite_test_server_availableport",
-      "community": 723,
+      "community": 6,
       "norm_label": "availableport()"
     },
     {
@@ -12426,7 +12426,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L22",
       "id": "support_vite_test_server_waitforhttp",
-      "community": 723,
+      "community": 6,
       "norm_label": "waitforhttp()"
     },
     {
@@ -12435,7 +12435,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L38",
       "id": "support_vite_test_server_stop",
-      "community": 723,
+      "community": 6,
       "norm_label": "stop()"
     },
     {
@@ -12444,7 +12444,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L47",
       "id": "support_vite_test_server_waitforexit",
-      "community": 723,
+      "community": 6,
       "norm_label": "waitforexit()"
     },
     {
@@ -12453,7 +12453,7 @@
       "source_file": "tests/e2e/support/vite-test-server.mjs",
       "source_location": "L62",
       "id": "support_vite_test_server_startvitetestserver",
-      "community": 723,
+      "community": 6,
       "norm_label": "startvitetestserver()"
     },
     {
@@ -17466,7 +17466,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_defs_schemaversion",
-      "community": 844,
+      "community": 105,
       "norm_label": "schemaversion"
     },
     {
@@ -17475,7 +17475,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_schemaversion_type",
-      "community": 844,
+      "community": 105,
       "norm_label": "type"
     },
     {
@@ -17484,7 +17484,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_schemaversion_const",
-      "community": 844,
+      "community": 105,
       "norm_label": "const"
     },
     {
@@ -17592,7 +17592,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L22",
       "id": "schemas_common_schema_defs_filereference",
-      "community": 105,
+      "community": 792,
       "norm_label": "filereference"
     },
     {
@@ -17601,7 +17601,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L23",
       "id": "schemas_common_schema_filereference_type",
-      "community": 105,
+      "community": 792,
       "norm_label": "type"
     },
     {
@@ -17610,7 +17610,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L24",
       "id": "schemas_common_schema_filereference_pattern",
-      "community": 105,
+      "community": 792,
       "norm_label": "pattern"
     },
     {
@@ -17997,7 +17997,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
       "id": "schemas_common_schema_properties_severity",
-      "community": 218,
+      "community": 202,
       "norm_label": "severity"
     },
     {
@@ -18006,7 +18006,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
       "id": "schemas_common_schema_severity_enum",
-      "community": 218,
+      "community": 202,
       "norm_label": "enum"
     },
     {
@@ -18015,7 +18015,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L68",
       "id": "schemas_common_schema_properties_kind",
-      "community": 202,
+      "community": 218,
       "norm_label": "kind"
     },
     {
@@ -18024,7 +18024,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L68",
       "id": "schemas_common_schema_kind_const",
-      "community": 202,
+      "community": 218,
       "norm_label": "const"
     },
     {
@@ -27231,7 +27231,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1reducedmotionsmoketest_cs",
-      "community": 247,
+      "community": 723,
       "norm_label": "act1reducedmotionsmoketest.cs"
     },
     {
@@ -27240,7 +27240,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L10",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest",
-      "community": 247,
+      "community": 723,
       "norm_label": "act1reducedmotionsmoketest"
     },
     {
@@ -27249,7 +27249,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L12",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest_ready",
-      "community": 247,
+      "community": 723,
       "norm_label": "._ready()"
     },
     {
@@ -27258,7 +27258,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L86",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest_frames",
-      "community": 247,
+      "community": 723,
       "norm_label": ".frames()"
     },
     {
@@ -27267,7 +27267,7 @@
       "source_file": "game/tests/Act1ReducedMotionSmokeTest.cs",
       "source_location": "L94",
       "id": "tests_act1reducedmotionsmoketest_act1reducedmotionsmoketest_fail",
-      "community": 247,
+      "community": 723,
       "norm_label": ".fail()"
     },
     {
@@ -27571,7 +27571,7 @@
       "label": ".AdvanceChapterOne()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L230",
+      "source_location": "L239",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_advancechapterone",
       "community": 54,
       "norm_label": ".advancechapterone()"
@@ -27580,7 +27580,7 @@
       "label": ".Advance()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L244",
+      "source_location": "L253",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_advance",
       "community": 54,
       "norm_label": ".advance()"
@@ -27589,7 +27589,7 @@
       "label": ".ExpectedScenePath()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L299",
+      "source_location": "L308",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_expectedscenepath",
       "community": 54,
       "norm_label": ".expectedscenepath()"
@@ -27598,7 +27598,7 @@
       "label": ".Dialogue()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L316",
+      "source_location": "L325",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_dialogue",
       "community": 54,
       "norm_label": ".dialogue()"
@@ -27607,7 +27607,7 @@
       "label": ".Document()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L336",
+      "source_location": "L345",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_document",
       "community": 54,
       "norm_label": ".document()"
@@ -27616,7 +27616,7 @@
       "label": ".FindPhysicalInteraction()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L357",
+      "source_location": "L366",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_findphysicalinteraction",
       "community": 54,
       "norm_label": ".findphysicalinteraction()"
@@ -27625,7 +27625,7 @@
       "label": ".FindZoneInteraction()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L370",
+      "source_location": "L379",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_findzoneinteraction",
       "community": 54,
       "norm_label": ".findzoneinteraction()"
@@ -27634,7 +27634,7 @@
       "label": ".HasProductionDressing()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L383",
+      "source_location": "L392",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_hasproductiondressing",
       "community": 54,
       "norm_label": ".hasproductiondressing()"
@@ -27643,7 +27643,7 @@
       "label": ".HasAuthoredInteractionLayout()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L391",
+      "source_location": "L400",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_hasauthoredinteractionlayout",
       "community": 54,
       "norm_label": ".hasauthoredinteractionlayout()"
@@ -27652,7 +27652,7 @@
       "label": ".HasNpcPresentation()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L401",
+      "source_location": "L410",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_hasnpcpresentation",
       "community": 54,
       "norm_label": ".hasnpcpresentation()"
@@ -27661,7 +27661,7 @@
       "label": ".HasCharacterLodContract()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L479",
+      "source_location": "L488",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_hascharacterlodcontract",
       "community": 54,
       "norm_label": ".hascharacterlodcontract()"
@@ -27670,7 +27670,7 @@
       "label": ".HasAnimationContract()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L516",
+      "source_location": "L525",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_hasanimationcontract",
       "community": 54,
       "norm_label": ".hasanimationcontract()"
@@ -27679,7 +27679,7 @@
       "label": ".HasGeneratedKit()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L531",
+      "source_location": "L540",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_hasgeneratedkit",
       "community": 54,
       "norm_label": ".hasgeneratedkit()"
@@ -27688,7 +27688,7 @@
       "label": ".HasModuleFamily()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L629",
+      "source_location": "L638",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_hasmodulefamily",
       "community": 54,
       "norm_label": ".hasmodulefamily()"
@@ -27697,7 +27697,7 @@
       "label": ".HasGateMarkerClearance()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L644",
+      "source_location": "L653",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_hasgatemarkerclearance",
       "community": 54,
       "norm_label": ".hasgatemarkerclearance()"
@@ -27706,7 +27706,7 @@
       "label": ".DialogueInteraction()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L680",
+      "source_location": "L689",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_dialogueinteraction",
       "community": 54,
       "norm_label": ".dialogueinteraction()"
@@ -27715,7 +27715,7 @@
       "label": ".KnowledgeStatus()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L693",
+      "source_location": "L702",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_knowledgestatus",
       "community": 54,
       "norm_label": ".knowledgestatus()"
@@ -27724,7 +27724,7 @@
       "label": ".ChapterKnowledgeStatus()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L696",
+      "source_location": "L705",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_chapterknowledgestatus",
       "community": 54,
       "norm_label": ".chapterknowledgestatus()"
@@ -27733,7 +27733,7 @@
       "label": ".BeatState()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L699",
+      "source_location": "L708",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_beatstate",
       "community": 54,
       "norm_label": ".beatstate()"
@@ -27742,7 +27742,7 @@
       "label": ".ChapterBeatState()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L702",
+      "source_location": "L711",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_chapterbeatstate",
       "community": 54,
       "norm_label": ".chapterbeatstate()"
@@ -27751,7 +27751,7 @@
       "label": ".Interaction()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L705",
+      "source_location": "L714",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_interaction",
       "community": 54,
       "norm_label": ".interaction()"
@@ -27760,7 +27760,7 @@
       "label": ".Scene()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L707",
+      "source_location": "L716",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_scene",
       "community": 54,
       "norm_label": ".scene()"
@@ -27769,7 +27769,7 @@
       "label": ".ChapterInteraction()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L709",
+      "source_location": "L718",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_chapterinteraction",
       "community": 54,
       "norm_label": ".chapterinteraction()"
@@ -27778,7 +27778,7 @@
       "label": ".ChapterScene()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L711",
+      "source_location": "L720",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_chapterscene",
       "community": 54,
       "norm_label": ".chapterscene()"
@@ -27787,7 +27787,7 @@
       "label": ".ChapterDialogue()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L713",
+      "source_location": "L722",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_chapterdialogue",
       "community": 54,
       "norm_label": ".chapterdialogue()"
@@ -27796,7 +27796,7 @@
       "label": ".Fail()",
       "file_type": "code",
       "source_file": "game/tests/FullGameFlowSmokeTest.cs",
-      "source_location": "L715",
+      "source_location": "L724",
       "id": "tests_fullgameflowsmoketest_fullgameflowsmoketest_fail",
       "community": 54,
       "norm_label": ".fail()"
@@ -28473,7 +28473,7 @@
       "source_file": "game/tests/Act1BindingConflictSmokeTest.cs",
       "source_location": "L1",
       "id": "game_tests_act1bindingconflictsmoketest_cs",
-      "community": 831,
+      "community": 247,
       "norm_label": "act1bindingconflictsmoketest.cs"
     },
     {
@@ -28482,7 +28482,7 @@
       "source_file": "game/tests/Act1BindingConflictSmokeTest.cs",
       "source_location": "L11",
       "id": "tests_act1bindingconflictsmoketest_act1bindingconflictsmoketest",
-      "community": 831,
+      "community": 247,
       "norm_label": "act1bindingconflictsmoketest"
     },
     {
@@ -28491,7 +28491,7 @@
       "source_file": "game/tests/Act1BindingConflictSmokeTest.cs",
       "source_location": "L13",
       "id": "tests_act1bindingconflictsmoketest_act1bindingconflictsmoketest_ready",
-      "community": 831,
+      "community": 247,
       "norm_label": "._ready()"
     },
     {
@@ -28500,7 +28500,7 @@
       "source_file": "game/tests/Act1BindingConflictSmokeTest.cs",
       "source_location": "L160",
       "id": "tests_act1bindingconflictsmoketest_act1bindingconflictsmoketest_frames",
-      "community": 831,
+      "community": 247,
       "norm_label": ".frames()"
     },
     {
@@ -28509,7 +28509,7 @@
       "source_file": "game/tests/Act1BindingConflictSmokeTest.cs",
       "source_location": "L168",
       "id": "tests_act1bindingconflictsmoketest_act1bindingconflictsmoketest_fail",
-      "community": 831,
+      "community": 247,
       "norm_label": ".fail()"
     },
     {
@@ -47211,7 +47211,7 @@
       "source_file": "src-dotnet/Urman.Core/Quests/QuestLifecycleReducer.cs",
       "source_location": "L1",
       "id": "src_dotnet_urman_core_quests_questlifecyclereducer_cs",
-      "community": 38,
+      "community": 785,
       "norm_label": "questlifecyclereducer.cs"
     },
     {
@@ -47220,7 +47220,7 @@
       "source_file": "src-dotnet/Urman.Core/Quests/QuestLifecycleReducer.cs",
       "source_location": "L8",
       "id": "quests_questlifecyclereducer_queststatuses",
-      "community": 38,
+      "community": 785,
       "norm_label": "queststatuses"
     },
     {
@@ -47229,7 +47229,7 @@
       "source_file": "src-dotnet/Urman.Core/Quests/QuestLifecycleReducer.cs",
       "source_location": "L10",
       "id": "src_dotnet_urman_core_quests_questlifecyclereducer_cs_string",
-      "community": 38,
+      "community": 785,
       "norm_label": "string"
     },
     {
@@ -47238,7 +47238,7 @@
       "source_file": "src-dotnet/Urman.Core/Quests/QuestLifecycleReducer.cs",
       "source_location": "L16",
       "id": "quests_questlifecyclereducer_objectivestatuses",
-      "community": 38,
+      "community": 785,
       "norm_label": "objectivestatuses"
     },
     {
@@ -47796,7 +47796,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L1",
       "id": "src_dotnet_urman_core_capabilities_oldpc_oldpccapabilityprovider_cs",
-      "community": 792,
+      "community": 427,
       "norm_label": "oldpccapabilityprovider.cs"
     },
     {
@@ -47805,7 +47805,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L8",
       "id": "oldpc_oldpccapabilityprovider_oldpccapabilityprovider",
-      "community": 792,
+      "community": 427,
       "norm_label": "oldpccapabilityprovider"
     },
     {
@@ -47814,7 +47814,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L10",
       "id": "src_dotnet_urman_core_capabilities_oldpc_oldpccapabilityprovider_cs_string",
-      "community": 792,
+      "community": 427,
       "norm_label": "string"
     },
     {
@@ -47823,7 +47823,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L13",
       "id": "src_dotnet_urman_core_capabilities_oldpc_oldpccapabilityprovider_cs_ireadonlylist",
-      "community": 792,
+      "community": 427,
       "norm_label": "ireadonlylist"
     },
     {
@@ -47832,7 +47832,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L35",
       "id": "oldpc_oldpccapabilityprovider_oldpccapabilityprovider_validateconfig",
-      "community": 792,
+      "community": 427,
       "norm_label": ".validateconfig()"
     },
     {
@@ -47841,7 +47841,7 @@
       "source_file": "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs",
       "source_location": "L40",
       "id": "oldpc_oldpccapabilityprovider_oldpccapabilityprovider_createsession",
-      "community": 792,
+      "community": 427,
       "norm_label": ".createsession()"
     },
     {
@@ -48372,7 +48372,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L91",
       "id": "contracts_runtimecontracts_icapabilityprovider",
-      "community": 792,
+      "community": 627,
       "norm_label": "icapabilityprovider"
     },
     {
@@ -48381,7 +48381,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L96",
       "id": "contracts_runtimecontracts_icapabilityprovider_validateconfig",
-      "community": 792,
+      "community": 627,
       "norm_label": ".validateconfig()"
     },
     {
@@ -48390,7 +48390,7 @@
       "source_file": "src-dotnet/Urman.Core/Contracts/RuntimeContracts.cs",
       "source_location": "L97",
       "id": "contracts_runtimecontracts_icapabilityprovider_createsession",
-      "community": 792,
+      "community": 627,
       "norm_label": ".createsession()"
     },
     {
@@ -48669,7 +48669,7 @@
       "source_file": "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
       "source_location": "L237",
       "id": "runtime_runtimekernel_runtimekernel_reject",
-      "community": 817,
+      "community": 176,
       "norm_label": ".reject()"
     },
     {
@@ -50946,7 +50946,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1035",
       "id": "urman_route_map_route_graph_transitions_step_forward_default",
-      "community": 824,
+      "community": 258,
       "norm_label": "step_forward_default"
     },
     {
@@ -50955,7 +50955,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1036",
       "id": "urman_route_map_route_graph_step_forward_default_durationms",
-      "community": 824,
+      "community": 258,
       "norm_label": "durationms"
     },
     {
@@ -50964,7 +50964,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1040",
       "id": "urman_route_map_route_graph_step_forward_default_assetid",
-      "community": 824,
+      "community": 258,
       "norm_label": "assetid"
     },
     {
@@ -50973,7 +50973,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1041",
       "id": "urman_route_map_route_graph_step_forward_default_behavior",
-      "community": 824,
+      "community": 258,
       "norm_label": "behavior"
     },
     {
@@ -50982,7 +50982,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1042",
       "id": "urman_route_map_route_graph_step_forward_default_status",
-      "community": 824,
+      "community": 258,
       "norm_label": "status"
     },
     {
@@ -51036,7 +51036,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1053",
       "id": "urman_route_map_route_graph_transitions_journal_route_update",
-      "community": 258,
+      "community": 745,
       "norm_label": "journal_route_update"
     },
     {
@@ -51045,7 +51045,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1054",
       "id": "urman_route_map_route_graph_journal_route_update_durationms",
-      "community": 258,
+      "community": 745,
       "norm_label": "durationms"
     },
     {
@@ -51054,7 +51054,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1058",
       "id": "urman_route_map_route_graph_journal_route_update_assetid",
-      "community": 258,
+      "community": 745,
       "norm_label": "assetid"
     },
     {
@@ -51063,7 +51063,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1059",
       "id": "urman_route_map_route_graph_journal_route_update_behavior",
-      "community": 258,
+      "community": 745,
       "norm_label": "behavior"
     },
     {
@@ -51072,7 +51072,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1060",
       "id": "urman_route_map_route_graph_journal_route_update_status",
-      "community": 258,
+      "community": 745,
       "norm_label": "status"
     },
     {
@@ -52098,7 +52098,7 @@
       "source_file": "scripts/playtest-mvp-smoke.mjs",
       "source_location": "L1",
       "id": "scripts_playtest_mvp_smoke_mjs",
-      "community": 723,
+      "community": 6,
       "norm_label": "playtest-mvp-smoke.mjs"
     },
     {
@@ -52107,7 +52107,7 @@
       "source_file": "scripts/playtest-mvp-smoke.mjs",
       "source_location": "L6",
       "id": "scripts_playtest_mvp_smoke_default_mvp_journey",
-      "community": 723,
+      "community": 6,
       "norm_label": "default_mvp_journey"
     },
     {
@@ -52116,7 +52116,7 @@
       "source_file": "scripts/playtest-mvp-smoke.mjs",
       "source_location": "L24",
       "id": "scripts_playtest_mvp_smoke_journey_dialogue_continue_after",
-      "community": 723,
+      "community": 6,
       "norm_label": "journey_dialogue_continue_after"
     },
     {
@@ -52638,7 +52638,7 @@
       "source_file": "scripts/content/compile-content.mjs",
       "source_location": "L638",
       "id": "content_compile_content_findnamedmanifests",
-      "community": 165,
+      "community": 16,
       "norm_label": "findnamedmanifests()"
     },
     {
@@ -52647,7 +52647,7 @@
       "source_file": "scripts/content/compile-content.mjs",
       "source_location": "L656",
       "id": "content_compile_content_discoverworkspacemanifests",
-      "community": 165,
+      "community": 16,
       "norm_label": "discoverworkspacemanifests()"
     },
     {
@@ -52656,7 +52656,7 @@
       "source_file": "scripts/content/compile-content.mjs",
       "source_location": "L665",
       "id": "content_compile_content_resolveworkspacemoduleselection",
-      "community": 137,
+      "community": 16,
       "norm_label": "resolveworkspacemoduleselection()"
     },
     {
@@ -53169,7 +53169,7 @@
       "source_file": "tests-dotnet/Urman.Core.Tests/QuestCapabilitySessionOrchestratorTests.cs",
       "source_location": "L8",
       "id": "urman_core_tests_questcapabilitysessionorchestratortests_questcapabilitysessionorchestratortests",
-      "community": 150,
+      "community": 707,
       "norm_label": "questcapabilitysessionorchestratortests"
     },
     {
@@ -53178,7 +53178,7 @@
       "source_file": "tests-dotnet/Urman.Core.Tests/QuestCapabilitySessionOrchestratorTests.cs",
       "source_location": "L10",
       "id": "tests_dotnet_urman_core_tests_questcapabilitysessionorchestratortests_cs_string",
-      "community": 150,
+      "community": 707,
       "norm_label": "string"
     },
     {
@@ -53187,7 +53187,7 @@
       "source_file": "tests-dotnet/Urman.Core.Tests/QuestCapabilitySessionOrchestratorTests.cs",
       "source_location": "L13",
       "id": "urman_core_tests_questcapabilitysessionorchestratortests_questcapabilitysessionorchestratortests_reconcilecreatesandstartsdesiredsessionthenwaitsforclaimreleasebeforedisposal",
-      "community": 150,
+      "community": 707,
       "norm_label": ".reconcilecreatesandstartsdesiredsessionthenwaitsforclaimreleasebeforedisposal()"
     },
     {
@@ -53196,7 +53196,7 @@
       "source_file": "tests-dotnet/Urman.Core.Tests/QuestCapabilitySessionOrchestratorTests.cs",
       "source_location": "L37",
       "id": "urman_core_tests_questcapabilitysessionorchestratortests_questcapabilitysessionorchestratortests_reconcilerestoresquestownedsnapshotbeforestartingsession",
-      "community": 150,
+      "community": 707,
       "norm_label": ".reconcilerestoresquestownedsnapshotbeforestartingsession()"
     },
     {
@@ -53205,7 +53205,7 @@
       "source_file": "tests-dotnet/Urman.Core.Tests/QuestCapabilitySessionOrchestratorTests.cs",
       "source_location": "L60",
       "id": "urman_core_tests_questcapabilitysessionorchestratortests_questcapabilitysessionorchestratortests_failedprovidercreationrollsbacksessionscreatedbycurrentreconciliation",
-      "community": 150,
+      "community": 707,
       "norm_label": ".failedprovidercreationrollsbacksessionscreatedbycurrentreconciliation()"
     },
     {
@@ -53214,7 +53214,7 @@
       "source_file": "tests-dotnet/Urman.Core.Tests/QuestCapabilitySessionOrchestratorTests.cs",
       "source_location": "L78",
       "id": "urman_core_tests_questcapabilitysessionorchestratortests_questcapabilitysessionorchestratortests_host",
-      "community": 150,
+      "community": 707,
       "norm_label": ".host()"
     },
     {
@@ -53223,7 +53223,7 @@
       "source_file": "tests-dotnet/Urman.Core.Tests/QuestCapabilitySessionOrchestratorTests.cs",
       "source_location": "L80",
       "id": "urman_core_tests_questcapabilitysessionorchestratortests_questcapabilitysessionorchestratortests_binding",
-      "community": 150,
+      "community": 707,
       "norm_label": ".binding()"
     },
     {
@@ -53232,7 +53232,7 @@
       "source_file": "tests-dotnet/Urman.Core.Tests/QuestCapabilitySessionOrchestratorTests.cs",
       "source_location": "L90",
       "id": "urman_core_tests_questcapabilitysessionorchestratortests_questcapabilitysessionorchestratortests_state",
-      "community": 150,
+      "community": 707,
       "norm_label": ".state()"
     },
     {
@@ -53313,7 +53313,7 @@
       "source_file": "tests-dotnet/Urman.Core.Tests/QuestCapabilitySessionOrchestratorTests.cs",
       "source_location": "L134",
       "id": "urman_core_tests_questcapabilitysessionorchestratortests_fakesession_handle",
-      "community": 150,
+      "community": 707,
       "norm_label": ".handle()"
     },
     {
@@ -57183,7 +57183,7 @@
       "source_file": "src/main.ts",
       "source_location": "L1",
       "id": "src_main_ts",
-      "community": 785,
+      "community": 22,
       "norm_label": "main.ts"
     },
     {
@@ -57192,7 +57192,7 @@
       "source_file": "src/main.ts",
       "source_location": "L8",
       "id": "src_main_container",
-      "community": 785,
+      "community": 22,
       "norm_label": "container"
     },
     {
@@ -57201,7 +57201,7 @@
       "source_file": "src/main.ts",
       "source_location": "L10",
       "id": "src_main_runtime",
-      "community": 785,
+      "community": 22,
       "norm_label": "runtime"
     },
     {
@@ -57210,7 +57210,7 @@
       "source_file": "src/main.ts",
       "source_location": "L15",
       "id": "src_main_persistence",
-      "community": 785,
+      "community": 22,
       "norm_label": "persistence"
     },
     {
@@ -57219,7 +57219,7 @@
       "source_file": "src/main.ts",
       "source_location": "L19",
       "id": "src_main_game",
-      "community": 785,
+      "community": 22,
       "norm_label": "game"
     },
     {
@@ -58272,7 +58272,7 @@
       "source_file": "src/lab/run-replacement.mjs",
       "source_location": "L1",
       "id": "src_lab_run_replacement_mjs",
-      "community": 495,
+      "community": 575,
       "norm_label": "run-replacement.mjs"
     },
     {
@@ -58281,7 +58281,7 @@
       "source_file": "src/lab/run-replacement.mjs",
       "source_location": "L5",
       "id": "lab_run_replacement_replaceactivelabrun",
-      "community": 495,
+      "community": 575,
       "norm_label": "replaceactivelabrun()"
     },
     {
@@ -58416,7 +58416,7 @@
       "source_file": "src/lab/viteContentLabPlugin.ts",
       "source_location": "L178",
       "id": "lab_vitecontentlabplugin_vitecontentlabplugin",
-      "community": 585,
+      "community": 165,
       "norm_label": "vitecontentlabplugin()"
     },
     {
@@ -58425,7 +58425,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L1",
       "id": "src_lab_main_ts",
-      "community": 495,
+      "community": 575,
       "norm_label": "main.ts"
     },
     {
@@ -58434,7 +58434,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L6",
       "id": "lab_main_labpack",
-      "community": 495,
+      "community": 575,
       "norm_label": "labpack"
     },
     {
@@ -58443,7 +58443,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L20",
       "id": "lab_main_swapkind",
-      "community": 495,
+      "community": 575,
       "norm_label": "swapkind"
     },
     {
@@ -58452,7 +58452,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L22",
       "id": "lab_main_labcatalog",
-      "community": 495,
+      "community": 575,
       "norm_label": "labcatalog"
     },
     {
@@ -58461,7 +58461,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L30",
       "id": "lab_main_appelement",
-      "community": 495,
+      "community": 575,
       "norm_label": "appelement"
     },
     {
@@ -58470,7 +58470,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L38",
       "id": "lab_main_state",
-      "community": 495,
+      "community": 575,
       "norm_label": "state"
     },
     {
@@ -58479,7 +58479,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L50",
       "id": "lab_main_selectedpack",
-      "community": 495,
+      "community": 575,
       "norm_label": "selectedpack()"
     },
     {
@@ -58488,7 +58488,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L56",
       "id": "lab_main_selectcampaign",
-      "community": 495,
+      "community": 575,
       "norm_label": "selectcampaign()"
     },
     {
@@ -58497,7 +58497,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L65",
       "id": "lab_main_isruntimelaunchable",
-      "community": 495,
+      "community": 575,
       "norm_label": "isruntimelaunchable()"
     },
     {
@@ -58506,7 +58506,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L71",
       "id": "lab_main_selectedcompiledrunpack",
-      "community": 495,
+      "community": 575,
       "norm_label": "selectedcompiledrunpack()"
     },
     {
@@ -58515,7 +58515,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L77",
       "id": "lab_main_inspectionpack",
-      "community": 495,
+      "community": 575,
       "norm_label": "inspectionpack()"
     },
     {
@@ -58524,7 +58524,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L81",
       "id": "lab_main_syncinspectionselection",
-      "community": 495,
+      "community": 575,
       "norm_label": "syncinspectionselection()"
     },
     {
@@ -58533,7 +58533,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L90",
       "id": "lab_main_resolverunselection",
-      "community": 495,
+      "community": 575,
       "norm_label": "resolverunselection()"
     },
     {
@@ -58542,7 +58542,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L108",
       "id": "lab_main_escape",
-      "community": 495,
+      "community": 575,
       "norm_label": "escape()"
     },
     {
@@ -58551,7 +58551,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L112",
       "id": "lab_main_option",
-      "community": 495,
+      "community": 575,
       "norm_label": "option()"
     },
     {
@@ -58560,7 +58560,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L116",
       "id": "lab_main_selectoptions",
-      "community": 495,
+      "community": 575,
       "norm_label": "selectoptions()"
     },
     {
@@ -58569,7 +58569,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L120",
       "id": "lab_main_startisolatedrun",
-      "community": 495,
+      "community": 575,
       "norm_label": "startisolatedrun()"
     },
     {
@@ -58578,7 +58578,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L155",
       "id": "lab_main_disposerun",
-      "community": 495,
+      "community": 575,
       "norm_label": "disposerun()"
     },
     {
@@ -58587,7 +58587,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L171",
       "id": "lab_main_invokesamplecapability",
-      "community": 495,
+      "community": 575,
       "norm_label": "invokesamplecapability()"
     },
     {
@@ -58596,7 +58596,7 @@
       "source_file": "src/lab/main.ts",
       "source_location": "L191",
       "id": "lab_main_render",
-      "community": 495,
+      "community": 575,
       "norm_label": "render()"
     },
     {
@@ -58614,7 +58614,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L1",
       "id": "src_lab_e2e_harness_ts",
-      "community": 785,
+      "community": 22,
       "norm_label": "e2e-harness.ts"
     },
     {
@@ -58623,7 +58623,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L8",
       "id": "lab_e2e_harness_window",
-      "community": 785,
+      "community": 22,
       "norm_label": "window"
     },
     {
@@ -58632,7 +58632,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L17",
       "id": "lab_e2e_harness_appelement",
-      "community": 785,
+      "community": 22,
       "norm_label": "appelement"
     },
     {
@@ -58641,7 +58641,7 @@
       "source_file": "src/lab/e2e-harness.ts",
       "source_location": "L23",
       "id": "lab_e2e_harness_reset",
-      "community": 785,
+      "community": 22,
       "norm_label": "reset()"
     },
     {
@@ -59964,7 +59964,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L1",
       "id": "src_runtime_contracts_runtime_contracts_mjs",
-      "community": 89,
+      "community": 650,
       "norm_label": "runtime-contracts.mjs"
     },
     {
@@ -59973,7 +59973,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L3",
       "id": "contracts_runtime_contracts_commandstatus",
-      "community": 89,
+      "community": 650,
       "norm_label": "commandstatus"
     },
     {
@@ -59982,7 +59982,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L8",
       "id": "contracts_runtime_contracts_runtimeerrorcode",
-      "community": 89,
+      "community": 650,
       "norm_label": "runtimeerrorcode"
     },
     {
@@ -60009,7 +60009,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L26",
       "id": "contracts_runtime_contracts_preflighterror",
-      "community": 7,
+      "community": 650,
       "norm_label": "preflighterror"
     },
     {
@@ -60018,7 +60018,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L27",
       "id": "contracts_runtime_contracts_preflighterror_constructor",
-      "community": 7,
+      "community": 650,
       "norm_label": ".constructor()"
     },
     {
@@ -60027,7 +60027,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L30",
       "id": "contracts_runtime_contracts_conflicterror",
-      "community": 7,
+      "community": 650,
       "norm_label": "conflicterror"
     },
     {
@@ -60036,7 +60036,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L31",
       "id": "contracts_runtime_contracts_conflicterror_constructor",
-      "community": 7,
+      "community": 650,
       "norm_label": ".constructor()"
     },
     {
@@ -60063,7 +60063,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L38",
       "id": "contracts_runtime_contracts_duplicateoccurrence",
-      "community": 7,
+      "community": 650,
       "norm_label": "duplicateoccurrence"
     },
     {
@@ -60072,7 +60072,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L39",
       "id": "contracts_runtime_contracts_duplicateoccurrence_constructor",
-      "community": 7,
+      "community": 650,
       "norm_label": ".constructor()"
     },
     {
@@ -60081,7 +60081,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L45",
       "id": "contracts_runtime_contracts_occurrenceconflict",
-      "community": 7,
+      "community": 650,
       "norm_label": "occurrenceconflict"
     },
     {
@@ -60090,7 +60090,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L46",
       "id": "contracts_runtime_contracts_occurrenceconflict_constructor",
-      "community": 7,
+      "community": 650,
       "norm_label": ".constructor()"
     },
     {
@@ -60099,7 +60099,7 @@
       "source_file": "src/runtime/contracts/runtime-contracts.mjs",
       "source_location": "L51",
       "id": "contracts_runtime_contracts_registryerrorcode",
-      "community": 89,
+      "community": 650,
       "norm_label": "registryerrorcode"
     },
     {
@@ -61431,7 +61431,7 @@
       "source_file": "src/runtime/persistence/production-persistence-gateway.mjs",
       "source_location": "L194",
       "id": "persistence_production_persistence_gateway_createbrowserproductionpersistencegateway",
-      "community": 785,
+      "community": 22,
       "norm_label": "createbrowserproductionpersistencegateway()"
     },
     {
@@ -65175,7 +65175,7 @@
       "source_file": "src/os/apps/minesweeper.ts",
       "source_location": "L40",
       "id": "apps_minesweeper_initminesweeper",
-      "community": 785,
+      "community": 72,
       "norm_label": "initminesweeper()"
     },
     {
@@ -65211,7 +65211,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L1",
       "id": "src_os_apps_notepad_ts",
-      "community": 72,
+      "community": 150,
       "norm_label": "notepad.ts"
     },
     {
@@ -65220,7 +65220,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L3",
       "id": "apps_notepad_escapehtml",
-      "community": 72,
+      "community": 150,
       "norm_label": "escapehtml()"
     },
     {
@@ -65229,7 +65229,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L12",
       "id": "apps_notepad_createdefaultnotepadstate",
-      "community": 72,
+      "community": 150,
       "norm_label": "createdefaultnotepadstate()"
     },
     {
@@ -65238,7 +65238,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L28",
       "id": "apps_notepad_readnotepadstate",
-      "community": 72,
+      "community": 150,
       "norm_label": "readnotepadstate()"
     },
     {
@@ -65247,7 +65247,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L35",
       "id": "apps_notepad_writenotepadstate",
-      "community": 72,
+      "community": 150,
       "norm_label": "writenotepadstate()"
     },
     {
@@ -65256,7 +65256,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L39",
       "id": "apps_notepad_formattimestamp",
-      "community": 72,
+      "community": 150,
       "norm_label": "formattimestamp()"
     },
     {
@@ -65265,7 +65265,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L48",
       "id": "apps_notepad_rendernotepad",
-      "community": 72,
+      "community": 150,
       "norm_label": "rendernotepad()"
     },
     {
@@ -65274,7 +65274,7 @@
       "source_file": "src/os/apps/notepad.ts",
       "source_location": "L189",
       "id": "apps_notepad_initnotepad",
-      "community": 72,
+      "community": 150,
       "norm_label": "initnotepad()"
     },
     {
@@ -88264,6 +88264,15 @@
       "norm_label": "\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u0430\u0432\u0442\u043e\u0440\u0443"
     },
     {
+      "label": "\u0418\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439 \u043e\u0442\u043a\u0430\u0437 \u0432\u043d\u0435 \u043e\u0445\u0432\u0430\u0442\u0430: `full_game_flow_smoke_test`",
+      "file_type": "document",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L91",
+      "id": "production_act1_acceptance_matrix_2026_09_14_\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439_\u043e\u0442\u043a\u0430\u0437_\u0432\u043d\u0435_\u043e\u0445\u0432\u0430\u0442\u0430_full_game_flow_smoke_test",
+      "community": 806,
+      "norm_label": "\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0438 \u043e\u0442\u043a\u0430\u0437 \u0432\u043d\u0435 \u043e\u0445\u0432\u0430\u0442\u0430: `full_game_flow_smoke_test`"
+    },
+    {
       "label": "URMAN_ACT_I_SMALL_MODEL_PROMPT_RU.md",
       "file_type": "document",
       "source_file": "docs/production/URMAN_ACT_I_SMALL_MODEL_PROMPT_RU.md",
@@ -93867,7 +93876,7 @@
       "source_file": "src/runtime/bootstrap/runtime-bootstrap.mjs",
       "source_location": "L522",
       "id": "bootstrap_runtime_bootstrap_production_old_pc_instance_id",
-      "community": 495,
+      "community": 575,
       "norm_label": "production_old_pc_instance_id"
     },
     {
@@ -95288,7 +95297,7 @@
       "file_type": "code",
       "source_file": "game/scripts/AmbientAudioDirector.cs",
       "source_location": "L22",
-      "community": 83,
+      "community": 544,
       "norm_label": "dictionary",
       "id": "dictionary"
     },
@@ -95306,7 +95315,7 @@
       "file_type": "code",
       "source_file": "",
       "source_location": "",
-      "community": 51,
+      "community": 122,
       "norm_label": "iaccessibilitysettingstarget",
       "id": "iaccessibilitysettingstarget"
     },
@@ -95333,7 +95342,7 @@
       "file_type": "code",
       "source_file": "game/scripts/PauseMenuUi.cs",
       "source_location": "L19",
-      "community": 186,
+      "community": 536,
       "norm_label": "button",
       "id": "button"
     },
@@ -108126,7 +108135,7 @@
       "file_type": "code",
       "source_file": "game/scripts/JournalUi.cs",
       "source_location": "L18",
-      "community": 792,
+      "community": 427,
       "norm_label": "ireadonlylist",
       "id": "ireadonlylist"
     },
@@ -109469,7 +109478,7 @@
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/roadmap.md",
       "source_location": "L95",
-      "community": 318,
+      "community": 32,
       "norm_label": "goals",
       "id": "urman_knowledge_base_roadmap_goals_95"
     },
@@ -109622,7 +109631,7 @@
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/roadmap.md",
       "source_location": "L89",
-      "community": 32,
+      "community": 318,
       "norm_label": "goals",
       "id": "urman_knowledge_base_roadmap_goals_89"
     },
@@ -109883,7 +109892,7 @@
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/roadmap.md",
       "source_location": "L137",
-      "community": 318,
+      "community": 329,
       "norm_label": "risks",
       "id": "urman_knowledge_base_roadmap_risks_137"
     },
@@ -109901,7 +109910,7 @@
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/roadmap.md",
       "source_location": "L156",
-      "community": 329,
+      "community": 341,
       "norm_label": "goals",
       "id": "urman_knowledge_base_roadmap_goals_156"
     },
@@ -250542,9 +250551,9 @@
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L822",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "urman_knowledge_base_gameplay_\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435_\u043d\u0430\u0445\u043e\u0434\u043a\u0438_\u0438_\u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435_\u0438\u0441\u0442\u043e\u0440\u0438\u0438_\u0430\u043a\u0442\u0430_i_2026_09_14",
-      "target": "urman_knowledge_base_gameplay_\u043f\u043e\u043b\u043d\u044b\u0439_\u043f\u0440\u043e\u0433\u043e\u043d_\u0443\u0437\u043a\u0438\u0445_smoke_\u0442\u0435\u0441\u0442\u043e\u0432_2026_09_14",
-      "confidence_score": 1.0
+      "target": "urman_knowledge_base_gameplay_\u043f\u043e\u043b\u043d\u044b\u0439_\u043f\u0440\u043e\u0433\u043e\u043d_\u0443\u0437\u043a\u0438\u0445_smoke_\u0442\u0435\u0441\u0442\u043e\u0432_2026_09_14"
     },
     {
       "relation": "contains",
@@ -265505,6 +265514,16 @@
       "confidence_score": 1.0,
       "source": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
       "target": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430_\u0430\u0432\u0442\u043e\u0440\u0443"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L91",
+      "weight": 1.0,
+      "source": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
+      "target": "production_act1_acceptance_matrix_2026_09_14_\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439_\u043e\u0442\u043a\u0430\u0437_\u0432\u043d\u0435_\u043e\u0445\u0432\u0430\u0442\u0430_full_game_flow_smoke_test",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -285419,5 +285438,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "939171bcca66f35cb56e00f7a18f70a56833e8ab"
+  "built_at_commit": "007f0493ef02dfe9771fb35050285ff258899895"
 }
