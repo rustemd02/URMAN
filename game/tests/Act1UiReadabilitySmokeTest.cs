@@ -212,6 +212,33 @@ public partial class Act1UiReadabilitySmokeTest : Node
             await Frames(2);
             await SaveShot("document_long" + suffix, document.GetNode<Control>("Screen/Document"), width, height);
             var body = document.GetNode<RichTextLabel>("Screen/Document/Layout/Reader/Body");
+
+            // Accessibility: high contrast must change rendered colours, not merely
+            // persist a flag. PlayerSettingsSmokeTest covers the round trip; this
+            // checks that the main reading surface actually reacts. The document is a
+            // light page, so DocumentUi intentionally uses dark ink normally and pure
+            // black under high contrast - white here would be unreadable on parchment.
+            var normalInk = new Color("34291c");
+            if (body.GetThemeColor("default_color") != normalInk)
+            {
+                Fail($"Document reader started with unexpected ink at {width}x{height} scale={scale}: '{body.GetThemeColor("default_color")}'");
+                return;
+            }
+            AccessibilityPresentation.ApplyToTree(GetTree(), AccessibilitySettingsSnapshot.Default with { HighContrast = true });
+            await Frames(2);
+            if (body.GetThemeColor("default_color") != Colors.Black)
+            {
+                Fail($"High contrast did not reach the document reader at {width}x{height} scale={scale}: '{body.GetThemeColor("default_color")}'");
+                return;
+            }
+            AccessibilityPresentation.ApplyToTree(GetTree(), AccessibilitySettingsSnapshot.Default);
+            await Frames(2);
+            if (body.GetThemeColor("default_color") != normalInk)
+            {
+                Fail($"Clearing high contrast did not restore the reader ink at {width}x{height} scale={scale}: '{body.GetThemeColor("default_color")}'");
+                return;
+            }
+
             body.GetVScrollBar().Value = body.GetVScrollBar().MaxValue;
             await SaveShot("document_end" + suffix, document.GetNode<Control>("Screen/Document"), width, height);
             document._UnhandledInput(Cancel());
@@ -292,7 +319,7 @@ public partial class Act1UiReadabilitySmokeTest : Node
             await Frames(2);
             if (player.ModalOpen) { Fail("Extended UI capture left a modal owner open."); return; }
         }
-        GD.Print($"act1-ui-readability: PASS 2 resolutions x 5 critical UIs + empty archive search + read/restricted archive marks; scales 1/1.6; journal entries={bridge.JournalEntries().Count}; longest document={longest.Id} chars={longest.BodyMarkdown.Length}; focus and Tatar glyphs");
+        GD.Print($"act1-ui-readability: PASS 2 resolutions x 5 critical UIs + empty archive search + read/restricted archive marks + high-contrast reader; scales 1/1.6; journal entries={bridge.JournalEntries().Count}; longest document={longest.Id} chars={longest.BodyMarkdown.Length}; focus and Tatar glyphs");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }
