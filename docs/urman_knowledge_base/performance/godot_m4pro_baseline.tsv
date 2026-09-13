@@ -21,3 +21,11 @@ packaged_release_r34_coldstart_seconds	n/a	n/a	n/a	4.58	n/a	PASS
 # real Metal context and window.
 packaged_release_r35_native	28157	9.390	n/a	10.526	116.10	PASS
 # samples=12 min_fps=114 max_fps=119 mean_fps=116.1; cold start 5.02/4.55/4.66 s, mean 4.74 s
+# 2026-09-14: candidate r36, exported AFTER the village window-surround paint pass (r35 predates it).
+# Same method: unpacked URMAN.app, --print-fps --quit-after 1500 under protected_run.py, real Metal
+# context and window; userdata restored byte-for-byte afterwards. The node column is n/a here: the
+# per-second FPS print does not report a node count, and the value carries over from the r34 measure
+# rather than being re-measured on r36 -- the scene graph is data-identical, only presentation
+# materials changed, so it is left unstated instead of copied.
+packaged_release_r36_native	n/a	8.780	n/a	9.174	113.92	PASS
+# samples=12 min_fps=109 max_fps=117 mean_fps=113.9; cold start 5.05/4.46/4.37 s, mean 4.63 s
