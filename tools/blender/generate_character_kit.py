@@ -875,6 +875,7 @@ def create_character(
                 (x + side_sign * 0.115, towel_y + 0.020, towel_z + 0.018),
                 (x + side_sign * 0.098, towel_y - 0.004, towel_z + 0.004),
                 (x + side_sign * 0.090, towel_y - 0.018, towel_z - 0.006),
+                (x + side_sign * 0.078, towel_y - 0.026, towel_z - 0.016),
             )
             thumb_points = (
                 (x + side_sign * 0.090, towel_y - 0.018, towel_z + 0.005),
@@ -891,6 +892,7 @@ def create_character(
                 (x + side_sign * 0.058, mansur_hand_y - 0.028, mansur_hand_z - 0.018),
                 (x + side_sign * 0.030, mansur_hand_y - 0.034, mansur_hand_z - 0.036),
                 (x + side_sign * 0.012, mansur_hand_y - 0.030, mansur_hand_z - 0.050),
+                (x + side_sign * 0.006, mansur_hand_y - 0.024, mansur_hand_z - 0.063),
             )
             thumb_points = (
                 (x + side_sign * 0.020, mansur_hand_y - 0.032, mansur_hand_z - 0.034),
@@ -905,6 +907,7 @@ def create_character(
                 (x + side_sign * 0.042, alsu_hand_y - 0.024, alsu_hand_z - 0.012),
                 (x + side_sign * 0.023, alsu_hand_y - 0.032, alsu_hand_z - 0.026),
                 (x + side_sign * 0.010, alsu_hand_y - 0.030, alsu_hand_z - 0.038),
+                (x + side_sign * 0.005, alsu_hand_y - 0.025, alsu_hand_z - 0.050),
             )
             thumb_points = (
                 (x + side_sign * 0.015, alsu_hand_y - 0.030, alsu_hand_z - 0.025),
@@ -920,6 +923,7 @@ def create_character(
                 (side_x + side_sign * 0.004, -0.026, 0.69 * height_scale),
                 (side_x + side_sign * 0.010, -0.040, 0.64 * height_scale),
                 (side_x + side_sign * 0.014, -0.049, 0.61 * height_scale),
+                (side_x + side_sign * 0.016, -0.055, 0.578 * height_scale),
             )
             thumb_points = (
                 (side_x + side_sign * 0.012, -0.040, 0.65 * height_scale),
@@ -928,7 +932,8 @@ def create_character(
         tapered_segment(
             f"{prefix}_HeadHand{side}_LOD0",
             hand_points,
-            (0.045 * shoulder_scale, 0.056 * shoulder_scale, 0.049 * shoulder_scale, 0.034 * shoulder_scale),
+            (0.045 * shoulder_scale, 0.056 * shoulder_scale, 0.049 * shoulder_scale, 0.034 * shoulder_scale,
+             0.026 * shoulder_scale),
             materials["skin"],
             asset_id,
             128,
