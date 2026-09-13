@@ -336,6 +336,21 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         CloseDocument();
         await Frames(3);
 
+        // The journal objective must advance through all three investigation
+        // cycles, not only the first two: the third quest is activated by the
+        // edge-sketch scene, and until now nothing asserted that.
+        var objectivesAfterSketch = bridge.ActiveObjectives();
+        GD.Print("act1-corridor: active objectives -> " + string.Join(", ",
+            objectivesAfterSketch.Select(entry => $"{entry.QuestId.Split('/')[^1]}/{entry.ObjectiveId}")));
+        if (!objectivesAfterSketch.Any(entry => entry.QuestId == "urman.chapter1:quest/quest_kara_urman_cliffhanger"
+                && entry.ObjectiveId == "follow-evidence")
+            || objectivesAfterSketch.Any(entry => entry.ObjectiveId is "find-contradiction" or "apply-words"))
+        {
+            Fail("The journal objective did not advance to the third investigation cycle after the edge sketch, "
+                + "or an earlier cycle stayed active next to it.");
+            return;
+        }
+
         await InteractAt(player, ray, Interaction("edge-sketch-to-zirat-road"));
         await Frames(4);
         AssertState(main, bridge, "zirat_road", "zirat-road", "res://scenes/zones/chapter1_zirat_road.tscn");
