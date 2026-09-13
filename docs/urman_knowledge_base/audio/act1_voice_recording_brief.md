@@ -71,3 +71,34 @@
 `chapter_one_flow_smoke_test` и `act1_interruption_smoke_test`; затем
 человеческое прослушивание в игре (наушники и колонки, оба состояния субтитров,
 пауза и возврат в меню — голос из прежней сцены не должен оставаться).
+
+## Проверенный путь интеграции записи (2026-09-14)
+
+Чтобы после получения файлов не выяснилось, что они «молчат», путь прочитан по
+коду и зафиксирован точно:
+
+1. Файл кладётся в `game/assets/audio/act1/voice/` (то есть
+   `res://assets/audio/act1/voice/marat_call.wav` и `.../rinat_warning.wav`).
+2. В `content/modules/urman-chapter1/definitions.json` у двух ассетов
+   `urman.chapter1:asset/audio-marat-voice` и `.../audio-rinat-interruption`
+   значение `file` меняется с `logical/audio-marat-voice.ref` на
+   `audio/act1/voice/marat_call.wav` и `audio/act1/voice/rinat_warning.wav`,
+   добавляется `sha256` файла. Идентификаторы, `mediaType`, `variants` и поля
+   `captionTextId` / `audioDescriptionTextId` не меняются.
+3. `eng/compile-game-content.sh`, затем сборка C#.
+
+Почему это сработает: `CompiledCampaignRepository` строит `AudioResolver` с
+правилом «путь, не начинающийся с `res://`, превращается в
+`res://assets/<путь>`» (`game/scripts/CompiledCampaignRepository.cs`), а
+`AudioCueUi.Present` помечает реплику проигрываемой только если
+`ResourceLoader.Exists(audio.Asset.Url)` истинно, иначе показывает субтитр
+(`game/scripts/AudioCueUi.cs`). Именно поэтому сейчас, с logical-ссылкой без
+файла, сцена работает без звука и не ломается — и поэтому же после подстановки
+реального WAV реплика начнёт звучать без правок кода.
+
+Проверка после подстановки: `act1_audio_settings_smoke_test` (субтитры и шины),
+`act1_audio_transition_smoke_test`, `act1_final_state_smoke_test`,
+`chapter_one_flow_smoke_test`, `act1_interruption_smoke_test`; затем человеческое
+прослушивание в игре с паузой, загрузкой и обоими состояниями субтитров.
+Автоматика подтверждает доставку и субтитры, но **не** заменяет прослушивание и
+художественную приёмку записи.
