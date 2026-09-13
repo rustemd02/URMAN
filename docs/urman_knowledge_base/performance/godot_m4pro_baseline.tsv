@@ -35,3 +35,10 @@ packaged_release_r36_native	n/a	8.780	n/a	9.174	113.92	PASS
 packaged_release_r37_native	n/a	9.070	n/a	9.524	110.25	PASS
 # samples=12 min_fps=105 max_fps=115 mean_fps=110.3; cold start 5.59/4.52/4.69 s, mean 4.93 s
 # dev-build probe of the same frame set after the tree change: 100.70 FPS, avg 9.931 ms, p95 11.709 ms, nodes 28165
+# 2026-09-14: candidate r38, exported AFTER the full winter tree pass (slender deciduous with fine
+# shoots on every LOD, plus slender spruce boughs with more droop and a between-tier spray).
+# Same method as r36/r37: unpacked URMAN.app, --print-fps --quit-after 1500 under protected_run.py,
+# real Metal context and window; cold start measured through the same guard.
+packaged_release_r38_native	n/a	8.969	n/a	9.346	111.50	PASS
+# samples=12 min_fps=107 max_fps=115 mean_fps=111.5; cold start 4.93/4.73/4.61 s, mean 4.76 s
+# dev-build probe of the same frame set after the tree pass: 144.93 FPS, avg 6.900 ms, p95 7.196 ms
