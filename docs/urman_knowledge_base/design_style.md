@@ -387,4 +387,3 @@ BOTW/TOTK-inspired art lock не приняты. Нативный лесной �
 `docs/production/urman_visual_review_pack/15_window_surrounds_before_after.png`.
 Читается как крашеный оклад, а не как тёмная щель; светлые наличники видны и на
 дальних домах.
-
