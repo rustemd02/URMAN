@@ -42,3 +42,8 @@ packaged_release_r37_native	n/a	9.070	n/a	9.524	110.25	PASS
 packaged_release_r38_native	n/a	8.969	n/a	9.346	111.50	PASS
 # samples=12 min_fps=107 max_fps=115 mean_fps=111.5; cold start 4.93/4.73/4.61 s, mean 4.76 s
 # dev-build probe of the same frame set after the tree pass: 144.93 FPS, avg 6.900 ms, p95 7.196 ms
+# 2026-09-14: candidate r39, exported AFTER the content change that gives two findings a word outcome and
+# the kernel monotonic-vocabulary fix. Note the campaign fingerprint changed with that content edit.
+# Same method: unpacked URMAN.app, --print-fps --quit-after 1500 under protected_run.py, real Metal.
+packaged_release_r39_native	n/a	9.022	n/a	9.615	110.83	PASS
+# samples=12 min_fps=104 max_fps=116 mean_fps=110.8; cold start not re-measured for r39 (r38: 4.93/4.73/4.61 s)
