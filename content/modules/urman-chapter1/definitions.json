@@ -1766,6 +1766,19 @@
       ],
       "effects": [],
       "nextNodeId": "blue-mittens-again-reply"
+     },
+     {
+      "id": "ask-how-to-call",
+      "textId": "urman.chapter1:text/choice-mansur-babai-name",
+      "conditions": [
+       {
+        "op": "vocabulary.status",
+        "vocabularyId": "urman.chapter1:vocabulary/tt_babai",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "babai-name-reply"
      }
     ]
    },
@@ -1889,6 +1902,19 @@
       "nextNodeId": "blue-mittens-again-reply"
      },
      {
+      "id": "ask-how-to-call",
+      "textId": "urman.chapter1:text/choice-mansur-babai-name",
+      "conditions": [
+       {
+        "op": "vocabulary.status",
+        "vocabularyId": "urman.chapter1:vocabulary/tt_babai",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "babai-name-reply"
+     },
+     {
       "id": "leave-to-computer",
       "textId": "urman.chapter1:text/choice-mansur-leave",
       "conditions": [],
@@ -1949,6 +1975,14 @@
     "id": "blue-mittens-again-reply",
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-blue-mittens-again-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "babai-name-reply",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-babai-name-reply",
     "conditions": [],
     "effects": [],
     "choices": []
@@ -2319,6 +2353,19 @@
       "conditions": [],
       "effects": [],
       "nextNodeId": "grandparents-reply"
+     },
+     {
+      "id": "ask-shurale-name",
+      "textId": "urman.chapter1:text/choice-timur-shurale",
+      "conditions": [
+       {
+        "op": "vocabulary.status",
+        "vocabularyId": "urman.chapter1:vocabulary/tt_shurale",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "shurale-reply"
      }
     ]
    },
@@ -2349,6 +2396,14 @@
     "id": "grandparents-reply",
     "speakerRole": "timur-hazrat",
     "textId": "urman.chapter1:text/dialogue-timur-grandparents-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "shurale-reply",
+    "speakerRole": "timur-hazrat",
+    "textId": "urman.chapter1:text/dialogue-timur-shurale-reply",
     "conditions": [],
     "effects": [],
     "choices": []
@@ -2809,6 +2864,11 @@
       "op": "journal.record",
       "entryId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner",
       "sourceId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner"
+     },
+     {
+      "op": "vocabulary.set-status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_babai",
+      "status": "confirmed"
      }
     ],
     "worldLocations": [
@@ -3398,6 +3458,11 @@
       "op": "journal.record",
       "entryId": "urman.chapter1:knowledge/discovery-kara-branch-profile",
       "sourceId": "urman.chapter1:knowledge/discovery-kara-branch-profile"
+     },
+     {
+      "op": "vocabulary.set-status",
+      "vocabularyId": "urman.chapter1:vocabulary/tt_shurale",
+      "status": "confirmed"
      }
     ],
     "worldLocations": [
@@ -5339,6 +5404,50 @@
    "default": "«Может быть, знает. Тебе не обязательно делать вид, что ты ничего не заметил. Но и он не обязан сразу найти слова. Скажи, что именно тебя испугало, — без ловушки в вопросе. Вы ведь ещё можете поговорить».",
    "translations": {
     "ru": "«Может быть, знает. Тебе не обязательно делать вид, что ты ничего не заметил. Но и он не обязан сразу найти слова. Скажи, что именно тебя испугало, — без ловушки в вопросе. Вы ведь ещё можете поговорить»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-timur-shurale",
+  "value": {
+   "default": "Спросить про слово «Шүрәле», которое здесь не говорят вслух",
+   "translations": {
+    "ru": "Спросить про слово «Шүрәле», которое здесь не говорят вслух"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-timur-shurale-reply",
+  "value": {
+   "default": "Тимур не отвечает сразу. «Его так называют. Не потому, что видели, а потому, что договорились не давать имён тому, что у кромки не наше. Имя — уже утверждение. Мне не нравится, когда утверждают о том, чего не знают. Ты спроси о конкретном дне: кто был рядом с Маратом, что они делали. На такой вопрос людям придётся ответить».",
+   "translations": {
+    "ru": "Тимур не отвечает сразу. «Его так называют. Не потому, что видели, а потому, что договорились не давать имён тому, что у кромки не наше. Имя — уже утверждение. Мне не нравится, когда утверждают о том, чего не знают. Ты спроси о конкретном дне: кто был рядом с Маратом, что они делали. На такой вопрос людям придётся ответить»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-mansur-babai-name",
+  "value": {
+   "default": "Спросить, как звать его теперь, когда я вырос",
+   "translations": {
+    "ru": "Спросить, как звать его теперь, когда я вырос"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-mansur-babai-name-reply",
+  "value": {
+   "default": "Мансур откладывает отвёртку. «Зови как звал. Бабай — это не про годы, это про место, куда возвращаются. И скажи мне, когда соберёшься к кромке. Один туда не ходи».",
+   "translations": {
+    "ru": "Мансур откладывает отвёртку. «Зови как звал. Бабай — это не про годы, это про место, куда возвращаются. И скажи мне, когда соберёшься к кромке. Один туда не ходи»."
    }
   },
   "purpose": "dialogue"

@@ -996,6 +996,19 @@
                 ],
                 "effects": [],
                 "nextNodeId": "blue-mittens-again-reply"
+              },
+              {
+                "id": "ask-how-to-call",
+                "textId": "urman.chapter1:text/choice-mansur-babai-name",
+                "conditions": [
+                  {
+                    "op": "vocabulary.status",
+                    "vocabularyId": "urman.chapter1:vocabulary/tt_babai",
+                    "status": "confirmed"
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "babai-name-reply"
               }
             ]
           },
@@ -1119,6 +1132,19 @@
                 "nextNodeId": "blue-mittens-again-reply"
               },
               {
+                "id": "ask-how-to-call",
+                "textId": "urman.chapter1:text/choice-mansur-babai-name",
+                "conditions": [
+                  {
+                    "op": "vocabulary.status",
+                    "vocabularyId": "urman.chapter1:vocabulary/tt_babai",
+                    "status": "confirmed"
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "babai-name-reply"
+              },
+              {
                 "id": "leave-to-computer",
                 "textId": "urman.chapter1:text/choice-mansur-leave",
                 "conditions": [],
@@ -1179,6 +1205,14 @@
             "id": "blue-mittens-again-reply",
             "speakerRole": "mansur",
             "textId": "urman.chapter1:text/dialogue-mansur-blue-mittens-again-reply",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "babai-name-reply",
+            "speakerRole": "mansur",
+            "textId": "urman.chapter1:text/dialogue-mansur-babai-name-reply",
             "conditions": [],
             "effects": [],
             "choices": []
@@ -1549,6 +1583,19 @@
                 "conditions": [],
                 "effects": [],
                 "nextNodeId": "grandparents-reply"
+              },
+              {
+                "id": "ask-shurale-name",
+                "textId": "urman.chapter1:text/choice-timur-shurale",
+                "conditions": [
+                  {
+                    "op": "vocabulary.status",
+                    "vocabularyId": "urman.chapter1:vocabulary/tt_shurale",
+                    "status": "confirmed"
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "shurale-reply"
               }
             ]
           },
@@ -1579,6 +1626,14 @@
             "id": "grandparents-reply",
             "speakerRole": "timur-hazrat",
             "textId": "urman.chapter1:text/dialogue-timur-grandparents-reply",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "shurale-reply",
+            "speakerRole": "timur-hazrat",
+            "textId": "urman.chapter1:text/dialogue-timur-shurale-reply",
             "conditions": [],
             "effects": [],
             "choices": []
@@ -5304,6 +5359,11 @@
                 "op": "journal.record",
                 "entryId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner",
                 "sourceId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner"
+              },
+              {
+                "op": "vocabulary.set-status",
+                "vocabularyId": "urman.chapter1:vocabulary/tt_babai",
+                "status": "confirmed"
               }
             ],
             "worldLocations": [
@@ -6308,6 +6368,11 @@
                 "op": "journal.record",
                 "entryId": "urman.chapter1:knowledge/discovery-kara-branch-profile",
                 "sourceId": "urman.chapter1:knowledge/discovery-kara-branch-profile"
+              },
+              {
+                "op": "vocabulary.set-status",
+                "vocabularyId": "urman.chapter1:vocabulary/tt_shurale",
+                "status": "confirmed"
               }
             ],
             "worldLocations": [
@@ -7732,6 +7797,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/choice-mansur-babai-name",
+        "value": {
+          "default": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C, \u043A\u0430\u043A \u0437\u0432\u0430\u0442\u044C \u0435\u0433\u043E \u0442\u0435\u043F\u0435\u0440\u044C, \u043A\u043E\u0433\u0434\u0430 \u044F \u0432\u044B\u0440\u043E\u0441",
+          "translations": {
+            "ru": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C, \u043A\u0430\u043A \u0437\u0432\u0430\u0442\u044C \u0435\u0433\u043E \u0442\u0435\u043F\u0435\u0440\u044C, \u043A\u043E\u0433\u0434\u0430 \u044F \u0432\u044B\u0440\u043E\u0441"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/choice-mansur-blue-mittens",
         "value": {
           "default": "Remember how I got paint on my mittens?",
@@ -7880,6 +7956,17 @@
           "default": "Tell him what the register line says.",
           "translations": {
             "ru": "\u0420\u0430\u0441\u0441\u043A\u0430\u0437\u0430\u0442\u044C, \u0447\u0442\u043E \u0441\u043A\u0430\u0437\u0430\u043D\u043E \u0432 \u0441\u0442\u0440\u043E\u043A\u0435 \u0440\u0435\u0435\u0441\u0442\u0440\u0430."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/choice-timur-shurale",
+        "value": {
+          "default": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u043F\u0440\u043E \u0441\u043B\u043E\u0432\u043E \u00AB\u0428\u04AF\u0440\u04D9\u043B\u0435\u00BB, \u043A\u043E\u0442\u043E\u0440\u043E\u0435 \u0437\u0434\u0435\u0441\u044C \u043D\u0435 \u0433\u043E\u0432\u043E\u0440\u044F\u0442 \u0432\u0441\u043B\u0443\u0445",
+          "translations": {
+            "ru": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u043F\u0440\u043E \u0441\u043B\u043E\u0432\u043E \u00AB\u0428\u04AF\u0440\u04D9\u043B\u0435\u00BB, \u043A\u043E\u0442\u043E\u0440\u043E\u0435 \u0437\u0434\u0435\u0441\u044C \u043D\u0435 \u0433\u043E\u0432\u043E\u0440\u044F\u0442 \u0432\u0441\u043B\u0443\u0445"
           }
         },
         "purpose": "dialogue"
@@ -8195,6 +8282,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/dialogue-mansur-babai-name-reply",
+        "value": {
+          "default": "\u041C\u0430\u043D\u0441\u0443\u0440 \u043E\u0442\u043A\u043B\u0430\u0434\u044B\u0432\u0430\u0435\u0442 \u043E\u0442\u0432\u0451\u0440\u0442\u043A\u0443. \u00AB\u0417\u043E\u0432\u0438 \u043A\u0430\u043A \u0437\u0432\u0430\u043B. \u0411\u0430\u0431\u0430\u0439 \u2014 \u044D\u0442\u043E \u043D\u0435 \u043F\u0440\u043E \u0433\u043E\u0434\u044B, \u044D\u0442\u043E \u043F\u0440\u043E \u043C\u0435\u0441\u0442\u043E, \u043A\u0443\u0434\u0430 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u044E\u0442\u0441\u044F. \u0418 \u0441\u043A\u0430\u0436\u0438 \u043C\u043D\u0435, \u043A\u043E\u0433\u0434\u0430 \u0441\u043E\u0431\u0435\u0440\u0451\u0448\u044C\u0441\u044F \u043A \u043A\u0440\u043E\u043C\u043A\u0435. \u041E\u0434\u0438\u043D \u0442\u0443\u0434\u0430 \u043D\u0435 \u0445\u043E\u0434\u0438\u00BB.",
+          "translations": {
+            "ru": "\u041C\u0430\u043D\u0441\u0443\u0440 \u043E\u0442\u043A\u043B\u0430\u0434\u044B\u0432\u0430\u0435\u0442 \u043E\u0442\u0432\u0451\u0440\u0442\u043A\u0443. \u00AB\u0417\u043E\u0432\u0438 \u043A\u0430\u043A \u0437\u0432\u0430\u043B. \u0411\u0430\u0431\u0430\u0439 \u2014 \u044D\u0442\u043E \u043D\u0435 \u043F\u0440\u043E \u0433\u043E\u0434\u044B, \u044D\u0442\u043E \u043F\u0440\u043E \u043C\u0435\u0441\u0442\u043E, \u043A\u0443\u0434\u0430 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u044E\u0442\u0441\u044F. \u0418 \u0441\u043A\u0430\u0436\u0438 \u043C\u043D\u0435, \u043A\u043E\u0433\u0434\u0430 \u0441\u043E\u0431\u0435\u0440\u0451\u0448\u044C\u0441\u044F \u043A \u043A\u0440\u043E\u043C\u043A\u0435. \u041E\u0434\u0438\u043D \u0442\u0443\u0434\u0430 \u043D\u0435 \u0445\u043E\u0434\u0438\u00BB."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/dialogue-mansur-blue-mittens-again-reply",
         "value": {
           "default": "\u201CFrom the runners, where else. Thick, blue \u2014 I never put it away after that winter. I thought you two would still go sledding.\u201D",
@@ -8420,6 +8518,17 @@
           "default": "\u00AB\u0410\u0439\u0434\u0430\u0440, \u0442\u044B \u0441\u043E\u0432\u0441\u0435\u043C \u0437\u0430\u043C\u0451\u0440\u0437. \u041F\u043E\u0441\u0442\u043E\u0439 \u0437\u0434\u0435\u0441\u044C, \u0437\u0430 \u0437\u0430\u0431\u043E\u0440\u043E\u043C \u043C\u0435\u043D\u044C\u0448\u0435 \u0434\u0443\u0435\u0442\u00BB. \u0422\u0438\u043C\u0443\u0440 \u0436\u0434\u0451\u0442, \u043F\u043E\u043A\u0430 \u044F \u043F\u043E\u0434\u043E\u0439\u0434\u0443. \u00AB\u0422\u044B \u0432\u0441\u0451 \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0448\u044C \u043F\u0440\u043E \u041C\u0430\u0440\u0430\u0442\u0430. \u0427\u0442\u043E \u0438\u043C\u0435\u043D\u043D\u043E \u0442\u044B \u0443\u0437\u043D\u0430\u043B?\u00BB",
           "translations": {
             "ru": "\u00AB\u0410\u0439\u0434\u0430\u0440, \u0442\u044B \u0441\u043E\u0432\u0441\u0435\u043C \u0437\u0430\u043C\u0451\u0440\u0437. \u041F\u043E\u0441\u0442\u043E\u0439 \u0437\u0434\u0435\u0441\u044C, \u0437\u0430 \u0437\u0430\u0431\u043E\u0440\u043E\u043C \u043C\u0435\u043D\u044C\u0448\u0435 \u0434\u0443\u0435\u0442\u00BB. \u0422\u0438\u043C\u0443\u0440 \u0436\u0434\u0451\u0442, \u043F\u043E\u043A\u0430 \u044F \u043F\u043E\u0434\u043E\u0439\u0434\u0443. \u00AB\u0422\u044B \u0432\u0441\u0451 \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0448\u044C \u043F\u0440\u043E \u041C\u0430\u0440\u0430\u0442\u0430. \u0427\u0442\u043E \u0438\u043C\u0435\u043D\u043D\u043E \u0442\u044B \u0443\u0437\u043D\u0430\u043B?\u00BB"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/dialogue-timur-shurale-reply",
+        "value": {
+          "default": "\u0422\u0438\u043C\u0443\u0440 \u043D\u0435 \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442 \u0441\u0440\u0430\u0437\u0443. \u00AB\u0415\u0433\u043E \u0442\u0430\u043A \u043D\u0430\u0437\u044B\u0432\u0430\u044E\u0442. \u041D\u0435 \u043F\u043E\u0442\u043E\u043C\u0443, \u0447\u0442\u043E \u0432\u0438\u0434\u0435\u043B\u0438, \u0430 \u043F\u043E\u0442\u043E\u043C\u0443, \u0447\u0442\u043E \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0438\u043B\u0438\u0441\u044C \u043D\u0435 \u0434\u0430\u0432\u0430\u0442\u044C \u0438\u043C\u0451\u043D \u0442\u043E\u043C\u0443, \u0447\u0442\u043E \u0443 \u043A\u0440\u043E\u043C\u043A\u0438 \u043D\u0435 \u043D\u0430\u0448\u0435. \u0418\u043C\u044F \u2014 \u0443\u0436\u0435 \u0443\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435. \u041C\u043D\u0435 \u043D\u0435 \u043D\u0440\u0430\u0432\u0438\u0442\u0441\u044F, \u043A\u043E\u0433\u0434\u0430 \u0443\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u044E\u0442 \u043E \u0442\u043E\u043C, \u0447\u0435\u0433\u043E \u043D\u0435 \u0437\u043D\u0430\u044E\u0442. \u0422\u044B \u0441\u043F\u0440\u043E\u0441\u0438 \u043E \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u043C \u0434\u043D\u0435: \u043A\u0442\u043E \u0431\u044B\u043B \u0440\u044F\u0434\u043E\u043C \u0441 \u041C\u0430\u0440\u0430\u0442\u043E\u043C, \u0447\u0442\u043E \u043E\u043D\u0438 \u0434\u0435\u043B\u0430\u043B\u0438. \u041D\u0430 \u0442\u0430\u043A\u043E\u0439 \u0432\u043E\u043F\u0440\u043E\u0441 \u043B\u044E\u0434\u044F\u043C \u043F\u0440\u0438\u0434\u0451\u0442\u0441\u044F \u043E\u0442\u0432\u0435\u0442\u0438\u0442\u044C\u00BB.",
+          "translations": {
+            "ru": "\u0422\u0438\u043C\u0443\u0440 \u043D\u0435 \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442 \u0441\u0440\u0430\u0437\u0443. \u00AB\u0415\u0433\u043E \u0442\u0430\u043A \u043D\u0430\u0437\u044B\u0432\u0430\u044E\u0442. \u041D\u0435 \u043F\u043E\u0442\u043E\u043C\u0443, \u0447\u0442\u043E \u0432\u0438\u0434\u0435\u043B\u0438, \u0430 \u043F\u043E\u0442\u043E\u043C\u0443, \u0447\u0442\u043E \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0438\u043B\u0438\u0441\u044C \u043D\u0435 \u0434\u0430\u0432\u0430\u0442\u044C \u0438\u043C\u0451\u043D \u0442\u043E\u043C\u0443, \u0447\u0442\u043E \u0443 \u043A\u0440\u043E\u043C\u043A\u0438 \u043D\u0435 \u043D\u0430\u0448\u0435. \u0418\u043C\u044F \u2014 \u0443\u0436\u0435 \u0443\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435. \u041C\u043D\u0435 \u043D\u0435 \u043D\u0440\u0430\u0432\u0438\u0442\u0441\u044F, \u043A\u043E\u0433\u0434\u0430 \u0443\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u044E\u0442 \u043E \u0442\u043E\u043C, \u0447\u0435\u0433\u043E \u043D\u0435 \u0437\u043D\u0430\u044E\u0442. \u0422\u044B \u0441\u043F\u0440\u043E\u0441\u0438 \u043E \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u043C \u0434\u043D\u0435: \u043A\u0442\u043E \u0431\u044B\u043B \u0440\u044F\u0434\u043E\u043C \u0441 \u041C\u0430\u0440\u0430\u0442\u043E\u043C, \u0447\u0442\u043E \u043E\u043D\u0438 \u0434\u0435\u043B\u0430\u043B\u0438. \u041D\u0430 \u0442\u0430\u043A\u043E\u0439 \u0432\u043E\u043F\u0440\u043E\u0441 \u043B\u044E\u0434\u044F\u043C \u043F\u0440\u0438\u0434\u0451\u0442\u0441\u044F \u043E\u0442\u0432\u0435\u0442\u0438\u0442\u044C\u00BB."
           }
         },
         "purpose": "dialogue"
@@ -9806,7 +9915,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "c099d7fd4c5ba901972a781c96930d942eadebbc1823b7d76f1c8d36dff1bf73"
+      "sha256": "94531f97db2ecc42921a27f9f5fa27d36b74b41d9f1ddd6a00c949e50606d3bb"
     },
     {
       "moduleId": "urman.core",
@@ -9824,5 +9933,5 @@
       "sha256": "90def45ccb600998d6a5b05ad34ffcd9ebe9aa0435ded2e95223f2f4b5e47822"
     }
   ],
-  "campaignFingerprint": "10759a53170f8216f520bca337bdc56a34982dddd899174f4ec1e4614566c355"
+  "campaignFingerprint": "ba085ec6f441618a2043de574e83729051d0c8be7994cb5950e8674086a9df86"
 }

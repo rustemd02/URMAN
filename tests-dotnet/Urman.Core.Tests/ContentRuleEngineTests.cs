@@ -40,6 +40,61 @@ public sealed class ContentRuleEngineTests
     }
 
     [Fact]
+    public async Task VocabularyStatusNeverStepsBackDownItsLadder()
+    {
+        using var kernel = new RuntimeKernel(NarrativeState.CreateInitial(), NarrativeCommandHandlers.Create());
+
+        // A discovery understands the word.
+        var learned = await kernel.DispatchAsync(Command("rules:learn", new
+        {
+            conditions = Array.Empty<object>(),
+            effects = new object[]
+            {
+                new { op = "vocabulary.set-status", vocabularyId = "urman.chapter1:vocabulary/tt_babai", status = "confirmed" }
+            }
+        }), TestContext.Current.CancellationToken);
+        Assert.Equal(CommandStatus.Committed, learned.Status);
+        Assert.Equal("confirmed", VocabularyStatus(kernel, "tt_babai"));
+
+        // Entering a scene where the word is only heard must not erase that.
+        var heardAgain = await kernel.DispatchAsync(Command("rules:hear", new
+        {
+            conditions = Array.Empty<object>(),
+            effects = new object[]
+            {
+                new { op = "vocabulary.set-status", vocabularyId = "urman.chapter1:vocabulary/tt_babai", status = "guessed" }
+            }
+        }), TestContext.Current.CancellationToken);
+        Assert.Equal(CommandStatus.Committed, heardAgain.Status);
+        Assert.Equal("confirmed", VocabularyStatus(kernel, "tt_babai"));
+
+        // Guessing first and confirming later still improves the word.
+        var guessed = await kernel.DispatchAsync(Command("rules:guess", new
+        {
+            conditions = Array.Empty<object>(),
+            effects = new object[]
+            {
+                new { op = "vocabulary.set-status", vocabularyId = "urman.chapter1:vocabulary/tt_zirat", status = "guessed" }
+            }
+        }), TestContext.Current.CancellationToken);
+        Assert.Equal(CommandStatus.Committed, guessed.Status);
+        Assert.Equal("guessed", VocabularyStatus(kernel, "tt_zirat"));
+        await kernel.DispatchAsync(Command("rules:confirm", new
+        {
+            conditions = Array.Empty<object>(),
+            effects = new object[]
+            {
+                new { op = "vocabulary.set-status", vocabularyId = "urman.chapter1:vocabulary/tt_zirat", status = "confirmed" }
+            }
+        }), TestContext.Current.CancellationToken);
+        Assert.Equal("confirmed", VocabularyStatus(kernel, "tt_zirat"));
+    }
+
+    private static string VocabularyStatus(RuntimeKernel kernel, string localId) =>
+        kernel.SelectState().GetProperty("vocabulary")
+            .GetProperty($"urman.chapter1:vocabulary/{localId}").GetProperty("status").GetString()!;
+
+    [Fact]
     public async Task ContentApply_RejectionDoesNotMutateState()
     {
         using var kernel = new RuntimeKernel(NarrativeState.CreateInitial(), NarrativeCommandHandlers.Create());

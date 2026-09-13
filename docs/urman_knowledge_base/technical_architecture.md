@@ -249,6 +249,7 @@ Useful authoring fields for vocabulary / dialogue:
 - `firstContext`: dialogue, route sign, document, old PC search, NPC-only line;
 - `repeatContexts`: source ids where the word appears again;
 - `applicationTargets`: dialogue topics, search terms, re-read targets or route hints unlocked by the word;
+- статус слова — монотонная лестница `unknown → guessed → confirmed`: запись, понижающая статус, игнорируется ядром (`ContentRuleEngine.SetStatus`), поэтому подсказка сцены не отменяет уже понятое слово; у `knowledge` семантика прежняя (см. `decision_log.md` 2026-09-14);
 - `requiresConsultantReview`: boolean.
 
 Не делать language system отдельным «учебником». Она должна быть связана с evidence.

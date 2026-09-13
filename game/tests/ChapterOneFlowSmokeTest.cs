@@ -72,9 +72,16 @@ public partial class ChapterOneFlowSmokeTest : Node
             || bridge.JournalEntries().Count != spinnerJournalCountBefore + 1
             || !bridge.JournalEntries().Any(entry => entry.EntryId == ChapterPrefix + "knowledge/discovery-babai-yard-childhood-spinner")
             || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-babai-yard-childhood-spinner") != "confirmed"
+            // The written text names бабай, so the same action teaches the word
+            // and with it the question about what to call him now. Conditions are
+            // evaluated without committing the choice, so the repeat-action
+            // assertions below still see the same runtime state.
+            || !bridge.LearnedVocabulary().Any(entry => entry.Term == "бабай" && entry.Status == "confirmed")
+            || !bridge.EvaluateConditions(bridge.RequireDialogue(Dialogue("mansur_pc_request"))
+                .Nodes["ask-for-help"].Choices.Single(choice => choice.Id == "ask-how-to-call").Conditions)
             || !spinnerTarget.IsAvailable()
             || spinnerTarget.CollisionLayer != 4u)
-        { Fail("Yard spinner first action did not commit once while leaving the journal UI closed and the ray target enabled."); return; }
+        { Fail("Yard spinner first action did not commit once, leave the journal UI closed, teach бабай and open Mansur's question, or keep the ray target enabled."); return; }
 
         if (!PhysicalRayHits(spinnerTarget))
         { Fail("Yard spinner repeat target lost its physical ray hit after the first action."); return; }
@@ -94,8 +101,10 @@ public partial class ChapterOneFlowSmokeTest : Node
         { Fail("Yard spinner repeat created a runtime or journal event, or opened the journal UI."); return; }
 
         if (bridge.LearnedVocabulary().Any(entry => entry.Id == ChapterPrefix + "vocabulary/tt_yul")
-            || await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-yul-road"))
-        { Fail("The road word or its optional question was exposed before reading the sign reverse."); return; }
+            || bridge.LearnedVocabulary().Any(entry => entry.Id == ChapterPrefix + "vocabulary/tt_shurale")
+            || await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-yul-road")
+            || await bridge.ChooseDialogueAsync(Dialogue("timur_restraint"), "restraint", "ask-shurale-name"))
+        { Fail("The road word, the Шүрәле word or one of their optional questions was exposed before its source was read."); return; }
 
         foreach (var slug in new[] { "arrival-bench-race-notches", "arrival-insulated-well", "main-street-sign-reverse", "babai-yard-sled-repair", "house-exterior-porch-nook", "fap-exterior-service-path", "zirat-outer-rest-bench", "connective-street-return-bench", "fap-exterior-care-porch", "main-street-side-window", "connective-street-repair-bench", "babai-yard-loose-side-gate-board", "kara-old-forestry-side-track", "kara-warm-window-clearing", "kara-branch-profile", "main-street-fenced-service-lane", "connective-street-shed-bypass", "zirat-outer-culvert-crossing", "house-exterior-rear-minaret-view" })
             if (!await Discover(bridge, slug)) return;
@@ -295,6 +304,26 @@ public partial class ChapterOneFlowSmokeTest : Node
             || bridge.ActiveSceneId != investigationScene)
         { Fail("Mansur's response was missing or reset the active investigation scene."); return; }
         mansurDialogue._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+
+        // Re-open the same conversation: the бабай word learned at the yard
+        // spinner opens its own question, and its reply is the authored one
+        // rather than a placeholder.
+        mansurTarget.Interact();
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var babaiQuestion = mansurDialogue.IsOpen
+            ? mansurDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+                .GetChildren().OfType<Button>()
+                .FirstOrDefault(button => button.Text == bridge.ResolveText(ChapterPrefix + "text/choice-mansur-babai-name"))
+            : null;
+        if (babaiQuestion is null)
+        { Fail("The understood бабай word did not open its question in Mansur's dialogue."); return; }
+        babaiQuestion.EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!mansurDialogue.IsOpen
+            || mansurDialogue.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text != bridge.ResolveText(ChapterPrefix + "text/dialogue-mansur-babai-name-reply")
+            || bridge.ActiveSceneId != investigationScene)
+        { Fail("Mansur's answer about the name was missing or reset the active investigation scene."); return; }
+        mansurDialogue._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
         if (!await Advance(bridge, "boundary-source-to-reread", "evidence-tatarwiki-reread")) return;
         if (!await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
         if (!await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch"))
@@ -305,9 +334,19 @@ public partial class ChapterOneFlowSmokeTest : Node
             || !bridge.IsInteractionAvailable(Interaction("route-to-mosque"))
             || !await bridge.DispatchInteractionAsync(Interaction("route-to-mosque"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("timur_restraint"), "restraint")
-            || bridge.RequireDialogue(Dialogue("timur_restraint")).Nodes["restraint"].Choices.Count != 3
+            || bridge.RequireDialogue(Dialogue("timur_restraint")).Nodes["restraint"].Choices.Count != 4
             || bridge.ActiveSceneId != Scene("evidence-edge-sketch"))
         { Fail("Timur's physical world conversation lost the investigation scene or Rinat was not pre-staged."); return; }
+
+        // The fourth authored question is the Шүрәле one. The player confirmed
+        // that word at the Kara branch profile, so the gate must now be open and
+        // the choice must lead to the authored reply rather than a dead end.
+        if (bridge.RequireDialogue(Dialogue("timur_restraint")).Nodes["restraint"].Choices
+                .Single(choice => choice.Id == "ask-shurale-name").NextNodeId != "shurale-reply"
+            || bridge.RequireDialogue(Dialogue("timur_restraint")).Nodes["shurale-reply"].TextId != ChapterPrefix + "text/dialogue-timur-shurale-reply"
+            || !bridge.EvaluateConditions(bridge.RequireDialogue(Dialogue("timur_restraint"))
+                .Nodes["restraint"].Choices.Single(choice => choice.Id == "ask-shurale-name").Conditions))
+        { Fail("The confirmed Шүрәле word did not open Timur's question or its reply was unwired."); return; }
 
         var preZiratState = bridge.SelectRuntimeState();
         if (KnowledgeStatus(preZiratState, "clue_marat_last_route_near_zirat") != "hidden")

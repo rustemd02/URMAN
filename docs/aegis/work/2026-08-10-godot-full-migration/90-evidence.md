@@ -1248,3 +1248,22 @@ performance and release gates remain open.
 This closes only the global presentation-owner conflict. Lighting quality,
 night readability, warm-window balance, rain/fog composition, cultural review,
 human playtest, target-host performance and release gates remain open.
+
+## 2026-09-14 — контент-паритет: фикстура была устаревшей и восстановлена
+
+`Urman.Content.Tests.ContentCompilerParityTests.ChapterOne_MatchesFrozenJavascriptGoldenPack`
+падал ещё до правки контента 2026-09-14: фикстура
+`tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json` содержала 45 текстов,
+6 словарных карточек, 11 документов и 17 сцен, тогда как скомпилированный пак на том же
+HEAD — 129 текстов, 12 слов, 27 документов и 19 сцен. То есть гейт `./eng/verify-dotnet.sh`
+был красным не из-за текущей задачи, а из-за того, что фикстуру не обновляли вместе с
+ростом контента. Фикстура пересобрана из текущего компилятора (тот же набор зависимостей
+`urman.chapter1`, `urman.core`, `urman.oldpc`), ожидаемый `campaignFingerprint` в тесте
+обновлён на `6eb1d1e2f6d7e293e20953e849110f92680b5c249a311537ba3f400ccb218a9a`.
+`./eng/verify-dotnet.sh` теперь PASS: Core 44/44 (включая новый кейс на монотонность
+статуса слова) и Content 12/12.
+
+Роль фикстуры уточнена: это поддерживаемый снимок текущего пака, а не неизменяемый
+JS-оракул. Веб-рантайм выведен из эксплуатации, поэтому «паритет с JS» историчен; сейчас
+фикстура ловит непреднамеренный дрейф контента и должна обновляться вместе с осознанной
+правкой контента и fingerprint.

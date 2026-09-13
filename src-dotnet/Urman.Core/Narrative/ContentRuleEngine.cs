@@ -100,9 +100,33 @@ public static class ContentRuleEngine
     private static void SetStatus(JsonObject staged, ICollection<StateEffect> effects, string registry, string id, string status)
     {
         var map = RequireObject(staged, registry);
+        // Vocabulary is a ladder, not a slot: unknown -> guessed -> confirmed.
+        // Scene-entry hints write "guessed" while the player only hears a word,
+        // and a discovery writes "confirmed" once they understand it. Both are
+        // correct on their own, but with last-write-wins the hint erased work
+        // the player had already done whenever the scene happened to load after
+        // the discovery. A word that has been understood is never un-learned by
+        // hearing it again, so a write that would step back down the ladder is
+        // ignored. Knowledge keeps its own richer statuses and last-write-wins.
+        if (registry == "vocabulary"
+            && map[id] is JsonObject current
+            && current["status"] is JsonValue existing
+            && existing.TryGetValue<string>(out var previous)
+            && VocabularyRank(status) < VocabularyRank(previous))
+        {
+            return;
+        }
+
         map[id] = new JsonObject { ["status"] = status };
         Commit(staged, effects, registry, map);
     }
+
+    private static int VocabularyRank(string status) => status switch
+    {
+        "confirmed" => 2,
+        "guessed" => 1,
+        _ => 0,
+    };
 
     private static void SetNpcState(JsonObject staged, ICollection<StateEffect> effects, JsonElement effect)
     {
