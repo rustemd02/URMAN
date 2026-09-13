@@ -266,10 +266,15 @@ public partial class Act1InterruptionSmokeTest : Node
             return;
         }
 
-        if (!await Advance(bridge, "zirat-road-to-forest", "forest")) return;
+        // The authored route now stages Kara-Urman in two steps: the zirat road
+        // leads to the forest approach, and only that approach leads into the
+        // forest. The corridor smoke already follows this contract.
+        if (!await Advance(bridge, "zirat-road-to-forest", "forest-approach")) return;
+        if (!await Advance(bridge, "forest-approach-to-forest", "forest")) return;
         var terminalState = bridge.SelectRuntimeState().GetRawText();
         if (bridge.IsInteractionAvailable(Interaction("zirat-road-to-forest"))
-            || await bridge.DispatchInteractionAsync(Interaction("zirat-road-to-forest"))
+            || bridge.IsInteractionAvailable(Interaction("forest-approach-to-forest"))
+            || await bridge.DispatchInteractionAsync(Interaction("forest-approach-to-forest"))
             || bridge.SelectRuntimeState().GetRawText() != terminalState)
         {
             Fail("Repeated terminal dispatch duplicated or mutated the final progression state.");
