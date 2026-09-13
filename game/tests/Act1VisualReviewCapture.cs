@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Godot;
+using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot.Tests;
 
@@ -19,6 +20,9 @@ public partial class Act1VisualReviewCapture : Node
     private const int WarmupFrames = 24;
     private const string FrameArgumentPrefix = "--urman-act1-frame=";
     private const string OutputArgumentPrefix = "--urman-act1-output=";
+    // Optional animation-phase hold: extra frames waited after the production
+    // camera is set, so the same subject can be captured at different moments.
+    private const string HoldFramesArgumentPrefix = "--urman-act1-hold-frames=";
     private const string ReceiptFileName = "act1_visual_review_receipt.json";
 
     private static readonly Vector2I CaptureSize = new(CaptureWidth, CaptureHeight);
@@ -61,7 +65,47 @@ public partial class Act1VisualReviewCapture : Node
                 "zirat_road",
                 "village_side",
                 new Vector3(1.15f, 0.05f, -57.3f),
-                new Vector3(0.2f, 1.45f, -41.5f))
+                new Vector3(0.2f, 1.45f, -41.5f)),
+
+            // Cast close-ups for the M6 in-motion review. The camera anchors match
+            // the core-world capture frames so the same subject can be compared
+            // between the still set and these phase samples.
+            ["naila_close"] = new(
+                "naila_close",
+                "fap_clinic",
+                "waiting_room",
+                new Vector3(29.8f, 0.05f, -28.6f),
+                new Vector3(29.8f, 1.45f, -30f), "fap_interior"),
+            ["mansur_close"] = new(
+                "mansur_close",
+                "house_old_pc",
+                "entry",
+                new Vector3(-24.7f, 0.05f, -0.2f),
+                new Vector3(-25.2f, 1.48f, -1.45f), "house_interior"),
+            ["gulsina_close"] = new(
+                "gulsina_close",
+                "house_old_pc",
+                "entry",
+                new Vector3(-32.0f, 0.05f, -1.15f),
+                new Vector3(-31.2f, 1.10f, -2.8f), "house_interior"),
+            ["alsu_close"] = new(
+                "alsu_close",
+                "village_day",
+                "arrival",
+                new Vector3(0.1f, AgentBAct1HeightField.CollisionGround(0.1f, 4.1f) + .05f, 4.1f),
+                new Vector3(0.85f, 1.35f, 2.05f), "main_street"),
+            ["rinat_close"] = new(
+                "rinat_close",
+                "village_day",
+                "arrival",
+                new Vector3(-0.8f, AgentBAct1HeightField.CollisionGround(-0.8f, -1.5f) + .05f, -1.5f),
+                new Vector3(-1.5f, 1.4f, -3.8f), "main_street"),
+            ["timur_close"] = new(
+                "timur_close",
+                "village_day",
+                "from_house",
+                new Vector3(-1.4f, AgentBAct1HeightField.CollisionGround(-1.4f, -17.6f) + .05f, -17.6f),
+                new Vector3(-3.8f, 1.4f, -19f), "connective_street_return")
         };
 
     private static readonly JsonSerializerOptions ReceiptJsonOptions = new()
@@ -87,6 +131,17 @@ public partial class Act1VisualReviewCapture : Node
         if (!FrameSpecs.TryGetValue(frameId, out var spec))
         {
             throw new InvalidOperationException($"Unknown Act I visual review frame '{frameId}'.");
+        }
+
+        var holdFrames = 0;
+        foreach (var argument in OS.GetCmdlineArgs())
+        {
+            if (!argument.StartsWith(HoldFramesArgumentPrefix, StringComparison.Ordinal)) continue;
+            if (!int.TryParse(argument[HoldFramesArgumentPrefix.Length..], out holdFrames)
+                || holdFrames < 0 || holdFrames > 600)
+            {
+                throw new InvalidOperationException($"Invalid animation-phase hold: '{argument}'.");
+            }
         }
 
         var outputDirectory = Path.GetFullPath(RequireArgument(OutputArgumentPrefix));
@@ -146,6 +201,10 @@ public partial class Act1VisualReviewCapture : Node
         camera.Current = true;
         camera.LookAt(spec.Target, Vector3.Up);
         await WaitForFramesAsync(WarmupFrames);
+        if (holdFrames > 0)
+        {
+            await WaitForFramesAsync(holdFrames);
+        }
 
         if (viewport.GetCamera3D() != camera)
         {
@@ -165,7 +224,9 @@ public partial class Act1VisualReviewCapture : Node
         }
 
         image.Convert(Image.Format.Rgba8);
-        var outputPath = Path.Combine(outputDirectory, spec.FileName);
+        var phaseId = holdFrames > 0 ? $"{spec.Id}_h{holdFrames}" : spec.Id;
+        var outputName = holdFrames > 0 ? $"{phaseId}.png" : spec.FileName;
+        var outputPath = Path.Combine(outputDirectory, outputName);
         if (File.Exists(outputPath))
         {
             throw new IOException($"Refusing to overwrite an existing capture: {outputPath}");
@@ -182,8 +243,8 @@ public partial class Act1VisualReviewCapture : Node
             outputDirectory,
             new FrameReceipt
             {
-                FrameId = spec.Id,
-                Zone = spec.ZoneId,
+                FrameId = phaseId,
+                Zone = spec.Label,
                 ActiveZoneId = connectedWorld.ActiveZoneId,
                 SpawnPointId = spec.SpawnPointId,
                 Camera = new CameraReceipt
@@ -191,7 +252,7 @@ public partial class Act1VisualReviewCapture : Node
                     GlobalPosition = ScalarVector.From(camera.GlobalPosition),
                     Target = ScalarVector.From(spec.Target)
                 },
-                Output = spec.FileName,
+                Output = outputName,
                 Width = image.GetWidth(),
                 Height = image.GetHeight(),
                 Sha256 = sha256
@@ -200,7 +261,7 @@ public partial class Act1VisualReviewCapture : Node
         GD.Print(string.Join(
             ' ',
             "act1-visual-review-capture:",
-            $"frame={spec.Id}",
+            $"frame={phaseId}",
             $"zone={connectedWorld.ActiveZoneId}",
             $"camera_global_position={FormatVector(camera.GlobalPosition)}",
             $"target={FormatVector(spec.Target)}",
@@ -312,9 +373,17 @@ public partial class Act1VisualReviewCapture : Node
         string ZoneId,
         string SpawnPointId,
         Vector3 PlayerPosition,
-        Vector3 Target)
+        Vector3 Target,
+        // Interiors are entered through their logical Main zone (fap_clinic,
+        // house_old_pc) while the connected world reports the visual zone label
+        // (fap_interior, house_interior). Exteriors use the same value for both.
+        string? VisualZone = null)
     {
         public string FileName => $"{Id}.png";
+
+        // Receipt label: the authored visual zone, which differs from the logical
+        // zone for interiors (fap_interior vs fap_clinic).
+        public string Label => VisualZone ?? ZoneId;
     }
 
     private sealed class Receipt
