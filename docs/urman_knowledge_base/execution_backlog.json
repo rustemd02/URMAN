@@ -234,8 +234,11 @@
    "verify": [
     "Narrow existing path selected from handover section 28 after inspecting actual owner."
    ],
-   "evidence": [],
-   "blocked_reason": "Requires actual external participation and evidence."
+   "evidence": [
+    "2026-09-14 M10: native r34 candidate launched and its menu observed live, userdata restored; interactive pass blocked by the environment (transparent system window owns all pixels, no AX, no keystroke injection) and recorded without invented answers; human checklist form added to playtest_plan.md."
+   ],
+   "blocked_reason": "Requires actual external participation and evidence.",
+   "progress_2026_09_14": "M10 ordinary-pass attempt on the native r34 candidate, recorded honestly. The packaged app was launched under the userdata guard and does run: the main menu was observed live (1280x720, winter village background, New game / Continue / Settings / About / Quit), then the process was stopped and userdata restored byte-for-byte. The interactive pass itself could NOT be completed in this environment: coordinate input is refused because a transparent Notification Center window owns every display pixel (bounds 0,0-1728,1117), the game's AX tree does not answer within the 8 s capture deadline so buttons cannot be pressed as elements, and programmatic keystrokes do not reach the game window (AppleScript System Events times out with -1712 and synthetic key events leave the menu unchanged). No checklist answers were fabricated; the nine-item form was left empty for a human. What is available and verified: act1_demo_launch_smoke_test passes (dedicated entrypoint -> first-person arrival -> dynamic keyboard/gamepad intro -> Chapter 1 campaign), which is a structural check and explicitly not a playtest. The human session, voice recording and listening, cultural and art acceptance, gamepad hardware, signing and the Windows host remain open; this task stays blocked on external participation."
   },
   {
    "id": "FINISH-07",
