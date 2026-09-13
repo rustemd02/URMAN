@@ -69,8 +69,9 @@
 - Листы для просмотра глазами (в репозитории):
   `docs/production/urman_visual_review_pack/11_act1_cast_closeups_1080p.png` —
   шесть NPC на дистанции разговора;
-  `12_act1_interiors_1080p.png` — дом и ФАП;
-  `13_act1_hands_before_after.png` — кисти рук до/после правки.
+  `docs/production/urman_visual_review_pack/12_act1_interiors_1080p.png` — дом и ФАП;
+  `docs/production/urman_visual_review_pack/13_act1_hands_before_after.png` — кисти рук до/после правки;
+  `docs/production/urman_visual_review_pack/14_act1_cast_motion_phases.png` — три фазы движения каждого из шести NPC.
 - **Видео текущей сборки нет.** Прогонные видео прежних запусков остаются
   внешними и содержат старые диапазоны кадров; выдавать их за текущий проход
   нельзя. Для нового видео нужна внешняя запись экрана или отдельная сборка
