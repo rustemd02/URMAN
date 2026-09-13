@@ -11,3 +11,8 @@ kara_urman_edge	1754	8.334	9.084	9.321	119.99	PASS
 # there is no per-frame p95 for this probe.
 packaged_release_r34_native	28157	9.390	n/a	10.526	106.50	PASS
 # samples=12 min_fps=95 max_fps=115 mean_fps=106.5
+# 2026-09-14: cold start of the same packaged macOS candidate, measured as wall-clock time from
+# process launch to the Act I readiness marker in stdout (a pseudo-terminal so the marker is not
+# stuck in the block buffer), three consecutive runs.
+packaged_release_r34_coldstart_seconds	n/a	n/a	n/a	4.58	n/a	PASS
+# samples: 4.58, 4.34, 4.43 s; mean 4.45 s; max is recorded in the max_frame_ms column
