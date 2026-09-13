@@ -95,6 +95,38 @@ M6, узкий шаг по лицу: черты добавлены **как по
 и Тимура, затем кисти рук и плоские предметы в разговорных кадрах (лист у
 Гөлсинә, «семейное фото», панели шкафа).
 
+## M1, конкретный найденный разрыв (следующий шаг реализации)
+
+Личная деталь Марата в первых минутах выдаётся **автоматически** при входе в
+сцену приезда, хотя подготовленный источник для неё не используется.
+
+- `content/modules/urman-chapter1/documents/arrival-photo-evidence.md` —
+  документ «Фотография в дороге» с уже написанными `openEffects`, которые
+  подтверждают `memory_marat_childhood_photo`,
+  `memory_marat_kazansky_ne_otstavay` и `topic_marat_unresolved`.
+- Сцена `scene/arrival_vehicle_dusk` содержит только три interaction
+  (`arrival-enter-house` и два `discover-*`): документ **открыть нечем**.
+- Те же три ключа продублированы в `onEnter` этой сцены, поэтому игрок
+  получает память без собственного действия.
+- `quest_marat_first_contradiction` условлен на `topic_marat_unresolved`,
+  поэтому авто-выдачу `topic_*` убирать нельзя без риска мягкого залипания;
+  `memory_*` — можно и нужно перевести на действие игрока.
+
+Правка (данные + один мировой якорь, без нового кода состояния):
+
+1. В `scene/arrival_vehicle_dusk` добавить interaction
+   `discover-arrival-photo` с `targetDocumentId:
+   urman.chapter1:document/arrival-photo-evidence` и без собственных effects —
+   память выдадут `openEffects` документа при открытии.
+2. В `onEnter` оставить `topic_marat_unresolved`, `tt_urman` и beat; убрать
+   только два `memory_*` set-status.
+3. Мировой якорь — по образцу существующих в
+   `game/scripts/Act1ConnectedWorld.Exploration.cs` (для домашнего фото это
+   `DiscoveryTarget(house, "house-interior-photo-back", ...)`), в зоне приезда
+   у скамьи/остановки, чтобы действие было естественным до входа в дом.
+4. Проверка: `eng/compile-game-content.sh`, затем один узкий существующий smoke
+   по приезду/первым минутам, плюс кадры приезда в capture.
+
 ## Следующий шаг
 
 M6 узким шагом: добавить читаемые черты лица (глаза со зрачком, нос, рот, уши)
