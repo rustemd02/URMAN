@@ -151,7 +151,10 @@ public partial class Act1CheckpointSmokeTest : Node
         // The restored session continues to the terminal: exactly once.
         if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" }))
         { Fail("The route comparison was rejected."); return; }
-        if (!await Advance(bridge, "zirat-road-to-forest", "forest")
+        // The authored route stages Kara-Urman in two steps: the zirat road leads
+        // to the forest approach, and only that approach leads into the forest.
+        if (!await Advance(bridge, "zirat-road-to-forest", "forest-approach")
+            || !await Advance(bridge, "forest-approach-to-forest", "forest")
             || FinalKnowledge(bridge.SelectRuntimeState()) != "confirmed"
             || BeatState(bridge.SelectRuntimeState(), "cliffhanger-hard-cut") != "completed")
         {

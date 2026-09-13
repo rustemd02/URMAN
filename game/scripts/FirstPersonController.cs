@@ -370,6 +370,9 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         if (candidate is null || !GodotObject.IsInstanceValid(candidate))
         {
             if (_focusedTarget is { } unavailable
+                // A zone change frees the previous zone's targets, so the cached
+                // reference can be disposed before this branch reads it.
+                && GodotObject.IsInstanceValid(unavailable)
                 && string.IsNullOrEmpty(unavailable.JournalEntryId)
                 && !unavailable.IsAvailable()
                 && unavailable.GetMeta("discoveryCompleted", false).AsBool()
