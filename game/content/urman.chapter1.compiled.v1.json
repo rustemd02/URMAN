@@ -3890,16 +3890,6 @@
         "onEnter": [
           {
             "op": "knowledge.set-status",
-            "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
-            "status": "confirmed"
-          },
-          {
-            "op": "knowledge.set-status",
-            "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
-            "status": "confirmed"
-          },
-          {
-            "op": "knowledge.set-status",
             "knowledgeId": "urman.chapter1:knowledge/topic_marat_unresolved",
             "status": "confirmed"
           },
@@ -7643,7 +7633,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "1277fd2876b631fbffea639c9fb93f83931930baf1b812aeea45023db02ce02a"
+      "sha256": "98985a4f89630f6ed5816425023e5705c66deac52084633c988d122728269db7"
     },
     {
       "moduleId": "urman.core",
@@ -7656,5 +7646,5 @@
       "sha256": "90def45ccb600998d6a5b05ad34ffcd9ebe9aa0435ded2e95223f2f4b5e47822"
     }
   ],
-  "campaignFingerprint": "57ce09ed939a4eb93ede26861feba90613f9d1e5332084a47325b610e42587ab"
+  "campaignFingerprint": "5e6b8ff6bcf6b01370f29d3cdcc8a1b81a810d9726644da5064f4f941aca0a6a"
 }

@@ -2282,16 +2282,6 @@
   "onEnter": [
    {
     "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
-    "status": "confirmed"
-   },
-   {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
-    "status": "confirmed"
-   },
-   {
-    "op": "knowledge.set-status",
     "knowledgeId": "urman.chapter1:knowledge/topic_marat_unresolved",
     "status": "confirmed"
    },

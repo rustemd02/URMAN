@@ -54,6 +54,26 @@ public partial class Act1ConnectedWorld
             new(-4.2f, wellGround + 1.35f, 4.6f), true);
         DiscoveryTarget(village, "main-street-sign-reverse", new(1.35f, .95f, .80f),
             new(-2.05f, signGround + 1.68f, 5.8f), true);
+
+        // M1: the personal Marat detail is the player's own action, not an
+        // automatic grant. The photograph he carries lies on the arrival bench
+        // and opens the existing arrival-photo source, whose authored
+        // openEffects confirm the memory keys.
+        var arrivalPhoto = new Node3D
+        {
+            Name = "ArrivalPhotoInRoad",
+            Position = new(5.5f, benchGround + 0.74f, 6.1f),
+            RotationDegrees = new(-64f, 14f, 0f)
+        };
+        village.AddChild(arrivalPhoto);
+        AddVisualBox(arrivalPhoto, "PhotoEdge", new(.18f, .008f, .14f), new(0f, -.005f, 0f), "8a7358");
+        AddVisualBox(arrivalPhoto, "PhotoCard", new(.17f, .012f, .13f), Vector3.Zero, "cfc3a8");
+        AddVisualBox(arrivalPhoto, "PhotoSleeve", new(.19f, .004f, .15f), new(0f, .009f, 0f), "b7ab90");
+        village.MakeInteractionBox("ArrivalPhotoTarget", new(.55f, .55f, .45f),
+            new(5.5f, benchGround + .95f, 6.1f), "665b49", "",
+            "Посмотреть фотографию",
+            documentId: "urman.chapter1:document/arrival-photo-evidence",
+            rayOnly: true);
     }
 
     private void BuildArrivalBenchDiscovery(Node3D parent, float groundY)
