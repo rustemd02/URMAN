@@ -16,3 +16,8 @@ packaged_release_r34_native	28157	9.390	n/a	10.526	106.50	PASS
 # stuck in the block buffer), three consecutive runs.
 packaged_release_r34_coldstart_seconds	n/a	n/a	n/a	4.58	n/a	PASS
 # samples: 4.58, 4.34, 4.43 s; mean 4.45 s; max is recorded in the max_frame_ms column
+# 2026-09-14: candidate r35, exported AFTER the zone-transition crash fix and the finale duck fix
+# (r34 predates both). Same method: unpacked URMAN.app, --print-fps --quit-after 1500 under protected_run.py,
+# real Metal context and window.
+packaged_release_r35_native	28157	9.390	n/a	10.526	116.10	PASS
+# samples=12 min_fps=114 max_fps=119 mean_fps=116.1; cold start 5.02/4.55/4.66 s, mean 4.74 s
