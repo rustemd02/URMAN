@@ -7,7 +7,7 @@ sourceFile: documents/arrival-photo-evidence.md
 assetRefs: ["urman.chapter1:asset/portrait-marat"]
 knowledgeRefs: ["urman.chapter1:knowledge/memory_marat_childhood_photo","urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay","urman.chapter1:knowledge/topic_marat_unresolved"]
 accessConditions: []
-openEffects: [{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/memory_marat_childhood_photo","status":"confirmed"},{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay","status":"confirmed"},{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/topic_marat_unresolved","status":"confirmed"}]
+openEffects: [{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/memory_marat_childhood_photo","status":"confirmed"},{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay","status":"confirmed"},{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/topic_marat_unresolved","status":"confirmed"},{"op":"journal.record","entryId":"urman.chapter1:knowledge/memory_marat_childhood_photo","sourceId":"urman.chapter1:knowledge/memory_marat_childhood_photo"}]
 ---
 # Фотография в дороге
 

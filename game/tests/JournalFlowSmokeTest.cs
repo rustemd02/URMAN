@@ -138,7 +138,20 @@ public partial class JournalFlowSmokeTest : Node
         if (journal.ActiveEntryId != retainedEntry)
         { Fail("Journal refresh discarded the source being reread."); return; }
         journal._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
-        GD.Print("journal-flow-smoke: key sources -> manual pair + wrong/retry/right -> shared conclusion without scene transition");
+
+        // M1: the personal Marat memory is the player's own action at the arrival
+        // bench, so its journal card must appear only after that action and must
+        // be re-readable from the journal.
+        const string memoryKey = "urman.chapter1:knowledge/memory_marat_childhood_photo";
+        if (bridge.JournalEntries().Any(entry => entry.SourceId == memoryKey))
+        { Fail("The arrival memory was already in the journal before the player found it."); return; }
+        if (!await bridge.OpenDocumentAsync("urman.chapter1:document/arrival-photo-evidence"))
+        { Fail("The arrival photo source could not be opened."); return; }
+        if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty(memoryKey).GetProperty("status").GetString() != "confirmed"
+            || !bridge.JournalEntries().Any(entry => entry.SourceId == memoryKey))
+        { Fail("Opening the arrival photo did not record the personal memory in the journal."); return; }
+
+        GD.Print("journal-flow-smoke: key sources -> manual pair + wrong/retry/right -> shared conclusion without scene transition; arrival memory recorded on the player's own action");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }

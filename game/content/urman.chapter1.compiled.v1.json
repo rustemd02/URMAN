@@ -1572,6 +1572,11 @@
             "op": "knowledge.set-status",
             "knowledgeId": "urman.chapter1:knowledge/topic_marat_unresolved",
             "status": "confirmed"
+          },
+          {
+            "op": "journal.record",
+            "entryId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
+            "sourceId": "urman.chapter1:knowledge/memory_marat_childhood_photo"
           }
         ],
         "bodyMarkdown": "# \u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u044F \u0432 \u0434\u043E\u0440\u043E\u0433\u0435\n\n\u0423 \u0410\u0439\u0434\u0430\u0440\u0430 \u0435\u0441\u0442\u044C \u0441\u0442\u0430\u0440\u0430\u044F \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u044F \u0441 \u041C\u0430\u0440\u0430\u0442\u043E\u043C \u0438 \u043F\u043E\u0434\u043F\u0438\u0441\u044C\u044E: \u00AB\u041A\u0430\u0437\u0430\u043D\u0441\u043A\u0438\u0439, \u043D\u0435 \u043E\u0442\u0441\u0442\u0430\u0432\u0430\u0439\u00BB.\n\u041E\u043D\u0430 \u043D\u0443\u0436\u043D\u0430 \u043A\u0430\u043A \u043B\u0438\u0447\u043D\u0430\u044F \u043F\u0430\u043C\u044F\u0442\u044C \u0434\u043E \u0440\u0430\u0441\u0441\u043B\u0435\u0434\u043E\u0432\u0430\u043D\u0438\u044F \u0438 \u043D\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u044F\u0435\u0442, \u0447\u0442\u043E \u0431\u0443\u0434\u0435\u0442 \u0443 \u043B\u0435\u0441\u043D\u043E\u0439\n\u0433\u0440\u0430\u043D\u0438\u0446\u044B. \u042D\u0442\u043E \u0441\u0430\u043C\u043E\u0441\u0442\u043E\u044F\u0442\u0435\u043B\u044C\u043D\u044B\u0439 mobile/arrival source Chapter 1, \u043D\u0435 \u043A\u043E\u043F\u0438\u044F\n\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 \u0441\u0442\u0430\u0440\u043E\u0433\u043E \u041F\u041A.\n"
@@ -7770,7 +7775,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "7e6d968bb66ff1d6c147dfcd9238b71e4e500a578f3425ed466b5bdc7623ff38"
+      "sha256": "c099d7fd4c5ba901972a781c96930d942eadebbc1823b7d76f1c8d36dff1bf73"
     },
     {
       "moduleId": "urman.core",
@@ -7783,5 +7788,5 @@
       "sha256": "90def45ccb600998d6a5b05ad34ffcd9ebe9aa0435ded2e95223f2f4b5e47822"
     }
   ],
-  "campaignFingerprint": "83e159a210b75a452250083bf2c24f563f248e7bedae39649046d793be3b92c8"
+  "campaignFingerprint": "4938c5a6c2818750b39f8576de05e3b191fde0274921d9d4221187eef7761bfe"
 }

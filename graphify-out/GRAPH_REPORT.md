@@ -1,16 +1,16 @@
 # Graph Report - URMAN  (2026-09-13)
 
 ## Corpus Check
-- 674 files · ~962,745 words
+- 674 files · ~963,233 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 12198 nodes · 16874 edges · 829 communities (641 shown, 188 thin omitted)
+- 12198 nodes · 16874 edges · 828 communities (640 shown, 188 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 211 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a4d8c966`
+- Built from commit: `cfedf923`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -812,7 +812,6 @@
 - [[_COMMUNITY_Community 818|Community 818]]
 - [[_COMMUNITY_Community 819|Community 819]]
 - [[_COMMUNITY_Community 820|Community 820]]
-- [[_COMMUNITY_Community 821|Community 821]]
 - [[_COMMUNITY_Community 823|Community 823]]
 - [[_COMMUNITY_Community 824|Community 824]]
 - [[_COMMUNITY_Community 826|Community 826]]
@@ -844,7 +843,7 @@
 - `main()` --calls--> `PATH`  [INFERRED]
   tools/blender/generate_modular_environment.py → eng/dotnet-env.sh
 
-## Communities (829 total, 188 thin omitted)
+## Communities (828 total, 188 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.05
@@ -887,8 +886,8 @@ Cohesion: 0.04
 Nodes (47): Architecture baseline — 2026-07-18, Architecture baseline — 2026-08-11, Audio Requirements (historical), code:text (old PC clue -> shared knowledge key -> journal card -> dialo), code:yaml (---), code:text (doc_marat_official_death_notice), code:bash (node scripts/validate-old-pc-content.mjs), code:text (Main menu) (+39 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.05
-Nodes (52): additionalProperties, properties, required, type, additionalProperties, properties, required, type (+44 more)
+Cohesion: 0.06
+Nodes (47): additionalProperties, properties, required, type, additionalProperties, properties, required, type (+39 more)
 
 ### Community 11 - "Community 11"
 Cohesion: 0.04
@@ -1239,16 +1238,16 @@ Cohesion: 0.12
 Nodes (12): int, IReadOnlyDictionary, JsonSerializerOptions, string, Vector2I, Act1VisualReviewCapture, CameraReceipt, FrameReceipt (+4 more)
 
 ### Community 103 - "Community 103"
-Cohesion: 0.12
-Nodes (16): properties, items, type, $ref, items, type, items, minItems (+8 more)
+Cohesion: 0.10
+Nodes (21): properties, items, type, $ref, items, type, items, minItems (+13 more)
 
 ### Community 104 - "Community 104"
 Cohesion: 0.10
 Nodes (19): Audit Of Existing First10 Batch, Batch 1 Plan — Remaining P0 Characters, Batch 1 Result, Batch 1 Started, Batch 2/4 Route And Support Location Integration, Batch 2 Started — P0 Route / Location Screens, Batch 3 Comms UI Completion, Batch 3 Integrated — UI Systems (+11 more)
 
 ### Community 105 - "Community 105"
-Cohesion: 0.12
-Nodes (16): $ref, $defs, CampaignId, ExactVersion, FileReference, JsonValue, NarrativeInvariant, SchemaReference (+8 more)
+Cohesion: 0.10
+Nodes (19): $ref, pattern, type, $defs, CampaignId, ContentId, ExactVersion, JsonValue (+11 more)
 
 ### Community 106 - "Community 106"
 Cohesion: 0.12
@@ -1612,7 +1611,7 @@ Nodes (13): $ref, requiredAssets, requiredAudio, resourceClaims, items, type, un
 
 ### Community 202 - "Community 202"
 Cohesion: 0.15
-Nodes (13): $ref, RevealNotBeforeInvariant, $ref, afterId, id, severity, subjectId, additionalProperties (+5 more)
+Nodes (13): $ref, RevealNotBeforeInvariant, $ref, const, afterId, id, kind, subjectId (+5 more)
 
 ### Community 203 - "Community 203"
 Cohesion: 0.15
@@ -1672,7 +1671,7 @@ Nodes (3): JsonElement, Harness, QuestLifecycleReducerTests
 
 ### Community 218 - "Community 218"
 Cohesion: 0.17
-Nodes (12): RequiredReachableInvariant, minLength, type, const, description, kind, targetId, additionalProperties (+4 more)
+Nodes (12): RequiredReachableInvariant, minLength, type, description, severity, targetId, additionalProperties, properties (+4 more)
 
 ### Community 219 - "Community 219"
 Cohesion: 0.17
@@ -2840,7 +2839,7 @@ Nodes (7): Handoff для GPT-5.6 Pro: направление MVP УРМАНА, 
 
 ### Community 658 - "Community 658"
 Cohesion: 0.40
-Nodes (5): evidence-compare-config, additionalProperties, properties, required, type
+Nodes (5): additionalProperties, properties, required, type, content-instantiator-config
 
 ### Community 659 - "Community 659"
 Cohesion: 0.15
@@ -2928,7 +2927,7 @@ Nodes (5): 8. DEPENDENCY GRAPH, code:mermaid (flowchart TD), Non-automatable blo
 
 ### Community 681 - "Community 681"
 Cohesion: 0.40
-Nodes (5): spatial-audio-probe-event, additionalProperties, properties, required, type
+Nodes (5): scheduler-window-config, additionalProperties, properties, required, type
 
 ### Community 682 - "Community 682"
 Cohesion: 0.54
@@ -3032,7 +3031,7 @@ Nodes (9): bool, float, int, List, string, Vector2, Vector2I, From() (+1 more)
 
 ### Community 716 - "Community 716"
 Cohesion: 0.40
-Nodes (5): spatial-audio-probe-outcome, additionalProperties, properties, required, type
+Nodes (5): scheduler-window-event, additionalProperties, properties, required, type
 
 ### Community 717 - "Community 717"
 Cohesion: 0.18
@@ -3108,7 +3107,7 @@ Nodes (4): Кадры, Как использовать, Происхождени
 
 ### Community 739 - "Community 739"
 Cohesion: 0.40
-Nodes (5): stealth-space-config, additionalProperties, properties, required, type
+Nodes (5): spatial-placement-event, additionalProperties, properties, required, type
 
 ### Community 740 - "Community 740"
 Cohesion: 0.15
@@ -3188,7 +3187,7 @@ Nodes (21): 2026-09-11 — physical discoveries and Act I people, 2026-09-11 —
 
 ### Community 783 - "Community 783"
 Cohesion: 0.40
-Nodes (5): items, minItems, type, uniqueItems, narrativeOrder
+Nodes (5): stealth-space-outcome, additionalProperties, properties, required, type
 
 ### Community 785 - "Community 785"
 Cohesion: 0.40
@@ -3196,7 +3195,7 @@ Nodes (5): environment-sim-outcome, additionalProperties, properties, required, 
 
 ### Community 788 - "Community 788"
 Cohesion: 0.40
-Nodes (5): evidence-compare-event, additionalProperties, properties, required, type
+Nodes (5): timed-choice-config, additionalProperties, properties, required, type
 
 ### Community 789 - "Community 789"
 Cohesion: 0.25
@@ -3248,7 +3247,7 @@ Nodes (4): P(), Godot x/z -> Blender x/y for planar positions., Godot x/z -> Ble
 
 ### Community 806 - "Community 806"
 Cohesion: 0.67
-Nodes (3): SchemaVersion, const, type
+Nodes (3): FileReference, pattern, type
 
 ### Community 807 - "Community 807"
 Cohesion: 0.67
@@ -3275,8 +3274,8 @@ Cohesion: 0.67
 Nodes (3): ModuleId, pattern, type
 
 ### Community 816 - "Community 816"
-Cohesion: 0.50
-Nodes (3): $id, $schema, schemaVersion
+Cohesion: 0.67
+Nodes (3): SchemaReference, pattern, type
 
 ### Community 817 - "Community 817"
 Cohesion: 0.67
@@ -3285,10 +3284,6 @@ Nodes (3): speakerRole, pattern, type
 ### Community 820 - "Community 820"
 Cohesion: 0.50
 Nodes (3): Exception, ResolverException, ResourceConflictException
-
-### Community 821 - "Community 821"
-Cohesion: 0.67
-Nodes (3): pattern, type, ContentId
 
 ### Community 823 - "Community 823"
 Cohesion: 0.50

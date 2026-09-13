@@ -9998,7 +9998,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L7",
       "id": "contracts_stress_contracts_schema_defs_spatial_placement_event",
-      "community": 18,
+      "community": 739,
       "norm_label": "spatial-placement-event"
     },
     {
@@ -10007,7 +10007,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L7",
       "id": "contracts_stress_contracts_schema_spatial_placement_event_type",
-      "community": 18,
+      "community": 739,
       "norm_label": "type"
     },
     {
@@ -10016,7 +10016,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L7",
       "id": "contracts_stress_contracts_schema_spatial_placement_event_required",
-      "community": 18,
+      "community": 739,
       "norm_label": "required"
     },
     {
@@ -10025,7 +10025,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L7",
       "id": "contracts_stress_contracts_schema_spatial_placement_event_properties",
-      "community": 18,
+      "community": 739,
       "norm_label": "properties"
     },
     {
@@ -10097,7 +10097,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L7",
       "id": "contracts_stress_contracts_schema_spatial_placement_event_additionalproperties",
-      "community": 18,
+      "community": 739,
       "norm_label": "additionalproperties"
     },
     {
@@ -10232,7 +10232,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_defs_spatial_audio_probe_event",
-      "community": 681,
+      "community": 18,
       "norm_label": "spatial-audio-probe-event"
     },
     {
@@ -10241,7 +10241,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_type",
-      "community": 681,
+      "community": 18,
       "norm_label": "type"
     },
     {
@@ -10250,7 +10250,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_required",
-      "community": 681,
+      "community": 18,
       "norm_label": "required"
     },
     {
@@ -10259,7 +10259,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_properties",
-      "community": 681,
+      "community": 18,
       "norm_label": "properties"
     },
     {
@@ -10268,7 +10268,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_additionalproperties",
-      "community": 681,
+      "community": 18,
       "norm_label": "additionalproperties"
     },
     {
@@ -10277,7 +10277,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_defs_spatial_audio_probe_outcome",
-      "community": 716,
+      "community": 35,
       "norm_label": "spatial-audio-probe-outcome"
     },
     {
@@ -10286,7 +10286,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_type",
-      "community": 716,
+      "community": 35,
       "norm_label": "type"
     },
     {
@@ -10295,7 +10295,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_required",
-      "community": 716,
+      "community": 35,
       "norm_label": "required"
     },
     {
@@ -10304,7 +10304,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_properties",
-      "community": 716,
+      "community": 35,
       "norm_label": "properties"
     },
     {
@@ -10313,7 +10313,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_additionalproperties",
-      "community": 716,
+      "community": 35,
       "norm_label": "additionalproperties"
     },
     {
@@ -10457,7 +10457,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L15",
       "id": "contracts_stress_contracts_schema_defs_scheduler_window_config",
-      "community": 10,
+      "community": 681,
       "norm_label": "scheduler-window-config"
     },
     {
@@ -10466,7 +10466,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L15",
       "id": "contracts_stress_contracts_schema_scheduler_window_config_type",
-      "community": 10,
+      "community": 681,
       "norm_label": "type"
     },
     {
@@ -10475,7 +10475,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L15",
       "id": "contracts_stress_contracts_schema_scheduler_window_config_required",
-      "community": 10,
+      "community": 681,
       "norm_label": "required"
     },
     {
@@ -10484,7 +10484,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L15",
       "id": "contracts_stress_contracts_schema_scheduler_window_config_properties",
-      "community": 10,
+      "community": 681,
       "norm_label": "properties"
     },
     {
@@ -10493,7 +10493,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L15",
       "id": "contracts_stress_contracts_schema_scheduler_window_config_additionalproperties",
-      "community": 10,
+      "community": 681,
       "norm_label": "additionalproperties"
     },
     {
@@ -10502,7 +10502,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L16",
       "id": "contracts_stress_contracts_schema_defs_scheduler_window_event",
-      "community": 18,
+      "community": 716,
       "norm_label": "scheduler-window-event"
     },
     {
@@ -10511,7 +10511,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L16",
       "id": "contracts_stress_contracts_schema_scheduler_window_event_type",
-      "community": 18,
+      "community": 716,
       "norm_label": "type"
     },
     {
@@ -10520,7 +10520,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L16",
       "id": "contracts_stress_contracts_schema_scheduler_window_event_required",
-      "community": 18,
+      "community": 716,
       "norm_label": "required"
     },
     {
@@ -10529,7 +10529,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L16",
       "id": "contracts_stress_contracts_schema_scheduler_window_event_properties",
-      "community": 18,
+      "community": 716,
       "norm_label": "properties"
     },
     {
@@ -10538,7 +10538,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L16",
       "id": "contracts_stress_contracts_schema_scheduler_window_event_additionalproperties",
-      "community": 18,
+      "community": 716,
       "norm_label": "additionalproperties"
     },
     {
@@ -10727,7 +10727,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_defs_evidence_compare_config",
-      "community": 658,
+      "community": 10,
       "norm_label": "evidence-compare-config"
     },
     {
@@ -10736,7 +10736,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_type",
-      "community": 658,
+      "community": 10,
       "norm_label": "type"
     },
     {
@@ -10745,7 +10745,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_required",
-      "community": 658,
+      "community": 10,
       "norm_label": "required"
     },
     {
@@ -10754,7 +10754,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_properties",
-      "community": 658,
+      "community": 10,
       "norm_label": "properties"
     },
     {
@@ -10763,7 +10763,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_additionalproperties",
-      "community": 658,
+      "community": 10,
       "norm_label": "additionalproperties"
     },
     {
@@ -10772,7 +10772,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L22",
       "id": "contracts_stress_contracts_schema_defs_evidence_compare_event",
-      "community": 788,
+      "community": 18,
       "norm_label": "evidence-compare-event"
     },
     {
@@ -10781,7 +10781,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L22",
       "id": "contracts_stress_contracts_schema_evidence_compare_event_type",
-      "community": 788,
+      "community": 18,
       "norm_label": "type"
     },
     {
@@ -10790,7 +10790,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L22",
       "id": "contracts_stress_contracts_schema_evidence_compare_event_required",
-      "community": 788,
+      "community": 18,
       "norm_label": "required"
     },
     {
@@ -10799,7 +10799,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L22",
       "id": "contracts_stress_contracts_schema_evidence_compare_event_properties",
-      "community": 788,
+      "community": 18,
       "norm_label": "properties"
     },
     {
@@ -10808,7 +10808,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L22",
       "id": "contracts_stress_contracts_schema_evidence_compare_event_additionalproperties",
-      "community": 788,
+      "community": 18,
       "norm_label": "additionalproperties"
     },
     {
@@ -10862,7 +10862,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L24",
       "id": "contracts_stress_contracts_schema_defs_timed_choice_config",
-      "community": 10,
+      "community": 788,
       "norm_label": "timed-choice-config"
     },
     {
@@ -10871,7 +10871,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L24",
       "id": "contracts_stress_contracts_schema_timed_choice_config_type",
-      "community": 10,
+      "community": 788,
       "norm_label": "type"
     },
     {
@@ -10880,7 +10880,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L24",
       "id": "contracts_stress_contracts_schema_timed_choice_config_required",
-      "community": 10,
+      "community": 788,
       "norm_label": "required"
     },
     {
@@ -10889,7 +10889,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L24",
       "id": "contracts_stress_contracts_schema_timed_choice_config_properties",
-      "community": 10,
+      "community": 788,
       "norm_label": "properties"
     },
     {
@@ -10898,7 +10898,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L24",
       "id": "contracts_stress_contracts_schema_timed_choice_config_additionalproperties",
-      "community": 10,
+      "community": 788,
       "norm_label": "additionalproperties"
     },
     {
@@ -11402,7 +11402,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_defs_stealth_space_config",
-      "community": 739,
+      "community": 10,
       "norm_label": "stealth-space-config"
     },
     {
@@ -11411,7 +11411,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_type",
-      "community": 739,
+      "community": 10,
       "norm_label": "type"
     },
     {
@@ -11420,7 +11420,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_required",
-      "community": 739,
+      "community": 10,
       "norm_label": "required"
     },
     {
@@ -11429,7 +11429,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_properties",
-      "community": 739,
+      "community": 10,
       "norm_label": "properties"
     },
     {
@@ -11438,7 +11438,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
       "id": "contracts_stress_contracts_schema_stealth_space_config_additionalproperties",
-      "community": 739,
+      "community": 10,
       "norm_label": "additionalproperties"
     },
     {
@@ -11492,7 +11492,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_defs_stealth_space_outcome",
-      "community": 35,
+      "community": 783,
       "norm_label": "stealth-space-outcome"
     },
     {
@@ -11501,7 +11501,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_type",
-      "community": 35,
+      "community": 783,
       "norm_label": "type"
     },
     {
@@ -11510,7 +11510,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_required",
-      "community": 35,
+      "community": 783,
       "norm_label": "required"
     },
     {
@@ -11519,7 +11519,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_properties",
-      "community": 35,
+      "community": 783,
       "norm_label": "properties"
     },
     {
@@ -11528,7 +11528,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_additionalproperties",
-      "community": 35,
+      "community": 783,
       "norm_label": "additionalproperties"
     },
     {
@@ -11537,7 +11537,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
       "id": "contracts_stress_contracts_schema_defs_content_instantiator_config",
-      "community": 10,
+      "community": 658,
       "norm_label": "content-instantiator-config"
     },
     {
@@ -11546,7 +11546,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_type",
-      "community": 10,
+      "community": 658,
       "norm_label": "type"
     },
     {
@@ -11555,7 +11555,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_required",
-      "community": 10,
+      "community": 658,
       "norm_label": "required"
     },
     {
@@ -11564,7 +11564,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_properties",
-      "community": 10,
+      "community": 658,
       "norm_label": "properties"
     },
     {
@@ -11573,7 +11573,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_additionalproperties",
-      "community": 10,
+      "community": 658,
       "norm_label": "additionalproperties"
     },
     {
@@ -13076,7 +13076,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_properties_narrativeorder",
-      "community": 783,
+      "community": 103,
       "norm_label": "narrativeorder"
     },
     {
@@ -13085,7 +13085,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_type",
-      "community": 783,
+      "community": 103,
       "norm_label": "type"
     },
     {
@@ -13094,7 +13094,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_minitems",
-      "community": 783,
+      "community": 103,
       "norm_label": "minitems"
     },
     {
@@ -13103,7 +13103,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_uniqueitems",
-      "community": 783,
+      "community": 103,
       "norm_label": "uniqueitems"
     },
     {
@@ -13112,7 +13112,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_items",
-      "community": 783,
+      "community": 103,
       "norm_label": "items"
     },
     {
@@ -17369,7 +17369,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L1",
       "id": "content_schemas_common_schema_json",
-      "community": 816,
+      "community": 105,
       "norm_label": "common.schema.json"
     },
     {
@@ -17378,7 +17378,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L2",
       "id": "schemas_common_schema_schema",
-      "community": 816,
+      "community": 105,
       "norm_label": "$schema"
     },
     {
@@ -17387,7 +17387,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L3",
       "id": "schemas_common_schema_id",
-      "community": 816,
+      "community": 105,
       "norm_label": "$id"
     },
     {
@@ -17396,7 +17396,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L4",
       "id": "schemas_common_schema_schemaversion",
-      "community": 816,
+      "community": 105,
       "norm_label": "schemaversion"
     },
     {
@@ -17414,7 +17414,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_defs_schemaversion",
-      "community": 806,
+      "community": 105,
       "norm_label": "schemaversion"
     },
     {
@@ -17423,7 +17423,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_schemaversion_type",
-      "community": 806,
+      "community": 105,
       "norm_label": "type"
     },
     {
@@ -17432,7 +17432,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
       "id": "schemas_common_schema_schemaversion_const",
-      "community": 806,
+      "community": 105,
       "norm_label": "const"
     },
     {
@@ -17486,7 +17486,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L14",
       "id": "schemas_common_schema_defs_contentid",
-      "community": 821,
+      "community": 105,
       "norm_label": "contentid"
     },
     {
@@ -17495,7 +17495,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L15",
       "id": "schemas_common_schema_contentid_type",
-      "community": 821,
+      "community": 105,
       "norm_label": "type"
     },
     {
@@ -17504,7 +17504,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L16",
       "id": "schemas_common_schema_contentid_pattern",
-      "community": 821,
+      "community": 105,
       "norm_label": "pattern"
     },
     {
@@ -17540,7 +17540,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L22",
       "id": "schemas_common_schema_defs_filereference",
-      "community": 105,
+      "community": 806,
       "norm_label": "filereference"
     },
     {
@@ -17549,7 +17549,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L23",
       "id": "schemas_common_schema_filereference_type",
-      "community": 105,
+      "community": 806,
       "norm_label": "type"
     },
     {
@@ -17558,7 +17558,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L24",
       "id": "schemas_common_schema_filereference_pattern",
-      "community": 105,
+      "community": 806,
       "norm_label": "pattern"
     },
     {
@@ -17567,7 +17567,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L26",
       "id": "schemas_common_schema_defs_schemareference",
-      "community": 105,
+      "community": 816,
       "norm_label": "schemareference"
     },
     {
@@ -17576,7 +17576,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L27",
       "id": "schemas_common_schema_schemareference_type",
-      "community": 105,
+      "community": 816,
       "norm_label": "type"
     },
     {
@@ -17585,7 +17585,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L28",
       "id": "schemas_common_schema_schemareference_pattern",
-      "community": 105,
+      "community": 816,
       "norm_label": "pattern"
     },
     {
@@ -17945,7 +17945,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
       "id": "schemas_common_schema_properties_severity",
-      "community": 202,
+      "community": 218,
       "norm_label": "severity"
     },
     {
@@ -17954,7 +17954,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
       "id": "schemas_common_schema_severity_enum",
-      "community": 202,
+      "community": 218,
       "norm_label": "enum"
     },
     {
@@ -17963,7 +17963,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L68",
       "id": "schemas_common_schema_properties_kind",
-      "community": 218,
+      "community": 202,
       "norm_label": "kind"
     },
     {
@@ -17972,7 +17972,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L68",
       "id": "schemas_common_schema_kind_const",
-      "community": 218,
+      "community": 202,
       "norm_label": "const"
     },
     {
@@ -26520,7 +26520,7 @@
       "label": ".Frames()",
       "file_type": "code",
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
-      "source_location": "L146",
+      "source_location": "L159",
       "id": "tests_journalflowsmoketest_journalflowsmoketest_frames",
       "community": 784,
       "norm_label": ".frames()"
@@ -26529,7 +26529,7 @@
       "label": ".Input()",
       "file_type": "code",
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
-      "source_location": "L154",
+      "source_location": "L167",
       "id": "tests_journalflowsmoketest_journalflowsmoketest_input",
       "community": 784,
       "norm_label": ".input()"
@@ -26538,7 +26538,7 @@
       "label": ".Fail()",
       "file_type": "code",
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
-      "source_location": "L157",
+      "source_location": "L170",
       "id": "tests_journalflowsmoketest_journalflowsmoketest_fail",
       "community": 784,
       "norm_label": ".fail()"
@@ -87441,7 +87441,7 @@
       "label": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u0448\u0430\u0433",
       "file_type": "document",
       "source_file": "docs/production/act1_m0_player_facing_state_2026-09-14.md",
-      "source_location": "L276",
+      "source_location": "L296",
       "id": "production_act1_m0_player_facing_state_2026_09_14_\u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439_\u0448\u0430\u0433",
       "community": 747,
       "norm_label": "\u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0438 \u0448\u0430\u0433"
@@ -155374,9 +155374,9 @@
       "source_file": "game/tests/Act1UiReadabilitySmokeTest.cs",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest",
-      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_runasync",
-      "confidence_score": 1.0
+      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_runasync"
     },
     {
       "relation": "method",
@@ -155485,9 +155485,9 @@
       "source_file": "game/tests/Act1UiReadabilitySmokeTest.cs",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_ready",
-      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_runasync",
-      "confidence_score": 1.0
+      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_runasync"
     },
     {
       "relation": "calls",
@@ -155562,9 +155562,9 @@
       "source_file": "game/tests/Act1UiReadabilitySmokeTest.cs",
       "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_runasync",
-      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_fail",
-      "confidence_score": 1.0
+      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_fail"
     },
     {
       "relation": "calls",
@@ -155573,9 +155573,9 @@
       "source_file": "game/tests/Act1UiReadabilitySmokeTest.cs",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_runasync",
-      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_frames",
-      "confidence_score": 1.0
+      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_frames"
     },
     {
       "relation": "calls",
@@ -155584,9 +155584,9 @@
       "source_file": "game/tests/Act1UiReadabilitySmokeTest.cs",
       "source_location": "L74",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_runasync",
-      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_fitsviewport",
-      "confidence_score": 1.0
+      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_fitsviewport"
     },
     {
       "relation": "calls",
@@ -155595,9 +155595,9 @@
       "source_file": "game/tests/Act1UiReadabilitySmokeTest.cs",
       "source_location": "L79",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_runasync",
-      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_saveshot",
-      "confidence_score": 1.0
+      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_saveshot"
     },
     {
       "relation": "calls",
@@ -155606,9 +155606,9 @@
       "source_file": "game/tests/Act1UiReadabilitySmokeTest.cs",
       "source_location": "L141",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_runasync",
-      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_dialogue",
-      "confidence_score": 1.0
+      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_dialogue"
     },
     {
       "relation": "calls",
@@ -155617,9 +155617,9 @@
       "source_file": "game/tests/Act1UiReadabilitySmokeTest.cs",
       "source_location": "L209",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_runasync",
-      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_cancel",
-      "confidence_score": 1.0
+      "target": "tests_act1uireadabilitysmoketest_act1uireadabilitysmoketest_cancel"
     },
     {
       "relation": "calls",
@@ -284352,5 +284352,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a4d8c966311597a1314bc489ddd197299cdc4233"
+  "built_at_commit": "cfedf92342457239f2f40462907766c400e90610"
 }
