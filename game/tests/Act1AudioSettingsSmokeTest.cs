@@ -97,6 +97,34 @@ public partial class Act1AudioSettingsSmokeTest : Node
         { Fail("Caption-disabled cues bypassed the ordered queue."); return; }
         audioCue.ResetPresentation();
 
+        // Audio descriptions: with captions off but descriptions on, a cue that has no
+        // recording must still tell the player what is happening. This is the whole
+        // point of the setting, and until now only its disabled path was exercised.
+        var descriptionText = rinatCue.NonAudioCue?.Text;
+        if (string.IsNullOrWhiteSpace(descriptionText))
+        { Fail("The finale cue carries no audio description to fall back on."); return; }
+        audioCue.ApplyAccessibilitySettings(new(Subtitles: false, AudioDescriptions: true));
+        audioCue.Present(rinatCue);
+        // One small tick only: this cue lives for the readable-text floor of 2 s, and
+        // advancing two full seconds would end it before the panel can be observed.
+        audioCue._Process(0.1);
+        if (audioCue.VisibleText != descriptionText || !audioCue.IsPresenting)
+        {
+            Fail($"Audio descriptions did not present the authored description: visible='{audioCue.VisibleText ?? "<null>"}' presenting={audioCue.IsPresenting} expected='{descriptionText}'");
+            return;
+        }
+        audioCue.ResetPresentation();
+
+        // And with descriptions off as well, the cue must stay silent and empty rather
+        // than leak a description nobody asked for.
+        audioCue.ApplyAccessibilitySettings(new(Subtitles: false, AudioDescriptions: false));
+        audioCue.Present(rinatCue);
+        audioCue._Process(1);
+        audioCue._Process(1);
+        if (audioCue.VisibleText is not null)
+        { Fail("A cue leaked text with both accessibility channels off."); return; }
+        audioCue.ResetPresentation();
+
         // Live volume application + persistence round trip.
         AudioSettingsService.SetVolume(AudioSettingsService.MasterBus, 0.5f);
         var masterDb = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex(AudioSettingsService.MasterBus));
@@ -148,7 +176,7 @@ public partial class Act1AudioSettingsSmokeTest : Node
         }
 
         settings.Close();
-        GD.Print("act1-audio-settings: PASS buses + routing + live volumes + persistence + muted-voice captions + settings rows");
+        GD.Print("act1-audio-settings: PASS buses + routing + live volumes + persistence + muted-voice captions + audio-description fallback + settings rows");
         AudioSettingsService.DeleteFile();
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
