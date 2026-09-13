@@ -160,6 +160,73 @@ public partial class Act1ConnectedWorld
         }
     }
 
+    private readonly System.Collections.Generic.Dictionary<Node3D, (float RestYaw, bool Facing, Tween? Turn)>
+        _conversationFacing = new();
+    private bool _conversationFacingResolved;
+
+    /// <summary>
+    /// Presentation-only idle behaviour for the NPCs the player talks to
+    /// outside the story-driven turns (Alsu, Timur, Mansur, Naila): they turn
+    /// to face the player who stands in conversation range and return to their
+    /// rest yaw when the player walks away. Gulsina and Rinat keep their
+    /// existing authored turns.
+    /// </summary>
+    private void UpdateConversationFacing()
+    {
+        _lifePlayer ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        if (_lifePlayer is null)
+        {
+            return;
+        }
+
+        if (!_conversationFacingResolved)
+        {
+            _conversationFacingResolved = true;
+            foreach (var name in new[] { "Npc_alsu", "Npc_timur_hazrat", "MansurNpc", "NailaNpc" })
+            {
+                if (FindChild(name, recursive: true, owned: false) is Node3D npc)
+                {
+                    _conversationFacing[npc] = (npc.Rotation.Y, false, null);
+                }
+            }
+
+            SetMeta("conversationFacingNpcCount", _conversationFacing.Count);
+        }
+
+        var playerPosition = _lifePlayer.GlobalPosition;
+        foreach (var npc in _conversationFacing.Keys.ToArray())
+        {
+            if (!IsInstanceValid(npc))
+            {
+                _conversationFacing.Remove(npc);
+                continue;
+            }
+
+            var entry = _conversationFacing[npc];
+            var distance = npc.GlobalPosition.DistanceTo(playerPosition);
+            if (!entry.Facing && distance <= 2.9f)
+            {
+                entry.Turn?.Kill();
+                entry.Turn = TurnNpcTowardsPlayer(npc);
+                entry.Facing = true;
+                _conversationFacing[npc] = entry;
+                npc.SetMeta("conversationFacing", "towards-player");
+            }
+            else if (entry.Facing && distance >= 3.9f)
+            {
+                entry.Turn?.Kill();
+                var back = CreateTween();
+                back.SetTrans(Tween.TransitionType.Sine);
+                back.SetEase(Tween.EaseType.Out);
+                back.TweenProperty(npc, "rotation:y", entry.RestYaw, .55f);
+                entry.Turn = back;
+                entry.Facing = false;
+                _conversationFacing[npc] = entry;
+                npc.SetMeta("conversationFacing", "rest");
+            }
+        }
+    }
+
     private Tween? TurnNpcTowardsPlayer(Node3D npc)
     {
         if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player) return null;

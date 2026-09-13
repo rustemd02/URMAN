@@ -1130,6 +1130,8 @@ public partial class Act1ConnectedWorld : Node3D
             && !_lifePlayer.ReducedMotion && _lifeCue?.IsPresenting != true;
         foreach (var smoke in _chimneySmoke)
             smoke.SpeedScale = moving ? 1f : 0f;
+
+        UpdateConversationFacing();
         _villageLife.SetMeta("motionAllowed", moving);
         if (!moving) return;
         var elapsed = (float)Math.Min(delta, .1);
