@@ -113,6 +113,24 @@ public partial class Act1MainMenuSmokeTest : Node
         demo.DemoMain?.SwitchZone("kara_urman_night", "village_path");
         await Frames(2);
 
+        // M7 error state: when a save exists on disk but none is loadable (for
+        // example a save from an older campaign fingerprint), the menu must say
+        // so truthfully and reassure that the files were left alone. This checks
+        // the rendered message only; the safe-failure behaviour itself is covered
+        // by the engine-independent core store tests, and provoking a real load
+        // error here would put an expected ERROR line into the fail-closed log.
+        demo.MainMenu?.SetContinueAvailable(available: false, description: null, existingSavePresent: true);
+        await Frames(2);
+        var continueHint = demo.MainMenu?.GetNodeOrNull<Label>(
+            "Screen/Panel/Layout/ContinueUnavailable") ?? demo.MainMenu?.FindChild("ContinueUnavailable", true, false) as Label;
+        if (continueHint is null
+            || !continueHint.Text.Contains("не удалось загрузить подходящее сохранение", StringComparison.Ordinal)
+            || !continueHint.Text.Contains("Файлы сохранений оставлены без изменений", StringComparison.Ordinal))
+        {
+            Fail($"The menu did not explain an unloadable save truthfully: '{(continueHint?.Text ?? "<missing label>")}'.");
+            return;
+        }
+
         continueButton.EmitSignal(BaseButton.SignalName.Pressed);
         var frames = 900;
         while (bridge.CurrentZoneId != expectedZone && frames-- > 0)
@@ -133,7 +151,7 @@ public partial class Act1MainMenuSmokeTest : Node
             return;
         }
 
-        GD.Print("act1-main-menu: PASS menu gate + settings from menu + checkpoint-based Continue restore");
+        GD.Print("act1-main-menu: PASS menu gate + settings from menu + checkpoint-based Continue restore + truthful unloadable-save message");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
     }
