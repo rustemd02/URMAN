@@ -769,6 +769,17 @@ def _winter_habit_records(species, index, height, spread, branches,
     """Return one rooted trunk and the shared primary fork paths for all LODs."""
     habit_key = f"Winter{species}_{index}:{seed_offset:.2f}"
     rng = random.Random(ab.stable_hash(habit_key))
+    # Caliper is a fraction of height, and a mature birch is a slender tree
+    # while a linden or maple carries a visibly heavier bole. A single shared
+    # fraction made every winter tree read as a forked post: the near arrival
+    # birch measured about 0.5 m across the trunk and 0.16 m across a primary,
+    # so limbs rendered as thick horns and the fine shoots vanished between
+    # them. These ratios are per species so the same trunk is reused by the
+    # near, light and far tiers of one variant.
+    caliper = {
+        "Birch": 0.90, "Linden": 1.30, "Maple": 1.20,
+        "Rowan": 0.85, "BirdCherry": 0.95, "Willow": 1.05,
+    }.get(species, 1.0)
     if species == "BirdCherry":
         stem_specs = (
             ((0.00, 0.00), 1.00, 0.00, 0.00),
@@ -788,7 +799,7 @@ def _winter_habit_records(species, index, height, spread, branches,
         trunk_points = _winter_trunk_centerline(
             stem_height, lean_x, lean_y, seed_offset + stem_index * 7.3,
             offset=offset, count=6)
-        trunk_radii = [stem_height * (0.039 - 0.038 * t)
+        trunk_radii = [stem_height * caliper * (0.0135 - 0.0113 * t)
                        for t in (i / 5.0 for i in range(6))]
         stems.append((trunk_points, trunk_radii, stem_index))
 
@@ -855,9 +866,12 @@ def _winter_habit_records(species, index, height, spread, branches,
                     origin + radial * length * 0.76 + Vector((0.0, 0.0, rise * 0.92 + bend)),
                     origin + radial * length + Vector((0.0, 0.0, rise)),
                 ]
-            primary_r1 = stem_height * (0.016 - 0.008 * level)
+            primary_r1 = stem_height * caliper * (0.0074 - 0.0029 * level)
+            # Keep the outer taper continuous instead of collapsing the last
+            # station to a needle, which is what turned every limb into a
+            # smooth horn with a single sharp point.
             primary_radii = [primary_r1 * factor
-                             for factor in (1.0, 0.82, 0.60, 0.36, 0.12)]
+                             for factor in (1.0, 0.80, 0.62, 0.44, 0.28)]
             primaries.append((branch_points, primary_radii, level, stem_index,
                               branch_index, angle, length, primary_r1))
     return stems, primaries
@@ -891,9 +905,15 @@ def winter_tree_variant(species, index, height, spread=1.0, branches=18,
                      segments=branch_sides)
         secondary_count = 0
         if tier == "near":
-            secondary_count = 2 if species in ("Birch", "Linden", "Maple") else 3
+            secondary_count = 3 if species in ("Birch", "Linden", "Maple") else 2
         elif tier == "light":
             secondary_count = 2
+        else:
+            # One secondary per primary keeps the far tier from reading as a
+            # handful of bare sticks on the horizon. The three-stemmed bird
+            # cherry already carries its structure in the stems and stays at
+            # the budget's top edge without them.
+            secondary_count = 0 if species == "BirdCherry" else 1
         for secondary_index in range(secondary_count):
             secondary_rng = random.Random(ab.stable_hash(
                 f"{habit_key}:secondary:{stem_index}:{branch_index}:{secondary_index}"))
@@ -916,13 +936,18 @@ def winter_tree_variant(species, index, height, spread=1.0, branches=18,
             ]
             secondary_r1 = primary_r1 * 0.50
             secondary_radii = [secondary_r1 * factor
-                               for factor in (1.0, 0.66, 0.34, 0.10)]
+                               for factor in (1.0, 0.70, 0.44, 0.22)]
             _bare_branch(f"{prefix}_Secondary{stem_index}_{branch_index}_{secondary_index}",
                          wood_vertices, wood_faces, secondary_points,
                          secondary_radii, segments=branch_sides)
-            if tier != "near":
-                continue
-            fine_count = max(2, min(4, twigs))
+            # The near tier carries the fine winter haze, light keeps two
+            # shoots per secondary so the 24-64 m band still reads as a tree
+            # instead of a fork, and far stays at trunk plus one step. The
+            # three-stemmed bird cherry spends its light-tier budget on stems
+            # rather than shoots, so it keeps one per secondary.
+            fine_count = (0 if tier == "far"
+                          else (1 if species == "BirdCherry" else 2) if tier == "light"
+                          else max(3, min(5, twigs)))
             for twig_index in range(fine_count):
                 twig_rng = random.Random(ab.stable_hash(
                     f"{habit_key}:fine:{stem_index}:{branch_index}:{secondary_index}:{twig_index}"))
@@ -942,7 +967,7 @@ def winter_tree_variant(species, index, height, spread=1.0, branches=18,
                     twig_origin + twig_direction * twig_length,
                 ]
                 twig_radius = secondary_r1 * 0.34
-                twig_radii = [twig_radius * factor for factor in (1.0, 0.56, 0.26, 0.08)]
+                twig_radii = [twig_radius * factor for factor in (1.0, 0.62, 0.38, 0.20)]
                 _bare_branch(f"{prefix}_Twig{stem_index}_{branch_index}_{secondary_index}_{twig_index}",
                              wood_vertices, wood_faces, twig_points, twig_radii,
                              segments=4)
