@@ -1817,6 +1817,13 @@
       ],
       "effects": [],
       "nextNodeId": "blue-mittens-reply"
+     },
+     {
+      "id": "leave-to-computer",
+      "textId": "urman.chapter1:text/choice-mansur-leave",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": null
      }
     ]
    },
@@ -1834,7 +1841,22 @@
     "textId": "urman.chapter1:text/dialogue-mansur-offer-help-reply",
     "conditions": [],
     "effects": [],
-    "choices": []
+    "choices": [
+     {
+      "id": "ask-follow-up",
+      "textId": "urman.chapter1:text/choice-mansur-follow-up",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "follow-up"
+     },
+     {
+      "id": "leave-to-computer",
+      "textId": "urman.chapter1:text/choice-mansur-leave",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": null
+     }
+    ]
    },
    {
     "id": "marat-reply",
@@ -6108,6 +6130,28 @@
    "default": "Ты правильно прочитал. Юл — дорога, путь. Старая стрелка смотрит на проход между дворами. Попробуй калитку: оттуда можно выйти к ФАПу.",
    "translations": {
     "ru": "Ты правильно прочитал. Юл — дорога, путь. Старая стрелка смотрит на проход между дворами. Попробуй калитку: оттуда можно выйти к ФАПу."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-mansur-follow-up",
+  "value": {
+   "default": "Ask something else.",
+   "translations": {
+    "ru": "Спросить ещё что-нибудь"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-mansur-leave",
+  "value": {
+   "default": "Leave it — I will look at the computer.",
+   "translations": {
+    "ru": "Ладно, посмотрю компьютер"
    }
   },
   "purpose": "dialogue"

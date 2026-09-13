@@ -56,21 +56,26 @@ public partial class Act1ConnectedWorld
             new(-2.05f, signGround + 1.68f, 5.8f), true);
 
         // M1: the personal Marat detail is the player's own action, not an
-        // automatic grant. The photograph he carries lies on the arrival bench
-        // and opens the existing arrival-photo source, whose authored
+        // automatic grant. The photograph he carries stands on the arrival
+        // bench, leaning against the backrest so its silhouette reads from the
+        // street, and opens the existing arrival-photo source whose authored
         // openEffects confirm the memory keys.
         var arrivalPhoto = new Node3D
         {
             Name = "ArrivalPhotoInRoad",
-            Position = new(5.5f, benchGround + 0.74f, 6.1f),
-            RotationDegrees = new(-64f, 14f, 0f)
+            Position = new(5.35f, benchGround + 0.80f, 6.16f),
+            RotationDegrees = new(-16f, 8f, 0f)
         };
         village.AddChild(arrivalPhoto);
-        AddVisualBox(arrivalPhoto, "PhotoEdge", new(.18f, .008f, .14f), new(0f, -.005f, 0f), "8a7358");
-        AddVisualBox(arrivalPhoto, "PhotoCard", new(.17f, .012f, .13f), Vector3.Zero, "cfc3a8");
-        AddVisualBox(arrivalPhoto, "PhotoSleeve", new(.19f, .004f, .15f), new(0f, .009f, 0f), "b7ab90");
-        village.MakeInteractionBox("ArrivalPhotoTarget", new(.55f, .55f, .45f),
-            new(5.5f, benchGround + .95f, 6.1f), "665b49", "",
+        AddVisualBox(arrivalPhoto, "PhotoFrameEdge", new(.235f, .175f, .012f), Vector3.Zero, "6f5a42");
+        AddVisualBox(arrivalPhoto, "PhotoPrint", new(.205f, .145f, .010f), new(0f, 0f, .004f), "d8cdb2");
+        AddVisualBox(arrivalPhoto, "PhotoSkyBand", new(.190f, .070f, .008f), new(0f, .032f, .008f), "9aa8ae");
+        AddVisualBox(arrivalPhoto, "PhotoFigureA", new(.040f, .062f, .008f), new(-.042f, -.026f, .008f), "5f5a4e");
+        AddVisualBox(arrivalPhoto, "PhotoFigureB", new(.040f, .070f, .008f), new(.036f, -.022f, .008f), "7a6a52");
+        AddVisualBox(arrivalPhoto, "PhotoInscription", new(.085f, .014f, .007f), new(.028f, -.052f, .008f), "6a6154");
+        AddVisualBox(arrivalPhoto, "PhotoProp", new(.070f, .080f, .070f), new(-.062f, -.052f, 0f), "7d6a4f");
+        village.MakeInteractionBox("ArrivalPhotoTarget", new(.60f, .60f, .50f),
+            new(5.35f, benchGround + .88f, 6.16f), "665b49", "",
             "Посмотреть фотографию",
             documentId: "urman.chapter1:document/arrival-photo-evidence",
             rayOnly: true);

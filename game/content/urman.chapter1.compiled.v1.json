@@ -997,6 +997,13 @@
                 ],
                 "effects": [],
                 "nextNodeId": "blue-mittens-reply"
+              },
+              {
+                "id": "leave-to-computer",
+                "textId": "urman.chapter1:text/choice-mansur-leave",
+                "conditions": [],
+                "effects": [],
+                "nextNodeId": null
               }
             ]
           },
@@ -1014,7 +1021,22 @@
             "textId": "urman.chapter1:text/dialogue-mansur-offer-help-reply",
             "conditions": [],
             "effects": [],
-            "choices": []
+            "choices": [
+              {
+                "id": "ask-follow-up",
+                "textId": "urman.chapter1:text/choice-mansur-follow-up",
+                "conditions": [],
+                "effects": [],
+                "nextNodeId": "follow-up"
+              },
+              {
+                "id": "leave-to-computer",
+                "textId": "urman.chapter1:text/choice-mansur-leave",
+                "conditions": [],
+                "effects": [],
+                "nextNodeId": null
+              }
+            ]
           },
           {
             "id": "marat-reply",
@@ -6076,11 +6098,33 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/choice-mansur-follow-up",
+        "value": {
+          "default": "Ask something else.",
+          "translations": {
+            "ru": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u0435\u0449\u0451 \u0447\u0442\u043E-\u043D\u0438\u0431\u0443\u0434\u044C"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/choice-mansur-javap",
         "value": {
           "default": "Babai, why are a voice and \u201C\u0497\u0430\u0432\u0430\u043F\u201D written side by side?",
           "translations": {
             "ru": "\u0411\u0430\u0431\u0430\u0439, \u043F\u043E\u0447\u0435\u043C\u0443 \u0433\u043E\u043B\u043E\u0441 \u0438 \u00AB\u0497\u0430\u0432\u0430\u043F\u00BB \u0441\u0442\u043E\u044F\u0442 \u0440\u044F\u0434\u043E\u043C?"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/choice-mansur-leave",
+        "value": {
+          "default": "Leave it \u2014 I will look at the computer.",
+          "translations": {
+            "ru": "\u041B\u0430\u0434\u043D\u043E, \u043F\u043E\u0441\u043C\u043E\u0442\u0440\u044E \u043A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440"
           }
         },
         "purpose": "dialogue"
@@ -7633,7 +7677,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "98985a4f89630f6ed5816425023e5705c66deac52084633c988d122728269db7"
+      "sha256": "07c99caf416a32ee917ff60fd9092bd90692189329bd0623d88393944a1ae6a6"
     },
     {
       "moduleId": "urman.core",
@@ -7646,5 +7690,5 @@
       "sha256": "90def45ccb600998d6a5b05ad34ffcd9ebe9aa0435ded2e95223f2f4b5e47822"
     }
   ],
-  "campaignFingerprint": "5e6b8ff6bcf6b01370f29d3cdcc8a1b81a810d9726644da5064f4f941aca0a6a"
+  "campaignFingerprint": "16b4c05e3e37194c22028feb0a3d5fd944d362e88e5d5b61d470d929ebbbd097"
 }
