@@ -1,16 +1,16 @@
 # Graph Report - URMAN  (2026-09-13)
 
 ## Corpus Check
-- 681 files · ~977,572 words
+- 681 files · ~978,023 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 12252 nodes · 16921 edges · 846 communities (653 shown, 193 thin omitted)
+- 12252 nodes · 16921 edges · 847 communities (654 shown, 193 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 211 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `46dae125`
+- Built from commit: `46c9083b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -830,6 +830,7 @@
 - [[_COMMUNITY_Community 841|Community 841]]
 - [[_COMMUNITY_Community 842|Community 842]]
 - [[_COMMUNITY_Community 843|Community 843]]
+- [[_COMMUNITY_Community 844|Community 844]]
 - [[_COMMUNITY_Community 845|Community 845]]
 - [[_COMMUNITY_Community 846|Community 846]]
 
@@ -850,14 +851,14 @@
   tools/audio/generate_act1_foley.py → eng/toolchain.json
 - `write_wav()` --calls--> `bytes`  [INFERRED]
   tools/audio/generate_act1_ambience_layers.py → eng/toolchain.json
+- `write_wav()` --calls--> `bytes`  [INFERRED]
+  tools/audio/generate_act1_footsteps.py → eng/toolchain.json
 - `convert()` --calls--> `PATH`  [INFERRED]
   tools/audio/generate_act1_footsteps.py → eng/dotnet-env.sh
 - `main()` --calls--> `PATH`  [INFERRED]
   tools/audio/generate_act1_ambience_layers.py → eng/dotnet-env.sh
-- `import_source()` --calls--> `PATH`  [INFERRED]
-  tools/blender/prepare_character_heads.py → eng/dotnet-env.sh
 
-## Communities (846 total, 193 thin omitted)
+## Communities (847 total, 193 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.05
@@ -889,7 +890,7 @@ Nodes (13): withPage(), chromeCandidates(), chromeUnavailableError(), close(), d
 
 ### Community 7 - "Community 7"
 Cohesion: 0.03
-Nodes (70): ConflictError, DuplicateOccurrence, OccurrenceConflict, PreflightError, RuntimeFailure, UnknownCommandError, deepFreeze(), OrderedEventBus (+62 more)
+Nodes (70): CommandStatus, ConflictError, DuplicateOccurrence, OccurrenceConflict, PreflightError, RegistryErrorCode, RuntimeErrorCode, RuntimeFailure (+62 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.23
@@ -1164,8 +1165,8 @@ Cohesion: 0.19
 Nodes (4): ContentCompiler, IReadOnlyDictionary, string, StringComparer
 
 ### Community 81 - "Community 81"
-Cohesion: 0.20
-Nodes (6): ResolverCatalog, ResolverDetails, ResolverErrors, ResolverJson, IReadOnlyDictionary, Regex
+Cohesion: 0.15
+Nodes (9): Exception, ResolverCatalog, ResolverDetails, ResolverErrors, ResolverException, ResolverJson, ResourceConflictException, IReadOnlyDictionary (+1 more)
 
 ### Community 82 - "Community 82"
 Cohesion: 0.08
@@ -1193,7 +1194,7 @@ Nodes (22): dependencies, three, devDependencies, @types/three, typescript, vite
 
 ### Community 89 - "Community 89"
 Cohesion: 0.06
-Nodes (33): CommandStatus, RegistryErrorCode, RuntimeErrorCode, conditionPack, conditions, descriptor, effectPack, effects (+25 more)
+Nodes (30): conditionPack, conditions, descriptor, effectPack, effects, fixturePack(), inheritedCapability, inheritedCondition (+22 more)
 
 ### Community 90 - "Community 90"
 Cohesion: 0.09
@@ -1236,8 +1237,8 @@ Cohesion: 0.09
 Nodes (22): Automated Checks, code:bash (./eng/verify-dotnet.sh), code:bash (npm run validate:old-pc), code:text (http://localhost:5173/), code:text (http://localhost:5173/?scene=village), code:text (http://localhost:5173/?scene=computer), Cultural And Language Review, Current playtest target — Act 1 demo (+14 more)
 
 ### Community 101 - "Community 101"
-Cohesion: 0.12
-Nodes (16): blender, platform, sha256, url, version, dotnet, platform, runtime (+8 more)
+Cohesion: 0.15
+Nodes (12): blender, platform, sha256, url, version, dotnet, platform, runtime (+4 more)
 
 ### Community 102 - "Community 102"
 Cohesion: 0.12
@@ -1252,8 +1253,8 @@ Cohesion: 0.10
 Nodes (19): Audit Of Existing First10 Batch, Batch 1 Plan — Remaining P0 Characters, Batch 1 Result, Batch 1 Started, Batch 2/4 Route And Support Location Integration, Batch 2 Started — P0 Route / Location Screens, Batch 3 Comms UI Completion, Batch 3 Integrated — UI Systems (+11 more)
 
 ### Community 105 - "Community 105"
-Cohesion: 0.10
-Nodes (19): $ref, pattern, type, $defs, CampaignId, ContentId, ExactVersion, FileReference (+11 more)
+Cohesion: 0.12
+Nodes (16): $ref, pattern, type, $defs, CampaignId, ContentId, FileReference, JsonValue (+8 more)
 
 ### Community 106 - "Community 106"
 Cohesion: 0.12
@@ -1461,7 +1462,7 @@ Nodes (5): createJournalPresenter(), createVocabularyPresenter(), RuntimeProject
 
 ### Community 162 - "Community 162"
 Cohesion: 0.20
-Nodes (9): additionalProperties, properties, required, type, $defs, crafting-event, $id, $schema (+1 more)
+Nodes (9): $defs, environment-sim-event, additionalProperties, properties, required, type, $id, $schema (+1 more)
 
 ### Community 163 - "Community 163"
 Cohesion: 0.13
@@ -1596,8 +1597,8 @@ Cohesion: 0.15
 Nodes (12): Agent B / Act I Experimental World Report — УРМАН (Кырлай), ASSETS, FILES, HONEST FAILURES, OPEN GATES, STATUS, TRAVERSAL, VARIANT (+4 more)
 
 ### Community 197 - "Community 197"
-Cohesion: 0.18
-Nodes (11): author_gate_variation(), Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate. (+3 more)
+Cohesion: 0.10
+Nodes (21): author_dwelling_side_back(), author_gate_variation(), Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Add quiet threshold and post-cap variation to the existing gate., Use the existing deterministic box primitive for new kit details.      The exter, Use the existing deterministic box primitive for new kit details.      The exter, Add quiet threshold and post-cap variation to the existing gate. (+13 more)
 
 ### Community 198 - "Community 198"
 Cohesion: 0.13
@@ -1696,8 +1697,8 @@ Cohesion: 0.17
 Nodes (11): DialogueLine, EvidenceRecord, GameSnapshot, KnowledgeKey, KnowledgeKeyType, NpcState, OldPcProgress, PressureLevel (+3 more)
 
 ### Community 224 - "Community 224"
-Cohesion: 0.08
-Nodes (35): clonePersistedJsonValue(), worldHandler(), snapshotResult(), assertStateKey(), exactObject(), itemResourceClaims(), nonEmptyString(), normalizeItem() (+27 more)
+Cohesion: 0.07
+Nodes (38): clonePersistedJsonValue(), worldHandler(), snapshotResult(), immutableClone(), StateStore, validKey(), assertStateKey(), exactObject() (+30 more)
 
 ### Community 225 - "Community 225"
 Cohesion: 0.17
@@ -2196,8 +2197,8 @@ Cohesion: 0.32
 Nodes (3): Func, AssetResolver, ResolverCatalog
 
 ### Community 362 - "Community 362"
-Cohesion: 0.12
-Nodes (19): arguments(), author_dwelling_joinery(), author_dwelling_side_back(), author_shed_joinery(), clear_variant_roots(), main(), Dress each optional parcel edge with sparse, non-blocking local history., Use the existing deterministic box primitive for new kit details.      The exter (+11 more)
+Cohesion: 0.25
+Nodes (8): bytes, sha256, url, godot, exportTemplates, sha256, url, version
 
 ### Community 364 - "Community 364"
 Cohesion: 0.25
@@ -2828,8 +2829,8 @@ Cohesion: 0.18
 Nodes (11): _integrated_puddle(), Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta, Return a wet-earth bed and a smaller irregular water surface.      The water sta (+3 more)
 
 ### Community 652 - "Community 652"
-Cohesion: 0.09
-Nodes (23): author_variant_composition(), Add a small faceted moss/contact patch without using a foliage cone., Add a small faceted moss/contact patch without using a foliage cone., Build a low irregular shrub from three offset faceted contact clumps., Build a low irregular shrub from three offset faceted contact clumps., Add one restrained fallen/leaning branch as an authored contact cue., Add one restrained fallen/leaning branch as an authored contact cue., Dress each optional parcel edge with sparse, non-blocking local history. (+15 more)
+Cohesion: 0.10
+Nodes (21): author_shed_joinery(), author_variant_composition(), Add a small faceted moss/contact patch without using a foliage cone., Add a small faceted moss/contact patch without using a foliage cone., Build a low irregular shrub from three offset faceted contact clumps., Build a low irregular shrub from three offset faceted contact clumps., Dress each optional parcel edge with sparse, non-blocking local history., Dress each optional parcel edge with sparse, non-blocking local history. (+13 more)
 
 ### Community 653 - "Community 653"
 Cohesion: 0.20
@@ -2860,8 +2861,8 @@ Cohesion: 0.20
 Nodes (10): bake_mesh_object_transforms(), Leave mesh children in a neutral local transform after baking., Leave mesh children in a neutral local transform after baking., Bake legacy child object transforms without changing component roots., Bake legacy child object transforms without changing component roots., Leave mesh children in a neutral local transform after baking., Leave mesh children in a neutral local transform after baking., Bake legacy child object transforms without changing component roots. (+2 more)
 
 ### Community 661 - "Community 661"
-Cohesion: 0.18
-Nodes (11): type, minItems, type, properties, entryRoutes, nodes, schemaVersion, startNodeId (+3 more)
+Cohesion: 0.17
+Nodes (12): type, pattern, $ref, type, properties, entryRoutes, id, schemaVersion (+4 more)
 
 ### Community 663 - "Community 663"
 Cohesion: 0.32
@@ -3004,8 +3005,8 @@ Cohesion: 0.29
 Nodes (7): additionalProperties, properties, required, type, journalAction, resultTextId, sourceIds
 
 ### Community 710 - "Community 710"
-Cohesion: 0.22
-Nodes (9): author_rural_dwelling(), author_variant_parcels(), One inhabited house: pierced wall shell, boarded gables and enclosed side seni., One inhabited house: pierced wall shell, boarded gables and enclosed side seni., One inhabited house: pierced wall shell, boarded gables and enclosed side seni., One inhabited house: pierced wall shell, boarded gables and enclosed side seni., One inhabited house: pierced wall shell, boarded gables and enclosed side seni., One inhabited house: pierced wall shell, boarded gables and enclosed side seni. (+1 more)
+Cohesion: 0.15
+Nodes (14): arguments(), author_dwelling_joinery(), author_rural_dwelling(), author_variant_parcels(), clear_variant_roots(), main(), Add a few readable hand-built cues to the otherwise reusable facade., One inhabited house: pierced wall shell, boarded gables and enclosed side seni. (+6 more)
 
 ### Community 711 - "Community 711"
 Cohesion: 0.18
@@ -3168,8 +3169,8 @@ Cohesion: 0.11
 Nodes (18): _moss_cap(), Shallow off-centre moss cap, not a second flattened sphere., Short trunk with a chipped top and subtly flared root collar., Shallow off-centre moss cap, not a second flattened sphere., Short trunk with a chipped top and subtly flared root collar., Shallow off-centre moss cap, not a second flattened sphere., Short trunk with a chipped top and subtly flared root collar., Shallow off-centre moss cap, not a second flattened sphere. (+10 more)
 
 ### Community 773 - "Community 773"
-Cohesion: 0.40
-Nodes (5): additionalProperties, properties, required, type, audio-workbench-config
+Cohesion: 0.33
+Nodes (6): Add one restrained fallen/leaning branch as an authored contact cue., Add one restrained fallen/leaning branch as an authored contact cue., Add one restrained fallen/leaning branch as an authored contact cue., Add one restrained fallen/leaning branch as an authored contact cue., Add one restrained fallen/leaning branch as an authored contact cue., variant_branch()
 
 ### Community 774 - "Community 774"
 Cohesion: 0.25
@@ -3201,7 +3202,7 @@ Nodes (21): 2026-09-11 — physical discoveries and Act I people, 2026-09-11 —
 
 ### Community 785 - "Community 785"
 Cohesion: 0.40
-Nodes (5): environment-sim-outcome, additionalProperties, properties, required, type
+Nodes (5): additionalProperties, properties, required, type, crafting-event
 
 ### Community 787 - "Community 787"
 Cohesion: 0.67
@@ -3229,7 +3230,7 @@ Nodes (5): additionalProperties, properties, required, type, content-instantiato
 
 ### Community 793 - "Community 793"
 Cohesion: 0.40
-Nodes (5): environment-sim-event, additionalProperties, properties, required, type
+Nodes (5): spatial-placement-event, additionalProperties, properties, required, type
 
 ### Community 794 - "Community 794"
 Cohesion: 0.50
@@ -3237,7 +3238,7 @@ Nodes (4): Бюджет зимнего представления, 2026-09-10, �
 
 ### Community 795 - "Community 795"
 Cohesion: 0.40
-Nodes (5): role-binding-event, additionalProperties, properties, required, type
+Nodes (5): timed-choice-config, additionalProperties, properties, required, type
 
 ### Community 796 - "Community 796"
 Cohesion: 0.40
@@ -3280,8 +3281,8 @@ Cohesion: 0.33
 Nodes (7): make_box(), make_patch(), mesh_from_pydata(), Rough ground patch hugging terrain, edges jittered. Coordinates are     passed i, Rough ground patch hugging terrain, edges jittered. Coordinates are     passed i, Rough ground patch hugging terrain, edges jittered. Coordinates are     passed i, stable_hash()
 
 ### Community 811 - "Community 811"
-Cohesion: 0.25
-Nodes (10): convert(), main(), normalize_pcm_wav(), Write afconvert's PCM payload with the standard 16-bit RIFF header., step_sample(), write_wav(), bytes, sha256 (+2 more)
+Cohesion: 0.48
+Nodes (6): convert(), main(), normalize_pcm_wav(), Write afconvert's PCM payload with the standard 16-bit RIFF header., step_sample(), write_wav()
 
 ### Community 813 - "Community 813"
 Cohesion: 0.50
@@ -3324,8 +3325,8 @@ Cohesion: 0.50
 Nodes (4): make_puddle(), Flat dark water disc in Blender coordinates., Flat dark water disc in Blender coordinates., Flat dark water disc in Blender coordinates.
 
 ### Community 835 - "Community 835"
-Cohesion: 0.50
-Nodes (4): pattern, $ref, type, id
+Cohesion: 0.40
+Nodes (5): timed-choice-outcome, additionalProperties, properties, required, type
 
 ### Community 837 - "Community 837"
 Cohesion: 0.50
@@ -3340,8 +3341,8 @@ Cohesion: 0.67
 Nodes (3): items, type, onExit
 
 ### Community 841 - "Community 841"
-Cohesion: 0.50
-Nodes (3): Exception, ResolverException, ResourceConflictException
+Cohesion: 0.67
+Nodes (3): ExactVersion, pattern, type
 
 ### Community 842 - "Community 842"
 Cohesion: 0.67
@@ -3350,6 +3351,10 @@ Nodes (3): ObjectiveStatuses, QuestStatuses, string
 ### Community 843 - "Community 843"
 Cohesion: 0.67
 Nodes (3): SchemaReference, pattern, type
+
+### Community 844 - "Community 844"
+Cohesion: 0.67
+Nodes (3): minItems, type, nodes
 
 ### Community 845 - "Community 845"
 Cohesion: 0.67
@@ -3363,7 +3368,7 @@ Nodes (3): SchemaVersion, const, type
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `PATH` connect `Community 476` to `Community 385`, `Community 362`, `Community 811`, `Community 204`, `Community 174`, `Community 723`, `Community 55`, `Community 184`, `Community 121`?**
+- **Why does `PATH` connect `Community 476` to `Community 385`, `Community 710`, `Community 811`, `Community 204`, `Community 174`, `Community 723`, `Community 55`, `Community 184`, `Community 121`?**
   _High betweenness centrality (0.037) - this node is a cross-community bridge._
 - **Why does `Act1DemoRoot` connect `Community 57` to `Community 320`, `Community 709`, `Community 838`, `Community 122`, `Community 454`, `Community 681`, `Community 300`, `Community 174`, `Community 51`, `Community 629`, `Community 789`, `Community 23`, `Community 825`, `Community 666`, `Community 247`?**
   _High betweenness centrality (0.034) - this node is a cross-community bridge._

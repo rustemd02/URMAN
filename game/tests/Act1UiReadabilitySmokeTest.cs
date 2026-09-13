@@ -224,6 +224,27 @@ public partial class Act1UiReadabilitySmokeTest : Node
             results.EmitSignal(ItemList.SignalName.ItemSelected, index);
             await Frames(3);
             if (oldPc.ActiveDocumentId != longest.Id) { Fail("Old PC did not open the selected real document."); return; }
+
+            // M7: read, unread and unavailable records must not look the same. The
+            // archive marks opened records with a check and hides restricted ones
+            // behind a single unselectable row.
+            var readIndex = Enumerable.Range(0, results.ItemCount)
+                .FirstOrDefault(i => results.GetItemMetadata(i).AsString() == longest.Id, -1);
+            if (readIndex < 0 || !results.GetItemText(readIndex).StartsWith("✓ ", StringComparison.Ordinal))
+            {
+                Fail($"An opened archive record is not marked as read at {width}x{height} scale={scale}: '{results.GetItemText(readIndex)}'");
+                return;
+            }
+            // This harness opens every accessible record to fill the journal, so
+            // an unread accessible row cannot exist here; the unread rendering
+            // stays covered by reading OldPcUi's prefix and tooltip logic.
+            var restrictedRow = Enumerable.Range(0, results.ItemCount)
+                .FirstOrDefault(i => results.GetItemText(i).StartsWith("🔒", StringComparison.Ordinal), -1);
+            if (restrictedRow >= 0 && results.IsItemSelectable(restrictedRow))
+            {
+                Fail("The archive offers restricted records as selectable.");
+                return;
+            }
             await SaveShot("oldpc" + suffix, oldPc.GetNode<Control>("Screen/Computer"), width, height);
 
             // Empty search: the archive must say so in readable words at every
@@ -271,7 +292,7 @@ public partial class Act1UiReadabilitySmokeTest : Node
             await Frames(2);
             if (player.ModalOpen) { Fail("Extended UI capture left a modal owner open."); return; }
         }
-        GD.Print($"act1-ui-readability: PASS 2 resolutions x 5 critical UIs + empty archive search; scales 1/1.6; journal entries={bridge.JournalEntries().Count}; longest document={longest.Id} chars={longest.BodyMarkdown.Length}; focus and Tatar glyphs");
+        GD.Print($"act1-ui-readability: PASS 2 resolutions x 5 critical UIs + empty archive search + read/restricted archive marks; scales 1/1.6; journal entries={bridge.JournalEntries().Count}; longest document={longest.Id} chars={longest.BodyMarkdown.Length}; focus and Tatar glyphs");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }
