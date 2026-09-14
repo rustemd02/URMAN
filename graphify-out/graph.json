@@ -682,7 +682,7 @@
       "label": "2026-09-15 \u2014 \u0434\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0438 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043d\u043d\u044b\u0439 \u043e\u0431\u044a\u0451\u043c \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/weak_points.md",
-      "source_location": "L1889",
+      "source_location": "L1891",
       "id": "urman_knowledge_base_weak_points_2026_09_15_\u0434\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c_\u0438_\u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043d\u043d\u044b\u0439_\u043e\u0431\u044a\u0451\u043c_\u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f",
       "community": 902,
       "norm_label": "2026-09-15 \u2014 \u0434\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0438 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043d\u043d\u044b\u0438 \u043e\u0431\u044a\u0435\u043c \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f"
@@ -691,7 +691,7 @@
       "label": "Chapter playtime is short by an order of magnitude, and it is a content gap",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/weak_points.md",
-      "source_location": "L1894",
+      "source_location": "L1896",
       "id": "urman_knowledge_base_weak_points_chapter_playtime_is_short_by_an_order_of_magnitude_and_it_is_a_content_gap",
       "community": 40,
       "norm_label": "chapter playtime is short by an order of magnitude, and it is a content gap"
@@ -18832,7 +18832,7 @@
       "file_type": "code",
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
-      "community": 827,
+      "community": 103,
       "norm_label": "narrativeorder",
       "id": "schemas_compiled_content_pack_schema_properties_narrativeorder"
     },
@@ -18841,7 +18841,7 @@
       "file_type": "code",
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
-      "community": 827,
+      "community": 103,
       "norm_label": "type",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_type"
     },
@@ -18850,7 +18850,7 @@
       "file_type": "code",
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
-      "community": 827,
+      "community": 103,
       "norm_label": "minitems",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_minitems"
     },
@@ -18859,7 +18859,7 @@
       "file_type": "code",
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
-      "community": 827,
+      "community": 103,
       "norm_label": "uniqueitems",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_uniqueitems"
     },
@@ -18868,7 +18868,7 @@
       "file_type": "code",
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
-      "community": 827,
+      "community": 103,
       "norm_label": "items",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_items"
     },
@@ -21730,7 +21730,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
-      "community": 275,
+      "community": 221,
       "norm_label": "assetrefs",
       "id": "schemas_scene_schema_properties_assetrefs"
     },
@@ -21739,7 +21739,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
-      "community": 275,
+      "community": 221,
       "norm_label": "type",
       "id": "schemas_scene_schema_assetrefs_type"
     },
@@ -21748,7 +21748,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
-      "community": 275,
+      "community": 221,
       "norm_label": "uniqueitems",
       "id": "schemas_scene_schema_assetrefs_uniqueitems"
     },
@@ -21757,7 +21757,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L12",
-      "community": 275,
+      "community": 221,
       "norm_label": "items",
       "id": "schemas_scene_schema_assetrefs_items"
     },
@@ -21775,7 +21775,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L13",
-      "community": 885,
+      "community": 275,
       "norm_label": "textrefs",
       "id": "schemas_scene_schema_properties_textrefs"
     },
@@ -21784,7 +21784,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L13",
-      "community": 885,
+      "community": 275,
       "norm_label": "type",
       "id": "schemas_scene_schema_textrefs_type"
     },
@@ -21793,7 +21793,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L13",
-      "community": 885,
+      "community": 275,
       "norm_label": "uniqueitems",
       "id": "schemas_scene_schema_textrefs_uniqueitems"
     },
@@ -21802,7 +21802,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L13",
-      "community": 885,
+      "community": 275,
       "norm_label": "items",
       "id": "schemas_scene_schema_textrefs_items"
     },
@@ -21865,7 +21865,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L16",
-      "community": 221,
+      "community": 885,
       "norm_label": "onexit",
       "id": "schemas_scene_schema_properties_onexit"
     },
@@ -21874,7 +21874,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L16",
-      "community": 221,
+      "community": 885,
       "norm_label": "type",
       "id": "schemas_scene_schema_onexit_type"
     },
@@ -21883,7 +21883,7 @@
       "file_type": "code",
       "source_file": "content/schemas/scene.schema.json",
       "source_location": "L16",
-      "community": 221,
+      "community": 885,
       "norm_label": "items",
       "id": "schemas_scene_schema_onexit_items"
     },
@@ -60781,7 +60781,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L494",
-      "community": 698,
+      "community": 870,
       "norm_label": "_moss_cap()",
       "id": "agent_b_act1_agent_b_foliage_moss_cap"
     },
@@ -60790,7 +60790,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L521",
-      "community": 698,
+      "community": 120,
       "norm_label": "moss_stone()",
       "id": "agent_b_act1_agent_b_foliage_moss_stone"
     },
@@ -60808,7 +60808,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L560",
-      "community": 772,
+      "community": 120,
       "norm_label": "dead_stump()",
       "id": "agent_b_act1_agent_b_foliage_dead_stump"
     },
@@ -60817,7 +60817,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L577",
-      "community": 506,
+      "community": 703,
       "norm_label": "_point_on_polyline()",
       "id": "agent_b_act1_agent_b_foliage_point_on_polyline"
     },
@@ -60844,7 +60844,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L652",
-      "community": 506,
+      "community": 772,
       "norm_label": "_append_snow_cap()",
       "id": "agent_b_act1_agent_b_foliage_append_snow_cap"
     },
@@ -60853,7 +60853,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L701",
-      "community": 870,
+      "community": 703,
       "norm_label": "_append_berry()",
       "id": "agent_b_act1_agent_b_foliage_append_berry"
     },
@@ -60862,7 +60862,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L721",
-      "community": 703,
+      "community": 506,
       "norm_label": "_smooth_winter_surfaces()",
       "id": "agent_b_act1_agent_b_foliage_smooth_winter_surfaces"
     },
@@ -60997,7 +60997,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L495",
-      "community": 698,
+      "community": 870,
       "norm_label": "shallow off-centre moss cap, not a second flattened sphere.",
       "id": "agent_b_act1_agent_b_foliage_rationale_495"
     },
@@ -61015,7 +61015,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L578",
-      "community": 506,
+      "community": 703,
       "norm_label": "return an attachment point on the same centreline used for the tube.",
       "id": "agent_b_act1_agent_b_foliage_rationale_578"
     },
@@ -61042,7 +61042,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L653",
-      "community": 506,
+      "community": 772,
       "norm_label": "append a short flattened snow mantle with rounded pointed ends.",
       "id": "agent_b_act1_agent_b_foliage_rationale_653"
     },
@@ -61051,7 +61051,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L702",
-      "community": 870,
+      "community": 703,
       "norm_label": "append one tiny low-poly berry to the single optional berry mesh.",
       "id": "agent_b_act1_agent_b_foliage_rationale_702"
     },
@@ -68026,7 +68026,7 @@
       "file_type": "code",
       "source_file": "src/runtime/modules/active/route-navigation-provider.mjs",
       "source_location": "L10",
-      "community": 261,
+      "community": 827,
       "norm_label": "routenavigationsession",
       "id": "active_route_navigation_provider_routenavigationsession"
     },
@@ -68044,7 +68044,7 @@
       "file_type": "code",
       "source_file": "src/runtime/modules/active/route-navigation-provider.mjs",
       "source_location": "L50",
-      "community": 261,
+      "community": 827,
       "norm_label": ".disposed()",
       "id": "active_route_navigation_provider_routenavigationsession_disposed"
     },
@@ -68053,7 +68053,7 @@
       "file_type": "code",
       "source_file": "src/runtime/modules/active/route-navigation-provider.mjs",
       "source_location": "L51",
-      "community": 261,
+      "community": 827,
       "norm_label": ".entryresult()",
       "id": "active_route_navigation_provider_routenavigationsession_entryresult"
     },
@@ -68062,7 +68062,7 @@
       "file_type": "code",
       "source_file": "src/runtime/modules/active/route-navigation-provider.mjs",
       "source_location": "L53",
-      "community": 261,
+      "community": 827,
       "norm_label": ".render()",
       "id": "active_route_navigation_provider_routenavigationsession_render"
     },
@@ -68071,7 +68071,7 @@
       "file_type": "code",
       "source_file": "src/runtime/modules/active/route-navigation-provider.mjs",
       "source_location": "L58",
-      "community": 261,
+      "community": 827,
       "norm_label": ".init()",
       "id": "active_route_navigation_provider_routenavigationsession_init"
     },
@@ -68080,7 +68080,7 @@
       "file_type": "code",
       "source_file": "src/runtime/modules/active/route-navigation-provider.mjs",
       "source_location": "L67",
-      "community": 261,
+      "community": 827,
       "norm_label": ".#initialize()",
       "id": "active_route_navigation_provider_routenavigationsession_initialize"
     },
@@ -68089,7 +68089,7 @@
       "file_type": "code",
       "source_file": "src/runtime/modules/active/route-navigation-provider.mjs",
       "source_location": "L81",
-      "community": 261,
+      "community": 827,
       "norm_label": ".handle()",
       "id": "active_route_navigation_provider_routenavigationsession_handle"
     },
@@ -68098,7 +68098,7 @@
       "file_type": "code",
       "source_file": "src/runtime/modules/active/route-navigation-provider.mjs",
       "source_location": "L119",
-      "community": 261,
+      "community": 827,
       "norm_label": ".dispose()",
       "id": "active_route_navigation_provider_routenavigationsession_dispose"
     },
@@ -68107,7 +68107,7 @@
       "file_type": "code",
       "source_file": "src/runtime/modules/active/route-navigation-provider.mjs",
       "source_location": "L140",
-      "community": 261,
+      "community": 827,
       "norm_label": ".#dispatch()",
       "id": "active_route_navigation_provider_routenavigationsession_dispatch"
     },
@@ -104039,7 +104039,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L739",
-      "community": 703,
+      "community": 506,
       "norm_label": "smooth only winter bark and snow; needles stay deliberately faceted.",
       "id": "agent_b_act1_agent_b_foliage_rationale_739"
     },
@@ -104075,7 +104075,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L738",
-      "community": 703,
+      "community": 506,
       "norm_label": "smooth only winter bark and snow; needles stay deliberately faceted.",
       "id": "agent_b_act1_agent_b_foliage_rationale_738"
     },
@@ -104237,7 +104237,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L652",
-      "community": 506,
+      "community": 772,
       "norm_label": "append a short flattened snow mantle with rounded pointed ends.",
       "id": "agent_b_act1_agent_b_foliage_rationale_652"
     },
@@ -104246,7 +104246,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L701",
-      "community": 870,
+      "community": 703,
       "norm_label": "append one tiny low-poly berry to the single optional berry mesh.",
       "id": "agent_b_act1_agent_b_foliage_rationale_701"
     },
@@ -104282,7 +104282,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L639",
-      "community": 506,
+      "community": 772,
       "norm_label": "append a short flattened cap whose underside intersects its branch.",
       "id": "agent_b_act1_agent_b_foliage_rationale_639"
     },
@@ -104291,7 +104291,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L682",
-      "community": 870,
+      "community": 703,
       "norm_label": "append one tiny low-poly berry to the single optional berry mesh.",
       "id": "agent_b_act1_agent_b_foliage_rationale_682"
     },
@@ -107873,7 +107873,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L616",
-      "community": 698,
+      "community": 870,
       "norm_label": "shallow off-centre moss cap, not a second flattened sphere.",
       "id": "agent_b_act1_agent_b_foliage_rationale_616"
     },
@@ -110636,7 +110636,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L596",
-      "community": 698,
+      "community": 870,
       "norm_label": "shallow off-centre moss cap, not a second flattened sphere.",
       "id": "agent_b_act1_agent_b_foliage_rationale_596"
     },
@@ -110663,7 +110663,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L593",
-      "community": 698,
+      "community": 870,
       "norm_label": "shallow off-centre moss cap, not a second flattened sphere.",
       "id": "agent_b_act1_agent_b_foliage_rationale_593"
     },
@@ -113444,7 +113444,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L555",
-      "community": 698,
+      "community": 870,
       "norm_label": "shallow off-centre moss cap, not a second flattened sphere.",
       "id": "agent_b_act1_agent_b_foliage_rationale_555"
     },
@@ -114713,7 +114713,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L535",
-      "community": 698,
+      "community": 870,
       "norm_label": "shallow off-centre moss cap, not a second flattened sphere.",
       "id": "agent_b_act1_agent_b_foliage_rationale_535"
     },
@@ -115145,7 +115145,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L440",
-      "community": 698,
+      "community": 870,
       "norm_label": "shallow off-centre moss cap, not a second flattened sphere.",
       "id": "agent_b_act1_agent_b_foliage_rationale_440"
     },
@@ -115550,7 +115550,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L355",
-      "community": 698,
+      "community": 870,
       "norm_label": "shallow off-centre moss cap, not a second flattened sphere.",
       "id": "agent_b_act1_agent_b_foliage_rationale_355"
     },
@@ -116477,7 +116477,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L31",
-      "community": 120,
+      "community": 669,
       "norm_label": "_append_crown_lobe()",
       "id": "agent_b_act1_agent_b_foliage_append_crown_lobe"
     },
@@ -116486,7 +116486,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L59",
-      "community": 120,
+      "community": 669,
       "norm_label": "_append_crown_branch()",
       "id": "agent_b_act1_agent_b_foliage_append_crown_branch"
     },
@@ -116495,7 +116495,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L83",
-      "community": 120,
+      "community": 669,
       "norm_label": "_connected_crown()",
       "id": "agent_b_act1_agent_b_foliage_connected_crown"
     },
@@ -116504,7 +116504,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L32",
-      "community": 120,
+      "community": 669,
       "norm_label": "append one small, asymmetric faceted lobe to a connected crown mesh.",
       "id": "agent_b_act1_agent_b_foliage_rationale_32"
     },
@@ -116513,7 +116513,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L60",
-      "community": 120,
+      "community": 669,
       "norm_label": "append a low-poly tapered branch tube through the crown lobes.",
       "id": "agent_b_act1_agent_b_foliage_rationale_60"
     },
@@ -116522,7 +116522,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L85",
-      "community": 120,
+      "community": 669,
       "norm_label": "build a compact crown cluster with overlapping lobes and one branch spine.",
       "id": "agent_b_act1_agent_b_foliage_rationale_85"
     },
@@ -302322,5 +302322,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e203274d69d2cb3bc560738f16faa09dedcbeec4"
+  "built_at_commit": "d0267b445883fa1541383c1e14477dad9644ab4d"
 }

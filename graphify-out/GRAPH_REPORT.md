@@ -1,16 +1,16 @@
 # Graph Report - URMAN  (2026-09-15)
 
 ## Corpus Check
-- 715 files · ~1,170,762 words
+- 715 files · ~1,171,126 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 13139 nodes · 17814 edges · 900 communities (711 shown, 189 thin omitted)
+- 13139 nodes · 17814 edges · 900 communities (709 shown, 191 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 212 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e203274d`
+- Built from commit: `d0267b44`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -915,7 +915,7 @@
 - `main()` --calls--> `PATH`  [INFERRED]
   tools/audio/generate_act1_ambience_layers.py → eng/dotnet-env.sh
 
-## Communities (900 total, 189 thin omitted)
+## Communities (900 total, 191 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.04
@@ -1310,8 +1310,8 @@ Cohesion: 0.12
 Nodes (12): int, IReadOnlyDictionary, JsonSerializerOptions, string, Vector2I, Act1VisualReviewCapture, CameraReceipt, FrameReceipt (+4 more)
 
 ### Community 103 - "Community 103"
-Cohesion: 0.12
-Nodes (16): properties, items, type, $ref, items, type, items, minItems (+8 more)
+Cohesion: 0.10
+Nodes (21): properties, items, type, $ref, items, type, items, minItems (+13 more)
 
 ### Community 104 - "Community 104"
 Cohesion: 0.10
@@ -1378,8 +1378,8 @@ Cohesion: 0.24
 Nodes (3): dialogueStartEntry(), modelsForAudio(), ScenePresentationSession
 
 ### Community 120 - "Community 120"
-Cohesion: 0.16
-Nodes (20): _append_crown_branch(), _append_crown_lobe(), _birch_leaf_crown(), birch_variant(), _connected_crown(), _export_glb_with_winter_roots(), _faceted_canopy(), fallen_branch() (+12 more)
+Cohesion: 0.21
+Nodes (16): _birch_leaf_crown(), birch_variant(), dead_stump(), _export_glb_with_winter_roots(), _faceted_canopy(), fallen_branch(), fern_variant(), grass_tuft() (+8 more)
 
 ### Community 121 - "Community 121"
 Cohesion: 0.07
@@ -1758,8 +1758,8 @@ Cohesion: 0.17
 Nodes (12): VocabularyCondition, VocabularyEffect, vocabularyId, additionalProperties, properties, required, type, additionalProperties (+4 more)
 
 ### Community 221 - "Community 221"
-Cohesion: 0.17
-Nodes (12): $ref, items, type, properties, capabilityConfigRef, onExit, sceneType, schemaVersion (+4 more)
+Cohesion: 0.15
+Nodes (13): items, type, uniqueItems, $ref, properties, assetRefs, capabilityConfigRef, sceneType (+5 more)
 
 ### Community 223 - "Community 223"
 Cohesion: 0.17
@@ -1905,10 +1905,6 @@ Nodes (15): 13.1. Архитектура данных, 13.2. Основные м
 Cohesion: 0.18
 Nodes (11): `Архив Кырлайскаго волостного правленiя`, **`Дѣло особаго хожденiя`**, **`Особая записка при томъ же дѣлѣ`**, **`Постановили:`**, **`Примѣчанiе писаря:`**, **`Присутствовали:`**, **`Разсуждали:`**, **`Слушали:`** (+3 more)
 
-### Community 261 - "Community 261"
-Cohesion: 0.16
-Nodes (3): containedInputHandler(), CapabilitySceneSession, RouteNavigationSession
-
 ### Community 262 - "Community 262"
 Cohesion: 0.31
 Nodes (9): edge_trunk(), fallen_log(), forest_mass(), gesture_branch(), main(), Agent B Act I Kit 5: Kara-Urman night forest edge.  Authored forest masses, edge, Gnarled root bank hugging the path edge: flattened stretched blob.     The place, Single almost-human branch gesture leaning over the path, one arm     bent like (+1 more)
@@ -1959,7 +1955,7 @@ Nodes (10): type, additionalProperties, properties, required, type, CancelPolicy
 
 ### Community 275 - "Community 275"
 Cohesion: 0.14
-Nodes (14): items, type, uniqueItems, items, type, items, type, $ref (+6 more)
+Nodes (14): items, type, items, type, $ref, items, type, conditions (+6 more)
 
 ### Community 276 - "Community 276"
 Cohesion: 0.20
@@ -2730,8 +2726,8 @@ Cohesion: 0.22
 Nodes (9): 9. Драматургия всей главы, Возвращение домой и изменение знакомого, Возвращение и человеческая опора, Голос и клиффхэнгер, Зират: память вместо аттракциона, Первая трещина и улица, Подход и решение проверить границу, Слово, Тимур и возможность остановиться (+1 more)
 
 ### Community 506 - "Community 506"
-Cohesion: 0.10
-Nodes (22): _append_snow_cap(), _merge_mesh_objects(), _point_on_polyline(), Drooping, rounded needle boughs; every tier retains the same rooted habit., Return an attachment point on the same centreline used for the tube., Append a short flattened cap whose underside intersects its branch., Snow-laden young spruce for the forest transition and Kara edge., Append a short flattened snow mantle with rounded pointed ends. (+14 more)
+Cohesion: 0.11
+Nodes (19): _merge_mesh_objects(), Drooping, rounded needle boughs; every tier retains the same rooted habit., Snow-laden young spruce for the forest transition and Kara edge., Snow-laden young spruce for the forest transition and Kara edge., Smooth only winter bark and snow; needles stay deliberately faceted., Smooth only winter bark and snow; needles stay deliberately faceted., Smooth only winter bark and snow; needles stay deliberately faceted., Snow-laden young spruce for the forest transition and Kara edge. (+11 more)
 
 ### Community 510 - "Community 510"
 Cohesion: 0.50
@@ -2990,8 +2986,8 @@ Cohesion: 0.24
 Nodes (4): Dictionary<string, AudioStream?>, Dictionary<string, AudioStream>, string, UiFoley
 
 ### Community 669 - "Community 669"
-Cohesion: 0.20
-Nodes (10): Young spruce: narrow but softened, slightly irregular., Young spruce: narrow but softened, slightly irregular., Young spruce: narrow but softened, slightly irregular., Young spruce: narrow but softened, slightly irregular., Young spruce: narrow broken sprays with a readable central trunk., Young spruce: narrow broken sprays with a readable central trunk., Young spruce: narrow broken sprays with a readable central trunk., Young spruce: narrow broken sprays with a readable central trunk. (+2 more)
+Cohesion: 0.12
+Nodes (16): _append_crown_branch(), _append_crown_lobe(), _connected_crown(), Young spruce: narrow but softened, slightly irregular., Young spruce: narrow but softened, slightly irregular., Young spruce: narrow but softened, slightly irregular., Young spruce: narrow but softened, slightly irregular., Young spruce: narrow broken sprays with a readable central trunk. (+8 more)
 
 ### Community 670 - "Community 670"
 Cohesion: 0.18
@@ -3070,8 +3066,8 @@ Cohesion: 0.18
 Nodes (10): created, data, id, model, object, status, usage, cost (+2 more)
 
 ### Community 698 - "Community 698"
-Cohesion: 0.10
-Nodes (20): _faceted_rock(), _moss_cap(), moss_stone(), Low-poly stone with a grounded base and a broken shoulder., Shallow off-centre moss cap, not a second flattened sphere., Low-poly stone with a grounded base and a broken shoulder., Shallow off-centre moss cap, not a second flattened sphere., Low-poly stone with a grounded base and a broken shoulder. (+12 more)
+Cohesion: 0.20
+Nodes (10): _faceted_rock(), Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder., Low-poly stone with a grounded base and a broken shoulder. (+2 more)
 
 ### Community 700 - "Community 700"
 Cohesion: 0.18
@@ -3086,8 +3082,8 @@ Cohesion: 0.25
 Nodes (8): _low_bank(), Build one ground-seated, sloped bank instead of a flat overlay.      The cross-s, Build one ground-seated, sloped bank instead of a flat overlay.      The cross-s, Build one ground-seated, sloped bank instead of a flat overlay.      The cross-s, Build one ground-seated, sloped bank instead of a flat overlay.      The cross-s, Build one ground-seated, sloped bank instead of a flat overlay.      The cross-s, Build one ground-seated, sloped bank instead of a flat overlay.      The cross-s, Build one ground-seated, sloped bank instead of a flat overlay.      The cross-s
 
 ### Community 703 - "Community 703"
-Cohesion: 0.09
-Nodes (23): Thin matte snow strip resting on the upper side of a branch., Bare winter deciduous tree with a full branch crown.      Winter reads through t, Smooth only winter bark and snow; needles stay deliberately faceted., Smooth only winter bark and snow; needles stay deliberately faceted., Bare, connected winter deciduous tree built from shared centrelines.      The tr, Return one rooted trunk and the shared primary fork paths for all LODs., Return one rooted trunk and the shared primary fork paths for all LODs., Return one rooted trunk and the shared primary fork paths for all LODs. (+15 more)
+Cohesion: 0.08
+Nodes (26): _append_berry(), _point_on_polyline(), Return an attachment point on the same centreline used for the tube., Thin matte snow strip resting on the upper side of a branch., Bare winter deciduous tree with a full branch crown.      Winter reads through t, Append one tiny low-poly berry to the single optional berry mesh., Append one tiny low-poly berry to the single optional berry mesh., Append one tiny low-poly berry to the single optional berry mesh. (+18 more)
 
 ### Community 704 - "Community 704"
 Cohesion: 0.02
@@ -3274,8 +3270,8 @@ Cohesion: 0.22
 Nodes (7): bool, Node3D, StaticBody3D, string, Tween, Vector3, Act1ConnectedWorld
 
 ### Community 772 - "Community 772"
-Cohesion: 0.20
-Nodes (10): dead_stump(), Short trunk with a chipped top and subtly flared root collar., Short trunk with a chipped top and subtly flared root collar., Short trunk with a chipped top and subtly flared root collar., Short trunk with a chipped top and subtly flared root collar., Shallow off-centre moss cap, not a second flattened sphere., Short trunk with a chipped top and subtly flared root collar., Short trunk with a chipped top and subtly flared root collar. (+2 more)
+Cohesion: 0.15
+Nodes (13): _append_snow_cap(), Short trunk with a chipped top and subtly flared root collar., Short trunk with a chipped top and subtly flared root collar., Short trunk with a chipped top and subtly flared root collar., Short trunk with a chipped top and subtly flared root collar., Shallow off-centre moss cap, not a second flattened sphere., Short trunk with a chipped top and subtly flared root collar., Short trunk with a chipped top and subtly flared root collar. (+5 more)
 
 ### Community 773 - "Community 773"
 Cohesion: 0.26
@@ -3441,10 +3437,6 @@ Nodes (5): timed-choice-event, additionalProperties, properties, required, type
 Cohesion: 0.20
 Nodes (10): _profiled_foliage(), Build a deliberately irregular low-poly foliage silhouette.      The old kit use, Add a restrained bend, taper and asymmetric root flare in-place., Add a restrained bend, taper and asymmetric root flare in-place., Add a restrained bend, taper and asymmetric root flare in-place., Add a restrained bend, taper and asymmetric root flare in-place., Add a restrained bend, taper and asymmetric root flare in-place., Build a deliberately irregular low-poly foliage silhouette.      The old kit use (+2 more)
 
-### Community 827 - "Community 827"
-Cohesion: 0.40
-Nodes (5): items, minItems, type, uniqueItems, narrativeOrder
-
 ### Community 829 - "Community 829"
 Cohesion: 0.17
 Nodes (8): Dictionary<Node3D, (float RestYaw, bool Facing, Tween? Turn)>, bool, float, Node3D, string, Tween, object, Act1ConnectedWorld
@@ -3578,8 +3570,8 @@ Cohesion: 0.13
 Nodes (15): 6.10. Мотивы MF01–MF12, 6.11. Визуальные паспорта V001–V018, 6.12. Пробелы G001–G018, 6.13. Географические опоры L, 6.14. Библиографические записи S, 6.1. Утверждения C001–C040, 6.2. Размеры D001–D031, 6.3. Хозяйства H01–H06 (+7 more)
 
 ### Community 870 - "Community 870"
-Cohesion: 0.50
-Nodes (4): _append_berry(), Append one tiny low-poly berry to the single optional berry mesh., Append one tiny low-poly berry to the single optional berry mesh., Append one tiny low-poly berry to the single optional berry mesh.
+Cohesion: 0.22
+Nodes (9): _moss_cap(), Shallow off-centre moss cap, not a second flattened sphere., Shallow off-centre moss cap, not a second flattened sphere., Shallow off-centre moss cap, not a second flattened sphere., Shallow off-centre moss cap, not a second flattened sphere., Shallow off-centre moss cap, not a second flattened sphere., Shallow off-centre moss cap, not a second flattened sphere., Shallow off-centre moss cap, not a second flattened sphere. (+1 more)
 
 ### Community 872 - "Community 872"
 Cohesion: 0.67
@@ -3618,8 +3610,8 @@ Cohesion: 0.25
 Nodes (8): bytes, sha256, url, godot, exportTemplates, sha256, url, version
 
 ### Community 885 - "Community 885"
-Cohesion: 0.50
-Nodes (4): textRefs, items, type, uniqueItems
+Cohesion: 0.67
+Nodes (3): items, type, onExit
 
 ### Community 887 - "Community 887"
 Cohesion: 0.33
@@ -3664,7 +3656,7 @@ Nodes (3): ModuleId, pattern, type
 ## Knowledge Gaps
 - **7109 isolated node(s):** `New painterly surface families remain candidates`, `Connected Act I map remains the primary visual gate`, `FAP exterior now has a single presentation owner`, `Foliage template source is hidden after extraction`, `Act I atmosphere now has one routed environment owner` (+7104 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **189 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **191 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
