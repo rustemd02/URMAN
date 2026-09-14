@@ -4046,7 +4046,18 @@ public partial class Act1ConnectedWorld : Node3D
                 Vector3.Zero,
                 -82f,
                 Vector3.One * 0.88f,
-                "village_day@east-street-mid-facade"));
+                "village_day@east-street-mid-facade"),
+            // H1 biography: a working household. Its yard is the one the player
+            // walks through, so its firewood stack sits by the house's south
+            // gable where the delivery path actually ends, clear of the walking
+            // line and of the holding's fence run.
+            new Act1ExteriorParcelComponentPlacement(
+                "Woodpile_StackedLogs",
+                "EastStreetMidWoodpile",
+                new(1.2f, 0f, -4.6f),
+                14f,
+                Vector3.One * 0.82f,
+                "village_day@east-street-mid-firewood"));
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
@@ -4528,7 +4539,18 @@ public partial class Act1ConnectedWorld : Node3D
                 Vector3.Zero,
                 90f,
                 Vector3.One * 0.44f,
-                "fap_clinic@reverse-west-domestic-facade"));
+                "fap_clinic@reverse-west-domestic-facade"),
+            // H1 biography: a partially renovated household - the older plaster
+            // body with a newer outbuilding added beside it, which is what
+            // reads as "this family is still working on the place". Sited on
+            // the dwelling's flank, clear of the cemetery route.
+            new Act1ExteriorParcelComponentPlacement(
+                "OutbuildingShed_Low",
+                "FapReverseWestDomesticShed",
+                new(2.6f, 0f, -1.4f),
+                84f,
+                Vector3.One * 0.55f,
+                "fap_clinic@reverse-west-domestic-outbuilding"));
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
                 village,

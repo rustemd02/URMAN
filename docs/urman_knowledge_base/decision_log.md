@@ -3991,3 +3991,48 @@ grey-material shape pass (needs a stand, since a grey export must not ship) and
 the seni trim variance.
 
 Linked files: `../../assets/source/blender/act1/urman_village_exterior_kit.py`
+
+## 2026-09-15 — H1/H4: yard biographies assigned; two working-household additions
+
+Status: Accepted (first implementation layer of cards H1 and H4)
+
+Context: the near and mid street houses mount bare dwelling facades with no yard
+depth at all, so the households read as clones differing only by yaw. H1 asks for
+a biography per shown yard with two or three large distinguishing features, and
+H4 asks for the working depth those features imply.
+
+Decision: the biography table for every player-visible yard is recorded in the
+passport (hero yard = supported old; east holding = working household; west street
+mid = partially renovated; zirat mid = seasonal/closed; FAP reverse = partially
+renovated; far holdings = working/abandoned; VillageLife rows = anonymous
+silhouettes that must not gain names). Two additions implement the first layer:
+a firewood stack by the east holding's house (the delivery path's end, clear of
+the walking line) and an outbuilding beside the FAP-reverse dwelling (the older
+body with a newer outbuilding reads as "still working on the place"), sited clear
+of the cemetery route.
+
+Consequences: both additions go through the blocker families, and the woodpile is
+tall enough to block while the trough-sized pieces are not. The yard furniture
+sets (Variant*_Yard fences, gates and benches) are deliberately deferred: they add
+colliders beside the walking lines and need route-by-route verification, which is
+the next party's work.
+
+Linked files: `../../game/scripts/Act1ConnectedWorld.cs`,
+`../../docs/urman_knowledge_base/art/act1_h1_h4_yard_biography_passport_2026-09-15.md`
+
+## 2026-09-15 — I1: the house interior's footprint mismatch is an author decision
+
+Status: Open, recorded
+
+Context: card H2's passport measured the interior scene as one room 12 x 10 m
+behind a dwelling facade 6.2 x 6.0 m. I1 asks the interior to remain a spatially
+understandable continuation of the exterior; resizing or repartitioning the room
+changes the walkable interior, the NPC anchors and the interaction coordinates.
+
+Decision: not resolved here. The mismatch is recorded as an I1 question for the
+author: whether to compress the interior room toward the facade footprint (which
+moves furniture, NPC anchors and interaction boxes) or to keep the current
+convention of an interior larger than the shell. Implementation waits for that
+choice.
+
+Linked files: `../../docs/urman_knowledge_base/art/act1_h2_hero_house_passport_2026-09-14.md`
