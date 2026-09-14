@@ -235,6 +235,21 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
                 if (!inside) hidden.Add($"{target.Name}@{position.Snapped(Vector3.One * 0.1f)}");
             }
             GD.Print($"ghost-audit: live_targets={signTargets.Count(t => t.CollisionLayer != 0)} without_visible_geometry={hidden.Count} [{string.Join(" | ", hidden)}]");
+
+            // Ambiguous-prompt probe: two live targets closer than a stride can
+            // hand the crosshair back and forth between their prompts.
+            var live = signTargets.Where(t => t.CollisionLayer != 0).ToArray();
+            var close = new List<string>();
+            for (var i = 0; i < live.Length; i++)
+            for (var j = i + 1; j < live.Length; j++)
+            {
+                var gap = live[i].GlobalPosition.DistanceTo(live[j].GlobalPosition);
+                if (gap < 1.5f)
+                {
+                    close.Add($"{live[i].Name}~{live[j].Name}@{gap:F2}m");
+                }
+            }
+            GD.Print($"prompt-audit: live={live.Length} closer_than_1.5m={close.Count} [{string.Join(" | ", close)}]");
         }
 
         if (bridge.IsInteractionAvailable(Interaction("route-to-fap")))
