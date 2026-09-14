@@ -1,0 +1,50 @@
+[
+  {
+    "file": "01_sources_and_method.md",
+    "title": "1. Корпус, метод и пределы доказательства"
+  },
+  {
+    "file": "02_region_and_time.md",
+    "title": "2. Географическая основа и внутренняя хронология"
+  },
+  {
+    "file": "03_village_layout_and_dimensions.md",
+    "title": "3. Пространственная система и размеры"
+  },
+  {
+    "file": "04_houses_facades_and_yards.md",
+    "title": "4. Дом, фасад, ограждения и работающий двор"
+  },
+  {
+    "file": "05_interiors_and_household_objects.md",
+    "title": "5. Интерьеры и целостные предметные комплекты"
+  },
+  {
+    "file": "06_gardens_landscape_and_seasons.md",
+    "title": "6. Палисадник, растительность, сезоны и свет"
+  },
+  {
+    "file": "07_people_language_and_media.md",
+    "title": "7. Люди, действия, язык и медиасреда"
+  },
+  {
+    "file": "08_shurale_and_mythology.md",
+    "title": "8. Шурале: источники, мотивы и границы интерпретации"
+  },
+  {
+    "file": "09_soundscape.md",
+    "title": "9. Самостоятельный звуковой атлас"
+  },
+  {
+    "file": "10_visual_reference_atlas.md",
+    "title": "10. Визуальный корпус: локальные изображения и внешние паспорта"
+  },
+  {
+    "file": "11_scene_specs.md",
+    "title": "11. Двенадцать согласованных паспортов сцен"
+  },
+  {
+    "file": "12_authenticity_risks_and_open_questions.md",
+    "title": "12. Риски, незакрытые вопросы и контроль качества"
+  }
+]
