@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000">
+<rect width="1500" height="1000" fill="#F7F5EF"/>
+<style>text{font-family:DejaVu Sans,sans-serif;fill:#21333B}</style>
+<text x="45" y="50" font-size="27" font-weight="700">H02: согласованный интерьерный комплект</text>
+<text x="45" y="84" font-size="15" font-weight="400">План по проектным осям. Метры. Толщины стен и чистовые проходы уточняются отдельно; натурного обмера нет.</text>
+<rect x="100" y="185" width="290" height="232" fill="#DAD7CC" stroke="#54656B" stroke-width="3"/>
+<text x="245.0" y="301.0" font-size="16" font-weight="700" text-anchor="middle">Жилая</text>
+<text x="245.0" y="326.0" font-size="14" font-weight="400" text-anchor="middle">5 × 4 м</text>
+<rect x="100" y="417" width="290" height="232" fill="#D6D7CB" stroke="#54656B" stroke-width="3"/>
+<text x="245.0" y="533.0" font-size="16" font-weight="700" text-anchor="middle">Спальня</text>
+<text x="245.0" y="558.0" font-size="14" font-weight="400" text-anchor="middle">5 × 4 м</text>
+<rect x="390" y="185" width="87.0" height="464" fill="#DFE5DA" stroke="#54656B" stroke-width="3"/>
+<text x="433.5" y="417.0" font-size="13" font-weight="400" text-anchor="middle">Связь</text>
+<rect x="477.0" y="185" width="203.0" height="174" fill="#D3DFDB" stroke="#54656B" stroke-width="3"/>
+<text x="578.5" y="272.0" font-size="16" font-weight="700" text-anchor="middle">Кухня</text>
+<text x="578.5" y="297.0" font-size="14" font-weight="400" text-anchor="middle">3.5 × 3 м</text>
+<rect x="477.0" y="359" width="203.0" height="116" fill="#DFE5DA" stroke="#54656B" stroke-width="3"/>
+<text x="578.5" y="417.0" font-size="16" font-weight="700" text-anchor="middle">Связь</text>
+<text x="578.5" y="442.0" font-size="14" font-weight="400" text-anchor="middle">3.5 × 2 м</text>
+<rect x="477.0" y="475" width="203.0" height="87.0" fill="#CBDCDF" stroke="#54656B" stroke-width="3"/>
+<text x="578.5" y="518.5" font-size="16" font-weight="700" text-anchor="middle">Санузел</text>
+<text x="578.5" y="543.5" font-size="14" font-weight="400" text-anchor="middle">3.5 × 1.5 м</text>
+<rect x="477.0" y="562.0" width="203.0" height="87.0" fill="#E5DAC8" stroke="#54656B" stroke-width="3"/>
+<text x="578.5" y="605.5" font-size="16" font-weight="700" text-anchor="middle">Тех. / хранение</text>
+<text x="578.5" y="630.5" font-size="14" font-weight="400" text-anchor="middle">3.5 × 1.5 м</text>
+<rect x="680" y="301" width="174" height="232" fill="#E4CEAA" stroke="#54656B" stroke-width="3"/>
+<text x="767.0" y="417.0" font-size="16" font-weight="700" text-anchor="middle">Сени</text>
+<line x1="680" y1="392.06" x2="680" y2="441.94" stroke="#F7F5EF" stroke-width="8"/>
+<line x1="680" y1="392.06" x2="706.0999999999999" y2="418.15999999999997" stroke="#D09D52" stroke-width="2"/>
+<line x1="854" y1="392.06" x2="854" y2="441.94" stroke="#F7F5EF" stroke-width="8"/>
+<line x1="854" y1="392.06" x2="880.0999999999999" y2="418.15999999999997" stroke="#D09D52" stroke-width="2"/>
+<line x1="477.0" y1="392.06" x2="477.0" y2="441.94" stroke="#F7F5EF" stroke-width="8"/>
+<line x1="477.0" y1="392.06" x2="503.1" y2="418.15999999999997" stroke="#D09D52" stroke-width="2"/>
+<line x1="390" y1="276.06" x2="390" y2="325.94" stroke="#F7F5EF" stroke-width="8"/>
+<line x1="390" y1="276.06" x2="416.1" y2="302.15999999999997" stroke="#D09D52" stroke-width="2"/>
+<line x1="390" y1="508.06" x2="390" y2="557.94" stroke="#F7F5EF" stroke-width="8"/>
+<line x1="390" y1="508.06" x2="416.1" y2="534.1600000000001" stroke="#D09D52" stroke-width="2"/>
+<line x1="539.06" y1="359" x2="588.94" y2="359" stroke="#F7F5EF" stroke-width="8"/>
+<line x1="539.06" y1="359" x2="565.16" y2="385.1" stroke="#D09D52" stroke-width="2"/>
+<line x1="539.06" y1="475" x2="588.94" y2="475" stroke="#F7F5EF" stroke-width="8"/>
+<line x1="539.06" y1="475" x2="565.16" y2="501.1" stroke="#D09D52" stroke-width="2"/>
+<line x1="477.0" y1="577.6600000000001" x2="477.0" y2="627.54" stroke="#F7F5EF" stroke-width="8"/>
+<line x1="477.0" y1="577.6600000000001" x2="503.1" y2="603.76" stroke="#D09D52" stroke-width="2"/>
+<line x1="146.4" y1="185" x2="204.4" y2="185" stroke="#3A8EA2" stroke-width="7"/>
+<line x1="274.0" y1="185" x2="332.0" y2="185" stroke="#3A8EA2" stroke-width="7"/>
+<line x1="546.5999999999999" y1="185" x2="604.5999999999999" y2="185" stroke="#3A8EA2" stroke-width="7"/>
+<line x1="216.0" y1="649" x2="274.0" y2="649" stroke="#3A8EA2" stroke-width="7"/>
+<line x1="680" y1="231.4" x2="680" y2="289.4" stroke="#3A8EA2" stroke-width="7"/>
+<text x="100" y="151" font-size="18" font-weight="700">УЛИЦА / ФРОНТ</text>
+<text x="100" y="755" font-size="17" font-weight="400">Наружный контур корпуса: 10 × 8 м. Сени: 3 × 4 м. Значения не равны чистовой площади.</text>
+<text x="100" y="802" font-size="17" font-weight="400">Современный частичный ремонт: мокрые функции справа, два окна жилой + одно кухни на фронте.</text>
+<line x1="110" y1="895" x2="400" y2="895" stroke="#21333B" stroke-width="5"/>
+<line x1="110" y1="887" x2="110" y2="903" stroke="#21333B" stroke-width="2"/>
+<line x1="400" y1="887" x2="400" y2="903" stroke="#21333B" stroke-width="2"/>
+<text x="110" y="924" font-size="14" font-weight="400">0</text>
+<text x="400" y="924" font-size="14" font-weight="400" text-anchor="end">5 м</text>
+<line x1="760" y1="900" x2="810" y2="900" stroke="#3A8EA2" stroke-width="6"/>
+<text x="825" y="907" font-size="16" font-weight="400">Окно</text>
+<line x1="965" y1="900" x2="1015" y2="900" stroke="#D09D52" stroke-width="3"/>
+<text x="1030" y="907" font-size="16" font-weight="400">Проем / створка условно</text><text x="45" y="975" font-family="DejaVu Sans" font-size="13" fill="#65727A">SHURALE RESEARCH • Предложено для игры • Не обмер реального объекта</text></svg>
