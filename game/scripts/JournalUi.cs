@@ -142,9 +142,20 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _objective.Text = objectives.Count == 0
             ? "ТЕКУЩАЯ ЦЕЛЬ\n—"
             : $"ТЕКУЩАЯ ЦЕЛЬ\n{string.Join("\n", objectiveTitles.Select(title => $"• {title}"))}";
+        // A word the player only heard is written into the kernel as "guessed",
+        // and the kernel refuses to step a word back down that ladder. The
+        // journal must not read a heard word as a known one, so unconfirmed
+        // entries carry an explicit marker and the phrase is explained once.
+        var heardOnlyCount = vocabulary.Count(entry => entry.Status != "confirmed");
         _vocabulary.Text = vocabulary.Count == 0
             ? "ТАТАРСКИЕ СЛОВА\n—"
-            : $"ТАТАРСКИЕ СЛОВА\n{string.Join(" · ", vocabulary.Select(entry => $"{entry.Term} — {entry.Meaning}"))}";
+            : "ТАТАРСКИЕ СЛОВА\n"
+              + string.Join(" · ", vocabulary.Select(entry => entry.Status == "confirmed"
+                  ? $"{entry.Term} — {entry.Meaning}"
+                  : $"{entry.Term} — {entry.Meaning} (услышано)"))
+              + (heardOnlyCount == 0
+                  ? string.Empty
+                  : "\n«услышано» — Айдар слышал слово, но ещё не проверил его значением.");
         _entries.Clear();
         for (var index = 0; index < _projection.Count; index++)
         {
