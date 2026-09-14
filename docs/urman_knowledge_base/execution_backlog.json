@@ -1822,6 +1822,437 @@
    ],
    "evidence": [],
    "blocked_reason": "Только человек закрывает эту задачу; среда не может играть."
+  },
+  {
+   "id": "ACT1-EX00",
+   "title": "§13 EX00: Общий контракт новых действий",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Управление, перенос/размещение, состояние и сохранение согласованы для первого набора",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Основание для новых систем; read-only проектирование сразу"
+  },
+  {
+   "id": "ACT1-EX01",
+   "title": "§13 EX01: Поднимать, переносить, ставить",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX00"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Три класса вещей с физически работающим повторным применением",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Первый образец"
+  },
+  {
+   "id": "ACT1-EX02",
+   "title": "§13 EX02: Несколько решений одной задачи",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX00"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Два разных способа решить один необязательный локальный доступ",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Нужные действия EX01/EX03/EX05"
+  },
+  {
+   "id": "ACT1-EX03",
+   "title": "§13 EX03: Многоцелевые инструменты",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX00",
+    "EX01"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Два бытовых инструмента, у каждого по два различных применения",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": ""
+  },
+  {
+   "id": "ACT1-EX04",
+   "title": "§13 EX04: Ограниченные сочетания",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX01",
+    "EX03"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Две понятные комбинации, создающие полезное действие",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Вторая партия"
+  },
+  {
+   "id": "ACT1-EX05",
+   "title": "§13 EX05: Читаемый и изменяемый снег",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX03"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Цепочка следов, расчистка, устойчивое открытие",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Рисунок следов можно делать раньше"
+  },
+  {
+   "id": "ACT1-EX06",
+   "title": "§13 EX06: Переносной свет",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX00",
+    "EX01"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Фонарь в руке и на опоре, помогает осмотреть два места",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": ""
+  },
+  {
+   "id": "ACT1-EX07",
+   "title": "§13 EX07: Тепло/холод/материал",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX00"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Две локальные бытовые реакции с причиной и результатом",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Вторая партия"
+  },
+  {
+   "id": "ACT1-EX08",
+   "title": "§13 EX08: Поиск и проверка звуком",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX00"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Два различимых источника с локализацией и действием игрока",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Существующий звук + изменяемые состояния"
+  },
+  {
+   "id": "ACT1-EX09",
+   "title": "§13 EX09: Человеческая вертикальность",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX01"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Подъём по лестнице и низкий проход с безопасным возвратом",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "T1-T3"
+  },
+  {
+   "id": "ACT1-EX10",
+   "title": "§13 EX10: Небольшие самостоятельные места",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX06",
+    "EX09"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Два бытовых пространства с разными задачами и наградами",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Принятый участок H/L"
+  },
+  {
+   "id": "ACT1-EX11",
+   "title": "§13 EX11: Микрозагадки на странность",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Три различимых наблюдения и проверки догадки",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Можно начинать на существующих E-владельцах"
+  },
+  {
+   "id": "ACT1-EX12",
+   "title": "§13 EX12: Найти место по фото/рисунку",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Два сопоставления изображения с местом и отличием",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Журнал/документы и согласованный layout"
+  },
+  {
+   "id": "ACT1-EX13",
+   "title": "§13 EX13: Цепочки любопытства",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Две цепочки пространственных открытий с возвратом",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "L1 и E1; проектирование сразу"
+  },
+  {
+   "id": "ACT1-EX14",
+   "title": "§13 EX14: Устойчивый результат",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": null,
+   "depends_on": [
+    "EX00"
+   ],
+   "owner": "gameplay/design",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Проход, звук/свет и реакция жителя сохраняют последствия действий",
+   "done_when": [
+    "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
+    "Состояние переживает save/load и новый сеанс; дублей награды нет."
+   ],
+   "verify": [
+    "физический walkthrough",
+    "chapter-one-flow-smoke",
+    "ручной сценарий карточки"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+   ],
+   "note": "Проверка каждой партии"
   }
  ]
 }
