@@ -48,6 +48,14 @@ copy_doc docs/production/act1_language_review_sheet_2026-09-14.md act1_language_
 copy_doc docs/production/act1_m10_handoff_package_2026-09-14.md act1_m10_handoff_package_2026-09-14.md
 copy_doc docs/urman_knowledge_base/audio/act1_voice_recording_brief.md act1_voice_recording_brief.md
 
+# START_HERE_RU.md is written per candidate (it records that candidate's hashes,
+# sizes and measurements), but the packet ships a copy of it, so the copy is
+# checked against the candidate root rather than against the repository.
+[ -f "$CANDIDATE/START_HERE_RU.md" ] || fail "candidate has no START_HERE_RU.md: $CANDIDATE"
+cp "$CANDIDATE/START_HERE_RU.md" "$PACKET/START_HERE_RU.md"
+cmp -s "$CANDIDATE/START_HERE_RU.md" "$PACKET/START_HERE_RU.md" || fail "copy is not identical: START_HERE_RU.md"
+echo "act1-review-packet: START_HERE_RU.md <- candidate root (per-candidate file)"
+
 SHEET_ROOT=docs/production/urman_visual_review_pack
 [ -d "$SHEET_ROOT" ] || fail "missing visual review pack: $SHEET_ROOT"
 
@@ -76,6 +84,7 @@ find "$PACKET" -type f | sed "s|^$PACKET/||" | sort > "$list_root/actual.txt"
 {
   printf '%s\n' \
     README_RU.md \
+    START_HERE_RU.md \
     act1_language_review_sheet_2026-09-14.md \
     act1_m10_handoff_package_2026-09-14.md \
     act1_voice_recording_brief.md
@@ -90,6 +99,6 @@ if ! diff -u "$list_root/expected.txt" "$list_root/actual.txt"; then
   fail "packet contents do not match the repository sources (expected vs actual above)"
 fi
 
-echo "act1-review-packet: PASS $sheet_count sheets + 4 documents, all byte-identical to repository sources"
+echo "act1-review-packet: PASS $sheet_count sheets + 4 documents + START_HERE, all byte-identical to their sources"
 echo "act1-review-packet: packet=$PACKET"
-echo "act1-review-packet: START_HERE_RU.md is per candidate and was not touched"
+echo "act1-review-packet: START_HERE_RU.md stays per candidate; edit it at the candidate root, then rerun this script"
