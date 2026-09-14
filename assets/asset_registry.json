@@ -1080,13 +1080,13 @@
    "id": "urman.act1.agentb.foliage_kit",
    "source": "assets/source/blender/agent_b_act1/agentb_foliage_kit.blend",
    "derived": "game/assets/models/agent_b_act1/agentb_foliage_kit.glb",
-   "sourceSha256": "a3842bb9e40a09f1bf68098f0e8c6aa83435352e070fbc30592f3990ffc730e6",
-   "derivedSha256": "35c3234b496eecd07287b309a21423bcc4f8d12cfe1dcb151fb75cafe6716158",
+   "sourceSha256": "551a3e83821fc091e77c650f2c7b51767fb445d436deec4fc96ea3ace0971c15",
+   "derivedSha256": "23a5ff03617ca3de1150d504e2bec3eadd4f627d6e062d61fe3b15d010ddb75f",
    "generator": "assets/source/blender/agent_b_act1/agent_b_foliage.py; Blender 4.5.12 LTS",
    "license": "Project-original",
    "scale": 1.0,
    "collision": "none; source root is hidden after extraction and planted copies remain presentation-only",
-   "lod": "257 exported mesh nodes / 106,676 exported triangles / 15 materials; winter deciduous near 2088-2928, light 1244-1292 and far 312-322 triangles per variant; young spruce near 5300 triangles with a between-tier spray, light 1136 and far 388; the tall forest spruce ladder (WinterSpruce_3 13.5 m, _4 18.5 m, _5 24.5 m, _6 30.5 m) keeps one bough whorl roughly per metre of trunk and lands near 3212-5180 triangles, light 980-1292 and far 276-304; native LOD ranges unchanged",
+   "lod": "257 exported mesh nodes / 108,632 exported triangles / 15 materials; winter deciduous near 2088-2928, light 1244-1292 and far 312-322 triangles per variant; young spruce near 5300 triangles with a between-tier spray, light 1136 and far 388; the tall forest spruce ladder (WinterSpruce_3 13.5 m, _4 18.5 m, _5 24.5 m, _6 30.5 m) keeps one bough whorl per ~1.2 m of trunk, starts the first whorl at 12 percent of the trunk and keeps a heavy overlapping crown (bough reach 0.228-0.268 of height) with a droop cap that keeps the lowest bough off the ground; near 3272-5936, light 1136-1448 and far 264-360 triangles; native LOD ranges unchanged",
    "status": "production-canonical winter Act I dependency; source/generator/GLB hashes synchronized after the 2026-09-14 winter tree caliper and fine-branch rework and the tall forest spruce ladder added for the perimeter forest ring; visual/cultural art-lock open",
    "releaseDisposition": "include-in-act1-release; current runtime dependency; visual/cultural gates open",
    "components": "URMAN_AgentB_FoliageKit",
@@ -1107,7 +1107,7 @@
     "AB_snow",
     "AB_foliage_rowan"
    ],
-   "triangleBudget": 106676
+   "triangleBudget": 108632
   },
   {
    "id": "urman.act1.agentb.zirat_kit",

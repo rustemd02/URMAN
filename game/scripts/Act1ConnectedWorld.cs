@@ -978,12 +978,11 @@ public partial class Act1ConnectedWorld : Node3D
         // the authored culvert, which stays the only passable line.
         AddVillageRiverAndBrokenBridge(core);
 
-        // Unreachable background layers (T3): near village rows, mid woodland
-        // bands and far snow ridges, all beyond the walkable envelope.
-        AddDistantHouseRow(core, "BackdropNearHousesWest",
-            new Vector3(-76f, 0f, 4f), 3, 19f, 88f, 1.0f);
-        AddDistantHouseRow(core, "BackdropNearHousesEast",
-            new Vector3(74f, 0f, -18f), 3, 22f, 94f, 0.95f);
+        // Unreachable background layers (T3): mid woodland bands and far snow
+        // ridges, all beyond the walkable envelope. The near village rows that
+        // used to stand here are gone: the tall Act I forest ring now closes
+        // that ground, and a backdrop house left inside the ring would be the
+        // one silhouette that betrays the depth behind the trees.
         AddDistantRidge(core, "BackdropFarRidgeWest",
             new Vector3(-240f, (float)AgentBAct1HeightField.Ground(-240f, -60f), -60f), 220f, 8f, 90f, 8f);
         AddDistantRidge(core, "BackdropFarRidgeEast",

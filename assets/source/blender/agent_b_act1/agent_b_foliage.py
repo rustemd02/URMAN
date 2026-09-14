@@ -1022,24 +1022,36 @@ def winter_spruce_variant(index, height, tier="near"):
     # A forest spruce carries one bough whorl roughly every metre of trunk; the
     # level count is therefore driven by height, and the per-tier geometry
     # drops sides/stations on the tall trees so every tier still lands inside
-    # the shared Agent B triangle budget asserted below.
+    # the shared Agent B triangle budget asserted below. Vertical whorl density
+    # is spent first: a thinned whorl ladder is what turns a tall tree into a
+    # blackened spike with sky between the levels.
     tall = height > 10.0
-    level_count = max(12, min(20, int(round(height * 0.85))))
+    level_count = max(12, min(26, int(round(height * 0.85))))
     if tier == "light":
-        level_count = max(10, int(round(level_count * 0.70)))
+        level_count = max(12, min(16, int(round(level_count * 0.68))))
     elif tier == "far":
-        level_count = max(8, int(round(level_count * 0.45)))
+        level_count = max(9, int(round(level_count * 0.50)))
     last_level = level_count - 1
-    bough_ratio = .27 if height <= 8.0 else max(.185, .27 - (height - 8.0) * .0042)
+    # Heavy, overlapping winter crowns. Shrinking bough reach as the trunk grew
+    # was wrong for a forest wall: the ring has to close as a mass, not as a row
+    # of poles, so reach falls only gently with height.
+    bough_ratio = .27 if height <= 8.0 else max(.228, .28 - (height - 8.0) * .0022)
     levels = range(level_count)
-    branches = (0, 1, 2) if tier != "far" else (0, 2)
+    # The young village firs keep their original two-branch far tier, which is
+    # already at its budget ceiling. A tall forest spruce keeps the full radial
+    # crown in every tier, because a two-branch far tier is exactly what leaves
+    # a pole silhouette on the skyline.
+    branches = (0, 2) if tier == "far" and not tall else (0, 1, 2)
     if height > 10.0:
-        stations = 5 if tier == "near" else 3
+        # The tallest dominants trade bough smoothness for whorl count: at this
+        # height a denser ladder reads as forest, a smoother single bough does
+        # not.
+        stations = 5 if tier == "near" and level_count <= 22 else 4 if tier == "near" else 3 if tier == "light" else 2
         sides = 5 if tier == "near" else 5 if tier == "light" else 3
     else:
         stations = 6 if tier == "near" else 3
         sides = 6 if tier == "near" else 5 if tier == "light" else 3
-    cap_limit = 4 if tier == "near" else 3 if tier == "light" else 1
+    cap_limit = (5 if tall else 4) if tier == "near" else 3 if tier == "light" else 1
     caps = 0
     for level in levels:
         for branch in branches:
@@ -1047,18 +1059,29 @@ def winter_spruce_variant(index, height, tier="near"):
                 continue
             rng = random.Random(ab.stable_hash(f"spruce:{index}:{level}:{branch}"))
             angle = level * 1.17 + branch * math.tau / 3 + rng.uniform(-.22, .22)
-            length = height * bough_ratio * (1.0 - level / level_count) ** .65 * rng.uniform(.62, 1.1)
-            # Shared seeds keep gaps and uneven branch heights in all LODs.
-            # Short boughs open the crown without widening its road envelope.
+            # A tall forest spruce carries its crown low on the trunk and keeps
+            # the bough lengths even; the young village firs keep their original
+            # higher first whorl and wider length spread.
+            spread = rng.uniform(.78, 1.08) if tall else rng.uniform(.62, 1.1)
+            length = height * bough_ratio * (1.0 - level / level_count) ** .65 * spread
+            first_whorl = .12 if tall else .22
+            whorl_span = .88 if tall else .74
             centre = Vector((math.sin(index + level) * height * .016,
                              math.cos(index + level) * height * .012,
-                             height * (.22 + .74 * level / last_level + rng.uniform(-.022, .022))))
+                             height * (first_whorl + whorl_span * level / last_level
+                                       + rng.uniform(-.022, .022))))
+            # A long bough on a tall trunk cannot keep the sapling's droop without
+            # reaching the ground, and the vertex clamp that keeps it above zero
+            # would then flatten the tube and break its winding. Cap the droop so
+            # the lowest whorl always keeps a share of the trunk clear.
+            droop = .46 if tall else .52
+            droop = min(droop, max(0.0, centre.z - height * .05) / max(length, 1e-6))
             direction = Vector((math.cos(angle), math.sin(angle), 0))
             points, radii = [], []
             for station in range(stations):
                 t = station / (stations - 1)
                 point = centre + direction * length * t
-                point.z -= length * (.52 * t - .10 * math.sin(math.pi * t))
+                point.z -= length * (droop * t - .10 * math.sin(math.pi * t))
                 points.append(point)
                 # Slender needle boughs: the previous band reached 47 percent
                 # of the bough length at mid-span, so twelve tiers of wide flat
@@ -1103,7 +1126,8 @@ def winter_spruce_variant(index, height, tier="near"):
     needles = ab.mesh_from_pydata(f"{prefix}_Needles", vertices, faces)
     ab.assign_material(needles, "AB_foliage_spruce")
     needle_heights = [vertex.co.z for vertex in needles.data.vertices]
-    assert min(needle_heights) > height * .02 and max(needle_heights) > height * .8
+    assert min(needle_heights) > height * .02 and max(needle_heights) > height * .8, (
+        prefix, height, min(needle_heights), max(needle_heights))
     snow = ab.mesh_from_pydata(f"{prefix}_Snow", snow_vertices, snow_faces)
     ab.assign_material(snow, "AB_snow")
     objects = [trunk, needles, snow]

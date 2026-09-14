@@ -195,6 +195,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
         BuildArchitectureCollision();
         PlantFoliage();
+        BuildForestBoundaryCollision();
         BuildEnvironment();
         BuildKaraAccentLights();
         BuildSnow();
@@ -347,6 +348,62 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 });
             }
         }
+    }
+
+    /// <summary>
+    /// Physical block for the boundary thicket recorded by
+    /// <see cref="BuildDensifiedPlan"/>. The ridge of young firs is the visible
+    /// obstacle; these boxes are its carrier, sized to stay inside the planted
+    /// crowns so the player meets a thicket rather than an invisible wall. The
+    /// player therefore stops on the settlement envelope, thirty metres short of
+    /// the raw terrain edge, and the emergency world clamp stays a fallback
+    /// instead of the thing that holds the boundary.
+    ///
+    /// The shapes join the existing exterior architecture body rather than a new
+    /// limiter: the exterior already owns one traversal collider for visible
+    /// geometry, and a second world-wide blocker would be a parallel system.
+    /// </summary>
+    private void BuildForestBoundaryCollision()
+    {
+        if (_forestBoundarySegments.Count == 0 || _forestRingBand is not { } ring)
+        {
+            throw new System.InvalidOperationException(
+                "Act I forest ring planted no boundary thicket; the walkable edge would be unprotected.");
+        }
+
+        var body = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
+        // The thicket is planted on the band's inner rectangle; only samples that
+        // really sit on it get a block, so the ring and its carrier cannot drift
+        // apart when the envelope changes.
+        var blocked = 0;
+        foreach (var point in _forestBoundarySegments)
+        {
+            var onEnvelope = Mathf.Abs(point.X - ring.InnerMin.X) < 2f
+                || Mathf.Abs(point.X - ring.InnerMax.X) < 2f
+                || Mathf.Abs(point.Y - ring.InnerMin.Y) < 2f
+                || Mathf.Abs(point.Y - ring.InnerMax.Y) < 2f;
+            if (!onEnvelope)
+            {
+                continue;
+            }
+
+            var ground = (float)AgentBAct1HeightField.CollisionGround(point.X, point.Y);
+            body.AddChild(new CollisionShape3D
+            {
+                Name = $"ForestBoundaryThicket_{blocked}",
+                Shape = new BoxShape3D { Size = new Vector3(2.1f, 1.7f, 1.5f) },
+                Position = new Vector3(point.X, ground + 0.75f, point.Y)
+            });
+            blocked++;
+        }
+
+        body.SetMeta("forestBoundaryRole",
+            "visible winter thicket on the settlement envelope; blocks the walk edge before the terrain seam");
+        body.SetMeta("forestBoundaryThicketCount", blocked);
+        body.SetMeta("forestRingInnerMin", ring.InnerMin);
+        body.SetMeta("forestRingInnerMax", ring.InnerMax);
+        body.SetMeta("forestRingOuterMin", ring.OuterMin);
+        body.SetMeta("forestRingOuterMax", ring.OuterMax);
     }
 
     private static void SuppressDuplicateFapPresentation(Node3D villageKit)
@@ -865,7 +922,14 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             if (smallShrub) variant = "WinterBirdCherry_1";
             if (variant.StartsWith("Birch_", StringComparison.Ordinal)) variant = "WinterBirch_1";
             if (variant.Contains("Spruce", StringComparison.Ordinal) || variant.StartsWith("Pine_", StringComparison.Ordinal))
-                variant = position.Y <= -86f ? variant.StartsWith("WinterSpruce_", StringComparison.Ordinal) ? variant : "WinterSpruce_1" : "WinterLinden_1";
+                // Conifers are banned inside the residential core, where a fir in
+                // a kitchen garden reads as a Christmas decoration. Outside it the
+                // winter forest is the tall conifer mass that encloses the
+                // village, and rewriting those spruces to bare lindens would leave
+                // the skyline open again.
+                variant = position.Y <= -86f || !IsInsideSettlementCore(position)
+                    ? variant.StartsWith("WinterSpruce_", StringComparison.Ordinal) ? variant : "WinterSpruce_1"
+                    : "WinterLinden_1";
             var template = Geometry(variant);
             var road = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
             var clearance = (float)(road.Distance - road.HalfWidth);
@@ -1322,39 +1386,108 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
         }
 
-        // Two-row perimeter belt: dense conifer/birch line with shrub and
-        // ground cover underneath, so the village edge reads as forest edge
-        // rather than an invisible wall. Roads reject their own gap.
-        // Six-row perimeter belt instead of two: the author asked for a wall of
-        // forest around the village rather than a thin grove. Rows tighten and
-        // deepen outward (3.4 m, 3.4 m, 3.0 m, 3.0 m, 2.6 m, 2.6 m), the outer
-        // rows lean on spruce silhouettes for depth against the sky, and the
-        // undergrowth stays dense so the wall reads from the ground up. Entries
-        // land in the existing per-variant MultiMeshes, so the depth costs
-        // instances rather than draw calls.
-        var margin = 7f;
-        var beltMin = min - new Vector2(margin, margin);
-        var beltMax = max + new Vector2(margin, margin);
-        const int beltRows = 6;
+        // Act I forest ring. The author decided the village must be enclosed by a
+        // very tall, dense, deliberately frightening forest with nothing visible
+        // beyond it from any reachable position; this replaces the earlier
+        // two-row grove that only reached 7.4 m.
+        //
+        // The ring straddles the walkable terrain window instead of sitting
+        // inside it. The traversal surface simply ends at X -64/66 and Z
+        // -152/104, so a mass planted only inside that rectangle would still
+        // leave the raw terrain edge exposed past the trees. Extending the band
+        // onto the analytic backdrop apron puts that seam thirty metres deep in
+        // forest, and the outermost crowns stay past the camera far side of the
+        // seam, so every outward view ends in trunks and snow-laden boughs.
+        //
+        // Rows run from the outer rectangle inward, so row 0 closes the skyline
+        // and the last row lands exactly on the settlement envelope where the
+        // player can stand next to it.
+        const int beltRows = 9;
+        const float beltInset = ForestRingDepth / (beltRows - 1);
+        var ringOuterMin = ForestRingInnerMin - new Vector2(ForestRingDepth, ForestRingDepth);
+        var ringOuterMax = ForestRingInnerMax + new Vector2(ForestRingDepth, ForestRingDepth);
+        _forestRingBand = (ForestRingInnerMin, ForestRingInnerMax, ringOuterMin, ringOuterMax);
         for (var row = 0; row < beltRows; row++)
         {
-            var inset = row * 3.0f;
-            var beltStep = row < 2 ? 3.4f : row < 4 ? 3.0f : 2.6f;
-            for (var x = beltMin.X + inset; x <= beltMax.X - inset; x += beltStep)
+            var inset = row * beltInset;
+            // The rows the player can walk up to carry the finest step; the
+            // outer rows only have to close the skyline from a distance.
+            var beltStep = row < 4 ? 4.0f : 3.4f;
+            var rowMin = ringOuterMin + new Vector2(inset, inset);
+            var rowMax = ringOuterMax - new Vector2(inset, inset);
+            for (var x = rowMin.X; x <= rowMax.X; x += beltStep)
             {
-                EmitBelt(generated, rng, new Vector2(x + rng.RandfRange(-1.1f, 1.1f), beltMin.Y + inset), row);
-                EmitBelt(generated, rng, new Vector2(x + rng.RandfRange(-1.1f, 1.1f), beltMax.Y - inset), row);
+                EmitBelt(generated, rng, new Vector2(x + rng.RandfRange(-1.2f, 1.2f), rowMin.Y), row, beltRows);
+                EmitBelt(generated, rng, new Vector2(x + rng.RandfRange(-1.2f, 1.2f), rowMax.Y), row, beltRows);
             }
-            for (var z = beltMin.Y + inset; z <= beltMax.Y - inset; z += beltStep)
+            for (var z = rowMin.Y + beltStep; z <= rowMax.Y - beltStep; z += beltStep)
             {
-                EmitBelt(generated, rng, new Vector2(beltMin.X + inset, z + rng.RandfRange(-1.1f, 1.1f)), row);
-                EmitBelt(generated, rng, new Vector2(beltMax.X - inset, z + rng.RandfRange(-1.1f, 1.1f)), row);
+                EmitBelt(generated, rng, new Vector2(rowMin.X, z + rng.RandfRange(-1.2f, 1.2f)), row, beltRows);
+                EmitBelt(generated, rng, new Vector2(rowMax.X, z + rng.RandfRange(-1.2f, 1.2f)), row, beltRows);
             }
         }
 
-        // Generated entries (satellites + belt) must never violate the road
-        // envelope; unlike authored plan entries they are filtered out
-        // silently so roads keep their own natural gaps through the belt.
+        // The arrival road is the ring opening the player can actually walk to,
+        // and the author ruled out a straight tunnel with a view past the ring.
+        // The road surface already ends at z 40, so past its end the corridor is
+        // closed with staggered groups; the entrance vista then terminates in
+        // forest instead of running on to the terrain edge. Groups sit behind the
+        // road end, so a trunk never stands in the kerb line itself.
+        for (var z = 48f; z <= ForestRingInnerMax.Y; z += 3.4f)
+        {
+            var stagger = Mathf.Sin(z * 0.63f) * 3.6f;
+            for (var x = -17f; x <= 17f; x += 3.4f)
+            {
+                EmitBelt(generated, rng, new Vector2(
+                    x + stagger + rng.RandfRange(-1.1f, 1.1f),
+                    z + rng.RandfRange(-1.1f, 1.1f)), 3, beltRows);
+            }
+        }
+
+        // Boundary thicket: the ring has to be walkable-up-to and stop the
+        // player at something they can see. A dense line of young snow-laden
+        // firs on the settlement envelope does that: it reads as impassable
+        // regrowth at body height, it is the winter undergrowth the plan names
+        // as the lower closure, and its collision boxes hide inside the visible
+        // thicket instead of standing in open ground. The tall stand is planted
+        // immediately behind it, so the last thing seen in any outward
+        // direction is needles, snow and trunks.
+        const float boundaryStep = 1.9f;
+        foreach (var (edgeA, edgeB) in new (Vector2, Vector2)[]
+                 {
+                     (ForestRingInnerMin,
+                      new Vector2(ForestRingInnerMax.X, ForestRingInnerMin.Y)),
+                     (new Vector2(ForestRingInnerMax.X, ForestRingInnerMin.Y), ForestRingInnerMax),
+                     (ForestRingInnerMax,
+                      new Vector2(ForestRingInnerMin.X, ForestRingInnerMax.Y)),
+                     (new Vector2(ForestRingInnerMin.X, ForestRingInnerMax.Y), ForestRingInnerMin)
+                 })
+        {
+            var length = edgeA.DistanceTo(edgeB);
+            var direction = (edgeB - edgeA) / length;
+            for (var travelled = 0f; travelled <= length; travelled += boundaryStep)
+            {
+                var point = edgeA + direction * travelled
+                    + new Vector2(rng.RandfRange(-0.8f, 0.8f), rng.RandfRange(-0.8f, 0.8f));
+                var roll = rng.Randf();
+                var thicket = roll switch
+                {
+                    < 0.34f => "WinterSpruce_2",
+                    < 0.72f => "WinterSpruce_1",
+                    < 0.80f => "Stump_0",
+                    < 0.88f => "MossStone_0",
+                    < 0.94f => "FallenBranch_0",
+                    _ => "FallenBranch_1"
+                };
+                generated.Add((point, thicket));
+                _forestBoundarySegments.Add(point);
+            }
+        }
+        SetMeta("forestBoundarySegmentCount", _forestBoundarySegments.Count);
+
+        // Generated entries (satellites, ring, boundary thicket) must never
+        // violate the road envelope; unlike authored plan entries they are
+        // filtered out silently so roads keep their own natural gaps.
         // Trees need real shoulder distance — a trunk half a metre from the
         // kerb reads as "a tree growing on the road". Only low ground cover
         // is allowed to hug the verge.
@@ -1395,45 +1528,103 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// The village mosque complex stands inside the perimeter band, so the belt
     /// must leave its courtyard clear: trees through a wall read as a bug.
     /// </summary>
-    private static readonly (Vector2 Center, float Radius) MosqueKeepOut = (new Vector2(-53f, -35f), 12.5f);
+    private static readonly (Vector2 Center, float Radius) MosqueKeepOut = (new Vector2(-49f, -34.5f), 10f);
+
+    /// <summary>
+    /// Settlement envelope and the ring band planted around it, in world X/Z.
+    /// <see cref="BuildDensifiedPlan"/> fills the band; the band rectangle is
+    /// reported in the layer metadata so a capture can be related to it.
+    /// </summary>
+    private static (Vector2 InnerMin, Vector2 InnerMax, Vector2 OuterMin, Vector2 OuterMax)? _forestRingBand;
+
+    /// <summary>Inner settlement envelope of the Act I forest ring, world X/Z.</summary>
+    internal static readonly Vector2 ForestRingInnerMin = new(-62f, -128f);
+
+    internal static readonly Vector2 ForestRingInnerMax = new(62f, 68f);
+
+    /// <summary>Ring depth in metres: how far the forest runs past the envelope.</summary>
+    internal const float ForestRingDepth = 30.4f;
+
+    /// <summary>
+    /// Residential core: the yards, streets and public buildings the player
+    /// walks between. Conifers are banned inside it because a fir in a kitchen
+    /// garden reads as a Christmas decoration; everywhere outside it the winter
+    /// forest is the deliberate conifer mass that encloses the village.
+    /// </summary>
+    private static readonly Vector2 SettlementCoreMin = new(-58f, -124f);
+
+    private static readonly Vector2 SettlementCoreMax = new(58f, 46f);
+
+    private static bool IsInsideSettlementCore(Vector2 point) =>
+        point.X > SettlementCoreMin.X && point.X < SettlementCoreMax.X
+        && point.Y > SettlementCoreMin.Y && point.Y < SettlementCoreMax.Y;
+
+    /// <summary>
+    /// Positions of the boundary thicket planted on the settlement envelope.
+    /// <see cref="BuildDensifiedPlan"/> records them and
+    /// <see cref="BuildForestBoundaryCollision"/> gives each one its physical
+    /// block, so the walkable edge and its visible thicket are the same line.
+    /// </summary>
+    private readonly List<Vector2> _forestBoundarySegments = new();
 
     private static void EmitBelt(
         List<(Vector2, string)> planned,
         RandomNumberGenerator rng,
         Vector2 position,
-        int row = 0)
+        int row,
+        int rowCount)
     {
         if (position.DistanceTo(MosqueKeepOut.Center) < MosqueKeepOut.Radius)
         {
             return;
         }
 
-        // Trees never stand in the river channel: the ravine is the village/forest
-        // boundary and must stay readable as water and banks.
-        if (System.Math.Abs(position.Y - (float)AgentBAct1HeightField.RiverMeander(position.X)) < 9f)
+        // Trees never stand in the river channel: the ravine is the village/
+        // forest boundary and must stay readable as water and banks. That is
+        // only true over the span the player can reach. Where the ravine leaves
+        // the ring the forest closes straight across it, because otherwise the
+        // ice corridor would be the one outward view — and the one walk — left
+        // open along the terrain edge.
+        if (System.Math.Abs(position.X) < 58f
+            && System.Math.Abs(position.Y - (float)AgentBAct1HeightField.RiverMeander(position.X)) < 9f)
         {
             return;
         }
 
-        // Village belt is winter deciduous; the forest-side stretch keeps young
-        // spruce as the sanctioned village->forest transition, and the outer belt
-        // rows switch to spruce as well so the wall has a deeper silhouette.
-        var forestSide = position.Y <= -100f;
-        var deepRow = row >= 3;
+        // The ring is one continuous tall conifer mass: the bough ladder rises
+        // toward the outside where it has to close the skyline, the young firs
+        // stay as regrowth between the tall trunks, and bare winter deciduous
+        // trees break the silhouette so the wall does not read as one repeated
+        // tile.
+        var outward = rowCount <= 1 ? 1f : 1f - row / (float)(rowCount - 1);
         var treeRoll = rng.Randf();
-        var variant = (forestSide || deepRow) && treeRoll < (deepRow ? 0.62f : 0.45f)
-            ? "WinterSpruce_" + rng.RandiRange(1, 2)
-            : treeRoll switch
+        string variant;
+        if (treeRoll < 0.52f + 0.22f * outward)
+        {
+            variant = rng.Randf() switch
             {
-                < 0.30f => "WinterBirch_1",
-                < 0.48f => "WinterBirch_2",
-                < 0.60f => "WinterLinden_1",
-                < 0.70f => "WinterMaple_1",
-                < 0.80f => "WinterRowan_" + rng.RandiRange(1, 2),
-                < 0.88f => "WinterBirdCherry_1",
-                < 0.94f => "WinterWillow_1",
-                _ => "Shrub_2"
+                < 0.24f => "WinterSpruce_6",
+                < 0.58f => "WinterSpruce_5",
+                < 0.88f => "WinterSpruce_4",
+                _ => "WinterSpruce_3"
             };
+        }
+        else if (treeRoll < 0.78f)
+        {
+            variant = row >= 4 ? "WinterSpruce_3" : "WinterSpruce_2";
+        }
+        else
+        {
+            variant = treeRoll switch
+            {
+                < 0.85f => "WinterBirch_1",
+                < 0.90f => "WinterBirch_2",
+                < 0.94f => "WinterLinden_1",
+                < 0.97f => "WinterMaple_1",
+                _ => "WinterSpruce_1"
+            };
+        }
+
         planned.Add((position, variant));
 
         var undergrowth = rng.Randf() switch
@@ -1444,18 +1635,17 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             _ => "GrassTuft_1"
         };
         planned.Add((position + new Vector2(rng.RandfRange(-1.6f, 1.6f), rng.RandfRange(-1.6f, 1.6f)), undergrowth));
-        // Deeper rows get a second understory plant so the belt has no gaps at
-        // trunk height when seen from the village.
-        if (row >= 2)
+        // Every ring row gets a second understory plant. The wall has to read
+        // from the ground up: between the tall trunks the eye must meet needles
+        // and snow rather than the open field behind.
+        var filler = rng.Randf() switch
         {
-            var filler = rng.Randf() switch
-            {
-                < 0.4f => "Shrub_2",
-                < 0.7f => "Fern_0",
-                _ => "Sedge_2"
-            };
-            planned.Add((position + new Vector2(rng.RandfRange(-2.2f, 2.2f), rng.RandfRange(-2.2f, 2.2f)), filler));
-        }
+            < 0.34f => "WinterSpruce_" + rng.RandiRange(1, 2),
+            < 0.6f => "Shrub_2",
+            < 0.8f => "Fern_0",
+            _ => "Sedge_2"
+        };
+        planned.Add((position + new Vector2(rng.RandfRange(-2.4f, 2.4f), rng.RandfRange(-2.4f, 2.4f)), filler));
     }
 
     private static bool HasMeshInSubtree(Node node) =>
