@@ -217,6 +217,26 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             return;
         }
 
+        // Repeatable audit for the defect class fixed above: a live interaction
+        // whose box sits on empty snow. Run with URMAN_GHOST_AUDIT=1. It reported
+        // 22 live targets and none without visible geometry after the sign fix,
+        // so the ghost prompt was the only one of its kind.
+        if (System.Environment.GetEnvironmentVariable("URMAN_GHOST_AUDIT") == "1")
+        {
+            var hidden = new List<string>();
+            var visibleMeshes = main.FindChildren("*", "MeshInstance3D", recursive: true, owned: false)
+                .OfType<MeshInstance3D>()
+                .Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree())
+                .Select(mesh => mesh.GlobalTransform * mesh.Mesh!.GetAabb()).ToArray();
+            foreach (var target in signTargets.Where(t => t.CollisionLayer != 0))
+            {
+                var position = target.GlobalPosition;
+                var inside = visibleMeshes.Any(bounds => bounds.Grow(0.35f).HasPoint(position));
+                if (!inside) hidden.Add($"{target.Name}@{position.Snapped(Vector3.One * 0.1f)}");
+            }
+            GD.Print($"ghost-audit: live_targets={signTargets.Count(t => t.CollisionLayer != 0)} without_visible_geometry={hidden.Count} [{string.Join(" | ", hidden)}]");
+        }
+
         if (bridge.IsInteractionAvailable(Interaction("route-to-fap")))
         {
             Fail("FAP route became available before Alsu's contradiction dialogue.");
