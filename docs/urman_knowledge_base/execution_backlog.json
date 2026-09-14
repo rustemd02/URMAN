@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "urman.execution_backlog",
- "updated": "2026-09-14",
+ "updated": "2026-09-15",
  "goal_key": "urman-act1-finished-product",
  "goal_statement": "Довести Акт I до законченного локального продукта по URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md; общая готовность требует всех игровых, художественных, звуковых, UI, save, performance и native-package подтверждений. Обязательные уточнения пользователя 2026-09-11: красивый арт-стиль BOTW/TOTK и исследуемый открытый мир с множеством секретов, скрытых проходов и осмысленных действий с окружением; без интересных локаций цель не завершена. Обновление пользователя 2026-09-12: продолжать работу как минимум до 17:00 МСК 12 сентября (14:00 UTC); это заменяет прежние 10:00 МСК и не отменяет критерии готовности. Последующее указание пользователя: проверять remaining usage Codex через CLI и остановиться при 70% или ниже; прежняя остановка в 18:00 МСК отменена. Статус blocked подчиняется условиям инструмента цели.",
  "long_term_goal": "Полная миграция УРМАН на Godot 4.7.1 .NET и C# с последующим производством 6–8-часовой игры, desktop acceptance и отдельным absence-gated решением о web retirement остаётся долгосрочным направлением, но не текущим демо-объёмом.",
@@ -1668,6 +1668,160 @@
     "docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
    ],
    "blocked_reason": "Это последняя задача; запрещена до полного acceptance path и сохранения архивной истории."
+  },
+  {
+   "id": "LEN01",
+   "title": "Почему глава занимает 5-6 минут вместо ~50",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "act1-village-rework",
+   "depends_on": [],
+   "owner": "narrative/design",
+   "scope": [
+    "content/modules/urman-chapter1/",
+    "docs/production/",
+    "docs/urman_knowledge_base/execution_backlog.json"
+   ],
+   "deliverable": "Воспроизведение, карта сценария и причин, задачи исправления и честный хронометраж обязательного прохода.",
+   "done_when": [
+    "Причины короткого прохождения воспроизведены и измерены на репозитории.",
+    "Карта битов обязательного пути с целевыми минутами согласована автором.",
+    "Обычный проход замерен человеком и сравнён с целью ~50 минут."
+   ],
+   "verify": [
+    "docs/production/act1_len01_playtime_audit_2026-09-15.md",
+    "человеческий хронометраж"
+   ],
+   "evidence": [
+    "docs/production/act1_len01_playtime_audit_2026-09-15.md"
+   ]
+  },
+  {
+   "id": "LEN01.1",
+   "title": "Карта битов обязательного пути с целевыми минутами",
+   "milestone": "M5",
+   "status": "blocked",
+   "active_owner": null,
+   "depends_on": [
+    "LEN01"
+   ],
+   "owner": "narrative/author",
+   "scope": [
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Таблица бит → целевые минуты → где нужен текст, где действие.",
+   "done_when": [
+    "Каждый бит обязательного пути имеет целевую длительность и источник объёма.",
+    "Сумма соответствует цели ~50 минут."
+   ],
+   "verify": [
+    "author review"
+   ],
+   "evidence": [
+    "docs/production/act1_len01_playtime_audit_2026-09-15.md"
+   ],
+   "blocked_reason": "Нужен авторский выбор, сколько времени должен занимать каждый бит."
+  },
+  {
+   "id": "LEN01.2",
+   "title": "Расширить ядро расследования из трёх однострочных сравнений",
+   "milestone": "M5",
+   "status": "blocked",
+   "active_owner": null,
+   "depends_on": [
+    "LEN01.1"
+   ],
+   "owner": "narrative/content",
+   "scope": [
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Цепочка 5-7 шагов с перекрёстным чтением документов в разных местах; обязательный корпус 4 000-6 000 слов.",
+   "done_when": [
+    "Обязательный текст измерен и входит в целевой диапазон.",
+    "Три старых сравнения стали частью цепочки, а не всем расследованием."
+   ],
+   "verify": [
+    "chapter-one-flow-smoke",
+    "физический walkthrough"
+   ],
+   "evidence": [
+    "docs/production/act1_len01_playtime_audit_2026-09-15.md"
+   ],
+   "blocked_reason": "Новый текст - авторский контент, не работа исполнителя."
+  },
+  {
+   "id": "LEN01.3",
+   "title": "Проверить полное чтение обязательных документов и повторное чтение с новыми знаниями",
+   "milestone": "M5",
+   "status": "todo",
+   "active_owner": "act1-village-rework",
+   "depends_on": [
+    "LEN01"
+   ],
+   "owner": "narrative/implementation",
+   "scope": [
+    "game/scripts/",
+    "content/modules/urman-chapter1/"
+   ],
+   "deliverable": "Каждый обязательный документ читается целиком; повторное чтение с новыми знаниями даёт новую строку.",
+   "done_when": [
+    "Проверка подтверждает полное чтение и новую строку при повторном визите.",
+    "Регрессий маршрута нет."
+   ],
+   "verify": [
+    "chapter-one-flow-smoke"
+   ],
+   "evidence": [
+    "docs/production/act1_len01_playtime_audit_2026-09-15.md"
+   ]
+  },
+  {
+   "id": "LEN01.4",
+   "title": "Связать часть находок с обязательным выводом",
+   "milestone": "M5",
+   "status": "blocked",
+   "active_owner": null,
+   "depends_on": [
+    "LEN01.1"
+   ],
+   "owner": "narrative/author",
+   "scope": [
+    "content/modules/urman-chapter1/",
+    "game/scripts/"
+   ],
+   "deliverable": "K из 24 находок открывают обязательный вывод, не ломая канон 'расследование не требует тайников'.",
+   "done_when": [
+    "Выбрано K и список находок; выводы обязательны только при их использовании."
+   ],
+   "verify": [
+    "author review",
+    "chapter-one-flow-smoke"
+   ],
+   "evidence": [
+    "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13.2"
+   ],
+   "blocked_reason": "Проектное решение автора."
+  },
+  {
+   "id": "LEN01.5",
+   "title": "Честный хронометраж обычного прохождения",
+   "milestone": "M5",
+   "status": "blocked",
+   "active_owner": null,
+   "depends_on": [
+    "LEN01.1"
+   ],
+   "owner": "human/playtest",
+   "scope": [],
+   "deliverable": "Замер обычного прохождения человеком и сравнение с целью.",
+   "done_when": [
+    "Есть запись времени и комментарий игрока, сравнение с ~50 минутами."
+   ],
+   "verify": [
+    "плейтест"
+   ],
+   "evidence": [],
+   "blocked_reason": "Только человек закрывает эту задачу; среда не может играть."
   }
  ]
 }

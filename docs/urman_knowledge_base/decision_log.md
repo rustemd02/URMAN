@@ -3903,3 +3903,39 @@ and seni drainage.
 
 Linked files: `../../assets/source/blender/act1/urman_village_exterior_kit.py`,
 `../../docs/urman_knowledge_base/art/act1_h2_hero_house_passport_2026-09-14.md`
+
+## 2026-09-15 — LEN01: the short chapter reproduced from repository data; volume registered
+
+Status: Accepted (audit complete; the fix is authoring work, not implementation)
+
+Context: the author added §13 to the rework plan reporting that Act I takes 5–6
+minutes against an expected ~50, and asked for an immediate audit. The
+environment cannot play the game, so the reproduction uses repository facts
+rather than a stopwatch.
+
+Measured: walk speed 3.4 m/s (`FirstPersonController.cs:19`); mandatory physical
+route 424.88 m (physical walkthrough PASS) → 2 min 05 s of pure walking; the
+entire chapter's Russian text across all 233 definition entries is 1,234 words —
+about 7 minutes of silent reading if the player reads everything, optional lines
+included; the only mandatory document is 68 words; the three comparisons that are
+the investigation's core are 22 words between them.
+
+Conclusion: 5–6 minutes is the direct consequence of authored volume. A
+50-minute chapter needs roughly 6,000–9,000 words of mandatory
+reading/listening; the chapter currently carries about a sixth of that, and only
+part of it is mandatory. The finale is properly gated
+(`scene/forest-approach` entryConditions), so this is not a broken gate but a
+short chain.
+
+Decision: the audit is recorded with a cause map and five fix tasks (LEN01.1–
+LEN01.5) registered in the backlog; the volume raise itself is authoring work
+and is deliberately not invented here. LEN01.3 (full-document reading and a new
+line on re-reading with new knowledge) is the only part that is implementation
+and is registered as todo.
+
+Consequences: no text was written, the finale was not moved, and no EX mechanic
+was started. LEN01 closes only with a human playtest against the ~50 minute
+goal.
+
+Linked files: `../../docs/production/act1_len01_playtime_audit_2026-09-15.md`,
+`../../content/modules/urman-chapter1/definitions.json`
