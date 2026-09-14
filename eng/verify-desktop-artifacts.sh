@@ -509,7 +509,19 @@ verify_audio_markers "$windows_archive_exe" "Windows embedded PCK" "$extract_roo
 
 mkdir -p "$(dirname -- "$RECEIPT")"
 receipt_tmp=$(mktemp "$(dirname -- "$RECEIPT")/.desktop-artifact-receipt.XXXXXX")
-python3 - "$MAC_ZIP" "$WINDOWS_ZIP" "$WINDOWS_EXE" "$RECEIPT" "$windows_archive_root" >"$receipt_tmp" <<'PY'
+# The shipped assembly contains every compiled C# class, including the test
+# harnesses, so a test-only edit still changes the bytes of a package. Record
+# which commit a package was built from, and whether the tree was clean, so the
+# candidate can be tied back to source instead of being assumed current.
+source_commit=$(git -C "$URMAN_ROOT" rev-parse HEAD 2>/dev/null || echo unknown)
+if [ -z "$(git -C "$URMAN_ROOT" status --porcelain 2>/dev/null)" ]; then
+  source_tree=clean
+else
+  source_tree=dirty
+  echo "desktop-artifacts: WARNING source tree is dirty; receipt records workTree=dirty" >&2
+fi
+python3 - "$MAC_ZIP" "$WINDOWS_ZIP" "$WINDOWS_EXE" "$RECEIPT" "$windows_archive_root" \
+  "$source_commit" "$source_tree" >"$receipt_tmp" <<'PY'
 from datetime import datetime, timezone
 from pathlib import Path
 import hashlib
@@ -564,6 +576,11 @@ receipt = {
     "generatedAtUtc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     "status": "PASS",
     "scope": "structural-package-verification",
+    "source": {
+        "commit": sys.argv[6],
+        "workTree": sys.argv[7],
+        "note": "source revision the package was built from; shipped bytes also move on test-only edits",
+    },
     "windowsHostExecution": "OPEN",
     "artifacts": [
         artifact(sys.argv[1], "macOS", "zip"),
@@ -625,6 +642,23 @@ if receipt.get("schema") != "urman.desktop_artifact_receipt.v1" or receipt.get("
     fail(f"artifact receipt has an unsupported schema or status: {receipt_path}")
 if receipt.get("windowsHostExecution") != "OPEN":
     fail("structural receipt must keep Windows host execution OPEN")
+source = receipt.get("source")
+if source is not None:
+    if not isinstance(source, dict) or not str(source.get("commit", "")).strip():
+        fail(f"artifact receipt has a malformed source block: {receipt_path}")
+    if source.get("workTree") not in {"clean", "dirty"}:
+        fail(f"artifact receipt source.workTree must be clean or dirty: {receipt_path}")
+    if source.get("workTree") == "dirty":
+        print(
+            f"desktop-artifacts: NOTE {receipt_path} was built from a dirty tree; "
+            f"it cannot be reproduced from commit {source.get('commit')} alone",
+            file=sys.stderr,
+        )
+else:
+    print(
+        f"desktop-artifacts: NOTE {receipt_path} predates the source-provenance block",
+        file=sys.stderr,
+    )
 if not all(receipt.get("checks", {}).values()):
     fail(f"artifact receipt contains a non-passing structural check: {receipt_path}")
 
