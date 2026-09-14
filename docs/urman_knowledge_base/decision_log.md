@@ -4063,3 +4063,33 @@ author's decision and block their dependent implementation.
 
 Linked files: `../../game/scripts/Act1ConnectedWorld.cs`,
 `../../docs/urman_knowledge_base/art/act1_h1_h4_yard_biography_passport_2026-09-15.md`
+
+## 2026-09-15 — E1: choice map of the 24 finds and 7 physical branches; EastStreetMid gets its own yard fit
+
+Status: Accepted (E1's inventory and map complete; E2-E4 remain)
+
+Context: E1 asks for every optional find and the seven named physical branches to be
+mapped against definitions and the actual world, with a §5.1 chain per point.
+
+Decision: the map is recorded in
+`docs/urman_knowledge_base/gameplay/act1_e1_choice_map_2026-09-15.md`. All 24
+discoveries exist in definitions and set their results through the runtime
+knowledge system (no local-only flags); 21 of 24 make a physical change to the
+world; three are observation-only by design. Actions are varied (20 distinct types
+across 24 finds); rewards are less varied (19 "fact + journal"). Three physical
+loops are confirmed by code and by walkthrough, the culvert crossing is a
+there-and-back crossing, and the minaret view is a view branch rather than a
+shortcut.
+
+For EastStreetMid the variant yard kit is mounted with its own fit instead of the
+authored (0,-4.5) offset, which would have put the boundary straight across the
+east-holding walking loop: the kit sits east of the house (local anchor 6.2, 0,
+-0.2), where its nearest corner keeps about a metre clear of the FAP road envelope
+and the whole rectangle is east of the walking legs. Verified by the physical
+walkthrough and the spawn matrix after the change.
+
+Consequences: E2/E3 remain - moving finds under the new yard biographies and
+measuring each shortcut's actual benefit (none is measured yet). E4 needs a human.
+
+Linked files: `../../docs/urman_knowledge_base/gameplay/act1_e1_choice_map_2026-09-15.md`,
+`../../game/scripts/Act1ConnectedWorld.cs`

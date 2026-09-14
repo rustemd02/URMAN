@@ -4060,7 +4060,19 @@ public partial class Act1ConnectedWorld : Node3D
                 new(1.2f, 0f, -4.6f),
                 14f,
                 Vector3.One * 0.82f,
-                "village_day@east-street-mid-firewood"));
+                "village_day@east-street-mid-firewood"),
+            // H5: this yard gets its own fit. The authored (0,-4.5) offset would
+            // drop the boundary straight across the east-holding walking loop at
+            // x ~ 20.4, so the kit is pushed east of the house instead, where its
+            // nearest corner stays ~1 m clear of the FAP road envelope and the
+            // whole rectangle sits east of the holding's walking legs.
+            new Act1ExteriorParcelComponentPlacement(
+                "VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Yard",
+                "EastStreetMidYard",
+                new(6.2f, 0f, -0.2f),
+                -82f,
+                Vector3.One * 0.88f,
+                "village_day@east-street-mid-yard"));
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
