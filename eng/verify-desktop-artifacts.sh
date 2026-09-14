@@ -514,14 +514,20 @@ receipt_tmp=$(mktemp "$(dirname -- "$RECEIPT")/.desktop-artifact-receipt.XXXXXX"
 # which commit a package was built from, and whether the tree was clean, so the
 # candidate can be tied back to source instead of being assumed current.
 source_commit=$(git -C "$URMAN_ROOT" rev-parse HEAD 2>/dev/null || echo unknown)
-if [ -z "$(git -C "$URMAN_ROOT" status --porcelain 2>/dev/null)" ]; then
+# Record the exact modified paths, not just clean/dirty: a dirty tree means the
+# package cannot be reproduced from the commit alone, and whoever reads the
+# receipt needs to know which files differed to judge whether they can even
+# reach the build (a docs edit cannot; a game/assets edit can).
+source_dirty_paths=$(git -C "$URMAN_ROOT" status --porcelain 2>/dev/null | awk '{print $2}' | paste -sd, - || true)
+if [ -z "$source_dirty_paths" ]; then
   source_tree=clean
 else
   source_tree=dirty
-  echo "desktop-artifacts: WARNING source tree is dirty; receipt records workTree=dirty" >&2
+  echo "desktop-artifacts: WARNING source tree is dirty; receipt records workTree=dirty and the modified paths" >&2
+  echo "desktop-artifacts: WARNING dirty paths: $source_dirty_paths" >&2
 fi
 python3 - "$MAC_ZIP" "$WINDOWS_ZIP" "$WINDOWS_EXE" "$RECEIPT" "$windows_archive_root" \
-  "$source_commit" "$source_tree" >"$receipt_tmp" <<'PY'
+  "$source_commit" "$source_tree" "$source_dirty_paths" >"$receipt_tmp" <<'PY'
 from datetime import datetime, timezone
 from pathlib import Path
 import hashlib
@@ -579,6 +585,7 @@ receipt = {
     "source": {
         "commit": sys.argv[6],
         "workTree": sys.argv[7],
+        "dirtyPaths": [path for path in sys.argv[8].split(",") if path],
         "note": "source revision the package was built from; shipped bytes also move on test-only edits",
     },
     "windowsHostExecution": "OPEN",
@@ -651,7 +658,8 @@ if source is not None:
     if source.get("workTree") == "dirty":
         print(
             f"desktop-artifacts: NOTE {receipt_path} was built from a dirty tree; "
-            f"it cannot be reproduced from commit {source.get('commit')} alone",
+            f"it cannot be reproduced from commit {source.get('commit')} alone. "
+            f"Modified paths: {', '.join(source.get('dirtyPaths', [])) or 'not recorded'}",
             file=sys.stderr,
         )
 else:
