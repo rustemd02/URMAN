@@ -67,3 +67,7 @@ packaged_release_r42_native	n/a	9.223	n/a	9.615	108.42	PASS
 packaged_release_r42_probe_60s		n/a	8.708	9.667	16.542	114.84	PASS
 # 60.01 s, 6891 frames, p99=9.863 ms, long_frame_fraction=0.00000, warmup 12 s avg 8.963 ms with a one-off
 # 177.449 ms startup stall; draw_calls=13067 primitives=2299113
+# 2026-09-14: candidate r43, exported AFTER the ghost-interaction fix (legacy sign prompt removed).
+# Script-only change, so the campaign fingerprint is unchanged and r43 loads saves from r39-r42.
+packaged_release_r43_native	n/a	8.590	n/a	8.695	116.42	PASS
+# samples=12 min_fps=115 max_fps=117 mean_fps=116.4; world build prints act1-legacy-sign: suppressed=1
