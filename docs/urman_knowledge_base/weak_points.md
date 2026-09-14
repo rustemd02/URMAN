@@ -1875,9 +1875,11 @@ seam):
 - Card H2 is three steps in (stone plinth and door step; rafter tails, eaves
   troughs and a downpipe; two real window openings in the interior's rear wall),
   all verified on one SHA with the walkthrough intact. Still open inside H2: the
-  grey-material shape pass before a final material sign-off, seni drainage and the
-  seni window; and the interior is one 12 x 10 m room behind a 6.2 x 6.0 m facade,
-  which is an I1 replanning question rather than an exterior one.
+  grey-material shape pass before a final material sign-off and the seni trim
+  variance; the interior being one 12 x 10 m room behind a 6.2 x 6.0 m facade is
+  an I1 replanning question rather than an exterior one. H2's exterior drainage
+  is complete: main eaves trough and downpipe, plus a seni trough, spout and
+  splash stone.
 - The remaining rework cards beyond L3/T3/T1/T2, the three H2 steps and the neck
   part of N1–N2 are not started — that is H1, H4–H5, I1–I3, the rest of N2–N3,
   E1–E4, C1–C2, V1–V2, Q1–Q2, plus the §13 EX00–EX14 volume; the honest status is
