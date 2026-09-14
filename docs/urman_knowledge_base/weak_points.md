@@ -1872,13 +1872,16 @@ seam):
 - `BlockerShape` divides the placement scale out of a world-space AABB, which is
   exact only for unrotated placements; a facade yawed near ±90° can carry a box
   that protrudes past its visible wall. Pre-existing, still open.
-- Card H2 is started, not finished: the §11.3 passport is written and the stone
-  plinth plus street-door step are implemented and verified, but eaves and water
-  shedding, the rafter silhouette, window-to-room agreement with the interior,
-  the grey-material shape pass and the accessible-side walk are still open.
-- The 31 rework cards beyond L3/T3/T1/T2, the neck part of N1–N2 and all of
-  E1–E4, H1, H4–H5, I1–I3, C1–C2, V1–V2 are not started; the honest status is
-  the plan document plus the backlog progress entries, not a completed matrix.
+- Card H2 is three steps in (stone plinth and door step; rafter tails, eaves
+  troughs and a downpipe; two real window openings in the interior's rear wall),
+  all verified on one SHA with the walkthrough intact. Still open inside H2: the
+  grey-material shape pass before a final material sign-off, seni drainage and the
+  seni window; and the interior is one 12 x 10 m room behind a 6.2 x 6.0 m facade,
+  which is an I1 replanning question rather than an exterior one.
+- The remaining rework cards beyond L3/T3/T1/T2, the three H2 steps and the neck
+  part of N1–N2 are not started — that is H1, H4–H5, I1–I3, the rest of N2–N3,
+  E1–E4, C1–C2, V1–V2, Q1–Q2, plus the §13 EX00–EX14 volume; the honest status is
+  the plan document plus the backlog entries, not a completed matrix.
 - The repeated-sapling silhouette on the north edge of the ring is reduced but
   still recognisable at distance (arrival_12_out-right); that is a variety task,
   not an enclosure one.
