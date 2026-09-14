@@ -1,11 +1,16 @@
 using Godot;
 using Urman.Core.Persistence;
+using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
 
 public partial class FirstPersonController : CharacterBody3D, IAccessibilitySettingsTarget
 {
     private const string InteractionAction = "interact";
+    // A player more than this far below the terrain height at their own X/Z has
+    // left the walkable surface (world edge, hole in collision) and is put back
+    // on the ground instead of falling through the world.
+    private const float FallRecoveryDepth = 2.5f;
     // ponytail: two physics frames keep overlapping targets stable; replace
     // with measured dwell/angle selection if authored target density grows.
     private const int FocusSwitchFrames = 2;
@@ -46,6 +51,12 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private float _headBobPhase;
 
     public bool ModalOpen => _modalOpen;
+
+    /// <summary>Times the player was pushed back inside the authored world window.</summary>
+    public int EdgeClamps { get; private set; }
+
+    /// <summary>Times the player was recovered after leaving the walkable surface.</summary>
+    public int FallRecoveries { get; private set; }
     internal int PresentationTransformRevision { get; private set; }
 
     public string CurrentInputDevice => _inputDevice;
@@ -254,6 +265,10 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     public override void _PhysicsProcess(double delta)
     {
+        // The world guard runs before the modal gate: a modal (dialogue, menu,
+        // ending) suspends movement, and a player parked outside the world during
+        // one of those must still be brought back instead of waiting for input.
+        ClampToAuthoredWorld();
         if (_modalOpen)
         {
             Velocity = Vector3.Zero;
@@ -274,8 +289,41 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         }
 
         MoveAndSlide();
+        ClampToAuthoredWorld();
         UpdateHeadBob(delta, input.LengthSquared() > 0.01f && IsOnFloor());
         UpdateInteraction();
+    }
+
+    /// <summary>
+    /// Keeps the player inside the authored terrain window and on its surface.
+    /// That window is the only place with walkable collision, so without this a
+    /// curious player walks off the grid, passes the end of the ground and falls
+    /// through the world. The same guard recovers from any unforeseen hole
+    /// instead of leaving a player falling forever.
+    /// </summary>
+    private void ClampToAuthoredWorld()
+    {
+        const float edgeMargin = 3f;
+        var position = GlobalPosition;
+        var clampedX = Mathf.Clamp(position.X, AgentBAct1HeightField.MinX + edgeMargin, AgentBAct1HeightField.MaxX - edgeMargin);
+        var clampedZ = Mathf.Clamp(position.Z, AgentBAct1HeightField.MinZ + edgeMargin, AgentBAct1HeightField.MaxZ - edgeMargin);
+        if (clampedX != position.X || clampedZ != position.Z)
+        {
+            position = new Vector3(clampedX, position.Y, clampedZ);
+            GlobalPosition = position;
+            EdgeClamps++;
+        }
+
+        var ground = (float)AgentBAct1HeightField.Ground(position.X, position.Z);
+        if (position.Y < ground - FallRecoveryDepth)
+        {
+            GlobalPosition = new Vector3(position.X, ground + 0.05f, position.Z);
+            Velocity = Vector3.Zero;
+            FallRecoveries++;
+            GD.Print(
+                $"act1-fall-recovery: count={FallRecoveries} was=({position.X:0.0},{position.Y:0.0},{position.Z:0.0}) "
+                + $"ground={ground:0.0}");
+        }
     }
 
     public void SetModalOpen(bool open)

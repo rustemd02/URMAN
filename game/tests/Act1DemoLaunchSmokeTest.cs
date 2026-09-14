@@ -7,6 +7,11 @@ public partial class Act1DemoLaunchSmokeTest : Node
 {
     public override async void _Ready()
     {
+        // The launch smoke asserts the declared default preset, and the demo
+        // correctly lets a stored profile override it (a player may have chosen
+        // high). Start from a deleted settings store so the assertion measures the
+        // build, not whatever profile happens to sit in local userdata.
+        UserSettingsStore.Delete();
         var packed = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn");
         var demo = packed?.Instantiate<Act1DemoRoot>();
         if (demo is null)

@@ -768,7 +768,13 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         var expectedCollisionOwners = new HashSet<string>(StringComparer.Ordinal)
         {
             "act1-exterior-terrain",
-            "act1-exterior-architecture"
+            "act1-exterior-architecture",
+            // Presentation blockers for authored kit walls, fences and outbuildings.
+            // They are non-interactive layer-2 proxies whose only job is to stop the
+            // player walking through visible geometry; the author reported that
+            // fences and houses had no collision at all. Their contract is verified
+            // right below, so this is a declared owner rather than an exemption.
+            "authored-kit-blocker"
         };
         var declaredOwners = exteriorLayer.GetMeta("traversalCollisionOwners").AsString();
         if (!string.Equals(
@@ -793,6 +799,34 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         {
             throw new InvalidOperationException($"Act1CoreWorldGreybox contains forbidden gameplay nodes outside the declared traversal owner: {string.Join('|', forbidden.Select(node => node.GetType().Name))}.");
         }
+
+        var kitBlockers = FindDescendants(core).OfType<StaticBody3D>()
+            .Where(body => body.HasMeta("collisionOwner") && body.GetMeta("collisionOwner").AsString() == "authored-kit-blocker")
+            .ToArray();
+        var kitBlockerShapes = 0;
+        foreach (var blocker in kitBlockers)
+        {
+            if (blocker.CollisionLayer != 2u || blocker.CollisionMask != 0u)
+            {
+                throw new InvalidOperationException(
+                    $"Authored kit blocker must stay a non-interactive layer-2 proxy: {blocker.GetPath()} "
+                    + $"layer={blocker.CollisionLayer} mask={blocker.CollisionMask}.");
+            }
+
+            var placement = blocker.GetParentOrNull<Node3D>();
+            if (placement is null || !placement.HasMeta("authoredKitBlockerCount")
+                || placement.GetMeta("authoredKitBlockerCount").AsInt32() <= 0)
+            {
+                throw new InvalidOperationException(
+                    $"Authored kit blocker is not declared by its placement: {blocker.GetPath()}.");
+            }
+
+            kitBlockerShapes += blocker.GetChildCount();
+        }
+
+        GD.Print(
+            $"act1-kit-blockers: verified_placements={kitBlockers.Length} verified_shapes={kitBlockerShapes} "
+            + "layer=2 mask=0 declared_by_placement=true");
 
         var visualMeshCount = FindDescendants(core).Count(node => node is MeshInstance3D);
         if (visualMeshCount <= 0)

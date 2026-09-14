@@ -16,6 +16,38 @@ public partial class Act1ConnectedWorld : Node3D
         "res://assets/models/act1/urman_village_exterior_kit.glb";
     private const string VillageExteriorKitRootName = "URMAN_VillageExteriorKit";
 
+    // Authored kit families whose bulk volume must stop the player. Open
+    // passages (gates, porches, doors, steps) are excluded by name below.
+    private static readonly string[] AuthoredKitBlockerFamilies =
+    [
+        "DwellingFacade_",
+        "OutbuildingShed_",
+        "FenceSegment_",
+        "Woodpile_",
+        "Well_",
+        "VillageParcel_",
+        "BanyaYard",
+        "FapFacade_",
+        "FapService",
+        "CulvertStoneCrossing",
+        "RoadFenceBreak_",
+        "FapAuthoredServiceShed"
+    ];
+
+    private static readonly string[] AuthoredKitClearanceParts =
+    [
+        "Porch",
+        "Step",
+        "Awning",
+        "Door",
+        "Gate",
+        "Lamp",
+        "Sign",
+        "Wayfinding",
+        "Window",
+        "Canopy"
+    ];
+
     private static readonly string[] VillageExteriorKitComponentNames =
     [
         "DwellingFacade_TimberPlaster",
@@ -371,6 +403,10 @@ public partial class Act1ConnectedWorld : Node3D
         SetMeta("activeInteractionTargetCount", 0);
 
         SetActiveLogicalZone("village_day");
+        // Blockers and the hidden-presentation audit both run after mounting and
+        // after the first zone's suppressions, so nothing hidden can block.
+        BuildAuthoredKitBlockers();
+        CallDeferred(nameof(DisableBlockersUnderHiddenPresentation));
         CallDeferred(nameof(ReapplyLogicalZonePresentationSuppressions));
         // Parcel facades are attached across several build steps, so the painted
         // window surrounds are applied once the frame's construction is finished.
@@ -3484,10 +3520,17 @@ public partial class Act1ConnectedWorld : Node3D
             Vector3.One * 0.82f,
             "house_old_pc@babai-approach");
         ApplyHeroWarmWindow(babaiApproachFacade);
-        // Neighbor copies keep this authored leaf closed; the playable house
-        // uses the existing portal/interaction, never a decorative door wall.
-        FindDescendants<MeshInstance3D>(babaiApproachFacade)
-            .Single(mesh => mesh.Name == "DwellingFacade_StreetDoorClosed_LOD0").Visible = false;
+        // The playable house keeps its authored closed street door visible. Hiding
+        // the leaf left an open hole, and because the interior zone sits behind the
+        // same facade the player could see the room through it (author-reported
+        // 2026-09-14: "у дома нет вообще никакой двери, я вижу, что изнутри
+        // происходит"). The leaf is presentation-only, so the entry interaction
+        // still owns the transition.
+        var streetDoorLeaf = FindDescendants<MeshInstance3D>(babaiApproachFacade)
+            .Single(mesh => mesh.Name == "DwellingFacade_StreetDoorClosed_LOD0");
+        streetDoorLeaf.Visible = true;
+        streetDoorLeaf.MaterialOverride = PainterlyMaterialLibrary.ForColor("5a4433", "wood");
+        babaiApproachFacade.SetMeta("streetDoorPolicy", "authored closed leaf visible; entry stays an interaction");
         AddBabaiRearFacadeDressing(babaiApproachFacade, Vector3.Zero, 0f);
         AttachAct1ExteriorKitComponent(
             presentation,
@@ -5110,7 +5153,238 @@ public partial class Act1ConnectedWorld : Node3D
             placement.GlobalPosition = groundAnchor;
             placement.SetMeta("groundContactPolicy", yardProp ? "yard prop root embedded 4cm in physical terrain" : "dwelling preserves existing threshold alignment");
         }
+        // The blockers are built in one deferred pass: some authored components
+        // are hidden by the connected-world suppressions after mounting, and a
+        // collider on a hidden fence would block the player invisibly.
+        placement.SetMeta("authoredKitBlockerCandidate", true);
+        placement.SetMeta("authoredKitBlockerSource", assetSource);
         return placement;
+    }
+
+    /// <summary>
+    /// Authored kit components arrive presentation-only, so walls, fences and
+    /// outbuildings used to be walk-through. Block the bulk volumes with layer-2
+    /// proxies: they stop the player but own no navigation, narrative or route
+    /// data, and open passages (gates, porches, doors, steps) are deliberately
+    /// left clear so yards and doorways stay enterable.
+    /// </summary>
+    private void BuildAuthoredKitBlockers()
+    {
+        var placements = 0;
+        var blocked = 0;
+        var skippedHidden = 0;
+        var skippedRoadClear = 0;
+        var skippedFlatSlab = 0;
+        var skippedInteriorShell = 0;
+        var carved = 0;
+        // Authored doors that carry an interaction target must stay reachable: a
+        // wall box around a doorway would seal the entrance the route uses. The
+        // carve targets are the live interaction approaches themselves.
+        var doorTargets = FindDescendants<InteractionTarget>(this)
+            .Where(target => target.IsInsideTree())
+            .Select(target => target.GlobalPosition)
+            .ToArray();
+        foreach (var placement in FindDescendants<Node3D>(this)
+            .Where(node => HasTrueMeta(node, "authoredKitBlockerCandidate"))
+            .ToArray())
+        {
+            if (!placement.IsVisibleInTree())
+            {
+                skippedHidden++;
+                placement.SetMeta("authoredKitBlockerSkipReason", "presentation suppressed before blockers were built");
+                continue;
+            }
+
+            var assetSource = placement.HasMeta("authoredKitBlockerSource")
+                ? placement.GetMeta("authoredKitBlockerSource").AsString()
+                : string.Empty;
+            // Created lazily: a StaticBody3D that never enters the tree is a leaked
+            // physics body at exit, and most placements end up with no blocker.
+            StaticBody3D? proxy = null;
+            var componentBlocked = 0;
+        foreach (var mesh in FindDescendants<MeshInstance3D>(placement))
+        {
+            if (mesh.Name.ToString() == "AuthoredKitCollisionProxy" || mesh.Mesh is null || !mesh.IsVisibleInTree())
+            {
+                continue;
+            }
+
+            var meshName = mesh.Name.ToString();
+            if (!AuthoredKitBlockerFamilies.Any(family => meshName.StartsWith(family, StringComparison.Ordinal)))
+            {
+                continue;
+            }
+
+            if (AuthoredKitClearanceParts.Any(part => meshName.Contains(part, StringComparison.Ordinal)))
+            {
+                continue;
+            }
+
+            // Dwelling facades wrap a walkable interior room whose own walls own
+            // the collision. Blocking the facade's side and back walls would cut
+            // through that room, so only the street-facing wall blocks; the
+            // doorway carve below keeps the entrance reachable.
+            if (meshName.StartsWith("DwellingFacade_", StringComparison.Ordinal)
+                && !meshName.Contains("Street", StringComparison.Ordinal))
+            {
+                skippedInteriorShell++;
+                continue;
+            }
+
+            // Facade bodies and clinic shells wrap walkable interiors the same way:
+            // their own room walls carry the collision, and a solid body box would
+            // seal the room the route walks into (the FAP and the hero house).
+            if ((meshName.StartsWith("FapFacade_", StringComparison.Ordinal)
+                    || meshName.Contains("_Body", StringComparison.Ordinal))
+                && meshName.Contains("Body", StringComparison.Ordinal))
+            {
+                skippedInteriorShell++;
+                continue;
+            }
+
+            var bounds = mesh.GlobalTransform * mesh.Mesh.GetAabb();
+            var size = bounds.Size;
+            if (size.X < .25f && size.Z < .25f)
+            {
+                continue;
+            }
+
+            // Bands and flat slabs (footing caps, plinths, floors, roof planes)
+            // span the whole footprint but are not walls: blocking them would seal
+            // the walkable interior of the hero house and turn every roof into a
+            // ceiling. Walls are tall and thin, sheds are tall volumes; those stay.
+            if (size.Y < .8f || Mathf.Min(size.X, size.Z) > 2.5f * size.Y)
+            {
+                skippedFlatSlab++;
+                continue;
+            }
+
+            var centre = bounds.GetCenter();
+            // Never let a blocker reach into the walkable road envelope: the
+            // route, the interaction approaches and the bypasses all run there.
+            var road = AgentBAct1HeightField.RoadInfo(centre.X, centre.Z);
+            if (road.Distance < road.HalfWidth - .15f)
+            {
+                skippedRoadClear++;
+                continue;
+            }
+
+            var boxSize = new Vector3(
+                Mathf.Max(size.X - .06f, .12f),
+                Mathf.Min(size.Y, 3.4f),
+                Mathf.Max(size.Z - .06f, .12f));
+            var doorway = doorTargets.FirstOrDefault(target =>
+                Mathf.Abs(target.Y - centre.Y) < 3.4f
+                && Mathf.Abs(target.X - centre.X) <= size.X * .5f + .9f
+                && Mathf.Abs(target.Z - centre.Z) <= size.Z * .5f + .9f);
+            if (doorway == default && !doorTargets.Any(target =>
+                    Mathf.Abs(target.Y - centre.Y) < 3.4f
+                    && Mathf.Abs(target.X - centre.X) <= size.X * .5f + .9f
+                    && Mathf.Abs(target.Z - centre.Z) <= size.Z * .5f + .9f))
+            {
+                proxy ??= NewKitBlockerProxy();
+                proxy.AddChild(BlockerShape($"{meshName}_Blocker", placement, centre, boxSize));
+                componentBlocked++;
+                blocked++;
+                continue;
+            }
+
+            // Split the wall along its longer horizontal axis and drop the slab
+            // that covers the door approach, so the doorway stays walkable while
+            // the rest of the wall still blocks.
+            var alongX = size.X >= size.Z;
+            const int slabs = 5;
+            var slice = (alongX ? size.X : size.Z) / slabs;
+            for (var index = 0; index < slabs; index++)
+            {
+                var offset = -0.5f * (alongX ? size.X : size.Z) + (index + 0.5f) * slice;
+                var slabCentre = centre + (alongX ? new Vector3(offset, 0, 0) : new Vector3(0, 0, offset));
+                var coversDoor = false;
+                foreach (var target in doorTargets)
+                {
+                    if (Mathf.Abs(target.Y - centre.Y) > 3.4f) continue;
+                    var dx = Mathf.Abs(target.X - slabCentre.X);
+                    var dz = Mathf.Abs(target.Z - slabCentre.Z);
+                    if (dx <= slice * .5f + .45f && dz <= slice * .5f + .45f) { coversDoor = true; break; }
+                }
+
+                if (coversDoor)
+                {
+                    carved++;
+                    continue;
+                }
+
+                var slabSize = alongX
+                    ? new Vector3(Mathf.Max(slice - .04f, .1f), boxSize.Y, boxSize.Z)
+                    : new Vector3(boxSize.X, boxSize.Y, Mathf.Max(slice - .04f, .1f));
+                proxy ??= NewKitBlockerProxy();
+                proxy.AddChild(BlockerShape($"{meshName}_Blocker{index}", placement, slabCentre, slabSize));
+                componentBlocked++;
+                blocked++;
+            }
+        }
+
+            if (proxy is null)
+            {
+                continue;
+            }
+
+            placement.AddChild(proxy);
+            placement.SetMeta("authoredKitBlockerCount", componentBlocked);
+            placements++;
+        }
+
+        GD.Print(
+            $"act1-kit-blockers: placements={placements} shapes={blocked} carved_door_slabs={carved} "
+            + $"flat_slab_skipped={skippedFlatSlab} interior_shell_skipped={skippedInteriorShell} "
+            + $"hidden_skipped={skippedHidden} road_clearance_skipped={skippedRoadClear}");
+        SetMeta("authoredKitBlockerPlacementCount", placements);
+        SetMeta("authoredKitBlockerShapeCount", blocked);
+        SetMeta("authoredKitBlockerHiddenSkipCount", skippedHidden);
+        SetMeta("authoredKitBlockerRoadSkipCount", skippedRoadClear);
+    }
+
+    private static StaticBody3D NewKitBlockerProxy()
+    {
+        var proxy = new StaticBody3D
+        {
+            Name = "AuthoredKitCollisionProxy",
+            CollisionLayer = 2,
+            CollisionMask = 0
+        };
+        proxy.SetMeta("collisionOwner", "authored-kit-blocker");
+        proxy.SetMeta("collisionStatus", "authored-blocker-layer-2");
+        return proxy;
+    }
+
+    private static CollisionShape3D BlockerShape(string name, Node3D placement, Vector3 centre, Vector3 size) => new()
+    {
+        Name = name,
+        Position = placement.ToLocal(centre),
+        Shape = new BoxShape3D { Size = size }
+    };
+
+    /// <summary>
+    /// A hidden kit must never block invisibly: the presentation suppressions run
+    /// after mounting, so the blockers are re-checked at the end of the world build.
+    /// </summary>
+    private void DisableBlockersUnderHiddenPresentation()
+    {
+        var disabled = 0;
+        foreach (var proxy in FindDescendants<StaticBody3D>(this)
+            .Where(body => body.HasMeta("collisionOwner") && body.GetMeta("collisionOwner").AsString() == "authored-kit-blocker"))
+        {
+            if (proxy.IsVisibleInTree())
+            {
+                continue;
+            }
+
+            proxy.CollisionLayer = 0;
+            proxy.SetMeta("collisionDisabledReason", "presentation hidden; blocker would block invisibly");
+            disabled++;
+        }
+
+        SetMeta("hiddenAuthoredBlockerCount", disabled);
     }
 
     private static Basis ComposeImportedAncestorBasis(Node3D component)

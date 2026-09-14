@@ -272,6 +272,92 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
+        // Edge probes: each deliberately places the player three metres inside an
+        // authored edge and holds course outward with real movement. Terrain may
+        // block some edges on its own (a ridge does stop the south one), so the
+        // assertion is the invariant that matters: the player never leaves the
+        // world window, never ends up below ground and never needs a recovery.
+        var probeStart = player.GlobalPosition;
+        var edgeClampTotal = 0;
+        var edgeFramesOutside = 0;
+        var edgeWorstBelow = 0f;
+        var edges = new (string Name, Vector3 Inside, float Yaw)[]
+        {
+            ("south", new Vector3(0f, 0f, AgentBAct1HeightField.MinZ + 3f), 0f),
+            ("north", new Vector3(0f, 0f, AgentBAct1HeightField.MaxZ - 3f), 180f),
+            ("west", new Vector3(AgentBAct1HeightField.MinX + 3f, 0f, -20f), 90f),
+            ("east", new Vector3(AgentBAct1HeightField.MaxX - 3f, 0f, -20f), 270f)
+        };
+        foreach (var (edgeName, inside, yaw) in edges)
+        {
+            var ground = (float)AgentBAct1HeightField.Ground(inside.X, inside.Z);
+            player.GlobalPosition = new Vector3(inside.X, ground + .05f, inside.Z);
+            player.Velocity = Vector3.Zero;
+            await PhysicsFrames(3);
+            var clampsBefore = player.EdgeClamps;
+            SetYaw(player, yaw);
+            Input.ActionPress("move_forward");
+            try
+            {
+                for (var frame = 0; frame < 300; frame++)
+                {
+                    await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                    var position = player.GlobalPosition;
+                    if (position.X < AgentBAct1HeightField.MinX - .05f || position.X > AgentBAct1HeightField.MaxX + .05f
+                        || position.Z < AgentBAct1HeightField.MinZ - .05f || position.Z > AgentBAct1HeightField.MaxZ + .05f)
+                    {
+                        edgeFramesOutside++;
+                    }
+
+                    var edgeGround = (float)AgentBAct1HeightField.Ground(position.X, position.Z);
+                    edgeWorstBelow = Mathf.Max(edgeWorstBelow, edgeGround - position.Y);
+                }
+            }
+            finally
+            {
+                Input.ActionRelease("move_forward");
+                await PhysicsFrames(2);
+            }
+
+            var engaged = player.EdgeClamps - clampsBefore;
+            edgeClampTotal += engaged;
+            GD.Print($"act1-world-edge-probe: edge={edgeName} clamp_engaged={engaged} position={player.GlobalPosition}");
+        }
+
+        // Direct proof of the net itself: drop the player six metres outside the
+        // window and require the next frames to bring him back inside and on the
+        // ground. That is exactly the state the author was left in when he walked
+        // off the end of the world.
+        var outsideGround = (float)AgentBAct1HeightField.Ground(0f, AgentBAct1HeightField.MinZ - 8f);
+        player.GlobalPosition = new Vector3(0f, outsideGround + .05f, AgentBAct1HeightField.MinZ - 6f);
+        player.Velocity = Vector3.Zero;
+        await PhysicsFrames(4);
+        var recovered = player.GlobalPosition;
+        if (recovered.Z < AgentBAct1HeightField.MinZ + 2f
+            || recovered.Y < (float)AgentBAct1HeightField.Ground(recovered.X, recovered.Z) - .60f)
+        {
+            Fail($"Fall recovery did not return the player inside the world: position={recovered}.");
+            return;
+        }
+
+        GD.Print(
+            $"act1-world-edge-probe: PASS edges=4 clamp_engagements={edgeClampTotal} frames_outside_window={edgeFramesOutside} "
+            + $"worst_below_ground={edgeWorstBelow:F2}m outside_world_recovered_to={recovered}");
+
+        if (edgeFramesOutside > 0 || edgeWorstBelow > .60f || player.FallRecoveries > 0)
+        {
+            Fail(
+                $"World edge probe failed: frames_outside_window={edgeFramesOutside} worst_below_ground={edgeWorstBelow:F2}m "
+                + $"fall_recoveries={player.FallRecoveries}.");
+            return;
+        }
+
+        // The probe moved the player on purpose; put him back where the route left
+        // him, otherwise the next leg starts from the world edge.
+        player.GlobalPosition = probeStart;
+        player.Velocity = Vector3.Zero;
+        await PhysicsFrames(3);
+
         // Arrival -> house. Keep the authored signpost clear, then resolve the
         // door's connected-world position from its named interaction target.
         var arrivalTarget = FindInteraction(Interaction("arrival-enter-house"), GetTree().Root);
@@ -750,6 +836,53 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             Fail("Physical walkthrough reached Kara-Urman without committing the Act 1 cliffhanger.");
             return;
         }
+
+        // World edge and fall probe: the author walked to the end of the world and
+        // fell through it. Walk outward on eight headings from the Kara edge and
+        // require that the player never leaves the authored window, never ends up
+        // below the ground and never needs a fall recovery.
+        var headingProbeStart = player.GlobalPosition;
+        var worstBelowGround = 0f;
+        var outsideWindow = 0;
+        for (var heading = 0; heading < 8; heading++)
+        {
+            SetYaw(player, heading * 45f);
+            Input.ActionPress("move_forward");
+            try
+            {
+                for (var frame = 0; frame < 240; frame++)
+                {
+                    await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                    var position = player.GlobalPosition;
+                    _walkedMeters += 0.01f;
+                    if (position.X < AgentBAct1HeightField.MinX - .05f || position.X > AgentBAct1HeightField.MaxX + .05f
+                        || position.Z < AgentBAct1HeightField.MinZ - .05f || position.Z > AgentBAct1HeightField.MaxZ + .05f)
+                    {
+                        outsideWindow++;
+                    }
+
+                    var ground = (float)AgentBAct1HeightField.Ground(position.X, position.Z);
+                    worstBelowGround = Mathf.Max(worstBelowGround, ground - position.Y);
+                }
+            }
+            finally
+            {
+                Input.ActionRelease("move_forward");
+                await PhysicsFrames(2);
+            }
+        }
+
+        if (outsideWindow > 0 || worstBelowGround > .60f || player.FallRecoveries > 0)
+        {
+            Fail(
+                $"Eight-heading edge walk failed: frames_outside_window={outsideWindow} "
+                + $"worst_below_ground={worstBelowGround:F2}m fall_recoveries={player.FallRecoveries} from={headingProbeStart}.");
+            return;
+        }
+
+        GD.Print(
+            $"act1-world-edge-probe: headings=8 frames_outside_window={outsideWindow} "
+            + $"worst_below_ground={worstBelowGround:F2}m edge_clamps_observed={player.EdgeClamps}");
 
         GD.Print($"act1-first-person-walkthrough: PASS mode=physical-characterbody-walk (real movement/ray/input; distinct from the capture harness's presentation waypoint audit) distance={_walkedMeters:F2}m final-zone={bridge.CurrentZoneId} cliffhanger=completed");
         await GodotSmokeCleanup.ReleaseAsync(demo);

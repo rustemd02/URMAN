@@ -650,16 +650,19 @@ public partial class StyleBenchmarkZone : Node3D
             "urman.chapter1:interaction/talk-mansur",
             "Поговорить с бабаем Мансуром",
             dialogueId: "urman.chapter1:dialogue/mansur_pc_request");
+        // Gөlsinә stands clear of the table corner: at her old spot the
+        // interaction approach point landed on the table's edge and a player
+        // capsule could not stand on it.
         AttachAct1Npc(
             "gulsina",
             "Gulsina",
             "family keeper",
-            new(-3.2f, 0, -2.8f),
+            new(-3.2f, 0, -2.3f),
             yawDegrees: 28f);
         MakeInteractionBox(
             "GulsinaNpc",
             new(0.62f, 1.68f, 0.46f),
-            new(-3.2f, 0.84f, -2.8f),
+            new(-3.2f, 0.84f, -2.3f),
             "6f6257",
             "urman.chapter1:interaction/talk-gulsina",
             "Поговорить с әби",
