@@ -8014,10 +8014,17 @@ public partial class Act1ConnectedWorld : Node3D
 
             foreach (var side in new[] { -1f, 1f })
             {
+                var bankZ = z + side * 5.7f;
+                // Banks sit on their own ground. The old offset took the channel
+                // -centre height and added a fixed 2.62 m, which is the carved
+                // bank top only where the ravine is actually cut; where the road
+                // gap flattens the channel that same number left the bank
+                // hanging 2.6 m over open snow with nothing under it.
+                var bankGround = (float)AgentBAct1HeightField.CollisionGround(x, bankZ);
                 var bankMesh = new MeshInstance3D
                 {
                     Name = $"RiverBankSnow_{x:0}_{(side < 0 ? "north" : "south")}",
-                    Position = new Vector3(x, ground + 2.62f, z + side * 5.7f),
+                    Position = new Vector3(x, bankGround + .10f, bankZ),
                     RotationDegrees = new Vector3(side * 8f, 0f, 0f),
                     Mesh = new BoxMesh { Size = new Vector3(4.6f, .34f, 2.4f) },
                     MaterialOverride = bank
