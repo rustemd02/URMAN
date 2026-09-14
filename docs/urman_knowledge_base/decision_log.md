@@ -4036,3 +4036,30 @@ convention of an interior larger than the shell. Implementation waits for that
 choice.
 
 Linked files: `../../docs/urman_knowledge_base/art/act1_h2_hero_house_passport_2026-09-14.md`
+
+## 2026-09-15 — H5: variant yard kits on two near facades; the third waits for its own fit
+
+Status: Accepted
+
+Context: H5 spreads the accepted dwelling language to the remaining visible yards.
+The near facades had no yard depth, and the kit's own composition defines the yard
+offset as (0, -4.5) in kit space relative to its dwelling.
+
+Decision: two yards mounted at their authored offset rotated by their dwelling's
+yaw - `WestReturnMidYard` (VariantB, full scale, kept gate on the return street,
+replacing the legacy picket run that duplicated it inside the same footprint) and
+`ArrivalReverseWestDomesticYard` (VariantC at the reverse dwelling's scale, so the
+two reverse dwellings stop reading as twins). The blocker families gained the
+`Variant*_Yard_` prefixes: posts and plank fences now block, gates stay openings
+by the existing clearance list, and flat rails are skipped by the thin-slab rule.
+
+Consequences: `EastStreetMid` stays without a yard kit for now - its authored
+offset places the boundary straight across the east-holding walking loop, so it
+needs its own fitting rather than a template shift. The two placed yards sit 20+
+metres off every walking line; the physical walkthrough passed unchanged at
+424.88 m. Also recorded: I1 (interior 12 x 10 m behind a 6.2 x 6.0 m facade) and
+LEN01.1 (a beat map with target minutes for the mandatory path) both wait for the
+author's decision and block their dependent implementation.
+
+Linked files: `../../game/scripts/Act1ConnectedWorld.cs`,
+`../../docs/urman_knowledge_base/art/act1_h1_h4_yard_biography_passport_2026-09-15.md`

@@ -37,6 +37,9 @@ public partial class Act1ConnectedWorld : Node3D
         "VariantA_TimberGable_",
         "VariantB_PlasterAnnex_",
         "VariantC_BanyaYard_",
+        "VariantA_Yard_",
+        "VariantB_Yard_",
+        "VariantC_Yard_",
         "BanyaYard",
         "FapFacade_",
         "FapService",
@@ -4072,13 +4075,19 @@ public partial class Act1ConnectedWorld : Node3D
                 88f,
                 Vector3.One * 0.90f,
                 "zirat_road@west-return-mid-facade"),
+            // H5: the dwelling's own variant boundary instead of the legacy
+            // picket run it used to duplicate. Authored yard offset is (0,-4.5)
+            // in kit space, rotated into parcel space by the dwelling's yaw; a
+            // kept gate on the return street fits this yard's seasonal
+            // biography. Sits 26 m west of the return road, off every walking
+            // line.
             new Act1ExteriorParcelComponentPlacement(
-                "FenceSegment_RoughPicket",
-                "WestReturnMidFence",
-                new(4.0f, 0f, 3.8f),
-                6f,
-                new(1.18f, 0.52f, 1f),
-                "zirat_road@west-return-mid-fence"));
+                "VillageParcel_VariantB_PlasterAnnex/VillageParcel_VariantB_PlasterAnnex_Yard",
+                "WestReturnMidYard",
+                new(4.05f, 0f, 0.14f),
+                88f,
+                Vector3.One * 0.90f,
+                "zirat_road@west-return-mid-yard"));
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
@@ -4483,7 +4492,18 @@ public partial class Act1ConnectedWorld : Node3D
                 Vector3.Zero,
                 176f,
                 Vector3.One * 0.50f,
-                "village_day@arrival-reverse-west-domestic-facade"));
+                "village_day@arrival-reverse-west-domestic-facade"),
+            // H5: a small front boundary in the third variant's language, so
+            // the two reverse dwellings do not read as twins. Offset is the
+            // authored (0,-4.5) rotated by this facade's yaw and scaled to it;
+            // the arrival route centre stays open on the far side.
+            new Act1ExteriorParcelComponentPlacement(
+                "VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Yard",
+                "ArrivalReverseWestDomesticYard",
+                new(0.16f, 0f, -2.24f),
+                176f,
+                Vector3.One * 0.50f,
+                "village_day@arrival-reverse-west-domestic-yard"));
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
                 village,
