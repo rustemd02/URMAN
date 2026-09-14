@@ -391,7 +391,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             body.AddChild(new CollisionShape3D
             {
                 Name = $"ForestBoundaryThicket_{blocked}",
-                Shape = new BoxShape3D { Size = new Vector3(2.1f, 1.7f, 1.5f) },
+                // 2.4 m on both horizontal axes against a 1.9 m planting step and
+                // +/-0.45 m jitter: adjacent boxes always overlap, so the worst
+                // remaining gap is well under the player capsule's 0.70 m
+                // diameter and the thicket cannot be threaded.
+                Shape = new BoxShape3D { Size = new Vector3(2.4f, 1.7f, 2.4f) },
                 Position = new Vector3(point.X, ground + 0.75f, point.Y)
             });
             blocked++;
@@ -1389,15 +1393,16 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // Act I forest ring. The author decided the village must be enclosed by a
         // very tall, dense, deliberately frightening forest with nothing visible
         // beyond it from any reachable position; this replaces the earlier
-        // two-row grove that only reached 7.4 m.
+        // six-row belt that only reached 7.4 m.
         //
-        // The ring straddles the walkable terrain window instead of sitting
-        // inside it. The traversal surface simply ends at X -64/66 and Z
-        // -152/104, so a mass planted only inside that rectangle would still
-        // leave the raw terrain edge exposed past the trees. Extending the band
-        // onto the analytic backdrop apron puts that seam thirty metres deep in
-        // forest, and the outermost crowns stay past the camera far side of the
-        // seam, so every outward view ends in trunks and snow-laden boughs.
+        // The band is deliberately deeper than the walkable terrain window on
+        // three sides: that surface simply ends at X -64/66 and Z -152, so a
+        // mass planted only inside it would still expose the raw seam past the
+        // trees. West and east run 26-28 m past the seam and the south 6 m past
+        // it; the north edge gets its own 40 m so it clears the +Z 104 seam too,
+        // because that is the direction the arrival view looks into. Every
+        // outward view therefore ends in trunks and snow-laden boughs rather than
+        // in the terrain boundary.
         //
         // Rows run from the outer rectangle inward, so row 0 closes the skyline
         // and the last row lands exactly on the settlement envelope where the
@@ -1405,7 +1410,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         const int beltRows = 9;
         const float beltInset = ForestRingDepth / (beltRows - 1);
         var ringOuterMin = ForestRingInnerMin - new Vector2(ForestRingDepth, ForestRingDepth);
-        var ringOuterMax = ForestRingInnerMax + new Vector2(ForestRingDepth, ForestRingDepth);
+        var ringOuterMax = ForestRingInnerMax + new Vector2(ForestRingDepth, ForestRingNorthDepth);
         _forestRingBand = (ForestRingInnerMin, ForestRingInnerMax, ringOuterMin, ringOuterMax);
         for (var row = 0; row < beltRows; row++)
         {
@@ -1438,9 +1443,15 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var stagger = Mathf.Sin(z * 0.63f) * 3.6f;
             for (var x = -17f; x <= 17f; x += 3.4f)
             {
-                EmitBelt(generated, rng, new Vector2(
+                var candidate = new Vector2(
                     x + stagger + rng.RandfRange(-1.1f, 1.1f),
-                    z + rng.RandfRange(-1.1f, 1.1f)), 3, beltRows);
+                    z + rng.RandfRange(-1.1f, 1.1f));
+                if (InsideArrivalClosureKeepOut(candidate))
+                {
+                    continue;
+                }
+
+                EmitBelt(generated, rng, candidate, 3, beltRows);
             }
         }
 
@@ -1468,7 +1479,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             for (var travelled = 0f; travelled <= length; travelled += boundaryStep)
             {
                 var point = edgeA + direction * travelled
-                    + new Vector2(rng.RandfRange(-0.8f, 0.8f), rng.RandfRange(-0.8f, 0.8f));
+                    + new Vector2(rng.RandfRange(-0.45f, 0.45f), rng.RandfRange(-0.45f, 0.45f));
+                if (InsideMosqueKeepOut(point))
+                {
+                    continue;
+                }
+
                 var roll = rng.Randf();
                 var thicket = roll switch
                 {
@@ -1525,10 +1541,46 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     }
 
     /// <summary>
-    /// The village mosque complex stands inside the perimeter band, so the belt
-    /// must leave its courtyard clear: trees through a wall read as a bug.
+    /// The village mosque complex stands on the settlement envelope's west edge:
+    /// its courtyard wall reaches x −62.5 while the ring's inner row runs at
+    /// x −62, so a circular keepout around the hall alone leaves a strip of
+    /// courtyard planted with firs. This rectangle covers hall and courtyard, and
+    /// it is honoured by the boundary thicket as well as the ring. Only the
+    /// innermost row is affected; the rows behind it still close the skyline, so
+    /// the mosque keeps its forest backdrop without trees standing in its yard.
     /// </summary>
-    private static readonly (Vector2 Center, float Radius) MosqueKeepOut = (new Vector2(-49f, -34.5f), 10f);
+    internal static readonly Vector2 MosqueKeepOutMin = new(-63.5f, -43f);
+
+    internal static readonly Vector2 MosqueKeepOutMax = new(-42.5f, -27f);
+
+    internal static bool InsideMosqueKeepOut(Vector2 point) =>
+        point.X >= MosqueKeepOutMin.X && point.X <= MosqueKeepOutMax.X
+        && point.Y >= MosqueKeepOutMin.Y && point.Y <= MosqueKeepOutMax.Y;
+
+    /// <summary>
+    /// The two arrival reverse-edge dwellings stand inside the north entrance
+    /// closure band. Crowns over a roof read as a tree growing through the house,
+    /// so the closure skips their footprints; the ring behind them still closes
+    /// the view.
+    /// </summary>
+    internal static readonly (Vector2 Min, Vector2 Max)[] ArrivalClosureKeepOuts =
+    [
+        (new Vector2(-11.7f, 48.1f), new Vector2(-3.9f, 55.9f)),
+        (new Vector2(4.0f, 48.9f), new Vector2(11.8f, 56.7f))
+    ];
+
+    internal static bool InsideArrivalClosureKeepOut(Vector2 point)
+    {
+        foreach (var (min, max) in ArrivalClosureKeepOuts)
+        {
+            if (point.X >= min.X && point.X <= max.X && point.Y >= min.Y && point.Y <= max.Y)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /// <summary>
     /// Settlement envelope and the ring band planted around it, in world X/Z.
@@ -1544,6 +1596,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     /// <summary>Ring depth in metres: how far the forest runs past the envelope.</summary>
     internal const float ForestRingDepth = 30.4f;
+
+    /// <summary>
+    /// Extra ring depth on the north edge. The arrival view looks that way, so
+    /// the band has to clear the +Z terrain seam by a wider margin than the
+    /// sides, not merely reach it.
+    /// </summary>
+    internal const float ForestRingNorthDepth = 40f;
 
     /// <summary>
     /// Residential core: the yards, streets and public buildings the player
@@ -1574,7 +1633,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         int row,
         int rowCount)
     {
-        if (position.DistanceTo(MosqueKeepOut.Center) < MosqueKeepOut.Radius)
+        if (InsideMosqueKeepOut(position))
         {
             return;
         }

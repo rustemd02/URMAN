@@ -3700,3 +3700,100 @@ shells (their own room walls own the collision) and the zirat roadside kit.
 
 Linked files: `../../game/scripts/Act1ConnectedWorld.cs`,
 `../../game/tests/Act1FirstPersonWalkthroughSmokeTest.cs`
+
+## 2026-09-14 — River snow banks ground on their own surface
+
+Status: Accepted
+
+Context: The bank boxes took the height at the channel centre and added a fixed
+2.62 m. That is the carved bank top only where the ravine is actually cut; where
+the road gap flattens the channel for the culvert crossing, the same number left
+the banks hanging about 2.5 m over open snow. Visible in `zirat_depth` and
+`zirat_clue_close` in the pre-rework baseline capture, so it predates the forest
+ring.
+
+Decision: Each bank samples `CollisionGround` at its own X/Z and sits 0.10 m
+into it (box centre at ground + 0.10 with a 0.34 m box, so about 0.07 m
+embedded).
+
+Consequences: The zirat reads as a snow field with a frozen crossing instead of
+floating beams. The ice slabs still lie on the flattened road-gap surface by
+design, because that is the authored culvert crossing.
+
+Linked files: `../../game/scripts/Act1ConnectedWorld.cs`
+
+## 2026-09-14 — Character torso gains a trapezius-to-neck taper; scarf narrowed to the neck
+
+Status: Accepted (partial; art acceptance still the author's)
+
+Context: Measured from the generator rather than from a portrait: the torso's
+top ring was 0.155 half-width (0.31 m across, shoulder breadth) and the scarf
+band above it 0.48 m wide, so the head sat on a shoulder-wide collar block. The
+visible neck was at most 0.017 m across all nine profiles — for the five with
+height_scale above 1.0 a sliver existed, for the rest it was buried — which is
+why every figure read as a bell. Shoulder crest rings at 0.242/0.252 half-width
+put the shoulders around 1.35x human biacromial breadth at these scales.
+
+Decision: Taper the crest into a trapezius ring, a neck base and a 0.156 m neck;
+narrow the crest to 0.222/0.228; wrap the scarf at 0.21 m. Arm length, leg line
+and the per-character profiles are deliberately untouched: they need the
+measured human reference sheet and the author's acceptance that cards N1/N2
+require, and the plan forbids folding that guess into an unrelated change.
+
+Consequences: Kit grew 32,358 to 34,774 triangles; rig, bone names and clips are
+untouched because they key on mesh and bone names, not vertex counts. Not yet
+done: the reference sheet, per-character proportion decisions, and any movement
+re-verification beyond the harness clips.
+
+Linked files: `../../tools/blender/generate_character_kit.py`
+
+## 2026-09-14 — Corrections after the independent review wave
+
+Status: Accepted
+
+Context: Two read-only reviewers audited the rework commits against the plan and
+hunted for defects the changes could have introduced. Four findings were real
+and are fixed here; several claims were overstated and are corrected rather than
+left standing.
+
+Fixed:
+- The mosque courtyard reaches x −62.5 while the ring's inner row runs at
+  x −62, so the circular keepout left a strip of courtyard planted with firs,
+  and the boundary thicket bypassed the keepout check entirely. The keepout is
+  now a rectangle covering hall and courtyard and is honoured by the ring, the
+  thicket and the arrival closure.
+- The arrival closure band planted tall spruces through the two arrival
+  reverse-edge dwellings; their footprints are now keepouts.
+- The boundary thicket's 1.5 m box depth against a 1.9 m planting step left
+  regular 0.4 m gaps, up to about 2 m with jitter, wide enough to thread. Boxes
+  are now 2.4 m on both horizontal axes against a 1.9 m step and ±0.45 m jitter,
+  so the worst remaining gap is well under the 0.70 m capsule diameter.
+- The north edge of the band stopped 5.6 m short of the +Z terrain seam. It now
+  runs 40 m past the envelope there, so the band clears the seam in the
+  direction the arrival view looks.
+
+Corrected claims:
+- The band does not sit "thirty metres inside the seam" on every edge: west and
+  east run 26–28 m past it, the south 6 m, the north 40 m.
+- The mosque keepout change was undisclosed; it is now recorded, and the old
+  circular form was effectively dead for the ring band.
+- `BlockerShape`'s scale division is exact only for unrotated placements. For a
+  placement yawed near ±90° the world-space AABB is transposed into local space,
+  so the box can protrude past the visible facade. This is pre-existing and
+  still open; the affected placements are the yaw ±90–110° facades such as
+  `ZiratEastBoundaryHouse` and `ArrivalReverseFarCenterHouse`.
+- The ring plants conifers in the river channel beyond |x| 58. That contradicts
+  the plan's "do not plant trees in the channel as a mask" and is kept as a
+  deliberate, recorded deviation: without it the frozen channel is a walkable
+  and outward-open slot along the terrain edge. The stretch concerned is past
+  the bed blockers, so the player cannot reach it.
+
+Still open after this wave, and not claimed as closed: the §12.7 perimeter
+sweep on working and minimal quality was not run — the fixed-angle capture set
+is not that evidence; the 24 finds and seven physical branches were not re-walked
+after 475 new blocker shapes, only the one scripted loop that regressed; no
+forest-sector passport per §11.3 was written before mass planting; the
+character reference sheet does not exist.
+
+Linked files: `../../game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`,
+`../../docs/urman_knowledge_base/weak_points.md`
