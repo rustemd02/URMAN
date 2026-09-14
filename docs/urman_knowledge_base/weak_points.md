@@ -1458,3 +1458,14 @@ rows=0 selectable=0` при 1280×720 и 1920×1080, масштаб 1,0 и 1,6. 
 toolchain (`. eng/dotnet-env.sh && .tools/dotnet/dotnet build game/Urman.Game.csproj
 --no-restore --disable-build-servers -nodeReuse:false -m:1`); после сборки зонд
 действительно появился в выводе.
+
+2026-09-14, стабильностная линия перепроверена после правки теста.
+Все 34 сцены `game/tests/*_smoke_test.tscn` прогнаны подряд под защитой userdata
+на HEAD `a3233a7` (свежая сборка закреплённым toolchain): **33 зелёные**, одна
+красная — `full_game_flow_smoke_test` с её собственной формулировкой про вход в
+Акт II (`Full-game Act 2 entrypoint has no zone-specific dressing, authored
+interaction layout, generated house kit, or NPC presentation`), то есть вне
+охвата Акта I. Guard отработал 34 раза из 34: каждая сцена напечатала
+`protected_run userdata restored byte-for-byte` — это сравнение хешей до и после
+запуска, а не обещание. В прогон включён новый зонд утечки закрытой записи через
+поиск архива.
