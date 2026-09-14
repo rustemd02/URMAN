@@ -85,3 +85,11 @@ packaged_release_r44_probe_60s		n/a	8.616	9.593	28.083	116.07	PASS
 packaged_release_r44_native	n/a	8.468	n/a	8.547	118.09	PASS
 # samples=11 min_fps=117 max_fps=119 mean_fps=117.8, zero errors; userdata restored byte-for-byte by the guard
 # --print-fps reports per-second FPS, so avg/max frame time are derived (1000/mean and 1000/min); no per-frame p95
+# 2026-09-14: candidate r45, exported from HEAD 483813a. Player-facing delta vs r44: the journal now marks heard-only words "(услышано)"
+# instead of printing them as known; everything else is test/docs. Same campaign fingerprint, so saves from r39-r44 load.
+packaged_release_r45_probe_60s		n/a	8.488	9.436	24.288	117.82	PASS
+# 60.01 s, 7070 frames, p99=9.648 ms, long_frame_fraction=0.00000, warmup 12.01 s avg 8.746 ms with a one-off 175.473 ms startup stall
+# caution: physics_ms=14.890 in the closing line is a single-frame TimePhysicsProcess snapshot, not an average (r44 printed 0.267)
+packaged_release_r45_native	n/a	8.529	n/a	8.772	117.25	PASS
+# samples=12 min_fps=114 max_fps=119 mean_fps=117.25, zero errors; userdata restored byte-for-byte by the guard
+# window unfocused during the probe sample (focused_sample_fraction=0.00000); one arrival gameplay sample, not the heaviest view
