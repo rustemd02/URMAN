@@ -73,6 +73,57 @@ public partial class Act1MainMenuSmokeTest : Node
         demo.MainMenu.AboutButton?.EmitSignal(BaseButton.SignalName.Pressed);
         await Frames(1);
         await Capture("credits");
+
+        // Acceptance row 23 covers the package's licenses and instructions. The
+        // credits screen is the only place those attributions reach a player, so
+        // assert its content instead of only its reachability: every third-party
+        // family the shipped assets actually use must be named, and the Godot
+        // license action must produce the engine's own license text.
+        var about = demo.MainMenu.FindChild("About", recursive: true, owned: false) as Control;
+        var creditsLabel = about?.GetNodeOrNull<RichTextLabel>("Credits");
+        var licensesButton = about?.GetNodeOrNull<Button>("Licenses");
+        if (about is null || creditsLabel is null || licensesButton is null)
+        {
+            Fail("The credits screen is missing its text body or the Godot licenses action.");
+            return;
+        }
+
+        var creditsText = creditsLabel.Text;
+        foreach (var attribution in new[]
+                 {
+                     "Quaternius", "Universal Base Characters", "Stylized Nature MegaKit",
+                     "Corsica_S", "Iwan Gabovitch", "Kenney", "CC0 1.0",
+                     "callmethefoo", "RIFORKA", "bruno.auzet", "lwdickens",
+                     "Magnesus", "soundofsong", "Godot Engine", "Blender", "ImageGen"
+                 })
+        {
+            if (!creditsText.Contains(attribution, StringComparison.Ordinal))
+            {
+                Fail($"The shipped credits do not name the '{attribution}' asset family it uses.");
+                return;
+            }
+        }
+
+        if (licensesButton.Disabled)
+        {
+            Fail("The Godot licenses action is disabled before it was ever used.");
+            return;
+        }
+
+        licensesButton.EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(1);
+        var licenseText = creditsLabel.Text;
+        if (licenseText == creditsText
+            || licenseText.Length < creditsText.Length
+            || !licenseText.Contains("MIT", StringComparison.Ordinal)
+            || !licenseText.Contains("Copyright", StringComparison.Ordinal)
+            || !licensesButton.Disabled)
+        {
+            Fail("The Godot licenses action did not replace the credits with the engine license text.");
+            return;
+        }
+        GD.Print($"act1-main-menu: credits name 16 attribution families; Godot license action returned {licenseText.Length} chars of engine license text");
+
         demo.MainMenu._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
         if (demo.MainMenu.AboutButton?.HasFocus() != true)
         { Fail("Credits did not return focus to the menu."); return; }
