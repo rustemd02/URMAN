@@ -96,11 +96,30 @@ python3 "$GUARD" "$BINARY" >"$OUTPUT_DIR/game.log" 2>&1 &
 GUARD_PID=$!
 sleep 8
 
+# Probe the capture path once. macOS refuses screencapture without a Screen
+# Recording grant, and the old loop swallowed that with `|| true`, so a session
+# could run for an hour and end with zero frames and no explanation. The session
+# itself is unaffected either way; only the frame trail depends on this.
+capture_works=1
+probe="$OUTPUT_DIR/frames/frame_capture_probe.png"
+screencapture -x "$probe" >/dev/null 2>&1 || true
+if [ ! -s "$probe" ]; then
+  capture_works=0
+  echo "warning: the system refused the screen capture, so this session will not produce frames." >&2
+  echo "warning: grant Screen Recording to the terminal or agent running this kit, then rerun:" >&2
+  echo "warning:   System Settings -> Privacy & Security -> Screen & System Audio Recording" >&2
+  echo "warning: the session can continue; the answer sheet below is unaffected." >&2
+else
+  rm -f "$probe"
+fi
+
 deadline=$((MAX_MINUTES * 60))
 elapsed=0
 while kill -0 "$GUARD_PID" 2>/dev/null && [ "$elapsed" -lt "$deadline" ]; do
-  name=$(date +%03dm%02ds | tr -d ' ')
-  screencapture -x "$OUTPUT_DIR/frames/frame_${name}.png" >/dev/null 2>&1 || true
+  if [ "$capture_works" -eq 1 ]; then
+    name=$(date +%03dm%02ds | tr -d ' ')
+    screencapture -x "$OUTPUT_DIR/frames/frame_${name}.png" >/dev/null 2>&1 || true
+  fi
   sleep "$INTERVAL"
   elapsed=$((elapsed + INTERVAL))
 done
@@ -120,4 +139,7 @@ done
 
 frames=$(find "$OUTPUT_DIR/frames" -type f -name '*.png' | wc -l | tr -d ' ')
 echo "session finished: $frames frames in $OUTPUT_DIR/frames"
+if [ "$frames" -eq 0 ] && [ "$capture_works" -eq 0 ]; then
+  echo "note: no frames were expected - the screen capture permission was missing, as reported above" >&2
+fi
 echo "if the guard printed 'userdata restored byte-for-byte', saves and settings are back to their prior state"
