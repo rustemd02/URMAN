@@ -1325,22 +1325,30 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // Two-row perimeter belt: dense conifer/birch line with shrub and
         // ground cover underneath, so the village edge reads as forest edge
         // rather than an invisible wall. Roads reject their own gap.
+        // Six-row perimeter belt instead of two: the author asked for a wall of
+        // forest around the village rather than a thin grove. Rows tighten and
+        // deepen outward (3.4 m, 3.4 m, 3.0 m, 3.0 m, 2.6 m, 2.6 m), the outer
+        // rows lean on spruce silhouettes for depth against the sky, and the
+        // undergrowth stays dense so the wall reads from the ground up. Entries
+        // land in the existing per-variant MultiMeshes, so the depth costs
+        // instances rather than draw calls.
         var margin = 7f;
         var beltMin = min - new Vector2(margin, margin);
         var beltMax = max + new Vector2(margin, margin);
-        const float beltStep = 3.8f;
-        for (var row = 0; row < 2; row++)
+        const int beltRows = 6;
+        for (var row = 0; row < beltRows; row++)
         {
             var inset = row * 3.0f;
+            var beltStep = row < 2 ? 3.4f : row < 4 ? 3.0f : 2.6f;
             for (var x = beltMin.X + inset; x <= beltMax.X - inset; x += beltStep)
             {
-                EmitBelt(generated, rng, new Vector2(x + rng.RandfRange(-1.1f, 1.1f), beltMin.Y + inset));
-                EmitBelt(generated, rng, new Vector2(x + rng.RandfRange(-1.1f, 1.1f), beltMax.Y - inset));
+                EmitBelt(generated, rng, new Vector2(x + rng.RandfRange(-1.1f, 1.1f), beltMin.Y + inset), row);
+                EmitBelt(generated, rng, new Vector2(x + rng.RandfRange(-1.1f, 1.1f), beltMax.Y - inset), row);
             }
             for (var z = beltMin.Y + inset; z <= beltMax.Y - inset; z += beltStep)
             {
-                EmitBelt(generated, rng, new Vector2(beltMin.X + inset, z + rng.RandfRange(-1.1f, 1.1f)));
-                EmitBelt(generated, rng, new Vector2(beltMax.X - inset, z + rng.RandfRange(-1.1f, 1.1f)));
+                EmitBelt(generated, rng, new Vector2(beltMin.X + inset, z + rng.RandfRange(-1.1f, 1.1f)), row);
+                EmitBelt(generated, rng, new Vector2(beltMax.X - inset, z + rng.RandfRange(-1.1f, 1.1f)), row);
             }
         }
 
@@ -1376,19 +1384,26 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         SetMeta("winterRoadClearanceTreeCulls", culledTrees);
         SetMeta("winterRoadClearancePolicy", "trees >= 2.6m, ground cover >= 0.75m from the road envelope");
 
+        // Batching the belt into MultiMeshes was measured and reverted: it removes
+        // node count but draws every instance of a cell whenever the cell is in
+        // view, which cost more than the per-tree nodes it replaced (high preset:
+        // 108 -> 95 fps, p95 9.9 -> 13.0 ms). Per-tree nodes cull individually.
         return baseEntries;
     }
 
     private static void EmitBelt(
         List<(Vector2, string)> planned,
         RandomNumberGenerator rng,
-        Vector2 position)
+        Vector2 position,
+        int row = 0)
     {
-        // Village belt is winter deciduous; the forest-side stretch keeps
-        // young spruce as the sanctioned village→forest transition.
+        // Village belt is winter deciduous; the forest-side stretch keeps young
+        // spruce as the sanctioned village->forest transition, and the outer belt
+        // rows switch to spruce as well so the wall has a deeper silhouette.
         var forestSide = position.Y <= -100f;
+        var deepRow = row >= 3;
         var treeRoll = rng.Randf();
-        var variant = forestSide && treeRoll < 0.45f
+        var variant = (forestSide || deepRow) && treeRoll < (deepRow ? 0.62f : 0.45f)
             ? "WinterSpruce_" + rng.RandiRange(1, 2)
             : treeRoll switch
             {
@@ -1411,6 +1426,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             _ => "GrassTuft_1"
         };
         planned.Add((position + new Vector2(rng.RandfRange(-1.6f, 1.6f), rng.RandfRange(-1.6f, 1.6f)), undergrowth));
+        // Deeper rows get a second understory plant so the belt has no gaps at
+        // trunk height when seen from the village.
+        if (row >= 2)
+        {
+            var filler = rng.Randf() switch
+            {
+                < 0.4f => "Shrub_2",
+                < 0.7f => "Fern_0",
+                _ => "Sedge_2"
+            };
+            planned.Add((position + new Vector2(rng.RandfRange(-2.2f, 2.2f), rng.RandfRange(-2.2f, 2.2f)), filler));
+        }
     }
 
     private static bool HasMeshInSubtree(Node node) =>
