@@ -93,3 +93,9 @@ packaged_release_r45_probe_60s		n/a	8.488	9.436	24.288	117.82	PASS
 packaged_release_r45_native	n/a	8.529	n/a	8.772	117.25	PASS
 # samples=12 min_fps=114 max_fps=119 mean_fps=117.25, zero errors; userdata restored byte-for-byte by the guard
 # window unfocused during the probe sample (focused_sample_fraction=0.00000); one arrival gameplay sample, not the heaviest view
+# 2026-09-14: cold start of the current r45 package, measured as wall-clock from process launch to the Act I readiness
+# marker read through a pseudo-terminal (a pipe buffers stdout and loses the marker) under protected_run.py.
+cold_start_r45_warm	run1=4.24	run2=4.29	run3=4.40	mean=4.31	unit=seconds	status=PASS
+cold_start_r45_first_launch_after_unzip	11.23	unit=seconds	status=ONCE
+# The first launch after unpacking an unsigned bundle is a one-off: macOS verifies the bundle and caches are cold.
+# The previous receipt (4.93/4.73/4.61 s) belonged to r38; the current package is not slower.

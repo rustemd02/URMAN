@@ -219,8 +219,75 @@ public partial class Act1MainMenuSmokeTest : Node
         }
 
         GD.Print("act1-main-menu: PASS menu gate + settings from menu + checkpoint-based Continue restore + truthful unloadable-save message + wired Quit affordance");
-        await GodotSmokeCleanup.ReleaseAsync(demo);
-        GetTree().Quit(0);
+
+        // Exit probe, and the last action of this run. The button captured before
+        // Continue is disposed once the session is restored, so reach the menu the
+        // way a player does - pause, then "В главное меню" - and press the fresh
+        // exit affordance. A real exit closes the process from inside the handler,
+        // so the Fail below is reachable only when the button did NOT close the
+        // app. That turns "exit really closes the application" from a human
+        // observation into a machine-checked one: the run exits 0 with the press
+        // marker and without the post-press message when exit works, and exits 1
+        // with the failure text when it does not.
+        var pauseMenu = GetTree().GetFirstNodeInGroup("pause_menu") as PauseMenuUi;
+        if (pauseMenu?.MainMenuButton is null)
+        {
+            Fail("The exit probe could not reach the pause shell that leads back to the menu.");
+            return;
+        }
+
+        for (var attempt = 0; attempt < 3 && !pauseMenu.IsOpen; attempt++)
+        {
+            Input.ParseInputEvent(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true, Echo = false });
+            await Frames(2);
+            Input.ParseInputEvent(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = false, Echo = false });
+            await Frames(2);
+            if (!pauseMenu.IsOpen)
+            {
+                for (var frame = 0; frame < 60 && !pauseMenu.IsOpen; frame++)
+                {
+                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                }
+            }
+        }
+
+        if (!pauseMenu.IsOpen)
+        {
+            Fail("The exit probe could not open the pause shell from the restored session.");
+            return;
+        }
+
+        pauseMenu.MainMenuButton.EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        pauseMenu.MainMenuButton.EmitSignal(BaseButton.SignalName.Pressed);
+        var backToMenu = false;
+        for (var frame = 0; frame < 300 && !backToMenu; frame++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            backToMenu = demo.MainMenuVisible && !pauseMenu.IsOpen;
+        }
+
+        if (!backToMenu)
+        {
+            Fail($"The exit probe could not return to the main menu: menu={demo.MainMenuVisible} pause={pauseMenu.IsOpen}");
+            return;
+        }
+
+        var exitButton = demo.MainMenu?.FindChild("QuitButton", recursive: true, owned: false) as Button;
+        if (exitButton is null || exitButton.Disabled)
+        {
+            Fail("The returned main menu does not offer an enabled exit affordance.");
+            return;
+        }
+
+        GD.Print("act1-main-menu: pressing the menu exit affordance; the post-press marker can only appear if it failed to close");
+        exitButton.EmitSignal(BaseButton.SignalName.Pressed);
+        for (var frame = 0; frame < 30; frame++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+
+        Fail("The menu exit affordance did not close the application within 30 frames.");
     }
 
     private static void DeleteSlot(string slot)

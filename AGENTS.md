@@ -111,7 +111,7 @@ TTS, «примерные» файлы и скриптовый маршрут в
 `docs/production/act1_language_review_sheet_2026-09-14.md`,
 `docs/production/act1_external_requests_draft_2026-09-14.md`,
 `docs/production/act1_m10_handoff_package_2026-09-14.md`,
-`docs/production/act1_acceptance_matrix_2026-09-14.md` (13 доказано, 8 механически,
+`docs/production/act1_acceptance_matrix_2026-09-14.md` (14 доказано, 7 механически,
 4 внешних — сверяйте с таблицей, а не с этой строкой). Точка входа для человека —
 `/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/native_20260914_r45_candidate/START_HERE_RU.md`
 (кандидат r44 — предыдущий; r43 и более ранние удалены. Держите не более двух
