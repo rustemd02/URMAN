@@ -4093,3 +4093,26 @@ measuring each shortcut's actual benefit (none is measured yet). E4 needs a huma
 
 Linked files: `../../docs/urman_knowledge_base/gameplay/act1_e1_choice_map_2026-09-15.md`,
 `../../game/scripts/Act1ConnectedWorld.cs`
+
+## 2026-09-15 — I2 first layer: fuel by the stove and a wash towel by the basin
+
+Status: Accepted (first implementation layer of card I2)
+
+Context: the interior already groups most things by use (entry shoes and coats, PC
+workplace, daybed, storage), but two chains were broken: the towel hung on the
+entry rail with the coats while the wash basin stands on a chest by the stove on
+the far side of the room, and the wood-burning stove had no visible fuel anywhere
+near it - the woodpile is outside, behind a wall.
+
+Decision: a two-log indoor stock within reach of the hearth door and a light linen
+towel on the wall between the hearth and the basin chest. Both are dressing
+(collision: false); the hearth corner is off the walk line to the PC, so no route
+or interaction anchor moved.
+
+Consequences: washing is now one place (basin, chest, towel) and the stove reads
+as fed. Still open in I2: the basin has no water source (a jug or the deliberate
+"carried from the well" reading), the stove does not smoke in the chosen season
+mode, and the PC has no visible socket - each is a candidate for the next layer.
+
+Linked files: `../../game/scripts/StyleBenchmarkZone.cs`,
+`../../docs/urman_knowledge_base/art/act1_i2_interior_use_passport_2026-09-15.md`

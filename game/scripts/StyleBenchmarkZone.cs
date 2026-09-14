@@ -387,6 +387,13 @@ public partial class StyleBenchmarkZone : Node3D
         MakeBox("Ceiling", new(12, 0.18f, 10), new(0, 3.4f, 0), "695746", surface: "wood");
         MakeBox("CeilingBeamLeft", new(0.22f, 0.28f, 10), new(-3.25f, 3.22f, 0), "493629", surface: "wood");
         MakeBox("CeilingBeamRight", new(0.22f, 0.28f, 10), new(3.25f, 3.22f, 0), "493629", surface: "wood");
+        // I2: the stove burns wood, so a small indoor stock sits within reach of
+        // the hearth door, and the wash towel hangs on the wall beside it, where
+        // the basin chest stands - instead of at the entry rail with the coats.
+        // Dressing only: the hearth corner is off the walk line to the PC.
+        MakeBox("HearthFirewoodLogBottom", new(0.55f, 0.13f, 0.30f), new(-4.95f, 0.065f, 1.42f), "8a6b50", collision: false, surface: "wood");
+        MakeBox("HearthFirewoodLogTop", new(0.48f, 0.12f, 0.27f), new(-4.97f, 0.19f, 1.44f), "9a7a55", collision: false, surface: "wood");
+        MakeRotatedBox("HouseWashTowel", new(0.04f, 0.52f, 0.28f), new(-5.76f, 1.52f, 1.80f), new(0, 0, 2), "b3ac9d", "fabric");
         MakeBox("Table", new(3.2f, 0.14f, 1.35f), new(0, 0.82f, -3.6f), "57402e", surface: "wood");
         MakeBox("TableLegL", new(0.18f, 0.82f, 0.18f), new(-1.35f, 0.4f, -3.6f), "463326", surface: "wood");
         MakeBox("TableLegR", new(0.18f, 0.82f, 0.18f), new(1.35f, 0.4f, -3.6f), "463326", surface: "wood");
