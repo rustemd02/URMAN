@@ -1003,7 +1003,15 @@ def winter_tree_variant(species, index, height, spread=1.0, branches=18,
 
 
 def winter_spruce_variant(index, height, tier="near"):
-    """Drooping, rounded needle boughs; every tier retains the same rooted habit."""
+    """Drooping, rounded needle boughs; every tier retains the same rooted habit.
+
+    The bough ladder is tied to the trunk height, not to a fixed level count.
+    A tall forest spruce reuses one level per ~0.75 m of trunk, so its crown
+    keeps the same bough rhythm as the young sapling instead of stretching into
+    a bare pole with a handful of separated tiers.  Bough reach also shrinks
+    asymptotically with height so a 26 m spruce does not sweep a 14 m disc over
+    the road envelope the way a uniformly scaled sapling would.
+    """
     prefix = f"Winter{'' if tier == 'near' else tier.capitalize()}Spruce_{index}"
     trunk = ab.make_cylinder(f"{prefix}_Trunk", (0, 0, 0), height * .029, height * .001,
                              height, segments=6)
@@ -1011,23 +1019,40 @@ def winter_spruce_variant(index, height, tier="near"):
                  (index % 2 - .5) * .024, index + 13.0)
     ab.assign_material(trunk, "AB_bark_dark")
     vertices, faces, snow_vertices, snow_faces = [], [], [], []
-    levels = range(12)
+    # A forest spruce carries one bough whorl roughly every metre of trunk; the
+    # level count is therefore driven by height, and the per-tier geometry
+    # drops sides/stations on the tall trees so every tier still lands inside
+    # the shared Agent B triangle budget asserted below.
+    tall = height > 10.0
+    level_count = max(12, min(20, int(round(height * 0.85))))
+    if tier == "light":
+        level_count = max(10, int(round(level_count * 0.70)))
+    elif tier == "far":
+        level_count = max(8, int(round(level_count * 0.45)))
+    last_level = level_count - 1
+    bough_ratio = .27 if height <= 8.0 else max(.185, .27 - (height - 8.0) * .0042)
+    levels = range(level_count)
     branches = (0, 1, 2) if tier != "far" else (0, 2)
-    stations = 6 if tier == "near" else 3
+    if height > 10.0:
+        stations = 5 if tier == "near" else 3
+        sides = 5 if tier == "near" else 5 if tier == "light" else 3
+    else:
+        stations = 6 if tier == "near" else 3
+        sides = 6 if tier == "near" else 5 if tier == "light" else 3
     cap_limit = 4 if tier == "near" else 3 if tier == "light" else 1
     caps = 0
     for level in levels:
         for branch in branches:
-            if tier == "far" and level >= 10 and branch != 0:
+            if tier == "far" and level >= last_level - 1 and branch != 0:
                 continue
             rng = random.Random(ab.stable_hash(f"spruce:{index}:{level}:{branch}"))
             angle = level * 1.17 + branch * math.tau / 3 + rng.uniform(-.22, .22)
-            length = height * .27 * (1.0 - level / 12.0) ** .65 * rng.uniform(.62, 1.1)
+            length = height * bough_ratio * (1.0 - level / level_count) ** .65 * rng.uniform(.62, 1.1)
             # Shared seeds keep gaps and uneven branch heights in all LODs.
             # Short boughs open the crown without widening its road envelope.
             centre = Vector((math.sin(index + level) * height * .016,
                              math.cos(index + level) * height * .012,
-                             height * (.22 + .74 * level / 11 + rng.uniform(-.022, .022))))
+                             height * (.22 + .74 * level / last_level + rng.uniform(-.022, .022))))
             direction = Vector((math.cos(angle), math.sin(angle), 0))
             points, radii = [], []
             for station in range(stations):
@@ -1041,7 +1066,7 @@ def winter_spruce_variant(index, height, tier="near"):
                 # the tiers merge into one soft crown instead.
                 radii.append(length * (.13 + .21 * math.sin(math.pi * t)) * (1 - .90 * t))
             _append_polyline_tube(vertices, faces, points, radii,
-                                  sides=6 if tier == "near" else 5 if tier == "light" else 3, flatten=.80)
+                                  sides=sides, flatten=.80)
             if tier == "near":
                 attachment = _point_on_polyline(points, .46)
                 fork_direction = Vector((math.cos(angle + .75), math.sin(angle + .75), -.45))
@@ -1051,20 +1076,23 @@ def winter_spruce_variant(index, height, tier="near"):
                                       [length * r for r in (.09, .16, .10, .009)],
                                       sides=5, flatten=.72)
                 # One shorter spray between the tiers breaks the radial
-                # symmetry that made every level read as the same saucer.
-                spray_angle = angle + 1.94
-                spray_direction = Vector((math.cos(spray_angle), math.sin(spray_angle), 0))
-                spray_length = length * .62
-                spray_base = centre + Vector((0.0, 0.0, -height * .012))
-                spray_points = [
-                    spray_base + spray_direction * spray_length * t
-                    - Vector((0.0, 0.0, spray_length * .46 * t))
-                    for t in (0.0, 0.34, 0.70, 1.0)
-                ]
-                _append_polyline_tube(vertices, faces, spray_points,
-                                      [spray_length * r for r in (.11, .17, .10, .008)],
-                                      sides=5, flatten=.76)
-            if level >= 4 and caps < cap_limit and branch == 0:
+                # symmetry that made every level read as the same saucer. A
+                # tall forest spruce already carries a whorl every metre, so the
+                # spray would only spend triangles on detail the crown hides.
+                if not tall:
+                    spray_angle = angle + 1.94
+                    spray_direction = Vector((math.cos(spray_angle), math.sin(spray_angle), 0))
+                    spray_length = length * .62
+                    spray_base = centre + Vector((0.0, 0.0, -height * .012))
+                    spray_points = [
+                        spray_base + spray_direction * spray_length * t
+                        - Vector((0.0, 0.0, spray_length * .46 * t))
+                        for t in (0.0, 0.34, 0.70, 1.0)
+                    ]
+                    _append_polyline_tube(vertices, faces, spray_points,
+                                          [spray_length * r for r in (.11, .17, .10, .008)],
+                                          sides=5, flatten=.76)
+            if level >= level_count * 0.33 and caps < cap_limit and branch == 0:
                 # The cap is embedded in the actual upper needle bough,
                 # following the same drooping path rather than its old level.
                 radius = length * (.19 + .28 * math.sin(math.pi * .58)) * (1 - .88 * .58)
@@ -1180,13 +1208,19 @@ def main() -> None:
         objects.extend(far_objects)
         variants.append((f"WinterFar{species}_{idx}", None))
 
-    for spec in ((1, 2.8), (2, 3.4)):
+    # Spruce ladder: 1-2 are the young firs that dress the village-side
+    # transition, 3-6 are the tall forest stand the Act I perimeter ring is
+    # built from. The tall tiers reuse the same generator and rooted habit so
+    # the trunk, bough whorls and crown scale together instead of stretching a
+    # sapling along Y.
+    spruce_specs = ((1, 2.8), (2, 3.4), (3, 13.5), (4, 18.5), (5, 24.5), (6, 30.5))
+    for spec in spruce_specs:
         objects.extend(winter_spruce_variant(*spec, tier="near"))
         variants.append((f"WinterSpruce_{spec[0]}", None))
-    for spec in ((1, 2.8), (2, 3.4)):
+    for spec in spruce_specs:
         objects.extend(winter_spruce_variant(*spec, tier="light"))
         variants.append((f"WinterLightSpruce_{spec[0]}", None))
-    for spec in ((1, 2.8), (2, 3.4)):
+    for spec in spruce_specs:
         objects.extend(winter_spruce_variant(*spec, tier="far"))
         variants.append((f"WinterFarSpruce_{spec[0]}", None))
 
