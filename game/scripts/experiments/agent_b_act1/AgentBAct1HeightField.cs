@@ -203,10 +203,46 @@ public static class AgentBAct1HeightField
         return along * (0.65 + 0.35 * lateral) * (5.0 + 3.0 * variation);
     }
 
+    /// <summary>
+    /// Canon river channel between the village and the forest. Carved into the
+    /// terrain so the boundary is visible and physical instead of an invisible
+    /// wall: a meandering ravine about 2.6 m deep and 13 m wide, flattened to zero
+    /// across the road corridor where the authored culvert carries the route over
+    /// the water (author-confirmed canon, 2026-09-14). Frozen bed and snow banks are
+    /// presentation; the slopes themselves stop the player.
+    /// </summary>
+    public static double RiverChannel(float x, float z)
+    {
+        var meander = -88.0 + 3.2 * System.Math.Sin(x / 12.0) + 1.4 * System.Math.Sin(x / 4.3);
+        var distance = System.Math.Abs(z - meander);
+        const double halfWidth = 4.6;
+        if (distance >= halfWidth)
+        {
+            return 0.0;
+        }
+
+        // 3.4 m deep over a 9.2 m channel keeps the banks past the controller's
+        // 45-degree floor limit, so the ravine is the boundary and no invisible
+        // wall is needed.
+        var profile = System.Math.Cos(System.Math.PI * 0.5 * distance / halfWidth);
+        var (roadDistance, roadHalfWidth) = RoadInfo(x, z);
+        var roadGap = System.Math.Clamp((roadDistance - roadHalfWidth - 1.2f) / 3.0f, 0.0, 1.0);
+        return -3.4 * profile * roadGap;
+    }
+
+    public static double RiverMeander(float x)
+        => -88.0 + 3.2 * System.Math.Sin(x / 12.0) + 1.4 * System.Math.Sin(x / 4.3);
+
     public static double Ground(float x, float z)
     {
         var baseHeight = Terrain(x, z);
         var (distance, halfWidth) = RoadInfo(x, z);
+        var channel = RiverChannel(x, z);
+        if (channel != 0.0)
+        {
+            return baseHeight + channel;
+        }
+
         if (distance >= halfWidth + 3.0)
         {
             return baseHeight;

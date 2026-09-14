@@ -769,8 +769,10 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         {
             "act1-exterior-terrain",
             "act1-exterior-architecture",
-            // Presentation blockers for the village mosque complex (layer-2, mask-0).
+            // Presentation blockers for the village mosque complex and the river band
+            // (layer-2, mask-0).
             "mosque-blocker",
+            "river-blocker",
             // Presentation blockers for authored kit walls, fences and outbuildings.
             // They are non-interactive layer-2 proxies whose only job is to stop the
             // player walking through visible geometry; the author reported that
@@ -804,7 +806,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
 
         var kitBlockers = FindDescendants(core).OfType<StaticBody3D>()
             .Where(body => body.HasMeta("collisionOwner")
-                && body.GetMeta("collisionOwner").AsString() is "authored-kit-blocker" or "mosque-blocker")
+                && body.GetMeta("collisionOwner").AsString() is "authored-kit-blocker" or "mosque-blocker" or "river-blocker")
             .ToArray();
         var kitBlockerShapes = 0;
         foreach (var blocker in kitBlockers)
@@ -819,7 +821,8 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             var placement = blocker.GetParentOrNull<Node3D>();
             var declared = placement is not null
                 && ((placement.HasMeta("authoredKitBlockerCount") && placement.GetMeta("authoredKitBlockerCount").AsInt32() > 0)
-                    || (placement.HasMeta("mosqueBlockerShapeCount") && placement.GetMeta("mosqueBlockerShapeCount").AsInt32() > 0));
+                    || (placement.HasMeta("mosqueBlockerShapeCount") && placement.GetMeta("mosqueBlockerShapeCount").AsInt32() > 0)
+                    || (placement.HasMeta("riverBlockerShapeCount") && placement.GetMeta("riverBlockerShapeCount").AsInt32() > 0));
             if (!declared)
             {
                 throw new InvalidOperationException(

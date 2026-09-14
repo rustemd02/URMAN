@@ -973,6 +973,10 @@ public partial class Act1ConnectedWorld : Node3D
         // for a real mosque in this part of the village: the hall, dome, closed
         // entrance and courtyard wall now stand around the existing minaret.
         AddVillageMosque(core, minaretAnchor);
+        // Canon boundary the author confirmed: the river separates the village from
+        // the forest, with an old broken bridge as the landmark. The road crosses at
+        // the authored culvert, which stays the only passable line.
+        AddVillageRiverAndBrokenBridge(core);
 
         // Unreachable background layers (T3): near village rows, mid woodland
         // bands and far snow ridges, all beyond the walkable envelope.
@@ -7877,6 +7881,144 @@ public partial class Act1ConnectedWorld : Node3D
         AddMinaretOctagon("MinaretSpireTip", 0.035f, 0.012f, 0.97f, 20.915f, "6d6a5e", "stone");
         AddMinaretOctagon("MinaretSnowCap", 1.05f, 0.97f, 0.11f, 16.825f, "eef2f6", "snow_ground");
         AddMinaretOctagon("MinaretBaseSnow", 1.32f, 1.22f, 0.11f, 2.155f, "eef2f6", "snow_ground");
+    }
+
+/// <summary>
+    /// The river between the village and the forest, with the old broken bridge.
+    /// Canon decision (author, 2026-09-14): the river plus the broken bridge are the
+    /// boundary, and the only passable crossing is the authored culvert on the road.
+    /// Water and banks are presentation; layer-2 blockers keep the player out of the
+    /// water except across the road gap.
+    /// </summary>
+    private static void AddVillageRiverAndBrokenBridge(Node3D core)
+    {
+        var river = new Node3D { Name = "VillageForestRiver", Position = Vector3.Zero };
+        river.SetMeta("presentationOnly", true);
+        river.SetMeta("visualOnly", true);
+        river.SetMeta("collisionOwner", "river-blocker");
+        river.SetMeta("navigationOwner", "none");
+        river.SetMeta("interactionOwner", "none");
+        river.SetMeta(
+            "presentationRole",
+            "canon village/forest boundary: frozen river with snow banks and the old broken bridge; the culvert crossing is the only passable line");
+        core.AddChild(river);
+
+        var proxy = new StaticBody3D { Name = "RiverCollisionProxy", CollisionLayer = 2, CollisionMask = 0 };
+        proxy.SetMeta("collisionOwner", "river-blocker");
+        proxy.SetMeta("collisionStatus", "authored-blocker-layer-2");
+        river.AddChild(proxy);
+
+        var water = PainterlyMaterialLibrary.ForColor("33463f", "water");
+        var ice = PainterlyMaterialLibrary.ForColor("5c6f74", "ice");
+        var bank = PainterlyMaterialLibrary.ForColor("eef2f6", "snow_ground");
+        var blockedShapes = 0;
+        var openAtRoad = 0;
+        for (var x = -60f; x <= 60f; x += 4f)
+        {
+            // A gentle meander keeps the line from reading as a ruler.
+            var z = -88f + 3.2f * Mathf.Sin(x / 12f) + 1.4f * Mathf.Sin(x / 4.3f);
+            var road = AgentBAct1HeightField.RoadInfo(x, z);
+            var inRoadGap = (float)(road.Distance - road.HalfWidth) < 1.4f;
+            var ground = (float)AgentBAct1HeightField.Ground(x, z);
+            if (inRoadGap)
+            {
+                // The road crosses on the culvert: keep the channel visible but
+                // leave the corridor free of blockers.
+                openAtRoad++;
+            }
+
+            var openLead = Mathf.Abs(x) % 12f < 5f;
+            var slab = new MeshInstance3D
+            {
+                Name = $"RiverIce_{x:0}",
+                Position = new Vector3(x, ground + .10f, z),
+                RotationDegrees = new Vector3(0f, 18f * Mathf.Sin(x / 9f), 0f),
+                Mesh = new BoxMesh { Size = new Vector3(4.4f, .34f, 9.6f) },
+                MaterialOverride = openLead ? water : ice
+            };
+            slab.SetMeta("visualOnly", true);
+            river.AddChild(slab);
+            if (!openLead && Mathf.Abs(x) % 8f < 4f)
+            {
+                // Broken ice along the channel so the water line never reads as a
+                // smooth white floor from the bank.
+                var lead = new MeshInstance3D
+                {
+                    Name = $"RiverLead_{x:0}",
+                    Position = new Vector3(x + 1.1f, ground + .22f, z + 1.6f * Mathf.Sin(x / 3.1f)),
+                    RotationDegrees = new Vector3(0f, 24f * Mathf.Cos(x / 5f), 0f),
+                    Mesh = new BoxMesh { Size = new Vector3(1.4f, .12f, 3.2f) },
+                    MaterialOverride = water
+                };
+                lead.SetMeta("visualOnly", true);
+                river.AddChild(lead);
+            }
+
+            foreach (var side in new[] { -1f, 1f })
+            {
+                var bankMesh = new MeshInstance3D
+                {
+                    Name = $"RiverBankSnow_{x:0}_{(side < 0 ? "north" : "south")}",
+                    Position = new Vector3(x, ground + 2.62f, z + side * 5.7f),
+                    RotationDegrees = new Vector3(side * 8f, 0f, 0f),
+                    Mesh = new BoxMesh { Size = new Vector3(4.6f, .34f, 2.4f) },
+                    MaterialOverride = bank
+                };
+                bankMesh.SetMeta("visualOnly", true);
+                river.AddChild(bankMesh);
+            }
+
+            if (inRoadGap)
+            {
+                continue;
+            }
+
+            // The bed blocker sits under the ice, inside the ravine: it stops a
+            // player who tries to cross the frozen channel without floating in view,
+            // and the visible reason stays the river and its banks.
+            proxy.AddChild(new CollisionShape3D
+            {
+                Name = $"RiverBlocker_{x:0}",
+                Position = new Vector3(x, ground + .28f, z),
+                Shape = new BoxShape3D { Size = new Vector3(4.3f, 1.0f, 8.6f) }
+            });
+            blockedShapes++;
+        }
+
+        // The old broken bridge: two stone abutments and a deck that ends over the
+        // water, with a fallen span and a leaning post. Unpassable by design.
+        var bridgeX = 15f;
+        var bridgeZ = -88f + 3.2f * Mathf.Sin(bridgeX / 12f) + 1.4f * Mathf.Sin(bridgeX / 4.3f);
+        // The bridge straddles the channel, so anchor it to the shoulder height.
+        var bridgeGround = (float)AgentBAct1HeightField.Ground(bridgeX, bridgeZ + 5.1f);
+        var bridge = new Node3D { Name = "ForestBridgeBroken", Position = new Vector3(bridgeX, bridgeGround, bridgeZ) };
+        bridge.SetMeta("presentationOnly", true);
+        bridge.SetMeta("visualOnly", true);
+        bridge.SetMeta("presentationRole", "old broken river bridge: stone abutments and a collapsed span; not crossable");
+        river.AddChild(bridge);
+        foreach (var side in new[] { -1f, 1f })
+        {
+            AddVisualBox(bridge, $"BridgeAbutment_{(side < 0 ? "near" : "far")}", new(2.2f, 2.6f, 1.4f),
+                new(0f, 1.0f, side * 5.0f), "6f6a5d", "stone");
+            proxy.AddChild(new CollisionShape3D
+            {
+                Name = $"BridgeAbutmentBlocker_{(side < 0 ? "near" : "far")}",
+                Position = new Vector3(bridgeX, bridgeGround + 1.0f, bridgeZ + side * 5.0f),
+                Shape = new BoxShape3D { Size = new Vector3(2.1f, 2.5f, 1.3f) }
+            });
+        }
+
+        AddVisualBox(bridge, "BridgeDeckNear", new(1.6f, 0.22f, 3.4f), new(0f, 1.62f, -3.1f), "59493a", "wood", rollDegrees: 1.5f);
+        AddVisualBox(bridge, "BridgeDeckFallen", new(1.5f, 0.20f, 3.0f), new(0.55f, 1.05f, 0.4f), "4f4133", "wood", rollDegrees: 34f);
+        AddVisualBox(bridge, "BridgeDeckHintFar", new(1.4f, 0.20f, 1.6f), new(0.1f, 1.46f, 3.6f), "57493b", "wood", rollDegrees: -6f);
+        AddVisualBox(bridge, "BridgeRailNearLeft", new(0.12f, 0.86f, 3.2f), new(-0.72f, 2.02f, -3.1f), "6d5845", "wood");
+        AddVisualBox(bridge, "BridgePostLeaning", new(0.16f, 1.35f, 0.16f), new(0.9f, 1.3f, 1.9f), "6d5845", "wood", rollDegrees: 24f);
+        AddVisualBox(bridge, "BridgeRope", new(0.05f, 0.05f, 2.1f), new(0.55f, 1.95f, 0.2f), "b7a07c", "wood", rollDegrees: -8f);
+
+        river.SetMeta("riverBlockerShapeCount", blockedShapes);
+        river.SetMeta("riverRoadGapSamples", openAtRoad);
+        proxy.SetMeta("riverBlockerShapeCount", blockedShapes + 2);
+        GD.Print($"act1-river: ice_slabs={blockedShapes + openAtRoad} blockers={blockedShapes} road_gap_samples={openAtRoad} bridge=broken@({bridgeX:0},{bridgeZ:0})");
     }
 
 /// <summary>

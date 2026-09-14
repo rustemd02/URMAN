@@ -1408,6 +1408,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             return;
         }
 
+        // Trees never stand in the river channel: the ravine is the village/forest
+        // boundary and must stay readable as water and banks.
+        if (System.Math.Abs(position.Y - (float)AgentBAct1HeightField.RiverMeander(position.X)) < 9f)
+        {
+            return;
+        }
+
         // Village belt is winter deciduous; the forest-side stretch keeps young
         // spruce as the sanctioned village->forest transition, and the outer belt
         // rows switch to spruce as well so the wall has a deeper silhouette.
