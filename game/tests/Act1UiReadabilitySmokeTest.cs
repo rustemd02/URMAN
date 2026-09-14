@@ -174,6 +174,8 @@ public partial class Act1UiReadabilitySmokeTest : Node
         }
         var longest = documents.OrderByDescending(item => item.BodyMarkdown.Length).First();
         if (bridge.JournalEntries().Count < 5) { Fail("Filled journal needs at least five real entries."); return; }
+        var lockedSearchProbes = 0;
+        string lockedSearchProbeTerm = string.Empty;
         foreach (var (width, height) in new[] { (1280, 720), (1920, 1080) })
         foreach (var scale in new[] { 1.0, 1.6 })
         {
@@ -298,6 +300,77 @@ public partial class Act1UiReadabilitySmokeTest : Node
                 Fail("The archive offers restricted records as selectable.");
                 return;
             }
+
+            // Acceptance row 4: a search must not surface a restricted record.
+            // Probe with a term that exists only inside a locked document's own
+            // text, then require that the archive reports no match, lists no row
+            // pointing at a locked id, and never writes the locked title or body
+            // into the reader. Without this, a leak is invisible: the row simply
+            // appears and the reader shows it.
+            var lockedDocuments = bridge.OldPcDocuments
+                .Where(item => !bridge.IsOldPcDocumentAccessible(item.Id)).ToArray();
+            var accessibleDocuments = bridge.OldPcDocuments
+                .Where(item => bridge.IsOldPcDocumentAccessible(item.Id)).ToArray();
+            if (lockedDocuments.Length == 0 || accessibleDocuments.Length == 0)
+            {
+                Fail($"The archive leak probe needs both locked and open records ({lockedDocuments.Length}/{accessibleDocuments.Length}).");
+                return;
+            }
+
+            var lockedSample = lockedDocuments[0];
+            var accessibleText = accessibleDocuments
+                .SelectMany(item => new[] { item.Title, item.BodyMarkdown, item.Section }
+                    .Concat(item.SearchTerms).Concat(item.SuggestedTerms))
+                .ToArray();
+            // Prefer a short single-line term: a whole body would work as a leak
+            // probe but makes the receipt unreadable and could match on a generic
+            // word shared with an open record.
+            var leakProbe = new[] { lockedSample.Title }
+                .Concat(lockedSample.BodyMarkdown
+                    .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                .Concat(lockedSample.SearchTerms).Concat(lockedSample.SuggestedTerms)
+                .Where(term => term.Length is >= 5 and <= 40 && !term.Contains('\r'))
+                .OrderByDescending(term => term.Length)
+                .FirstOrDefault(term => accessibleText.All(open =>
+                    !open.Contains(term, StringComparison.CurrentCultureIgnoreCase)));
+            if (leakProbe is null)
+            {
+                Fail("No term exists that is unique to a locked archive record, so the search leak probe cannot run.");
+                return;
+            }
+
+            var probeQuery = oldPc.GetNode<LineEdit>("Screen/Computer/Layout/SearchRow/Query");
+            probeQuery.Text = leakProbe;
+            oldPc.GetNode<Button>("Screen/Computer/Layout/SearchRow/Search")
+                .EmitSignal(Button.SignalName.Pressed);
+            await Frames(3);
+            var readerNode = oldPc.GetNode<RichTextLabel>("Screen/Computer/Layout/WorkArea/ReaderArea/Reader");
+            var leakedRows = Enumerable.Range(0, results.ItemCount)
+                .Where(i => lockedDocuments.Any(locked => locked.Id == results.GetItemMetadata(i).AsString()))
+                .ToArray();
+            var selectableMatches = Enumerable.Range(0, results.ItemCount).Count(results.IsItemSelectable);
+            if (leakedRows.Length > 0
+                || selectableMatches != 0
+                || !oldPc.StatusText.Contains("Найдено записей: 0", StringComparison.Ordinal)
+                || readerNode.Text.Contains(lockedSample.Title, StringComparison.CurrentCultureIgnoreCase)
+                || readerNode.Text.Contains(
+                    lockedSample.BodyMarkdown.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                        .FirstOrDefault() ?? lockedSample.BodyMarkdown,
+                    StringComparison.CurrentCultureIgnoreCase))
+            {
+                Fail(
+                    $"A locked archive record leaked through search at {width}x{height} scale={scale}: "
+                    + $"probe='{leakProbe}' rows={leakedRows.Length} selectable={selectableMatches} "
+                    + $"status='{oldPc.StatusText}' reader='{readerNode.Text}'");
+                return;
+            }
+            lockedSearchProbes++;
+            lockedSearchProbeTerm = leakProbe;
+            GD.Print(
+                $"act1-ui-readability: locked-search probe term='{leakProbe}' locked={lockedDocuments.Length} "
+                + $"rows={leakedRows.Length} selectable={selectableMatches} at {width}x{height} scale={scale}");
+            await SaveShot("oldpc_locked_search" + suffix, oldPc.GetNode<Control>("Screen/Computer"), width, height);
+
             await SaveShot("oldpc" + suffix, oldPc.GetNode<Control>("Screen/Computer"), width, height);
 
             // Empty search: the archive must say so in readable words at every
@@ -345,7 +418,12 @@ public partial class Act1UiReadabilitySmokeTest : Node
             await Frames(2);
             if (player.ModalOpen) { Fail("Extended UI capture left a modal owner open."); return; }
         }
-        GD.Print($"act1-ui-readability: PASS 2 resolutions x 5 critical UIs + empty archive search + read/restricted archive marks + high-contrast and text-scale effects; scales 1/1.6; journal entries={bridge.JournalEntries().Count}; longest document={longest.Id} chars={longest.BodyMarkdown.Length}; focus and Tatar glyphs");
+        if (lockedSearchProbes != 4)
+        {
+            Fail($"The locked-record search probe ran {lockedSearchProbes} times instead of once per resolution and text scale.");
+            return;
+        }
+        GD.Print($"act1-ui-readability: PASS 2 resolutions x 5 critical UIs + empty archive search + locked-search leak probe ({lockedSearchProbes}x, term='{lockedSearchProbeTerm}') + read/restricted archive marks + high-contrast and text-scale effects; scales 1/1.6; journal entries={bridge.JournalEntries().Count}; longest document={longest.Id} chars={longest.BodyMarkdown.Length}; focus and Tatar glyphs");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }
