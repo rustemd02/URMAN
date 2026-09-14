@@ -1828,3 +1828,27 @@ presentation-only. Автор теперь явно требует очень в
 перед реализацией. Новая полная геометрия домов и лесного кольца пока не спроектирована
 и не проверена игровыми кадрами. Этот риск нельзя закрывать количеством страниц,
 ссылок или перечисленных предметов.
+
+## Act I village rework — what the forest ring and collision batch did not close
+
+2026-09-14: The forest ring and the parcel-collision batch are verified at their
+own scope (full-route capture gate PASS 80 frames, physical walkthrough PASS
+424.88 m, spawn matrix PASS 13/13, corridor PASS). Still open, recorded so the
+next batch does not rediscover them:
+
+- The zirat roadside kit still shows floating shoulder/beam slabs near the
+  culvert, visible in `zirat_clue_close` in the pre-rework baseline capture as
+  well, so it is pre-existing and not caused by the ring. Owner is the
+  river/culvert card (plan L4/T2), not the forest.
+- `zone_flow_smoke_test` exits 0 but prints "2 resources still in use at exit".
+  The production capture gate treats that message as fatal and passes, so it
+  looks like a test-scene shutdown artifact rather than a world leak; unproven
+  either way, and the count varies between 2 and 4 on the same scene.
+- The tall spruce far LOD is still a spiky silhouette on the skyline at 60 m+.
+  It closes the view, which is the requirement, but the crown reads thinner than
+  the near tier. Art acceptance is open.
+- The six NPC proportions (plan N1–N3) are untouched by this batch; the
+  conversation close-ups in the capture set are the current evidence and no
+  measurement sheet exists yet.
+- The 31 rework cards beyond L3/T3/T1/T2 are not started; the honest status is
+  the plan document plus the backlog progress entries, not a completed matrix.

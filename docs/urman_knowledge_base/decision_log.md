@@ -3631,3 +3631,72 @@ Status: Accepted art direction by direct user instruction; implementation plan o
 одного интегратора основного checkout. «100%» в нём означает доказательное покрытие
 всех применимых требований на текущем SHA, а не ложную замену культурной консультации,
 авторской художественной приёмки или обычного человеческого плейтеста.
+
+## 2026-09-14 — Implement the Act I forest ring on the settlement envelope
+
+Status: Accepted (implements the author's direct instruction recorded in
+`SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md` §2.2)
+
+Context: The previous belt was a six-row hollow shell derived from the authored
+foliage-plan bounding box (−42.5,−126)…(43,42) and built from bare deciduous
+trees no taller than 7.4 m, so the settlement was not enclosed: the arrival view
+ran to bare snow and sky, the river cut an 18 m gap out through both belt edges,
+and the walkable terrain window ended in the open 62 m north of the last row.
+The terrain mesh itself ends at X −64/66 and Z −152/104, so a mass planted only
+inside that rectangle would still have exposed the raw seam.
+
+Decision: Build the ring as nine rows on the settlement envelope
+(−62,−128)…(62,68) extended 30.4 m outward, so the band straddles the terrain
+window and the seam sits thirty metres inside forest. The dominant species is a
+tall conifer ladder (13.5/18.5/24.5/30.5 m) generated with its bough whorl
+ladder driven by trunk height, heavy overlapping crowns and a droop cap that
+keeps the lowest bough off the ground; bare winter deciduous trees break the
+silhouette. The arrival corridor is closed with staggered groups past the road
+end, the river exclusion stops at |x| 58 so the ring seals the ravine corridor,
+and a young-fir boundary thicket on the envelope is the visible obstacle whose
+collision blocks join the existing exterior architecture body rather than a
+second world limiter.
+
+Consequences: The village-side conifer ban is scoped to the residential core
+(−58,−124)…(58,46) instead of silently rewriting the ring's spruces to bare
+lindens. The near backdrop house rows at x ±74/76 are removed because a house
+left inside the ring would be the one silhouette that betrays the depth behind
+the trees. Blocker shapes grew from 142 to 617, which surfaced a walkthrough
+route that crossed a now-solid building; that route was rerouted rather than
+weakening the collider. Fog stays a depth aid, not the mask. Art acceptance of
+the frightening scale and density is still the author's, not proven by frames.
+
+Linked files: `../../game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`,
+`../../game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs`,
+`../../assets/source/blender/agent_b_act1/agent_b_foliage.py`,
+`../../game/scripts/Act1ConnectedWorld.cs`
+
+## 2026-09-14 — Authored parcel buildings block movement; collider size derived from placement scale
+
+Status: Accepted
+
+Context: The blocker family list matched `VillageParcel_`, but a parcel mounts
+as `<Variant>/<Variant>_Dwelling`, so its walls are named
+`VariantA_TimberGable_Dwelling_Street_Wall_LOD0` and matched nothing: every
+parcel dwelling in the village was walk-through while only the standalone
+`DwellingFacade_` family blocked. Independently, `BlockerShape` sized the
+`BoxShape3D` in world units but parented it to the placement, so the placement
+scale applied twice — a 0.62-scale outbuilding carried a collider two thirds of
+its wall and a 1.22-scale fence rail a larger one.
+
+Decision: List the three variant prefixes explicitly, divide the placement scale
+out of the world-space AABB before handing the size to the shape, and seat zirat
+grave markers on `CollisionGround` through their own global transform instead of
+inheriting the grouping's zero Y.
+
+Consequences: Blocker shapes went from 142 to 617 across 90 placements. The
+dwelling "floating house" suspicion did not reproduce and is now measured rather
+than assumed: the worst analytic-vs-collision difference across all 82 dwelling
+placements is 0.028 m, inside the QA tolerance, and the dwellings stay on the
+analytic height because that value is shared with the authored door portal.
+`BuildAuthoredKitBlockers` prints `act1-dwelling-threshold` so the number stays
+checkable. Remaining collision-free by contract: the hero-house and FAP interior
+shells (their own room walls own the collision) and the zirat roadside kit.
+
+Linked files: `../../game/scripts/Act1ConnectedWorld.cs`,
+`../../game/tests/Act1FirstPersonWalkthroughSmokeTest.cs`
