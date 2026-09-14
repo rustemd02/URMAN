@@ -1852,10 +1852,13 @@ seam):
 - The tall spruce far LOD is still a spiky silhouette on the skyline at 60 m+.
   It closes the view, which is the requirement, but the crown reads thinner than
   the near tier. Art acceptance is open.
-- The plan's §12.7 perimeter sweep (working and minimal quality, existing light
-  states, fog reduced diagnostically) was NOT run. The capture harness gives
-  fixed angles and §9.2 says explicitly that they are not that evidence, so the
-  claim "the ring closes the view" rests on 80 fixed frames plus arithmetic.
+- The §12.7 perimeter sweep WAS run on 2026-09-14, as a harness sweep: a 10 m
+  grid along the envelope, three outward headings plus up, 324 frames, day on
+  all four edges and night on the Kara edge (capture gate 404 frames PASS). It
+  found and closed a real eye-level gap on the west edge. What it is still not:
+  a human free-camera walk, not the plan's 5 m starting grid, and no
+  diagnostic-fog pass — so it proves enclosure at those positions, not the
+  absence of every gap.
 - The 24 finds and seven physical branches were NOT re-walked after 475 new
   blocker shapes went live. Only the one scripted loop that regressed was re-run
   and rerouted, so a branch that approached a now-solid wall from a side the
@@ -1869,6 +1872,13 @@ seam):
 - `BlockerShape` divides the placement scale out of a world-space AABB, which is
   exact only for unrotated placements; a facade yawed near ±90° can carry a box
   that protrudes past its visible wall. Pre-existing, still open.
-- The 31 rework cards beyond L3/T3/T1/T2 and the neck part of N1–N2 are not
-  started; the honest status is the plan document plus the backlog progress
-  entries, not a completed matrix.
+- Card H2 is started, not finished: the §11.3 passport is written and the stone
+  plinth plus street-door step are implemented and verified, but eaves and water
+  shedding, the rafter silhouette, window-to-room agreement with the interior,
+  the grey-material shape pass and the accessible-side walk are still open.
+- The 31 rework cards beyond L3/T3/T1/T2, the neck part of N1–N2 and all of
+  E1–E4, H1, H4–H5, I1–I3, C1–C2, V1–V2 are not started; the honest status is
+  the plan document plus the backlog progress entries, not a completed matrix.
+- The repeated-sapling silhouette on the north edge of the ring is reduced but
+  still recognisable at distance (arrival_12_out-right); that is a variety task,
+  not an enclosure one.
