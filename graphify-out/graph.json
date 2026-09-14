@@ -4,58 +4,85 @@
   "graph": {},
   "nodes": [
     {
-      "label": "act1_acceptance_matrix_2026-09-14.md",
+      "label": "act1_external_requests_draft_2026-09-14.md",
       "file_type": "document",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
       "source_location": "L1",
-      "id": "docs_production_act1_acceptance_matrix_2026_09_14_md",
-      "community": 806,
-      "norm_label": "act1_acceptance_matrix_2026-09-14.md"
+      "id": "docs_production_act1_external_requests_draft_2026_09_14_md",
+      "community": 765,
+      "norm_label": "act1_external_requests_draft_2026-09-14.md"
     },
     {
-      "label": "\u0424\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043c\u0430\u0442\u0440\u0438\u0446\u0430 \u043f\u0440\u0438\u0451\u043c\u043a\u0438 \u0410\u043a\u0442\u0430 I \u2014 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e 2026-09-14",
+      "label": "\u0427\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438 \u0432\u043d\u0435\u0448\u043d\u0438\u0445 \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432 \u0410\u043a\u0442\u0430 I \u2014 2026-09-14",
       "file_type": "document",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
       "source_location": "L1",
-      "id": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
-      "community": 806,
-      "norm_label": "\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043c\u0430\u0442\u0440\u0438\u0446\u0430 \u043f\u0440\u0438\u0435\u043c\u043a\u0438 \u0430\u043a\u0442\u0430 i \u2014 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e 2026-09-14"
+      "id": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
+      "community": 765,
+      "norm_label": "\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438 \u0432\u043d\u0435\u0448\u043d\u0438\u0445 \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432 \u0430\u043a\u0442\u0430 i \u2014 2026-09-14"
     },
     {
-      "label": "\u041a\u0430\u043d\u043e\u043d: \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e (2026-09-14)",
+      "label": "\u041a\u0430\u043a \u0434\u0430\u0442\u044c \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 (\u043e\u0434\u043d\u043e\u0439 \u0441\u0442\u0440\u043e\u043a\u043e\u0439)",
       "file_type": "document",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
-      "source_location": "L41",
-      "id": "production_act1_acceptance_matrix_2026_09_14_\u043a\u0430\u043d\u043e\u043d_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e_\u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e_2026_09_14",
-      "community": 806,
-      "norm_label": "\u043a\u0430\u043d\u043e\u043d: \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e (2026-09-14)"
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L17",
+      "id": "production_act1_external_requests_draft_2026_09_14_\u043a\u0430\u043a_\u0434\u0430\u0442\u044c_\u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435_\u043e\u0434\u043d\u043e\u0439_\u0441\u0442\u0440\u043e\u043a\u043e\u0439",
+      "community": 765,
+      "norm_label": "\u043a\u0430\u043a \u0434\u0430\u0442\u044c \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 (\u043e\u0434\u043d\u043e\u0438 \u0441\u0442\u0440\u043e\u043a\u043e\u0438)"
     },
     {
-      "label": "\u0427\u0442\u043e \u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c \u0434\u043b\u044f \u0441\u043b\u043e\u0432\u0430 \u00ab\u0433\u043e\u0442\u043e\u0432\u043e\u00bb",
+      "label": "1. \u0414\u0438\u043a\u0442\u043e\u0440\u0443",
       "file_type": "document",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
-      "source_location": "L72",
-      "id": "production_act1_acceptance_matrix_2026_09_14_\u0447\u0442\u043e_\u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c_\u0434\u043b\u044f_\u0441\u043b\u043e\u0432\u0430_\u0433\u043e\u0442\u043e\u0432\u043e",
-      "community": 806,
-      "norm_label": "\u0447\u0442\u043e \u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c \u0434\u043b\u044f \u0441\u043b\u043e\u0432\u0430 \u00ab\u0433\u043e\u0442\u043e\u0432\u043e\u00bb"
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L38",
+      "id": "production_act1_external_requests_draft_2026_09_14_1_\u0434\u0438\u043a\u0442\u043e\u0440\u0443",
+      "community": 765,
+      "norm_label": "1. \u0434\u0438\u043a\u0442\u043e\u0440\u0443"
     },
     {
-      "label": "\u0424\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u0430\u0432\u0442\u043e\u0440\u0443",
+      "label": "2. \u041a\u0443\u043b\u044c\u0442\u0443\u0440\u043d\u043e\u043c\u0443 \u0438 \u044f\u0437\u044b\u043a\u043e\u0432\u043e\u043c\u0443 \u043a\u043e\u043d\u0441\u0443\u043b\u044c\u0442\u0430\u043d\u0442\u0443",
       "file_type": "document",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
-      "source_location": "L80",
-      "id": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430_\u0430\u0432\u0442\u043e\u0440\u0443",
-      "community": 806,
-      "norm_label": "\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u0430\u0432\u0442\u043e\u0440\u0443"
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L62",
+      "id": "production_act1_external_requests_draft_2026_09_14_2_\u043a\u0443\u043b\u044c\u0442\u0443\u0440\u043d\u043e\u043c\u0443_\u0438_\u044f\u0437\u044b\u043a\u043e\u0432\u043e\u043c\u0443_\u043a\u043e\u043d\u0441\u0443\u043b\u044c\u0442\u0430\u043d\u0442\u0443",
+      "community": 765,
+      "norm_label": "2. \u043a\u0443\u043b\u044c\u0442\u0443\u0440\u043d\u043e\u043c\u0443 \u0438 \u044f\u0437\u044b\u043a\u043e\u0432\u043e\u043c\u0443 \u043a\u043e\u043d\u0441\u0443\u043b\u044c\u0442\u0430\u043d\u0442\u0443"
     },
     {
-      "label": "\u0418\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439 \u043e\u0442\u043a\u0430\u0437 \u0432\u043d\u0435 \u043e\u0445\u0432\u0430\u0442\u0430: `full_game_flow_smoke_test`",
+      "label": "3. \u041d\u043e\u0432\u043e\u043c\u0443 \u0438\u0433\u0440\u043e\u043a\u0443",
       "file_type": "document",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
-      "source_location": "L91",
-      "id": "production_act1_acceptance_matrix_2026_09_14_\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439_\u043e\u0442\u043a\u0430\u0437_\u0432\u043d\u0435_\u043e\u0445\u0432\u0430\u0442\u0430_full_game_flow_smoke_test",
-      "community": 806,
-      "norm_label": "\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0438 \u043e\u0442\u043a\u0430\u0437 \u0432\u043d\u0435 \u043e\u0445\u0432\u0430\u0442\u0430: `full_game_flow_smoke_test`"
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L87",
+      "id": "production_act1_external_requests_draft_2026_09_14_3_\u043d\u043e\u0432\u043e\u043c\u0443_\u0438\u0433\u0440\u043e\u043a\u0443",
+      "community": 765,
+      "norm_label": "3. \u043d\u043e\u0432\u043e\u043c\u0443 \u0438\u0433\u0440\u043e\u043a\u0443"
+    },
+    {
+      "label": "4. \u0412\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0443 Windows-\u043c\u0430\u0448\u0438\u043d\u044b",
+      "file_type": "document",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L99",
+      "id": "production_act1_external_requests_draft_2026_09_14_4_\u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0443_windows_\u043c\u0430\u0448\u0438\u043d\u044b",
+      "community": 765,
+      "norm_label": "4. \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0443 windows-\u043c\u0430\u0448\u0438\u043d\u044b"
+    },
+    {
+      "label": "code:powershell (Get-FileHash .\\URMAN-windows-x86_64.zip -Algorithm SHA256)",
+      "file_type": "document",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L111",
+      "id": "production_act1_external_requests_draft_2026_09_14_codeblock_1",
+      "community": 765,
+      "norm_label": "code:powershell (get-filehash .\\urman-windows-x86_64.zip -algorithm sha256)"
+    },
+    {
+      "label": "\u0427\u0442\u043e \u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c \u043f\u043e\u0441\u043b\u0435 \u044d\u0442\u0438\u0445 \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432",
+      "file_type": "document",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L152",
+      "id": "production_act1_external_requests_draft_2026_09_14_\u0447\u0442\u043e_\u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f_\u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c_\u043f\u043e\u0441\u043b\u0435_\u044d\u0442\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432",
+      "community": 765,
+      "norm_label": "\u0447\u0442\u043e \u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c \u043f\u043e\u0441\u043b\u0435 \u044d\u0442\u0438\u0445 \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432"
     },
     {
       "label": "execution_backlog.json",
@@ -400,670 +427,724 @@
       "norm_label": "tasks"
     },
     {
+      "label": "act1_acceptance_matrix_2026-09-14.md",
+      "file_type": "document",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L1",
+      "community": 806,
+      "norm_label": "act1_acceptance_matrix_2026-09-14.md",
+      "id": "docs_production_act1_acceptance_matrix_2026_09_14_md"
+    },
+    {
+      "label": "\u0424\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043c\u0430\u0442\u0440\u0438\u0446\u0430 \u043f\u0440\u0438\u0451\u043c\u043a\u0438 \u0410\u043a\u0442\u0430 I \u2014 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e 2026-09-14",
+      "file_type": "document",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L1",
+      "community": 806,
+      "norm_label": "\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043c\u0430\u0442\u0440\u0438\u0446\u0430 \u043f\u0440\u0438\u0435\u043c\u043a\u0438 \u0430\u043a\u0442\u0430 i \u2014 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e 2026-09-14",
+      "id": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14"
+    },
+    {
+      "label": "\u041a\u0430\u043d\u043e\u043d: \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e (2026-09-14)",
+      "file_type": "document",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L41",
+      "community": 806,
+      "norm_label": "\u043a\u0430\u043d\u043e\u043d: \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e (2026-09-14)",
+      "id": "production_act1_acceptance_matrix_2026_09_14_\u043a\u0430\u043d\u043e\u043d_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e_\u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e_2026_09_14"
+    },
+    {
+      "label": "\u0427\u0442\u043e \u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c \u0434\u043b\u044f \u0441\u043b\u043e\u0432\u0430 \u00ab\u0433\u043e\u0442\u043e\u0432\u043e\u00bb",
+      "file_type": "document",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L72",
+      "community": 806,
+      "norm_label": "\u0447\u0442\u043e \u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c \u0434\u043b\u044f \u0441\u043b\u043e\u0432\u0430 \u00ab\u0433\u043e\u0442\u043e\u0432\u043e\u00bb",
+      "id": "production_act1_acceptance_matrix_2026_09_14_\u0447\u0442\u043e_\u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c_\u0434\u043b\u044f_\u0441\u043b\u043e\u0432\u0430_\u0433\u043e\u0442\u043e\u0432\u043e"
+    },
+    {
+      "label": "\u0424\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u0430\u0432\u0442\u043e\u0440\u0443",
+      "file_type": "document",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L80",
+      "community": 806,
+      "norm_label": "\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u0430\u0432\u0442\u043e\u0440\u0443",
+      "id": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430_\u0430\u0432\u0442\u043e\u0440\u0443"
+    },
+    {
+      "label": "\u0418\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439 \u043e\u0442\u043a\u0430\u0437 \u0432\u043d\u0435 \u043e\u0445\u0432\u0430\u0442\u0430: `full_game_flow_smoke_test`",
+      "file_type": "document",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L91",
+      "community": 806,
+      "norm_label": "\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0438 \u043e\u0442\u043a\u0430\u0437 \u0432\u043d\u0435 \u043e\u0445\u0432\u0430\u0442\u0430: `full_game_flow_smoke_test`",
+      "id": "production_act1_acceptance_matrix_2026_09_14_\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439_\u043e\u0442\u043a\u0430\u0437_\u0432\u043d\u0435_\u043e\u0445\u0432\u0430\u0442\u0430_full_game_flow_smoke_test"
+    },
+    {
       "label": "gameplay.md",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L1",
-      "id": "docs_urman_knowledge_base_gameplay_md",
       "community": 68,
-      "norm_label": "gameplay.md"
+      "norm_label": "gameplay.md",
+      "id": "docs_urman_knowledge_base_gameplay_md"
     },
     {
       "label": "Gameplay",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L1",
-      "id": "urman_knowledge_base_gameplay_gameplay",
       "community": 68,
-      "norm_label": "gameplay"
+      "norm_label": "gameplay",
+      "id": "urman_knowledge_base_gameplay_gameplay"
     },
     {
       "label": "\u0424\u0438\u0437\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0435\u043d\u0438\u0435 \u0438\u0437 \u0424\u0410\u041f\u0430 \u2014 2026-09-05",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L33",
-      "id": "urman_knowledge_base_gameplay_\u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043a\u043e\u0435_\u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0435\u043d\u0438\u0435_\u0438\u0437_\u0444\u0430\u043f\u0430_2026_09_05",
       "community": 68,
-      "norm_label": "\u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0435\u043d\u0438\u0435 \u0438\u0437 \u0444\u0430\u043f\u0430 \u2014 2026-09-05"
+      "norm_label": "\u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0435\u043d\u0438\u0435 \u0438\u0437 \u0444\u0430\u043f\u0430 \u2014 2026-09-05",
+      "id": "urman_knowledge_base_gameplay_\u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043a\u043e\u0435_\u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0435\u043d\u0438\u0435_\u0438\u0437_\u0444\u0430\u043f\u0430_2026_09_05"
     },
     {
       "label": "Core Loop",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L44",
-      "id": "urman_knowledge_base_gameplay_core_loop",
       "community": 809,
-      "norm_label": "core loop"
+      "norm_label": "core loop",
+      "id": "urman_knowledge_base_gameplay_core_loop"
     },
     {
       "label": "code:text (\u0418\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u0448\u044c \u043c\u0435\u0441\u0442\u043e \u2192)",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L48",
-      "id": "urman_knowledge_base_gameplay_codeblock_1",
       "community": 809,
-      "norm_label": "code:text (\u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u0448\u044c \u043c\u0435\u0441\u0442\u043e \u2192)"
+      "norm_label": "code:text (\u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u0448\u044c \u043c\u0435\u0441\u0442\u043e \u2192)",
+      "id": "urman_knowledge_base_gameplay_codeblock_1"
     },
     {
       "label": "MVP Gameplay Format",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L64",
-      "id": "urman_knowledge_base_gameplay_mvp_gameplay_format",
       "community": 68,
-      "norm_label": "mvp gameplay format"
+      "norm_label": "mvp gameplay format",
+      "id": "urman_knowledge_base_gameplay_mvp_gameplay_format"
     },
     {
       "label": "Full Release Gameplay Lock",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L80",
-      "id": "urman_knowledge_base_gameplay_full_release_gameplay_lock",
       "community": 68,
-      "norm_label": "full release gameplay lock"
+      "norm_label": "full release gameplay lock",
+      "id": "urman_knowledge_base_gameplay_full_release_gameplay_lock"
     },
     {
       "label": "First-Person Village Navigation",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L93",
-      "id": "urman_knowledge_base_gameplay_first_person_village_navigation",
       "community": 812,
-      "norm_label": "first-person village navigation"
+      "norm_label": "first-person village navigation",
+      "id": "urman_knowledge_base_gameplay_first_person_village_navigation"
     },
     {
       "label": "Movement Feel",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L117",
-      "id": "urman_knowledge_base_gameplay_movement_feel",
       "community": 812,
-      "norm_label": "movement feel"
+      "norm_label": "movement feel",
+      "id": "urman_knowledge_base_gameplay_movement_feel"
     },
     {
       "label": "Tension Rules",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L133",
-      "id": "urman_knowledge_base_gameplay_tension_rules",
       "community": 68,
-      "norm_label": "tension rules"
+      "norm_label": "tension rules",
+      "id": "urman_knowledge_base_gameplay_tension_rules"
     },
     {
       "label": "Investigation Loop",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L142",
-      "id": "urman_knowledge_base_gameplay_investigation_loop",
       "community": 68,
-      "norm_label": "investigation loop"
+      "norm_label": "investigation loop",
+      "id": "urman_knowledge_base_gameplay_investigation_loop"
     },
     {
       "label": "Dialogue Key System",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L160",
-      "id": "urman_knowledge_base_gameplay_dialogue_key_system",
       "community": 68,
-      "norm_label": "dialogue key system"
+      "norm_label": "dialogue key system",
+      "id": "urman_knowledge_base_gameplay_dialogue_key_system"
     },
     {
       "label": "Knowledge Keys",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L188",
-      "id": "urman_knowledge_base_gameplay_knowledge_keys",
       "community": 68,
-      "norm_label": "knowledge keys"
+      "norm_label": "knowledge keys",
+      "id": "urman_knowledge_base_gameplay_knowledge_keys"
     },
     {
       "label": "Documents",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L201",
-      "id": "urman_knowledge_base_gameplay_documents",
       "community": 68,
-      "norm_label": "documents"
+      "norm_label": "documents",
+      "id": "urman_knowledge_base_gameplay_documents"
     },
     {
       "label": "Act I Physical Investigation Gates",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L216",
-      "id": "urman_knowledge_base_gameplay_act_i_physical_investigation_gates",
       "community": 68,
-      "norm_label": "act i physical investigation gates"
+      "norm_label": "act i physical investigation gates",
+      "id": "urman_knowledge_base_gameplay_act_i_physical_investigation_gates"
     },
     {
       "label": "Old PC",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L232",
-      "id": "urman_knowledge_base_gameplay_old_pc",
       "community": 68,
-      "norm_label": "old pc"
+      "norm_label": "old pc",
+      "id": "urman_knowledge_base_gameplay_old_pc"
     },
     {
       "label": "Messenger",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L260",
-      "id": "urman_knowledge_base_gameplay_messenger",
       "community": 68,
-      "norm_label": "messenger"
+      "norm_label": "messenger",
+      "id": "urman_knowledge_base_gameplay_messenger"
     },
     {
       "label": "\u0422\u0430\u0442\u0430\u0440\u0441\u043a\u0438\u0439 \u044f\u0437\u044b\u043a \u043a\u0430\u043a \u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L272",
-      "id": "urman_knowledge_base_gameplay_\u0442\u0430\u0442\u0430\u0440\u0441\u043a\u0438\u0439_\u044f\u0437\u044b\u043a_\u043a\u0430\u043a_\u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430",
       "community": 68,
-      "norm_label": "\u0442\u0430\u0442\u0430\u0440\u0441\u043a\u0438\u0438 \u044f\u0437\u044b\u043a \u043a\u0430\u043a \u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430"
+      "norm_label": "\u0442\u0430\u0442\u0430\u0440\u0441\u043a\u0438\u0438 \u044f\u0437\u044b\u043a \u043a\u0430\u043a \u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430",
+      "id": "urman_knowledge_base_gameplay_\u0442\u0430\u0442\u0430\u0440\u0441\u043a\u0438\u0439_\u044f\u0437\u044b\u043a_\u043a\u0430\u043a_\u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430"
     },
     {
       "label": "\u041e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u0435 \u043f\u0435\u0440\u0435\u043c\u0435\u0449\u0435\u043d\u0438\u044f",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L286",
-      "id": "urman_knowledge_base_gameplay_\u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u0435_\u043f\u0435\u0440\u0435\u043c\u0435\u0449\u0435\u043d\u0438\u044f",
       "community": 68,
-      "norm_label": "\u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u0435 \u043f\u0435\u0440\u0435\u043c\u0435\u0449\u0435\u043d\u0438\u044f"
+      "norm_label": "\u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u0435 \u043f\u0435\u0440\u0435\u043c\u0435\u0449\u0435\u043d\u0438\u044f",
+      "id": "urman_knowledge_base_gameplay_\u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u0435_\u043f\u0435\u0440\u0435\u043c\u0435\u0449\u0435\u043d\u0438\u044f"
     },
     {
       "label": "\u0422\u0440\u0435\u0432\u043e\u0436\u043d\u043e\u0441\u0442\u044c \u0434\u0435\u0440\u0435\u0432\u043d\u0438",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L296",
-      "id": "urman_knowledge_base_gameplay_\u0442\u0440\u0435\u0432\u043e\u0436\u043d\u043e\u0441\u0442\u044c_\u0434\u0435\u0440\u0435\u0432\u043d\u0438",
       "community": 68,
-      "norm_label": "\u0442\u0440\u0435\u0432\u043e\u0436\u043d\u043e\u0441\u0442\u044c \u0434\u0435\u0440\u0435\u0432\u043d\u0438"
+      "norm_label": "\u0442\u0440\u0435\u0432\u043e\u0436\u043d\u043e\u0441\u0442\u044c \u0434\u0435\u0440\u0435\u0432\u043d\u0438",
+      "id": "urman_knowledge_base_gameplay_\u0442\u0440\u0435\u0432\u043e\u0436\u043d\u043e\u0441\u0442\u044c_\u0434\u0435\u0440\u0435\u0432\u043d\u0438"
     },
     {
       "label": "Village Pressure",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L307",
-      "id": "urman_knowledge_base_gameplay_village_pressure",
       "community": 68,
-      "norm_label": "village pressure"
+      "norm_label": "village pressure",
+      "id": "urman_knowledge_base_gameplay_village_pressure"
     },
     {
       "label": "Safe Zones",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L340",
-      "id": "urman_knowledge_base_gameplay_safe_zones",
       "community": 68,
-      "norm_label": "safe zones"
+      "norm_label": "safe zones",
+      "id": "urman_knowledge_base_gameplay_safe_zones"
     },
     {
       "label": "UI Gameplay",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L346",
-      "id": "urman_knowledge_base_gameplay_ui_gameplay",
       "community": 68,
-      "norm_label": "ui gameplay"
+      "norm_label": "ui gameplay",
+      "id": "urman_knowledge_base_gameplay_ui_gameplay"
     },
     {
       "label": "\u0420\u0430\u043d\u043d\u0438\u0439 \u0432\u044b\u0431\u043e\u0440 \u0432 \u0434\u043e\u043c\u0435",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L359",
-      "id": "urman_knowledge_base_gameplay_\u0440\u0430\u043d\u043d\u0438\u0439_\u0432\u044b\u0431\u043e\u0440_\u0432_\u0434\u043e\u043c\u0435",
       "community": 68,
-      "norm_label": "\u0440\u0430\u043d\u043d\u0438\u0438 \u0432\u044b\u0431\u043e\u0440 \u0432 \u0434\u043e\u043c\u0435"
+      "norm_label": "\u0440\u0430\u043d\u043d\u0438\u0438 \u0432\u044b\u0431\u043e\u0440 \u0432 \u0434\u043e\u043c\u0435",
+      "id": "urman_knowledge_base_gameplay_\u0440\u0430\u043d\u043d\u0438\u0439_\u0432\u044b\u0431\u043e\u0440_\u0432_\u0434\u043e\u043c\u0435"
     },
     {
       "label": "Historical Camera / View Options",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L367",
-      "id": "urman_knowledge_base_gameplay_historical_camera_view_options",
       "community": 800,
-      "norm_label": "historical camera / view options"
+      "norm_label": "historical camera / view options",
+      "id": "urman_knowledge_base_gameplay_historical_camera_view_options"
     },
     {
       "label": "Classic Zelda-like",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L371",
-      "id": "urman_knowledge_base_gameplay_classic_zelda_like",
       "community": 800,
-      "norm_label": "classic zelda-like"
+      "norm_label": "classic zelda-like",
+      "id": "urman_knowledge_base_gameplay_classic_zelda_like"
     },
     {
       "label": "Isometric",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L375",
-      "id": "urman_knowledge_base_gameplay_isometric",
       "community": 800,
-      "norm_label": "isometric"
+      "norm_label": "isometric",
+      "id": "urman_knowledge_base_gameplay_isometric"
     },
     {
       "label": "Interface-heavy",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L379",
-      "id": "urman_knowledge_base_gameplay_interface_heavy",
       "community": 800,
-      "norm_label": "interface-heavy"
+      "norm_label": "interface-heavy",
+      "id": "urman_knowledge_base_gameplay_interface_heavy"
     },
     {
       "label": "Static-node Hybrid \u2014 Superseded",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L383",
-      "id": "urman_knowledge_base_gameplay_static_node_hybrid_superseded",
       "community": 800,
-      "norm_label": "static-node hybrid \u2014 superseded"
+      "norm_label": "static-node hybrid \u2014 superseded",
+      "id": "urman_knowledge_base_gameplay_static_node_hybrid_superseded"
     },
     {
       "label": "Weak Gameplay Points",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L387",
-      "id": "urman_knowledge_base_gameplay_weak_gameplay_points",
       "community": 68,
-      "norm_label": "weak gameplay points"
+      "norm_label": "weak gameplay points",
+      "id": "urman_knowledge_base_gameplay_weak_gameplay_points"
     },
     {
       "label": "\u0420\u0443\u0447\u043d\u044b\u0435 \u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u0410\u043a\u0442\u0430 I \u2014 2026-09-11",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L398",
-      "id": "urman_knowledge_base_gameplay_\u0440\u0443\u0447\u043d\u044b\u0435_\u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u0438\u044f_\u0430\u043a\u0442\u0430_i_2026_09_11",
       "community": 814,
-      "norm_label": "\u0440\u0443\u0447\u043d\u044b\u0435 \u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u0430\u043a\u0442\u0430 i \u2014 2026-09-11"
+      "norm_label": "\u0440\u0443\u0447\u043d\u044b\u0435 \u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u0430\u043a\u0442\u0430 i \u2014 2026-09-11",
+      "id": "urman_knowledge_base_gameplay_\u0440\u0443\u0447\u043d\u044b\u0435_\u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u0438\u044f_\u0430\u043a\u0442\u0430_i_2026_09_11"
     },
     {
       "label": "\u0424\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0432\u044b\u0432\u043e\u0434 \u2014 2026-09-11",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L406",
-      "id": "urman_knowledge_base_gameplay_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439_\u0432\u044b\u0432\u043e\u0434_2026_09_11",
       "community": 814,
-      "norm_label": "\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0438 \u0432\u044b\u0432\u043e\u0434 \u2014 2026-09-11"
+      "norm_label": "\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0438 \u0432\u044b\u0432\u043e\u0434 \u2014 2026-09-11",
+      "id": "urman_knowledge_base_gameplay_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439_\u0432\u044b\u0432\u043e\u0434_2026_09_11"
     },
     {
       "label": "\u0418\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0439 \u043c\u0438\u0440 \u2014 \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u0430\u044f \u043f\u0440\u0438\u0451\u043c\u043a\u0430 2026-09-11",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L410",
-      "id": "urman_knowledge_base_gameplay_\u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0439_\u043c\u0438\u0440_\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u0430\u044f_\u043f\u0440\u0438\u0451\u043c\u043a\u0430_2026_09_11",
       "community": 545,
-      "norm_label": "\u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0438 \u043c\u0438\u0440 \u2014 \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u0430\u044f \u043f\u0440\u0438\u0435\u043c\u043a\u0430 2026-09-11"
+      "norm_label": "\u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0438 \u043c\u0438\u0440 \u2014 \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u0430\u044f \u043f\u0440\u0438\u0435\u043c\u043a\u0430 2026-09-11",
+      "id": "urman_knowledge_base_gameplay_\u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0439_\u043c\u0438\u0440_\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u0430\u044f_\u043f\u0440\u0438\u0451\u043c\u043a\u0430_2026_09_11"
     },
     {
       "label": "2026-09-11 \u2014 \u0434\u043e\u043c\u0430\u0448\u043d\u0438\u0435 \u043d\u0430\u0445\u043e\u0434\u043a\u0438, \u043f\u0435\u0440\u0432\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u043f\u043b\u043e\u0442\u043d\u043e\u0433\u043e \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L440",
-      "id": "urman_knowledge_base_gameplay_2026_09_11_\u0434\u043e\u043c\u0430\u0448\u043d\u0438\u0435_\u043d\u0430\u0445\u043e\u0434\u043a\u0438_\u043f\u0435\u0440\u0432\u0430\u044f_\u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f_\u043f\u043b\u043e\u0442\u043d\u043e\u0433\u043e_\u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f",
       "community": 545,
-      "norm_label": "2026-09-11 \u2014 \u0434\u043e\u043c\u0430\u0448\u043d\u0438\u0435 \u043d\u0430\u0445\u043e\u0434\u043a\u0438, \u043f\u0435\u0440\u0432\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u043f\u043b\u043e\u0442\u043d\u043e\u0433\u043e \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f"
+      "norm_label": "2026-09-11 \u2014 \u0434\u043e\u043c\u0430\u0448\u043d\u0438\u0435 \u043d\u0430\u0445\u043e\u0434\u043a\u0438, \u043f\u0435\u0440\u0432\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u043f\u043b\u043e\u0442\u043d\u043e\u0433\u043e \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f",
+      "id": "urman_knowledge_base_gameplay_2026_09_11_\u0434\u043e\u043c\u0430\u0448\u043d\u0438\u0435_\u043d\u0430\u0445\u043e\u0434\u043a\u0438_\u043f\u0435\u0440\u0432\u0430\u044f_\u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f_\u043f\u043b\u043e\u0442\u043d\u043e\u0433\u043e_\u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f"
     },
     {
       "label": "2026-09-11 \u2014 \u043a\u043e\u043b\u043b\u0438\u0437\u0438\u0438 \u0432\u0438\u0434\u0438\u043c\u043e\u0439 \u0443\u043b\u0438\u0446\u044b",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L458",
-      "id": "urman_knowledge_base_gameplay_2026_09_11_\u043a\u043e\u043b\u043b\u0438\u0437\u0438\u0438_\u0432\u0438\u0434\u0438\u043c\u043e\u0439_\u0443\u043b\u0438\u0446\u044b",
       "community": 545,
-      "norm_label": "2026-09-11 \u2014 \u043a\u043e\u043b\u043b\u0438\u0437\u0438\u0438 \u0432\u0438\u0434\u0438\u043c\u043e\u0438 \u0443\u043b\u0438\u0446\u044b"
+      "norm_label": "2026-09-11 \u2014 \u043a\u043e\u043b\u043b\u0438\u0437\u0438\u0438 \u0432\u0438\u0434\u0438\u043c\u043e\u0438 \u0443\u043b\u0438\u0446\u044b",
+      "id": "urman_knowledge_base_gameplay_2026_09_11_\u043a\u043e\u043b\u043b\u0438\u0437\u0438\u0438_\u0432\u0438\u0434\u0438\u043c\u043e\u0439_\u0443\u043b\u0438\u0446\u044b"
     },
     {
       "label": "2026-09-11 \u2014 \u0431\u043e\u043a\u043e\u0432\u043e\u0439 \u0432\u0445\u043e\u0434 \u0434\u0432\u043e\u0440\u0430 \u0438 \u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0439 \u043f\u043e\u0434\u0445\u043e\u0434 \u043a \u043b\u0435\u0441\u0443",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L470",
-      "id": "urman_knowledge_base_gameplay_2026_09_11_\u0431\u043e\u043a\u043e\u0432\u043e\u0439_\u0432\u0445\u043e\u0434_\u0434\u0432\u043e\u0440\u0430_\u0438_\u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0439_\u043f\u043e\u0434\u0445\u043e\u0434_\u043a_\u043b\u0435\u0441\u0443",
       "community": 545,
-      "norm_label": "2026-09-11 \u2014 \u0431\u043e\u043a\u043e\u0432\u043e\u0438 \u0432\u0445\u043e\u0434 \u0434\u0432\u043e\u0440\u0430 \u0438 \u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0438 \u043f\u043e\u0434\u0445\u043e\u0434 \u043a \u043b\u0435\u0441\u0443"
+      "norm_label": "2026-09-11 \u2014 \u0431\u043e\u043a\u043e\u0432\u043e\u0438 \u0432\u0445\u043e\u0434 \u0434\u0432\u043e\u0440\u0430 \u0438 \u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0438 \u043f\u043e\u0434\u0445\u043e\u0434 \u043a \u043b\u0435\u0441\u0443",
+      "id": "urman_knowledge_base_gameplay_2026_09_11_\u0431\u043e\u043a\u043e\u0432\u043e\u0439_\u0432\u0445\u043e\u0434_\u0434\u0432\u043e\u0440\u0430_\u0438_\u0438\u0441\u0441\u043b\u0435\u0434\u0443\u0435\u043c\u044b\u0439_\u043f\u043e\u0434\u0445\u043e\u0434_\u043a_\u043b\u0435\u0441\u0443"
     },
     {
       "label": "2026-09-11 \u2014 24 \u043d\u0430\u0445\u043e\u0434\u043a\u0438 \u0438 \u043d\u0430\u0440\u0443\u0436\u043d\u044b\u0435 \u043e\u0431\u0445\u043e\u0434\u044b",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L499",
-      "id": "urman_knowledge_base_gameplay_2026_09_11_24_\u043d\u0430\u0445\u043e\u0434\u043a\u0438_\u0438_\u043d\u0430\u0440\u0443\u0436\u043d\u044b\u0435_\u043e\u0431\u0445\u043e\u0434\u044b",
       "community": 545,
-      "norm_label": "2026-09-11 \u2014 24 \u043d\u0430\u0445\u043e\u0434\u043a\u0438 \u0438 \u043d\u0430\u0440\u0443\u0436\u043d\u044b\u0435 \u043e\u0431\u0445\u043e\u0434\u044b"
+      "norm_label": "2026-09-11 \u2014 24 \u043d\u0430\u0445\u043e\u0434\u043a\u0438 \u0438 \u043d\u0430\u0440\u0443\u0436\u043d\u044b\u0435 \u043e\u0431\u0445\u043e\u0434\u044b",
+      "id": "urman_knowledge_base_gameplay_2026_09_11_24_\u043d\u0430\u0445\u043e\u0434\u043a\u0438_\u0438_\u043d\u0430\u0440\u0443\u0436\u043d\u044b\u0435_\u043e\u0431\u0445\u043e\u0434\u044b"
     },
     {
       "label": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f \u0432 \u043c\u0438\u0440\u0435 \u2014 2026-09-11",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L544",
-      "id": "urman_knowledge_base_gameplay_\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435_\u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f_\u0432_\u043c\u0438\u0440\u0435_2026_09_11",
       "community": 545,
-      "norm_label": "\u0434\u0435\u0438\u0441\u0442\u0432\u0438\u0435 \u043e\u0441\u0442\u0430\u0435\u0442\u0441\u044f \u0432 \u043c\u0438\u0440\u0435 \u2014 2026-09-11"
+      "norm_label": "\u0434\u0435\u0438\u0441\u0442\u0432\u0438\u0435 \u043e\u0441\u0442\u0430\u0435\u0442\u0441\u044f \u0432 \u043c\u0438\u0440\u0435 \u2014 2026-09-11",
+      "id": "urman_knowledge_base_gameplay_\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435_\u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f_\u0432_\u043c\u0438\u0440\u0435_2026_09_11"
     },
     {
       "label": "2026-09-12 \u2014 \u043c\u0435\u0441\u0442\u043e \u043d\u0430\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f \u0432\u043e \u0434\u0432\u043e\u0440\u0435 \u0437\u0430 \u0441\u0430\u0440\u0430\u0435\u043c",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L558",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u043c\u0435\u0441\u0442\u043e_\u043d\u0430\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f_\u0432\u043e_\u0434\u0432\u043e\u0440\u0435_\u0437\u0430_\u0441\u0430\u0440\u0430\u0435\u043c",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u043c\u0435\u0441\u0442\u043e \u043d\u0430\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f \u0432\u043e \u0434\u0432\u043e\u0440\u0435 \u0437\u0430 \u0441\u0430\u0440\u0430\u0435\u043c"
+      "norm_label": "2026-09-12 \u2014 \u043c\u0435\u0441\u0442\u043e \u043d\u0430\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f \u0432\u043e \u0434\u0432\u043e\u0440\u0435 \u0437\u0430 \u0441\u0430\u0440\u0430\u0435\u043c",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u043c\u0435\u0441\u0442\u043e_\u043d\u0430\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f_\u0432\u043e_\u0434\u0432\u043e\u0440\u0435_\u0437\u0430_\u0441\u0430\u0440\u0430\u0435\u043c"
     },
     {
       "label": "2026-09-12 \u2014 \u043d\u0430\u0445\u043e\u0434\u043a\u0430 \u0432\u0435\u0434\u0451\u0442 \u043a \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u043c\u0443 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044e",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L562",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u043d\u0430\u0445\u043e\u0434\u043a\u0430_\u0432\u0435\u0434\u0451\u0442_\u043a_\u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u043c\u0443_\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044e",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u043d\u0430\u0445\u043e\u0434\u043a\u0430 \u0432\u0435\u0434\u0435\u0442 \u043a \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u043c\u0443 \u0434\u0435\u0438\u0441\u0442\u0432\u0438\u044e"
+      "norm_label": "2026-09-12 \u2014 \u043d\u0430\u0445\u043e\u0434\u043a\u0430 \u0432\u0435\u0434\u0435\u0442 \u043a \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u043c\u0443 \u0434\u0435\u0438\u0441\u0442\u0432\u0438\u044e",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u043d\u0430\u0445\u043e\u0434\u043a\u0430_\u0432\u0435\u0434\u0451\u0442_\u043a_\u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u043c\u0443_\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044e"
     },
     {
       "label": "2026-09-12 \u2014 \u043d\u0430\u0445\u043e\u0434\u043a\u0430 \u0440\u0430\u0441\u043a\u0440\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u0432 \u043c\u0438\u0440\u0435",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L566",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u043d\u0430\u0445\u043e\u0434\u043a\u0430_\u0440\u0430\u0441\u043a\u0440\u044b\u0432\u0430\u0435\u0442\u0441\u044f_\u0432_\u043c\u0438\u0440\u0435",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u043d\u0430\u0445\u043e\u0434\u043a\u0430 \u0440\u0430\u0441\u043a\u0440\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u0432 \u043c\u0438\u0440\u0435"
+      "norm_label": "2026-09-12 \u2014 \u043d\u0430\u0445\u043e\u0434\u043a\u0430 \u0440\u0430\u0441\u043a\u0440\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u0432 \u043c\u0438\u0440\u0435",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u043d\u0430\u0445\u043e\u0434\u043a\u0430_\u0440\u0430\u0441\u043a\u0440\u044b\u0432\u0430\u0435\u0442\u0441\u044f_\u0432_\u043c\u0438\u0440\u0435"
     },
     {
       "label": "2026-09-12 \u2014 \u0432\u0438\u0434\u0435\u0442\u044c \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442 \u0431\u044b\u0442\u043e\u0432\u043e\u0433\u043e \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L572",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0432\u0438\u0434\u0435\u0442\u044c_\u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442_\u0431\u044b\u0442\u043e\u0432\u043e\u0433\u043e_\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u0432\u0438\u0434\u0435\u0442\u044c \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442 \u0431\u044b\u0442\u043e\u0432\u043e\u0433\u043e \u0434\u0435\u0438\u0441\u0442\u0432\u0438\u044f"
+      "norm_label": "2026-09-12 \u2014 \u0432\u0438\u0434\u0435\u0442\u044c \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442 \u0431\u044b\u0442\u043e\u0432\u043e\u0433\u043e \u0434\u0435\u0438\u0441\u0442\u0432\u0438\u044f",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0432\u0438\u0434\u0435\u0442\u044c_\u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442_\u0431\u044b\u0442\u043e\u0432\u043e\u0433\u043e_\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f"
     },
     {
       "label": "2026-09-12 \u2014 \u0440\u0430\u043a\u0443\u0440\u0441 \u043b\u0435\u0441\u043d\u043e\u0433\u043e \u0441\u0438\u043b\u0443\u044d\u0442\u0430",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L577",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0440\u0430\u043a\u0443\u0440\u0441_\u043b\u0435\u0441\u043d\u043e\u0433\u043e_\u0441\u0438\u043b\u0443\u044d\u0442\u0430",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u0440\u0430\u043a\u0443\u0440\u0441 \u043b\u0435\u0441\u043d\u043e\u0433\u043e \u0441\u0438\u043b\u0443\u044d\u0442\u0430"
+      "norm_label": "2026-09-12 \u2014 \u0440\u0430\u043a\u0443\u0440\u0441 \u043b\u0435\u0441\u043d\u043e\u0433\u043e \u0441\u0438\u043b\u0443\u044d\u0442\u0430",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0440\u0430\u043a\u0443\u0440\u0441_\u043b\u0435\u0441\u043d\u043e\u0433\u043e_\u0441\u0438\u043b\u0443\u044d\u0442\u0430"
     },
     {
       "label": "2026-09-12 \u2014 \u0432\u0438\u0434\u0438\u043c\u0430\u044f \u0440\u0430\u0441\u0447\u0438\u0441\u0442\u043a\u0430 \u0434\u0432\u0443\u0445 \u043e\u0431\u0445\u043e\u0434\u043e\u0432",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L584",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0432\u0438\u0434\u0438\u043c\u0430\u044f_\u0440\u0430\u0441\u0447\u0438\u0441\u0442\u043a\u0430_\u0434\u0432\u0443\u0445_\u043e\u0431\u0445\u043e\u0434\u043e\u0432",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u0432\u0438\u0434\u0438\u043c\u0430\u044f \u0440\u0430\u0441\u0447\u0438\u0441\u0442\u043a\u0430 \u0434\u0432\u0443\u0445 \u043e\u0431\u0445\u043e\u0434\u043e\u0432"
+      "norm_label": "2026-09-12 \u2014 \u0432\u0438\u0434\u0438\u043c\u0430\u044f \u0440\u0430\u0441\u0447\u0438\u0441\u0442\u043a\u0430 \u0434\u0432\u0443\u0445 \u043e\u0431\u0445\u043e\u0434\u043e\u0432",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0432\u0438\u0434\u0438\u043c\u0430\u044f_\u0440\u0430\u0441\u0447\u0438\u0441\u0442\u043a\u0430_\u0434\u0432\u0443\u0445_\u043e\u0431\u0445\u043e\u0434\u043e\u0432"
     },
     {
       "label": "2026-09-12 \u2014 \u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043d\u043d\u0430\u044f \u043d\u0430\u0445\u043e\u0434\u043a\u0430 \u0432 \u043f\u0440\u0438\u0446\u0435\u043b\u0435",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L591",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043d\u043d\u0430\u044f_\u043d\u0430\u0445\u043e\u0434\u043a\u0430_\u0432_\u043f\u0440\u0438\u0446\u0435\u043b\u0435",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u043d\u0430\u044f \u043d\u0430\u0445\u043e\u0434\u043a\u0430 \u0432 \u043f\u0440\u0438\u0446\u0435\u043b\u0435"
+      "norm_label": "2026-09-12 \u2014 \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u043d\u0430\u044f \u043d\u0430\u0445\u043e\u0434\u043a\u0430 \u0432 \u043f\u0440\u0438\u0446\u0435\u043b\u0435",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043d\u043d\u0430\u044f_\u043d\u0430\u0445\u043e\u0434\u043a\u0430_\u0432_\u043f\u0440\u0438\u0446\u0435\u043b\u0435"
     },
     {
       "label": "2026-09-12 \u2014 \u0447\u0438\u0442\u0430\u0435\u043c\u044b\u0439 \u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0448\u0430\u0433",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L596",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0447\u0438\u0442\u0430\u0435\u043c\u044b\u0439_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439_\u0448\u0430\u0433",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u0447\u0438\u0442\u0430\u0435\u043c\u044b\u0438 \u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0438 \u0448\u0430\u0433"
+      "norm_label": "2026-09-12 \u2014 \u0447\u0438\u0442\u0430\u0435\u043c\u044b\u0438 \u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0438 \u0448\u0430\u0433",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0447\u0438\u0442\u0430\u0435\u043c\u044b\u0439_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439_\u0448\u0430\u0433"
     },
     {
       "label": "2026-09-12 \u2014 \u0441\u0430\u043d\u043a\u0438 \u043e\u0441\u0442\u0430\u044e\u0442\u0441\u044f \u0432 \u043f\u043e\u043b\u0435 \u0437\u0440\u0435\u043d\u0438\u044f",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L600",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0441\u0430\u043d\u043a\u0438_\u043e\u0441\u0442\u0430\u044e\u0442\u0441\u044f_\u0432_\u043f\u043e\u043b\u0435_\u0437\u0440\u0435\u043d\u0438\u044f",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u0441\u0430\u043d\u043a\u0438 \u043e\u0441\u0442\u0430\u044e\u0442\u0441\u044f \u0432 \u043f\u043e\u043b\u0435 \u0437\u0440\u0435\u043d\u0438\u044f"
+      "norm_label": "2026-09-12 \u2014 \u0441\u0430\u043d\u043a\u0438 \u043e\u0441\u0442\u0430\u044e\u0442\u0441\u044f \u0432 \u043f\u043e\u043b\u0435 \u0437\u0440\u0435\u043d\u0438\u044f",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0441\u0430\u043d\u043a\u0438_\u043e\u0441\u0442\u0430\u044e\u0442\u0441\u044f_\u0432_\u043f\u043e\u043b\u0435_\u0437\u0440\u0435\u043d\u0438\u044f"
     },
     {
       "label": "2026-09-12 \u2014 \u043d\u0435\u043f\u0440\u0435\u0440\u044b\u0432\u043d\u044b\u0439 \u043e\u0441\u043c\u043e\u0442\u0440 \u0441\u0438\u043b\u0443\u044d\u0442\u0430 \u0443 \u043b\u0435\u0441\u0430",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L614",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u043d\u0435\u043f\u0440\u0435\u0440\u044b\u0432\u043d\u044b\u0439_\u043e\u0441\u043c\u043e\u0442\u0440_\u0441\u0438\u043b\u0443\u044d\u0442\u0430_\u0443_\u043b\u0435\u0441\u0430",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u043d\u0435\u043f\u0440\u0435\u0440\u044b\u0432\u043d\u044b\u0438 \u043e\u0441\u043c\u043e\u0442\u0440 \u0441\u0438\u043b\u0443\u044d\u0442\u0430 \u0443 \u043b\u0435\u0441\u0430"
+      "norm_label": "2026-09-12 \u2014 \u043d\u0435\u043f\u0440\u0435\u0440\u044b\u0432\u043d\u044b\u0438 \u043e\u0441\u043c\u043e\u0442\u0440 \u0441\u0438\u043b\u0443\u044d\u0442\u0430 \u0443 \u043b\u0435\u0441\u0430",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u043d\u0435\u043f\u0440\u0435\u0440\u044b\u0432\u043d\u044b\u0439_\u043e\u0441\u043c\u043e\u0442\u0440_\u0441\u0438\u043b\u0443\u044d\u0442\u0430_\u0443_\u043b\u0435\u0441\u0430"
     },
     {
       "label": "2026-09-12 \u2014 \u0447\u0435\u043b\u043e\u0432\u0435\u0447\u0435\u0441\u043a\u0438\u0439 \u043e\u0442\u043a\u043b\u0438\u043a \u043d\u0430 \u043d\u0430\u0445\u043e\u0434\u043a\u0443 \u0441\u0430\u043d\u043e\u043a",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L626",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0447\u0435\u043b\u043e\u0432\u0435\u0447\u0435\u0441\u043a\u0438\u0439_\u043e\u0442\u043a\u043b\u0438\u043a_\u043d\u0430_\u043d\u0430\u0445\u043e\u0434\u043a\u0443_\u0441\u0430\u043d\u043e\u043a",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u0447\u0435\u043b\u043e\u0432\u0435\u0447\u0435\u0441\u043a\u0438\u0438 \u043e\u0442\u043a\u043b\u0438\u043a \u043d\u0430 \u043d\u0430\u0445\u043e\u0434\u043a\u0443 \u0441\u0430\u043d\u043e\u043a"
+      "norm_label": "2026-09-12 \u2014 \u0447\u0435\u043b\u043e\u0432\u0435\u0447\u0435\u0441\u043a\u0438\u0438 \u043e\u0442\u043a\u043b\u0438\u043a \u043d\u0430 \u043d\u0430\u0445\u043e\u0434\u043a\u0443 \u0441\u0430\u043d\u043e\u043a",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0447\u0435\u043b\u043e\u0432\u0435\u0447\u0435\u0441\u043a\u0438\u0439_\u043e\u0442\u043a\u043b\u0438\u043a_\u043d\u0430_\u043d\u0430\u0445\u043e\u0434\u043a\u0443_\u0441\u0430\u043d\u043e\u043a"
     },
     {
       "label": "2026-09-12 \u2014 \u0447\u0438\u0442\u0430\u0435\u043c\u044b\u0439 \u043e\u0440\u0438\u0435\u043d\u0442\u0438\u0440 \u0437\u0430 \u0434\u043e\u043c\u043e\u043c",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L647",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0447\u0438\u0442\u0430\u0435\u043c\u044b\u0439_\u043e\u0440\u0438\u0435\u043d\u0442\u0438\u0440_\u0437\u0430_\u0434\u043e\u043c\u043e\u043c",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u0447\u0438\u0442\u0430\u0435\u043c\u044b\u0438 \u043e\u0440\u0438\u0435\u043d\u0442\u0438\u0440 \u0437\u0430 \u0434\u043e\u043c\u043e\u043c"
+      "norm_label": "2026-09-12 \u2014 \u0447\u0438\u0442\u0430\u0435\u043c\u044b\u0438 \u043e\u0440\u0438\u0435\u043d\u0442\u0438\u0440 \u0437\u0430 \u0434\u043e\u043c\u043e\u043c",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u0447\u0438\u0442\u0430\u0435\u043c\u044b\u0439_\u043e\u0440\u0438\u0435\u043d\u0442\u0438\u0440_\u0437\u0430_\u0434\u043e\u043c\u043e\u043c"
     },
     {
       "label": "2026-09-12 \u2014 \u043f\u0435\u0440\u0432\u044b\u0439 \u0432\u043e\u043f\u0440\u043e\u0441 \u041d\u0430\u0438\u043b\u0435",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L670",
-      "id": "urman_knowledge_base_gameplay_2026_09_12_\u043f\u0435\u0440\u0432\u044b\u0439_\u0432\u043e\u043f\u0440\u043e\u0441_\u043d\u0430\u0438\u043b\u0435",
       "community": 545,
-      "norm_label": "2026-09-12 \u2014 \u043f\u0435\u0440\u0432\u044b\u0438 \u0432\u043e\u043f\u0440\u043e\u0441 \u043d\u0430\u0438\u043b\u0435"
+      "norm_label": "2026-09-12 \u2014 \u043f\u0435\u0440\u0432\u044b\u0438 \u0432\u043e\u043f\u0440\u043e\u0441 \u043d\u0430\u0438\u043b\u0435",
+      "id": "urman_knowledge_base_gameplay_2026_09_12_\u043f\u0435\u0440\u0432\u044b\u0439_\u0432\u043e\u043f\u0440\u043e\u0441_\u043d\u0430\u0438\u043b\u0435"
     },
     {
       "label": "\u041d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043d\u0430\u0445\u043e\u0434\u043a\u0438 \u0438 \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435 \u0438\u0441\u0442\u043e\u0440\u0438\u0438 \u0410\u043a\u0442\u0430 I \u2014 2026-09-14",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L687",
-      "id": "urman_knowledge_base_gameplay_\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435_\u043d\u0430\u0445\u043e\u0434\u043a\u0438_\u0438_\u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435_\u0438\u0441\u0442\u043e\u0440\u0438\u0438_\u0430\u043a\u0442\u0430_i_2026_09_14",
       "community": 798,
-      "norm_label": "\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043d\u0430\u0445\u043e\u0434\u043a\u0438 \u0438 \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435 \u0438\u0441\u0442\u043e\u0440\u0438\u0438 \u0430\u043a\u0442\u0430 i \u2014 2026-09-14"
+      "norm_label": "\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043d\u0430\u0445\u043e\u0434\u043a\u0438 \u0438 \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435 \u0438\u0441\u0442\u043e\u0440\u0438\u0438 \u0430\u043a\u0442\u0430 i \u2014 2026-09-14",
+      "id": "urman_knowledge_base_gameplay_\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435_\u043d\u0430\u0445\u043e\u0434\u043a\u0438_\u0438_\u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435_\u0438\u0441\u0442\u043e\u0440\u0438\u0438_\u0430\u043a\u0442\u0430_i_2026_09_14"
     },
     {
       "label": "\u0414\u0432\u0435 \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435 \u0438\u0441\u0442\u043e\u0440\u0438\u0438",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L710",
-      "id": "urman_knowledge_base_gameplay_\u0434\u0432\u0435_\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435_\u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435_\u0438\u0441\u0442\u043e\u0440\u0438\u0438",
       "community": 798,
-      "norm_label": "\u0434\u0432\u0435 \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435 \u0438\u0441\u0442\u043e\u0440\u0438\u0438"
+      "norm_label": "\u0434\u0432\u0435 \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435 \u0438\u0441\u0442\u043e\u0440\u0438\u0438",
+      "id": "urman_knowledge_base_gameplay_\u0434\u0432\u0435_\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435_\u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435_\u0438\u0441\u0442\u043e\u0440\u0438\u0438"
     },
     {
       "label": "\u0427\u0442\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e \u0438 \u0447\u0442\u043e \u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L736",
-      "id": "urman_knowledge_base_gameplay_\u0447\u0442\u043e_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e_\u0438_\u0447\u0442\u043e_\u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f_\u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c",
       "community": 798,
-      "norm_label": "\u0447\u0442\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e \u0438 \u0447\u0442\u043e \u043e\u0441\u0442\u0430\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c"
+      "norm_label": "\u0447\u0442\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e \u0438 \u0447\u0442\u043e \u043e\u0441\u0442\u0430\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c",
+      "id": "urman_knowledge_base_gameplay_\u0447\u0442\u043e_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e_\u0438_\u0447\u0442\u043e_\u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f_\u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c"
     },
     {
       "label": "\u0413\u0440\u0430\u043d\u0438\u0446\u044b \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u043d\u0430\u0445\u043e\u0434\u043e\u043a \u2014 2026-09-14",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L753",
-      "id": "urman_knowledge_base_gameplay_\u0433\u0440\u0430\u043d\u0438\u0446\u044b_\u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438_\u043d\u0430\u0445\u043e\u0434\u043e\u043a_2026_09_14",
       "community": 798,
-      "norm_label": "\u0433\u0440\u0430\u043d\u0438\u0446\u044b \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u043d\u0430\u0445\u043e\u0434\u043e\u043a \u2014 2026-09-14"
+      "norm_label": "\u0433\u0440\u0430\u043d\u0438\u0446\u044b \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u043d\u0430\u0445\u043e\u0434\u043e\u043a \u2014 2026-09-14",
+      "id": "urman_knowledge_base_gameplay_\u0433\u0440\u0430\u043d\u0438\u0446\u044b_\u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438_\u043d\u0430\u0445\u043e\u0434\u043e\u043a_2026_09_14"
     },
     {
       "label": "\u041a\u0430\u043a \u043d\u0430 \u0441\u0430\u043c\u043e\u043c \u0434\u0435\u043b\u0435 \u0443\u0441\u0442\u0440\u043e\u0435\u043d\u0430 \u043f\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u0444\u0438\u043d\u0430\u043b\u0430 (2026-09-14)",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L776",
-      "id": "urman_knowledge_base_gameplay_\u043a\u0430\u043a_\u043d\u0430_\u0441\u0430\u043c\u043e\u043c_\u0434\u0435\u043b\u0435_\u0443\u0441\u0442\u0440\u043e\u0435\u043d\u0430_\u043f\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430_\u0444\u0438\u043d\u0430\u043b\u0430_2026_09_14",
       "community": 798,
-      "norm_label": "\u043a\u0430\u043a \u043d\u0430 \u0441\u0430\u043c\u043e\u043c \u0434\u0435\u043b\u0435 \u0443\u0441\u0442\u0440\u043e\u0435\u043d\u0430 \u043f\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u0444\u0438\u043d\u0430\u043b\u0430 (2026-09-14)"
+      "norm_label": "\u043a\u0430\u043a \u043d\u0430 \u0441\u0430\u043c\u043e\u043c \u0434\u0435\u043b\u0435 \u0443\u0441\u0442\u0440\u043e\u0435\u043d\u0430 \u043f\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u0444\u0438\u043d\u0430\u043b\u0430 (2026-09-14)",
+      "id": "urman_knowledge_base_gameplay_\u043a\u0430\u043a_\u043d\u0430_\u0441\u0430\u043c\u043e\u043c_\u0434\u0435\u043b\u0435_\u0443\u0441\u0442\u0440\u043e\u0435\u043d\u0430_\u043f\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430_\u0444\u0438\u043d\u0430\u043b\u0430_2026_09_14"
     },
     {
       "label": "\u0418\u0441\u043f\u0440\u0430\u0432\u043b\u0435\u043d \u043a\u0440\u0430\u0448 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440\u0430 \u043f\u0440\u0438 \u0441\u043c\u0435\u043d\u0435 \u0437\u043e\u043d\u044b (2026-09-14)",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L800",
-      "id": "urman_knowledge_base_gameplay_\u0438\u0441\u043f\u0440\u0430\u0432\u043b\u0435\u043d_\u043a\u0440\u0430\u0448_\u043a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440\u0430_\u043f\u0440\u0438_\u0441\u043c\u0435\u043d\u0435_\u0437\u043e\u043d\u044b_2026_09_14",
       "community": 798,
-      "norm_label": "\u0438\u0441\u043f\u0440\u0430\u0432\u043b\u0435\u043d \u043a\u0440\u0430\u0448 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440\u0430 \u043f\u0440\u0438 \u0441\u043c\u0435\u043d\u0435 \u0437\u043e\u043d\u044b (2026-09-14)"
+      "norm_label": "\u0438\u0441\u043f\u0440\u0430\u0432\u043b\u0435\u043d \u043a\u0440\u0430\u0448 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440\u0430 \u043f\u0440\u0438 \u0441\u043c\u0435\u043d\u0435 \u0437\u043e\u043d\u044b (2026-09-14)",
+      "id": "urman_knowledge_base_gameplay_\u0438\u0441\u043f\u0440\u0430\u0432\u043b\u0435\u043d_\u043a\u0440\u0430\u0448_\u043a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440\u0430_\u043f\u0440\u0438_\u0441\u043c\u0435\u043d\u0435_\u0437\u043e\u043d\u044b_2026_09_14"
     },
     {
       "label": "\u041f\u043e\u043b\u043d\u044b\u0439 \u043f\u0440\u043e\u0433\u043e\u043d \u0443\u0437\u043a\u0438\u0445 smoke-\u0442\u0435\u0441\u0442\u043e\u0432 (2026-09-14)",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L822",
-      "id": "urman_knowledge_base_gameplay_\u043f\u043e\u043b\u043d\u044b\u0439_\u043f\u0440\u043e\u0433\u043e\u043d_\u0443\u0437\u043a\u0438\u0445_smoke_\u0442\u0435\u0441\u0442\u043e\u0432_2026_09_14",
       "community": 798,
-      "norm_label": "\u043f\u043e\u043b\u043d\u044b\u0438 \u043f\u0440\u043e\u0433\u043e\u043d \u0443\u0437\u043a\u0438\u0445 smoke-\u0442\u0435\u0441\u0442\u043e\u0432 (2026-09-14)"
+      "norm_label": "\u043f\u043e\u043b\u043d\u044b\u0438 \u043f\u0440\u043e\u0433\u043e\u043d \u0443\u0437\u043a\u0438\u0445 smoke-\u0442\u0435\u0441\u0442\u043e\u0432 (2026-09-14)",
+      "id": "urman_knowledge_base_gameplay_\u043f\u043e\u043b\u043d\u044b\u0439_\u043f\u0440\u043e\u0433\u043e\u043d_\u0443\u0437\u043a\u0438\u0445_smoke_\u0442\u0435\u0441\u0442\u043e\u0432_2026_09_14"
     },
     {
       "label": "\u0412\u044b\u0441\u043e\u043a\u0438\u0439 \u043a\u043e\u043d\u0442\u0440\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d \u043d\u0430 \u043e\u0442\u0440\u0438\u0441\u043e\u0432\u043a\u0443, \u043d\u0435 \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u0430 \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 (2026-09-14)",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L840",
-      "id": "urman_knowledge_base_gameplay_\u0432\u044b\u0441\u043e\u043a\u0438\u0439_\u043a\u043e\u043d\u0442\u0440\u0430\u0441\u0442_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d_\u043d\u0430_\u043e\u0442\u0440\u0438\u0441\u043e\u0432\u043a\u0443_\u043d\u0435_\u0442\u043e\u043b\u044c\u043a\u043e_\u043d\u0430_\u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435_2026_09_14",
       "community": 798,
-      "norm_label": "\u0432\u044b\u0441\u043e\u043a\u0438\u0438 \u043a\u043e\u043d\u0442\u0440\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d \u043d\u0430 \u043e\u0442\u0440\u0438\u0441\u043e\u0432\u043a\u0443, \u043d\u0435 \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u0430 \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 (2026-09-14)"
+      "norm_label": "\u0432\u044b\u0441\u043e\u043a\u0438\u0438 \u043a\u043e\u043d\u0442\u0440\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d \u043d\u0430 \u043e\u0442\u0440\u0438\u0441\u043e\u0432\u043a\u0443, \u043d\u0435 \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u0430 \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 (2026-09-14)",
+      "id": "urman_knowledge_base_gameplay_\u0432\u044b\u0441\u043e\u043a\u0438\u0439_\u043a\u043e\u043d\u0442\u0440\u0430\u0441\u0442_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d_\u043d\u0430_\u043e\u0442\u0440\u0438\u0441\u043e\u0432\u043a\u0443_\u043d\u0435_\u0442\u043e\u043b\u044c\u043a\u043e_\u043d\u0430_\u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435_2026_09_14"
     },
     {
       "label": "\u041f\u0443\u0442\u044c \u0430\u0443\u0434\u0438\u043e\u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0439 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d (2026-09-14)",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L857",
-      "id": "urman_knowledge_base_gameplay_\u043f\u0443\u0442\u044c_\u0430\u0443\u0434\u0438\u043e\u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0439_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d_2026_09_14",
       "community": 798,
-      "norm_label": "\u043f\u0443\u0442\u044c \u0430\u0443\u0434\u0438\u043e\u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d (2026-09-14)"
+      "norm_label": "\u043f\u0443\u0442\u044c \u0430\u0443\u0434\u0438\u043e\u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d (2026-09-14)",
+      "id": "urman_knowledge_base_gameplay_\u043f\u0443\u0442\u044c_\u0430\u0443\u0434\u0438\u043e\u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0439_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d_2026_09_14"
     },
     {
       "label": "\u042d\u0444\u0444\u0435\u043a\u0442 \u0432\u0441\u0435\u0445 \u043f\u044f\u0442\u0438 \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0451\u043d (2026-09-14)",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L873",
-      "id": "urman_knowledge_base_gameplay_\u044d\u0444\u0444\u0435\u043a\u0442_\u0432\u0441\u0435\u0445_\u043f\u044f\u0442\u0438_\u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a_\u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438_\u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0451\u043d_2026_09_14",
       "community": 798,
-      "norm_label": "\u044d\u0444\u0444\u0435\u043a\u0442 \u0432\u0441\u0435\u0445 \u043f\u044f\u0442\u0438 \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d (2026-09-14)"
+      "norm_label": "\u044d\u0444\u0444\u0435\u043a\u0442 \u0432\u0441\u0435\u0445 \u043f\u044f\u0442\u0438 \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d (2026-09-14)",
+      "id": "urman_knowledge_base_gameplay_\u044d\u0444\u0444\u0435\u043a\u0442_\u0432\u0441\u0435\u0445_\u043f\u044f\u0442\u0438_\u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a_\u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438_\u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0451\u043d_2026_09_14"
     },
     {
       "label": "\u0421\u0442\u0440\u043e\u043a\u0438 \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 \u043f\u0440\u0438\u0432\u044f\u0437\u0430\u043d\u044b \u043a \u0441\u0432\u043e\u0438\u043c \u043f\u043e\u043b\u044f\u043c (2026-09-14)",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L893",
-      "id": "urman_knowledge_base_gameplay_\u0441\u0442\u0440\u043e\u043a\u0438_\u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438_\u0432_\u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445_\u043f\u0440\u0438\u0432\u044f\u0437\u0430\u043d\u044b_\u043a_\u0441\u0432\u043e\u0438\u043c_\u043f\u043e\u043b\u044f\u043c_2026_09_14",
       "community": 798,
-      "norm_label": "\u0441\u0442\u0440\u043e\u043a\u0438 \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0438\u043a\u0430\u0445 \u043f\u0440\u0438\u0432\u044f\u0437\u0430\u043d\u044b \u043a \u0441\u0432\u043e\u0438\u043c \u043f\u043e\u043b\u044f\u043c (2026-09-14)"
+      "norm_label": "\u0441\u0442\u0440\u043e\u043a\u0438 \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0438\u043a\u0430\u0445 \u043f\u0440\u0438\u0432\u044f\u0437\u0430\u043d\u044b \u043a \u0441\u0432\u043e\u0438\u043c \u043f\u043e\u043b\u044f\u043c (2026-09-14)",
+      "id": "urman_knowledge_base_gameplay_\u0441\u0442\u0440\u043e\u043a\u0438_\u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438_\u0432_\u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445_\u043f\u0440\u0438\u0432\u044f\u0437\u0430\u043d\u044b_\u043a_\u0441\u0432\u043e\u0438\u043c_\u043f\u043e\u043b\u044f\u043c_2026_09_14"
     },
     {
       "label": "2026-09-14 \u2014 \u043f\u0435\u0440\u0435\u0441\u0447\u0451\u0442 24 \u043d\u0430\u0445\u043e\u0434\u043e\u043a: \u0447\u0442\u043e \u0438\u043c\u0435\u043d\u043d\u043e \u0434\u0430\u0451\u0442 \u043a\u0430\u0436\u0434\u0430\u044f",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L906",
-      "id": "urman_knowledge_base_gameplay_2026_09_14_\u043f\u0435\u0440\u0435\u0441\u0447\u0451\u0442_24_\u043d\u0430\u0445\u043e\u0434\u043e\u043a_\u0447\u0442\u043e_\u0438\u043c\u0435\u043d\u043d\u043e_\u0434\u0430\u0451\u0442_\u043a\u0430\u0436\u0434\u0430\u044f",
       "community": 798,
-      "norm_label": "2026-09-14 \u2014 \u043f\u0435\u0440\u0435\u0441\u0447\u0435\u0442 24 \u043d\u0430\u0445\u043e\u0434\u043e\u043a: \u0447\u0442\u043e \u0438\u043c\u0435\u043d\u043d\u043e \u0434\u0430\u0435\u0442 \u043a\u0430\u0436\u0434\u0430\u044f"
+      "norm_label": "2026-09-14 \u2014 \u043f\u0435\u0440\u0435\u0441\u0447\u0435\u0442 24 \u043d\u0430\u0445\u043e\u0434\u043e\u043a: \u0447\u0442\u043e \u0438\u043c\u0435\u043d\u043d\u043e \u0434\u0430\u0435\u0442 \u043a\u0430\u0436\u0434\u0430\u044f",
+      "id": "urman_knowledge_base_gameplay_2026_09_14_\u043f\u0435\u0440\u0435\u0441\u0447\u0451\u0442_24_\u043d\u0430\u0445\u043e\u0434\u043e\u043a_\u0447\u0442\u043e_\u0438\u043c\u0435\u043d\u043d\u043e_\u0434\u0430\u0451\u0442_\u043a\u0430\u0436\u0434\u0430\u044f"
     },
     {
       "label": "2026-09-14 \u2014 \u00ab\u043f\u043e\u043d\u044f\u043b \u0441\u043b\u043e\u0432\u043e\u00bb \u043a\u0430\u043a \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u0430\u044f \u043d\u0430\u0433\u0440\u0430\u0434\u0430 \u043d\u0430\u0445\u043e\u0434\u043a\u0438, \u0438 \u043d\u0430\u0439\u0434\u0435\u043d\u043d\u0430\u044f \u043f\u0440\u0438\u0447\u0438\u043d\u0430 \u0435\u0451 \u043f\u043e\u043b\u043e\u043c\u043a\u0438",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L934",
-      "id": "urman_knowledge_base_gameplay_2026_09_14_\u043f\u043e\u043d\u044f\u043b_\u0441\u043b\u043e\u0432\u043e_\u043a\u0430\u043a_\u043e\u0442\u0434\u0435\u043b\u044c\u043d\u0430\u044f_\u043d\u0430\u0433\u0440\u0430\u0434\u0430_\u043d\u0430\u0445\u043e\u0434\u043a\u0438_\u0438_\u043d\u0430\u0439\u0434\u0435\u043d\u043d\u0430\u044f_\u043f\u0440\u0438\u0447\u0438\u043d\u0430_\u0435\u0451_\u043f\u043e\u043b\u043e\u043c\u043a\u0438",
       "community": 798,
-      "norm_label": "2026-09-14 \u2014 \u00ab\u043f\u043e\u043d\u044f\u043b \u0441\u043b\u043e\u0432\u043e\u00bb \u043a\u0430\u043a \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u0430\u044f \u043d\u0430\u0433\u0440\u0430\u0434\u0430 \u043d\u0430\u0445\u043e\u0434\u043a\u0438, \u0438 \u043d\u0430\u0438\u0434\u0435\u043d\u043d\u0430\u044f \u043f\u0440\u0438\u0447\u0438\u043d\u0430 \u0435\u0435 \u043f\u043e\u043b\u043e\u043c\u043a\u0438"
+      "norm_label": "2026-09-14 \u2014 \u00ab\u043f\u043e\u043d\u044f\u043b \u0441\u043b\u043e\u0432\u043e\u00bb \u043a\u0430\u043a \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u0430\u044f \u043d\u0430\u0433\u0440\u0430\u0434\u0430 \u043d\u0430\u0445\u043e\u0434\u043a\u0438, \u0438 \u043d\u0430\u0438\u0434\u0435\u043d\u043d\u0430\u044f \u043f\u0440\u0438\u0447\u0438\u043d\u0430 \u0435\u0435 \u043f\u043e\u043b\u043e\u043c\u043a\u0438",
+      "id": "urman_knowledge_base_gameplay_2026_09_14_\u043f\u043e\u043d\u044f\u043b_\u0441\u043b\u043e\u0432\u043e_\u043a\u0430\u043a_\u043e\u0442\u0434\u0435\u043b\u044c\u043d\u0430\u044f_\u043d\u0430\u0433\u0440\u0430\u0434\u0430_\u043d\u0430\u0445\u043e\u0434\u043a\u0438_\u0438_\u043d\u0430\u0439\u0434\u0435\u043d\u043d\u0430\u044f_\u043f\u0440\u0438\u0447\u0438\u043d\u0430_\u0435\u0451_\u043f\u043e\u043b\u043e\u043c\u043a\u0438"
     },
     {
       "label": "2026-09-14 \u2014 \u0446\u0435\u043b\u043e\u0441\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441\u0438\u0438: \u0442\u0440\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438, \u0432\u0441\u0435 \u0447\u0438\u0441\u0442\u044b\u0435",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L972",
-      "id": "urman_knowledge_base_gameplay_2026_09_14_\u0446\u0435\u043b\u043e\u0441\u0442\u043d\u043e\u0441\u0442\u044c_\u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441\u0438\u0438_\u0442\u0440\u0438_\u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438_\u0432\u0441\u0435_\u0447\u0438\u0441\u0442\u044b\u0435",
       "community": 798,
-      "norm_label": "2026-09-14 \u2014 \u0446\u0435\u043b\u043e\u0441\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441\u0438\u0438: \u0442\u0440\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438, \u0432\u0441\u0435 \u0447\u0438\u0441\u0442\u044b\u0435"
+      "norm_label": "2026-09-14 \u2014 \u0446\u0435\u043b\u043e\u0441\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441\u0438\u0438: \u0442\u0440\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438, \u0432\u0441\u0435 \u0447\u0438\u0441\u0442\u044b\u0435",
+      "id": "urman_knowledge_base_gameplay_2026_09_14_\u0446\u0435\u043b\u043e\u0441\u0442\u043d\u043e\u0441\u0442\u044c_\u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441\u0438\u0438_\u0442\u0440\u0438_\u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438_\u0432\u0441\u0435_\u0447\u0438\u0441\u0442\u044b\u0435"
     },
     {
       "label": "2026-09-14 \u2014 \u00ab\u043e\u0448\u0438\u0431\u043e\u0447\u043d\u044b\u0435 \u0433\u0438\u043f\u043e\u0442\u0435\u0437\u044b\u00bb \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u044b \u043d\u0430 \u0432\u0441\u0435\u0445 \u0432\u0435\u0442\u043a\u0430\u0445",
       "file_type": "document",
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L997",
-      "id": "urman_knowledge_base_gameplay_2026_09_14_\u043e\u0448\u0438\u0431\u043e\u0447\u043d\u044b\u0435_\u0433\u0438\u043f\u043e\u0442\u0435\u0437\u044b_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u044b_\u043d\u0430_\u0432\u0441\u0435\u0445_\u0432\u0435\u0442\u043a\u0430\u0445",
       "community": 798,
-      "norm_label": "2026-09-14 \u2014 \u00ab\u043e\u0448\u0438\u0431\u043e\u0447\u043d\u044b\u0435 \u0433\u0438\u043f\u043e\u0442\u0435\u0437\u044b\u00bb \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u044b \u043d\u0430 \u0432\u0441\u0435\u0445 \u0432\u0435\u0442\u043a\u0430\u0445"
+      "norm_label": "2026-09-14 \u2014 \u00ab\u043e\u0448\u0438\u0431\u043e\u0447\u043d\u044b\u0435 \u0433\u0438\u043f\u043e\u0442\u0435\u0437\u044b\u00bb \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u044b \u043d\u0430 \u0432\u0441\u0435\u0445 \u0432\u0435\u0442\u043a\u0430\u0445",
+      "id": "urman_knowledge_base_gameplay_2026_09_14_\u043e\u0448\u0438\u0431\u043e\u0447\u043d\u044b\u0435_\u0433\u0438\u043f\u043e\u0442\u0435\u0437\u044b_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u044b_\u043d\u0430_\u0432\u0441\u0435\u0445_\u0432\u0435\u0442\u043a\u0430\u0445"
     },
     {
       "label": "JournalFlowSmokeTest.cs",
       "file_type": "code",
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L1",
-      "id": "game_tests_journalflowsmoketest_cs",
       "community": 784,
-      "norm_label": "journalflowsmoketest.cs"
+      "norm_label": "journalflowsmoketest.cs",
+      "id": "game_tests_journalflowsmoketest_cs"
     },
     {
       "label": "JournalFlowSmokeTest",
       "file_type": "code",
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L6",
-      "id": "tests_journalflowsmoketest_journalflowsmoketest",
       "community": 784,
-      "norm_label": "journalflowsmoketest"
+      "norm_label": "journalflowsmoketest",
+      "id": "tests_journalflowsmoketest_journalflowsmoketest"
     },
     {
       "label": "Node",
       "file_type": "code",
       "source_file": "",
       "source_location": "",
-      "id": "node",
       "community": 247,
-      "norm_label": "node"
+      "norm_label": "node",
+      "id": "node"
     },
     {
       "label": "string",
       "file_type": "code",
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L8",
-      "id": "string",
       "community": 784,
-      "norm_label": "string"
+      "norm_label": "string",
+      "id": "string"
     },
     {
       "label": "._Ready()",
       "file_type": "code",
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L10",
-      "id": "tests_journalflowsmoketest_journalflowsmoketest_ready",
       "community": 784,
-      "norm_label": "._ready()"
+      "norm_label": "._ready()",
+      "id": "tests_journalflowsmoketest_journalflowsmoketest_ready"
     },
     {
       "label": ".Frames()",
       "file_type": "code",
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L170",
-      "id": "tests_journalflowsmoketest_journalflowsmoketest_frames",
       "community": 784,
-      "norm_label": ".frames()"
+      "norm_label": ".frames()",
+      "id": "tests_journalflowsmoketest_journalflowsmoketest_frames"
     },
     {
       "label": ".Input()",
       "file_type": "code",
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L178",
-      "id": "tests_journalflowsmoketest_journalflowsmoketest_input",
       "community": 784,
-      "norm_label": ".input()"
+      "norm_label": ".input()",
+      "id": "tests_journalflowsmoketest_journalflowsmoketest_input"
     },
     {
       "label": ".Fail()",
       "file_type": "code",
       "source_file": "game/tests/JournalFlowSmokeTest.cs",
       "source_location": "L181",
-      "id": "tests_journalflowsmoketest_journalflowsmoketest_fail",
       "community": 784,
-      "norm_label": ".fail()"
+      "norm_label": ".fail()",
+      "id": "tests_journalflowsmoketest_journalflowsmoketest_fail"
     },
     {
       "label": "design_style.md",
@@ -3179,87 +3260,6 @@
       "community": 100,
       "norm_label": "\u0444\u043e\u0440\u043c\u0430 \u0434\u043b\u044f \u0447\u0435\u043b\u043e\u0432\u0435\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0441\u0435\u0430\u043d\u0441\u0430 m10 (\u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u044c \u0432\u0440\u0443\u0447\u043d\u0443\u044e)",
       "id": "urman_knowledge_base_playtest_plan_\u0444\u043e\u0440\u043c\u0430_\u0434\u043b\u044f_\u0447\u0435\u043b\u043e\u0432\u0435\u0447\u0435\u0441\u043a\u043e\u0433\u043e_\u0441\u0435\u0430\u043d\u0441\u0430_m10_\u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u044c_\u0432\u0440\u0443\u0447\u043d\u0443\u044e"
-    },
-    {
-      "label": "act1_external_requests_draft_2026-09-14.md",
-      "file_type": "document",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L1",
-      "community": 765,
-      "norm_label": "act1_external_requests_draft_2026-09-14.md",
-      "id": "docs_production_act1_external_requests_draft_2026_09_14_md"
-    },
-    {
-      "label": "\u0427\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438 \u0432\u043d\u0435\u0448\u043d\u0438\u0445 \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432 \u0410\u043a\u0442\u0430 I \u2014 2026-09-14",
-      "file_type": "document",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L1",
-      "community": 765,
-      "norm_label": "\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438 \u0432\u043d\u0435\u0448\u043d\u0438\u0445 \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432 \u0430\u043a\u0442\u0430 i \u2014 2026-09-14",
-      "id": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14"
-    },
-    {
-      "label": "\u041a\u0430\u043a \u0434\u0430\u0442\u044c \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 (\u043e\u0434\u043d\u043e\u0439 \u0441\u0442\u0440\u043e\u043a\u043e\u0439)",
-      "file_type": "document",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L17",
-      "community": 765,
-      "norm_label": "\u043a\u0430\u043a \u0434\u0430\u0442\u044c \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 (\u043e\u0434\u043d\u043e\u0438 \u0441\u0442\u0440\u043e\u043a\u043e\u0438)",
-      "id": "production_act1_external_requests_draft_2026_09_14_\u043a\u0430\u043a_\u0434\u0430\u0442\u044c_\u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435_\u043e\u0434\u043d\u043e\u0439_\u0441\u0442\u0440\u043e\u043a\u043e\u0439"
-    },
-    {
-      "label": "1. \u0414\u0438\u043a\u0442\u043e\u0440\u0443",
-      "file_type": "document",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L38",
-      "community": 765,
-      "norm_label": "1. \u0434\u0438\u043a\u0442\u043e\u0440\u0443",
-      "id": "production_act1_external_requests_draft_2026_09_14_1_\u0434\u0438\u043a\u0442\u043e\u0440\u0443"
-    },
-    {
-      "label": "2. \u041a\u0443\u043b\u044c\u0442\u0443\u0440\u043d\u043e\u043c\u0443 \u0438 \u044f\u0437\u044b\u043a\u043e\u0432\u043e\u043c\u0443 \u043a\u043e\u043d\u0441\u0443\u043b\u044c\u0442\u0430\u043d\u0442\u0443",
-      "file_type": "document",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L62",
-      "community": 765,
-      "norm_label": "2. \u043a\u0443\u043b\u044c\u0442\u0443\u0440\u043d\u043e\u043c\u0443 \u0438 \u044f\u0437\u044b\u043a\u043e\u0432\u043e\u043c\u0443 \u043a\u043e\u043d\u0441\u0443\u043b\u044c\u0442\u0430\u043d\u0442\u0443",
-      "id": "production_act1_external_requests_draft_2026_09_14_2_\u043a\u0443\u043b\u044c\u0442\u0443\u0440\u043d\u043e\u043c\u0443_\u0438_\u044f\u0437\u044b\u043a\u043e\u0432\u043e\u043c\u0443_\u043a\u043e\u043d\u0441\u0443\u043b\u044c\u0442\u0430\u043d\u0442\u0443"
-    },
-    {
-      "label": "3. \u041d\u043e\u0432\u043e\u043c\u0443 \u0438\u0433\u0440\u043e\u043a\u0443",
-      "file_type": "document",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L87",
-      "community": 765,
-      "norm_label": "3. \u043d\u043e\u0432\u043e\u043c\u0443 \u0438\u0433\u0440\u043e\u043a\u0443",
-      "id": "production_act1_external_requests_draft_2026_09_14_3_\u043d\u043e\u0432\u043e\u043c\u0443_\u0438\u0433\u0440\u043e\u043a\u0443"
-    },
-    {
-      "label": "4. \u0412\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0443 Windows-\u043c\u0430\u0448\u0438\u043d\u044b",
-      "file_type": "document",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L99",
-      "community": 765,
-      "norm_label": "4. \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0443 windows-\u043c\u0430\u0448\u0438\u043d\u044b",
-      "id": "production_act1_external_requests_draft_2026_09_14_4_\u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0443_windows_\u043c\u0430\u0448\u0438\u043d\u044b"
-    },
-    {
-      "label": "code:powershell (Get-FileHash .\\URMAN-windows-x86_64.zip -Algorithm SHA256)",
-      "file_type": "document",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L108",
-      "community": 765,
-      "norm_label": "code:powershell (get-filehash .\\urman-windows-x86_64.zip -algorithm sha256)",
-      "id": "production_act1_external_requests_draft_2026_09_14_codeblock_1"
-    },
-    {
-      "label": "\u0427\u0442\u043e \u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c \u043f\u043e\u0441\u043b\u0435 \u044d\u0442\u0438\u0445 \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432",
-      "file_type": "document",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L147",
-      "community": 765,
-      "norm_label": "\u0447\u0442\u043e \u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c \u043f\u043e\u0441\u043b\u0435 \u044d\u0442\u0438\u0445 \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432",
-      "id": "production_act1_external_requests_draft_2026_09_14_\u0447\u0442\u043e_\u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f_\u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c_\u043f\u043e\u0441\u043b\u0435_\u044d\u0442\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432"
     },
     {
       "label": "run-m10-playtest-session.sh",
@@ -15863,7 +15863,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
-      "community": 35,
+      "community": 822,
       "norm_label": "spatial-placement-outcome",
       "id": "contracts_stress_contracts_schema_defs_spatial_placement_outcome"
     },
@@ -15872,7 +15872,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
-      "community": 35,
+      "community": 822,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_type"
     },
@@ -15881,7 +15881,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
-      "community": 35,
+      "community": 822,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_required"
     },
@@ -15890,7 +15890,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
-      "community": 35,
+      "community": 822,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_properties"
     },
@@ -15935,7 +15935,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L8",
-      "community": 35,
+      "community": 822,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_spatial_placement_outcome_additionalproperties"
     },
@@ -15989,7 +15989,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
-      "community": 781,
+      "community": 18,
       "norm_label": "spatial-audio-probe-event",
       "id": "contracts_stress_contracts_schema_defs_spatial_audio_probe_event"
     },
@@ -15998,7 +15998,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
-      "community": 781,
+      "community": 18,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_type"
     },
@@ -16007,7 +16007,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
-      "community": 781,
+      "community": 18,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_required"
     },
@@ -16016,7 +16016,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
-      "community": 781,
+      "community": 18,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_properties"
     },
@@ -16025,7 +16025,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L10",
-      "community": 781,
+      "community": 18,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_event_additionalproperties"
     },
@@ -16034,7 +16034,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
-      "community": 783,
+      "community": 35,
       "norm_label": "spatial-audio-probe-outcome",
       "id": "contracts_stress_contracts_schema_defs_spatial_audio_probe_outcome"
     },
@@ -16043,7 +16043,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
-      "community": 783,
+      "community": 35,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_type"
     },
@@ -16052,7 +16052,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
-      "community": 783,
+      "community": 35,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_required"
     },
@@ -16061,7 +16061,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
-      "community": 783,
+      "community": 35,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_properties"
     },
@@ -16070,7 +16070,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L11",
-      "community": 783,
+      "community": 35,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_spatial_audio_probe_outcome_additionalproperties"
     },
@@ -16124,7 +16124,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
-      "community": 18,
+      "community": 783,
       "norm_label": "crafting-event",
       "id": "contracts_stress_contracts_schema_defs_crafting_event"
     },
@@ -16133,7 +16133,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
-      "community": 18,
+      "community": 783,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_crafting_event_type"
     },
@@ -16142,7 +16142,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
-      "community": 18,
+      "community": 783,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_crafting_event_required"
     },
@@ -16151,7 +16151,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
-      "community": 18,
+      "community": 783,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_crafting_event_properties"
     },
@@ -16160,7 +16160,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L13",
-      "community": 18,
+      "community": 783,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_crafting_event_additionalproperties"
     },
@@ -16394,7 +16394,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
-      "community": 18,
+      "community": 795,
       "norm_label": "role-binding-event",
       "id": "contracts_stress_contracts_schema_defs_role_binding_event"
     },
@@ -16403,7 +16403,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
-      "community": 18,
+      "community": 795,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_role_binding_event_type"
     },
@@ -16412,7 +16412,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
-      "community": 18,
+      "community": 795,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_role_binding_event_required"
     },
@@ -16421,7 +16421,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
-      "community": 18,
+      "community": 795,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_role_binding_event_properties"
     },
@@ -16430,7 +16430,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L19",
-      "community": 18,
+      "community": 795,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_role_binding_event_additionalproperties"
     },
@@ -16439,7 +16439,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
-      "community": 740,
+      "community": 35,
       "norm_label": "role-binding-outcome",
       "id": "contracts_stress_contracts_schema_defs_role_binding_outcome"
     },
@@ -16448,7 +16448,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
-      "community": 740,
+      "community": 35,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_type"
     },
@@ -16457,7 +16457,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
-      "community": 740,
+      "community": 35,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_required"
     },
@@ -16466,7 +16466,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
-      "community": 740,
+      "community": 35,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_properties"
     },
@@ -16475,7 +16475,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
-      "community": 740,
+      "community": 35,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_additionalproperties"
     },
@@ -16484,7 +16484,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
-      "community": 716,
+      "community": 162,
       "norm_label": "evidence-compare-config",
       "id": "contracts_stress_contracts_schema_defs_evidence_compare_config"
     },
@@ -16493,7 +16493,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
-      "community": 716,
+      "community": 162,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_type"
     },
@@ -16502,7 +16502,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
-      "community": 716,
+      "community": 162,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_required"
     },
@@ -16511,7 +16511,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
-      "community": 716,
+      "community": 162,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_properties"
     },
@@ -16520,7 +16520,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
-      "community": 716,
+      "community": 162,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_additionalproperties"
     },
@@ -16664,7 +16664,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
-      "community": 795,
+      "community": 18,
       "norm_label": "timed-choice-event",
       "id": "contracts_stress_contracts_schema_defs_timed_choice_event"
     },
@@ -16673,7 +16673,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
-      "community": 795,
+      "community": 18,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_timed_choice_event_type"
     },
@@ -16682,7 +16682,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
-      "community": 795,
+      "community": 18,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_timed_choice_event_required"
     },
@@ -16691,7 +16691,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
-      "community": 795,
+      "community": 18,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_timed_choice_event_properties"
     },
@@ -16700,7 +16700,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L25",
-      "community": 795,
+      "community": 18,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_timed_choice_event_additionalproperties"
     },
@@ -16889,7 +16889,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
-      "community": 10,
+      "community": 162,
       "norm_label": "audio-workbench-config",
       "id": "contracts_stress_contracts_schema_defs_audio_workbench_config"
     },
@@ -16898,7 +16898,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
-      "community": 10,
+      "community": 162,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_type"
     },
@@ -16907,7 +16907,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
-      "community": 10,
+      "community": 162,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_required"
     },
@@ -16916,7 +16916,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
-      "community": 10,
+      "community": 162,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_properties"
     },
@@ -16925,7 +16925,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L30",
-      "community": 10,
+      "community": 162,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_audio_workbench_config_additionalproperties"
     },
@@ -16979,7 +16979,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L32",
-      "community": 35,
+      "community": 740,
       "norm_label": "audio-workbench-outcome",
       "id": "contracts_stress_contracts_schema_defs_audio_workbench_outcome"
     },
@@ -16988,7 +16988,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L32",
-      "community": 35,
+      "community": 740,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_audio_workbench_outcome_type"
     },
@@ -16997,7 +16997,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L32",
-      "community": 35,
+      "community": 740,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_audio_workbench_outcome_required"
     },
@@ -17006,7 +17006,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L32",
-      "community": 35,
+      "community": 740,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_audio_workbench_outcome_properties"
     },
@@ -17015,7 +17015,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L32",
-      "community": 35,
+      "community": 740,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_audio_workbench_outcome_additionalproperties"
     },
@@ -17069,7 +17069,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
-      "community": 162,
+      "community": 793,
       "norm_label": "environment-sim-event",
       "id": "contracts_stress_contracts_schema_defs_environment_sim_event"
     },
@@ -17078,7 +17078,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
-      "community": 162,
+      "community": 793,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_environment_sim_event_type"
     },
@@ -17087,7 +17087,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
-      "community": 162,
+      "community": 793,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_environment_sim_event_required"
     },
@@ -17096,7 +17096,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
-      "community": 162,
+      "community": 793,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_environment_sim_event_properties"
     },
@@ -17105,7 +17105,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L34",
-      "community": 162,
+      "community": 793,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_environment_sim_event_additionalproperties"
     },
@@ -17159,7 +17159,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
-      "community": 793,
+      "community": 10,
       "norm_label": "stealth-space-config",
       "id": "contracts_stress_contracts_schema_defs_stealth_space_config"
     },
@@ -17168,7 +17168,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
-      "community": 793,
+      "community": 10,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_stealth_space_config_type"
     },
@@ -17177,7 +17177,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
-      "community": 793,
+      "community": 10,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_stealth_space_config_required"
     },
@@ -17186,7 +17186,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
-      "community": 793,
+      "community": 10,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_stealth_space_config_properties"
     },
@@ -17195,7 +17195,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L36",
-      "community": 793,
+      "community": 10,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_stealth_space_config_additionalproperties"
     },
@@ -17249,7 +17249,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
-      "community": 35,
+      "community": 828,
       "norm_label": "stealth-space-outcome",
       "id": "contracts_stress_contracts_schema_defs_stealth_space_outcome"
     },
@@ -17258,7 +17258,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
-      "community": 35,
+      "community": 828,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_type"
     },
@@ -17267,7 +17267,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
-      "community": 35,
+      "community": 828,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_required"
     },
@@ -17276,7 +17276,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
-      "community": 35,
+      "community": 828,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_properties"
     },
@@ -17285,7 +17285,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L38",
-      "community": 35,
+      "community": 828,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_stealth_space_outcome_additionalproperties"
     },
@@ -17294,7 +17294,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
-      "community": 10,
+      "community": 781,
       "norm_label": "content-instantiator-config",
       "id": "contracts_stress_contracts_schema_defs_content_instantiator_config"
     },
@@ -17303,7 +17303,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
-      "community": 10,
+      "community": 781,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_type"
     },
@@ -17312,7 +17312,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
-      "community": 10,
+      "community": 781,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_required"
     },
@@ -17321,7 +17321,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
-      "community": 10,
+      "community": 781,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_properties"
     },
@@ -17330,7 +17330,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L39",
-      "community": 10,
+      "community": 781,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_content_instantiator_config_additionalproperties"
     },
@@ -17384,7 +17384,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
-      "community": 822,
+      "community": 35,
       "norm_label": "content-instantiator-outcome",
       "id": "contracts_stress_contracts_schema_defs_content_instantiator_outcome"
     },
@@ -17393,7 +17393,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
-      "community": 822,
+      "community": 35,
       "norm_label": "type",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_type"
     },
@@ -17402,7 +17402,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
-      "community": 822,
+      "community": 35,
       "norm_label": "required",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_required"
     },
@@ -17411,7 +17411,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
-      "community": 822,
+      "community": 35,
       "norm_label": "properties",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_properties"
     },
@@ -17420,7 +17420,7 @@
       "file_type": "code",
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
-      "community": 822,
+      "community": 35,
       "norm_label": "additionalproperties",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_additionalproperties"
     },
@@ -23171,7 +23171,7 @@
       "file_type": "code",
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
-      "community": 105,
+      "community": 832,
       "norm_label": "schemaversion",
       "id": "schemas_common_schema_defs_schemaversion"
     },
@@ -23180,7 +23180,7 @@
       "file_type": "code",
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
-      "community": 105,
+      "community": 832,
       "norm_label": "type",
       "id": "schemas_common_schema_schemaversion_type"
     },
@@ -23189,7 +23189,7 @@
       "file_type": "code",
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L6",
-      "community": 105,
+      "community": 832,
       "norm_label": "const",
       "id": "schemas_common_schema_schemaversion_const"
     },
@@ -23702,7 +23702,7 @@
       "file_type": "code",
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
-      "community": 202,
+      "community": 218,
       "norm_label": "severity",
       "id": "schemas_common_schema_properties_severity"
     },
@@ -23711,7 +23711,7 @@
       "file_type": "code",
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
-      "community": 202,
+      "community": 218,
       "norm_label": "enum",
       "id": "schemas_common_schema_severity_enum"
     },
@@ -23720,7 +23720,7 @@
       "file_type": "code",
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L68",
-      "community": 218,
+      "community": 202,
       "norm_label": "kind",
       "id": "schemas_common_schema_properties_kind"
     },
@@ -23729,7 +23729,7 @@
       "file_type": "code",
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L68",
-      "community": 218,
+      "community": 202,
       "norm_label": "const",
       "id": "schemas_common_schema_kind_const"
     },
@@ -24422,7 +24422,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L44",
-      "community": 5,
+      "community": 650,
       "norm_label": "op",
       "id": "schemas_condition_effect_schema_properties_op"
     },
@@ -24431,7 +24431,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L44",
-      "community": 5,
+      "community": 650,
       "norm_label": "const",
       "id": "schemas_condition_effect_schema_op_const"
     },
@@ -24809,7 +24809,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L97",
-      "community": 91,
+      "community": 5,
       "norm_label": "beatcondition",
       "id": "schemas_condition_effect_schema_defs_beatcondition"
     },
@@ -24818,7 +24818,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L98",
-      "community": 91,
+      "community": 5,
       "norm_label": "type",
       "id": "schemas_condition_effect_schema_beatcondition_type"
     },
@@ -24827,7 +24827,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L99",
-      "community": 91,
+      "community": 5,
       "norm_label": "required",
       "id": "schemas_condition_effect_schema_beatcondition_required"
     },
@@ -24881,7 +24881,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L105",
-      "community": 91,
+      "community": 5,
       "norm_label": "additionalproperties",
       "id": "schemas_condition_effect_schema_beatcondition_additionalproperties"
     },
@@ -25232,7 +25232,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L146",
-      "community": 91,
+      "community": 650,
       "norm_label": "locationcondition",
       "id": "schemas_condition_effect_schema_defs_locationcondition"
     },
@@ -25241,7 +25241,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L147",
-      "community": 91,
+      "community": 650,
       "norm_label": "type",
       "id": "schemas_condition_effect_schema_locationcondition_type"
     },
@@ -25250,7 +25250,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L148",
-      "community": 91,
+      "community": 650,
       "norm_label": "required",
       "id": "schemas_condition_effect_schema_locationcondition_required"
     },
@@ -25259,7 +25259,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L149",
-      "community": 5,
+      "community": 650,
       "norm_label": "properties",
       "id": "schemas_condition_effect_schema_locationcondition_properties"
     },
@@ -25268,7 +25268,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L151",
-      "community": 5,
+      "community": 650,
       "norm_label": "locationid",
       "id": "schemas_condition_effect_schema_properties_locationid"
     },
@@ -25277,7 +25277,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L151",
-      "community": 5,
+      "community": 650,
       "norm_label": "$ref",
       "id": "schemas_condition_effect_schema_locationid_ref"
     },
@@ -25286,7 +25286,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L153",
-      "community": 91,
+      "community": 650,
       "norm_label": "additionalproperties",
       "id": "schemas_condition_effect_schema_locationcondition_additionalproperties"
     },
@@ -25475,7 +25475,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L196",
-      "community": 91,
+      "community": 5,
       "norm_label": "beateffect",
       "id": "schemas_condition_effect_schema_defs_beateffect"
     },
@@ -25484,7 +25484,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L197",
-      "community": 91,
+      "community": 5,
       "norm_label": "type",
       "id": "schemas_condition_effect_schema_beateffect_type"
     },
@@ -25493,7 +25493,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L198",
-      "community": 91,
+      "community": 5,
       "norm_label": "required",
       "id": "schemas_condition_effect_schema_beateffect_required"
     },
@@ -25511,7 +25511,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L204",
-      "community": 91,
+      "community": 5,
       "norm_label": "additionalproperties",
       "id": "schemas_condition_effect_schema_beateffect_additionalproperties"
     },
@@ -25790,7 +25790,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L241",
-      "community": 5,
+      "community": 91,
       "norm_label": "locationunlockeffect",
       "id": "schemas_condition_effect_schema_defs_locationunlockeffect"
     },
@@ -25799,7 +25799,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L242",
-      "community": 5,
+      "community": 91,
       "norm_label": "type",
       "id": "schemas_condition_effect_schema_locationunlockeffect_type"
     },
@@ -25808,7 +25808,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L243",
-      "community": 5,
+      "community": 91,
       "norm_label": "required",
       "id": "schemas_condition_effect_schema_locationunlockeffect_required"
     },
@@ -25817,7 +25817,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L244",
-      "community": 5,
+      "community": 650,
       "norm_label": "properties",
       "id": "schemas_condition_effect_schema_locationunlockeffect_properties"
     },
@@ -25826,7 +25826,7 @@
       "file_type": "code",
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L245",
-      "community": 5,
+      "community": 91,
       "norm_label": "additionalproperties",
       "id": "schemas_condition_effect_schema_locationunlockeffect_additionalproperties"
     },
@@ -60593,7 +60593,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L51",
-      "community": 770,
+      "community": 710,
       "norm_label": "arguments()",
       "id": "act1_urman_village_exterior_kit_arguments"
     },
@@ -60872,7 +60872,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1126",
-      "community": 652,
+      "community": 716,
       "norm_label": "variant_branch()",
       "id": "act1_urman_village_exterior_kit_variant_branch"
     },
@@ -61043,7 +61043,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1729",
-      "community": 650,
+      "community": 770,
       "norm_label": "author_gate_joinery()",
       "id": "act1_urman_village_exterior_kit_author_gate_joinery"
     },
@@ -61106,7 +61106,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1872",
-      "community": 770,
+      "community": 710,
       "norm_label": "clear_variant_roots()",
       "id": "act1_urman_village_exterior_kit_clear_variant_roots"
     },
@@ -61151,7 +61151,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L2512",
-      "community": 770,
+      "community": 710,
       "norm_label": "main()",
       "id": "act1_urman_village_exterior_kit_main"
     },
@@ -61196,7 +61196,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1134",
-      "community": 652,
+      "community": 716,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_1134"
     },
@@ -61259,7 +61259,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1730",
-      "community": 650,
+      "community": 770,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1730"
     },
@@ -61295,7 +61295,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L84",
-      "community": 451,
+      "community": 391,
       "norm_label": "material()",
       "id": "act1_urman_wet_village_road_kit_material"
     },
@@ -61304,7 +61304,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L91",
-      "community": 451,
+      "community": 391,
       "norm_label": "mesh_object()",
       "id": "act1_urman_wet_village_road_kit_mesh_object"
     },
@@ -61466,7 +61466,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L648",
-      "community": 451,
+      "community": 387,
       "norm_label": "terrain_mass()",
       "id": "act1_urman_wet_village_road_kit_terrain_mass"
     },
@@ -61700,7 +61700,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L660",
-      "community": 451,
+      "community": 387,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip.",
       "id": "act1_urman_wet_village_road_kit_rationale_660"
     },
@@ -94253,7 +94253,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1723",
-      "community": 650,
+      "community": 770,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1723"
     },
@@ -95967,7 +95967,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1131",
-      "community": 652,
+      "community": 716,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_1131"
     },
@@ -95985,7 +95985,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1181",
-      "community": 770,
+      "community": 652,
       "norm_label": "dress each optional parcel edge with sparse, non-blocking local history.",
       "id": "act1_urman_village_exterior_kit_rationale_1181"
     },
@@ -96021,7 +96021,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1720",
-      "community": 650,
+      "community": 770,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1720"
     },
@@ -96057,7 +96057,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L666",
-      "community": 652,
+      "community": 716,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_666"
     },
@@ -96120,7 +96120,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1255",
-      "community": 650,
+      "community": 770,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1255"
     },
@@ -96156,7 +96156,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L661",
-      "community": 652,
+      "community": 716,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_661"
     },
@@ -96219,7 +96219,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1171",
-      "community": 650,
+      "community": 770,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1171"
     },
@@ -102078,7 +102078,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1180",
-      "community": 770,
+      "community": 652,
       "norm_label": "author_shed_joinery()",
       "id": "act1_urman_village_exterior_kit_author_shed_joinery"
     },
@@ -102105,7 +102105,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L659",
-      "community": 652,
+      "community": 716,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_659"
     },
@@ -102168,7 +102168,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1294",
-      "community": 650,
+      "community": 770,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1294"
     },
@@ -103365,7 +103365,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1318",
-      "community": 770,
+      "community": 710,
       "norm_label": "author_dwelling_joinery()",
       "id": "act1_urman_village_exterior_kit_author_dwelling_joinery"
     },
@@ -103419,7 +103419,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1319",
-      "community": 770,
+      "community": 710,
       "norm_label": "add a few readable hand-built cues to the otherwise reusable facade.",
       "id": "act1_urman_village_exterior_kit_rationale_1319"
     },
@@ -103446,7 +103446,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1611",
-      "community": 770,
+      "community": 652,
       "norm_label": "give the shed a small offset utility lean-to instead of a plain box read.",
       "id": "act1_urman_village_exterior_kit_rationale_1611"
     },
@@ -103473,7 +103473,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1724",
-      "community": 650,
+      "community": 770,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1724"
     },
@@ -103986,7 +103986,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L606",
-      "community": 451,
+      "community": 387,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip.",
       "id": "act1_urman_wet_village_road_kit_rationale_606"
     },
@@ -104157,7 +104157,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L586",
-      "community": 451,
+      "community": 387,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip.",
       "id": "act1_urman_wet_village_road_kit_rationale_586"
     },
@@ -104445,7 +104445,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1591",
-      "community": 770,
+      "community": 652,
       "norm_label": "give the shed a small offset utility lean-to instead of a plain box read.",
       "id": "act1_urman_village_exterior_kit_rationale_1591"
     },
@@ -104472,7 +104472,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1704",
-      "community": 650,
+      "community": 770,
       "norm_label": "complete the gate's visible ironwork without adding an interaction owner.",
       "id": "act1_urman_village_exterior_kit_rationale_1704"
     },
@@ -106956,7 +106956,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L585",
-      "community": 451,
+      "community": 387,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip.",
       "id": "act1_urman_wet_village_road_kit_rationale_585"
     },
@@ -111152,52 +111152,82 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
       "source_location": "L1",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "docs_production_act1_acceptance_matrix_2026_09_14_md",
-      "target": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14"
+      "source": "docs_production_act1_external_requests_draft_2026_09_14_md",
+      "target": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
-      "source_location": "L35",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L17",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
-      "target": "production_act1_acceptance_matrix_2026_09_14_\u043a\u0430\u043d\u043e\u043d_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e_\u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e_2026_09_14"
+      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
+      "target": "production_act1_external_requests_draft_2026_09_14_\u043a\u0430\u043a_\u0434\u0430\u0442\u044c_\u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435_\u043e\u0434\u043d\u043e\u0439_\u0441\u0442\u0440\u043e\u043a\u043e\u0439"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
-      "source_location": "L35",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L17",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
-      "target": "production_act1_acceptance_matrix_2026_09_14_\u0447\u0442\u043e_\u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c_\u0434\u043b\u044f_\u0441\u043b\u043e\u0432\u0430_\u0433\u043e\u0442\u043e\u0432\u043e"
+      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
+      "target": "production_act1_external_requests_draft_2026_09_14_1_\u0434\u0438\u043a\u0442\u043e\u0440\u0443"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
-      "source_location": "L43",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L41",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
-      "target": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430_\u0430\u0432\u0442\u043e\u0440\u0443"
+      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
+      "target": "production_act1_external_requests_draft_2026_09_14_2_\u043a\u0443\u043b\u044c\u0442\u0443\u0440\u043d\u043e\u043c\u0443_\u0438_\u044f\u0437\u044b\u043a\u043e\u0432\u043e\u043c\u0443_\u043a\u043e\u043d\u0441\u0443\u043b\u044c\u0442\u0430\u043d\u0442\u0443"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
-      "source_location": "L91",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L55",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
-      "target": "production_act1_acceptance_matrix_2026_09_14_\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439_\u043e\u0442\u043a\u0430\u0437_\u0432\u043d\u0435_\u043e\u0445\u0432\u0430\u0442\u0430_full_game_flow_smoke_test"
+      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
+      "target": "production_act1_external_requests_draft_2026_09_14_3_\u043d\u043e\u0432\u043e\u043c\u0443_\u0438\u0433\u0440\u043e\u043a\u0443"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L67",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
+      "target": "production_act1_external_requests_draft_2026_09_14_4_\u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0443_windows_\u043c\u0430\u0448\u0438\u043d\u044b"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
+      "target": "production_act1_external_requests_draft_2026_09_14_\u0447\u0442\u043e_\u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f_\u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c_\u043f\u043e\u0441\u043b\u0435_\u044d\u0442\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
+      "source_location": "L108",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "production_act1_external_requests_draft_2026_09_14_4_\u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0443_windows_\u043c\u0430\u0448\u0438\u043d\u044b",
+      "target": "production_act1_external_requests_draft_2026_09_14_codeblock_1"
     },
     {
       "relation": "contains",
@@ -111568,6 +111598,56 @@
       "confidence_score": 1.0,
       "source": "urman_knowledge_base_execution_backlog_orchestrator_policy",
       "target": "urman_knowledge_base_execution_backlog_orchestrator_policy_queue_rule"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_production_act1_acceptance_matrix_2026_09_14_md",
+      "target": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
+      "target": "production_act1_acceptance_matrix_2026_09_14_\u043a\u0430\u043d\u043e\u043d_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e_\u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e_2026_09_14"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
+      "target": "production_act1_acceptance_matrix_2026_09_14_\u0447\u0442\u043e_\u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c_\u0434\u043b\u044f_\u0441\u043b\u043e\u0432\u0430_\u0433\u043e\u0442\u043e\u0432\u043e"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
+      "target": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430_\u0430\u0432\u0442\u043e\u0440\u0443"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "source_location": "L91",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "production_act1_acceptance_matrix_2026_09_14_\u0444\u0438\u043d\u0430\u043b\u044c\u043d\u0430\u044f_\u043c\u0430\u0442\u0440\u0438\u0446\u0430_\u043f\u0440\u0438\u0451\u043c\u043a\u0438_\u0430\u043a\u0442\u0430_i_\u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e_2026_09_14",
+      "target": "production_act1_acceptance_matrix_2026_09_14_\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439_\u043e\u0442\u043a\u0430\u0437_\u0432\u043d\u0435_\u043e\u0445\u0432\u0430\u0442\u0430_full_game_flow_smoke_test"
     },
     {
       "relation": "contains",
@@ -112215,9 +112295,9 @@
       "source_file": "docs/urman_knowledge_base/gameplay.md",
       "source_location": "L997",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "urman_knowledge_base_gameplay_\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435_\u043d\u0430\u0445\u043e\u0434\u043a\u0438_\u0438_\u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435_\u0438\u0441\u0442\u043e\u0440\u0438\u0438_\u0430\u043a\u0442\u0430_i_2026_09_14",
-      "target": "urman_knowledge_base_gameplay_2026_09_14_\u043e\u0448\u0438\u0431\u043e\u0447\u043d\u044b\u0435_\u0433\u0438\u043f\u043e\u0442\u0435\u0437\u044b_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u044b_\u043d\u0430_\u0432\u0441\u0435\u0445_\u0432\u0435\u0442\u043a\u0430\u0445",
-      "confidence_score": 1.0
+      "target": "urman_knowledge_base_gameplay_2026_09_14_\u043e\u0448\u0438\u0431\u043e\u0447\u043d\u044b\u0435_\u0433\u0438\u043f\u043e\u0442\u0435\u0437\u044b_\u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u044b_\u043d\u0430_\u0432\u0441\u0435\u0445_\u0432\u0435\u0442\u043a\u0430\u0445"
     },
     {
       "relation": "contains",
@@ -112246,9 +112326,9 @@
       "source_location": "L8",
       "weight": 1.0,
       "context": "field",
+      "confidence_score": 1.0,
       "source": "tests_journalflowsmoketest_journalflowsmoketest",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "method",
@@ -115581,86 +115661,6 @@
       "confidence_score": 1.0,
       "source": "urman_knowledge_base_playtest_plan_script_c_old_pc_investigation",
       "target": "urman_knowledge_base_playtest_plan_codeblock_5"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "docs_production_act1_external_requests_draft_2026_09_14_md",
-      "target": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
-      "target": "production_act1_external_requests_draft_2026_09_14_\u043a\u0430\u043a_\u0434\u0430\u0442\u044c_\u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435_\u043e\u0434\u043d\u043e\u0439_\u0441\u0442\u0440\u043e\u043a\u043e\u0439"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
-      "target": "production_act1_external_requests_draft_2026_09_14_1_\u0434\u0438\u043a\u0442\u043e\u0440\u0443"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L41",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
-      "target": "production_act1_external_requests_draft_2026_09_14_2_\u043a\u0443\u043b\u044c\u0442\u0443\u0440\u043d\u043e\u043c\u0443_\u0438_\u044f\u0437\u044b\u043a\u043e\u0432\u043e\u043c\u0443_\u043a\u043e\u043d\u0441\u0443\u043b\u044c\u0442\u0430\u043d\u0442\u0443"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L55",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
-      "target": "production_act1_external_requests_draft_2026_09_14_3_\u043d\u043e\u0432\u043e\u043c\u0443_\u0438\u0433\u0440\u043e\u043a\u0443"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L67",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
-      "target": "production_act1_external_requests_draft_2026_09_14_4_\u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0443_windows_\u043c\u0430\u0448\u0438\u043d\u044b"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L80",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "production_act1_external_requests_draft_2026_09_14_\u0447\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438_\u0432\u043d\u0435\u0448\u043d\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432_\u0430\u043a\u0442\u0430_i_2026_09_14",
-      "target": "production_act1_external_requests_draft_2026_09_14_\u0447\u0442\u043e_\u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f_\u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c_\u043f\u043e\u0441\u043b\u0435_\u044d\u0442\u0438\u0445_\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/production/act1_external_requests_draft_2026-09-14.md",
-      "source_location": "L108",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "production_act1_external_requests_draft_2026_09_14_4_\u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0443_windows_\u043c\u0430\u0448\u0438\u043d\u044b",
-      "target": "production_act1_external_requests_draft_2026_09_14_codeblock_1"
     },
     {
       "relation": "contains",
@@ -286026,5 +286026,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "087eda4f0d5c55ad84904894ec8ad0f0e094cc88"
+  "built_at_commit": "a3e2a75056ec9ba98d8c045d217376745b24b559"
 }
