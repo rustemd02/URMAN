@@ -1,6 +1,6 @@
 # Godot temporal style sweep
 
-Дата capture: 2026-08-14 (visual-preserving render-only collision sanitization). Engine: Godot 4.7.1 .NET, Forward+, Metal 4.0,
+Дата capture: 2026-09-14 (rerun of the visual-preserving render-only collision sanitization on current base-scene code). Engine: Godot 4.7.1 .NET, Forward+, Metal 4.0,
 Apple M4 Pro. Command: `./eng/capture-style-temporal-sweep.sh`.
 
 Статус: **technical temporal evidence only; external comfort review and art
@@ -18,18 +18,27 @@ luminance deltas, visible-range values, black-pixel fraction and camera peaks.
 
 | Scene | Preview | SHA-256 |
 |---|---|---|
-| Day street | [temporal sweep](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_temporal_sweep/godot_day_street_temporal_sweep_1080p.png) | `46bf62b77985323f8a11f6ffd45ce808b2c7dc1e5c785c3866b006cb50423236` |
-| House / old PC | [temporal sweep](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_temporal_sweep/godot_house_old_pc_temporal_sweep_1080p.png) | `785ad834ac354aa098c9212e593def8c0c32219e972d5950be4a1906d6fd2c6d` |
-| Kara-Urman edge | [temporal sweep](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_temporal_sweep/godot_kara_urman_edge_temporal_sweep_1080p.png) | `0cd91d711e4997f0ec2ce3226db97534e5d1a19629bec57b8d5689cf11b8fbf1` |
+| Day street | [temporal sweep](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_temporal_sweep/godot_day_street_temporal_sweep_1080p.png) | `5986c5457410b4bdd92e091e04aacbd6d16a248f13cf381c5b3463ba0169a932` |
+| House / old PC | [temporal sweep](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_temporal_sweep/godot_house_old_pc_temporal_sweep_1080p.png) | `66e20edaeb4cfe5dbb6d2c33f0e7f1dc0449ddeaea0c3cf5647aa8c064f1d5b4` |
+| Kara-Urman edge | [temporal sweep](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_temporal_sweep/godot_kara_urman_edge_temporal_sweep_1080p.png) | `d669cb7646727871f02e0d24fb31b83ddae829bd592d4df58559e8558270cc7c` |
 
 ![Day street temporal sweep](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_temporal_sweep/godot_day_street_temporal_sweep_1080p.png)
 
-Manifest: [style_temporal_sweep_manifest.json](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_temporal_sweep/style_temporal_sweep_manifest.json), SHA-256 `57ac2b4ae0b81883c30de7b54e41e24b6c9b8be620d7cef3c629e662fb17d66d`.
+Manifest: [style_temporal_sweep_manifest.json](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_temporal_sweep/style_temporal_sweep_manifest.json), SHA-256 `8d026dea73ab79d350ccfba451421405209a7f39a47792a9fd68290d4bdea5ed`.
 
 The current receipt is the post-visual-sanitization run. For a separate,
 test-only ambient/fog/key-light A/B, see
 [`style_calibration_candidate/`](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_calibration_candidate/);
 neither receipt activates a runtime presentation switch or closes the art lock.
+
+Scene basis (2026-09-14): this harness still instantiates the raw
+`style_benchmark_*` scene, so its tiles show the benchmark ground, trees and
+stand-in props that `Act1ConnectedWorld` hides at runtime. Read it as a temporal
+comfort measurement of the base scene, not as the shipped look. The 27-cell
+[`../style_motion_sweep/`](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_motion_sweep/)
+sheets now assemble the connected world and are the current spatial evidence for
+the shipped look. The manifest key is now `captured_at_utc` with the real capture
+time; it used to be a hardcoded `2026-08-14` literal that relabelled every rerun.
 
 ## Deterministic results
 
@@ -38,16 +47,18 @@ neither receipt activates a runtime presentation switch or closes the art lock.
 - Every render was non-empty, every tile had zero sampled black pixels, and
   the helper log contained no `ERROR:`, `SCRIPT ERROR:` or ObjectDB/RID leak.
 - Before every sample the disposable clone fail-closes unless it preserves
-  authored visual meshes and disables all physics-query owners. The current
-  receipts preserve 806/109/826 visual meshes for day/house/Kara while removing
-  286/22/695 `CollisionShape3D` nodes; all resulting collision layer/masks are
-  zero.
+  authored visual meshes and disables all physics-query owners. The 2026-09-14
+  receipts preserve 2072/1723/1065 visual meshes for day/house/Kara while
+  removing 288/28/654 `CollisionShape3D` nodes; all resulting collision
+  layer/masks are zero. The earlier 806/109/826 and 286/22/695 counts in this
+  file belonged to the 2026-08-14 base scene and moved with the winter dressing.
 - Reduced-motion rows report `camera_vertical_peak = 0`; the harness therefore
   verifies that the presentation flag can remove the vertical component without
   touching gameplay state.
-- Mean frame-to-frame luminance deltas stayed below 0,013 across all scene/FOV
-  combinations. These numbers describe this fixed camera sweep, not a medical
-  comfort threshold.
+- Mean frame-to-frame luminance deltas stayed below 0,009 across all scene/FOV
+  combinations (highest sample 0,0084, house/old PC at FOV 65° in head-bob
+  mode). These numbers describe this fixed camera sweep, not a medical comfort
+  threshold.
 
 ## What this closes
 

@@ -1,24 +1,46 @@
 # Godot style camera-sweep evidence
 
-Capture date: 2026-08-14 regression rerun after bounded puddle-origin correction  
+Capture date: 2026-09-14 rerun on the assembled shipped world (Act1ConnectedWorld)  
 Engine: Godot 4.7.1 .NET, Forward+, Metal 4.0, Apple M4 Pro  
 Command: `./eng/capture-style-motion-sweep.sh`  
 Status: **production evidence only; art lock remains OPEN**
 
-This test-only pass renders each mandatory style benchmark at nine camera
-states: three rows (`near`, `mid`, `far`) and three columns (FOV `65°`, `75°`,
-`90°`). Each cell is a real 640 × 360 SubViewport readback; the contact sheets
-are 1 920 × 1 080 RGBA PNGs. The capture is a spatial readability sweep, not a
+This test-only pass renders each mandatory Act 1 zone at nine camera states:
+three rows (`near`, `mid`, `far`) and three columns (FOV `65°`, `75°`, `90°`).
+Each cell is a real 640 × 360 SubViewport readback; the contact sheets are
+1 920 × 1 080 RGBA PNGs. The capture is a spatial readability sweep, not a
 temporal movement or head-bob test. The exact camera positions and targets are
 recorded in `style_motion_sweep_manifest.json`.
+
+## The sweep photographs the assembled world, not the raw zone scene
+
+Until 2026-09-14 this harness instantiated only the `style_benchmark_*` zone
+scene. That scene is the gameplay base, but it is not what the player sees:
+`Act1ConnectedWorld` hides its `Ground`, `Road`, benchmark `Pine`/`Birch`,
+`BoundaryThread`, `DistantWindow`/`DistantWarmWindow` and other stand-ins, and
+mounts the shared winter heightfield, authored parcels and exterior atmosphere
+in their place (`Act1ConnectedWorld.ApplyLogicalZonePresentationSuppressions`).
+The old sheets therefore showed benchmark ground and a floating warm window that
+no player can reach, and read as a grey-olive summer greybox next to a shipped
+snow village.
+
+The harness now builds the world the same way `Main` does — `new
+Act1ConnectedWorld()` per capture scene, `SetActiveLogicalZone(zone_id)`, camera
+placed at `zone origin + the same authored offset` — so every cell is the real
+winter Act 1 look. The camera grid, scene ownership checks and fail-closed
+imported-module assertions are unchanged; `styleImportedModules` is now read
+from the zone instance inside the connected world. The manifest records
+`assembled_world`, `zone_id` and `world_origin` per scene, and `captured_at_utc`
+is the real capture time (it was a hardcoded `2026-08-12` literal that made a
+fresh run claim an August date).
 
 ## Contact sheets
 
 | Scene | Preview | SHA-256 |
 |---|---|---|
-| Day street | `godot_day_street_motion_sweep_1080p.png` | `022647535c839bb568378b5b3015d8d01af63d7bc8576435680056399cb1ca0d` |
-| House / old PC | `godot_house_old_pc_motion_sweep_1080p.png` | `2ed24bc38d3168a448cae6faca05c473fbcf6221b1e89835176b515b3ce5f411` |
-| Kara-Urman edge | `godot_kara_urman_edge_motion_sweep_1080p.png` | `e1aa92cd5003eb9e548350c41500bcea656bde3560b047b370060c474fccdce5` |
+| Day street | `godot_day_street_motion_sweep_1080p.png` | `3a2a1bf26245bac005c6fa265473cf7d4228dbc978f5aeee541fce1b95eeb4a5` |
+| House / old PC | `godot_house_old_pc_motion_sweep_1080p.png` | `687c12d607e295b59ccb3f6a6c872f3d4b9337e7aa662c90313cd805f2a2c894` |
+| Kara-Urman edge | `godot_kara_urman_edge_motion_sweep_1080p.png` | `5411bde5573440be67ace0dd6f22cf09960d1af2b112949dac0c9b40a9b29ad6` |
 
 ![Day street camera sweep](godot_day_street_motion_sweep_1080p.png)
 
@@ -26,14 +48,11 @@ recorded in `style_motion_sweep_manifest.json`.
 
 ![Kara-Urman edge camera sweep](godot_kara_urman_edge_motion_sweep_1080p.png)
 
-The manifest itself is `3540e56242c6234d85433bf04e8cd1dfdc5ad00af435e2264b8718f0135dba57`.
+The manifest itself is `15cec7b3f9f046d4123ee07e092a381dd0141adeb3de787e7351f5c93e27e603`.
 
-The 2026-08-14 regression rerun completed after the bounded puddle-origin
-correction and render-only collision-owner cleanup. It produced the same
-manifest and clean Metal/Forward+ logs. The contact-sheet bytes changed because
-the authored road geometry was refreshed, so the hashes above are the current
-receipt. This is still baseline evidence, not a claim of texture activation or
-art-lock acceptance.
+Every sheet below this line that predates 2026-09-14 was captured from the raw
+zone scene and is retained as history only. The frames above are the current
+receipt.
 
 ## Reading the grid
 
@@ -41,9 +60,9 @@ art-lock acceptance.
 - Rows, top to bottom: `near`, `mid`, `far`.
 - The middle cell is the existing 75° style-frame composition. It is a
   comparison anchor, not a new runtime camera default.
-- Day and Kara rows fail closed unless their scene reports the expected
-  project-original imported module (`HouseA_project_original` and
-  `PineA_project_original`).
+- Day and Kara rows fail closed unless their zone instance inside the connected
+  world reports the expected project-original imported module
+  (`HouseA_project_original` and `PineA_project_original`).
 
 ## Evidence and review
 

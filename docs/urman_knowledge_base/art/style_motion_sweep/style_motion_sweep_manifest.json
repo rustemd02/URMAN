@@ -1,8 +1,9 @@
 {
   "schema_version": 1,
   "kind": "urman.godot_style_motion_sweep",
-  "captured_at": "2026-08-12",
+  "captured_at_utc": "2026-09-14T01:05:03.8446240Z",
   "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / Metal or equivalent real 3D driver",
+  "world": "zone scene assembled with Act1ConnectedWorld, the same owner the game uses",
   "tile": {
     "width": 640,
     "height": 360
@@ -27,6 +28,13 @@
     {
       "name": "day_street",
       "scene": "res://scenes/zones/style_benchmark_day_street.tscn",
+      "zone_id": "village_day",
+      "assembled_world": "Act1ConnectedWorld",
+      "world_origin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
       "output": "docs/urman_knowledge_base/art/style_motion_sweep/godot_day_street_motion_sweep_1080p.png",
       "expected_imported_module": "HouseA_project_original",
       "frames": [
@@ -197,6 +205,13 @@
     {
       "name": "house_old_pc",
       "scene": "res://scenes/zones/style_benchmark_house_pc.tscn",
+      "zone_id": "house_old_pc",
+      "assembled_world": "Act1ConnectedWorld",
+      "world_origin": {
+        "x": -28,
+        "y": 0,
+        "z": 0
+      },
       "output": "docs/urman_knowledge_base/art/style_motion_sweep/godot_house_old_pc_motion_sweep_1080p.png",
       "expected_imported_module": "",
       "frames": [
@@ -207,12 +222,12 @@
           "fov": 65,
           "camera": {
             "position": {
-              "x": -1.25,
+              "x": -29.25,
               "y": 1.68,
               "z": 0.25
             },
             "target": {
-              "x": 0,
+              "x": -28,
               "y": 1.38,
               "z": -2.7
             }
@@ -225,12 +240,12 @@
           "fov": 75,
           "camera": {
             "position": {
-              "x": -1.25,
+              "x": -29.25,
               "y": 1.68,
               "z": 0.25
             },
             "target": {
-              "x": 0,
+              "x": -28,
               "y": 1.38,
               "z": -2.7
             }
@@ -243,12 +258,12 @@
           "fov": 90,
           "camera": {
             "position": {
-              "x": -1.25,
+              "x": -29.25,
               "y": 1.68,
               "z": 0.25
             },
             "target": {
-              "x": 0,
+              "x": -28,
               "y": 1.38,
               "z": -2.7
             }
@@ -261,12 +276,12 @@
           "fov": 65,
           "camera": {
             "position": {
-              "x": -1.45,
+              "x": -29.45,
               "y": 1.68,
               "z": 1.75
             },
             "target": {
-              "x": 0,
+              "x": -28,
               "y": 1.38,
               "z": -3.45
             }
@@ -279,12 +294,12 @@
           "fov": 75,
           "camera": {
             "position": {
-              "x": -1.45,
+              "x": -29.45,
               "y": 1.68,
               "z": 1.75
             },
             "target": {
-              "x": 0,
+              "x": -28,
               "y": 1.38,
               "z": -3.45
             }
@@ -297,12 +312,12 @@
           "fov": 90,
           "camera": {
             "position": {
-              "x": -1.45,
+              "x": -29.45,
               "y": 1.68,
               "z": 1.75
             },
             "target": {
-              "x": 0,
+              "x": -28,
               "y": 1.38,
               "z": -3.45
             }
@@ -315,12 +330,12 @@
           "fov": 65,
           "camera": {
             "position": {
-              "x": -1.45,
+              "x": -29.45,
               "y": 1.68,
               "z": 3.15
             },
             "target": {
-              "x": 0.2,
+              "x": -27.8,
               "y": 1.38,
               "z": -4.35
             }
@@ -333,12 +348,12 @@
           "fov": 75,
           "camera": {
             "position": {
-              "x": -1.45,
+              "x": -29.45,
               "y": 1.68,
               "z": 3.15
             },
             "target": {
-              "x": 0.2,
+              "x": -27.8,
               "y": 1.38,
               "z": -4.35
             }
@@ -351,12 +366,12 @@
           "fov": 90,
           "camera": {
             "position": {
-              "x": -1.45,
+              "x": -29.45,
               "y": 1.68,
               "z": 3.15
             },
             "target": {
-              "x": 0.2,
+              "x": -27.8,
               "y": 1.38,
               "z": -4.35
             }
@@ -367,6 +382,13 @@
     {
       "name": "kara_urman_edge",
       "scene": "res://scenes/zones/style_benchmark_kara_urman_night.tscn",
+      "zone_id": "kara_urman_night",
+      "assembled_world": "Act1ConnectedWorld",
+      "world_origin": {
+        "x": 0,
+        "y": 0,
+        "z": -115
+      },
       "output": "docs/urman_knowledge_base/art/style_motion_sweep/godot_kara_urman_edge_motion_sweep_1080p.png",
       "expected_imported_module": "PineA_project_original",
       "frames": [
@@ -379,12 +401,12 @@
             "position": {
               "x": 0,
               "y": 1.7,
-              "z": 5
+              "z": -110
             },
             "target": {
               "x": 0.55,
               "y": 1.35,
-              "z": -3.8
+              "z": -118.8
             }
           }
         },
@@ -397,12 +419,12 @@
             "position": {
               "x": 0,
               "y": 1.7,
-              "z": 5
+              "z": -110
             },
             "target": {
               "x": 0.55,
               "y": 1.35,
-              "z": -3.8
+              "z": -118.8
             }
           }
         },
@@ -415,12 +437,12 @@
             "position": {
               "x": 0,
               "y": 1.7,
-              "z": 5
+              "z": -110
             },
             "target": {
               "x": 0.55,
               "y": 1.35,
-              "z": -3.8
+              "z": -118.8
             }
           }
         },
@@ -433,12 +455,12 @@
             "position": {
               "x": 0,
               "y": 1.7,
-              "z": 12.5
+              "z": -102.5
             },
             "target": {
               "x": 0.55,
               "y": 1.35,
-              "z": -7.2
+              "z": -122.2
             }
           }
         },
@@ -451,12 +473,12 @@
             "position": {
               "x": 0,
               "y": 1.7,
-              "z": 12.5
+              "z": -102.5
             },
             "target": {
               "x": 0.55,
               "y": 1.35,
-              "z": -7.2
+              "z": -122.2
             }
           }
         },
@@ -469,12 +491,12 @@
             "position": {
               "x": 0,
               "y": 1.7,
-              "z": 12.5
+              "z": -102.5
             },
             "target": {
               "x": 0.55,
               "y": 1.35,
-              "z": -7.2
+              "z": -122.2
             }
           }
         },
@@ -487,12 +509,12 @@
             "position": {
               "x": 0.2,
               "y": 1.7,
-              "z": 17
+              "z": -98
             },
             "target": {
               "x": 0.4,
               "y": 1.35,
-              "z": -12
+              "z": -127
             }
           }
         },
@@ -505,12 +527,12 @@
             "position": {
               "x": 0.2,
               "y": 1.7,
-              "z": 17
+              "z": -98
             },
             "target": {
               "x": 0.4,
               "y": 1.35,
-              "z": -12
+              "z": -127
             }
           }
         },
@@ -523,12 +545,12 @@
             "position": {
               "x": 0.2,
               "y": 1.7,
-              "z": 17
+              "z": -98
             },
             "target": {
               "x": 0.4,
               "y": 1.35,
-              "z": -12
+              "z": -127
             }
           }
         }

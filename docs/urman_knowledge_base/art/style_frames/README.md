@@ -330,3 +330,24 @@ Fresh real Metal/Forward+ 1 920 × 1 080 captures after the calibration:
 Technical capture and full Godot smoke pass. Visual verdict remains OPEN:
 the route is more readable, but the forest family/ground density, motion pass,
 cultural review and art-lock acceptance still require human review.
+
+## Scene basis clarification — 2026-09-14
+
+Everything in this file was captured from the `style_benchmark_*` zone scene
+alone, before the Act I connected-world dressing runs. That is why these frames
+were repeatedly described here as a "grey-olive greybox": the zone scene's own
+`Ground`/`Road` slabs, benchmark `Pine`/`Birch` stand-ins, `BoundaryThread` and
+`DistantWindow` are all hidden at runtime by
+`Act1ConnectedWorld.ApplyLogicalZonePresentationSuppressions`, and the shared
+winter heightfield, authored parcels, exterior atmosphere and NPC dressing are
+mounted in their place. These three PNGs remain valid as an isolated
+module/scene receipt — `StyleFrameCapture` still asserts the presence,
+presentation-only status and zero-physics contract of `WellA_`, `WoodpileA_` and
+`OldPc_` — but they are **not** the shipped look and must not be used as the
+visual style evidence for the art gate.
+
+The 27-cell `../style_motion_sweep/` sheets now assemble the same world the game
+assembles and are the current spatial-readability evidence. A future pass should
+re-root `StyleFrameCapture`, `StyleTemporalComfortCapture`, the wetness candidate
+and the puddle diagnostic onto the connected world the same way; until then their
+READMEs state their scene basis.

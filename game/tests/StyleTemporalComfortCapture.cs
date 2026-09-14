@@ -75,7 +75,7 @@ public partial class StyleTemporalComfortCapture : Node
                 {
                     schema_version = 1,
                     kind = "urman.godot_style_temporal_sweep",
-                    captured_at = "2026-08-14",
+                    captured_at_utc = System.DateTime.UtcNow.ToString("O", System.Globalization.CultureInfo.InvariantCulture),
                     renderer_expectation = "Godot 4.7.1 .NET Forward+ / Metal or equivalent real 3D driver",
                     tile = new { width = TileWidth, height = TileHeight },
                     contact_sheet = new { columns = 3, rows = 2, width = TileWidth * 3, height = TileHeight * 2 },

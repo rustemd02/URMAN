@@ -833,7 +833,8 @@
     "docs/urman_knowledge_base/art/puddle_silhouette_candidate/puddle_silhouette_candidate_manifest.json",
     "docs/urman_knowledge_base/performance/godot_m4pro_baseline.tsv",
     "docs/urman_knowledge_base/design_style.md"
-   ]
+   ],
+   "progress_2026_09_14": "Style evidence was a month stale and, worse, photographed a world the game does not ship. The sweep harness now assembles Act1ConnectedWorld (zone instance + SetActiveLogicalZone + camera at origin + authored offset) instead of the raw benchmark scene, so all 27 near/mid/far x FOV 65/75/90 cells show the shipped winter Act 1: day street with packed ruts and snowbanks, Kara edge without the floating warm window or stray boundary thread, house interior with authored dressing and cast. The fail-closed imported-module assertions moved to the zone instance inside the connected world and were not weakened. The two hardcoded manifest dates (2026-08-12, 2026-08-14) are now captured_at_utc with the real time. Sheet hashes: day 3a2a1bf2, house 687c12d6, kara 5411bde5; manifest 15cec7b3. Remaining, recorded in the set READMEs: StyleFrameCapture, the temporal comfort sweep, the wetness candidate and the puddle diagnostic still render the base scene and now say so. Test-and-docs only, so the shipped candidate is not staled."
   },
   {
    "id": "GODOT-004",

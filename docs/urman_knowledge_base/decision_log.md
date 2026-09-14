@@ -3485,3 +3485,37 @@ side-quest definitions нет. Доведение их игрового смыс
 отказ вниз, `guessed` раньше `confirmed`), Core 44/44, Content 12/12,
 `./eng/verify-dotnet.sh` PASS, все 34 smoke-сцены — 33 зелёные и прежний
 известный красный `full_game_flow_smoke_test` вне охвата Акта II.
+
+## 2026-09-14 — Style evidence photographs the assembled Act I world
+
+Status: Accepted bounded evidence repair; no gameplay, narrative or material change
+
+Context: The `eng/capture-style-motion-sweep.sh` harness instantiated only the
+`style_benchmark_*` zone scene. At runtime `Act1ConnectedWorld` hides that
+scene's `Ground`, `Road`, benchmark `Pine`/`Birch`, `BoundaryThread`,
+`DistantWindow`/`DistantWarmWindow` and other stand-ins and mounts the shared
+winter heightfield, authored parcels and exterior atmosphere instead, so the
+27-cell sheets showed a grey-olive summer base and a floating warm window that
+no player can reach. Style evidence that photographs hidden geometry cannot
+support a visual acceptance decision.
+
+Decision: The sweep assembles the same world the game assembles — `new
+Act1ConnectedWorld()` per capture scene, `SetActiveLogicalZone(zone_id)`, camera
+at `zone origin + the authored offset` — and keeps the identical 3x3 grid,
+ownership checks and fail-closed imported-module assertions, now read from the
+zone instance inside the connected world. `StyleFrameCapture`, the temporal
+comfort sweep, the wetness candidate and the puddle diagnostic stay on the base
+scene and now state that basis in their READMEs; re-rooting them is a later task.
+The hardcoded manifest dates in `StyleMotionSweepCapture` and
+`StyleTemporalComfortCapture` are replaced by `captured_at_utc` with the real
+capture time, matching the other harnesses.
+
+Consequences: Current receipts are day `3a2a1bf2`, house `687c12d6`, kara
+`5411bde5`; motion manifest `15cec7b3`. The superseded base-scene temporal
+manifest `57ac2b4ae0b81883c30de7b54e41e24b6c9b8be620d7cef3c629e662fb17d66d` is
+replaced by `8d026dea73ab79d350ccfba451421405209a7f39a47792a9fd68290d4bdea5ed`
+after the same base-scene rerun (day `5986c545`, house `66e20eda`, kara
+`d669cb76`). Art lock, cultural review and release-host performance stay OPEN.
+Linked files: `art/style_motion_sweep/README.md`, `art/style_temporal_sweep/README.md`,
+`art/style_frames/README.md`, `weak_points.md`, `execution_backlog.json`,
+`../../game/tests/StyleMotionSweepCapture.cs`, `../../game/tests/StyleTemporalComfortCapture.cs`
