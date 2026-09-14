@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.Json;
 using Godot;
 
@@ -26,11 +27,13 @@ public partial class StyleTemporalComfortCapture : Node
     [
         new(
             "day_street",
+            "village_day",
             "res://scenes/zones/style_benchmark_day_street.tscn",
             new Vector3(0, 1.7f, 12.5f),
             new Vector3(0, 1.45f, -7.5f),
             "HouseA_project_original"),
         new(
+            "house_old_pc",
             "house_old_pc",
             "res://scenes/zones/style_benchmark_house_pc.tscn",
             new Vector3(-1.45f, 1.68f, 1.75f),
@@ -38,6 +41,7 @@ public partial class StyleTemporalComfortCapture : Node
             string.Empty),
         new(
             "kara_urman_edge",
+            "kara_urman_night",
             "res://scenes/zones/style_benchmark_kara_urman_night.tscn",
             new Vector3(0, 1.7f, 12.5f),
             new Vector3(0.55f, 1.35f, -7.2f),
@@ -103,17 +107,69 @@ public partial class StyleTemporalComfortCapture : Node
 
     private async Task<object?> CaptureSceneAsync(TemporalScene scene, string outputDirectory)
     {
-        var packed = ResourceLoader.Load<PackedScene>(scene.ScenePath);
-        if (packed is null)
+        if (!Act1WorldLayout.TryGetPlacement(scene.ZoneId, out var placement))
         {
-            Fail($"Could not load style benchmark {scene.ScenePath}.");
+            Fail($"Style temporal sweep has no connected Act I placement for '{scene.ZoneId}'.");
             return null;
         }
+
+        // Measure the world the player actually walks: the zone scene plus the
+        // connected Act I owner, which hides the benchmark ground/road and
+        // stand-in props and mounts the winter heightfield, authored parcels and
+        // exterior atmosphere. The render-only sanitization therefore runs once
+        // on that assembled world instead of once per sample.
+        var viewport = new SubViewport
+        {
+            Name = $"Temporal_{scene.Name}",
+            Size = new Vector2I(TileWidth, TileHeight),
+            OwnWorld3D = true,
+            RenderTargetUpdateMode = SubViewport.UpdateMode.Always,
+            Msaa3D = Viewport.Msaa.Msaa2X
+        };
+        AddChild(viewport);
+
+        var world = new Act1ConnectedWorld { Name = $"TemporalWorld_{scene.Name}" };
+        viewport.AddChild(world);
+        world.SetActiveLogicalZone(scene.ZoneId);
+        var sanitization = SanitizePhysicsForRenderOnlyCapture(world);
+        if (sanitization.VisualMeshCount <= 0
+            || sanitization.CollisionShapeCountAfter != 0
+            || sanitization.ActivePhysicsQueryOwnerCount != 0)
+        {
+            await FreeViewportAsync(viewport);
+            Fail(
+                $"Render-only sanitization for {scene.Name} removed authored visuals or left physics queries active "
+                + $"(visual_meshes={sanitization.VisualMeshCount}, "
+                + $"collision_shapes_before={sanitization.CollisionShapeCountBefore}, "
+                + $"collision_shapes_after={sanitization.CollisionShapeCountAfter}, "
+                + $"active_physics_query_owners={sanitization.ActivePhysicsQueryOwnerCount}).");
+            return null;
+        }
+
+        var zoneInstance = world.GetChildren().OfType<Node3D>().FirstOrDefault(child =>
+            child.HasMeta("logicalZoneId")
+            && child.GetMeta("logicalZoneId").AsString() == scene.ZoneId);
+        if (scene.ExpectedImportedModule.Length > 0
+            && (zoneInstance is null
+                || !zoneInstance.HasMeta("styleImportedModules")
+                || zoneInstance.GetMeta("styleImportedModules").AsString() != scene.ExpectedImportedModule))
+        {
+            await FreeViewportAsync(viewport);
+            Fail($"Style benchmark {scene.Name} did not materialize expected imported module {scene.ExpectedImportedModule}.");
+            return null;
+        }
+
+        var camera = new Camera3D
+        {
+            Name = "TemporalCaptureCamera",
+            Fov = Fovs[0],
+            Current = true
+        };
+        viewport.AddChild(camera);
 
         var sheet = Image.CreateEmpty(TileWidth * Fovs.Length, TileHeight * 2, false, Image.Format.Rgba8);
         sheet.Fill(new Color(0.035f, 0.043f, 0.045f, 1f));
         var modes = new List<object>(2);
-        RenderOnlySanitization? sceneSanitization = null;
 
         for (var modeIndex = 0; modeIndex < 2; modeIndex++)
         {
@@ -121,19 +177,17 @@ public partial class StyleTemporalComfortCapture : Node
             var modeMetrics = new List<object>(Fovs.Length);
             for (var column = 0; column < Fovs.Length; column++)
             {
-                var tile = await CapturePathAsync(scene, packed, Fovs[column], reducedMotion);
+                var tile = await CapturePathAsync(
+                    scene,
+                    placement.Origin,
+                    viewport,
+                    camera,
+                    Fovs[column],
+                    reducedMotion,
+                    sanitization);
                 if (tile is null)
                 {
-                    return null;
-                }
-
-                if (sceneSanitization is null)
-                {
-                    sceneSanitization = tile.Sanitization;
-                }
-                else if (sceneSanitization != tile.Sanitization)
-                {
-                    Fail($"Render-only sanitization drifted between temporal samples for {scene.Name}.");
+                    await FreeViewportAsync(viewport);
                     return null;
                 }
 
@@ -165,6 +219,8 @@ public partial class StyleTemporalComfortCapture : Node
             });
         }
 
+        await FreeViewportAsync(viewport);
+
         var outputPath = System.IO.Path.Combine(outputDirectory, $"godot_{scene.Name}_temporal_sweep_1080p.png");
         var saveError = sheet.SavePng(outputPath);
         if (saveError != Error.Ok)
@@ -176,24 +232,22 @@ public partial class StyleTemporalComfortCapture : Node
         var repoRoot = ProjectSettings.GlobalizePath("res://..");
         var relativeOutputPath = System.IO.Path.GetRelativePath(repoRoot, outputPath).Replace('\\', '/');
         GD.Print($"style-temporal-sweep: {scene.Name} {sheet.GetWidth()}x{sheet.GetHeight()} -> {outputPath}");
-        if (sceneSanitization is null)
-        {
-            Fail($"Style temporal sweep did not record render-only sanitization for {scene.Name}.");
-            return null;
-        }
         return new
         {
             name = scene.Name,
+            zone_id = scene.ZoneId,
             scene = scene.ScenePath,
+            assembled_world = "Act1ConnectedWorld",
+            world_origin = new { x = placement.Origin.X, y = placement.Origin.Y, z = placement.Origin.Z },
             output = relativeOutputPath,
             expected_imported_module = scene.ExpectedImportedModule,
             render_only_sanitization = new
             {
-                visual_mesh_count = sceneSanitization.VisualMeshCount,
-                collision_shape_count_before = sceneSanitization.CollisionShapeCountBefore,
-                collision_shapes_removed = sceneSanitization.CollisionShapesRemoved,
-                collision_shape_count_after = sceneSanitization.CollisionShapeCountAfter,
-                active_physics_query_owner_count = sceneSanitization.ActivePhysicsQueryOwnerCount
+                visual_mesh_count = sanitization.VisualMeshCount,
+                collision_shape_count_before = sanitization.CollisionShapeCountBefore,
+                collision_shapes_removed = sanitization.CollisionShapesRemoved,
+                collision_shape_count_after = sanitization.CollisionShapeCountAfter,
+                active_physics_query_owner_count = sanitization.ActivePhysicsQueryOwnerCount
             },
             modes
         };
@@ -201,56 +255,18 @@ public partial class StyleTemporalComfortCapture : Node
 
     private async Task<TemporalCapture?> CapturePathAsync(
         TemporalScene scene,
-        PackedScene packed,
+        Vector3 worldOrigin,
+        SubViewport viewport,
+        Camera3D camera,
         float fov,
-        bool reducedMotion)
+        bool reducedMotion,
+        RenderOnlySanitization sanitization)
     {
-        var viewport = new SubViewport
-        {
-            Name = $"Temporal_{scene.Name}_{fov}_{(reducedMotion ? "reduced" : "bob")}",
-            Size = new Vector2I(TileWidth, TileHeight),
-            OwnWorld3D = true,
-            RenderTargetUpdateMode = SubViewport.UpdateMode.Always,
-            Msaa3D = Viewport.Msaa.Msaa2X
-        };
-        AddChild(viewport);
-
-        var sceneInstance = packed.Instantiate<Node3D>();
-        viewport.AddChild(sceneInstance);
-        var sanitization = SanitizePhysicsForRenderOnlyCapture(sceneInstance);
-        if (sanitization.VisualMeshCount <= 0
-            || sanitization.CollisionShapeCountAfter != 0
-            || sanitization.ActivePhysicsQueryOwnerCount != 0)
-        {
-            await FreeViewportAsync(viewport);
-            Fail(
-                $"Render-only sanitization for {scene.Name} removed authored visuals or left physics queries active "
-                + $"(visual_meshes={sanitization.VisualMeshCount}, "
-                + $"collision_shapes_before={sanitization.CollisionShapeCountBefore}, "
-                + $"collision_shapes_after={sanitization.CollisionShapeCountAfter}, "
-                + $"active_physics_query_owners={sanitization.ActivePhysicsQueryOwnerCount}).");
-            return null;
-        }
-        var camera = new Camera3D
-        {
-            Name = "TemporalCaptureCamera",
-            Position = scene.Camera,
-            Fov = fov,
-            Current = true
-        };
-        viewport.AddChild(camera);
+        camera.Fov = fov;
 
         for (var frame = 0; frame < WarmupFrames; frame++)
         {
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        }
-
-        if (scene.ExpectedImportedModule.Length > 0
-            && sceneInstance.GetMeta("styleImportedModules").AsString() != scene.ExpectedImportedModule)
-        {
-            await FreeViewportAsync(viewport);
-            Fail($"Style benchmark {scene.Name} did not materialize expected imported module {scene.ExpectedImportedModule}.");
-            return null;
         }
 
         Image? previous = null;
@@ -269,8 +285,8 @@ public partial class StyleTemporalComfortCapture : Node
             var phase = (float)(frame * Math.PI * 2.0 / MotionFrames);
             var horizontal = Mathf.Sin(phase) * HeadSwayAmplitude;
             var vertical = reducedMotion ? 0f : Mathf.Sin(phase * 2f) * HeadBobAmplitude;
-            camera.Position = scene.Camera + new Vector3(horizontal, vertical, 0);
-            camera.LookAt(scene.Target + new Vector3(Mathf.Sin(phase) * 0.045f, 0, 0), Vector3.Up);
+            camera.Position = worldOrigin + scene.Camera + new Vector3(horizontal, vertical, 0);
+            camera.LookAt(worldOrigin + scene.Target + new Vector3(Mathf.Sin(phase) * 0.045f, 0, 0), Vector3.Up);
             cameraVerticalPeak = Mathf.Max(cameraVerticalPeak, Mathf.Abs(vertical));
             cameraHorizontalPeak = Mathf.Max(cameraHorizontalPeak, Mathf.Abs(horizontal));
 
@@ -278,7 +294,8 @@ public partial class StyleTemporalComfortCapture : Node
             var image = viewport.GetTexture().GetImage();
             if (image is null || image.IsEmpty() || image.GetWidth() != TileWidth || image.GetHeight() != TileHeight)
             {
-                await FreeViewportAsync(viewport);
+                // The caller owns the viewport and frees the assembled world;
+                // freeing it here as well would free it twice.
                 Fail($"Style temporal sweep requires a real {TileWidth}x{TileHeight} rendering driver for {scene.Name} FOV {fov}.");
                 return null;
             }
@@ -295,7 +312,6 @@ public partial class StyleTemporalComfortCapture : Node
             previous = image;
         }
 
-        await FreeViewportAsync(viewport);
         if (finalImage is null || sampledPixels == 0)
         {
             Fail($"Style temporal sweep produced no valid final frame for {scene.Name} FOV {fov}.");
@@ -438,6 +454,7 @@ public partial class StyleTemporalComfortCapture : Node
 
     private sealed record TemporalScene(
         string Name,
+        string ZoneId,
         string ScenePath,
         Vector3 Camera,
         Vector3 Target,

@@ -3503,10 +3503,14 @@ Decision: The sweep assembles the same world the game assembles — `new
 Act1ConnectedWorld()` per capture scene, `SetActiveLogicalZone(zone_id)`, camera
 at `zone origin + the authored offset` — and keeps the identical 3x3 grid,
 ownership checks and fail-closed imported-module assertions, now read from the
-zone instance inside the connected world. `StyleFrameCapture` now renders the
-same assembled world; the temporal comfort sweep, the wetness candidate and the
-puddle diagnostic stay on the base scene and now state that basis in their
-READMEs, so re-rooting those three is the later task.
+zone instance inside the connected world. `StyleFrameCapture` and
+`StyleTemporalComfortCapture` now render the same assembled world; the temporal
+harness sanitizes the whole world once per scene, so its counts are world-wide
+(23 195 visual meshes, 1 599 removed shapes) and its 216 samples measure the
+shipped street. The wetness candidate and the puddle diagnostic deliberately stay
+on the base scene — both need the raycast to hit a specific relief body that the
+connected world hides and replaces with the shared heightfield — and their
+READMEs now state that basis.
 The hardcoded manifest dates in `StyleMotionSweepCapture` and
 `StyleTemporalComfortCapture` are replaced by `captured_at_utc` with the real
 capture time, matching the other harnesses.
@@ -3516,11 +3520,13 @@ Consequences: Current receipts are day `3a2a1bf2`, house `687c12d6`, kara
 same way and re-captured: day `91c4d004`, house `488d650b`, kara `6c21dea2`, with
 its module and interaction assertions preserved and only the ФАП landmark
 assertion moved from the hidden `VillageSignText` to `FapWayfindingLabel` on the
-authored wayfinding board. The superseded base-scene temporal
-manifest `57ac2b4ae0b81883c30de7b54e41e24b6c9b8be620d7cef3c629e662fb17d66d` is
-replaced by `8d026dea73ab79d350ccfba451421405209a7f39a47792a9fd68290d4bdea5ed`
-after the same base-scene rerun (day `5986c545`, house `66e20eda`, kara
-`d669cb76`). Art lock, cultural review and release-host performance stay OPEN.
+authored wayfinding board. The temporal sweep moved to the assembled world in the
+same pass: its August manifest
+`57ac2b4ae0b81883c30de7b54e41e24b6c9b8be620d7cef3c629e662fb17d66d` is now
+`dbf8638ef3a122827f28dd0bce716c6d74d0fe1b23cdebf3a3945736494aceab`
+(day `acf8abc4`, house `2778b1f4`, kara `adef0cd2`), with the render-only
+sanitization measured once per assembled world instead of once per zone.
+Art lock, cultural review and release-host performance stay OPEN.
 Linked files: `art/style_motion_sweep/README.md`, `art/style_temporal_sweep/README.md`,
 `art/style_frames/README.md`, `weak_points.md`, `execution_backlog.json`,
 `../../game/tests/StyleMotionSweepCapture.cs`, `../../game/tests/StyleTemporalComfortCapture.cs`
