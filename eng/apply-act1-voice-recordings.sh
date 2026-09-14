@@ -80,6 +80,32 @@ fi
 
 DEST_DIR="$URMAN_ROOT/game/assets/audio/act1/voice"
 
+# This is the one integration step an outside person triggers, and it mutates
+# content, copies audio and recompiles two packs. If a compile or an audio check
+# fails half-way the repository would be left partially applied, so the originals
+# are kept and restored unless the whole run succeeds.
+CONTENT_FILE="$URMAN_ROOT/content/modules/urman-chapter1/definitions.json"
+PACK_FILES="$URMAN_ROOT/game/content/urman.chapter1.compiled.v1.json $URMAN_ROOT/game/content/urman.fullgame.compiled.v1.json"
+ROLLBACK_DIR=$(mktemp -d "${TMPDIR:-/tmp}/urman-voice-rollback.XXXXXX")
+cp "$CONTENT_FILE" "$ROLLBACK_DIR/definitions.json"
+for pack in $PACK_FILES; do cp "$pack" "$ROLLBACK_DIR/$(basename "$pack")"; done
+APPLIED=0
+rollback() {
+  [ "$APPLIED" -eq 1 ] && return 0
+  cp "$ROLLBACK_DIR/definitions.json" "$CONTENT_FILE"
+  for pack in $PACK_FILES; do cp "$ROLLBACK_DIR/$(basename "$pack")" "$pack"; done
+  rm -f "$DEST_DIR/marat_call.wav" "$DEST_DIR/rinat_warning.wav"
+  rmdir "$DEST_DIR" 2>/dev/null || true
+  echo "voice integration rolled back: content, both compiled packs and the audio directory are as they were" >&2
+}
+finish() {
+  status=$?
+  if [ "$status" -ne 0 ] && [ "$APPLIED" -eq 0 ]; then rollback; fi
+  rm -rf "$ROLLBACK_DIR"
+  exit "$status"
+}
+trap finish EXIT HUP INT TERM
+
 # Validate the spec from the recording brief: mono, 44.1/48 kHz, 16 or 24 bit,
 # peak at or below -3 dBFS, no long silent head or tail.
 python3 - "$MARAT_SRC" "$RINAT_SRC" <<'PY'
