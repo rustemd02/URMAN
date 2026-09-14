@@ -4137,3 +4137,28 @@ continue to wait for the author's decisions.
 
 Linked files: `../../game/scripts/StyleBenchmarkZone.cs`,
 `../../docs/urman_knowledge_base/art/act1_i2_interior_use_passport_2026-09-15.md`
+
+## 2026-09-15 — E2 zone review (arrival/Kara) and the C1 public-objects inspection
+
+Status: Accepted (E2 zone one of several; C1 recorded as an inspection, cultural review external)
+
+Context: E2 moves finds under the new yard biographies one zone at a time. The
+arrival and Kara-edge zone's biographies changed (hero yard, east holding with its
+firewood and yard kit, the ring closing the north view), so its finds were
+re-verified in place before any move.
+
+Decision: no find in this zone needed relocating - the new ring, the yard kit and
+the firewood do not cross any find's hint, action or return. Verified on frames:
+the bench notches, the insulated well, the sign reverse, and specifically the two
+Kara finds that sit 10-13 m from the new southern ring band (`kara-warm-window` and
+`kara-branch-profile` both still read). C1's public objects were inspected on the
+same SHA: the mosque complex and minaret read as one vertical composition (the
+lean on the frame is wide-angle perspective, the camera has no roll), the zirat is
+restrained with the bench find off the graves, and no horror props or invented
+texts were added.
+
+Consequences: E2 continues zone by zone (connective street, zirat, Kara loop
+remain); the mosque's cultural review and the forest art acceptance stay external;
+I1 and LEN01.1 remain recorded as waiting for the author.
+
+Linked files: `../../docs/production/act1_e2_c1_zone_review_2026-09-15.md`
