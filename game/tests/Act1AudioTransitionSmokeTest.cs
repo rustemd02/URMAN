@@ -176,6 +176,25 @@ public partial class Act1AudioTransitionSmokeTest : Node
             return false;
         }
 
+        // PlayWorld hands playback to the audio server, which starts a mix later
+        // than the node appears in the group. Setting StreamPaused before the
+        // stream is actually playing is a no-op in Godot, which made the pause
+        // assertion race the audio thread: it failed once in a full 34-scene run
+        // and passed on every re-run. Wait for playback to start within a bound
+        // that sits safely inside the 1.21 s source, and fail if it never starts;
+        // the pause contract itself is unchanged.
+        var playDeadline = Time.GetTicksMsec() + 400;
+        while (!player.Playing && Time.GetTicksMsec() < playDeadline)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+
+        if (!player.Playing)
+        {
+            Fail("World foley never started playing, so its pause contract cannot be checked.");
+            return false;
+        }
+
         UiFoley.SetWorldPaused(GetTree(), true);
         if (!player.StreamPaused)
         {
