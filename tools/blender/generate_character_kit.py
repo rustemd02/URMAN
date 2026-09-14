@@ -173,10 +173,14 @@ def faceted_torso(
         (0.98 + bottom_lift * 0.18, 0.222, 0.162, -0.006),
         # Keep the shoulder crest slightly inside the sleeve volume; the
         # existing four-ring sleeve still overlaps this contour.
-        (1.10, 0.242, 0.162, -0.001),
-        # The outer shoulder crest and narrow neck ring replace the flat yoke cap.
-        (1.14, 0.252, 0.164, 0.001),
-        (1.20, 0.155, 0.120, 0.003),
+        (1.10, 0.222, 0.152, -0.001),
+        # Shoulder crest, then a real trapezius slope into a neck. The crest used
+        # to run straight into a 0.31 m top ring, so the head sat on the
+        # shoulders with no neck at all and every figure read as a bell.
+        (1.14, 0.228, 0.154, 0.001),
+        (1.165, 0.152, 0.116, 0.002),
+        (1.19, 0.092, 0.078, 0.003),
+        (1.20, 0.078, 0.066, 0.003),
     )
     sides = 10
     vertices: list[tuple[float, float, float]] = []
@@ -854,7 +858,9 @@ def create_character(
     face_features(prefix, head_object, head_scale, materials, asset_id)
     faceted_prism(
         f"{prefix}_ScarfBand_LOD0",
-        (0.24 * shoulder_scale, 0.18, scarf_height),
+        # A scarf collar wraps the neck, so it takes the neck's width, not the
+        # old 0.48 m shoulder-wide block that hid the neck completely.
+        (0.105 * shoulder_scale, 0.082, scarf_height),
         (x, -0.010, scarf_z),
         material(f"{prefix}Scarf", accent_color),
         asset_id,

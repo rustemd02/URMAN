@@ -191,8 +191,8 @@
    "id": "character.fullgame.lowpoly.v1",
    "source": "assets/source/blender/urman_character_kit.blend",
    "derived": "game/assets/generated/urman_character_kit.glb",
-   "sourceSha256": "0c6cbb1e0f3707a967cf3f51d09c540afe8e05ed56df26c958cc027e19d652ca",
-   "derivedSha256": "3f7166c076d88b4cf0c6316454b98120cbd69093269cf4e007a5dc9eec4bcd1d",
+   "sourceSha256": "f03abfad7011f9f021eb93878fef34a717484585596a92a04037fefc1ec2e012",
+   "derivedSha256": "4eaac326de9b12415148f3a05958bd502d3a21475ed455e383abfd25b1e3bd7f",
    "generator": "tools/blender/generate_character_kit.py",
    "license": "Mixed: Project-original clothing/rigs; CC0-1.0 Quaternius head, eyes, brows and hair derivatives",
    "scale": 1.0,
@@ -247,9 +247,9 @@
     "TimurHazratTrousers"
    ],
    "collision": "none; character GLB has no collision meshes; Godot interaction targets and zone colliders own physics",
-   "lod": "190 LOD0 / 190 LOD1 meshes; 32358 triangles total (21579 LOD0 + 10779 LOD1); 46 materials; Godot range 0–18m / 14–48m integrated",
+   "lod": "271 LOD0 / 271 LOD1 meshes; 34,774 triangles total; 46 materials; Godot range 0-18m / 14-48m integrated",
    "animation": "9 project-original armatures with Idle/Tension clips; CouncilWitness Hand.R raises and holds in non-looping Tension, Idle restores wrist pose; native clip hold/reset verified",
-   "status": "source/import/native local wardrobe and pose pass; longer Alsu/Rinat coats, household poses, raised warning hand; overall character art and face-age acceptance remain open",
+   "status": "source/import/native local wardrobe and pose pass; longer Alsu/Rinat coats, household poses, raised warning hand; 2026-09-14 the torso gained a real trapezius-to-neck taper and a neck-width scarf collar, removing the shoulder-width top ring that buried every neck; overall character art and face-age acceptance remain open",
    "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD",
    "headSource": {
     "source": "assets/source/blender/characters/urman_cc0_head_templates.blend",
