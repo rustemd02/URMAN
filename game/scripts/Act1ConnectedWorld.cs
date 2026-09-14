@@ -967,8 +967,12 @@ public partial class Act1ConnectedWorld : Node3D
 
         // Distant minaret silhouette on the western skyline: identifies the
         // Tatar village without creating a new zone (presentation-only).
-        AddDistantMinaret(core, "DistantMinaretSilhouette",
-            new Vector3(-46f, (float)AgentBAct1HeightField.Ground(-46f, -34f), -34f), 1.0f);
+        var minaretAnchor = new Vector3(-46f, (float)AgentBAct1HeightField.Ground(-46f, -34f), -34f);
+        AddDistantMinaret(core, "DistantMinaretSilhouette", minaretAnchor, 1.0f);
+        // The author reported the bare minaret reading as a lone tower and asked
+        // for a real mosque in this part of the village: the hall, dome, closed
+        // entrance and courtyard wall now stand around the existing minaret.
+        AddVillageMosque(core, minaretAnchor);
 
         // Unreachable background layers (T3): near village rows, mid woodland
         // bands and far snow ridges, all beyond the walkable envelope.
@@ -7873,6 +7877,123 @@ public partial class Act1ConnectedWorld : Node3D
         AddMinaretOctagon("MinaretSpireTip", 0.035f, 0.012f, 0.97f, 20.915f, "6d6a5e", "stone");
         AddMinaretOctagon("MinaretSnowCap", 1.05f, 0.97f, 0.11f, 16.825f, "eef2f6", "snow_ground");
         AddMinaretOctagon("MinaretBaseSnow", 1.32f, 1.22f, 0.11f, 2.155f, "eef2f6", "snow_ground");
+    }
+
+/// <summary>
+    /// Village mosque complex around the existing minaret: hall with a low dome,
+    /// a closed street entrance facing the village, a plinth, a courtyard wall with
+    /// a gate opening and an ablution trough. Presentation geometry with layer-2
+    /// blockers so the player cannot walk through it; the courtyard interior is not
+    /// wired to any scene in Act I, which stays a hook for the next act.
+    /// </summary>
+    private static void AddVillageMosque(Node3D parent, Vector3 minaretAnchor)
+    {
+        var complex = new Node3D { Name = "VillageMosqueComplex", Position = minaretAnchor };
+        complex.SetMeta("presentationOnly", true);
+        complex.SetMeta("visualOnly", true);
+        complex.SetMeta("collisionOwner", "mosque-blocker");
+        complex.SetMeta("navigationOwner", "none");
+        complex.SetMeta("interactionOwner", "none");
+        complex.SetMeta(
+            "presentationRole",
+            "village mosque: hall, dome, closed entrance and courtyard around the authored minaret; interior stays a hook, no scene is wired");
+        complex.SetMeta(
+            "culturalReview",
+            "open — Tatar/Islamic presentation of the mosque must be reviewed by a consultant");
+        parent.AddChild(complex);
+
+        var proxy = new StaticBody3D
+        {
+            Name = "MosqueCollisionProxy",
+            CollisionLayer = 2,
+            CollisionMask = 0
+        };
+        proxy.SetMeta("collisionOwner", "mosque-blocker");
+        proxy.SetMeta("collisionStatus", "authored-blocker-layer-2");
+        complex.AddChild(proxy);
+
+        var blocked = 0;
+        void Wall(string name, Vector3 size, Vector3 localPosition, string color, string surface)
+        {
+            AddVisualBox(complex, name, size, localPosition, color, surface);
+            proxy.AddChild(new CollisionShape3D
+            {
+                Name = $"{name}_Blocker",
+                Position = localPosition,
+                Shape = new BoxShape3D { Size = new Vector3(
+                    Mathf.Max(size.X - .06f, .12f), Mathf.Min(size.Y, 4.2f), Mathf.Max(size.Z - .06f, .12f)) }
+            });
+            blocked++;
+        }
+
+        // Hall shell: 11 x 5.2 x 8.5 m, its east wall facing the village, the
+        // minaret standing at that corner. The street wall keeps a 1.5 m door gap.
+        const float halfX = 5.5f;
+        const float halfZ = 4.25f;
+        const float wallHeight = 5.2f;
+        var ground = (float)AgentBAct1HeightField.Ground(minaretAnchor.X - 7f, minaretAnchor.Z - 1f);
+        var baseY = ground - minaretAnchor.Y;
+        var origin = new Vector3(-7f, baseY, -1f);
+        Wall("MosqueHallWest", new(0.55f, wallHeight, halfZ * 2f), origin + new Vector3(-halfX, wallHeight * .5f, 0f), "b9b3a2", "plaster");
+        Wall("MosqueHallNorth", new(halfX * 2f, wallHeight, 0.55f), origin + new Vector3(0f, wallHeight * .5f, -halfZ), "b9b3a2", "plaster");
+        Wall("MosqueHallSouth", new(halfX * 2f, wallHeight, 0.55f), origin + new Vector3(0f, wallHeight * .5f, halfZ), "b9b3a2", "plaster");
+        // Street wall in two segments around the entrance gap.
+        Wall("MosqueHallEastLeft", new(0.55f, wallHeight, 3.4f), origin + new Vector3(halfX, wallHeight * .5f, -2.55f), "c2bcab", "plaster");
+        Wall("MosqueHallEastRight", new(0.55f, wallHeight, 3.4f), origin + new Vector3(halfX, wallHeight * .5f, 2.55f), "c2bcab", "plaster");
+        Wall("MosqueHallEastLintel", new(0.55f, 1.6f, 1.7f), origin + new Vector3(halfX, wallHeight - .8f, 0f), "c2bcab", "plaster");
+        Wall("MosquePlinth", new(halfX * 2f + .5f, 0.5f, halfZ * 2f + .5f), origin + new Vector3(0f, .25f, 0f), "7c7768", "stone");
+
+        // Roof: two gable slabs and a low eight-sided dome with a snow cap, so the
+        // skyline reads as a mosque rather than a barn.
+        AddVisualBox(complex, "MosqueRoofWest", new(6.4f, 0.30f, halfZ * 2f + 1.0f),
+            origin + new Vector3(-2.6f, wallHeight + 1.05f, 0f), "4d5b56", "roof_metal", rollDegrees: 22f);
+        AddVisualBox(complex, "MosqueRoofEast", new(6.4f, 0.30f, halfZ * 2f + 1.0f),
+            origin + new Vector3(2.6f, wallHeight + 1.05f, 0f), "4d5b56", "roof_metal", rollDegrees: -22f);
+        Wall("MosqueRoofGableSouth", new(0.30f, 1.5f, 1.0f), origin + new Vector3(0f, wallHeight + .55f, halfZ + .7f), "8f8a7b", "plaster");
+        Wall("MosqueRoofGableNorth", new(0.30f, 1.5f, 1.0f), origin + new Vector3(0f, wallHeight + .55f, -halfZ - .7f), "8f8a7b", "plaster");
+        var dome = new MeshInstance3D
+        {
+            Name = "MosqueDome",
+            Position = origin + new Vector3(0f, wallHeight + .35f, 0f),
+            Mesh = new CylinderMesh { BottomRadius = 2.5f, TopRadius = 0.35f, Height = 1.5f, RadialSegments = 8, Rings = 1 },
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("5d6a63", "roof_metal")
+        };
+        dome.SetMeta("visualOnly", true);
+        complex.AddChild(dome);
+        var domeSnow = new MeshInstance3D
+        {
+            Name = "MosqueDomeSnow",
+            Position = origin + new Vector3(0f, wallHeight + 1.12f, 0f),
+            Mesh = new CylinderMesh { BottomRadius = 0.62f, TopRadius = 0.10f, Height = 0.14f, RadialSegments = 8, Rings = 1 },
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("eef2f6", "snow_ground")
+        };
+        domeSnow.SetMeta("visualOnly", true);
+        complex.AddChild(domeSnow);
+
+        // Closed entrance: recessed frame, threshold step and a wooden leaf. The
+        // door stays shut in Act I; opening it is the next act's business.
+        AddVisualBox(complex, "MosqueEntranceRecess", new(0.22f, 2.3f, 1.55f), origin + new Vector3(halfX - .12f, 1.15f, 0f), "54504a", "plaster");
+        AddVisualBox(complex, "MosqueEntranceDoor", new(0.16f, 2.1f, 1.4f), origin + new Vector3(halfX + .02f, 1.05f, 0f), "584433", "wood");
+        AddVisualBox(complex, "MosqueEntranceStep", new(1.3f, 0.16f, 2.1f), origin + new Vector3(halfX + .6f, .08f, 0f), "6f6a5d", "stone");
+        AddVisualBox(complex, "MosqueEntranceAwning", new(1.1f, 0.14f, 2.3f), origin + new Vector3(halfX + .5f, 2.45f, 0f), "4a5750", "roof_metal", rollDegrees: 10f);
+
+        // Courtyard wall with a gate opening on the village side and a trough at
+        // the inner corner, so the complex reads as a place, not a lone box.
+        const float yardX = 9.5f;
+        const float yardZ = 7.0f;
+        Wall("MosqueYardWest", new(0.4f, 1.5f, yardZ * 2f), origin + new Vector3(-yardX, .75f, 0f), "9a9182", "plaster");
+        Wall("MosqueYardNorth", new(yardX * 2f, 1.5f, 0.4f), origin + new Vector3(0f, .75f, -yardZ), "9a9182", "plaster");
+        Wall("MosqueYardSouth", new(yardX * 2f, 1.5f, 0.4f), origin + new Vector3(0f, .75f, yardZ), "9a9182", "plaster");
+        Wall("MosqueYardGateLeft", new(1.1f, 1.5f, 0.4f), origin + new Vector3(halfX + .95f, .75f, -3.6f), "9a9182", "plaster");
+        Wall("MosqueYardGateRight", new(1.1f, 1.5f, 0.4f), origin + new Vector3(halfX + .95f, .75f, 3.6f), "9a9182", "plaster");
+        AddVisualBox(complex, "MosqueYardGatePostLeft", new(0.22f, 1.8f, 0.22f), origin + new Vector3(halfX + .95f, .9f, -2.9f), "6d5845", "wood");
+        AddVisualBox(complex, "MosqueYardGatePostRight", new(0.22f, 1.8f, 0.22f), origin + new Vector3(halfX + .95f, .9f, 2.9f), "6d5845", "wood");
+        AddVisualBox(complex, "MosqueAblutionTrough", new(1.5f, 0.62f, 0.7f), origin + new Vector3(-2.6f, .31f, yardZ - 1.1f), "7b7669", "stone");
+        AddVisualBox(complex, "MosqueAblutionPost", new(0.16f, 1.35f, 0.16f), origin + new Vector3(-3.4f, .68f, yardZ - 1.1f), "6d5845", "wood");
+        AddVisualBox(complex, "MosqueYardSnowBank", new(yardX * 2f - 1.2f, 0.42f, 0.85f), origin + new Vector3(0f, .21f, -yardZ + .8f), "eef2f6", "snow_ground");
+
+        complex.SetMeta("mosqueBlockerShapeCount", blocked);
+        proxy.SetMeta("mosqueBlockerShapeCount", blocked);
     }
 
 /// <summary>

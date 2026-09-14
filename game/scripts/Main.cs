@@ -244,6 +244,8 @@ public partial class Main : Node3D
         // direction from the previous compact zone.
         ("village_day", "from_house") => new(AgentBAct1Layout.HouseDoorApproach, AgentBAct1Layout.HouseDoorYawDegrees + 180f),
         ("village_day", "from_forest") => new(new Vector3(1.8f, 0.05f, -12.5f), 180f),
+        // Review spawn in front of the village mosque gate (debug zone jump).
+        ("village_day", "mosque") => new(new Vector3(-40f, 0.05f, -34f), 265f),
         ("house_old_pc", _) => new(new Vector3(0, 0.05f, 3.8f), 0f),
         ("fap_clinic", _) => new(new Vector3(0, 0.05f, 4.8f), 0f),
         ("zirat_road", _) => new(new Vector3(0, 0.05f, 16.5f), 0f),

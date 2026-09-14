@@ -769,6 +769,8 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         {
             "act1-exterior-terrain",
             "act1-exterior-architecture",
+            // Presentation blockers for the village mosque complex (layer-2, mask-0).
+            "mosque-blocker",
             // Presentation blockers for authored kit walls, fences and outbuildings.
             // They are non-interactive layer-2 proxies whose only job is to stop the
             // player walking through visible geometry; the author reported that
@@ -801,7 +803,8 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         }
 
         var kitBlockers = FindDescendants(core).OfType<StaticBody3D>()
-            .Where(body => body.HasMeta("collisionOwner") && body.GetMeta("collisionOwner").AsString() == "authored-kit-blocker")
+            .Where(body => body.HasMeta("collisionOwner")
+                && body.GetMeta("collisionOwner").AsString() is "authored-kit-blocker" or "mosque-blocker")
             .ToArray();
         var kitBlockerShapes = 0;
         foreach (var blocker in kitBlockers)
@@ -814,8 +817,10 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             }
 
             var placement = blocker.GetParentOrNull<Node3D>();
-            if (placement is null || !placement.HasMeta("authoredKitBlockerCount")
-                || placement.GetMeta("authoredKitBlockerCount").AsInt32() <= 0)
+            var declared = placement is not null
+                && ((placement.HasMeta("authoredKitBlockerCount") && placement.GetMeta("authoredKitBlockerCount").AsInt32() > 0)
+                    || (placement.HasMeta("mosqueBlockerShapeCount") && placement.GetMeta("mosqueBlockerShapeCount").AsInt32() > 0));
+            if (!declared)
             {
                 throw new InvalidOperationException(
                     $"Authored kit blocker is not declared by its placement: {blocker.GetPath()}.");

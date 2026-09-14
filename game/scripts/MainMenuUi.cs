@@ -49,7 +49,8 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         ("fap_clinic", "waiting_room", "ФАП"),
         ("zirat_road", "village_side", "Зиратская дорога"),
         ("kara_urman_night", "village_path", "Кромка Кара-Урмана · ночь"),
-        ("kara_urman_night", "forest-approach", "Кара-Урман · подход к лесу")
+        ("kara_urman_night", "forest-approach", "Кара-Урман · подход к лесу"),
+        ("village_day", "mosque", "Мечеть")
     ];
 
     public static bool DebugZonesEnabled =>

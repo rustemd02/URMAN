@@ -1391,12 +1391,23 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         return baseEntries;
     }
 
+    /// <summary>
+    /// The village mosque complex stands inside the perimeter band, so the belt
+    /// must leave its courtyard clear: trees through a wall read as a bug.
+    /// </summary>
+    private static readonly (Vector2 Center, float Radius) MosqueKeepOut = (new Vector2(-53f, -35f), 12.5f);
+
     private static void EmitBelt(
         List<(Vector2, string)> planned,
         RandomNumberGenerator rng,
         Vector2 position,
         int row = 0)
     {
+        if (position.DistanceTo(MosqueKeepOut.Center) < MosqueKeepOut.Radius)
+        {
+            return;
+        }
+
         // Village belt is winter deciduous; the forest-side stretch keeps young
         // spruce as the sanctioned village->forest transition, and the outer belt
         // rows switch to spruce as well so the wall has a deeper silhouette.
