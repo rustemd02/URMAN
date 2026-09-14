@@ -305,15 +305,38 @@ def create_house_interior(materials: dict[str, bpy.types.Material]) -> None:
         )
 
     # Wall volumes deliberately retain the central front opening used by the
-    # existing HouseExit target and its collision body.
-    house_interior_cube(
-        "HouseInterior_BackWall_LOD0",
-        (11.80, 3.20, 0.22),
-        (0.0, 1.68, -4.90),
-        materials["plaster"],
-        1400,
-        bevel_width=0.035,
-    )
+    # existing HouseExit target and its collision body. The rear wall carries
+    # two real openings matching the exterior's two rear windows, so the shell
+    # is not a sealed box behind framed glass: the interior collision segments
+    # in StyleBenchmarkZone mirror these exact rectangles.
+    back_wall_openings = ((-3.60, 1.06, 0.99, 2.51), (2.55, 1.06, 0.99, 2.51))
+    for name, x0, x1 in (
+        ("HouseInterior_BackWall_Left_LOD0", -5.90, -4.13),
+        ("HouseInterior_BackWall_Mid_LOD0", -3.07, 2.02),
+        ("HouseInterior_BackWall_Right_LOD0", 3.08, 5.90),
+    ):
+        house_interior_cube(
+            name,
+            (x1 - x0, 3.20, 0.22),
+            ((x0 + x1) / 2, 1.68, -4.90),
+            materials["plaster"],
+            520,
+            bevel_width=0.035,
+        )
+    for name, centre_x, y0, y1 in (
+        ("HouseInterior_BackWall_UnderSillWest_LOD0", -3.60, 0.08, 0.99),
+        ("HouseInterior_BackWall_UnderSillEast_LOD0", 2.55, 0.08, 0.99),
+        ("HouseInterior_BackWall_HeadWest_LOD0", -3.60, 2.51, 3.28),
+        ("HouseInterior_BackWall_HeadEast_LOD0", 2.55, 2.51, 3.28),
+    ):
+        house_interior_cube(
+            name,
+            (1.06, y1 - y0, 0.22),
+            (centre_x, (y0 + y1) / 2, -4.90),
+            materials["plaster"],
+            260,
+            bevel_width=0.035,
+        )
     for name, x in (("HouseInterior_LeftWall_LOD0", -5.90), ("HouseInterior_RightWall_LOD0", 5.90)):
         house_interior_cube(
             name,
@@ -377,58 +400,66 @@ def create_house_interior(materials: dict[str, bpy.types.Material]) -> None:
         bevel_width=0.018,
     )
 
-    # One quiet rear window gives the shell a real depth cue without adding
-    # signage, symbols or a second interaction owner.
-    house_interior_cube(
-        "HouseInterior_WindowRecess_LOD0",
-        (2.28, 1.52, 0.08),
-        (2.55, 1.75, -4.77),
-        materials["wood_dark"],
-        520,
-        bevel_width=0.035,
-    )
-    house_interior_cube(
-        "HouseInterior_WindowGlass_LOD0",
-        (1.68, 0.98, 0.04),
-        (2.55, 1.75, -4.68),
-        materials["warm"],
-        300,
-        bevel_width=0.018,
-    )
-    for name, x in (("HouseInterior_WindowFrameLeft_LOD0", 1.66), ("HouseInterior_WindowFrameRight_LOD0", 3.44)):
+    # Two rear windows, one per opening. Each is a frame in the wall plane with
+    # a muntin, a sill board and a glass pane set into the opening, so the shell
+    # reads as a real opening rather than framed glass pasted on a solid wall.
+    for label, centre_x in (("West", -3.60), ("East", 2.55)):
         house_interior_cube(
-            name,
-            (0.18, 1.50, 0.20),
-            (x, 1.75, -4.62),
+            f"HouseInterior_WindowRecess_{label}_LOD0",
+            (0.24, 1.52, 0.22),
+            (centre_x, 1.75, -4.90),
+            materials["wood_dark"],
+            300,
+            bevel_width=0.035,
+        )
+        house_interior_cube(
+            f"HouseInterior_WindowGlass_{label}_LOD0",
+            (0.94, 1.40, 0.05),
+            (centre_x, 1.75, -4.90),
+            materials["warm"],
+            300,
+            bevel_width=0.018,
+        )
+        for name, x in (
+            (f"HouseInterior_WindowFrameLeft_{label}_LOD0", centre_x - 0.57),
+            (f"HouseInterior_WindowFrameRight_{label}_LOD0", centre_x + 0.57),
+        ):
+            house_interior_cube(
+                name,
+                (0.16, 1.66, 0.20),
+                (x, 1.75, -4.70),
+                materials["wood"],
+                320,
+                bevel_width=0.032,
+            )
+        for name, y in (
+            (f"HouseInterior_WindowFrameTop_{label}_LOD0", 2.53),
+            (f"HouseInterior_WindowFrameBottom_{label}_LOD0", 0.97),
+        ):
+            house_interior_cube(
+                name,
+                (1.24, 0.16, 0.20),
+                (centre_x, y, -4.70),
+                materials["wood"],
+                320,
+                bevel_width=0.032,
+            )
+        house_interior_cube(
+            f"HouseInterior_WindowMuntin_{label}_LOD0",
+            (0.06, 1.32, 0.05),
+            (centre_x, 1.75, -4.62),
+            materials["wood_dark"],
+            180,
+            bevel_width=0.012,
+        )
+        house_interior_cube(
+            f"HouseInterior_WindowSill_{label}_LOD0",
+            (1.30, 0.14, 0.42),
+            (centre_x, 0.90, -4.56),
             materials["wood"],
             320,
             bevel_width=0.032,
         )
-    for name, y in (("HouseInterior_WindowFrameTop_LOD0", 2.44), ("HouseInterior_WindowFrameBottom_LOD0", 1.06)):
-        house_interior_cube(
-            name,
-            (2.04, 0.18, 0.20),
-            (2.55, y, -4.62),
-            materials["wood"],
-            320,
-            bevel_width=0.032,
-        )
-    house_interior_cube(
-        "HouseInterior_WindowMuntin_LOD0",
-        (0.06, 0.86, 0.05),
-        (2.55, 1.75, -4.59),
-        materials["wood_dark"],
-        180,
-        bevel_width=0.012,
-    )
-    house_interior_cube(
-        "HouseInterior_WindowSill_LOD0",
-        (2.16, 0.16, 0.42),
-        (2.55, 0.96, -4.52),
-        materials["wood"],
-        320,
-        bevel_width=0.032,
-    )
 
     # Furniture stays on the exact current clearances so the existing PC,
     # NPC and interaction coordinates remain valid.

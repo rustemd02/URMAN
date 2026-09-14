@@ -3939,3 +3939,32 @@ goal.
 
 Linked files: `../../docs/production/act1_len01_playtime_audit_2026-09-15.md`,
 `../../content/modules/urman-chapter1/definitions.json`
+
+## 2026-09-15 — H2 third step: the interior's rear wall gets two real window openings
+
+Status: Accepted (third implementation step of card H2)
+
+Context: the interior scene's visible shell is the authored `HouseInterior_` GLB;
+the primitives in the zone provide only collision. Measured against the passport's
+opening table, the interior had **no** window openings at all: the GLB's rear wall
+was a single solid cube, one window hung as framed glass in front of it, the
+curtains hung on a solid wall, and a cool `WindowFill` light stood where no window
+was — while the exterior facade shows two windows on that side.
+
+Decision: split the GLB's rear wall into segments around two real openings
+(width 1.06, sill 0.99, head 2.51; centres x -3.60 and +2.55) and author a window
+group in each (frame in the wall plane, glass set into the opening, muntin, sill
+board) using the already-declared `HouseInterior_Window*` material rules. The
+collision segments in `StyleBenchmarkZone` were cut to the same rectangles,
+because a collision hole without a visible opening would be a walk-through wall
+and a visible opening without collision would be an invisible blocker.
+
+Consequences: the curtains now flank a real window and the `WindowFill` light has
+its window. The 12 x 10 m interior behind a 6.2 x 6.0 m facade remains an I1
+question and is recorded as such. Verified on `house_interior_forward`,
+`house_interior_back`, `house_exterior_back`, `yard_side_board` and
+`house_exterior_forward` on one SHA; physical walkthrough PASS 424.88 m and the
+route is unchanged.
+
+Linked files: `../../tools/blender/generate_modular_environment.py`,
+`../../game/scripts/StyleBenchmarkZone.cs`

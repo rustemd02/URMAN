@@ -352,7 +352,18 @@ public partial class StyleBenchmarkZone : Node3D
     private void BuildHouseOldPc()
     {
         MakeBox("Floor", new(12, 0.2f, 10), new(0, -0.1f, 0), "57483b", surface: "wood");
-        MakeBox("BackWall", new(12, 3.4f, 0.25f), new(0, 1.7f, -5), "827461", surface: "wallpaper");
+        // Collision for the rear wall's two real openings. The visible shell is
+        // the authored HouseInterior_ GLB, whose rear wall carries the same two
+        // rectangles (width 1.06, sill 0.99, head 2.51) matching the exterior's
+        // two rear windows; the curtains hung on what used to be a sealed wall.
+        MakeBox("BackWallLeft", new(1.87f, 3.4f, 0.25f), new(-5.065f, 1.7f, -5), "827461", surface: "wallpaper");
+        MakeBox("BackWallMid", new(5.09f, 3.4f, 0.25f), new(-0.525f, 1.7f, -5), "827461", surface: "wallpaper");
+        MakeBox("BackWallRight", new(2.92f, 3.4f, 0.25f), new(4.54f, 1.7f, -5), "827461", surface: "wallpaper");
+        foreach (var (wallName, centreX) in new (string, float)[] { ("West", -3.60f), ("East", 2.55f) })
+        {
+            MakeBox($"BackWindow{wallName}UnderSill", new(1.06f, 0.99f, 0.25f), new(centreX, 0.495f, -5), "827461", surface: "wallpaper");
+            MakeBox($"BackWindow{wallName}Head", new(1.06f, 0.89f, 0.25f), new(centreX, 2.955f, -5), "827461", surface: "wallpaper");
+        }
         MakeBox("LeftWall", new(0.25f, 3.4f, 10), new(-6, 1.7f, 0), "786b5a", surface: "wallpaper");
         MakeBox("RightWall", new(0.25f, 3.4f, 10), new(6, 1.7f, 0), "786b5a", surface: "wallpaper");
         MakeBox("FrontWallLeft", new(5.25f, 3.4f, 0.25f), new(-3.375f, 1.7f, 5), "827461", surface: "wallpaper");
