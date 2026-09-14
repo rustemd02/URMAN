@@ -1831,24 +1831,44 @@ presentation-only. Автор теперь явно требует очень в
 
 ## Act I village rework — what the forest ring and collision batch did not close
 
-2026-09-14: The forest ring and the parcel-collision batch are verified at their
-own scope (full-route capture gate PASS 80 frames, physical walkthrough PASS
-424.88 m, spawn matrix PASS 13/13, corridor PASS). Still open, recorded so the
-next batch does not rediscover them:
+2026-09-14, corrected after the independent review wave: the forest ring and the
+parcel-collision batch pass the evidence they actually ran (full-route capture
+gate PASS 80 frames, physical walkthrough PASS 424.88 m, spawn matrix PASS 13/13,
+corridor PASS). That is not the plan's full L3 evidence, and the items below stay
+open. Four defects the review found in this batch were fixed in the same pass
+(mosque courtyard planted with firs, arrival closure through the reverse-edge
+houses, gaps in the boundary thicket, the north band stopping short of the +Z
+seam):
 
 - The zirat roadside kit still shows floating shoulder/beam slabs near the
   culvert, visible in `zirat_clue_close` in the pre-rework baseline capture as
   well, so it is pre-existing and not caused by the ring. Owner is the
   river/culvert card (plan L4/T2), not the forest.
-- `zone_flow_smoke_test` exits 0 but prints "2 resources still in use at exit".
-  The production capture gate treats that message as fatal and passes, so it
-  looks like a test-scene shutdown artifact rather than a world leak; unproven
-  either way, and the count varies between 2 and 4 on the same scene.
+- `zone_flow_smoke_test` exits 0 but prints "2 resources still in use at exit"
+  (the count varies between 2 and 4 on the same scene). The production capture
+  gate does treat that message as fatal, and it passes on the same build, so the
+  warning looks like a test-scene shutdown artifact rather than a world leak;
+  unproven either way.
 - The tall spruce far LOD is still a spiky silhouette on the skyline at 60 m+.
   It closes the view, which is the requirement, but the crown reads thinner than
   the near tier. Art acceptance is open.
-- The six NPC proportions (plan N1–N3) are untouched by this batch; the
-  conversation close-ups in the capture set are the current evidence and no
-  measurement sheet exists yet.
-- The 31 rework cards beyond L3/T3/T1/T2 are not started; the honest status is
-  the plan document plus the backlog progress entries, not a completed matrix.
+- The plan's §12.7 perimeter sweep (working and minimal quality, existing light
+  states, fog reduced diagnostically) was NOT run. The capture harness gives
+  fixed angles and §9.2 says explicitly that they are not that evidence, so the
+  claim "the ring closes the view" rests on 80 fixed frames plus arithmetic.
+- The 24 finds and seven physical branches were NOT re-walked after 475 new
+  blocker shapes went live. Only the one scripted loop that regressed was re-run
+  and rerouted, so a branch that approached a now-solid wall from a side the
+  walkthrough does not cover would not have been caught.
+- No forest-sector passport per plan §11.3 was written before the ring was
+  planted; the sector parameters live in code constants and layer metadata.
+- The six NPC proportions are only partly addressed: neck and shoulder breadth
+  are fixed at the generator, but arm length, leg line, per-character profiles
+  and the movement clips are untouched, and no measurement sheet exists. The
+  conversation close-ups in the capture set are the only visual evidence.
+- `BlockerShape` divides the placement scale out of a world-space AABB, which is
+  exact only for unrotated placements; a facade yawed near ±90° can carry a box
+  that protrudes past its visible wall. Pre-existing, still open.
+- The 31 rework cards beyond L3/T3/T1/T2 and the neck part of N1–N2 are not
+  started; the honest status is the plan document plus the backlog progress
+  entries, not a completed matrix.
