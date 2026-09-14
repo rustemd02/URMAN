@@ -2108,6 +2108,18 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                 ("URMAN_Roof_WetSlate",),component_root=root_name,role="enclosed side seni lean-to roof")
     box("SeniFooting",(sx,(entry_y+back)/2,.15),(1.54,2.58,.30),"URMAN_Wood_WetShadow")
     box("SeniStep",(sx,entry_y-.34,.10),(1.20,.64,.20),"URMAN_Wood_WetShadow")
+    # Seni drainage. The lean-to sheds toward its outer edge, so a trough along
+    # that low edge catches the runoff and a spout at its street end puts it on
+    # a splash stone - otherwise the water lands beside the entry step, the one
+    # place the household walks.
+    low_x=outer+.25
+    variant_box(f"{prefix}_SeniTrough_LOD0",parent,
+                (low_x,(entry_y+back)/2,2.40),
+                (.13,back-entry_y+.48,.14),
+                ("URMAN_Wood_WetShadow",),root_name,"seni eaves trough",
+                [0,1]+[0]*8,chamfer=.03)
+    box("SeniSpout",(low_x+.03,entry_y-.38,2.30),(.12,.30,.11))
+    box("SeniSplashStone",(low_x+.12,entry_y-.42,.08),(.40,.36,.16),"URMAN_Stone_Mossy")
     box("ChimneyStack",(.90,back-1.45,ridge-.05),(.46,.51,1.30),"URMAN_Plaster_Shadow")
     box("ChimneyCap",(.90,back-1.45,ridge+.63),(.56,.61,.10),"URMAN_Roof_WetSlate")
     parent["geometry_pass"] = "v6 pierced wall architecture; street gable and side seni"

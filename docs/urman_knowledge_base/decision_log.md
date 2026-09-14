@@ -3968,3 +3968,26 @@ route is unchanged.
 
 Linked files: `../../tools/blender/generate_modular_environment.py`,
 `../../game/scripts/StyleBenchmarkZone.cs`
+
+## 2026-09-15 — H2 fourth step: seni drainage
+
+Status: Accepted (fourth implementation step of card H2)
+
+Context: the seni lean-to sheds toward its outer edge, so the runoff landed
+beside the entry step — the one place the household walks. The passport also
+checked the "seni window" item and closed it as already satisfied: the seni walls
+are built with the same pierced-wall routine as the main walls, so
+`SeniOuter_Window` is a real opening with reveals, not applied trim.
+
+Decision: a trough along the seni roof's low edge (full length, 0.13 x 3.03 x
+0.14) with a short spout at its street end discharging onto a splash stone,
+applied to all four dwellings in the kit.
+
+Consequences: kit grew 25,009 to 25,345 triangles; registry hashes and budget
+updated and re-verified. The trough, spout and stone fall below the blocker
+rules' size thresholds, so no new colliders appeared and the entry approach is
+unchanged. Physical walkthrough PASS 424.88 m. Still open in H2: the
+grey-material shape pass (needs a stand, since a grey export must not ship) and
+the seni trim variance.
+
+Linked files: `../../assets/source/blender/act1/urman_village_exterior_kit.py`
