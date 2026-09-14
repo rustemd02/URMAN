@@ -10877,7 +10877,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_defs_role_binding_outcome",
-      "community": 730,
+      "community": 758,
       "norm_label": "role-binding-outcome"
     },
     {
@@ -10886,7 +10886,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_type",
-      "community": 730,
+      "community": 758,
       "norm_label": "type"
     },
     {
@@ -10895,7 +10895,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_required",
-      "community": 730,
+      "community": 758,
       "norm_label": "required"
     },
     {
@@ -10904,7 +10904,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_properties",
-      "community": 730,
+      "community": 758,
       "norm_label": "properties"
     },
     {
@@ -10913,7 +10913,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L20",
       "id": "contracts_stress_contracts_schema_role_binding_outcome_additionalproperties",
-      "community": 730,
+      "community": 758,
       "norm_label": "additionalproperties"
     },
     {
@@ -10922,7 +10922,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_defs_evidence_compare_config",
-      "community": 726,
+      "community": 730,
       "norm_label": "evidence-compare-config"
     },
     {
@@ -10931,7 +10931,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_type",
-      "community": 726,
+      "community": 730,
       "norm_label": "type"
     },
     {
@@ -10940,7 +10940,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_required",
-      "community": 726,
+      "community": 730,
       "norm_label": "required"
     },
     {
@@ -10949,7 +10949,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_properties",
-      "community": 726,
+      "community": 730,
       "norm_label": "properties"
     },
     {
@@ -10958,7 +10958,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L21",
       "id": "contracts_stress_contracts_schema_evidence_compare_config_additionalproperties",
-      "community": 726,
+      "community": 730,
       "norm_label": "additionalproperties"
     },
     {
@@ -11822,7 +11822,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_defs_content_instantiator_outcome",
-      "community": 713,
+      "community": 726,
       "norm_label": "content-instantiator-outcome"
     },
     {
@@ -11831,7 +11831,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_type",
-      "community": 713,
+      "community": 726,
       "norm_label": "type"
     },
     {
@@ -11840,7 +11840,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_required",
-      "community": 713,
+      "community": 726,
       "norm_label": "required"
     },
     {
@@ -11849,7 +11849,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_properties",
-      "community": 713,
+      "community": 726,
       "norm_label": "properties"
     },
     {
@@ -11858,7 +11858,7 @@
       "source_file": "tests/fixtures/content/stress/contracts/stress-contracts.schema.json",
       "source_location": "L41",
       "id": "contracts_stress_contracts_schema_content_instantiator_outcome_additionalproperties",
-      "community": 713,
+      "community": 726,
       "norm_label": "additionalproperties"
     },
     {
@@ -13271,7 +13271,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_properties_narrativeorder",
-      "community": 789,
+      "community": 103,
       "norm_label": "narrativeorder"
     },
     {
@@ -13280,7 +13280,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_type",
-      "community": 789,
+      "community": 103,
       "norm_label": "type"
     },
     {
@@ -13289,7 +13289,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_minitems",
-      "community": 789,
+      "community": 103,
       "norm_label": "minitems"
     },
     {
@@ -13298,7 +13298,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_uniqueitems",
-      "community": 789,
+      "community": 103,
       "norm_label": "uniqueitems"
     },
     {
@@ -13307,7 +13307,7 @@
       "source_file": "content/schemas/compiled-content-pack.schema.json",
       "source_location": "L20",
       "id": "schemas_compiled_content_pack_schema_narrativeorder_items",
-      "community": 789,
+      "community": 103,
       "norm_label": "items"
     },
     {
@@ -14171,7 +14171,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L1",
       "id": "content_schemas_quest_schema_json",
-      "community": 2,
+      "community": 723,
       "norm_label": "quest.schema.json"
     },
     {
@@ -14180,7 +14180,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L2",
       "id": "schemas_quest_schema_schema",
-      "community": 2,
+      "community": 723,
       "norm_label": "$schema"
     },
     {
@@ -14189,7 +14189,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L3",
       "id": "schemas_quest_schema_id",
-      "community": 2,
+      "community": 723,
       "norm_label": "$id"
     },
     {
@@ -14198,7 +14198,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L4",
       "id": "schemas_quest_schema_schemaversion",
-      "community": 2,
+      "community": 723,
       "norm_label": "schemaversion"
     },
     {
@@ -14207,7 +14207,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L5",
       "id": "schemas_quest_schema_type",
-      "community": 2,
+      "community": 723,
       "norm_label": "type"
     },
     {
@@ -14216,7 +14216,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L6",
       "id": "schemas_quest_schema_required",
-      "community": 2,
+      "community": 723,
       "norm_label": "required"
     },
     {
@@ -14270,7 +14270,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L10",
       "id": "schemas_quest_schema_properties_titletextid",
-      "community": 148,
+      "community": 116,
       "norm_label": "titletextid"
     },
     {
@@ -14279,7 +14279,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L10",
       "id": "schemas_quest_schema_titletextid_ref",
-      "community": 148,
+      "community": 116,
       "norm_label": "$ref"
     },
     {
@@ -14405,7 +14405,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L17",
       "id": "schemas_quest_schema_additionalproperties",
-      "community": 2,
+      "community": 723,
       "norm_label": "additionalproperties"
     },
     {
@@ -14423,7 +14423,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L19",
       "id": "schemas_quest_schema_defs_stage",
-      "community": 173,
+      "community": 2,
       "norm_label": "stage"
     },
     {
@@ -14432,7 +14432,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L20",
       "id": "schemas_quest_schema_stage_type",
-      "community": 173,
+      "community": 2,
       "norm_label": "type"
     },
     {
@@ -14441,7 +14441,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L21",
       "id": "schemas_quest_schema_stage_required",
-      "community": 173,
+      "community": 2,
       "norm_label": "required"
     },
     {
@@ -14531,7 +14531,7 @@
       "source_file": "content/schemas/quest.schema.json",
       "source_location": "L27",
       "id": "schemas_quest_schema_stage_additionalproperties",
-      "community": 173,
+      "community": 2,
       "norm_label": "additionalproperties"
     },
     {
@@ -16772,7 +16772,7 @@
       "source_file": "content/schemas/dialogue.schema.json",
       "source_location": "L9",
       "id": "schemas_dialogue_schema_properties_id",
-      "community": 803,
+      "community": 811,
       "norm_label": "id"
     },
     {
@@ -16781,7 +16781,7 @@
       "source_file": "content/schemas/dialogue.schema.json",
       "source_location": "L9",
       "id": "schemas_dialogue_schema_id_ref",
-      "community": 803,
+      "community": 811,
       "norm_label": "$ref"
     },
     {
@@ -16970,7 +16970,7 @@
       "source_file": "content/schemas/dialogue.schema.json",
       "source_location": "L19",
       "id": "schemas_dialogue_schema_properties_nodeid",
-      "community": 842,
+      "community": 816,
       "norm_label": "nodeid"
     },
     {
@@ -16979,7 +16979,7 @@
       "source_file": "content/schemas/dialogue.schema.json",
       "source_location": "L19",
       "id": "schemas_dialogue_schema_nodeid_type",
-      "community": 842,
+      "community": 816,
       "norm_label": "type"
     },
     {
@@ -16988,7 +16988,7 @@
       "source_file": "content/schemas/dialogue.schema.json",
       "source_location": "L19",
       "id": "schemas_dialogue_schema_nodeid_pattern",
-      "community": 842,
+      "community": 816,
       "norm_label": "pattern"
     },
     {
@@ -17042,7 +17042,7 @@
       "source_file": "content/schemas/dialogue.schema.json",
       "source_location": "L31",
       "id": "schemas_dialogue_schema_id_type",
-      "community": 803,
+      "community": 811,
       "norm_label": "type"
     },
     {
@@ -17051,7 +17051,7 @@
       "source_file": "content/schemas/dialogue.schema.json",
       "source_location": "L31",
       "id": "schemas_dialogue_schema_id_pattern",
-      "community": 803,
+      "community": 811,
       "norm_label": "pattern"
     },
     {
@@ -17564,7 +17564,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L1",
       "id": "content_schemas_common_schema_json",
-      "community": 793,
+      "community": 105,
       "norm_label": "common.schema.json"
     },
     {
@@ -17573,7 +17573,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L2",
       "id": "schemas_common_schema_schema",
-      "community": 793,
+      "community": 105,
       "norm_label": "$schema"
     },
     {
@@ -17582,7 +17582,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L3",
       "id": "schemas_common_schema_id",
-      "community": 793,
+      "community": 105,
       "norm_label": "$id"
     },
     {
@@ -17591,7 +17591,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L4",
       "id": "schemas_common_schema_schemaversion",
-      "community": 793,
+      "community": 105,
       "norm_label": "schemaversion"
     },
     {
@@ -17636,7 +17636,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L7",
       "id": "schemas_common_schema_defs_moduleid",
-      "community": 105,
+      "community": 789,
       "norm_label": "moduleid"
     },
     {
@@ -17645,7 +17645,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L8",
       "id": "schemas_common_schema_moduleid_type",
-      "community": 105,
+      "community": 789,
       "norm_label": "type"
     },
     {
@@ -17654,7 +17654,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L9",
       "id": "schemas_common_schema_moduleid_pattern",
-      "community": 105,
+      "community": 789,
       "norm_label": "pattern"
     },
     {
@@ -17681,7 +17681,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L14",
       "id": "schemas_common_schema_defs_contentid",
-      "community": 811,
+      "community": 105,
       "norm_label": "contentid"
     },
     {
@@ -17690,7 +17690,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L15",
       "id": "schemas_common_schema_contentid_type",
-      "community": 811,
+      "community": 105,
       "norm_label": "type"
     },
     {
@@ -17699,7 +17699,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L16",
       "id": "schemas_common_schema_contentid_pattern",
-      "community": 811,
+      "community": 105,
       "norm_label": "pattern"
     },
     {
@@ -17762,7 +17762,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L26",
       "id": "schemas_common_schema_defs_schemareference",
-      "community": 105,
+      "community": 793,
       "norm_label": "schemareference"
     },
     {
@@ -17771,7 +17771,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L27",
       "id": "schemas_common_schema_schemareference_type",
-      "community": 105,
+      "community": 793,
       "norm_label": "type"
     },
     {
@@ -17780,7 +17780,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L28",
       "id": "schemas_common_schema_schemareference_pattern",
-      "community": 105,
+      "community": 793,
       "norm_label": "pattern"
     },
     {
@@ -18095,7 +18095,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L65",
       "id": "schemas_common_schema_properties_id",
-      "community": 218,
+      "community": 202,
       "norm_label": "id"
     },
     {
@@ -18104,7 +18104,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L65",
       "id": "schemas_common_schema_id_ref",
-      "community": 218,
+      "community": 202,
       "norm_label": "$ref"
     },
     {
@@ -18113,7 +18113,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L66",
       "id": "schemas_common_schema_properties_description",
-      "community": 202,
+      "community": 218,
       "norm_label": "description"
     },
     {
@@ -18122,7 +18122,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L66",
       "id": "schemas_common_schema_description_type",
-      "community": 202,
+      "community": 218,
       "norm_label": "type"
     },
     {
@@ -18131,7 +18131,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L66",
       "id": "schemas_common_schema_description_minlength",
-      "community": 202,
+      "community": 218,
       "norm_label": "minlength"
     },
     {
@@ -18140,7 +18140,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
       "id": "schemas_common_schema_properties_severity",
-      "community": 218,
+      "community": 202,
       "norm_label": "severity"
     },
     {
@@ -18149,7 +18149,7 @@
       "source_file": "content/schemas/common.schema.json",
       "source_location": "L67",
       "id": "schemas_common_schema_severity_enum",
-      "community": 218,
+      "community": 202,
       "norm_label": "enum"
     },
     {
@@ -18860,7 +18860,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L44",
       "id": "schemas_condition_effect_schema_properties_op",
-      "community": 5,
+      "community": 713,
       "norm_label": "op"
     },
     {
@@ -18869,7 +18869,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L44",
       "id": "schemas_condition_effect_schema_op_const",
-      "community": 5,
+      "community": 713,
       "norm_label": "const"
     },
     {
@@ -19247,7 +19247,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L97",
       "id": "schemas_condition_effect_schema_defs_beatcondition",
-      "community": 91,
+      "community": 5,
       "norm_label": "beatcondition"
     },
     {
@@ -19256,7 +19256,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L98",
       "id": "schemas_condition_effect_schema_beatcondition_type",
-      "community": 91,
+      "community": 5,
       "norm_label": "type"
     },
     {
@@ -19265,7 +19265,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L99",
       "id": "schemas_condition_effect_schema_beatcondition_required",
-      "community": 91,
+      "community": 5,
       "norm_label": "required"
     },
     {
@@ -19319,7 +19319,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L105",
       "id": "schemas_condition_effect_schema_beatcondition_additionalproperties",
-      "community": 91,
+      "community": 5,
       "norm_label": "additionalproperties"
     },
     {
@@ -19670,7 +19670,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L146",
       "id": "schemas_condition_effect_schema_defs_locationcondition",
-      "community": 91,
+      "community": 713,
       "norm_label": "locationcondition"
     },
     {
@@ -19679,7 +19679,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L147",
       "id": "schemas_condition_effect_schema_locationcondition_type",
-      "community": 91,
+      "community": 713,
       "norm_label": "type"
     },
     {
@@ -19688,7 +19688,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L148",
       "id": "schemas_condition_effect_schema_locationcondition_required",
-      "community": 91,
+      "community": 713,
       "norm_label": "required"
     },
     {
@@ -19697,7 +19697,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L149",
       "id": "schemas_condition_effect_schema_locationcondition_properties",
-      "community": 5,
+      "community": 713,
       "norm_label": "properties"
     },
     {
@@ -19706,7 +19706,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L151",
       "id": "schemas_condition_effect_schema_properties_locationid",
-      "community": 5,
+      "community": 713,
       "norm_label": "locationid"
     },
     {
@@ -19715,7 +19715,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L151",
       "id": "schemas_condition_effect_schema_locationid_ref",
-      "community": 5,
+      "community": 713,
       "norm_label": "$ref"
     },
     {
@@ -19724,7 +19724,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L153",
       "id": "schemas_condition_effect_schema_locationcondition_additionalproperties",
-      "community": 91,
+      "community": 713,
       "norm_label": "additionalproperties"
     },
     {
@@ -19913,7 +19913,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L196",
       "id": "schemas_condition_effect_schema_defs_beateffect",
-      "community": 91,
+      "community": 5,
       "norm_label": "beateffect"
     },
     {
@@ -19922,7 +19922,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L197",
       "id": "schemas_condition_effect_schema_beateffect_type",
-      "community": 91,
+      "community": 5,
       "norm_label": "type"
     },
     {
@@ -19931,7 +19931,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L198",
       "id": "schemas_condition_effect_schema_beateffect_required",
-      "community": 91,
+      "community": 5,
       "norm_label": "required"
     },
     {
@@ -19949,7 +19949,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L204",
       "id": "schemas_condition_effect_schema_beateffect_additionalproperties",
-      "community": 91,
+      "community": 5,
       "norm_label": "additionalproperties"
     },
     {
@@ -20228,7 +20228,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L241",
       "id": "schemas_condition_effect_schema_defs_locationunlockeffect",
-      "community": 5,
+      "community": 91,
       "norm_label": "locationunlockeffect"
     },
     {
@@ -20237,7 +20237,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L242",
       "id": "schemas_condition_effect_schema_locationunlockeffect_type",
-      "community": 5,
+      "community": 91,
       "norm_label": "type"
     },
     {
@@ -20246,7 +20246,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L243",
       "id": "schemas_condition_effect_schema_locationunlockeffect_required",
-      "community": 5,
+      "community": 91,
       "norm_label": "required"
     },
     {
@@ -20255,7 +20255,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L244",
       "id": "schemas_condition_effect_schema_locationunlockeffect_properties",
-      "community": 5,
+      "community": 713,
       "norm_label": "properties"
     },
     {
@@ -20264,7 +20264,7 @@
       "source_file": "content/schemas/condition-effect.schema.json",
       "source_location": "L245",
       "id": "schemas_condition_effect_schema_locationunlockeffect_additionalproperties",
-      "community": 5,
+      "community": 91,
       "norm_label": "additionalproperties"
     },
     {
@@ -25635,7 +25635,7 @@
       "label": ".VerifyHouseDoorInteraction()",
       "file_type": "code",
       "source_file": "game/tests/Act1AudioTransitionSmokeTest.cs",
-      "source_location": "L219",
+      "source_location": "L238",
       "id": "tests_act1audiotransitionsmoketest_act1audiotransitionsmoketest_verifyhousedoorinteraction",
       "community": 786,
       "norm_label": ".verifyhousedoorinteraction()"
@@ -25644,7 +25644,7 @@
       "label": ".DeleteSlot()",
       "file_type": "code",
       "source_file": "game/tests/Act1AudioTransitionSmokeTest.cs",
-      "source_location": "L337",
+      "source_location": "L356",
       "id": "tests_act1audiotransitionsmoketest_act1audiotransitionsmoketest_deleteslot",
       "community": 786,
       "norm_label": ".deleteslot()"
@@ -25653,7 +25653,7 @@
       "label": ".Frames()",
       "file_type": "code",
       "source_file": "game/tests/Act1AudioTransitionSmokeTest.cs",
-      "source_location": "L349",
+      "source_location": "L368",
       "id": "tests_act1audiotransitionsmoketest_act1audiotransitionsmoketest_frames",
       "community": 786,
       "norm_label": ".frames()"
@@ -25662,7 +25662,7 @@
       "label": ".Fail()",
       "file_type": "code",
       "source_file": "game/tests/Act1AudioTransitionSmokeTest.cs",
-      "source_location": "L357",
+      "source_location": "L376",
       "id": "tests_act1audiotransitionsmoketest_act1audiotransitionsmoketest_fail",
       "community": 786,
       "norm_label": ".fail()"
@@ -29487,7 +29487,7 @@
       "label": ".DeleteSlot()",
       "file_type": "code",
       "source_file": "game/tests/Act1MainMenuSmokeTest.cs",
-      "source_location": "L226",
+      "source_location": "L293",
       "id": "tests_act1mainmenusmoketest_act1mainmenusmoketest_deleteslot",
       "community": 616,
       "norm_label": ".deleteslot()"
@@ -29496,7 +29496,7 @@
       "label": ".Capture()",
       "file_type": "code",
       "source_file": "game/tests/Act1MainMenuSmokeTest.cs",
-      "source_location": "L238",
+      "source_location": "L305",
       "id": "tests_act1mainmenusmoketest_act1mainmenusmoketest_capture",
       "community": 616,
       "norm_label": ".capture()"
@@ -29505,7 +29505,7 @@
       "label": ".Frames()",
       "file_type": "code",
       "source_file": "game/tests/Act1MainMenuSmokeTest.cs",
-      "source_location": "L249",
+      "source_location": "L316",
       "id": "tests_act1mainmenusmoketest_act1mainmenusmoketest_frames",
       "community": 616,
       "norm_label": ".frames()"
@@ -29514,7 +29514,7 @@
       "label": ".Fail()",
       "file_type": "code",
       "source_file": "game/tests/Act1MainMenuSmokeTest.cs",
-      "source_location": "L257",
+      "source_location": "L324",
       "id": "tests_act1mainmenusmoketest_act1mainmenusmoketest_fail",
       "community": 616,
       "norm_label": ".fail()"
@@ -48686,7 +48686,7 @@
       "source_file": "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
       "source_location": "L1",
       "id": "src_dotnet_urman_core_runtime_runtimekernel_cs",
-      "community": 825,
+      "community": 81,
       "norm_label": "runtimekernel.cs"
     },
     {
@@ -48911,7 +48911,7 @@
       "source_file": "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
       "source_location": "L354",
       "id": "runtime_runtimekernel_resourceconflictexception",
-      "community": 825,
+      "community": 81,
       "norm_label": "resourceconflictexception"
     },
     {
@@ -48920,7 +48920,7 @@
       "source_file": "",
       "source_location": "",
       "id": "exception",
-      "community": 825,
+      "community": 81,
       "norm_label": "exception"
     },
     {
@@ -50036,7 +50036,7 @@
       "source_file": "src-dotnet/Urman.Content/Resolvers/ResolverCatalog.cs",
       "source_location": "L23",
       "id": "resolvers_resolvercatalog_resolverexception",
-      "community": 825,
+      "community": 81,
       "norm_label": "resolverexception"
     },
     {
@@ -51080,7 +51080,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1026",
       "id": "urman_route_map_route_graph_transitions_turn_90_default",
-      "community": 758,
+      "community": 803,
       "norm_label": "turn_90_default"
     },
     {
@@ -51089,7 +51089,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1027",
       "id": "urman_route_map_route_graph_turn_90_default_durationms",
-      "community": 758,
+      "community": 803,
       "norm_label": "durationms"
     },
     {
@@ -51098,7 +51098,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1031",
       "id": "urman_route_map_route_graph_turn_90_default_assetid",
-      "community": 758,
+      "community": 803,
       "norm_label": "assetid"
     },
     {
@@ -51107,7 +51107,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1032",
       "id": "urman_route_map_route_graph_turn_90_default_overlayassetid",
-      "community": 758,
+      "community": 803,
       "norm_label": "overlayassetid"
     },
     {
@@ -51116,7 +51116,7 @@
       "source_file": "public/assets/urman_route_map/route_graph.json",
       "source_location": "L1033",
       "id": "urman_route_map_route_graph_turn_90_default_behavior",
-      "community": 758,
+      "community": 803,
       "norm_label": "behavior"
     },
     {
@@ -52817,7 +52817,7 @@
       "source_file": "scripts/content/compile-content.mjs",
       "source_location": "L638",
       "id": "content_compile_content_findnamedmanifests",
-      "community": 165,
+      "community": 16,
       "norm_label": "findnamedmanifests()"
     },
     {
@@ -52826,7 +52826,7 @@
       "source_file": "scripts/content/compile-content.mjs",
       "source_location": "L656",
       "id": "content_compile_content_discoverworkspacemanifests",
-      "community": 165,
+      "community": 16,
       "norm_label": "discoverworkspacemanifests()"
     },
     {
@@ -52835,7 +52835,7 @@
       "source_file": "scripts/content/compile-content.mjs",
       "source_location": "L665",
       "id": "content_compile_content_resolveworkspacemoduleselection",
-      "community": 137,
+      "community": 16,
       "norm_label": "resolveworkspacemoduleselection()"
     },
     {
@@ -55319,7 +55319,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L27",
       "id": "agent_b_act1_agent_b_foliage_conifer_branch_spray",
-      "community": 445,
+      "community": 669,
       "norm_label": "_conifer_branch_spray()"
     },
     {
@@ -55328,7 +55328,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L100",
       "id": "agent_b_act1_agent_b_foliage_shape_trunk",
-      "community": 495,
+      "community": 445,
       "norm_label": "_shape_trunk()"
     },
     {
@@ -55589,7 +55589,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L29",
       "id": "agent_b_act1_agent_b_foliage_rationale_29",
-      "community": 445,
+      "community": 669,
       "norm_label": "build one broken, low-poly conifer spray as a single mesh.      each spray is a"
     },
     {
@@ -55598,7 +55598,7 @@
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L101",
       "id": "agent_b_act1_agent_b_foliage_rationale_101",
-      "community": 495,
+      "community": 445,
       "norm_label": "add a restrained bend, taper and asymmetric root flare in-place."
     },
     {
@@ -56174,7 +56174,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L51",
       "id": "act1_urman_village_exterior_kit_arguments",
-      "community": 710,
+      "community": 495,
       "norm_label": "arguments()"
     },
     {
@@ -56453,7 +56453,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1126",
       "id": "act1_urman_village_exterior_kit_variant_branch",
-      "community": 723,
+      "community": 652,
       "norm_label": "variant_branch()"
     },
     {
@@ -56480,7 +56480,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1206",
       "id": "act1_urman_village_exterior_kit_village_box",
-      "community": 197,
+      "community": 495,
       "norm_label": "village_box()"
     },
     {
@@ -56687,7 +56687,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1872",
       "id": "act1_urman_village_exterior_kit_clear_variant_roots",
-      "community": 710,
+      "community": 495,
       "norm_label": "clear_variant_roots()"
     },
     {
@@ -56732,7 +56732,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L2512",
       "id": "act1_urman_village_exterior_kit_main",
-      "community": 710,
+      "community": 495,
       "norm_label": "main()"
     },
     {
@@ -56777,7 +56777,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1134",
       "id": "act1_urman_village_exterior_kit_rationale_1134",
-      "community": 723,
+      "community": 652,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue."
     },
     {
@@ -56804,7 +56804,7 @@
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1218",
       "id": "act1_urman_village_exterior_kit_rationale_1218",
-      "community": 197,
+      "community": 495,
       "norm_label": "use the existing deterministic box primitive for new kit details.      the exter"
     },
     {
@@ -56876,7 +56876,7 @@
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L84",
       "id": "act1_urman_wet_village_road_kit_material",
-      "community": 451,
+      "community": 391,
       "norm_label": "material()"
     },
     {
@@ -56885,7 +56885,7 @@
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L91",
       "id": "act1_urman_wet_village_road_kit_mesh_object",
-      "community": 451,
+      "community": 391,
       "norm_label": "mesh_object()"
     },
     {
@@ -57047,7 +57047,7 @@
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L648",
       "id": "act1_urman_wet_village_road_kit_terrain_mass",
-      "community": 451,
+      "community": 387,
       "norm_label": "terrain_mass()"
     },
     {
@@ -57281,7 +57281,7 @@
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L660",
       "id": "act1_urman_wet_village_road_kit_rationale_660",
-      "community": 451,
+      "community": 387,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip."
     },
     {
@@ -96371,7 +96371,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1131",
-      "community": 723,
+      "community": 652,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_1131"
     },
@@ -96389,7 +96389,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1181",
-      "community": 652,
+      "community": 495,
       "norm_label": "dress each optional parcel edge with sparse, non-blocking local history.",
       "id": "act1_urman_village_exterior_kit_rationale_1181"
     },
@@ -96398,7 +96398,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1215",
-      "community": 197,
+      "community": 495,
       "norm_label": "use the existing deterministic box primitive for new kit details.      the exter",
       "id": "act1_urman_village_exterior_kit_rationale_1215"
     },
@@ -96461,7 +96461,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L666",
-      "community": 723,
+      "community": 652,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_666"
     },
@@ -96488,7 +96488,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L750",
-      "community": 197,
+      "community": 495,
       "norm_label": "use the existing deterministic box primitive for new kit details.      the exter",
       "id": "act1_urman_village_exterior_kit_rationale_750"
     },
@@ -96560,7 +96560,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L661",
-      "community": 723,
+      "community": 652,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_661"
     },
@@ -96587,7 +96587,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L745",
-      "community": 197,
+      "community": 495,
       "norm_label": "use the existing deterministic box primitive for new kit details.      the exter",
       "id": "act1_urman_village_exterior_kit_rationale_745"
     },
@@ -100403,7 +100403,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L99",
-      "community": 495,
+      "community": 445,
       "norm_label": "_profiled_foliage()",
       "id": "agent_b_act1_agent_b_foliage_profiled_foliage"
     },
@@ -100421,7 +100421,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L153",
-      "community": 445,
+      "community": 669,
       "norm_label": "build one broken, low-poly conifer spray as a single mesh.      each spray is a",
       "id": "agent_b_act1_agent_b_foliage_rationale_153"
     },
@@ -100430,7 +100430,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L236",
-      "community": 495,
+      "community": 445,
       "norm_label": "add a restrained bend, taper and asymmetric root flare in-place.",
       "id": "agent_b_act1_agent_b_foliage_rationale_236"
     },
@@ -102482,7 +102482,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1180",
-      "community": 652,
+      "community": 495,
       "norm_label": "author_shed_joinery()",
       "id": "act1_urman_village_exterior_kit_author_shed_joinery"
     },
@@ -102509,7 +102509,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L659",
-      "community": 723,
+      "community": 652,
       "norm_label": "add one restrained fallen/leaning branch as an authored contact cue.",
       "id": "act1_urman_village_exterior_kit_rationale_659"
     },
@@ -102536,7 +102536,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L743",
-      "community": 197,
+      "community": 495,
       "norm_label": "use the existing deterministic box primitive for new kit details.      the exter",
       "id": "act1_urman_village_exterior_kit_rationale_743"
     },
@@ -103769,7 +103769,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1318",
-      "community": 710,
+      "community": 495,
       "norm_label": "author_dwelling_joinery()",
       "id": "act1_urman_village_exterior_kit_author_dwelling_joinery"
     },
@@ -103778,7 +103778,7 @@
       "file_type": "code",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1357",
-      "community": 197,
+      "community": 495,
       "norm_label": "author_dwelling_side_back()",
       "id": "act1_urman_village_exterior_kit_author_dwelling_side_back"
     },
@@ -103823,7 +103823,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1319",
-      "community": 710,
+      "community": 495,
       "norm_label": "add a few readable hand-built cues to the otherwise reusable facade.",
       "id": "act1_urman_village_exterior_kit_rationale_1319"
     },
@@ -103832,7 +103832,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1358",
-      "community": 197,
+      "community": 495,
       "norm_label": "give the reusable dwelling a readable rear and side silhouette.      the origina",
       "id": "act1_urman_village_exterior_kit_rationale_1358"
     },
@@ -103850,7 +103850,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1611",
-      "community": 652,
+      "community": 495,
       "norm_label": "give the shed a small offset utility lean-to instead of a plain box read.",
       "id": "act1_urman_village_exterior_kit_rationale_1611"
     },
@@ -104390,7 +104390,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L606",
-      "community": 451,
+      "community": 387,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip.",
       "id": "act1_urman_wet_village_road_kit_rationale_606"
     },
@@ -104561,7 +104561,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L586",
-      "community": 451,
+      "community": 387,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip.",
       "id": "act1_urman_wet_village_road_kit_rationale_586"
     },
@@ -104849,7 +104849,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1591",
-      "community": 652,
+      "community": 495,
       "norm_label": "give the shed a small offset utility lean-to instead of a plain box read.",
       "id": "act1_urman_village_exterior_kit_rationale_1591"
     },
@@ -105992,7 +105992,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L100",
-      "community": 495,
+      "community": 445,
       "norm_label": "build a deliberately irregular low-poly foliage silhouette.      the old kit use",
       "id": "agent_b_act1_agent_b_foliage_rationale_100"
     },
@@ -106001,7 +106001,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L152",
-      "community": 445,
+      "community": 669,
       "norm_label": "build one broken, low-poly conifer spray as a single mesh.      each spray is a",
       "id": "agent_b_act1_agent_b_foliage_rationale_152"
     },
@@ -106010,7 +106010,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L235",
-      "community": 495,
+      "community": 445,
       "norm_label": "add a restrained bend, taper and asymmetric root flare in-place.",
       "id": "agent_b_act1_agent_b_foliage_rationale_235"
     },
@@ -107270,7 +107270,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L98",
-      "community": 495,
+      "community": 445,
       "norm_label": "build a deliberately irregular low-poly foliage silhouette.      the old kit use",
       "id": "agent_b_act1_agent_b_foliage_rationale_98"
     },
@@ -107279,7 +107279,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L144",
-      "community": 445,
+      "community": 669,
       "norm_label": "build one broken, low-poly conifer spray as a single mesh.      each spray is a",
       "id": "agent_b_act1_agent_b_foliage_rationale_144"
     },
@@ -107288,7 +107288,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L226",
-      "community": 495,
+      "community": 445,
       "norm_label": "add a restrained bend, taper and asymmetric root flare in-place.",
       "id": "agent_b_act1_agent_b_foliage_rationale_226"
     },
@@ -107351,7 +107351,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_wet_village_road_kit.py",
       "source_location": "L585",
-      "community": 451,
+      "community": 387,
       "norm_label": "build one irregular low-poly berm with a sloped crest, not a strip.",
       "id": "act1_urman_wet_village_road_kit_rationale_585"
     },
@@ -107657,7 +107657,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L1313",
-      "community": 197,
+      "community": 495,
       "norm_label": "give the reusable dwelling a readable rear and side silhouette.      the origina",
       "id": "act1_urman_village_exterior_kit_rationale_1313"
     },
@@ -107711,7 +107711,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L154",
-      "community": 495,
+      "community": 445,
       "norm_label": "add a restrained bend, taper and asymmetric root flare in-place.",
       "id": "agent_b_act1_agent_b_foliage_rationale_154"
     },
@@ -108116,7 +108116,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/agent_b_act1/agent_b_foliage.py",
       "source_location": "L25",
-      "community": 495,
+      "community": 445,
       "norm_label": "build a deliberately irregular low-poly foliage silhouette.      the old kit use",
       "id": "agent_b_act1_agent_b_foliage_rationale_25"
     },
@@ -108188,7 +108188,7 @@
       "file_type": "rationale",
       "source_file": "assets/source/blender/act1/urman_village_exterior_kit.py",
       "source_location": "L175",
-      "community": 197,
+      "community": 495,
       "norm_label": "use the existing deterministic box primitive for new kit details.      the exter",
       "id": "act1_urman_village_exterior_kit_rationale_175"
     },
@@ -286780,5 +286780,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b4295cbef86bfde31c34296f0488fe72fa4497ea"
+  "built_at_commit": "43e5a560509d656cc0ced2bcb73c4092ce915272"
 }
