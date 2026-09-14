@@ -115,12 +115,23 @@ public partial class JournalFlowSmokeTest : Node
             picker.EmitSignal(OptionButton.SignalName.ItemSelected, index);
         }
         var choices = journal.GetNode<VBoxContainer>("Screen/Book/Layout/Comparisons/Layout/Hypotheses");
-        var wrong = choices.GetChildren().OfType<Button>().First();
-        wrong.EmitSignal(Button.SignalName.Pressed);
-        await Frames(8);
-        if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() == "confirmed"
-            || choices.GetChildCount() != 3)
-        { Fail("A wrong hypothesis completed or locked the comparison."); return; }
+        // Press every wrong hypothesis, not just the first one: each of them must
+        // leave the deduction unconfirmed and the comparison open, and a single
+        // pressed branch would not prove that for its siblings.
+        var correctText = bridge.ResolveText("urman.chapter1:text/compare-records-contradiction");
+        var wrongTexts = choices.GetChildren().OfType<Button>().Select(button => button.Text)
+            .Where(text => text != correctText).ToArray();
+        if (wrongTexts.Length < 2)
+        { Fail($"The comparison offered {wrongTexts.Length} wrong hypotheses; at least two are authored."); return; }
+        foreach (var wrongText in wrongTexts)
+        {
+            var wrong = choices.GetChildren().OfType<Button>().Single(button => button.Text == wrongText);
+            wrong.EmitSignal(Button.SignalName.Pressed);
+            await Frames(8);
+            if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() == "confirmed"
+                || choices.GetChildCount() != 3)
+            { Fail($"The wrong hypothesis '{wrongText}' completed or locked the comparison."); return; }
+        }
         choices.GetChildren().OfType<Button>().Single(button => button.Text == bridge.ResolveText("urman.chapter1:text/compare-records-contradiction"))
             .EmitSignal(Button.SignalName.Pressed);
         await Frames(8);
