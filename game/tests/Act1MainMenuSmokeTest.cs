@@ -14,6 +14,11 @@ public partial class Act1MainMenuSmokeTest : Node
     {
         DeleteSlot(MainMenuUi.ContinueSlot);
         DeleteSlot(MainMenuUi.CheckpointSlot);
+        // The debug zone jump is gated by a file next to the saves: the menu entry
+        // must exist while the file is present and disappear without it. Turn it on
+        // before the menu is built so both states can be observed in one run.
+        var debugFlag = ProjectSettings.GlobalizePath("user://debug-zones.enabled");
+        System.IO.File.WriteAllText(debugFlag, "enabled by Act1MainMenuSmokeTest\n");
         var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")?.Instantiate<Act1DemoRoot>();
         if (demo is null)
         {
@@ -52,6 +57,15 @@ public partial class Act1MainMenuSmokeTest : Node
         await Frames(2);
         if (bridge.HasLoadableSlot(MainMenuUi.ContinueSlot))
         { Fail("Quick-save hotkey wrote a menu-only session."); return; }
+
+        // Debug zone jump: the entry exists only while the flag file exists. The jump
+        // itself is exercised at the end of the run, from the menu the player returns to.
+        var debugButton = demo.MainMenu.FindChild("DebugZonesButton", recursive: true, owned: false) as Button;
+        if (!MainMenuUi.DebugZonesEnabled || debugButton is null)
+        {
+            Fail("The debug zone entry is missing while user://debug-zones.enabled exists.");
+            return;
+        }
 
         // Settings opens from the menu and closes without leaving the menu.
         demo.MainMenu.SettingsButton?.EmitSignal(BaseButton.SignalName.Pressed);
@@ -273,6 +287,68 @@ public partial class Act1MainMenuSmokeTest : Node
             return;
         }
 
+        // Debug zone jump, exercised from the menu the exit probe just returned to:
+        // it must place the session in the chosen zone and grant no progression.
+        var debugEntry = demo.MainMenu?.FindChild("DebugZonesButton", recursive: true, owned: false) as Button;
+        if (debugEntry is null)
+        {
+            Fail("The rebuilt main menu lost the debug zone entry while its flag file exists.");
+            return;
+        }
+
+        debugEntry.EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        var zonesPanel = demo.MainMenu?.FindChild("DebugZones", recursive: true, owned: false) as Control;
+        var karaEntry = zonesPanel?.FindChild("DebugZone_kara_urman_night_village_path", recursive: true, owned: false) as Button;
+        if (zonesPanel is null || karaEntry is null)
+        {
+            Fail("The debug zone panel is missing its night Kara-Urman entry.");
+            return;
+        }
+
+        karaEntry.EmitSignal(BaseButton.SignalName.Pressed);
+        for (var frame = 0; frame < 240 && demo.MainMenuVisible; frame++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+
+        var world = demo.DemoMain?.ConnectedWorld;
+        if (demo.MainMenuVisible
+            || demo.IntroVisible
+            || world?.ActiveZoneId != "kara_urman_night"
+            || bridge.CurrentZoneId != "kara_urman_night"
+            // Entering a zone legitimately writes a *heard* word, so the check is
+            // that the jump proves nothing: no word is confirmed and no quest is done.
+            || bridge.LearnedVocabulary().Any(entry => entry.Status == "confirmed")
+            || bridge.SelectRuntimeState().GetProperty("quests").EnumerateObject()
+                .Any(quest => quest.Value.GetProperty("status").GetString() == "completed"))
+        {
+            Fail(
+                $"The debug zone jump did not land in the night Kara edge without granting progress "
+                + $"(menu={demo.MainMenuVisible} intro={demo.IntroVisible} world={world?.ActiveZoneId} bridge={bridge.CurrentZoneId}).");
+            return;
+        }
+
+        GD.Print($"act1-main-menu: debug zone jump reached {bridge.CurrentZoneId}@{bridge.CurrentSpawnPointId} without granting confirmed knowledge or a completed quest");
+        System.IO.File.Delete(debugFlag);
+        if (MainMenuUi.DebugZonesEnabled)
+        {
+            Fail("The debug zone entry stayed enabled after its flag file was removed.");
+            return;
+        }
+
+        // Back to the menu for the exit probe; the menu is rebuilt without the flag.
+        if (!await TryShowMainMenu(demo, pauseMenu))
+        {
+            Fail("Could not return to the main menu after the debug zone jump.");
+            return;
+        }
+        if (demo.MainMenu?.FindChild("DebugZonesButton", recursive: true, owned: false) is not null)
+        {
+            Fail("The rebuilt main menu still offers the debug zone entry without its flag file.");
+            return;
+        }
+
         var exitButton = demo.MainMenu?.FindChild("QuitButton", recursive: true, owned: false) as Button;
         if (exitButton is null || exitButton.Disabled)
         {
@@ -319,6 +395,49 @@ public partial class Act1MainMenuSmokeTest : Node
         {
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         }
+    }
+
+    /// <summary>
+    /// Walks back to the main menu the way a player does: Escape opens pause, then
+    /// "В главное меню" with its confirmation press. Used after a debug zone jump.
+    /// </summary>
+    private async Task<bool> TryShowMainMenu(Act1DemoRoot demo, PauseMenuUi pauseMenu)
+    {
+        if (pauseMenu.MainMenuButton is null)
+        {
+            return false;
+        }
+
+        for (var attempt = 0; attempt < 3 && !pauseMenu.IsOpen; attempt++)
+        {
+            Input.ParseInputEvent(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true, Echo = false });
+            await Frames(2);
+            Input.ParseInputEvent(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = false, Echo = false });
+            await Frames(2);
+            for (var frame = 0; frame < 60 && !pauseMenu.IsOpen; frame++)
+            {
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            }
+        }
+
+        if (!pauseMenu.IsOpen)
+        {
+            return false;
+        }
+
+        pauseMenu.MainMenuButton.EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        pauseMenu.MainMenuButton.EmitSignal(BaseButton.SignalName.Pressed);
+        for (var frame = 0; frame < 300; frame++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (demo.MainMenuVisible && !pauseMenu.IsOpen)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void Fail(string message)

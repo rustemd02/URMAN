@@ -26,8 +26,10 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private Button? _settingsButton;
     private Button? _quitButton;
     private Button? _aboutButton;
+    private Button? _debugButton;
     private VBoxContainer? _layout;
     private VBoxContainer? _about;
+    private VBoxContainer? _debugZones;
     private ScrollContainer? _scroll;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
     private bool _continueAvailable;
@@ -35,10 +37,29 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private bool _newGameArmed;
     private string? _continueDescription;
 
+    // Development aid, not part of the game: jumping straight into an authored
+    // zone so the author can look at a place without walking the route. The entry
+    // appears only when user://debug-zones.enabled exists, so a build without that
+    // file shows the ordinary menu and the check is testable.
+    private static readonly (string ZoneId, string SpawnPointId, string Label)[] DebugZones =
+    [
+        ("village_day", "arrival", "Улица Кырлай · приезд"),
+        ("village_day", "from_house", "Улица Кырлай · от дома"),
+        ("house_old_pc", "entry", "Дом Мансура и Гөлсинә"),
+        ("fap_clinic", "waiting_room", "ФАП"),
+        ("zirat_road", "village_side", "Зиратская дорога"),
+        ("kara_urman_night", "village_path", "Кромка Кара-Урмана · ночь"),
+        ("kara_urman_night", "forest-approach", "Кара-Урман · подход к лесу")
+    ];
+
+    public static bool DebugZonesEnabled =>
+        global::Godot.FileAccess.FileExists("user://debug-zones.enabled");
+
     public event Action? NewGameRequested;
     public event Action? ContinueRequested;
     public event Action? SettingsRequested;
     public event Action? QuitRequested;
+    public event Action<string, string>? DebugZoneRequested;
 
     public Button? NewGameButton => _newGameButton;
     public Button? ContinueButton => _continueButton;
@@ -296,6 +317,13 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _aboutButton.Pressed += OpenAbout;
         layout.AddChild(_aboutButton);
 
+        if (DebugZonesEnabled)
+        {
+            _debugButton = MenuButton("DebugZonesButton", "Отладка: локации");
+            _debugButton.Pressed += OpenDebugZones;
+            layout.AddChild(_debugButton);
+        }
+
         _quitButton = MenuButton("QuitButton", "Выход");
         _quitButton.Pressed += () => QuitRequested?.Invoke();
         layout.AddChild(_quitButton);
@@ -308,6 +336,8 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         if (_about is not null && inputEvent.IsActionPressed("ui_cancel"))
         { CloseAbout(); GetViewport().SetInputAsHandled(); }
+        else if (_debugZones is not null && inputEvent.IsActionPressed("ui_cancel"))
+        { CloseDebugZones(); GetViewport().SetInputAsHandled(); }
         else if (_newGameArmed && inputEvent.IsActionPressed("ui_cancel"))
         { DisarmNewGame(); GetViewport().SetInputAsHandled(); }
     }
@@ -323,8 +353,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         if (_about is not null || _scroll is null || _layout is null) return;
         DisarmNewGame();
-        _layout.Hide();
-        _about = new VBoxContainer { Name = "About", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        _layout.Hide();        _about = new VBoxContainer { Name = "About", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         _layout.GetParent().AddChild(_about);
         var back = MenuButton("Back", "Назад");
         back.Pressed += CloseAbout;
@@ -354,6 +383,57 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _about = null;
         _layout?.Show();
         _aboutButton?.GrabFocus();
+    }
+
+    /// <summary>
+    /// Development aid: pick an authored zone and drop straight into it instead of
+    /// walking the route. Reachable only while user://debug-zones.enabled exists,
+    /// so it never appears in a build that ships without that file.
+    /// </summary>
+    private void OpenDebugZones()
+    {
+        if (_debugZones is not null || _scroll is null || _layout is null) return;
+        DisarmNewGame();
+        _layout.Hide();
+        _debugZones = new VBoxContainer { Name = "DebugZones", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        _layout.GetParent().AddChild(_debugZones);
+        var back = MenuButton("Back", "Назад");
+        back.Pressed += CloseDebugZones;
+        _debugZones.AddChild(back);
+        _debugZones.AddChild(new Label
+        {
+            Name = "DebugZonesNote",
+            Text = "Отладка: переход в локацию начинает новый сеанс. "
+                + "Меню появляется только при наличии файла debug-zones.enabled рядом с сохранениями и в игру для игроков не входит.",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            CustomMinimumSize = new Vector2(360, 48),
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        });
+        foreach (var (zoneId, spawnPointId, label) in DebugZones)
+        {
+            var zone = zoneId;
+            var spawn = spawnPointId;
+            var button = MenuButton($"DebugZone_{zone}_{spawn}", label);
+            button.Pressed += () =>
+            {
+                CloseDebugZones();
+                DebugZoneRequested?.Invoke(zone, spawn);
+            };
+            _debugZones.AddChild(button);
+        }
+
+        AccessibilityPresentation.ApplyToControl(_debugZones, _accessibility);
+        _scroll.ScrollVertical = 0;
+        back.GrabFocus();
+    }
+
+    private void CloseDebugZones()
+    {
+        _debugZones?.QueueFree();
+        _debugZones = null;
+        _layout?.Show();
+        _debugButton?.GrabFocus();
     }
 
     private Button MenuButton(string name, string text)

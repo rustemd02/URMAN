@@ -755,6 +755,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _mainMenu = new MainMenuUi { Name = "Act1MainMenu" };
         _mainMenu.NewGameRequested += () => _ = OnMenuStartSessionAsync(startNewGame: true);
         _mainMenu.ContinueRequested += () => _ = OnMenuStartSessionAsync(startNewGame: false);
+        _mainMenu.DebugZoneRequested += (zoneId, spawnPointId) => _ = OnMenuStartDebugZoneAsync(zoneId, spawnPointId);
         _mainMenu.SettingsRequested += () =>
         {
             if (_main.GetNodeOrNull<SettingsUi>("SettingsUi") is { } settings && player is not null)
@@ -824,6 +825,49 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 _player?.SetModalOpen(false);
                 EvaluateEndingState();
             }
+        }
+        finally { _menuBusy = false; }
+    }
+
+    /// <summary>
+    /// Debug zone jump from the main menu: start a fresh session, then place the
+    /// player in the chosen authored zone. The review aid exists so a place can be
+    /// inspected without walking the route; it grants no progression and is only
+    /// reachable while user://debug-zones.enabled exists.
+    /// </summary>
+    private async Task OnMenuStartDebugZoneAsync(string zoneId, string spawnPointId)
+    {
+        if (_menuBusy || _mainMenu is null || !MainMenuVisible)
+        {
+            return;
+        }
+
+        var bridge = _bridge ?? GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (bridge is null)
+        {
+            return;
+        }
+
+        _menuBusy = true;
+        try
+        {
+            if (!await bridge.StartNewGameAsync())
+            {
+                _mainMenu?.ShowStatus("Отладочный переход: не удалось начать сеанс.");
+                return;
+            }
+
+            _endingShown = false;
+            _endingPending = false;
+            _endingDelay = 0;
+            _mainMenu?.Dismiss();
+            _mainMenu = null;
+            _player?.SetModalOpen(false);
+            _main.SwitchZone(zoneId, spawnPointId);
+            bridge.CurrentZoneId = zoneId;
+            bridge.CurrentSpawnPointId = spawnPointId;
+            EvaluateEndingState();
+            GD.Print($"act1-debug-zone: {zoneId}@{spawnPointId}");
         }
         finally { _menuBusy = false; }
     }
