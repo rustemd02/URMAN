@@ -728,7 +728,7 @@ screen-space traversal, 20–30 m repetition review, authored family coverage и
 release-host performance. Не подключать GateA к HouseA-эпилогу и не лечить
 возможные floating/occlusion проблемы новой текстурой.
 
-## Puddle silhouette remains a diagnostic, not a selected production mesh
+## Puddle silhouette candidate is retired: the shipped wet read is the authored kit
 
 Слабое место: исходный низкий `CylinderMesh` читается как отдельная толстая
 пластина с вертикальным бортом. Новый in-memory фасетный `ArrayMesh` убирает
@@ -736,12 +736,32 @@ release-host performance. Не подключать GateA к HouseA-эпилог
 roughness `0.90` почти исчезает в обзорном кадре; это не доказывает ни сырость,
 ни читаемость в движении.
 
-Путь решения: сравнивать source/candidate contact sheets из
-`art/puddle_silhouette_candidate/` вместе с управляемым wetness review, а не
-подменять проблему повышением albedo или глобальным снижением roughness. До
-отдельного level-art/traversal решения не активировать candidate mesh в
-`PainterlyEnvironmentDetails`; сохранить силуэт, wetness, temporal comfort и
-art lock OPEN.
+Путь решения (закрыто 2026-09-14, измерено): этот выбор больше не нужно делать —
+низкополигональная цилиндрическая лужа в поставку не попадает. Проверено:
+`PainterlyEnvironmentDetails.AddPuddleCluster` вызывается только из
+`StyleBenchmarkZone` (шесть кластеров), каждый помечен `puddleGeometry =
+low-poly-overlap-proxy`, а `Act1ConnectedWorld.ApplyLogicalZonePresentationSuppressions`
+скрывает все узлы с этой метой в `village_day`, `zirat_road` и `kara_urman_night` —
+то есть ровно там, где они есть. Маркер `OPEN-roughness-review`
+(`PainterlyEnvironmentDetails.cs:65`) относится к скрытой геометрии.
+
+В поставке wet читает авторский kitset `urman_wet_village_road_kit.glb`: 15
+именованных компонентов (`RoadRuts_PuddleNear/Far`, `RoadsideDitch_L/R`,
+`RoadCrown_SunkenWet`, `MuddyShoulder_L/R`, ...), смонтированных на Arrival,
+MainStreet, ConnectiveStreetReturn и ZiratMemoryField в
+`BuildAct1WetVillageRoadKit` и перекрашенных в `RebindWetVillageRoadMaterials`
+в явные painterly-отклики: `water` 0.38/0.45/0.98, `wet_ground` 0.56/0.32/0.94,
+`earth` 0.78/0.16/0.70 (по `surfaceGrade` в `PainterlyMaterialLibrary`).
+Поверх того же коридора лежит `snow_road`/`snow_ground` (0.68/0.90, wet grade 0),
+поэтому зимой сырость читается как тёмный блик в колее, влажный излом обочины и
+линия канавы — видно на `art/style_frames/godot_day_street_1080p.png` и в кадрах
+маршрута.
+
+Что осталось человеческим: убедительна ли эта сырость на высоте игрока и в
+движении. Что закрыто: выбор mesh'а лужи и вопрос «активировать ли candidate в
+`PainterlyEnvironmentDetails`» — активировать нечего, механизм выведен из
+поставки. Contact-sheet'ы кандидатов остаются валидными диагностиками
+выведенного прокси.
 
 ## GLB family contract does not replace mesh-collision review
 

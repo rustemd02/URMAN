@@ -593,3 +593,33 @@ z = 5,8). Эффектов у неё нет вообще (`labelTextId text/insp
 мгновенный переход между зонами (`act1_reduced_motion_smoke_test`); остальные пункты
 сверены чтением кода с указанием мест. Человеческая проверка доступности (укачивание,
 читаемость, корректность текстовых описаний) остаётся внешним гейтом.
+
+## Сырость дороги в поставке: авторский kit, а не прокси-лужа (2026-09-14)
+
+Выяснено измерением, а не выбором: низкополигональная цилиндрическая лужа в
+поставку не попадает. `PainterlyEnvironmentDetails.AddPuddleCluster` вызывается
+только из `StyleBenchmarkZone` (шесть кластеров, мета `puddleGeometry =
+low-poly-overlap-proxy`), и `Act1ConnectedWorld.ApplyLogicalZonePresentationSuppressions`
+скрывает все узлы с этой метой в `village_day`, `zirat_road` и `kara_urman_night`.
+Маркер `OPEN-roughness-review` относится к скрытой геометрии.
+
+Сырость в Акте I несёт авторский `urman_wet_village_road_kit.glb` — 15
+именованных компонентов (`RoadRuts_PuddleNear/Far`, `RoadsideDitch_L/R`,
+`RoadCrown_SunkenWet`, `MuddyShoulder_L/R`, `CulvertStoneCrossing`,
+`GrassSedgeMass_*`, `FernShrubBreak_*`, `RoadFenceBreak_Low`,
+`RoadCrown_BranchWet`, `RoadCrown_ApproachWorn`), смонтированных на Arrival,
+MainStreet, ConnectiveStreetReturn и ZiratMemoryField. Отклики заданы явно
+(`RebindWetVillageRoadMaterials` + `surfaceGrade`):
+
+| Семейство | Отклик | Roughness | Specular | Wet grade |
+|---|---|---|---|---|
+| вода в колее и канаве | `water` | 0.38 | 0.45 | 0.98 |
+| влажная обочина, дно канавы | `wet_ground` | 0.56 | 0.32 | 0.94 |
+| корона, колейность, worn-участки | `earth` | 0.78 | 0.16 | 0.70 |
+
+Поверх того же коридора зимой лежит `snow_road` / `snow_ground`
+(roughness 0.68 / 0.90, wet grade 0), поэтому видимая сырость — это тёмный блик в
+колее, влажный излом обочины и линия канавы, а не блестящее зеркало. Опорные
+кадры: `art/style_frames/godot_day_street_1080p.png` и кадры маршрута
+(`main_street_forward`). Оценка «убедительно ли это на высоте игрока и в
+движении» — человеческая; вопрос выбора mesh'а лужи закрыт.

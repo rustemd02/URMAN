@@ -1,6 +1,6 @@
 # Wetness candidate capture
 
-Status: **OPEN — candidate evidence only; roughness acceptance is not claimed.**
+Status: **RETIRED as a shipped-look question — diagnostic evidence only; the shipped wet read comes from the authored wet village road kit (see below). Roughness acceptance of the shipped surfaces is still human.**
 
 This harness instantiates the three mandatory style benchmarks plus `chapter1_zirat_road.tscn` one at a time, so relief raycasts cannot hit a collider from another benchmark. It duplicates only the fifteen existing puddle `ShaderMaterial` overrides in memory and sets the duplicate `roughness_value` to `0.50`; source/runtime material roughness remains `0.90`.
 
@@ -13,7 +13,25 @@ This harness instantiates the three mandatory style benchmarks plus `chapter1_zi
 
 The day-street, Kara-Urman-edge and Zirat-road 1080p images are test-only roughness candidates. They do not activate runtime materials or close the wetness/art-lock gate.
 
-Scene basis (2026-09-14): this harness instantiates the raw `style_benchmark_*` zone scenes, so the frames show the benchmark ground/road slabs and stand-in props that `Act1ConnectedWorld` hides at runtime. Since the probe clones one material in memory and compares it against the same scene on the other side of the comparison, the delta stays valid; the frames are just not the shipped look. The assembled-world evidence lives in `../style_frames/` and `../style_motion_sweep/`.
+Scene basis and retirement (2026-09-14) — measured, not assumed. This harness
+instantiates the raw `style_benchmark_*` scenes, and the surfaces it clones
+(`puddleGeometry` clusters, roughness raised from 0.90 to 0.50 in memory) are
+hidden at runtime: `Act1ConnectedWorld.ApplyLogicalZonePresentationSuppressions`
+hides every child with meta `puddleGeometry` in `village_day`, `zirat_road` and
+`kara_urman_night`, and `PainterlyEnvironmentDetails.AddPuddleCluster` is called
+from `StyleBenchmarkZone` only. The shipped wet read is the authored wet village
+road kit instead, graded in `RebindWetVillageRoadMaterials` to `water`
+(0.38 / 0.45 / 0.98), `wet_ground` (0.56 / 0.32 / 0.94) and `earth`
+(0.78 / 0.16 / 0.70); the full table and the evidence frame are in
+`../puddle_silhouette_candidate/README.md` and
+`../style_frames/godot_day_street_1080p.png`.
+
+The roughness sweep below therefore answers a question about a retired proxy. Its
+numbers stay valid as diagnostics (they are honest measurements of those
+surfaces), but the shipped-look decision it was made for is closed by the kit,
+not by this matrix. What stays human is whether the shipped wet read — dark glint
+in the ruts, the damp shoulder break and the ditch line under the snow blanket —
+is convincing at player height and in motion.
 
 ## Contact receipt
 
