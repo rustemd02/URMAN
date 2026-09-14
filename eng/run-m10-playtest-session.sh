@@ -9,8 +9,14 @@ set -eu
 URMAN_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$URMAN_ROOT"
 
-if [ "$#" -ne 1 ]; then
+RESOLVE_ONLY=0
+if [ "$#" -eq 1 ] && [ "$1" = "--resolve-only" ]; then
+  RESOLVE_ONLY=1
+elif [ "$#" -eq 1 ]; then
+  :
+else
   echo "usage: $0 <output-directory-outside-repository>" >&2
+  echo "       $0 --resolve-only   # check that the kit can find a candidate, then exit" >&2
   exit 2
 fi
 
@@ -41,6 +47,17 @@ echo "act1-m10-session: candidate=$CANDIDATE"
 [ -x "$BINARY" ] || { echo "candidate binary not found: $BINARY" >&2; exit 1; }
 [ -f "$GUARD" ] || { echo "userdata guard not found: $GUARD" >&2; exit 1; }
 command -v screencapture >/dev/null 2>&1 || { echo "screencapture is required" >&2; exit 1; }
+
+if [ "$RESOLVE_ONLY" -eq 1 ]; then
+  # A session takes an hour with a human at the keyboard, so let the operator (or
+  # a script) prove the kit resolves everything first instead of discovering a
+  # missing candidate or guard at minute zero.
+  echo "act1-m10-session: guard=$GUARD"
+  echo "act1-m10-session: binary=$BINARY bytes=$(wc -c < "$BINARY" | tr -d '[:space:]')"
+  echo "act1-m10-session: notes-template=$URMAN_ROOT/docs/production/act1_m10_handoff_package_2026-09-14.md section 8"
+  echo "act1-m10-session: --resolve-only PASS; rerun without the flag to sit the session"
+  exit 0
+fi
 
 OUTPUT_INPUT=$1
 mkdir -p "$OUTPUT_INPUT"
