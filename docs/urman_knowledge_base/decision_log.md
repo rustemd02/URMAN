@@ -3869,3 +3869,37 @@ the accessible-side walk are still to do.
 
 Linked files: `../../assets/source/blender/act1/urman_village_exterior_kit.py`,
 `../../docs/urman_knowledge_base/art/act1_h2_hero_house_passport_2026-09-14.md`
+
+## 2026-09-15 — приложение по 14 возможностям и проверке длины Акта I
+
+Автор запросил подробные задачи по всем 14 ранее предложенным возможностям исследования и отдельное выяснение причин прохождения за 5–6 минут при сценарном ориентире около 50. Требования внесены в [существующий план, §13](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md): EX00, EX01–EX14 и LEN01. Разрешение касается перечисленных ограниченных механик; полная физическая песочница, новые сюжетные факты и превращение необязательных секретов в обязательные из него не следуют.
+
+Действующий оркестратор должен продолжить текущую работу, сохранив исполнителей, режим, очередь и подтверждённые результаты, и добавить отсутствующий объём. [Сообщение для продолжения](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_SWARM_PROMPT_RU.md) сохранено в конце существующего launch-документа. Эта правка содержит только документацию: механики не реализованы, причина короткого прохождения не объявлена установленной, новые git-разрешения не выданы. Человеческая длительность и интерес остаются отдельной проверкой.
+
+## 2026-09-15 — H2 second step: rafter tails, eaves troughs and a downpipe
+
+Status: Accepted (second implementation step of card H2)
+
+Context: the H2 passport measured the roof anatomy and found a continuous roof
+slab with a thin fascia board and no rafter line, and no water shedding at all —
+so the 36 cm overhang had no visible cause and meltwater had no path except down
+the new stone plinth.
+
+Decision: in the shared dwelling builder, add a row of rafter tails under each
+long eave (twelve per side at a 0.56 m step, 0.07 x 0.10, running down the slope
+from the wall to the roof edge), an eaves trough just below that edge, and on the
+street corner a downpipe carrying water onto a splash stone beside the plinth.
+Applied to all four dwellings in the kit: this is one architectural language, not
+a hero feature, and §12.14 requires the affected instances to be checked rather
+than one convenient one.
+
+Consequences: kit grew 21,873 to 25,009 triangles; registry hashes and budget
+updated and re-verified; generated-modular-kit contract smoke PASS; physical
+walkthrough PASS 424.88 m with the door contract untouched. Verified on
+`house_exterior_forward`, `babai_door_detail` and `yard_side_board`, where the
+tail row is visible on the eave line. Still open in H2: window-to-room agreement
+with the interior scene, the grey-material shape pass, the accessible-side walk,
+and seni drainage.
+
+Linked files: `../../assets/source/blender/act1/urman_village_exterior_kit.py`,
+`../../docs/urman_knowledge_base/art/act1_h2_hero_house_passport_2026-09-14.md`

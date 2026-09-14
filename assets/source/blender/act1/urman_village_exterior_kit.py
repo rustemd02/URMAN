@@ -2055,6 +2055,28 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                 component_root=root_name,role="continuous thick pitched roof with 36cm overhang")
     for x in (-half-.35,half+.35):
         box(f"Eave_{x}",(x,(front+back)/2,eave-.065),(.085,depth+.72,.13))
+    # Water and the rafter line. §12.5 wants every projection to earn its place:
+    # rafter tails explain why the roof overhangs, the trough catches what they
+    # shed, and one downpipe on the street corner carries it past the new stone
+    # plinth onto a splash stone instead of down the wall face.
+    slope = (ridge-eave)/half
+    tail_span = .41
+    tail_count = int((depth+.60)//.56) + 1
+    for side in (-1,1):
+        wall_x = side*(half-.02)
+        eave_x = side*(half+.36)
+        for i in range(tail_count):
+            y = front-.30 + i*.56
+            if y > back+.30: break
+            variant_beam(f"{prefix}_RafterTail_{side:+.0f}_{i:02d}_LOD0",parent,
+                         (wall_x,y,eave+.23),(eave_x,y,eave-.02),.07,.10,
+                         (trim,),root_name,"rafter tail carrying the eave overhang")
+        variant_box(f"{prefix}_Gutter_{side:+.0f}_LOD0",parent,
+                    (side*(half+.44),(front+back)/2,eave-.19),
+                    (.11,depth+.72,.13),("URMAN_Wood_WetShadow",),root_name,
+                    "eaves trough", [0,1]+[0]*8, chamfer=.03)
+    box("Downpipe",(half+.06,front-.02,eave/2+.05),(.09,.09,eave-.50),"URMAN_Metal_Dulled")
+    box("DownpipeSplash",(half+.15,front-.06,.08),(.34,.34,.16),"URMAN_Stone_Mossy")
     # Prod-ready phase 6 silhouette: a dark ridge beam caps the roofline and
     # a masonry chimney (on most dwellings, not all) breaks the roof plane
     # and catches the low sun. Presentation-only geometry, same materials.
