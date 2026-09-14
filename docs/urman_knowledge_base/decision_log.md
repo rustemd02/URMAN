@@ -4116,3 +4116,24 @@ mode, and the PC has no visible socket - each is a candidate for the next layer.
 
 Linked files: `../../game/scripts/StyleBenchmarkZone.cs`,
 `../../docs/urman_knowledge_base/art/act1_i2_interior_use_passport_2026-09-15.md`
+
+## 2026-09-15 — I2 second layer: the basin gets its water and the PC its power
+
+Status: Accepted (second implementation layer of card I2)
+
+Context: after the first layer the wash corner had a basin and a towel but no
+water source, and the PC sat on the table with no visible power route.
+
+Decision: a metal bucket under the towel - the deliberate reading is "carried from
+the well", so no plumbing appears in a house the canon heats with a stove - and a
+ceramic socket plate behind the PC table with a cord dropped down the wall, run
+along the skirting and raised up to the case. All pieces are dressing without
+collision and sit clear of the walk line to the PC.
+
+Consequences: the wash corner reads as one place (bucket, basin chest, towel) and
+the PC's power is explained. Still open in I2: the stove's smoke mode and the seni
+trim variance. I1 (interior footprint) and LEN01.1 (beat map with target minutes)
+continue to wait for the author's decisions.
+
+Linked files: `../../game/scripts/StyleBenchmarkZone.cs`,
+`../../docs/urman_knowledge_base/art/act1_i2_interior_use_passport_2026-09-15.md`

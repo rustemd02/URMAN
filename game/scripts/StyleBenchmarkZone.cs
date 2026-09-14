@@ -394,6 +394,18 @@ public partial class StyleBenchmarkZone : Node3D
         MakeBox("HearthFirewoodLogBottom", new(0.55f, 0.13f, 0.30f), new(-4.95f, 0.065f, 1.42f), "8a6b50", collision: false, surface: "wood");
         MakeBox("HearthFirewoodLogTop", new(0.48f, 0.12f, 0.27f), new(-4.97f, 0.19f, 1.44f), "9a7a55", collision: false, surface: "wood");
         MakeRotatedBox("HouseWashTowel", new(0.04f, 0.52f, 0.28f), new(-5.76f, 1.52f, 1.80f), new(0, 0, 2), "b3ac9d", "fabric");
+        // The basin's water source: a metal bucket under the towel, filled from
+        // the well outside - no plumbing in this house, the stove heats and the
+        // well supplies.
+        MakeDisc("HouseWashBucket", new(0.26f, 0.26f, 0.26f), new(-5.42f, 0.13f, 1.92f), "6f6d61", "metal");
+        MakeBox("HouseWashBucketHandle", new(0.26f, 0.03f, 0.03f), new(-5.42f, 0.29f, 1.92f), "4c4c48", collision: false, surface: "metal");
+        // The PC's power reaches the wall: a ceramic socket plate behind the
+        // table, a cord down the wall and along the skirting to the table leg,
+        // then up to the case. Dressing only.
+        MakeBox("PcSocketPlate", new(0.12f, 0.16f, 0.03f), new(0.62f, 0.42f, -4.86f), "c9c2ad", collision: false, surface: "plaster");
+        MakeBox("PcCordWallDrop", new(0.025f, 0.34f, 0.02f), new(0.62f, 0.17f, -4.85f), "2e2c29", collision: false, surface: "fabric");
+        MakeBox("PcCordFloorRun", new(0.025f, 0.02f, 1.18f), new(0.62f, 0.012f, -4.27f), "2e2c29", collision: false, surface: "fabric");
+        MakeBox("PcCordTableRise", new(0.025f, 0.80f, 0.02f), new(0.62f, 0.42f, -3.70f), "2e2c29", collision: false, surface: "fabric");
         MakeBox("Table", new(3.2f, 0.14f, 1.35f), new(0, 0.82f, -3.6f), "57402e", surface: "wood");
         MakeBox("TableLegL", new(0.18f, 0.82f, 0.18f), new(-1.35f, 0.4f, -3.6f), "463326", surface: "wood");
         MakeBox("TableLegR", new(0.18f, 0.82f, 0.18f), new(1.35f, 0.4f, -3.6f), "463326", surface: "wood");
