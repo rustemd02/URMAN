@@ -51,6 +51,37 @@ public partial class Act1UserSettingsSmokeTest : Node
             return;
         }
 
+        // Accessibility choices must survive a cold launch too, not only a save
+        // slot: someone who needs reduced motion should not have to set it again
+        // every time they start the game. The store serialises the whole
+        // snapshot, so this checks the part that has no other coverage here.
+        player.ApplySettings(player.CaptureSettings() with
+        {
+            Accessibility = player.CaptureSettings().Accessibility with { ReducedMotion = true, HighContrast = true, TextScale = 1.25 }
+        });
+        var storedAccessibility = UserSettingsStore.TryLoad()?.Accessibility;
+        if (storedAccessibility is null
+            || !storedAccessibility.ReducedMotion
+            || !storedAccessibility.HighContrast
+            || Math.Abs(storedAccessibility.TextScale - 1.25) > 0.0001)
+        {
+            Fail($"User settings store did not persist accessibility preferences "
+                + $"(reduced={storedAccessibility?.ReducedMotion} contrast={storedAccessibility?.HighContrast} scale={storedAccessibility?.TextScale}).");
+            return;
+        }
+
+        player.ApplySettings(player.CaptureSettings() with
+        {
+            Accessibility = player.CaptureSettings().Accessibility with { ReducedMotion = false, HighContrast = false, TextScale = 1.0 }
+        });
+        var clearedAccessibility = UserSettingsStore.TryLoad()?.Accessibility;
+        if (clearedAccessibility is null || clearedAccessibility.ReducedMotion || clearedAccessibility.HighContrast
+            || Math.Abs(clearedAccessibility.TextScale - 1.0) > 0.0001)
+        {
+            Fail("Clearing an accessibility preference did not reach the settings store.");
+            return;
+        }
+
         // 2) A story save carries its own settings snapshot; restoring it
         //    must keep the latest live profile; story progress does not own preferences.
         if (!await bridge.SaveSlotAsync(StorySlot))
