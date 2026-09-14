@@ -423,6 +423,21 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             return;
         }
 
+        var finalQuests = bridge.SelectRuntimeState().GetProperty("quests");
+        GD.Print("act1-corridor: final quest states -> " + string.Join(", ", finalQuests.EnumerateObject()
+            .Select(quest => $"{quest.Name.Split('/')[^1]}={quest.Value.GetProperty("status").GetString()}")));
+        // The act must end with a clean quest log: all three investigation
+        // quests completed, so the finale does not leave an unfinished goal in
+        // the journal. Observed before it was asserted.
+        var unfinished = finalQuests.EnumerateObject()
+            .Where(quest => quest.Value.GetProperty("status").GetString() != "completed")
+            .Select(quest => $"{quest.Name.Split('/')[^1]}={quest.Value.GetProperty("status").GetString()}")
+            .ToArray();
+        if (unfinished.Length > 0)
+        {
+            Fail("Act 1 ends with unfinished quests in the journal: " + string.Join(", ", unfinished));
+            return;
+        }
         GD.Print("act1-first-person-corridor: arrival -> old PC -> FAP document -> Rinat dialogue -> evidence documents -> zirat -> Kara-Urman cliffhanger");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
