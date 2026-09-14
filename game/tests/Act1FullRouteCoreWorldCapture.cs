@@ -389,7 +389,8 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             $"textured={visibleMaterials.Count(material => material.GetShaderParameter("has_albedo_texture").AsBool())} " +
             $"low_quality={visibleMaterials.Count(material => material.GetShaderParameter("low_quality").AsBool())}");
 
-        var captures = new List<FrameReceipt>(Frames.Count);
+        var allFrames = Frames.Concat(PerimeterFrames).ToList();
+        var captures = new List<FrameReceipt>(allFrames.Count);
         if (System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_MONO_SNOW") == "1")
         {
             foreach (var material in FindDescendants(main).OfType<MeshInstance3D>()
@@ -408,7 +409,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         var shift = new Vector3(float.TryParse(System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_SHIFT_X"),
             System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var shiftX) ? shiftX : 0f, 0f, 0f);
         var requestedFrames = System.Environment.GetEnvironmentVariable("URMAN_CAPTURE_FRAMES");
-        var captureFrames = Frames.Where(frame => string.IsNullOrEmpty(requestedFrames)
+        var captureFrames = allFrames.Where(frame => string.IsNullOrEmpty(requestedFrames)
             ? frame.DiscoverySlug is null : requestedFrames.Split(',').Contains(frame.Id)).ToList();
         var buildingBounds = FindDescendants(core).OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree()
             && mesh.Mesh is not null && new[] { "Roof", "Wall", "Facade" }.Any(token => mesh.Name.ToString().Contains(token, StringComparison.OrdinalIgnoreCase)))
@@ -537,7 +538,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             var sha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(outputPath))).ToLowerInvariant();
             var previousSha = captures.Count > 0 ? captures[^1].Sha256 : null;
             GD.Print(
-                $"act1-core-capture frame={captures.Count + 1}/{Frames.Count} id={spec.Id} active_zone={connectedWorld.ActiveZoneId} "
+                $"act1-core-capture frame={captures.Count + 1}/{allFrames.Count} id={spec.Id} active_zone={connectedWorld.ActiveZoneId} "
                 + $"drawn_frame={Engine.GetFramesDrawn()} cam_pos=({camera.GlobalPosition.X:F2},{camera.GlobalPosition.Y:F2},{camera.GlobalPosition.Z:F2}) "
                 + $"cam_fwd=({actualForward.X:F3},{actualForward.Y:F3},{actualForward.Z:F3}) aim_deviation_deg={aimDeviationDegrees:F3} "
                 + $"sha256={sha256[..12]} same_as_prev={(previousSha is not null && previousSha == sha256).ToString().ToLowerInvariant()}");
@@ -938,6 +939,66 @@ public partial class Act1FullRouteCoreWorldCapture : Node
         string direction,
         string evidenceKind, string? discoverySlug = null) =>
         new(id, visualZone, logicalZoneId, spawnPointId, playerPosition, target, direction, evidenceKind, discoverySlug);
+
+    /// <summary>
+    /// §12.7 perimeter sweep: standing positions along the settlement envelope,
+    /// each looking outward across the ring on three headings plus straight up.
+    /// Day frames cover all four edges; the south edge repeats in the night
+    /// light state, because that is the Kara direction. This is a harness sweep
+    /// on a stated 10 m grid — coarser than the plan's 5 m starting grid and
+    /// visibly narrower than a human free-camera walk — so it proves whether an
+    /// outward view reaches the terrain seam or open sky between the crowns at
+    /// these positions, and nothing more.
+    /// </summary>
+    private static IReadOnlyList<FrameSpec> BuildPerimeterFrames()
+    {
+        var frames = new List<FrameSpec>();
+        const float step = 10f;
+        const float standOff = 1.7f;
+        var innerMin = AgentBAct1ExteriorLayer.ForestRingInnerMin;
+        var innerMax = AgentBAct1ExteriorLayer.ForestRingInnerMax;
+
+        void Sweep(Vector2 from, Vector2 to, Vector2 outward, string visualZone,
+            string logicalZone, string spawn, string lightLabel)
+        {
+            var length = from.DistanceTo(to);
+            var along = (to - from) / length;
+            var count = Math.Max(1, (int)MathF.Round(length / step));
+            for (var index = 0; index <= count; index++)
+            {
+                var point = from + along * (length * index / count);
+                var stand = point - outward * standOff;
+                var eye = GroundedPosition(stand.X, stand.Y);
+                var far = point + outward * 26f;
+                foreach (var (heading, offset, height) in new (string, float, float)[]
+                         {
+                             ("out-left", -26f, 1.5f),
+                             ("out", 0f, 1.5f),
+                             ("out-right", 26f, 1.5f),
+                             ("up", 5f, 15f)
+                         })
+                {
+                    var lateral = new Vector2(-outward.Y, outward.X) * offset;
+                    var target = new Vector3(far.X + lateral.X, eye.Y + height, far.Y + lateral.Y);
+                    frames.Add(Frame(
+                        $"perimeter_{lightLabel}_{visualZone}_{index}_{heading}",
+                        visualZone, logicalZone, spawn, eye, target,
+                        "perimeter", $"forest-ring outward {heading}"));
+                }
+            }
+        }
+
+        // Edges walk clockwise from the envelope's south-west corner so the
+        // outward normal always points away from the village.
+        Sweep(new(innerMin.X, innerMin.Y), new(innerMin.X, innerMax.Y), new(-1f, 0f), "zirat", "village_day", "arrival", "day");
+        Sweep(new(innerMin.X, innerMax.Y), new(innerMax.X, innerMax.Y), new(0f, 1f), "arrival", "village_day", "arrival", "day");
+        Sweep(new(innerMax.X, innerMax.Y), new(innerMax.X, innerMin.Y), new(1f, 0f), "fap_exterior", "village_day", "arrival", "day");
+        Sweep(new(innerMax.X, innerMin.Y), new(innerMin.X, innerMin.Y), new(0f, -1f), "kara_approach", "village_day", "arrival", "day");
+        Sweep(new(innerMax.X, innerMin.Y), new(innerMin.X, innerMin.Y), new(0f, -1f), "kara_approach", "kara_urman_night", "village_path", "night");
+        return frames;
+    }
+
+    private static readonly IReadOnlyList<FrameSpec> PerimeterFrames = BuildPerimeterFrames();
 
     private static string RequireArgument(string prefix)
     {

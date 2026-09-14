@@ -3797,3 +3797,43 @@ character reference sheet does not exist.
 
 Linked files: `../../game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`,
 `../../docs/urman_knowledge_base/weak_points.md`
+
+## 2026-09-14 — Perimeter sweep run; boundary thicket rebuilt as two staggered lines
+
+Status: Accepted (closes the §12.7 evidence that was recorded as not run)
+
+Context: the ring batch's weak-point entry said the perimeter sweep had not been
+run and that the capture harness's fixed angles are not that evidence. In this
+environment no human free-camera walk is available, so the sweep was produced the
+only reproducible way available here: as a new frame set inside the existing
+capture harness, standing on a 10 m grid along the settlement envelope, each
+position looking outward on three headings plus straight up — 324 perimeter
+frames, 404 total with the canonical set, both in day light and in the night
+state on the Kara edge.
+
+First run found one real failure: on the west edge at envelope z ≈ 0 the
+eye-level band between two boundary-thicket stems still reached ground beyond
+the ring, with a pale horizon band behind it. That is exactly the plan's "lower
+tier closes at player height" rule failing.
+
+Decision: the boundary thicket is now two staggered lines (the envelope line and
+a second line 3 m deeper, offset half a step), and the 0–2 m band between stems
+is filled with interstitial understory. The thicket species mix also gained rowan
+and bird cherry, because a single alternating spruce pair read as a planted row
+on the north edge.
+
+Result: the previously failing west position now shows snow-laden boughs where
+the gap was; a read-only re-review of the 18 previously suspicious frames across
+all four edges reports PASS with no eye-level view outside. Physical walkthrough
+PASS 424.88 m and spawn matrix PASS 13/13 after the change, because the thicket
+is presentation-only and its collision boxes did not move.
+
+Consequences and what this still is not: the sweep is a harness sweep on a 10 m
+grid — coarser than the plan's 5 m starting grid and far narrower than a human
+free-camera walk with fog reduced diagnostically. It proves the enclosure at
+those positions and headings, not the absence of every gap. The repeated-sapling
+silhouette on the north edge is reduced but still recognisable in the distance;
+that is a variety task, not an enclosure one.
+
+Linked files: `../../game/tests/Act1FullRouteCoreWorldCapture.cs`,
+`../../game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`

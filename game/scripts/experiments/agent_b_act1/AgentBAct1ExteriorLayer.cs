@@ -1464,14 +1464,14 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // immediately behind it, so the last thing seen in any outward
         // direction is needles, snow and trunks.
         const float boundaryStep = 1.9f;
-        foreach (var (edgeA, edgeB) in new (Vector2, Vector2)[]
+        foreach (var (edgeA, edgeB, outward) in new (Vector2, Vector2, Vector2)[]
                  {
                      (ForestRingInnerMin,
-                      new Vector2(ForestRingInnerMax.X, ForestRingInnerMin.Y)),
-                     (new Vector2(ForestRingInnerMax.X, ForestRingInnerMin.Y), ForestRingInnerMax),
+                      new Vector2(ForestRingInnerMax.X, ForestRingInnerMin.Y), new Vector2(0f, -1f)),
+                     (new Vector2(ForestRingInnerMax.X, ForestRingInnerMin.Y), ForestRingInnerMax, new Vector2(1f, 0f)),
                      (ForestRingInnerMax,
-                      new Vector2(ForestRingInnerMin.X, ForestRingInnerMax.Y)),
-                     (new Vector2(ForestRingInnerMin.X, ForestRingInnerMax.Y), ForestRingInnerMin)
+                      new Vector2(ForestRingInnerMin.X, ForestRingInnerMax.Y), new Vector2(0f, 1f)),
+                     (new Vector2(ForestRingInnerMin.X, ForestRingInnerMax.Y), ForestRingInnerMin, new Vector2(-1f, 0f))
                  })
         {
             var length = edgeA.DistanceTo(edgeB);
@@ -1488,15 +1488,65 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 var roll = rng.Randf();
                 var thicket = roll switch
                 {
-                    < 0.34f => "WinterSpruce_2",
-                    < 0.72f => "WinterSpruce_1",
-                    < 0.80f => "Stump_0",
-                    < 0.88f => "MossStone_0",
-                    < 0.94f => "FallenBranch_0",
+                    < 0.28f => "WinterSpruce_2",
+                    < 0.56f => "WinterSpruce_1",
+                    < 0.66f => "WinterRowan_1",
+                    < 0.74f => "WinterBirdCherry_1",
+                    < 0.82f => "Stump_0",
+                    < 0.90f => "MossStone_0",
+                    < 0.95f => "FallenBranch_0",
                     _ => "FallenBranch_1"
                 };
                 generated.Add((point, thicket));
                 _forestBoundarySegments.Add(point);
+
+                // A second thicket line three metres deeper, staggered half a
+                // step. One irregular line still left eye-level slots on the
+                // sweep: between two stems the view reached ground beyond the
+                // ring. Two staggered lines plus the interstitial understory
+                // below close the 0-3 m band from the last standable position.
+                var deepPoint = point + outward * 3f
+                    + direction * 0.95f
+                    + new Vector2(rng.RandfRange(-0.7f, 0.7f), rng.RandfRange(-0.7f, 0.7f));
+                if (!InsideMosqueKeepOut(deepPoint))
+                {
+                    var deepRoll = rng.Randf();
+                    generated.Add((deepPoint, deepRoll switch
+                    {
+                        < 0.34f => "WinterSpruce_2",
+                        < 0.62f => "WinterSpruce_1",
+                        < 0.74f => "WinterRowan_2",
+                        < 0.84f => "WinterBirdCherry_1",
+                        < 0.92f => "Stump_0",
+                        _ => "MossStone_0"
+                    }));
+                }
+
+                // Interstitial understory between the thicket stems. The sweep
+                // found the eye-level band between two young firs could still
+                // show ground beyond the ring, so the 0-2 m layer is filled at
+                // the midpoints too: this is the "lower tier closes at player
+                // height" rule, and it is what the boundary looks like from the
+                // last place the player can stand.
+                foreach (var side in new[] { -0.95f, 0.95f })
+                {
+                    var fillerPoint = point + direction * side
+                        + new Vector2(rng.RandfRange(-0.6f, 0.6f), rng.RandfRange(-0.6f, 0.6f));
+                    if (InsideMosqueKeepOut(fillerPoint))
+                    {
+                        continue;
+                    }
+
+                    var fillerRoll = rng.Randf();
+                    generated.Add((fillerPoint, fillerRoll switch
+                    {
+                        < 0.30f => "WinterSpruce_1",
+                        < 0.52f => "Shrub_2",
+                        < 0.70f => "WinterBirdCherry_1",
+                        < 0.84f => "MossStone_0",
+                        _ => "Fern_0"
+                    }));
+                }
             }
         }
         SetMeta("forestBoundarySegmentCount", _forestBoundarySegments.Count);
