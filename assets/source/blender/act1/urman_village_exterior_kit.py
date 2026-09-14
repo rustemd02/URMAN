@@ -2012,8 +2012,15 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
          [(-1.65,-.65,.94,2.38,"Window"),(.65,1.65,.94,2.38,"Window")])
     wall("Right", (half,(front+back)/2), (0,1), depth,
          [(-depth/2+.80,-depth/2+1.80,.94,2.38,"Window")])
-    box("Foundation", (0,(front+back)/2,.15), (width+.06,depth+.06,.30), "URMAN_Wood_WetShadow")
-    box("FootingCap", (0,(front+back)/2,.32), (width+.09,depth+.09,.07), "URMAN_Wood_Weathered")
+    box("Foundation", (0,(front+back)/2,.15), (width+.06,depth+.06,.30), "URMAN_Stone_Mossy")
+    box("FootingCap", (0,(front+back)/2,.32), (width+.09,depth+.09,.07), "URMAN_Stone_LightFace")
+    if parent.name == DWELLING_ROOT:
+        # A real threshold at the hero's street portal. The wall base sits
+        # 0.30 m above grade, so without a step the doorway read as a door
+        # standing in the snow. Hero-only, like the portal itself: parcel
+        # yards are too tight for the protrusion and their street doors are
+        # not entries. Presentation-only, clear of the portal opening.
+        box("StreetStep", (-1.42, front-.34, .10), (1.34, .68, .20), "URMAN_Stone_Mossy")
     for x in (-half,half):
         for y in (front,back):
             box(f"Corner_{x}_{y}",(x,y,1.60),(.105,.105,2.60))

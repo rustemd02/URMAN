@@ -3837,3 +3837,35 @@ that is a variety task, not an enclosure one.
 
 Linked files: `../../game/tests/Act1FullRouteCoreWorldCapture.cs`,
 `../../game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`
+
+## 2026-09-14 — H2 first step: the hero dwelling gets a stone plinth and a door step
+
+Status: Accepted (first implementation step of card H2; the card is not complete)
+
+Context: the H2 passport
+(`docs/urman_knowledge_base/art/act1_h2_hero_house_passport_2026-09-14.md`)
+measured the hero facade from the generator and found the base defect: the
+"plinth" was a 0.30 m tall dark-wood box (`URMAN_Wood_WetShadow`), which is
+exactly what the plan forbids as "a dark stripe painted on the wall", and the
+street portal's threshold sat 0.30 m above grade with no step, so the entrance
+read as a door standing in the snow.
+
+Decision: the plinth became stone masonry (`URMAN_Stone_Mossy`, cap
+`URMAN_Stone_LightFace`, both already mapped in the runtime material table) and a
+presentation-only stone step (1.34 x 0.68 x 0.20 m) was added in front of the
+portal. The step is authored for the hero dwelling only, like the portal itself:
+the parcel variants' yards are too tight for the protrusion, which the generator's
+own parcel-separation validator caught on the first attempt, and their street
+doors are not entries.
+
+Consequences: kit grew 21,845 to 21,873 triangles; registry hashes and budget
+updated and re-verified. The plinth height and the wall base at 0.30 m are
+deliberately unchanged, because they feed the door-portal constant
+`Ground + .03 + 1.425*0.82`; raising them would move the door out of its own
+portal and break the `HouseDoor` contract, the walkthrough and the spawn matrix.
+Card H2 remains open: eaves and water shedding, the rafter silhouette, the
+window-to-room agreement with the interior scene, the grey-material shape pass and
+the accessible-side walk are still to do.
+
+Linked files: `../../assets/source/blender/act1/urman_village_exterior_kit.py`,
+`../../docs/urman_knowledge_base/art/act1_h2_hero_house_passport_2026-09-14.md`
