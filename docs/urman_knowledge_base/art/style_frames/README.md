@@ -331,23 +331,45 @@ Technical capture and full Godot smoke pass. Visual verdict remains OPEN:
 the route is more readable, but the forest family/ground density, motion pass,
 cultural review and art-lock acceptance still require human review.
 
-## Scene basis clarification — 2026-09-14
+## Scene basis repair — 2026-09-14
 
-Everything in this file was captured from the `style_benchmark_*` zone scene
-alone, before the Act I connected-world dressing runs. That is why these frames
-were repeatedly described here as a "grey-olive greybox": the zone scene's own
-`Ground`/`Road` slabs, benchmark `Pine`/`Birch` stand-ins, `BoundaryThread` and
-`DistantWindow` are all hidden at runtime by
+Until this pass every frame in this file was captured from the
+`style_benchmark_*` zone scene alone, before the Act I connected-world dressing
+ran. That is why the frames were repeatedly described here as a "grey-olive
+greybox": the zone scene's own `Ground`/`Road` slabs, benchmark `Pine`/`Birch`
+stand-ins, `BoundaryThread` and `DistantWindow` are hidden at runtime by
 `Act1ConnectedWorld.ApplyLogicalZonePresentationSuppressions`, and the shared
-winter heightfield, authored parcels, exterior atmosphere and NPC dressing are
-mounted in their place. These three PNGs remain valid as an isolated
-module/scene receipt — `StyleFrameCapture` still asserts the presence,
-presentation-only status and zero-physics contract of `WellA_`, `WoodpileA_` and
-`OldPc_` — but they are **not** the shipped look and must not be used as the
-visual style evidence for the art gate.
+winter heightfield, authored parcels, exterior atmosphere and cast are mounted
+in their place. The old frames were therefore pictures of geometry that is not
+in the shipped game.
 
-The 27-cell `../style_motion_sweep/` sheets now assemble the same world the game
-assembles and are the current spatial-readability evidence. A future pass should
-re-root `StyleFrameCapture`, `StyleTemporalComfortCapture`, the wetness candidate
-and the puddle diagnostic onto the connected world the same way; until then their
-READMEs state their scene basis.
+`StyleFrameCapture` now assembles the same world the game assembles — one
+`Act1ConnectedWorld` per frame, `SetActiveLogicalZone(zone_id)`, camera at
+`zone origin + the same authored offset` — and keeps every assertion, re-rooted
+to the zone instance inside that world: `HouseA`/`OldPc`/`PineA` imported-module
+identity, `WellA_`/`WoodpileA_`/`OldPc_` presentation-only status with zero
+physics descendants, the `OldPc` layer-1 interaction target and its proxy
+collider. The diegetic ФАП landmark assertion now reads `FapWayfindingLabel` on
+the authored wayfinding board, because the connected owner hides the zone
+scene's own `VillageSignText`; the text and `wayfindingLandmark = fap` contract
+are unchanged.
+
+Current 1 920 × 1 080 receipts:
+
+| Scene | SHA-256 |
+|---|---|
+| Day street | `91c4d004f70dcede9070b3f24d84c01dd42fa8247a014e4aa3bd0f905ede59f6` |
+| House / old PC | `488d650b4f4d177ad4b3cd6d188adfecebb9b0d0b46071edca89aad46df379d9` |
+| Kara-Urman edge | `6c21dea298563fc138c718f4408f0750b91039676d431d4c0cb3a1b0d24ba0c8` |
+
+The three frames now show the shipped winter village: a snow-packed main street
+with ruts, the ФАП signpost, snow banks, woodpile and bare winter trees; the
+babai/äbi interior with the glowing CRT and both grandparents; and the
+snow-covered Kara-Urman edge without the floating benchmark window. Visual
+verdict stays OPEN — a human still has to accept silhouettes, palette, lighting,
+fog, density and cultural fit. The 27-cell
+[`../style_motion_sweep/`](/Users/unterlantas/Documents/GitHub/URMAN/docs/urman_knowledge_base/art/style_motion_sweep/)
+sheets carry the same assembled world at near/mid/far × FOV 65°/75°/90°.
+
+Still on the base scene, with that basis stated in their own READMEs:
+`StyleTemporalComfortCapture`, the wetness candidate and the puddle diagnostic.

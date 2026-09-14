@@ -1,14 +1,24 @@
+using System.Linq;
 using Godot;
 
 namespace Urman.Godot.Tests;
 
+/// <summary>
+/// Three 1920x1080 hero style frames for the mandatory Act 1 zones.
+///
+/// The frames are rendered from the assembled shipped world, not from the raw
+/// zone scene: <c>Act1ConnectedWorld</c> hides the benchmark ground/road,
+/// stand-in pines and boundary props and mounts the winter heightfield, the
+/// authored parcels and the exterior atmosphere. Photographing only the zone
+/// scene would produce frames of geometry no player can reach.
+/// </summary>
 public partial class StyleFrameCapture : Node
 {
-    private static readonly (string Name, string ScenePath, Vector3 Camera, Vector3 Target)[] Frames =
+    private static readonly (string Name, string ZoneId, string ScenePath, Vector3 Camera, Vector3 Target)[] Frames =
     [
-        ("day_street", "res://scenes/zones/style_benchmark_day_street.tscn", new Vector3(0, 1.7f, 12.5f), new Vector3(0, 1.45f, -7.5f)),
-        ("house_old_pc", "res://scenes/zones/style_benchmark_house_pc.tscn", new Vector3(-1.45f, 1.68f, 1.75f), new Vector3(0, 1.38f, -3.45f)),
-        ("kara_urman_edge", "res://scenes/zones/style_benchmark_kara_urman_night.tscn", new Vector3(0, 1.7f, 12.5f), new Vector3(0.55f, 1.35f, -7.2f))
+        ("day_street", "village_day", "res://scenes/zones/style_benchmark_day_street.tscn", new Vector3(0, 1.7f, 12.5f), new Vector3(0, 1.45f, -7.5f)),
+        ("house_old_pc", "house_old_pc", "res://scenes/zones/style_benchmark_house_pc.tscn", new Vector3(-1.45f, 1.68f, 1.75f), new Vector3(0, 1.38f, -3.45f)),
+        ("kara_urman_edge", "kara_urman_night", "res://scenes/zones/style_benchmark_kara_urman_night.tscn", new Vector3(0, 1.7f, 12.5f), new Vector3(0.55f, 1.35f, -7.2f))
     ];
 
     public override async void _Ready()
@@ -23,27 +33,27 @@ public partial class StyleFrameCapture : Node
 
         foreach (var frame in Frames)
         {
-            if (!await CaptureAsync(frame.Name, frame.ScenePath, frame.Camera, frame.Target, outputDirectory))
+            if (!await CaptureAsync(frame.Name, frame.ZoneId, frame.ScenePath, frame.Camera, frame.Target, outputDirectory))
             {
                 return;
             }
         }
 
-        GD.Print($"style-frame-capture: {Frames.Length} frames at 1920x1080 -> {outputDirectory}");
+        GD.Print($"style-frame-capture: {Frames.Length} assembled-world frames at 1920x1080 -> {outputDirectory}");
         GetTree().Quit(0);
     }
 
     private async Task<bool> CaptureAsync(
         string name,
+        string zoneId,
         string scenePath,
         Vector3 cameraPosition,
         Vector3 cameraTarget,
         string outputDirectory)
     {
-        var packed = ResourceLoader.Load<PackedScene>(scenePath);
-        if (packed is null)
+        if (!Act1WorldLayout.TryGetPlacement(zoneId, out var placement))
         {
-            Fail($"Could not load style benchmark {scenePath}.");
+            Fail($"Style frame capture has no connected Act I placement for '{zoneId}' ({scenePath}).");
             return false;
         }
 
@@ -56,18 +66,30 @@ public partial class StyleFrameCapture : Node
             Msaa3D = Viewport.Msaa.Msaa2X
         };
         AddChild(viewport);
-        var sceneInstance = packed.Instantiate<Node3D>();
-        viewport.AddChild(sceneInstance);
+
+        var world = new Act1ConnectedWorld { Name = $"StyleFrameWorld_{name}" };
+        viewport.AddChild(world);
+        world.SetActiveLogicalZone(zoneId);
+
+        var zone = world.GetChildren().OfType<Node3D>().FirstOrDefault(child =>
+            child.HasMeta("logicalZoneId")
+            && child.GetMeta("logicalZoneId").AsString() == zoneId);
+        if (zone is null)
+        {
+            viewport.Free();
+            Fail($"Style frame capture could not find the {zoneId} zone instance inside the connected world.");
+            return false;
+        }
 
         var camera = new Camera3D
         {
             Name = "CaptureCamera",
-            Position = cameraPosition,
+            Position = placement.Origin + cameraPosition,
             Fov = 75,
             Current = true
         };
         viewport.AddChild(camera);
-        camera.LookAt(cameraTarget, Vector3.Up);
+        camera.LookAt(placement.Origin + cameraTarget, Vector3.Up);
 
         for (var frame = 0; frame < 8; frame++)
         {
@@ -82,16 +104,18 @@ public partial class StyleFrameCapture : Node
             _ => string.Empty
         };
         if (expectedImportedModule.Length > 0
-            && sceneInstance.GetMeta("styleImportedModules").AsString() != expectedImportedModule)
+            && (!zone.HasMeta("styleImportedModules")
+                || zone.GetMeta("styleImportedModules").AsString() != expectedImportedModule))
         {
             viewport.Free();
-            Fail($"Style benchmark {name} did not materialize the expected imported module {expectedImportedModule}.");
+            Fail($"Style frame {name} did not materialize the expected imported module {expectedImportedModule}.");
             return false;
         }
 
         if (name == "day_street")
         {
-            if (sceneInstance.GetMeta("stylePresentationModules").AsString()
+            if (!zone.HasMeta("stylePresentationModules")
+                || zone.GetMeta("stylePresentationModules").AsString()
                 != "WellA_project_original|WoodpileA_project_original")
             {
                 viewport.Free();
@@ -99,7 +123,13 @@ public partial class StyleFrameCapture : Node
                 return false;
             }
 
-            var sign = sceneInstance.GetNodeOrNull<Label3D>("VillageSignText");
+            // The zone scene's own VillageSignText board is hidden by the
+            // connected owner, which mounts its own readable ФАП landmark
+            // (FapWayfindingLabel on the authored wayfinding board). Assert the
+            // landmark the player actually sees.
+            var sign = world.FindChildren("FapWayfindingLabel", nameof(Label3D), recursive: true, owned: false)
+                .OfType<Label3D>()
+                .FirstOrDefault();
             if (sign is null || sign.Text != "ФАП" || sign.GetMeta("wayfindingLandmark").AsString() != "fap")
             {
                 viewport.Free();
@@ -113,7 +143,7 @@ public partial class StyleFrameCapture : Node
                          ("GeneratedWoodpileA", "WoodpileA_project_original")
                      })
             {
-                var module = sceneInstance.GetNodeOrNull<Node3D>(nodeName);
+                var module = zone.GetNodeOrNull<Node3D>(nodeName);
                 var collisionObjects = module?.FindChildren("*", nameof(CollisionObject3D), recursive: true, owned: false).Count ?? -1;
                 var collisionShapes = module?.FindChildren("*", nameof(CollisionShape3D), recursive: true, owned: false).Count ?? -1;
                 if (module is null
@@ -132,10 +162,10 @@ public partial class StyleFrameCapture : Node
 
         if (name == "house_old_pc")
         {
-            var module = sceneInstance.GetNodeOrNull<Node3D>("GeneratedOldPcAct1");
+            var module = zone.GetNodeOrNull<Node3D>("GeneratedOldPcAct1");
             var collisionObjects = module?.FindChildren("*", nameof(CollisionObject3D), recursive: true, owned: false).Count ?? -1;
             var collisionShapes = module?.FindChildren("*", nameof(CollisionShape3D), recursive: true, owned: false).Count ?? -1;
-            var interaction = sceneInstance.GetNodeOrNull<InteractionTarget>("OldPc");
+            var interaction = zone.GetNodeOrNull<InteractionTarget>("OldPc");
             if (module is null
                 || !module.GetMeta("presentationOnlyInstance").AsBool()
                 || module.GetMeta("stylePresentationModule").AsString() != "OldPc_project_original"

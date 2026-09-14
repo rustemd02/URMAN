@@ -13,6 +13,8 @@ This harness instantiates the three mandatory style benchmarks plus `chapter1_zi
 
 The day-street, Kara-Urman-edge and Zirat-road 1080p images are test-only roughness candidates. They do not activate runtime materials or close the wetness/art-lock gate.
 
+Scene basis (2026-09-14): this harness instantiates the raw `style_benchmark_*` zone scenes, so the frames show the benchmark ground/road slabs and stand-in props that `Act1ConnectedWorld` hides at runtime. Since the probe clones one material in memory and compares it against the same scene on the other side of the comparison, the delta stays valid; the frames are just not the shipped look. The assembled-world evidence lives in `../style_frames/` and `../style_motion_sweep/`.
+
 ## Contact receipt
 
 See `wetness_candidate_manifest.json` for every patch's sampled relief height, puddle bottom, gap and collider check.

@@ -9,6 +9,8 @@ Each 1 920 × 1 080 contact sheet compares the existing flat `CylinderMesh` pudd
 - Source scenes, shader, PainterlyMaterialLibrary, roughness, saves and narrative state: **unchanged**
 - Diagnostic PNGs: **3/3**
 
+Scene basis (2026-09-14): this harness instantiates the raw `style_benchmark_*` zone scenes, so the frames show the benchmark ground/road slabs and stand-in props that `Act1ConnectedWorld` hides at runtime. Since the probe clones one material in memory and compares it against the same scene on the other side of the comparison, the delta stays valid; the frames are just not the shipped look. The assembled-world evidence lives in `../style_frames/` and `../style_motion_sweep/`.
+
 The candidate intentionally has no bottom face or vertical cylindrical side wall. It remains a bounded silhouette experiment: visual assessment must still decide whether it reads as damp, avoids a plate/rim silhouette, survives traversal, and stays compatible with the Painterly Low-Poly 3D style bible.
 
 ## Verification

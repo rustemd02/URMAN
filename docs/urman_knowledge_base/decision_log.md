@@ -3503,15 +3503,20 @@ Decision: The sweep assembles the same world the game assembles — `new
 Act1ConnectedWorld()` per capture scene, `SetActiveLogicalZone(zone_id)`, camera
 at `zone origin + the authored offset` — and keeps the identical 3x3 grid,
 ownership checks and fail-closed imported-module assertions, now read from the
-zone instance inside the connected world. `StyleFrameCapture`, the temporal
-comfort sweep, the wetness candidate and the puddle diagnostic stay on the base
-scene and now state that basis in their READMEs; re-rooting them is a later task.
+zone instance inside the connected world. `StyleFrameCapture` now renders the
+same assembled world; the temporal comfort sweep, the wetness candidate and the
+puddle diagnostic stay on the base scene and now state that basis in their
+READMEs, so re-rooting those three is the later task.
 The hardcoded manifest dates in `StyleMotionSweepCapture` and
 `StyleTemporalComfortCapture` are replaced by `captured_at_utc` with the real
 capture time, matching the other harnesses.
 
 Consequences: Current receipts are day `3a2a1bf2`, house `687c12d6`, kara
-`5411bde5`; motion manifest `15cec7b3`. The superseded base-scene temporal
+`5411bde5`; motion manifest `15cec7b3`. `StyleFrameCapture` was re-rooted the
+same way and re-captured: day `91c4d004`, house `488d650b`, kara `6c21dea2`, with
+its module and interaction assertions preserved and only the ФАП landmark
+assertion moved from the hidden `VillageSignText` to `FapWayfindingLabel` on the
+authored wayfinding board. The superseded base-scene temporal
 manifest `57ac2b4ae0b81883c30de7b54e41e24b6c9b8be620d7cef3c629e662fb17d66d` is
 replaced by `8d026dea73ab79d350ccfba451421405209a7f39a47792a9fd68290d4bdea5ed`
 after the same base-scene rerun (day `5986c545`, house `66e20eda`, kara
