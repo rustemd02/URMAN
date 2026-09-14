@@ -18,6 +18,14 @@ public partial class Act1ConnectedWorld : Node3D
 
     // Authored kit families whose bulk volume must stop the player. Open
     // passages (gates, porches, doors, steps) are excluded by name below.
+    //
+    // The three parcel variants have to be listed separately from
+    // "VillageParcel_": a parcel mounts as <Variant>/<Variant>_Dwelling, so its
+    // walls, shed and yard rails are named after the variant
+    // (VariantA_TimberGable_Dwelling_Street_Wall_LOD0), and only the small
+    // composition dressing keeps the VillageParcel_ prefix. That mismatch is why
+    // every parcel dwelling in the village was walk-through while the standalone
+    // facade family was not.
     private static readonly string[] AuthoredKitBlockerFamilies =
     [
         "DwellingFacade_",
@@ -26,6 +34,9 @@ public partial class Act1ConnectedWorld : Node3D
         "Woodpile_",
         "Well_",
         "VillageParcel_",
+        "VariantA_TimberGable_",
+        "VariantB_PlasterAnnex_",
+        "VariantC_BanyaYard_",
         "BanyaYard",
         "FapFacade_",
         "FapService",
@@ -221,6 +232,12 @@ public partial class Act1ConnectedWorld : Node3D
     private bool _runtimeBridgeSubscribed;
     private bool _logicalZonePresentationSuppressionsReapplied;
     private bool _buildStarted;
+    // Single-build diagnostics for the authored parcel grounding pass, which runs
+    // from a static mount helper. Reset at the start of every blocker pass so a
+    // second build in the same process cannot inherit the first one's numbers.
+    private static int _dwellingThresholdPlacements;
+    private static float _dwellingThresholdWorst;
+    private static string _dwellingThresholdWorstPlacement = string.Empty;
     private Node3D? _villageLife;
     private Node3D? _yardCat;
     private Node3D[] _crows = [];
@@ -353,6 +370,9 @@ public partial class Act1ConnectedWorld : Node3D
         // connected-world path. Act1CoreWorldGreybox is the sole global visual
         // owner; route, collision, interaction and RuntimeBridge owners above
         // remain unchanged.
+        _dwellingThresholdPlacements = 0;
+        _dwellingThresholdWorst = 0f;
+        _dwellingThresholdWorstPlacement = string.Empty;
         BuildAct1CoreWorldGreybox();
         BuildAct1NpcStaging();
         BuildAct1InteriorDiscoveries();
@@ -5159,6 +5179,24 @@ public partial class Act1ConnectedWorld : Node3D
                 : (float)AgentBAct1HeightField.Ground(groundAnchor.X, groundAnchor.Z) + .03f;
             placement.GlobalPosition = groundAnchor;
             placement.SetMeta("groundContactPolicy", yardProp ? "yard prop root embedded 4cm in physical terrain" : "dwelling preserves existing threshold alignment");
+            if (!yardProp)
+            {
+                // Dwellings sit on the analytic height because the hero facade and
+                // the authored door portal share that threshold value; switching
+                // one of them to the jittered collision mesh would pull the door
+                // out of its own doorway. Record how far the two surfaces actually
+                // differ, so a reported floating house is a measured number rather
+                // than an assumption about which function is "right".
+                var thresholdDelta = Mathf.Abs(
+                    (float)AgentBAct1HeightField.Ground(groundAnchor.X, groundAnchor.Z)
+                    - (float)AgentBAct1HeightField.CollisionGround(groundAnchor.X, groundAnchor.Z));
+                _dwellingThresholdPlacements++;
+                if (thresholdDelta > _dwellingThresholdWorst)
+                {
+                    _dwellingThresholdWorst = thresholdDelta;
+                    _dwellingThresholdWorstPlacement = placementName;
+                }
+            }
         }
         // The blockers are built in one deferred pass: some authored components
         // are hidden by the connected-world suppressions after mounting, and a
@@ -5345,6 +5383,10 @@ public partial class Act1ConnectedWorld : Node3D
             $"act1-kit-blockers: placements={placements} shapes={blocked} carved_door_slabs={carved} "
             + $"flat_slab_skipped={skippedFlatSlab} interior_shell_skipped={skippedInteriorShell} "
             + $"hidden_skipped={skippedHidden} road_clearance_skipped={skippedRoadClear}");
+        GD.Print(
+            $"act1-dwelling-threshold: placements={_dwellingThresholdPlacements} "
+            + $"worst_analytic_vs_collision_delta={_dwellingThresholdWorst:F3}m "
+            + $"worst_placement={_dwellingThresholdWorstPlacement}");
         SetMeta("authoredKitBlockerPlacementCount", placements);
         SetMeta("authoredKitBlockerShapeCount", blocked);
         SetMeta("authoredKitBlockerHiddenSkipCount", skippedHidden);
@@ -5364,12 +5406,29 @@ public partial class Act1ConnectedWorld : Node3D
         return proxy;
     }
 
-    private static CollisionShape3D BlockerShape(string name, Node3D placement, Vector3 centre, Vector3 size) => new()
+    /// <summary>
+    /// One blocker box under a placement. The proxy is parented to the
+    /// placement, so a BoxShape3D size expressed in world units is scaled again
+    /// by the placement transform: a 0.62-scale outbuilding would carry a
+    /// collider two thirds of its visible size (a walk-through gap under its own
+    /// wall) and a 1.22-scale fence rail one larger (an invisible wall beside
+    /// it). The AABB here is world space, so divide the placement scale out
+    /// before handing the size to the shape.
+    /// </summary>
+    private static CollisionShape3D BlockerShape(string name, Node3D placement, Vector3 centre, Vector3 size)
     {
-        Name = name,
-        Position = placement.ToLocal(centre),
-        Shape = new BoxShape3D { Size = size }
-    };
+        var scale = placement.GlobalTransform.Basis.Scale;
+        var localSize = new Vector3(
+            size.X / Mathf.Max(Mathf.Abs(scale.X), 1e-4f),
+            size.Y / Mathf.Max(Mathf.Abs(scale.Y), 1e-4f),
+            size.Z / Mathf.Max(Mathf.Abs(scale.Z), 1e-4f));
+        return new CollisionShape3D
+        {
+            Name = name,
+            Position = placement.ToLocal(centre),
+            Shape = new BoxShape3D { Size = localSize }
+        };
+    }
 
     /// <summary>
     /// A hidden kit must never block invisibly: the presentation suppressions run
@@ -9225,6 +9284,20 @@ public partial class Act1ConnectedWorld : Node3D
         marker.SetMeta("visualOnly", true);
         marker.SetMeta("culturalPlaceholder", "low marker silhouette; no cross; no inscription");
         parent.AddChild(marker);
+        // The marker anchors arrive with the grouping's local Y, which is zero;
+        // the zirat field is not flat, so an ungrounded marker floated or sank by
+        // up to the local terrain relief. Seat it on the real collision surface
+        // through its own global transform, so a tilted or offset parent cannot
+        // reintroduce the gap.
+        if (marker.IsInsideTree())
+        {
+            var world = marker.GlobalPosition;
+            marker.GlobalPosition = new Vector3(
+                world.X,
+                (float)AgentBAct1HeightField.CollisionGround(world.X, world.Z) - .02f,
+                world.Z);
+        }
+
         var style = (int)Mathf.Abs(Mathf.Sin(position.X * 1.37f + position.Z * 0.43f) * 10f) % 3;
         switch (style)
         {

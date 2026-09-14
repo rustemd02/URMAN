@@ -658,9 +658,16 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             {
                 // Physically enter and leave the actual neighboring holding;
                 // presentation-camera checkpoints alone cannot prove access.
+                // The holding's side house (EastStreetMidFacade at 25.3,-19.2,
+                // footprint roughly x 22.6..28, z -22.2..-16.2) carries a real
+                // wall collider now, so the loop rounds its west and north
+                // corners instead of crossing a building the old walk-through
+                // could pass straight through.
                 foreach (var yardPoint in new Vector2[]
-                         { new(19f, -22.5f), new(24f, -17f), new(23f, -12f), new(21f, -8.5f),
-                           new(23f, -12f), new(24f, -17f), new(19f, -22.5f), point })
+                         { new(19f, -22.5f), new(20.4f, -19.6f), new(20.4f, -14.6f),
+                           new(24f, -14.2f), new(23f, -12f), new(21f, -8.5f),
+                           new(23f, -12f), new(24f, -14.2f), new(20.4f, -14.6f),
+                           new(20.4f, -19.6f), new(19f, -22.5f), point })
                 {
                     if (!await WalkTo(player, new(yardPoint.X, player.GlobalPosition.Y, yardPoint.Y),
                         $"east-holding-walk-{yardPoint.X}-{yardPoint.Y}")) return;
