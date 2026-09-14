@@ -196,6 +196,27 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         AssertState(main, bridge, "village_day", "crossroad_signs_inspect", "res://scenes/zones/style_benchmark_day_street.tscn");
         AssertRouteFacing(main, AgentBAct1Layout.HouseDoorYawDegrees + 180f, "house-exit-to-yard");
 
+        // The legacy benchmark sign is gone from this composition, and its
+        // effectless interaction must be gone with it: keeping the box while
+        // hiding the board left a prompt over empty snow. This checks the
+        // player-visible property rather than IsInteractionAvailable, which only
+        // evaluates content conditions and would stay true either way.
+        var signTargets = main.FindChildren("*", "StaticBody3D", recursive: true, owned: false)
+            .OfType<InteractionTarget>().ToArray();
+        var legacySign = signTargets.FirstOrDefault(target => target.InteractionId == Interaction("village-sign"));
+        if (legacySign is not null && legacySign.CollisionLayer != 0)
+        {
+            Fail($"The removed legacy sign still exposes a prompt on empty snow: {legacySign.GetPath()} layer={legacySign.CollisionLayer}");
+            return;
+        }
+        var readableSign = signTargets.FirstOrDefault(target =>
+            target.InteractionId == Interaction("discover-main-street-sign-reverse"));
+        if (readableSign is null || readableSign.CollisionLayer == 0)
+        {
+            Fail("Hiding the legacy sign also removed the readable authored sign's discovery target.");
+            return;
+        }
+
         if (bridge.IsInteractionAvailable(Interaction("route-to-fap")))
         {
             Fail("FAP route became available before Alsu's contradiction dialogue.");

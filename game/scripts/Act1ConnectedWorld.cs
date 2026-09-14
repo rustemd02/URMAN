@@ -375,6 +375,9 @@ public partial class Act1ConnectedWorld : Node3D
         // Parcel facades are attached across several build steps, so the painted
         // window surrounds are applied once the frame's construction is finished.
         CallDeferred(nameof(DressDeferredPaintedWindowSurrounds));
+        // Interaction boxes are created by the zone scripts, so this runs after
+        // the frame is built rather than in the one-shot suppression pass.
+        CallDeferred(nameof(SuppressLegacySignInteraction));
         IsBuilt = true;
     }
 
@@ -572,7 +575,11 @@ public partial class Act1ConnectedWorld : Node3D
             var isActiveZone = string.Equals(candidateZoneId, ActiveZoneId, StringComparison.Ordinal);
             foreach (var binding in bindings)
             {
-                var enabled = (isActiveZone || _runtimeBridge?.IsWorldInteraction(binding.Node.InteractionId) == true)
+                // A suppressed legacy target keeps layer 0 for good: this pass
+                // re-applies the captured layer on every scene change, so a
+                // one-shot suppression is undone the next time the zone routes.
+                var enabled = !binding.Node.HasMeta("legacySignSuppression")
+                    && (isActiveZone || _runtimeBridge?.IsWorldInteraction(binding.Node.InteractionId) == true)
                     && binding.Node.IsAvailable();
                 binding.Node.CollisionLayer = enabled ? binding.CollisionLayer : 0;
                 binding.Node.CollisionMask = enabled ? binding.CollisionMask : 0;
@@ -646,10 +653,12 @@ public partial class Act1ConnectedWorld : Node3D
                 var apron = AgentBAct1Layout.FapBranchAxis[^1];
                 fapEntry.Position = new Vector3(apron.X, 0.75f, apron.Y);
             }
-            // Keep the compiled VillageSign interaction target, but remove
-            // its isolated benchmark board/post from the diagonal return
-            // view; the connected composition supplies the readable FAP
-            // and house landmarks instead.
+            // The benchmark sign's board/post/arrow/text are gone from this
+            // composition: the connected world supplies its own readable FAP sign
+            // as DiscoveryMainStreetSign with the reverse-word discovery. The
+            // legacy sign's interaction box is suppressed separately (see
+            // SuppressLegacySignInteraction), because the zone script creates it
+            // after this pass runs.
             HidePresentationNodes(
                 zone,
                 "VillageSignPost",
@@ -9323,6 +9332,34 @@ public partial class Act1ConnectedWorld : Node3D
     /// reads as a plain hole in the wall. Only visual meshes are touched: collision, routes,
     /// interactions and runtime state keep their existing owners.
     /// </summary>
+    /// <summary>
+    /// Removes the one legacy interaction whose visible counterpart is not where
+    /// the box is. The whole legacy benchmark zone instance is set invisible,
+    /// which hides its board without touching collision, so its sign box stayed
+    /// live and gave a dead prompt over empty snow 2.6 m from the connected
+    /// world's own readable sign (DiscoveryMainStreetSign, which carries the
+    /// reverse-word discovery). The legacy interaction has no effects at all
+    /// (labelTextId text/inspect, effects []), and every other target in that
+    /// instance is deliberately kept because its connected-world visual stands
+    /// where the box is.
+    /// </summary>
+    private void SuppressLegacySignInteraction()
+    {
+        var suppressed = 0;
+        foreach (var legacySign in FindDescendants<InteractionTarget>(this)
+                     .Where(target => target.InteractionId.EndsWith(":interaction/village-sign", StringComparison.Ordinal))
+                     .ToArray())
+        {
+            HidePresentationNode(legacySign);
+            legacySign.SetMeta("legacySignSuppression",
+                "board hidden in this composition; the readable sign is DiscoveryMainStreetSign");
+            suppressed++;
+        }
+
+        SetMeta("legacySignInteractionsSuppressed", suppressed);
+        GD.Print($"act1-legacy-sign: suppressed={suppressed}");
+    }
+
     private void DressDeferredPaintedWindowSurrounds()
     {
         if (FindChild("Act1AuthoredExteriorKitPresentation", true, false) is Node3D presentation)
