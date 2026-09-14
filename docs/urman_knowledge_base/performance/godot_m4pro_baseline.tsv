@@ -71,3 +71,17 @@ packaged_release_r42_probe_60s		n/a	8.708	9.667	16.542	114.84	PASS
 # Script-only change, so the campaign fingerprint is unchanged and r43 loads saves from r39-r42.
 packaged_release_r43_native	n/a	8.590	n/a	8.695	116.42	PASS
 # samples=12 min_fps=115 max_fps=117 mean_fps=116.4; world build prints act1-legacy-sign: suppressed=1
+# 2026-09-14: candidate r44, exported from HEAD af98055 with the receipt now recording source.commit/workTree.
+# For the player r44 equals r43 (test-harness + receipt changes only): same campaign fingerprint, so saves from
+# r39-r43 load. The earlier "test-only edits do not stale a candidate" assumption was wrong: the shipped
+# Urman.Game.dll contains every compiled C# class, including the test harnesses, so test edits move package bytes.
+# Measured on r44 under the userdata guard (eng/benchmark-act1-demo-package.sh):
+packaged_release_r44_probe_60s		n/a	8.616	9.593	28.083	116.07	PASS
+# 60.01 s, 6965 frames, p99=9.814 ms, long_frame_fraction=0.00000, warmup 12.01 s avg 8.973 ms with a one-off
+# 267.010 ms startup stall; draw_calls=13071 primitives=2299189; settings.json hash unchanged after the guarded run
+# caveat: the first, unguarded probe run (before the guard was added to that script) showed one 42.552 ms frame
+# (long_frame_fraction=0.00014) and its unguarded launch dipped to 76/98 FPS twice; guarded reruns were clean, so
+# the row above is the repeat run. Same caveats as r42: window unfocused, one arrival sample, no release hardware.
+packaged_release_r44_native	n/a	8.468	n/a	8.547	118.09	PASS
+# samples=11 min_fps=117 max_fps=119 mean_fps=117.8, zero errors; userdata restored byte-for-byte by the guard
+# --print-fps reports per-second FPS, so avg/max frame time are derived (1000/mean and 1000/min); no per-frame p95

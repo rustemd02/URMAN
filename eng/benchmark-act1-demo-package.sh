@@ -74,19 +74,40 @@ fi
 probe_status=0
 set +e
 
+# The packaged probe is a real launch: it writes settings.json and its log into
+# the user's Godot userdata. Wrap it in the same save/settings guard the smoke
+# runner and the M10 kit use, so a performance measurement cannot overwrite a
+# local checkpoint or preference. Set URMAN_GUARD to point at another guard.
+GUARD=${URMAN_GUARD:-/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/protected_run.py}
+guard_available=0
+if [ -f "$GUARD" ] && command -v python3 >/dev/null 2>&1; then
+  guard_available=1
+else
+  echo "act1-package-performance: no userdata guard at $GUARD" >&2
+  echo "act1-package-performance: running directly; this may overwrite local saves and settings" >&2
+fi
+
+run_package() {
+  if [ "$guard_available" -eq 1 ]; then
+    python3 "$GUARD" "$@"
+  else
+    "$@"
+  fi
+}
+
 if [ "${URMAN_ACT1_HEADLESS:-0}" = "1" ]; then
   if [ "$safe_mode" -eq 1 ]; then
-    "$PACKAGE_BINARY" --headless --rendering-method mobile --urman-perf-probe "$@"
+    run_package "$PACKAGE_BINARY" --headless --rendering-method mobile --urman-perf-probe "$@"
   else
-    "$PACKAGE_BINARY" --headless --urman-perf-probe "$@"
+    run_package "$PACKAGE_BINARY" --headless --urman-perf-probe "$@"
   fi
 else
   # The default is a real desktop renderer: this probe is intended to answer
   # a user-facing FPS report, not only measure a headless CPU loop.
   if [ "$safe_mode" -eq 1 ]; then
-    "$PACKAGE_BINARY" --rendering-method mobile --urman-perf-probe "$@"
+    run_package "$PACKAGE_BINARY" --rendering-method mobile --urman-perf-probe "$@"
   else
-    "$PACKAGE_BINARY" --urman-perf-probe "$@"
+    run_package "$PACKAGE_BINARY" --urman-perf-probe "$@"
   fi
 fi
 probe_status=$?

@@ -562,7 +562,7 @@ Evidence: внешние `journal_scroll_audit_r23`, `oldpc_focus_before`,
 
 Вопрос возник из правила «не выпускать новый пакет ради каждой строки»: нужно было
 знать, устаревает ли кандидат от правки тестов. Проверено прямо по артефакту —
-поиск по PCK упакованного r42:
+поиск по PCK упакованного r44 (проверено повторно; PCK между r42 и r44 не менялся):
 
 - `scripts/FirstPersonController` — 3 вхождения (игровые скрипты в пакете есть);
 - `act1_first_person_corridor_smoke_test`, `tests/act1_demo_launch_smoke_test`,

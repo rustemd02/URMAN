@@ -83,3 +83,24 @@ The wrapper is equivalent to:
 .tools/blender/Blender.app/Contents/MacOS/Blender --background --python tools/blender/generate_character_kit.py -- --root "$PWD"
 ./eng/verify-assets.sh
 ```
+
+## Shell notes for these scripts
+
+The scripts here are POSIX `sh` and run under `/bin/sh`, which in this environment
+is bash 3.2 (arm64-apple-darwin26). That build rejects a `case` statement inside a
+command substitution:
+
+```sh
+# fails: syntax error near unexpected token ';;'
+x=$(case a in a) echo b ;; esac)
+```
+
+Top-level `case` is fine, and `zsh`/`dash` accept the same line, so this is easy to
+misread as a quoting problem. Prefer a plain `for`/`while` loop at the top level, or
+compare two sorted lists with `diff` instead of building a filtered string inside
+`$( )`. `eng/build-act1-review-packet.sh` does the latter.
+
+Two other habits these scripts rely on: run them with `sh eng/<script>.sh` so
+`eng/dotnet-env.sh` is sourced in the same shell that builds, and treat any native
+launch (package probe, demo run, smoke scene) as something that writes the user's
+Godot userdata — wrap it in `protected_run.py` or the guard-aware wrapper.
