@@ -4333,3 +4333,41 @@ work is the human reference and per-character profile decisions, which need the
 author. The motion sheets are committed as the review evidence.
 
 Linked files: `../../docs/urman_knowledge_base/art/style_motion_sweep/`
+
+## 2026-09-15 — §13 addition folded into the running queue (EX00–EX14 + LEN01)
+
+Status: Accepted (integration of the author's §13 expansion; no restart, no second queue)
+
+Context: the author expanded the task after the first §13 registration. The whole of
+§13 was re-read - EX00, the fourteen cards EX01–EX14, the joint acceptance matrix
+§13.18 and LEN01 in §13.19 - and reconciled against the canon, AGENTS.md, the
+existing `execution_backlog.json` and the already-accepted progress. The author's
+instruction was explicit: keep the current executors, models, file owners, checkout,
+branch and integration mode; add only the missing volume to the existing tracking;
+"second batch" is an implementation order, not an exclusion from scope.
+
+Decision: the existing `ACT1-EX00`–`ACT1-EX14` and `LEN01.1`–`LEN01.5` entries stay
+as they are. The only genuinely missing volume was the tail of the LEN01 sub-card, so
+`LEN01.6` (turn confirmed causes into fixes), `LEN01.7` (target rhythm) and `LEN01.8`
+(acceptance and mandatory report) were added with their dependency chain, together
+with `ACT1-EX-ACCEPT` - the single §13.18 acceptance ledger, whose fourteen rows
+reference the same `ACT1-EX01`–`EX14` tasks rather than a parallel queue. The
+dependencies named by the §13.2 map were filled where the backlog had been silent
+(EX07, EX08, EX09, EX10, EX11, EX12, EX13, EX14).
+
+LEN01 ownership: a dedicated read-only investigator was dispatched immediately, in
+parallel with the integrator's own work, exactly as §13.20 requires. Its brief is the
+author's own: reproduce or honestly mark as not reproduced the 5–6 minute run, and
+audit the build, the normal start, the difference between the scenario and the real
+actions, automatic knowledge granting, the dialogue and PC transitions, and the
+finale conditions. Confirmed causes become fixes in LEN01.6; a report alone does not
+close the task, and the human first playthrough stays `external/not-run`.
+
+Consequences: the acceptance matrix is a living ledger with the statuses the plan
+demands (contract ready / implemented / technically verified / watch-listen done /
+user observation done or `external/not-run`). Empty IDs and a bare capture-folder
+link do not close a row. The four forbidden ways of padding minutes stay forbidden -
+slower walking, mandatory waits, no-skip, text inflation, artificial distances and
+forced collection of all finds and EX cards are not used to reach ~50 minutes.
+
+Linked files: `execution_backlog.json`, `../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md` §13
