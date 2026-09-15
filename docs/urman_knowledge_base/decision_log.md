@@ -4287,3 +4287,26 @@ Still open in N2-N3: the human reference, per-character profile decisions, and t
 clip-by-clip movement review.
 
 Linked files: `../../tools/blender/generate_character_kit.py`
+
+## 2026-09-15 — V2: sound verified on the changed geometry; the seni trough stays silent by rule
+
+Status: Accepted (V2 verification layer; the trough recording stays external)
+
+Context: V2 asks the sound events to follow the changed geometry - the seni
+trough and spout, the branch gates, the snow creak on the new walking lines.
+
+Decision and verification: all seven physical branch gates already carry
+`WorldFoleySample = door_creak`, and `UiFoley.PlayWorld` resolves the source from
+the target's own world position, so the creaks stayed glued to their gates without
+any move; the world-foley spatial test PASS covers source position, SFX routing,
+distance and pause/resume. Snow steps are surface-routed by
+`FootstepAudioController`, so the new walking lines are covered automatically by
+the four winter families. The seni trough and spout stay silent: the library has
+no water or drip sample, and V2.5 forbids synthesizing a stand-in for an authored
+phonogram - that recording is external work.
+
+Consequences: the audio owners were not modified in this session at all; V2's
+verification is the deliverable, and the trough drip plus the human listening
+review remain open.
+
+Linked files: `../../docs/urman_knowledge_base/audio/act1_v2_sound_record_2026-09-15.md`

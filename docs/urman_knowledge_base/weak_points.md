@@ -1880,11 +1880,14 @@ seam):
   an I1 replanning question rather than an exterior one. H2's exterior drainage
   is complete: main eaves trough and downpipe, plus a seni trough, spout and
   splash stone.
-- The remaining rework cards beyond L3/T3/T1/T2, the three H2 steps and the neck
-  part of N1–N2 are not started — that is H1, H4–H5, I1–I3, the rest of N2–N3,
-  E1–E4, C1–C2, V1–V2, Q1–Q2, plus the §13 EX00–EX14 volume; the honest status is
-  the plan document plus the backlog entries, not a completed matrix.
-- The repeated-sapling silhouette on the north edge of the ring is reduced but
+- Cards still open after this session: H1/H4-H5 (the yard furniture near walking
+  lines, snow trample and the three-path scheme), I1 (author decision pending), the
+  rest of N2-N3 (human reference, per-character profiles, clip-by-clip review),
+  E4 (human playtest), C2 remainder (native-speaker wording/register), V1 remainder
+  (moving-camera is done; the per-sector RenderingServer breakdown and the
+  author's light acceptance remain), V2 (seni trough drip needs an authored
+  recording; the trough is deliberately silent), Q1-Q2 (final pass), and the
+  EX00-EX14 implementation (EX00/EX11-EX13 designed only).- The repeated-sapling silhouette on the north edge of the ring is reduced but
   still recognisable at distance (arrival_12_out-right); that is a variety task,
   not an enclosure one.
 
