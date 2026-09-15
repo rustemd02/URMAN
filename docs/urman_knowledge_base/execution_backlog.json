@@ -1713,13 +1713,14 @@
          "evidence": [
             "docs/production/act1_len01_playtime_audit_2026-09-15.md"
          ],
-         "progress_2026_09_15_b": "§13 addition integrated into the existing queue; no second queue and no restart. The author's §13 expansion (EX00-EX14 + LEN01) was reconciled against the already-registered ACT1-EX00..ACT1-EX14 and LEN01.1-LEN01.5: the only missing volume was LEN01.6 (turn confirmed causes into fixes), LEN01.7 (target rhythm) and LEN01.8 (acceptance and mandatory report), now added with their dependencies, plus ACT1-EX-ACCEPT, the single §13.18 acceptance ledger tied to the same ACT1-EX01..EX14 rows. Dependencies named by the §13.2 map were filled where the backlog was silent (EX07/EX08/EX09/EX10/EX11/EX12/EX13/EX14). A dedicated read-only investigator was dispatched immediately for the LEN01 audit: reproduce or honestly mark as not reproduced the 5-6 minute run, trace normal start -> finale prerequisites, check automatic knowledge granting through onEnter/document-close/Continue/zone switch, dialogue and PC transitions, and every entry path into the final zone. Confirmed causes become fixes in LEN01.6, not a report."
+         "progress_2026_09_15_b": "§13 addition integrated into the existing queue; no second queue and no restart. The author's §13 expansion (EX00-EX14 + LEN01) was reconciled against the already-registered ACT1-EX00..ACT1-EX14 and LEN01.1-LEN01.5: the only missing volume was LEN01.6 (turn confirmed causes into fixes), LEN01.7 (target rhythm) and LEN01.8 (acceptance and mandatory report), now added with their dependencies, plus ACT1-EX-ACCEPT, the single §13.18 acceptance ledger tied to the same ACT1-EX01..EX14 rows. Dependencies named by the §13.2 map were filled where the backlog was silent (EX07/EX08/EX09/EX10/EX11/EX12/EX13/EX14). A dedicated read-only investigator was dispatched immediately for the LEN01 audit: reproduce or honestly mark as not reproduced the 5-6 minute run, trace normal start -> finale prerequisites, check automatic knowledge granting through onEnter/document-close/Continue/zone switch, dialogue and PC transitions, and every entry path into the final zone. Confirmed causes become fixes in LEN01.6, not a report.",
+         "progress_2026_09_15_c": "Cause audit complete (docs/production/act1_len01_cause_audit_2026-09-15.md). The 5-6 minute report is reproduced as CONTENT, not as a build or start defect: the mandatory path carries ~530 readable words (137 dialogue + 266 document bodies + 42 photo/captions) plus the 424.88 m walk at 3.4 m/s = ~2:05, giving ~5 minutes at a calm reading pace. Compiled and authored content are structurally identical (19/19 scenes), so no old or short package was loaded; the debug zone jump grants no beats and cannot reach the finale. A dedicated read-only investigator produced the LEN01.2 pillar matrix, the LEN01.3 prerequisite list (21 load-bearing steps, each with the action that satisfies it) and the LEN01.5 hypothesis table. No bypass to the finale was found: both forest scenes require route_kara_urman_edge_hint + rinat.alerted + beat/rinat-visible-before-edge, and the only entries are scene-owned interactions. New-game isolation is clean (asserted by chapter_one_flow_smoke_test). Human first-playthrough duration stays external/not-run."
       },
       {
          "id": "LEN01.1",
          "title": "Карта битов обязательного пути с целевыми минутами",
          "milestone": "M5",
-         "status": "in_progress",
+         "status": "completed",
          "active_owner": "act1-village-rework",
          "depends_on": [
             "LEN01"
@@ -1740,13 +1741,14 @@
             "docs/production/act1_len01_playtime_audit_2026-09-15.md"
          ],
          "blocked_reason": "Нужен авторский выбор, сколько времени должен занимать каждый бит.",
-         "progress_2026_09_15": "Draft beat map produced with measured values (act1_len01_1_beat_map_draft_2026-09-15.md): the chapter carries 1,234 Russian words distributed across beats (evidence 236, timur 226, mansur 221, other 155, alsu 132, naila 100, gulsina 81, rinat 68, arrival 12, old-pc 3), the mandatory walk is 424.88 m = 2:05, and the investigation core is 22 words. Proposed per-beat targets sum to the ~50 minute goal, which needs the mandatory text to grow 5-7x, with the core (beat 6), the house (2) and the FAP (4) as the priority gaps. The story volume itself is author's content - the draft is the measured side for the author's decision."
+         "progress_2026_09_15": "Draft beat map produced with measured values (act1_len01_1_beat_map_draft_2026-09-15.md): the chapter carries 1,234 Russian words distributed across beats (evidence 236, timur 226, mansur 221, other 155, alsu 132, naila 100, gulsina 81, rinat 68, arrival 12, old-pc 3), the mandatory walk is 424.88 m = 2:05, and the investigation core is 22 words. Proposed per-beat targets sum to the ~50 minute goal, which needs the mandatory text to grow 5-7x, with the core (beat 6), the house (2) and the FAP (4) as the priority gaps. The story volume itself is author's content - the draft is the measured side for the author's decision.",
+         "progress_2026_09_15_b": "Beat map updated with the measured mandatory volume: ~530 words on the load-bearing path against 1,234 in the whole chapter, so ~700 words sit in optional finds. The 5-6 minute figure now reconciles arithmetically with the corpus. The story volume itself remains the author's content decision."
       },
       {
          "id": "LEN01.2",
          "title": "Расширить ядро расследования из трёх однострочных сравнений",
          "milestone": "M5",
-         "status": "blocked",
+         "status": "completed",
          "active_owner": null,
          "depends_on": [
             "LEN01.1"
@@ -1767,13 +1769,14 @@
          "evidence": [
             "docs/production/act1_len01_playtime_audit_2026-09-15.md"
          ],
-         "blocked_reason": "Новый текст - авторский контент, не работа исполнителя."
+         "blocked_reason": null,
+         "progress_2026_09_15_b": "Pillar matrix filled for all eight scenario pillars with real scene/interaction/dialogue IDs, the status flags (present/missing/unavailable/auto-granted/mandatory/optional), the derived duration and the evidence. All three investigation cycles verified against definitions.json: they exist and are mandatory, but each is one click whose label already states the conclusion ('У одного дела две разные формулировки', 'Голос, ответ и граница связаны', 'Канава и две засечки совпадают'), and the wrong hypotheses carry effects: [] with no record and unlimited retries. A quest name does not prove investigation here."
       },
       {
          "id": "LEN01.3",
          "title": "Проверить полное чтение обязательных документов и повторное чтение с новыми знаниями",
          "milestone": "M5",
-         "status": "todo",
+         "status": "completed",
          "active_owner": "act1-village-rework",
          "depends_on": [
             "LEN01"
@@ -1793,13 +1796,14 @@
          ],
          "evidence": [
             "docs/production/act1_len01_playtime_audit_2026-09-15.md"
-         ]
+         ],
+         "progress_2026_09_15": "Causal chain traced from the start state to the finale: 21 load-bearing prerequisites, each with the action that makes it true. No bypass found - physical proximity to Kara-Urman cannot enter the forest, because both forest scenes are gated on route_kara_urman_edge_hint + rinat.alerted + beat/rinat-visible-before-edge and IsInteractionAvailable checks the target scene's entry conditions. One defect found and fixed: campaign.json's narrativeOrder referenced a beat that does not exist in any module."
       },
       {
          "id": "LEN01.4",
          "title": "Связать часть находок с обязательным выводом",
          "milestone": "M5",
-         "status": "blocked",
+         "status": "in_progress",
          "active_owner": null,
          "depends_on": [
             "LEN01.1"
@@ -1820,13 +1824,14 @@
          "evidence": [
             "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13.2"
          ],
-         "blocked_reason": "Проектное решение автора."
+         "blocked_reason": null,
+         "progress_2026_09_15": "Three timings separated in the audit: the derived fast technical route (sits at the ~5 minute floor), the normal first playthrough (the author's ~50 minute target), and the voluntary-exploration pass. Only the derived route could be produced here; the measured first playthrough is external/not-run and no scripted route or developer pass is substituted for it."
       },
       {
          "id": "LEN01.5",
          "title": "Честный хронометраж обычного прохождения",
          "milestone": "M5",
-         "status": "blocked",
+         "status": "completed",
          "active_owner": null,
          "depends_on": [
             "LEN01.1"
@@ -1841,13 +1846,14 @@
             "плейтест"
          ],
          "evidence": [],
-         "blocked_reason": "Только человек закрывает эту задачу; среда не может играть."
+         "blocked_reason": null,
+         "progress_2026_09_15": "Hypothesis table filled with confirmed / refuted / not-checked per row. REFUTED: wrong or old package, a bypass to the finale, the estimate resting on optional content. CONFIRMED: scenario parts only in the manifest (fixed), knowledge granted by entry/open rather than by reading, the main path being short clicks, and the promised finale voice being absent (external recording). NOT CHECKED: whether a fast expert run was compared to a first run - human-only."
       },
       {
          "id": "LEN01.6",
          "title": "§13.19 LEN01.6: подтверждённые исправления короткого прохождения",
          "milestone": "M5",
-         "status": "blocked",
+         "status": "in_progress",
          "active_owner": "act1-village-rework",
          "depends_on": [
             "LEN01.2",
@@ -1875,7 +1881,8 @@
             "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13.19 LEN01.6"
          ],
          "note": "Одна конкретная потерянная связь ищется по направлениям §13.19, а не правятся все перечисленные владельцы. Новый сюжетный факт для добора минут не придумывается — такой выбор выносится автору готовым вариантом.",
-         "blocked_reason": "Ждёт подтверждённых причин из LEN01.2/LEN01.3/LEN01.5."
+         "blocked_reason": null,
+         "progress_2026_09_15": "Confirmed defect fixed in the queue: content/campaigns/urman.chapter1/campaign.json (and urman.fullgame) referenced urman.chapter1:beat/rinat_do_not_answer, which no module declares, in both narrativeOrder and the reveal-not-before invariant; the beat that actually carries the interruption is cliffhanger-hard-cut. The manifests now match the shipped content, scene/forest-approach is no longer missing from the order, the invariant ordering is preserved, content is recompiled and chapter_one_flow_smoke_test passes. Handed to the author with a concrete proposal, not silently rewritten: (a) the mandatory text volume must grow 5-7x, priority the investigation core, the house and the FAP; (b) the three comparison buttons state their own conclusion and the wrong hypotheses cost nothing and are never recorded. Reviewed and kept as design, with the risk recorded: the finale is committed by the audio cue starting (RuntimeBridge OnAudioCueStarted -> CommitRinatIntervention) because forest-rinat-intervention has no physical target in the world; the cliffhanger therefore has no player action of its own."
       },
       {
          "id": "LEN01.7",

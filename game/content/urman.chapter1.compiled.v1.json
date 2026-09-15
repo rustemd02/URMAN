@@ -49,8 +49,9 @@
       "urman.chapter1:scene/evidence-tatarwiki-reread",
       "urman.chapter1:scene/evidence-edge-sketch",
       "urman.chapter1:scene/zirat-road",
-      "urman.chapter1:beat/rinat_do_not_answer",
+      "urman.chapter1:scene/forest-approach",
       "urman.chapter1:scene/forest",
+      "urman.chapter1:beat/cliffhanger-hard-cut",
       "urman.chapter1:knowledge/clue_do_not_answer_rule"
     ],
     "invariants": [
@@ -67,7 +68,7 @@
         "severity": "error",
         "kind": "reveal-not-before",
         "subjectId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
-        "afterId": "urman.chapter1:beat/rinat_do_not_answer"
+        "afterId": "urman.chapter1:beat/cliffhanger-hard-cut"
       }
     ]
   },
@@ -7897,5 +7898,5 @@
       "sha256": "90def45ccb600998d6a5b05ad34ffcd9ebe9aa0435ded2e95223f2f4b5e47822"
     }
   ],
-  "campaignFingerprint": "6eb1d1e2f6d7e293e20953e849110f92680b5c249a311537ba3f400ccb218a9a"
+  "campaignFingerprint": "53c89840fc2f03e29a81d88cdcf780a6973be4da04c97f1ba84773e9b5ded191"
 }

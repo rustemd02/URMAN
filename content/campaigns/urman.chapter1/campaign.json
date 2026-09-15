@@ -4,9 +4,18 @@
   "exactVersion": "1.0.0",
   "entrypoint": "urman.chapter1:scene/arrival_vehicle_dusk",
   "modules": [
-    { "moduleId": "urman.core", "exactVersion": "1.0.0" },
-    { "moduleId": "urman.chapter1", "exactVersion": "1.0.0" },
-    { "moduleId": "urman.oldpc", "exactVersion": "1.0.0" }
+    {
+      "moduleId": "urman.core",
+      "exactVersion": "1.0.0"
+    },
+    {
+      "moduleId": "urman.chapter1",
+      "exactVersion": "1.0.0"
+    },
+    {
+      "moduleId": "urman.oldpc",
+      "exactVersion": "1.0.0"
+    }
   ],
   "roleBindings": {
     "aidar": "urman.chapter1:character/aidar",
@@ -19,7 +28,10 @@
     "timur-hazrat": "urman.chapter1:character/timur_hazrat"
   },
   "capabilityRequirements": [
-    { "protocolId": "urman.oldpc:capability/archive-hub", "exactVersion": "1.0.0" }
+    {
+      "protocolId": "urman.oldpc:capability/archive-hub",
+      "exactVersion": "1.0.0"
+    }
   ],
   "narrativeOrder": [
     "urman.chapter1:scene/arrival_vehicle_dusk",
@@ -35,8 +47,9 @@
     "urman.chapter1:scene/evidence-tatarwiki-reread",
     "urman.chapter1:scene/evidence-edge-sketch",
     "urman.chapter1:scene/zirat-road",
-    "urman.chapter1:beat/rinat_do_not_answer",
+    "urman.chapter1:scene/forest-approach",
     "urman.chapter1:scene/forest",
+    "urman.chapter1:beat/cliffhanger-hard-cut",
     "urman.chapter1:knowledge/clue_do_not_answer_rule"
   ],
   "invariants": [
@@ -53,7 +66,7 @@
       "severity": "error",
       "kind": "reveal-not-before",
       "subjectId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
-      "afterId": "urman.chapter1:beat/rinat_do_not_answer"
+      "afterId": "urman.chapter1:beat/cliffhanger-hard-cut"
     }
   ]
 }
