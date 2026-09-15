@@ -551,7 +551,10 @@ def create_character(
     shoulder_width, shoulder_depth, sleeve_scale, leg_scale, hem_width, hem_depth, cuff_scale = WARDROBE_PROFILES[prefix]
     body_bottom = 0.51 + TORSO_BOTTOM_LIFTS.get(prefix, 0.04)
     coat_hem_z = 0.16 + body_bottom * height_scale + 0.025
-    arm_x = 0.29 * shoulder_scale
+    # N2: the arm carriage follows the human shoulder line. The old 0.29
+    # factor put the sleeve centres ~0.63-0.85 m apart once the sleeve
+    # radius was added - a coat rack, not a person.
+    arm_x = 0.24 * shoulder_scale
     leg_offset = 0.165 + stance * 0.55
     arm_left_rotation = 0.14 + stance * 0.75
     arm_right_rotation = -0.14 + stance * 0.75
@@ -661,7 +664,7 @@ def create_character(
     tapered_segment(
         f"{prefix}_SleeveLeft_LOD0",
         sleeve_left_points,
-        (0.055 * shoulder_scale * sleeve_scale, 0.102 * shoulder_scale * sleeve_scale, 0.094 * shoulder_scale * sleeve_scale, 0.074 * shoulder_scale * sleeve_scale),
+        (0.044 * shoulder_scale * sleeve_scale, 0.078 * shoulder_scale * sleeve_scale, 0.071 * shoulder_scale * sleeve_scale, 0.056 * shoulder_scale * sleeve_scale),
         coat_surface,
         asset_id,
         256,
@@ -671,7 +674,7 @@ def create_character(
     tapered_segment(
         f"{prefix}_SleeveRight_LOD0",
         sleeve_right_points,
-        (0.055 * shoulder_scale * sleeve_scale, 0.102 * shoulder_scale * sleeve_scale, 0.094 * shoulder_scale * sleeve_scale, 0.074 * shoulder_scale * sleeve_scale),
+        (0.044 * shoulder_scale * sleeve_scale, 0.078 * shoulder_scale * sleeve_scale, 0.071 * shoulder_scale * sleeve_scale, 0.056 * shoulder_scale * sleeve_scale),
         coat_surface,
         asset_id,
         256,

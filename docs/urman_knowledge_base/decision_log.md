@@ -4265,3 +4265,25 @@ second save path; implementation waits for the EX00 state contract.
 
 Linked files: `../../game/tests/Act1DemoPerformanceSmokeTest.cs`,
 `../../docs/urman_knowledge_base/gameplay/act1_ex11_12_13_design_2026-09-15.md`
+
+## 2026-09-15 — N2 second layer: the arm carriage and sleeve radii narrowed
+
+Status: Accepted (second implementation layer of cards N2-N3)
+
+Context: the measurement sheet quantified the sleeve-line breadth at 0.74-0.85 m
+for the broader profiles against a clothed winter norm of about 0.55-0.65 m. The
+envelope is dominated by the sleeve attach distance (`arm_x = 0.29 * shoulder_scale`)
+plus a sleeve radius of up to 0.121 m at the shoulder station.
+
+Decision: the arm carriage narrows to `0.24 * shoulder_scale` (sleeve stations
+0.55/0.68/0.80/0.74 of the new arm_x), and the sleeve radii drop by about 15
+percent, so the full sleeve envelope lands at 0.56-0.64 m depending on profile.
+Hands and mittens travel with the same arm_x, so poses stay consistent.
+
+Consequences: character-asset-smoke PASS (9 prefixes, clips intact), physical
+walkthrough PASS 424.88 m and chapter-one flow PASS. The scarf accent on Naila now
+reads as a narrow band down the chest - flagged for the author rather than removed.
+Still open in N2-N3: the human reference, per-character profile decisions, and the
+clip-by-clip movement review.
+
+Linked files: `../../tools/blender/generate_character_kit.py`
