@@ -1872,8 +1872,8 @@
    "id": "ACT1-EX01",
    "title": "§13 EX01: Поднимать, переносить, ставить",
    "milestone": "M5",
-   "status": "todo",
-   "active_owner": null,
+   "status": "in_progress",
+   "active_owner": "act1-village-rework",
    "depends_on": [
     "EX00"
    ],
@@ -1895,7 +1895,8 @@
    "evidence": [
     "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
    ],
-   "note": "Unblocked by the EX00 confirmation: the ownership layer (CustodyStore) and the wiring point are named; the Godot-side carry/place owner is the next design slice before EX01 code."
+   "note": "Unblocked by the EX00 confirmation: the ownership layer (CustodyStore) and the wiring point are named; the Godot-side carry/place owner is the next design slice before EX01 code.",
+   "progress_2026_09_15": "EX01 implemented as the vertical slice of the carry system per act1_ex01_carry_owner_design_2026-09-15.md: CarryableProp (StaticBody3D prop, state machine world/held/placed, footprint for placement checks) and CarryCoordinator (focus cone 2.4 m / 40 degrees, camera hold point, ground ray-cast with slope rejection, rotate step). Take/place is context-sensitive on the existing interact action; rotation adds one new remappable carry_rotate (R / gamepad X) registered in project.godot and InputBindingService.RemappableActions. InputBindingService.Apply no longer throws when a save predates a new remappable action - such actions keep their project-default binding, which is what makes the new action loadable for existing players. Three items live at the hero yard (log by the woodpile, crate by the shed, bucket by the porch), one per EX01 class, session-local by design: the world.custody handler and snapshot persistence land with the EX00 follow-up wiring. The capture audit gains the declared carryable-prop collision owner; the SettingsUi gains the carry_rotate label - both caught by the full-route capture after the initial implementation. Verified: capture gate PASS 404 frames, physical walkthrough PASS 424.88 m, world-edge probe PASS."
   },
   {
    "id": "ACT1-EX02",
