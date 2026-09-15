@@ -498,7 +498,8 @@
    "progress_2026_09_15_m": "N2 second layer: the arm carriage narrowed to 0.24 x shoulder_scale (sleeve stations 0.55/0.68/0.80/0.74 of it) and the sleeve radii dropped ~15 percent, so the full sleeve envelope lands at 0.56-0.64 m per profile instead of 0.74-0.85 m. Hands and mittens travel with arm_x, poses stay consistent. Verified: character-asset-smoke PASS, capture of all six conversation close-ups on one SHA, physical walkthrough PASS 424.88 m, chapter-one flow PASS. Flagged for the author: the narrowed scarf accent on Naila now reads as a thin band down the chest - keep or restyle. Still open in N2-N3: the human reference, per-character profile decisions, clip-by-clip movement review.",
    "progress_2026_09_15_n": "EX00 confirmation done: CustodyStore.PlanBatch is a pure deterministic state planner (items with itemId/custodyOwnerId, ops acquire/transfer/consume, claims, event world.custody.changed) and is suitable as the ownership layer for EX01+, but its only caller is a unit test - the game never calls it, no definitions entry writes world.custody, and RuntimeBridge.CreateHandlers() registers no custody handler. The wiring point is named (next to world.interact); the Godot side keeps world transforms, held-item visuals and input. EX01+ implementation waits for the action-signature sign-off of the EX00 passport (act1_ex00_state_contract_design_2026-09-15.md).",
    "progress_2026_09_15_o": "N3 clip-by-clip review closed: the style motion sweep harness captured the Idle clip in motion across three scenes (day street, house interior, Kara edge) as contact sheets on the current SHA with the narrowed sleeves. The sheets show clean playback - no stretched limbs, no sleeve-body interpenetration, no pose breaks - confirming the bone-driven clips are unaffected by the mesh change. Sheets committed under docs/urman_knowledge_base/art/style_motion_sweep/. Remaining in N2-N3: only the human reference and per-character profile decisions (author).",
-   "progress_2026_09_15_p": "C2 remainder closed: dates/era on interior items verified - no asserted years exist anywhere in the chapter's content layer (definitions.json, documents, signs, boards), so the C2.2 era-conflict class is absent by absence; the physical era markers (CRT PC, cast-iron stove, blank records board, undated 'Первый снег' photo) read as an old rural household inside 2026 without asserting a decade per item. Concrete dates on NEW items wait for LEN01.1's event map. Author waits unchanged: I1 (interior footprint) and LEN01.1 (beat map with target minutes)."
+   "progress_2026_09_15_p": "C2 remainder closed: dates/era on interior items verified - no asserted years exist anywhere in the chapter's content layer (definitions.json, documents, signs, boards), so the C2.2 era-conflict class is absent by absence; the physical era markers (CRT PC, cast-iron stove, blank records board, undated 'Первый снег' photo) read as an old rural household inside 2026 without asserting a decade per item. Concrete dates on NEW items wait for LEN01.1's event map. Author waits unchanged: I1 (interior footprint) and LEN01.1 (beat map with target minutes).",
+   "progress_2026_09_15_q": "EX03 attempt reverted: the snow piles placed at the gate approach and woodpile had no interaction wiring - they were inert decoration, which contradicts the yard principle. The tool interactions need definitions.json entries (content authoring, not just code) - blocked on the author's decision about each tool's physical effect and its yard role. EX02 is complete (two-solution access at the east holding's south boundary). Author waits unchanged: I1, LEN01.1; human checks: LEN01 playtest, forest art acceptance, cultural consultation, new player."
   },
   {
    "id": "FINISH-03",
@@ -1932,7 +1933,7 @@
    "id": "ACT1-EX03",
    "title": "§13 EX03: Многоцелевые инструменты",
    "milestone": "M5",
-   "status": "todo",
+   "status": "blocked",
    "active_owner": null,
    "depends_on": [
     "EX00",
@@ -1956,7 +1957,8 @@
    "evidence": [
     "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
    ],
-   "note": ""
+   "note": "",
+   "blocked_reason": "Нужны definitions.json записи для двух инструментов (лопата у крыльца, ведро у крыльца) с простым физическим эффектом (снег расчистен / вода налита) и InteractionTarget + PresentationRepeat циклом. Без content-записей InteractionTarget не проходит через kernel dispatch. Авторское решение: какой физический эффект у каждого инструмента и как он связан с двором."
   },
   {
    "id": "ACT1-EX04",
