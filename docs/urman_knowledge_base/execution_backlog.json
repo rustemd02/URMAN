@@ -1902,8 +1902,8 @@
    "id": "ACT1-EX02",
    "title": "§13 EX02: Несколько решений одной задачи",
    "milestone": "M5",
-   "status": "todo",
-   "active_owner": null,
+   "status": "in_progress",
+   "active_owner": "act1-village-rework",
    "depends_on": [
     "EX00"
    ],
@@ -1925,7 +1925,8 @@
    "evidence": [
     "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
    ],
-   "note": "Нужные действия EX01/EX03/EX05"
+   "note": "Нужные действия EX01/EX03/EX05",
+   "progress_2026_09_15": "EX02 implemented at the east holding's south boundary: the ReturnEastFieldBoundary fence is split into two runs with a 1.2 m gap at x 25.8-27.0, and a carryable crate (carry-gap-crate, class Medium) stands in the gap. Two different solutions solve the same optional access: carry the crate aside (EX01 system) and walk through, or walk the long way around the fence's east end. Verified: physical walkthrough PASS 424.88 m, capture of the zone on one SHA. Session-local by design: world.custody persistence lands with the EX00 follow-up wiring."
   },
   {
    "id": "ACT1-EX03",
