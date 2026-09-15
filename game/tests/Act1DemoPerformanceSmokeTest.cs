@@ -1,5 +1,6 @@
 using System.Globalization;
 using Godot;
+using Urman.Experiments.AgentBAct1;
 using Urman.Godot;
 
 namespace Urman.Godot.Tests;
@@ -57,6 +58,10 @@ public partial class Act1DemoPerformanceSmokeTest : Node
         var p95 = sorted[(int)Math.Floor((sorted.Length - 1) * 0.95)];
         var maximum = samples.Max();
         var fps = 1000.0 / average;
+
+        var drawCalls = global::Godot.Performance.GetMonitor(global::Godot.Performance.Monitor.RenderTotalDrawCallsInFrame);
+        var videoMemory = global::Godot.Performance.GetMonitor(global::Godot.Performance.Monitor.MemoryStatic) / (1024 * 1024);
+
         var nodes = CountNodes(demo);
         var renderer = RenderingServer.GetRenderingDevice() is null
             ? "unavailable"
@@ -64,6 +69,41 @@ public partial class Act1DemoPerformanceSmokeTest : Node
         var player = demo.DemoMain.GetNodeOrNull<FirstPersonController>("Player");
         var effectiveScale = GetViewport().Scaling3DScale;
         var effectiveMsaa = GetViewport().Msaa3D;
+        // V1.9 moving-camera route pass: sample the same frames at every
+        // mandatory route waypoint instead of one static pose, so the heavy
+        // ring/yard sectors are measured where the player actually walks.
+        string routeReport = string.Empty;
+        if (System.Environment.GetEnvironmentVariable("URMAN_PERF_ROUTE") == "1")
+        {
+            var routeTotal = 0.0;
+            var routeWorst = 0.0;
+            var routeSamples = 0;
+            foreach (var waypoint in AgentBAct1Layout.Route)
+            {
+                player.GlobalPosition = waypoint.Position;
+                for (var frame = 0; frame < 6; frame++)
+                {
+                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                }
+
+                for (var frame = 0; frame < 10; frame++)
+                {
+                    var start = Time.GetTicksUsec();
+                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    var ms = (Time.GetTicksUsec() - start) / 1000.0;
+                    routeTotal += ms;
+                    routeWorst = Math.Max(routeWorst, ms);
+                    routeSamples++;
+                }
+
+                var waypointAvg = routeSamples > 0 ? routeTotal / routeSamples : 0.0;
+                GD.Print($"act1-route-performance: waypoint={waypoint.Id} avg={waypointAvg:F3}ms");
+            }
+
+            routeReport = $" route_avg={(routeTotal / Math.Max(1, routeSamples)).ToString("F3", CultureInfo.InvariantCulture)}ms route_worst={routeWorst.ToString("F3", CultureInfo.InvariantCulture)}ms route_samples={routeSamples}";
+        }
+
+
 
         GD.Print(string.Join(' ',
             "act1-demo-entrypoint-performance:",
@@ -73,6 +113,8 @@ public partial class Act1DemoPerformanceSmokeTest : Node
             $"max={maximum.ToString("F3", CultureInfo.InvariantCulture)}ms",
             $"fps={fps.ToString("F2", CultureInfo.InvariantCulture)}",
             $"renderer={renderer}",
+            $"draw_calls_in_frame={drawCalls:0} static_mem_mib={videoMemory:F0}"
+            + routeReport,
             $"preset={player?.GraphicsPreset ?? "unknown"}",
             $"scale={effectiveScale.ToString("F2", CultureInfo.InvariantCulture)}",
             $"msaa={effectiveMsaa}"));
