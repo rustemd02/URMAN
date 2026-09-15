@@ -1844,7 +1844,7 @@
    "id": "ACT1-EX00",
    "title": "§13 EX00: Общий контракт новых действий",
    "milestone": "M5",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "act1-village-rework",
    "depends_on": [],
    "owner": "gameplay/design",
@@ -1865,7 +1865,8 @@
    "evidence": [
     "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
    ],
-   "note": "Основание для новых систем; read-only проектирование сразу"
+   "note": "Основание для новых систем; read-only проектирование сразу",
+   "done_when_note": "Design side complete: the analog inventory, the input contract (one held item; take/place, use, cancel, rotate - via the existing remap), the world/held/placed/combined state chain with save-restore semantics, and the compatibility policy are fixed in act1_ex00_state_contract_design_2026-09-15.md; CustodyStore confirmed as the ownership layer with the wiring point named (RuntimeBridge.CreateHandlers, next to world.interact). The confirmation pass against CustodyStore's real consumer is done. Remaining for full closure: the implementation itself lands with EX01."
   },
   {
    "id": "ACT1-EX01",
@@ -1894,7 +1895,7 @@
    "evidence": [
     "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
    ],
-   "note": "Первый образец"
+   "note": "Unblocked by the EX00 confirmation: the ownership layer (CustodyStore) and the wiring point are named; the Godot-side carry/place owner is the next design slice before EX01 code."
   },
   {
    "id": "ACT1-EX02",
