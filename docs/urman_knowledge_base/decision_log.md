@@ -4221,3 +4221,25 @@ Author waits unchanged: I1 and LEN01.1.
 
 Linked files: `../../docs/urman_knowledge_base/performance/act1_v1_performance_record_2026-09-15.md`,
 `../../docs/urman_knowledge_base/characters/act1_n2_measurement_sheet_2026-09-15.md`
+
+## 2026-09-15 — C2: inscriptions checked; the language card enlarged to readable size
+
+Status: Accepted (C2's verification layer; native-speaker confirmation stays external)
+
+Context: C2 asks for the Tatar letters, font, register and readability to be checked
+on the real signs. Checked on one SHA from rendered frames: the street sign's
+reverse reads «ЮЛ ←» in correct Cyrillic at street distance; the FAP board reads
+«ФАП»; the zirat markers are blank by design and the mosque carries no calligraphy.
+
+One failure found and fixed: the sewing tin's word card «өй — дом» rendered its
+letters about 0.037 m tall on a 0.25 x 0.12 m card - below readable size at the
+interaction distance (about 4 px in a 720p frame). The card is now 0.30 x 0.16 m and
+the label pixel size raised from 0.00058 to 0.00079, giving roughly 0.05 m letters
+that read in the zoomed frame including the Tatar-specific ө glyph.
+
+Consequences: the card stays presentation-only; the word's teaching moment remains
+the journal entry plus the now-legible physical card. Native-speaker confirmation of
+the wording and register stays external, as C2 requires. Sign dates: no dates are
+asserted on any sign, so no era conflict exists.
+
+Linked files: `../../game/scripts/Act1ConnectedWorld.Exploration.cs`

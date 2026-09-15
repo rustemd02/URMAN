@@ -57,8 +57,8 @@ public partial class Act1ConnectedWorld
             DiscoveryCylinder(tin, $"Spool{i}", .041f, .041f, .052f, p, i == 0 ? "a65143" : i == 1 ? "d6c89a" : "42677c");
             DiscoveryCylinder(tin, $"SpoolCap{i}", .049f, .049f, .009f, p + new Vector3(0, .03f, 0), "c7a675");
         }
-        AddVisualBox(tin, "WordCard", new(.25f, .008f, .12f), new(0, .092f, -.06f), "e0d4b6", yawDegrees: -8);
-        var word = DiscoveryLabel(tin, "HomeWord", "өй — дом", new(0, .099f, -.06f), .00058f);
+        AddVisualBox(tin, "WordCard", new(.30f, .008f, .16f), new(0, .092f, -.06f), "e0d4b6", yawDegrees: -8);
+        var word = DiscoveryLabel(tin, "HomeWord", "өй — дом", new(0, .099f, -.06f), .00079f);
         word.RotationDegrees = new(-90, -8, 0);
         _sewingTinLid = new Node3D { Name = "HingedLid", Position = new(0, .15f, -.24f) };
         tin.AddChild(_sewingTinLid);
