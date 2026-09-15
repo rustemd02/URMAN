@@ -20,8 +20,10 @@ public partial class CarryCoordinator : Node
     private FirstPersonController? _player;
     private Camera3D? _camera;
     private readonly List<CarryableProp> _props = new();
+    private readonly List<YardTool> _tools = new();
     private CarryableProp? _held;
     private CarryableProp? _focus;
+    private YardTool? _toolFocus;
     private Label3D? _prompt;
     private readonly StringName _interactAction = new("interact");
     private readonly StringName _rotateAction = new("carry_rotate");
@@ -42,6 +44,13 @@ public partial class CarryCoordinator : Node
     {
         _props.Add(prop);
         AddChild(prop);
+    }
+
+    /// <summary>EX03 tools share the same focus cone and interact input.</summary>
+    public void Register(YardTool tool)
+    {
+        _tools.Add(tool);
+        AddChild(tool);
     }
 
     public override void _Ready()
@@ -96,6 +105,13 @@ public partial class CarryCoordinator : Node
         if (interactPressed && _focus is not null)
         {
             Take(_focus);
+            return;
+        }
+
+        UpdateToolFocus();
+        if (interactPressed && _toolFocus is not null)
+        {
+            _toolFocus.Use();
         }
     }
 
@@ -135,7 +151,41 @@ public partial class CarryCoordinator : Node
             }
         }
 
-        ShowPrompt(_focus, $"Взять: {_focus?.PromptName}", _focus?.GlobalPosition ?? Vector3.Zero + new Vector3(0, 0.9f, 0));
+        ShowPrompt(_focus, $"Взять: {_focus?.PromptName}", (_focus?.GlobalPosition ?? Vector3.Zero) + new Vector3(0, 0.9f, 0));
+    }
+
+    private void UpdateToolFocus()
+    {
+        _toolFocus = null;
+        var cameraOrigin = _camera!.GlobalPosition;
+        var forward = -_camera.GlobalTransform.Basis.Z;
+        forward.Y = 0;
+        forward = forward.Normalized();
+        var best = float.MaxValue;
+        foreach (var tool in _tools)
+        {
+            var toTool = tool.GlobalPosition - cameraOrigin;
+            var flat = new Vector3(toTool.X, 0, toTool.Z);
+            var distance = flat.Length();
+            if (distance > tool.Reach || distance < 0.05f)
+            {
+                continue;
+            }
+
+            if (Mathf.RadToDeg(flat.AngleTo(forward)) > FocusHalfAngleDegrees)
+            {
+                continue;
+            }
+
+            if (distance < best)
+            {
+                best = distance;
+                _toolFocus = tool;
+            }
+        }
+
+        ShowPrompt(_toolFocus, _toolFocus?.NextPrompt() ?? string.Empty,
+            _toolFocus is null ? Vector3.Zero : _toolFocus.GlobalPosition + new Vector3(0, 0.9f, 0));
     }
 
     private void UpdateHeld()
@@ -183,9 +233,9 @@ public partial class CarryCoordinator : Node
         _prompt!.Visible = false;
     }
 
-    private void ShowPrompt(CarryableProp? prop, string text, Vector3 at)
+    private void ShowPrompt(Node3D? anchor, string text, Vector3 at)
     {
-        if (_prompt is null || prop is null)
+        if (_prompt is null || anchor is null)
         {
             if (_prompt is not null)
             {

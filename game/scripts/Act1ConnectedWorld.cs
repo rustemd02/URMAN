@@ -1093,7 +1093,33 @@ public partial class Act1ConnectedWorld : Node3D
         var gapCrate = CarryableProp.Create("carry-gap-crate", "Ящик в проёме",
             CarryableProp.ItemClass.Medium, new(26.4f, 0f, -38.6f), 14f, "7a5c3a", "wood");
         props.Add(gapCrate);
-        core.AddChild(CarryCoordinator.Create(props));
+        var coordinator = CarryCoordinator.Create(props);
+
+        // EX03: two yard tools, two distinct uses each, all results visible in
+        // the yard. Uses cycle on the interact input through the same focus cone
+        // as the carry system.
+        var gateSnow = AddVisualBox(core, "ToolSnowPileGate",
+            new(0.8f, 0.34f, 0.62f), new(-24.2f, 0.17f, 0.35f), "e8e2d4", "snow");
+        var woodSnow = AddVisualBox(core, "ToolSnowPileWood",
+            new(0.66f, 0.30f, 0.5f), new(-32.5f, 0.15f, 4.3f), "e8e2d4", "snow");
+        var bedSnow = AddVisualBox(core, "ToolBedSnowPatch",
+            new(2.4f, 0.16f, 1.4f), new(-31.6f, 0.08f, 7.4f), "e8e2d4", "snow");
+        var pailWater = AddVisualBox(core, "ToolPailWater",
+            new(0.22f, 0.04f, 0.22f), new(-26.9f, 0.16f, 0.1f), "2f4f50", "water");
+        pailWater.Visible = false;
+
+        var shovel = YardTool.Create("shovel", "Лопата", new(-27.6f, 0f, 0.9f), 96f, shovel: true);
+        shovel.AddUse("Расчистить снег у калитки", gateSnow);
+        shovel.AddUse("Расчистить снег у поленницы", woodSnow);
+        coordinator.Register(shovel);
+
+        var pail = YardTool.Create("pail", "Ведро", new(-27.0f, 0f, 0.15f), 12f, shovel: false);
+        pail.AddUse("Налить воды", pailWater);
+        pail.AddUse("Полить огород", bedSnow);
+        coordinator.Register(pail);
+
+        core.AddChild(coordinator);
+        SetMeta("yardToolCount", 2);
         SetMeta("carryableItemCount", props.Count);
         SetMeta("carryablePolicy", "session-local carry in this slice; world.custody persistence lands with the EX00 follow-up wiring");
     }
