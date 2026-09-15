@@ -4188,3 +4188,36 @@ cultural review of the institution's signage and dressing stays external.
 
 Linked files: `../../docs/urman_knowledge_base/art/act1_i3_fap_institution_passport_2026-09-15.md`,
 `../../game/scripts/StyleBenchmarkZone.cs`
+
+## 2026-09-15 — V1 measured on the current slice; N2-N3 measurement sheet produced
+
+Status: Accepted (V1.9 measurement done; N2 reference sheet produced; both keep open items)
+
+Context: V1.9 requires an actual performance measurement on the current slice after
+the heavy scenes changed, and §12.9.3 asks for a measurement sheet before touching
+more character proportions.
+
+Decision and measurement: the real-entrypoint performance probe
+(`act1_demo_performance_smoke_test`) on the current HEAD measures 45,717 nodes,
+average frame 11.031 ms, p95 12.689 ms, max 21.039 ms, 90.65 FPS at high preset,
+scale 1.00, MSAA 4X, RenderingDevice, on Apple M4 Pro. Against the recorded
+pre-ring probe of the same harness (100.70 FPS, 9.931 ms average) the ring (about
+twice the tree slots with 13.5-30.5 m spruces), the yard kits and the interior
+props cost about +1.1 ms of average frame time at high preset - three times above
+the 30 FPS floor. V1's weather and light coherence on the changed scenes is
+recorded in the same document: one winter mode, conifer/deciduous zone split
+enforced by code, snow by shape, day and night covered by the sweep.
+
+The N2-N3 sheet is produced from the generator rather than eyeballed: visible neck
+now 0.14-0.17 m of column width for every profile (the pre-fix top ring was 0.31 m
+- no neck), wrist height 44-46 % of stature (arm length is within the human norm),
+and the remaining defect is quantified as the sleeve-line shoulder breadth of
+0.62-0.74 m against a human biacromial breadth of about 0.40 m.
+
+Consequences: V1's remaining work is a moving-camera route measurement, a night
+performance pass and a profiler draw-call/memory capture. N2's next step needs the
+human reference the card requires; sleeve-line breadth is the quantified remainder.
+Author waits unchanged: I1 and LEN01.1.
+
+Linked files: `../../docs/urman_knowledge_base/performance/act1_v1_performance_record_2026-09-15.md`,
+`../../docs/urman_knowledge_base/characters/act1_n2_measurement_sheet_2026-09-15.md`
