@@ -920,7 +920,12 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualFenceRun(infrastructure, "MainStreetWestFieldBoundary", new(-22.5f, 0f, -4.0f), new(-34.0f, 0f, -1.0f));
         AddVisualFenceRun(infrastructure, "MainStreetEastFieldBoundary", new(22.5f, 0f, -12.5f), new(34.0f, 0f, -9.5f));
         AddVisualFenceRun(infrastructure, "ReturnWestFieldBoundary", new(-22.0f, 0f, -34.0f), new(-32.0f, 0f, -37.5f));
-        AddVisualFenceRun(infrastructure, "ReturnEastFieldBoundary", new(22.0f, 0f, -38.0f), new(32.0f, 0f, -41.5f));
+        // EX02: the east holding's south boundary has a 1.2 m gap between the
+        // two runs. A carryable crate stands in it - the player either carries
+        // the crate aside (EX01) or walks the long way around the fence's east
+        // end. Two different solutions, one optional local access.
+        AddVisualFenceRun(infrastructure, "ReturnEastFieldBoundaryWest", new(22.0f, 0f, -38.0f), new(25.8f, 0f, -38.8f));
+        AddVisualFenceRun(infrastructure, "ReturnEastFieldBoundaryEast", new(27.0f, 0f, -39.2f), new(32.0f, 0f, -41.5f));
     }
 
     private void ApplyConnectedWorldPresentationSuppressions()
@@ -1082,6 +1087,12 @@ public partial class Act1ConnectedWorld : Node3D
             CarryableProp.Create("carry-bucket", "Ведро", CarryableProp.ItemClass.Bucket,
                 new(-26.6f, 0f, 0.2f), 8f, "6f6d61", "metal"),
         };
+        // EX02: a second carryable crate stands in the south boundary's gap -
+        // the two-solution access. Carrying it aside (EX01) or walking the long
+        // way around the fence's east end both reach the return street.
+        var gapCrate = CarryableProp.Create("carry-gap-crate", "Ящик в проёме",
+            CarryableProp.ItemClass.Medium, new(26.4f, 0f, -38.6f), 14f, "7a5c3a", "wood");
+        props.Add(gapCrate);
         core.AddChild(CarryCoordinator.Create(props));
         SetMeta("carryableItemCount", props.Count);
         SetMeta("carryablePolicy", "session-local carry in this slice; world.custody persistence lands with the EX00 follow-up wiring");
