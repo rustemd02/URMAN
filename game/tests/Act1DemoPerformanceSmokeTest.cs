@@ -30,6 +30,20 @@ public partial class Act1DemoPerformanceSmokeTest : Node
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         }
 
+        // Optional night/light-state probe: switching to the Kara edge zone runs
+        // the same real entrypoint under the night exterior atmosphere, so the
+        // heavy scenes can be measured in both light states with one instrument.
+        var perfZone = System.Environment.GetEnvironmentVariable("URMAN_PERF_ZONE");
+        var perfSpawn = System.Environment.GetEnvironmentVariable("URMAN_PERF_SPAWN") ?? "village_path";
+        if (!string.IsNullOrEmpty(perfZone))
+        {
+            demo.DemoMain.SwitchZone(perfZone, perfSpawn);
+            for (var frame = 0; frame < WarmupFrames; frame++)
+            {
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            }
+        }
+
         var samples = new double[SampleFrames];
         for (var frame = 0; frame < SampleFrames; frame++)
         {

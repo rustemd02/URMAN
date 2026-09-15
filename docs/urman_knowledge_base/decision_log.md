@@ -4243,3 +4243,25 @@ the wording and register stays external, as C2 requires. Sign dates: no dates ar
 asserted on any sign, so no era conflict exists.
 
 Linked files: `../../game/scripts/Act1ConnectedWorld.Exploration.cs`
+
+## 2026-09-15 — V1 night measurement; EX11/EX12/EX13 designed
+
+Status: Accepted
+
+V1: the performance instrument gained an optional zone switch so the same real
+entrypoint can be measured in both light states. Day (arrival): average 10.948 ms,
+p95 11.288 ms, 91.34 FPS. Night (kara_urman_night): average 8.347 ms, p95 9.002 ms,
+119.81 FPS - night is faster because the night exterior atmosphere suppresses the
+village's far presentation layers; node count is identical (45,717), so the
+difference is visibility, not content. V1's remaining unmeasured work is a
+moving-camera route pass and a profiler capture of draw calls and memory.
+
+EX11/EX12/EX13 are designed without author decisions and without new mechanics:
+three oddness micro-puzzles that resolve by walking around an observation point,
+two image-to-place matches built on images that already exist in the content, and
+two curiosity chains whose links are the existing finds cross-referencing each
+other through existing knowledge-status conditions. No counters, no inventory, no
+second save path; implementation waits for the EX00 state contract.
+
+Linked files: `../../game/tests/Act1DemoPerformanceSmokeTest.cs`,
+`../../docs/urman_knowledge_base/gameplay/act1_ex11_12_13_design_2026-09-15.md`
