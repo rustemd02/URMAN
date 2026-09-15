@@ -1718,8 +1718,8 @@
    "id": "LEN01.1",
    "title": "Карта битов обязательного пути с целевыми минутами",
    "milestone": "M5",
-   "status": "blocked",
-   "active_owner": null,
+   "status": "in_progress",
+   "active_owner": "act1-village-rework",
    "depends_on": [
     "LEN01"
    ],
@@ -1738,7 +1738,8 @@
    "evidence": [
     "docs/production/act1_len01_playtime_audit_2026-09-15.md"
    ],
-   "blocked_reason": "Нужен авторский выбор, сколько времени должен занимать каждый бит."
+   "blocked_reason": "Нужен авторский выбор, сколько времени должен занимать каждый бит.",
+   "progress_2026_09_15": "Draft beat map produced with measured values (act1_len01_1_beat_map_draft_2026-09-15.md): the chapter carries 1,234 Russian words distributed across beats (evidence 236, timur 226, mansur 221, other 155, alsu 132, naila 100, gulsina 81, rinat 68, arrival 12, old-pc 3), the mandatory walk is 424.88 m = 2:05, and the investigation core is 22 words. Proposed per-beat targets sum to the ~50 minute goal, which needs the mandatory text to grow 5-7x, with the core (beat 6), the house (2) and the FAP (4) as the priority gaps. The story volume itself is author's content - the draft is the measured side for the author's decision."
   },
   {
    "id": "LEN01.2",
@@ -1933,8 +1934,8 @@
    "id": "ACT1-EX03",
    "title": "§13 EX03: Многоцелевые инструменты",
    "milestone": "M5",
-   "status": "blocked",
-   "active_owner": null,
+   "status": "in_progress",
+   "active_owner": "act1-village-rework",
    "depends_on": [
     "EX00",
     "EX01"
@@ -1958,7 +1959,8 @@
     "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
    ],
    "note": "",
-   "blocked_reason": "Нужны definitions.json записи для двух инструментов (лопата у крыльца, ведро у крыльца) с простым физическим эффектом (снег расчистен / вода налита) и InteractionTarget + PresentationRepeat циклом. Без content-записей InteractionTarget не проходит через kernel dispatch. Авторское решение: какой физический эффект у каждого инструмента и как он связан с двором."
+   "blocked_reason": null,
+   "progress_2026_09_15": "EX03 implemented with the carry system's own pattern instead of kernel interactions: YardTool is a presentation-only tool driven by the same focus cone and interact input as the carryables, and each tool cycles two uses with a visible result - the porch shovel clears the side-gate snow pile then the woodpile pile; the porch pail fills with water then pours it on the kitchen bed and clears its snow patch. Verified: physical walkthrough PASS 424.88 m, world-edge probe PASS, capture on one SHA. Session-local like the carryables; the world.custody slice brings both under the snapshot."
   },
   {
    "id": "ACT1-EX04",
