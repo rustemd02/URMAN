@@ -191,7 +191,7 @@
    "id": "character.fullgame.lowpoly.v1",
    "source": "assets/source/blender/urman_character_kit.blend",
    "derived": "game/assets/generated/urman_character_kit.glb",
-   "sourceSha256": "8287d69f7cd3880c8eb61febb272c6b777dd2a4a114a8c24ad3f97a03c675a61",
+   "sourceSha256": "06b951c9c367c7aac85ff24a03b5a0b98a61e3eb94079ba453c33ed2cff0db7a",
    "derivedSha256": "fc5ac2e1814f28776934b763fdba74ebfb95d173429fd2b3d85f0121d36c028e",
    "generator": "tools/blender/generate_character_kit.py",
    "license": "Mixed: Project-original clothing/rigs; CC0-1.0 Quaternius head, eyes, brows and hair derivatives",
