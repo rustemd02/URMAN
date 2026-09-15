@@ -97,7 +97,9 @@ public partial class Act1DemoPerformanceSmokeTest : Node
                 }
 
                 var waypointAvg = routeSamples > 0 ? routeTotal / routeSamples : 0.0;
-                GD.Print($"act1-route-performance: waypoint={waypoint.Id} avg={waypointAvg:F3}ms");
+                var waypointDrawCalls = global::Godot.Performance.GetMonitor(
+                    global::Godot.Performance.Monitor.RenderTotalDrawCallsInFrame);
+                GD.Print($"act1-route-performance: waypoint={waypoint.Id} avg={waypointAvg:F3}ms draw_calls={waypointDrawCalls}");
             }
 
             routeReport = $" route_avg={(routeTotal / Math.Max(1, routeSamples)).ToString("F3", CultureInfo.InvariantCulture)}ms route_worst={routeWorst.ToString("F3", CultureInfo.InvariantCulture)}ms route_samples={routeSamples}";
