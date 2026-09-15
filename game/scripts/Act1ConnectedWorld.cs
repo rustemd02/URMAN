@@ -1062,6 +1062,29 @@ public partial class Act1ConnectedWorld : Node3D
         ApplyAct1DaylightPresentationPass(core);
         ReplaceKitWinterShrubs(core);
         BuildVillageLife(core);
+        BuildCarryables(core);
+    }
+
+    /// <summary>
+    /// EX01: three carryable item classes at the hero yard (log, crate, bucket),
+    /// per act1_ex01_carry_owner_design_2026-09-15.md. Session-local by design in
+    /// this slice - the world.custody handler and snapshot persistence land with
+    /// the EX00 follow-up wiring.
+    /// </summary>
+    private void BuildCarryables(Node3D core)
+    {
+        var props = new List<CarryableProp>
+        {
+            CarryableProp.Create("carry-log", "Полено", CarryableProp.ItemClass.Light,
+                new(-32.4f, 0f, 4.6f), 24f, "8a6b50", "wood"),
+            CarryableProp.Create("carry-crate", "Ящик", CarryableProp.ItemClass.Medium,
+                new(-29.6f, 0f, 2.4f), -12f, "7a5c3a", "wood"),
+            CarryableProp.Create("carry-bucket", "Ведро", CarryableProp.ItemClass.Bucket,
+                new(-26.6f, 0f, 0.2f), 8f, "6f6d61", "metal"),
+        };
+        core.AddChild(CarryCoordinator.Create(props));
+        SetMeta("carryableItemCount", props.Count);
+        SetMeta("carryablePolicy", "session-local carry in this slice; world.custody persistence lands with the EX00 follow-up wiring");
     }
 
     private void BuildVillageLife(Node3D core)

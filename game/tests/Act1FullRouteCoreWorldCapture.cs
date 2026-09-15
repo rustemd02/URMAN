@@ -779,7 +779,10 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             // player walking through visible geometry; the author reported that
             // fences and houses had no collision at all. Their contract is verified
             // right below, so this is a declared owner rather than an exemption.
-            "authored-kit-blocker"
+            "authored-kit-blocker",
+            // EX01 carryables: physical props the player can pick up, so their
+            // bodies are traversal furniture with a declared owner of their own.
+            "carryable-prop"
         };
         var declaredOwners = exteriorLayer.GetMeta("traversalCollisionOwners").AsString();
         if (!string.Equals(

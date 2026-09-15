@@ -13,6 +13,7 @@ public static class InputBindingService
         "move_right",
         "interact",
         "crouch",
+        "carry_rotate",
         "journal",
         "pause",
         "quick_save",
@@ -36,9 +37,12 @@ public static class InputBindingService
         var byAction = bindings.ToDictionary(binding => binding.Action, StringComparer.Ordinal);
         foreach (var action in RemappableActions)
         {
+            // Actions absent from an older save keep their project-default
+            // binding: throwing here would crash every existing player's
+            // settings load the moment a new remappable action ships.
             if (!byAction.TryGetValue(action, out var binding))
             {
-                throw new InvalidDataException($"Saved input bindings are missing action {action}.");
+                continue;
             }
 
             RebindKeyboard(action, (Key)binding.KeyboardPhysicalKeycode);
