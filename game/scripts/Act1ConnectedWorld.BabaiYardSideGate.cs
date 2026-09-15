@@ -24,6 +24,9 @@ public partial class Act1ConnectedWorld
     private StaticBody3D? _babaiYardSideGateCollision;
     private bool? _babaiYardSideGateFound;
     private Tween? _babaiYardSideGateTween;
+    // EX05.3: the drift over the yard's service gap and its physical barrier.
+    private MeshInstance3D? _ex05PassageDrift;
+    private StaticBody3D? _ex05PassageBarrier;
 
     private void BuildBabaiYardSideGateExploration()
     {
@@ -61,7 +64,15 @@ public partial class Act1ConnectedWorld
 
         var lowerFenceStart = new Vector3(-25.20f, 0f, -6.40f);
         var lowerFenceEnd = new Vector3(-25.20f, 0f, -1.51f);
-        AddYardSideFenceVisualSpan(presentation, "LowerFence", lowerFenceStart, lowerFenceEnd);
+        // EX05.3: the lower run carries one more opening - a service gap into
+        // the lower street, banked over with a drift. Nothing on the authored
+        // route uses it, so clearing it is a genuine convenience and never a
+        // chore on the critical path, while the snowed-up look still reads as
+        // "the yard's own way through is closed for the winter".
+        var gapNorth = new Vector3(-25.20f, 0f, -2.30f);
+        var gapSouth = new Vector3(-25.20f, 0f, -3.40f);
+        AddYardSideFenceVisualSpan(presentation, "LowerFence", lowerFenceStart, gapSouth);
+        AddYardSideFenceVisualSpan(presentation, "LowerFenceGapNorth", gapNorth, lowerFenceEnd);
         AddYardSideFenceVisualSpan(presentation, "UpperFence", new(-25.2f, 0, .12f), new(-25.2f, 0, 1.75f));
 
         var gate = new Node3D
@@ -133,7 +144,7 @@ public partial class Act1ConnectedWorld
             _babaiYardSideFenceCollision,
             "LowerFenceRailHigh",
             lowerFenceStart,
-            lowerFenceEnd,
+            gapSouth,
             .12f,
             .90f,
             .76f);
@@ -141,10 +152,48 @@ public partial class Act1ConnectedWorld
             _babaiYardSideFenceCollision,
             "LowerFenceRailLow",
             lowerFenceStart,
+            gapSouth,
+            .12f,
+            .10f,
+            .34f);
+        AddYardCollisionBox(
+            _babaiYardSideFenceCollision,
+            "LowerFenceGapNorthRailHigh",
+            gapNorth,
+            lowerFenceEnd,
+            .12f,
+            .90f,
+            .76f);
+        AddYardCollisionBox(
+            _babaiYardSideFenceCollision,
+            "LowerFenceGapNorthRailLow",
+            gapNorth,
             lowerFenceEnd,
             .12f,
             .10f,
             .34f);
+
+        // EX05.3/EX05.4: the drift banked over the service gap. It is the only
+        // EX05 barrier with real physics, so clearing it changes a passage; the
+        // visible pile is the barrier - same volume, grounded the same way - and
+        // not a decoration beside an invisible wall.
+        _ex05PassageDrift = AddVisualBox(
+            presentation,
+            "ToolSnowPileServiceGap",
+            new(0.46f, 0.44f, 1.10f),
+            GroundedYardPoint(new Vector3(-25.20f, 0f, -2.85f)) + new Vector3(0f, 0.22f, 0f),
+            "e8e2d4",
+            "snow");
+        _ex05PassageBarrier = CreateYardCollisionBody(presentation, "Ex05PassageDriftBarrier");
+        AddYardCollisionBox(
+            _ex05PassageBarrier,
+            "ServiceGapDriftBlock",
+            new(-25.20f, 0f, -3.40f),
+            new(-25.20f, 0f, -2.30f),
+            .46f,
+            .44f,
+            .22f);
+        SetYardCollisionEnabled(_ex05PassageBarrier, true);
 
         AddYardCollisionBox(_babaiYardSideFenceCollision, "UpperFence", new(-25.2f, 0, .12f),
             new(-25.2f, 0, 1.75f), .12f, .9f, .76f);

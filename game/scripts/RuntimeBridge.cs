@@ -563,7 +563,12 @@ public partial class RuntimeBridge : Node
 
         var document = _content.RequireDocument(documentId);
         var conditions = JsonSerializer.SerializeToElement(document.AccessConditions);
-        var effects = document.OpenEffects.Select(item => item.Clone()).ToList();
+        // Merely entering an evidence scene does not mean the source was read.
+        // Both physical documents and the old-PC reader confirm their raw
+        // evidence here, inside the same access-checked transaction as opening.
+        var effects = document.KnowledgeRefs.Select(knowledgeId =>
+            JsonSerializer.SerializeToElement(new { op = "knowledge.set-status", knowledgeId, status = "confirmed" }))
+            .Concat(document.OpenEffects.Select(item => item.Clone())).ToList();
         effects.Add(JsonSerializer.SerializeToElement(new { op = "document.open", documentId }));
         var result = await DispatchContentApplyAsync(
             $"document-open:{documentId}:{Interlocked.Increment(ref _interactionSequence):D8}",
@@ -702,10 +707,12 @@ public partial class RuntimeBridge : Node
         if (inputType is "open" or "save")
         {
             document = _content.RequireOldPcDocument(input.GetProperty("documentId").GetString()!);
-            if (inputType == "open" && !IsOldPcDocumentAccessible(document.Id))
+            if (!IsOldPcDocumentAccessible(document.Id))
             {
                 throw new InvalidOperationException("Этот документ пока недоступен: не хватает найденных связей или понятого слова.");
             }
+            if (inputType == "save" && !WasDocumentOpened(_kernel.SelectState(), document.Id))
+                throw new InvalidOperationException("Сначала откройте документ и прочитайте его.");
         }
 
         var capabilityState = OldPcState();
@@ -980,7 +987,7 @@ public partial class RuntimeBridge : Node
             ? owner.GetString()!
             : command.ActionOccurrenceId;
         var plan = CustodyStore.PlanBatch(context.State, operations, claimOwnerId, WorldPropsClaimScope);
-        if (plan.Rejection is not null || !payload.TryGetProperty("placement", out var placement))
+        if (plan.Rejection is not null)
         {
             return plan;
         }
@@ -991,6 +998,13 @@ public partial class RuntimeBridge : Node
         {
             return plan;
         }
+
+        var custody = plan.Effects.FirstOrDefault(effect => effect.Key == CustodyStore.DefaultStateKey)?.Value;
+        if (custody is { ValueKind: JsonValueKind.Array } items
+            && items.EnumerateArray().Count(item => item.GetProperty("custodyOwnerId").GetString() == "player") > 1)
+            return new CommandPlan(Rejection: new("carry-hands-full", "Put down the carried object before taking another one."));
+
+        if (!payload.TryGetProperty("placement", out var placement)) return plan;
 
         var effects = plan.Effects.ToList();
         effects.Add(new StateEffect(StateEffectOperation.Set, WorldPropsStateKey,
@@ -1099,7 +1113,8 @@ public partial class RuntimeBridge : Node
     public async Task<bool> DispatchWorldCustodyAsync(JsonNode operations, JsonNode? placement = null,
         string claimOwnerId = "act1-exploration")
     {
-        if (_kernel is null)
+        var session = SessionIdentity;
+        if (session is null)
         {
             return false;
         }
@@ -1114,10 +1129,11 @@ public partial class RuntimeBridge : Node
             payload["placement"] = placement;
         }
 
-        var result = await _kernel.DispatchAsync(new GameCommand(
+        var result = await session.DispatchAsync(new GameCommand(
             $"world.custody:{Interlocked.Increment(ref _interactionSequence):D8}",
             "world.custody",
             JsonSerializer.SerializeToElement(payload)));
+        if (!ReferenceEquals(session, SessionIdentity)) return false;
         if (result.Status == CommandStatus.Committed)
         {
             QueueRuntimeStateChanged();
@@ -1133,15 +1149,17 @@ public partial class RuntimeBridge : Node
     /// </summary>
     public async Task<bool> DispatchWorldPropsAsync(JsonNode placement)
     {
-        if (_kernel is null)
+        var session = SessionIdentity;
+        if (session is null)
         {
             return false;
         }
 
-        var result = await _kernel.DispatchAsync(new GameCommand(
+        var result = await session.DispatchAsync(new GameCommand(
             $"world.props:{Interlocked.Increment(ref _interactionSequence):D8}",
             "world.props",
             JsonSerializer.SerializeToElement(new JsonObject { ["placement"] = placement })));
+        if (!ReferenceEquals(session, SessionIdentity)) return false;
         if (result.Status == CommandStatus.Committed)
         {
             QueueRuntimeStateChanged();
@@ -1156,15 +1174,17 @@ public partial class RuntimeBridge : Node
     /// </summary>
     public async Task RegisterWorldItemsAsync(IEnumerable<string> itemIds)
     {
-        if (_kernel is null)
+        var session = SessionIdentity;
+        if (session is null)
         {
             return;
         }
 
-        var result = await _kernel.DispatchAsync(new GameCommand(
+        var result = await session.DispatchAsync(new GameCommand(
             $"world.props.register:{Interlocked.Increment(ref _interactionSequence):D8}",
             "world.props.register",
             JsonSerializer.SerializeToElement(new { itemIds = itemIds.ToArray() })));
+        if (!ReferenceEquals(session, SessionIdentity)) return;
         if (result.Status == CommandStatus.Committed)
         {
             QueueRuntimeStateChanged();
@@ -1333,9 +1353,20 @@ public partial class RuntimeBridge : Node
             Events: events);
     }
 
-    private static CommandPlan HandleOldPcSave(GameCommand command, RuntimeCommandContext context)
+    private static bool WasDocumentOpened(JsonElement state, string documentId) =>
+        state.TryGetProperty("presentation", out var presentation)
+        && presentation.TryGetProperty("openedDocumentIds", out var opened)
+        && opened.EnumerateArray().Any(item => item.GetString() == documentId);
+
+    private CommandPlan HandleOldPcSave(GameCommand command, RuntimeCommandContext context)
     {
         var documentId = command.Payload.GetProperty("documentId").GetString()!;
+        // Check again at the runtime transaction boundary: UI availability is
+        // not evidence that this source was actually accessible and opened.
+        var source = _content.RequireOldPcDocument(documentId);
+        if (!source.AccessConditions.All(condition => ContentRuleEngine.Evaluate(condition, context.State))
+            || !WasDocumentOpened(context.State, documentId))
+            return new CommandPlan(Rejection: new("oldpc-unread-source", "Сначала откройте доступный документ."));
         var journal = JsonNode.Parse(context.State.GetProperty("journal").GetRawText())!.AsArray();
         if (!journal.OfType<JsonObject>().Any(item => item["entryId"]?.GetValue<string>() == documentId))
         {

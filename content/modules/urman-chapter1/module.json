@@ -4,6 +4,8 @@
   "exactVersion": "1.0.0",
   "sourceFiles": [
     "definitions.json",
+    "investigation-social.json",
+    "investigation-family.json",
     "documents/arrival-photo-evidence.md"
   ],
   "assets": [
@@ -55,6 +57,8 @@
     "urman.chapter1:knowledge/clue_alsu_knows_more_than_says",
     "urman.chapter1:knowledge/clue_do_not_answer_rule",
     "urman.chapter1:knowledge/clue_family_avoids_marat",
+    "urman.chapter1:knowledge/clue_household_niva_list",
+    "urman.chapter1:knowledge/clue_household_electric_receipts",
     "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
     "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
     "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",

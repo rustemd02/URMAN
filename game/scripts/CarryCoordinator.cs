@@ -5,421 +5,397 @@ using Godot;
 namespace Urman.Godot;
 
 /// <summary>
-/// EX01/EX03 carry coordinator: finds the carryable the player is facing, moves
-/// it to the camera hold point while carried, validates and commits placements,
-/// and rotates the held item. Ownership and the placement deviation go to the
-/// runtime state through the wired world.custody handler, so a taken, carried
-/// or placed thing survives save/load with no second save path, and a rejected
-/// transition leaves the world untouched.
+/// One input owner (FirstPersonController), one item owner (runtime custody).
+/// The coordinator validates the physical attempt, commits it, then projects the
+/// snapshot. Rejected attempts never move a prop or change a tool's result.
 /// </summary>
 public partial class CarryCoordinator : Node
 {
-    private const float Reach = 2.4f;
-    private const float FocusHalfAngleDegrees = 40f;
-    private const float RotateStepDegrees = 15f;
-    private const float PlaceReach = 2.2f;
-    private const float MaxGroundSlopeDot = 0.82f;
-
-    private FirstPersonController? _player;
-    private Camera3D? _camera;
-    private RuntimeBridge? _bridge;
+    private const float Reach = 2.7f;
+    private const float SlopeLimit = .90f;
     private readonly List<CarryableProp> _props = new();
     private readonly List<YardTool> _tools = new();
+    private RuntimeBridge? _bridge;
+    private FirstPersonController? _player;
+    private Camera3D? _camera;
+    private object? _registeredSession;
+    private bool _registering;
+    private bool _busy;
+    private string? _lastProjection;
     private CarryableProp? _held;
-    private CarryableProp? _focus;
-    private YardTool? _toolFocus;
-    private Label3D? _prompt;
-    private readonly StringName _interactAction = new("interact");
-    private readonly StringName _rotateAction = new("carry_rotate");
-    private bool _interactWasPressed;
+    private string _feedback = string.Empty;
+    private ulong _feedbackUntil;
+    private string _zoneId = "village_day";
+    private bool _exterior = true;
+    private string? _heldPoseItem;
+    private bool _heldPoseValid;
+
+    internal CarryableProp? HeldItem => _held;
+    internal IReadOnlyList<CarryableProp> Items => _props;
+    internal bool ActionInProgress => _busy || _registering;
+    internal Task<bool> PendingAction { get; private set; } = Task.FromResult(true);
+    public IReadOnlyList<string> ItemIds => _props.Select(prop => prop.ItemId).ToArray();
 
     public static CarryCoordinator Create(IEnumerable<CarryableProp> props)
     {
-        var coordinator = new CarryCoordinator { Name = "CarryCoordinator" };
-        foreach (var prop in props)
-        {
-            coordinator.Register(prop);
-        }
-
-        return coordinator;
+        var owner = new CarryCoordinator { Name = "CarryCoordinator" };
+        foreach (var prop in props) owner.Register(prop);
+        return owner;
     }
 
     public void Register(CarryableProp prop)
     {
+        if (_props.Any(item => item.ItemId == prop.ItemId))
+            throw new InvalidOperationException($"Duplicate carry item {prop.ItemId}.");
         _props.Add(prop);
         AddChild(prop);
     }
 
-    /// <summary>EX03 tools share the same focus cone and interact input.</summary>
     public void Register(YardTool tool)
     {
+        if (_props.Any(item => item.ItemId == tool.Prop.ItemId))
+            throw new InvalidOperationException($"Duplicate tool {tool.ToolId}.");
         _tools.Add(tool);
+        _props.Add(tool.Prop);
         AddChild(tool);
     }
 
-    public override void _Ready()
+    public override void _Ready() => AddToGroup("carry_coordinator");
+
+    public void AttachRuntimeState(RuntimeBridge bridge)
     {
-        _prompt = new Label3D
-        {
-            Name = "CarryPrompt",
-            Billboard = BaseMaterial3D.BillboardModeEnum.Enabled,
-            NoDepthTest = false,
-            FixedSize = false,
-            FontSize = 40,
-            PixelSize = 0.002f,
-            Modulate = new Color("e8e2d4"),
-            OutlineSize = 6,
-            OutlineModulate = new Color("1c1a17")
-        };
-        AddChild(_prompt);
-        _prompt.Visible = false;
+        _bridge = bridge;
+        ApplyWorldState();
     }
 
-    public override void _Process(double delta)
+    // Called only by the ordinary controller, after modal gating and movement.
+    // true consumes this frame's world interaction; false leaves a narrative
+    // target to the controller, including when a lamp is held in the other hand.
+    internal bool HandlePlayerInput(FirstPersonController player, Camera3D camera, out string prompt)
     {
-        _player ??= GetTree().GetFirstNodeInGroup("player") as FirstPersonController
-            ?? GetTree().Root.FindChild("Player", true, false) as FirstPersonController;
-        _camera ??= _player?.GetNodeOrNull<Camera3D>("Head/Camera3D")
-            ?? _player?.FindChild("Camera3D", true, false) as Camera3D;
-        if (_player is null || _camera is null)
+        _player = player;
+        _camera = camera;
+        prompt = string.Empty;
+        if (player.ModalOpen || _bridge?.SessionIdentity is not { } session) return false;
+        if (!ReferenceEquals(_registeredSession, session)) ApplyWorldState();
+        if (_registering || !ReferenceEquals(_registeredSession, session)) return false;
+
+        var hit = Trace(camera.GlobalPosition, camera.GlobalPosition - camera.GlobalBasis.Z * Reach, 7u);
+        var target = hit.Count == 0 ? null : hit["collider"].AsGodotObject();
+        if (_held is not null) UpdateHeld();
+        if (_busy)
         {
-            return;
+            prompt = "…";
+            return true;
         }
 
-        var interactPressed = Input.IsActionJustPressed(_interactAction);
-        var rotatePressed = Input.IsActionJustPressed(_rotateAction);
-
+        var interact = Input.IsActionJustPressed("interact");
         if (_held is not null)
         {
-            UpdateHeld();
-            if (rotatePressed)
+            // A commit may finish synchronously and clear _held. Finish this
+            // input branch before consulting it again, and never replace the
+            // accepted action's task with a second same-frame rejection.
+            if (Input.IsActionJustPressed("carry_place"))
             {
-                _held.Rotate(RotateStepDegrees);
+                prompt = "Поставить предмет";
+                PendingAction = PlaceAsync();
+                return true;
             }
-
-            if (interactPressed)
+            if (Input.IsActionJustPressed("carry_rotate"))
             {
-                TryPlaceUnderHold();
+                prompt = "Повернуть предмет";
+                PendingAction = RotateAsync();
+                return true;
             }
-
-            return;
+            if (target is YardUseTarget use && !use.Completed)
+            {
+                var correct = _held.ToolId == use.Tool.ToolId;
+                prompt = correct ? $"{player.InteractionHint} {use.Prompt}"
+                    : $"Здесь пригодится {use.Tool.ToolName.ToLowerInvariant()}";
+                if (interact)
+                {
+                    if (correct) PendingAction = UseAsync(use);
+                    else Feedback($"{_held.PromptName}: здесь не поможет. Нужна {use.Tool.ToolName.ToLowerInvariant()}.");
+                }
+                prompt += $" · {Hint("carry_place")} поставить";
+            }
+            else if (target is InteractionTarget && _held.Class != CarryableProp.ItemClass.Bulky)
+            {
+                // The held lamp does not swallow a conversation or document.
+                return false;
+            }
+            else
+            {
+                prompt = $"{Hint("carry_place")} поставить · {Hint("carry_rotate")} повернуть";
+                if (_held.Kind == CarryableProp.ItemKind.Lantern)
+                {
+                    prompt = $"{player.InteractionHint} {(_held.LightOn ? "выключить" : "включить")} фонарь · " + prompt;
+                    if (interact) PendingAction = LightAsync(_held, !_held.LightOn);
+                }
+                else if (interact) PendingAction = PlaceAsync();
+            }
+            if (Time.GetTicksMsec() < _feedbackUntil) prompt = _feedback;
+            return true;
         }
 
-        UpdateFocus();
-        if (interactPressed && _focus is not null)
+        if (target is CarryableProp prop && !prop.IsConcealed && prop.IsVisibleInTree()
+            && prop.State is CarryableProp.CarryState.World or CarryableProp.CarryState.Placed)
         {
-            Take(_focus);
-            return;
+            prompt = $"{player.InteractionHint} Взять: {prop.PromptName}";
+            if (interact) PendingAction = TakeAsync(prop);
+            return true;
         }
-
-        UpdateToolFocus();
-        if (interactPressed && _toolFocus is not null)
+        if (target is YardUseTarget needed && !needed.Completed)
         {
-            _toolFocus.Use();
-            _ = PersistToolUseAsync(_toolFocus, _toolFocus.LastUseId);
+            prompt = $"{needed.Prompt} — нужна {needed.Tool.ToolName.ToLowerInvariant()}";
+            if (interact) Feedback($"Возьмите {needed.Tool.ToolName.ToLowerInvariant()} и поднесите к этому месту.");
+            if (Time.GetTicksMsec() < _feedbackUntil) prompt = _feedback;
+            return true;
         }
+        return false;
     }
 
-    private void UpdateFocus()
+    private string Hint(string action) => InputBindingService.ActionHint(action, _player?.CurrentInputDevice == "gamepad");
+
+    private global::Godot.Collections.Dictionary Trace(Vector3 from, Vector3 to, uint mask = 3u)
     {
-        _focus = null;
-        var cameraOrigin = _camera!.GlobalPosition;
-        var forward = -_camera.GlobalTransform.Basis.Z;
-        forward.Y = 0;
-        forward = forward.Normalized();
-        var best = float.MaxValue;
-        foreach (var prop in _props)
-        {
-            if (prop.State != CarryableProp.CarryState.World)
-            {
-                continue;
-            }
-
-            var toProp = prop.GlobalPosition - cameraOrigin;
-            var flat = new Vector3(toProp.X, 0, toProp.Z);
-            var distance = flat.Length();
-            if (distance > Reach || distance < 0.05f)
-            {
-                continue;
-            }
-
-            var angle = Mathf.RadToDeg(flat.AngleTo(forward));
-            if (angle > FocusHalfAngleDegrees)
-            {
-                continue;
-            }
-
-            if (distance < best)
-            {
-                best = distance;
-                _focus = prop;
-            }
-        }
-
-        ShowPrompt(_focus, $"Взять: {_focus?.PromptName}", (_focus?.GlobalPosition ?? Vector3.Zero) + new Vector3(0, 0.9f, 0));
-    }
-
-    private void UpdateToolFocus()
-    {
-        _toolFocus = null;
-        var cameraOrigin = _camera!.GlobalPosition;
-        var forward = -_camera.GlobalTransform.Basis.Z;
-        forward.Y = 0;
-        forward = forward.Normalized();
-        var best = float.MaxValue;
-        foreach (var tool in _tools)
-        {
-            var toTool = tool.GlobalPosition - cameraOrigin;
-            var flat = new Vector3(toTool.X, 0, toTool.Z);
-            var distance = flat.Length();
-            if (distance > tool.Reach || distance < 0.05f)
-            {
-                continue;
-            }
-
-            if (Mathf.RadToDeg(flat.AngleTo(forward)) > FocusHalfAngleDegrees)
-            {
-                continue;
-            }
-
-            if (distance < best)
-            {
-                best = distance;
-                _toolFocus = tool;
-            }
-        }
-
-        ShowPrompt(_toolFocus, _toolFocus?.NextPrompt() ?? string.Empty,
-            _toolFocus is null ? Vector3.Zero : _toolFocus.GlobalPosition + new Vector3(0, 0.9f, 0));
+        var ray = PhysicsRayQueryParameters3D.Create(from, to, mask);
+        if (_player is not null) ray.Exclude = new global::Godot.Collections.Array<Rid> { _player.GetRid() };
+        return _camera!.GetWorld3D().DirectSpaceState.IntersectRay(ray);
     }
 
     private void UpdateHeld()
     {
-        var held = _held!;
-        var origin = _camera!.GlobalPosition;
-        var forward = -_camera.GlobalTransform.Basis.Z;
-        forward.Y = 0;
-        forward = forward.Normalized();
-        var holdPoint = origin + forward * held.HoldDistance + new Vector3(0, held.HoldDrop, 0);
-        held.HoldAt(new Transform3D(Basis.Identity, holdPoint));
-        ShowPrompt(held, $"Положить [E] · Поворот [R]", held.GlobalPosition + new Vector3(0, held.Height + 0.25f, 0));
-    }
-
-    private void TryPlaceUnderHold()
-    {
-        var held = _held!;
-        var origin = _camera!.GlobalPosition;
-        var forward = -_camera.GlobalTransform.Basis.Z;
-        forward.Y = 0;
-        forward = forward.Normalized();
-        var probe = origin + forward * held.HoldDistance;
-        var space = held.GetWorld3D().DirectSpaceState;
-        var query = PhysicsRayQueryParameters3D.Create(
-            probe + new Vector3(0, 0.6f, 0),
-            probe + new Vector3(0, -1.4f, 0));
-        query.CollisionMask = 1u;
-        var hit = space.IntersectRay(query);
-        if (hit.Count == 0)
+        if (_held is null || _camera is null) return;
+        if (_heldPoseItem != _held.ItemId) _heldPoseValid = false;
+        _heldPoseItem = _held.ItemId;
+        if (TryHeldPose(_held, Vector3.Zero, _held.YawDegrees, out var pose))
         {
-            ShowPromptTemporarily("Сюда ставить нельзя");
-            return;
+            _held.HoldAt(pose);
+            _heldPoseValid = true;
         }
+    }
 
-        var ground = hit["position"].AsVector3();
-        var normal = hit["normal"].AsVector3();
-        if (normal.Y < MaxGroundSlopeDot)
+    private Task<bool> TakeAsync(CarryableProp prop) => CommitAsync(async () =>
+    {
+        if (_held is not null || prop.IsConcealed || !prop.IsVisibleInTree()
+            || prop.State is not (CarryableProp.CarryState.World or CarryableProp.CarryState.Placed)) return false;
+        if (IsSupportingSomething(prop))
         {
-            ShowPromptTemporarily("Слишком круто");
-            return;
+            Feedback("Сначала сойдите с опоры и снимите с неё вещи.");
+            return false;
         }
-
-        held.Place(new Vector3(ground.X, ground.Y, ground.Z), held.YawDegrees);
-        _held = null;
-        _prompt!.Visible = false;
-        _ = PersistAsync(held, "placed");
-    }
-
-    private void ShowPrompt(Node3D? anchor, string text, Vector3 at)
-    {
-        if (_prompt is null || anchor is null)
+        if (!TryHeldPose(prop, Vector3.Zero, prop.YawDegrees, out _))
         {
-            if (_prompt is not null)
-            {
-                _prompt.Visible = false;
-            }
-
-            return;
+            Feedback("Здесь тесно для этого предмета. Подойдите с открытой стороны.");
+            return false;
         }
+        return await _bridge!.DispatchWorldCustodyAsync(Transfer(prop, "world", "player"),
+            new JsonArray { Placement(prop, "held", yaw: prop.YawDegrees) });
+    });
 
-        _prompt.Text = text;
-        _prompt.GlobalPosition = at;
-        _prompt.Visible = true;
-    }
-
-    private void ShowPromptTemporarily(string text)
+    private Task<bool> PlaceAsync() => CommitAsync(async () =>
     {
-        if (_prompt is null || _held is null)
+        if (_held is null) return false;
+        if (!TryPlacement(_held, out var point, out var reason))
         {
-            return;
+            Feedback(reason);
+            return false;
         }
+        var record = Placement(_held, "placed", point, _held.YawDegrees);
+        record["zone"] = _exterior ? string.Empty : _zoneId;
+        return await _bridge!.DispatchWorldCustodyAsync(Transfer(_held, "player", "world"), new JsonArray { record });
+    });
 
-        _prompt.Text = text;
-        _prompt.GlobalPosition = _held.GlobalPosition + new Vector3(0, _held.Height + 0.3f, 0);
-        _prompt.Visible = true;
-    }
-
-    private void Take(CarryableProp prop)
+    private Task<bool> RotateAsync() => CommitAsync(() =>
     {
-        prop.Take();
-        _held = prop;
-        _focus = null;
-        _ = PersistAsync(prop, "held");
-    }
-
-    /// <summary>Every registered item id, for the ownership registration pass.</summary>
-    public IReadOnlyList<string> ItemIds => _props.Select(prop => prop.ItemId).ToArray();
-
-    /// <summary>
-    /// Registers the authored item set with the ownership layer and re-applies
-    /// the recorded deviations. Idempotent: registration keeps a loaded
-    /// session's ownership, and the apply pass only moves what the player
-    /// actually moved.
-    /// </summary>
-    public void AttachRuntimeState(RuntimeBridge bridge)
-    {
-        _bridge = bridge;
-        _ = bridge.RegisterWorldItemsAsync(ItemIds);
-        ApplyWorldState();
-    }
-
-    /// <summary>
-    /// Re-applies the persisted props state: a held item comes back to the
-    /// player's hands, a placed one returns to its recorded transform, and every
-    /// performed tool use shows its result again. Only deviations are stored, so
-    /// everything else still sits where the authored layout put it.
-    /// </summary>
-    public void ApplyWorldState()
-    {
-        if (_bridge is null || !IsInsideTree())
+        if (_held is null) return Task.FromResult(false);
+        var yaw = Mathf.PosMod(_held.YawDegrees + 15f, 360f);
+        if (!CanRotateHeld(_held, yaw))
         {
-            return;
+            Feedback("Повернуть мешает преграда. Отойдите немного.");
+            return Task.FromResult(false);
         }
+        return _bridge!.DispatchWorldPropsAsync(new JsonArray { Placement(_held, "held", yaw: yaw) });
+    });
 
-        JsonElement props;
+    private Task<bool> LightAsync(CarryableProp prop, bool enabled) => CommitAsync(() =>
+        _bridge!.DispatchWorldPropsAsync(new JsonArray { new JsonObject { ["propId"] = prop.ItemId, ["light"] = enabled } }));
+
+    private Task<bool> UseAsync(YardUseTarget use) => CommitAsync(() =>
+    {
+        if (_held?.ToolId != use.Tool.ToolId || use.Completed) return Task.FromResult(false);
+        return _bridge!.DispatchWorldPropsAsync(new JsonArray
+        { new JsonObject { ["propId"] = use.StateKey, ["visible"] = !use.InitialVisible } });
+    });
+
+    private async Task<bool> CommitAsync(Func<Task<bool>> command)
+    {
+        if (_busy || _registering || _player?.ModalOpen != false || _bridge?.SessionIdentity is not { } session
+            || !ReferenceEquals(session, _registeredSession)) return false;
+        _busy = true;
         try
         {
-            props = _bridge.SelectWorldProps();
+            var committed = await command();
+            if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || !ReferenceEquals(session, _bridge.SessionIdentity)) return false;
+            if (committed) ApplyWorldState();
+            else if (Time.GetTicksMsec() >= _feedbackUntil) Feedback("Не получилось. Предмет остался на месте.");
+            return committed;
         }
-        catch (InvalidOperationException)
+        catch (Exception error)
         {
+            GD.PushWarning($"carry: transaction rejected: {error.Message}");
+            Feedback("Действие не сохранилось. Можно попробовать ещё раз.");
+            return false;
+        }
+        finally { _busy = false; }
+    }
+
+    internal bool TryPlacement(CarryableProp prop, out Vector3 point, out string reason)
+    {
+        point = Vector3.Zero;
+        reason = "Нужна ровная свободная опора";
+        if (_camera is null || _player is null) return false;
+        var origin = _camera.GlobalPosition;
+        var forward = -_camera.GlobalBasis.Z;
+        var horizontal = new Vector3(forward.X, 0, forward.Z).Normalized();
+        var probe = origin + horizontal * Math.Max(1.15f, prop.HoldDistance);
+        var aimed = Trace(origin, origin + forward * Reach);
+        if (aimed.Count > 0 && aimed["normal"].AsVector3().Y >= SlopeLimit
+            && (aimed["position"].AsVector3() - _player.GlobalPosition).Length() > .7f)
+            probe = aimed["position"].AsVector3() + Vector3.Up * .5f;
+        point = new(probe.X, probe.Y, probe.Z);
+        var basis = Basis.FromEuler(new(0, Mathf.DegToRad(prop.YawDegrees), 0));
+        var minY = float.PositiveInfinity;
+        var maxY = float.NegativeInfinity;
+        // A plank rests on both ends; requiring ground under its middle would
+        // make a real short bridge impossible. Other items need the centre too.
+        var feet = new List<Vector3>();
+        if (prop.Kind != CarryableProp.ItemKind.Board) feet.Add(Vector3.Zero);
+        foreach (var x in new[] { -.43f, .43f })
+        foreach (var z in new[] { -.44f, .44f })
+            feet.Add(new(prop.Size.X * x, 0, prop.Size.Z * z));
+        foreach (var offset in feet)
+        {
+            var foot = point + basis * offset;
+            var support = Trace(new(foot.X, origin.Y + .3f, foot.Z), new(foot.X, origin.Y - 3f, foot.Z));
+            if (support.Count == 0 || support["normal"].AsVector3().Y < SlopeLimit) return false;
+            var y = support["position"].AsVector3().Y;
+            minY = Math.Min(minY, y); maxY = Math.Max(maxY, y);
+        }
+        if (maxY - minY > .055f) { reason = "Край предмета останется без опоры"; return false; }
+        point.Y = maxY + .006f;
+        if (origin.DistanceTo(point) > Reach + .15f) { reason = "Слишком далеко"; return false; }
+        var visibility = Trace(origin, point + Vector3.Up * .035f);
+        if (visibility.Count > 0 && visibility["position"].AsVector3().DistanceTo(point) > .10f)
+        { reason = "Мешает преграда"; return false; }
+        using var placementShape = new BoxShape3D { Size = prop.Size - new Vector3(.012f, .012f, .012f) };
+        using var query = new PhysicsShapeQueryParameters3D
+        {
+            Shape = placementShape,
+            Transform = new(basis, point + Vector3.Up * prop.Height * .5f), CollisionMask = 3u,
+            Exclude = new global::Godot.Collections.Array<Rid> { prop.GetRid() }, Margin = .002f
+        };
+        if (_camera.GetWorld3D().DirectSpaceState.IntersectShape(query, 1).Count != 0)
+        { reason = "Здесь не хватает места"; return false; }
+        reason = string.Empty;
+        return true;
+    }
+
+    private void Feedback(string message)
+    {
+        _feedback = message;
+        _feedbackUntil = Time.GetTicksMsec() + 1800;
+    }
+
+    public void ApplyWorldState()
+    {
+        if (!IsInsideTree() || _bridge?.SessionIdentity is not { } session) return;
+        if (!ReferenceEquals(_registeredSession, session))
+        {
+            if (!_registering) _ = RegisterSessionAsync(session);
             return;
         }
-
+        var props = _bridge.SelectWorldProps();
+        var projection = props.GetRawText();
+        if (_lastProjection == projection) return;
+        _lastProjection = projection;
+        var previousHeldId = _held?.ItemId;
+        var previousHeldPosition = _held?.GlobalPosition;
+        _held = null;
+        foreach (var prop in _props) prop.ResetToAuthored();
+        // Reset source-dependent concealment before projecting a moved item.
+        // A loaded held/placed axe cannot remain hidden under its old snow.
+        foreach (var tool in _tools) tool.RestoreResults(props);
         foreach (var prop in _props)
         {
-            if (!props.TryGetProperty(prop.ItemId, out var record))
-            {
-                continue;
-            }
-
-            var state = record.TryGetProperty("state", out var stateValue) ? stateValue.GetString() : null;
+            if (!props.TryGetProperty(prop.ItemId, out var record)) continue;
+            var state = record.TryGetProperty("state", out var value) ? value.GetString() : null;
+            var yaw = record.TryGetProperty("yaw", out var angle) ? angle.GetSingle() : prop.YawDegrees;
             if (state == "held")
             {
-                if (_held is null)
-                {
-                    _held = prop;
-                    prop.Take();
-                }
-
-                continue;
+                if (_held is not null) throw new InvalidOperationException("Snapshot has more than one carried item.");
+                prop.Take();
+                prop.Rotate(yaw - prop.YawDegrees);
+                _held = prop;
             }
-
-            if (state != "placed" || ReferenceEquals(prop, _held))
-            {
-                continue;
-            }
-
-            if (record.TryGetProperty("x", out var x)
-                && record.TryGetProperty("y", out var y)
-                && record.TryGetProperty("z", out var z))
-            {
-                var yaw = record.TryGetProperty("yaw", out var yawValue)
-                    ? (float)yawValue.GetDouble()
-                    : prop.YawDegrees;
-                prop.Place(new Vector3((float)x.GetDouble(), (float)y.GetDouble(), (float)z.GetDouble()), yaw);
-            }
+            else if (state is "placed" or "combined"
+                && record.TryGetProperty("x", out var x) && record.TryGetProperty("y", out var y) && record.TryGetProperty("z", out var z))
+                prop.Place(new(x.GetSingle(), y.GetSingle(), z.GetSingle()), yaw, state == "combined");
+            if (record.TryGetProperty("light", out var light)) prop.SetLight(light.GetBoolean());
+            prop.PlacementZone = record.TryGetProperty("zone", out var zone) ? zone.GetString() ?? string.Empty : string.Empty;
         }
+        if (_held is not null && _heldPoseValid && previousHeldId == _held.ItemId
+            && previousHeldPosition is { } heldPosition)
+            _held.HoldAt(heldPosition);
+        ApplyZonePresentation();
+        if (_held is null) { _heldPoseItem = null; _heldPoseValid = false; }
+        UpdateHeld();
+    }
 
+    public void SetZonePresentation(string zoneId, bool exterior)
+    {
+        _zoneId = zoneId;
+        _exterior = exterior;
+        ApplyZonePresentation();
+    }
+
+    private void ApplyZonePresentation()
+    {
+        foreach (var prop in _props)
+            prop.SetPresentationEnabled(prop.State == CarryableProp.CarryState.Held
+                || (string.IsNullOrEmpty(prop.PlacementZone) ? _exterior : prop.PlacementZone == _zoneId));
         foreach (var tool in _tools)
-        {
-            foreach (var useId in tool.UseIds)
-            {
-                var key = ToolStateKey(tool.ToolId, useId);
-                if (props.TryGetProperty(key, out var record)
-                    && record.TryGetProperty("visible", out var visible))
-                {
-                    tool.ApplyResult(useId, visible.GetBoolean());
-                }
-            }
-        }
+        foreach (var target in tool.Targets) target.SetWorldEnabled(_exterior);
     }
 
-    private static string ToolStateKey(string toolId, string useId) => $"tool/{toolId}/{useId}";
-
-    /// <summary>
-    /// Records one tool use. The persisted value is the effect's own
-    /// visibility, so no semantics are invented here: the restored yard shows
-    /// exactly what the player left behind.
-    /// </summary>
-    private async Task PersistToolUseAsync(YardTool tool, string useId)
+    private async Task RegisterSessionAsync(object session)
     {
-        if (_bridge is null || tool.ResultOf(useId) is not { } visible)
+        _registering = true;
+        try
         {
-            return;
+            await _bridge!.RegisterWorldItemsAsync(ItemIds);
+            if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || !ReferenceEquals(session, _bridge.SessionIdentity)) return;
+            _registeredSession = session;
+            _lastProjection = null;
+            _heldPoseValid = false;
+            _heldPoseItem = null;
+            ApplyWorldState();
         }
-
-        var records = new JsonArray
-        {
-            new JsonObject
-            {
-                ["propId"] = ToolStateKey(tool.ToolId, useId),
-                ["visible"] = visible
-            }
-        };
-        await _bridge.DispatchWorldPropsAsync(records);
+        catch (Exception error) { GD.PushWarning($"carry: registration failed: {error.Message}"); }
+        finally { _registering = false; }
     }
 
-    private async Task PersistAsync(CarryableProp prop, string state)
+    private static JsonArray Transfer(CarryableProp prop, string from, string to) => new()
     {
-        if (_bridge is null)
-        {
-            return;
-        }
+        new JsonObject { ["op"] = "transfer", ["itemId"] = prop.ItemId, ["fromOwnerId"] = from, ["toOwnerId"] = to }
+    };
 
-        var placement = new JsonObject
-        {
-            ["propId"] = prop.ItemId,
-            ["state"] = state
-        };
-        if (state == "placed")
-        {
-            var position = prop.GlobalPosition;
-            placement["x"] = position.X;
-            placement["y"] = position.Y;
-            placement["z"] = position.Z;
-            placement["yaw"] = prop.YawDegrees;
-        }
-
-        var operations = new JsonArray
-        {
-            (JsonNode)new JsonObject
-            {
-                ["op"] = "transfer",
-                ["itemId"] = prop.ItemId,
-                ["fromOwnerId"] = state == "held" ? "world" : "player",
-                ["toOwnerId"] = state == "held" ? "player" : "world"
-            }
-        };
-        await _bridge.DispatchWorldCustodyAsync(operations, new JsonArray { placement });
+    private static JsonObject Placement(CarryableProp prop, string state, Vector3? point = null, float? yaw = null)
+    {
+        var record = new JsonObject { ["propId"] = prop.ItemId, ["state"] = state };
+        if (point is { } p) { record["x"] = p.X; record["y"] = p.Y; record["z"] = p.Z; }
+        if (yaw is { } angle) record["yaw"] = angle;
+        return record;
     }
 }

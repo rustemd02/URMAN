@@ -231,15 +231,11 @@ PY
 ./eng/compile-game-content.sh
 
 GODOT="$URMAN_ROOT/.tools/godot/Godot_mono.app/Contents/MacOS/Godot"
-GUARD=/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/protected_run.py
+GUARD=${URMAN_GUARD:-$URMAN_ROOT/eng/protected_run.py}
+[ -f "$GUARD" ] || { echo "userdata guard not found: $GUARD" >&2; exit 1; }
 for scene in act1_audio_settings_smoke_test act1_audio_transition_smoke_test act1_footstep_smoke_test ambient_audio_smoke_test; do
-  if [ -f "$GUARD" ]; then
-    python3 "$GUARD" "$GODOT" --headless --audio-driver Dummy --path game "res://tests/$scene.tscn" >"/tmp/voice_$scene.log" 2>&1 || {
-      echo "audio check failed: $scene (see /tmp/voice_$scene.log)" >&2; exit 1; }
-  else
-    "$GODOT" --headless --audio-driver Dummy --path game "res://tests/$scene.tscn" >"/tmp/voice_$scene.log" 2>&1 || {
-      echo "audio check failed: $scene (see /tmp/voice_$scene.log)" >&2; exit 1; }
-  fi
+  python3 "$GUARD" --clean "$GODOT" --headless --audio-driver Dummy --path game "res://tests/$scene.tscn" >"/tmp/voice_$scene.log" 2>&1 || {
+    echo "audio check failed: $scene (see /tmp/voice_$scene.log)" >&2; exit 1; }
   echo "audio check passed: $scene"
 done
 

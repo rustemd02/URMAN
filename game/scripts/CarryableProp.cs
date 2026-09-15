@@ -2,115 +2,149 @@ using Godot;
 
 namespace Urman.Godot;
 
-/// <summary>
-/// One carryable prop of the EX01 set: a world item the player can pick up,
-/// carry in front of the camera and put back down, repeatedly, with no
-/// narrative commitment. Session-local by design in this slice - persistence
-/// lands with the world.custody handler wiring.
-/// </summary>
+/// <summary>A single authored thing, projected from the runtime custody/snapshot.</summary>
 public partial class CarryableProp : StaticBody3D
 {
-    public enum CarryState { World, Held, Placed }
-
-    public enum ItemClass { Light, Medium, Bucket }
+    public enum CarryState { World, Held, Placed, Combined }
+    public enum ItemClass { Light, Medium, Bucket, Bulky }
+    public enum ItemKind { Log, Crate, Bucket, Axe, Shovel, Pole, Lantern, Board, Ladder, Cloth }
 
     public string ItemId { get; private set; } = string.Empty;
     public string PromptName { get; private set; } = string.Empty;
     public ItemClass Class { get; private set; }
+    public ItemKind Kind { get; private set; }
     public CarryState State { get; private set; } = CarryState.World;
     public float YawDegrees { get; private set; }
-    public float HoldDistance { get; private set; }
-    public float HoldDrop { get; private set; }
-    public float HalfWidth { get; private set; }
-    public float Height { get; private set; }
+    public float HoldDistance => Class == ItemClass.Bulky ? 1.1f : .78f;
+    public float HoldDrop => -.44f;
+    public Vector3 Size { get; private set; }
+    public float HalfWidth => Size.X * .5f;
+    public float Height => Size.Y;
+    public bool IsConcealed { get; private set; }
+    public bool HasOwnDeviation { get; private set; }
+    public bool LightOn { get; private set; }
+    public string ToolId { get; internal set; } = string.Empty;
+    public string PlacementZone { get; internal set; } = string.Empty;
 
-    private uint _restCollisionLayer;
-    private MeshInstance3D _mesh = null!;
-
-    private static (Vector3 Size, float HoldDistance, float HoldDrop) Body(ItemClass itemClass) =>
-        itemClass switch
-        {
-            ItemClass.Light => (new Vector3(0.36f, 0.12f, 0.13f), 0.70f, -0.14f),
-            ItemClass.Medium => (new Vector3(0.42f, 0.30f, 0.34f), 0.92f, -0.28f),
-            _ => (new Vector3(0.26f, 0.28f, 0.26f), 0.85f, -0.22f)
-        };
+    private Transform3D _authoredTransform;
+    private bool _authoredConcealed;
+    private bool _authoredCaptured;
+    private OmniLight3D? _lamp;
+    private MeshInstance3D? _lampGlow;
+    private bool _presentationEnabled = true;
 
     public static CarryableProp Create(string itemId, string promptName, ItemClass itemClass,
-        Vector3 position, float yawDegrees, string colour, string surface)
+        Vector3 position, float yawDegrees, string colour, string surface,
+        ItemKind? kind = null, Vector3? size = null)
     {
-        var (size, holdDistance, holdDrop) = Body(itemClass);
+        var resolvedKind = kind ?? (itemId.Contains("axe", StringComparison.Ordinal) ? ItemKind.Axe
+            : itemId.Contains("crate", StringComparison.Ordinal) ? ItemKind.Crate
+            : itemClass == ItemClass.Bucket ? ItemKind.Bucket
+            : itemClass == ItemClass.Bulky ? ItemKind.Board : ItemKind.Log);
         var prop = new CarryableProp
         {
-            ItemId = itemId,
-            PromptName = promptName,
-            Class = itemClass,
-            Position = position,
-            YawDegrees = yawDegrees,
-            HoldDistance = holdDistance,
-            HoldDrop = holdDrop,
-            HalfWidth = size.X * 0.5f,
-            Height = size.Y
+            Name = $"Carryable_{itemId}", ItemId = itemId, PromptName = promptName,
+            Class = itemClass, Kind = resolvedKind, Position = position,
+            RotationDegrees = new(0, yawDegrees, 0), YawDegrees = yawDegrees,
+            Size = size ?? (resolvedKind switch
+            {
+                ItemKind.Crate => new(.52f, .38f, .42f),
+                ItemKind.Bucket => new(.28f, .42f, .28f),
+                ItemKind.Axe => new(.40f, .075f, .18f),
+                ItemKind.Shovel => new(.30f, 1.18f, .12f),
+                ItemKind.Pole => new(.055f, .075f, 1.85f),
+                ItemKind.Lantern => new(.22f, .39f, .22f),
+                ItemKind.Board => new(.32f, .075f, 1.8f),
+                ItemKind.Ladder => new(.52f, .14f, 2.15f),
+                ItemKind.Cloth => new(.28f, .07f, .20f),
+                _ => new(.38f, .13f, .14f)
+            }),
+            CollisionLayer = 1u, CollisionMask = 0u
         };
-        prop.Name = $"Carryable_{itemId}";
-        var mesh = new MeshInstance3D
+        prop.BuildGeometry(colour, surface);
+        prop.AddChild(new CollisionShape3D
         {
-            Name = "Body",
-            Position = new(0, size.Y * 0.5f, 0),
-            Mesh = itemClass == ItemClass.Bucket
-                ? new CylinderMesh { TopRadius = size.X * 0.5f, BottomRadius = size.X * 0.42f, Height = size.Y }
-                : new BoxMesh { Size = size },
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(colour, surface)
-        };
-        prop.AddChild(mesh);
-        prop._mesh = mesh;
-        var shape = new CollisionShape3D { Shape = new BoxShape3D { Size = size }, Position = new(0, size.Y * 0.5f, 0) };
-        prop.AddChild(shape);
-        prop.SetMeta("presentationOnly", true);
+            Name = "BodyCollision", Shape = new BoxShape3D { Size = prop.Size },
+            Position = Vector3.Up * prop.Size.Y * .5f
+        });
         prop.SetMeta("carryItemId", itemId);
-        prop.CollisionLayer = 1u;
-        prop.CollisionMask = 1u;
         prop.SetMeta("collisionOwner", "carryable-prop");
+        prop.SetMeta("runtimeStateOwner", "RuntimeBridge/world.custody + world.props");
         return prop;
     }
 
     public override void _Ready()
     {
-        _restCollisionLayer = CollisionLayer;
-        SetState(CarryState.World);
+        _authoredTransform = Transform;
+        _authoredConcealed = IsConcealed;
+        _authoredCaptured = true;
+        ResetToAuthored();
+    }
+
+    /// <summary>Loading a record without a deviation really restores the authored state.</summary>
+    public void ResetToAuthored()
+    {
+        if (!_authoredCaptured) return;
+        Transform = _authoredTransform;
+        YawDegrees = RotationDegrees.Y;
+        HasOwnDeviation = false;
+        State = CarryState.World;
+        PlacementZone = string.Empty;
+        SetConcealed(_authoredConcealed);
+        SetLight(false);
     }
 
     public void Take()
     {
+        HasOwnDeviation = true;
+        IsConcealed = false;
         SetState(CarryState.Held);
     }
 
-    public void Place(Vector3 groundPoint, float yawDegrees)
+    public void SetConcealed(bool concealed)
     {
-        State = CarryState.Placed;
+        IsConcealed = concealed;
+        SetState(State);
+    }
+
+    public void Place(Vector3 groundPoint, float yawDegrees, bool combined = false)
+    {
+        HasOwnDeviation = true;
+        IsConcealed = false;
         YawDegrees = yawDegrees;
-        RotationDegrees = new Vector3(0, yawDegrees, 0);
-        GlobalPosition = new Vector3(groundPoint.X, groundPoint.Y, groundPoint.Z);
+        GlobalTransform = new(Basis.FromEuler(new(0, Mathf.DegToRad(yawDegrees), 0)), groundPoint);
+        SetState(combined ? CarryState.Combined : CarryState.Placed);
     }
 
-    public void HoldAt(Transform3D holdTransform)
+    public void HoldAt(Vector3 point)
     {
-        State = CarryState.Held;
-        GlobalTransform = holdTransform;
-        RotationDegrees = new Vector3(0, YawDegrees, 0);
+        if (State != CarryState.Held) return;
+        GlobalTransform = new(Basis.FromEuler(new(0, Mathf.DegToRad(YawDegrees), 0)), point);
     }
 
-    public void Rotate(float stepDegrees)
+    public void Rotate(float stepDegrees) => YawDegrees = Mathf.PosMod(YawDegrees + stepDegrees, 360f);
+
+    public void SetLight(bool enabled)
     {
-        YawDegrees += stepDegrees;
-        RotationDegrees = new Vector3(0, YawDegrees, 0);
+        LightOn = Kind == ItemKind.Lantern && enabled;
+        if (_lamp is not null) _lamp.Visible = LightOn && !IsConcealed && _presentationEnabled;
+        if (_lampGlow is not null) _lampGlow.Visible = LightOn && !IsConcealed && _presentationEnabled;
+    }
+
+    public void SetPresentationEnabled(bool enabled)
+    {
+        _presentationEnabled = enabled;
+        SetState(State);
     }
 
     private void SetState(CarryState state)
     {
         State = state;
-        // A carried item must not collide with the player or the world; a
-        // placed or resting one must, so the surface holds it.
-        CollisionLayer = state == CarryState.Held ? 0u : _restCollisionLayer;
-        CollisionMask = state == CarryState.Held ? 0u : 1u;
+        Visible = !IsConcealed && _presentationEnabled;
+        // Resting collision is a constant, never captured from a concealed/held
+        // frame. Re-taking, restoring a buried find and placing all use this path.
+        CollisionLayer = state == CarryState.Held || IsConcealed || !_presentationEnabled ? 0u : 1u;
+        CollisionMask = 0u;
+        SetLight(LightOn);
     }
 }

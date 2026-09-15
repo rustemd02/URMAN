@@ -7,6 +7,8 @@ URMAN_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$URMAN_ROOT"
 
 GODOT="$URMAN_ROOT/.tools/godot/Godot_mono.app/Contents/MacOS/Godot"
+GUARD=${URMAN_GUARD:-$URMAN_ROOT/eng/protected_run.py}
+[ -f "$GUARD" ] || { echo "userdata guard not found: $GUARD" >&2; exit 1; }
 GODOT_LOG=$(mktemp "${TMPDIR:-/tmp}/urman-godot-smoke.XXXXXX")
 IMPORT_LOG=$(mktemp "${TMPDIR:-/tmp}/urman-godot-import.XXXXXX")
 TEST_OUTPUT=$(mktemp "${TMPDIR:-/tmp}/urman-godot-test-output.XXXXXX")
@@ -23,15 +25,12 @@ has_runtime_errors() {
   return 1
 }
 
-# Test hermeticity: smokes assert keyboard wording and default accessibility
-# state, so the regenerable user-preferences files (settings + audio volumes)
-# are cleared before the loop. Story savegames are user data and stay untouched.
-rm -f "$HOME/Library/Application Support/Godot/app_userdata/URMAN/settings.json" \
-      "$HOME/Library/Application Support/Godot/app_userdata/URMAN/audio-settings.json"
+# Every child receives separate clean userdata. Tests can write checkpoints and
+# settings without deleting or overwriting the player's files or each other's.
 
 # A fresh checkout has no Godot importer cache. Import all source assets before
 # loading test scenes so GLB/scene failures cannot be hidden by a warm desktop.
-if ! "$GODOT" --headless --log-file "$IMPORT_LOG.godot" --path game --import >"$IMPORT_LOG" 2>&1; then
+if ! python3 "$GUARD" --clean "$GODOT" --headless --log-file "$IMPORT_LOG.godot" --path game --import >"$IMPORT_LOG" 2>&1; then
   cat "$IMPORT_LOG"
   exit 1
 fi
@@ -79,7 +78,7 @@ for TEST_SCENE in \
 do
   : > "$GODOT_LOG"
   : > "$TEST_OUTPUT"
-  if ! "$GODOT" --headless --log-file "$GODOT_LOG" --path game "$TEST_SCENE" >"$TEST_OUTPUT" 2>&1; then
+  if ! python3 "$GUARD" --clean "$GODOT" --headless --log-file "$GODOT_LOG" --path game "$TEST_SCENE" >"$TEST_OUTPUT" 2>&1; then
     cat "$TEST_OUTPUT"
     cat "$GODOT_LOG"
     exit 1

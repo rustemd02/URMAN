@@ -747,7 +747,7 @@ public partial class StyleBenchmarkZone : Node3D
             new(2.4f, 1.35f, -4.72f),
             "756a58",
             "urman.chapter1:interaction/reread-to-edge-sketch",
-            "Сопоставить статью с рисунком Марата",
+            "Проверить схему Мансура",
             documentId: "urman.oldpc:document/doc_kara_urman_edge_sketch");
         MakeInteractionBox(
             "EdgeSketchToZiratRoad",

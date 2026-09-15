@@ -429,6 +429,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             Fail("Physical walkthrough did not open Mansur's request dialogue.");
             return;
         }
+        if (bridge.IsInteractionAvailable(Interaction("oldpc-power")))
+        { Fail("Opening Mansur's conversation granted computer access before an answer."); return; }
 
         var mansurChoices = mansurDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
             .GetChildren().OfType<Button>().ToArray();
@@ -526,11 +528,27 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         if (gulsinaDialogue.IsOpen || player.ModalOpen
             || VocabularyStatus(gulsinaState, "tt_yaramyy") != "guessed"
             || !NpcState(gulsinaState, "gulsina", "warning_heard")
-            || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
+            || KnowledgeStatus(gulsinaState, "clue_family_avoids_marat") != "hidden"
+            || bridge.IsInteractionAvailable(Interaction("house-to-route")))
         {
-            Fail("Closing Gulsina's dialogue did not resolve ярамый, commit the warning state, or unlock the house exit.");
+            Fail("Tea did not preserve Gulsina's warning or incorrectly supplied an unasked answer about Marat.");
             return;
         }
+
+        if (!await InteractAt(player, ray, Interaction("talk-gulsina"))) return;
+        await Frames(5);
+        var askMarat = gulsinaDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>()
+            .FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-gulsina-marat"));
+        if (askMarat is null) { Fail("Gulsina's real family question was unavailable on return."); return; }
+        askMarat.EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
+        gulsinaDialogue.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
+        if (gulsinaDialogue.IsOpen || player.ModalOpen
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_family_avoids_marat") != "confirmed"
+            || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
+        { Fail("The family answer did not unlock the walk to Alsu."); return; }
 
         if (!await InteractAt(player, ray, Interaction("house-to-route")))
         {
@@ -565,8 +583,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             Fail("Physical walkthrough did not open Alsu's route dialogue before the FAP.");
             return;
         }
-        alsuDialogue.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
-        await Frames(4);
+        if (!await ChooseVisibleDialogue(bridge, "choice-alsu-versions")
+            || !await ChooseVisibleDialogue(bridge, "choice-alsu-go-to-naila")) return;
         if (alsuDialogue.IsOpen || player.ModalOpen
             || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_versions_conflict") != "confirmed"
             || !bridge.IsInteractionAvailable(Interaction("route-to-fap")))
@@ -732,6 +750,31 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         await Frames(2);
         if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" }))
         { Fail("The record comparison was rejected."); return; }
+
+        // Return with a new question, preserving the investigation phase at
+        // both doors. The outside legs use the same tested footpaths as the
+        // first visit, without inserting a direct SwitchZone shortcut.
+        if (!await InteractAt(player, ray, Interaction("house-to-route"))) return;
+        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.6f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
+                     .Concat(AgentBAct1Layout.HousePathAxis.Reverse())
+                     .Append(new Vector2(-.4f,2f))
+                     .Concat(AgentBAct1Layout.FapBranchAxis.SkipLast(1)))
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"naila-question-outward-{point.X}-{point.Y}")) return;
+        if (!await InteractAt(player, ray, Interaction("route-to-fap"))
+            || !await InteractAt(player, ray, Interaction("talk-naila"))
+            || !await ChooseVisibleDialogue(bridge, "choice-naila-contradiction")
+            || !await ChooseVisibleDialogue(bridge, "choice-naila-check-answer")
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-record-scope"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", ChapterPrefix + "knowledge/clue_naila_record_scope" })
+            || !await InteractAt(player, ray, Interaction("official-leave-clinic")))
+        { Fail("The physical return to Naila did not resolve the record question."); return; }
+        foreach (var point in AgentBAct1Layout.FapBranchAxis.Reverse().Skip(1)
+                     .Concat(AgentBAct1Layout.HousePathAxis)
+                     .Concat(new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.6f), new(-26.05f,.2f), new(houseApproach.X,houseApproach.Z) }))
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"naila-question-return-{point.X}-{point.Y}")) return;
+        if (!await InteractAt(player, ray, Interaction("official-to-internal-register"))) return;
+        AssertState(main, bridge, "house_old_pc", "evidence-internal-register", "res://scenes/zones/style_benchmark_house_pc.tscn");
+        if (HasFailed()) return;
+
         if (!await InteractAt(player, ray, Interaction("internal-register-to-rinat")))
         {
             return;
@@ -743,8 +786,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             Fail("Physical walkthrough did not open the Rinat dialogue.");
             return;
         }
-        dialogue.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
-        await Frames(4);
+        if (!await ChooseVisibleDialogue(bridge, "choice-rinat-present-category")
+            || !await ChooseVisibleDialogue(bridge, "choice-rinat-leave")) return;
 
         if (!await InteractAt(player, ray, Interaction("internal-register-to-saved-message")))
         {
@@ -764,6 +807,9 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             if (interaction == "boundary-source-to-reread"
                 && !await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" }))
             { Fail("The voice comparison was rejected."); return; }
+            if (interaction == "reread-to-edge-sketch"
+                && !await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary" }))
+            { Fail("The reread comparison was rejected."); return; }
             if (!await InteractAt(player, ray, Interaction(interaction)))
             {
                 return;
@@ -1100,6 +1146,20 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         {
             Fail($"Physical walkthrough state mismatch: zone={bridge.CurrentZoneId}, scene={bridge.ActiveSceneId}, path={main.ActiveZoneScenePath}; expected {zone}/{sceneLocalId}/{scenePath}.");
         }
+    }
+
+    private async Task<bool> ChooseVisibleDialogue(RuntimeBridge bridge, string textId)
+    {
+        var ui = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
+        var choice = ui?.IsOpen == true
+            ? ui.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices").GetChildren().OfType<Button>()
+                .FirstOrDefault(button => button.Text == bridge.ResolveText(ChapterPrefix + "text/" + textId))
+            : null;
+        if (choice is null)
+        { Fail("The physical conversation did not expose " + textId); return false; }
+        choice.EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
+        return true;
     }
 
     private void AssertDocument(string documentId)

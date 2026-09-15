@@ -173,6 +173,8 @@ public partial class ChapterOneFlowSmokeTest : Node
             || serviceGate.CollisionLayer != 0 || serviceFence.CollisionLayer != 0)
         { Fail("Loaded outdoor discoveries lost their presentation or retained exterior physics indoors."); return; }
 
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_family_avoids_marat") != "hidden")
+        { Fail("The house inferred family avoidance without a question about Marat."); return; }
         await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new
         {
             type = "open",
@@ -188,11 +190,16 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (!bridge.IsInteractionAvailable(Interaction("talk-gulsina"))
             || !await bridge.DispatchInteractionAsync(Interaction("talk-gulsina"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("gulsina_yaramyy"), "home-warning")
-            || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_family_avoids_marat") != "hidden"
+            || bridge.IsInteractionAvailable(Interaction("house-to-route")))
         {
-            Fail("Chapter 1 Gulsina warning dialogue did not unlock the house exit through the shared runtime path.");
+            Fail("Chapter 1 warning entry inferred an unasked family answer or skipped it at the house exit.");
             return;
         }
+        if (!await bridge.ChooseDialogueAsync(Dialogue("gulsina_yaramyy"), "home-warning", "ask-marat")
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_family_avoids_marat") != "confirmed"
+            || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
+        { Fail("A question about Marat did not record Gulsina's actual response."); return; }
 
         if (!await Advance(bridge, "house-to-route", "crossroad_signs_inspect")) return;
         main.SwitchZone("village_day", "from_house");
@@ -202,6 +209,8 @@ public partial class ChapterOneFlowSmokeTest : Node
             || !bridge.IsInteractionAvailable(Interaction("talk-alsu"))
             || !await bridge.DispatchInteractionAsync(Interaction("talk-alsu"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("alsu_route_context"), "name-road")
+            || bridge.IsInteractionAvailable(Interaction("route-to-fap"))
+            || !await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-versions")
             || !bridge.IsInteractionAvailable(Interaction("route-to-fap")))
         {
             Fail("Chapter 1 Alsu route dialogue did not unlock the FAP route through the shared runtime path.");
@@ -263,13 +272,52 @@ public partial class ChapterOneFlowSmokeTest : Node
             || Mathf.Abs(houseRinat.Position.Y) > .01f
             || Mathf.Abs(houseRinat.Position.Z + 2.65f) > .01f)
         { Fail("Rinat was not staged as a live actor beside the home evidence target."); return; }
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_case_boundary_marker") != "hidden")
+        { Fail("Entering the internal-register scene granted a clue before opening its document."); return; }
         if (!await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict")
-            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" }))
-        { Fail("The first evidence comparison was rejected."); return; }
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_case_boundary_marker") != "confirmed")
+        { Fail("The internal record could not be read."); return; }
+
+        // This route asks about the raw category before comparing the two
+        // documents. The corridor test performs those actions in reverse.
+        // Neither obtaining a reply nor reading a record supplies the inference.
+        main.SwitchZone("fap_clinic", "waiting_room");
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        if (!nailaTarget.IsAvailable() || !PhysicalRayHits(nailaTarget))
+        { Fail("Naila was not physically reachable with the raw internal category."); return; }
+        nailaTarget.Interact();
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var categoryQuestion = nailaDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>()
+            .FirstOrDefault(button => button.Text == bridge.ResolveText(ChapterPrefix + "text/choice-naila-contradiction"));
+        if (!nailaDialogue.IsOpen || categoryQuestion is null)
+        { Fail("The raw register did not open Naila's category question before the document comparison."); return; }
+        categoryQuestion.EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        nailaDialogue._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        var scopePair = new[] { "urman.oldpc:document/rec_marat_case_register_conflict", ChapterPrefix + "knowledge/clue_naila_record_scope" };
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_naila_record_scope") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_record_wording_mismatch") != "hidden"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "contradiction_marat_official_vs_internal") != "hidden"
+            || await bridge.CompareJournalSourcesAsync(Interaction("compare-record-scope"), scopePair))
+        { Fail("Naila's reply inferred a discrepancy without comparing both documentary sources."); return; }
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" })
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "contradiction_marat_official_vs_internal") != "hidden"
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-record-scope"), scopePair))
+        { Fail("The reply-first investigation order could not reach the grounded record conclusion."); return; }
+        // The newly understood discrepancy must not erase the original
+        // questions; the player can still correct a misunderstanding.
+        foreach (var questionId in new[] { "ask-wording", "ask-transfer" })
+            if (!await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "follow-up", questionId))
+            { Fail("An original question to Naila disappeared after interpreting the records."); return; }
+        main.SwitchZone("house_old_pc", "entry");
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
         if (!bridge.IsInteractionAvailable(Interaction("internal-register-to-rinat"))
             || !await bridge.DispatchInteractionAsync(Interaction("internal-register-to-rinat"))
-            || !await bridge.EnterDialogueNodeAsync(Dialogue("rinat_internal_register"), "dangerous-category"))
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("rinat_internal_register"), "dangerous-category")
+            || bridge.IsInteractionAvailable(Interaction("internal-register-to-saved-message"))
+            || !await bridge.ChooseDialogueAsync(Dialogue("rinat_internal_register"), "dangerous-category", "present-category"))
         {
             Fail("Chapter 1 flow could not apply Rinat's authored internal-register dialogue.");
             return;
@@ -278,12 +326,19 @@ public partial class ChapterOneFlowSmokeTest : Node
         { Fail("Rinat left the house before the internal-register response completed."); return; }
 
         if (!await Advance(bridge, "internal-register-to-saved-message", "evidence-saved-message")) return;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_was_afraid_before_death") != "hidden"
+            || bridge.IsInteractionAvailable(Interaction("saved-message-to-boundary-source")))
+        { Fail("Entering the saved-message scene read Marat's fear for the player."); return; }
+        if (!await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal"))
+        { Fail("Could not open Marat's saved message."); return; }
         if (!await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")) return;
-        if (!await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal")
-            || !await bridge.OpenDocumentAsync("urman.oldpc:document/tw_shurale_urman_boundary")
+        if (!await bridge.OpenDocumentAsync("urman.oldpc:document/tw_shurale_urman_boundary")
             || await bridge.ChooseDialogueAsync(Dialogue("mansur_pc_request"), "ask-for-help", "ask-about-javap")
             || !await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" }))
         { Fail("The language comparison failed or Mansur's question was exposed before learning the word."); return; }
+        if (bridge.IsOldPcDocumentAccessible("urman.oldpc:document/doc_kara_urman_edge_sketch")
+            || await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch"))
+        { Fail("A direct sketch open replaced rereading the record with a translated word."); return; }
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         var mansurTarget = house.GetNode<InteractionTarget>("MansurNpc");
         if (!mansurTarget.IsAvailable() || !PhysicalRayHits(mansurTarget))
@@ -325,8 +380,16 @@ public partial class ChapterOneFlowSmokeTest : Node
         { Fail("Mansur's answer about the name was missing or reset the active investigation scene."); return; }
         mansurDialogue._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
         if (!await Advance(bridge, "boundary-source-to-reread", "evidence-tatarwiki-reread")) return;
+        if (BeatState(bridge.SelectRuntimeState(), "language-reread") == "completed"
+            || bridge.IsInteractionAvailable(Interaction("reread-to-edge-sketch"))
+            || bridge.IsOldPcDocumentAccessible("urman.oldpc:document/doc_kara_urman_edge_sketch"))
+        { Fail("Translation or reopening substituted for applying the source to the old record."); return; }
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary" }))
+        { Fail("The translated words could not be applied to the internal register."); return; }
         if (!await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
-        if (!await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch"))
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_kara_urman_edge_is_rule_boundary") != "hidden"
+            || bridge.IsInteractionAvailable(Interaction("edge-sketch-to-zirat-road"))
+            || !await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch"))
         { Fail("Could not read the edge sketch."); return; }
         main.SwitchZone("village_day", "from_house");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -447,7 +510,10 @@ public partial class ChapterOneFlowSmokeTest : Node
         if (!demo.MainMenuVisible || audioCue.IsPresenting)
         { Fail("Ending did not return to a silent main menu."); return; }
         if (!await this.StartThroughMainMenuAsync(demo)
-            || demo.DemoEnded || bridge.ActiveSceneId != Scene("arrival_vehicle_dusk"))
+            || demo.DemoEnded || bridge.ActiveSceneId != Scene("arrival_vehicle_dusk")
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_internal_wording_reread") != "hidden"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_family_avoids_marat") != "hidden"
+            || BeatState(bridge.SelectRuntimeState(), "boundary-source-reopened") == "completed")
         { Fail("A second playthrough retained the completed ending."); return; }
 
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);

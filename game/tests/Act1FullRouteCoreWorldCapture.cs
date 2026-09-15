@@ -805,7 +805,7 @@ public partial class Act1FullRouteCoreWorldCapture : Node
             .ToArray();
         if (forbidden.Length > 0)
         {
-            throw new InvalidOperationException($"Act1CoreWorldGreybox contains forbidden gameplay nodes outside the declared traversal owner: {string.Join('|', forbidden.Select(node => node.GetType().Name))}.");
+            throw new InvalidOperationException($"Act1CoreWorldGreybox contains forbidden gameplay nodes outside the declared traversal owner: {string.Join('|', forbidden.Select(node => $"{node.GetType().Name}@{node.GetPath()}"))}.");
         }
 
         var kitBlockers = FindDescendants(core).OfType<StaticBody3D>()

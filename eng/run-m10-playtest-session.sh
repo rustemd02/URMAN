@@ -22,9 +22,9 @@ fi
 
 # Candidate resolution: an explicit URMAN_M10_CANDIDATE wins, otherwise take the
 # newest exported candidate so this kit cannot rot into pointing at a build that
-# has been superseded and deleted. Candidate directories live next to the guard.
+# has been superseded and deleted. Candidate directories live in the evidence root.
 EVIDENCE_ROOT=${URMAN_M10_EVIDENCE_ROOT:-/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911}
-GUARD=${URMAN_GUARD:-$EVIDENCE_ROOT/protected_run.py}
+GUARD=${URMAN_GUARD:-$URMAN_ROOT/eng/protected_run.py}
 if [ -n "${URMAN_M10_CANDIDATE:-}" ]; then
   CANDIDATE=$URMAN_M10_CANDIDATE
 else
@@ -95,13 +95,21 @@ cat >"$QUESTIONS" <<'MD'
 
 Дополнительно:
 
-- длительность сеанса;
+- сборка, fingerprint и имя игрока; знаком ли он с актом до этого сеанса;
+- первое основное прохождение: время начала, финала и активного опыта;
+- отдельное время дополнительного исследования, загрузок, пауз и потерь из-за ошибок;
+- знакомый быстрый маршрут измеряется в другом сеансе, без смешения с первым;
 - что хотел сделать, но игра не позволила;
 - произношение татарских слов (что прозвучало неверно);
 - кадры-подсказки лежат в `frames/` с отметкой времени.
 
 Результат переносится в `docs/urman_knowledge_base/playtest_plan.md`; при
 противоречии канона — также в `open_questions.md`.
+
+Действующий критерий с 2026-09-15: обычный первый основной опыт занимает
+МИНИМУМ 60 минут без требования найти все секреты. Паузы, загрузки,
+ошибки, пустое ожидание и отладочный маршрут не подтверждают этот минимум.
+Наблюдатель фиксирует реальные действия и время; пустые поля не означают PASS.
 MD
 
 echo "session output: $OUTPUT_DIR"
@@ -159,4 +167,4 @@ echo "session finished: $frames frames in $OUTPUT_DIR/frames"
 if [ "$frames" -eq 0 ] && [ "$capture_works" -eq 0 ]; then
   echo "note: no frames were expected - the screen capture permission was missing, as reported above" >&2
 fi
-echo "if the guard printed 'userdata restored byte-for-byte', saves and settings are back to their prior state"
+echo "check game.log for the guard's restoration and verification result"

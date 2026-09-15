@@ -1,0 +1,271 @@
+[
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_record_wording_mismatch",
+  "kind": "clue",
+  "title": {"default": "Две строки об одном деле", "translations": {"ru": "Две строки об одном деле"}},
+  "summary": {
+   "default": "Я сопоставил справку о Марате и внутренний реестр. В первой — причина закрытия: сердечная недостаточность на фоне несчастного случая. Во втором — категория: «граница / ответил». Назначение полей различается; сама эта находка ещё не показывает, являются ли они двумя причинами смерти. Покажу Наиле точную категорию и проверю её ответ по записи.",
+   "translations": {"ru": "Я сопоставил справку о Марате и внутренний реестр. В первой — причина закрытия: сердечная недостаточность на фоне несчастного случая. Во втором — категория: «граница / ответил». Назначение полей различается; сама эта находка ещё не показывает, являются ли они двумя причинами смерти. Покажу Наиле точную категорию и проверю её ответ по записи."}
+  },
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_naila_record_scope",
+  "kind": "clue",
+  "title": {"default": "Ответ Наили о категории случая", "translations": {"ru": "Ответ Наили о категории случая"}},
+  "summary": {
+   "default": "Я показал Наиле «граница / ответил». Она закрыла папку: «За медицинскую формулировку я отвечаю. Эту категорию я тебе толковать не буду». Затем: «Бу ярамый… нельзя так спрашивать». Она ограничила свой ответ, но не назвала значение категории, причину смерти или автора реестра. Это запись нашего разговора, не медицинское заключение. Вопросы к самой справке у неё ещё можно уточнить.",
+   "translations": {"ru": "Я показал Наиле «граница / ответил». Она закрыла папку: «За медицинскую формулировку я отвечаю. Эту категорию я тебе толковать не буду». Затем: «Бу ярамый… нельзя так спрашивать». Она ограничила свой ответ, но не назвала значение категории, причину смерти или автора реестра. Это запись нашего разговора, не медицинское заключение. Вопросы к самой справке у неё ещё можно уточнить."}
+  },
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:dialogue/naila_medical_record"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_gulsina_warning_context",
+  "kind": "clue",
+  "title": {"default": "Что әби запрещает дома", "translations": {"ru": "Что әби запрещает дома"}},
+  "summary": {
+   "default": "Я спросил Гөлсинә, почему вечером к лесу «ярамый». Она ответила: «Я знаю, ты не маленький. Но вечером к лесу не ходи. Мне спокойнее, когда ты дома». В её ответе запрет относится к моему вечернему уходу. Она не объяснила происшедшего с Маратом. Я могу вернуться к этому разговору, даже если уже нашёл другие записи.",
+   "translations": {"ru": "Я спросил Гөлсинә, почему вечером к лесу «ярамый». Она ответила: «Я знаю, ты не маленький. Но вечером к лесу не ходи. Мне спокойнее, когда ты дома». В её ответе запрет относится к моему вечернему уходу. Она не объяснила происшедшего с Маратом. Я могу вернуться к этому разговору, даже если уже нашёл другие записи."}
+  },
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:dialogue/gulsina_yaramyy"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished",
+  "kind": "clue",
+  "title": {"default": "Одинаковое слово, разные запреты", "translations": {"ru": "Одинаковое слово, разные запреты"}},
+  "summary": {
+   "default": "Я сравнил точные ответы әби и Наили. Гөлсинә останавливает мой вечерний уход, Наиля — способ спрашивать о записи. Одно слово «ярамый» не доказывает, что они согласовали объяснение или скрывают одно и то же. Домашний запрет остаётся тревожным, но сам по себе не раскрывает правило леса. В следующий раз надо спрашивать, какого именно действия человек боится, а не ловить его на знакомом слове.",
+   "translations": {"ru": "Я сравнил точные ответы әби и Наили. Гөлсинә останавливает мой вечерний уход, Наиля — способ спрашивать о записи. Одно слово «ярамый» не доказывает, что они согласовали объяснение или скрывают одно и то же. Домашний запрет остаётся тревожным, но сам по себе не раскрывает правило леса. В следующий раз надо спрашивать, какого именно действия человек боится, а не ловить его на знакомом слове."}
+  },
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:knowledge/clue_gulsina_warning_context", "urman.chapter1:knowledge/clue_naila_record_scope"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_rinat_word_reaction",
+  "kind": "clue",
+  "title": {"default": "Ринат услышал «җавап»", "translations": {"ru": "Ринат услышал «җавап»"}},
+  "summary": {
+   "default": "После сопоставления сообщения и заметки я произнёс при Ринате «җавап». Он ответил: «Не здесь. И не этим словом», — и отвернулся к двери в сторону зиратской дороги. Это наблюдаемая реакция на мой вопрос. Она не объясняет, кто говорил с Маратом, и не сообщает полного правила.",
+   "translations": {"ru": "После сопоставления сообщения и заметки я произнёс при Ринате «җавап». Он ответил: «Не здесь. И не этим словом», — и отвернулся к двери в сторону зиратской дороги. Это наблюдаемая реакция на мой вопрос. Она не объясняет, кто говорил с Маратом, и не сообщает полного правила."}
+  },
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:dialogue/rinat_internal_register"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-naila-return-to-notice",
+  "value": {"default": "Вернуться к тому, что Наиля может показать в справке.", "translations": {"ru": "Вернуться к тому, что Наиля может показать в справке."}},
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-naila-check-answer",
+  "value": {"default": "Записать ответ и сверить его с реестром.", "translations": {"ru": "Записать ответ и сверить его с реестром."}},
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-record-scope",
+  "value": {"default": "Сверить границу ответа Наили с назначением строки.", "translations": {"ru": "Сверить границу ответа Наили с назначением строки."}},
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-record-scope-result",
+  "value": {
+   "default": "Я проверил обе записи и ответ Наили. Медицинская формулировка закрывает дело, но не объясняет другую категорию. Наиля не подтвердила, что «граница / ответил» — диагноз, и не объяснила эти слова. Теперь мой вопрос к Ринату точнее: что обозначает эта категория в деле Марата? Ни обвинение, ни новая причина смерти пока не установлены.",
+   "translations": {"ru": "Я проверил обе записи и ответ Наили. Медицинская формулировка закрывает дело, но не объясняет другую категорию. Наиля не подтвердила, что «граница / ответил» — диагноз, и не объяснила эти слова. Теперь мой вопрос к Ринату точнее: что обозначает эта категория в деле Марата? Ни обвинение, ни новая причина смерти пока не установлены."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-record-scope-cause",
+  "value": {"default": "Проверить, подтверждает ли её ответ другую причину смерти.", "translations": {"ru": "Проверить, подтверждает ли её ответ другую причину смерти."}},
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-record-scope-cause-result",
+  "value": {
+   "default": "Наиля не расшифровала категорию. В реестре это поле не названо причиной смерти, а в справке стоит другая формулировка. Я не могу получить новый диагноз из отказа отвечать. К медицинской строке можно вернуться с отдельным вопросом; сначала надо различить, что объясняет каждый источник.",
+   "translations": {"ru": "Наиля не расшифровала категорию. В реестре это поле не названо причиной смерти, а в справке стоит другая формулировка. Я не могу получить новый диагноз из отказа отвечать. К медицинской строке можно вернуться с отдельным вопросом; сначала надо различить, что объясняет каждый источник."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-record-scope-lie",
+  "value": {"default": "Проверить, призналась ли Наиля в подмене записи.", "translations": {"ru": "Проверить, призналась ли Наиля в подмене записи."}},
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-record-scope-lie-result",
+  "value": {
+   "default": "Она закрыла папку, но не сказала, что меняла запись. В реестре не установлены ни автор, ни обстоятельства заполнения. Неловкая реакция — причина уточнить вопрос, а не признание. Можно проверить границу её ответа и оставить авторство открытым.",
+   "translations": {"ru": "Она закрыла папку, но не сказала, что меняла запись. В реестре не установлены ни автор, ни обстоятельства заполнения. Неловкая реакция — причина уточнить вопрос, а не признание. Можно проверить границу её ответа и оставить авторство открытым."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-warning-contexts",
+  "value": {"default": "Сравнить, какое действие останавливает каждая собеседница.", "translations": {"ru": "Сравнить, какое действие останавливает каждая собеседница."}},
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-warning-contexts-result",
+  "value": {
+   "default": "Дома «ярамый» относится к моему вечернему уходу. В ФАПе — к вопросу о категории. Я услышал разные запреты, а не один пароль. Забота әби и отказ Наили не объясняют лес, но помогают задать следующий вопрос точнее: чего именно нельзя делать и почему?",
+   "translations": {"ru": "Дома «ярамый» относится к моему вечернему уходу. В ФАПе — к вопросу о категории. Я услышал разные запреты, а не один пароль. Забота әби и отказ Наили не объясняют лес, но помогают задать следующий вопрос точнее: чего именно нельзя делать и почему?"}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-warning-agreement",
+  "value": {"default": "Проверить, выучили ли они один ответ заранее.", "translations": {"ru": "Проверить, выучили ли они один ответ заранее."}},
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-warning-agreement-result",
+  "value": {
+   "default": "Совпало обычное слово «нельзя», но не предмет запрета. Я не слышал, чтобы они договаривались, и не могу приписать им общий ответ. Надо сравнить каждую фразу с вопросом, на который она прозвучала.",
+   "translations": {"ru": "Совпало обычное слово «нельзя», но не предмет запрета. Я не слышал, чтобы они договаривались, и не могу приписать им общий ответ. Надо сравнить каждую фразу с вопросом, на который она прозвучала."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-warning-rule",
+  "value": {"default": "Проверить, достаточно ли этих ответов для правила леса.", "translations": {"ru": "Проверить, достаточно ли этих ответов для правила леса."}},
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-warning-rule-result",
+  "value": {
+   "default": "Әби просит не ходить вечером, Наиля не хочет толковать категорию. Ни одна не описала, что происходит у кромки. Эти разговоры нельзя превращать в инструкцию, которой я ещё не знаю. Сначала нужны конкретные источники о месте и действии.",
+   "translations": {"ru": "Әби просит не ходить вечером, Наиля не хочет толковать категорию. Ни одна не описала, что происходит у кромки. Эти разговоры нельзя превращать в инструкцию, которой я ещё не знаю. Сначала нужны конкретные источники о месте и действии."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/investigation-social",
+  "sceneType": "presentation",
+  "title": {"default": "Проверка услышанного", "translations": {"ru": "Проверка услышанного"}},
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/compare-record-scope", "urman.chapter1:text/compare-record-scope-result",
+   "urman.chapter1:text/compare-record-scope-cause", "urman.chapter1:text/compare-record-scope-cause-result",
+   "urman.chapter1:text/compare-record-scope-lie", "urman.chapter1:text/compare-record-scope-lie-result",
+   "urman.chapter1:text/compare-warning-contexts", "urman.chapter1:text/compare-warning-contexts-result",
+   "urman.chapter1:text/compare-warning-agreement", "urman.chapter1:text/compare-warning-agreement-result",
+   "urman.chapter1:text/compare-warning-rule", "urman.chapter1:text/compare-warning-rule-result"
+  ],
+  "entryConditions": [], "onEnter": [], "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/compare-record-scope",
+    "labelTextId": "urman.chapter1:text/compare-record-scope",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_record_wording_mismatch", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_naila_record_scope", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed"}}
+    ],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "sourceId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal"}
+    ],
+    "journalAction": {
+     "sourceIds": ["urman.oldpc:document/rec_marat_case_register_conflict", "urman.chapter1:knowledge/clue_naila_record_scope"],
+     "resultTextId": "urman.chapter1:text/compare-record-scope-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-record-scope-cause",
+    "labelTextId": "urman.chapter1:text/compare-record-scope-cause",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_record_wording_mismatch", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_naila_record_scope", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed"}}
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": ["urman.oldpc:document/rec_marat_case_register_conflict", "urman.chapter1:knowledge/clue_naila_record_scope"],
+     "resultTextId": "urman.chapter1:text/compare-record-scope-cause-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-record-scope-lie",
+    "labelTextId": "urman.chapter1:text/compare-record-scope-lie",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_record_wording_mismatch", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_naila_record_scope", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed"}}
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": ["urman.oldpc:document/rec_marat_case_register_conflict", "urman.chapter1:knowledge/clue_naila_record_scope"],
+     "resultTextId": "urman.chapter1:text/compare-record-scope-lie-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-warning-contexts",
+    "labelTextId": "urman.chapter1:text/compare-warning-contexts",
+    "conditions": [
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished", "status": "confirmed"}}
+    ],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished", "sourceId": "urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished"}
+    ],
+    "journalAction": {
+     "sourceIds": ["urman.chapter1:knowledge/clue_gulsina_warning_context", "urman.chapter1:knowledge/clue_naila_record_scope"],
+     "resultTextId": "urman.chapter1:text/compare-warning-contexts-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-warning-agreement",
+    "labelTextId": "urman.chapter1:text/compare-warning-agreement",
+    "conditions": [
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished", "status": "confirmed"}}
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": ["urman.chapter1:knowledge/clue_gulsina_warning_context", "urman.chapter1:knowledge/clue_naila_record_scope"],
+     "resultTextId": "urman.chapter1:text/compare-warning-agreement-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-warning-rule",
+    "labelTextId": "urman.chapter1:text/compare-warning-rule",
+    "conditions": [
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished", "status": "confirmed"}}
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": ["urman.chapter1:knowledge/clue_gulsina_warning_context", "urman.chapter1:knowledge/clue_naila_record_scope"],
+     "resultTextId": "urman.chapter1:text/compare-warning-rule-result"
+    }
+   }
+  ]
+ }
+]

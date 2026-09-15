@@ -53,11 +53,14 @@ public partial class FullGameFlowSmokeTest : Node
             || !bridge.IsInteractionAvailable(ChapterInteraction("talk-gulsina"))
             || !await bridge.DispatchInteractionAsync(ChapterInteraction("talk-gulsina"))
             || !await bridge.EnterDialogueNodeAsync(ChapterDialogue("gulsina_yaramyy"), "home-warning")
-            || !bridge.IsInteractionAvailable(ChapterInteraction("house-to-route")))
+            || bridge.IsInteractionAvailable(ChapterInteraction("house-to-route")))
         {
-            Fail("Full-game Chapter 1 Gulsina warning dialogue did not unlock the house exit through the shared runtime path.");
+            Fail("Full-game Chapter 1 warning entry skipped the family question at the house exit.");
             return;
         }
+        if (!await bridge.ChooseDialogueAsync(ChapterDialogue("gulsina_yaramyy"), "home-warning", "ask-marat")
+            || !bridge.IsInteractionAvailable(ChapterInteraction("house-to-route")))
+        { Fail("Full-game Chapter 1 family answer did not unlock the route to Alsu."); return; }
         if (!await AdvanceChapterOne(bridge, main, "house-to-route", "crossroad_signs_inspect")) return;
         main.SwitchZone("village_day", "from_house");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -65,6 +68,7 @@ public partial class FullGameFlowSmokeTest : Node
             || !bridge.IsInteractionAvailable(ChapterInteraction("talk-alsu"))
             || !await bridge.DispatchInteractionAsync(ChapterInteraction("talk-alsu"))
             || !await bridge.EnterDialogueNodeAsync(ChapterDialogue("alsu_route_context"), "name-road")
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("alsu_route_context"), "name-road", "ask-versions")
             || !bridge.IsInteractionAvailable(ChapterInteraction("route-to-fap")))
         {
             Fail("Full-game Chapter 1 Alsu route dialogue did not unlock the FAP route through the shared runtime path.");
@@ -91,20 +95,27 @@ public partial class FullGameFlowSmokeTest : Node
         await bridge.OpenDocumentAsync("urman.oldpc:document/doc_marat_official_death_notice");
         await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict");
         await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-records-contradiction"), new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" });
+        if (!await bridge.EnterDialogueNodeAsync(ChapterDialogue("naila_medical_record"), "follow-up")
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("naila_medical_record"), "follow-up", "press-contradiction")
+            || !await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-record-scope"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.chapter1:knowledge/clue_naila_record_scope" }))
+        { Fail("Full-game Chapter 1 could not check Naila's answer against the internal record."); return; }
         if (!bridge.IsInteractionAvailable(ChapterInteraction("internal-register-to-rinat"))
             || !await bridge.DispatchInteractionAsync(ChapterInteraction("internal-register-to-rinat"))
-            || !await bridge.EnterDialogueNodeAsync(ChapterDialogue("rinat_internal_register"), "dangerous-category"))
+            || !await bridge.EnterDialogueNodeAsync(ChapterDialogue("rinat_internal_register"), "dangerous-category")
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("rinat_internal_register"), "dangerous-category", "present-category"))
         {
             Fail("Full-game Chapter 1 flow could not apply Rinat's authored internal-register dialogue.");
             return;
         }
 
         if (!await AdvanceChapterOne(bridge, main, "internal-register-to-saved-message", "evidence-saved-message")) return;
-        if (!await AdvanceChapterOne(bridge, main, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")) return;
         await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal");
+        if (!await AdvanceChapterOne(bridge, main, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")) return;
         await bridge.OpenDocumentAsync("urman.oldpc:document/tw_shurale_urman_boundary");
         await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" });
         if (!await AdvanceChapterOne(bridge, main, "boundary-source-to-reread", "evidence-tatarwiki-reread")) return;
+        if (!await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-reread-response"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary" }))
+        { Fail("Full-game Chapter 1 did not apply the translated words to the old register."); return; }
         if (!await AdvanceChapterOne(bridge, main, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
         await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch");
         if (!await AdvanceChapterOne(bridge, main, "edge-sketch-to-zirat-road", "zirat-road")) return;

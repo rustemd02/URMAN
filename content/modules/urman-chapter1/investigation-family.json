@@ -1,0 +1,117 @@
+[
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_mansur_household_request",
+  "kind": "clue",
+  "title": {"default": "Список для бабая", "translations": {"ru": "Список для бабая"}},
+  "summary": {"default": "Мансур попросил найти старую квитанцию со списком для Нивы: что собирались менять, а что решили пока не трогать. Можно искать по «Нива» или «квитанция». Когда найду нужную запись, стоит вернуться к нему и сверить, что именно он имел в виду.", "translations": {"ru": "Мансур попросил найти старую квитанцию со списком для Нивы: что собирались менять, а что решили пока не трогать. Можно искать по «Нива» или «квитанция». Когда найду нужную запись, стоит вернуться к нему и сверить, что именно он имел в виду."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:dialogue/mansur_pc_request"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_household_niva_list",
+  "kind": "clue",
+  "title": {"default": "Нива: список и приписка", "translations": {"ru": "Нива: список и приписка"}},
+  "summary": {"default": "В квитанции перечислены ремонт Нивы, покупки и отдельная приписка о проводке. Это разные части одной записи. Пока я только прочитал лист; Мансур ещё не подтвердил, что найдена именно его просьба.", "translations": {"ru": "В квитанции перечислены ремонт Нивы, покупки и отдельная приписка о проводке. Это разные части одной записи. Пока я только прочитал лист; Мансур ещё не подтвердил, что найдена именно его просьба."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/doc_household_misc_niva_receipt"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_household_electric_receipts",
+  "kind": "clue",
+  "title": {"default": "Квитанции за свет", "translations": {"ru": "Квитанции за свет"}},
+  "summary": {"default": "В папке старые платежи за электричество и приписки о напряжении. Слово «квитанция» совпало с просьбой бабая; сам предмет записи надо ещё проверить.", "translations": {"ru": "В папке старые платежи за электричество и приписки о напряжении. Слово «квитанция» совпало с просьбой бабая; сам предмет записи надо ещё проверить."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/doc_household_electric_receipts"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_household_request_checked",
+  "kind": "clue",
+  "title": {"default": "Нашли нужный список", "translations": {"ru": "Нашли нужный список"}},
+  "summary": {"default": "Я вернулся к Мансуру и сверил список: ремень заменить, масло проверить; жгут проводов пока не трогать. Он узнал запись. Просьба выполнена.", "translations": {"ru": "Я вернулся к Мансуру и сверил список: ремень заменить, масло проверить; жгут проводов пока не трогать. Он узнал запись. Просьба выполнена."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/doc_household_misc_niva_receipt", "urman.chapter1:knowledge/clue_mansur_household_request"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_family_notice_by_phone",
+  "kind": "clue",
+  "title": {"default": "Мансур узнаёт формулировку", "translations": {"ru": "Мансур узнаёт формулировку"}},
+  "summary": {"default": "Когда я показал справку, Мансур сказал, что бабушке по телефону сообщили ту же формулировку. Он не сказал, что семья подавала повторный запрос. В справке есть отдельная строка о таких запросах; её можно сопоставить с его точными словами.", "translations": {"ru": "Когда я показал справку, Мансур сказал, что бабушке по телефону сообщили ту же формулировку. Он не сказал, что семья подавала повторный запрос. В справке есть отдельная строка о таких запросах; её можно сопоставить с его точными словами."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:dialogue/mansur_pc_request", "urman.oldpc:document/doc_marat_official_death_notice"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_notice_call_not_request",
+  "kind": "clue",
+  "title": {"default": "Сообщить семье — не то же, что принять запрос", "translations": {"ru": "Сообщить семье — не то же, что принять запрос"}},
+  "summary": {"default": "Рассказ Мансура о телефонном сообщении и строка «повторных запросов не поступало» не опровергают друг друга. По ним нельзя решить, что семье было всё равно, или что её обращения стёрли. У Наили можно уточнить, что эта строка вообще позволяет установить.", "translations": {"ru": "Рассказ Мансура о телефонном сообщении и строка «повторных запросов не поступало» не опровергают друг друга. По ним нельзя решить, что семье было всё равно, или что её обращения стёрли. У Наили можно уточнить, что эта строка вообще позволяет установить."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:knowledge/clue_family_notice_by_phone", "urman.oldpc:document/doc_marat_official_death_notice"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_naila_request_entry_scope",
+  "kind": "clue",
+  "title": {"default": "Что Наиля может показать", "translations": {"ru": "Что Наиля может показать"}},
+  "summary": {"default": "Наиля не стала судить о семье по строке справки. Она предложила проверить медицинскую формулировку и запись о передаче участковому. Вопрос о Марате остаётся открытым, но отсутствие повторных запросов больше не выглядит доказательством семейного равнодушия.", "translations": {"ru": "Наиля не стала судить о семье по строке справки. Она предложила проверить медицинскую формулировку и запись о передаче участковому. Вопрос о Марате остаётся открытым, но отсутствие повторных запросов больше не выглядит доказательством семейного равнодушия."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:dialogue/naila_medical_record", "urman.chapter1:knowledge/clue_notice_call_not_request"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-check-household-list", "value": {"default": "Давай сверим твой список к Ниве.", "translations": {"ru": "Давай сверим твой список к Ниве."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-household-list-question", "value": {"default": "«Там ещё продукты вписаны, не перепутай». Мансур подаётся к столу. «Что про саму машину нашли?»", "translations": {"ru": "«Там ещё продукты вписаны, не перепутай». Мансур подаётся к столу. «Что про саму машину нашли?»"}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-niva-repairs", "value": {"default": "Ремень заменить, масло проверить. Проводку пока оставить.", "translations": {"ru": "Ремень заменить, масло проверить. Проводку пока оставить."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-niva-wiring", "value": {"default": "Передать Фанису, чтобы начал с жгута проводов?", "translations": {"ru": "Передать Фанису, чтобы начал с жгута проводов?"}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-electric-receipts", "value": {"default": "Нашёл квитанции за свет. Долг уже закрыт.", "translations": {"ru": "Нашёл квитанции за свет. Долг уже закрыт."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-keep-looking", "value": {"default": "Ещё посмотрю в компьютере.", "translations": {"ru": "Ещё посмотрю в компьютере."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-household-list-checked", "value": {"default": "«Вот этот лист. А я уже опять про проводку собрался спрашивать». Мансур разглаживает ладонью край стола. «Спасибо, Айдар. Хорошо, что вместе посмотрели». Он говорит как раньше, когда я помогал ему во дворе: дело маленькое, зато нужное.", "translations": {"ru": "«Вот этот лист. А я уже опять про проводку собрался спрашивать». Мансур разглаживает ладонью край стола. «Спасибо, Айдар. Хорошо, что вместе посмотрели». Он говорит как раньше, когда я помогал ему во дворе: дело маленькое, зато нужное."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-household-wiring-correction", "value": {"default": "«Подожди. Там про проводку приписка внизу. Мы её собирались трогать или как раз оставить?» Слово я нашёл, но действие прочитал наоборот. Можно проверить лист ещё раз.", "translations": {"ru": "«Подожди. Там про проводку приписка внизу. Мы её собирались трогать или как раз оставить?» Слово я нашёл, но действие прочитал наоборот. Можно проверить лист ещё раз."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-household-wrong-receipt", "value": {"default": "«Это за свет. Я про Ниву просил — ремень там, масло, покупки». Он не сердится. «Попробуй по машине поискать, а не по квитанции». Название файла совпало, содержание — нет.", "translations": {"ru": "«Это за свет. Я про Ниву просил — ремень там, масло, покупки». Он не сердится. «Попробуй по машине поискать, а не по квитанции». Название файла совпало, содержание — нет."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/compare-family-call-scope", "value": {"default": "Проверить, противоречит ли звонок строке о повторных запросах.", "translations": {"ru": "Проверить, противоречит ли звонок строке о повторных запросах."}}, "purpose": "ui"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/compare-family-call-scope-result", "value": {"default": "Мансур говорит, что бабушке сообщили формулировку. В справке сказано, что повторных запросов от родственников не поступало. Направление обращения разное. Пока эти сведения совместимы; я не выяснил ни кто звонил, ни чего семья пыталась добиться. У Наили стоит спросить, что именно учитывает эта строка.", "translations": {"ru": "Мансур говорит, что бабушке сообщили формулировку. В справке сказано, что повторных запросов от родственников не поступало. Направление обращения разное. Пока эти сведения совместимы; я не выяснил ни кто звонил, ни чего семья пыталась добиться. У Наили стоит спросить, что именно учитывает эта строка."}}, "purpose": "ui"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/compare-family-call-erased", "value": {"default": "Проверить версию: обращения семьи убрали из справки.", "translations": {"ru": "Проверить версию: обращения семьи убрали из справки."}}, "purpose": "ui"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/compare-family-call-erased-result", "value": {"default": "Чтобы утверждать, что запись убрали, нужна сама запись или свидетельство о поданном запросе. Мансур рассказал о полученном телефонном сообщении. Этого недостаточно. Вернусь к двум конкретным формулировкам, прежде чем обвинять людей.", "translations": {"ru": "Чтобы утверждать, что запись убрали, нужна сама запись или свидетельство о поданном запросе. Мансур рассказал о полученном телефонном сообщении. Этого недостаточно. Вернусь к двум конкретным формулировкам, прежде чем обвинять людей."}}, "purpose": "ui"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-naila-family-request-entry", "value": {"default": "Бабушке сообщили по телефону. Это не то же, что «повторный запрос»?", "translations": {"ru": "Бабушке сообщили по телефону. Это не то же, что «повторный запрос»?"}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-naila-family-request-entry", "value": {"default": "Наиля отпускает край папки. «Из этой строки ты не узнаешь, что чувствовали дома. И весь телефонный разговор здесь не записан. Ты хотел понять, что случилось с Маратом? Тогда посмотри, как сформулирована причина и куда передали справку. Эти строки я покажу». Я принёс вопрос о бабушке, а обвинение в её молчании оказалось моим собственным выводом.", "translations": {"ru": "Наиля отпускает край папки. «Из этой строки ты не узнаешь, что чувствовали дома. И весь телефонный разговор здесь не записан. Ты хотел понять, что случилось с Маратом? Тогда посмотри, как сформулирована причина и куда передали справку. Эти строки я покажу». Я принёс вопрос о бабушке, а обвинение в её молчании оказалось моим собственным выводом."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-gulsina-naila-word", "value": {"default": "Наиля тоже сказала «ярамый», когда я спросил о записи. А ты о чём?", "translations": {"ru": "Наиля тоже сказала «ярамый», когда я спросил о записи. А ты о чём?"}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-gulsina-naila-word", "value": {"default": "«Я за Наилю отвечать не стану. У неё сам спросишь». Гөлсинә поправляет чайную ложку на блюдце. «Я тебя прошу к лесу вечером не ходить. Хочу знать, что домой придёшь». То же слово, а вопрос другой: Наиля остановила разговор о категории, бабушка говорит о том, куда я собрался.", "translations": {"ru": "«Я за Наилю отвечать не стану. У неё сам спросишь». Гөлсинә поправляет чайную ложку на блюдце. «Я тебя прошу к лесу вечером не ходить. Хочу знать, что домой придёшь». То же слово, а вопрос другой: Наиля остановила разговор о категории, бабушка говорит о том, куда я собрался."}}, "purpose": "dialogue"},
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/investigation-family",
+  "sceneType": "presentation",
+  "title": {"default": "Семейный рассказ и справка", "translations": {"ru": "Семейный рассказ и справка"}},
+  "assetRefs": [],
+  "textRefs": ["urman.chapter1:text/compare-family-call-scope", "urman.chapter1:text/compare-family-call-scope-result", "urman.chapter1:text/compare-family-call-erased", "urman.chapter1:text/compare-family-call-erased-result"],
+  "entryConditions": [], "onEnter": [], "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/compare-family-call-scope",
+    "labelTextId": "urman.chapter1:text/compare-family-call-scope",
+    "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"}}],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_notice_call_not_request", "sourceId": "urman.chapter1:knowledge/clue_notice_call_not_request"}
+    ],
+    "journalAction": {"sourceIds": ["urman.oldpc:document/doc_marat_official_death_notice", "urman.chapter1:knowledge/clue_family_notice_by_phone"], "resultTextId": "urman.chapter1:text/compare-family-call-scope-result"}
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-family-call-erased",
+    "labelTextId": "urman.chapter1:text/compare-family-call-erased",
+    "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"}}],
+    "effects": [],
+    "journalAction": {"sourceIds": ["urman.oldpc:document/doc_marat_official_death_notice", "urman.chapter1:knowledge/clue_family_notice_by_phone"], "resultTextId": "urman.chapter1:text/compare-family-call-erased-result"}
+   }
+  ]
+ }
+]

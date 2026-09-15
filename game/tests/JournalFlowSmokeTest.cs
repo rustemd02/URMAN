@@ -104,7 +104,7 @@ public partial class JournalFlowSmokeTest : Node
         if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() == "confirmed")
         { Fail("Reading the register still completed the comparison automatically."); return; }
         journal.Open(bridge);
-        if (!journal.CurrentObjectiveText.Contains("Сопоставить справку о смерти Марата", StringComparison.Ordinal))
+        if (!journal.CurrentObjectiveText.Contains("Показать Наиле", StringComparison.Ordinal))
         { Fail("The journal did not offer comparison after both required sources were found."); return; }
         journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 1;
         for (var slot = 0; slot < 2; slot++)
@@ -135,9 +135,55 @@ public partial class JournalFlowSmokeTest : Node
         choices.GetChildren().OfType<Button>().Single(button => button.Text == bridge.ResolveText("urman.chapter1:text/compare-records-contradiction"))
             .EmitSignal(Button.SignalName.Pressed);
         await Frames(8);
+        if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/clue_record_wording_mismatch").GetProperty("status").GetString() != "confirmed"
+            || bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() != "hidden"
+            || bridge.ActiveSceneId != before || bridge.JournalEntries().Count != 3)
+        { Fail("Journal choice did not retain the literal mismatch separately from the unverified interpretation."); return; }
+        journal._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+
+        const string response = "urman.chapter1:knowledge/clue_naila_record_scope";
+        if (!await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "follow-up", "press-contradiction"))
+        { Fail("The raw category could not be shown to Naila."); return; }
+        journal.Open(bridge);
+        // Both raw documents remain readable when a spoken source is added.
+        if (!bridge.JournalEntries().Any(entry => entry.EntryId == OfficialNotice && entry.Body.Contains("несчастного случая"))
+            || !bridge.JournalEntries().Any(entry => entry.EntryId == response && entry.Body.Contains("Эту категорию")))
+        { Fail("The journal replaced an original source with its interpretation."); return; }
+        journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 1;
+        for (var slot = 0; slot < 2; slot++)
+        {
+            var picker = journal.GetNode<OptionButton>($"Screen/Book/Layout/Comparisons/Layout/Source{slot + 1}/Source");
+            picker.Select(0);
+            picker.EmitSignal(OptionButton.SignalName.ItemSelected, 0);
+        }
+        var scopePair = new[] { register, response };
+        for (var slot = 0; slot < 2; slot++)
+        {
+            var picker = journal.GetNode<OptionButton>($"Screen/Book/Layout/Comparisons/Layout/Source{slot + 1}/Source");
+            var index = Enumerable.Range(1, picker.ItemCount - 1).Single(index => picker.GetItemMetadata(index).AsString() == scopePair[slot]);
+            picker.Select(index);
+            picker.EmitSignal(OptionButton.SignalName.ItemSelected, index);
+        }
+        correctText = bridge.ResolveText("urman.chapter1:text/compare-record-scope");
+        wrongTexts = choices.GetChildren().OfType<Button>().Select(button => button.Text)
+            .Where(text => text != correctText).ToArray();
+        if (wrongTexts.Length != 2)
+        { Fail("The spoken-source comparison did not expose both recoverable interpretations."); return; }
+        foreach (var wrongText in wrongTexts)
+        {
+            choices.GetChildren().OfType<Button>().Single(button => button.Text == wrongText)
+                .EmitSignal(Button.SignalName.Pressed);
+            await Frames(8);
+            if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() != "hidden"
+                || choices.GetChildCount() != 3)
+            { Fail("An unsupported interpretation of a spoken reply closed the investigation."); return; }
+        }
+        choices.GetChildren().OfType<Button>().Single(button => button.Text == correctText)
+            .EmitSignal(Button.SignalName.Pressed);
+        await Frames(8);
         if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() != "confirmed"
-            || bridge.ActiveSceneId != before || bridge.JournalEntries().Count != 2)
-        { Fail("Journal choice did not confirm the deduction while preserving its sources and scene."); return; }
+            || bridge.ActiveSceneId != before || bridge.JournalEntries().Count != 5)
+        { Fail("The journal did not retain documents, spoken evidence and the separately checked conclusion."); return; }
         journal._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
         journal.Open(bridge);
         if (!journal.GetNode<OptionButton>("Screen/Book/Layout/Comparisons/Layout/Source1/Source").HasFocus())

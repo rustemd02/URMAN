@@ -3,7 +3,18 @@
    "kind": "urman.execution_backlog",
    "updated": "2026-09-15",
    "goal_key": "urman-act1-finished-product",
-   "goal_statement": "Довести Акт I до законченного локального продукта по URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md; общая готовность требует всех игровых, художественных, звуковых, UI, save, performance и native-package подтверждений. Обязательные уточнения пользователя 2026-09-11: красивый арт-стиль BOTW/TOTK и исследуемый открытый мир с множеством секретов, скрытых проходов и осмысленных действий с окружением; без интересных локаций цель не завершена. Обновление пользователя 2026-09-12: продолжать работу как минимум до 17:00 МСК 12 сентября (14:00 UTC); это заменяет прежние 10:00 МСК и не отменяет критерии готовности. Последующее указание пользователя: проверять remaining usage Codex через CLI и остановиться при 70% или ниже; прежняя остановка в 18:00 МСК отменена. Статус blocked подчиняется условиям инструмента цели.",
+   "goal_statement": "Довести Акт I до законченного игрового результата. Действующее поручение автора 2026-09-15: минимум 60 минут обычного первого основного опыта; все EX00 и EX01–EX14; исправленные физика, геометрия, ассеты, взаимодействия, NPC, звук, сохранения и производительность; связное расследование, культурный код, зима 2026 и высокий непроницаемый лес. Продолжать основной checkout и эту очередь; debug и необходимые локальные проверки разрешены. Технический walkthrough, объём текста и количество PASS не принимают художественное качество, интерес или длительность. Неизмеренный человеческий опыт и недоступное прослушивание — external/not-run; независимые локальные работы продолжаются.",
+   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
+   "acceptance_contract_2026_09_15": {
+      "minimum_first_main_minutes": 60,
+      "required_exploration": "EX00 and EX01–EX14, including the second implementation batch",
+      "measure_separately": ["unfamiliar human first main experience", "familiar fast route", "optional exploration", "loading", "pauses", "time lost to defects"],
+      "disallowed_padding": ["slower walking", "empty distances", "mandatory waiting", "no-skip rules", "repetitive actions", "text quota", "mandatory secret count"],
+      "human_playtest": "external/not-run",
+      "current_build": "main 44f71d6 plus coordinated working-tree changes; no new accepted native candidate yet",
+      "matrix": "docs/production/act1_acceptance_matrix_2026-09-14.md",
+      "state_mapping": "Each requirement records actual implementation, verification state, build fingerprint, evidence and remaining limitations; historical PASS is not inherited."
+   },
    "long_term_goal": "Полная миграция УРМАН на Godot 4.7.1 .NET и C# с последующим производством 6–8-часовой игры, desktop acceptance и отдельным absence-gated решением о web retirement остаётся долгосрочным направлением, но не текущим демо-объёмом.",
    "current_scope": {
       "name": "Finished Act I local product candidate",
@@ -38,7 +49,7 @@
    },
    "role": "Машиночитаемая очередь исполнения. Она не заменяет goal, канон, decision log, архитектуру или evidence.",
    "authority": {
-      "goal": "Current user request: finished Act I, native Luna max subagents, one writer, regular verified commits and pushes on existing main.",
+      "goal": "Current user request 2026-09-15: implement and verify finished Act I in main checkout; maximum useful workers on disjoint files, a single active owner for each shared system; current tool defaults for workers. No new authority to publish or push is inferred from historical handovers.",
       "goal_frame": "docs/aegis/work/2026-08-10-godot-full-migration/10-intent.md",
       "canonical_sources": [
          "AGENTS.md",
@@ -71,7 +82,16 @@
       "parallel_rule": "Параллелить только задачи с непересекающейся областью файлов и без общей миграции/схемы; при сомнении выполнять последовательно.",
       "source_edit_rule": "После изменения исходников обновить graphify; после изменения канона или решений обновить соответствующий KB-owner в том же изменении.",
       "retirement_rule": "Задачи, удаляющие web runtime или persistence, разрешены только после прохождения всех release-gate задач; browser localStorage не удалять.",
-      "queue_rule": "Очередь выбирается по active queue tracker: минимальная wave, затем P0>P1>P2, player-visible progress среди равных; один writer, canonical checkout main."
+      "queue_rule": "Очередь выбирается по active queue tracker: минимальная wave, затем P0>P1>P2, player-visible progress среди равных; один активный writer на общий владелец, непересекающиеся направления параллельно в canonical checkout main.",
+      "active_session_2026_09_15": {
+         "run_id": "d9eb6de4-82cf-4896-9956-bd417bd59c0f",
+         "base_head": "44f71d6",
+         "inherited_changes": "Сохранён незакоммиченный пакет предыдущего исполнителя: перенос/custody, инструменты/снег, коллизии, защита smoke, Алсу/Ринат и перечитывание реестра. Не считать его мусором или новым доказательством приёмки.",
+         "prime": "Общие runtime/input/save и EX00–EX14, интеграция контента и проверки, действующие документы/матрица/очередь.",
+         "worker-1": "LEN01: только chapter1/oldpc исходный контент, InvestigationRevisits и сюжетные smoke. Общие runtime/controller/compiled packs не меняет.",
+         "worker-2": "Архитектура/физика: AuthoredKitCollision, CulvertVerandaDiscoveries, согласованные архитектурные partial и источник village exterior kit. Общие runtime/controller/content/registry не меняет.",
+         "shared_tools": "Сборка, Godot, импорт и генерация согласуются сообщением. Предыдущие owner/claimed в исторических карточках не доказывают активного исполнителя; проверять agents/session."
+      }
    },
    "milestones": [
       {
@@ -1689,10 +1709,10 @@
       },
       {
          "id": "LEN01",
-         "title": "Почему глава занимает 5-6 минут вместо ~50",
+         "title": "LEN01: устранить причины короткого акта и обеспечить минимум 60 минут первого основного опыта",
          "milestone": "M5",
          "status": "in_progress",
-         "active_owner": "len01-audit (dedicated read-only investigator) + act1-village-rework (integrator)",
+         "active_owner": "worker-1 (content and flow tests) + prime (shared runtime, integration and acceptance)",
          "depends_on": [],
          "owner": "narrative/design",
          "scope": [
@@ -1703,8 +1723,8 @@
          "deliverable": "Воспроизведение, карта сценария и причин, задачи исправления и честный хронометраж обязательного прохода.",
          "done_when": [
             "Причины короткого прохождения воспроизведены и измерены на репозитории.",
-            "Карта битов обязательного пути с целевыми минутами согласована автором.",
-            "Обычный проход замерен человеком и сравнён с целью ~50 минут."
+            "Сценарная опора связана с реально доступным источником, действием игрока, изменением понимания и условием продолжения; существенные новые сюжетные решения согласуются отдельно.",
+            "Обычный первый основной проход незнакомым человеком составляет минимум 60 активных минут без обязательного сбора всех секретов; остальные виды времени записаны отдельно."
          ],
          "verify": [
             "docs/production/act1_len01_playtime_audit_2026-09-15.md",
@@ -1718,21 +1738,19 @@
       },
       {
          "id": "LEN01.1",
-         "title": "Карта битов обязательного пути с целевыми минутами",
+         "title": "Карта переживаемых эпизодов обязательного пути",
          "milestone": "M5",
-         "status": "completed",
-         "active_owner": "act1-village-rework",
-         "depends_on": [
-            "LEN01"
-         ],
+         "status": "in_progress",
+         "active_owner": "worker-1 + prime",
+         "depends_on": [],
          "owner": "narrative/author",
          "scope": [
             "content/modules/urman-chapter1/"
          ],
-         "deliverable": "Таблица бит → целевые минуты → где нужен текст, где действие.",
+         "deliverable": "Сценарная опора → сцена/диалог/документ → доступное действие → изменение понимания → условие продолжения; отдельно основной и необязательный опыт.",
          "done_when": [
-            "Каждый бит обязательного пути имеет целевую длительность и источник объёма.",
-            "Сумма соответствует цели ~50 минут."
+            "Каждый обязательный эпизод реализован в доступном пути; написанное, автоматически засчитанное и переживаемое игроком различены.",
+            "Карта поддерживает минимум 60 минут содержательного основного опыта; проектные оценки не выдаются за замер."
          ],
          "verify": [
             "author review"
@@ -1740,7 +1758,8 @@
          "evidence": [
             "docs/production/act1_len01_playtime_audit_2026-09-15.md"
          ],
-         "blocked_reason": "Нужен авторский выбор, сколько времени должен занимать каждый бит.",
+         "blocked_reason": null,
+         "status_correction_2026_09_15": "Старый completed означал арифметический черновик, не выполнение требований. Распределение минут автором не требуется для разрешённых технических и содержательных исправлений в пределах канона.",
          "progress_2026_09_15": "Draft beat map produced with measured values (act1_len01_1_beat_map_draft_2026-09-15.md): the chapter carries 1,234 Russian words distributed across beats (evidence 236, timur 226, mansur 221, other 155, alsu 132, naila 100, gulsina 81, rinat 68, arrival 12, old-pc 3), the mandatory walk is 424.88 m = 2:05, and the investigation core is 22 words. Proposed per-beat targets sum to the ~50 minute goal, which needs the mandatory text to grow 5-7x, with the core (beat 6), the house (2) and the FAP (4) as the priority gaps. The story volume itself is author's content - the draft is the measured side for the author's decision.",
          "progress_2026_09_15_b": "Beat map updated with the measured mandatory volume: ~530 words on the load-bearing path against 1,234 in the whole chapter, so ~700 words sit in optional finds. The 5-6 minute figure now reconciles arithmetically with the corpus. The story volume itself remains the author's content decision."
       },
@@ -1748,8 +1767,8 @@
          "id": "LEN01.2",
          "title": "Расширить ядро расследования из трёх однострочных сравнений",
          "milestone": "M5",
-         "status": "completed",
-         "active_owner": null,
+         "status": "in_progress",
+         "active_owner": "worker-1",
          "depends_on": [
             "LEN01.1"
          ],
@@ -1757,9 +1776,9 @@
          "scope": [
             "content/modules/urman-chapter1/"
          ],
-         "deliverable": "Цепочка 5-7 шагов с перекрёстным чтением документов в разных местах; обязательный корпус 4 000-6 000 слов.",
+         "deliverable": "Связная цепочка расследовательских действий: выбрать вопрос, получить источник, сопоставить конкретные сведения, проверить ошибочную версию, перечитать и применить понимание в месте. Размер текста не является критерием.",
          "done_when": [
-            "Обязательный текст измерен и входит в целевой диапазон.",
+            "Выводы основаны на действиях и прочитанных источниках, не выдаются приветствием или входом в сцену.",
             "Три старых сравнения стали частью цепочки, а не всем расследованием."
          ],
          "verify": [
@@ -1776,19 +1795,17 @@
          "id": "LEN01.3",
          "title": "Проверить полное чтение обязательных документов и повторное чтение с новыми знаниями",
          "milestone": "M5",
-         "status": "completed",
-         "active_owner": "act1-village-rework",
-         "depends_on": [
-            "LEN01"
-         ],
+         "status": "in_progress",
+         "active_owner": "worker-1 + prime",
+         "depends_on": [],
          "owner": "narrative/implementation",
          "scope": [
             "game/scripts/",
             "content/modules/urman-chapter1/"
          ],
-         "deliverable": "Каждый обязательный документ читается целиком; повторное чтение с новыми знаниями даёт новую строку.",
+         "deliverable": "Обязательные документы доступны полностью, исходная улика выдаётся при открытии источника; применение нового понимания при повторном чтении требует собственного действия. Не вводить обязательный таймер или scroll-gate.",
          "done_when": [
-            "Проверка подтверждает полное чтение и новую строку при повторном визите.",
+            "Проверка подтверждает доступность полного текста и дополнительного сопоставления после перечитывания; понимание человеком проверяется отдельно.",
             "Регрессий маршрута нет."
          ],
          "verify": [
@@ -1801,7 +1818,7 @@
       },
       {
          "id": "LEN01.4",
-         "title": "Связать часть находок с обязательным выводом",
+         "title": "Отделить основной опыт от полезного добровольного исследования",
          "milestone": "M5",
          "status": "in_progress",
          "active_owner": null,
@@ -1813,9 +1830,9 @@
             "content/modules/urman-chapter1/",
             "game/scripts/"
          ],
-         "deliverable": "K из 24 находок открывают обязательный вывод, не ломая канон 'расследование не требует тайников'.",
+         "deliverable": "У основных выводов есть путь без секретов; добровольные находки дают человеческую реакцию, понимание или удобный маршрут и не включаются в обязательный минимум времени.",
          "done_when": [
-            "Выбрано K и список находок; выводы обязательны только при их использовании."
+            "Основной путь проходим без скрытого K-счётчика и без требования найти все необязательные места; альтернативные источники имеют понятную пользу."
          ],
          "verify": [
             "author review",
@@ -1831,7 +1848,7 @@
          "id": "LEN01.5",
          "title": "Честный хронометраж обычного прохождения",
          "milestone": "M5",
-         "status": "completed",
+         "status": "blocked",
          "active_owner": null,
          "depends_on": [
             "LEN01.1"
@@ -1840,13 +1857,13 @@
          "scope": [],
          "deliverable": "Замер обычного прохождения человеком и сравнение с целью.",
          "done_when": [
-            "Есть запись времени и комментарий игрока, сравнение с ~50 минутами."
+            "Есть реальный незнакомый игрок, идентификатор сборки, журнал действий и времени: минимум 60 активных минут первого основного опыта, отдельно быстрый знакомый маршрут, исследование, загрузки, паузы и потери из-за ошибок."
          ],
          "verify": [
             "плейтест"
          ],
          "evidence": [],
-         "blocked_reason": null,
+         "blocked_reason": "external/not-run: человеческий первый проход не состоялся; старая таблица гипотез и расчёт текста не были хронометражем.",
          "progress_2026_09_15": "Hypothesis table filled with confirmed / refuted / not-checked per row. REFUTED: wrong or old package, a bypass to the finale, the estimate resting on optional content. CONFIRMED: scenario parts only in the manifest (fixed), knowledge granted by entry/open rather than by reading, the main path being short clicks, and the promised finale voice being absent (external recording). NOT CHECKED: whether a fast expert run was compared to a first run - human-only."
       },
       {
@@ -1854,12 +1871,8 @@
          "title": "§13.19 LEN01.6: подтверждённые исправления короткого прохождения",
          "milestone": "M5",
          "status": "in_progress",
-         "active_owner": "act1-village-rework",
-         "depends_on": [
-            "LEN01.2",
-            "LEN01.3",
-            "LEN01.5"
-         ],
+         "active_owner": "worker-1 + prime",
+         "depends_on": [],
          "owner": "narrative/design",
          "scope": [
             "game/scripts/",
@@ -1888,8 +1901,8 @@
          "id": "LEN01.7",
          "title": "§13.19 LEN01.7: целевой ритм основного опыта",
          "milestone": "M5",
-         "status": "blocked",
-         "active_owner": "act1-village-rework",
+         "status": "in_progress",
+         "active_owner": "worker-1 + prime",
          "depends_on": [
             "LEN01.6"
          ],
@@ -1898,7 +1911,7 @@
             "content/modules/urman-chapter1/",
             "docs/production/"
          ],
-         "deliverable": "Для строк LEN01.2: фактическое время до правок, потерянное содержательное действие, принятое изменение и наблюдаемое время после; цель 45–60 минут, ориентир ~50.",
+         "deliverable": "Для строк LEN01.2: потерянное содержательное действие, принятое изменение, реально наблюдаемое время либо not-run; минимум 60 минут обычного первого основного опыта без секретов и искусственного добора.",
          "done_when": [
             "В каждой части понятны смысл, действие игрока и изменение понимания.",
             "Длительность получена при реальном прохождении, а не расчётом символов или распределением минут по пустым блокам.",
@@ -1912,7 +1925,7 @@
             "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13.19 LEN01.7"
          ],
          "note": "Сильный, но существенно более короткий результат сообщается автору с фактическим замером и объяснением.",
-         "blocked_reason": "Ждёт исправлений LEN01.6."
+         "blocked_reason": null
       },
       {
          "id": "LEN01.8",
@@ -1949,8 +1962,8 @@
          "id": "ACT1-EX00",
          "title": "§13 EX00: Общий контракт новых действий",
          "milestone": "M5",
-         "status": "completed",
-         "active_owner": "act1-village-rework",
+         "status": "in_progress",
+         "active_owner": "prime",
          "depends_on": [],
          "owner": "gameplay/design",
          "scope": [
@@ -1970,7 +1983,7 @@
          "evidence": [
             "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
          ],
-         "note": "Основание для новых систем; read-only проектирование сразу",
+         "note": "Реализация и локальная проверка разрешены. Исходный дизайн не принимал работающую систему; исправляются линия видимости, единый ввод, атомарность custody, размещение и восстановление.",
          "done_when_note": "Design side complete: the analog inventory, the input contract (one held item; take/place, use, cancel, rotate - via the existing remap), the world/held/placed/combined state chain with save-restore semantics, and the compatibility policy are fixed in act1_ex00_state_contract_design_2026-09-15.md; CustodyStore confirmed as the ownership layer with the wiring point named (RuntimeBridge.CreateHandlers, next to world.interact). The confirmation pass against CustodyStore's real consumer is done. Remaining for full closure: the implementation itself lands with EX01."
       },
       {
@@ -1978,9 +1991,9 @@
          "title": "§13 EX01: Поднимать, переносить, ставить",
          "milestone": "M5",
          "status": "in_progress",
-         "active_owner": "act1-village-rework",
+         "active_owner": "prime",
          "depends_on": [
-            "EX00"
+            "ACT1-EX00"
          ],
          "owner": "gameplay/design",
          "scope": [
@@ -2008,16 +2021,16 @@
          "title": "§13 EX02: Несколько решений одной задачи",
          "milestone": "M5",
          "status": "in_progress",
-         "active_owner": "act1-village-rework",
+         "active_owner": "prime",
          "depends_on": [
-            "EX00"
+            "ACT1-EX00"
          ],
          "owner": "gameplay/design",
          "scope": [
             "game/scripts/",
             "content/modules/urman-chapter1/"
          ],
-         "deliverable": "Два разных способа решить один необязательный локальный доступ",
+         "deliverable": "Три локальных эпизода, каждый имеет два естественных разных решения и воспринимаемый результат; отказ, возвращение и ошибка не ломают сюжет.",
          "done_when": [
             "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
             "Состояние переживает save/load и новый сеанс; дублей награды нет."
@@ -2038,17 +2051,17 @@
          "title": "§13 EX03: Многоцелевые инструменты",
          "milestone": "M5",
          "status": "in_progress",
-         "active_owner": "act1-village-rework",
+         "active_owner": "prime",
          "depends_on": [
-            "EX00",
-            "EX01"
+            "ACT1-EX00",
+            "ACT1-EX01"
          ],
          "owner": "gameplay/design",
          "scope": [
             "game/scripts/",
             "content/modules/urman-chapter1/"
          ],
-         "deliverable": "Два бытовых инструмента, у каждого по два различных применения",
+         "deliverable": "Лопата и шест: по два осмысленных применения каждого при наведении на конкретную физическую цель; циклическое переключение удалённых эффектов у стойки не засчитывается.",
          "done_when": [
             "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
             "Состояние переживает save/load и новый сеанс; дублей награды нет."
@@ -2069,11 +2082,11 @@
          "id": "ACT1-EX04",
          "title": "§13 EX04: Ограниченные сочетания",
          "milestone": "M5",
-         "status": "todo",
+         "status": "ready",
          "active_owner": null,
          "depends_on": [
-            "EX01",
-            "EX03"
+            "ACT1-EX01",
+            "ACT1-EX03"
          ],
          "owner": "gameplay/design",
          "scope": [
@@ -2093,16 +2106,16 @@
          "evidence": [
             "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
          ],
-         "note": "Вторая партия"
+         "note": "Вторая партия определяет последовательность, не исключает реализацию. Потребление/передача настоящих предметов и результат фиксируются одной атомарной операцией существующего runtime."
       },
       {
          "id": "ACT1-EX05",
          "title": "§13 EX05: Читаемый и изменяемый снег",
          "milestone": "M5",
-         "status": "todo",
-         "active_owner": null,
+         "status": "in_progress",
+         "active_owner": "prime",
          "depends_on": [
-            "EX03"
+            "ACT1-EX03"
          ],
          "owner": "gameplay/design",
          "scope": [
@@ -2128,11 +2141,11 @@
          "id": "ACT1-EX06",
          "title": "§13 EX06: Переносной свет",
          "milestone": "M5",
-         "status": "todo",
+         "status": "ready",
          "active_owner": null,
          "depends_on": [
-            "EX00",
-            "EX01"
+            "ACT1-EX00",
+            "ACT1-EX01"
          ],
          "owner": "gameplay/design",
          "scope": [
@@ -2158,11 +2171,11 @@
          "id": "ACT1-EX07",
          "title": "§13 EX07: Тепло/холод/материал",
          "milestone": "M5",
-         "status": "todo",
+         "status": "ready",
          "active_owner": null,
          "depends_on": [
-            "EX00",
-            "EX03"
+            "ACT1-EX00",
+            "ACT1-EX03"
          ],
          "owner": "gameplay/design",
          "scope": [
@@ -2188,17 +2201,17 @@
          "id": "ACT1-EX08",
          "title": "§13 EX08: Поиск и проверка звуком",
          "milestone": "M5",
-         "status": "todo",
+         "status": "ready",
          "active_owner": null,
          "depends_on": [
-            "EX00"
+            "ACT1-EX00"
          ],
          "owner": "gameplay/design",
          "scope": [
             "game/scripts/",
             "content/modules/urman-chapter1/"
          ],
-         "deliverable": "Два различимых источника с локализацией и действием игрока",
+         "deliverable": "Три различимых звуковых эпизода: локальный источник, направленность/материал, действие и результат; видимый эквивалент сохраняет возможность играть без слуха.",
          "done_when": [
             "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
             "Состояние переживает save/load и новый сеанс; дублей награды нет."
@@ -2217,10 +2230,10 @@
          "id": "ACT1-EX09",
          "title": "§13 EX09: Человеческая вертикальность",
          "milestone": "M5",
-         "status": "todo",
+         "status": "ready",
          "active_owner": null,
          "depends_on": [
-            "EX01"
+            "ACT1-EX01"
          ],
          "owner": "gameplay/design",
          "scope": [
@@ -2246,18 +2259,18 @@
          "id": "ACT1-EX10",
          "title": "§13 EX10: Небольшие самостоятельные места",
          "milestone": "M5",
-         "status": "todo",
+         "status": "ready",
          "active_owner": null,
          "depends_on": [
-            "EX06",
-            "EX09"
+            "ACT1-EX06",
+            "ACT1-EX09"
          ],
          "owner": "gameplay/design",
          "scope": [
             "game/scripts/",
             "content/modules/urman-chapter1/"
          ],
-         "deliverable": "Два бытовых пространства с разными задачами и наградами",
+         "deliverable": "Три небольших функциональных пространства с различными действиями, полезными открытиями и безопасным понятным возвратом.",
          "done_when": [
             "Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.",
             "Состояние переживает save/load и новый сеанс; дублей награды нет."
@@ -2276,7 +2289,7 @@
          "id": "ACT1-EX11",
          "title": "§13 EX11: Микрозагадки на странность",
          "milestone": "M5",
-         "status": "todo",
+         "status": "ready",
          "active_owner": null,
          "depends_on": [],
          "owner": "gameplay/design",
@@ -2303,7 +2316,7 @@
          "id": "ACT1-EX12",
          "title": "§13 EX12: Найти место по фото/рисунку",
          "milestone": "M5",
-         "status": "todo",
+         "status": "ready",
          "active_owner": null,
          "depends_on": [],
          "owner": "gameplay/design",
@@ -2330,7 +2343,7 @@
          "id": "ACT1-EX13",
          "title": "§13 EX13: Цепочки любопытства",
          "milestone": "M5",
-         "status": "todo",
+         "status": "ready",
          "active_owner": null,
          "depends_on": [],
          "owner": "gameplay/design",
@@ -2357,10 +2370,10 @@
          "id": "ACT1-EX14",
          "title": "§13 EX14: Устойчивый результат",
          "milestone": "M5",
-         "status": "todo",
-         "active_owner": null,
+         "status": "in_progress",
+         "active_owner": "prime",
          "depends_on": [
-            "EX00"
+            "ACT1-EX00"
          ],
          "owner": "gameplay/design",
          "scope": [
@@ -2387,9 +2400,9 @@
          "title": "§13.18: единый учёт приёмки EX01–EX14",
          "milestone": "M5",
          "status": "in_progress",
-         "active_owner": "act1-village-rework",
+         "active_owner": "prime",
          "depends_on": [
-            "EX00"
+            "ACT1-EX00"
          ],
          "owner": "gameplay/design",
          "scope": [

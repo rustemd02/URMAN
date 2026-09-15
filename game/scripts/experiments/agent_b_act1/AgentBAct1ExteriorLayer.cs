@@ -88,10 +88,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         SetMeta("variantStatus", "production-canonical");
         SetMeta("retiredVariants", "AgentBAct1World");
         SetMeta("runtimeEntryPoint", "res://scenes/act1_demo.tscn");
-        SetMeta("visualOnlyPolicy", "terrain+architecture collidable; decor walk-through");
+        SetMeta("visualOnlyPolicy", "terrain, architecture, reachable tree stems and boundary thicket collidable; small decor walk-through");
         SetMeta(
             "collisionPolicy",
-            "AgentB_TerrainCollision and AgentB_ArchitectureCollision are the only traversal bodies; all decor remains walk-through");
+            "AgentB_TerrainCollision and AgentB_ArchitectureCollision own traversal; rooted stems join architecture after visible-plant filtering; small decor remains walk-through");
         SetMeta(
             "traversalCollisionOwners",
             "AgentB_TerrainCollision:act1-exterior-terrain|AgentB_ArchitectureCollision:act1-exterior-architecture");
@@ -835,6 +835,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             .GroupBy(node => VariantKey(node.Name.ToString())!)
             .ToDictionary(group => group.Key, group => group.ToList(), StringComparer.Ordinal);
         var geometry = new Dictionary<string, (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices)>(StringComparer.Ordinal);
+        var rootedStems = new Dictionary<string, Vector3[]>(StringComparer.Ordinal);
         var graded = _foliageMeshes;
         (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices) Geometry(string variant)
         {
@@ -898,7 +899,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var source = Geometry(variant);
             var result = (ArrayMesh)source.Mesh.Duplicate();
             for (var surface = 0; surface < source.Kinds.Length; surface++)
+            {
                 result.SurfaceSetMaterial(surface, RegionalFoliageMaterial(variant, source.Kinds[surface], region));
+                result.SurfaceSetName(surface, source.Kinds[surface]);
+            }
             graded[(variant, region)] = result;
             return result;
         }
@@ -914,6 +918,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var batches = new Dictionary<(Vector2I Cell, string Variant, string Region, int Lod), List<Transform3D>>();
         var roofs = BuildingRoofBounds(GetParent());
         var plan = BuildDensifiedPlan();
+        var architecture = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
+        var stemCount = 0;
         var suppressed = 0;
         var suppressedKara = 0;
         var minimumClearance = float.MaxValue;
@@ -1002,6 +1008,33 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     ConfigureFoliageRange(instance, hasLods ? lod : -1, false);
                 }
             }
+            // A visible, independently approachable trunk must stop the player.
+            // Build after all suppression, from the rooted wood rather than the
+            // crown's AABB. Outer-ring trees are already behind the thicket's
+            // physical carrier; shrubs and ground cover stay walk-through.
+            if (tree is not null && hasLods && template.Mesh.GetAabb().Size.Y * vertical >= 3.5f
+                && _forestRingBand is { } ring
+                && position.X > ring.InnerMin.X + 2f && position.X < ring.InnerMax.X - 2f
+                && position.Y > ring.InnerMin.Y + 2f && position.Y < ring.InnerMax.Y - 2f)
+            {
+                if (!rootedStems.TryGetValue(variant, out var faces))
+                    rootedStems[variant] = faces = RootedStemFaces(template.Mesh, Array.IndexOf(template.Kinds, "bark"));
+                if (faces.Length == 0)
+                    throw new InvalidOperationException($"Visible winter tree has no rooted stem geometry: {variant}");
+                // Bake the real yaw and non-uniform plant scale into these few
+                // stem faces. The physics shape itself keeps a unit basis.
+                var shape = new ConcavePolygonShape3D();
+                shape.SetFaces(faces.Select(vertex => basis * vertex).ToArray());
+                var collider = new CollisionShape3D
+                {
+                    Name = $"PlantedStem_{tree.Name}", Shape = shape, Position = target
+                };
+                architecture.AddChild(collider);
+                collider.SetMeta("plantVariant", variant);
+                collider.SetMeta("plantPosition", target);
+                collider.SetMeta("geometryOwner", tree.GetPath().ToString());
+                stemCount++;
+            }
         }
         foreach (var (key, transforms) in batches)
         {
@@ -1034,9 +1067,53 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         SetMeta("minimumFoliageRoadClearance", minimumClearance);
         SetMeta("foliagePlacementPolicy", "roots and full lower silhouette clear road; suppressed entries remain counted separately");
         SetMeta("foliageRebasePolicy", "one layer-space root pivot per shared geometry variant");
+        SetMeta("createdPlantedStemCollisionCount", stemCount);
+        SetMeta("plantedStemCollisionPolicy", "root-connected lower wood of visible large plants inside thicket; existing architecture body; interior exclusions remain authoritative");
         SetMeta("regionalFoliageGradePolicy", "semantic snow/bark/dry ground cover; winter deciduous village, conifers at Kara only");
         foreach (var template in kit.GetChildren()) template.Free();
         kit.SetMeta("templateSourcePolicy", "source owner retained; template instances released after shared geometry extraction");
+    }
+
+    private static Vector3[] RootedStemFaces(ArrayMesh mesh, int barkSurface)
+    {
+        if (barkSurface < 0) return Array.Empty<Vector3>();
+        var arrays = mesh.SurfaceGetArrays(barkSurface);
+        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+        var indices = arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
+        if (indices.Length == 0) indices = Enumerable.Range(0, vertices.Length).ToArray();
+        // The authored winter mesh combines separate tubes for stems, branches
+        // and twigs in one bark surface. Only components touching the root are
+        // load-bearing stems. Weld by position across UV/normal seams, without
+        // bridging the separate branch tubes or filling their empty spaces.
+        var incident = new Dictionary<Vector3, List<int>>();
+        for (var triangle = 0; triangle + 2 < indices.Length; triangle += 3)
+        for (var corner = 0; corner < 3; corner++)
+        {
+            var vertex = vertices[indices[triangle + corner]];
+            if (!incident.TryGetValue(vertex, out var faces)) incident[vertex] = faces = new();
+            faces.Add(triangle);
+        }
+        // Large planted variants have one stem at the native root pivot. A
+        // willow's hanging branches can also touch the snow, far from that
+        // pivot: seeding every ground-level vertex would turn those branches
+        // into a wide root collider and let an adjacent interior prune it.
+        var root = incident.Keys.Where(vertex => vertex.Y <= .01f)
+            .OrderBy(vertex => new Vector2(vertex.X, vertex.Z).LengthSquared()).Take(1);
+        var pending = new Stack<Vector3>(root);
+        var reached = new HashSet<int>();
+        while (pending.TryPop(out var vertex))
+        foreach (var triangle in incident[vertex])
+        {
+            if (!reached.Add(triangle)) continue;
+            for (var corner = 0; corner < 3; corner++) pending.Push(vertices[indices[triangle + corner]]);
+        }
+        // Keep every triangle crossing the player's height band so there is no
+        // cut in the contact surface. High stems and crowns need no extra
+        // traversal triangles for the ordinary non-jumping controller.
+        return reached.Order().Where(triangle => Enumerable.Range(0, 3)
+                .Any(corner => vertices[indices[triangle + corner]].Y <= 2.6f))
+            .SelectMany(triangle => Enumerable.Range(0, 3).Select(corner => vertices[indices[triangle + corner]]))
+            .ToArray();
     }
 
     internal static void ConfigureFoliageRange(GeometryInstance3D instance, int lod, bool groundCover)

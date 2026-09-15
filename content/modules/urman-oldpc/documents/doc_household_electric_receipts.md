@@ -5,9 +5,9 @@ title: {"default":"Electricity receipts 1996-2003","translations":{"ru":"Кви�
 format: markdown
 sourceFile: documents/doc_household_electric_receipts.md
 assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
-knowledgeRefs: []
+knowledgeRefs: ["urman.chapter1:knowledge/clue_household_electric_receipts"]
 accessConditions: []
-openEffects: []
+openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/doc_household_electric_receipts","sourceId":"urman.oldpc:document/doc_household_electric_receipts"}]
 oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"canon","reliability":"village_record","searchTerms":["квитанции","свет","электричество","напряжение","счётчик"],"suggestedTerms":["счётчик","долг"]}
 ---
 

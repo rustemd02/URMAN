@@ -49,7 +49,7 @@
 
 ## MVP Narrative
 
-Detailed scenario lock: `chapter1_mvp_campaign.md` fixes the 40–60-minute first chapter / MVP vertical slice. Use it as the primary structure for scene, dialogue, quest and data authoring until a new decision supersedes it.
+Detailed scenario lock: `chapter1_mvp_campaign.md` remains the primary structure for scene, dialogue, quest and data authoring. The author's 2026-09-15 requirement supersedes the historical 40–60-minute estimate: the first unfamiliar main Act I experience must last at least 60 active minutes, without mandatory completion of optional discoveries. Scripted routes and reading-time estimates do not establish that duration.
 
 1. Приезд в Кырлай / дорога к дому.
 2. Дом бабая и әби: тепло + тревожный зазор.

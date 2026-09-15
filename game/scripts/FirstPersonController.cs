@@ -49,6 +49,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
     private Vector3 _headBasePosition;
     private float _headBobPhase;
+    private CarryCoordinator? _carryCoordinator;
 
     public bool ModalOpen => _modalOpen;
 
@@ -145,6 +146,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         _interactionPrompt = GetNode<Label>("Hud/InteractionPrompt");
         RefreshInteractionHints();
         _headBasePosition = _head.Position;
+        InitializeStance();
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity").AsDouble();
         _camera.Fov = 75;
         Input.MouseMode = Input.MouseModeEnum.Captured;
@@ -179,6 +181,9 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         _head.Position = _headBasePosition;
         _headBobPhase = 0;
         Velocity = Vector3.Zero;
+        // Start small until the destination's restored collision has reached
+        // the physics server. A save underneath a deck must not stand up inside it.
+        RestoreStanceAtDestination();
     }
 
     /// <summary>
@@ -269,6 +274,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         // ending) suspends movement, and a player parked outside the world during
         // one of those must still be brought back instead of waiting for input.
         ClampToAuthoredWorld();
+        ResolveRestoredStance();
         if (_modalOpen)
         {
             Velocity = Vector3.Zero;
@@ -280,14 +286,20 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         var look = Input.GetVector("look_left", "look_right", "look_up", "look_down");
         RotateView(-look.X * GamepadLookSpeed * (float)delta, -look.Y * GamepadLookSpeed * (float)delta);
 
+        if (Input.IsActionJustPressed("crouch")) ToggleCrouch();
+
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
         var direction = (Transform.Basis * new Vector3(input.X, 0, input.Y)).Normalized();
-        Velocity = new Vector3(direction.X * WalkSpeed, Velocity.Y, direction.Z * WalkSpeed);
+        var speed = IsCrouching ? WalkSpeed * .58f : WalkSpeed;
+        Velocity = new Vector3(direction.X * speed, Velocity.Y, direction.Z * speed);
         if (!IsOnFloor())
         {
             Velocity = new Vector3(Velocity.X, Velocity.Y - _gravity * (float)delta, Velocity.Z);
         }
 
+        _carryCoordinator ??= GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        if (_carryCoordinator is not null)
+            Velocity = _carryCoordinator.ConstrainCarriedMovement(Velocity, (float)delta);
         MoveAndSlide();
         ClampToAuthoredWorld();
         UpdateHeadBob(delta, input.LengthSquared() > 0.01f && IsOnFloor());
@@ -376,6 +388,17 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     private void UpdateInteraction()
     {
+        if (_carryCoordinator is null || !GodotObject.IsInstanceValid(_carryCoordinator))
+            _carryCoordinator = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        if (_carryCoordinator is not null && _carryCoordinator.HandlePlayerInput(this, _camera, out var carryPrompt))
+        {
+            _focusedTarget = null;
+            _focusCandidate = null;
+            _promptTarget = null;
+            SetInteractionPrompt(carryPrompt);
+            return;
+        }
+        _interactionRay.ForceRaycastUpdate();
         var candidate = _interactionRay.IsColliding()
             ? _interactionRay.GetCollider() as InteractionTarget
             : null;

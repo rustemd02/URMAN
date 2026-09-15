@@ -1018,7 +1018,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         "urman.chapter1:scene/house" => HouseRouteCue(bridge),
         "urman.chapter1:scene/crossroad_signs_inspect" =>
             AvailableCue(bridge, "route-to-fap", "На улице ищу указатель «ФАП».")
-            ?? AvailableCue(bridge, "talk-alsu", "Поговорить с Алсу у дороги.")
+            ?? AvailableCue(bridge, "talk-alsu", "Спросить Алсу, что ей говорили о Марате.")
             ?? AvailableCue(bridge, "talk-rinat", "Поговорить с Ринатом."),
         "urman.chapter1:scene/fap_waiting_room_day" =>
             AvailableCue(bridge, "fap-to-document-desk", "На столе — документы о Марате.")
@@ -1032,8 +1032,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             "official-to-internal-register",
             "Вернуться в дом бабая: сверить справку с реестром на ПК."),
         "urman.chapter1:scene/evidence-internal-register" =>
-            AvailableCue(bridge, "internal-register-to-rinat", "Спросить Рината о внутреннем реестре.")
-            ?? AvailableCue(bridge, "internal-register-to-saved-message", "Открыть сохранённое сообщение Марата."),
+            AvailableCue(bridge, "internal-register-to-rinat", "Показать Ринату категорию из внутреннего реестра.")
+            ?? AvailableCue(bridge, "internal-register-to-saved-message", "Открыть сохранённое сообщение Марата.")
+            ?? (!KnowledgeConfirmed(bridge, "clue_record_wording_mismatch")
+                ? "В журнале [J] сопоставить справку и внутренний реестр."
+                : !KnowledgeConfirmed(bridge, "clue_naila_record_scope")
+                    ? "Показать Наиле категорию из реестра в ФАПе."
+                    : "В журнале [J] сверить ответ Наили с внутренним реестром."),
         "urman.chapter1:scene/evidence-saved-message" => AvailableCue(
             bridge,
             "saved-message-to-boundary-source",
@@ -1042,10 +1047,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             bridge,
             "boundary-source-to-reread",
             "Перечитать статью с понятыми словами."),
-        "urman.chapter1:scene/evidence-tatarwiki-reread" => AvailableCue(
-            bridge,
-            "reread-to-edge-sketch",
-            "Сопоставить статью с рисунком Марата."),
+        "urman.chapter1:scene/evidence-tatarwiki-reread" =>
+            AvailableCue(bridge, "reread-to-edge-sketch", "Проверить схему Мансура.")
+            ?? "В журнале [J] сверить строку реестра с заметкой о границе.",
         "urman.chapter1:scene/evidence-edge-sketch" => AvailableCue(
             bridge,
             "edge-sketch-to-zirat-road",

@@ -234,9 +234,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/objective-first-contradiction",
   "value": {
-   "default": "Сопоставить справку о смерти Марата и внутренний реестр в журнале [J].",
+   "default": "Сверить справку с реестром в журнале [J]. Показать Наиле другую категорию случая и проверить её ответ по записи.",
    "translations": {
-    "ru": "Сопоставить справку о смерти Марата и внутренний реестр в журнале [J]."
+    "ru": "Сверить справку с реестром в журнале [J]. Показать Наиле другую категорию случая и проверить её ответ по записи."
    }
   },
   "purpose": "ui"
@@ -245,9 +245,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/objective-language-reread",
   "value": {
-   "default": "Сопоставить сообщение Марата и статью о границе в журнале [J]. Что связывает голос и ответ?",
+   "default": "Сопоставить сообщение Марата и статью в журнале [J]. Затем перечитать статью и проверить по ней категорию из внутреннего реестра.",
    "translations": {
-    "ru": "Сопоставить сообщение Марата и статью о границе в журнале [J]. Что связывает голос и ответ?"
+    "ru": "Сопоставить сообщение Марата и статью в журнале [J]. Затем перечитать статью и проверить по ней категорию из внутреннего реестра."
    }
   },
   "purpose": "ui"
@@ -267,9 +267,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-gulsina-warning",
   "value": {
-   "default": "Gulsina lowers her voice: “Ярамый. Not toward the urman after dusk.”",
+   "default": "Gulsina makes room at the table. “Come and warm up. Ярамый — not toward the urman after dusk.” She looks at me as if I might run straight outside again.",
    "translations": {
-    "ru": "«Ярамый», — мягко, но твёрдо говорит Гөлсинә. — Вечером к урману не ходят."
+    "ru": "Гөлсинә освобождает место у стола. «Садись, согрейся. Ярамый — вечером к урману не ходят». Смотрит на меня так, будто я опять собираюсь сразу выбежать во двор."
    }
   },
   "purpose": "dialogue"
@@ -280,7 +280,7 @@
   "value": {
    "default": "Alsu points to the faded sign: “Зират is that way. People tell Marat's story differently; we take the main street first.”",
    "translations": {
-    "ru": "Алсу показывает на выцветший указатель: «Зират — вон туда. Про Марата здесь каждый рассказывает по-своему. Сначала пойдём по главной улице; к Кара-Урману сейчас не надо»."
+    "ru": "Алсу поправляет шарф и показывает вдоль улицы: «Зират — вон туда, за последними домами. Ты к Марату? Давай сначала здесь поговорим. Ты ведь столько лет не приезжал. Что тебе дома сказали?»"
    }
   },
   "purpose": "dialogue"
@@ -300,9 +300,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-mansur-pc-request",
   "value": {
-   "default": "Mansur taps the side of the monitor: “It still starts, but I cannot make sense of these old folders. Look for Marat's file, please. If something feels wrong, call me.”",
+   "default": "Mansur turns the chair toward the desk. “Help me find that old list for the Niva, will you? We wrote down what to replace and what to leave alone. The folders are all mixed up.”",
    "translations": {
-    "ru": "Мансур постукивает по боку монитора: «Он ещё запускается, только я не разберу эти старые папки. Посмотри, пожалуйста, файл Марата. Если что-то покажется странным — позови меня»."
+    "ru": "Мансур поворачивает стул к столу. «Поможешь старый список к Ниве найти? Мы там записывали, что менять, а что пока не трогать. Папки все вперемешку»."
    }
   },
   "purpose": "dialogue"
@@ -357,7 +357,7 @@
   "value": {
    "default": "“I answer only for the medical wording. I will not interpret it.” She closes the folder, then almost inaudibly: “Бу ярамый… one does not ask like that.”",
    "translations": {
-    "ru": "«Я отвечаю только за медицинскую формулировку. Толковать её не буду». Она закрывает папку и почти неслышно: «Бу ярамый… нельзя так спрашивать»."
+    "ru": "Наиля читает строку «граница / ответил» и закрывает папку. «За медицинскую формулировку я отвечаю. Эту категорию я тебе толковать не буду». Почти неслышно: «Бу ярамый… нельзя так спрашивать». Я спросил о записи, а получил границу её ответа. Надо сохранить точные слова и проверить их по реестру в журнале [J], прежде чем делать вывод о причине смерти."
    }
   },
   "purpose": "dialogue"
@@ -1178,13 +1178,14 @@
   "summary": {
    "default": "One source says a medical closure; another marks a boundary and a response.",
    "translations": {
-    "ru": "Один источник закрывает дело медицински, другой отмечает границу и ответ."
+    "ru": "Я проверил обе записи и ответ Наили. Справка закрывает дело медицински, но не объясняет категорию «граница / ответил». Наиля отказалась толковать эту категорию и не подтвердила, что она обозначает диагноз. Теперь вопрос Ринату — о значении конкретной категории, без обвинения и без новой установленной причины смерти."
    }
   },
   "initialStatus": "hidden",
   "sourceIds": [
    "urman.chapter1:scene/evidence-official-death",
-   "urman.chapter1:scene/evidence-internal-register"
+   "urman.chapter1:scene/evidence-internal-register",
+   "urman.chapter1:knowledge/clue_naila_record_scope"
   ],
   "reveals": [
    "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint"
@@ -1481,21 +1482,23 @@
       "characterId": "urman.chapter1:character/gulsina",
       "stateKey": "warning_heard",
       "value": true
-     },
-     {
-      "op": "knowledge.set-status",
-      "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat",
-      "status": "confirmed"
      }
     ],
     "choices": [
+     {
+      "id": "ask-naila-word",
+      "textId": "urman.chapter1:text/choice-gulsina-naila-word",
+      "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_naila_record_scope", "status": "confirmed"}],
+      "effects": [],
+      "nextNodeId": "naila-word-reply"
+     },
      {
       "id": "ask-marat",
       "textId": "urman.chapter1:text/choice-gulsina-marat",
       "conditions": [
        {
         "op": "knowledge.status",
-        "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
+        "knowledgeId": "urman.chapter1:knowledge/topic_marat_unresolved",
         "status": "confirmed"
        }
       ],
@@ -1507,9 +1510,11 @@
       "textId": "urman.chapter1:text/choice-gulsina-yaramyy",
       "conditions": [
        {
-        "op": "vocabulary.status",
-        "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
-        "status": "guessed"
+        "op": "any",
+        "conditions": [
+         {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy", "status": "guessed"},
+         {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy", "status": "confirmed"}
+        ]
        }
       ],
       "effects": [],
@@ -1529,7 +1534,19 @@
     "speakerRole": "gulsina",
     "textId": "urman.chapter1:text/dialogue-gulsina-marat-reply",
     "conditions": [],
-    "effects": [],
+    "effects": [
+     {"op": "beat.set-state", "beatId": "urman.chapter1:beat/house-warmth-and-pause", "state": "completed"},
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/clue_family_avoids_marat",
+      "sourceId": "urman.chapter1:knowledge/clue_family_avoids_marat"
+     }
+    ],
     "choices": []
    },
    {
@@ -1537,7 +1554,10 @@
     "speakerRole": "gulsina",
     "textId": "urman.chapter1:text/dialogue-gulsina-yaramyy-reply",
     "conditions": [],
-    "effects": [],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_gulsina_warning_context", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_gulsina_warning_context", "sourceId": "urman.chapter1:knowledge/clue_gulsina_warning_context"}
+    ],
     "choices": []
    },
    {
@@ -1545,7 +1565,20 @@
     "speakerRole": "gulsina",
     "textId": "urman.chapter1:text/dialogue-gulsina-stay-for-tea-reply",
     "conditions": [],
-    "effects": [],
+    "effects": [
+     {"op": "beat.set-state", "beatId": "urman.chapter1:beat/house-warmth-and-pause", "state": "completed"}
+    ],
+    "choices": []
+   },
+   {
+    "id": "naila-word-reply",
+    "speakerRole": "gulsina",
+    "textId": "urman.chapter1:text/dialogue-gulsina-naila-word",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_naila_record_scope", "status": "confirmed"}],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_gulsina_warning_context", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_gulsina_warning_context", "sourceId": "urman.chapter1:knowledge/clue_gulsina_warning_context"}
+    ],
     "choices": []
    }
   ]
@@ -1569,19 +1602,16 @@
       "op": "vocabulary.set-status",
       "vocabularyId": "urman.chapter1:vocabulary/tt_zirat",
       "status": "guessed"
-     },
-     {
-      "op": "knowledge.set-status",
-      "knowledgeId": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says",
-      "status": "hypothesis"
-     },
-     {
-      "op": "knowledge.set-status",
-      "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict",
-      "status": "confirmed"
      }
     ],
     "choices": [
+     {
+      "id": "ask-versions",
+      "textId": "urman.chapter1:text/choice-alsu-versions",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "versions-reply"
+     },
      {
       "id": "ask-boundary",
       "textId": "urman.chapter1:text/choice-alsu-boundary",
@@ -1646,6 +1676,53 @@
     "conditions": [],
     "effects": [],
     "choices": []
+   },
+   {
+    "id": "versions-reply",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-versions-reply",
+    "conditions": [],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict",
+      "status": "confirmed"
+     },
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says",
+      "status": "hypothesis"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/clue_marat_versions_conflict",
+      "sourceId": "urman.chapter1:knowledge/clue_marat_versions_conflict"
+     }
+    ],
+    "choices": [
+     {
+      "id": "ask-source",
+      "textId": "urman.chapter1:text/choice-alsu-source",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "source-reply"
+     },
+     {
+      "id": "go-to-naila",
+      "textId": "urman.chapter1:text/choice-alsu-go-to-naila",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": null
+     }
+    ]
+   },
+   {
+    "id": "source-reply",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-source-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
    }
   ]
  },
@@ -1663,14 +1740,7 @@
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-pc-request",
     "conditions": [],
-    "effects": [
-     {
-      "op": "npc.set-state",
-      "characterId": "urman.chapter1:character/mansur",
-      "stateKey": "pc_access_granted",
-      "value": true
-     }
-    ],
+    "effects": [],
     "choices": [
      {
       "id": "ask-about-javap",
@@ -1695,14 +1765,7 @@
      {
       "id": "ask-why-not-himself",
       "textId": "urman.chapter1:text/choice-mansur-why",
-      "conditions": [
-       {
-        "op": "npc.state",
-        "characterId": "urman.chapter1:character/mansur",
-        "stateKey": "pc_access_granted",
-        "value": true
-       }
-      ],
+      "conditions": [],
       "effects": [],
       "nextNodeId": "why-reply"
      },
@@ -1789,6 +1852,16 @@
     "conditions": [],
     "effects": [],
     "choices": [
+     {
+      "id": "check-household-list",
+      "textId": "urman.chapter1:text/choice-mansur-check-household-list",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_mansur_household_request", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/mansur", "stateKey": "household_help_done", "value": true}}
+      ],
+      "effects": [],
+      "nextNodeId": "household-list-question"
+     },
      {
       "id": "ask-about-javap",
       "textId": "urman.chapter1:text/choice-mansur-javap",
@@ -1928,7 +2001,11 @@
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-why-reply",
     "conditions": [],
-    "effects": [],
+    "effects": [
+     {"op": "npc.set-state", "characterId": "urman.chapter1:character/mansur", "stateKey": "pc_access_granted", "value": true},
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_mansur_household_request", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_mansur_household_request", "sourceId": "urman.chapter1:knowledge/clue_mansur_household_request"}
+    ],
     "choices": []
    },
    {
@@ -1936,7 +2013,11 @@
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-offer-help-reply",
     "conditions": [],
-    "effects": [],
+    "effects": [
+     {"op": "npc.set-state", "characterId": "urman.chapter1:character/mansur", "stateKey": "pc_access_granted", "value": true},
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_mansur_household_request", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_mansur_household_request", "sourceId": "urman.chapter1:knowledge/clue_mansur_household_request"}
+    ],
     "choices": [
      {
       "id": "ask-follow-up",
@@ -1952,7 +2033,21 @@
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-marat-reply",
     "conditions": [],
-    "effects": [],
+    "effects": [
+     {"op": "beat.set-state", "beatId": "urman.chapter1:beat/house-warmth-and-pause", "state": "completed"},
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_family_notice_by_phone", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_family_notice_by_phone", "sourceId": "urman.chapter1:knowledge/clue_family_notice_by_phone"},
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/clue_family_avoids_marat",
+      "sourceId": "urman.chapter1:knowledge/clue_family_avoids_marat"
+     }
+    ],
     "choices": []
    },
    {
@@ -1986,6 +2081,72 @@
     "conditions": [],
     "effects": [],
     "choices": []
+   },
+   {
+    "id": "household-list-question",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-household-list-question",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_mansur_household_request", "status": "confirmed"}],
+    "effects": [],
+    "choices": [
+     {
+      "id": "read-niva-repairs",
+      "textId": "urman.chapter1:text/choice-mansur-niva-repairs",
+      "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_household_niva_list", "status": "confirmed"}],
+      "effects": [],
+      "nextNodeId": "household-list-checked"
+     },
+     {
+      "id": "suggest-wiring",
+      "textId": "urman.chapter1:text/choice-mansur-niva-wiring",
+      "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_household_niva_list", "status": "confirmed"}],
+      "effects": [],
+      "nextNodeId": "household-wiring-correction"
+     },
+     {
+      "id": "show-electric-receipts",
+      "textId": "urman.chapter1:text/choice-mansur-electric-receipts",
+      "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_household_electric_receipts", "status": "confirmed"}],
+      "effects": [],
+      "nextNodeId": "household-wrong-receipt"
+     },
+     {"id": "keep-looking", "textId": "urman.chapter1:text/choice-mansur-keep-looking", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "household-list-checked",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-household-list-checked",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_household_niva_list", "status": "confirmed"}],
+    "effects": [
+     {"op": "npc.set-state", "characterId": "urman.chapter1:character/mansur", "stateKey": "household_help_done", "value": true},
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_household_request_checked", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_household_request_checked", "sourceId": "urman.chapter1:knowledge/clue_household_request_checked"}
+    ],
+    "choices": [
+     {"id": "ask-follow-up", "textId": "urman.chapter1:text/choice-mansur-follow-up", "conditions": [], "effects": [], "nextNodeId": "follow-up"}
+    ]
+   },
+   {
+    "id": "household-wiring-correction",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-household-wiring-correction",
+    "conditions": [],
+    "effects": [],
+    "choices": [
+     {"id": "check-list-again", "textId": "urman.chapter1:text/choice-mansur-check-household-list", "conditions": [], "effects": [], "nextNodeId": "household-list-question"},
+     {"id": "keep-looking", "textId": "urman.chapter1:text/choice-mansur-keep-looking", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "household-wrong-receipt",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-household-wrong-receipt",
+    "conditions": [],
+    "effects": [],
+    "choices": [
+     {"id": "keep-looking", "textId": "urman.chapter1:text/choice-mansur-keep-looking", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
    }
   ],
   "entryRoutes": [
@@ -2019,12 +2180,19 @@
     "effects": [],
     "choices": [
      {
+      "id": "ask-family-request-entry",
+      "textId": "urman.chapter1:text/choice-naila-family-request-entry",
+      "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"}],
+      "effects": [],
+      "nextNodeId": "family-request-entry"
+     },
+     {
       "id": "press-contradiction",
       "textId": "urman.chapter1:text/choice-naila-contradiction",
       "conditions": [
        {
         "op": "knowledge.status",
-        "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+        "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
         "status": "confirmed"
        }
       ],
@@ -2057,9 +2225,34 @@
       "op": "vocabulary.set-status",
       "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
       "status": "confirmed"
+     },
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_naila_record_scope",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/clue_naila_record_scope",
+      "sourceId": "urman.chapter1:knowledge/clue_naila_record_scope"
      }
     ],
-    "choices": []
+    "choices": [
+     {
+      "id": "return-to-notice",
+      "textId": "urman.chapter1:text/choice-naila-return-to-notice",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "follow-up"
+     },
+     {
+      "id": "check-answer",
+      "textId": "urman.chapter1:text/choice-naila-check-answer",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": null
+     }
+    ]
    },
    {
     "id": "wording-detail",
@@ -2099,12 +2292,19 @@
     "effects": [],
     "choices": [
      {
+      "id": "ask-family-request-entry",
+      "textId": "urman.chapter1:text/choice-naila-family-request-entry",
+      "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"}],
+      "effects": [],
+      "nextNodeId": "family-request-entry"
+     },
+     {
       "id": "press-contradiction",
       "textId": "urman.chapter1:text/choice-naila-contradiction",
       "conditions": [
        {
         "op": "knowledge.status",
-        "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+        "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
         "status": "confirmed"
        }
       ],
@@ -2114,35 +2314,33 @@
      {
       "id": "ask-wording",
       "textId": "urman.chapter1:text/dialogue-naila-ask-record",
-      "conditions": [
-       {
-        "op": "not",
-        "condition": {
-         "op": "knowledge.status",
-         "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
-         "status": "confirmed"
-        }
-       }
-      ],
+      "conditions": [],
       "effects": [],
       "nextNodeId": "wording-detail"
      },
      {
       "id": "ask-transfer",
       "textId": "urman.chapter1:text/choice-naila-transfer",
-      "conditions": [
-       {
-        "op": "not",
-        "condition": {
-         "op": "knowledge.status",
-         "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
-         "status": "confirmed"
-        }
-       }
-      ],
+      "conditions": [],
       "effects": [],
       "nextNodeId": "transfer-detail"
      }
+    ]
+   },
+   {
+    "id": "family-request-entry",
+    "speakerRole": "naila",
+    "textId": "urman.chapter1:text/dialogue-naila-family-request-entry",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"}],
+    "effects": [
+     {"op": "npc.set-state", "characterId": "urman.chapter1:character/naila", "stateKey": "record_access_granted", "value": true},
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_naila_request_entry_scope", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_naila_request_entry_scope", "sourceId": "urman.chapter1:knowledge/clue_naila_request_entry_scope"}
+    ],
+    "choices": [
+     {"id": "ask-wording", "textId": "urman.chapter1:text/dialogue-naila-ask-record", "conditions": [], "effects": [], "nextNodeId": "wording-detail"},
+     {"id": "ask-transfer", "textId": "urman.chapter1:text/choice-naila-transfer", "conditions": [], "effects": [], "nextNodeId": "transfer-detail"},
+     {"id": "check-answer", "textId": "urman.chapter1:text/choice-naila-check-answer", "conditions": [], "effects": [], "nextNodeId": null}
     ]
    }
   ],
@@ -2226,7 +2424,7 @@
    {
     "id": "dangerous-category",
     "speakerRole": "rinat",
-    "textId": "urman.chapter1:text/dialogue-rinat-danger",
+    "textId": "urman.chapter1:text/dialogue-rinat-check-source",
     "conditions": [
      {
       "op": "knowledge.status",
@@ -2234,33 +2432,112 @@
       "status": "confirmed"
      }
     ],
-    "effects": [
+    "effects": [],
+    "choices": [
      {
-      "op": "npc.set-state",
-      "characterId": "urman.chapter1:character/rinat",
-      "stateKey": "alerted",
-      "value": true
+      "id": "present-category",
+      "textId": "urman.chapter1:text/choice-rinat-present-category",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+        "status": "confirmed"
+       },
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
+        "status": "confirmed"
+       },
+       {
+        "op": "not",
+        "condition": {
+         "op": "npc.state",
+         "characterId": "urman.chapter1:character/rinat",
+         "stateKey": "alerted",
+         "value": true
+        }
+       }
+      ],
+      "effects": [
+       {
+        "op": "npc.set-state",
+        "characterId": "urman.chapter1:character/rinat",
+        "stateKey": "alerted",
+        "value": true
+       },
+       {
+        "op": "beat.set-state",
+        "beatId": "urman.chapter1:beat/rinat-alerted-route-causality",
+        "state": "completed"
+       },
+       {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
+        "status": "hypothesis"
+       },
+       {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.chapter1:knowledge/pressure_council_attention_1",
+        "status": "confirmed"
+       },
+       {
+        "op": "pressure.change",
+        "delta": 2
+       }
+      ],
+      "nextNodeId": "category-reply"
      },
      {
-      "op": "beat.set-state",
-      "beatId": "urman.chapter1:beat/rinat-alerted-route-causality",
-      "state": "completed"
+      "id": "accuse-coverup",
+      "textId": "urman.chapter1:text/choice-rinat-accuse-coverup",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "unsupported-accusation"
      },
      {
-      "op": "knowledge.set-status",
-      "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
-      "status": "hypothesis"
-     },
-     {
-      "op": "knowledge.set-status",
-      "knowledgeId": "urman.chapter1:knowledge/pressure_council_attention_1",
-      "status": "confirmed"
-     },
-     {
-      "op": "pressure.change",
-      "delta": 2
+      "id": "leave",
+      "textId": "urman.chapter1:text/choice-rinat-leave",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": null
      }
-    ],
+    ]
+   },
+   {
+    "id": "unsupported-accusation",
+    "speakerRole": "rinat",
+    "textId": "urman.chapter1:text/dialogue-rinat-unsupported-accusation",
+    "conditions": [],
+    "effects": [],
+    "choices": [
+     {
+      "id": "return-to-wording",
+      "textId": "urman.chapter1:text/choice-rinat-return-to-wording",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "dangerous-category"
+     },
+     {
+      "id": "leave",
+      "textId": "urman.chapter1:text/choice-rinat-leave",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": null
+     }
+    ]
+   },
+   {
+    "id": "category-reply",
+    "speakerRole": "rinat",
+    "textId": "urman.chapter1:text/dialogue-rinat-danger",
+    "conditions": [],
+    "effects": [],
     "choices": [
      {
       "id": "say-javap",
@@ -2270,10 +2547,21 @@
         "op": "vocabulary.status",
         "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
         "status": "confirmed"
+       },
+       {
+        "op": "not",
+        "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "javap_interrupted", "value": true}
        }
       ],
       "effects": [],
       "nextNodeId": "javap-interrupt"
+     },
+     {
+      "id": "leave",
+      "textId": "urman.chapter1:text/choice-rinat-leave",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": null
      }
     ]
    },
@@ -2288,9 +2576,32 @@
       "characterId": "urman.chapter1:character/rinat",
       "stateKey": "javap_interrupted",
       "value": true
+     },
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_rinat_word_reaction",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/clue_rinat_word_reaction",
+      "sourceId": "urman.chapter1:knowledge/clue_rinat_word_reaction"
      }
     ],
     "choices": []
+   }
+  ],
+  "entryRoutes": [
+   {
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "alerted",
+      "value": true
+     }
+    ],
+    "nodeId": "category-reply"
    }
   ]
  },
@@ -2539,16 +2850,6 @@
   "entryConditions": [],
   "onEnter": [
    {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat",
-    "status": "confirmed"
-   },
-   {
-    "op": "beat.set-state",
-    "beatId": "urman.chapter1:beat/house-warmth-and-pause",
-    "state": "completed"
-   },
-   {
     "op": "vocabulary.set-status",
     "vocabularyId": "urman.chapter1:vocabulary/tt_uy",
     "status": "guessed"
@@ -2597,12 +2898,14 @@
     "labelTextId": "urman.chapter1:text/inspect",
     "conditions": [],
     "effects": [],
-    "targetDialogueId": "urman.chapter1:dialogue/gulsina_yaramyy"
+    "targetDialogueId": "urman.chapter1:dialogue/gulsina_yaramyy",
+    "worldLocations": ["house_old_pc"]
    },
    {
     "id": "urman.chapter1:interaction/house-to-route",
     "labelTextId": "urman.chapter1:text/continue",
     "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat", "status": "confirmed"},
      {
       "op": "knowledge.status",
       "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
@@ -3518,13 +3821,7 @@
    "urman.chapter1:text/journal-source"
   ],
   "entryConditions": [],
-  "onEnter": [
-   {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
-    "status": "confirmed"
-   }
-  ],
+  "onEnter": [],
   "onExit": [],
   "interactions": [
    {
@@ -3577,11 +3874,6 @@
   ],
   "onEnter": [
    {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
-    "status": "confirmed"
-   },
-   {
     "op": "vocabulary.set-status",
     "vocabularyId": "urman.chapter1:vocabulary/tt_urman",
     "status": "confirmed"
@@ -3601,15 +3893,25 @@
      {
       "op": "not",
       "condition": {
-       "op": "npc.state",
-       "characterId": "urman.chapter1:character/rinat",
-       "stateKey": "alerted",
-       "value": true
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
+       "status": "confirmed"
       }
+     },
+     {
+      "op": "any",
+      "conditions": [
+       {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "alerted", "value": true}},
+       {"op": "all", "conditions": [
+        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "confirmed"},
+        {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "javap_interrupted", "value": true}}
+       ]}
+      ]
      }
     ],
     "effects": [],
-    "targetDialogueId": "urman.chapter1:dialogue/rinat_internal_register"
+    "targetDialogueId": "urman.chapter1:dialogue/rinat_internal_register",
+    "worldLocations": ["house_old_pc"]
    },
    {
     "id": "urman.chapter1:interaction/internal-register-to-saved-message",
@@ -3653,13 +3955,7 @@
     "status": "confirmed"
    }
   ],
-  "onEnter": [
-   {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death",
-    "status": "confirmed"
-   }
-  ],
+  "onEnter": [],
   "onExit": [],
   "interactions": [
    {
@@ -3753,7 +4049,13 @@
       "status": "confirmed"
      }
     ],
-    "effects": [],
+    "effects": [
+     {
+      "op": "beat.set-state",
+      "beatId": "urman.chapter1:beat/boundary-source-reopened",
+      "state": "completed"
+     }
+    ],
     "targetSceneId": "urman.chapter1:scene/evidence-tatarwiki-reread"
    }
   ]
@@ -3854,11 +4156,6 @@
     "op": "knowledge.set-status",
     "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
     "status": "hypothesis"
-   },
-   {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
-    "status": "confirmed"
    },
    {
     "op": "vocabulary.set-status",
@@ -4276,6 +4573,11 @@
         "op": "vocabulary.status",
         "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
         "status": "confirmed"
+       },
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_internal_wording_reread",
+        "status": "confirmed"
        }
       ],
       "completionEffects": [
@@ -4326,6 +4628,11 @@
       "titleTextId": "urman.chapter1:text/objective-edge",
       "optional": false,
       "startConditions": [
+       {
+        "op": "beat.state",
+        "beatId": "urman.chapter1:beat/language-reread",
+        "state": "completed"
+       },
        {
         "op": "knowledge.status",
         "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
@@ -4439,9 +4746,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-gulsina-stay-for-tea-reply",
   "value": {
-   "default": "“Sit. The tea is still hot.” She straightens the edge of the tablecloth, but does not return to Marat’s name.",
+   "default": "“Sit. The tea is still hot.” She slides the sugar bowl closer. “It has been a long time since you sat here with us.”",
    "translations": {
-    "ru": "«Посиди. Чай ещё горячий». Она поправляет край скатерти, но к имени Марата больше не возвращается."
+    "ru": "«Посиди. Чай ещё горячий». Она пододвигает сахарницу. «Давно с нами так не сидел»."
    }
   },
   "purpose": "dialogue"
@@ -4516,9 +4823,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-mansur-why-reply",
   "value": {
-   "default": "Mansur takes a moment to answer: “My eyes are not what they were. And I have not opened Marat’s files in a long time. Have a look, Aidar. I’ll stay here.”",
+   "default": "“My eyes are not what they were. I wrote ‘Niva’ on the list, but the file might still be called ‘receipt’. Sit down and have a look. Tell me what it says about the repairs.”",
    "translations": {
-    "ru": "Мансур отвечает не сразу: «Глаза уже не те. А Маратовы записи я давно не открывал. Посмотри сам, Айдар. Я здесь побуду»."
+    "ru": "«Глаза уже не те. На листе я написал „Нива“, а файл, может, так и остался „квитанцией“. Садись, посмотри. Скажешь мне, что там про ремонт»."
    }
   },
   "purpose": "dialogue"
@@ -4538,9 +4845,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-mansur-offer-help-reply",
   "value": {
-   "default": "Mansur nods toward the chair: “Sit down. I’m here, beside you.”",
+   "default": "Mansur nods toward the chair. “Sit down. Try ‘Niva’ or ‘receipt’ in the search. Find the list, then tell me what we meant to do. I’m here.”",
    "translations": {
-    "ru": "Мансур кивает на стул: «Садись. Я здесь, рядом»."
+    "ru": "Мансур кивает на стул. «Садись. Поищи „Нива“ или „квитанция“. Найдёшь список — скажи, что мы там собирались делать. Я здесь, рядом»."
    }
   },
   "purpose": "dialogue"
@@ -4672,7 +4979,7 @@
   "value": {
    "default": "Rinat cuts him off, quietly and without anger: “Not here. And not that word.” He looks once toward the zirat road and walks away.",
    "translations": {
-    "ru": "Ринат обрывает его — тихо, без злости: «Не здесь. И не этим словом». Один взгляд в сторону зиратской дороги — и он уходит."
+    "ru": "Ринат обрывает его — тихо, без злости: «Не здесь. И не этим словом». Он отворачивается к двери, в сторону зиратской дороги. Разговор окончен. Я услышал реакцию на слово, но он так и не объяснил, что именно опасно."
    }
   },
   "purpose": "dialogue"
@@ -4873,9 +5180,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-records-accident",
   "value": {
-   "default": "Реестр подтверждает несчастный случай.",
+   "default": "Сопоставить «дело закрыто» и «компенсация закрыта».",
    "translations": {
-    "ru": "Реестр подтверждает несчастный случай."
+    "ru": "Сопоставить «дело закрыто» и «компенсация закрыта»."
    }
   },
   "purpose": "ui"
@@ -4895,9 +5202,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-records-contradiction",
   "value": {
-   "default": "У одного дела две разные формулировки.",
+   "default": "Сверить причину закрытия и категорию случая.",
    "translations": {
-    "ru": "У одного дела две разные формулировки."
+    "ru": "Сверить причину закрытия и категорию случая."
    }
   },
   "purpose": "ui"
@@ -4906,9 +5213,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-records-contradiction-result",
   "value": {
-   "default": "«Сердечная недостаточность» и «граница / ответил» описывают одно дело разным языком. Это несоответствие, а не доказательство убийства. Теперь можно спросить Рината о точной строке.",
+   "default": "В справке указана причина закрытия, в реестре — категория «граница / ответил». Это разные поля об одном деле. Я ещё не выяснил, можно ли читать категорию как другую медицинскую причину. Покажу её Наиле и проверю её точный ответ по реестру в журнале [J].",
    "translations": {
-    "ru": "«Сердечная недостаточность» и «граница / ответил» описывают одно дело разным языком. Это несоответствие, а не доказательство убийства. Теперь можно спросить Рината о точной строке."
+    "ru": "В справке указана причина закрытия, в реестре — категория «граница / ответил». Это разные поля об одном деле. Я ещё не выяснил, можно ли читать категорию как другую медицинскую причину. Покажу её Наиле и проверю её точный ответ по реестру в журнале [J]."
    }
   },
   "purpose": "ui"
@@ -4917,9 +5224,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-records-murder",
   "value": {
-   "default": "Этого достаточно, чтобы доказать убийство.",
+   "default": "Проверить, кого обозначает «ответственный: М.».",
    "translations": {
-    "ru": "Этого достаточно, чтобы доказать убийство."
+    "ru": "Проверить, кого обозначает «ответственный: М.»."
    }
   },
   "purpose": "ui"
@@ -4928,9 +5235,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-records-murder-result",
   "value": {
-   "default": "Документы расходятся, но ни один не показывает, кто и что сделал. Обвинение пока опережает доказательства.",
+   "default": "В справке подпись неразборчива, в реестре — один инициал. Этого недостаточно ни для имени, ни для обвинения. Зато назначение строк можно проверить: что указано причиной закрытия, а что категорией случая?",
    "translations": {
-    "ru": "Документы расходятся, но ни один не показывает, кто и что сделал. Обвинение пока опережает доказательства."
+    "ru": "В справке подпись неразборчива, в реестре — один инициал. Этого недостаточно ни для имени, ни для обвинения. Зато назначение строк можно проверить: что указано причиной закрытия, а что категорией случая?"
    }
   },
   "purpose": "ui"
@@ -4939,9 +5246,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-voice-echo",
   "value": {
-   "default": "Марат описывает обычное эхо.",
+   "default": "Проверить, могло ли это быть эхом.",
    "translations": {
-    "ru": "Марат описывает обычное эхо."
+    "ru": "Проверить, могло ли это быть эхом."
    }
   },
   "purpose": "ui"
@@ -4961,9 +5268,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-voice-link",
   "value": {
-   "default": "Голос, ответ и граница связаны. Нужно перечитать источник.",
+   "default": "Сверить описание голоса со словами на полях.",
    "translations": {
-    "ru": "Голос, ответ и граница связаны. Нужно перечитать источник."
+    "ru": "Сверить описание голоса со словами на полях."
    }
   },
   "purpose": "ui"
@@ -4972,9 +5279,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-voice-link-result",
   "value": {
-   "default": "Тавыш — голос или звук; җавап — ответ или отклик. Сообщение Марата делает соседство этих слов в записи тревожным. Связь есть, но что именно происходит у границы, пока неизвестно.",
+   "default": "Тавыш — голос или звук; җавап — ответ или отклик. У Марата человек будто ждёт ответа, а в заметке эти слова стоят рядом. Теперь нужно вернуться к самой статье и сравнить её с внутренним реестром в журнале [J]: что там могло обозначать «ответил»? Перевод пока не объясняет происшедшего.",
    "translations": {
-    "ru": "Тавыш — голос или звук; җавап — ответ или отклик. Сообщение Марата делает соседство этих слов в записи тревожным. Связь есть, но что именно происходит у границы, пока неизвестно."
+    "ru": "Тавыш — голос или звук; җавап — ответ или отклик. У Марата человек будто ждёт ответа, а в заметке эти слова стоят рядом. Теперь нужно вернуться к самой статье и сравнить её с внутренним реестром в журнале [J]: что там могло обозначать «ответил»? Перевод пока не объясняет происшедшего."
    }
   },
   "purpose": "ui"
@@ -4983,9 +5290,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-voice-creature",
   "value": {
-   "default": "Марат точно встретил Шүрәле.",
+   "default": "Проверить имя в заголовке по сообщению Марата.",
    "translations": {
-    "ru": "Марат точно встретил Шүрәле."
+    "ru": "Проверить имя в заголовке по сообщению Марата."
    }
   },
   "purpose": "ui"
@@ -5005,9 +5312,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-route-center",
   "value": {
-   "default": "Искать нужно внутри кладбища.",
+   "default": "Проверить тропу внутри ограды.",
    "translations": {
-    "ru": "Искать нужно внутри кладбища."
+    "ru": "Проверить тропу внутри ограды."
    }
   },
   "purpose": "ui"
@@ -5027,9 +5334,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-route-match",
   "value": {
-   "default": "Канава и две засечки совпадают. Проверю тропу снаружи.",
+   "default": "Сверить канаву и две засечки со схемой.",
    "translations": {
-    "ru": "Канава и две засечки совпадают. Проверю тропу снаружи."
+    "ru": "Сверить канаву и две засечки со схемой."
    }
   },
   "purpose": "ui"
@@ -5049,9 +5356,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-route-marat-proof",
   "value": {
-   "default": "Бирка доказывает, что здесь прошёл Марат.",
+   "default": "Проверить, принадлежала ли бирка Марату.",
    "translations": {
-    "ru": "Бирка доказывает, что здесь прошёл Марат."
+    "ru": "Проверить, принадлежала ли бирка Марату."
    }
   },
   "purpose": "ui"
@@ -5110,7 +5417,7 @@
       "op": "not",
       "condition": {
        "op": "knowledge.status",
-       "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+       "knowledgeId": "urman.chapter1:knowledge/clue_record_wording_mismatch",
        "status": "confirmed"
       }
      }
@@ -5132,7 +5439,7 @@
       "op": "not",
       "condition": {
        "op": "knowledge.status",
-       "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+       "knowledgeId": "urman.chapter1:knowledge/clue_record_wording_mismatch",
        "status": "confirmed"
       }
      }
@@ -5140,8 +5447,13 @@
     "effects": [
      {
       "op": "knowledge.set-status",
-      "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+      "knowledgeId": "urman.chapter1:knowledge/clue_record_wording_mismatch",
       "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/clue_record_wording_mismatch",
+      "sourceId": "urman.chapter1:knowledge/clue_record_wording_mismatch"
      }
     ],
     "journalAction": {
@@ -5160,7 +5472,7 @@
       "op": "not",
       "condition": {
        "op": "knowledge.status",
-       "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal",
+       "knowledgeId": "urman.chapter1:knowledge/clue_record_wording_mismatch",
        "status": "confirmed"
       }
      }
@@ -6357,5 +6669,250 @@
    }
   },
   "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-alsu-versions",
+  "value": {
+   "default": "Что тебе говорили о Марате? В справке только причина закрытия.",
+   "translations": {"ru": "Что тебе говорили о Марате? В справке только причина закрытия."}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-alsu-versions-reply",
+  "value": {
+   "default": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал». Алсу смотрит на лист. «Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе может показать, что действительно написано. Спроси её, что здесь назвали случаем». Теперь у меня есть вопрос к справке, а не только чужая версия.",
+   "translations": {"ru": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал». Алсу смотрит на лист. «Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе может показать, что действительно написано. Спроси её, что здесь назвали случаем». Теперь у меня есть вопрос к справке, а не только чужая версия."}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-alsu-source",
+  "value": {
+   "default": "Почему начать с Наили, а не выбрать одну из версий?",
+   "translations": {"ru": "Почему начать с Наили, а не выбрать одну из версий?"}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-alsu-go-to-naila",
+  "value": {
+   "default": "Спрошу Наилю о точной формулировке.",
+   "translations": {"ru": "Спрошу Наилю о точной формулировке."}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-alsu-source-reply",
+  "value": {
+   "default": "«Потому что я могу повторить неправильно. А лист останется тем же, сколько ни спрашивай». Она чуть отодвигается от дороги, пропуская меня. «Не начинай с того, что кто-то врёт. Узнай, за какую часть Наиля отвечает сама. Остальное придётся спрашивать у другого человека».",
+   "translations": {"ru": "«Потому что я могу повторить неправильно. А лист останется тем же, сколько ни спрашивай». Она чуть отодвигается от дороги, пропуская меня. «Не начинай с того, что кто-то врёт. Узнай, за какую часть Наиля отвечает сама. Остальное придётся спрашивать у другого человека»."}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-rinat-check-source",
+  "value": {
+   "default": "Ринат остаётся у двери. «Ты опять про закрытое дело? Я уже слышал, что ты ходил в ФАП. Что именно ты хочешь спросить?» Он ещё не смотрел на найденную строку. Одно дело — сказать, что бумаги расходятся. Другое — показать, где.",
+   "translations": {"ru": "Ринат остаётся у двери. «Ты опять про закрытое дело? Я уже слышал, что ты ходил в ФАП. Что именно ты хочешь спросить?» Он ещё не смотрел на найденную строку. Одно дело — сказать, что бумаги расходятся. Другое — показать, где."}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-rinat-present-category",
+  "value": {
+   "default": "В категории дела Марата: «граница / ответил». Что это означает?",
+   "translations": {"ru": "В категории дела Марата: «граница / ответил». Что это означает?"}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-rinat-accuse-coverup",
+  "value": {
+   "default": "Две версии — значит, вы скрыли причину смерти?",
+   "translations": {"ru": "Две версии — значит, вы скрыли причину смерти?"}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-rinat-unsupported-accusation",
+  "value": {
+   "default": "«Разные строки ещё не говорят, кто что скрыл. Ты про медицинскую причину или про другую запись?» Ринат держится той же официальной формулировки. Я пока приписал ему намерение, которого бумаги не доказывают. Надо предъявить саму категорию и спросить о ней — либо вернуться к источникам.",
+   "translations": {"ru": "«Разные строки ещё не говорят, кто что скрыл. Ты про медицинскую причину или про другую запись?» Ринат держится той же официальной формулировки. Я пока приписал ему намерение, которого бумаги не доказывают. Надо предъявить саму категорию и спросить о ней — либо вернуться к источникам."}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-rinat-return-to-wording",
+  "value": {
+   "default": "Вернуться к тому, что действительно написано.",
+   "translations": {"ru": "Вернуться к тому, что действительно написано."}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-rinat-leave",
+  "value": {
+   "default": "Закончить разговор и проверить записи.",
+   "translations": {"ru": "Закончить разговор и проверить записи."}
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_internal_wording_reread",
+  "kind": "clue",
+  "title": {
+   "default": "Старая категория после перевода",
+   "translations": {"ru": "Старая категория после перевода"}
+  },
+  "summary": {
+   "default": "Я вернулся к заметке после слов «тавыш» и «җавап». Сопоставлены категория «граница / ответил» из реестра и место встречи со словами на полях заметки. Это позволяет читать категорию как запись о месте и отклике, а не как вторую медицинскую причину. Авторство, событие и причина смерти всё ещё не установлены. Следующая проверка — конкретная кромка со схемы, без попытки повторить действие Марата.",
+   "translations": {"ru": "Я вернулся к заметке после слов «тавыш» и «җавап». Сопоставлены категория «граница / ответил» из реестра и место встречи со словами на полях заметки. Это позволяет читать категорию как запись о месте и отклике, а не как вторую медицинскую причину. Авторство, событие и причина смерти всё ещё не установлены. Следующая проверка — конкретная кромка со схемы, без попытки повторить действие Марата."}
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.oldpc:document/rec_marat_case_register_conflict",
+   "urman.oldpc:document/tw_shurale_urman_boundary"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-reread-response",
+  "value": {
+   "default": "Проверить «ответил» по словам на полях заметки.",
+   "translations": {"ru": "Проверить «ответил» по словам на полях заметки."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-reread-response-result",
+  "value": {
+   "default": "В реестре «ответил» стоит в категории случая рядом с границей. В заметке рядом с краем леса — голос и отклик. Раньше я искал вторую причину смерти; теперь вижу возможное описание места и действия. Это не устанавливает, кто говорил, и не делает заметку свидетельством о Марате. Проверю место со схемы. За объяснением людей ещё придётся вернуться.",
+   "translations": {"ru": "В реестре «ответил» стоит в категории случая рядом с границей. В заметке рядом с краем леса — голос и отклик. Раньше я искал вторую причину смерти; теперь вижу возможное описание места и действия. Это не устанавливает, кто говорил, и не делает заметку свидетельством о Марате. Проверю место со схемы. За объяснением людей ещё придётся вернуться."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-reread-compensation",
+  "value": {
+   "default": "Проверить, объясняет ли заметка «компенсация закрыта».",
+   "translations": {"ru": "Проверить, объясняет ли заметка «компенсация закрыта»."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-reread-compensation-result",
+  "value": {
+   "default": "В заметке нет ни получателя, ни суммы, ни объяснения этой отметки. «Закрыта» остаётся незнакомой внутренней формулировкой. Перевод «җавап» относится к ответу или отклику, а не к расчётам. Эту строку пока оставлю вопросом, а не объяснением смерти.",
+   "translations": {"ru": "В заметке нет ни получателя, ни суммы, ни объяснения этой отметки. «Закрыта» остаётся незнакомой внутренней формулировкой. Перевод «җавап» относится к ответу или отклику, а не к расчётам. Эту строку пока оставлю вопросом, а не объяснением смерти."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-reread-author",
+  "value": {
+   "default": "Проверить, один ли автор у пометок в двух источниках.",
+   "translations": {"ru": "Проверить, один ли автор у пометок в двух источниках."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/compare-reread-author-result",
+  "value": {
+   "default": "В реестре есть только «М.», в архивной заметке автор не назван, а вопрос на полях сделан другой рукой. Общие слова не устанавливают общего автора. Можно сопоставить значение категории с содержанием заметки; приписывать обе записи конкретному человеку пока нельзя.",
+   "translations": {"ru": "В реестре есть только «М.», в архивной заметке автор не назван, а вопрос на полях сделан другой рукой. Общие слова не устанавливают общего автора. Можно сопоставить значение категории с содержанием заметки; приписывать обе записи конкретному человеку пока нельзя."}
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/investigation-reread",
+  "sceneType": "presentation",
+  "title": {
+   "default": "Повторная проверка реестра",
+   "translations": {"ru": "Повторная проверка реестра"}
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/compare-reread-response",
+   "urman.chapter1:text/compare-reread-response-result",
+   "urman.chapter1:text/compare-reread-compensation",
+   "urman.chapter1:text/compare-reread-compensation-result",
+   "urman.chapter1:text/compare-reread-author",
+   "urman.chapter1:text/compare-reread-author-result"
+  ],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/compare-reread-response",
+    "labelTextId": "urman.chapter1:text/compare-reread-response",
+    "conditions": [
+     {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "confirmed"},
+     {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh", "status": "confirmed"},
+     {"op": "beat.state", "beatId": "urman.chapter1:beat/boundary-source-reopened", "state": "completed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_internal_wording_reread", "status": "confirmed"}}
+    ],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_internal_wording_reread", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_internal_wording_reread", "sourceId": "urman.chapter1:knowledge/clue_internal_wording_reread"}
+    ],
+    "journalAction": {
+     "sourceIds": ["urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary"],
+     "resultTextId": "urman.chapter1:text/compare-reread-response-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-reread-compensation",
+    "labelTextId": "urman.chapter1:text/compare-reread-compensation",
+    "conditions": [
+     {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "confirmed"},
+     {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh", "status": "confirmed"},
+     {"op": "beat.state", "beatId": "urman.chapter1:beat/boundary-source-reopened", "state": "completed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_internal_wording_reread", "status": "confirmed"}}
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": ["urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary"],
+     "resultTextId": "urman.chapter1:text/compare-reread-compensation-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-reread-author",
+    "labelTextId": "urman.chapter1:text/compare-reread-author",
+    "conditions": [
+     {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "confirmed"},
+     {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh", "status": "confirmed"},
+     {"op": "beat.state", "beatId": "urman.chapter1:beat/boundary-source-reopened", "state": "completed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_internal_wording_reread", "status": "confirmed"}}
+    ],
+    "effects": [],
+    "journalAction": {
+     "sourceIds": ["urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary"],
+     "resultTextId": "urman.chapter1:text/compare-reread-author-result"
+    }
+   }
+  ]
  }
 ]

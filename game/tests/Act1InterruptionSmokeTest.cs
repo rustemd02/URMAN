@@ -179,6 +179,7 @@ public partial class Act1InterruptionSmokeTest : Node
         // narrative snapshot.
         if (!await bridge.DispatchInteractionAsync(Interaction("talk-alsu"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("alsu_route_context"), "name-road")
+            || !await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-versions")
             || !await Advance(bridge, "route-to-fap", "fap_waiting_room_day"))
         {
             Fail("The replayable village route did not reach the authored FAP gate.");
@@ -216,16 +217,21 @@ public partial class Act1InterruptionSmokeTest : Node
         await Frames(1);
         if (!await bridge.OpenDocumentAsync("urman.oldpc:document/doc_marat_official_death_notice")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict")
-            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" }))
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" })
+            || !await bridge.EnterDialogueNodeAsync(Dialogue("naila_medical_record"), "follow-up")
+            || !await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "follow-up", "press-contradiction")
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-record-scope"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.chapter1:knowledge/clue_naila_record_scope" }))
         { Fail("The record comparison was rejected."); return; }
         if (!await bridge.DispatchInteractionAsync(Interaction("internal-register-to-rinat"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("rinat_internal_register"), "dangerous-category")
+            || !await bridge.ChooseDialogueAsync(Dialogue("rinat_internal_register"), "dangerous-category", "present-category")
             || !await Advance(bridge, "internal-register-to-saved-message", "evidence-saved-message")
-            || !await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal")
+            || !await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/tw_shurale_urman_boundary")
             || !await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" })
             || !await Advance(bridge, "boundary-source-to-reread", "evidence-tatarwiki-reread")
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary" })
             || !await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch")
             || !await Advance(bridge, "edge-sketch-to-zirat-road", "zirat-road"))

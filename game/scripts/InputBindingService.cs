@@ -14,6 +14,7 @@ public static class InputBindingService
         "interact",
         "crouch",
         "carry_rotate",
+        "carry_place",
         "journal",
         "pause",
         "quick_save",
@@ -31,6 +32,19 @@ public static class InputBindingService
     public static IReadOnlyList<InputBindingSnapshot> Capture() => RemappableActions
         .Select(CaptureAction)
         .ToArray();
+
+    public static string ActionHint(string action, bool gamepad)
+    {
+        if (!InputMap.HasAction(action)) return "[—]";
+        var events = InputMap.ActionGetEvents(action);
+        if (gamepad)
+        {
+            var button = events.OfType<InputEventJoypadButton>().FirstOrDefault();
+            return button is null ? "[Gamepad]" : $"[{button.ButtonIndex}]";
+        }
+        var key = events.OfType<InputEventKey>().FirstOrDefault();
+        return key is null ? "[Key]" : $"[{OS.GetKeycodeString(key.PhysicalKeycode)}]";
+    }
 
     public static void Apply(IEnumerable<InputBindingSnapshot> bindings)
     {

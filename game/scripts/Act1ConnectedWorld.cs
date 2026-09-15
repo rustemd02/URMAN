@@ -388,8 +388,10 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAct1OptionalDiscoveries();
         BuildAct1CulvertVerandaDiscoveries();
         BuildBabaiYardSideGateExploration();
+        BuildCarryables(GetNode<Node3D>("Act1CoreWorldGreybox"));
         BuildAct1KaraOptionalDiscoveries();
         BuildAct1BypassDiscoveries();
+        ConfigureInvestigationRevisits();
         foreach (var placement in Act1WorldLayout.Placements)
         {
             var zone = _zoneInstances[placement.ZoneId];
@@ -535,6 +537,7 @@ public partial class Act1ConnectedWorld : Node3D
         }
 
         ActiveZoneId = zoneId;
+        _carryCoordinator?.SetZonePresentation(zoneId, useExteriorAtmosphere);
         SetMeta("activeZoneId", ActiveZoneId);
         SetMeta(
             "activeWorldEnvironmentCount",
@@ -1070,58 +1073,130 @@ public partial class Act1ConnectedWorld : Node3D
         ApplyAct1DaylightPresentationPass(core);
         ReplaceKitWinterShrubs(core);
         BuildVillageLife(core);
-        BuildCarryables(core);
     }
 
     /// <summary>
-    /// EX01: three carryable item classes at the hero yard (log, crate, bucket),
-    /// per act1_ex01_carry_owner_design_2026-09-15.md. Session-local by design in
-    /// this slice - the world.custody handler and snapshot persistence land with
-    /// the EX00 follow-up wiring.
+    /// Authored carryables and aimed tool uses share runtime custody and props.
+    /// Built after the yard's real openings, so the visible target and barrier
+    /// are the same place, not a remote effect triggered at a tool stand.
     /// </summary>
     private void BuildCarryables(Node3D core)
     {
         var props = new List<CarryableProp>
         {
             CarryableProp.Create("carry-log", "Полено", CarryableProp.ItemClass.Light,
-                new(-32.4f, 0f, 4.6f), 24f, "8a6b50", "wood"),
+                GroundedYardPoint(new(-32.4f, 0f, 4.6f)), 24f, "8a6b50", "wood"),
             CarryableProp.Create("carry-crate", "Ящик", CarryableProp.ItemClass.Medium,
-                new(-29.6f, 0f, 2.4f), -12f, "7a5c3a", "wood"),
+                GroundedYardPoint(new(-29.6f, 0f, 2.4f)), -12f, "7a5c3a", "wood"),
             CarryableProp.Create("carry-bucket", "Ведро", CarryableProp.ItemClass.Bucket,
-                new(-26.6f, 0f, 0.2f), 8f, "6f6d61", "metal"),
+                GroundedYardPoint(new(-26.6f, 0f, 0.2f)), 8f, "6f6d61", "metal"),
+            CarryableProp.Create("carry-board", "Доска", CarryableProp.ItemClass.Bulky,
+                GroundedYardPoint(new(-29.3f, 0f, 5.2f)), 14f, "8a6b50", "wood"),
+            CarryableProp.Create("carry-lantern", "Аккумуляторный фонарь", CarryableProp.ItemClass.Light,
+                GroundedYardPoint(new(-28.4f, 0f, 1.6f)), 0f, "575b57", "metal", CarryableProp.ItemKind.Lantern),
         };
         // EX02: a second carryable crate stands in the south boundary's gap -
         // the two-solution access. Carrying it aside (EX01) or walking the long
         // way around the fence's east end both reach the return street.
         var gapCrate = CarryableProp.Create("carry-gap-crate", "Ящик в проёме",
-            CarryableProp.ItemClass.Medium, new(26.4f, 0f, -38.6f), 14f, "7a5c3a", "wood");
+            CarryableProp.ItemClass.Medium, GroundedYardPoint(new(26.4f, 0f, -38.6f)), 0f, "7a5c3a", "wood",
+            size: new(1.16f, .65f, .70f));
         props.Add(gapCrate);
         var coordinator = CarryCoordinator.Create(props);
 
-        // EX03: two yard tools, two distinct uses each, all results visible in
-        // the yard. Uses cycle on the interact input through the same focus cone
-        // as the carry system.
-        var gateSnow = AddVisualBox(core, "ToolSnowPileGate",
-            new(0.8f, 0.34f, 0.62f), new(-24.2f, 0.17f, 0.35f), "e8e2d4", "snow");
-        var woodSnow = AddVisualBox(core, "ToolSnowPileWood",
-            new(0.66f, 0.30f, 0.5f), new(-32.5f, 0.15f, 4.3f), "e8e2d4", "snow");
-        var bedSnow = AddVisualBox(core, "ToolBedSnowPatch",
-            new(2.4f, 0.16f, 1.4f), new(-31.6f, 0.08f, 7.4f), "e8e2d4", "snow");
-        var pailWater = AddVisualBox(core, "ToolPailWater",
-            new(0.22f, 0.04f, 0.22f), new(-26.9f, 0.16f, 0.1f), "2f4f50", "water");
-        pailWater.Visible = false;
+        // EX05.1/EX05.2: the authored chain of observation. A line of pressed
+        // prints runs from the street to the side gate, the snow at the leaf is
+        // swept on one side and banked on the other, and the drift itself has
+        // been worked through once. These are static authored evidence, not the
+        // cosmetic player tracks of SnowTrampleField: the trample mask may reset
+        // by its own session-only contract without erasing the trail. Reading it
+        // tells the player someone used this opening recently and kept it clear -
+        // it does NOT confirm who, and the prints are deliberately characterless.
+        var trail = new Node3D { Name = "ExteriorSnowTrail" };
+        trail.SetMeta("presentationOnly", true);
+        trail.SetMeta("visualOnly", true);
+        trail.SetMeta("evidenceRole", "authored snow trail; not SnowTrampleField");
+        trail.SetMeta("observation", "someone uses this side opening and keeps it clear; identity unconfirmed");
+        trail.SetMeta("snowTramplePolicy", "authored and static; survives the session-only trample reset");
+        core.AddChild(trail);
+        for (var i = 0; i < 11; i++)
+        {
+            var t = i / 10f;
+            var x = Mathf.Lerp(-21.6f, -24.42f, t);
+            var z = Mathf.Lerp(2.30f, 0.55f, t);
+            var ground = AgentBAct1HeightField.CollisionGround(x, z);
+            for (var foot = 0; foot < 2; foot++)
+            {
+                var offset = (i % 2 == 0 ? 1f : -1f) * 0.10f;
+                AddVisualBox(trail, $"Print{i}_{foot}",
+                    new(0.13f, 0.016f, 0.26f),
+                    new(x + (foot == 0 ? offset : -offset), ground + 0.012f, z + (foot == 0 ? 0.10f : -0.10f)),
+                    "cfc9bd", "snow",
+                    yawDegrees: -58f);
+            }
+        }
 
-        var shovel = YardTool.Create("shovel", "Лопата", new(-27.6f, 0f, 0.9f), 96f, shovel: true);
-        shovel.AddUse("gate", "Расчистить снег у калитки", gateSnow);
-        shovel.AddUse("woodpile", "Расчистить снег у поленницы", woodSnow);
+        var gateGround = GroundedYardPoint(new Vector3(-25.20f, 0f, -2.85f));
+        var gateSnow = _ex05PassageDrift ?? throw new InvalidOperationException("Yard service drift must be built before its shovel target.");
+        var gateSwept = AddVisualBox(core, "ToolSnowSweptAtLeaf",
+            new(0.62f, 0.03f, 1.30f), gateGround + new Vector3(0f, 0.02f, 0f), "b9b3a6", "snow");
+        gateSwept.Visible = false;
+        var gateWorked = AddVisualBox(trail, "ToolSnowWorkedEdge",
+            new(0.34f, 0.05f, 0.40f), GroundedYardPoint(new(-24.62f, 0f, -2.85f)) + Vector3.Up * .025f, "c6bfb0", "snow");
+        var woodSnow = AddVisualBox(core, "ToolSnowPileWood",
+            new(0.66f, 0.30f, 0.5f), GroundedYardPoint(new(-32.5f, 0f, 4.3f)) + Vector3.Up * .15f, "e8e2d4", "snow");
+
+        // EX05.3: two drifts. The one at the side opening is cleared by the same
+        // shovel use, but it is a windrow beside the walked line, not a barrier:
+        // the side opening stays the mandatory route it always was, so clearing
+        // snow is never a chore on the critical path (the plan forbids that).
+        // The drift that really changes a passage is the one plugging the lower
+        // fence gap below, which nothing on the authored route uses.
+        //
+        // EX05.3/EX05.4: the object the woodpile drift was banked over. Its
+        // handle shows under the snow as the readable hint; only clearing the
+        // drift makes it takeable, and the cleared result is persisted through
+        // world.props, so the step stays open after a load while the cosmetic
+        // snow dust of SnowTrampleField still resets by its own contract.
+        var kindlingAxe = CarryableProp.Create("carry-axe", "Топорик", CarryableProp.ItemClass.Light,
+            GroundedYardPoint(new(-32.5f, 0f, 4.3f)), 62f, "5d5b52", "metal");
+        kindlingAxe.SetConcealed(true);
+        props.Add(kindlingAxe);
+        coordinator.Register(kindlingAxe);
+
+        var shovel = YardTool.Create("shovel", "Лопата", GroundedYardPoint(new(-27.6f, 0f, 0.9f)), 96f, shovel: true);
+        // One shovelling along the yard's own fence line clears both drifts on
+        // it: the windrow beside the side opening and the one banking the
+        // service gap. The gap's drift is the barrier, so this use is what
+        // actually opens the passage below.
+        shovel.AddUse("fence", "Расчистить снег в служебном проходе", gateSnow,
+            visible =>
+            {
+                gateSwept.Visible = !visible;
+                gateWorked.Visible = visible;
+                if (_ex05PassageDrift is not null)
+                {
+                    _ex05PassageDrift.Visible = visible;
+                }
+
+                SetYardCollisionEnabled(_ex05PassageBarrier, visible);
+            });
+        shovel.AddUse("woodpile", "Расчистить снег у поленницы", woodSnow,
+            visible =>
+            {
+                if (!kindlingAxe.HasOwnDeviation)
+                {
+                    kindlingAxe.SetConcealed(visible);
+                }
+            });
         coordinator.Register(shovel);
 
-        var pail = YardTool.Create("pail", "Ведро", new(-27.0f, 0f, 0.15f), 12f, shovel: false);
-        pail.AddUse("fill", "Налить воды", pailWater);
-        pail.AddUse("bed", "Полить огород", bedSnow);
-        coordinator.Register(pail);
+        var pole = YardTool.Create("pole", "Шест", GroundedYardPoint(new(-28.1f, 0f, 4.2f)), 12f, shovel: false);
+        coordinator.Register(pole);
 
-        core.AddChild(coordinator);
+        // Carried things cross the actual house/FAP portal. They must not be
+        // children of the outdoor-only visual root, which is hidden indoors.
+        AddChild(coordinator);
         _carryCoordinator = coordinator;
         if (_runtimeBridge is not null)
         {
@@ -5329,230 +5404,6 @@ public partial class Act1ConnectedWorld : Node3D
         placement.SetMeta("authoredKitBlockerCandidate", true);
         placement.SetMeta("authoredKitBlockerSource", assetSource);
         return placement;
-    }
-
-    /// <summary>
-    /// Authored kit components arrive presentation-only, so walls, fences and
-    /// outbuildings used to be walk-through. Block the bulk volumes with layer-2
-    /// proxies: they stop the player but own no navigation, narrative or route
-    /// data, and open passages (gates, porches, doors, steps) are deliberately
-    /// left clear so yards and doorways stay enterable.
-    /// </summary>
-    private void BuildAuthoredKitBlockers()
-    {
-        var placements = 0;
-        var blocked = 0;
-        var skippedHidden = 0;
-        var skippedRoadClear = 0;
-        var skippedFlatSlab = 0;
-        var skippedInteriorShell = 0;
-        var carved = 0;
-        // Authored doors that carry an interaction target must stay reachable: a
-        // wall box around a doorway would seal the entrance the route uses. The
-        // carve targets are the live interaction approaches themselves.
-        var doorTargets = FindDescendants<InteractionTarget>(this)
-            .Where(target => target.IsInsideTree())
-            .Select(target => target.GlobalPosition)
-            .ToArray();
-        foreach (var placement in FindDescendants<Node3D>(this)
-            .Where(node => HasTrueMeta(node, "authoredKitBlockerCandidate"))
-            .ToArray())
-        {
-            if (!placement.IsVisibleInTree())
-            {
-                skippedHidden++;
-                placement.SetMeta("authoredKitBlockerSkipReason", "presentation suppressed before blockers were built");
-                continue;
-            }
-
-            var assetSource = placement.HasMeta("authoredKitBlockerSource")
-                ? placement.GetMeta("authoredKitBlockerSource").AsString()
-                : string.Empty;
-            // Created lazily: a StaticBody3D that never enters the tree is a leaked
-            // physics body at exit, and most placements end up with no blocker.
-            StaticBody3D? proxy = null;
-            var componentBlocked = 0;
-        foreach (var mesh in FindDescendants<MeshInstance3D>(placement))
-        {
-            if (mesh.Name.ToString() == "AuthoredKitCollisionProxy" || mesh.Mesh is null || !mesh.IsVisibleInTree())
-            {
-                continue;
-            }
-
-            var meshName = mesh.Name.ToString();
-            if (!AuthoredKitBlockerFamilies.Any(family => meshName.StartsWith(family, StringComparison.Ordinal)))
-            {
-                continue;
-            }
-
-            if (AuthoredKitClearanceParts.Any(part => meshName.Contains(part, StringComparison.Ordinal)))
-            {
-                continue;
-            }
-
-            // Dwelling facades wrap a walkable interior room whose own walls own
-            // the collision. Blocking the facade's side and back walls would cut
-            // through that room, so only the street-facing wall blocks; the
-            // doorway carve below keeps the entrance reachable.
-            if (meshName.StartsWith("DwellingFacade_", StringComparison.Ordinal)
-                && !meshName.Contains("Street", StringComparison.Ordinal))
-            {
-                skippedInteriorShell++;
-                continue;
-            }
-
-            // Facade bodies and clinic shells wrap walkable interiors the same way:
-            // their own room walls carry the collision, and a solid body box would
-            // seal the room the route walks into (the FAP and the hero house).
-            if ((meshName.StartsWith("FapFacade_", StringComparison.Ordinal)
-                    || meshName.Contains("_Body", StringComparison.Ordinal))
-                && meshName.Contains("Body", StringComparison.Ordinal))
-            {
-                skippedInteriorShell++;
-                continue;
-            }
-
-            var bounds = mesh.GlobalTransform * mesh.Mesh.GetAabb();
-            var size = bounds.Size;
-            if (size.X < .25f && size.Z < .25f)
-            {
-                continue;
-            }
-
-            // Bands and flat slabs (footing caps, plinths, floors, roof planes)
-            // span the whole footprint but are not walls: blocking them would seal
-            // the walkable interior of the hero house and turn every roof into a
-            // ceiling. Walls are tall and thin, sheds are tall volumes; those stay.
-            if (size.Y < .8f || Mathf.Min(size.X, size.Z) > 2.5f * size.Y)
-            {
-                skippedFlatSlab++;
-                continue;
-            }
-
-            var centre = bounds.GetCenter();
-            // Never let a blocker reach into the walkable road envelope: the
-            // route, the interaction approaches and the bypasses all run there.
-            var road = AgentBAct1HeightField.RoadInfo(centre.X, centre.Z);
-            if (road.Distance < road.HalfWidth - .15f)
-            {
-                skippedRoadClear++;
-                continue;
-            }
-
-            var boxSize = new Vector3(
-                Mathf.Max(size.X - .06f, .12f),
-                Mathf.Min(size.Y, 3.4f),
-                Mathf.Max(size.Z - .06f, .12f));
-            var doorway = doorTargets.FirstOrDefault(target =>
-                Mathf.Abs(target.Y - centre.Y) < 3.4f
-                && Mathf.Abs(target.X - centre.X) <= size.X * .5f + .9f
-                && Mathf.Abs(target.Z - centre.Z) <= size.Z * .5f + .9f);
-            if (doorway == default && !doorTargets.Any(target =>
-                    Mathf.Abs(target.Y - centre.Y) < 3.4f
-                    && Mathf.Abs(target.X - centre.X) <= size.X * .5f + .9f
-                    && Mathf.Abs(target.Z - centre.Z) <= size.Z * .5f + .9f))
-            {
-                proxy ??= NewKitBlockerProxy();
-                proxy.AddChild(BlockerShape($"{meshName}_Blocker", placement, centre, boxSize));
-                componentBlocked++;
-                blocked++;
-                continue;
-            }
-
-            // Split the wall along its longer horizontal axis and drop the slab
-            // that covers the door approach, so the doorway stays walkable while
-            // the rest of the wall still blocks.
-            var alongX = size.X >= size.Z;
-            const int slabs = 5;
-            var slice = (alongX ? size.X : size.Z) / slabs;
-            for (var index = 0; index < slabs; index++)
-            {
-                var offset = -0.5f * (alongX ? size.X : size.Z) + (index + 0.5f) * slice;
-                var slabCentre = centre + (alongX ? new Vector3(offset, 0, 0) : new Vector3(0, 0, offset));
-                var coversDoor = false;
-                foreach (var target in doorTargets)
-                {
-                    if (Mathf.Abs(target.Y - centre.Y) > 3.4f) continue;
-                    var dx = Mathf.Abs(target.X - slabCentre.X);
-                    var dz = Mathf.Abs(target.Z - slabCentre.Z);
-                    if (dx <= slice * .5f + .45f && dz <= slice * .5f + .45f) { coversDoor = true; break; }
-                }
-
-                if (coversDoor)
-                {
-                    carved++;
-                    continue;
-                }
-
-                var slabSize = alongX
-                    ? new Vector3(Mathf.Max(slice - .04f, .1f), boxSize.Y, boxSize.Z)
-                    : new Vector3(boxSize.X, boxSize.Y, Mathf.Max(slice - .04f, .1f));
-                proxy ??= NewKitBlockerProxy();
-                proxy.AddChild(BlockerShape($"{meshName}_Blocker{index}", placement, slabCentre, slabSize));
-                componentBlocked++;
-                blocked++;
-            }
-        }
-
-            if (proxy is null)
-            {
-                continue;
-            }
-
-            placement.AddChild(proxy);
-            placement.SetMeta("authoredKitBlockerCount", componentBlocked);
-            placements++;
-        }
-
-        GD.Print(
-            $"act1-kit-blockers: placements={placements} shapes={blocked} carved_door_slabs={carved} "
-            + $"flat_slab_skipped={skippedFlatSlab} interior_shell_skipped={skippedInteriorShell} "
-            + $"hidden_skipped={skippedHidden} road_clearance_skipped={skippedRoadClear}");
-        GD.Print(
-            $"act1-dwelling-threshold: placements={_dwellingThresholdPlacements} "
-            + $"worst_analytic_vs_collision_delta={_dwellingThresholdWorst:F3}m "
-            + $"worst_placement={_dwellingThresholdWorstPlacement}");
-        SetMeta("authoredKitBlockerPlacementCount", placements);
-        SetMeta("authoredKitBlockerShapeCount", blocked);
-        SetMeta("authoredKitBlockerHiddenSkipCount", skippedHidden);
-        SetMeta("authoredKitBlockerRoadSkipCount", skippedRoadClear);
-    }
-
-    private static StaticBody3D NewKitBlockerProxy()
-    {
-        var proxy = new StaticBody3D
-        {
-            Name = "AuthoredKitCollisionProxy",
-            CollisionLayer = 2,
-            CollisionMask = 0
-        };
-        proxy.SetMeta("collisionOwner", "authored-kit-blocker");
-        proxy.SetMeta("collisionStatus", "authored-blocker-layer-2");
-        return proxy;
-    }
-
-    /// <summary>
-    /// One blocker box under a placement. The proxy is parented to the
-    /// placement, so a BoxShape3D size expressed in world units is scaled again
-    /// by the placement transform: a 0.62-scale outbuilding would carry a
-    /// collider two thirds of its visible size (a walk-through gap under its own
-    /// wall) and a 1.22-scale fence rail one larger (an invisible wall beside
-    /// it). The AABB here is world space, so divide the placement scale out
-    /// before handing the size to the shape.
-    /// </summary>
-    private static CollisionShape3D BlockerShape(string name, Node3D placement, Vector3 centre, Vector3 size)
-    {
-        var scale = placement.GlobalTransform.Basis.Scale;
-        var localSize = new Vector3(
-            size.X / Mathf.Max(Mathf.Abs(scale.X), 1e-4f),
-            size.Y / Mathf.Max(Mathf.Abs(scale.Y), 1e-4f),
-            size.Z / Mathf.Max(Mathf.Abs(scale.Z), 1e-4f));
-        return new CollisionShape3D
-        {
-            Name = name,
-            Position = placement.ToLocal(centre),
-            Shape = new BoxShape3D { Size = localSize }
-        };
     }
 
     /// <summary>

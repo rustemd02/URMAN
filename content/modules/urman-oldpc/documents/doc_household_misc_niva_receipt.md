@@ -5,9 +5,9 @@ title: {"default":"Niva household receipt","translations":{"ru":"Квитанц�
 format: markdown
 sourceFile: documents/doc_household_misc_niva_receipt.md
 assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
-knowledgeRefs: []
+knowledgeRefs: ["urman.chapter1:knowledge/clue_household_niva_list"]
 accessConditions: []
-openEffects: []
+openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/doc_household_misc_niva_receipt","sourceId":"urman.oldpc:document/doc_household_misc_niva_receipt"}]
 oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"canon","reliability":"personal_memory","searchTerms":["Нива","хозяйство","гараж","Фанис","квитанция","бензин"],"suggestedTerms":["гараж","Фанис"]}
 ---
 

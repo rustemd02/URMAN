@@ -13,6 +13,8 @@ Run with Blender 4.5+:
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import math
 import sys
 from pathlib import Path
@@ -23,11 +25,44 @@ from mathutils import Vector
 
 KIT_ROOT = "URMAN_VillageExteriorKit"
 DWELLING_ROOT = "DwellingFacade_TimberPlaster"
+HERO_DWELLING_ROOT = "HeroHouse_TimberPlaster"
 WELL_ROOT = "Well_YardLandmark"
 WOODPILE_ROOT = "Woodpile_StackedLogs"
 CAT_ROOT = "AmbientCat"
 CROW_ROOT = "AmbientCrow"
 GLB_NAME = "urman_village_exterior_kit.glb"
+
+# Component-local metres after Blender -> Godot conversion. The previous
+# facade was scaled by .82 in game; keep its street-left corner, threshold and
+# exact doorway XZ while adding space to the rear/right for the real room.
+HERO_HOUSE_CONTRACT = {
+    "version": "hero-house-eight-by-seven-v1",
+    "component": HERO_DWELLING_ROOT,
+    "runtime_scale": 1.0,
+    "shell_size_xz": [8.4, 7.4],
+    "clear_room_size_xz": [8.0, 7.0],
+    "wall_thickness": 0.20,
+    "shell_min_xz": [-2.542, -6.334],
+    "shell_max_xz": [5.858, 1.066],
+    "room_center_xz": [1.658, -2.634],
+    "floor_above_component_ground": 0.246,
+    "clear_ceiling_height": 2.60,
+    "eave_height": 3.05,
+    "ridge_height": 4.80,
+    "portal_probe_preserved_xyz": [-1.1644, 1.1685, 1.0865],
+    "portal_clear_width_height": [1.30, 2.25],
+    "room_door_x": -2.8224,
+    "room_wall_centerlines_xz": [4.1, 3.6],
+    "room_entry_xz": [-2.8224, 2.30],
+    "room_exit_target_xz": [-2.8224, 3.40],
+    "front_window_room_x": [-0.85, 1.0, 2.85],
+    "rear_window_room_x": [-2.55, 2.55],
+    "left_window_room_z": [0.60],
+    "right_window_room_z": [0.90],
+    "window_clear_width": 1.06,
+    "window_sill_top_above_floor": [0.74, 2.14],
+    "stove_room_xz": [-3.15, -0.45],
+}
 
 ANIMAL_ROOTS = (CAT_ROOT, CROW_ROOT)
 CAT_CHILDREN = (
@@ -1907,7 +1942,7 @@ def author_variant_parcels(root: bpy.types.Object) -> None:
 
 
 def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
-                          wall_material="URMAN_Plaster_Ochre"):
+                          wall_material="URMAN_Plaster_Ochre", hero_layout=False):
     """One inhabited house: pierced wall shell, boarded gables and enclosed side seni.
 
     Parcel street elevations have windows only; the hero retains its portal.
@@ -1919,8 +1954,11 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         bpy.data.objects.remove(child, do_unlink=True)
         if mesh is not None and mesh.users == 0:
             bpy.data.meshes.remove(mesh)
-    prefix = "DwellingFacade" if parent.name == DWELLING_ROOT else parent.name.replace("VillageParcel_", "")
-    half, front, back = width / 2, -1.30, depth - 1.30
+    prefix = "HeroHouse" if hero_layout else "DwellingFacade" if parent.name == DWELLING_ROOT else parent.name.replace("VillageParcel_", "")
+    half = width / 2
+    front = -1.066 if hero_layout else -1.30
+    back = front + depth
+    wall_base = HERO_HOUSE_CONTRACT["floor_above_component_ground"] if hero_layout else .30
     root_name = parent.name
     trim = "URMAN_Wood_Weathered"
 
@@ -1941,7 +1979,7 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
             vertices.extend(points)
             faces.append(tuple(range(start, start+4)))
         xs = sorted(set([-length/2, length/2] + [h[k] for h in holes for k in (0, 1)]))
-        zs = sorted(set([0.30, top] + [h[k] for h in holes for k in (2, 3)]))
+        zs = sorted(set([wall_base, top] + [h[k] for h in holes for k in (2, 3)]))
         for x0, x1 in zip(xs, xs[1:]):
             for z0, z1 in zip(zs, zs[1:]):
                 if any(h[0] < (x0+x1)/2 < h[1] and h[2] < (z0+z1)/2 < h[3] for h in holes):
@@ -1987,15 +2025,23 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         # Preserve the independently owned Babai doorway's original opening.
         street_windows = [(-2.07,-.77,.30,2.55,"Portal"),
                           (-.28,.68,.93,2.38,"Window"),(1.22,2.18,.93,2.38,"Window")]
+    if hero_layout:
+        door_x = HERO_HOUSE_CONTRACT["room_door_x"]
+        sill, top = [wall_base + z for z in HERO_HOUSE_CONTRACT["window_sill_top_above_floor"]]
+        street_windows = [(door_x-.65, door_x+.65, wall_base, wall_base+2.25, "Portal")]
+        street_windows += [(x-.53, x+.53, sill, top, "Window")
+                           for x in HERO_HOUSE_CONTRACT["front_window_room_x"]]
     wall("Street", (0,front), (1,0), width, street_windows)
-    if parent.name == DWELLING_ROOT:
+    if parent.name == DWELLING_ROOT or hero_layout:
         # One removable visual leaf: runtime hides only this child at Babai's
         # independently owned portal, while neighboring houses stay closed.
         vertices, faces, indices = [], [], []
-        parts = [((-1.42, front+.12, 1.425), (1.22,.08,2.17), 0)]
-        parts += [((-1.42, front+.065, z), (1.18,.035,.095), 1) for z in (.64,2.18)]
-        parts += [((x, front+.073, 1.425), (.012,.018,2.14), 1) for x in (-1.82,-1.62,-1.42,-1.22,-1.02)]
-        parts.append(((-.94,front+.025,1.35),(.055,.075,.15),2))
+        door_x = HERO_HOUSE_CONTRACT["room_door_x"] if hero_layout else -1.42
+        door_mid = wall_base + 1.125
+        parts = [((door_x, front+.12, door_mid), (1.22,.08,2.17), 0)]
+        parts += [((door_x, front+.065, wall_base+z), (1.18,.035,.095), 1) for z in (.34,1.88)]
+        parts += [((door_x+x, front+.073, door_mid), (.012,.018,2.14), 1) for x in (-.4,-.2,0,.2,.4)]
+        parts.append(((door_x+.48,front+.025,wall_base+1.05),(.055,.075,.15),2))
         for (x,y,z),(w,d,h),mat_index in parts:
             start=len(vertices)
             vertices += [(x+dx*w/2,y+dy*d/2,z+dz*h/2)
@@ -2004,26 +2050,35 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
             faces += [tuple(start+i for i in f) for f in
                       ((3,2,1,0),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7))]
             indices += [mat_index]*6
-        mesh_object("DwellingFacade_StreetDoorClosed_LOD0",parent,vertices,faces,
+        mesh_object(f"{prefix}_StreetDoorClosed_LOD0",parent,vertices,faces,
                     ("URMAN_Wood_WetShadow","URMAN_Wood_Weathered","URMAN_Metal_Dulled"),indices,
                     component_root=root_name,role="removable closed street door; hidden only at Babai gameplay portal")
-    wall("Rear", (0,back), (-1,0), width, [(-1.45,-.49,.95,2.38,"Window"),(.49,1.45,.95,2.38,"Window")])
-    wall("Left", (-half,(front+back)/2), (0,-1), depth,
-         [(-1.65,-.65,.94,2.38,"Window"),(.65,1.65,.94,2.38,"Window")])
-    wall("Right", (half,(front+back)/2), (0,1), depth,
-         [(-depth/2+.80,-depth/2+1.80,.94,2.38,"Window")])
-    box("Foundation", (0,(front+back)/2,.15), (width+.06,depth+.06,.30), "URMAN_Stone_Mossy")
-    box("FootingCap", (0,(front+back)/2,.32), (width+.09,depth+.09,.07), "URMAN_Stone_LightFace")
-    if parent.name == DWELLING_ROOT:
+    if hero_layout:
+        wall("Rear", (0,back), (-1,0), width,
+             [(-x-.53,-x+.53,sill,top,"Window") for x in HERO_HOUSE_CONTRACT["rear_window_room_x"]])
+        wall("Left", (-half,(front+back)/2), (0,-1), depth,
+             [(z-.53,z+.53,sill,top,"Window") for z in HERO_HOUSE_CONTRACT["left_window_room_z"]])
+        wall("Right", (half,(front+back)/2), (0,1), depth,
+             [(-z-.53,-z+.53,sill,top,"Window") for z in HERO_HOUSE_CONTRACT["right_window_room_z"]])
+    else:
+        wall("Rear", (0,back), (-1,0), width, [(-1.45,-.49,.95,2.38,"Window"),(.49,1.45,.95,2.38,"Window")])
+        wall("Left", (-half,(front+back)/2), (0,-1), depth,
+             [(-1.65,-.65,.94,2.38,"Window"),(.65,1.65,.94,2.38,"Window")])
+        wall("Right", (half,(front+back)/2), (0,1), depth,
+             [(-depth/2+.80,-depth/2+1.80,.94,2.38,"Window")])
+    box("Foundation", (0,(front+back)/2,wall_base/2), (width+.06,depth+.06,wall_base), "URMAN_Stone_Mossy")
+    box("FootingCap", (0,(front+back)/2,wall_base+.02), (width+.09,depth+.09,.07), "URMAN_Stone_LightFace")
+    if parent.name == DWELLING_ROOT or hero_layout:
         # A real threshold at the hero's street portal. The wall base sits
         # 0.30 m above grade, so without a step the doorway read as a door
         # standing in the snow. Hero-only, like the portal itself: parcel
         # yards are too tight for the protrusion and their street doors are
         # not entries. Presentation-only, clear of the portal opening.
-        box("StreetStep", (-1.42, front-.34, .10), (1.34, .68, .20), "URMAN_Stone_Mossy")
+        box("StreetStep", (door_x, front-.34, .10), (1.34, .68, .20), "URMAN_Stone_Mossy")
     for x in (-half,half):
         for y in (front,back):
-            box(f"Corner_{x}_{y}",(x,y,1.60),(.105,.105,2.60))
+            box(f"Corner_{x}_{y}",(x,y,(wall_base+eave)/2 if hero_layout else 1.60),
+                (.105,.105,eave-wall_base if hero_layout else 2.60))
     # Authored clipped gable boards form the triangle itself (no solid triangle
     # plus beam lattice); tiny gaps give actual self-shadow at grazing angles.
     for label,y in (("Front",front),("Back",back)):
@@ -2120,11 +2175,62 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                 [0,1]+[0]*8,chamfer=.03)
     box("SeniSpout",(low_x+.03,entry_y-.38,2.30),(.12,.30,.11))
     box("SeniSplashStone",(low_x+.12,entry_y-.42,.08),(.40,.36,.16),"URMAN_Stone_Mossy")
-    box("ChimneyStack",(.90,back-1.45,ridge-.05),(.46,.51,1.30),"URMAN_Plaster_Shadow")
-    box("ChimneyCap",(.90,back-1.45,ridge+.63),(.56,.61,.10),"URMAN_Roof_WetSlate")
+    if hero_layout:
+        chimney_x, stove_z = HERO_HOUSE_CONTRACT["stove_room_xz"]
+        chimney_y = (front+back)/2 - stove_z
+        roof_at_flue = eave + (ridge-eave)*(1-abs(chimney_x)/half)
+        box("ChimneyStack",(chimney_x,chimney_y,(roof_at_flue-.15+ridge+.35)/2),
+            (.46,.51,ridge+.50-roof_at_flue),"URMAN_Plaster_Shadow")
+        box("ChimneyCap",(chimney_x,chimney_y,ridge+.40),(.56,.61,.10),"URMAN_Roof_WetSlate")
+    else:
+        box("ChimneyStack",(.90,back-1.45,ridge-.05),(.46,.51,1.30),"URMAN_Plaster_Shadow")
+        box("ChimneyCap",(.90,back-1.45,ridge+.63),(.56,.61,.10),"URMAN_Roof_WetSlate")
     parent["geometry_pass"] = "v6 pierced wall architecture; street gable and side seni"
     parent["eave_height_m"] = eave
     parent["door_clear_height_m"] = 2.02
+
+
+def author_hero_house(root: bpy.types.Object) -> bpy.types.Object:
+    """A metric hero variation in this kit, not a scale change to the village."""
+    hero = variant_empty(HERO_DWELLING_ROOT, root, (34.0, 0.8, 0.0),
+                         "hero house shell paired with an 8 by 7 metre clear room", "hero house")
+    author_rural_dwelling(hero, width=8.4, depth=7.4, eave=3.05, ridge=4.8, hero_layout=True)
+    for child in hero.children:
+        child.location.x += HERO_HOUSE_CONTRACT["room_center_xz"][0]
+        child["urman_asset_id"] = "urman.act1.village.hero_house_timberplaster"
+        child["geometry_pass"] = HERO_HOUSE_CONTRACT["version"]
+    hero["component_root"] = HERO_DWELLING_ROOT
+    hero["urman_asset_id"] = "urman.act1.village.hero_house_timberplaster"
+    hero["geometry_pass"] = HERO_HOUSE_CONTRACT["version"]
+    hero["door_clear_height_m"] = 2.25
+    hero["hero_room_contract"] = json.dumps(HERO_HOUSE_CONTRACT, sort_keys=True)
+    return hero
+
+
+def validate_hero_house(root: bpy.types.Object) -> None:
+    hero = bpy.data.objects[HERO_DWELLING_ROOT]
+    if hero.parent is not root or tuple(hero.scale) != (1.0, 1.0, 1.0):
+        raise RuntimeError("Hero shell must be an independent, unscaled component")
+    meshes = sorted((obj for obj in hero.children if obj.type == "MESH"), key=lambda obj: obj.name)
+    if not meshes or any(not obj.name.startswith("HeroHouse_") for obj in meshes):
+        raise RuntimeError("Hero shell mesh names overlap the existing dwelling family")
+    wall = bpy.data.objects["HeroHouse_Street_Wall_LOD0"]
+    points = [wall.matrix_local @ vertex.co for vertex in wall.data.vertices]
+    if abs(min(point.x for point in points) + 2.542) > 1e-5 or abs(max(point.x for point in points) - 5.858) > 1e-5:
+        raise RuntimeError("Hero shell width/left-corner registration drifted")
+    # The preserved old interaction point still lies inside a genuine doorway
+    # in the wall, and the taller hole also admits a standing person.
+    for height in (.246+.08, 1.1685, .246+2.17):
+        origin = wall.matrix_local.inverted() @ Vector((-1.1644, -1.8, height))
+        if wall.ray_cast(origin, Vector((0, 1, 0)), distance=1.0)[0]:
+            raise RuntimeError(f"Hero wall closes its doorway at height {height}")
+    geometry = [(obj.name, [list(round(value, 6) for value in obj.matrix_local @ vertex.co)
+                            for vertex in obj.data.vertices]) for obj in meshes]
+    fingerprint = hashlib.sha256(json.dumps({"contract": HERO_HOUSE_CONTRACT, "geometry": geometry},
+                                            sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    hero["component_geometry_sha256"] = fingerprint
+    print(f"hero-house-pass: component={hero.name} meshes={len(meshes)} shell=8.4x7.4 clear=8x7 "
+          f"ceiling=2.6 threshold=.246 door=1.3x2.25 fingerprint={fingerprint}")
 
 
 
@@ -2257,7 +2363,7 @@ def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types
         raise RuntimeError(f"Canonical component roots changed: expected at least={sorted(required_components)} actual={sorted(actual_components)}")
     if not variant_components.issubset(actual_components):
         raise RuntimeError(f"Variant parcel roots missing: expected={sorted(variant_components)} actual={sorted(actual_components)}")
-    unexpected_components = actual_components - required_components - variant_components - set(ANIMAL_ROOTS)
+    unexpected_components = actual_components - required_components - variant_components - set(ANIMAL_ROOTS) - {HERO_DWELLING_ROOT}
     if unexpected_components:
         raise RuntimeError(f"Unexpected direct component roots: {sorted(unexpected_components)}")
     if any(abs(value) > 1e-6 for value in root.location) or any(abs(value) > 1e-6 for value in root.rotation_euler) or any(abs(value - 1.0) > 1e-6 for value in root.scale):
@@ -2565,6 +2671,7 @@ def main() -> None:
 
     clear_variant_roots(root)
     author_rural_dwelling(dwelling)
+    author_hero_house(root)
     author_shed_volume(bpy.data.objects["OutbuildingShed_Low"])
     author_fence_variation(bpy.data.objects["FenceSegment_RoughPicket"])
     author_gate_variation(bpy.data.objects["Gate_CrookedTimber"])
@@ -2586,6 +2693,7 @@ def main() -> None:
     scene["woodpile_geometry_pass"] = WOODPILE_GEOMETRY_PASS
     scene["texture_policy"] = "geometry and existing basic materials only; no texture files"
     bpy.context.view_layer.update()
+    validate_hero_house(root)
     validate(root, dwelling, well, woodpile)
 
     save_versions = bpy.context.preferences.filepaths.save_version

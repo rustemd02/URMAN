@@ -146,6 +146,19 @@ public partial class DialogueFlowSmokeTest : Node
             || !mansurChoices.GetChildren().OfType<Button>().Any(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-mansur-offer-help")))
         { Fail("Mansur's first request changed or exposed the undiscovered sled question."); return; }
         dialogueUi._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        if (bridge.SelectRuntimeState().GetProperty("npc").TryGetProperty("urman.chapter1:character/mansur", out var mansurState)
+            && mansurState.TryGetProperty("pc_access_granted", out var automaticAccess) && automaticAccess.GetBoolean())
+        { Fail("Cancelling Mansur's first request still granted computer access."); return; }
+        bridge.OpenDialogueUi(mansurDialogue);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var offerHelp = mansurChoices.GetChildren().OfType<Button>()
+            .Single(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-mansur-offer-help"));
+        offerHelp.EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        dialogueUi._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        if (!bridge.SelectRuntimeState().GetProperty("npc").GetProperty("urman.chapter1:character/mansur")
+                .GetProperty("pc_access_granted").GetBoolean())
+        { Fail("Mansur's explicit help response did not grant computer access."); return; }
         main.SwitchZone("village_day", "entry");
         if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/discover-babai-yard-sled-repair"))
         { Fail("The authored sled discovery was rejected."); return; }

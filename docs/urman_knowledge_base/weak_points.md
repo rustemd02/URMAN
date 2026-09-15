@@ -1896,15 +1896,39 @@ seam):
 - **LEN01, причина не установлена:** автор сообщает о прохождении Акта I за 5–6 минут при сценарном ориентире около 50. Нужны проверка сборки/режима, матрица сценарий→действие→вывод, проверка условий финала и раздельный хронометраж технического маршрута и первого человеческого опыта. Существующие PASS по отдельным функциям не доказывают полноту или длительность главы.
 - **EX01–EX14, новый порученный объём:** [§13 плана деревни](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md) задаёт зависимости, атомарные работы и приёмку. Риски — потеря/дублирование переносимых вещей, рассогласование сохранения с физикой, обход сюжетных условий и новые сквозные виды на границу сверху. Наличие спецификации не закрывает эти пункты; полная реализация всех 14 и человеческая оценка интереса ещё требуют доказательств.
 
-## Chapter playtime is short by an order of magnitude, and it is a content gap
+## Историческая арифметическая оценка длительности — не замер
 
 2026-09-15: reproduced from the repository rather than a stopwatch — walk speed
 3.4 m/s, mandatory route 424.88 m (2 min 05 s of walking), the whole chapter's
 Russian text is 1,234 words, the core investigation's three comparisons are 22
-words, the one mandatory document is 68 words. A 50-minute chapter needs
-6,000-9,000 words of mandatory reading; the chapter carries about a sixth of
-that across everything. The finale is gated correctly, so the fix is authored
-volume and a beat map, not a gate change. See
+words, the one mandatory document is 68 words. These counts describe that source
+revision only; they do not reproduce a timed first playthrough. The old inference
+that a chapter requires 6,000–9,000 mandatory words is withdrawn: no word quota
+can establish meaningful duration. Investigative actions, actual source reading,
+causality, presentation and final prerequisites must be checked separately. See
 `docs/production/act1_len01_playtime_audit_2026-09-15.md`; LEN01.1-LEN01.5 are in
 the backlog. No human timing has happened yet, and nothing here substitutes for
 it.
+
+### Действующие риски после восстановления 2026-09-15
+
+Минимум основного первого опыта — **60 минут**, без обязательных секретов.
+LEN01.1–.5 не считаются законченными на основании старого аудита: человеческий
+хронометраж не выполнен. Реализуются вопросы с последствиями, подтверждение
+исходной улики при её открытии и применение перевода к перечитанному источнику.
+Интеграционная проверка текущего working tree ещё впереди.
+
+EX00/01/03/05 частичны: текущий перенос теряет коллизию после постановки,
+не позволяет повторно взять placed-вещь, выбирает цель без линии видимости и
+не сбрасывает отсутствующие в загруженном snapshot отклонения. У скрытого топора
+после загрузки возможен невидимый held/placed-экземпляр. Эти причины подтверждены
+чтением общего владельца; исправление и физические сценарии в работе.
+
+T1: реальный подход контроллером воспроизвёл проход через ствол липы (4–9 мм до
+центра, ноль контактов). До исправления лучи не обнаружили bark-коллизию у 404
+живых деревьев. Исправление находится у владельца ExteriorLayer, проверка после
+правки выполняется отдельно. Исторические снимки кольца не доказывали физику.
+
+I1: расхождение объёма дома 12×10 внутри / 6,2×6 снаружи — техническая задача
+согласованной геометрии, разрешённая нынешним поручением; ожидание согласования
+каждого размера снято. Канонные сюжетные изменения по-прежнему отдельный вопрос.

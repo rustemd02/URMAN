@@ -42,7 +42,8 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         ["pause"] = "Меню",
         ["quick_save"] = "Быстрое сохранение",
         ["quick_load"] = "Быстрая загрузка",
-        ["carry_rotate"] = "Повернуть предмет"
+        ["carry_rotate"] = "Повернуть предмет",
+        ["carry_place"] = "Поставить предмет"
     };
 
     public bool IsOpen => _screen.Visible;

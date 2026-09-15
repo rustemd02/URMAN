@@ -78,21 +78,14 @@ set +e
 # the user's Godot userdata. Wrap it in the same save/settings guard the smoke
 # runner and the M10 kit use, so a performance measurement cannot overwrite a
 # local checkpoint or preference. Set URMAN_GUARD to point at another guard.
-GUARD=${URMAN_GUARD:-/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/protected_run.py}
-guard_available=0
-if [ -f "$GUARD" ] && command -v python3 >/dev/null 2>&1; then
-  guard_available=1
-else
+GUARD=${URMAN_GUARD:-$URMAN_ROOT/eng/protected_run.py}
+if [ ! -f "$GUARD" ]; then
   echo "act1-package-performance: no userdata guard at $GUARD" >&2
-  echo "act1-package-performance: running directly; this may overwrite local saves and settings" >&2
+  exit 1
 fi
 
 run_package() {
-  if [ "$guard_available" -eq 1 ]; then
-    python3 "$GUARD" "$@"
-  else
-    "$@"
-  fi
+  python3 "$GUARD" "$@"
 }
 
 if [ "${URMAN_ACT1_HEADLESS:-0}" = "1" ]; then

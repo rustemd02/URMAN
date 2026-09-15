@@ -75,6 +75,8 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         await Frames(4);
         AssertState(main, bridge, "house_old_pc", "house", "res://scenes/zones/style_benchmark_house_pc.tscn");
         AssertRouteFacing(main, 0f, "house-entry");
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_family_avoids_marat") != "hidden")
+        { Fail("Entering the house inferred the family's answer before asking about Marat."); return; }
 
         await InteractAt(player, ray, Interaction("talk-mansur"));
         await Frames(5);
@@ -84,6 +86,8 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             Fail("Physical corridor did not open Mansur's request dialogue before the old PC.");
             return;
         }
+        if (bridge.IsInteractionAvailable(Interaction("oldpc-power")))
+        { Fail("Opening Mansur's conversation granted computer access before an answer."); return; }
         var mansurActor = main.ConnectedWorld?.FindChild("MansurNpc", true, false) as Node3D;
         if (mansurActor is null)
         {
@@ -185,11 +189,21 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         if (gulsinaDialogue.IsOpen || player.ModalOpen
             || VocabularyStatus(gulsinaState, "tt_yaramyy") != "guessed"
             || !NpcState(gulsinaState, "gulsina", "warning_heard")
-            || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
+            || KnowledgeStatus(gulsinaState, "clue_family_avoids_marat") != "hidden"
+            || bridge.IsInteractionAvailable(Interaction("house-to-route")))
         {
-            Fail("Closing Gulsina's dialogue did not resolve ярамый, commit the warning state, or unlock the house exit.");
+            Fail("Tea did not preserve Gulsina's warning or incorrectly supplied an unasked answer about Marat.");
             return;
         }
+
+        await InteractAt(player, ray, Interaction("talk-gulsina"));
+        if (!await ChooseVisibleDialogue(bridge, "choice-gulsina-marat")) return;
+        gulsinaDialogue.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
+        if (gulsinaDialogue.IsOpen || player.ModalOpen
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_family_avoids_marat") != "confirmed"
+            || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
+        { Fail("The actual family question did not let Aidar take the contradiction to the street."); return; }
 
         await InteractAt(player, ray, Interaction("house-to-route"));
         await Frames(4);
@@ -265,13 +279,21 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             Fail("Physical corridor did not open Alsu's route dialogue before the FAP.");
             return;
         }
-        alsuDialogue.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
-        await Frames(4);
+        if (bridge.IsInteractionAvailable(Interaction("route-to-fap"))
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_versions_conflict") != "hidden")
+        { Fail("Alsu's greeting granted the contradiction before a question."); return; }
+        alsuDialogue._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        await Frames(2);
+        if (bridge.IsInteractionAvailable(Interaction("route-to-fap")))
+        { Fail("Closing Alsu's unanswered conversation unlocked the FAP."); return; }
+        await InteractAt(player, ray, Interaction("talk-alsu"));
+        if (!await ChooseVisibleDialogue(bridge, "choice-alsu-versions")
+            || !await ChooseVisibleDialogue(bridge, "choice-alsu-go-to-naila")) return;
         if (alsuDialogue.IsOpen || player.ModalOpen
             || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_versions_conflict") != "confirmed"
             || !bridge.IsInteractionAvailable(Interaction("route-to-fap")))
         {
-            Fail("Closing Alsu's dialogue did not confirm the Marat contradiction or unlock the FAP route.");
+            Fail("Alsu's answer about conflicting accounts did not unlock the FAP route.");
             return;
         }
 
@@ -340,6 +362,74 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         await Frames(2);
         if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" }))
         { Fail("The record comparison was rejected."); return; }
+        var registerScene = bridge.ActiveSceneId;
+        var scopePair = new[] { "urman.oldpc:document/rec_marat_case_register_conflict", ChapterPrefix + "knowledge/clue_naila_record_scope" };
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_record_wording_mismatch") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "contradiction_marat_official_vs_internal") != "hidden"
+            || await bridge.DispatchInteractionAsync(Interaction("internal-register-to-rinat"))
+            || await bridge.CompareJournalSourcesAsync(Interaction("compare-record-scope"), scopePair))
+        { Fail("A raw mismatch substituted for checking the meaning with the source holder."); return; }
+
+        // Revisit the actual clinic through the existing physical doors. These
+        // presentation repeats must preserve the investigation scene; a test
+        // SwitchZone call would conceal a closed door in the player route.
+        await InteractAt(player, ray, Interaction("house-to-route"));
+        await InteractAt(player, ray, Interaction("route-to-fap"));
+        AssertState(main, bridge, "fap_clinic", "evidence-internal-register", "res://scenes/zones/chapter1_fap_clinic.tscn");
+        await InteractAt(player, ray, Interaction("talk-naila"));
+        if (!await ChooseVisibleDialogue(bridge, "choice-naila-contradiction")
+            || !await ChooseVisibleDialogue(bridge, "choice-naila-check-answer")) return;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_naila_record_scope") != "confirmed"
+            || VocabularyStatus(bridge.SelectRuntimeState(), "tt_yaramyy") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "contradiction_marat_official_vs_internal") != "hidden"
+            || !await bridge.SaveSlotAsync("corridor-before-record-inference")
+            || await bridge.CompareJournalSourcesAsync(Interaction("compare-record-scope"), new[] { OfficialNotice, ChapterPrefix + "knowledge/clue_naila_record_scope" }))
+        { Fail("Naila's response was missing, awarded a conclusion automatically, or accepted the wrong source pair."); return; }
+        foreach (var wrong in new[] { "compare-record-scope-cause", "compare-record-scope-lie" })
+            if (!await bridge.CompareJournalSourcesAsync(Interaction(wrong), scopePair)
+                || KnowledgeStatus(bridge.SelectRuntimeState(), "contradiction_marat_official_vs_internal") != "hidden")
+            { Fail("An unsupported interpretation of Naila's answer awarded the investigation key."); return; }
+        if (!await bridge.LoadSlotAsync("corridor-before-record-inference")
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_naila_record_scope") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "contradiction_marat_official_vs_internal") != "hidden"
+            || bridge.JournalEntries().Count(entry => entry.EntryId == ChapterPrefix + "knowledge/clue_naila_record_scope") != 1
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-record-scope"), scopePair))
+        { Fail("The unfinished source check did not restore, or could not be corrected after loading."); return; }
+        await Frames(4);
+
+        foreach (var originalQuestion in new[] { "dialogue-naila-ask-record", "choice-naila-transfer" })
+        {
+            await InteractAt(player, ray, Interaction("talk-naila"));
+            if (!await ChooseVisibleDialogue(bridge, originalQuestion)) return;
+            var replyUi = (DialogueUi)GetTree().GetFirstNodeInGroup("dialogue_ui");
+            replyUi.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
+            await Frames(4);
+        }
+        await InteractAt(player, ray, Interaction("official-leave-clinic"));
+        await InteractAt(player, ray, Interaction("official-to-internal-register"));
+        AssertState(main, bridge, "house_old_pc", "evidence-internal-register", "res://scenes/zones/style_benchmark_house_pc.tscn");
+        if (bridge.ActiveSceneId != registerScene)
+        { Fail("A repeat door replayed an obsolete narrative transition."); return; }
+
+        // A learned word opens a return to the family conversation. The two
+        // spoken contexts can be checked without making them a main-route key.
+        await InteractAt(player, ray, Interaction("talk-gulsina"));
+        if (!await ChooseVisibleDialogue(bridge, "choice-gulsina-yaramyy")) return;
+        ((DialogueUi)GetTree().GetFirstNodeInGroup("dialogue_ui"))
+            .GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
+        var warningPair = new[] { ChapterPrefix + "knowledge/clue_gulsina_warning_context", ChapterPrefix + "knowledge/clue_naila_record_scope" };
+        var questsBeforeWarnings = bridge.SelectRuntimeState().GetProperty("quests").GetRawText();
+        foreach (var wrong in new[] { "compare-warning-agreement", "compare-warning-rule" })
+            if (!await bridge.CompareJournalSourcesAsync(Interaction(wrong), warningPair)
+                || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_yaramyy_contexts_distinguished") != "hidden")
+            { Fail("A shared word was treated as proof of an agreement or a forest rule."); return; }
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-warning-contexts"), warningPair)
+            || VocabularyStatus(bridge.SelectRuntimeState(), "tt_yaramyy") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_do_not_answer_rule") != "hidden"
+            || questsBeforeWarnings != bridge.SelectRuntimeState().GetProperty("quests").GetRawText())
+        { Fail("Comparing the two warnings erased vocabulary, disclosed the final rule, or became a mandatory quest gate."); return; }
+
         await InteractAt(player, ray, Interaction("internal-register-to-rinat"));
         await Frames(5);
         var dialogue = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
@@ -348,13 +438,26 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             Fail("Physical Rinat target did not open the authored dialogue UI.");
             return;
         }
-        dialogue.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
-        await Frames(4);
+        var pressureBeforeQuestion = bridge.SelectRuntimeState().GetProperty("pressure").GetDouble();
+        if (RinatAlerted(bridge.SelectRuntimeState()))
+        { Fail("Rinat reacted to an internal category before the player showed it."); return; }
+        if (!await ChooseVisibleDialogue(bridge, "choice-rinat-accuse-coverup")) return;
+        if (RinatAlerted(bridge.SelectRuntimeState())
+            || bridge.SelectRuntimeState().GetProperty("pressure").GetDouble() != pressureBeforeQuestion)
+        { Fail("An unsupported accusation silently substituted for presenting the actual register category."); return; }
+        if (!await ChooseVisibleDialogue(bridge, "choice-rinat-return-to-wording")
+            || !await ChooseVisibleDialogue(bridge, "choice-rinat-present-category")
+            || !await ChooseVisibleDialogue(bridge, "choice-rinat-leave")) return;
         if (dialogue.IsOpen || !RinatAlerted(bridge.SelectRuntimeState()))
         {
             Fail("Rinat dialogue did not close cleanly or commit the alerted state.");
             return;
         }
+        var pressureAfterQuestion = bridge.SelectRuntimeState().GetProperty("pressure").GetDouble();
+        if (pressureAfterQuestion != pressureBeforeQuestion + 2
+            || await bridge.ChooseDialogueAsync(ChapterPrefix + "dialogue/rinat_internal_register", "dangerous-category", "present-category")
+            || bridge.SelectRuntimeState().GetProperty("pressure").GetDouble() != pressureAfterQuestion)
+        { Fail("Presenting the register did not apply pressure exactly once."); return; }
 
         await InteractAt(player, ray, Interaction("internal-register-to-saved-message"));
         await Frames(6);
@@ -379,12 +482,77 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             Fail("The voice comparison did not record both hypotheses and the two confirmed words.");
             return;
         }
+        var rereadPair = new[] { "urman.oldpc:document/rec_marat_case_register_conflict", BoundarySource };
+        if (KnowledgeStatus(voiceConclusion, "clue_internal_wording_reread") != "hidden"
+            || voiceConclusion.GetProperty("quests").GetProperty(ChapterPrefix + "quest/quest_language_reread").GetProperty("status").GetString() == "completed"
+            || await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), rereadPair))
+        { Fail("Translating two words completed the reread before returning to the source."); return; }
+        if (bridge.IsOldPcDocumentAccessible(EdgeSketch) || await bridge.OpenDocumentAsync(EdgeSketch))
+        { Fail("The direct sketch reader skipped applying the translated words to the record."); return; }
+
+        // The word-specific reply was previously authored but inaccessible:
+        // the first question consumed the only physical Rinat target.
+        await InteractAt(player, ray, Interaction("internal-register-to-rinat"));
+        if (!await ChooseVisibleDialogue(bridge, "choice-rinat-javap")) return;
+        ((DialogueUi)GetTree().GetFirstNodeInGroup("dialogue_ui"))
+            .GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_rinat_word_reaction") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_do_not_answer_rule") != "hidden"
+            || bridge.SelectRuntimeState().GetProperty("pressure").GetDouble() != pressureAfterQuestion
+            || bridge.IsInteractionAvailable(Interaction("internal-register-to-rinat"))
+            || bridge.ActiveSceneId != ChapterPrefix + "scene/evidence-tatarwiki-boundary")
+        { Fail("Rinat's late word reaction was absent, repeated pressure, replayed the plot, or disclosed the final rule."); return; }
+
+        // The archive can expose the sketch as soon as its vocabulary is
+        // understood. Reading ahead is allowed; it must not count as doing
+        // the missing investigation or enable a jump to the final route.
+        await InteractAt(player, ray, Interaction("oldpc-power"));
+        await Frames(4);
+        var earlySketchRow = Enumerable.Range(0, archiveRows.ItemCount)
+            .FirstOrDefault(index => archiveRows.GetItemMetadata(index).AsString() == EdgeSketch, -1);
+        if (earlySketchRow < 0)
+        { Fail("The accessible sketch was missing from the real archive reader."); return; }
+        archiveRows.EmitSignal(ItemList.SignalName.ItemSelected, earlySketchRow);
+        await Frames(6);
+        archive.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+        await Frames(3);
+        if (archive.ActiveDocumentId != EdgeSketch
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_kara_urman_edge_is_rule_boundary") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_internal_wording_reread") != "hidden"
+            || bridge.ActiveObjectives().Any(objective => objective.ObjectiveId == "follow-evidence")
+            || bridge.IsInteractionAvailable(Interaction("reread-to-edge-sketch"))
+            || await bridge.DispatchInteractionAsync(Interaction("edge-sketch-to-zirat-road"))
+            || bridge.ActiveSceneId != ChapterPrefix + "scene/evidence-tatarwiki-boundary")
+        { Fail("Reading the sketch early completed the missing reread or bypassed the investigation route."); return; }
 
         await InteractAt(player, ray, Interaction("boundary-source-to-reread"));
         await Frames(6);
         AssertDocument(BoundarySource);
         CloseDocument();
         await Frames(3);
+
+        // The original source remains inspectable; learning vocabulary and
+        // reopening the page do not themselves establish its application.
+        if (bridge.IsInteractionAvailable(Interaction("reread-to-edge-sketch"))
+            || await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), new[] { SavedMessage, BoundarySource })
+            || !bridge.JournalEntries().Single(entry => entry.EntryId == BoundarySource).Body.Contains("Почему рядом?"))
+        { Fail("The reread bypassed source selection, lost the full document, or opened the next step without interpretation."); return; }
+        foreach (var hypothesis in new[] { "compare-reread-compensation", "compare-reread-author" })
+        {
+            if (!await bridge.CompareJournalSourcesAsync(Interaction(hypothesis), rereadPair)
+                || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_internal_wording_reread") != "hidden"
+                || bridge.IsInteractionAvailable(Interaction("reread-to-edge-sketch")))
+            { Fail("An unsupported reread interpretation awarded the conclusion or prevented correction."); return; }
+        }
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), rereadPair)
+            || !await bridge.LoadSlotAsync(RuntimeBridge.CheckpointSlot)
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_internal_wording_reread") != "confirmed"
+            || bridge.JournalEntries().Count(entry => entry.EntryId == ChapterPrefix + "knowledge/clue_internal_wording_reread") != 1
+            || !bridge.IsInteractionAvailable(Interaction("reread-to-edge-sketch"))
+            || await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), rereadPair))
+        { Fail("The grounded reread was not checkpointed exactly once, or its restored result did not unlock the sketch."); return; }
+        await Frames(4);
 
         await InteractAt(player, ray, Interaction("reread-to-edge-sketch"));
         await Frames(6);
@@ -529,8 +697,22 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
     }
 
     private static bool RinatAlerted(System.Text.Json.JsonElement state) =>
-        state.GetProperty("npc").GetProperty($"{ChapterPrefix}character/rinat")
-            .GetProperty("alerted").GetBoolean();
+        state.GetProperty("npc").TryGetProperty($"{ChapterPrefix}character/rinat", out var rinat)
+            && rinat.TryGetProperty("alerted", out var alerted) && alerted.GetBoolean();
+
+    private async Task<bool> ChooseVisibleDialogue(RuntimeBridge bridge, string textId)
+    {
+        var ui = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
+        var choice = ui?.IsOpen == true
+            ? ui.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices").GetChildren().OfType<Button>()
+                .FirstOrDefault(button => button.Text == bridge.ResolveText(ChapterPrefix + "text/" + textId))
+            : null;
+        if (choice is null)
+        { Fail("The physical conversation did not expose " + textId); return false; }
+        choice.EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
+        return true;
+    }
 
     private static string KnowledgeStatus(System.Text.Json.JsonElement state, string localId) =>
         state.GetProperty("knowledge").GetProperty($"{ChapterPrefix}knowledge/{localId}").GetProperty("status").GetString()!;
