@@ -4162,3 +4162,29 @@ remain); the mosque's cultural review and the forest art acceptance stay externa
 I1 and LEN01.1 remain recorded as waiting for the author.
 
 Linked files: `../../docs/production/act1_e2_c1_zone_review_2026-09-15.md`
+
+## 2026-09-15 — I3: the FAP verified as a working institution; no geometry change needed
+
+Status: Accepted (inspection with measurements; card I3's verification layer)
+
+Context: I3 asks for whole furniture with legs and underframes, the privacy screen
+and counter, Naila's size and the conversation distance. The FAP interior set was
+already built as 17 authored silhouettes (examination cot, folding privacy screen,
+medicine cabinet, instrument trolley, waiting bench, radiator with pipes, supply
+shelf, blank chart, coat rail, wash unit, stool, records pinboard, records desk,
+reception counter, storage cabinet, zoning partition, 12 m shell).
+
+Decision: record the inspection with measurements instead of changing geometry.
+Naila stands at the counter's open inner end at local (1.8, 0, 0) yaw 8, her
+profile gives a height of about 1.66 m, her interaction box (0.62 x 1.68 x 0.46
+centred at 0.84 m) covers her standing height, and the player's 2.7 m ray is the
+conversation distance across the counter. The FAP heats with a radiator and pipes
+and has a wash unit, so its engineering scheme legitimately differs from the
+house's stove-and-well scheme.
+
+Consequences: no geometry changed; the previous sheet's "suspended forms" do not
+reproduce on this build. Naila's shoulder breadth remains the N2 remainder. The
+cultural review of the institution's signage and dressing stays external.
+
+Linked files: `../../docs/urman_knowledge_base/art/act1_i3_fap_institution_passport_2026-09-15.md`,
+`../../game/scripts/StyleBenchmarkZone.cs`
