@@ -3,18 +3,23 @@ using Godot;
 namespace Urman.Godot;
 
 /// <summary>
-/// EX03: a yard tool the player can use, with two distinct uses per tool. The
-/// uses cycle on the existing interact input; each use produces a visible change
-/// in the yard (a snow pile cleared, a vessel filled, a bed opened). No new
-/// mechanic and no narrative interaction - the tool is presentation-only, and
-/// the same focus/input path as the carry system drives it.
+/// EX03/EX05: a yard tool the player can use, with two distinct uses per tool.
+/// The uses cycle on the existing interact input; each use produces a visible
+/// change in the yard (a snow pile cleared, a vessel filled, a bed opened). No
+/// new mechanic and no narrative interaction - the tool is presentation-only,
+/// and the same focus/input path as the carry system drives it. Every use has a
+/// stable id so its result can be written to the world state and restored after
+/// a load (EX05.4: a cleared step stays cleared while the scenario needs it,
+/// while the cosmetic snow dust still resets by its own session-only contract).
 /// </summary>
 public partial class YardTool : Node3D
 {
-    private readonly List<(string Prompt, Node3D Effect)> _uses = new();
+    private readonly List<(string UseId, string Prompt, Node3D Effect)> _uses = new();
     private int _useIndex = -1;
 
     public string ToolId { get; private set; } = string.Empty;
+    /// <summary>Id of the use performed by the last <see cref="Use"/> call.</summary>
+    public string LastUseId { get; private set; } = string.Empty;
     public string ToolName { get; private set; } = string.Empty;
     public float Reach { get; private set; } = 2.2f;
 
@@ -76,12 +81,38 @@ public partial class YardTool : Node3D
     /// Registers one use. The effect node's visibility toggles when the use
     /// cycles, so the result is a visible change in the yard rather than text.
     /// </summary>
-    public void AddUse(string prompt, Node3D effect)
+    public void AddUse(string useId, string prompt, Node3D effect)
     {
-        _uses.Add((prompt, effect));
+        _uses.Add((useId, prompt, effect));
     }
 
     public bool HasUses => _uses.Count > 0;
+
+    /// <summary>Stable ids of every registered use, in registration order.</summary>
+    public IReadOnlyList<string> UseIds => _uses.Select(use => use.UseId).ToArray();
+
+    /// <summary>
+    /// The result recorded in the world state for one use, or null when the use
+    /// has never been performed in this save.
+    /// </summary>
+    public bool? ResultOf(string useId)
+    {
+        var use = _uses.FirstOrDefault(candidate => candidate.UseId == useId);
+        return use.Effect is null ? null : use.Effect.Visible;
+    }
+
+    /// <summary>
+    /// Re-applies a persisted result without going through the use cycle, so a
+    /// loaded session shows the same yard the player left.
+    /// </summary>
+    public void ApplyResult(string useId, bool visible)
+    {
+        var use = _uses.FirstOrDefault(candidate => candidate.UseId == useId);
+        if (use.Effect is not null)
+        {
+            use.Effect.Visible = visible;
+        }
+    }
 
     public string NextPrompt() =>
         _uses.Count == 0 ? $"Использовать: {ToolName}" : _uses[(_useIndex + 1) % _uses.Count].Prompt;
@@ -94,9 +125,10 @@ public partial class YardTool : Node3D
         }
 
         _useIndex = (_useIndex + 1) % _uses.Count;
-        var (prompt, effect) = _uses[_useIndex];
+        var (useId, prompt, effect) = _uses[_useIndex];
         effect.Visible = !effect.Visible;
         SetMeta("lastUse", prompt);
+        LastUseId = useId;
         return prompt;
     }
 }

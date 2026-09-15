@@ -233,6 +233,7 @@ public partial class Act1ConnectedWorld : Node3D
     private readonly Dictionary<string, Node3D> _interiorLandmarksByZone = new(StringComparer.Ordinal);
     private RuntimeBridge? _runtimeBridge;
     private bool _runtimeBridgeSubscribed;
+    private CarryCoordinator? _carryCoordinator;
     private bool _logicalZonePresentationSuppressionsReapplied;
     private bool _buildStarted;
     // Single-build diagnostics for the authored parcel grounding pass, which runs
@@ -617,6 +618,7 @@ public partial class Act1ConnectedWorld : Node3D
         _runtimeBridge = bridge;
         _runtimeBridge.RuntimeStateChanged += OnRuntimeStateChanged;
         _runtimeBridgeSubscribed = true;
+        _carryCoordinator?.AttachRuntimeState(bridge);
     }
 
     private void OnRuntimeStateChanged()
@@ -624,6 +626,7 @@ public partial class Act1ConnectedWorld : Node3D
         UpdateAct1NpcStaging();
         UpdateAct1Discoveries();
         ApplyInteractionRouting();
+        _carryCoordinator?.ApplyWorldState();
     }
 
     private void ApplyInteractionRouting()
@@ -1109,19 +1112,27 @@ public partial class Act1ConnectedWorld : Node3D
         pailWater.Visible = false;
 
         var shovel = YardTool.Create("shovel", "Лопата", new(-27.6f, 0f, 0.9f), 96f, shovel: true);
-        shovel.AddUse("Расчистить снег у калитки", gateSnow);
-        shovel.AddUse("Расчистить снег у поленницы", woodSnow);
+        shovel.AddUse("gate", "Расчистить снег у калитки", gateSnow);
+        shovel.AddUse("woodpile", "Расчистить снег у поленницы", woodSnow);
         coordinator.Register(shovel);
 
         var pail = YardTool.Create("pail", "Ведро", new(-27.0f, 0f, 0.15f), 12f, shovel: false);
-        pail.AddUse("Налить воды", pailWater);
-        pail.AddUse("Полить огород", bedSnow);
+        pail.AddUse("fill", "Налить воды", pailWater);
+        pail.AddUse("bed", "Полить огород", bedSnow);
         coordinator.Register(pail);
 
         core.AddChild(coordinator);
+        _carryCoordinator = coordinator;
+        if (_runtimeBridge is not null)
+        {
+            // The bridge may already be attached when the yard is built, in
+            // which case the subscribe pass will not run again.
+            coordinator.AttachRuntimeState(_runtimeBridge);
+        }
         SetMeta("yardToolCount", 2);
         SetMeta("carryableItemCount", props.Count);
-        SetMeta("carryablePolicy", "session-local carry in this slice; world.custody persistence lands with the EX00 follow-up wiring");
+        SetMeta("carryablePolicy",
+            "world.custody ownership + world.props placement deviation through the existing snapshot; cosmetic snow stays session-only");
     }
 
     private void BuildVillageLife(Node3D core)

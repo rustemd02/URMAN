@@ -1,13 +1,16 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Godot;
 
 namespace Urman.Godot;
 
 /// <summary>
-/// EX01 carry coordinator: finds the carryable the player is facing, moves it to
-/// the camera hold point while carried, validates and commits placements, and
-/// rotates the held item. Session-local by design in this slice - the
-/// world.custody handler wiring lands with the EX00 follow-up, after which the
-/// held/placed states persist through the existing snapshot.
+/// EX01/EX03 carry coordinator: finds the carryable the player is facing, moves
+/// it to the camera hold point while carried, validates and commits placements,
+/// and rotates the held item. Ownership and the placement deviation go to the
+/// runtime state through the wired world.custody handler, so a taken, carried
+/// or placed thing survives save/load with no second save path, and a rejected
+/// transition leaves the world untouched.
 /// </summary>
 public partial class CarryCoordinator : Node
 {
@@ -19,6 +22,7 @@ public partial class CarryCoordinator : Node
 
     private FirstPersonController? _player;
     private Camera3D? _camera;
+    private RuntimeBridge? _bridge;
     private readonly List<CarryableProp> _props = new();
     private readonly List<YardTool> _tools = new();
     private CarryableProp? _held;
@@ -112,6 +116,7 @@ public partial class CarryCoordinator : Node
         if (interactPressed && _toolFocus is not null)
         {
             _toolFocus.Use();
+            _ = PersistToolUseAsync(_toolFocus, _toolFocus.LastUseId);
         }
     }
 
@@ -231,6 +236,7 @@ public partial class CarryCoordinator : Node
         held.Place(new Vector3(ground.X, ground.Y, ground.Z), held.YawDegrees);
         _held = null;
         _prompt!.Visible = false;
+        _ = PersistAsync(held, "placed");
     }
 
     private void ShowPrompt(Node3D? anchor, string text, Vector3 at)
@@ -267,5 +273,153 @@ public partial class CarryCoordinator : Node
         prop.Take();
         _held = prop;
         _focus = null;
+        _ = PersistAsync(prop, "held");
+    }
+
+    /// <summary>Every registered item id, for the ownership registration pass.</summary>
+    public IReadOnlyList<string> ItemIds => _props.Select(prop => prop.ItemId).ToArray();
+
+    /// <summary>
+    /// Registers the authored item set with the ownership layer and re-applies
+    /// the recorded deviations. Idempotent: registration keeps a loaded
+    /// session's ownership, and the apply pass only moves what the player
+    /// actually moved.
+    /// </summary>
+    public void AttachRuntimeState(RuntimeBridge bridge)
+    {
+        _bridge = bridge;
+        _ = bridge.RegisterWorldItemsAsync(ItemIds);
+        ApplyWorldState();
+    }
+
+    /// <summary>
+    /// Re-applies the persisted props state: a held item comes back to the
+    /// player's hands, a placed one returns to its recorded transform, and every
+    /// performed tool use shows its result again. Only deviations are stored, so
+    /// everything else still sits where the authored layout put it.
+    /// </summary>
+    public void ApplyWorldState()
+    {
+        if (_bridge is null || !IsInsideTree())
+        {
+            return;
+        }
+
+        JsonElement props;
+        try
+        {
+            props = _bridge.SelectWorldProps();
+        }
+        catch (InvalidOperationException)
+        {
+            return;
+        }
+
+        foreach (var prop in _props)
+        {
+            if (!props.TryGetProperty(prop.ItemId, out var record))
+            {
+                continue;
+            }
+
+            var state = record.TryGetProperty("state", out var stateValue) ? stateValue.GetString() : null;
+            if (state == "held")
+            {
+                if (_held is null)
+                {
+                    _held = prop;
+                    prop.Take();
+                }
+
+                continue;
+            }
+
+            if (state != "placed" || ReferenceEquals(prop, _held))
+            {
+                continue;
+            }
+
+            if (record.TryGetProperty("x", out var x)
+                && record.TryGetProperty("y", out var y)
+                && record.TryGetProperty("z", out var z))
+            {
+                var yaw = record.TryGetProperty("yaw", out var yawValue)
+                    ? (float)yawValue.GetDouble()
+                    : prop.YawDegrees;
+                prop.Place(new Vector3((float)x.GetDouble(), (float)y.GetDouble(), (float)z.GetDouble()), yaw);
+            }
+        }
+
+        foreach (var tool in _tools)
+        {
+            foreach (var useId in tool.UseIds)
+            {
+                var key = ToolStateKey(tool.ToolId, useId);
+                if (props.TryGetProperty(key, out var record)
+                    && record.TryGetProperty("visible", out var visible))
+                {
+                    tool.ApplyResult(useId, visible.GetBoolean());
+                }
+            }
+        }
+    }
+
+    private static string ToolStateKey(string toolId, string useId) => $"tool/{toolId}/{useId}";
+
+    /// <summary>
+    /// Records one tool use. The persisted value is the effect's own
+    /// visibility, so no semantics are invented here: the restored yard shows
+    /// exactly what the player left behind.
+    /// </summary>
+    private async Task PersistToolUseAsync(YardTool tool, string useId)
+    {
+        if (_bridge is null || tool.ResultOf(useId) is not { } visible)
+        {
+            return;
+        }
+
+        var records = new JsonArray
+        {
+            new JsonObject
+            {
+                ["propId"] = ToolStateKey(tool.ToolId, useId),
+                ["visible"] = visible
+            }
+        };
+        await _bridge.DispatchWorldPropsAsync(records);
+    }
+
+    private async Task PersistAsync(CarryableProp prop, string state)
+    {
+        if (_bridge is null)
+        {
+            return;
+        }
+
+        var placement = new JsonObject
+        {
+            ["propId"] = prop.ItemId,
+            ["state"] = state
+        };
+        if (state == "placed")
+        {
+            var position = prop.GlobalPosition;
+            placement["x"] = position.X;
+            placement["y"] = position.Y;
+            placement["z"] = position.Z;
+            placement["yaw"] = prop.YawDegrees;
+        }
+
+        var operations = new JsonArray
+        {
+            (JsonNode)new JsonObject
+            {
+                ["op"] = "transfer",
+                ["itemId"] = prop.ItemId,
+                ["fromOwnerId"] = state == "held" ? "world" : "player",
+                ["toOwnerId"] = state == "held" ? "player" : "world"
+            }
+        };
+        await _bridge.DispatchWorldCustodyAsync(operations, new JsonArray { placement });
     }
 }

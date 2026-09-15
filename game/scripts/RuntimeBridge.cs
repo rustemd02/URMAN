@@ -10,12 +10,15 @@ using Urman.Core.Narrative;
 using Urman.Core.Persistence;
 using Urman.Core.Quests;
 using Urman.Core.Runtime;
+using Urman.Core.World;
 
 namespace Urman.Godot;
 
 public partial class RuntimeBridge : Node
 {
     private const string OldPcInstanceId = "urman.oldpc:instance/archive-hub";
+    private const string WorldPropsStateKey = "world.props";
+    private const string WorldPropsClaimScope = "act1-exploration";
 
     [Export]
     public string CurrentZoneId { get; set; } = "village_day";
@@ -378,6 +381,21 @@ public partial class RuntimeBridge : Node
 
     public JsonElement SelectRuntimeState() => _kernel?.SelectState()
         ?? throw new InvalidOperationException("Runtime kernel is unavailable.");
+
+    /// <summary>
+    /// The placement deviations of the carryable props and the cleared snow
+    /// volumes, keyed by prop id. A missing key means the prop still sits where
+    /// the authored layout put it, so the authored transforms stay in
+    /// Act1ConnectedWorld and are never duplicated into the save.
+    /// </summary>
+    public JsonElement SelectWorldProps()
+    {
+        var state = SelectRuntimeState();
+        var props = state.TryGetProperty(WorldPropsStateKey, out var existing)
+            ? JsonNode.Parse(existing.GetRawText())!.AsObject()
+            : new JsonObject();
+        return JsonSerializer.SerializeToElement(props);
+    }
 
     public string? ActiveSceneId => _kernel?.SelectState().TryGetProperty("activeScene", out var activeScene) == true
         ? activeScene.GetString()
@@ -936,11 +954,221 @@ public partial class RuntimeBridge : Node
     {
         var handlers = NarrativeCommandHandlers.Create();
         handlers.Add("world.interact", HandleWorldInteraction);
+        handlers.Add("world.custody", HandleWorldCustody);
+        handlers.Add("world.props", HandleWorldPropsSet);
+        handlers.Add("world.props.register", HandleWorldPropsRegister);
         handlers.Add("oldpc.search", HandleOldPcPassthrough);
         handlers.Add("oldpc.document.open", HandleOldPcOpen);
         handlers.Add("oldpc.document.save", HandleOldPcSave);
         handlers.Add("quest.lifecycle", _questCoordinator.Handle);
         return handlers;
+    }
+
+    /// <summary>
+    /// EX00 follow-up wiring, at the point named in
+    /// act1_ex00_state_contract_design_2026-09-15.md. Ownership goes through
+    /// CustodyStore.PlanBatch, so an item can never be claimed twice and a
+    /// rejected transition produces no partial effect. The placement
+    /// deviation, when one is supplied, rides in the same plan: one atomic
+    /// dispatch, one snapshot, no second save path.
+    /// </summary>
+    private static CommandPlan HandleWorldCustody(GameCommand command, RuntimeCommandContext context)
+    {
+        var payload = command.Payload;
+        var operations = payload.GetProperty("operations");
+        var claimOwnerId = payload.TryGetProperty("claimOwnerId", out var owner) && owner.ValueKind == JsonValueKind.String
+            ? owner.GetString()!
+            : command.ActionOccurrenceId;
+        var plan = CustodyStore.PlanBatch(context.State, operations, claimOwnerId, WorldPropsClaimScope);
+        if (plan.Rejection is not null || !payload.TryGetProperty("placement", out var placement))
+        {
+            return plan;
+        }
+
+        // The custody plan rejected the batch by planting a non-finite
+        // increment; recognise it and leave the batch alone.
+        if (plan.Effects is null || plan.Effects.Any(effect => effect.Operation == StateEffectOperation.Increment))
+        {
+            return plan;
+        }
+
+        var effects = plan.Effects.ToList();
+        effects.Add(new StateEffect(StateEffectOperation.Set, WorldPropsStateKey,
+            WritePlacement(context.State, placement)));
+        return plan with { Effects = effects };
+    }
+
+    /// <summary>
+    /// A props write with no ownership change: tool results and cleared snow.
+    /// Kept separate from the custody handler because CustodyStore requires at
+    /// least one operation and a tool use moves nothing.
+    /// </summary>
+    private static CommandPlan HandleWorldPropsSet(GameCommand command, RuntimeCommandContext context)
+    {
+        var placement = command.Payload.GetProperty("placement");
+        return new CommandPlan(
+            Effects: [new StateEffect(StateEffectOperation.Set, WorldPropsStateKey,
+                WritePlacement(context.State, placement))],
+            Events: [new("world.props.changed", JsonSerializer.SerializeToElement(
+                placement.EnumerateArray().Select(record => record.GetProperty("propId").GetString()!).ToArray()))]);
+    }
+
+    private static CommandPlan HandleWorldPropsRegister(GameCommand command, RuntimeCommandContext context)
+    {
+        var itemIds = command.Payload.GetProperty("itemIds").EnumerateArray()
+            .Select(item => item.GetString()!)
+            .Distinct(StringComparer.Ordinal)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        var items = ReadCustodyItems(context.State);
+        var existing = items.Select(item => item["itemId"]!.GetValue<string>()).ToHashSet(StringComparer.Ordinal);
+        var added = itemIds.Where(id => !existing.Contains(id))
+            .Select(id => (JsonNode)new JsonObject
+            {
+                ["itemId"] = id,
+                ["custodyOwnerId"] = "world",
+                ["condition"] = new JsonObject()
+            })
+            .ToArray();
+        if (added.Length == 0)
+        {
+            // Registration is idempotent: a loaded session keeps the ownership
+            // the player actually left behind.
+            return new CommandPlan(Effects: []);
+        }
+
+        var next = new JsonArray(items.Select(item => (JsonNode?)item.DeepClone()).ToArray());
+        foreach (var item in added)
+        {
+            next.Add(item);
+        }
+
+        return new CommandPlan(
+            Effects: [new StateEffect(StateEffectOperation.Set, CustodyStore.DefaultStateKey,
+                JsonSerializer.SerializeToElement(next))],
+            Events: [new("world.custody.registered", JsonSerializer.SerializeToElement(new { itemIds = added.Select(item => item["itemId"]!.GetValue<string>()).ToArray() }))]);
+    }
+
+    private static List<JsonObject> ReadCustodyItems(JsonElement state)
+    {
+        if (!state.TryGetProperty(CustodyStore.DefaultStateKey, out var stored) || stored.ValueKind != JsonValueKind.Array)
+        {
+            return [];
+        }
+
+        return stored.EnumerateArray()
+            .Where(item => item.ValueKind == JsonValueKind.Object)
+            .Select(item => JsonNode.Parse(item.GetRawText())!.AsObject())
+            .ToList();
+    }
+
+    /// <summary>
+    /// Merges one placement record into the deviation map. Only the fields the
+    /// caller actually supplies are written, so a "held" transition can be
+    /// recorded without inventing a world position for the prop.
+    /// </summary>
+    private static JsonElement WritePlacement(JsonElement state, JsonElement placement)
+    {
+        var props = state.TryGetProperty(WorldPropsStateKey, out var stored) && stored.ValueKind == JsonValueKind.Object
+            ? JsonNode.Parse(stored.GetRawText())!.AsObject()
+            : new JsonObject();
+        foreach (var record in placement.EnumerateArray())
+        {
+            var propId = record.GetProperty("propId").GetString()!;
+            var entry = props[propId] as JsonObject ?? new JsonObject();
+            foreach (var field in record.EnumerateObject())
+            {
+                if (field.Name == "propId")
+                {
+                    continue;
+                }
+
+                entry[field.Name] = JsonNode.Parse(field.Value.GetRawText());
+            }
+
+            props[propId] = entry;
+        }
+
+        return JsonSerializer.SerializeToElement(props);
+    }
+
+    /// <summary>
+    /// EX01/EX02/EX03/EX05 state entry point for the world. Ownership and, when
+    /// given, the placement deviation land in one atomic dispatch.
+    /// </summary>
+    public async Task<bool> DispatchWorldCustodyAsync(JsonNode operations, JsonNode? placement = null,
+        string claimOwnerId = "act1-exploration")
+    {
+        if (_kernel is null)
+        {
+            return false;
+        }
+
+        var payload = new JsonObject
+        {
+            ["operations"] = operations,
+            ["claimOwnerId"] = claimOwnerId
+        };
+        if (placement is not null)
+        {
+            payload["placement"] = placement;
+        }
+
+        var result = await _kernel.DispatchAsync(new GameCommand(
+            $"world.custody:{Interlocked.Increment(ref _interactionSequence):D8}",
+            "world.custody",
+            JsonSerializer.SerializeToElement(payload)));
+        if (result.Status == CommandStatus.Committed)
+        {
+            QueueRuntimeStateChanged();
+        }
+
+        return result.Status == CommandStatus.Committed;
+    }
+
+    /// <summary>
+    /// Records props results that do not move ownership - a tool use, a cleared
+    /// snow volume. Cosmetic player tracks stay out of this: SnowTrampleField
+    /// keeps its own session-only contract.
+    /// </summary>
+    public async Task<bool> DispatchWorldPropsAsync(JsonNode placement)
+    {
+        if (_kernel is null)
+        {
+            return false;
+        }
+
+        var result = await _kernel.DispatchAsync(new GameCommand(
+            $"world.props:{Interlocked.Increment(ref _interactionSequence):D8}",
+            "world.props",
+            JsonSerializer.SerializeToElement(new JsonObject { ["placement"] = placement })));
+        if (result.Status == CommandStatus.Committed)
+        {
+            QueueRuntimeStateChanged();
+        }
+
+        return result.Status == CommandStatus.Committed;
+    }
+
+    /// <summary>
+    /// Registers the authored carryable set with the ownership layer. Called
+    /// once when the connected world builds; idempotent across loads.
+    /// </summary>
+    public async Task RegisterWorldItemsAsync(IEnumerable<string> itemIds)
+    {
+        if (_kernel is null)
+        {
+            return;
+        }
+
+        var result = await _kernel.DispatchAsync(new GameCommand(
+            $"world.props.register:{Interlocked.Increment(ref _interactionSequence):D8}",
+            "world.props.register",
+            JsonSerializer.SerializeToElement(new { itemIds = itemIds.ToArray() })));
+        if (result.Status == CommandStatus.Committed)
+        {
+            QueueRuntimeStateChanged();
+        }
     }
 
     private async Task ReconcileQuestsAsync()
