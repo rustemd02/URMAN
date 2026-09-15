@@ -4310,3 +4310,26 @@ verification is the deliverable, and the trough drip plus the human listening
 review remain open.
 
 Linked files: `../../docs/urman_knowledge_base/audio/act1_v2_sound_record_2026-09-15.md`
+
+## 2026-09-15 — N3: clip-by-clip review after the sleeve narrowing
+
+Status: Accepted (closes the N3 remainder of the sleeve-narrowing step)
+
+Context: the arm-carriage narrowing changed every sleeve mesh, so the clips needed
+a motion review rather than a static check.
+
+Method: the existing style motion sweep harness (the project's clip-by-clip
+instrument) captured the Idle clip in motion across three scenes - day street,
+house interior, Kara edge - as contact sheets, on the current SHA with the narrowed
+sleeves.
+
+Result: the Idle clip plays cleanly through the narrowed sleeves - no stretched
+limbs, no sleeve-body interpenetration, no pose breaks across the sheets; the
+characters read as narrower-armed people in coats. Confirms that the bone-driven
+clips are unaffected by the mesh change, as the name-keyed rig predicted.
+
+Consequences: the N3 clip review after the narrowing is closed; the remaining N2-N3
+work is the human reference and per-character profile decisions, which need the
+author. The motion sheets are committed as the review evidence.
+
+Linked files: `../../docs/urman_knowledge_base/art/style_motion_sweep/`

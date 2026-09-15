@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "urman.godot_style_motion_sweep",
-  "captured_at_utc": "2026-09-14T01:05:03.8446240Z",
+  "captured_at_utc": "2026-09-15T01:42:52.7706840Z",
   "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / Metal or equivalent real 3D driver",
   "world": "zone scene assembled with Act1ConnectedWorld, the same owner the game uses",
   "tile": {
