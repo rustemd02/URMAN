@@ -15,12 +15,28 @@ public static class PainterlyMaterialLibrary
         uniform float texture_strength = 0.95;
         uniform float roughness_value = 0.9;
         uniform float specular_value = 0.2;
+        uniform float metallic_value = 0.0;
+        uniform float finish_grain = 0.0;
         uniform float wet_grade = 0.0;
         uniform float leaf_transmission = 0.0;
         uniform bool vertex_pigment = false;
         uniform sampler2D albedo_texture : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
         uniform bool has_albedo_texture = false;
         uniform bool cut_wood_end = false;
+        // Directional wall/curtain patterns keep their vertical texture axis
+        // on world Y on both wall orientations. Other established families
+        // retain their existing projections (including floors and furniture).
+        uniform bool upright_texture = false;
+        // Opt-in local projection: the carried plank's grain follows local Z.
+        // Offsets align its three rigid pieces with one texture swatch. Hay
+        // bundles also enable upright_texture: the paired ZYX permutation
+        // preserves local Y as the vertical fiber axis on both side faces.
+        // Lighting, weather and snow continue to use the world-space varyings.
+        uniform bool local_wood_texture = false;
+        uniform vec3 local_wood_offset = vec3(0.0);
+        // Packed hay already has a continuous circumferential/vertical UV
+        // layout; preserve it instead of projecting fibers through the stack.
+        uniform bool authored_uv_texture = false;
         // Safe mode skips the three triplanar texture reads below. The normal
         // medium profile keeps the full painterly material unchanged.
         uniform bool low_quality = false;
@@ -57,11 +73,14 @@ public static class PainterlyMaterialLibrary
 
         varying vec3 world_position;
         varying vec3 world_normal;
+        varying vec3 local_wood_position;
+        varying vec3 local_wood_normal;
 
         vec3 triplanar_albedo(vec3 position, vec3 normal) {
             vec3 blend = pow(abs(normal), vec3(4.0));
             blend /= max(blend.x + blend.y + blend.z, 0.0001);
-            vec3 x_projection = texture(albedo_texture, position.yz * texture_scale).rgb;
+            vec2 x_uv = upright_texture ? position.zy : position.yz;
+            vec3 x_projection = texture(albedo_texture, x_uv * texture_scale).rgb;
             vec3 y_projection = texture(albedo_texture, position.xz * texture_scale).rgb;
             vec3 z_projection = texture(albedo_texture, position.xy * texture_scale).rgb;
             return x_projection * blend.x + y_projection * blend.y + z_projection * blend.z;
@@ -99,6 +118,8 @@ public static class PainterlyMaterialLibrary
         }
 
         void vertex() {
+            local_wood_position = (VERTEX + local_wood_offset).zyx;
+            local_wood_normal = NORMAL.zyx;
             world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
             world_normal = normalize(MODEL_NORMAL_MATRIX * NORMAL);
             // Ground microrelief is normal detail: its sub-centimetre height
@@ -136,7 +157,7 @@ public static class PainterlyMaterialLibrary
                 }
                 ROUGHNESS = clamp(roughness_value - wet_factor * 0.26, 0.05, 1.0);
                 SPECULAR = clamp(specular_value + wet_factor * 0.22, 0.0, 1.0);
-                METALLIC = 0.0;
+                METALLIC = metallic_value;
             } else {
             // Quieter stroke wash: with the promoted candidate textures the
             // texture now carries the value rhythm; strokes only keep the
@@ -153,8 +174,12 @@ public static class PainterlyMaterialLibrary
                 0.55,
                 1.0);
             float upward = clamp(dot(normalize(world_normal), vec3(0.0, 1.0, 0.0)) * 0.08 + 0.92, 0.84, 1.0);
+            vec3 albedo_position = local_wood_texture ? local_wood_position : world_position;
+            vec3 albedo_normal = local_wood_texture ? local_wood_normal : world_normal;
             vec3 texture_color = has_albedo_texture
-                ? triplanar_albedo(world_position, normalize(world_normal))
+                ? (authored_uv_texture
+                    ? texture(albedo_texture, UV * texture_scale).rgb
+                    : triplanar_albedo(albedo_position, normalize(albedo_normal)))
                 : vec3(1.0);
             // Keep the source hue and broad brush value while avoiding the
             // crushed-to-clay contrast of the previous texture grade.
@@ -203,7 +228,18 @@ public static class PainterlyMaterialLibrary
                 * mix(vec3(1.0), vec3(0.90, 0.95, 0.98), wet_factor);
             ROUGHNESS = clamp(roughness_value - wet_factor * 0.26, 0.05, 1.0);
             SPECULAR = clamp(specular_value + wet_factor * 0.22, 0.0, 1.0);
-            METALLIC = 0.0;
+            METALLIC = metallic_value;
+            }
+            // Painted enamel and bare heater iron need a restrained surface
+            // response, not the masonry albedo formerly bound to both props.
+            // This grain affects roughness only and fades below a pixel.
+            if (finish_grain > 0.0 && !low_quality) {
+                vec2 finish_uv = (world_position.xz + world_position.y * vec2(0.73, 0.41)) * 24.0;
+                float finish_detail = 1.0 - smoothstep(0.35, 1.0,
+                    max(length(dFdx(finish_uv)), length(dFdy(finish_uv))));
+                ROUGHNESS = clamp(ROUGHNESS
+                    + (painter_value_noise(finish_uv) - 0.5) * finish_grain * finish_detail,
+                    0.05, 1.0);
             }
             // Thin leaves receive light on their reverse face; this remains
             // light-dependent, not emission that would glow in the forest.
@@ -224,6 +260,7 @@ public static class PainterlyMaterialLibrary
                 ALBEDO = mix(ALBEDO, snow_albedo, snow_cover);
                 ROUGHNESS = mix(ROUGHNESS, 0.92, snow_cover);
                 SPECULAR = mix(SPECULAR, 0.05, snow_cover);
+                METALLIC = mix(METALLIC, 0.0, snow_cover);
             }
             // One generated height field supplies geometry, normal and
             // roughness. Grain changes only the light-dependent BRDF; there
@@ -266,6 +303,14 @@ public static class PainterlyMaterialLibrary
         """;
 
     private static readonly Shader PainterlyShader = new() { Code = ShaderSource };
+    private static readonly Shader TwoSidedPainterlyShader = new()
+    {
+        // Imported opaque sheets may explicitly expose both sides. Keep all
+        // painterly parameters and opaque rendering; this is not a cutout.
+        Code = ShaderSource
+            .Replace("render_mode diffuse_burley, specular_schlick_ggx;", "render_mode diffuse_burley, specular_schlick_ggx, cull_disabled;")
+            .Replace("float snow_up = clamp(normalize(world_normal).y,", "float snow_up = clamp(normalize(world_normal).y * (FRONT_FACING ? 1.0 : -1.0),")
+    };
     private static readonly Shader CutoutShader = new()
     {
         Code = ShaderSource
@@ -292,6 +337,12 @@ public static class PainterlyMaterialLibrary
         ["wood_furniture"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.95f, 0.95f)),
         ["wood_prop"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.9f, 0.9f)),
         ["wood_bark"] = ("res://assets/textures/painterly/bark_pine_v1_albedo.png", new Vector2(1.05f, 1.05f)),
+        // The profile provides three repeats around the stack and .75 V per
+        // local metre. Unit scale retains that existing physical UV mapping.
+        ["hay_fibers"] = ("res://assets/textures/painterly/hay_fibers_v1_albedo.png", Vector2.One),
+        // Authored bundles have no UVs. Their metre-sized local bounds keep
+        // fibers attached to each bundle at 1.4 repeats per metre.
+        ["hay_bundle"] = ("res://assets/textures/painterly/hay_fibers_v1_albedo.png", new Vector2(1.4f, 1.4f)),
         ["earth"] = ("res://assets/textures/painterly/damp_earth_v3_albedo.png", new Vector2(0.55f, 1.1f)),
         ["terrain"] = ("res://assets/textures/painterly/damp_earth_v5_albedo.png", new Vector2(1.3f, 2.6f)),
         ["wet_road"] = ("res://assets/textures/painterly/damp_earth_v3_albedo.png", new Vector2(0.55f, 1.1f)),
@@ -305,6 +356,9 @@ public static class PainterlyMaterialLibrary
         // existing wood/plaster/earth/foliage mappings remain v1.
         ["stone"] = ("res://assets/textures/painterly/mossy_stone_v3_albedo.png", new Vector2(1.5f, 1.5f)),
         ["fabric"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.0f, 2.0f)),
+        // Folded privacy curtains share the woven source with upholstery,
+        // but use a finer physical repeat. The sheer layer owns transparency.
+        ["fabric_pattern"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.6f, 2.6f)),
         ["carpet"] = ("res://assets/textures/painterly/carpet_palas_v1_albedo.png", new Vector2(0.25f, 0.40f)),
         ["wallpaper"] = ("res://assets/textures/painterly/wallpaper_old_v1_albedo.png", new Vector2(1.1f, 1.1f)),
         ["log_wall"] = ("res://assets/textures/painterly/log_wall_v1_albedo.png", new Vector2(0.9f, 0.9f)),
@@ -431,6 +485,42 @@ public static class PainterlyMaterialLibrary
         return material;
     }
 
+    public static Material PreserveSourceCulling(Material painted, Material? source)
+    {
+        if (source is not BaseMaterial3D { CullMode: BaseMaterial3D.CullModeEnum.Disabled }
+            || painted is not ShaderMaterial shader || shader.Shader != PainterlyShader)
+            return painted;
+
+        // The shared opaque material remains unchanged for solid geometry.
+        // One variant per cached painterly material also receives the existing
+        // graphics, snow-trample and motion updates through Materials.Values.
+        var key = $"source-cull-disabled:{painted.GetInstanceId()}";
+        if (Materials.TryGetValue(key, out var existing)) return existing;
+        var material = (ShaderMaterial)shader.Duplicate();
+        material.Shader = TwoSidedPainterlyShader;
+        material.SetMeta("sourceCullingPreserved", true);
+        Materials.Add(key, material);
+        return material;
+    }
+
+    public static ShaderMaterial ForLocalWoodPiece(string htmlColor, Vector3 pieceOffset)
+    {
+        // Each board piece shares the same object-space grain but has its own
+        // offset. Keep the variants in the normal cache so live graphics and
+        // motion settings reach them as well as the base wood material.
+        var cacheKey = FormattableString.Invariant(
+            $"local-wood:{htmlColor}:{pieceOffset.X:R}:{pieceOffset.Y:R}:{pieceOffset.Z:R}");
+        if (Materials.TryGetValue(cacheKey, out var existing)) return existing;
+
+        var material = (ShaderMaterial)ForColor(htmlColor, "wood_prop", sheltered: true).Duplicate();
+        material.SetShaderParameter("local_wood_texture", true);
+        material.SetShaderParameter("local_wood_offset", pieceOffset);
+        material.SetShaderParameter("texture_scale", new Vector2(.55f, .30f));
+        material.SetShaderParameter("snow_coverage", .14f);
+        Materials[cacheKey] = material;
+        return material;
+    }
+
     public static Material ForColor(string htmlColor, string surface = "", bool sheltered = false)
     {
         var cacheKey = $"{surface}:{htmlColor}:{(sheltered ? "sheltered" : "exposed")}";
@@ -444,6 +534,16 @@ public static class PainterlyMaterialLibrary
         var material = new ShaderMaterial { Shader = PainterlyShader };
         material.SetShaderParameter("base_color", color);
         material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
+        material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle");
+        material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
+        material.SetShaderParameter("authored_uv_texture", surface == "hay_fibers");
+        material.SetShaderParameter("metallic_value", surface == "iron" ? 0.65f : 0f);
+        material.SetShaderParameter("finish_grain", surface switch
+        {
+            "iron" => 0.10f,
+            "enamel" => 0.035f,
+            _ => 0f
+        });
         material.SetShaderParameter("vertex_pigment", surface is "terrain" or "wet_road" or "snow_road");
         material.SetShaderParameter("shadow_color", shadow);
         material.SetMeta("sheltered", sheltered);
@@ -468,6 +568,7 @@ public static class PainterlyMaterialLibrary
             "ornament_trim" or "carpet" or "fabric_pattern" or "wood_carved" => 0.18f,
             "stone" => 0.27f,
             "fabric" or "cloth" => 0.24f,
+            "iron" or "enamel" => 0.18f,
             "water" => 0.18f,
             _ => 0.30f
         });
@@ -486,11 +587,14 @@ public static class PainterlyMaterialLibrary
             "ornament_trim" or "carpet" or "fabric_pattern" or "wood_carved" => 0.06f,
             "stone" => 0.12f,
             "fabric" or "cloth" => 0.08f,
+            "hay_fibers" or "hay_bundle" => 0.06f,
+            "iron" or "enamel" => 0.04f,
             "water" => 0.06f,
             _ => 0.10f
         });
         material.SetShaderParameter("texture_strength", surface switch
         {
+            "hay_fibers" or "hay_bundle" => 1.0f,
             "foliage" => 0.95f,
             "grass" or "leaf_birch" => 0.95f,
             "roof" or "roof_metal" => 0.94f,
@@ -591,6 +695,7 @@ public static class PainterlyMaterialLibrary
             "snow_roof" => (Roughness: 0.92f, Specular: 0.28f, WetGrade: 0.0f),
             "ice" => (Roughness: 0.26f, Specular: 0.40f, WetGrade: 0.0f),
             "grass" => (Roughness: 0.94f, Specular: 0.06f, WetGrade: 0.45f),
+            "hay_fibers" or "hay_bundle" => (Roughness: 0.96f, Specular: 0.05f, WetGrade: 0.0f),
             "grass_tuft" => (Roughness: 0.94f, Specular: 0.06f, WetGrade: 0.45f),
             "roof" => (Roughness: 0.88f, Specular: 0.10f, WetGrade: 0.50f),
             "roof_metal" => (Roughness: 0.72f, Specular: 0.20f, WetGrade: 0.65f),
@@ -619,6 +724,8 @@ public static class PainterlyMaterialLibrary
             "foliage" => (Roughness: 0.95f, Specular: 0.07f, WetGrade: 0.12f),
             "plaster" => (Roughness: 0.96f, Specular: 0.06f, WetGrade: 0.04f),
             "fabric" or "cloth" => (Roughness: 0.98f, Specular: 0.04f, WetGrade: 0.01f),
+            "iron" => (Roughness: 0.74f, Specular: 0.28f, WetGrade: 0.0f),
+            "enamel" => (Roughness: 0.34f, Specular: 0.36f, WetGrade: 0.0f),
             "water" => (Roughness: 0.38f, Specular: 0.45f, WetGrade: 0.98f),
             _ => (Roughness: 0.90f, Specular: 0.20f, WetGrade: 0.0f)
         };

@@ -13,8 +13,11 @@ public static class InputBindingService
         "move_right",
         "interact",
         "crouch",
+        "jump",
+        "sprint",
         "carry_rotate",
         "carry_place",
+        "carry_use",
         "journal",
         "pause",
         "quick_save",
@@ -40,7 +43,17 @@ public static class InputBindingService
         if (gamepad)
         {
             var button = events.OfType<InputEventJoypadButton>().FirstOrDefault();
-            return button is null ? "[Gamepad]" : $"[{button.ButtonIndex}]";
+            if (button is not null) return $"[{button.ButtonIndex}]";
+            var axis = events.OfType<InputEventJoypadMotion>().FirstOrDefault();
+            if (axis is null) return "[Gamepad]";
+            return axis.Axis switch
+            {
+                JoyAxis.LeftX => axis.AxisValue < 0 ? "[Левый стик ←]" : "[Левый стик →]",
+                JoyAxis.LeftY => axis.AxisValue < 0 ? "[Левый стик ↑]" : "[Левый стик ↓]",
+                JoyAxis.RightX => axis.AxisValue < 0 ? "[Правый стик ←]" : "[Правый стик →]",
+                JoyAxis.RightY => axis.AxisValue < 0 ? "[Правый стик ↑]" : "[Правый стик ↓]",
+                _ => $"[{axis.Axis} {(axis.AxisValue < 0 ? "−" : "+")}]"
+            };
         }
         var key = events.OfType<InputEventKey>().FirstOrDefault();
         return key is null ? "[Key]" : $"[{OS.GetKeycodeString(key.PhysicalKeycode)}]";

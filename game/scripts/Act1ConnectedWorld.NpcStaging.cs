@@ -18,6 +18,7 @@ public partial class Act1ConnectedWorld
     private Tween? _gulsinaTurn;
     private float _gulsinaRestYaw;
     private object? _gulsinaSession;
+    private AlsuStreetWalkPresentation? _alsuWalk;
 
     private void BuildAct1NpcStaging()
     {
@@ -33,6 +34,9 @@ public partial class Act1ConnectedWorld
         var alsu = villagePeople.GetNode<Node3D>("Npc_alsu");
         alsu.Position = new(.85f, AgentBAct1HeightField.CollisionGround(.85f, 2.05f), 2.05f);
         alsu.RotationDegrees = new(0, -15f, 0);
+        GeneratedCharacterKitDressing.GroundSolesOnAnchor(alsu);
+        _alsuWalk = AlsuStreetWalkPresentation.Attach(alsu,
+            _zoneInstances["village_day"].GetNode<InteractionTarget>("AlsuNpc"));
 
         _gulsinaNpc = _zoneInstances["house_old_pc"]
             .GetNode<Node3D>("Act1NpcPresentation/Npc_gulsina");
@@ -106,12 +110,14 @@ public partial class Act1ConnectedWorld
             && routeHint.TryGetProperty("status", out var routeStatus)
             && routeStatus.GetString() == "confirmed";
 
-        // The forest stage has precedence over the FAP marker. Alerting occurs
-        // when the house dialogue starts, so Rinat stays beside the target
-        // until the authored zirat-road transition confirms the departure.
-        var forestStage = alerted && routeReached;
-        var houseStage = !forestStage && (fapVisited || alerted);
-        var desiredStage = forestStage ? "forest" : houseStage ? "house" : "village";
+        // The route clue alone does not put him at the distant forest edge.
+        // Keep the ongoing house conversation coherent, then show the same
+        // ordinary person and his lamp beside the mandatory zirat route.
+        var roadsideStage = alerted && routeReached
+            && (ActiveZoneId != "house_old_pc" || ObservationKnown("clue_rinat_at_roadside"));
+        var forestStage = roadsideStage && ActiveZoneId == "kara_urman_night";
+        var houseStage = !roadsideStage && (fapVisited || alerted);
+        var desiredStage = forestStage ? "forest" : roadsideStage ? "roadside" : houseStage ? "house" : "village";
         if (_rinatStage != desiredStage)
         {
             _rinatTurn?.Kill();
@@ -120,8 +126,9 @@ public partial class Act1ConnectedWorld
 
             var at = desiredStage switch
             {
-                "house" => new Vector3(4.05f, 0f, -2.65f),
-                "forest" => new Vector3(1.85f, 0f, -124f),
+                "house" => StyleBenchmarkInteriorFactory.RinatAnchor,
+                "forest" => RinatForestAnchor,
+                "roadside" => RinatRoadsideAnchor,
                 _ => new Vector3(-1.5f, 0f, -3.8f)
             };
             if (desiredStage != "house")
@@ -136,10 +143,11 @@ public partial class Act1ConnectedWorld
             _rinatNpc.Position = at;
             // At home, face the room entrance until the first conversation
             // turns the actor toward the player. Exterior directions stay authored.
-            _rinatNpc.RotationDegrees = new(0, desiredStage == "forest" ? -23f : desiredStage == "house" ? 0f : 12f, 0);
+            _rinatNpc.RotationDegrees = new(0, desiredStage is "forest" or "roadside" ? -30f : desiredStage == "house" ? 0f : 12f, 0);
             _rinatNpc.SetMeta("anchor", at);
             _rinatNpc.SetMeta("rinatStage", desiredStage);
             _rinatStage = desiredStage;
+            _rinatPresence?.ApplyStage(desiredStage);
         }
 
         if (_rinatAlerted != alerted)
@@ -160,7 +168,7 @@ public partial class Act1ConnectedWorld
         }
     }
 
-    private readonly System.Collections.Generic.Dictionary<Node3D, (float RestYaw, bool Facing, Tween? Turn)>
+    private readonly System.Collections.Generic.Dictionary<Node3D, (float RestYaw, bool Facing, Tween? Turn, ulong RetargetAfter)>
         _conversationFacing = new();
     private bool _conversationFacingResolved;
 
@@ -182,11 +190,14 @@ public partial class Act1ConnectedWorld
         if (!_conversationFacingResolved)
         {
             _conversationFacingResolved = true;
-            foreach (var name in new[] { "Npc_alsu", "Npc_timur_hazrat", "MansurNpc", "NailaNpc" })
+            // The visible actors are separate siblings of their hidden ray
+            // targets. Turning MansurNpc/NailaNpc only rotated those colliders
+            // and left the people motionless during conversation.
+            foreach (var name in new[] { "Npc_alsu", "Npc_timur_hazrat", "Npc_mansur", "Npc_naila" })
             {
                 if (FindChild(name, recursive: true, owned: false) is Node3D npc)
                 {
-                    _conversationFacing[npc] = (npc.Rotation.Y, false, null);
+                    _conversationFacing[npc] = (npc.Rotation.Y, false, null, 0);
                 }
             }
 
@@ -194,6 +205,7 @@ public partial class Act1ConnectedWorld
         }
 
         var playerPosition = _lifePlayer.GlobalPosition;
+        var now = Time.GetTicksMsec();
         foreach (var npc in _conversationFacing.Keys.ToArray())
         {
             if (!IsInstanceValid(npc))
@@ -203,14 +215,24 @@ public partial class Act1ConnectedWorld
             }
 
             var entry = _conversationFacing[npc];
+            if (_alsuWalk is { ControlsFacing: true } && ReferenceEquals(npc, _alsuWalk.Actor))
+            {
+                entry.Turn?.Kill();
+                entry.Turn = null;
+                entry.Facing = false;
+                _conversationFacing[npc] = entry;
+                continue;
+            }
             var distance = npc.GlobalPosition.DistanceTo(playerPosition);
             if (!entry.Facing && distance <= 2.9f)
             {
                 entry.Turn?.Kill();
                 entry.Turn = TurnNpcTowardsPlayer(npc);
                 entry.Facing = true;
+                entry.RetargetAfter = now + 730;
                 _conversationFacing[npc] = entry;
                 npc.SetMeta("conversationFacing", "towards-player");
+                RecordConversationTurn(npc, "entered-range");
             }
             else if (entry.Facing && distance >= 3.9f)
             {
@@ -218,13 +240,39 @@ public partial class Act1ConnectedWorld
                 var back = CreateTween();
                 back.SetTrans(Tween.TransitionType.Sine);
                 back.SetEase(Tween.EaseType.Out);
-                back.TweenProperty(npc, "rotation:y", entry.RestYaw, .55f);
+                var rest = npc.Rotation.Y + Mathf.AngleDifference(npc.Rotation.Y, entry.RestYaw);
+                back.TweenProperty(npc, "rotation:y", rest, .55f);
                 entry.Turn = back;
                 entry.Facing = false;
                 _conversationFacing[npc] = entry;
                 npc.SetMeta("conversationFacing", "rest");
+                RecordConversationTurn(npc, "left-range");
+            }
+            else if (entry.Facing && now >= entry.RetargetAfter
+                && (entry.Turn is null || !IsInstanceValid(entry.Turn) || !entry.Turn.IsRunning()))
+            {
+                // Keep the existing ground origin, foot rig and short yaw
+                // tween. A person walking around a speaker changes the target,
+                // while a still listener or a small shift does not restart it.
+                var direction = npc.GetParent<Node3D>().ToLocal(playerPosition) - npc.Position;
+                direction.Y = 0f;
+                if (direction.LengthSquared() <= .0001f
+                    || Mathf.Abs(Mathf.AngleDifference(npc.Rotation.Y,
+                        Mathf.Atan2(direction.X, direction.Z))) <= Mathf.DegToRad(18f)) continue;
+                entry.Turn = TurnNpcTowardsPlayer(npc);
+                // 480ms turn plus 250ms of settled attention before considering
+                // another target. Never kill/restart a tracking tween per frame.
+                entry.RetargetAfter = now + 730;
+                _conversationFacing[npc] = entry;
+                RecordConversationTurn(npc, "observer-moved");
             }
         }
+    }
+
+    private static void RecordConversationTurn(Node3D npc, string reason)
+    {
+        npc.SetMeta("conversationTurnCount", npc.GetMeta("conversationTurnCount", 0L).AsInt64() + 1);
+        npc.SetMeta("conversationTurnReason", reason);
     }
 
     private Tween? TurnNpcTowardsPlayer(Node3D npc)

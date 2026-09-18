@@ -792,22 +792,7 @@ def create_house_lived_in_cluster(materials: dict[str, bpy.types.Material]) -> N
         280,
         bevel_width=0.018,
     )
-    house_interior_vessel(
-        "HouseInterior_TableKettle_LOD0",
-        0.17,
-        0.30,
-        (1.08, 1.11, -3.62),
-        materials["stone"],
-        260,
-    )
-    house_interior_cube(
-        "HouseInterior_TableKettleLid_LOD0",
-        (0.34, 0.04, 0.34),
-        (1.08, 1.29, -3.62),
-        materials["wood_dark"],
-        160,
-        bevel_width=0.012,
-    )
+    create_table_kettle(materials)
     house_interior_vessel(
         "HouseInterior_TableBowl_LOD0",
         0.20,
@@ -1220,6 +1205,201 @@ def create_pine(materials: dict[str, bpy.types.Material]) -> None:
     tag(crown, "env.vegetation.pine.a", 1200, "none")
 
 
+def household_mesh(name, vertices, faces, location, surface, asset_id, budget):
+    """Publish joined household details under the existing object/anchor contract."""
+    mesh = bpy.data.meshes.new(name + "Mesh")
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    uv = mesh.uv_layers.new(name="HouseholdSurface")
+    for polygon in mesh.polygons:
+        # Keep an explicit, metric UV projection even where the game currently
+        # uses a sheltered painterly override for the complete mesh.
+        axis = max(range(3), key=lambda index: abs(polygon.normal[index]))
+        axes = [index for index in range(3) if index != axis]
+        for loop_index in polygon.loop_indices:
+            point = mesh.vertices[mesh.loops[loop_index].vertex_index].co
+            uv.data[loop_index].uv = (point[axes[0]], point[axes[1]])
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.collection.objects.link(obj)
+    obj.location = location
+    obj.data.materials.append(surface)
+    tag(obj, asset_id, budget, "none")
+    obj["household_detail_version"] = 1
+    return obj
+
+
+def append_household_lathe(vertices, faces, profile, sides=16):
+    """Closed profile around Blender Z; winding follows the profile outline."""
+    rings = []
+    for radius, height in profile:
+        first = len(vertices)
+        if radius == 0:
+            vertices.append((0, 0, height))
+            rings.append([first])
+        else:
+            vertices.extend((radius * math.cos(index * math.tau / sides),
+                             radius * math.sin(index * math.tau / sides), height)
+                            for index in range(sides))
+            rings.append(list(range(first, first + sides)))
+    for lower, upper in zip(rings, rings[1:]):
+        for index in range(sides):
+            other = (index + 1) % sides
+            if len(lower) == 1:
+                faces.append((lower[0], upper[other], upper[index]))
+            elif len(upper) == 1:
+                faces.append((lower[index], lower[other], upper[0]))
+            else:
+                faces.append((lower[index], lower[other], upper[other], upper[index]))
+
+
+def append_household_tube(vertices, faces, path, radii, sides=8, close_ends=True):
+    """Sweep a ring through a YZ path. X stays the perpendicular frame axis."""
+    from mathutils import Vector
+    first = len(vertices)
+    for index, point in enumerate(path):
+        previous, following = path[max(0, index - 1)], path[min(len(path) - 1, index + 1)]
+        tangent = (Vector(following) - Vector(previous)).normalized()
+        across = tangent.cross(Vector((1, 0, 0)))
+        for side in range(sides):
+            angle = side * math.tau / sides
+            offset = Vector((1, 0, 0)) * math.cos(angle) + across * math.sin(angle)
+            vertices.append(tuple(Vector(point) + offset * radii[index]))
+    for ring in range(len(path) - 1):
+        for index in range(sides):
+            other = (index + 1) % sides
+            a, b = first + ring * sides + index, first + ring * sides + other
+            faces.append((a, b, b + sides, a + sides))
+    if close_ends:
+        faces.append(tuple(first + index for index in reversed(range(sides))))
+        faces.append(tuple(first + (len(path) - 1) * sides + index for index in range(sides)))
+    return first
+
+
+def create_table_kettle(materials):
+    # The complete kettle stays inside the old 342 x 342 mm footprint and
+    # .96..1.31 m vertical envelope. Its base still rests on the original tray.
+    vertices, faces = [], []
+    append_household_lathe(vertices, faces, [
+        (0, -.150), (.079, -.150), (.099, -.141), (.112, -.115),
+        (.116, -.065), (.113, .015), (.104, .080), (.084, .122),
+        (.064, .144), (.063, .150), (.055, .150), (.055, .136),
+        (.076, .113), (.096, .072), (.105, .012), (.107, -.065),
+        (.101, -.111), (.085, -.137), (0, -.137)])
+    # An actual open spout, including the inside wall and rolled mouth. The
+    # root ends inside the vessel; no disk fills the visible outlet.
+    spout = [(0, -.094, -.020), (0, -.119, .020), (0, -.141, .068),
+             (0, -.148, .115)]
+    radii = [.031, .028, .023, .020]
+    outer = append_household_tube(vertices, faces, spout, radii, close_ends=False)
+    inner = append_household_tube(vertices, faces, spout,
+                                  [radius - .004 for radius in radii], close_ends=False)
+    # Reverse the inner tube's faces; connect both rims without sealing them.
+    inner_face_count = (len(spout) - 1) * 8
+    for index in range(len(faces) - inner_face_count, len(faces)):
+        faces[index] = tuple(reversed(faces[index]))
+    for ring in (0, len(spout) - 1):
+        for side in range(8):
+            nxt = (side + 1) % 8
+            a, b = outer + ring * 8 + side, outer + ring * 8 + nxt
+            c, d = inner + ring * 8 + side, inner + ring * 8 + nxt
+            faces.append((a, c, d, b) if ring == 0 else (a, b, d, c))
+    # Open D handle, with both ends seated in the same body's shoulder/base.
+    handle = [(0, .089, .080), (0, .119, .092), (0, .147, .085),
+              (0, .156, .063), (0, .158, .025), (0, .153, -.023),
+              (0, .138, -.056), (0, .109, -.069), (0, .098, -.066)]
+    append_household_tube(vertices, faces, handle, [.012] * len(handle))
+    kettle = household_mesh("HouseInterior_TableKettle_LOD0", vertices, faces,
+                            (1.08, 3.62, 1.11), materials["stone"], "env.house.interior.a", 1200)
+    kettle["household_form"] = "hollow enamel kettle; open spout; open D handle; seated base"
+
+    vertices, faces = [], []
+    # A round lid seats into the neck; the small grip and its stem are part of
+    # this existing lid object, whose pivot remains exactly where it was.
+    append_household_lathe(vertices, faces, [
+        (0, -.034), (.052, -.034), (.059, -.027), (.067, -.025),
+        (.067, -.020), (.059, -.015), (.045, -.010), (.015, -.007),
+        (.012, -.004), (.012, .003), (.022, .006), (.024, .013),
+        (.020, .020), (0, .020)])
+    lid = household_mesh("HouseInterior_TableKettleLid_LOD0", vertices, faces,
+                         (1.08, 3.62, 1.29), materials["wood_dark"], "env.house.interior.a", 500)
+    lid["household_form"] = "round seated lid; raised stem and finger grip"
+
+
+def create_old_pc_keyboard(surface):
+    vertices, faces = [], []
+
+    def rectangular_loft(rings):
+        first = len(vertices)
+        for x, y, width, depth, front_z, back_z in rings:
+            vertices.extend([(x - width / 2, y - depth / 2, front_z),
+                             (x + width / 2, y - depth / 2, front_z),
+                             (x + width / 2, y + depth / 2, back_z),
+                             (x - width / 2, y + depth / 2, back_z)])
+        faces.append(tuple(first + index for index in (3, 2, 1, 0)))
+        for ring in range(len(rings) - 1):
+            for index in range(4):
+                a, b = first + ring * 4 + index, first + ring * 4 + (index + 1) % 4
+                faces.append((a, b, b + 4, a + 4))
+        faces.append(tuple(first + (len(rings) - 1) * 4 + index for index in range(4)))
+
+    # Same origin and enclosing box as the former slab. Low front lip, taller
+    # rear case and inset key stems produce useful shadows under one material.
+    rectangular_loft([(0, 0, 1.11, .44, -.05, -.05),
+                      (0, 0, 1.15, .48, -.039, -.039),
+                      (0, 0, 1.15, .48, -.006, .026),
+                      (0, 0, 1.125, .455, .001, .032)])
+    keys = []
+    pitch, left = .047, -.544
+
+    def key(column, row, width=1, height=1, group="typing"):
+        x = left + (column + width / 2) * pitch
+        y = -.151 + row * .053 + (height - 1) * .053 / 2
+        width_m, depth_m = width * pitch - .006, height * .053 - .008
+        base = .001 + (y + .2275) * .031 / .455
+        rectangular_loft([(x, y, width_m - .008, depth_m - .008, base - .002, base - .002),
+                          (x, y, width_m, depth_m, base + .012, base + .012),
+                          (x, y, width_m - .005, depth_m - .005, base + .018, base + .018)])
+        keys.append((group, x, y, width_m, depth_m, base + .018))
+
+    # A 104-key ANSI arrangement: five typing rows, separated function row,
+    # navigation block, inverted-T arrows and a full numeric keypad.
+    for row, widths in enumerate([
+        [1.25, 1.25, 1.25, 6.25, 1.25, 1.25, 1.25, 1.25],
+        [2.25] + [1] * 10 + [2.75],
+        [1.75] + [1] * 11 + [2.25],
+        [1.5] + [1] * 12 + [1.5],
+        [1] * 13 + [2],
+    ]):
+        column = 0
+        for width in widths:
+            key(column, row, width)
+            column += width
+    key(0, 6, group="function")
+    for index in range(12):
+        key(2 + index + (index // 4) * .45, 6, group="function")
+    for column in range(3):
+        key(15.5 + column, 6, group="navigation")
+        key(15.5 + column, 4, group="navigation")
+        key(15.5 + column, 3, group="navigation")
+        key(15.5 + column, 0, group="arrows")
+    key(16.5, 1, group="arrows")
+    for column in range(4):
+        key(19 + column, 4, group="numeric")
+    for row in (3, 2, 1):
+        for column in range(3):
+            key(19 + column, row, group="numeric")
+    key(22, 2, height=2, group="numeric")
+    key(22, 0, height=2, group="numeric")
+    key(19, 0, width=2, group="numeric")
+    key(21, 0, group="numeric")
+    # The separated F-row also stays below the old .05 m half-height.
+    keyboard = household_mesh("OldPc_Keyboard_LOD0", vertices, faces, (-9, 7.3, .96),
+                              surface, "prop.oldpc.keyboard", 5000)
+    keyboard["household_form"] = "104 separated keycaps; typing function navigation arrows numeric blocks"
+    keyboard["keyboard_keys"] = len(keys)
+    keyboard["keyboard_key_centers"] = [value for item in keys for value in item[1:]]
+
+
 def create_furniture_and_pc(materials: dict[str, bpy.types.Material]) -> None:
     cube(
         "TableA_Top_LOD0",
@@ -1261,16 +1441,7 @@ def create_furniture_and_pc(materials: dict[str, bpy.types.Material]) -> None:
         bevel_width=0.055,
         bevel_segments=2,
     )
-    cube(
-        "OldPc_Keyboard_LOD0",
-        (1.15, 0.48, 0.1),
-        (-9, 7.3, 0.96),
-        materials["pc_light"],
-        "prop.oldpc.keyboard",
-        5000,
-        bevel_width=0.045,
-        bevel_segments=1,
-    )
+    create_old_pc_keyboard(materials["pc_light"])
     # The CRT is a hero prop rather than a single anonymous box: a compact
     # tower, recessed front panel and one tactile power button give the player
     # a readable silhouette at the fixed first-person interaction distance.
@@ -1332,6 +1503,53 @@ def create_furniture_and_pc(materials: dict[str, bpy.types.Material]) -> None:
     collision_box("OldPc", (1.4, 0.72, 1.15), (-9, 8, 1.46))
 
 
+def constrain_household_lod(lod, source):
+    """Keep only the three new household LODs inside their original source cage."""
+    from mathutils import Vector
+    cages = {
+        "HouseInterior_TableKettle_LOD0": ((-.171325, -.171325, -.15), (.171325, .171325, .15)),
+        "HouseInterior_TableKettleLid_LOD0": ((-.17, -.17, -.034), (.17, .17, .02)),
+        "OldPc_Keyboard_LOD0": ((-.575, -.24, -.05), (.575, .24, .05)),
+    }
+    if source.name not in cages:
+        return
+    minimum, maximum = (Vector(bound) for bound in cages[source.name])
+    # Export 37's Decimate result moved the kettle base by 79.4 micrometres
+    # and the lid by 55.9 micrometres. Correct that bounded simplification
+    # drift geometrically; larger changes remain an export failure.
+    correction_limit = .0001
+    mesh = lod.data
+    mesh.calc_loop_triangles()
+    before = []
+    for triangle in mesh.loop_triangles:
+        indices = tuple(triangle.vertices)
+        a, b, c = (mesh.vertices[index].co for index in indices)
+        before.append((indices, (b - a).cross(c - a)))
+    adjusted, largest = 0, 0.0
+    for vertex in mesh.vertices:
+        clipped = Vector(tuple(max(minimum[axis], min(maximum[axis], vertex.co[axis])) for axis in range(3)))
+        distance = (clipped - vertex.co).length
+        if distance > correction_limit:
+            raise RuntimeError(f"{lod.name}: Decimate exceeded the bounded household cage repair: {distance:.9f}m")
+        if distance > 0:
+            vertex.co = clipped
+            adjusted += 1
+            largest = max(largest, distance)
+    # Preserve every existing face/index and reject a collapsed or reversed
+    # triangle. In particular, this must not close the spout or handle opening.
+    for indices, previous in before:
+        a, b, c = (mesh.vertices[index].co for index in indices)
+        current = (b - a).cross(c - a)
+        if current.length_squared <= 1e-24 or previous.dot(current) <= 0:
+            raise RuntimeError(f"{lod.name}: household cage repair collapsed or reversed a triangle")
+    mesh.update()
+    lod["household_lod_cage_version"] = 1
+    lod["household_lod_cage_adjusted_vertices"] = adjusted
+    lod["household_lod_cage_max_delta_meters"] = largest
+    lod["household_lod_cage_limit_meters"] = correction_limit
+    print(f"URMAN household LOD cage: {lod.name}; adjusted={adjusted}; max_delta={largest:.9f}m")
+
+
 def generate_lod1_variants() -> int:
     """Create deterministic, rebuildable LOD1 meshes for every visible LOD0 mesh."""
     created = 0
@@ -1361,6 +1579,7 @@ def generate_lod1_variants() -> int:
         modifier = lod.modifiers.new("URMAN_LOD1_Decimate", "DECIMATE")
         modifier.ratio = ratio
         bpy.ops.object.modifier_apply(modifier=modifier.name)
+        constrain_household_lod(lod, source)
         lod.select_set(False)
         created += 1
 

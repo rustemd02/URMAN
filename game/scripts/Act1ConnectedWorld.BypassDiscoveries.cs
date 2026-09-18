@@ -265,7 +265,6 @@ public partial class Act1ConnectedWorld
         foreach (var path in new[]
         {
             "Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
-            "Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetFacade",
             "Act1AuthoredExteriorKitPresentation/NeighborParcels/HouseExterior/WestSideParcel/HouseExteriorWestNeighborFence"
         })
         {

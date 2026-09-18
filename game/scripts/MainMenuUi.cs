@@ -43,8 +43,8 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     // file shows the ordinary menu and the check is testable.
     private static readonly (string ZoneId, string SpawnPointId, string Label)[] DebugZones =
     [
-        ("village_day", "arrival", "Улица Кырлай · приезд"),
-        ("village_day", "from_house", "Улица Кырлай · от дома"),
+        ("village_day", "arrival", "Кара-Урман · остановка"),
+        ("village_day", "from_house", "Кара-Урман · от дома"),
         ("house_old_pc", "entry", "Дом Мансура и Гөлсинә"),
         ("fap_clinic", "waiting_room", "ФАП"),
         ("zirat_road", "village_side", "Зиратская дорога"),
@@ -271,7 +271,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _subtitle = new Label
         {
             Name = "Subtitle",
-            Text = "Акт I · Кырлай",
+            Text = "Акт I · Кара-Урман",
             HorizontalAlignment = HorizontalAlignment.Center,
             Modulate = new Color(0.75f, 0.72f, 0.65f)
         };

@@ -12,6 +12,12 @@ public partial class FullGameFlowSmokeTest : Node
 
     public override async void _Ready()
     {
+        try { await RunAsync(); }
+        catch (Exception error) { Fail("Full-game flow stopped: " + error); }
+    }
+
+    private async Task RunAsync()
+    {
         var main = ResourceLoader.Load<PackedScene>("res://scenes/full_game.tscn")?.Instantiate<Main>();
         if (main is null)
         {
@@ -35,6 +41,7 @@ public partial class FullGameFlowSmokeTest : Node
             return;
         }
 
+        await Act1ArrivalFlowProof.CompleteAsync(this, bridge);
         if (!await AdvanceChapterOne(bridge, main, "arrival-enter-house", "house")) return;
         main.SwitchZone("house_old_pc", "entry");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -59,19 +66,24 @@ public partial class FullGameFlowSmokeTest : Node
             return;
         }
         if (!await bridge.ChooseDialogueAsync(ChapterDialogue("gulsina_yaramyy"), "home-warning", "ask-marat")
+            || !await Act1FamilyMealProof.CompleteAsync(this, bridge)
             || !bridge.IsInteractionAvailable(ChapterInteraction("house-to-route")))
-        { Fail("Full-game Chapter 1 family answer did not unlock the route to Alsu."); return; }
+        { Fail("Full-game Chapter 1 family answer and actual home pause did not unlock the route to Alsu."); return; }
         if (!await AdvanceChapterOne(bridge, main, "house-to-route", "crossroad_signs_inspect")) return;
         main.SwitchZone("village_day", "from_house");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         if (bridge.IsInteractionAvailable(ChapterInteraction("route-to-fap"))
             || !bridge.IsInteractionAvailable(ChapterInteraction("talk-alsu"))
             || !await bridge.DispatchInteractionAsync(ChapterInteraction("talk-alsu"))
+            || !await Act1AlsuWalkProof.CompleteAsync(this, bridge)
             || !await bridge.EnterDialogueNodeAsync(ChapterDialogue("alsu_route_context"), "name-road")
             || !await bridge.ChooseDialogueAsync(ChapterDialogue("alsu_route_context"), "name-road", "ask-versions")
+            || bridge.IsInteractionAvailable(ChapterInteraction("route-to-fap"))
+            || !await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-versions-scope"), new[]
+                { OfficialNotice, ChapterPrefix + "knowledge/clue_alsu_heard_versions" })
             || !bridge.IsInteractionAvailable(ChapterInteraction("route-to-fap")))
         {
-            Fail("Full-game Chapter 1 Alsu route dialogue did not unlock the FAP route through the shared runtime path.");
+            Fail("Full-game Chapter 1 skipped the source check between Alsu's accounts and Naila's record.");
             return;
         }
         if (!await AdvanceChapterOne(bridge, main, "route-to-fap", "fap_waiting_room_day")) return;
@@ -92,11 +104,18 @@ public partial class FullGameFlowSmokeTest : Node
         if (!await AdvanceChapterOne(bridge, main, "official-to-internal-register", "evidence-internal-register")) return;
         main.SwitchZone("house_old_pc", "entry");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        await bridge.OpenDocumentAsync("urman.oldpc:document/doc_marat_official_death_notice");
-        await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict");
-        await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-records-contradiction"), new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" });
+        if (!await bridge.OpenDocumentAsync("urman.oldpc:document/doc_marat_official_death_notice")
+            || !await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict"))
+        { Fail("Full-game Chapter 1 could not read the record comparison sources."); return; }
+        await Act1SourceExcerptProof.RecordNoticeCauseAsync(this, bridge);
+        await Act1SourceExcerptProof.RecordRegisterFieldsAsync(this, bridge);
+        if (!await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-records-contradiction"), new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" }))
+        { Fail("Full-game Chapter 1 rejected the two recorded source excerpts."); return; }
         if (!await bridge.EnterDialogueNodeAsync(ChapterDialogue("naila_medical_record"), "follow-up")
             || !await bridge.ChooseDialogueAsync(ChapterDialogue("naila_medical_record"), "follow-up", "press-contradiction")
+            || ChapterKnowledgeStatus(bridge.SelectRuntimeState(), "clue_naila_record_scope") != "hidden"
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("naila_medical_record"), "record-question", "show-external-wording")
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("naila_medical_record"), "matching-formulation", "ask-category-scope")
             || !await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-record-scope"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.chapter1:knowledge/clue_naila_record_scope" }))
         { Fail("Full-game Chapter 1 could not check Naila's answer against the internal record."); return; }
         if (!bridge.IsInteractionAvailable(ChapterInteraction("internal-register-to-rinat"))
@@ -109,36 +128,83 @@ public partial class FullGameFlowSmokeTest : Node
         }
 
         if (!await AdvanceChapterOne(bridge, main, "internal-register-to-saved-message", "evidence-saved-message")) return;
-        await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal");
+        if (!await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal")
+            || ChapterKnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_message_read") != "confirmed"
+            || bridge.IsInteractionAvailable(ChapterInteraction("saved-message-to-boundary-source")))
+        { Fail("Full-game Chapter 1 skipped or rejected the message source check."); return; }
+        await Act1SourceExcerptProof.RecordMessageVoiceAsync(this, bridge);
+        main.SwitchZone("village_day", "from_house");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!bridge.IsInteractionAvailable(ChapterInteraction("talk-alsu"))
+            || !await bridge.EnterDialogueNodeAsync(ChapterDialogue("alsu_route_context"), "message-return")
+            || ChapterKnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_was_afraid_before_death") != "hidden"
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("alsu_route_context"), "message-return", "show-saved-message")
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("alsu_route_context"), "message-question", "quote-heard-voice")
+            || ChapterKnowledgeStatus(bridge.SelectRuntimeState(), "clue_alsu_message_reply") != "confirmed"
+            || bridge.ActiveSceneId != ChapterScene("evidence-saved-message"))
+        { Fail("Full-game Chapter 1 lost Alsu's substantive return conversation or rewound the investigation."); return; }
+        main.SwitchZone("house_old_pc", "entry");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         if (!await AdvanceChapterOne(bridge, main, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")) return;
         await bridge.OpenDocumentAsync("urman.oldpc:document/tw_shurale_urman_boundary");
         await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" });
         if (!await AdvanceChapterOne(bridge, main, "boundary-source-to-reread", "evidence-tatarwiki-reread")) return;
         if (!await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-reread-response"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary" }))
         { Fail("Full-game Chapter 1 did not apply the translated words to the old register."); return; }
+        if (!await Act1SourceReturnsProof.CompleteAsync(this, bridge)) return;
         if (!await AdvanceChapterOne(bridge, main, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
         await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch");
+        main.SwitchZone("village_day", "from_house");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (bridge.IsInteractionAvailable(ChapterInteraction("edge-sketch-to-zirat-road"))
+            || !await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-route-purpose-landmarks"), new[]
+                { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/doc_kara_urman_edge_sketch" })
+            || !await bridge.DispatchInteractionAsync(ChapterInteraction("route-to-mosque"))
+            || !await bridge.EnterDialogueNodeAsync(ChapterDialogue("timur_restraint"), "restraint")
+            || ChapterKnowledgeStatus(bridge.SelectRuntimeState(), "clue_timur_warns_against_marat_path") != "hidden"
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("timur_restraint"), "restraint", "tell-register")
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("timur_restraint"), "boundary-reply", "discuss-route-check")
+            || !await bridge.ChooseDialogueAsync(ChapterDialogue("timur_restraint"), "route-question", "name-landmark-check")
+            || ChapterKnowledgeStatus(bridge.SelectRuntimeState(), "clue_route_check_discussed") != "confirmed")
+        { Fail("Full-game Chapter 1 omitted the substantive conversation with Timur before leaving for the boundary."); return; }
         if (!await AdvanceChapterOne(bridge, main, "edge-sketch-to-zirat-road", "zirat-road")) return;
         main.SwitchZone("zirat_road", "village_side");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         var ziratClue = ChapterInteraction("zirat-roadside-clue");
         if (!bridge.IsInteractionAvailable(ziratClue)
-            || !await bridge.DispatchInteractionAsync(ziratClue)
-            || !await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" })
+            || !await bridge.DispatchInteractionAsync(ziratClue))
+        { Fail("Full-game Chapter 1 could not observe the zirat roadside clue."); return; }
+        if (main.ConnectedWorld is null)
+        {
+            // This legacy entrypoint still uses the compact loader. It cannot
+            // supply the native field observation now required by the current
+            // Act I campaign; never substitute knowledge flags for that scene.
+            GD.Print("fullgame-scope: legacy compact field presentation external/not-run; current Act I product entrypoint is act1_demo");
+            Fail("Legacy compact FullGame has no physical sketch-landmark observation; full campaign completion remains unverified.");
+            return;
+        }
+        await Act1RouteLandmarksProof.ObserveAsync(this, bridge);
+        if (!await bridge.CompareJournalSourcesAsync(ChapterInteraction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" })
             || ChapterKnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_last_route_near_zirat") != "confirmed")
         {
             Fail("Full-game Chapter 1 zirat roadside interaction did not confirm Marat's last-route clue.");
             return;
         }
+        // Observe the person after checking the road marks here; the connected
+        // Chapter 1 and LEN01 routes exercise the opposite order.
+        if (!await Act1RinatRoadsideProof.ObserveAsync(this, bridge)) return;
         // The authored route stages Kara-Urman in two steps, like the corridor,
         // checkpoint and interruption smokes already follow.
         if (!await AdvanceChapterOne(bridge, main, "zirat-road-to-forest", "forest-approach")) return;
-        if (!await AdvanceChapterOne(bridge, main, "forest-approach-to-forest", "forest")) return;
         main.SwitchZone("kara_urman_night", "village_path");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!await Act1RinatRoadsideProof.EnterFinaleAsync(this, bridge)) return;
 
-        for (var attempt = 0; attempt < 200 && bridge.IsInteractionAvailable("urman.chapter1:interaction/forest-rinat-intervention"); attempt++)
+        for (var attempt = 0; attempt < 300 && ChapterBeatState(bridge.SelectRuntimeState(), "cliffhanger-hard-cut") != "completed"; attempt++)
+        {
+            if (!Act1RinatRoadsideProof.LookAtIntervention(this)) return;
             await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
+        }
         var chapterState = bridge.SelectRuntimeState();
         if (bridge.CurrentZoneId != "kara_urman_night"
             || ChapterKnowledgeStatus(chapterState, "clue_do_not_answer_rule") != "confirmed"

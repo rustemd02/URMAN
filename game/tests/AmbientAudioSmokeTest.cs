@@ -31,7 +31,7 @@ public partial class AmbientAudioSmokeTest : Node
         }
 
         // AUDIO-003: the arrival spawn selects the arrival sub-zone bed.
-        if (!CheckZone(director, "village_day", "ambient.village-arrival", "village_arrival.wav"))
+        if (!await CheckZone(director, "village_day", "ambient.village-arrival", "village_arrival.wav"))
         {
             return;
         }
@@ -39,31 +39,44 @@ public partial class AmbientAudioSmokeTest : Node
         // A spawn without a sub-zone bed falls back to the plain zone bed.
         main.SwitchZone("village_day", "default");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (!CheckZone(director, "village_day", "ambient.village-day", "village_day_ambience.wav"))
+        if (!await CheckZone(director, "village_day", "ambient.village-day", "village_day_ambience.wav"))
         {
             return;
         }
 
         main.SwitchZone("house_old_pc", "entry");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (!CheckZone(director, "house_old_pc", "ambient.house-room", "house_room_tone.wav"))
+        if (!await CheckZone(director, "house_old_pc", "ambient.house-room", "house_room_tone.wav"))
         {
             return;
         }
 
         main.SwitchZone("kara_urman_night", "village_path");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (!CheckZone(director, "kara_urman_night", "ambient.kara-urman-edge", "kara_urman_edge_ambience.wav"))
+        if (!await CheckZone(director, "kara_urman_night", "ambient.kara-urman-edge", "kara_urman_edge_ambience.wav"))
         {
             return;
         }
 
-        GD.Print("ambient-audio-smoke: manifest + WAV import + zone switching + looping player");
+        foreach (var route in new[]
+        {
+            (Zone: "village_day", Spawn: "from_house", Stem: "ambient.village-yard", File: "village_yard.wav"),
+            (Zone: "village_day", Spawn: "from_forest", Stem: "ambient.village-return", File: "village_return.wav"),
+            (Zone: "fap_clinic", Spawn: "waiting_room", Stem: "ambient.fap-institutional", File: "fap_institutional.wav"),
+            (Zone: "zirat_road", Spawn: "village_side", Stem: "ambient.zirat-wind", File: "zirat_wind.wav")
+        })
+        {
+            main.SwitchZone(route.Zone, route.Spawn);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (!await CheckZone(director, route.Zone, route.Stem, route.File)) return;
+        }
+
+        GD.Print("ambient-audio-smoke: PASS all 8 Act I beds + native loop ranges + zone switching; mixer seam checked when windowed");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }
 
-    private bool CheckZone(AmbientAudioDirector director, string zoneId, string stemId, string filename)
+    private async Task<bool> CheckZone(AmbientAudioDirector director, string zoneId, string stemId, string filename)
     {
         var streamPath = director.CurrentStreamPath;
         if (director.CurrentZoneId != zoneId || director.CurrentStemId != stemId ||
@@ -77,6 +90,41 @@ public partial class AmbientAudioSmokeTest : Node
         {
             Fail($"Ambient audio contract failed for {zoneId}: {director.CurrentZoneId}/{director.CurrentStemId}/{streamPath}.");
             return false;
+        }
+
+        var player = director.GetNode<AudioStreamPlayer>($"AmbientPlayer{director.ActivePlayerIndex + 1}");
+        if (player.Stream is not AudioStreamWav wav
+            || wav.LoopMode != AudioStreamWav.LoopModeEnum.Forward
+            || wav.LoopBegin != 0
+            || wav.LoopEnd <= 0
+            || Math.Abs(wav.LoopEnd / (double)wav.MixRate - wav.GetLength()) > 1d / wav.MixRate)
+        {
+            Fail($"Ambient bed {stemId} has no native whole-file loop; a Finished/Play restart leaves a gap at the seam.");
+            return false;
+        }
+
+        if (DisplayServer.GetName() != "headless")
+        {
+            var deadline = Time.GetTicksMsec() + 500;
+            while (!player.Playing && Time.GetTicksMsec() < deadline)
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (!player.Playing)
+            {
+                Fail($"Ambient bed {stemId} did not start, so its mixer seam cannot be checked.");
+                return false;
+            }
+
+            var finished = 0;
+            void OnFinished() => finished++;
+            player.Finished += OnFinished;
+            player.Seek((float)Math.Max(0d, wav.GetLength() - .12d));
+            await ToSignal(GetTree().CreateTimer(.35d), SceneTreeTimer.SignalName.Timeout);
+            player.Finished -= OnFinished;
+            if (!player.Playing || finished != 0 || player.GetPlaybackPosition() >= wav.GetLength() - .12d)
+            {
+                Fail($"Ambient bed {stemId} did not wrap inside the mixer (playing={player.Playing}, finished={finished}, position={player.GetPlaybackPosition():0.000}).");
+                return false;
+            }
         }
 
         return true;

@@ -10,7 +10,34 @@
   ],
   "properties": {
     "map_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
+    },
+    "constraints": { "type": ["object", "array"] },
+    "addresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["address_id", "building_id", "parcel_id", "street_id", "house_number"],
+        "properties": {
+          "address_id": { "type": "string", "minLength": 1 },
+          "building_id": { "type": "string", "minLength": 1 },
+          "parcel_id": { "type": "string", "minLength": 1 },
+          "street_id": { "type": "string", "minLength": 1 },
+          "house_number": { "type": ["string", "integer"] },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["street_id", "house_number"],
+              "properties": {
+                "street_id": { "type": "string", "minLength": 1 },
+                "house_number": { "type": ["string", "integer"] }
+              }
+            }
+          }
+        }
+      }
     },
     "streets": {
       "type": "array",
@@ -21,8 +48,10 @@
         ],
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
+          "origin_node": { "type": ["string", "null"] },
           "odd_side": {
             "enum": [
               "left",
@@ -42,8 +71,21 @@
         ],
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
+          "point_keys": { "type": "array", "minItems": 2, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+          "vertex_bindings": {
+            "type": "object",
+            "additionalProperties": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" } }
+          },
+          "modes": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["foot", "car", "motorcycle", "horse_cart"] } },
+          "width_m": { "type": "number", "exclusiveMinimum": 0 },
+          "blocked": { "type": "boolean" },
+          "winter_blocked": { "type": "boolean" },
+          "gate_id": { "type": "string", "minLength": 1 },
+          "gate_open": { "type": "boolean" },
+          "constraint_exemptions": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
           "street_id": {
             "type": [
               "string",
@@ -83,6 +125,17 @@
           "source_key": {
             "type": "string"
           },
+          "building_id": { "type": "string", "minLength": 1 },
+          "parcel_id": { "type": "string", "minLength": 1 },
+          "address_id": { "type": ["string", "null"] },
+          "house_number": { "type": ["string", "integer", "null"] },
+          "game_quarter_id": { "type": "string", "pattern": "^Q[0-9]{2}$" },
+          "game_cadastral_id": { "type": "string", "pattern": "^URM-Q[0-9]{2}-P[0-9]{4}$" },
+          "parent_building_id": { "type": "string", "minLength": 1 },
+          "entrance_xz": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" } },
+          "gate_xz": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" } },
+          "access_path": { "type": "array", "minItems": 2, "items": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" } } },
+          "access_path_verified": { "type": "boolean" },
           "addressable": {
             "type": "boolean"
           },
@@ -95,7 +148,12 @@
             }
           },
           "legacy_address": {
-            "type": "object"
+            "type": "object",
+            "required": ["street_id", "house_number"],
+            "properties": {
+              "street_id": { "type": "string", "minLength": 1 },
+              "house_number": { "type": ["string", "integer"] }
+            }
           }
         }
       }

@@ -29,6 +29,9 @@ public partial class AmbientAudioDirector : Node
     private int _activePlayerIndex = -1;
     private AudioEffectAmplify? _voiceDuckEffect;
     private int _voiceDuckEffectIndex = -1;
+    private bool _physicalShelter;
+    private string _requestedZone = string.Empty;
+    private string? _requestedSubKey;
 
     public string CurrentZoneId { get; private set; } = string.Empty;
 
@@ -58,7 +61,6 @@ public partial class AmbientAudioDirector : Node
                 Autoplay = false,
                 Bus = AudioSettingsService.AmbienceBus
             };
-            player.Finished += LoopCurrentStem;
             AddChild(player);
             _players[index] = player;
         }
@@ -91,7 +93,6 @@ public partial class AmbientAudioDirector : Node
                 continue;
             }
 
-            player.Finished -= LoopCurrentStem;
             player.Stop();
             player.Stream = null;
         }
@@ -114,6 +115,18 @@ public partial class AmbientAudioDirector : Node
     }
 
     public void SetZone(string zoneId) => SetZone(zoneId, subKey: null);
+
+    // The same crossfade owner moves from outdoor wind to the licensed room
+    // bed when the player physically enters a room inside the village zone.
+    // Local stove/door/radio sources retain their own spatial playback.
+    public void SetPhysicalShelter(bool sheltered)
+    {
+        if (_physicalShelter == sheltered) return;
+        _physicalShelter = sheltered;
+        SetMeta("physicalSheltered", sheltered);
+        if (_requestedZone.Length > 0 && CurrentStemId.Length > 0)
+            SetZone(_requestedZone, _requestedSubKey);
+    }
 
     /// <summary>
     /// Temporarily lowers the ambience bus while a physical voice cue is
@@ -149,7 +162,9 @@ public partial class AmbientAudioDirector : Node
             return;
         }
 
-        var bedKey = ResolveBedKey(zoneId, subKey);
+        _requestedZone = zoneId;
+        _requestedSubKey = subKey;
+        var bedKey = _physicalShelter ? ResolveBedKey("house_old_pc", null) : ResolveBedKey(zoneId, subKey);
         if (!_stemsByZone.TryGetValue(bedKey, out var stem))
         {
             throw new InvalidOperationException($"Ambient audio manifest has no stem for zone '{zoneId}'.");
@@ -168,6 +183,7 @@ public partial class AmbientAudioDirector : Node
         {
             throw new InvalidOperationException($"Ambient audio stem could not be loaded: {stem.File}.");
         }
+        ConfigureNativeLoop(stream, stem);
 
         var incomingIndex = _activePlayerIndex < 0 ? 0 : 1 - _activePlayerIndex;
         var incomingPlayer = GetPlayer(incomingIndex);
@@ -292,12 +308,29 @@ public partial class AmbientAudioDirector : Node
         _voiceDuckActive = false;
     }
 
-    private void LoopCurrentStem()
+    private static void ConfigureNativeLoop(AudioStream stream, AmbientStem stem)
     {
-        var activePlayer = GetActivePlayer();
-        if (!_headless && activePlayer?.Stream is not null && !activePlayer.Playing && !string.IsNullOrWhiteSpace(CurrentZoneId))
+        // The manifest owns these ambience resources. Restarting from Finished
+        // left a main-thread-sized hole after each prepared seamless WAV, and
+        // could also cut off the outgoing bed during a zone crossfade. Keep the
+        // loop inside the mixer so its seam does not depend on scene frames.
+        switch (stream)
         {
-            activePlayer.Play();
+            case AudioStreamWav wav:
+                wav.LoopBegin = 0;
+                wav.LoopEnd = checked((int)Math.Round(wav.GetLength() * wav.MixRate));
+                wav.LoopMode = stem.Loop ? AudioStreamWav.LoopModeEnum.Forward : AudioStreamWav.LoopModeEnum.Disabled;
+                break;
+            case AudioStreamOggVorbis ogg:
+                ogg.Loop = stem.Loop;
+                ogg.LoopOffset = 0d;
+                break;
+            case AudioStreamMP3 mp3:
+                mp3.Loop = stem.Loop;
+                mp3.LoopOffset = 0d;
+                break;
+            default:
+                throw new InvalidOperationException($"Ambient audio stem has no supported native loop: {stem.File}.");
         }
     }
 

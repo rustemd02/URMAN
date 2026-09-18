@@ -7,6 +7,8 @@ using Urman.Content.Resolvers;
 
 namespace Urman.Godot;
 
+public sealed record DocumentImageContent(string AssetId, string ResourcePath, string Description);
+
 public sealed record OldPcDocumentContent(
     string Id,
     string Title,
@@ -15,14 +17,17 @@ public sealed record OldPcDocumentContent(
     IReadOnlyList<string> SearchTerms,
     IReadOnlyList<string> SuggestedTerms,
     IReadOnlyList<string> KnowledgeRefs,
-    IReadOnlyList<JsonElement> AccessConditions);
+    IReadOnlyList<JsonElement> AccessConditions,
+    IReadOnlyList<DocumentImageContent>? Images = null);
 
 public sealed record ResolvedJournalEntry(
     string EntryId,
     string SourceId,
     string Title,
     string Body,
-    string SourceTitle);
+    string SourceTitle,
+    IReadOnlyList<DocumentImageContent>? Images = null,
+    string? Status = null);
 
 /// <summary>
 /// Read-only presentation projection of a quest objective that is currently
@@ -57,9 +62,11 @@ public sealed record CompiledDocumentContent(
     string BodyMarkdown,
     IReadOnlyList<string> KnowledgeRefs,
     IReadOnlyList<JsonElement> AccessConditions,
-    IReadOnlyList<JsonElement> OpenEffects);
+    IReadOnlyList<JsonElement> OpenEffects,
+    IReadOnlyList<DocumentImageContent>? Images = null);
 
-internal sealed record JournalSourceContent(string Id, string Title, string Body);
+internal sealed record JournalSourceContent(string Id, string Title, string Body,
+    IReadOnlyList<DocumentImageContent>? Images = null);
 
 public sealed record CompiledJournalActionContent(IReadOnlyList<string> SourceIds, string ResultTextId);
 
@@ -248,7 +255,7 @@ public sealed class CompiledCampaignRepository
             throw new KeyNotFoundException($"Unknown journal source {sourceId}.");
         }
 
-        return new(entryId, sourceId, entry.Title, entry.Body, source.Title);
+        return new(entryId, sourceId, entry.Title, entry.Body, source.Title, entry.Images ?? source.Images);
     }
 
     public IReadOnlyList<OldPcDocumentDescriptor> OldPcDescriptors() => OldPcDocuments
@@ -300,6 +307,9 @@ public sealed class CompiledCampaignRepository
         var root = pack.RootElement;
         var packNode = JsonNode.Parse(source)!.AsObject();
         var texts = new TextResolver(packNode);
+        var assets = new AssetResolver(packNode, resolveFileUrl: (assetFile, _) =>
+            assetFile.StartsWith("res://", StringComparison.Ordinal)
+                ? assetFile : $"res://assets/{assetFile.TrimStart('/')}");
         var audio = new AudioResolver(
             packNode,
             textResolver: texts,
@@ -311,13 +321,13 @@ public sealed class CompiledCampaignRepository
         var knowledgeRegistry = root.GetProperty("registries").GetProperty("knowledge")
             .EnumerateArray().Select(knowledge => knowledge.Clone()).ToArray();
         var documents = documentRegistry
-            .Select(ReadDocument)
+            .Select(document => ReadDocument(document, assets, texts))
             .OrderBy(document => document.Id, StringComparer.Ordinal)
             .ToArray();
         var oldPcDocuments = documents
             .Where(document => document.Id.StartsWith("urman.oldpc:document/", StringComparison.Ordinal))
             .Select(document => documentRegistry.Single(source => source.GetProperty("id").GetString() == document.Id))
-            .Select(ReadOldPcDocument)
+            .Select(document => ReadOldPcDocument(document, assets, texts))
             .OrderBy(document => document.Id, StringComparer.Ordinal)
             .ToArray();
         var scenes = root.GetProperty("registries").GetProperty("scenes")
@@ -341,7 +351,7 @@ public sealed class CompiledCampaignRepository
             .Select(quest => new CompiledQuestContent(quest.GetProperty("id").GetString()!, quest.Clone()))
             .OrderBy(quest => quest.Id, StringComparer.Ordinal)
             .ToArray();
-        var journalSources = documentRegistry.Select(ReadJournalDocument)
+        var journalSources = documentRegistry.Select(document => ReadJournalDocument(document, assets, texts))
             .Concat(knowledgeRegistry.Select(ReadJournalKnowledge))
             .OrderBy(source => source.Id, StringComparer.Ordinal)
             .ToArray();
@@ -361,13 +371,14 @@ public sealed class CompiledCampaignRepository
             vocabularyEntries);
     }
 
-    private static CompiledDocumentContent ReadDocument(JsonElement document) => new(
+    private static CompiledDocumentContent ReadDocument(JsonElement document, AssetResolver assets, TextResolver texts) => new(
         document.GetProperty("id").GetString()!,
         Localized(document.GetProperty("title")),
         document.GetProperty("bodyMarkdown").GetString()!,
         Strings(document.GetProperty("knowledgeRefs")),
         document.GetProperty("accessConditions").EnumerateArray().Select(item => item.Clone()).ToArray(),
-        document.GetProperty("openEffects").EnumerateArray().Select(item => item.Clone()).ToArray());
+        document.GetProperty("openEffects").EnumerateArray().Select(item => item.Clone()).ToArray(),
+        ReadImages(document, assets, texts));
 
     private static VocabularyEntryContent ReadVocabulary(JsonElement vocabulary) => new(
         vocabulary.GetProperty("id").GetString()!,
@@ -375,7 +386,7 @@ public sealed class CompiledCampaignRepository
         vocabulary.GetProperty("language").GetString()!,
         Localized(vocabulary.GetProperty("meaning")));
 
-    private static OldPcDocumentContent ReadOldPcDocument(JsonElement document)
+    private static OldPcDocumentContent ReadOldPcDocument(JsonElement document, AssetResolver assets, TextResolver texts)
     {
         var localizedTitle = Localized(document.GetProperty("title"));
         var oldPc = document.GetProperty("oldPc");
@@ -387,13 +398,24 @@ public sealed class CompiledCampaignRepository
             Strings(oldPc.GetProperty("searchTerms")),
             Strings(oldPc.GetProperty("suggestedTerms")),
             Strings(document.GetProperty("knowledgeRefs")),
-            document.GetProperty("accessConditions").EnumerateArray().Select(item => item.Clone()).ToArray());
+            document.GetProperty("accessConditions").EnumerateArray().Select(item => item.Clone()).ToArray(),
+            ReadImages(document, assets, texts));
     }
 
-    private static JournalSourceContent ReadJournalDocument(JsonElement document) => new(
+    private static JournalSourceContent ReadJournalDocument(JsonElement document, AssetResolver assets, TextResolver texts) => new(
         document.GetProperty("id").GetString()!,
         Localized(document.GetProperty("title")),
-        document.GetProperty("bodyMarkdown").GetString()!);
+        document.GetProperty("bodyMarkdown").GetString()!, ReadImages(document, assets, texts));
+
+    // Images follow the same compiled manifest as the document. Merely resolving
+    // them never opens a record, teaches a word or changes the player's journal.
+    private static IReadOnlyList<DocumentImageContent> ReadImages(JsonElement document,
+        AssetResolver assets, TextResolver texts) => document.GetProperty("assetRefs")
+        .EnumerateArray().Select(reference => assets.Resolve(reference.GetString()!))
+        .Where(asset => asset.Kind == "image" && asset.MediaType.StartsWith("image/", StringComparison.Ordinal))
+        .Select(asset => new DocumentImageContent(asset.AssetId, asset.Url,
+            asset.Accessibility.AltTextId is { } alt ? texts.Resolve(alt, "ru").Text : string.Empty))
+        .ToArray();
 
     private static JournalSourceContent ReadJournalKnowledge(JsonElement knowledge) => new(
         knowledge.GetProperty("id").GetString()!,

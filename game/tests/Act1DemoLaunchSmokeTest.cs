@@ -125,6 +125,22 @@ public partial class Act1DemoLaunchSmokeTest : Node
             return;
         }
 
+        demo._UnhandledInput(new InputEventKey
+        {
+            Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true, Echo = true
+        });
+        if (!demo.IntroVisible)
+        {
+            Fail("A repeated held interaction key dismissed the New Game intro.");
+            return;
+        }
+        await ToSignal(GetTree().CreateTimer(3.6), SceneTreeTimer.SignalName.Timeout);
+        if (!demo.IntroVisible || !menuPlayer.ModalOpen)
+        {
+            Fail($"Ordinary New Game lost its intro input gate before confirmation: intro={demo.IntroVisible}, modal={menuPlayer.ModalOpen}.");
+            return;
+        }
+
         connectedWorld.SetActiveLogicalZone("house_old_pc");
         var houseEnvironment = connectedWorld.GetNodeOrNull<WorldEnvironment>(
             "babay-abi-house/WorldEnvironment");
@@ -179,12 +195,32 @@ public partial class Act1DemoLaunchSmokeTest : Node
             return;
         }
 
-        await ToSignal(GetTree().CreateTimer(3.6), SceneTreeTimer.SignalName.Timeout);
         if (!demo.IntroVisible || !player.ModalOpen)
         {
-            Fail("Act 1 intro dismissed or unlocked movement before the player confirmed the controls.");
+            Fail($"Presentation placement changed the intro gate before confirmation: intro={demo.IntroVisible}, modal={player.ModalOpen}.");
             return;
         }
+
+        var originalBindings = InputBindingService.Capture();
+        InputBindingService.RebindKeyboard("interact", Key.F);
+        InputBindingService.RebindKeyboard("journal", Key.K);
+        InputBindingService.RebindKeyboard("move_forward", Key.Up);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!demo.IntroControlsText!.Contains("F — начать", StringComparison.Ordinal)
+            || !demo.IntroControlsText.Contains("K — журнал", StringComparison.Ordinal)
+            || !demo.IntroControlsText.Contains(OS.GetKeycodeString(Key.Up), StringComparison.Ordinal))
+        {
+            Fail("Arrival intro ignored the player's remapped keyboard controls.");
+            return;
+        }
+        demo._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
+        if (!demo.IntroVisible)
+        {
+            Fail("The old interaction key dismissed the remapped arrival intro.");
+            return;
+        }
+        InputBindingService.Apply(originalBindings);
 
         var gamepadPress = new InputEventJoypadButton { ButtonIndex = JoyButton.A, Pressed = true };
         player._UnhandledInput(gamepadPress);
@@ -208,9 +244,71 @@ public partial class Act1DemoLaunchSmokeTest : Node
             return;
         }
 
-        GD.Print("act1-demo-launch-smoke: dedicated entrypoint -> first-person arrival -> dynamic keyboard/gamepad intro -> Chapter 1 campaign");
+        if (!await CheckArrivalReach(demo, bridge!, player)) return;
+        GD.Print("act1-demo-launch-smoke: dedicated entrypoint -> remapped intro -> ordinary arrival walk -> physical phone and photo readers; first-player duration not measured");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
+    }
+
+    private async Task<bool> CheckArrivalReach(Act1DemoRoot demo, RuntimeBridge bridge, FirstPersonController player)
+    {
+        var destination = new Vector3(3.60f, player.GlobalPosition.Y, 5.05f);
+        var start = player.GlobalPosition;
+        try
+        {
+            for (var frame = 0; frame < 420; frame++)
+            {
+                var delta = destination - player.GlobalPosition;
+                delta.Y = 0;
+                if (delta.Length() < .16f) break;
+                player.ApplySmokeLook(0, Mathf.RadToDeg(Mathf.Atan2(-delta.X, -delta.Z)));
+                Input.ActionPress("move_forward");
+                await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            }
+        }
+        finally { Input.ActionRelease("move_forward"); }
+        for (var frame = 0; frame < 4; frame++) await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        var error = new Vector2(player.GlobalPosition.X - destination.X, player.GlobalPosition.Z - destination.Z).Length();
+        if (error > .24f || player.EdgeClamps > 0 || player.FallRecoveries > 0)
+        {
+            Fail($"Ordinary arrival walk could not reach the bench: start={start}, actual={player.GlobalPosition}, error={error:F3}.");
+            return false;
+        }
+        var reader = (DocumentUi)GetTree().GetFirstNodeInGroup("document_ui");
+        var camera = player.GetNode<Camera3D>("Head/Camera3D");
+        var ray = camera.GetNode<RayCast3D>("InteractionRay");
+        foreach (var (targetName, document) in new[] { ("ArrivalPhoneTarget", "arrival-mother-message"), ("ArrivalPhotoTarget", "arrival-photo-evidence") })
+        {
+            var target = demo.DemoMain.ConnectedWorld!.FindChild(targetName, true, false) as InteractionTarget;
+            if (target is null) { Fail("Arrival source has no physical target: " + targetName); return false; }
+            var toward = target.GlobalPosition - camera.GlobalPosition;
+            player.ApplySmokeLook(Mathf.RadToDeg(Mathf.Atan2(toward.Y, new Vector2(toward.X, toward.Z).Length())),
+                Mathf.RadToDeg(Mathf.Atan2(-toward.X, -toward.Z)));
+            for (var frame = 0; frame < 3; frame++) await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            ray.ForceRaycastUpdate();
+            if (ray.GetCollider() != target || !target.IsAvailable())
+            {
+                Fail($"Standing arrival ray cannot inspect {targetName}: collider={ray.GetCollider()}, player={player.GlobalPosition}.");
+                return false;
+            }
+            Input.ParseInputEvent(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
+            for (var frame = 0; frame < 180 && !reader.IsOpen; frame++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            Input.ParseInputEvent(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = false });
+            if (!reader.IsOpen || reader.OpenDocumentId != "urman.chapter1:document/" + document)
+            {
+                Fail("Mapped interaction did not open the arrival source reader: " + document);
+                return false;
+            }
+            reader._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+            for (var frame = 0; frame < 3; frame++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+        if (!bridge.IsInteractionAvailable("urman.chapter1:interaction/arrival-answer-mother")
+            || bridge.IsInteractionAvailable("urman.chapter1:interaction/arrival-enter-house") || player.ModalOpen)
+        {
+            Fail("Reading both physical arrival sources skipped the personal choice or retained a modal.");
+            return false;
+        }
+        return true;
     }
 
     private static bool HasVisibleFapMesh(Node root)

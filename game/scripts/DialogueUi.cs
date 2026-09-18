@@ -191,14 +191,15 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         }
     }
 
-    private static string SpeakerName(string role) => role switch
+    internal static string SpeakerName(string role) => role switch
     {
         "gulsina" => "ӘБИ ГӨЛСИНӘ",
         "mansur" => "БАБАЙ МАНСУР",
         "alsu" => "АЛСУ",
         "naila" => "НАИЛЯ",
         "rinat" => "РИНАТ",
-        "timur" => "ТИМУР ХӘЗРӘТ",
+        "timur" or "timur-hazrat" => "ТИМУР ХӘЗРӘТ",
+        "razilya" => "РАЗИЛЯ",
         _ => role.ToUpperInvariant()
     };
 }

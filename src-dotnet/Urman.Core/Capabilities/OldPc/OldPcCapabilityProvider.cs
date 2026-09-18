@@ -58,6 +58,7 @@ public sealed class OldPcCapabilityProvider : ICapabilityProvider
             .Append("archive_search")
             .ToHashSet(StringComparer.Ordinal);
         private readonly HashSet<string> _savedDocumentIds = new(StringComparer.Ordinal);
+        private OldPcDesktopSnapshot _desktop = new();
         private string? _activeDocumentId;
         private string _activeSection = "archive_search";
         private string _query = string.Empty;
@@ -69,7 +70,9 @@ public sealed class OldPcCapabilityProvider : ICapabilityProvider
         {
             EnsureNotStarted();
             if (state.ValueKind != JsonValueKind.Object ||
-                !state.EnumerateObject().Select(property => property.Name).Order(StringComparer.Ordinal).SequenceEqual(SnapshotKeys))
+                !state.EnumerateObject().Select(property => property.Name).Where(name => name != "desktop")
+                    .Order(StringComparer.Ordinal).SequenceEqual(SnapshotKeys)
+                || state.EnumerateObject().Count(property => property.Name == "desktop") > 1)
             {
                 throw new InvalidDataException("Old PC snapshot has an invalid shape.");
             }
@@ -77,6 +80,9 @@ public sealed class OldPcCapabilityProvider : ICapabilityProvider
             _activeDocumentId = state.GetProperty("activeDocumentId").ValueKind == JsonValueKind.Null
                 ? null
                 : RequiredDocumentId(state.GetProperty("activeDocumentId").GetString());
+            _desktop = state.TryGetProperty("desktop", out var desktop)
+                ? OldPcDesktopSnapshot.Restore(desktop, _documents.Keys.ToHashSet(StringComparer.Ordinal), _sections)
+                : new OldPcDesktopSnapshot();
             _activeSection = state.GetProperty("activeSection").GetString()
                 ?? throw new InvalidDataException("Old PC snapshot section is missing.");
             if (!_sections.Contains(_activeSection))
@@ -114,6 +120,12 @@ public sealed class OldPcCapabilityProvider : ICapabilityProvider
             var type = input.GetProperty("type").GetString();
             switch (type)
             {
+                case "desktop":
+                    // Presentation state is captured with the same capability as
+                    // the archive. It cannot open/save a source or advance a clue.
+                    _desktop = OldPcDesktopSnapshot.Restore(input.GetProperty("desktop"),
+                        _documents.Keys.ToHashSet(StringComparer.Ordinal), _sections);
+                    break;
                 case "search":
                     _query = input.GetProperty("query").GetString()
                         ?? throw new ArgumentException("Old PC search query must be a string.");
@@ -155,6 +167,7 @@ public sealed class OldPcCapabilityProvider : ICapabilityProvider
             {
                 activeDocumentId = _activeDocumentId,
                 activeSection = _activeSection,
+                desktop = JsonSerializer.SerializeToElement(_desktop, OldPcDesktopSnapshot.JsonOptions),
                 nextActionSequence = _nextActionSequence,
                 query = _query,
                 savedDocumentIds = _savedDocumentIds.Order(StringComparer.Ordinal).ToArray()

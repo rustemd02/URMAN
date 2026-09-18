@@ -1,6 +1,8 @@
 using System.Globalization;
+using System.Text.Json;
 using Godot;
 using Urman.Core.Persistence;
+using PlayTimeBlock = Urman.Godot.RuntimeBridge.PlayTimeBlock;
 
 namespace Urman.Godot;
 
@@ -43,9 +45,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private const string PerformanceProbeModeMenu = "menu";
     private const string PerformanceProbeModeGameplay = "gameplay";
     private const string PerformanceProbeSampleArgumentPrefix = "--urman-perf-sample=";
-    private readonly record struct PerformanceSampleTarget(string ZoneId, string SpawnPointId)
+    private readonly record struct PerformanceSampleTarget(string ZoneId, string SpawnPointId, string? VehicleId = null,
+        string? SampleLabel = null, string? FacilitySampleId = null)
     {
-        public string Label => $"{ZoneId}@{SpawnPointId}";
+        public string Label => SampleLabel ?? $"{ZoneId}@{SpawnPointId}";
     }
 
     private static readonly PerformanceSampleTarget DefaultPerformanceSample =
@@ -74,12 +77,55 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private readonly List<double> _performanceWarmupSamples = [];
     private readonly List<double> _performanceSamples = [];
     private int _performanceFocusedSamples;
+    private int _performanceObscuredSamples;
+    private bool _performanceRequestFocus;
+    private double _performanceNextFocusRequest;
     private readonly List<string> _performanceStallReports = new(8);
+    private Act1VehiclePerformanceRoute? _vehiclePerformanceRoute;
+    private bool _vehiclePerformanceTimingStarted;
+    private bool _vehiclePerformanceMeasurementStarted;
+    private Act1ConnectedWorld.FacilityPerformanceView? _facilityPerformanceView;
+    private object? _facilityPerformanceSession;
+    private ulong _facilityPerformanceStartedUsec, _facilityPerformanceLastPhysics;
+    private Vector3 _facilityPerformanceFeet, _facilityPerformanceForward;
+    private int _facilityPerformanceStableFrames, _facilityPerformancePoseWrites;
+    private int _facilityPerformanceRevision, _facilityPerformanceRecoveries, _facilityPerformanceClamps;
+    private bool _facilityPerformanceReady;
+    private string _facilityPerformanceFailure = string.Empty;
+    private string? _facilityPerformanceSupportOwner;
+    private float? _facilityPerformanceSupportGap;
+    private Camera3D? _staticPerformanceCamera;
+    private RuntimeBridge? _staticPerformanceBridge;
+    private object? _staticPerformanceSession;
+    private Vector3 _staticPerformanceStartFeet, _staticPerformanceForward, _staticPerformanceMeasuredFeet, _staticPerformanceEyeOffset;
+    private int _staticPerformanceRevision, _staticPerformanceRecoveries, _staticPerformanceClamps;
+    private float _staticPerformanceFov, _staticPerformanceMaximumHorizontalDrift, _staticPerformanceMaximumVerticalDrift;
+    private float _staticPerformanceMinimumForwardDot = 1f;
+    private float _staticPerformanceMaximumEyeOffsetDrift;
+    private bool _staticPerformanceMeasurementStarted;
+    private string? _staticPerformanceFailure;
+    private ulong _staticPerformanceFirstFailureFrame;
+    private bool _performanceFinishing;
     private bool _startupPerformanceGuard;
     private int _startupGuardWarmupFrames;
     private ulong _startupGuardLastTicks;
     private double _startupGuardElapsed;
     private readonly List<double> _startupGuardSamples = [];
+    private bool _m10TimingEnabled;
+    private string _m10RunId = string.Empty;
+    private string _m10BaseMode = "ordinary-observation";
+    private string _m10LastMode = string.Empty;
+    private ulong _m10StartedUsec, _m10LastSampleUsec, _m10LastRecordUsec;
+    private PlayTimeBlock _m10PreviousBlocks = PlayTimeBlock.NotReady;
+    private string? _m10LastScene, _m10LastZone, _m10LastSpawn;
+    private JsonElement? _m10Beats;
+    private double _m10ActiveSeconds, _m10PauseSeconds, _m10SettingsSeconds;
+    private double _m10FocusLostSeconds, _m10LoadingSeconds, _m10MenuSeconds;
+    private double _m10EndingSeconds, _m10NotReadySeconds;
+
+    internal bool M10TimingEnabled => _m10TimingEnabled;
+    internal double M10ElapsedSeconds => _m10TimingEnabled
+        ? (Time.GetTicksUsec() - _m10StartedUsec) / 1_000_000.0 : 0;
 
     public Main DemoMain => _main;
 
@@ -138,7 +184,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         catch (Exception exception)
         {
             GD.PushError($"Act I startup failed: {exception}");
-            if (DisplayServer.GetName() != "headless")
+            var arguments = OS.GetCmdlineArgs();
+            var unattendedSmoke = arguments.Contains("--urman-smoke-background-input", StringComparer.Ordinal)
+                && arguments.Any(argument => argument.StartsWith("res://tests/", StringComparison.Ordinal)
+                    && argument.EndsWith(".tscn", StringComparison.Ordinal));
+            // Native smoke failures must reach their exit code and userdata
+            // guard without waiting for acknowledgement of a blocking OS alert.
+            if (DisplayServer.GetName() != "headless" && !unattendedSmoke)
             {
                 OS.Alert(
                     "Не удалось запустить Акт I.\nЗаново распакуйте архив игры и повторите запуск.",
@@ -157,6 +209,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             || commandLine.Any(argument => argument.StartsWith(
                 "--urman-perf-probe-mode=",
                 StringComparison.Ordinal));
+        ConfigureM10Timing(commandLine);
         if (_performanceProbe)
         {
             // Select the already-authored connected-world placement before
@@ -201,6 +254,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         if (_performanceProbe)
         {
             ConfigurePerformanceProbe(commandLine);
+            ConfigureRendererDiagnostics();
             _performanceLastTicks = Time.GetTicksUsec();
             _performanceLastGc = (GC.CollectionCount(0), GC.CollectionCount(1), GC.CollectionCount(2), GC.GetTotalAllocatedBytes(false));
             _performanceLastPipelines = (RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.PipelineCompilationsSurface),
@@ -216,6 +270,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _Process(double delta)
     {
+        RecordM10Timing();
         if (_performanceProbe)
         {
             RecordPerformanceProbeFrame();
@@ -260,9 +315,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _ExitTree()
     {
+        StopRendererDiagnostics();
+        _vehiclePerformanceRoute?.ReleaseInput();
+        RecordM10Timing("process-exit", force: true);
         if (_bridge is not null && GodotObject.IsInstanceValid(_bridge))
         {
             _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
+            _bridge.PlayTimeBoundary -= OnPlayTimeBoundary;
         }
 
         _bridge = null;
@@ -285,6 +344,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             _bridge = bridge;
             _bridge.RuntimeStateChanged += OnRuntimeStateChanged;
+            _bridge.PlayTimeBoundary += OnPlayTimeBoundary;
+            RecordM10Timing("runtime-ready", force: true);
             RefreshMenuContinueAvailability();
             EvaluateEndingState();
             return;
@@ -295,7 +356,88 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private void OnRuntimeStateChanged()
     {
+        if (_m10TimingEnabled && _bridge is { } bridge)
+        {
+            var state = bridge.SelectRuntimeState();
+            _m10Beats = state.TryGetProperty("beats", out var beats) ? beats.Clone() : null;
+            RecordM10Timing("runtime-state", force: true);
+        }
         EvaluateEndingState();
+    }
+
+    private void ConfigureM10Timing(IReadOnlyList<string> arguments)
+    {
+        _m10TimingEnabled = arguments.Contains("--urman-m10-timing", StringComparer.Ordinal);
+        if (!_m10TimingEnabled) return;
+        _m10RunId = Guid.NewGuid().ToString("N");
+        _m10StartedUsec = _m10LastSampleUsec = _m10LastRecordUsec = Time.GetTicksUsec();
+        var testScene = arguments.Any(argument => argument.StartsWith("res://tests/", StringComparison.Ordinal));
+        for (Node? node = this; node is not null && !testScene; node = node.GetParent())
+            testScene = node.SceneFilePath.StartsWith("res://tests/", StringComparison.Ordinal);
+        _m10BaseMode = _performanceProbe ? "technical-performance"
+            : testScene || arguments.Contains("--urman-smoke-background-input", StringComparer.Ordinal)
+                ? "technical-test" : "ordinary-observation";
+    }
+
+    private void OnPlayTimeBoundary(string boundary) => RecordM10Timing(boundary, force: true);
+
+    private void RecordM10Timing(string? boundary = null, bool force = false)
+    {
+        if (!_m10TimingEnabled) return;
+        var now = Time.GetTicksUsec();
+        var elapsed = (now - _m10LastSampleUsec) / 1_000_000.0;
+        // These categories overlap (for example focus loss opens pause). Active
+        // time is their complement, so adding exclusions must not double-count.
+        if (_m10PreviousBlocks == PlayTimeBlock.None) _m10ActiveSeconds += elapsed;
+        if ((_m10PreviousBlocks & PlayTimeBlock.Pause) != 0) _m10PauseSeconds += elapsed;
+        if ((_m10PreviousBlocks & PlayTimeBlock.Settings) != 0) _m10SettingsSeconds += elapsed;
+        if ((_m10PreviousBlocks & PlayTimeBlock.Unfocused) != 0) _m10FocusLostSeconds += elapsed;
+        if ((_m10PreviousBlocks & PlayTimeBlock.Loading) != 0) _m10LoadingSeconds += elapsed;
+        if ((_m10PreviousBlocks & PlayTimeBlock.MainMenu) != 0) _m10MenuSeconds += elapsed;
+        if ((_m10PreviousBlocks & PlayTimeBlock.Ending) != 0) _m10EndingSeconds += elapsed;
+        if ((_m10PreviousBlocks & PlayTimeBlock.NotReady) != 0) _m10NotReadySeconds += elapsed;
+        _m10LastSampleUsec = now;
+
+        var bridge = _bridge is { } candidate && IsInstanceValid(candidate) && candidate.IsInsideTree()
+            ? candidate : null;
+        var blocks = bridge?.CapturePlayTimeBlocks() ?? PlayTimeBlock.NotReady;
+        var scene = bridge?.ActiveSceneId ?? _m10LastScene;
+        var zone = bridge?.CurrentZoneId ?? _m10LastZone;
+        var spawn = bridge?.CurrentSpawnPointId ?? _m10LastSpawn;
+        var mode = bridge?.IsDebugSession == true ? "technical-debug" : _m10BaseMode;
+        var changed = blocks != _m10PreviousBlocks || scene != _m10LastScene
+            || zone != _m10LastZone || spawn != _m10LastSpawn || mode != _m10LastMode;
+        _m10PreviousBlocks = blocks;
+        _m10LastScene = scene;
+        _m10LastZone = zone;
+        _m10LastSpawn = spawn;
+        _m10LastMode = mode;
+        if (!force && !changed && now - _m10LastRecordUsec < 10_000_000) return;
+        _m10LastRecordUsec = now;
+        GD.Print("act1-m10-time: " + JsonSerializer.Serialize(new
+        {
+            run_id = _m10RunId,
+            utc = DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture),
+            elapsed_seconds = (now - _m10StartedUsec) / 1_000_000.0,
+            @event = boundary ?? (changed ? "state" : "heartbeat"),
+            mode,
+            human_verified = false,
+            scene, zone, spawn, beats = _m10Beats,
+            blocks = blocks.ToString(),
+            active_seconds = _m10ActiveSeconds,
+            pause_seconds = _m10PauseSeconds,
+            settings_seconds = _m10SettingsSeconds,
+            focus_lost_seconds = _m10FocusLostSeconds,
+            loading_seconds = _m10LoadingSeconds,
+            menu_seconds = _m10MenuSeconds,
+            ending_seconds = _m10EndingSeconds,
+            not_ready_seconds = _m10NotReadySeconds,
+            categories_overlap = true,
+            sampling = "process-frame; exact load boundaries",
+            saved_play_time_seconds = bridge?.PlayTimeSeconds,
+            act_completed = DemoEnded,
+            intro_visible = IntroVisible
+        }));
     }
 
     private void EvaluateEndingState()
@@ -382,6 +524,55 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var pipelines = (Surface: RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.PipelineCompilationsSurface),
             Draw: RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.PipelineCompilationsDraw));
         var focused = DisplayServer.WindowIsFocused();
+        // An explicit native benchmark may ask for foreground during warmup.
+        // Measurement never steals focus or closes an overlay: losing either
+        // condition remains visible in the receipt and invalidates the run.
+        if (_performanceRequestFocus && _performanceWarmupElapsed < _performanceWarmupSeconds)
+        {
+            var focusRequestClock = _vehiclePerformanceRoute?.ElapsedSeconds
+                ?? (_facilityPerformanceView is not null && !_facilityPerformanceReady
+                    ? (now - _facilityPerformanceStartedUsec) / 1_000_000.0 : _performanceWarmupElapsed);
+            if (!focused && focusRequestClock >= _performanceNextFocusRequest)
+            {
+                DisplayServer.WindowMoveToForeground();
+                _performanceNextFocusRequest = focusRequestClock + 1.0;
+            }
+            else if (focused && _pauseMenu?.IsOpen == true)
+            {
+                _pauseMenu.Resume();
+                GD.Print("act1-perf: resumed focus-loss pause during requested foreground warmup");
+            }
+        }
+        if (_performanceSample.FacilitySampleId is not null && !UpdateFacilityPerformancePlacement())
+        {
+            _performanceLastGc = gc;
+            _performanceLastPipelines = pipelines;
+            if (!string.IsNullOrEmpty(_facilityPerformanceFailure))
+                FinishPerformanceProbe(2,
+                    $"act1-demo-package-performance: status=LOCATION_INVALID mode={_performanceProbeMode} sample={ProbeToken(_performanceSample.Label)} reason={ProbeToken(_facilityPerformanceFailure)}");
+            return;
+        }
+        if (_vehiclePerformanceRoute is { } route)
+        {
+            if (!string.IsNullOrEmpty(route.Failure))
+            {
+                FinishPerformanceProbe(2);
+                return;
+            }
+            if (!route.MeasurementReady)
+            {
+                _performanceLastGc = gc;
+                _performanceLastPipelines = pipelines;
+                return; // Real walking, entry and ignition are outside the timed interval.
+            }
+            if (!_vehiclePerformanceTimingStarted)
+            {
+                _vehiclePerformanceTimingStarted = true;
+                _performanceLastGc = gc;
+                _performanceLastPipelines = pipelines;
+                return;
+            }
+        }
         if (frameMilliseconds > 100.0)
         {
             var warming = _performanceWarmupElapsed < _performanceWarmupSeconds;
@@ -401,15 +592,26 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _performanceLastGc = gc;
         _performanceLastPipelines = pipelines;
 
+        ObserveStaticPerformancePose(_performanceWarmupElapsed >= _performanceWarmupSeconds);
         if (_performanceWarmupElapsed < _performanceWarmupSeconds)
         {
             _performanceWarmupSamples.Add(frameMilliseconds);
             _performanceWarmupElapsed += frameMilliseconds / 1000.0;
+            ResetRendererInputObservation();
             return;
         }
 
+        if (_vehiclePerformanceRoute is { } measuringRoute && !_vehiclePerformanceMeasurementStarted)
+        {
+            _vehiclePerformanceMeasurementStarted = true;
+            measuringRoute.BeginMeasurement();
+            return;
+        }
         _performanceSamples.Add(frameMilliseconds);
+        RecordRendererDiagnosticSample(frameMilliseconds, focused);
         if (focused) _performanceFocusedSamples++;
+        if (_pauseMenu?.IsOpen == true || IntroVisible || _mainMenu is not null || _player?.ModalOpen != false)
+            _performanceObscuredSamples++;
         _performanceMeasurementElapsed += frameMilliseconds / 1000.0;
         if (_performanceMeasurementElapsed < _performanceDurationSeconds)
         {
@@ -437,9 +639,17 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var renderingMethod = ProjectSettings
             .GetSetting("rendering/renderer/rendering_method", "unknown")
             .AsString();
-        var camera = player?.GetNodeOrNull<Camera3D>("Head/Camera3D");
+        var camera = viewport.GetCamera3D();
+        var vehicleRouteValid = _vehiclePerformanceRoute?.ValidateMeasurement() ?? true;
+        var facilityLocationValid = _facilityPerformanceView is null
+            || _facilityPerformanceReady && ValidateFacilityPerformancePose(checkSupport: true);
+        var staticLocationValid = _performanceSample.VehicleId is not null || _performanceSample.FacilitySampleId is not null
+            || _staticPerformanceMeasurementStarted && _staticPerformanceFailure is null;
+        var focusValid = _performanceFocusedSamples / (double)_performanceSamples.Count >= .95;
+        var sceneVisible = _performanceObscuredSamples == 0;
         var performancePass = _performanceWindowed
             && _performanceRealRenderer
+            && focusValid && sceneVisible && vehicleRouteValid && facilityLocationValid && staticLocationValid
             && string.Equals(_performanceProbeMode, PerformanceProbeModeGameplay, StringComparison.Ordinal)
             && _performanceWarmupSeconds >= DefaultPerformanceWarmupSeconds
             && _performanceDurationSeconds >= DefaultPerformanceDurationSeconds
@@ -455,6 +665,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             : !string.Equals(_performanceProbeMode, PerformanceProbeModeGameplay, StringComparison.Ordinal)
                 ? "MENU_DIAGNOSTIC"
                 : shortProbe ? "DIAGNOSTIC_SHORT"
+                : !focusValid ? "FOCUS_INVALID"
+                : !sceneVisible ? "OVERLAY_INVALID"
+                : !facilityLocationValid || !staticLocationValid ? "LOCATION_INVALID"
+                : !vehicleRouteValid ? "ROUTE_INVALID"
                 : performancePass ? "PASS" : "FAIL";
 
         foreach (var stallReport in _performanceStallReports)
@@ -462,7 +676,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             GD.Print(stallReport);
         }
 
-        GD.Print(string.Join(' ',
+        var report = string.Join(' ',
             "act1-demo-package-performance:",
             $"status={status}",
             $"mode={_performanceProbeMode}",
@@ -478,6 +692,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             $"sample_seconds={_performanceMeasurementElapsed.ToString("F2", CultureInfo.InvariantCulture)}",
             $"sample_count={_performanceSamples.Count}",
             $"focused_sample_count={_performanceFocusedSamples}",
+            $"obscured_sample_count={_performanceObscuredSamples}",
+            $"foreground_requested={_performanceRequestFocus.ToString().ToLowerInvariant()}",
             $"focused_sample_fraction={(_performanceFocusedSamples / (double)_performanceSamples.Count).ToString("F5", CultureInfo.InvariantCulture)}",
             $"fps={(_performanceWindowed && _performanceRealRenderer ? fps.ToString("F2", CultureInfo.InvariantCulture) : "n/a")}",
             $"window_fps_valid={(_performanceWindowed && _performanceRealRenderer).ToString().ToLowerInvariant()}",
@@ -495,13 +711,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             $"process_ms={(Performance.GetMonitor(Performance.Monitor.TimeProcess) * 1000.0).ToString("F3", CultureInfo.InvariantCulture)}",
             $"physics_ms={(Performance.GetMonitor(Performance.Monitor.TimePhysicsProcess) * 1000.0).ToString("F3", CultureInfo.InvariantCulture)}",
             $"draw_calls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame).ToString("F0", CultureInfo.InvariantCulture)}",
-            $"primitives={Performance.GetMonitor(Performance.Monitor.RenderTotalPrimitivesInFrame).ToString("F0", CultureInfo.InvariantCulture)}"));
+            $"primitives={Performance.GetMonitor(Performance.Monitor.RenderTotalPrimitivesInFrame).ToString("F0", CultureInfo.InvariantCulture)}");
 
         var exitCode = !string.Equals(_performanceProbeMode, PerformanceProbeModeGameplay, StringComparison.Ordinal)
-            || shortProbe
+            || shortProbe || !focusValid || !sceneVisible || !vehicleRouteValid || !facilityLocationValid || !staticLocationValid
             ? 2
             : performancePass ? 0 : 1;
-        FinishPerformanceProbe(exitCode);
+        FinishPerformanceProbe(exitCode, report, status);
     }
 
     private static PerformanceSampleTarget ParsePerformanceSample(
@@ -532,6 +748,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         }
 
         var value = sampleArgument[PerformanceProbeSampleArgumentPrefix.Length..].Trim();
+        if (Act1VehiclePerformanceRoute.VehicleForSample(value) is { } vehicleId)
+            return new PerformanceSampleTarget("village_day", "arrival", vehicleId, value);
+        if (Act1ConnectedWorld.IsFacilityPerformanceSample(value))
+            return new PerformanceSampleTarget("village_day", "arrival", SampleLabel: value, FacilitySampleId: value);
         var separator = value.IndexOf('@');
         if (separator <= 0
             || separator == value.Length - 1
@@ -555,6 +775,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private void ConfigurePerformanceProbe(IReadOnlyList<string> commandLine)
     {
         _performanceStallReports.Clear();
+        _performanceRequestFocus = commandLine.Contains("--urman-perf-request-focus", StringComparer.Ordinal);
         var modeArgument = commandLine.FirstOrDefault(argument => argument.StartsWith(
             "--urman-perf-probe-mode=",
             StringComparison.Ordinal));
@@ -609,7 +830,174 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             _mainMenu?.Dismiss();
             _mainMenu = null;
             _player?.SetModalOpen(false);
+            if (_performanceSample.FacilitySampleId is { } facilitySample
+                && _performanceProbeConfigurationValid && _performanceWindowed && _performanceRealRenderer)
+            {
+                _facilityPerformanceStartedUsec = Time.GetTicksUsec();
+                _facilityPerformanceLastPhysics = Engine.GetPhysicsFrames();
+                if (_main.ConnectedWorld?.TryGetFacilityPerformanceView(facilitySample, out _facilityPerformanceView) != true)
+                    _facilityPerformanceFailure = "authored-facility-view-unavailable";
+            }
+            if (_performanceSample.VehicleId is { } vehicleId && _player is { } player
+                && _performanceProbeConfigurationValid && _performanceWindowed && _performanceRealRenderer)
+            {
+                _vehiclePerformanceRoute = new Act1VehiclePerformanceRoute();
+                _vehiclePerformanceRoute.Configure(_main, player, vehicleId);
+                AddChild(_vehiclePerformanceRoute);
+            }
+            else if (_performanceSample.FacilitySampleId is null && _player is { } stationaryPlayer)
+            {
+                _staticPerformanceCamera = GetViewport().GetCamera3D();
+                _staticPerformanceBridge = _main.GetNode<RuntimeBridge>("RuntimeBridge");
+                _staticPerformanceSession = _staticPerformanceBridge.SessionIdentity;
+                _staticPerformanceStartFeet = stationaryPlayer.GlobalPosition;
+                _staticPerformanceForward = -(_staticPerformanceCamera?.GlobalBasis.Z ?? Vector3.Zero).Normalized();
+                _staticPerformanceFov = _staticPerformanceCamera?.Fov ?? 0;
+                _staticPerformanceRevision = stationaryPlayer.PresentationTransformRevision;
+                _staticPerformanceRecoveries = stationaryPlayer.FallRecoveries;
+                _staticPerformanceClamps = stationaryPlayer.EdgeClamps;
+            }
         }
+    }
+
+    private void ObserveStaticPerformancePose(bool measuring)
+    {
+        if (_performanceProbeMode != PerformanceProbeModeGameplay || _performanceSample.VehicleId is not null
+            || _performanceSample.FacilitySampleId is not null) return;
+        var camera = GetViewport().GetCamera3D();
+        string? failure = null;
+        if (_player is not { } player || camera is null || camera != _staticPerformanceCamera)
+            failure = "player-or-camera-owner-changed";
+        else
+        {
+            // Allow the normal initial vertical settling, while retaining the
+            // authored horizontal placement and view throughout warmup too.
+            var offset = player.GlobalPosition - _staticPerformanceStartFeet;
+            var horizontal = new Vector2(offset.X, offset.Z).Length();
+            var forwardDot = _staticPerformanceForward.Dot(-camera.GlobalBasis.Z.Normalized());
+            _staticPerformanceMaximumHorizontalDrift = Math.Max(_staticPerformanceMaximumHorizontalDrift, horizontal);
+            _staticPerformanceMinimumForwardDot = Math.Min(_staticPerformanceMinimumForwardDot, forwardDot);
+            if (measuring && !_staticPerformanceMeasurementStarted)
+            {
+                _staticPerformanceMeasuredFeet = player.GlobalPosition;
+                // Spawn starts with a protective crouched collider until the
+                // first physical standing-clearance check. Do not use that
+                // temporary eye height as the ordinary standing-view baseline.
+                _staticPerformanceEyeOffset = camera.GlobalPosition - player.GlobalPosition;
+                _staticPerformanceMeasurementStarted = true;
+            }
+            var eyeDrift = measuring ? (camera.GlobalPosition - player.GlobalPosition).DistanceTo(_staticPerformanceEyeOffset) : 0;
+            _staticPerformanceMaximumEyeOffsetDrift = Math.Max(_staticPerformanceMaximumEyeOffsetDrift, eyeDrift);
+            var vertical = measuring ? Math.Abs(player.GlobalPosition.Y - _staticPerformanceMeasuredFeet.Y) : 0;
+            _staticPerformanceMaximumVerticalDrift = Math.Max(_staticPerformanceMaximumVerticalDrift, vertical);
+            if (_staticPerformanceBridge is null || !GodotObject.IsInstanceValid(_staticPerformanceBridge)
+                || !ReferenceEquals(_staticPerformanceSession, _staticPerformanceBridge.SessionIdentity)
+                || player.PresentationTransformRevision != _staticPerformanceRevision
+                || player.FallRecoveries != _staticPerformanceRecoveries || player.EdgeClamps != _staticPerformanceClamps
+                || player.VehicleControlled)
+                failure = "session-or-physical-placement-owner-changed";
+            else if (!float.IsFinite(horizontal) || horizontal >= .01f || !float.IsFinite(forwardDot) || forwardDot <= .99999f
+                || !float.IsFinite(eyeDrift) || eyeDrift >= .005f
+                || !float.IsFinite(camera.Fov) || Math.Abs(camera.Fov - _staticPerformanceFov) > .001f)
+                failure = "authored-horizontal-placement-or-view-changed";
+            else if (measuring && (vertical >= .005f || player.IsCrouching || !player.IsOnFloor()
+                || player.Velocity.LengthSquared() >= .0001f))
+                failure = "measured-standing-pose-changed";
+        }
+        if (failure is not null && _staticPerformanceFailure is null)
+        {
+            _staticPerformanceFailure = failure;
+            _staticPerformanceFirstFailureFrame = Engine.GetProcessFrames();
+        }
+    }
+
+    private bool UpdateFacilityPerformancePlacement()
+    {
+        if (!string.IsNullOrEmpty(_facilityPerformanceFailure)) return false;
+        if (_facilityPerformanceView is not { } view || _player is null)
+        { _facilityPerformanceFailure = "facility-view-or-player-missing"; return false; }
+        if (_facilityPerformanceReady) return ValidateFacilityPerformancePose(checkSupport: false);
+        if (Time.GetTicksUsec() - _facilityPerformanceStartedUsec > 10_000_000)
+        { _facilityPerformanceFailure = "facility-placement-timeout"; return false; }
+        var physics = Engine.GetPhysicsFrames();
+        if (physics == _facilityPerformanceLastPhysics) return false;
+        _facilityPerformanceLastPhysics = physics;
+        if (!DisplayServer.WindowIsFocused() || _player.ModalOpen
+            || _main.GetNode<RuntimeBridge>("RuntimeBridge").SessionIdentity is not { } session) return false;
+        var camera = _player.GetNode<Camera3D>("Head/Camera3D");
+        if (_facilityPerformancePoseWrites == 0)
+        {
+            if (!TryFacilityPerformanceFloor(view.StandingCandidate, out var floor))
+            { _facilityPerformanceFailure = "authored-facility-floor-missing"; return false; }
+            var feet = floor + Vector3.Up * .02f;
+            if (!_player.CanStandAt(feet))
+            { _facilityPerformanceFailure = "authored-facility-standing-body-blocked"; return false; }
+            var delta = view.AimPoint - feet;
+            var yaw = Mathf.Atan2(-delta.X, -delta.Z);
+            var eyeOffset = _player.GlobalBasis.Inverse() * (camera.GlobalPosition - _player.GlobalPosition);
+            var eye = feet + new Basis(Vector3.Up, yaw) * eyeOffset;
+            var direction = view.AimPoint - eye;
+            var pitch = Mathf.RadToDeg(Mathf.Atan2(direction.Y, new Vector2(direction.X, direction.Z).Length()));
+            // Only this explicitly selected, native gameplay performance fixture
+            // places the player; ordinary spawn, quest and save owners are unchanged.
+            _player.ApplyPortableTransform(new PlayerTransform(new(feet.X, feet.Y, feet.Z),
+                new(pitch, Mathf.RadToDeg(yaw), 0)));
+            _facilityPerformancePoseWrites++;
+            _facilityPerformanceSession = session;
+            _facilityPerformanceFeet = feet;
+            _facilityPerformanceForward = -camera.GlobalBasis.Z.Normalized();
+            _facilityPerformanceRevision = _player.PresentationTransformRevision;
+            _facilityPerformanceRecoveries = _player.FallRecoveries;
+            _facilityPerformanceClamps = _player.EdgeClamps;
+            GD.Print($"act1-facility-performance-setup: sample={view.SampleId} fixture=single-explicit-presentation-placement room={view.Room.GetPath()} floor={view.FloorOwner.GetPath()} subject={view.ViewSubject.GetPath()} feet={feet} aim={view.AimPoint} quest_writes=0");
+            return false;
+        }
+        if (!ValidateFacilityPerformancePose(checkSupport: true, settling: true)) return false;
+        if (!_player.IsOnFloor() || _player.Velocity.LengthSquared() > .0001f)
+        { _facilityPerformanceStableFrames = 0; return false; }
+        _facilityPerformanceStableFrames++;
+        if (_facilityPerformanceStableFrames < 6) return false;
+        _facilityPerformanceFeet = _player.GlobalPosition;
+        _facilityPerformanceReady = true;
+        GD.Print($"act1-facility-performance-ready: sample={view.SampleId} stable_physics_frames={_facilityPerformanceStableFrames} feet={_facilityPerformanceFeet} floor={_facilityPerformanceSupportOwner} gap={_facilityPerformanceSupportGap} warmup_seconds={_performanceWarmupSeconds.ToString(CultureInfo.InvariantCulture)} measurement_seconds={_performanceDurationSeconds.ToString(CultureInfo.InvariantCulture)}");
+        return false; // Setup, including this physics result, is outside the timed interval.
+    }
+
+    private bool TryFacilityPerformanceFloor(Vector3 feet, out Vector3 floor)
+    {
+        floor = default;
+        if (_facilityPerformanceView is not { } view || _player is null) return false;
+        using var query = PhysicsRayQueryParameters3D.Create(feet + Vector3.Up * .12f, feet - Vector3.Up * .22f,
+            3, new global::Godot.Collections.Array<Rid> { _player.GetRid() });
+        var hit = _main.ConnectedWorld!.GetWorld3D().DirectSpaceState.IntersectRay(query);
+        var owner = hit.Count == 0 ? null : hit["collider"].AsGodotObject() as CollisionObject3D;
+        _facilityPerformanceSupportOwner = owner?.GetPath().ToString();
+        _facilityPerformanceSupportGap = null;
+        if (owner != view.FloorOwner || hit["normal"].AsVector3().Y < .99f) return false;
+        floor = hit["position"].AsVector3();
+        _facilityPerformanceSupportGap = feet.Y - floor.Y;
+        return true;
+    }
+
+    private bool ValidateFacilityPerformancePose(bool checkSupport, bool settling = false)
+    {
+        if (_facilityPerformanceView is not { } view || _player is null) return false;
+        var camera = _player.GetNode<Camera3D>("Head/Camera3D");
+        var delta = _player.GlobalPosition - _facilityPerformanceFeet;
+        var valid = ReferenceEquals(_facilityPerformanceSession, _main.GetNode<RuntimeBridge>("RuntimeBridge").SessionIdentity)
+            && _player.PresentationTransformRevision == _facilityPerformanceRevision
+            && _player.FallRecoveries == _facilityPerformanceRecoveries && _player.EdgeClamps == _facilityPerformanceClamps
+            && !_player.VehicleControlled && GetViewport().GetCamera3D() == camera
+            && new Vector2(delta.X, delta.Z).Length() < .01f && Math.Abs(delta.Y) < (settling ? .025f : .005f)
+            && _facilityPerformanceForward.Dot(-camera.GlobalBasis.Z.Normalized()) > .99999f
+            && (view.AimPoint - camera.GlobalPosition).Normalized().Dot(-camera.GlobalBasis.Z.Normalized()) > .999f
+            && _main.ConnectedWorld!.FacilityInteriorAt(_player.GlobalPosition) == view.InteriorId
+            && _main.ConnectedWorld.GetMeta("physicalInterior", "").AsString() == view.InteriorId;
+        if (!settling) valid &= _player.IsOnFloor() && _player.Velocity.LengthSquared() < .0001f;
+        if (checkSupport)
+            valid &= TryFacilityPerformanceFloor(_player.GlobalPosition, out _) && _player.CanStandAt(_player.GlobalPosition);
+        if (!valid) _facilityPerformanceFailure = "facility-physical-placement-or-camera-changed";
+        return valid;
     }
 
     private static double ParsePerformanceSeconds(
@@ -656,9 +1044,60 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         ? "unknown"
         : value.Replace(' ', '_').Replace('\t', '_');
 
-    private void FinishPerformanceProbe(int exitCode)
+    private async void FinishPerformanceProbe(int exitCode, string? report = null, string? status = null)
     {
+        if (_performanceFinishing) return;
+        _performanceFinishing = true;
         _performanceProbe = false;
+        if (_performanceProbeMode == PerformanceProbeModeGameplay && _performanceSample.VehicleId is null
+            && _performanceSample.FacilitySampleId is null)
+            GD.Print("act1-static-performance-location: " + JsonSerializer.Serialize(new
+            {
+                sample = _performanceSample.Label,
+                locationValid = _staticPerformanceMeasurementStarted && _staticPerformanceFailure is null,
+                failure = _staticPerformanceFailure, firstFailureFrame = _staticPerformanceFirstFailureFrame,
+                initialFeet = _staticPerformanceStartFeet.ToString(), measuredStartFeet = _staticPerformanceMeasuredFeet.ToString(),
+                initialForward = _staticPerformanceForward.ToString(), initialFov = _staticPerformanceFov,
+                measuredStartEyeOffset = _staticPerformanceEyeOffset.ToString(), maximumEyeOffsetDrift = _staticPerformanceMaximumEyeOffsetDrift,
+                finalFeet = _player?.GlobalPosition.ToString(), finalCamera = GetViewport().GetCamera3D()?.GlobalTransform.ToString(),
+                maximumHorizontalDrift = _staticPerformanceMaximumHorizontalDrift,
+                maximumMeasuredVerticalDrift = _staticPerformanceMaximumVerticalDrift,
+                minimumForwardDot = _staticPerformanceMinimumForwardDot,
+                scope = "observed fixed authored view; ordinary input remains enabled; no pose or input writes"
+            }));
+        if (_performanceSample.FacilitySampleId is { } facilitySample)
+            GD.Print("act1-facility-performance-location: " + JsonSerializer.Serialize(new
+            {
+                sample = facilitySample, setupValid = _facilityPerformanceReady,
+                locationValid = _facilityPerformanceReady && string.IsNullOrEmpty(_facilityPerformanceFailure),
+                failure = _facilityPerformanceFailure, poseWrites = _facilityPerformancePoseWrites,
+                stablePhysicsFrames = _facilityPerformanceStableFrames,
+                room = _facilityPerformanceView?.Room.GetPath().ToString(),
+                expectedFloor = _facilityPerformanceView?.FloorOwner.GetPath().ToString(),
+                actualFloor = _facilityPerformanceSupportOwner, supportGap = _facilityPerformanceSupportGap,
+                subject = _facilityPerformanceView?.ViewSubject.GetPath().ToString(),
+                feet = _player?.GlobalPosition.ToString(), aim = _facilityPerformanceView?.AimPoint.ToString(),
+                camera = GetViewport().GetCamera3D()?.GlobalTransform.ToString(),
+                warmupSeconds = _performanceWarmupSeconds, measurementSeconds = _performanceDurationSeconds,
+                traversalProof = false, questWrites = 0, humanDuration = "not-measured"
+            }));
+        CaptureCompletedPerformanceFrame();
+        CaptureRendererCensus();
+        if (_vehiclePerformanceRoute is { } route)
+        {
+            var exited = await route.FinishAsync();
+            GD.Print("act1-vehicle-performance-route: " + route.Receipt());
+            if (!exited || !string.IsNullOrEmpty(route.Failure))
+            {
+                exitCode = 2;
+                report = report is not null && status is not null
+                    ? report.Replace($"status={status}", "status=ROUTE_INVALID", StringComparison.Ordinal)
+                    : $"act1-demo-package-performance: status=ROUTE_INVALID mode={_performanceProbeMode} sample={ProbeToken(_performanceSample.Label)} reason={ProbeToken(route.Failure)}";
+            }
+        }
+        FinishRendererDiagnostics(ref exitCode, ref report);
+        if (report is not null) GD.Print(report);
+        if (!IsInsideTree()) return;
         _main.QueueFree();
         GetTree().Quit(exitCode);
     }
@@ -715,7 +1154,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             GetViewport().SetInputAsHandled();
             return;
         }
-        if (_introScreen is null)
+        if (_introScreen is null || inputEvent is InputEventKey { Echo: true })
         {
             return;
         }
@@ -724,6 +1163,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             || inputEvent.IsActionPressed("ui_accept")
             || inputEvent is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
         {
+            GD.Print($"act1-intro: confirmed with {inputEvent.AsText()}");
             DismissIntro();
             GetViewport().SetInputAsHandled();
         }
@@ -746,8 +1186,30 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         AddChild(_pauseMenu);
     }
 
+    private const string LoadPlacementFailureStatus = "Не удалось найти свободное место для игрока. Игра приостановлена. Можно повторить загрузку или начать новую игру; файлы сохранений оставлены без изменений.";
+
+    internal void ShowLoadPlacementFailure()
+    {
+        if (_pauseMenu?.IsOpen == true) _pauseMenu.Resume();
+        if (!MainMenuVisible) BuildMainMenu();
+        if (GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true } settings)
+            settings.Close();
+        UiFoley.StopWorld(GetTree());
+        (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.SetPaused(true);
+        _mainMenu?.ShowStatus(LoadPlacementFailureStatus);
+    }
+
+    private void RefreshGameplayAudioPauseState()
+    {
+        var paused = MainMenuVisible || IntroVisible || _pauseMenu?.IsOpen == true
+            || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }
+            || _bridge?.NeedsPhysicalRecovery == true;
+        (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.SetPaused(paused);
+    }
+
     private void BuildMainMenu()
     {
+        (GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge)?.CancelRinatPresentation();
         var player = _player;
         // UIUX-001: gameplay input stays gated behind the menu choice.
         player?.SetModalOpen(true);
@@ -770,6 +1232,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         // fresh start before we know whether the confirmation is needed.
         if (_mainMenu.NewGameButton is { } newGame) newGame.Disabled = true;
         if (_bridge is not null) CallDeferred(nameof(RefreshMenuContinueAvailability));
+        RecordM10Timing("main-menu", force: true);
     }
 
     private async void RefreshMenuContinueAvailability()
@@ -779,11 +1242,12 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             var bridge = _bridge;
             var candidate = bridge is null ? null : await bridge.FindContinueAsync();
             var existingSavePresent = bridge is not null
-                && (bridge.IsSlotAvailable(MainMenuUi.ContinueSlot)
-                    || bridge.IsSlotAvailable(RuntimeBridge.CheckpointSlot));
+                && (bridge.IsPlayerSlotAvailable(MainMenuUi.ContinueSlot)
+                    || bridge.IsPlayerSlotAvailable(RuntimeBridge.CheckpointSlot));
             if (IsInstanceValid(menu) && !menu.IsDismissed)
             {
                 menu.SetContinueAvailable(candidate is not null, candidate?.Description, existingSavePresent);
+                if (bridge?.NeedsPhysicalRecovery == true) menu.ShowStatus(LoadPlacementFailureStatus);
                 if (menu.NewGameButton is { } newGame) { newGame.Disabled = false; newGame.GrabFocus(); }
             }
         }
@@ -808,10 +1272,12 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             var candidate = startNewGame ? null : await bridge.FindContinueAsync();
             var success = startNewGame
                 ? await bridge.StartNewGameAsync()
-                : candidate is { } save && await bridge.LoadSlotAsync(save.Slot);
+                : candidate is { } save && await bridge.LoadPlayerSlotAsync(save.Slot);
             if (!success)
             {
-                _mainMenu?.ShowStatus("Не удалось загрузить сеанс. Сохранения оставлены без изменений.");
+                _mainMenu?.ShowStatus(bridge.NeedsPhysicalRecovery
+                    ? LoadPlacementFailureStatus
+                    : "Не удалось загрузить сеанс. Сохранения оставлены без изменений.");
                 return;
             }
             _endingShown = false;
@@ -823,8 +1289,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 _mainMenu?.Dismiss();
                 _mainMenu = null;
                 _player?.SetModalOpen(false);
+                RefreshGameplayAudioPauseState();
                 EvaluateEndingState();
             }
+            RecordM10Timing(startNewGame ? "new-game" : "continue", force: true);
         }
         finally { _menuBusy = false; }
     }
@@ -851,7 +1319,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _menuBusy = true;
         try
         {
-            if (!await bridge.StartNewGameAsync())
+            if (!await bridge.StartDebugSessionAsync())
             {
                 _mainMenu?.ShowStatus("Отладочный переход: не удалось начать сеанс.");
                 return;
@@ -863,9 +1331,11 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             _mainMenu?.Dismiss();
             _mainMenu = null;
             _player?.SetModalOpen(false);
+            RefreshGameplayAudioPauseState();
             _main.SwitchZone(zoneId, spawnPointId);
             bridge.CurrentZoneId = zoneId;
             bridge.CurrentSpawnPointId = spawnPointId;
+            _player?.NotifyTraversal("Отладочный сеанс: отдельные сохранения.");
             EvaluateEndingState();
             GD.Print($"act1-debug-zone: {zoneId}@{spawnPointId}");
         }
@@ -922,8 +1392,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _introStack = stack;
         stack.AddChild(Label("УРМАН", 56, new Color(0.88f, 0.78f, 0.59f)));
         stack.AddChild(Label("Акт I — Возвращение", 24, new Color(0.72f, 0.72f, 0.66f)));
-        stack.AddChild(Label("Я снова в Кырлае. Снег. Десять лет молчания.", 18, new Color(0.57f, 0.62f, 0.59f)));
-        stack.AddChild(Label("Первая цель: войти в дом и повидать бабая и әби.", 18, new Color(0.72f, 0.74f, 0.68f)));
+        stack.AddChild(Label("Я снова в Кара-Урмане. Снег. Десять лет молчания.", 18, new Color(0.57f, 0.62f, 0.59f)));
+        stack.AddChild(Label("На скамье справа — мой телефон и фото Марата.", 18, new Color(0.72f, 0.74f, 0.68f)));
+        stack.AddChild(Label("Мама спрашивает, доехал ли я. Потом — к бабаю и әби.", 18, new Color(0.72f, 0.74f, 0.68f)));
         _introControls = Label(string.Empty, 18, new Color(0.48f, 0.54f, 0.52f));
         stack.AddChild(_introControls);
 
@@ -970,7 +1441,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return;
         }
 
-        var text = RouteCueText(bridge);
+        var text = RouteCueText(bridge)?.Replace("[J]",
+            InputBindingService.ActionHint("journal", _player?.CurrentInputDevice == "gamepad"), StringComparison.Ordinal);
         if (string.Equals(text, _lastRouteCue, StringComparison.Ordinal))
         {
             return;
@@ -1011,10 +1483,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     // progress or replace the journal's objective projection.
     private static string? RouteCueText(RuntimeBridge bridge) => bridge.ActiveSceneId switch
     {
-        "urman.chapter1:scene/arrival_vehicle_dusk" => AvailableCue(
-            bridge,
-            "arrival-enter-house",
-            "Дом впереди — войти и осмотреться."),
+        "urman.chapter1:scene/arrival_vehicle_dusk" => ArrivalRouteCue(bridge),
         "urman.chapter1:scene/house" => HouseRouteCue(bridge),
         "urman.chapter1:scene/crossroad_signs_inspect" =>
             AvailableCue(bridge, "route-to-fap", "На улице ищу указатель «ФАП».")
@@ -1039,26 +1508,31 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 : !KnowledgeConfirmed(bridge, "clue_naila_record_scope")
                     ? "Показать Наиле категорию из реестра в ФАПе."
                     : "В журнале [J] сверить ответ Наили с внутренним реестром."),
-        "urman.chapter1:scene/evidence-saved-message" => AvailableCue(
-            bridge,
-            "saved-message-to-boundary-source",
-            "Найти статью о лесной границе."),
-        "urman.chapter1:scene/evidence-tatarwiki-boundary" => AvailableCue(
-            bridge,
-            "boundary-source-to-reread",
-            "Перечитать статью с понятыми словами."),
-        "urman.chapter1:scene/evidence-tatarwiki-reread" =>
-            AvailableCue(bridge, "reread-to-edge-sketch", "Проверить схему Мансура.")
-            ?? "В журнале [J] сверить строку реестра с заметкой о границе.",
-        "urman.chapter1:scene/evidence-edge-sketch" => AvailableCue(
-            bridge,
-            "edge-sketch-to-zirat-road",
-            "Идти к дороге у зирата."),
+        "urman.chapter1:scene/evidence-saved-message" => SavedMessageRouteCue(bridge),
+        "urman.chapter1:scene/evidence-tatarwiki-boundary" =>
+            AvailableCue(bridge, "boundary-source-to-reread", "Перечитать статью с понятыми словами.")
+            // The first reading does not unlock Timur. Its existing journal
+            // comparison supplies the bounded inference and understood words.
+            ?? AvailableCue(bridge, "revise-echo", "В журнале [J] проверить версию об эхе по сообщению и статье.")
+            ?? AvailableCue(bridge, "revise-creature", "В журнале [J] проверить, достаточно ли одного заголовка для моей версии.")
+            ?? "В журнале [J] сопоставить сообщение Марата со статьёй о границе.",
+        "urman.chapter1:scene/evidence-tatarwiki-reread" => RereadRouteCue(bridge),
+        "urman.chapter1:scene/evidence-edge-sketch" =>
+            !KnowledgeConfirmed(bridge, "clue_route_check_intent")
+                ? "В журнале [J] сопоставить схему с сообщением Марата: что я смогу проверить на дороге?"
+                : !KnowledgeConfirmed(bridge, "clue_route_check_discussed")
+                    ? "Обсудить с Тимуром у мечети, что можно проверить по схеме."
+                    : AvailableCue(bridge, "edge-sketch-to-zirat-road", "Идти к дороге у зирата."),
         "urman.chapter1:scene/zirat-road" =>
-            !KnowledgeConfirmed(bridge, "clue_marat_last_route_near_zirat")
+            !KnowledgeConfirmed(bridge, "clue_rinat_at_roadside")
+                ? bridge.ResolveText("urman.chapter1:text/objective-rinat-roadside")
+                : !KnowledgeConfirmed(bridge, "clue_zirat_roadside_marks")
                 ? AvailableCue(bridge, "zirat-roadside-clue", "Осмотреть след у зиратской дороги.")
-                ?? AvailableCue(bridge, "zirat-road-to-forest", "Идти к кромке Кара-Урмана.")
-                : AvailableCue(bridge, "zirat-road-to-forest", "Идти к кромке Кара-Урмана."),
+                : !KnowledgeConfirmed(bridge, "clue_sketch_field_landmarks")
+                    ? "Отойти от бирки на дорогу и сверить расположение канавы, бирки и внешней ограды."
+                : !KnowledgeConfirmed(bridge, "clue_marat_last_route_near_zirat")
+                    ? "В журнале [J] сопоставить схему Мансура со следом у дороги."
+                    : AvailableCue(bridge, "zirat-road-to-forest", "Идти к кромке Кара-Урмана."),
         "urman.chapter1:scene/forest-approach" => AvailableCue(
             bridge,
             "forest-approach-to-forest",
@@ -1066,6 +1540,40 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         "urman.chapter1:scene/forest" => null,
         _ => null
     };
+
+    private static string? SavedMessageRouteCue(RuntimeBridge bridge)
+    {
+        if (!KnowledgeConfirmed(bridge, "clue_marat_message_read"))
+            return "На ПК прочитать сохранённое сообщение Марата.";
+        if (!KnowledgeConfirmed(bridge, "clue_message_question_prepared"))
+            return "В журнале [J] сопоставить сообщение Марата с пересказом Алсу.";
+        if (!KnowledgeConfirmed(bridge, "clue_alsu_message_reply"))
+            return "Показать Алсу на улице выписку из сообщения и спросить о его словах.";
+        return bridge.CurrentZoneId == "house_old_pc"
+            ? AvailableCue(bridge, "saved-message-to-boundary-source", "На ПК найти статью о лесной границе.")
+            : "Вернуться к ПК в доме бабая и найти статью о лесной границе.";
+    }
+
+    private static string? RereadRouteCue(RuntimeBridge bridge)
+    {
+        if (AvailableCue(bridge, "reread-to-edge-sketch", "Проверить схему Мансура.") is { } sketch)
+            return sketch;
+        if (!KnowledgeConfirmed(bridge, "clue_internal_wording_reread"))
+            return "В журнале [J] сверить строку реестра с заметкой о границе.";
+
+        // The authored objectives own the two source returns and their order.
+        // Showing the current lead must not invent a second progression state.
+        return bridge.ActiveObjectives().FirstOrDefault(objective => objective.ObjectiveId is
+            "find-owner-draft" or "question-owner-draft" or "find-damaged-fragment"
+            or "compare-damaged-fragment" or "question-damaged-fragment")?.Title;
+    }
+
+    private static string? ArrivalRouteCue(RuntimeBridge bridge) =>
+        AvailableCue(bridge, "arrival-enter-house", bridge.ResolveWorldText("Дом бабая: {address:ADR-BABAI}. Мамины приметы остались в книжке."))
+        ?? AvailableCue(bridge, "arrival-answer-mother", "Телефон на скамье: ответить маме или пока промолчать.")
+        ?? (!KnowledgeConfirmed(bridge, "arrival_mother_message_read")
+            ? "Телефон на скамье справа — прочитать сообщение мамы."
+            : "Рядом с телефоном — старая фотография Марата.");
 
     private static string? HouseRouteCue(RuntimeBridge bridge)
     {
@@ -1127,10 +1635,17 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return;
         }
 
-        var player = _player;
-        _introControls.Text = player?.CurrentInputDevice == "gamepad"
-            ? "Левый стик — идти   ·   правый стик — смотреть\nA — начать / осмотреть   ·   Y — журнал   ·   Start — меню\nНажмите A, чтобы продолжить"
-            : "WASD — идти   ·   мышь — смотреть\nE — начать / осмотреть   ·   J — журнал   ·   Esc — меню\nНажмите E или левую кнопку мыши, чтобы продолжить";
+        var gamepad = _player?.CurrentInputDevice == "gamepad";
+        string Hint(string action) => InputBindingService.ActionHint(action, gamepad).Trim('[', ']');
+        var directions = new[] { "move_forward", "move_left", "move_backward", "move_right" }.Select(Hint).ToArray();
+        var movement = gamepad && directions.SequenceEqual(new[] { "Левый стик ↑", "Левый стик ←", "Левый стик ↓", "Левый стик →" })
+            ? "Левый стик" : !gamepad && directions.SequenceEqual(new[] { "W", "A", "S", "D" })
+                ? "WASD" : string.Join(" / ", directions);
+        var interact = Hint("interact");
+        _introControls.Text = $"{movement} — идти   ·   {(gamepad ? "правый стик" : "мышь")} — смотреть\n"
+            + $"{interact} — начать / осмотреть   ·   {Hint("journal")} — журнал   ·   {Hint("pause")} — меню\n"
+            + (gamepad ? $"Нажмите {interact}, чтобы продолжить"
+                : $"Нажмите {interact} или левую кнопку мыши, чтобы продолжить");
     }
 
     private void DismissIntro()
@@ -1152,12 +1667,15 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         }
 
         _player?.SetModalOpen(false);
+        RefreshGameplayAudioPauseState();
         UpdateRouteCue();
+        RecordM10Timing("intro-dismissed", force: true);
     }
 
     private void ShowEnding()
     {
         _endingShown = true;
+        RecordM10Timing("act-ending", force: true);
         (GetTree().GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector)?.StopForEnding();
         HideRouteCue();
         var player = _player;

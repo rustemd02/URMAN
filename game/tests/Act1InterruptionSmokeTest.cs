@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Godot;
 
 namespace Urman.Godot.Tests;
@@ -16,9 +17,34 @@ public partial class Act1InterruptionSmokeTest : Node
     private const string OfficialNotice = "urman.oldpc:document/doc_marat_official_death_notice";
     private const string BaselineSlot = "interrupt-baseline";
 
+    private Act1DemoRoot? _demo;
+    private bool _finished;
+
     public override async void _Ready()
     {
-        var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")?.Instantiate<Act1DemoRoot>();
+        var exit = 1;
+        try
+        {
+            await RunAsync();
+            if (!_finished) throw new InvalidOperationException("The authored state setup stopped before its final assertion.");
+            exit = 0;
+        }
+        catch (Exception error) { GD.PrintErr("act1-interruption: FAIL " + error); }
+        finally
+        {
+            try { if (_demo is not null) await GodotSmokeCleanup.ReleaseAsync(_demo); }
+            catch (Exception cleanupError)
+            {
+                exit = 1;
+                GD.PrintErr("act1-interruption: cleanup failed: " + cleanupError);
+            }
+            GetTree().Quit(exit);
+        }
+    }
+
+    private async Task RunAsync()
+    {
+        var demo = _demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")?.Instantiate<Act1DemoRoot>();
         if (demo is null)
         {
             Fail("Interruption smoke could not instantiate the Act 1 demo entrypoint.");
@@ -52,6 +78,8 @@ public partial class Act1InterruptionSmokeTest : Node
         }
 
         DeleteSlot();
+
+        await Act1ArrivalFlowProof.CompleteAsync(this, bridge);
 
         // Baseline: at the house with the old-PC notice read (Gulsina pending).
         if (!await Advance(bridge, "arrival-enter-house", "house")) return;
@@ -113,22 +141,27 @@ public partial class Act1InterruptionSmokeTest : Node
             return;
         }
 
-        // 2) The cancelled dialogue is still pending: it can be completed
-        //    once, and a repeated dispatch of the one-shot target is refused
-        //    with the effect applied exactly once.
+        // 2) The cancelled dialogue can still reach the family answer. Asking
+        // the same actual question again preserves the completed effects.
         var reAvailable = bridge.IsInteractionAvailable(Interaction("talk-gulsina"));
         var reDispatched = reAvailable && await bridge.DispatchInteractionAsync(Interaction("talk-gulsina"));
         var reEntered = reDispatched && await bridge.EnterDialogueNodeAsync(Dialogue("gulsina_yaramyy"), "home-warning");
-        // NPC re-talk is a legal repeated action: no softlock, and the
-        // re-applied warning effect is idempotent (identical state, the house
-        // exit stays unlocked exactly once).
-        var stateAfterRetalk = bridge.SelectRuntimeState().GetRawText();
-        var reRetalk = reEntered && await bridge.DispatchInteractionAsync(Interaction("talk-gulsina"));
+        var reAnswered = reEntered && await bridge.ChooseDialogueAsync(Dialogue("gulsina_yaramyy"), "home-warning", "ask-marat");
+        // A real repeated choice appends its committed dialogue history. Its
+        // warning, knowledge, journal and progression effects stay unchanged.
+        var stateAfterRetalk = bridge.SelectRuntimeState();
+        var reRetalk = reAnswered && await bridge.DispatchInteractionAsync(Interaction("talk-gulsina"));
         var reRetalkEntered = reRetalk && await bridge.EnterDialogueNodeAsync(Dialogue("gulsina_yaramyy"), "home-warning");
-        var stateAfterSecondRetalk = bridge.SelectRuntimeState().GetRawText();
-        if (!reAvailable || !reDispatched || !reEntered || !stateAfterRetalk.Equals(stateAfterSecondRetalk, StringComparison.Ordinal) || !reRetalkEntered)
+        var reRetalkAnswered = reRetalkEntered && await bridge.ChooseDialogueAsync(Dialogue("gulsina_yaramyy"), "home-warning", "ask-marat");
+        var stateAfterSecondRetalk = bridge.SelectRuntimeState();
+        var repeatedConsequencesStable = VerifyRepeatedGulsinaConsequences(
+            stateAfterRetalk, stateAfterSecondRetalk, out var retalkStateDetail);
+        GD.Print($"act1-interruption: repeated-gulsina {retalkStateDetail}");
+        if (!reAvailable || !reDispatched || !reAnswered || !reRetalkAnswered
+            || !repeatedConsequencesStable
+            || bridge.IsInteractionAvailable(Interaction("house-to-route")))
         {
-            Fail($"Repeated Gulsina talk was not idempotent: available={reAvailable} dispatched={reDispatched} entered={reEntered} identicalState={stateAfterRetalk.Equals(stateAfterSecondRetalk, StringComparison.Ordinal)} retalk={reRetalk}/{reRetalkEntered}");
+            Fail($"Repeated Gulsina answer was not idempotent: available={reAvailable} dispatched={reDispatched} answered={reAnswered} consequencesStable={repeatedConsequencesStable} retalk={reRetalk}/{reRetalkAnswered} {retalkStateDetail}");
             return;
         }
 
@@ -149,6 +182,8 @@ public partial class Act1InterruptionSmokeTest : Node
         // house beat or strand the exit.
         if (!await bridge.DispatchInteractionAsync(Interaction("talk-gulsina"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("gulsina_yaramyy"), "home-warning")
+            || !await bridge.ChooseDialogueAsync(Dialogue("gulsina_yaramyy"), "home-warning", "ask-marat")
+            || !await Act1FamilyMealProof.CompleteAsync(this, bridge)
             || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
         {
             Fail("The replayable house state did not unlock its authored exit.");
@@ -178,8 +213,11 @@ public partial class Act1InterruptionSmokeTest : Node
         // after the official-record transition must not replay or mutate the
         // narrative snapshot.
         if (!await bridge.DispatchInteractionAsync(Interaction("talk-alsu"))
+            || !await Act1AlsuWalkProof.CompleteAsync(this, bridge)
             || !await bridge.EnterDialogueNodeAsync(Dialogue("alsu_route_context"), "name-road")
             || !await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-versions")
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-versions-scope"),
+                new[] { OfficialNotice, ChapterPrefix + "knowledge/clue_alsu_heard_versions" })
             || !await Advance(bridge, "route-to-fap", "fap_waiting_room_day"))
         {
             Fail("The replayable village route did not reach the authored FAP gate.");
@@ -216,10 +254,15 @@ public partial class Act1InterruptionSmokeTest : Node
         main.SwitchZone("house_old_pc", "entry");
         await Frames(1);
         if (!await bridge.OpenDocumentAsync("urman.oldpc:document/doc_marat_official_death_notice")
-            || !await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict")
-            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" })
+            || !await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict"))
+        { Fail("The record comparison sources could not be read."); return; }
+        await Act1SourceExcerptProof.RecordNoticeCauseAsync(this, bridge);
+        await Act1SourceExcerptProof.RecordRegisterFieldsAsync(this, bridge);
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" })
             || !await bridge.EnterDialogueNodeAsync(Dialogue("naila_medical_record"), "follow-up")
             || !await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "follow-up", "press-contradiction")
+            || !await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "record-question", "show-external-wording")
+            || !await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "matching-formulation", "ask-category-scope")
             || !await bridge.CompareJournalSourcesAsync(Interaction("compare-record-scope"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.chapter1:knowledge/clue_naila_record_scope" }))
         { Fail("The record comparison was rejected."); return; }
         if (!await bridge.DispatchInteractionAsync(Interaction("internal-register-to-rinat"))
@@ -227,13 +270,16 @@ public partial class Act1InterruptionSmokeTest : Node
             || !await bridge.ChooseDialogueAsync(Dialogue("rinat_internal_register"), "dangerous-category", "present-category")
             || !await Advance(bridge, "internal-register-to-saved-message", "evidence-saved-message")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal")
+            || !await Act1StateFlowProof.MessageReturnAsync(this, bridge)
             || !await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/tw_shurale_urman_boundary")
             || !await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" })
             || !await Advance(bridge, "boundary-source-to-reread", "evidence-tatarwiki-reread")
             || !await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary" })
+            || !await Act1SourceReturnsProof.CompleteAsync(this, bridge)
             || !await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch")
+            || !await Act1StateFlowProof.RouteDiscussionAsync(this, bridge)
             || !await Advance(bridge, "edge-sketch-to-zirat-road", "zirat-road"))
         {
             Fail("The return-to-house evidence chain did not reach the zirat road.");
@@ -242,6 +288,7 @@ public partial class Act1InterruptionSmokeTest : Node
 
         main.SwitchZone("zirat_road", "village_side");
         await Frames(1);
+        if (!await Act1RinatRoadsideProof.ObserveAsync(this, bridge)) return;
         var ziratClue = Interaction("zirat-roadside-clue");
         if (!bridge.IsInteractionAvailable(ziratClue)
             || !await bridge.DispatchInteractionAsync(ziratClue)
@@ -251,6 +298,7 @@ public partial class Act1InterruptionSmokeTest : Node
             return;
         }
 
+        await Act1RouteLandmarksProof.ObserveAsync(this, bridge);
         if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" }))
         { Fail("The route comparison was rejected."); return; }
         var postZiratClueState = bridge.SelectRuntimeState().GetRawText();
@@ -276,7 +324,8 @@ public partial class Act1InterruptionSmokeTest : Node
         // leads to the forest approach, and only that approach leads into the
         // forest. The corridor smoke already follows this contract.
         if (!await Advance(bridge, "zirat-road-to-forest", "forest-approach")) return;
-        if (!await Advance(bridge, "forest-approach-to-forest", "forest")) return;
+        if (!await Act1StateFlowProof.EnterForestAsync(this, bridge)
+            || !await Act1StateFlowProof.WaitForTerminalAsync(this, bridge)) return;
         var terminalState = bridge.SelectRuntimeState().GetRawText();
         if (bridge.IsInteractionAvailable(Interaction("zirat-road-to-forest"))
             || bridge.IsInteractionAvailable(Interaction("forest-approach-to-forest"))
@@ -289,9 +338,40 @@ public partial class Act1InterruptionSmokeTest : Node
 
         GD.Print("act1-interruption: PASS dialogue-cancel atomicity + modal quicksave/load + house/FAP revisit + zirat one-shot retreat + terminal idempotency");
         DeleteSlot();
-        await GodotSmokeCleanup.ReleaseAsync(demo);
-        GetTree().Quit(0);
+        _finished = true;
     }
+
+    private static bool VerifyRepeatedGulsinaConsequences(JsonElement before, JsonElement after, out string detail)
+    {
+        var beforeFields = before.EnumerateObject().ToDictionary(property => property.Name, property => property.Value);
+        var afterFields = after.EnumerateObject().ToDictionary(property => property.Name, property => property.Value);
+        var changedKeys = beforeFields.Keys.Union(afterFields.Keys, StringComparer.Ordinal)
+            .Where(key => !beforeFields.TryGetValue(key, out var previous)
+                || !afterFields.TryGetValue(key, out var current) || !SameJson(previous, current))
+            .ToArray();
+        var beforeChoices = before.GetProperty("dialogueChoices").EnumerateArray().ToArray();
+        var afterChoices = after.GetProperty("dialogueChoices").EnumerateArray().ToArray();
+        var expectedChoice = JsonSerializer.SerializeToElement(new
+        {
+            dialogueId = Dialogue("gulsina_yaramyy"),
+            nodeId = "home-warning",
+            choiceId = "ask-marat"
+        });
+        var historyAppendedOnce = afterChoices.Length == beforeChoices.Length + 1
+            && beforeChoices.Select((choice, index) => SameJson(choice, afterChoices[index])).All(same => same)
+            && SameJson(afterChoices[^1], expectedChoice);
+        const string familyClue = ChapterPrefix + "knowledge/clue_family_avoids_marat";
+        var beforeJournalCount = before.GetProperty("journal").EnumerateArray()
+            .Count(entry => entry.GetProperty("sourceId").GetString() == familyClue);
+        var afterJournalCount = after.GetProperty("journal").EnumerateArray()
+            .Count(entry => entry.GetProperty("sourceId").GetString() == familyClue);
+        var consequencesStable = changedKeys.All(key => key == "dialogueChoices");
+        detail = $"changedKeys=[{string.Join(",", changedKeys)}] choices={beforeChoices.Length}->{afterChoices.Length} expectedAppend={historyAppendedOnce} familyJournal={beforeJournalCount}->{afterJournalCount} consequencesStable={consequencesStable}";
+        return historyAppendedOnce && consequencesStable && beforeJournalCount == 1 && afterJournalCount == 1;
+    }
+
+    private static bool SameJson(JsonElement first, JsonElement second) =>
+        JsonNode.DeepEquals(JsonNode.Parse(first.GetRawText()), JsonNode.Parse(second.GetRawText()));
 
     private static bool playerIsGated(Act1DemoRoot demo) =>
         demo.DemoMain?.GetNodeOrNull<FirstPersonController>("Player") is not { ModalOpen: false };
@@ -312,12 +392,6 @@ public partial class Act1InterruptionSmokeTest : Node
             return false;
         }
 
-        if (targetSceneLocalId == "forest")
-        {
-        for (var attempt = 0; attempt < 200 && bridge.IsInteractionAvailable("urman.chapter1:interaction/forest-rinat-intervention"); attempt++)
-            await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
-        }
-
         return true;
     }
 
@@ -331,7 +405,7 @@ public partial class Act1InterruptionSmokeTest : Node
     {
         foreach (var slot in new[] { BaselineSlot, "interrupt-quick" })
         {
-            foreach (var suffix in new[] { ".json", ".backup.json" })
+            foreach (var suffix in new[] { ".savegame-v3.json", ".savegame-v3.backup.json" })
             {
                 var path = ProjectSettings.GlobalizePath($"user://savegames/{slot}{suffix}");
                 if (System.IO.File.Exists(path))
@@ -350,9 +424,5 @@ public partial class Act1InterruptionSmokeTest : Node
         }
     }
 
-    private void Fail(string message)
-    {
-        GD.PushError(message);
-        GetTree().Quit(1);
-    }
+    private static void Fail(string message) => throw new InvalidOperationException(message);
 }

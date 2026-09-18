@@ -1,0 +1,670 @@
+using Godot;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
+namespace Urman.Godot;
+
+/// <summary>
+/// One kinematic owner for each vehicle. Steering is bicycle-model motion with
+/// swept collision; parked vehicles never receive gravity impulses from players.
+/// The horse and shafts belong to the same chassis, avoiding unstable joints.
+/// </summary>
+public partial class VehicleController : CharacterBody3D
+{
+    private VehicleFleet _fleet = null!;
+    private VehicleVisualFactory.Visual _visual = null!;
+    private Camera3D _camera = null!;
+    private Node3D _look = null!;
+    private InteractionTarget _entry = null!;
+    private VehicleMechanicalAudio _mechanical = null!;
+    private float _steering;
+    private float _wheelPhase;
+    private float _pitch;
+    private float _lookYaw;
+    private float _engineWarmup;
+    private bool _controlsNeedRelease;
+    private bool _configured;
+    private float _noticeSeconds;
+    private string _notice = string.Empty;
+    private double _lastDirtyTime;
+    private double _driveTime;
+    private CapsuleShape3D _exitShape = null!;
+    private float _savedYawDegrees;
+    private Basis _savedYawBasis;
+    private bool _hasSavedYaw;
+    private bool _collisionStopDiagnostics;
+    private JsonObject? _firstCollisionStop;
+
+    public VehicleDefinition Definition { get; private set; } = null!;
+    public FirstPersonController? Driver { get; private set; }
+    public VehicleRadioPlayer? Radio { get; private set; }
+    public bool EngineRunning { get; private set; }
+    public bool ParkingBrake { get; private set; } = true;
+    public bool Headlights { get; private set; }
+    public float Speed { get; private set; }
+    public float TotalTravelMetres { get; private set; }
+    public HorseDisposition HorseState { get; private set; }
+    public string LastRefusal { get; private set; } = string.Empty;
+    public Camera3D VehicleCamera => _camera;
+    public InteractionTarget EntryTarget => _entry;
+    public int CollisionStops { get; private set; }
+    internal void SetCollisionStopDiagnostics(bool enabled)
+    {
+        _collisionStopDiagnostics = enabled;
+        if (enabled) _firstCollisionStop = null;
+    }
+    internal JsonObject? DescribeFirstCollisionStop() => _firstCollisionStop?.DeepClone() as JsonObject;
+    public bool PlacementAvailable { get; private set; }
+    public string PlacementFailure { get; private set; } = string.Empty;
+    internal Vector2 DriverLookAngles=>new(_lookYaw,_pitch);
+    internal JsonObject DescribeDriverLookInput()=>new(){
+        ["storedYaw"]=_lookYaw,["storedPitch"]=_pitch,["projectedRotation"]=_look.RotationDegrees.ToString(),
+        ["hasDriver"]=Driver is not null,["driverModal"]=Driver?.ModalOpen,["vehicleControlled"]=Driver?.VehicleControlled,
+        ["fleetSuspended"]=_fleet.Suspended,["placementAvailable"]=PlacementAvailable,
+        ["treePaused"]=GetTree().Paused,["ownerCanProcess"]=CanProcess(),
+        ["controlsNeedRelease"]=_controlsNeedRelease,["mouseMode"]=Input.MouseMode.ToString(),
+        ["focus"]=DisplayServer.WindowIsFocused(),["physicsFrame"]=Engine.GetPhysicsFrames(),["processFrame"]=Engine.GetProcessFrames()};
+
+    public void Configure(VehicleFleet fleet, VehicleDefinition definition)
+    {
+        if (_configured) throw new InvalidOperationException("Vehicle is already configured.");
+        _configured = true;
+        _fleet = fleet; Definition = definition; Name = definition.Id;
+        CollisionLayer = 1; CollisionMask = 3;
+        FloorSnapLength = .42f; FloorMaxAngle = Mathf.DegToRad(25f); SafeMargin = .012f;
+        FloorStopOnSlope = true; FloorConstantSpeed = true; MaxSlides = 4;
+        _exitShape = new CapsuleShape3D { Radius = .35f, Height = 1.8f };
+        _visual = VehicleVisualFactory.Build(definition); AddChild(_visual.Root);
+        BuildCompoundCollision();
+        BuildSteeringCollision();
+        BuildSupportTopology();
+        _look = new Node3D { Name = "DriverLook", Position = definition.Seat + Vector3.Up * .75f };
+        AddChild(_look);
+        _camera = new Camera3D { Name = "VehicleCamera", Fov = 75f, Near = .045f, Current = false };
+        _look.AddChild(_camera);
+        _entry = new InteractionTarget { Name = "DriverDoor", InteractionId = "vehicle/enter/" + definition.Id,
+            Prompt = definition.Kind == VehicleKind.HorseCart ? "Сесть на телегу" : "Сесть: " + definition.DisplayName,
+            CollisionLayer = 4, CollisionMask = 0,
+            Position = new(-definition.HullSize.X * .5f - .10f, definition.Kind == VehicleKind.HorseCart ? 1.0f : .97f,
+                definition.Kind == VehicleKind.HorseCart ? .39f : .15f),
+            PresentationRepeatAvailable = () => Driver is null,
+            PresentationRepeat = () => _fleet.TryEnter(this) };
+        _entry.SetMeta("vehicleId", definition.Id);
+        _entry.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = new(.22f, .76f, .78f) } });
+        AddChild(_entry);
+        _mechanical = new VehicleMechanicalAudio { Name = "MechanicalAudio" }; AddChild(_mechanical);
+        if (definition.HasRadio)
+        {
+            Radio = new VehicleRadioPlayer { Name = "Radio" }; AddChild(Radio);
+            Radio.Position = new(.12f, 1.05f, -.39f);
+        }
+        SetMeta("vehicleId", definition.Id);
+        SetMeta("vehicleKind", definition.Kind.ToString());
+        SetMeta("stateOwner", "RuntimeBridge world.props; VehicleFleet projects it");
+        SetMeta("physicsOwner", "CharacterBody3D; constrained bicycle steering");
+    }
+
+    public override void _Ready()
+    {
+        if (!_configured) throw new InvalidOperationException("Vehicle must be configured before entering the tree.");
+        AddToGroup("act1_vehicles"); ResetAuthored();
+    }
+
+    public void ResetAuthored()
+    {
+        ReleaseForSessionBoundary();
+        SetPlacementAvailability(false,"Parking has not been checked for this session.");
+        GlobalPosition = Definition.Spawn;
+        RotationDegrees = new(0, Definition.YawDegrees, 0);
+        RememberSavedYaw(Definition.YawDegrees);
+        Velocity = Vector3.Zero; Speed = 0; EngineRunning = false; ParkingBrake = true;
+        Headlights = false; TotalTravelMetres = 0; HorseState = HorseDisposition.Calm;
+        _steering = _pitch = _lookYaw = _engineWarmup = _wheelPhase = _motorcycleLean = 0;
+        _acceptedHorsePose = _pendingHorsePose = null;
+        _rejectedHorsePose = null; _horseProjectionFailure = string.Empty;
+        LastRefusal = string.Empty; _noticeSeconds = 0;
+        Radio?.Restore(null);
+        UpdateVisuals(0);
+    }
+
+    internal bool Enter(FirstPersonController player, bool restore = false)
+    {
+        if (!PlacementAvailable)
+        { player.NotifyTraversal("Транспорт зажат. Сейчас сесть в него нельзя."); return false; }
+        if (Driver is not null) return false;
+        if (!restore && !player.TryBeginVehicleControl(out var reason))
+        { player.NotifyTraversal(reason); return false; }
+        if (restore) player.SetVehicleControl(true);
+        Driver = player; _controlsNeedRelease = true;
+        _pitch = _lookYaw = 0;
+        player.GlobalPosition = ToGlobal(Definition.Seat);
+        _camera.Fov = (float)player.CaptureSettings().FieldOfView;
+        _camera.MakeCurrent(); _entry.CollisionLayer = 0;
+        _fleet.MarkDirty(); return true;
+    }
+
+    public bool TryExit()
+    {
+        if (Driver is not { } player) return false;
+        if (Math.Abs(Speed) > .25f)
+        { Notice("Сначала остановитесь."); return false; }
+        if (!TryFindSafeExit(out var feet))
+        { Notice("Дверь прижата. Переставьте транспорт: рядом негде встать."); return false; }
+        // An empty vehicle is parked; the ignition and radio retain their actual state.
+        ParkingBrake = true; Speed = 0; Velocity = Vector3.Zero;
+        Driver = null;
+        SyncCartDriverFigure();
+        player.ApplyZoneSpawn(feet, RotationDegrees.Y);
+        player.SetVehicleControl(false);
+        _entry.CollisionLayer = _entry.ActiveCollisionLayer;
+        UiFoley.PlayWorld(this, _entry.GlobalPosition, "metal_rattle");
+        _fleet.MarkDirty(); return true;
+    }
+
+    internal void ReleaseForSessionBoundary()
+    {
+        // A world replacement releases a live player. During whole-scene
+        // teardown the player may already have left the tree; restoring its
+        // camera/stance then would query a nonexistent global transform.
+        if (Driver is { } player && GodotObject.IsInstanceValid(player) && player.IsInsideTree())
+            player.SetVehicleControl(false);
+        Driver = null;
+        if (_entry is not null) _entry.CollisionLayer = _entry.ActiveCollisionLayer;
+        Speed = 0; Velocity = Vector3.Zero;
+        _mechanical?.ResetForSession();
+    }
+
+    public override void _UnhandledInput(InputEvent inputEvent)
+    {
+        if (Driver is not { ModalOpen: false } player || _fleet.Suspended
+            || Input.MouseMode != Input.MouseModeEnum.Captured) return;
+        if (inputEvent is InputEventMouseMotion motion)
+        {
+            _lookYaw = Mathf.Clamp(_lookYaw - motion.ScreenRelative.X * player.MouseSensitivity, -125f, 125f);
+            _pitch = Mathf.Clamp(_pitch - motion.ScreenRelative.Y * player.MouseSensitivity, -67f, 65f);
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (!_configured) return;
+        var dt = Math.Min((float)delta, .05f);
+        _noticeSeconds = Math.Max(0, _noticeSeconds - dt);
+        Radio?.SetPaused(_fleet.Suspended || !PlacementAvailable);
+        if (_fleet.Suspended || !PlacementAvailable)
+        {
+            if (!_fleet.Suspended && _horseProjectionFailure.Length != 0
+                && Driver is { ModalOpen: false } && Input.IsActionJustPressed("interact")) TryExit();
+            _controlsNeedRelease = true;
+            _mechanical.SetState(Definition.Kind, EngineRunning, 0, 0, true);
+            return;
+        }
+        if (Driver is not { } player)
+        {
+            // Parked pose belongs to the snapshot; no drift or uncontrolled animal motion.
+            Velocity = Vector3.Zero;
+            _mechanical.SetState(Definition.Kind, EngineRunning, 0, 0, false);
+            UpdateVisuals(dt); return;
+        }
+        if (player.ModalOpen)
+        {
+            Speed = 0; Velocity = Vector3.Zero; _controlsNeedRelease = true;
+            _mechanical.SetState(Definition.Kind, EngineRunning, 0, 0, true);
+            return;
+        }
+        if (_controlsNeedRelease)
+        {
+            var actions = new[]{"interact","carry_use","carry_rotate","carry_place","crouch","jump",
+                "move_forward","move_backward","move_left","move_right"};
+            if (actions.All(action => !InputMap.HasAction(action)
+                || (!Input.IsActionPressed(action) && !Input.IsActionJustPressed(action))))
+                _controlsNeedRelease = false;
+            AttachDriver(); UpdateVisuals(dt); return;
+        }
+        if (Input.IsActionJustPressed("interact")) { TryExit(); if(Driver is null)return; }
+        if (Input.IsActionJustPressed("carry_use"))
+        {
+            EngineRunning = !EngineRunning; _engineWarmup = EngineRunning ? .55f : 0;
+            if (EngineRunning) ParkingBrake = false;
+            UiFoley.PlayWorld(this, GlobalPosition + Vector3.Up, "metal_rattle");
+            _fleet.MarkDirty();
+        }
+        if (Input.IsActionJustPressed("carry_rotate") && Definition.Kind != VehicleKind.HorseCart)
+        { Headlights = !Headlights; _fleet.MarkDirty(); }
+        if (Input.IsActionJustPressed("carry_place") && Radio is not null)
+        { Radio.SetEnabled(!Radio.Enabled); _fleet.MarkDirty(); }
+        if (Input.IsActionJustPressed("crouch"))
+        { ParkingBrake = !ParkingBrake; _fleet.MarkDirty(); }
+        _engineWarmup = Math.Max(0, _engineWarmup - dt);
+        var look = Input.GetVector("look_left", "look_right", "look_up", "look_down");
+        _lookYaw = Mathf.Clamp(_lookYaw - look.X * player.GamepadLookSpeed * dt, -125, 125);
+        _pitch = Mathf.Clamp(_pitch - look.Y * player.GamepadLookSpeed * dt, -67, 65);
+        var throttle = Input.GetAxis("move_backward", "move_forward");
+        var brake = InputMap.HasAction("jump") && Input.IsActionPressed("jump");
+        Advance(dt, throttle, Input.GetAxis("move_left", "move_right"), brake);
+        AttachDriver(); UpdateVisuals(dt);
+        _mechanical.SetState(Definition.Kind, EngineRunning, Math.Abs(Speed), Math.Abs(throttle), false);
+    }
+
+    private void Advance(float dt, float throttle, float steeringInput, bool footBrake)
+    {
+        var previous = GlobalPosition;
+        var diagnosticBeforePose = _collisionStopDiagnostics ? GlobalTransform : default;
+        var diagnosticBeforeSpeed = _collisionStopDiagnostics ? Speed : 0;
+        var diagnosticBeforeVelocity = _collisionStopDiagnostics ? Velocity : default;
+        var diagnosticBeforeFloor = _collisionStopDiagnostics && IsOnFloor();
+        var decision = _fleet.EvaluateTravel(this, previous, previous - GlobalBasis.Z * Math.Max(Math.Abs(Speed)*dt,.12f)
+            * (throttle < 0 ? -1 : 1));
+        HorseState = Definition.Kind == VehicleKind.HorseCart ? _fleet.HorseMoodAt(previous) : HorseDisposition.Calm;
+        var factor = Mathf.Clamp(decision.SpeedFactor, .1f, 1f);
+        if (HorseState == HorseDisposition.Wary) factor = Math.Min(factor, .75f);
+        if (HorseState == HorseDisposition.Slowing) factor = Math.Min(factor, .45f);
+        if (HorseState == HorseDisposition.Refusing && throttle > 0 && -GlobalBasis.Z.Z < 0)
+            decision = new(false,"Лошадь упёрлась. Можно отъехать назад или развернуться.");
+        var enabled = EngineRunning && _engineWarmup <= 0 && !ParkingBrake && !footBrake;
+        var desired = enabled ? throttle * (throttle < 0 ? Definition.ReverseSpeed : Definition.MaxForwardSpeed) * factor : 0;
+        // Opposite throttle is a brake until stopped; reversing never flips velocity instantaneously.
+        var braking = footBrake || ParkingBrake || (Math.Sign(throttle) != Math.Sign(Speed) && Math.Abs(Speed) > .25f);
+        if (braking) desired = 0;
+        Speed = Mathf.MoveToward(Speed, desired, (braking ? Definition.BrakeDeceleration
+            : Math.Abs(throttle) < .03f || !enabled ? 1.5f : Definition.Acceleration) * dt);
+        var previousSteering=_steering;
+        var previousLean=_motorcycleLean;
+        _steering = ConstrainSteering(Mathf.MoveToward(_steering, steeringInput * Mathf.DegToRad(Definition.SteeringDegrees), dt * 1.6f));
+        ApplySteeringCollision();
+        if (!decision.Allowed)
+        {
+            Speed = 0; LastRefusal = decision.Reason;
+            if (Math.Abs(throttle) > .05f) Notice(decision.Reason);
+        }
+        else LastRefusal = string.Empty;
+        var yaw = -Speed / Definition.WheelBase * Mathf.Tan(_steering) * dt;
+        if (Math.Abs(yaw) <= .00001f || !CanRotate(yaw)) yaw = 0;
+        var requestedPose = new Transform3D(new Basis(Vector3.Up, yaw) * GlobalBasis, GlobalPosition);
+        requestedPose.Origin -= requestedPose.Basis.Z * Speed * dt;
+        var hoofFraction = PrepareHorseMovement(requestedPose, dt);
+        if (yaw != 0) RotateY(yaw * hoofFraction);
+        var forward = -GlobalBasis.Z;
+        var finalDecision = _fleet.EvaluateTravel(this, previous,
+            previous + new Vector3(forward.X,0,forward.Z) * Speed * dt);
+        if(!finalDecision.Allowed && Math.Abs(Speed)>.001f)
+        { Speed=0;Notice(finalDecision.Reason); }
+        var vertical = IsOnFloor() ? -.15f : Velocity.Y - 21.6f * dt;
+        Velocity = new(forward.X * Speed * hoofFraction, vertical, forward.Z * Speed * hoofFraction);
+        var diagnosticRequestedVelocity = _collisionStopDiagnostics ? Velocity : default;
+        MoveAndSlide();
+        var actual = new Vector2(GlobalPosition.X-previous.X, GlobalPosition.Z-previous.Z).Length();
+        TotalTravelMetres += actual; _wheelPhase -= Math.Sign(Speed)*actual/Definition.WheelRadius;
+        if (IsOnWall() && actual < Math.Abs(Speed)*dt*.50f)
+        {
+            // Observe the same MoveAndSlide result before zeroing its commanded
+            // speed. No query, movement, collision response or threshold changes.
+            if (_collisionStopDiagnostics && _firstCollisionStop is null)
+                CaptureCollisionStop(diagnosticBeforePose, diagnosticBeforeSpeed, diagnosticBeforeVelocity,
+                    diagnosticBeforeFloor, diagnosticRequestedVelocity, dt, throttle, steeringInput,
+                    footBrake, braking, desired, actual, decision, finalDecision);
+            Speed = 0; CollisionStops++;
+        }
+        if (hoofFraction < 1) Speed = 0;
+        // MarkDirty only sets a flag; VehicleFleet retains its two-second commit
+        // throttle. A short steering action must not be lost before .8 seconds.
+        _driveTime += dt;
+        if(Math.Abs(_steering-previousSteering)>.00001f||_motorcycleLean!=previousLean)_fleet.MarkDirty();
+        if (actual > .001f && _driveTime-_lastDirtyTime >= .8)
+        { _lastDirtyTime = _driveTime; _fleet.MarkDirty(); }
+    }
+
+    private void CaptureCollisionStop(Transform3D beforePose, float beforeSpeed, Vector3 beforeVelocity,
+        bool beforeFloor, Vector3 requestedVelocity, float dt, float throttle, float steeringInput,
+        bool footBrake, bool braking, float desiredSpeed, float actualXZ,
+        VehicleTravelDecision decision, VehicleTravelDecision finalDecision)
+    {
+        static JsonArray V(Vector3 value) => new(value.X, value.Y, value.Z);
+        static JsonObject Pose(Transform3D value) => new()
+        {
+            ["origin"] = V(value.Origin), ["basisX"] = V(value.Basis.X),
+            ["basisY"] = V(value.Basis.Y), ["basisZ"] = V(value.Basis.Z)
+        };
+        static JsonObject? Owner(Node? node)
+        {
+            if (node is null || !GodotObject.IsInstanceValid(node)) return null;
+            return new JsonObject
+            {
+                ["path"] = node.IsInsideTree() ? node.GetPath().ToString() : null,
+                ["name"] = node.Name.ToString(), ["class"] = node.GetClass().ToString(),
+                ["shapeType"] = (node as CollisionShape3D)?.Shape?.GetClass().ToString(),
+                ["authoredSourceMesh"] = node.HasMeta("authoredSourceMesh")
+                    ? node.GetMeta("authoredSourceMesh").AsString() : null,
+                ["collisionOwner"] = node.HasMeta("collisionOwner")
+                    ? node.GetMeta("collisionOwner").AsString() : null,
+                ["pose"] = node is Node3D spatial && spatial.IsInsideTree() ? Pose(spatial.GlobalTransform) : null
+            };
+        }
+        var slides = new JsonArray();
+        for (var slide = 0; slide < GetSlideCollisionCount(); slide++)
+        {
+            var hit = GetSlideCollision(slide);
+            var contacts = new JsonArray();
+            for (var index = 0; index < hit.GetCollisionCount(); index++)
+            {
+                var collider = hit.GetCollider(index) as Node;
+                var shapeIndex = hit.GetColliderShapeIndex(index);
+                var shape = hit.GetColliderShape(index) as Node;
+                if (shape is null && collider is CollisionObject3D body && shapeIndex >= 0)
+                    shape = body.ShapeOwnerGetOwner(body.ShapeFindOwner(shapeIndex)) as Node;
+                contacts.Add(new JsonObject
+                {
+                    ["index"] = index, ["collider"] = Owner(collider), ["shapeIndex"] = shapeIndex,
+                    ["colliderShape"] = Owner(shape), ["localShape"] = Owner(hit.GetLocalShape(index) as Node),
+                    ["position"] = V(hit.GetPosition(index)), ["normal"] = V(hit.GetNormal(index)),
+                    ["colliderVelocity"] = V(hit.GetColliderVelocity(index)),
+                    ["nearbyActualTerrainFaces"] = DescribeContactFaces(shape as CollisionShape3D, hit.GetPosition(index))
+                });
+            }
+            slides.Add(new JsonObject
+            {
+                ["slide"] = slide, ["travel"] = V(hit.GetTravel()), ["remainder"] = V(hit.GetRemainder()),
+                ["depth"] = hit.GetDepth(), ["contacts"] = contacts
+            });
+        }
+        _firstCollisionStop = new JsonObject
+        {
+            ["schema"] = "urman.vehicle_collision_stop.v1", ["vehicleId"] = Definition.Id,
+            ["physicsBackend"] = PhysicsServer3D.Singleton.GetClass().ToString(),
+            ["configuredPhysicsEngine"] = ProjectSettings.GetSettingWithOverride("physics/3d/physics_engine").AsString(),
+            ["physicsFrame"] = Engine.GetPhysicsFrames(), ["processFrame"] = Engine.GetProcessFrames(),
+            ["nextCollisionStops"] = CollisionStops + 1, ["deltaSeconds"] = dt,
+            ["beforePose"] = Pose(beforePose), ["afterPose"] = Pose(GlobalTransform),
+            ["beforeSpeed"] = beforeSpeed, ["desiredSpeed"] = desiredSpeed, ["commandedSpeed"] = Speed,
+            ["beforeVelocity"] = V(beforeVelocity), ["requestedVelocity"] = V(requestedVelocity),
+            ["requestedMotion"] = V(requestedVelocity * dt), ["resultVelocity"] = V(Velocity),
+            ["realVelocity"] = V(GetRealVelocity()), ["positionDelta"] = V(GetPositionDelta()),
+            ["actualXZ"] = actualXZ, ["expectedXZ"] = Math.Abs(Speed) * dt,
+            ["stopThresholdXZ"] = Math.Abs(Speed) * dt * .50f,
+            ["throttle"] = throttle, ["steeringInput"] = steeringInput, ["steeringRadians"] = _steering,
+            ["footBrake"] = footBrake, ["braking"] = braking, ["parkingBrake"] = ParkingBrake,
+            ["engineRunning"] = EngineRunning, ["engineWarmup"] = _engineWarmup,
+            ["horseState"] = HorseState.ToString(), ["wasOnFloor"] = beforeFloor,
+            ["onFloor"] = IsOnFloor(), ["onWall"] = IsOnWall(),
+            ["floorNormal"] = IsOnFloor() ? V(GetFloorNormal()) : null,
+            ["wallNormal"] = IsOnWall() ? V(GetWallNormal()) : null,
+            ["floorMaxAngle"] = FloorMaxAngle, ["safeMargin"] = SafeMargin, ["collisionMask"] = CollisionMask,
+            ["initialTravelAllowed"] = decision.Allowed, ["initialTravelReason"] = decision.Reason,
+            ["finalTravelAllowed"] = finalDecision.Allowed, ["finalTravelReason"] = finalDecision.Reason,
+            ["slides"] = slides,
+            ["scope"] = "Explicit contact diagnostic only; snapshot before Speed=0; not a performance result."
+        };
+        GD.Print("act1-vehicle-collision-stop: " + _firstCollisionStop.ToJsonString());
+    }
+
+    private void AttachDriver()
+    {
+        if (Driver is not null) Driver.GlobalPosition = ToGlobal(Definition.Seat);
+        _look.RotationDegrees = new(_pitch,_lookYaw,0);
+    }
+
+    private bool CanRotate(float yaw)
+    {
+        // Rotation has no linear sweep in MoveAndSlide. Sample the actual hull
+        // through the arc; an endpoint test or raised/shrunken proxy misses posts
+        // and low fences. The unmodified collision hull retains its floor contact.
+        var steps=Math.Max(1,(int)Math.Ceiling(Math.Abs(yaw)/Mathf.DegToRad(.25f)));
+        var excluded=Excluded();
+        for(var i=1;i<=steps;i++)
+        {
+            var basis=GlobalBasis.Rotated(Vector3.Up,yaw*i/steps);
+            if(VolumeOverlaps(new(basis,GlobalPosition),_steering,excluded,1).Count>0)return false;
+        }
+        return true;
+    }
+
+    public bool TryFindSafeExit(out Vector3 feet)
+    {
+        feet = default;
+        if (Driver is not { } player) return false;
+        var side = Definition.HullSize.X*.5f + player.BodyRadius + .19f;
+        var seatZ = Definition.Kind == VehicleKind.HorseCart ? .39f : .15f;
+        // The near-side door is preferred. Far side and rear are explicit physical alternatives.
+        foreach (var offset in new[]{new Vector3(-side,0,seatZ),new(side,0,seatZ),
+            new(-side,0,seatZ+.7f),new(side,0,seatZ+.7f)})
+        {
+            var candidate = ToGlobal(offset);
+            var ray = PhysicsRayQueryParameters3D.Create(candidate+Vector3.Up*2.0f,candidate-Vector3.Up*2.1f,3);
+            ray.Exclude = Excluded();
+            var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+            if (hit.Count == 0 || hit["normal"].AsVector3().Y < .82f) continue;
+            candidate = hit["position"].AsVector3()+Vector3.Up*.035f;
+            if (Math.Abs(candidate.Y-GlobalPosition.Y) > .65f || !player.CanStandAt(candidate)) continue;
+            _exitShape.Height = player.StandingBodyHeight; _exitShape.Radius = player.BodyRadius;
+            var start = ToGlobal(new(Math.Sign(offset.X)*(Definition.HullSize.X*.5f+.02f),0,offset.Z));
+            start.Y = candidate.Y;
+            var sweep = new PhysicsShapeQueryParameters3D { Shape = _exitShape,
+                Transform = new(Basis.Identity,start+Vector3.Up*(player.StandingBodyHeight*.5f+.025f)),
+                Motion = candidate-start, CollisionMask = 3, Exclude = Excluded(), Margin = .01f };
+            // CastMotion explicitly ignores shapes already overlapped at its
+            // origin. A thin fence beside the door must not be crossed on exit.
+            if(GetWorld3D().DirectSpaceState.IntersectShape(sweep,1).Count>0)continue;
+            var travel = GetWorld3D().DirectSpaceState.CastMotion(sweep);
+            if (travel.Length >= 1 && travel[0] < .995f) continue;
+            feet = candidate; return true;
+        }
+        return false;
+    }
+
+    private global::Godot.Collections.Array<Rid> Excluded()
+    {
+        var exclude = new global::Godot.Collections.Array<Rid> { GetRid(), _entry.GetRid() };
+        if(Driver is not null)exclude.Add(Driver.GetRid());return exclude;
+    }
+
+    private void UpdateVisuals(float delta)
+    {
+        ApplySteeringCollision();
+        foreach (var wheel in _visual.Wheels)            wheel.Rotation = new(_wheelPhase,_visual.FrontWheels.Contains(wheel)?RoadWheelYaw(_steering):0,0);
+        foreach (var lamp in _visual.Lamps) lamp.Visible = Headlights;
+        if(_visual.SteeringWheel is {} steering)steering.RotationDegrees = new(70,0,-Mathf.RadToDeg(_steering)*2f);
+        if(_visual.SpeedNeedle is {} speedNeedle)
+            speedNeedle.RotationDegrees=new(0,0,130-Mathf.Clamp(Math.Abs(Speed)*3.6f/(Definition.Kind==VehicleKind.Niva?160:120),0,1)*260);
+        if(_visual.EngineNeedle is {} engineNeedle)
+            engineNeedle.RotationDegrees=new(0,0,130-(EngineRunning ? .9f+Math.Abs(Speed)*.28f : 0)/8*260);
+        if(_visual.RadioDisplay is {} tuning)
+            tuning.Text=Radio?.Enabled==true?"101.4":"— —";
+        // Roll around the rider's support, with the handlebar/mirrors staying
+        // inside the real one-metre hull even at the maximum permitted bank.
+        _visual.Root.Transform = MotorcycleLeanTransform();
+        _visual.HorsePose?.UpdatePose(this,delta,Speed,_steering,HorseState);
+        // Occupied-cart driver figure: visible exactly while this cart has a
+        // driver, hidden otherwise. Presentation only, no physics or save role.
+        // TryExit clears Driver without a following physics tick, so the figure
+        // is synced eagerly there too; this call keeps every other path exact.
+        SyncCartDriverFigure();
+    }
+
+    private void SyncCartDriverFigure()
+    {
+        if (Definition.Kind == VehicleKind.HorseCart
+            && _visual.Root.GetNodeOrNull("CartDriver") is Node3D cartDriver)
+            cartDriver.Visible = Driver is not null;
+    }
+
+    private void Notice(string message){_notice=message;_noticeSeconds=2.5f;LastRefusal=message;}
+
+    public string ControlHint()
+    {
+        if(_noticeSeconds>0)return _notice;
+        var pad=Driver?.CurrentInputDevice=="gamepad";
+        string H(string action)=>InputBindingService.ActionHint(action,pad);
+        var engine=Definition.Kind==VehicleKind.HorseCart?(EngineRunning?"остановить лошадь":"тронуться"):(EngineRunning?"заглушить":"завести");
+        var state=Definition.Kind==VehicleKind.HorseCart
+            ? HorseState switch {HorseDisposition.Wary=>"Лошадь насторожилась",HorseDisposition.Slowing=>"Лошадь сбавляет шаг",
+                HorseDisposition.Refusing=>"Лошадь отказывается идти вперёд",_=>"Лошадь спокойна"}
+            : $"{Math.Abs(Speed)*3.6f:0} км/ч · {(EngineRunning?"двигатель работает":"двигатель выключен")}";
+        var horse=Definition.Kind==VehicleKind.HorseCart;
+        var parking=horse?"тормоз телеги":"стояночный тормоз";
+        return Definition.DisplayName+" · "+state+(ParkingBrake?" · "+parking:"")
+            +"\n"+H("move_forward")+"/"+H("move_backward")+(horse?" вперёд / осадить · ":" газ / тормоз / назад · ")
+                +H("move_left")+"/"+H("move_right")+(horse?" направить":" поворот")
+            +"\n"+H("carry_use")+" "+engine+" · "+H("jump")+(horse?" придержать · ":" тормоз · ")
+                +H("crouch")+" "+parking+" · "+H("interact")+" выйти"
+            +(Definition.Kind!=VehicleKind.HorseCart?" · "+H("carry_rotate")+" фары":"")
+            +(Radio is null?"":"\n"+H("carry_place")+" радио · "+(Radio.Enabled?Radio.Display:"выключено"));
+    }
+
+    public JsonObject Capture()
+    {
+        // A rejected hoof projection gates entry through the live placement check
+        // and stays repairable in place, so it must not make the session
+        // unsaveable: saving and reloading is how a player recovers from a
+        // blocked cart. The record stays a pure function of the persisted state
+        // (the articulated pose is re-derived and re-validated on restore), so a
+        // repeated indoor round trip cannot compare two different records.
+        JsonArray V(Vector3 vector)=>new(vector.X,vector.Y,vector.Z);
+        return new JsonObject { ["propId"]=Definition.StateId,["version"]=1,["position"]=V(GlobalPosition),
+            ["yawDegrees"]=CaptureYawDegrees(),["engineRunning"]=EngineRunning,["parkingBrake"]=ParkingBrake,
+            ["headlights"]=Headlights,["travelMetres"]=TotalTravelMetres,["radio"]=Radio?.Capture(),
+            ["steeringRadians"]=_steering,["leanRadians"]=_motorcycleLean };
+    }
+
+    private void RememberSavedYaw(float yawDegrees)
+    {
+        _savedYawDegrees = yawDegrees;
+        _savedYawBasis = Basis;
+        _hasSavedYaw = true;
+    }
+
+    private float CaptureYawDegrees()
+    {
+        // Godot's degrees/radians round-trip need not return the input float.
+        // Preserve that input only while the actual local rotation is exactly
+        // unchanged. Even a one-component change records the new live angle.
+        if (!_hasSavedYaw || Basis != _savedYawBasis) RememberSavedYaw(RotationDegrees.Y);
+        return _savedYawDegrees;
+    }
+
+    public bool Restore(JsonElement record)
+    {
+        // Validate the complete transform before applying anything from disk.
+        if(record.ValueKind!=JsonValueKind.Object || !record.TryGetProperty("version",out var version)
+            ||version.ValueKind!=JsonValueKind.Number||!version.TryGetInt32(out var number)||number!=1)return false;
+        Vector3 position;
+        try{position=VehicleDefinition.ReadVector(record.GetProperty("position"));}catch{return false;}
+        if(!record.TryGetProperty("yawDegrees",out var yawValue)||!yawValue.TryGetSingle(out var yaw)||!float.IsFinite(yaw))return false;
+        if(!_fleet.IsWithinTerrain(position))return false;
+        var steering=0f;
+        if(record.TryGetProperty("steeringRadians",out var steeringValue)
+            &&(steeringValue.ValueKind!=JsonValueKind.Number||!steeringValue.TryGetSingle(out steering)
+                ||!float.IsFinite(steering)||Math.Abs(steering)>Mathf.DegToRad(Definition.SteeringDegrees)+.000001f))return false;
+        var lean=0f;
+        if(record.TryGetProperty("leanRadians",out var leanValue)
+            &&(leanValue.ValueKind!=JsonValueKind.Number||!leanValue.TryGetSingle(out lean)
+                ||!float.IsFinite(lean)||Math.Abs(lean)>.04f
+                ||Definition.Kind!=VehicleKind.Motorcycle&&lean!=0))return false;
+        ReleaseForSessionBoundary();
+        GlobalPosition=position;RotationDegrees=new(0,yaw,0);Speed=0;Velocity=Vector3.Zero;
+        RememberSavedYaw(yaw);
+        _steering=steering;_motorcycleLean=lean;
+        _acceptedHorsePose = _pendingHorsePose = null;
+        _rejectedHorsePose = null; _horseProjectionFailure = string.Empty;
+        EngineRunning=record.TryGetProperty("engineRunning",out var engine)&&engine.ValueKind==JsonValueKind.True;
+        ParkingBrake=!record.TryGetProperty("parkingBrake",out var park)||park.ValueKind!=JsonValueKind.False;
+        Headlights=record.TryGetProperty("headlights",out var lights)&&lights.ValueKind==JsonValueKind.True;
+        TotalTravelMetres=record.TryGetProperty("travelMetres",out var metres)&&metres.TryGetSingle(out var value)&&float.IsFinite(value)?Math.Max(0,value):0;
+        Radio?.Restore(record.TryGetProperty("radio",out var radio)&&radio.ValueKind==JsonValueKind.Object?radio:null);
+        _controlsNeedRelease=true;UpdateVisuals(0);return true;
+    }
+
+    public bool ValidatePhysicalPlacement(out string reason)
+        =>ValidatePhysicalPlacement(GlobalTransform,out reason);
+
+    internal void SetPlacementAvailability(bool available,string reason= "")
+    {
+        if (available && !TryRepairHorseProjection()) { available = false; reason = _horseProjectionFailure; }
+        PlacementAvailable=available;PlacementFailure=available?string.Empty:reason;
+        SetMeta("placementAvailable",available);SetMeta("placementFailure",PlacementFailure);
+        if(!available){Speed=0;Velocity=Vector3.Zero;_controlsNeedRelease=true;}
+    }
+
+    private bool ValidatePhysicalPlacement(Transform3D pose,out string reason,float? steering=null,float? lean=null)
+    {
+        reason=string.Empty;
+        if(!_fleet.IsWithinTerrain(pose.Origin)){reason="outside the authored terrain";return false;}
+        var access=_fleet.EvaluateTravel(this,pose.Origin,pose.Origin);
+        if(!access.Allowed){reason="the current road graph rejects this parking: "+access.Reason;return false;}
+        var exclude=PlacementExcluded();
+        var horseFrame = _horseProjectionFailure.Length != 0 && _visual.HorsePose is {} horse
+            ? SupportedHorseFrame(horse, horse.PreparePose(this, pose, 0, 0, _steering, HorseState, rest: true))
+            : HorseFrameForPose(pose);
+        if(horseFrame is not null && !HoofEndpointClear(horseFrame,out var hoofContact))
+        { reason="the actual articulated hoof pose is blocked or unsupported: "+hoofContact?.ToJsonString();return false; }
+        var overlaps=PlacementOverlaps(pose,1,steering,lean);
+        if(overlaps.Count>0)
+        {
+            var contact=DescribePlacementContact(overlaps[0]);
+            reason=$"the actual {contact["vehicleShape"]} intersects {contact["colliderPath"]}; shape={contact["shapePath"]}"
+                +$" index={contact["shapeIndex"]}; chassisOrigin={pose.Origin}";
+            return false;
+        }
+        var supports=0;
+        foreach(var group in AppliedSupportGroups(steering,lean,pose))
+        {
+            var bottom=pose*group.Point;
+            using var ray=PhysicsRayQueryParameters3D.Create(bottom+Vector3.Up*.24f,bottom-Vector3.Up*.42f,CollisionMask);
+            ray.Exclude=exclude;
+            var hit=GetWorld3D().DirectSpaceState.IntersectRay(ray);
+            if(hit.Count==0||hit["normal"].AsVector3().Y<Mathf.Cos(FloorMaxAngle))continue;
+            var gap=bottom.Y-hit["position"].AsVector3().Y;
+            if(gap>=-.015f&&gap<=.40f)supports++;
+        }
+        if(supports<MinimumSupportedGroups){reason="the chassis lacks support for the required wheel/hoof groups on the actual ground";return false;}
+        return true;
+    }
+
+    private IEnumerable<Vector3> SupportPoints(float? steering=null,float? lean=null)
+        =>AppliedSupportGroups(steering,lean,restBindings:steering.HasValue&&lean.HasValue).Select(group=>group.Point);
+
+    private global::Godot.Collections.Array<Rid> PlacementExcluded()
+    {
+        var excluded=Excluded();
+        // SaveGameV3 restores the person's seated transform before possession is
+        // projected; that temporary player capsule is not a world obstruction.
+        if(GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
+            &&!excluded.Contains(player.GetRid()))excluded.Add(player.GetRid());
+        return excluded;
+    }
+
+    internal bool TryRestoreAuthoredParking()
+    {
+        var basis=Basis.FromEuler(new(0,Mathf.DegToRad(Definition.YawDegrees),0));
+        var exclude=PlacementExcluded();
+        // A changed object may occupy the saved position or original bay. Use
+        // only a short, checked part of the existing road near authored parking.
+        foreach(var distance in new[]{0f,6f,-6f,12f,-12f})
+        {
+            var candidate=Definition.Spawn+basis*new Vector3(0,0,distance);
+            var highest=float.NegativeInfinity;var lowest=float.PositiveInfinity;var supports=0;
+            foreach(var point in SupportPoints(0,0))
+            {
+                var sample=candidate+basis*point;
+                using var ray=PhysicsRayQueryParameters3D.Create(sample+Vector3.Up*2,sample-Vector3.Up*2,CollisionMask);
+                ray.Exclude=exclude;var hit=GetWorld3D().DirectSpaceState.IntersectRay(ray);
+                if(hit.Count==0||hit["normal"].AsVector3().Y<Mathf.Cos(FloorMaxAngle))continue;
+                var floor=hit["position"].AsVector3().Y-point.Y;
+                highest=Math.Max(highest,floor);lowest=Math.Min(lowest,floor);supports++;
+            }
+            if(supports<_supportGroups.Count||highest-lowest>.35f)continue;
+            candidate.Y=highest+.025f;
+            if(!_fleet.EvaluateTravel(this,candidate,candidate).Allowed)continue;
+            var pose=new Transform3D(basis,candidate);
+            if(!ValidatePhysicalPlacement(pose,out _,steering:0,lean:0))continue;
+            ReleaseForSessionBoundary();GlobalTransform=pose;ParkingBrake=true;
+            RememberSavedYaw(RotationDegrees.Y);
+            _steering=_pitch=_lookYaw=_wheelPhase=_motorcycleLean=0;_controlsNeedRelease=true;
+            _acceptedHorsePose = _pendingHorsePose = null;
+            _rejectedHorsePose = null; _horseProjectionFailure = string.Empty;
+            // Repair only the unsafe pose. The saved ignition, lamps, mileage
+            // and radio programme remain the same persistent vehicle state.
+            UpdateVisuals(0);return true;
+        }
+        return false;
+    }
+}

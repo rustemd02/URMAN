@@ -10,7 +10,7 @@ namespace Urman.Godot.Tests;
 /// reachable trunk with the ordinary controller. Local fixtures are explicitly
 /// positioned; the subsequent movement is physical, not a full-route playtest.
 /// Run with protected userdata. URMAN_BOUNDARY_OUTPUT optionally captures the
-/// actual player camera into an existing empty directory outside the checkout.
+/// actual player camera into an existing empty evidence directory.
 /// </summary>
 public partial class Act1BoundaryCollisionSmokeTest : Node
 {
@@ -28,11 +28,9 @@ public partial class Act1BoundaryCollisionSmokeTest : Node
             _output = System.Environment.GetEnvironmentVariable("URMAN_BOUNDARY_OUTPUT");
             if (!string.IsNullOrEmpty(_output))
             {
-                var repo = Path.GetFullPath(ProjectSettings.GlobalizePath("res://.."));
                 if (!Path.IsPathFullyQualified(_output) || !Directory.Exists(_output)
-                    || Path.GetFullPath(_output).StartsWith(repo + Path.DirectorySeparatorChar, StringComparison.Ordinal)
                     || Directory.EnumerateFileSystemEntries(_output).Any())
-                    throw new InvalidOperationException("Boundary output must be an existing empty directory outside the checkout.");
+                    throw new InvalidOperationException("Boundary output must be an existing empty absolute directory.");
                 if (RenderingServer.GetRenderingDevice() is null)
                     throw new InvalidOperationException("Boundary image evidence requires a real rendering device.");
             }
@@ -93,14 +91,34 @@ public partial class Act1BoundaryCollisionSmokeTest : Node
                 ?? throw new InvalidOperationException("No village-side trunk available for a physical approach.");
             GD.Print($"act1-boundary: selected {selected.GetPath()} root={selected.GlobalPosition}");
             await CheckPhysicalTrunk(player, selected);
-            // This rooted willow used to lose its entire collider when a
-            // snow-touching branch extended its bounds into the nearby house.
-            // Approach from the accessible street side, then walk back out;
-            // circling through the neighbouring house would be a wrong fixture.
-            var willow = plants.Single(node => node.GetMeta("plantVariant").AsString() == "WinterWillow_1"
-                && Horizontal(node.GlobalPosition, new(-24.863468f, 0, -6.504007f)) < .01f);
+            // BuildDensifiedPlan's kitchen-garden pass owns the current willow
+            // roots. The historical south-house coordinate no longer names a
+            // planted tree. Select the unique north-yard planting by its source
+            // metadata and parcel sector, never by a generated Plant index or
+            // by whether its collider happens to exist.
+            var willowSector = new Rect2(-27f, 5f, 3f, 2f);
+            var yardWillows = plants.Where(node => node.GetMeta("plantVariant").AsString() == "WinterWillow_1"
+                && node.HasMeta("plantPosition") && willowSector.HasPoint(new Vector2(
+                    node.GetMeta("plantPosition").AsVector3().X,
+                    node.GetMeta("plantPosition").AsVector3().Z))).ToArray();
+            if (yardWillows.Length != 1)
+                throw new InvalidOperationException("Expected one source-owned north-yard willow; found " + yardWillows.Length
+                    + ". Live willows: " + string.Join("; ", plants
+                        .Where(node => node.GetMeta("plantVariant").AsString() == "WinterWillow_1")
+                        .Select(node => $"{node.Name}@{node.GlobalPosition}")));
+            var willow = yardWillows[0];
+            var planPosition = willow.GetMeta("plantPosition").AsVector3();
+            if (willow.Position.DistanceTo(planPosition) > .001f)
+                throw new InvalidOperationException($"Willow transform diverged from its planting owner: {willow.GetPath()} plan={planPosition} actual={willow.Position}.");
+            _measurements.Add(new { kind = "willow-fixture-selection", plant = willow.GetPath().ToString(),
+                variant = willow.GetMeta("plantVariant").AsString(), planPosition = Point(planPosition),
+                root = Point(willow.GlobalPosition), sourceOwner = "AgentBAct1ExteriorLayer.BuildDensifiedPlan/kitchen-garden",
+                selection = "unique WinterWillow_1 in north-yard source sector x[-27,-24), z[5,7)" });
+            GD.Print($"act1-boundary: current willow {willow.GetPath()} plan={planPosition} root={willow.GlobalPosition}");
+            // The current root is north of the yard fence. Start and return on
+            // that same open side; circling through the fence is not an approach.
             await CheckPhysicalTrunk(player, willow,
-                new[] { ("willow_south", Vector3.Forward), ("willow_diagonal", new Vector3(-.35f, 0, -1).Normalized()) },
+                new[] { ("willow_north", Vector3.Back), ("willow_northeast", new Vector3(.35f, 0, 1).Normalized()) },
                 checkCircuit: false);
             await CheckBoundary(player, exterior);
             GD.Print($"act1-boundary: physical-distance={_walked:F2}m edge-clamps={player.EdgeClamps} fall-recoveries={player.FallRecoveries}");
@@ -134,10 +152,8 @@ public partial class Act1BoundaryCollisionSmokeTest : Node
         foreach (var (label, radial) in approaches
             ?? new[] { ("front", Vector3.Left), ("diagonal", new Vector3(-1, 0, 1).Normalized()) })
         {
-            // The 1.8m fixture crossed the neighbouring facade at this willow
-            // once that facade's rotated collision was repaired. Stay inside
-            // the actual pocket around the tree, and verify the starting
-            // capsule fits instead of spawning through the building.
+            // Keep the fixture within the local pocket and verify its full
+            // starting capsule against the current geometry before spawning.
             const float circuitRadius = 1.2f;
             var start = Ground(root + radial * circuitRadius);
             using var capsule = new CapsuleShape3D { Radius = .35f, Height = 1.78f };

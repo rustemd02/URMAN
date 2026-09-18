@@ -68,7 +68,7 @@ public static class UiFoley
         }
 
         AudioSettingsService.EnsureBuses();
-        var player = new AudioStreamPlayer3D
+        var player = new WorldFoleyPlayer
         {
             Name = $"WorldFoley_{sample}",
             Stream = stream,
@@ -82,10 +82,11 @@ public static class UiFoley
         host.AddChild(player);
         player.GlobalPosition = globalPosition;
         player.Finished += () => player.QueueFree();
-        player.Play();
-        // An awaited interaction can finish after the pause menu opens.
-        player.StreamPaused = host.GetTree().GetFirstNodeInGroup("pause_menu")
-            is PauseMenuUi { IsOpen: true };
+        // An awaited interaction can finish after the pause menu opens. Keep
+        // its request pending until Resume; StreamPaused cannot pause a native
+        // playback that AudioStreamPlayer3D has not created yet.
+        player.RequestPlay(host.GetTree().GetFirstNodeInGroup("pause_menu")
+            is PauseMenuUi { IsOpen: true });
     }
 
     /// <summary>Pauses or resumes active source-positioned one-shots.</summary>
@@ -93,9 +94,10 @@ public static class UiFoley
     {
         foreach (var node in tree.GetNodesInGroup(WorldFoleyGroup))
         {
-            if (node is AudioStreamPlayer3D player && GodotObject.IsInstanceValid(player))
+            if (node is WorldFoleyPlayer player && GodotObject.IsInstanceValid(player)
+                && !player.IsQueuedForDeletion())
             {
-                player.StreamPaused = paused;
+                player.SetWorldPaused(paused);
             }
         }
     }
@@ -105,9 +107,9 @@ public static class UiFoley
     {
         foreach (var node in tree.GetNodesInGroup(WorldFoleyGroup))
         {
-            if (node is AudioStreamPlayer3D player && GodotObject.IsInstanceValid(player))
+            if (node is WorldFoleyPlayer player && GodotObject.IsInstanceValid(player))
             {
-                player.Stop();
+                player.Cancel();
                 player.QueueFree();
             }
         }

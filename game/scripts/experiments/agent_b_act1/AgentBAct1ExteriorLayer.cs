@@ -26,6 +26,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private global::Godot.Environment? _environmentResource;
     private DirectionalLight3D? _sun;
     private CpuParticles3D? _rain;
+    private bool _sheltered;
     private SnowTrampleField? _snowTrample;
     private readonly List<OmniLight3D> _karaAccentLights = new();
     private readonly Dictionary<(string Variant, string Region), ArrayMesh> _foliageMeshes = new();
@@ -39,6 +40,40 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         root.X >= bounds.Position.X - .35f && root.X <= bounds.End.X + .35f
         && root.Z >= bounds.Position.Z - .35f && root.Z <= bounds.End.Z + .35f
         && bounds.End.Y > root.Y + .4f);
+
+    internal void ReconcileBuildingFoliage(Node building)
+    {
+        // Facilities06: the accessible bath roof is built after PlantFoliage.
+        // Apply that same roof rule to this building only, retaining plant IDs
+        // and shared meshes. A stem belongs to its exact geometryOwner, not to
+        // the whole architecture body that also carries neighbouring scenery.
+        var roofs = BuildingRoofBounds(building);
+        var plants = GetNode<Node3D>("AgentB_PlantedFoliage");
+        var architecture = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
+        var stems = EnumerateDescendants<CollisionShape3D>(architecture).ToArray();
+        var owners = new List<string>();
+        var contacts = new List<string>();
+        var buildingPath = building.GetPath().ToString();
+        foreach (var tree in plants.GetChildren().OfType<Node3D>().Where(node =>
+            node is not VisualInstance3D && node.HasMeta("plantPosition")))
+        {
+            if (!UnderBuildingRoof(tree.GlobalPosition, roofs)) continue;
+            var owner = tree.GetPath().ToString();
+            tree.Visible = false;
+            tree.SetMeta("roofSuppressedBy", buildingPath);
+            tree.SetMeta("roofSuppressionWorldRoot", tree.GlobalPosition);
+            owners.Add(owner);
+            foreach (var stem in stems.Where(shape => shape.HasMeta("geometryOwner")
+                && shape.GetMeta("geometryOwner").AsString() == owner))
+            {
+                stem.Disabled = true;
+                stem.SetMeta("roofSuppressedBy", buildingPath);
+                contacts.Add(stem.GetPath().ToString());
+            }
+        }
+        building.SetMeta("roofSuppressedFoliageOwners", owners.ToArray());
+        building.SetMeta("roofSuppressedFoliageContacts", contacts.ToArray());
+    }
 
     internal ArrayMesh FoliageMesh(string variant, string region)
     {
@@ -115,6 +150,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 SuppressDuplicateFapPresentation(instance);
                 SuppressDuplicateBabaiHouse(instance);
                 SuppressDuplicateBabaiOutbuildings(instance);
+                SuppressDuplicateYardWell(instance);
                 SuppressRouteOccludingHouseA7(instance);
                 SuppressDuplicateNearStreetHouses(instance);
                 SuppressRouteOccludingHouseA5Architecture(instance);
@@ -230,9 +266,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
         if (_rain is not null)
         {
-            _rain.Emitting = enabled;
+            _rain.Emitting = enabled && !_sheltered;
+            _rain.Visible = enabled && !_sheltered;
         }
-        _snowTrample?.SetEnabled(enabled);
+        _snowTrample?.SetEnabled(enabled && !_sheltered);
 
         foreach (var light in _karaAccentLights)
         {
@@ -243,6 +280,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         SetMeta("exteriorMood", night ? "kara-night" : "rainy-day");
         SetMeta("exteriorNight", night);
         SetMeta("activeAtmosphereOwner", enabled ? "AgentBExteriorWorld" : "logical-zone");
+    }
+
+    public void SetSheltered(bool sheltered)
+    {
+        _sheltered = sheltered;
+        if (_rain is not null)
+        {
+            _rain.Emitting = _exteriorPresentationEnabled && !sheltered;
+            _rain.Visible = _exteriorPresentationEnabled && !sheltered;
+        }
+        _snowTrample?.SetEnabled(_exteriorPresentationEnabled && !sheltered);
+        SetMeta("physicalSheltered", sheltered);
     }
 
     private void BuildTerrainCollision()
@@ -307,6 +356,256 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
     }
 
+    /// <summary>
+    /// The occupied room floor replaces the outdoor height field only inside
+    /// its actual rotated footprint. Both the rendered terrain and its single
+    /// physics owner receive the same clipped faces; the yard remains intact.
+    /// </summary>
+    public void ExcludeOccupiedRoomTerrain(Node3D room, Vector2 halfSize)
+    {
+        if (halfSize.X <= 0 || halfSize.Y <= 0
+            || Math.Abs(room.GlobalBasis.Y.Normalized().Dot(Vector3.Up)) < .9999f)
+            throw new InvalidOperationException("An occupied terrain footprint needs an upright room and positive clear dimensions.");
+        var mesh = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_TerrainRoadKit"))
+            .Single(node => node.Name == "Terrain_Main");
+        if (mesh.Mesh is not ArrayMesh original || original.GetSurfaceCount() != 1)
+            throw new InvalidOperationException("The authoritative terrain must have one triangle surface before an interior cut.");
+        var (result, changedTriangles, outputVertices) = ClipGroundFootprint(mesh, original, room, halfSize);
+        var terrainToLayer = GlobalTransform.AffineInverse() * mesh.GlobalTransform;
+        mesh.Mesh = result;
+        // Index/commit is the publishing boundary. Read its final triangle list
+        // for physics, rather than retaining a second pre-index representation.
+        var publishedFaces = result.GetFaces();
+        var physicalFaces = publishedFaces.Select(vertex => terrainToLayer * vertex).ToArray();
+        var contact = GetNode<CollisionShape3D>("AgentB_TerrainCollision/AgentB_TerrainFaces");
+        if (contact.Shape is not ConcavePolygonShape3D shape)
+            throw new InvalidOperationException("The terrain physics owner lost its triangle surface.");
+        shape.SetFaces(physicalFaces);
+        contact.SetMeta("terrainCutInputVertices", outputVertices);
+        contact.SetMeta("terrainCutPublishedVertices", publishedFaces.Length);
+        contact.SetMeta("terrainCutPhysicsVertices", shape.GetFaces().Length);
+        mesh.SetMeta("occupiedRoomTerrainCut", room.GetPath().ToString());
+        mesh.SetMeta("occupiedRoomTerrainHalfSize", halfSize);
+        contact.SetMeta("occupiedRoomTerrainCut", room.GetPath().ToString());
+        contact.SetMeta("occupiedRoomTerrainHalfSize", halfSize);
+        room.SetMeta("exteriorTerrainFootprintExcluded", true);
+        room.SetMeta("exteriorTerrainCutHalfSize", halfSize);
+        GD.Print($"act1-terrain-room-cut: room={room.GetPath()} half={halfSize} affectedTriangles={changedTriangles} clippedVertices={outputVertices} publishedVertices={publishedFaces.Length} physicsVertices={shape.GetFaces().Length} visualAndPhysics=shared-published-faces");
+        // The original yard apron is a separate visible surface. It must share
+        // the occupied footprint cut: its uphill edge otherwise rises through
+        // the timber floor beside the photograph. Terrain remains its sole
+        // support owner; no independent apron collider is introduced.
+        var apron = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_TerrainRoadKit"))
+            .Single(node => node.Name == "Apron_BabaiYard");
+        if (apron.Mesh is not ArrayMesh apronSource || apronSource.GetSurfaceCount() != 1)
+            throw new InvalidOperationException("The Babai yard apron must retain its single authored material surface.");
+        var (apronResult, apronChanged, apronVertices) = ClipGroundFootprint(apron, apronSource, room, halfSize);
+        // Keep the small imported resource available for a read-only comparison
+        // of the retained exterior geometry; it is never rendered or mutated.
+        apron.SetMeta("occupiedRoomOriginalMesh", apronSource);
+        apron.Mesh = apronResult;
+        apron.SetMeta("occupiedRoomTerrainCut", room.GetPath().ToString());
+        apron.SetMeta("occupiedRoomTerrainHalfSize", halfSize);
+        apron.SetMeta("supportOwner", "AgentB_TerrainCollision");
+        GD.Print($"act1-apron-room-cut: mesh={apron.GetPath()} affectedTriangles={apronChanged} clippedVertices={apronVertices} surfaces={apronResult.GetSurfaceCount()} collision=existing-terrain-owner");
+        FitBabaiSouthFenceToOccupiedHouse(room, halfSize + new Vector2(.2f, .2f));
+    }
+
+    internal static (ArrayMesh Mesh, int ChangedTriangles, int OutputVertices) ClipGroundFootprint(
+        MeshInstance3D mesh, ArrayMesh original, Node3D room, Vector2 halfSize)
+    {
+        var arrays = original.SurfaceGetArrays(0);
+        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+        var normals = arrays[(int)Mesh.ArrayType.Normal].AsVector3Array();
+        var uvValue = arrays[(int)Mesh.ArrayType.TexUV];
+        var uv = uvValue.VariantType == Variant.Type.Nil ? Array.Empty<Vector2>() : uvValue.AsVector2Array();
+        var indices = arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
+        if (indices.Length == 0) indices = Enumerable.Range(0, vertices.Length).ToArray();
+        if (normals.Length != vertices.Length || (uv.Length != 0 && uv.Length != vertices.Length) || indices.Length % 3 != 0)
+            throw new InvalidOperationException($"Ground attributes or triangle indices are incomplete: {mesh.Name}.");
+        var terrainToRoom = room.GlobalTransform.AffineInverse() * mesh.GlobalTransform;
+        var output = new List<TerrainCutVertex>(indices.Length + 120);
+        var changedTriangles = 0;
+        for (var triangle = 0; triangle < indices.Length; triangle += 3)
+        {
+            var polygon = new List<TerrainCutVertex>(3);
+            for (var corner = 0; corner < 3; corner++)
+            {
+                var index = indices[triangle + corner];
+                polygon.Add(new(vertices[index], normals[index], uv.Length == 0 ? Vector2.Zero : uv[index]));
+            }
+            // Preserve wholly exterior triangles and their attributes exactly.
+            if (Enumerable.Range(0, 4).Any(plane => polygon.All(vertex =>
+                TerrainFootprintDistance(terrainToRoom * vertex.Position, halfSize, plane) <= 0)))
+            {
+                output.AddRange(polygon);
+                continue;
+            }
+            changedTriangles++;
+            for (var plane = 0; plane < 4 && polygon.Count > 0; plane++)
+            {
+                AppendTerrainPolygon(output, ClipTerrainPolygon(polygon, terrainToRoom, halfSize, plane, keepInside: false));
+                polygon = ClipTerrainPolygon(polygon, terrainToRoom, halfSize, plane, keepInside: true);
+            }
+        }
+        using var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        foreach (var vertex in output)
+        {
+            surface.SetNormal(vertex.Normal);
+            if (uv.Length != 0) surface.SetUV(vertex.Uv);
+            surface.AddVertex(vertex.Position);
+        }
+        surface.Index();
+        var result = surface.Commit();
+        result.SurfaceSetMaterial(0, original.SurfaceGetMaterial(0));
+        result.SurfaceSetName(0, original.SurfaceGetName(0));
+        return (result, changedTriangles, output.Count);
+    }
+
+    private void FitBabaiSouthFenceToOccupiedHouse(Node3D room, Vector2 shellHalfSize)
+    {
+        if (HasMeta("babaiSouthFenceFitted")) return;
+        const float left = -36.2f, oldRight = -25.2f, lineZ = -6.4f;
+        var start = room.ToLocal(ToGlobal(new Vector3(left, 0, lineZ)));
+        var finish = room.ToLocal(ToGlobal(new Vector3(oldRight, 0, lineZ)));
+        var direction = finish - start;
+        var entry = 0f; var exit = 1f;
+        foreach (var (origin, delta, half) in new[] { (start.X, direction.X, shellHalfSize.X), (start.Z, direction.Z, shellHalfSize.Y) })
+        {
+            if (Math.Abs(delta) < .00001f)
+            {
+                if (Math.Abs(origin) > half) throw new InvalidOperationException("The retained south fence does not meet the occupied house.");
+                continue;
+            }
+            var a = (-half - origin) / delta; var b = (half - origin) / delta;
+            entry = Math.Max(entry, Math.Min(a, b)); exit = Math.Min(exit, Math.Max(a, b));
+        }
+        if (entry <= 0 || entry >= exit || exit >= 1)
+            throw new InvalidOperationException("The occupied house no longer has the expected bounded south-fence junction.");
+        var wallX = Mathf.Lerp(left, oldRight, entry);
+        var endPostX = wallX - .12f;
+        var span = endPostX - left;
+        if (span < 1.2f) throw new InvalidOperationException("There is no supported south-fence wing beside the house.");
+        var body = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
+        var members = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_VillageBuildingsKit"))
+            .Where(mesh => mesh.Name.ToString().StartsWith("FenceBabaiS_", StringComparison.Ordinal)).ToArray();
+        if (members.Length != 23) throw new InvalidOperationException("The south-fence source family changed; refit its members explicitly.");
+        foreach (var mesh in members)
+        {
+            var name = mesh.Name.ToString();
+            var contact = body.GetNodeOrNull<CollisionShape3D>($"Col_{name}");
+            var post = name.Contains("_Post0_", StringComparison.Ordinal) || name.Contains("_PostCap0_", StringComparison.Ordinal);
+            var index = post || name.Contains("_Board0_", StringComparison.Ordinal) ? int.Parse(name[(name.LastIndexOf('_') + 1)..]) : -1;
+            if (post && index < 5)
+            {
+                // These five posts belonged to the narrow preview house. The
+                // actual dwelling now forms this part of the yard boundary.
+                mesh.Visible = false;
+                mesh.SetMeta("agentBPresentationSuppressed", "occupied-house-replaces-south-fence");
+                if (contact is not null) contact.Disabled = true;
+                continue;
+            }
+            var source = mesh.Mesh ?? throw new InvalidOperationException($"Fence member {name} lost its mesh.");
+            var originalCenter = ToLocal(mesh.GlobalPosition);
+            var brace = name.Contains("_Brace", StringComparison.Ordinal);
+            var newCenterX = post ? Mathf.Lerp(endPostX, left, (index - 5) / 2f)
+                : index >= 0 ? Mathf.Lerp(left + .25f, endPostX - .25f, index / 6f)
+                : brace ? (left + endPostX) * .5f : (left + wallX) * .5f;
+            var horizontalScale = name.Contains("_Rail", StringComparison.Ordinal) ? (wallX + .03f - left) / 11f
+                : brace ? span / 7f : 1f;
+            var reshaped = new ArrayMesh();
+            for (var s = 0; s < source.GetSurfaceCount(); s++)
+            {
+                var attributes = source.SurfaceGetArrays(s).Duplicate(true);
+                var points = attributes[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                for (var p = 0; p < points.Length; p++)
+                {
+                    var at = ToLocal(mesh.ToGlobal(points[p]));
+                    at.X = newCenterX + (at.X - originalCenter.X) * horizontalScale;
+                    // The authored diagonal is seven metres long, unlike the
+                    // eleven-metre rails. Seat its two ends into the actual
+                    // terminal posts and the lower/upper rails respectively.
+                    if (brace) at.Y += .063f;
+                    at.Y += AgentBAct1HeightField.CollisionGround(at.X, at.Z);
+                    points[p] = mesh.ToLocal(ToGlobal(at));
+                }
+                attributes[(int)Mesh.ArrayType.Vertex] = points;
+                using var section = new ArrayMesh();
+                section.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, attributes);
+                using var surface = new SurfaceTool();
+                surface.CreateFrom(section, 0);
+                surface.GenerateNormals();
+                surface.Commit(reshaped);
+                reshaped.SurfaceSetMaterial(s, source.SurfaceGetMaterial(s));
+            }
+            mesh.Mesh = reshaped;
+            mesh.SetMeta("southFenceHouseJunction", room.GetPath().ToString());
+            if (contact is null)
+            {
+                contact = new CollisionShape3D { Name = $"Col_{name}" };
+                body.AddChild(contact);
+            }
+            contact.Shape = reshaped.CreateTrimeshShape();
+            contact.Transform = body.GlobalTransform.AffineInverse() * mesh.GlobalTransform;
+            contact.Disabled = false;
+            contact.SetMeta("southFenceHouseJunction", room.GetPath().ToString());
+        }
+        SetMeta("babaiSouthFenceFitted", true);
+        SetMeta("babaiSouthFenceWallJunction", ToGlobal(new Vector3(wallX, AgentBAct1HeightField.CollisionGround(wallX, lineZ), lineZ)));
+        GD.Print($"act1-south-fence-house-junction: wallX={wallX:F4} retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing={span:F4}m");
+    }
+
+    private readonly record struct TerrainCutVertex(Vector3 Position, Vector3 Normal, Vector2 Uv)
+    {
+        public TerrainCutVertex Lerp(TerrainCutVertex other, float fraction) => new(
+            Position.Lerp(other.Position, fraction), Normal.Lerp(other.Normal, fraction).Normalized(), Uv.Lerp(other.Uv, fraction));
+    }
+
+    private static float TerrainFootprintDistance(Vector3 point, Vector2 halfSize, int plane) => plane switch
+    {
+        0 => point.X + halfSize.X,
+        1 => halfSize.X - point.X,
+        2 => point.Z + halfSize.Y,
+        _ => halfSize.Y - point.Z
+    };
+
+    private static List<TerrainCutVertex> ClipTerrainPolygon(List<TerrainCutVertex> polygon,
+        Transform3D terrainToRoom, Vector2 halfSize, int plane, bool keepInside)
+    {
+        var result = new List<TerrainCutVertex>(polygon.Count + 1);
+        if (polygon.Count == 0) return result;
+        var previous = polygon[^1];
+        var previousDistance = TerrainFootprintDistance(terrainToRoom * previous.Position, halfSize, plane);
+        var previousKept = keepInside ? previousDistance >= 0 : previousDistance <= 0;
+        foreach (var current in polygon)
+        {
+            var distance = TerrainFootprintDistance(terrainToRoom * current.Position, halfSize, plane);
+            var kept = keepInside ? distance >= 0 : distance <= 0;
+            if (kept != previousKept)
+                result.Add(previous.Lerp(current, previousDistance / (previousDistance - distance)));
+            if (kept) result.Add(current);
+            previous = current;
+            previousDistance = distance;
+            previousKept = kept;
+        }
+        return result;
+    }
+
+    private static void AppendTerrainPolygon(List<TerrainCutVertex> output, List<TerrainCutVertex> polygon)
+    {
+        for (var index = 1; index + 1 < polygon.Count; index++)
+        {
+            var a = polygon[0];
+            var b = polygon[index];
+            var c = polygon[index + 1];
+            if ((b.Position - a.Position).Cross(c.Position - a.Position).LengthSquared() < 1e-12f) continue;
+            output.Add(a);
+            output.Add(b);
+            output.Add(c);
+        }
+    }
+
     private void BuildArchitectureCollision()
     {
         var body = new StaticBody3D { Name = "AgentB_ArchitectureCollision" };
@@ -340,12 +639,14 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     continue;
                 }
 
-                body.AddChild(new CollisionShape3D
+                var contact = new CollisionShape3D
                 {
                     Name = $"Col_{meshInstance.Name}",
                     Shape = trimesh,
                     Transform = meshInstance.GlobalTransform
-                });
+                };
+                contact.SetMeta("authoredSourceMesh", meshInstance.GetPath().ToString());
+                body.AddChild(contact);
             }
         }
     }
@@ -808,6 +1109,27 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // Keep their matching authored surfaces visible so the player can
         // read the obstacle; presentation suppression must not hide physics.
 
+    }
+
+    private static void SuppressDuplicateYardWell(Node3D villageKit)
+    {
+        // This preview-board well at (-20.8, -2.2) occupies the real shed's
+        // low passage. The two placed Well_YardLandmark instances own wells in
+        // the connected village; retaining this roof produces a hidden ceiling.
+        var required = new[] { "Well_PostE", "Well_PostW", "Well_Roof" }
+            .Concat(Enumerable.Range(0, 8).Select(index => $"Well_Stone{index}")).ToArray();
+        var meshes = EnumerateDescendants<MeshInstance3D>(villageKit)
+            .Where(mesh => mesh.Name.ToString().StartsWith("Well_", StringComparison.Ordinal)).ToArray();
+        if (meshes.Length != required.Length
+            || required.Any(name => meshes.All(mesh => mesh.Name != name)))
+            throw new InvalidOperationException("The declared duplicate yard-well family changed; inspect its real placement before suppression.");
+        foreach (var mesh in meshes)
+        {
+            mesh.Visible = false;
+            mesh.SetMeta("agentBPresentationSuppressed", true);
+            mesh.SetMeta("suppressionReason", "placed village wells replace the preview well inside the occupied yard shed");
+        }
+        villageKit.SetMeta("suppressedPreviewWellMeshCount", meshes.Length);
     }
 
     private static bool ShouldCollide(string name)
@@ -1635,8 +1957,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // kerb reads as "a tree growing on the road". Only low ground cover
         // is allowed to hug the verge.
         var culledTrees = 0;
-        foreach (var (position, variant) in generated)
+        var yardTreeRelocations = 0;
+        foreach (var (seedPosition, variant) in generated)
         {
+            var position = AgentBFoliagePlan.ResolveYardWorkTree(seedPosition, variant);
+            if (position != seedPosition) yardTreeRelocations++;
             var roadInfo = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
             var clearance = (float)(roadInfo.Distance - roadInfo.HalfWidth);
             var isTree = variant.Contains("Birch", StringComparison.Ordinal)
@@ -1658,6 +1983,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
 
         SetMeta("winterRoadClearanceTreeCulls", culledTrees);
+        SetMeta("yardWorkTreeRelocations", yardTreeRelocations);
         SetMeta("winterRoadClearancePolicy", "trees >= 2.6m, ground cover >= 0.75m from the road envelope");
 
         // Batching the belt into MultiMeshes was measured and reverted: it removes

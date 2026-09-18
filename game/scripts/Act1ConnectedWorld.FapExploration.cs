@@ -33,6 +33,47 @@ public partial class Act1ConnectedWorld
     private StaticBody3D? _fapServiceFenceCollision;
     private bool? _fapServicePathFound;
     private Tween? _fapServiceGateTween;
+    private Node3D? _fapServiceCabinetDetail;
+    private Aabb _fapServiceCabinetBounds;
+
+    private void AlignFapClinicArchitecture()
+    {
+        var facade = GetNode<Node3D>("Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade");
+        var porch = GetNode<Node3D>("Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch");
+        var door = FindDescendants<MeshInstance3D>(facade).Single(mesh => mesh.Name == "FapFacade_DoorPanel_LOD0");
+        var doorCentre = door.GlobalTransform * door.Mesh.GetAabb().GetCenter();
+        // Level the complete building against its entrance, then scribe the
+        // foundation to the terrain. The room and porch share this same datum.
+        var baseY = AgentBAct1HeightField.CollisionGround(doorCentre.X, doorCentre.Z) - .04f;
+        facade.GlobalPosition = new(facade.GlobalPosition.X, baseY, facade.GlobalPosition.Z);
+        porch.GlobalPosition = new(porch.GlobalPosition.X, baseY, porch.GlobalPosition.Z);
+        var clinic = _zoneInstances["fap_clinic"];
+        clinic.GlobalTransform = facade.GlobalTransform * new Transform3D(Basis.Identity, new Vector3(0, .40f, 0));
+        clinic.SetMeta("exteriorArchitectureOwner", facade.GetPath().ToString());
+        clinic.SetMeta("fapEnvelopeContract", "fap-room-metric-v1");
+        var presentation = porch.GetParent<Node3D>();
+        foreach (var physical in new[] { porch, presentation.GetNode<Node3D>("FapAuthoredBench"),
+            presentation.GetNode<Node3D>("FapAuthoredNoticeBoard"), presentation.GetNode<Node3D>("FapAuthoredWayfindingBoard") })
+        foreach (var mesh in FindDescendants<MeshInstance3D>(physical).Where(mesh => mesh.Mesh is not null
+            && mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal)))
+        {
+            var stone = mesh.Name.ToString().Contains("Step_", StringComparison.Ordinal)
+                || mesh.Name.ToString().Contains("Threshold", StringComparison.Ordinal);
+            if (stone) mesh.SetMeta("requiresTerrainSupport", true);
+            var body = new StaticBody3D { Name = "FapPropContact_" + mesh.Name, CollisionLayer = 2, CollisionMask = 1 };
+            body.SetMeta("collisionOwner", "act1-exterior-architecture");
+            body.SetMeta("footstepSurface", stone ? "stone" : "wood");
+            physical.AddChild(body);
+            body.AddChild(AuthoredSurfaceContact(body, mesh));
+        }
+        var entry = _zoneInstances["village_day"].GetNode<InteractionTarget>("RoadToFap");
+        doorCentre = door.GlobalTransform * door.Mesh.GetAabb().GetCenter();
+        entry.GlobalPosition = doorCentre + facade.GlobalBasis.Z.Normalized() * .20f;
+        entry.CollisionLayer = 4;
+        entry.CollisionMask = 0;
+        entry.SetMeta("authoredDoorSurface", door.GetPath().ToString());
+        entry.SetMeta("placementPolicy", "live door surface after exterior/room alignment");
+    }
 
     private void BuildFapServiceExploration()
     {
@@ -78,6 +119,7 @@ public partial class Act1ConnectedWorld
         presentation.SetMeta("returnPolicy", "east side stays open as the permanent service-yard return");
         presentation.SetMeta("loopPolyline", string.Join('|', FapServiceLoopPoints.Select(
             point => $"{point.X:0.0},{point.Z:0.0}")));
+        presentation.SetMeta("loopWorldPoints", FapServiceLoopPoints);
         fapPresentation.AddChild(presentation);
 
         // A small U-shaped parcel: the existing gate is the west end of the
@@ -95,13 +137,19 @@ public partial class Act1ConnectedWorld
             AddVisualFenceRun(presentation, name, start, end);
         }
 
+        var drawnSegments = new HashSet<(Vector3, Vector3)>();
+        var occupiedBoards = new List<Vector2[]>();
         for (var index = 0; index < FapServiceLoopPoints.Length - 1; index++)
         {
+            var a = FapServiceLoopPoints[index];
+            var b = FapServiceLoopPoints[index + 1];
+            if (!drawnSegments.Add((a, b))) continue;
+            drawnSegments.Add((b, a));
             AddFapServicePathPlanks(
                 presentation,
                 $"FapServicePath{index}",
                 FapServiceLoopPoints[index],
-                FapServiceLoopPoints[index + 1]);
+                FapServiceLoopPoints[index + 1], occupiedBoards);
         }
 
         // The gate occupies the west end of the north parcel edge at the
@@ -149,13 +197,15 @@ public partial class Act1ConnectedWorld
             "FapClinicAuthoredKitPresentation/FapAuthoredServiceShed"))
             .Single(mesh => mesh.Name == "FapServiceShed_Body_LOD0");
         var shedBounds = shedBody.Mesh.GetAabb();
-        _fapServiceFenceCollision.AddChild(new CollisionShape3D
+        var shedContact = new CollisionShape3D
         {
             Name = "ServiceShedBody",
             Transform = _fapServiceFenceCollision.GlobalTransform.AffineInverse() * shedBody.GlobalTransform
                 * new Transform3D(Basis.Identity, shedBounds.GetCenter()),
             Shape = new BoxShape3D { Size = shedBounds.Size }
-        });
+        };
+        shedContact.SetMeta("authoredSourceMesh", shedBody.GetPath().ToString());
+        _fapServiceFenceCollision.AddChild(shedContact);
 
         _fapServiceGateCollision = CreateFapCollisionBody(village, "FapServiceGateCollision");
         AddFapCollisionBox(
@@ -167,6 +217,78 @@ public partial class Act1ConnectedWorld
             1.05f);
         SetFapCollisionEnabled(_fapServiceFenceCollision, false);
         SetFapCollisionEnabled(_fapServiceGateCollision, false);
+        BuildFapServiceCabinet();
+    }
+
+    private void BuildFapServiceCabinet()
+    {
+        var clinic = (StyleBenchmarkZone)_zoneInstances["fap_clinic"];
+        var members = FindDescendants<MeshInstance3D>(clinic)
+            .Where(mesh => mesh.Mesh is not null && mesh.Name.ToString().StartsWith("FapInteriorTallStorage_", StringComparison.Ordinal))
+            .ToArray();
+        var full = members.Where(mesh => mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal)).ToArray();
+        var carcass = full.Single(mesh => mesh.Name == "FapInteriorTallStorage_Body_LOD0");
+        var door = full.Single(mesh => mesh.Name == "FapInteriorTallStorage_DoorRight_LOD0");
+        var floor = FindDescendants<MeshInstance3D>(clinic).Single(mesh => mesh.Name == "FapInteriorShell_Floor_LOD0");
+        Aabb LocalBounds(MeshInstance3D mesh) => (clinic.GlobalTransform.AffineInverse() * mesh.GlobalTransform) * mesh.Mesh.GetAabb();
+        var floorY = LocalBounds(floor).End.Y;
+        var lowest = full.Min(mesh => LocalBounds(mesh).Position.Y);
+        var shift = floorY - lowest;
+        if (Mathf.Abs(shift) > .25f) throw new InvalidOperationException($"FAP cabinet footing differs from its floor by {shift:F3}m.");
+        foreach (var mesh in members)
+        {
+            mesh.SetMeta("serviceCabinetOriginalTransform", mesh.Transform);
+            mesh.GlobalPosition += clinic.GlobalBasis.Y.Normalized() * shift;
+            mesh.SetMeta("collisionPolicy", "closed cupboard; exact LOD0 contacts owned by FapServiceCabinetCollision");
+        }
+        _fapServiceCabinetBounds = LocalBounds(carcass);
+        var doorBounds = LocalBounds(door);
+        var contact = new StaticBody3D { Name = "FapServiceCabinetCollision", CollisionLayer = 1, CollisionMask = 1 };
+        contact.SetMeta("collisionOwner", "fap-interior-cabinet");
+        contact.SetMeta("groundingShift", shift);
+        clinic.AddChild(contact);
+        foreach (var mesh in full) contact.AddChild(AuthoredSurfaceContact(clinic, mesh));
+
+        // A visible lower hinge is ordinary cabinet hardware. Its short service
+        // approach lies on the open room side; it neither opens the cupboard
+        // nor grants a medical document or information about Marat.
+        var fixing = new Node3D
+        {
+            Name = "FapServiceCabinetFixing",
+            Position = new(_fapServiceCabinetBounds.End.X - .045f, floorY + .47f, doorBounds.End.Z + .025f)
+        };
+        clinic.AddChild(fixing);
+        _fapServiceCabinetDetail = fixing;
+        var leaf = AddVisualBox(fixing, "LowerHingeLeaf", new(.13f, .17f, .018f), Vector3.Zero, "788481", "metal");
+        DiscoveryCylinder(fixing, "LowerHingePin", .008f, .008f, .15f, new(.015f, 0, .014f), "68716d");
+        foreach (var sign in new[] { -1f, 1f })
+        {
+            var screw = DiscoveryCylinder(fixing, "HingeScrew" + sign, .006f, .006f, .008f,
+                new(-.036f, sign * .051f, .012f), "545d59");
+            screw.RotationDegrees = new(90, 0, 0);
+        }
+        contact.AddChild(AuthoredSurfaceContact(clinic, leaf));
+        var target = DiscoveryTarget(clinic, "fap-service-cabinet", new(.23f, .24f, .14f),
+            fixing.Position + Vector3.Back * .035f, journal: true);
+        target.SetMeta("activePropPath", fixing.GetPath().ToString());
+        target.SetMeta("sourceCabinetPath", carcass.GetPath().ToString());
+        target.SetMeta("accessAnchor", clinic.ToGlobal(new(_fapServiceCabinetBounds.End.X + .65f,
+            floorY + .04f, doorBounds.End.Z + .15f)));
+        target.SetMeta("physicalAction", "walk into the existing service corner and inspect the visible lower cabinet hinge");
+        target.SetMeta("plotGate", false);
+    }
+
+    private bool CanUseFapServiceCabinet(FirstPersonController player)
+    {
+        if (ActiveZoneId != "fap_clinic" || _fapServiceCabinetDetail is null) return false;
+        var clinic = _zoneInstances["fap_clinic"];
+        var local = clinic.ToLocal(player.GlobalPosition);
+        var openSide = local.X > _fapServiceCabinetBounds.End.X + .25f
+            || local.Z > _fapServiceCabinetBounds.End.Z + .42f;
+        if (!openSide) return false;
+        if (!_observationRayExclusions.Contains(player.GetRid())) _observationRayExclusions.Add(player.GetRid());
+        var camera = player.GetNode<Camera3D>("Head/Camera3D");
+        return ObservationNear(camera, _fapServiceCabinetDetail.GlobalPosition + clinic.GlobalBasis.Z * .03f, 2.4f, .86f);
     }
 
     private void UpdateFapServiceExploration()
@@ -209,7 +331,7 @@ public partial class Act1ConnectedWorld
         SetFapCollisionEnabled(_fapServiceGateCollision, exteriorActive && !found);
     }
 
-    private static void AddFapServicePathPlanks(Node3D parent, string name, Vector3 start, Vector3 end)
+    private static void AddFapServicePathPlanks(Node3D parent, string name, Vector3 start, Vector3 end, List<Vector2[]> occupiedBoards)
     {
         var direction = end - start;
         var length = new Vector2(direction.X, direction.Z).Length();
@@ -218,25 +340,77 @@ public partial class Act1ConnectedWorld
             return;
         }
 
-        var pieceCount = Mathf.Max(1, Mathf.CeilToInt(length / 1.8f));
-        var yaw = Mathf.RadToDeg(Mathf.Atan2(direction.X, direction.Z));
+        // Narrow transverse boards follow the actual snow/earth support at
+        // their four corners. The former 1.8m horizontal sheets sampled only
+        // their centres and had no collision, producing buried or floating
+        // ends and snow footsteps on visible timber.
+        var pieceCount = Mathf.Max(1, Mathf.CeilToInt(length / .32f));
+        var across = new Vector3(direction.Z, 0, -direction.X).Normalized() * .59f;
+        var body = parent.GetNodeOrNull<StaticBody3D>("FapServicePathCollision");
+        if (body is null)
+        {
+            body = new StaticBody3D { Name = "FapServicePathCollision", CollisionLayer = 1, CollisionMask = 1 };
+            body.SetMeta("collisionOwner", "act1-exterior-architecture");
+            body.SetMeta("footstepSurface", "wood");
+            parent.AddChild(body);
+        }
         for (var index = 0; index < pieceCount; index++)
         {
-            var a = start.Lerp(end, index / (float)pieceCount);
-            var b = start.Lerp(end, (index + 1f) / pieceCount);
-            var pieceDirection = b - a;
-            var pieceLength = new Vector2(pieceDirection.X, pieceDirection.Z).Length();
-            var center = parent.ToLocal(GroundedFapPoint((a + b) * .5f));
-            var plank = AddVisualBox(
-                parent,
-                $"{name}Plank{index}",
-                new Vector3(1.18f, .055f, pieceLength),
-                center,
-                "685b49",
-                "wood",
-                yawDegrees: yaw);
-            plank.SetMeta("visualOnly", true);
-            plank.SetMeta("routeRole", "FAP service-yard reconnecting path; no collision");
+            var a = start.Lerp(end, (index + .035f) / pieceCount);
+            var b = start.Lerp(end, (index + .965f) / pieceCount);
+            var outline = new[] { a - across, a + across, b + across, b - across }
+                .Select(point => new Vector2(point.X, point.Z)).ToArray();
+            var pieces = new List<Vector2[]> { outline };
+            // The return branch meets an earlier strip at a shallow angle.
+            // Cut the new boards around already laid timber; overlapping full
+            // rectangles caused two visible/physical surfaces only 0–2mm apart.
+            foreach (var occupied in occupiedBoards)
+            {
+                var remaining = new List<Vector2[]>();
+                foreach (var piece in pieces) remaining.AddRange(Geometry2D.ClipPolygons(piece, occupied));
+                pieces = remaining;
+                if (pieces.Count == 0) break;
+            }
+            occupiedBoards.Add(outline);
+            for (var part = 0; part < pieces.Count; part++)
+            {
+                var polygon = pieces[part];
+                var area = Mathf.Abs(Enumerable.Range(0, polygon.Length)
+                    .Sum(vertex => polygon[vertex].Cross(polygon[(vertex + 1) % polygon.Length]))) * .5f;
+                if (area < .001f) continue; // discard millimetre slivers at the sawn joint
+                var triangles = Geometry2D.TriangulatePolygon(polygon);
+                if (triangles.Length < 3) continue;
+                if (Geometry2D.IsPolygonClockwise(polygon))
+                    throw new InvalidOperationException("A FAP timber joint produced an unsupported polygon hole.");
+                var points = new Vector3[polygon.Length * 2];
+                for (var corner = 0; corner < polygon.Length; corner++)
+                {
+                    var ground = GroundedFapPoint(new(polygon[corner].X, 0, polygon[corner].Y));
+                    points[corner] = parent.ToLocal(ground + Vector3.Up * .030f);
+                    points[corner + polygon.Length] = parent.ToLocal(ground - Vector3.Up * .025f);
+                }
+                using var surface = new SurfaceTool();
+                surface.Begin(Mesh.PrimitiveType.Triangles);
+                foreach (var vertex in triangles) surface.AddVertex(points[vertex]);
+                for (var vertex = triangles.Length - 1; vertex >= 0; vertex--)
+                    surface.AddVertex(points[triangles[vertex] + polygon.Length]);
+                for (var corner = 0; corner < polygon.Length; corner++)
+                {
+                    var next = (corner + 1) % polygon.Length;
+                    foreach (var vertex in new[] { corner, corner + polygon.Length, next + polygon.Length,
+                        corner, next + polygon.Length, next }) surface.AddVertex(points[vertex]);
+                }
+                surface.GenerateNormals();
+                var plank = new MeshInstance3D
+                {
+                    Name = $"{name}Plank{index}Part{part}", Mesh = surface.Commit(),
+                    MaterialOverride = PainterlyMaterialLibrary.ForColor("685b49", "wood_furniture")
+                };
+                plank.SetMeta("routeRole", "FAP service-yard reconnecting timber path with matching contact");
+                plank.SetMeta("groundContactPolicy", "cut joints with no overlapping boards; edges seated 25mm into physical terrain");
+                parent.AddChild(plank);
+                body.AddChild(AuthoredSurfaceContact(parent, plank));
+            }
         }
     }
 

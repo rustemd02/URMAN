@@ -14,6 +14,8 @@ public partial class Act1ConnectedWorld
     private Node3D? _ziratOuterCulvertSnow;
     private StaticBody3D? _ziratOuterCulvertCollision;
     private bool? _ziratOuterCulvertFound;
+    private Node3D? _underdeckRepairRoot;
+    private Node3D? _heroYardShed;
 
     private void BuildAct1CulvertVerandaDiscoveries()
     {
@@ -26,6 +28,222 @@ public partial class Act1ConnectedWorld
 
         BuildZiratOuterCulvert(village, core);
         BuildHouseExteriorView(village, core);
+        BuildHeroYardLoft(village, core);
+    }
+
+    private void BuildHeroYardLoft(StyleBenchmarkZone village, Node3D core)
+    {
+        var presentation = core.GetNode<Node3D>("Act1AuthoredExteriorKitPresentation");
+        var previous = presentation.GetNode<Node3D>("BabaiYardAuthoredShed");
+        var anchor = previous.Position;
+        var yaw = previous.RotationDegrees.Y;
+        // This replaces the former closed low shed at the same authored yard
+        // anchor. Retain its placement identity; there must be one building here.
+        presentation.RemoveChild(previous);
+        previous.Free();
+        var imported = ResourceLoader.Load<PackedScene>(VillageExteriorKitScenePath).Instantiate<Node3D>();
+        var source = imported.FindChild("HeroYardShed_Loft", true, false) as Node3D
+            ?? throw new InvalidOperationException("The village kit has no authored HeroYardShed_Loft component.");
+        var shed = AttachAct1ExteriorKitComponent(presentation, source, "BabaiYardAuthoredShed",
+            anchor, yaw, Vector3.One, "house_old_pc@two-level-yard-shed");
+        imported.Free();
+        _heroYardShed = shed;
+        shed.SetMeta("smallSpaceContract", "hero-yard-shed-two-level-v1");
+        shed.SetMeta("replacedRuntimeComponent", "OutbuildingShed_Low; same yard anchor, one metric building");
+        shed.SetMeta("collisionOwner", "act1-exterior-architecture");
+        shed.SetMeta("presentationOnly", false);
+        shed.SetMeta("visualOnly", false);
+
+        // A level stone platform sits above the highest terrain triangle in its
+        // footprint. The common foundation owner scribes the gap below it; the
+        // three short sloped entrances below connect both levels to real ground.
+        var terrainTop = float.NegativeInfinity;
+        for (var ix = 0; ix <= 10; ix++)
+        for (var iz = 0; iz <= 10; iz++)
+        {
+            var sample = shed.ToGlobal(new(Mathf.Lerp(-2.2f, 2.2f, ix / 10f), 0,
+                Mathf.Lerp(-2.2f, 2.2f, iz / 10f)));
+            terrainTop = Math.Max(terrainTop, AgentBAct1HeightField.CollisionGround(sample.X, sample.Z));
+        }
+        for (var iz = 0; iz <= 5; iz++)
+        foreach (var x in new[] { -.49f, 0f, .49f })
+        {
+            var sample = shed.ToGlobal(new(x, 0, Mathf.Lerp(2.2f, 4.1f, iz / 5f)));
+            terrainTop = Math.Max(terrainTop, AgentBAct1HeightField.CollisionGround(sample.X, sample.Z));
+        }
+        shed.GlobalPosition = new(shed.GlobalPosition.X, terrainTop + .045f, shed.GlobalPosition.Z);
+        shed.SetMeta("groundContactPolicy", "level floor above sampled terrain; scribed stone plinth and three sloped approaches");
+        var meshes = FindDescendants<MeshInstance3D>(shed).Where(mesh => mesh.Mesh is not null).ToArray();
+        if (meshes.Length != 58)
+            throw new InvalidOperationException($"HeroYardShed source contract expects 58 meshes, found {meshes.Length}.");
+        foreach (var mesh in meshes)
+        {
+            var name = mesh.Name.ToString();
+            if (name == "HeroYardShed_LadderApron_LOD0") mesh.SetMeta("requiresTerrainSupport", true);
+            var wood = !name.Contains("Foundation", StringComparison.Ordinal)
+                && !name.Contains("LadderApron", StringComparison.Ordinal)
+                && !name.Contains("Hay", StringComparison.Ordinal);
+            AddHeroYardSourceContact(shed, mesh, wood);
+        }
+        RegradeAct1DaylightKitMaterials(shed);
+        AddHeroYardGroundApproach(shed, "LadderGroundApproach", 0, 4.06f, 5.08f, 1.02f);
+        AddHeroYardGroundApproach(shed, "UnderdeckFrontApproach", -1.15f, 2.16f, 3.14f, .90f);
+        AddHeroYardGroundApproach(shed, "UnderdeckRearApproach", -1.15f, -2.16f, -3.14f, .90f);
+
+        _underdeckRepairRoot = new Node3D
+        {
+            Name = "UnderdeckRepairRoot", Position = new(-1.51f, .04f, -1.37f)
+        };
+        _underdeckRepairRoot.SetMeta("runtimeStateOwner", "yard/loose-footboard");
+        _underdeckRepairRoot.SetMeta("platformFloorY", .04f);
+        shed.AddChild(_underdeckRepairRoot);
+
+        var ladder = new LadderTraversal3D
+        {
+            Name = "FixedLoftLadder",
+            LowerLanding = new(0, .04f, 3.92f), LowerGrip = new(0, .04f, 3.75f),
+            UpperGrip = new(0, 1.50f, 2.65f), UpperLanding = new(0, 1.50f, 1.45f),
+            EntryAllowed = () => ActiveZoneId is "village_day" or "zirat_road" or "kara_urman_night"
+        };
+        shed.AddChild(ladder);
+        shed.SetMeta("lowerLanding", ladder.ToGlobal(ladder.LowerLanding));
+        shed.SetMeta("upperLanding", ladder.ToGlobal(ladder.UpperLanding));
+        shed.SetMeta("underdeckFrontAccess", shed.ToGlobal(new(-1.15f, .08f, 2.80f)));
+        shed.SetMeta("underdeckRearAccess", shed.ToGlobal(new(-1.15f, .08f, -2.80f)));
+        shed.SetMeta("underdeckClearHeight", 1.22f);
+        shed.SetMeta("loftFloorHeight", 1.46f);
+
+        var roofRepair = BuildLoftRoofRepair(shed);
+        var roofline = DiscoveryTarget(village, "shed-loft-roofline", new(.36f, .55f, .10f),
+            village.ToLocal(roofRepair.GlobalPosition - roofRepair.GlobalBasis.Z * .045f), journal: true);
+        roofline.GlobalBasis = roofRepair.GlobalBasis;
+        roofline.SetMeta("activePropPath", roofRepair.GetPath().ToString());
+        roofline.SetMeta("physicalAction", "climb the fixed ladder, inspect the bolted roof repair and look across the village from the upper landing");
+        roofline.SetMeta("accessAnchor", shed.ToGlobal(new(0, 1.50f, 1.40f)));
+        roofline.SetMeta("plotGate", false);
+        var rattle = DiscoveryTarget(village, "underdeck-rattle", new(.34f, .20f, .26f),
+            village.ToLocal(shed.ToGlobal(new(-1.15f, .32f, -.75f))), journal: true);
+        rattle.SetMeta("activePropPath", _underdeckRepairRoot.GetPath().ToString());
+        rattle.SetMeta("physicalAction", "crouch under the supported loft and trace the loose board; repair uses the existing yard mechanism");
+        rattle.SetMeta("requiresCrouch", true);
+        rattle.SetMeta("plotGate", false);
+    }
+
+    private static MeshInstance3D BuildLoftRoofRepair(Node3D shed)
+    {
+        var repair = new Node3D { Name = "LoftRoofRepair" };
+        repair.SetMeta("presentationRole", "supported roof rafters with a visible local timber and bolted steel repair");
+        shed.AddChild(repair);
+        MeshInstance3D Box(string name, Vector3 size, Transform3D transform, string color, bool wood)
+        {
+            var mesh = new MeshInstance3D { Name = name, Mesh = new BoxMesh { Size = size }, Transform = transform,
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(color, wood ? "wood" : "iron", sheltered: true) };
+            repair.AddChild(mesh);
+            AddHeroYardSourceContact(shed, mesh, wood);
+            return mesh;
+        }
+        var peak = new Vector3(0, 4.16f, 2.04f);
+        Basis rightBasis = Basis.Identity;
+        var rightFoot = new Vector3(2.08f, 3.335f, 2.04f);
+        foreach (var side in new[] { -1, 1 })
+        {
+            var foot = new Vector3(side * 2.08f, 3.335f, 2.04f);
+            var delta = peak - foot;
+            var basis = new Basis(new Quaternion(Vector3.Up, delta.Normalized()));
+            var rafter = Box(side < 0 ? "LeftRafter" : "RightRafter", new(.20f, delta.Length(), .14f),
+                new(basis, (foot + peak) * .5f), "685744", true);
+            rafter.SetMeta("bearingPolicy", "lower end overlaps the existing front support post; upper edge follows the actual roof underside");
+            if (side > 0) rightBasis = basis;
+        }
+        // A fresh timber scab sits on the old rafter's inner face. Steel crosses
+        // the scab, and four visible bolt heads enter it. Every layer overlaps
+        // its real support; the clue no longer points at an empty rear window.
+        var patchAt = rightFoot.Lerp(peak, .32f);
+        patchAt.Z = 1.962f;
+        Box("FreshTimberScab", new(.24f, .60f, .024f), new(rightBasis, patchAt), "a18860", true);
+        var plateAt = patchAt; plateAt.Z = 1.942f;
+        var plate = Box("BoltedSteelSplice", new(.28f, .46f, .022f), new(rightBasis, plateAt), "626461", false);
+        plate.SetMeta("physicalObservation", "four bolts through a steel splice over fresh timber on the supported roof rafter");
+        foreach (var x in new[] { -.085f, .085f })
+        foreach (var y in new[] { -.145f, .145f })
+        {
+            var bolt = new MeshInstance3D { Name = $"Bolt_{(x < 0 ? "L" : "R")}{(y < 0 ? "Lower" : "Upper")}",
+                Mesh = new CylinderMesh { TopRadius = .018f, BottomRadius = .018f, Height = .026f, RadialSegments = 6, Rings = 1 },
+                Transform = new(rightBasis * new Basis(Vector3.Right, Mathf.Pi * .5f), plateAt + rightBasis * new Vector3(x, y, -.019f)),
+                MaterialOverride = PainterlyMaterialLibrary.ForColor("777b78", "iron", sheltered: true) };
+            repair.AddChild(bolt);
+            bolt.SetMeta("supportOwner", plate.GetPath().ToString());
+        }
+        repair.SetMeta("observationAnchor", shed.ToGlobal(new(0, 1.50f, 1.40f)));
+        repair.SetMeta("villageViewAim", shed.ToGlobal(new(0, 3.22f, 8.0f)));
+        return plate;
+    }
+
+    private static void AddHeroYardSourceContact(Node3D shed, MeshInstance3D mesh, bool wood)
+    {
+        var body = new StaticBody3D
+        {
+            Name = "HeroYardShedContact_" + mesh.Name, CollisionLayer = 1, CollisionMask = 1
+        };
+        body.SetMeta("collisionOwner", "act1-exterior-architecture");
+        body.SetMeta("authoredSourceMesh", mesh.GetPath().ToString());
+        if (wood) body.SetMeta("footstepSurface", "wood");
+        shed.AddChild(body);
+        body.AddChild(AuthoredSurfaceContact(shed, mesh));
+    }
+
+    private static void AddHeroYardGroundApproach(Node3D shed, string name, float x,
+        float innerZ, float outerZ, float width)
+    {
+        var points = new Vector3[8];
+        for (var side = 0; side < 2; side++)
+        {
+            var lateral = x + (side == 0 ? -1 : 1) * width * .5f;
+            points[side] = new(lateral, .04f, innerZ);
+            var outer = shed.ToGlobal(new(lateral, 0, outerZ));
+            outer.Y = AgentBAct1HeightField.CollisionGround(outer.X, outer.Z) + .012f;
+            points[3 - side] = shed.ToLocal(outer);
+        }
+        for (var index = 0; index < 4; index++) points[index + 4] = points[index] - Vector3.Up * .065f;
+        using var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        var triangles = new[] { 0,1,2, 0,2,3, 4,6,5, 4,7,6,
+            0,4,5, 0,5,1, 1,5,6, 1,6,2, 2,6,7, 2,7,3, 3,7,4, 3,4,0 };
+        for (var index = 0; index < triangles.Length; index += 3)
+        {
+            surface.AddVertex(points[triangles[index]]);
+            surface.AddVertex(points[triangles[index + (outerZ > innerZ ? 1 : 2)]]);
+            surface.AddVertex(points[triangles[index + (outerZ > innerZ ? 2 : 1)]]);
+        }
+        surface.GenerateNormals();
+        var mesh = new MeshInstance3D
+        {
+            Name = name, Mesh = surface.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("705b45", "wood_furniture")
+        };
+        mesh.SetMeta("terrainSupportPolicy", "board ends embedded in terrain; upper edge seated on the stone platform");
+        shed.AddChild(mesh);
+        AddHeroYardSourceContact(shed, mesh, true);
+    }
+
+    internal bool CanUseSmallSpaceInteraction(string interactionId)
+    {
+        if (interactionId == "urman.chapter1:interaction/discover-fap-service-cabinet")
+            return GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController cabinetPlayer
+                && CanUseFapServiceCabinet(cabinetPlayer);
+        var loft = interactionId == "urman.chapter1:interaction/discover-shed-loft-roofline";
+        var underdeck = interactionId is "urman.chapter1:interaction/discover-underdeck-rattle"
+            or "urman.chapter1:interaction/mark-underdeck-quiet";
+        if (!loft && !underdeck) return true;
+        if (_heroYardShed is null || ActiveZoneId is not ("village_day" or "zirat_road" or "kara_urman_night")) return false;
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        if (player is null) return false;
+        var local = _heroYardShed.ToLocal(player.GlobalPosition);
+        if (loft) return local.Y >= 1.38f && local.Y <= 1.70f && Mathf.Abs(local.X) <= .70f
+            && local.Z >= .65f && local.Z <= 1.72f;
+        return player.IsCrouching && local.Y >= -.06f && local.Y <= .20f
+            && Mathf.Abs(local.X) < 1.92f && Mathf.Abs(local.Z) < 1.88f
+            && new Vector2(local.X + 1.15f, local.Z + .75f).Length() <= 1.35f;
     }
 
     private void BuildZiratOuterCulvert(StyleBenchmarkZone village, Node3D core)
@@ -106,6 +324,7 @@ public partial class Act1ConnectedWorld
             Transform = village.GlobalTransform.AffineInverse() * bridge.GlobalTransform
         };
         _ziratOuterCulvertCollision.SetMeta("physicalShortcut", true);
+        _ziratOuterCulvertCollision.SetMeta("footstepSurface", "wood");
         _ziratOuterCulvertCollision.SetMeta("plotGate", false);
         village.AddChild(_ziratOuterCulvertCollision);
         _ziratOuterCulvertCollision.AddChild(new CollisionShape3D
@@ -177,8 +396,9 @@ public partial class Act1ConnectedWorld
         // this discovery.
         var rearCorners = FindDescendants<MeshInstance3D>(facade)
             .Where(mesh => mesh.Mesh is not null
-                && mesh.Name.ToString().StartsWith("DwellingFacade_Corner_", StringComparison.Ordinal)
-                && mesh.Position.Z < -4f)
+                && (mesh.Name.ToString().StartsWith("HeroHouse_Corner_", StringComparison.Ordinal)
+                    || mesh.Name.ToString().StartsWith("DwellingFacade_Corner_", StringComparison.Ordinal))
+                && facade.ToLocal(mesh.GlobalTransform * mesh.Mesh.GetAabb().GetCenter()).Z < -4f)
             .ToArray();
         if (rearCorners.Length < 2)
             throw new InvalidOperationException(
@@ -191,7 +411,9 @@ public partial class Act1ConnectedWorld
             ?? throw new InvalidOperationException(
                 "The selected authored rear corner has no mesh for the minaret view.");
         var cornerBounds = rearCorner.GlobalTransform * cornerMesh.GetAabb();
-        var awayFromHouse = HorizontalDirection(cornerBounds.GetCenter() - facade.GlobalPosition);
+        var houseCenter = facade.ToGlobal(new(StyleBenchmarkInteriorFactory.RoomOffset.X, 0,
+            StyleBenchmarkInteriorFactory.RoomOffset.Z));
+        var awayFromHouse = HorizontalDirection(cornerBounds.GetCenter() - houseCenter);
         var accessAnchor = cornerBounds.GetCenter() + awayFromHouse * 1.60f + Vector3.Left * 2.60f;
         accessAnchor.Y = AgentBAct1HeightField.CollisionGround(accessAnchor.X, accessAnchor.Z);
 

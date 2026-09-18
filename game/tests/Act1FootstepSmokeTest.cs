@@ -1,12 +1,14 @@
 using Godot;
+using Urman.Core.Persistence;
 
 namespace Urman.Godot.Tests;
 
 /// <summary>
-/// AUDIO-004 focused smoke: all four winter surface families load their
+/// AUDIO-004 focused smoke: all seven winter surface families load their
 /// source-backed samples, the controller plays through the SFX bus, steps
 /// trigger from real XZ displacement, reduced motion keeps footsteps audible,
-/// and surface selection follows the active zone.
+/// and surface selection follows the active zone — including off-road ground
+/// that must not sound like packed road.
 /// </summary>
 public partial class Act1FootstepSmokeTest : Node
 {
@@ -34,7 +36,7 @@ public partial class Act1FootstepSmokeTest : Node
             return;
         }
 
-        foreach (var surface in new[] { "snow_packed", "snow_soft", "wood", "interior_floor" })
+        foreach (var surface in new[] { "snow_packed", "snow_soft", "wood", "interior_floor", "grass", "mud", "wet_road" })
         {
             if (!controller.HasSurface(surface))
             {
@@ -94,6 +96,68 @@ public partial class Act1FootstepSmokeTest : Node
             return;
         }
 
+        // The same exterior XZ can contain snow and a wooden support. Use the
+        // actual authored carry-board, preserving its pose and custody, then
+        // drive normal movement on its collider. A zone-only selector used to
+        // play snow here even though both feet were over the board.
+        var board = main.ConnectedWorld?.FindChild("Carryable_carry-board", true, false) as CarryableProp;
+        if (board is null || board.GetMeta("footstepSurface", "").AsString() != "wood")
+        {
+            Fail("The authored carry-board has no wooden floor-contact contract.");
+            return;
+        }
+        var stand = board.GlobalTransform * new Vector3(0f, board.Height + .08f, board.Size.Z * .36f);
+        var supportQuery = PhysicsRayQueryParameters3D.Create(stand + Vector3.Up * .15f,
+            stand - Vector3.Up * .4f, player.CollisionMask,
+            new global::Godot.Collections.Array<Rid> { player.GetRid() });
+        var supportHit = player.GetWorld3D().DirectSpaceState.IntersectRay(supportQuery);
+        var supportName = supportHit.Count > 0 ? (supportHit["collider"].AsGodotObject() as Node)?.Name.ToString() : "<none>";
+        GD.Print($"act1-footstep-board-setup: board={board.GlobalPosition} size={board.Size} yaw={board.GlobalRotationDegrees.Y:0.00} visible={board.IsVisibleInTree()} layer={board.CollisionLayer} state={board.State} stand={stand} ray={supportName} rayY={(supportHit.Count > 0 ? supportHit["position"].AsVector3().Y : float.NaN):0.000}");
+        player.ApplyPortableTransform(new PlayerTransform(
+            new(stand.X, stand.Y, stand.Z), new(0f, Mathf.RadToDeg(board.GlobalRotation.Y), 0f)));
+        var standingOnBoard = false;
+        for (var frame = 0; frame < 60 && !standingOnBoard; frame++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            // An idle floor snap need not create a slide record. Keep the
+            // grounded assertion and independently query the body immediately
+            // below the player's real feet, within 4 cm of physical contact.
+            using var feetQuery = PhysicsRayQueryParameters3D.Create(
+                player.GlobalPosition + Vector3.Up * .03f,
+                player.GlobalPosition - Vector3.Up * .04f,
+                player.CollisionMask, new global::Godot.Collections.Array<Rid> { player.GetRid() });
+            var feetHit = player.GetWorld3D().DirectSpaceState.IntersectRay(feetQuery);
+            standingOnBoard = player.IsOnFloor() && feetHit.Count > 0
+                && feetHit["collider"].AsGodotObject()?.GetInstanceId() == board.GetInstanceId()
+                && feetHit["normal"].AsVector3().Y > .9f
+                && Math.Abs(player.GlobalPosition.Y - feetHit["position"].AsVector3().Y) <= .025f;
+        }
+        if (!standingOnBoard)
+        {
+            var contacts = Enumerable.Range(0, player.GetSlideCollisionCount()).Select(index =>
+            {
+                var collision = player.GetSlideCollision(index);
+                return $"{(collision.GetCollider() as Node)?.Name}@{collision.GetPosition()} normal={collision.GetNormal()}";
+            });
+            Fail($"Footstep probe could not stand on the actual authored board collider: player={player.GlobalPosition} floor={player.IsOnFloor()} modal={player.ModalOpen} contacts=[{string.Join("; ", contacts)}] ray={supportName}.");
+            return;
+        }
+        stepPlayer.Stop();
+        Input.ActionPress("move_forward");
+        var playedOnBoard = false;
+        for (var frame = 0; frame < 80 && !playedOnBoard; frame++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            playedOnBoard = stepPlayer.Playing;
+        }
+        Input.ActionRelease("move_forward");
+        if (!playedOnBoard || controller.LastSurface != "wood")
+        {
+            Fail($"Actual wooden support played the wrong surface outside (played={playedOnBoard}, surface={controller.LastSurface}).");
+            return;
+        }
+        GD.Print("act1-footstep-contact: authored exterior carry-board -> grounded actual support -> wood");
+
         // Surface follows the active zone (bridge zone -> mapping).
         main.SwitchZone("house_old_pc", "entry");
         await Frames(2);
@@ -125,7 +189,18 @@ public partial class Act1FootstepSmokeTest : Node
             return;
         }
 
-        GD.Print("act1-footsteps: PASS 4 winter surfaces x3 variants + SFX bus + XZ displacement cadence + reduced-motion footsteps + house/FAP surface mapping");
+        // Off-road resolution: the same village exterior must stop sounding
+        // like packed road once the feet leave the travelled surface.
+        main.SwitchZone("village_day", "arrival");
+        await Frames(2);
+        controller.PlayStep("mud");
+        if (controller.LastSurface != "mud")
+        {
+            Fail($"Off-road surface did not resolve through the debug hook (surface={controller.LastSurface}).");
+            return;
+        }
+
+        GD.Print("act1-footsteps: PASS 7 winter surfaces x3 variants + SFX bus + XZ displacement cadence + reduced-motion footsteps + actual exterior board contact + house/FAP surface fallback + off-road mud resolution");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }

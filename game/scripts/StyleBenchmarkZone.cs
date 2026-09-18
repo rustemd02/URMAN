@@ -204,7 +204,6 @@ public partial class StyleBenchmarkZone : Node3D
             ["HouseA_"],
             new(8.0f, 1.4f, -4.8f));
         SetMeta("styleImportedModules", "HouseA_project_original");
-        MakeCollisionBox("VillageWellCollision", new(1.9f, 1.2f, 1.6f), new(-4.9f, 0.6f, 4.6f));
         var well = GeneratedModularKitDressing.AttachPresentationOnly(
             this,
             "style-day-well",
@@ -214,6 +213,19 @@ public partial class StyleBenchmarkZone : Node3D
             yawDegrees: -7f);
         well.Name = "GeneratedWellA";
         well.SetMeta("stylePresentationModule", "WellA_project_original");
+        // The connected world mounts a different, grounded well. Its real
+        // members own contact there; the old 1.2m-high preview box obstructed
+        // the visible mitten hook far above the actual low stone rim.
+        if (GetParent() is not Act1ConnectedWorld)
+        {
+            var contact = new StaticBody3D { Name = "VillageWellCollision", CollisionLayer = 1, CollisionMask = 1 };
+            contact.SetMeta("collisionOwner", "style-benchmark-authored-well");
+            AddChild(contact);
+            foreach (var mesh in Descendants(well).OfType<MeshInstance3D>().Where(mesh => mesh.Mesh is not null
+                && mesh.Visible && mesh.Name.ToString().StartsWith("WellA_", StringComparison.Ordinal)
+                && mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal)))
+                contact.AddChild(Act1ConnectedWorld.AuthoredSurfaceContact(contact, mesh));
+        }
 
         MakeCollisionBox("FirewoodCollision", new(1.6f, 1.2f, 1.1f), new(5.0f, 0.6f, 2.3f));
         var woodpile = GeneratedModularKitDressing.AttachPresentationOnly(
@@ -228,6 +240,8 @@ public partial class StyleBenchmarkZone : Node3D
         SetMeta("stylePresentationModules", "WellA_project_original|WoodpileA_project_original");
         MakeBox("BenchByFence", new(1.8f, 0.14f, 0.42f), new(4.9f, 0.7f, 6.1f), "6f543c", surface: "wood");
         MakeBox("BenchBack", new(1.8f, 0.7f, 0.12f), new(4.9f, 1.0f, 6.27f), "604a37", surface: "wood", collision: false);
+        if (GetParent() is not Act1ConnectedWorld)
+            ArrivalPersonalProps.Build(this, .166f);
         MakeFence(-4.4f, -2, 18);
         MakeFence(4.4f, -8, 16);
         MakeUtilityPole(new(5.8f, 0, 5.5f));
@@ -283,7 +297,7 @@ public partial class StyleBenchmarkZone : Node3D
             "village guide",
             new(0.85f, 0, 2.05f),
             yawDegrees: 168f);
-        MakeInteractionBox(
+        var alsuTarget = MakeInteractionBox(
             "AlsuNpc",
             new(0.62f, 1.68f, 0.46f),
             new(0.85f, 0.84f, 2.05f),
@@ -291,6 +305,7 @@ public partial class StyleBenchmarkZone : Node3D
             "urman.chapter1:interaction/talk-alsu",
             "Поговорить с Алсу",
             dialogueId: "urman.chapter1:dialogue/alsu_route_context");
+        AlsuStreetWalkPresentation.Attach(GetNode<Node3D>("Act1NpcPresentation/Npc_alsu"), alsuTarget);
         for (var index = 0; index < 10; index++)
         {
             var side = index % 2 == 0 ? -1 : 1;
@@ -351,83 +366,28 @@ public partial class StyleBenchmarkZone : Node3D
 
     private void BuildHouseOldPc()
     {
-        MakeBox("Floor", new(12, 0.2f, 10), new(0, -0.1f, 0), "57483b", surface: "wood");
-        // Collision for the rear wall's two real openings. The visible shell is
-        // the authored HouseInterior_ GLB, whose rear wall carries the same two
-        // rectangles (width 1.06, sill 0.99, head 2.51) matching the exterior's
-        // two rear windows; the curtains hung on what used to be a sealed wall.
-        MakeBox("BackWallLeft", new(1.87f, 3.4f, 0.25f), new(-5.065f, 1.7f, -5), "827461", surface: "wallpaper");
-        MakeBox("BackWallMid", new(5.09f, 3.4f, 0.25f), new(-0.525f, 1.7f, -5), "827461", surface: "wallpaper");
-        MakeBox("BackWallRight", new(2.92f, 3.4f, 0.25f), new(4.54f, 1.7f, -5), "827461", surface: "wallpaper");
-        foreach (var (wallName, centreX) in new (string, float)[] { ("West", -3.60f), ("East", 2.55f) })
-        {
-            MakeBox($"BackWindow{wallName}UnderSill", new(1.06f, 0.99f, 0.25f), new(centreX, 0.495f, -5), "827461", surface: "wallpaper");
-            MakeBox($"BackWindow{wallName}Head", new(1.06f, 0.89f, 0.25f), new(centreX, 2.955f, -5), "827461", surface: "wallpaper");
-        }
-        MakeBox("LeftWall", new(0.25f, 3.4f, 10), new(-6, 1.7f, 0), "786b5a", surface: "wallpaper");
-        MakeBox("RightWall", new(0.25f, 3.4f, 10), new(6, 1.7f, 0), "786b5a", surface: "wallpaper");
-        MakeBox("FrontWallLeft", new(5.25f, 3.4f, 0.25f), new(-3.375f, 1.7f, 5), "827461", surface: "wallpaper");
-        MakeBox("FrontWallRight", new(5.25f, 3.4f, 0.25f), new(3.375f, 1.7f, 5), "827461", surface: "wallpaper");
-        MakeBox("FrontWallLintel", new(1.5f, 1.15f, 0.25f), new(0, 2.825f, 5), "827461", surface: "wallpaper");
-        MakeBox("HouseExitDoorPanel", new(1.32f, 2.12f, 0.08f), new(0, 1.06f, 4.84f), "4b382c", collision: false, surface: "wood");
-        MakeBox("HouseExitDoorFrameLeft", new(0.12f, 2.35f, 0.12f), new(-0.8f, 1.175f, 4.77f), "5d4a38", collision: false, surface: "wood");
-        MakeBox("HouseExitDoorFrameRight", new(0.12f, 2.35f, 0.12f), new(0.8f, 1.175f, 4.77f), "5d4a38", collision: false, surface: "wood");
-        MakeBox("HouseExitDoorFrameTop", new(1.72f, 0.12f, 0.12f), new(0, 2.35f, 4.77f), "5d4a38", collision: false, surface: "wood");
-        MakeBox("HouseExitDoorThreshold", new(1.72f, 0.08f, 0.42f), new(0, 0.04f, 4.68f), "574636", collision: false, surface: "wood");
-        // Reverse-view threshold dressing is presentation-only; the clear
-        // doorway remains owned by HouseExit and its interaction proxy.
-        MakeBox("HouseThresholdCoatRail", new(1.55f, 0.08f, 0.10f), new(-2.35f, 2.18f, 4.80f), "5d4a38", collision: false, surface: "wood");
-        MakeBox("HouseThresholdCoatPegLeft", new(0.08f, 0.28f, 0.08f), new(-2.86f, 2.00f, 4.79f), "5d4a38", collision: false, surface: "wood");
-        MakeBox("HouseThresholdCoatPegRight", new(0.08f, 0.28f, 0.08f), new(-1.84f, 2.00f, 4.79f), "5d4a38", collision: false, surface: "wood");
-        MakeRotatedBox("HouseThresholdMutedCoat", new(0.58f, 1.18f, 0.05f), new(-2.42f, 1.39f, 4.77f), new(0, 0, -3), "58656a", "fabric");
-        MakeBox("HouseThresholdShoeChest", new(1.55f, 0.52f, 0.52f), new(2.42f, 0.30f, 4.48f), "624936", collision: false, surface: "wood");
-        MakeBox("HouseThresholdShoeChestLid", new(1.70f, 0.08f, 0.58f), new(2.42f, 0.59f, 4.48f), "765842", collision: false, surface: "wood");
-        MakeBox("HouseThresholdShoeChestPanel", new(1.18f, 0.24f, 0.025f), new(2.42f, 0.30f, 4.20f), "493629", collision: false, surface: "wood");
-        MakeRotatedBox("HouseThresholdWornWallPatch", new(0.90f, 0.36f, 0.025f), new(2.45f, 2.58f, 4.80f), new(0, 0, -5), "6d5d4f", "plaster");
-        MakeBox("Ceiling", new(12, 0.18f, 10), new(0, 3.4f, 0), "695746", surface: "wood");
-        MakeBox("CeilingBeamLeft", new(0.22f, 0.28f, 10), new(-3.25f, 3.22f, 0), "493629", surface: "wood");
-        MakeBox("CeilingBeamRight", new(0.22f, 0.28f, 10), new(3.25f, 3.22f, 0), "493629", surface: "wood");
-        // I2: the stove burns wood, so a small indoor stock sits within reach of
-        // the hearth door, and the wash towel hangs on the wall beside it, where
-        // the basin chest stands - instead of at the entry rail with the coats.
-        // Dressing only: the hearth corner is off the walk line to the PC.
-        MakeBox("HearthFirewoodLogBottom", new(0.55f, 0.13f, 0.30f), new(-4.95f, 0.065f, 1.42f), "8a6b50", collision: false, surface: "wood");
-        MakeBox("HearthFirewoodLogTop", new(0.48f, 0.12f, 0.27f), new(-4.97f, 0.19f, 1.44f), "9a7a55", collision: false, surface: "wood");
-        MakeRotatedBox("HouseWashTowel", new(0.04f, 0.52f, 0.28f), new(-5.76f, 1.52f, 1.80f), new(0, 0, 2), "b3ac9d", "fabric");
-        // The basin's water source: a metal bucket under the towel, filled from
-        // the well outside - no plumbing in this house, the stove heats and the
-        // well supplies.
-        MakeDisc("HouseWashBucket", new(0.26f, 0.26f, 0.26f), new(-5.42f, 0.13f, 1.92f), "6f6d61", "metal");
-        MakeBox("HouseWashBucketHandle", new(0.26f, 0.03f, 0.03f), new(-5.42f, 0.29f, 1.92f), "4c4c48", collision: false, surface: "metal");
-        // The PC's power reaches the wall: a ceramic socket plate behind the
-        // table, a cord down the wall and along the skirting to the table leg,
-        // then up to the case. Dressing only.
-        MakeBox("PcSocketPlate", new(0.12f, 0.16f, 0.03f), new(0.62f, 0.42f, -4.86f), "c9c2ad", collision: false, surface: "plaster");
-        MakeBox("PcCordWallDrop", new(0.025f, 0.34f, 0.02f), new(0.62f, 0.17f, -4.85f), "2e2c29", collision: false, surface: "fabric");
-        MakeBox("PcCordFloorRun", new(0.025f, 0.02f, 1.18f), new(0.62f, 0.012f, -4.27f), "2e2c29", collision: false, surface: "fabric");
-        MakeBox("PcCordTableRise", new(0.025f, 0.80f, 0.02f), new(0.62f, 0.42f, -3.70f), "2e2c29", collision: false, surface: "fabric");
-        MakeBox("Table", new(3.2f, 0.14f, 1.35f), new(0, 0.82f, -3.6f), "57402e", surface: "wood");
-        MakeBox("TableLegL", new(0.18f, 0.82f, 0.18f), new(-1.35f, 0.4f, -3.6f), "463326", surface: "wood");
-        MakeBox("TableLegR", new(0.18f, 0.82f, 0.18f), new(1.35f, 0.4f, -3.6f), "463326", surface: "wood");
-        MakeDisc("Mouse", new(0.09f, 0.035f, 0.13f), new(0.46f, 0.925f, -3.22f), "6f6d61");
-        MakeBox("DocumentStack", new(0.36f, 0.035f, 0.46f), new(-1.05f, 0.915f, -3.30f), "b0a17e", collision: false);
-        MakeBox("DocumentShadow", new(0.38f, 0.015f, 0.48f), new(-1.03f, 0.899f, -3.32f), "5f5140", collision: false);
-        MakeRotatedBox("DocumentTopPage", new(0.30f, 0.008f, 0.40f), new(-0.98f, 0.941f, -3.29f), new(0, -4, 1), "d3c39d");
-        MakeBox("DocumentRedMark", new(0.18f, 0.009f, 0.01f), new(-0.98f, 0.947f, -3.37f), "9b5a4c", collision: false);
-        MakeCup(new(-1.34f, 0.94f, -3.62f));
-        MakeRotatedBox("ChairSeat", new(0.9f, 0.12f, 0.86f), new(-2.15f, 0.52f, -1.25f), new(0, -18, 0), "684b37", "wood");
-        MakeRotatedBox("ChairBack", new(0.9f, 1.05f, 0.12f), new(-2.02f, 1.0f, -0.83f), new(0, -18, 0), "684b37", "wood");
-        MakeBox("Cupboard", new(1.45f, 2.35f, 0.72f), new(-4.85f, 1.17f, -3.9f), "70563e", surface: "wood");
-        MakeBox("CupboardDoorLine", new(0.06f, 2.08f, 0.05f), new(-4.85f, 1.2f, -3.51f), "3f3026", collision: false);
-        MakeDisc("CupboardKnobLeft", new(0.055f, 0.045f, 0.055f), new(-5.02f, 1.25f, -3.46f), "c39b59");
-        MakeDisc("CupboardKnobRight", new(0.055f, 0.045f, 0.055f), new(-4.68f, 1.25f, -3.46f), "c39b59");
-        MakeBox("WovenRug", new(3.8f, 0.025f, 2.25f), new(-1.25f, 0.025f, 0.4f), "714939", collision: false, surface: "carpet");
-        MakeBox("RugStripeA", new(3.8f, 0.032f, 0.16f), new(-1.25f, 0.04f, 0.05f), "8d765c", collision: false, surface: "carpet");
-        MakeBox("RugStripeB", new(3.8f, 0.032f, 0.16f), new(-1.25f, 0.04f, 0.72f), "45615a", collision: false, surface: "carpet");
-        MakeBox("WallShelf", new(2.2f, 0.12f, 0.45f), new(-3.85f, 2.05f, -4.6f), "503b2c", surface: "wood");
-        MakeBox("CurtainLeft", new(0.42f, 1.55f, 0.05f), new(2.05f, 2.1f, -4.78f), "8d806f", collision: false, surface: "fabric_pattern");
-        MakeBox("CurtainRight", new(0.42f, 1.55f, 0.05f), new(3.05f, 2.1f, -4.78f), "8d806f", collision: false, surface: "fabric_pattern");
-        var oldPcAnchor = new Vector3(0, 1.15f, -3.68f);
+        StyleBenchmarkInteriorFactory.Build(this);
+        // Small domestic items follow their actual support, independently of
+        // the resized room shell and the unchanged furniture/character scale.
+        MakeBox("HouseThresholdCoatRail", new(.62f, .08f, .10f), new(-1.78f, 2.18f, 3.43f), "5d4a38", collision: false, surface: "wood");
+        MakeBox("HouseThresholdCoatPeg", new(.08f, .20f, .08f), new(-1.78f, 2.04f, 3.39f), "5d4a38", collision: false, surface: "wood");
+        MakeRotatedBox("HouseThresholdMutedCoat", new(.45f, 1.10f, .05f), new(-1.78f, 1.50f, 3.38f), new(0, 0, -3), "58656a", "fabric");
+        MakeBox("HearthFirewoodLogBottom", new(.55f, .13f, .30f), new(-3.15f, .065f, .45f), "8a6b50", collision: false, surface: "wood");
+        MakeBox("HearthFirewoodLogTop", new(.48f, .12f, .27f), new(-3.17f, .19f, .47f), "9a7a55", collision: false, surface: "wood");
+        MakeRotatedBox("HouseWashTowel", new(.04f, .52f, .28f), new(-3.97f, 1.52f, 1.40f), new(0, 0, 2), "b3ac9d", "fabric");
+        MakeDisc("HouseWashBucket", new(.26f, .26f, .26f), new(-3.60f, .13f, 1.35f), "6f6d61", "metal");
+        MakeBox("HouseWashBucketHandle", new(.26f, .03f, .03f), new(-3.60f, .29f, 1.35f), "4c4c48", collision: false, surface: "metal");
+        MakeBox("PcSocketPlate", new(.12f, .16f, .03f), new(.62f, .42f, -3.48f), "c9c2ad", collision: false, surface: "plaster");
+        MakeBox("PcCordWallDrop", new(.025f, .34f, .02f), new(.62f, .17f, -3.47f), "2e2c29", collision: false, surface: "fabric");
+        MakeBox("PcCordFloorRun", new(.025f, .02f, .77f), new(.62f, .012f, -3.085f), "2e2c29", collision: false, surface: "fabric");
+        MakeBox("PcCordTableRise", new(.025f, .80f, .02f), new(.62f, .42f, -2.70f), "2e2c29", collision: false, surface: "fabric");
+        MakeDisc("Mouse", new(.09f, .035f, .13f), new(.46f, .925f, -2.22f), "6f6d61");
+        MakeBox("DocumentStack", new(.36f, .035f, .46f), new(-1.05f, .915f, -2.30f), "b0a17e", collision: false);
+        MakeBox("DocumentShadow", new(.38f, .015f, .48f), new(-1.03f, .899f, -2.32f), "5f5140", collision: false);
+        MakeRotatedBox("DocumentTopPage", new(.30f, .008f, .40f), new(-.98f, .941f, -2.29f), new(0, -4, 1), "d3c39d");
+        MakeBox("DocumentRedMark", new(.18f, .009f, .01f), new(-.98f, .947f, -2.37f), "9b5a4c", collision: false);
+        MakeCup(new(-1.34f, .94f, -2.62f));
+        var oldPcAnchor = StyleBenchmarkInteriorFactory.PcAnchor;
         MakeInteractionBox(
             "OldPc",
             new(0.94f, 0.66f, 0.50f),
@@ -446,192 +406,16 @@ public partial class StyleBenchmarkZone : Node3D
         oldPc.SetMeta("stylePresentationModule", "OldPc_project_original");
         SetMeta("styleImportedModules", "OldPc_project_original");
 
-        var houseInterior = GeneratedModularKitDressing.AttachPresentationOnly(
-            this,
-            "style-house-interior",
-            ["HouseInterior_"],
-            Vector3.Zero,
-            uniformScale: 1.0f,
-            yawDegrees: 0f);
-        houseInterior.Name = "GeneratedHouseInteriorAct1";
-        // AttachPresentationOnly aligns its first selected mesh to the anchor.
-        // This GLB is already authored in room-local coordinates, so keep the
-        // returned presentation instance at the room origin while preserving
-        // its imported scale and yaw.
-        houseInterior.Position = Vector3.Zero;
-        houseInterior.SetMeta("presentationOnly", true);
-        houseInterior.SetMeta("visualOnly", true);
-        houseInterior.SetMeta("presentationSource", GeneratedModularKitDressing.ScenePath);
-        houseInterior.SetMeta("collisionOwner", "none");
-        houseInterior.SetMeta("navigationOwner", "none");
-        houseInterior.SetMeta("interactionOwner", "none");
-        houseInterior.SetMeta("narrativeOwner", "none");
-        houseInterior.SetMeta("rebasedLocalTransform", "room-local GLB origin restored after AttachPresentationOnly anchor alignment");
-        houseInterior.SetMeta("stylePresentationModule", "HouseInterior_project_original");
-
-        var collapsedHouseFloorBoards = 0;
-        var hiddenHouseFloorBoards = 0;
-        var removedHouseRugBands = 0;
-        foreach (var mesh in Descendants(houseInterior).OfType<MeshInstance3D>())
-        {
-            var meshName = mesh.Name.ToString();
-            if (meshName.StartsWith("HouseInterior_FloorBoard_", StringComparison.Ordinal))
-            {
-                var keepAsContinuousFloor = meshName is "HouseInterior_FloorBoard_02_LOD0" or "HouseInterior_FloorBoard_02_LOD1";
-                if (keepAsContinuousFloor)
-                {
-                    // Keep one authored board as a continuous warm floor field;
-                    // the other board seams read as a debug-like repeated strip
-                    // from the first-person entry view.
-                    mesh.Position = new Vector3(0f, mesh.Position.Y, mesh.Position.Z);
-                    mesh.Scale = new Vector3(mesh.Scale.X * 6f, mesh.Scale.Y, mesh.Scale.Z);
-                    mesh.SetMeta("presentationAdjustment", "single authored floor board widened to continuous field");
-                    collapsedHouseFloorBoards++;
-                }
-                else
-                {
-                    mesh.Visible = false;
-                    hiddenHouseFloorBoards++;
-                }
-            }
-            else if (meshName.StartsWith("HouseInterior_RugBand", StringComparison.Ordinal))
-            {
-                // The broad authored rug field remains; these two long bands
-                // are the crossing strip motif that dominates the entry floor.
-                mesh.Visible = false;
-                removedHouseRugBands++;
-            }
-        }
-        houseInterior.SetMeta("collapsedFloorBoardCount", collapsedHouseFloorBoards);
-        houseInterior.SetMeta("hiddenFloorBoardCount", hiddenHouseFloorBoards);
-        houseInterior.SetMeta("removedRugBandCount", removedHouseRugBands);
-        houseInterior.SetMeta("floorPresentationAdjustment", "authored HouseInterior floor seams collapsed to one continuous field; broad rug retained without crossing bands");
-
-        // Recompose only the authored furniture silhouettes that disappear
-        // behind the first-person camera on the reverse turn. These meshes
-        // have no physics descendants; the gameplay proxies below remain at
-        // their existing authored anchors.
-        var movedHouseFurnitureMeshCount = 0;
-        var scaledHouseFurnitureMeshCount = 0;
-        foreach (var mesh in Descendants(houseInterior).OfType<MeshInstance3D>())
-        {
-            var meshName = mesh.Name.ToString();
-            var offset = Vector3.Zero;
-            var yawDegrees = 0f;
-            var scale = 1f;
-            if (meshName.StartsWith("HouseInterior_LeftWallCupboard", StringComparison.Ordinal))
-            {
-                // Rehang the small cupboard on the front-left wall so the
-                // reverse turn has a grounded high/mid silhouette above the
-                // existing threshold chest.
-                offset = new Vector3(0.85f, 0f, 1.90f);
-                yawDegrees = 90f;
-                scale = 1.05f;
-            }
-            else if (meshName.StartsWith("HouseInterior_StorageChest", StringComparison.Ordinal))
-            {
-                offset = new Vector3(-7.95f, 0f, 7.90f);
-                scale = 1.08f;
-            }
-            else if (meshName.StartsWith("HouseInterior_StorageBasket", StringComparison.Ordinal))
-            {
-                offset = new Vector3(0f, 0f, 4.00f);
-                scale = 1.06f;
-            }
-
-            if (offset != Vector3.Zero)
-            {
-                mesh.Position += offset;
-                movedHouseFurnitureMeshCount++;
-            }
-
-            if (yawDegrees != 0f)
-            {
-                mesh.RotationDegrees += new Vector3(0f, yawDegrees, 0f);
-            }
-
-            if (scale != 1f)
-            {
-                mesh.Scale *= scale;
-                scaledHouseFurnitureMeshCount++;
-            }
-        }
-        houseInterior.SetMeta("movedHouseFurnitureMeshCount", movedHouseFurnitureMeshCount);
-        houseInterior.SetMeta("scaledHouseFurnitureMeshCount", scaledHouseFurnitureMeshCount);
-        houseInterior.SetMeta(
-            "houseInteriorCompositionPass",
-            "authored front-left cupboard/chest; right-side daybed/shelf/runner brought forward; storage basket retained as near anchor; collision proxies unchanged");
-
-        var replacedHouseVisuals = new[]
-        {
-            "Floor",
-            "BackWall",
-            "LeftWall",
-            "RightWall",
-            "FrontWallLeft",
-            "FrontWallRight",
-            "FrontWallLintel",
-            "HouseExitDoorPanel",
-            "HouseExitDoorFrameLeft",
-            "HouseExitDoorFrameRight",
-            "HouseExitDoorFrameTop",
-            "HouseExitDoorThreshold",
-            "Ceiling",
-            "CeilingBeamLeft",
-            "CeilingBeamRight",
-            "Table",
-            "TableLegL",
-            "TableLegR",
-            "ChairSeat",
-            "ChairBack",
-            "Cupboard",
-            "CupboardDoorLine",
-            "WovenRug",
-            "RugStripeA",
-            "RugStripeB",
-            "WallShelf",
-            "CurtainLeft",
-            "CurtainRight"
-        };
-        foreach (var legacyVisualName in replacedHouseVisuals)
-        {
-            if (GetNodeOrNull<Node3D>(legacyVisualName) is { } legacyVisual)
-            {
-                SuppressPrimitiveVisual(
-                    legacyVisual,
-                    "authored HouseInterior_ GLB replaces the legacy primitive visual; collision remains unchanged");
-            }
-        }
-
-        SetMeta("houseInteriorPresentation", "HouseInterior_ project-original GLB; presentation-only; legacy shell and furniture visuals suppressed");
-        SetMeta("houseInteriorLegacyVisualsSuppressed", string.Join("|", replacedHouseVisuals));
-        var daybedCollision = MakeCollisionBox(
-            "HouseInteriorDaybedCollision",
-            new(1.36f, 0.78f, 2.95f),
-            new(4.78f, 0.39f, 1.25f));
-        daybedCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
-        var storageChestCollision = MakeCollisionBox(
-            "HouseInteriorStorageChestCollision",
-            new(1.98f, .86f, 1.07f),
-            new(-3.97f, .43f, 3.70f));
-        storageChestCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
-        var hearthCollision = MakeCollisionBox(
-            "HouseInteriorHearthCollision",
-            new(1.10f, 1.04f, 0.90f),
-            new(-5.00f, 0.64f, 0.55f));
-        hearthCollision.SetMeta("collisionOwner", "house-interior-floor-furniture");
-        SetMeta(
-            "houseInteriorFloorCollisionProxies",
-            "HouseInteriorDaybedCollision(1.36x0.78x2.95)@(4.78,0.39,1.25)|HouseInteriorStorageChestCollision(1.98x0.86x1.07)@(-3.97,0.43,3.70)|HouseInteriorHearthCollision(1.10x1.04x0.90)@(-5.00,0.64,0.55)");
         SetMeta(
             "houseInteriorLivedInCluster",
-            "authored hearth with flue|left-wall cupboard|quiet tableware|floor storage basket; presentation-only GLB with hearth floor proxy");
-        PainterlyEnvironmentDetails.AddCable(this, new Vector3(.60f, .94f, -3.78f), new Vector3(.60f, .10f, -2.8f));
-        MakeCylinder("LampStem", .035f, .64f, new(2.15f, 1.32f, -3.25f), "6c573e");
+            "stove below chimney|indoor fuel and wash water|PC with powered desk|entry chest and coat|unscaled project-original furniture");
+        PainterlyEnvironmentDetails.AddCable(this, new Vector3(.60f, .94f, -2.78f), new Vector3(.60f, .10f, -2.70f));
+        MakeCylinder("LampBase", .12f, .035f, new(-1.28f, .9075f, -2.99f), "6c573e");
+        MakeCylinder("LampStem", .035f, .64f, new(-1.28f, 1.21f, -2.99f), "6c573e");
         var lampShade = new MeshInstance3D
         {
             Name = "LampShade",
-            Position = new(2.15f, 1.74f, -3.25f),
+            Position = new(-1.28f, 1.63f, -2.99f),
             Mesh = new CylinderMesh
             {
                 TopRadius = 0.18f,
@@ -655,44 +439,44 @@ public partial class StyleBenchmarkZone : Node3D
         };
         lampShade.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
         AddChild(lampShade);
-        MakeBox("FamilyPhoto", new(0.58f, 0.72f, 0.06f), new(-2.1f, 1.45f, -4.82f), "8a7358", collision: false);
-        MakeBox("FamilyPhotoInner", new(0.42f, 0.55f, 0.025f), new(-2.1f, 1.45f, -4.77f), "b7a17c", collision: false);
-        MakeBox("WallTextile", new(1.45f, 0.92f, 0.04f), new(4.25f, 1.85f, -4.78f), "69483f", collision: false);
-        MakeBox("WallTextileStripe", new(1.15f, 0.12f, 0.025f), new(4.25f, 1.85f, -4.73f), "b28a58", collision: false);
-        MakeBox("WallTextileStripeLower", new(1.15f, 0.09f, 0.025f), new(4.25f, 1.55f, -4.73f), "45615a", collision: false);
-        MakeRotatedBox("WallCrack", new(0.03f, 0.78f, 0.02f), new(-3.48f, 2.2f, -4.81f), new(0, 0, 18), "66574a");
-        MakeRotatedBox("WallCrackBranch", new(0.025f, 0.38f, 0.02f), new(-3.28f, 2.0f, -4.81f), new(0, 0, -46), "66574a");
-        MakeShelfStillLife();
-        MakeWallCalendar();
-        MakeRadioAndHerbs();
+        var photo = MakeBox("FamilyPhoto", new(.58f, .72f, .06f), StyleBenchmarkInteriorFactory.PhotoAnchor, "8a7358", collision: false);
+        photo.RotationDegrees = new(0, StyleBenchmarkInteriorFactory.PhotoYawDegrees, 0);
+        var photoInner = MakeBox("FamilyPhotoInner", new(.42f, .55f, .025f), StyleBenchmarkInteriorFactory.PhotoAnchor + Vector3.Right * .045f, "b7a17c", collision: false);
+        photoInner.RotationDegrees = photo.RotationDegrees;
+        MakeRotatedBox("WallCalendarFrame", new(.62f, .82f, .04f), new(-3.965f, 1.78f, -1.54f), new(0, 90, 0), "604936", "wood");
+        MakeRotatedBox("WallCalendarPage", new(.49f, .63f, .02f), new(-3.94f, 1.78f, -1.54f), new(0, 90, 0), "c9b98f");
+        HouseWallCalendar.AddPrintedFace(GetNode<Node3D>("WallCalendarPage"));
+        var radio = MakeBox("OldRadio", new(.78f, .36f, .42f), new(-.40f, 1.06f, 2.87f), "55534b", collision: false, surface: "wood");
+        radio.RotationDegrees = new(0, 180, 0);
+        var grille = MakeBox("RadioGrille", new(.42f, .14f, .02f), new(-.40f, 1.07f, 2.65f), "302f2e", collision: false);
+        grille.Reparent(radio);
+        StyleBenchmarkInteriorFactory.SeatOnChest(this, radio);
         AttachAct1Npc(
             "mansur",
             "Mansur",
             "family elder",
-            new(2.8f, 0, -1.45f),
+            StyleBenchmarkInteriorFactory.MansurAnchor,
             yawDegrees: -24f,
             presentationHostName: "MansurPresentation");
         MakeInteractionBox(
             "MansurNpc",
             new(0.62f, 1.8f, 0.46f),
-            new(2.8f, 0.9f, -1.45f),
+            StyleBenchmarkInteriorFactory.MansurAnchor + Vector3.Up * .90f,
             "5e4638",
             "urman.chapter1:interaction/talk-mansur",
             "Поговорить с бабаем Мансуром",
             dialogueId: "urman.chapter1:dialogue/mansur_pc_request");
-        // Gөlsinә stands clear of the table corner: at her old spot the
-        // interaction approach point landed on the table's edge and a player
-        // capsule could not stand on it.
+        // The conversation anchors leave the entrance, stove and PC approaches clear.
         AttachAct1Npc(
             "gulsina",
             "Gulsina",
             "family keeper",
-            new(-3.2f, 0, -2.3f),
+            StyleBenchmarkInteriorFactory.GulsinaAnchor,
             yawDegrees: 28f);
         MakeInteractionBox(
             "GulsinaNpc",
             new(0.62f, 1.68f, 0.46f),
-            new(-3.2f, 0.84f, -2.3f),
+            StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .84f,
             "6f6257",
             "urman.chapter1:interaction/talk-gulsina",
             "Поговорить с әби",
@@ -700,7 +484,7 @@ public partial class StyleBenchmarkZone : Node3D
         var houseExit = MakeInteractionBox(
             "HouseExit",
             new(1.3f, 2.1f, 0.22f),
-            new(0, 1.05f, 4.82f),
+            StyleBenchmarkInteriorFactory.ExitTarget,
             "685848",
             "urman.chapter1:interaction/house-to-route",
             "Выйти на улицу",
@@ -712,7 +496,7 @@ public partial class StyleBenchmarkZone : Node3D
         MakeInteractionBox(
             "InternalRegisterToRinat",
             new(0.65f, 1.78f, 0.48f),
-            new(4.05f, 0.89f, -2.65f),
+            StyleBenchmarkInteriorFactory.RinatAnchor + Vector3.Up * .89f,
             "4c5652",
             "urman.chapter1:interaction/internal-register-to-rinat",
             "Спросить Рината о внутреннем реестре",
@@ -720,7 +504,7 @@ public partial class StyleBenchmarkZone : Node3D
         MakeInteractionBox(
             "InternalRegisterToSavedMessage",
             new(1.15f, 0.72f, 0.22f),
-            new(2.4f, 1.35f, -4.72f),
+            oldPcAnchor + new Vector3(.14f, 0, .16f),
             "6f735f",
             "urman.chapter1:interaction/internal-register-to-saved-message",
             "Открыть сохранённое сообщение Марата",
@@ -728,7 +512,7 @@ public partial class StyleBenchmarkZone : Node3D
         MakeInteractionBox(
             "SavedMessageToBoundarySource",
             new(1.15f, 0.72f, 0.22f),
-            new(2.4f, 1.35f, -4.72f),
+            oldPcAnchor + new Vector3(.14f, 0, .16f),
             "77705b",
             "urman.chapter1:interaction/saved-message-to-boundary-source",
             "Найти статью о лесной границе",
@@ -736,7 +520,7 @@ public partial class StyleBenchmarkZone : Node3D
         MakeInteractionBox(
             "BoundarySourceToReread",
             new(1.15f, 0.72f, 0.22f),
-            new(2.4f, 1.35f, -4.72f),
+            oldPcAnchor + new Vector3(.14f, 0, .16f),
             "687467",
             "urman.chapter1:interaction/boundary-source-to-reread",
             "Перечитать статью с понятыми словами",
@@ -744,7 +528,7 @@ public partial class StyleBenchmarkZone : Node3D
         MakeInteractionBox(
             "RereadToEdgeSketch",
             new(1.15f, 0.72f, 0.22f),
-            new(2.4f, 1.35f, -4.72f),
+            oldPcAnchor + new Vector3(.14f, 0, .16f),
             "756a58",
             "urman.chapter1:interaction/reread-to-edge-sketch",
             "Проверить схему Мансура",
@@ -752,7 +536,7 @@ public partial class StyleBenchmarkZone : Node3D
         MakeInteractionBox(
             "EdgeSketchToZiratRoad",
             new(1.3f, 2.1f, 0.22f),
-            new(0, 1.05f, 4.82f),
+            StyleBenchmarkInteriorFactory.ExitTarget,
             "5d5648",
             "urman.chapter1:interaction/edge-sketch-to-zirat-road",
             "Идти к дороге у зирата",
@@ -762,7 +546,7 @@ public partial class StyleBenchmarkZone : Node3D
         var lamp = new OmniLight3D
         {
             Name = "WarmTableLamp",
-            Position = new(2.15f, 1.70f, -3.25f),
+            Position = new(-1.28f, 1.60f, -2.99f),
             LightColor = Color.FromHtml("c5aa8d"),
             LightEnergy = 1.45f,
             OmniRange = 4.75f,
@@ -773,7 +557,7 @@ public partial class StyleBenchmarkZone : Node3D
         AddChild(new OmniLight3D
         {
             Name = "WindowFill",
-            Position = new(-3.6f, 1.85f, -3.6f),
+            Position = new(-2.55f, 1.60f, -3.10f),
             LightColor = Color.FromHtml("9aaeb0"),
             LightEnergy = 0.46f,
             OmniRange = 5.5f,
@@ -783,7 +567,7 @@ public partial class StyleBenchmarkZone : Node3D
         AddChild(new OmniLight3D
         {
             Name = "RoomFill",
-            Position = new(0, 2.5f, .5f),
+            Position = new(0, 2.35f, .5f),
             LightColor = Color.FromHtml("958878"),
             LightEnergy = 0.56f,
             OmniRange = 8.5f,
@@ -803,7 +587,7 @@ public partial class StyleBenchmarkZone : Node3D
         AddChild(new OmniLight3D
         {
             Name = "HouseDocumentTaskLight",
-            Position = new(-1.0f, 1.9f, -3.25f),
+            Position = new(-1.0f, 1.80f, -2.25f),
             LightColor = Color.FromHtml("c2a375"),
             LightEnergy = 0.72f,
             OmniRange = 2.9f,
@@ -995,14 +779,14 @@ public partial class StyleBenchmarkZone : Node3D
             MakeBox($"ClinicCalendarLine{row}", new(0.72f, 0.018f, 0.012f), new(2.75f, 2.28f - row * 0.22f, -5.765f), "7c897f", collision: false);
         }
 
-        // Preserve the legacy bench collision footprints while replacing only
-        // their visible BoxMesh seats with the authored waiting bench.
+        // Keep the historical nodes identifiable; the authored bench below owns
+        // its physical surfaces as well as its visible seat and legs.
         SuppressPrimitiveVisual(
             MakeBox("WaitingBenchLeft", new(2.8f, 0.16f, 0.7f), new(-3.6f, 0.58f, 1.8f), "6b5b4a"),
-            "authored FapInteriorSet waiting bench replaces the legacy visual seat; collision remains unchanged");
+            "authored waiting bench replaces this legacy visual; its legacy collision is retired below");
         SuppressPrimitiveVisual(
             MakeBox("WaitingBenchRight", new(2.8f, 0.16f, 0.7f), new(3.6f, 0.58f, 1.8f), "6b5b4a"),
-            "authored FapInteriorSet waiting bench replaces the legacy visual seat; collision remains unchanged");
+            "authored waiting bench replaces this legacy visual; its legacy collision is retired below");
 
         MakeBox("ClinicDeskRecordStack", new(0.76f, 0.1f, 0.88f), new(-0.78f, 0.95f, -4.2f), "b89868", collision: false);
         MakeRotatedBox("ClinicDeskRecordTopPage", new(0.6f, 0.02f, 0.72f), new(-0.7f, 1.02f, -4.2f), new(0, -4, 1), "d0bd91");
@@ -1054,6 +838,11 @@ public partial class StyleBenchmarkZone : Node3D
             "ClinicRecordsBoardFrameBottom",
             "ClinicRecordsBoardCardA",
             "ClinicRecordsBoardCardB",
+            "ClinicCalendarFrame",
+            "ClinicCalendarPage",
+            "ClinicCalendarLine0",
+            "ClinicCalendarLine1",
+            "ClinicCalendarLine2",
             "ClinicDeskRecordStack",
             "ClinicDeskRecordTopPage",
             "DocumentDesk"
@@ -1096,7 +885,8 @@ public partial class StyleBenchmarkZone : Node3D
             new(0, 0.72f, -2.65f),
             "7b7467",
             "urman.chapter1:interaction/fap-to-document-desk",
-            "Подойти к столу с документами");
+            "Подойти к столу с документами",
+            rayOnly: true);
         MakeInteractionBox(
             "DeskToOfficialRecord",
             new(1.3f, 0.12f, 0.9f),
@@ -1104,7 +894,8 @@ public partial class StyleBenchmarkZone : Node3D
             "b7a47e",
             "urman.chapter1:interaction/fap-document-desk-to-official-record",
             "Прочитать официальную справку о Марате",
-            documentId: "urman.oldpc:document/doc_marat_official_death_notice");
+            documentId: "urman.oldpc:document/doc_marat_official_death_notice",
+            rayOnly: true);
         MakeInteractionBox(
             "OfficialRecordExitToStreet",
             new(1.3f, 2.1f, 0.25f),
@@ -1113,7 +904,8 @@ public partial class StyleBenchmarkZone : Node3D
             "urman.chapter1:interaction/official-leave-clinic",
             "Выйти из ФАПа и вернуться домой со справкой",
             "village_day",
-            "from_fap");
+            "from_fap",
+            rayOnly: true);
 
         AddChild(new OmniLight3D
         {
@@ -1164,6 +956,92 @@ public partial class StyleBenchmarkZone : Node3D
             OmniRange = 4.7f,
             ShadowEnabled = false
         });
+        BuildFapFurnitureContacts();
+        BuildFapShellContacts();
+        ClinicSurfacePresentation.Attach(this, GetNode<Node3D>(FapInteriorSetComponentName));
+    }
+
+    private void BuildFapShellContacts()
+    {
+        var body = new StaticBody3D { Name = "FapAuthoredInteriorShellCollision", CollisionLayer = 1, CollisionMask = 1 };
+        body.SetMeta("collisionOwner", "fap-interior-shell");
+        body.SetMeta("footstepSurface", "interior_floor");
+        AddChild(body);
+        foreach (var mesh in Descendants(GetNode<Node3D>(FapInteriorSetComponentName)).OfType<MeshInstance3D>()
+            .Where(mesh => mesh.Mesh is not null && mesh.Name.ToString().StartsWith("FapInteriorShell_", StringComparison.Ordinal)
+                && mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal)))
+        {
+            body.AddChild(Act1ConnectedWorld.AuthoredSurfaceContact(body, mesh));
+            mesh.SetMeta("collisionPolicy", "exact authored shell triangles; real reveals and closed panes");
+        }
+        foreach (var name in new[] { "Floor", "FrontWall", "BackWall", "LeftWall", "RightWall" })
+        {
+            var legacy = GetNode<StaticBody3D>(name);
+            legacy.CollisionLayer = 0;
+            legacy.CollisionMask = 0;
+            legacy.SetMeta("retiredCollision", "the matched source shell owns floors, openings and walls");
+        }
+        GetNode<InteractionTarget>("OfficialRecordExitToStreet").Position = new(0, 1.42f, 5.56f);
+        // The frame backs onto the existing splash face at X=5.53; its glass
+        // overlaps the frame by 5mm. Place the reflecting surface at ordinary
+        // face height, beside the window and clear of the faucet.
+        GetNode<Node3D>("ClinicPlainMirrorFrame").Position = new(5.49f, 1.90f, 1.56f);
+        GetNode<Node3D>("ClinicPlainMirror").Position = new(5.435f, 1.90f, 1.56f);
+        SetMeta("fapInteriorShellContract", "metric room; source floor and pierced walls; no legacy envelope blockers");
+    }
+
+    private void BuildFapFurnitureContacts()
+    {
+        var component = GetNode<Node3D>(FapInteriorSetComponentName);
+        var meshes = Descendants(component).OfType<MeshInstance3D>().Where(mesh => mesh.Mesh is not null).ToArray();
+        Aabb LocalBounds(MeshInstance3D mesh) => (GlobalTransform.AffineInverse() * mesh.GlobalTransform) * mesh.Mesh.GetAabb();
+        var floorY = LocalBounds(meshes.Single(mesh => mesh.Name == "FapInteriorShell_Floor_LOD0")).End.Y;
+        // Floor-standing groups move rigidly, including their paired LOD. Wall
+        // fixtures keep their authored mounting height. The tall storage cabinet
+        // has its own service-corner owner in Act1ConnectedWorld.FapExploration.
+        var standing = new HashSet<string>(StringComparer.Ordinal)
+        { "Bench", "Cot", "Screen", "Stool", "ReceptionCounter", "RecordsDesk", "Trolley", "Partition" };
+        var groups = standing.Concat(new[] { "Cabinet", "WashUnit", "Radiator", "SupplyShelf", "ExamChart", "NoticeBoard", "CoatHook" });
+        foreach (var group in groups)
+        {
+            var prefix = "FapInterior" + group;
+            var members = meshes.Where(mesh => mesh.Name.ToString().StartsWith(prefix, StringComparison.Ordinal)).ToArray();
+            var full = members.Where(mesh => mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal)).ToArray();
+            if (full.Length == 0) throw new InvalidOperationException($"Missing FAP furniture source group {group}.");
+            var shift = standing.Contains(group) ? floorY - full.Min(mesh => LocalBounds(mesh).Position.Y) : 0f;
+            if (Mathf.Abs(shift) > .25f) throw new InvalidOperationException($"FAP {group} footing differs from its floor by {shift:F3}m.");
+            foreach (var mesh in members)
+            {
+                mesh.SetMeta("fapFurnitureOriginalTransform", mesh.Transform);
+                mesh.GlobalPosition += GlobalBasis.Y.Normalized() * shift;
+                mesh.SetMeta("collisionPolicy", "exact LOD0 surfaces; FAP furniture contact owner preserves leg gaps and visible openings");
+            }
+            var body = new StaticBody3D { Name = "FapFurniture" + group + "Collision", CollisionLayer = 1, CollisionMask = 1 };
+            body.SetMeta("collisionOwner", "fap-interior-furniture");
+            body.SetMeta("sourceGroup", group);
+            body.SetMeta("groundingShift", shift);
+            body.SetMeta("supportPolicy", standing.Contains(group) ? "rigid group on authored floor" : "authored wall fixture height");
+            if (group is "Bench" or "ReceptionCounter" or "RecordsDesk" or "Partition" or "SupplyShelf")
+                body.SetMeta("footstepSurface", "wood");
+            AddChild(body);
+            foreach (var mesh in full) body.AddChild(Act1ConnectedWorld.AuthoredSurfaceContact(body, mesh));
+        }
+        foreach (var name in new[] { "WaitingBenchLeft", "WaitingBenchRight", "DocumentDesk" })
+        {
+            var legacy = GetNode<StaticBody3D>(name);
+            legacy.CollisionLayer = 0;
+            legacy.CollisionMask = 0;
+            legacy.SetMeta("retiredCollision", "replaced by the visible authored furniture surfaces");
+            legacy.SetMeta("legacyVisualSuppressionReason", "authored furniture owns appearance and physical contact");
+        }
+        // Put the selectable volume just above the real sheet. It must not be
+        // buried by its newly physical paper stack or block the player corridor.
+        var paper = LocalBounds(meshes.Single(mesh => mesh.Name == "FapInteriorRecordsDesk_PaperStack_LOD0"));
+        var target = GetNode<InteractionTarget>("DeskToOfficialRecord");
+        target.Position = new(paper.GetCenter().X, paper.End.Y + .065f, paper.GetCenter().Z);
+        target.SetMeta("targetSurface", "FapInteriorRecordsDesk_PaperStack_LOD0");
+        component.SetMeta("collisionOwner", "StyleBenchmarkZone furniture contacts; connected-world tall cabinet contacts");
+        component.SetMeta("runtimeFurnitureGrounding", "whole source group to source floor; paired LOD preserved");
     }
 
     private void AttachFapInteriorSet()
@@ -1269,7 +1147,7 @@ public partial class StyleBenchmarkZone : Node3D
             component.SetMeta("runtimeMaterialOverrideCount", materialOverrideCount);
             component.SetMeta(
                 "fapInteriorPresentationPass",
-                "source-authored Wave14 arrangement; imported ancestor basis only; constrained presentation-only value grade; center path and counter/partition composition remain source-owned");
+                "source-authored furnishings at metric scale; matching envelope and exact runtime contact owners; center path and counter composition preserved");
             AddChild(component);
             SetMeta("fapInteriorPresentation", "FapInteriorSet project-original GLB; presentation-only; legacy replaced furniture visuals suppressed");
             importedRoot.Free();
@@ -1814,8 +1692,26 @@ public partial class StyleBenchmarkZone : Node3D
 
     private void MakeBoundaryCharm(Vector3 position, Vector3 scale)
     {
-        MakeBox("BoundaryCharmCord", new(0.035f, 1.0f, 0.035f), position + new Vector3(0, 0.5f, 0), "756452", collision: false);
-        MakeRotatedBox("BoundaryCharmCloth", new Vector3(0.34f, 0.48f, 0.028f) * scale, position + new Vector3(0.12f, 0.9f, 0), new(0, 0, -7), "b3a279");
+        // Keep each isolated study decoration under one named owner. Repeated
+        // loose meshes otherwise receive anonymous names and survive when the
+        // connected world removes this study's posts and boundary thread.
+        var charm = new Node3D { Name = "BoundaryCharm", Position = position };
+        charm.AddChild(new MeshInstance3D
+        {
+            Name = "Cord",
+            Position = new(0, 0.5f, 0),
+            Mesh = new BoxMesh { Size = new(0.035f, 1.0f, 0.035f) },
+            MaterialOverride = Material("756452")
+        });
+        charm.AddChild(new MeshInstance3D
+        {
+            Name = "Cloth",
+            Position = new(0.12f, 0.9f, 0),
+            RotationDegrees = new(0, 0, -7),
+            Mesh = new BoxMesh { Size = new Vector3(0.34f, 0.48f, 0.028f) * scale },
+            MaterialOverride = Material("b3a279")
+        });
+        AddChild(charm, forceReadableName: true);
     }
 
     private void MakeBranch(Vector3 start, Vector3 end, string color)
@@ -1836,6 +1732,7 @@ public partial class StyleBenchmarkZone : Node3D
 
     private void MakeHouse(Vector3 origin, string wallColor, string roofColor, bool warmWindow)
     {
+        var previous = GetChildren().ToHashSet();
         MakeBox("House", new(6.2f, 2.8f, 5.2f), origin + new Vector3(0, 1.4f, 0), wallColor, surface: "plaster");
         MakeRotatedBox("RoofLeft", new(3.8f, 0.28f, 5.8f), origin + new Vector3(-1.45f, 3.4f, 0), new(0, 0, 24), roofColor, "wood");
         MakeRotatedBox("RoofRight", new(3.8f, 0.28f, 5.8f), origin + new Vector3(1.45f, 3.4f, 0), new(0, 0, -24), roofColor, "wood");
@@ -1852,6 +1749,18 @@ public partial class StyleBenchmarkZone : Node3D
         MakeBox("PorchStep", new(1.65f, 0.18f, 0.62f), origin + new Vector3(-1.65f, 0.08f, 3.75f), "574636", surface: "wood");
         MakeBox("WindowCrossVertical", new(0.06f, 0.82f, 0.04f), origin + new Vector3(0.9f, 1.55f, 2.68f), "bca884", collision: false);
         MakeBox("WindowCrossHorizontal", new(1.02f, 0.06f, 0.04f), origin + new Vector3(0.9f, 1.55f, 2.68f), "bca884", collision: false);
+        foreach (var member in GetChildren().Where(child => !previous.Contains(child)))
+            member.SetMeta("benchmarkPrimitiveHousePart", true);
+    }
+
+    internal void RetireBenchmarkHouseAssemblies()
+    {
+        // These complete stand-alone benchmark houses are superseded by the
+        // connected world's authored parcels. Retiring only "House" left
+        // invisible Porch/PorchStep/Foundation bodies in the real street.
+        var obsolete = GetChildren().Where(child => child.HasMeta("benchmarkPrimitiveHousePart")).ToArray();
+        foreach (var member in obsolete) member.Free();
+        SetMeta("retiredBenchmarkHouseMembers", obsolete.Length);
     }
 
     private void MakeFence(float x, float z, int count) =>

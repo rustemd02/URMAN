@@ -74,40 +74,81 @@ public partial class Act1AudioSettingsSmokeTest : Node
 
         var rinatCue = CompiledCampaignRepository.Load().ResolveAudio(
             "urman.chapter1:asset/audio-rinat-interruption", "runtime-test:queue");
+        var voicePlayer = audioCue.GetNode<AudioStreamPlayer>("AudioPlayer");
+        var playableCount = new[] { audioCueCaptions, rinatCue }.Count(item =>
+            item.Asset.MediaType.StartsWith("audio/", StringComparison.Ordinal));
+        foreach (var item in new[] { audioCueCaptions, rinatCue })
+        {
+            var declaredAudio = item.Asset.MediaType.StartsWith("audio/", StringComparison.Ordinal);
+            if (declaredAudio && (!ResourceLoader.Exists(item.Asset.Url)
+                    || ResourceLoader.Load<AudioStream>(item.Asset.Url) is not { } stream || stream.GetLength() <= 0d)
+                || !declaredAudio && item.Asset.Url.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+            { Fail("A finale WAV is missing, unreadable, or still declared as a logical reference: " + item.Asset.AssetId); return; }
+        }
+        var nativeVoice = DisplayServer.GetName() != "headless" && playableCount == 2;
+        if (nativeVoice && !await WaitUntil(() => voicePlayer.Playing && voicePlayer.HasStreamPlayback()
+                && voicePlayer.GetPlaybackPosition() > .02f, "The declared Marat recording never reached native playback.", 3000)) return;
         audioCue.Present(rinatCue);
         var firstText = audioCue.VisibleText;
         audioCue.SetPaused(true);
-        audioCue._Process(30);
+        await ToSignal(GetTree().CreateTimer(.12), SceneTreeTimer.SignalName.Timeout);
+        var pausedCursor = voicePlayer.GetPlaybackPosition();
+        await ToSignal(GetTree().CreateTimer(.25), SceneTreeTimer.SignalName.Timeout);
         if (audioCue.VisibleText != firstText || !audioCue.IsPresenting)
         { Fail("Pause advanced the active cue."); return; }
+        if (nativeVoice && (!voicePlayer.StreamPaused
+                || Mathf.Abs(voicePlayer.GetPlaybackPosition() - pausedCursor) > .015f))
+        { Fail("Pause advanced the real voice playback cursor."); return; }
         audioCue.SetPaused(false);
-        audioCue._Process(30);
-        audioCue._Process(1);
-        if (audioCue.LastStartedAssetId != rinatCue.Asset.AssetId)
-        { Fail("The second cue did not follow the first after resume."); return; }
+        if (!await WaitUntil(() => audioCue.LastStartedAssetId == rinatCue.Asset.AssetId,
+                "The second cue did not follow the first after resume.")) return;
         audioCue.ResetPresentation();
-        if (audioCue.IsPresenting || audioCue.PresentedHistory.Count != 0 || audioCue.LastStartedAssetId is not null)
+        await Frames(2);
+        if (audioCue.IsPresenting || voicePlayer.Playing || voicePlayer.Stream is not null
+            || audioCue.PresentedHistory.Count != 0 || audioCue.LastStartedAssetId is not null)
         { Fail("Reset retained a cue from the old session."); return; }
         audioCue.ApplyAccessibilitySettings(new(Subtitles: false, AudioDescriptions: false));
-        audioCue.Present(audioCueCaptions);
-        audioCue.Present(rinatCue);
-        audioCue._Process(1);
-        audioCue._Process(1);
-        if (audioCue.LastStartedAssetId != rinatCue.Asset.AssetId || audioCue.VisibleText is not null)
-        { Fail("Caption-disabled cues bypassed the ordered queue."); return; }
+        var naturalFinishes = 0;
+        void VoiceFinished() => naturalFinishes++;
+        voicePlayer.Finished += VoiceFinished;
+        try
+        {
+            audioCue.Present(audioCueCaptions);
+            audioCue.Present(rinatCue);
+            if (!await WaitUntil(() => audioCue.LastStartedAssetId == rinatCue.Asset.AssetId,
+                    "Caption-disabled cues did not retain their ordered queue.")) return;
+            if (!await WaitUntil(() => !audioCue.IsPresenting,
+                    "The caption-disabled voice queue did not finish.")) return;
+            if (audioCue.VisibleText is not null || nativeVoice && naturalFinishes != 2)
+            { Fail($"Caption-disabled playback leaked text or stopped before both native Finished signals: finished={naturalFinishes}."); return; }
+        }
+        finally { voicePlayer.Finished -= VoiceFinished; }
+        GD.Print(nativeVoice
+            ? $"act1-voice-native: PASS queued recordings, paused cursor={pausedCursor:0.000}, abort/reset, captions-off native Finished={naturalFinishes}; listening remains external/not-run"
+            : "act1-voice-native: external/not-run; current assets are logical references or the renderer is headless");
         audioCue.ResetPresentation();
 
         // Audio descriptions: with captions off but descriptions on, a cue that has no
         // recording must still tell the player what is happening. This is the whole
         // point of the setting, and until now only its disabled path was exercised.
-        var descriptionText = rinatCue.NonAudioCue?.Text;
+        // This explicit presentation-only missing-recording case remains valid
+        // after the real finale assets are installed. It never dispatches an
+        // interaction or claims that synthetic test input is a performed voice.
+        var unavailableCue = rinatCue with { Asset = rinatCue.Asset with
+        {
+            AssetId = "smoke:asset/unavailable-rinat-recording",
+            MediaType = "application/vnd.urman.logical-asset-ref",
+            Url = "res://assets/logical/audio-rinat-interruption.ref",
+            Sha256 = null
+        } };
+        var descriptionText = unavailableCue.NonAudioCue?.Text;
         if (string.IsNullOrWhiteSpace(descriptionText))
         { Fail("The finale cue carries no audio description to fall back on."); return; }
         audioCue.ApplyAccessibilitySettings(new(Subtitles: false, AudioDescriptions: true));
-        audioCue.Present(rinatCue);
-        // One small tick only: this cue lives for the readable-text floor of 2 s, and
-        // advancing two full seconds would end it before the panel can be observed.
-        audioCue._Process(0.1);
+        audioCue.Present(unavailableCue);
+        // Observe real frames while the missing-recording text is still visible;
+        // never advance the presentation clock by calling _Process manually.
+        await Frames(2);
         if (audioCue.VisibleText != descriptionText || !audioCue.IsPresenting)
         {
             Fail($"Audio descriptions did not present the authored description: visible='{audioCue.VisibleText ?? "<null>"}' presenting={audioCue.IsPresenting} expected='{descriptionText}'");
@@ -118,9 +159,8 @@ public partial class Act1AudioSettingsSmokeTest : Node
         // And with descriptions off as well, the cue must stay silent and empty rather
         // than leak a description nobody asked for.
         audioCue.ApplyAccessibilitySettings(new(Subtitles: false, AudioDescriptions: false));
-        audioCue.Present(rinatCue);
-        audioCue._Process(1);
-        audioCue._Process(1);
+        audioCue.Present(unavailableCue);
+        await Frames(2);
         if (audioCue.VisibleText is not null)
         { Fail("A cue leaked text with both accessibility channels off."); return; }
         audioCue.ResetPresentation();
@@ -180,6 +220,18 @@ public partial class Act1AudioSettingsSmokeTest : Node
         AudioSettingsService.DeleteFile();
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
+    }
+
+    private async Task<bool> WaitUntil(Func<bool> condition, string failure, ulong timeoutMs = 20000)
+    {
+        var deadline = Time.GetTicksMsec() + timeoutMs;
+        while (Time.GetTicksMsec() < deadline)
+        {
+            if (condition()) return true;
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+        Fail(failure);
+        return false;
     }
 
     private async Task Frames(int count)

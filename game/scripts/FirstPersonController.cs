@@ -40,6 +40,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private float _pitch;
     private float _gravity;
     private bool _modalOpen;
+    private bool _sessionTransition;
+    private bool _worldInteractionNeedsRelease;
     private bool _motionBlur;
     private bool _headBob;
     private string _graphicsPreset = "medium";
@@ -51,7 +53,10 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private float _headBobPhase;
     private CarryCoordinator? _carryCoordinator;
 
-    public bool ModalOpen => _modalOpen;
+    public bool ModalOpen => _modalOpen || _sessionTransition;
+    internal bool InteractionNoticeActive => Time.GetTicksMsec() < _traversalNoticeUntil;
+    internal string FocusedInteractionId => _focusedTarget is not null && GodotObject.IsInstanceValid(_focusedTarget)
+        ? _focusedTarget.InteractionId : string.Empty;
 
     /// <summary>Times the player was pushed back inside the authored world window.</summary>
     public int EdgeClamps { get; private set; }
@@ -144,9 +149,20 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         _interactionRay = GetNode<RayCast3D>("Head/Camera3D/InteractionRay");
         _reticle = GetNode<ColorRect>("Hud/Reticle");
         _interactionPrompt = GetNode<Label>("Hud/InteractionPrompt");
+        // Keep the bottom safe margin when a result wraps to several lines.
+        // Default downward growth let the final action line leave a 720p view.
+        _interactionPrompt.GrowVertical = Control.GrowDirection.Begin;
+        _interactionPrompt.VerticalAlignment = VerticalAlignment.Bottom;
         RefreshInteractionHints();
+        // Eyes sit in front of the neck, inside the existing head capsule.
+        // Keeping them over the hip axis makes even a correctly shaped coat
+        // hide both boots when the player looks down. Stance and carried-object
+        // movement share this head anchor, including save/vehicle restoration.
+        _head.Position += Vector3.Forward * .18f;
         _headBasePosition = _head.Position;
         InitializeStance();
+        InitializeStepMotion();
+        InitializeVisibleBody();
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity").AsDouble();
         _camera.Fov = 75;
         Input.MouseMode = Input.MouseModeEnum.Captured;
@@ -170,6 +186,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     public void ApplyPortableTransform(PlayerTransform transform)
     {
+        ReleaseLadderForPlacement();
+        ResetStepMotion();
         PresentationTransformRevision++;
         GlobalPosition = new Vector3(
             (float)transform.Position.X,
@@ -184,6 +202,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         // Start small until the destination's restored collision has reached
         // the physics server. A save underneath a deck must not stand up inside it.
         RestoreStanceAtDestination();
+        ResetVisibleBodyMotion();
     }
 
     /// <summary>
@@ -244,6 +263,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {
+        if (_sessionTransition) return;
         if (inputEvent is InputEventJoypadButton
             || inputEvent is InputEventJoypadMotion joypadMotion && Math.Abs(joypadMotion.AxisValue) >= 0.18f)
         {
@@ -261,15 +281,34 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             _inputDevice = "keyboard-mouse";
         }
 
-        if (inputEvent is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured && !_modalOpen)
+        if (inputEvent is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured && !_modalOpen && !VehicleControlled)
         {
-            RotateView(-mouseMotion.Relative.X * MouseSensitivity, -mouseMotion.Relative.Y * MouseSensitivity);
+            // Captured aiming uses physical screen motion. Relative is scaled
+            // by the viewport stretch and changes sensitivity with resolution.
+            RotateView(-mouseMotion.ScreenRelative.X * MouseSensitivity, -mouseMotion.ScreenRelative.Y * MouseSensitivity);
         }
 
     }
 
     public override void _PhysicsProcess(double delta)
     {
+        // RuntimeBridge may need multiple physics frames to project saved world
+        // contacts. Hold the exact supplied pose until that transaction finishes.
+        if (_sessionTransition)
+        {
+            Velocity = Vector3.Zero;
+            IsSprinting = false;
+            SetInteractionPrompt(string.Empty);
+            return;
+        }
+        // The vehicle owns its seat transform and camera while occupied. Running
+        // the pedestrian world clamp here would drag a moving seat onto terrain.
+        if (VehicleControlled)
+        {
+            Velocity = Vector3.Zero;
+            SetInteractionPrompt(string.Empty);
+            return;
+        }
         // The world guard runs before the modal gate: a modal (dialogue, menu,
         // ending) suspends movement, and a player parked outside the world during
         // one of those must still be brought back instead of waiting for input.
@@ -279,6 +318,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         {
             Velocity = Vector3.Zero;
             UpdateHeadBob(delta, moving: false);
+            UpdateVisibleBody(delta, moving: false);
             SetInteractionPrompt(string.Empty);
             return;
         }
@@ -286,12 +326,23 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         var look = Input.GetVector("look_left", "look_right", "look_up", "look_down");
         RotateView(-look.X * GamepadLookSpeed * (float)delta, -look.Y * GamepadLookSpeed * (float)delta);
 
-        if (Input.IsActionJustPressed("crouch")) ToggleCrouch();
+        if (UpdateLadderMotion(delta))
+        {
+            UpdateVisibleBody(delta, moving: false);
+            return;
+        }
+
+        if (!_worldInteractionNeedsRelease && Input.IsActionJustPressed("crouch")) ToggleCrouch();
 
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-        var direction = (Transform.Basis * new Vector3(input.X, 0, input.Y)).Normalized();
-        var speed = IsCrouching ? WalkSpeed * .58f : WalkSpeed;
+        // GetVector already limits diagonals. Keep analogue stick strength so
+        // a small deflection can also make a small movement near an address.
+        var direction = Transform.Basis * new Vector3(input.X, 0, input.Y);
+        IsSprinting = !IsCrouching && !_worldInteractionNeedsRelease && Input.IsActionPressed("sprint")
+            && input.LengthSquared() > .01f;
+        var speed = IsCrouching ? WalkSpeed * .58f : IsSprinting ? WalkSpeed * SprintMultiplier : WalkSpeed;
         Velocity = new Vector3(direction.X * speed, Velocity.Y, direction.Z * speed);
+        TryJumpFromGround();
         if (!IsOnFloor())
         {
             Velocity = new Vector3(Velocity.X, Velocity.Y - _gravity * (float)delta, Velocity.Z);
@@ -299,10 +350,15 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
         _carryCoordinator ??= GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
         if (_carryCoordinator is not null)
+        {
+            var requested = Velocity;
             Velocity = _carryCoordinator.ConstrainCarriedMovement(Velocity, (float)delta);
-        MoveAndSlide();
+            _carryCoordinator.ObserveCarriedMovement(requested, Velocity);
+        }
+        if (Velocity.Y > .05f || !TryWalkUpStep((float)delta)) MoveAndSlide();
         ClampToAuthoredWorld();
-        UpdateHeadBob(delta, input.LengthSquared() > 0.01f && IsOnFloor());
+        UpdateHeadBob(delta, new Vector2(Velocity.X, Velocity.Z).LengthSquared() > 0.01f && IsOnFloor());
+        UpdateVisibleBody(delta, input.LengthSquared() > 0.01f);
         UpdateInteraction();
     }
 
@@ -338,8 +394,21 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         }
     }
 
+    internal void SetSessionTransition(bool active)
+    {
+        _sessionTransition = active;
+        _worldInteractionNeedsRelease = true;
+        Velocity = Vector3.Zero;
+        IsSprinting = false;
+        _focusedTarget = _focusCandidate = _promptTarget = null;
+        _focusCandidateFrames = 0;
+        SetInteractionPrompt(string.Empty);
+    }
+
     public void SetModalOpen(bool open)
     {
+        if (_modalOpen != open)
+            _worldInteractionNeedsRelease = true;
         _modalOpen = open;
         RefreshInteractionHints();
         if (open)
@@ -359,6 +428,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     private void UpdateHeadBob(double delta, bool moving)
     {
+        _stepEyeDrop = Math.Max(0f, _stepEyeDrop - (float)delta * 1.8f);
+        var rest = _headBasePosition - Vector3.Up * _stepEyeDrop;
         if (HeadBobEnabled && moving)
         {
             _headBobPhase += (float)delta * 8.2f;
@@ -366,11 +437,11 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
                 Mathf.Cos(_headBobPhase * 0.5f) * 0.012f,
                 Mathf.Sin(_headBobPhase) * 0.024f,
                 0);
-            _head.Position = _headBasePosition + offset;
+            _head.Position = rest + offset;
             return;
         }
 
-        _head.Position = _head.Position.Lerp(_headBasePosition, Mathf.Clamp((float)delta * 10, 0, 1));
+        _head.Position = _head.Position.Lerp(rest, Mathf.Clamp((float)delta * 10, 0, 1));
     }
 
     private void ApplyGraphicsPreset()
@@ -388,8 +459,46 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     private void UpdateInteraction()
     {
+        // UI accept and world interaction can share E or the gamepad A button.
+        // Input's action state survives GUI event consumption. Require a neutral
+        // physics frame after a modal closes before offering any world action,
+        // so the closing press cannot also repair, pick up or enter a ladder.
+        if (_worldInteractionNeedsRelease)
+        {
+            var actions = new[] { InteractionAction, "carry_use", "carry_place", "carry_rotate", "crouch", "jump", "sprint" };
+            if (actions.All(action => !Input.IsActionPressed(action) && !Input.IsActionJustPressed(action)))
+                _worldInteractionNeedsRelease = false;
+            SetInteractionPrompt(string.Empty);
+            return;
+        }
         if (_carryCoordinator is null || !GodotObject.IsInstanceValid(_carryCoordinator))
             _carryCoordinator = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        if (OfferLadderInteraction()) return;
+        if (Time.GetTicksMsec() < _traversalNoticeUntil)
+        {
+            // A rejected vehicle entry or a read address uses the same brief
+            // notice as traversal. Refresh the target after it expires even
+            // when the player has kept looking at the same door or plaque.
+            _promptTarget = null;
+            // A new deliberate object action may dismiss the notice immediately;
+            // a failed jump must not make the player wait before setting a box down.
+            if (new[] { InteractionAction, "carry_use", "carry_place", "carry_rotate" }
+                .Any(action => Input.IsActionJustPressed(action)))
+                _traversalNoticeUntil = 0;
+            else
+            {
+                // A short result message must not freeze the old door's focus
+                // while the player looks at another object. Otherwise the next
+                // deliberate press only begins the two-frame focus change and
+                // its JustPressed edge is lost. Keep passive focus current;
+                // the notice still displays and no action is performed here.
+                _interactionRay.ForceRaycastUpdate();
+                ResolveFocusedTarget(_interactionRay.IsColliding()
+                    ? _interactionRay.GetCollider() as InteractionTarget : null);
+                SetInteractionPrompt(_traversalNotice);
+                return;
+            }
+        }
         if (_carryCoordinator is not null && _carryCoordinator.HandlePlayerInput(this, _camera, out var carryPrompt))
         {
             _focusedTarget = null;
@@ -414,7 +523,9 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         var completed = !available && target.GetMeta("discoveryCompleted", false).AsBool();
         if (!available && !completed)
         {
-            SetInteractionPrompt(string.Empty);
+            SetInteractionPrompt(target.IsSemanticallyAvailable() && target.HasMeta("observationBlockedHint")
+                ? target.GetMeta("observationBlockedHint").AsString() : string.Empty);
+            _promptTarget = null;
             return;
         }
         var label = available ? target.Prompt : "Осмотрено";

@@ -1,0 +1,418 @@
+using Godot;
+
+namespace Urman.Godot;
+
+/// <summary>Mounts the entire physical plate on an exterior facade. Exact polygon
+/// subtraction checks openings; a foreground prism includes posts and annexes.
+/// The plate keeps its real 1.18m size on every house: it is street furniture
+/// for the reader, never a miniature of the building behind it.</summary>
+internal static class AddressFacadeMount
+{
+    internal const float HalfWidth=.59f, HalfHeight=.215f;
+    internal sealed record Triangle(Vector2 A,Vector2 B,Vector2 C);
+    internal sealed record Coverage(bool Supported,double MissingArea,string Owner,string Reason);
+    private sealed record Face(Vector3 A,Vector3 B,Vector3 C,string Owner);
+    private sealed class Plane(float depth,string owner)
+    {
+        public float Depth=depth;
+        public string Owner=owner;
+        public readonly List<Triangle> Triangles=[];
+    }
+
+    public static bool Eligible(string name)
+    {
+        if(new[]{"Roof","Snow","Window","Door","Foundation","Footing","Chimney","Interior","Rear","Back","SeniSide","_Left_","_Right_"}
+            .Any(s=>name.Contains(s,StringComparison.Ordinal)))return false;
+        return name.Contains("_Wall_",StringComparison.Ordinal)||name.Contains("_Body_",StringComparison.Ordinal)
+            ||name.Contains("GableFace",StringComparison.Ordinal)||name.Contains("GablePanel",StringComparison.Ordinal)
+            ||name.Contains("_Gable_",StringComparison.Ordinal)||name.Contains("BoardedGable",StringComparison.Ordinal)
+            ||name=="CoreWallVolume"||name.StartsWith("MosqueHallEast",StringComparison.Ordinal);
+    }
+
+    public static bool TryFind(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall=null)
+    {
+        if(TryFindOnWalls(building,door,outward,world,out point,out owner,out failure,explicitExteriorWall))return true;
+        // Rural fallback: when the facade has no opening-free stretch beside
+        // the door (vent gable, fully pierced walls, small silhouette), the
+        // plate hangs on the street fence or gate post of the same parcel —
+        // exactly where Tatarstan villages put them. The 1.18m plate keeps
+        // its real size; only the mount surface changes.
+        var fenceFailure=failure;
+        if(TryFindOnParcelFence(building,door,outward,world,out point,out owner,out var fenceRefusal))return true;
+        failure=fenceFailure+"; fence fallback: "+fenceRefusal;
+        return false;
+    }
+
+    private static bool TryFindOnWalls(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall=null)
+    {
+        point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
+        // Seni-door houses face their side entry away from the street: the
+        // door-facing planes are narrow and pierced while a blank street wall
+        // stands around the corner. Try the door orientation first, then the
+        // other three cardinals with a distance penalty — the sightline check
+        // below still guarantees the plate reads from the street.
+        var tried=new List<string>();
+        foreach(var sweep in new[]{outward,-outward,new Vector3(outward.Z,0,-outward.X),new Vector3(-outward.Z,0,outward.X)})
+        {
+            if(TryFindOnWallsOriented(building,door,sweep,world,out point,out owner,out var orientedFailure,explicitExteriorWall,oriented:sweep!=outward))
+            {
+                if(sweep!=outward)owner+=" (street-facing wall; seni door faces elsewhere)";
+                return true;
+            }
+            tried.Add($"[{sweep.X:0.0},{sweep.Z:0.0}]: "+orientedFailure);
+        }
+        failure=string.Join("; ",tried);
+        return false;
+    }
+
+    private static bool TryFindOnWallsOriented(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall,bool oriented=false)
+    {
+        point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
+        var right=new Vector3(outward.Z,0,-outward.X);
+        var planes=Planes(building,outward,right,explicitExteriorWall);
+        // Rural Tatarstan convention: the plate hangs on the facade beside the
+        // door or gate, at eye height — on the wall segment the door pierces,
+        // offset along the facade, never centered above the entrance.
+        var doorAlong=door.Dot(right);
+        var desired=new Vector2(doorAlong+.95f,door.Y+.48f);
+        var candidates=new List<(float Score,Vector2 Center,Plane Plane)>();
+        foreach(var plane in planes)
+        {
+            var vertices=plane.Triangles.SelectMany(t=>new[]{t.A,t.B,t.C}).ToArray();
+            var minX=vertices.Min(p=>p.X)+HalfWidth+.025f;var maxX=vertices.Max(p=>p.X)-HalfWidth-.025f;
+            if(minX>maxX)continue;
+            // The plate must sit beside the door, not above it: the door
+            // pierces this wall segment, so require a full plate width of
+            // clearance from the door axis along the facade. When the door
+            // axis lies outside this plane's span (side door vs street wall),
+            // the whole span is already beside the door.
+            var ranges=new List<(float Lo,float Hi)>();
+            if(doorAlong<minX||doorAlong>maxX)ranges.Add((minX,maxX));
+            else
+            {
+                var clearance=minX;var doorClear=doorAlong+HalfWidth+.10f;
+                if(doorClear>minX&&doorClear<maxX)clearance=doorClear;
+                var lo=Math.Max(minX,clearance);var hi=maxX;
+                // When the door-side segment cannot fit the plate, the far side
+                // (left of the door) is tried as an explicit fallback.
+                if(lo<=hi)ranges.Add((lo,hi));
+                var farHi=Math.Min(maxX,doorAlong-HalfWidth-.10f);
+                if(minX<=farHi)ranges.Add((minX,farHi));
+            }
+            if(ranges.Count==0)continue;
+            foreach(var (rangeLo,rangeHi) in ranges)
+            foreach(var x in Samples(rangeLo,rangeHi,desired.X,.16f))
+            {
+                // A recessed annex entrance may lie several metres down the
+                // slope. Judge plate height against the facade's own ground.
+                var facadeGround=Act1ConnectedWorld.AddressGround(right*x+outward*plane.Depth).Y;
+                var minY=Math.Max(vertices.Min(p=>p.Y)+HalfHeight+.025f,facadeGround+1.35f);
+                var maxY=Math.Min(vertices.Max(p=>p.Y)-HalfHeight-.025f,facadeGround+3.0f);
+                if(minY>maxY)continue;
+                foreach(var y in Samples(minY,maxY,desired.Y,.12f))
+                {
+                    var center=new Vector2(x,y);
+                    var fastCheck=BoardJoints(plane.Owner)?FastenerPoints(center):RequiredMountPoints(center);
+                    if(!fastCheck.All(p=>plane.Triangles.Any(t=>Contains(t,p))))continue;
+                    var orientationPenalty=oriented?4f:0f;
+                    var score=new Vector2(x-desired.X,(y-desired.Y)*1.4f).LengthSquared()+Math.Abs(plane.Depth-door.Dot(outward))*.12f+orientationPenalty;
+                    candidates.Add((score,center,plane));
+                }
+            }
+        }
+        if(candidates.Count==0){failure="No exterior facade rectangle with supported fasteners; eligible planes="+planes.Count;return false;}
+        // Include sibling porch meshes and nearby buildings, not just eligible
+        // wall owners. Bound the mesh read once, before testing candidates.
+        var bounds=Bounds(candidates.Select(c=>right*c.Center.X+Vector3.Up*c.Center.Y+outward*c.Plane.Depth)).Grow(4.2f);
+        var faces=VisibleFaces(world,bounds);
+        var refusals=new Dictionary<string,int>(StringComparer.Ordinal);
+        void Refused(string reason){refusals[reason]=refusals.GetValueOrDefault(reason)+1;}
+        foreach(var candidate in candidates.OrderBy(c=>c.Score).ThenBy(c=>c.Plane.Owner,StringComparer.Ordinal))
+        {
+            var coverage=Cover(candidate.Plane.Triangles,candidate.Center,BoardJoints(candidate.Plane.Owner));
+            if(!coverage.Supported){Refused(coverage.Reason+" at "+candidate.Plane.Owner);continue;}
+            var p=right*candidate.Center.X+Vector3.Up*candidate.Center.Y+outward*(candidate.Plane.Depth+.021f);
+            if(Occluder(faces,p,outward,right) is { } occluder){Refused("Exterior view blocked by "+occluder);continue;}
+            point=p;owner=candidate.Plane.Owner;return true;
+        }
+        failure=string.Join("; ",refusals.OrderByDescending(r=>r.Value).Take(3).Select(r=>r.Key+" ("+r.Value+" candidates)"));
+        return false;
+    }
+
+    internal static Coverage Inspect(Node3D building,Vector3 point,Vector3 outward,Node3D world,string? explicitExteriorWall=null)
+    {
+        outward=outward.Normalized();var right=new Vector3(outward.Z,0,-outward.X);
+        var center=new Vector2(point.Dot(right),point.Y);
+        foreach(var plane in Planes(building,outward,right,explicitExteriorWall).Where(p=>point.Dot(outward)-p.Depth is >=.001f and <=.09f)
+            .OrderByDescending(p=>p.Depth))
+        {
+            var covered=Cover(plane.Triangles,center,BoardJoints(plane.Owner));
+            if(!covered.Supported)continue;
+            var obstruction=Occluder(VisibleFaces(world,new Aabb(point-Vector3.One*4.2f,Vector3.One*8.4f)),point,outward,right);
+            return new(obstruction is null,covered.MissingArea,plane.Owner,obstruction is null?"complete facade and exterior sightline":"occluded by "+obstruction);
+        }
+        return new(false,4*HalfWidth*HalfHeight,"","full rim and rivets lack an eligible facade");
+    }
+
+    // Thin construction joints between vertical gable boards may sit behind a
+    // rigid metal plate, including where a joint crosses the rim. Four fasteners
+    // require solid wood. Material on both sides distinguishes a construction
+    // joint from a missing exterior edge. Larger openings remain rejected.
+    private static bool BoardJoints(string owner)=>owner.Contains("BoardedGable",StringComparison.Ordinal);
+    internal static Coverage Cover(IReadOnlyList<Triangle> triangles,Vector2 center,bool allowBoardJoints=false)
+    {
+        var required=allowBoardJoints?FastenerPoints(center):RequiredMountPoints(center);
+        if(!required.All(p=>triangles.Any(t=>Contains(t,p))))return new(false,0,"","unsupported boundary or fastener");
+        var rect=Rectangle(center,HalfWidth,HalfHeight);
+        var remaining=new List<List<Vector2>>{rect};
+        foreach(var triangle in triangles)
+        {
+            var clip=new[]{triangle.A,triangle.B,triangle.C};
+            if(Math.Abs(Cross(clip[1]-clip[0],clip[2]-clip[0]))<.0000001f)continue;
+            if(Cross(clip[1]-clip[0],clip[2]-clip[0])<0)Array.Reverse(clip);
+            var next=new List<List<Vector2>>();
+            foreach(var polygon in remaining)Subtract(polygon,clip,next);
+            remaining=next;
+            if(remaining.Count==0)return new(true,0,"","fully covered");
+        }
+        var area=remaining.Sum(Area);
+        var acceptable=remaining.All(p=>Area(p)<.000001 || allowBoardJoints&&IsNarrowBoardJoint(triangles,p));
+        return new(acceptable,area,"",acceptable?"narrow vertical board joints only":"uncovered facade opening");
+    }
+    private static bool IsNarrowBoardJoint(IReadOnlyList<Triangle> triangles,List<Vector2> missing)
+    {
+        var min=missing.Min(p=>p.X);var max=missing.Max(p=>p.X);
+        if(max-min>.012f)return false;
+        // A joint crossing the rim is normal construction. An overhang beyond
+        // the end of the last board has no material on its outside and fails.
+        foreach(var y in new[]{missing.Min(p=>p.Y),missing.Max(p=>p.Y),(missing.Min(p=>p.Y)+missing.Max(p=>p.Y))*.5f})
+            if(!triangles.Any(t=>Contains(t,new(min-.015f,y)))||!triangles.Any(t=>Contains(t,new(max+.015f,y))))return false;
+        return true;
+    }
+    private static IEnumerable<Vector2> FastenerPoints(Vector2 center)
+    {
+        foreach(var x in new[]{-.535f,.535f})foreach(var y in new[]{-.153f,.153f})yield return center+new Vector2(x,y);
+    }
+    internal static IEnumerable<Vector2> RequiredMountPoints(Vector2 center)
+    {
+        // All corners and a dense perimeter expose overhang; exact subtraction
+        // below is what detects holes between these points.
+        for(var i=0;i<=12;i++){var x=-HalfWidth+2*HalfWidth*i/12;yield return center+new Vector2(x,-HalfHeight);yield return center+new Vector2(x,HalfHeight);}
+        for(var i=1;i<6;i++){var y=-HalfHeight+2*HalfHeight*i/6;yield return center+new Vector2(-HalfWidth,y);yield return center+new Vector2(HalfWidth,y);}
+        foreach(var x in new[]{-.535f,.535f})foreach(var y in new[]{-.153f,.153f})yield return center+new Vector2(x,y);
+    }
+    private static List<Plane> Planes(Node3D building,Vector3 outward,Vector3 right,string? explicitExteriorWall=null)
+    {
+        // These two names are exterior walls in author_rural_dwelling, not
+        // interior room dividers. Explicit selection still checks actual faces,
+        // openings, fasteners and every foreground obstruction. Default policy
+        // and the three-metre height limit are unchanged.
+        if(explicitExteriorWall is not null && explicitExteriorWall is not
+            ("DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0"))
+            throw new ArgumentException("Unverified explicit exterior facade: "+explicitExteriorWall);
+        var planes=new List<Plane>();
+        foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.IsVisibleInTree()&&m.Mesh is not null
+            &&(explicitExteriorWall is null?Eligible(m.Name.ToString()):m.Name==explicitExteriorWall)))
+        {
+            var owner=mesh.GetPath().ToString();var faces=mesh.Mesh!.GetFaces();
+            for(var i=0;i+2<faces.Length;i+=3)
+            {
+                var a=mesh.GlobalTransform*faces[i];var b=mesh.GlobalTransform*faces[i+1];var c=mesh.GlobalTransform*faces[i+2];
+                if(Math.Abs((b-a).Cross(c-a).Normalized().Dot(outward))<.999f)continue;
+                var depth=a.Dot(outward);var plane=planes.FirstOrDefault(p=>Math.Abs(p.Depth-depth)<.006f&&p.Owner==owner);
+                if(plane is null){plane=new(depth,owner);planes.Add(plane);}
+                plane.Triangles.Add(new(new(a.Dot(right),a.Y),new(b.Dot(right),b.Y),new(c.Dot(right),c.Y)));
+            }
+        }
+        return planes.GroupBy(p=>p.Owner,StringComparer.Ordinal).Select(g=>g.OrderByDescending(p=>p.Depth).First()).ToList();
+    }
+    /// <summary>Parcel fence fallback: picket/rail planes and gate posts of
+    /// the same building parcel carry the plate when the facade cannot.
+    /// A fence picket field is slats with gaps, so only solid rails and
+    /// posts qualify — never the picket field itself.</summary>
+    private static bool TryFindOnParcelFence(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure)
+    {
+        point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
+        var right=new Vector3(outward.Z,0,-outward.X);
+        var parcelTop=building.GetParent();
+        var pickets=new List<(MeshInstance3D Mesh,string Owner)>();
+        foreach(var scope in new[]{building,parcelTop}.Where(n=>n is not null))
+            foreach(var mesh in Descendants(scope!).OfType<MeshInstance3D>().Where(m=>m.Mesh is not null&&m.IsVisibleInTree()))
+            {
+                var name=mesh.Name.ToString();
+                if(!(name.Contains("Fence",StringComparison.Ordinal)||name.Contains("Gate",StringComparison.Ordinal)
+                    ||name.Contains("Post",StringComparison.Ordinal)||name.Contains("Rail",StringComparison.Ordinal)))continue;
+                if(name.Contains("Glass",StringComparison.Ordinal)||name.Contains("Leaf",StringComparison.Ordinal))continue;
+                pickets.Add((mesh,mesh.GetPath().ToString()));
+            }
+        if(pickets.Count==0){failure="no fence, gate or post meshes on the parcel";return false;}
+        var rails=new List<(MeshInstance3D Mesh,Face[] Faces,string Owner)>();
+        foreach(var (mesh,path) in pickets)
+        {
+            var name=mesh.Name.ToString();
+            // Solid members only: rails, posts, gate frames. Picket slats and
+            // snow caps never carry the plate.
+            var solid=name.Contains("Rail",StringComparison.Ordinal)||name.Contains("Post",StringComparison.Ordinal)
+                ||name.Contains("Gate",StringComparison.Ordinal)||name.Contains("Frame",StringComparison.Ordinal)
+                ||name.Contains("Beam",StringComparison.Ordinal);
+            if(!solid)continue;
+            var raw=mesh.Mesh!.GetFaces();var faces=new List<Face>();
+            for(var i=0;i+2<raw.Length;i+=3)
+            {
+                var a=mesh.GlobalTransform*raw[i];var b=mesh.GlobalTransform*raw[i+1];var c=mesh.GlobalTransform*raw[i+2];
+                if(Math.Abs((b-a).Cross(c-a).Normalized().Dot(outward))<.9f)continue;
+                faces.Add(new(a,b,c,path));
+            }
+            if(faces.Count>0)rails.Add((mesh,faces.ToArray(),path));
+        }
+        if(rails.Count==0){failure="fence members have no street-facing solid planes";return false;}
+        var candidates=new List<(float Score,Vector3 Point,string Owner)>();
+        foreach(var (_,faces,path) in rails)
+        {
+            var plane=faces[0];
+            var depth=new[]{plane.A,plane.B,plane.C}.Average(p=>p.Dot(outward));
+            var along=faces.SelectMany(f=>new[]{f.A,f.B,f.C}).ToArray();
+            var minA=along.Min(p=>p.Dot(right));var maxA=along.Max(p=>p.Dot(right));
+            var minY=along.Min(p=>p.Y);var maxY=along.Max(p=>p.Y);
+            var groundY=Act1ConnectedWorld.AddressGround(new Vector3((minA+maxA)*.5f*right.X,0,(minA+maxA)*.5f*right.Z)+outward*depth).Y;
+            var wantY=Math.Max(minY+.25f,groundY+1.35f);
+            if(wantY+HalfHeight>Math.Min(maxY,groundY+2.2f))continue;
+            foreach(var t in new[]{.25f,.5f,.75f})
+            {
+                var a=minA+(maxA-minA)*t;
+                var p=right*a+Vector3.Up*wantY+outward*(depth+.021f);
+                var toDoor=new Vector2(p.X-door.X,p.Z-door.Z).Length();
+                if(toDoor>9f)continue;
+                candidates.Add((toDoor,p,path));
+            }
+        }
+        if(candidates.Count==0){failure="no fence rail/post rectangle near the doorway";return false;}
+        var bounds=Bounds(candidates.Select(c=>c.Point)).Grow(4.2f);
+        var faces2=VisibleFaces(world,bounds);
+        var refusals=new Dictionary<string,int>(StringComparer.Ordinal);
+        foreach(var candidate in candidates.OrderBy(c=>c.Score))
+        {
+            if(Occluder(faces2,candidate.Point,outward,right) is { } occluder)
+            {
+                refusals[occluder]=refusals.GetValueOrDefault(occluder)+1;continue;
+            }
+            point=candidate.Point;owner=candidate.Owner+" (parcel fence mount)";return true;
+        }
+        failure="fence candidates occluded: "+string.Join("; ",refusals.OrderByDescending(r=>r.Value).Take(2).Select(r=>r.Key+" ("+r.Value+")"));
+        return false;
+    }
+    private static Face[] VisibleFaces(Node3D root,Aabb bounds)
+    {
+        var result=new List<Face>();
+        foreach(var mesh in Descendants(root).OfType<MeshInstance3D>().Where(m=>m.Mesh is not null&&m.IsVisibleInTree()))
+        {
+            if(mesh.GetParent() is AddressSignVisualComponent)continue;
+            // Walk-through presentation foliage (no collision owner) must not
+            // veto a plate the player can actually stand in front of and read.
+            // Solid occluders — walls, posts, annexes, rooted stems — stay.
+            // Interior dressing is likewise invisible to the street prism.
+            if(IsWalkThroughFoliage(mesh)||IsInteriorDressing(mesh))continue;
+            var aabb=mesh.Mesh!.GetAabb();
+            var worldBounds=Bounds(Enumerable.Range(0,8).Select(i=>mesh.GlobalTransform*aabb.GetEndpoint(i)));
+            if(!worldBounds.Intersects(bounds))continue;
+            var faces=mesh.Mesh.GetFaces();var owner=mesh.GetPath().ToString();
+            for(var i=0;i+2<faces.Length;i+=3)result.Add(new(mesh.GlobalTransform*faces[i],mesh.GlobalTransform*faces[i+1],mesh.GlobalTransform*faces[i+2],owner));
+        }
+        return result.ToArray();
+    }
+    private static bool IsWalkThroughFoliage(MeshInstance3D mesh)
+    {
+        for(var node=(Node?)mesh;node is not null;node=node.GetParent())
+        {
+            if(node.HasMeta("presentationOnly")||node.HasMeta("presentationOnlyInstance")||node.HasMeta("visualOnly"))return true;
+            if(node is StaticBody3D||node is CollisionShape3D||node is CollisionObject3D)return false;
+            var name=node.Name.ToString();
+            if(name.Contains("PlantedFoliage",StringComparison.Ordinal)||name.Contains("Foliage",StringComparison.Ordinal)
+                ||name.Contains("Thicket",StringComparison.Ordinal)||name.Contains("Undergrowth",StringComparison.Ordinal))return true;
+        }
+        return false;
+    }
+    // Interior dressing (ceilings, room volumes, furniture shells) is never a
+    // legitimate street occluder: the sight prism starts outside the house and
+    // only the exterior envelope may block it. A ceiling slab above the plate
+    // height band is already skipped by the Y check; anything flagged here is
+    // a room volume the prism should not see at all.
+    private static bool IsInteriorDressing(MeshInstance3D mesh)
+    {
+        for(var node=(Node?)mesh;node is not null;node=node.GetParent())
+        {
+            if(node.HasMeta("interiorZone")||node.HasMeta("interiorRoom")||node.HasMeta("roomVolume"))return true;
+            var name=node.Name.ToString();
+            if(name is "Ceiling" or "Visible"||name.Contains("Interior",StringComparison.Ordinal)
+                ||name.Contains("RoomVolume",StringComparison.Ordinal)||name.Contains("house_old_pc",StringComparison.Ordinal)
+                ||name.Contains("babay-abi-house",StringComparison.Ordinal))return true;
+        }
+        return mesh.Name.ToString() is "Ceiling" or "Visible";
+    }
+    private static string? Occluder(IEnumerable<Face> faces,Vector3 point,Vector3 outward,Vector3 right)
+    {
+        var depth=point.Dot(outward);var cx=point.Dot(right);
+        foreach(var face in faces)
+        {
+            if(Math.Max(face.A.Y,Math.Max(face.B.Y,face.C.Y))<point.Y-HalfHeight || Math.Min(face.A.Y,Math.Min(face.B.Y,face.C.Y))>point.Y+HalfHeight)continue;
+            var ar=face.A.Dot(right);var br=face.B.Dot(right);var cr=face.C.Dot(right);
+            if(Math.Max(ar,Math.Max(br,cr))<cx-HalfWidth||Math.Min(ar,Math.Min(br,cr))>cx+HalfWidth)continue;
+            var ad=face.A.Dot(outward);var bd=face.B.Dot(outward);var cd=face.C.Dot(outward);
+            if(Math.Max(ad,Math.Max(bd,cd))<depth+.035f||Math.Min(ad,Math.Min(bd,cd))>depth+4)continue;
+            // Clip in depth before projection: a sloped canopy or a post can
+            // cross the sight prism even when none of its vertices is inside.
+            var polygon=new List<Vector3>{face.A,face.B,face.C};
+            polygon=ClipDepth(polygon,outward,depth+.035f,true);
+            polygon=ClipDepth(polygon,outward,depth+4.0f,false);
+            if(polygon.Count<3)continue;
+            var projected=polygon.Select(p=>new Vector2(p.Dot(right)-cx,p.Y-point.Y)).ToList();
+            var rect=Rectangle(Vector2.Zero,HalfWidth,HalfHeight);
+            for(var i=0;i<4&&projected.Count>0;i++)projected=Clip(projected,rect[i],rect[(i+1)%4],true);
+            if(Area(projected)>.00001)return face.Owner;
+        }
+        return null;
+    }
+    internal static bool TriangleObstructs(Vector3 a,Vector3 b,Vector3 c,Vector3 point,Vector3 outward)
+        =>Occluder([new(a,b,c,"regression surface")],point,outward,new(outward.Z,0,-outward.X)) is not null;
+    private static List<Vector3> ClipDepth(List<Vector3> p,Vector3 axis,float depth,bool above)
+    {
+        var result=new List<Vector3>();if(p.Count==0)return result;
+        var previous=p[^1];var pv=(previous.Dot(axis)-depth)*(above?1:-1);
+        foreach(var current in p)
+        {
+            var cv=(current.Dot(axis)-depth)*(above?1:-1);
+            if((cv>=0)!=(pv>=0))result.Add(previous.Lerp(current,pv/(pv-cv)));
+            if(cv>=0)result.Add(current);previous=current;pv=cv;
+        }
+        return result;
+    }
+    private static void Subtract(List<Vector2> polygon,Vector2[] triangle,List<List<Vector2>> result)
+    {
+        var inside=polygon;
+        for(var i=0;i<3&&inside.Count>0;i++)
+        {
+            var outside=Clip(inside,triangle[i],triangle[(i+1)%3],false);
+            if(Area(outside)>.0000001)result.Add(outside);
+            inside=Clip(inside,triangle[i],triangle[(i+1)%3],true);
+        }
+    }
+    private static List<Vector2> Clip(List<Vector2> polygon,Vector2 a,Vector2 b,bool inside)
+    {
+        var result=new List<Vector2>();if(polygon.Count==0)return result;
+        var previous=polygon[^1];var pv=Cross(b-a,previous-a)*(inside?1:-1);
+        foreach(var current in polygon)
+        {
+            var cv=Cross(b-a,current-a)*(inside?1:-1);
+            if((cv>=0)!=(pv>=0))result.Add(previous.Lerp(current,pv/(pv-cv)));
+            if(cv>=0)result.Add(current);previous=current;pv=cv;
+        }
+        return result;
+    }
+    private static List<Vector2> Rectangle(Vector2 c,float x,float y)=>[c+new Vector2(-x,-y),c+new Vector2(x,-y),c+new Vector2(x,y),c+new Vector2(-x,y)];
+    private static double Area(List<Vector2> p){double a=0;for(var i=0;i<p.Count;i++)a+=(double)p[i].X*p[(i+1)%p.Count].Y-(double)p[(i+1)%p.Count].X*p[i].Y;return Math.Abs(a)*.5;}
+    private static Aabb Bounds(IEnumerable<Vector3> points){var a=points.ToArray();var min=a[0];var max=a[0];foreach(var p in a){min=min.Min(p);max=max.Max(p);}return new(min,max-min);}
+    private static float[] Samples(float min,float max,float desired,float step){var points=new List<float>{min,max,Math.Clamp(desired,min,max),(min+max)*.5f};for(var x=min+step;x<max;x+=step)points.Add(x);return points.Distinct().ToArray();}
+    private static float Cross(Vector2 a,Vector2 b)=>a.X*b.Y-a.Y*b.X;
+    private static bool Contains(Triangle t,Vector2 p){var a=Cross(t.B-t.A,p-t.A);var b=Cross(t.C-t.B,p-t.B);var c=Cross(t.A-t.C,p-t.C);return a>=-.00001f&&b>=-.00001f&&c>=-.00001f||a<=.00001f&&b<=.00001f&&c<=.00001f;}
+    private static IEnumerable<Node> Descendants(Node node){foreach(var child in node.GetChildren()){yield return child;foreach(var nested in Descendants(child))yield return nested;}}
+}

@@ -9,6 +9,18 @@ public partial class JournalFlowSmokeTest : Node
 
     public override async void _Ready()
     {
+        try
+        {
+            await RunAsync();
+        }
+        catch (Exception exception)
+        {
+            Fail("journal-flow-smoke: " + exception);
+        }
+    }
+
+    private async Task RunAsync()
+    {
         var main = ResourceLoader.Load<PackedScene>("res://scenes/main.tscn")?.Instantiate<Main>();
         if (main is null)
         {
@@ -29,8 +41,9 @@ public partial class JournalFlowSmokeTest : Node
         if (!await bridge.StartNewGameAsync())
         { Fail("Journal flow could not finish the fresh campaign entrypoint."); return; }
         journal.Open(bridge);
-        if (!journal.CurrentObjectiveText.Contains("Выяснить, что случилось с Маратом.", StringComparison.Ordinal))
-        { Fail("A fresh journal revealed the later source-comparison objective."); return; }
+        if (!journal.CurrentObjectiveText.Contains("прочитать сообщение мамы", StringComparison.Ordinal)
+            || journal.CurrentObjectiveText.Contains("Выяснить, что случилось с Маратом.", StringComparison.Ordinal))
+        { Fail("A fresh journal did not present the current personal arrival action."); return; }
         journal.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(BaseButton.SignalName.Pressed);
 
         await bridge.HandleOldPcInputAsync(Input("open"));
@@ -54,7 +67,7 @@ public partial class JournalFlowSmokeTest : Node
         journal.Open(bridge);
         if (journal.RenderedEntryCount != 1
             || journal.ActiveEntryId != OfficialNotice
-            || !journal.CurrentObjectiveText.Contains("Выяснить, что случилось с Маратом.", StringComparison.Ordinal)
+            || !journal.CurrentObjectiveText.Contains("прочитать сообщение мамы", StringComparison.Ordinal)
             || !journal.LearnedVocabularyText.Contains("урман", StringComparison.Ordinal)
             || !journal.LearnedVocabularyText.Contains("лес", StringComparison.Ordinal))
         {
@@ -70,6 +83,8 @@ public partial class JournalFlowSmokeTest : Node
             return;
         }
 
+        journal.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
         oldPc.Open(bridge);
         var officialIndex = Enumerable.Range(0, results.ItemCount)
             .FirstOrDefault(index => results.GetItemMetadata(index).AsString() == OfficialNotice, -1);
@@ -97,12 +112,47 @@ public partial class JournalFlowSmokeTest : Node
         var compare = "urman.chapter1:interaction/compare-records-contradiction";
         if (await bridge.CompareJournalSourcesAsync(compare, pair))
         { Fail("Comparison accepted a source that was not found."); return; }
-        if (!await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "official-wording", "ask-wording"))
-        { Fail("Journal flow could not obtain Naila's authored record permission."); return; }
+        const string memoryKey = "urman.chapter1:knowledge/memory_marat_childhood_photo";
+        if (bridge.JournalEntries().Any(entry => entry.SourceId == memoryKey))
+        { Fail("The arrival memory was supplied before its personal source action."); return; }
+        // The first block isolated the empty journal and old-PC save projection.
+        // Re-enter a normal fresh campaign before the arrival proof, whose
+        // source-order assertions correctly forbid already knowing the notice.
+        if (!await bridge.StartNewGameAsync())
+        { Fail("Journal flow could not start the authored source-access route."); return; }
+        await Frames(6);
+        await Act1ArrivalFlowProof.CompleteAsync(this, bridge);
+        if (!await Move(bridge, main, "arrival-enter-house", "house", "house_old_pc", "entry")) return;
+        await bridge.HandleOldPcInputAsync(Input("open"));
+        if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-gulsina")
+            || !await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning")
+            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning", "ask-marat")
+            || !await Act1FamilyMealProof.CompleteAsync(this, bridge)
+            || !await Move(bridge, main, "house-to-route", "crossroad_signs_inspect", "village_day", "from_house")
+            || !await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-alsu")
+            || !await Act1AlsuWalkProof.CompleteAsync(this, bridge)
+            || !await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/alsu_route_context", "name-road")
+            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/alsu_route_context", "name-road", "ask-versions")
+            || !await bridge.CompareJournalSourcesAsync("urman.chapter1:interaction/compare-versions-scope",
+                new[] { OfficialNotice, "urman.chapter1:knowledge/clue_alsu_heard_versions" })
+            || !await Move(bridge, main, "route-to-fap", "fap_waiting_room_day", "fap_clinic", "waiting_room")
+            || !await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-naila")
+            || !await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/naila_medical_record", "official-wording")
+            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "official-wording", "ask-wording")
+            || !bridge.IsOldPcDocumentAccessible(register)
+            || !await Move(bridge, main, "fap-to-document-desk", "fap_pressure_document_desk")
+            || !await Move(bridge, main, "fap-document-desk-to-official-record", "evidence-official-death")
+            || !await Move(bridge, main, "official-to-internal-register", "evidence-internal-register", "house_old_pc", "entry"))
+        { Fail("Journal flow did not reach the register through the authored family, account check and Naila permission."); return; }
         await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "open", documentId = register }));
         var before = bridge.ActiveSceneId;
         if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() == "confirmed")
         { Fail("Reading the register still completed the comparison automatically."); return; }
+        if (await bridge.CompareJournalSourcesAsync(compare, pair))
+        { Fail("Two readable documents bypassed selecting their actual source fields."); return; }
+        await Act1SourceExcerptProof.RecordNoticeCauseAsync(this, bridge);
+        await Act1SourceExcerptProof.RecordRegisterFieldsAsync(this, bridge);
+        var countBeforeRecordComparison = bridge.JournalEntries().Count;
         journal.Open(bridge);
         if (!journal.CurrentObjectiveText.Contains("Показать Наиле", StringComparison.Ordinal))
         { Fail("The journal did not offer comparison after both required sources were found."); return; }
@@ -137,13 +187,22 @@ public partial class JournalFlowSmokeTest : Node
         await Frames(8);
         if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/clue_record_wording_mismatch").GetProperty("status").GetString() != "confirmed"
             || bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() != "hidden"
-            || bridge.ActiveSceneId != before || bridge.JournalEntries().Count != 3)
+            || bridge.ActiveSceneId != before || bridge.JournalEntries().Count != countBeforeRecordComparison + 1
+            || bridge.JournalEntries().Count(entry => entry.EntryId == "urman.chapter1:knowledge/clue_record_wording_mismatch") != 1)
         { Fail("Journal choice did not retain the literal mismatch separately from the unverified interpretation."); return; }
         journal._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
 
         const string response = "urman.chapter1:knowledge/clue_naila_record_scope";
-        if (!await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "follow-up", "press-contradiction"))
-        { Fail("The raw category could not be shown to Naila."); return; }
+        main.SwitchZone("fap_clinic", "waiting_room");
+        await Frames(3);
+        if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-naila")
+            || !await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/naila_medical_record", "follow-up")
+            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "follow-up", "press-contradiction")
+            || bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty(response).GetProperty("status").GetString() != "hidden"
+            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "record-question", "show-external-wording")
+            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "matching-formulation", "ask-category-scope"))
+        { Fail("Naila's field question did not distinguish the shared wording from the separate category before answering."); return; }
+        var countBeforeScopeComparison = bridge.JournalEntries().Count;
         journal.Open(bridge);
         // Both raw documents remain readable when a spoken source is added.
         if (!bridge.JournalEntries().Any(entry => entry.EntryId == OfficialNotice && entry.Body.Contains("несчастного случая"))
@@ -182,7 +241,10 @@ public partial class JournalFlowSmokeTest : Node
             .EmitSignal(Button.SignalName.Pressed);
         await Frames(8);
         if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() != "confirmed"
-            || bridge.ActiveSceneId != before || bridge.JournalEntries().Count != 5)
+            || bridge.ActiveSceneId != before || bridge.JournalEntries().Count != countBeforeScopeComparison + 1
+            || bridge.JournalEntries().Count(entry => entry.EntryId == OfficialNotice) != 1
+            || bridge.JournalEntries().Count(entry => entry.EntryId == register) != 1
+            || bridge.JournalEntries().Count(entry => entry.EntryId == response) != 1)
         { Fail("The journal did not retain documents, spoken evidence and the separately checked conclusion."); return; }
         journal._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
         journal.Open(bridge);
@@ -196,21 +258,34 @@ public partial class JournalFlowSmokeTest : Node
         { Fail("Journal refresh discarded the source being reread."); return; }
         journal._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
 
-        // M1: the personal Marat memory is the player's own action at the arrival
-        // bench, so its journal card must appear only after that action and must
-        // be re-readable from the journal.
-        const string memoryKey = "urman.chapter1:knowledge/memory_marat_childhood_photo";
-        if (bridge.JournalEntries().Any(entry => entry.SourceId == memoryKey))
-        { Fail("The arrival memory was already in the journal before the player found it."); return; }
-        if (!await bridge.OpenDocumentAsync("urman.chapter1:document/arrival-photo-evidence"))
-        { Fail("The arrival photo source could not be opened."); return; }
+        // The actual arrival helper opened the photograph through its physical
+        // target. Its personal source must remain readable after the investigation.
+        journal.Open(bridge, memoryKey);
         if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty(memoryKey).GetProperty("status").GetString() != "confirmed"
-            || !bridge.JournalEntries().Any(entry => entry.SourceId == memoryKey))
-        { Fail("Opening the arrival photo did not record the personal memory in the journal."); return; }
+            || bridge.JournalEntries().Count(entry => entry.SourceId == memoryKey) != 1
+            || journal.ActiveEntryId != memoryKey)
+        { Fail("The earlier personal memory was lost, duplicated, or unavailable for rereading."); return; }
+        journal._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
 
-        GD.Print("journal-flow-smoke: key sources -> manual pair + wrong/retry/right -> shared conclusion without scene transition; arrival memory recorded on the player's own action");
+        GD.Print("journal-flow-smoke: personal arrival and authored source access -> actual selected field excerpts -> manual pair + wrong/retry/right -> field-specific spoken answer -> separate checked conclusion without scene transition; original sources and personal memory retained once");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
+    }
+
+    private async Task<bool> Move(RuntimeBridge bridge, Main main, string action, string scene,
+        string? zone = null, string spawn = "entry")
+    {
+        if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/" + action)
+            || bridge.ActiveSceneId != "urman.chapter1:scene/" + scene)
+        { Fail("Journal setup could not follow the authored transition: " + action); return false; }
+        if (zone is not null)
+        {
+            main.SwitchZone(zone, spawn);
+            await Frames(3);
+            if (bridge.CurrentZoneId != zone || bridge.CurrentSpawnPointId != spawn)
+            { Fail("Journal setup did not switch to the authored physical zone: " + zone); return false; }
+        }
+        return true;
     }
 
     private async Task Frames(int count)

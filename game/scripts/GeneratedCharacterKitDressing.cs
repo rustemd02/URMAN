@@ -259,6 +259,10 @@ public static class GeneratedCharacterKitDressing
                       || name.Contains("CoatFrontPlacket", StringComparison.Ordinal)
                     ? accent
                     : coat;
+        // Rinat's folded winter scarf must read as cloth beside his skin.
+        // His existing cuffs/placket and the other eight palettes stay authored.
+        if (prefix == "CouncilWitness" && name.StartsWith("CouncilWitness_ScarfBand_", StringComparison.Ordinal))
+            color = "667874";
         var surface = isHand || name.Contains("Head", StringComparison.Ordinal)
             || name.Contains("Hair", StringComparison.Ordinal)
             || name.Contains("Face", StringComparison.Ordinal)
@@ -280,6 +284,21 @@ public static class GeneratedCharacterKitDressing
             .FindChildren("*", nameof(AnimationPlayer), recursive: true, owned: false)
             .OfType<AnimationPlayer>()
             .FirstOrDefault(player => player.HasAnimation(idle) && player.HasAnimation(tension));
+    }
+
+    internal static void GroundSolesOnAnchor(Node3D instance)
+    {
+        if (instance.HasMeta("solesGroundedOnAnchor")) return;
+        // The source foot_shape starts at z=0.010 above its ground Anchor.
+        // On Alsu's sloping snow this display-board clearance adds to the
+        // terrain difference as she turns. Move the whole visual rig together
+        // onto its existing anchor, preserving bone/mesh frames and the actor's
+        // world origin, scale, interaction targets and collision ownership.
+        const float exportedSoleClearance = .010f;
+        foreach (var child in instance.GetChildren().OfType<Node3D>())
+            child.Position -= Vector3.Up * exportedSoleClearance;
+        instance.SetMeta("solesGroundedOnAnchor", true);
+        instance.SetMeta("removedSoleClearance", exportedSoleClearance);
     }
 
     private static void AlignAnchor(Node3D instance, Node3D reference, Vector3 anchor)

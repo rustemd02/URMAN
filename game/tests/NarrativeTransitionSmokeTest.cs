@@ -28,6 +28,7 @@ public partial class NarrativeTransitionSmokeTest : Node
             return;
         }
 
+        await Act1ArrivalFlowProof.CompleteAsync(this, bridge);
         if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/arrival-enter-house") || ActiveScene(bridge) != House)
         {
             Fail("Arrival interaction did not enter the authored house scene.");
@@ -49,11 +50,18 @@ public partial class NarrativeTransitionSmokeTest : Node
         if (!bridge.IsInteractionAvailable("urman.chapter1:interaction/talk-gulsina")
             || !await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-gulsina")
             || !await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning")
-            || !bridge.IsInteractionAvailable("urman.chapter1:interaction/house-to-route"))
+            || bridge.IsInteractionAvailable("urman.chapter1:interaction/house-to-route")
+            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning", "ask-marat"))
         {
-            Fail("Gulsina warning dialogue did not unlock the authored house exit through the shared runtime path.");
+            Fail("Gulsina's greeting replaced her family answer or the actual question was rejected.");
             return;
         }
+
+        main.SwitchZone("house_old_pc", "entry");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!await Act1FamilyMealProof.CompleteAsync(this, bridge)
+            || !bridge.IsInteractionAvailable("urman.chapter1:interaction/house-to-route"))
+        { Fail("The actual home pause did not complete the authored house exit conditions."); return; }
 
         if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/house-to-route") || ActiveScene(bridge) != Crossroad)
         {

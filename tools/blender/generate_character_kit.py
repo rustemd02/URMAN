@@ -13,10 +13,11 @@ from __future__ import annotations
 
 import argparse
 import math
+import runpy
 from pathlib import Path
 
 import bpy
-from mathutils import Vector
+from mathutils import Matrix, Vector
 
 
 CHARACTERS = (
@@ -282,31 +283,39 @@ def foot_shape(
     surface: bpy.types.Material,
     asset_id: str,
     budget: int,
+    width_scale: float = 1.0,
+    ankle_shift: float = 0.0,
 ) -> bpy.types.Object:
-    """Use a low-poly toe/heel wedge instead of a rectangular boot block."""
+    """A planted sole, rounded toe and sloping instep meet the trouser ankle."""
+    # The old two nearly equal rings made a 20.4 cm wide, 8.5 cm tall block.
+    # Keep the same sole plane/origin and named mesh, but shape a real upper.
+    # Z values around the vamp rise towards the heel; the final smaller ring
+    # follows the existing trouser endpoint rather than moving the foot anchor.
     rings = (
-        (0.00, 0.102, 0.082, -0.160, 0.105, 0.024),
-        (0.085, 0.096, 0.075, -0.140, 0.095, 0.020),
+        (0.076, 0.063, -0.170, 0.108, 0.024, 0.0, 0.0, (0.0,) * 8),
+        (0.077, 0.064, -0.170, 0.108, 0.025, 0.0, 0.0, (0.020,) * 8),
+        (0.071, 0.060, -0.158, 0.102, 0.026, 0.0, 0.0,
+         (0.052, 0.052, 0.065, 0.095, 0.100, 0.100, 0.095, 0.065)),
+        (0.067, 0.062, -0.070, 0.075, 0.021, ankle_shift, 0.025, (0.145,) * 8),
     )
     vertices: list[tuple[float, float, float]] = []
     sides = 8
-    for z_offset, toe_width, heel_width, toe_y, heel_y, corner in rings:
-        vertices.extend(
-            (
-                (-toe_width + corner, toe_y, z_offset),
-                (toe_width - corner, toe_y, z_offset),
-                (toe_width, toe_y + corner, z_offset),
-                (heel_width, heel_y - corner, z_offset),
-                (heel_width - corner, heel_y, z_offset),
-                (-heel_width + corner, heel_y, z_offset),
-                (-heel_width, heel_y - corner, z_offset),
-                (-toe_width, toe_y + corner, z_offset),
-            )
+    for toe_width, heel_width, toe_y, heel_y, corner, center_x, center_y, heights in rings:
+        outline = (
+            (-toe_width + corner, toe_y), (toe_width - corner, toe_y),
+            (toe_width, toe_y + corner), (heel_width, heel_y - corner),
+            (heel_width - corner, heel_y), (-heel_width + corner, heel_y),
+            (-heel_width, heel_y - corner), (-toe_width, toe_y + corner),
         )
-    faces: list[tuple[int, ...]] = [tuple(reversed(range(sides))), tuple(range(sides, sides * 2))]
-    for side in range(sides):
-        next_side = (side + 1) % sides
-        faces.append((side, next_side, sides + next_side, sides + side))
+        vertices.extend((px * width_scale + center_x, py + center_y, heights[i])
+                        for i, (px, py) in enumerate(outline))
+    faces: list[tuple[int, ...]] = [tuple(reversed(range(sides)))]
+    for ring in range(len(rings) - 1):
+        lower, upper = ring * sides, (ring + 1) * sides
+        for side in range(sides):
+            next_side = (side + 1) % sides
+            faces.append((lower + side, lower + next_side, upper + next_side, upper + side))
+    faces.append(tuple(range((len(rings) - 1) * sides, len(rings) * sides)))
     mesh = bpy.data.meshes.new(f"{name}Mesh")
     mesh.from_pydata(vertices, [], faces)
     mesh.update()
@@ -316,6 +325,99 @@ def foot_shape(
     obj.data.materials.append(surface)
     tag(obj, asset_id, budget)
     return obj
+
+
+def fit_neck_and_collar(
+    prefix: str,
+    head: bpy.types.Object,
+    head_scale: float,
+    body_top: float,
+    surface: bpy.types.Material,
+    asset_id: str,
+) -> bpy.types.Object:
+    """Fit clothing to the imported neck while protecting the existing face."""
+    # The CC0 derivative includes a long, flared lower neck. The old scarf was
+    # only 9-11 cm wide and sat inside that 17-20 cm neck. Reshape just below
+    # the preparation script's -0.105 face boundary; keep every Z coordinate,
+    # face vertex, head origin, hair and rig anchor unchanged.
+    face_boundary = -0.105 * head_scale
+    lower_neck = min(vertex.co.z for vertex in head.data.vertices)
+    for vertex in head.data.vertices:
+        if vertex.co.z >= face_boundary:
+            continue
+        t = min(1.0, (face_boundary - vertex.co.z) / (0.065 * head_scale))
+        t = t * t * (3.0 - 2.0 * t)
+        vertex.co.x *= 1.0 - 0.24 * t
+        vertex.co.y *= 1.0 - 0.30 * t
+    head.data.update()
+
+    bottom = body_top - 0.020
+    top = head.location.z - 0.135 * head_scale
+    middle = (bottom + top) * 0.5
+    sides = 10
+
+    def section(world_z: float) -> list[Vector]:
+        plane = max(lower_neck + 0.00001, world_z - head.location.z)
+        points = []
+        for edge in head.data.edges:
+            a, b = (head.data.vertices[index].co for index in edge.vertices)
+            if (a.z - plane) * (b.z - plane) > 0 or abs(a.z - b.z) < 1.0e-8:
+                continue
+            points.append(a.lerp(b, (plane - a.z) / (b.z - a.z)))
+        if len(points) < 3:
+            raise RuntimeError(f"{prefix}: cannot fit the collar to its actual neck at {world_z:.4f}")
+        return points
+
+    # Enclose the entire covered strip, including bends between ring planes.
+    # Fitting only three cross-sections let the intermediate neck flare pass
+    # through the collar even though each sampled plane had positive clearance.
+    covered_points = section(bottom) + section(top)
+    covered_points.extend(vertex.co for vertex in head.data.vertices
+                          if bottom <= vertex.co.z + head.location.z <= top)
+
+    def ring(world_z: float, clearance: float) -> list[tuple[float, float, float]]:
+        points = covered_points
+        normals = [Vector((math.cos(i * math.tau / sides), math.sin(i * math.tau / sides)))
+                   for i in range(sides)]
+        offsets = [max(normal.x * p.x + normal.y * p.y for p in points) + clearance
+                   for normal in normals]
+        result = []
+        # Intersect consecutive supporting lines. Unlike an ellipse fitted to
+        # a bounding box, this low-poly contour encloses every sampled point.
+        for i, normal in enumerate(normals):
+            j = (i + 1) % sides
+            other = normals[j]
+            determinant = normal.x * other.y - normal.y * other.x
+            result.append(((offsets[i] * other.y - normal.y * offsets[j]) / determinant,
+                           (normal.x * offsets[j] - offsets[i] * other.x) / determinant, world_z))
+        return result
+
+    # Keep the proven inner envelope and top plane. Rinat's wrap needs a
+    # turned cloth edge and a lower flare over the shoulders: the old straight
+    # band read as an extension of his neck in the actual forest encounter.
+    # This only changes his outer cloth; the other eight profiles are identical.
+    if prefix == "CouncilWitness":
+        outer = (ring(bottom, 0.042) + ring(middle, 0.017)
+                 + ring(top - 0.018, 0.027) + ring(top, 0.016))
+    else:
+        outer = ring(bottom, 0.018) + ring(middle, 0.017) + ring(top, 0.016)
+    vertices = outer + ring(top, 0.006) + ring(bottom, 0.006)
+    ring_count = len(vertices) // sides
+    faces = []
+    for row in range(ring_count):
+        lower, upper = row * sides, ((row + 1) % ring_count) * sides
+        for i in range(sides):
+            j = (i + 1) % sides
+            faces.append((lower + i, lower + j, upper + j, upper + i))
+    mesh = bpy.data.meshes.new(f"{prefix}_ScarfBand_LOD0Mesh")
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    collar = bpy.data.objects.new(f"{prefix}_ScarfBand_LOD0", mesh)
+    bpy.context.collection.objects.link(collar)
+    collar.location = (head.location.x, head.location.y, 0.0)
+    collar.data.materials.append(surface)
+    tag(collar, asset_id, 128)
+    return collar
 
 
 def sphere(
@@ -332,6 +434,40 @@ def sphere(
     obj.data.materials.append(surface)
     tag(obj, asset_id, budget)
     return obj
+
+
+def fit_prayer_cap_to_head(cap, head, hair):
+    """Seat the existing cap rim around the actual crown cross-section."""
+    cap_bottom = min(vertex.co.z for vertex in cap.data.vertices)
+    cap_height = max(vertex.co.z for vertex in cap.data.vertices) - cap_bottom
+    crown = max(head.location.z + vertex.co.z for vertex in head.data.vertices)
+    rim_z = crown - cap_height * 0.42
+    section = []
+    for obj in (head, hair):
+        points = [obj.location + vertex.co for vertex in obj.data.vertices]
+        for edge in obj.data.edges:
+            a, b = (points[index] for index in edge.vertices)
+            if abs(b.z - a.z) < 1.0e-8 or (a.z - rim_z) * (b.z - rim_z) > 0.0:
+                continue
+            section.append(a.lerp(b, (rim_z - a.z) / (b.z - a.z)))
+    if len(section) < 8:
+        raise RuntimeError("TimurHazrat: actual crown has no supported cap section")
+    rim = [vertex.co for vertex in cap.data.vertices if abs(vertex.co.z - cap_bottom) < 1.0e-6]
+    clearance = 0.006
+    limits = [(min(point[axis] for point in section), max(point[axis] for point in section))
+              for axis in (0, 1)]
+    rim_limits = [(min(point[axis] for point in rim), max(point[axis] for point in rim))
+                  for axis in (0, 1)]
+    for axis in (0, 1):
+        low, high = limits[axis]
+        rim_low, rim_high = rim_limits[axis]
+        factor = (high - low + clearance * 2.0) / (rim_high - rim_low)
+        centre = (rim_low + rim_high) * 0.5
+        for vertex in cap.data.vertices:
+            vertex.co[axis] = (vertex.co[axis] - centre) * factor
+        cap.location[axis] = (low + high) * 0.5
+    cap.location.z = rim_z - cap_bottom
+    cap["placement_policy"] = "actual head/hair crown section; 6mm cloth clearance"
 
 
 def hat(
@@ -501,7 +637,10 @@ def face_features(
             budget,
         )
         obj.parent = head_obj
-        obj.matrix_parent_inverse = head_obj.matrix_world.inverted()
+        # These anchors are head-local. Cancelling the parent's world matrix
+        # left the features at the display board's origin; rigid skinning then
+        # faithfully preserved that wrong position beside the character's feet.
+        obj.matrix_parent_inverse = Matrix.Identity(4)
         obj.location = tuple(value * head_scale for value in local)
 
     # Head-local anchors measured from the CC0 templates: face plane y=-0.161,
@@ -642,12 +781,6 @@ def create_character(
             (x + arm_x * 1.00, -0.002, 1.04 * height_scale),
             (x + arm_x * 0.92, -0.012, 0.77 * height_scale),
         )
-    # The imported head includes the existing neck down to about -0.21;
-    # use that boundary when fitting the smaller winter collar.
-    head_bottom = head_z - 0.21
-    scarf_bottom = body_top - 0.010
-    scarf_height = max(0.065, head_bottom - 0.020 - scarf_bottom)
-    scarf_z = scarf_bottom + scarf_height * 0.5
     coat_surface = material(f"{prefix}Coat", coat_color)
     accent_surface = material(f"{prefix}Accent", accent_color)
     empty_anchor(f"{prefix}_Anchor", (x, 0.0, z))
@@ -727,12 +860,12 @@ def create_character(
         top_ratio=1.0,
         vertices=8,
     )
-    if prefix not in {"Gulsina", "Naila"}:
+    if prefix != "Gulsina":
         # Intersect each real front edge (sides 9 -> 0) with x=0. This keeps
         # the seam on the generated polygon after irregularity and scaling,
         # including the torso's actual z scale and object location.
         front_points = []
-        for ring_index in (1, 2, 4):
+        for ring_index in ((0, 1, 2, 3, 4, 5) if prefix == "Naila" else (1, 2, 4)):
             edge_left = torso.data.vertices[ring_index * 10 + 9].co
             edge_right = torso.data.vertices[ring_index * 10 + 0].co
             edge_t = -edge_left.x / (edge_right.x - edge_left.x)
@@ -743,16 +876,16 @@ def create_character(
                     torso.location.z + edge_left.z + (edge_right.z - edge_left.z) * edge_t,
                 )
             )
-        placket_radius = 0.018 * shoulder_scale
-        placket_depth_scale = 0.92
+        placket_radius = 0.0325 if prefix == "Naila" else 0.018 * shoulder_scale
+        placket_depth_scale = 0.22 if prefix == "Naila" else 0.92
         placket_offset = placket_radius * placket_depth_scale - 0.003
         tapered_segment(
-            f"{prefix}_CoatFrontPlacket_LOD0",
+            f"{prefix}_{'CardiganPlacket' if prefix == 'Naila' else 'CoatFrontPlacket'}_LOD0",
             tuple(
                 (point[0], point[1] + placket_offset, point[2])
                 for point in front_points
             ),
-            (placket_radius, placket_radius, placket_radius),
+            tuple(placket_radius for _ in front_points),
             accent_surface,
             asset_id,
             96,
@@ -784,18 +917,6 @@ def create_character(
             bottom_ratio=1.02,
             top_ratio=0.96,
             vertices=8,
-        )
-    elif prefix == "Naila":
-        faceted_prism(
-            f"{prefix}_CardiganPlacket_LOD0",
-            (0.065, 0.034, 0.68),
-            (x, -0.174, body_top - 0.28),
-            accent_surface,
-            asset_id,
-            96,
-            bottom_ratio=0.90,
-            top_ratio=1.0,
-            vertices=6,
         )
     trouser_surface = material(
         f"{prefix}Trousers",
@@ -837,6 +958,8 @@ def create_character(
             materials["boot"],
             asset_id,
             128,
+            width_scale=leg_scale,
+            ankle_shift=(x - side_x) * 0.06,
         )
     gender = "Female" if prefix in {"Gulsina", "Alsu", "Naila"} else "Male"
     hair_style, hair_budget = ("Long", 600) if prefix == "Alsu" else ("Buns", 500) if prefix in {"Gulsina", "Naila"} else ("Buzzed", 250) if has_hat else ("SimpleParted", 400)
@@ -859,18 +982,16 @@ def create_character(
         if part == "Head":
             head_object = obj
     face_features(prefix, head_object, head_scale, materials, asset_id)
-    faceted_prism(
-        f"{prefix}_ScarfBand_LOD0",
-        # A scarf collar wraps the neck, so it takes the neck's width, not the
-        # old 0.48 m shoulder-wide block that hid the neck completely.
-        (0.105 * shoulder_scale, 0.082, scarf_height),
-        (x, -0.010, scarf_z),
-        material(f"{prefix}Scarf", accent_color),
+    # Match the scarf-only runtime palette; keep the cuffs and coat placket's
+    # established accent, and keep every other character's clothing unchanged.
+    scarf_color = (102 / 255, 120 / 255, 116 / 255, 1.0) if prefix == "CouncilWitness" else accent_color
+    fit_neck_and_collar(
+        prefix,
+        head_object,
+        head_scale,
+        body_top,
+        material(f"{prefix}Scarf", scarf_color),
         asset_id,
-        128,
-        bottom_ratio=0.88,
-        top_ratio=0.98,
-        vertices=8,
     )
     # Keep the established HeadHand names so the Godot adapter can route hands
     # to skin before the generic head mapping and the rig can bind them to arms.
@@ -974,6 +1095,8 @@ def create_character(
         if obj.name == f"{prefix}_Hat_LOD0":
             for vertex in obj.data.vertices:
                 vertex.co.x *= .85
+            if prefix == "TimurHazrat":
+                fit_prayer_cap_to_head(obj, head_object, bpy.data.objects[f"{prefix}_Hair_LOD0"])
 
 
 def _bone_for_mesh(name: str) -> str:
@@ -1249,6 +1372,11 @@ def main() -> None:
     bpy.context.scene.unit_settings.system = "METRIC"
     bpy.context.scene.unit_settings.scale_length = 1.0
 
+    # Validate the completed hierarchy in memory before replacing either asset.
+    # The separate verifier also checks a saved .blend when run on its own.
+    bpy.context.view_layer.update()
+    runpy.run_path(str(root / "tools/blender/verify_character_kit.py"),
+                   run_name="__urman_character_validation__")
     bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
     bpy.ops.export_scene.gltf(
         filepath=str(glb_path),
