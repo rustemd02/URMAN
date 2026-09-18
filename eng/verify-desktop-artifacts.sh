@@ -509,10 +509,9 @@ verify_audio_markers "$windows_archive_exe" "Windows embedded PCK" "$extract_roo
 
 mkdir -p "$(dirname -- "$RECEIPT")"
 receipt_tmp=$(mktemp "$(dirname -- "$RECEIPT")/.desktop-artifact-receipt.XXXXXX")
-# The shipped assembly contains every compiled C# class, including the test
-# harnesses, so a test-only edit still changes the bytes of a package. Record
-# which commit a package was built from, and whether the tree was clean, so the
-# candidate can be tied back to source instead of being assumed current.
+# Record the checkout inspected by this verifier separately from build inputs.
+# Only a completed exporter run binds its before/after source snapshots to the
+# actual artifacts. A standalone structural check cannot establish freshness.
 source_commit=$(git -C "$URMAN_ROOT" rev-parse HEAD 2>/dev/null || echo unknown)
 # Record the exact modified paths, not just clean/dirty: a dirty tree means the
 # package cannot be reproduced from the commit alone, and whoever reads the
@@ -527,13 +526,16 @@ else
   echo "desktop-artifacts: WARNING dirty paths: $source_dirty_paths" >&2
 fi
 python3 - "$MAC_ZIP" "$WINDOWS_ZIP" "$WINDOWS_EXE" "$RECEIPT" "$windows_archive_root" \
-  "$source_commit" "$source_tree" "$source_dirty_paths" >"$receipt_tmp" <<'PY'
+  "$source_commit" "$source_tree" "$source_dirty_paths" "$URMAN_ROOT" "${URMAN_DESKTOP_BUILD_PROVENANCE:-}" >"$receipt_tmp" <<'PY'
 from datetime import datetime, timezone
 from pathlib import Path
 import hashlib
 import json
 import sys
 import zipfile
+
+sys.path.insert(0, str(Path(sys.argv[9]) / "eng"))
+from act1_candidate_identity import source_manifest, validate_build_provenance
 
 
 def artifact(path_string: str, platform: str, kind: str) -> dict:
@@ -586,7 +588,8 @@ receipt = {
         "commit": sys.argv[6],
         "workTree": sys.argv[7],
         "dirtyPaths": [path for path in sys.argv[8].split(",") if path],
-        "note": "source revision the package was built from; shipped bytes also move on test-only edits",
+        "verificationSnapshot": source_manifest(Path(sys.argv[9])),
+        "note": "checkout at structural verification; this snapshot is not evidence of the inputs used to build the package",
     },
     "windowsHostExecution": "OPEN",
     "artifacts": [
@@ -621,6 +624,13 @@ receipt = {
         "full playthrough acceptance",
     ],
 }
+if sys.argv[10]:
+    provenance = json.loads(Path(sys.argv[10]).read_text(encoding="utf-8"))
+    validate_build_provenance(provenance, receipt["artifacts"])
+    receipt["buildProvenance"] = provenance
+else:
+    receipt["buildProvenance"] = {"status": "unverified", "reason": "standalone structural verification has no completed exporter run"}
+    receipt["notProven"].append("source-to-build binding")
 json.dump(receipt, sys.stdout, ensure_ascii=False, indent=2)
 sys.stdout.write("\n")
 PY

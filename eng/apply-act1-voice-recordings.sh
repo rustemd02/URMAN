@@ -4,8 +4,9 @@ set -eu
 
 # M8 integration tool: validate the two recorded finale lines, place them where
 # the runtime resolves them, point the two content assets at the files and run
-# the audio checks. It never invents audio: every input is a real WAV supplied by
-# the recordist, and the script refuses anything outside the brief's spec.
+# the audio checks. It never generates audio. Supplied WAVs need a provenance
+# sidecar identifying recordings or licensed synthesis; validation is not an
+# artistic, listening, or legal acceptance of the supplied declaration.
 #
 # usage: apply-act1-voice-recordings.sh <input-dir> [--take N] [--dry-run]
 #   The folder may hold the final files (marat_call.wav, rinat_warning.wav) or the
@@ -13,6 +14,8 @@ set -eu
 #   rinat_warning_take01.wav .. take03.wav). Raw takes are never guessed at: the
 #   caller must say which take was chosen with --take N.
 #   room_tone.wav is accepted and reported, but it is not a game asset.
+#   provenance.json identifies both selected files, exact spoken text, credits,
+#   source, and a local copy/hash of the source permission or license evidence.
 #   --dry-run validates and prints the planned change without touching the repo
 
 URMAN_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
@@ -41,6 +44,7 @@ if [ ! -d "$INPUT_DIR" ]; then
   echo "input directory not found: $INPUT_DIR" >&2
   exit 1
 fi
+INPUT_DIR=$(CDPATH= cd -- "$INPUT_DIR" && pwd -P)
 case "$INPUT_DIR" in "$URMAN_ROOT"|"$URMAN_ROOT"/*) echo "input must live outside the repository" >&2; exit 1 ;; esac
 
 # Resolve one line: the final file wins; otherwise an explicitly chosen take.
@@ -80,31 +84,109 @@ fi
 
 DEST_DIR="$URMAN_ROOT/game/assets/audio/act1/voice"
 
-# This is the one integration step an outside person triggers, and it mutates
-# content, copies audio and recompiles two packs. If a compile or an audio check
-# fails half-way the repository would be left partially applied, so the originals
-# are kept and restored unless the whole run succeeds.
 CONTENT_FILE="$URMAN_ROOT/content/modules/urman-chapter1/definitions.json"
 PACK_FILES="$URMAN_ROOT/game/content/urman.chapter1.compiled.v1.json $URMAN_ROOT/game/content/urman.fullgame.compiled.v1.json"
-ROLLBACK_DIR=$(mktemp -d "${TMPDIR:-/tmp}/urman-voice-rollback.XXXXXX")
-cp "$CONTENT_FILE" "$ROLLBACK_DIR/definitions.json"
-for pack in $PACK_FILES; do cp "$pack" "$ROLLBACK_DIR/$(basename "$pack")"; done
-APPLIED=0
-rollback() {
-  [ "$APPLIED" -eq 1 ] && return 0
-  cp "$ROLLBACK_DIR/definitions.json" "$CONTENT_FILE"
-  for pack in $PACK_FILES; do cp "$ROLLBACK_DIR/$(basename "$pack")" "$pack"; done
-  rm -f "$DEST_DIR/marat_call.wav" "$DEST_DIR/rinat_warning.wav"
-  rmdir "$DEST_DIR" 2>/dev/null || true
-  echo "voice integration rolled back: content, both compiled packs and the audio directory are as they were" >&2
+
+# Validate before creating a rollback trap or changing any repository file.
+# In particular, an invalid dry run must never delete an existing recording.
+python3 - "$INPUT_DIR" "$MARAT_SRC" "$RINAT_SRC" <<'PY'
+import hashlib, json, pathlib, re, sys
+
+root = pathlib.Path(sys.argv[1]).resolve()
+manifest = root / 'provenance.json'
+if not manifest.is_file():
+    raise SystemExit('missing provenance.json: supply source, license evidence, exact texts, selected WAV hashes and credits')
+try:
+    data = json.loads(manifest.read_text())
+except (OSError, ValueError) as error:
+    raise SystemExit(f'cannot read provenance.json: {error}')
+
+def text(value, label):
+    if not isinstance(value, str) or not value.strip():
+        raise SystemExit(f'provenance: {label} must be nonempty text')
+    return value
+
+def sha(value, label):
+    if not isinstance(value, str) or re.fullmatch('[0-9a-f]{64}', value) is None:
+        raise SystemExit(f'provenance: {label} must be a lowercase SHA-256')
+    return value
+
+def local_file(value, label):
+    relative = pathlib.Path(text(value, label))
+    path = (root / relative).resolve()
+    if relative.is_absolute() or not path.is_relative_to(root) or not path.is_file():
+        raise SystemExit(f'provenance: {label} must name an existing file inside the input directory')
+    return path
+
+if not isinstance(data, dict) or data.get('schemaVersion') != 1:
+    raise SystemExit('provenance: expected schemaVersion 1')
+origin = data.get('origin')
+if origin not in ('human-recording', 'licensed-synthetic-speech'):
+    raise SystemExit('provenance: origin must distinguish human-recording from licensed-synthetic-speech')
+text(data.get('source'), 'source')
+license_info = data.get('license')
+if not isinstance(license_info, dict):
+    raise SystemExit('provenance: license must identify the retained evidence')
+license_id = text(license_info.get('id'), 'license.id')
+evidence = local_file(license_info.get('evidencePath'), 'license.evidencePath')
+if evidence.stat().st_size == 0 or hashlib.sha256(evidence.read_bytes()).hexdigest() != sha(license_info.get('sha256'), 'license.sha256'):
+    raise SystemExit('provenance: license evidence is empty or does not match its SHA-256')
+
+models = {}
+if origin == 'licensed-synthetic-speech':
+    entries = data.get('models')
+    if not isinstance(entries, list) or not entries:
+        raise SystemExit('provenance: synthetic speech requires models with source hashes')
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise SystemExit('provenance: each model must be an object')
+        model_id = text(entry.get('id'), 'model.id')
+        if model_id in models:
+            raise SystemExit('provenance: duplicate model id')
+        sha(entry.get('sha256'), 'model.sha256')
+        sha(entry.get('configSha256'), 'model.configSha256')
+        models[model_id] = entry
+    engine = data.get('engine')
+    if not isinstance(engine, dict):
+        raise SystemExit('provenance: synthetic speech requires engine name/version')
+    text(engine.get('name'), 'engine.name')
+    text(engine.get('version'), 'engine.version')
+    urls = data.get('sourceURLs')
+    if not isinstance(urls, list) or not urls or any(not isinstance(url, str) or not url.startswith('https://') for url in urls):
+        raise SystemExit('provenance: synthetic speech requires original HTTPS sourceURLs')
+    processing = data.get('processing')
+    if not isinstance(processing, list) or not processing:
+        raise SystemExit('provenance: record synthesis and resampling/cleanup in processing')
+    for step in processing:
+        text(step, 'processing step')
+
+expected = {
+    'urman.chapter1:asset/audio-marat-voice': (pathlib.Path(sys.argv[2]).resolve(), 'Казанский… не отставай'),
+    'urman.chapter1:asset/audio-rinat-interruption': (pathlib.Path(sys.argv[3]).resolve(), 'Не отвечай'),
 }
-finish() {
-  status=$?
-  if [ "$status" -ne 0 ] && [ "$APPLIED" -eq 0 ]; then rollback; fi
-  rm -rf "$ROLLBACK_DIR"
-  exit "$status"
-}
-trap finish EXIT HUP INT TERM
+recordings = data.get('recordings')
+if not isinstance(recordings, list) or len(recordings) != 2:
+    raise SystemExit('provenance: exactly two selected recordings are required')
+seen = set()
+for recording in recordings:
+    if not isinstance(recording, dict):
+        raise SystemExit('provenance: each recording must be an object')
+    asset_id = recording.get('assetId')
+    if asset_id not in expected or asset_id in seen:
+        raise SystemExit('provenance: unknown or duplicate finale assetId')
+    seen.add(asset_id)
+    selected, spoken = expected[asset_id]
+    path = local_file(recording.get('file'), 'recording.file')
+    if path != selected or recording.get('spokenText') != spoken:
+        raise SystemExit(f'provenance: selected file or exact authored spokenText does not match {asset_id}')
+    if hashlib.sha256(path.read_bytes()).hexdigest() != sha(recording.get('sha256'), 'recording.sha256'):
+        raise SystemExit(f'provenance: WAV SHA-256 mismatch for {asset_id}')
+    text(recording.get('credit'), 'recording.credit')
+    if origin == 'licensed-synthetic-speech' and recording.get('modelId') not in models:
+        raise SystemExit('provenance: each synthetic recording must reference a declared modelId')
+
+print(f'provenance file/hash checks passed: origin={origin}, license declaration={license_id}; source terms and listening require separate review')
+PY
 
 # Validate the spec from the recording brief: mono, 44.1/48 kHz, 16 or 24 bit,
 # peak at or below -3 dBFS, no long silent head or tail.
@@ -130,8 +212,8 @@ def read_wav(path):
     if fmt is None or samples is None:
         raise SystemExit(f"{path}: missing fmt or data chunk")
     audio_format, channels, rate, _bps, block_align, bits = fmt
-    if audio_format not in (1, 3):
-        raise SystemExit(f"{path}: unsupported WAV format tag {audio_format}")
+    if audio_format != 1:
+        raise SystemExit(f"{path}: expected integer PCM WAV, got format tag {audio_format}")
     if channels != 1:
         raise SystemExit(f"{path}: expected mono, got {channels} channel(s)")
     if rate not in (44100, 48000):
@@ -193,16 +275,88 @@ PY
 
 echo "recordings validated"
 
+# A successful installation must retain the evidence that was just checked.
+# The immutable delivery key also prevents a later take from overwriting an
+# earlier source, permission record or credit in the accepted audio structure.
+DELIVERY_HASH=$(python3 - "$INPUT_DIR/provenance.json" <<'PY'
+import hashlib, pathlib, sys
+print(hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest())
+PY
+)
+SOURCE_DELIVERY_DIR="$URMAN_ROOT/assets/source/audio/act1/voice/$DELIVERY_HASH"
+
 if [ "$DRY_RUN" -eq 1 ]; then
   echo "dry run: would copy into $DEST_DIR and point the two assets at"
   echo "  audio/act1/voice/marat_call.wav and audio/act1/voice/rinat_warning.wav"
+  echo "source recordings, provenance and license evidence: $SOURCE_DELIVERY_DIR"
   echo "then run eng/compile-game-content.sh and the audio smokes"
   exit 0
 fi
 
+# The mutation starts only after successful input checks. Preserve prior WAVs
+# as well as content, so a failed replacement restores the previous recording.
+ROLLBACK_DIR=$(mktemp -d "${TMPDIR:-/tmp}/urman-voice-rollback.XXXXXX")
+cp "$CONTENT_FILE" "$ROLLBACK_DIR/definitions.json"
+for pack in $PACK_FILES; do cp "$pack" "$ROLLBACK_DIR/$(basename "$pack")"; done
+for voice in marat_call.wav rinat_warning.wav; do
+  if [ -f "$DEST_DIR/$voice" ]; then cp "$DEST_DIR/$voice" "$ROLLBACK_DIR/$voice"; fi
+done
+APPLIED=0
+SOURCE_DELIVERY_CREATED=0
+rollback() {
+  [ "$APPLIED" -eq 1 ] && return 0
+  cp "$ROLLBACK_DIR/definitions.json" "$CONTENT_FILE"
+  for pack in $PACK_FILES; do cp "$ROLLBACK_DIR/$(basename "$pack")" "$pack"; done
+  for voice in marat_call.wav rinat_warning.wav; do
+    if [ -f "$ROLLBACK_DIR/$voice" ]; then cp "$ROLLBACK_DIR/$voice" "$DEST_DIR/$voice"
+    else rm -f "$DEST_DIR/$voice"; fi
+  done
+  rmdir "$DEST_DIR" 2>/dev/null || true
+  if [ "$SOURCE_DELIVERY_CREATED" -eq 1 ]; then rm -rf "$SOURCE_DELIVERY_DIR"; fi
+  echo "voice integration rolled back: content, both compiled packs and prior runtime WAVs restored" >&2
+}
+finish() {
+  status=$?
+  if [ "$APPLIED" -eq 0 ]; then rollback; fi
+  rm -rf "$ROLLBACK_DIR"
+  exit "$status"
+}
+trap finish EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
 mkdir -p "$DEST_DIR"
 cp "$MARAT_SRC" "$DEST_DIR/marat_call.wav"
 cp "$RINAT_SRC" "$DEST_DIR/rinat_warning.wav"
+
+if [ ! -e "$SOURCE_DELIVERY_DIR" ]; then SOURCE_DELIVERY_CREATED=1; fi
+python3 - "$INPUT_DIR" "$SOURCE_DELIVERY_DIR" <<'PY'
+import hashlib, json, pathlib, shutil, sys
+
+source = pathlib.Path(sys.argv[1]).resolve()
+destination = pathlib.Path(sys.argv[2]).resolve()
+manifest = source / 'provenance.json'
+data = json.loads(manifest.read_text())
+files = ['provenance.json', data['license']['evidencePath']]
+files.extend(recording['file'] for recording in data['recordings'])
+if (source / 'room_tone.wav').is_file():
+    files.append('room_tone.wav')
+
+existed = destination.exists()
+for relative in dict.fromkeys(files):
+    original = (source / relative).resolve()
+    target = (destination / relative).resolve()
+    if not original.is_relative_to(source) or not target.is_relative_to(destination):
+        raise SystemExit('source delivery path escapes its package')
+    if existed:
+        if not target.is_file() or hashlib.sha256(target.read_bytes()).digest() != hashlib.sha256(original.read_bytes()).digest():
+            raise SystemExit('existing immutable voice source delivery differs: ' + str(target))
+    else:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(original, target)
+print('voice source delivery retained and byte-checked: ' + str(destination))
+PY
 
 python3 - <<'PY'
 import hashlib, json, pathlib
@@ -219,6 +373,7 @@ for entry in data:
     new_file = want[entry['id']]
     disk = pathlib.Path('game/assets') / new_file
     entry['file'] = new_file
+    entry['mediaType'] = 'audio/wav'
     entry['sha256'] = hashlib.sha256(disk.read_bytes()).hexdigest()
     patched += 1
 if patched != 2:
@@ -239,4 +394,5 @@ for scene in act1_audio_settings_smoke_test act1_audio_transition_smoke_test act
   echo "audio check passed: $scene"
 done
 
+APPLIED=1
 echo "voice recordings integrated; human listening still required"
