@@ -52,13 +52,13 @@
 
 Считать источниками канона:
 
-1. `URMAN_Codex_Context.md` в корне проекта.
+1. `docs/urman_knowledge_base/00_codex_context.md`.
 2. Файлы в `docs/urman_knowledge_base/`.
 
 Правило приоритета:
 
-- Разделы 1–17 в `URMAN_Codex_Context.md` — нормализованный канон и MVP-бриф.
-- Приложение A в `URMAN_Codex_Context.md` — сырой источник деталей, атмосферы, архивных документов и противоречий.
+- Разделы 1–17 в `docs/urman_knowledge_base/00_codex_context.md` — нормализованный канон и MVP-бриф.
+- Приложение A в `docs/urman_knowledge_base/00_codex_context.md` — сырой источник деталей, атмосферы, архивных документов и противоречий.
 - `docs/urman_knowledge_base/canon.md` — рабочая выжимка канона.
 - `docs/urman_knowledge_base/decision_log.md` — журнал принятых и предложенных решений.
 - `docs/urman_knowledge_base/open_questions.md` — место для нерешённых противоречий.
@@ -209,7 +209,7 @@ System Events таймаутит), слушать звук (нет аудиов�
 
 Для единственного явно авторизованного пользователем запуска, которому целиком
 передан exact tracker
-`URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` и его copy-paste launch
+`docs/production/act1_repo_grounded_production_tracker.md` и его copy-paste launch
 prompt, разрешён ровно один внешний OpenCode-агент как единственный
 implementer этого tracker. Такой запуск выполняется без Sol Advisor, без
 субагентов и без параллельных writers, только в основном checkout на ветке

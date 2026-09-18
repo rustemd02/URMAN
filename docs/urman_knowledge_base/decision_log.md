@@ -33,7 +33,7 @@ Status: Accepted
 Context: Исходный файл найден в `/Users/unterlantas/Downloads/URMAN_Codex_Context.md`, но будущим Codex-сессиям нужен источник в репозитории.
 Decision: Скопировать файл в корень проекта как `URMAN_Codex_Context.md`, не удаляя оригинал.
 Consequences: Future sessions can read canonical source from repo root. Downloads copy remains untouched.
-Linked files: `../../URMAN_Codex_Context.md`, `../../AGENTS.md`
+Linked files: `00_codex_context.md`, `../../AGENTS.md`
 
 ## 2026-05-16 — Use Айдар as MVP protagonist name
 
@@ -152,7 +152,7 @@ The complete Godot/C# migration remains documented as deferred long-term work;
 existing full-game scenes, source assets, browser saves and the web oracle are
 preserved. This is a scope change, not a story rewrite or a deletion request.
 
-Linked files: `docs/aegis/work/2026-08-10-godot-full-migration/10-intent.md`,
+Linked files: `docs/archive_aegis/work/2026-08-10-godot-full-migration/10-intent.md`,
 `docs/urman_knowledge_base/execution_backlog.json`, `mvp_scope.md`,
 `roadmap.md`, `playtest_plan.md`
 
@@ -649,11 +649,11 @@ Status: Accepted workflow decision
 
 Context: `set_goal` correctly stores the durable outcome and non-goals, but the full Godot migration also needs dependency ordering, bounded ownership, explicit verification and resumable evidence. A second external tracker would easily drift from the repository's canonical narrative and architecture documents.
 
-Decision: Keep the active goal as the north-star contract and add `docs/urman_knowledge_base/execution_backlog.json` as the machine-readable execution queue. `backlog.md` remains the human-readable index; `roadmap.md` remains the milestone narrative; `decision_log.md`, `open_questions.md`, `technical_architecture.md` and `docs/aegis/work/` remain authorities/evidence. Every executable task has a stable ID, status, dependencies, owner, scope, deliverable, `done_when`, `verify` and evidence links. The orchestrator may claim only `ready` tasks whose dependencies are completed, and may not perform the final web retirement before the full release gate.
+Decision: Keep the active goal as the north-star contract and add `docs/urman_knowledge_base/execution_backlog.json` as the machine-readable execution queue. `backlog.md` remains the human-readable index; `roadmap.md` remains the milestone narrative; `decision_log.md`, `open_questions.md`, `technical_architecture.md` and `docs/archive_aegis/work/` remain authorities/evidence. Every executable task has a stable ID, status, dependencies, owner, scope, deliverable, `done_when`, `verify` and evidence links. The orchestrator may claim only `ready` tasks whose dependencies are completed, and may not perform the final web retirement before the full release gate.
 
 Consequences: Work can be resumed or delegated without turning the goal into a flat checklist, while canonical lore and architecture keep one source of truth. The queue is intentionally repository-local; an external task service may mirror it later only if it preserves these IDs and does not become a competing owner. Historical backlog entries remain audit material and are not automatically executable.
 
-Linked files: `docs/aegis/work/2026-08-10-godot-full-migration/10-intent.md`, `docs/urman_knowledge_base/execution_backlog.json`, `docs/urman_knowledge_base/backlog.md`, `docs/urman_knowledge_base/roadmap.md`, `docs/urman_knowledge_base/README.md`, `docs/aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`
+Linked files: `docs/archive_aegis/work/2026-08-10-godot-full-migration/10-intent.md`, `docs/urman_knowledge_base/execution_backlog.json`, `docs/urman_knowledge_base/backlog.md`, `docs/urman_knowledge_base/roadmap.md`, `docs/urman_knowledge_base/README.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`
 
 ## 2026-08-11 — Make accessibility settings a shared SaveGameV3 and Godot presentation contract
 
@@ -725,7 +725,7 @@ Decision: Add only presentation-only detail to the existing style benchmark scen
 
 Consequences: The house focal point is more legible and the capture remains deterministic, while the day street and Kara-Urman edge still expose the broader greybox/material-density gap. The new frame hashes are recorded in `art/style_frames/README.md`; no narrative, physics, save or web-retirement boundary changes.
 
-Linked files: `game/scripts/StyleBenchmarkZone.cs`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
+Linked files: `game/scripts/StyleBenchmarkZone.cs`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
 
 ## 2026-08-11 — Add bounded density and irregular-crown dressing without accepting art lock
 
@@ -737,7 +737,7 @@ Decision: Keep the existing compact zones and add only presentation-only dressin
 
 Consequences: The fresh frames (`06139d…`, `26a7e9…`, `3b8317…`) improve the street/house density and give the forest a less repeated silhouette while preserving deterministic rebuilds, collision ownership and the single runtime state. This is still a style-test production pass, not final art acceptance; performance, facial acting, authored sound, mesh collision and cultural review remain separate gates.
 
-Linked files: `game/scripts/StyleBenchmarkZone.cs`, `game/scripts/PainterlyEnvironmentDetails.cs`, `game/scripts/PainterlyMaterialLibrary.cs`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/urman_knowledge_base/assets.md`, `docs/aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
+Linked files: `game/scripts/StyleBenchmarkZone.cs`, `game/scripts/PainterlyEnvironmentDetails.cs`, `game/scripts/PainterlyMaterialLibrary.cs`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/urman_knowledge_base/assets.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
 
 ## 2026-08-11 — Add a deterministic zone-ambience foundation without declaring final sound
 
@@ -761,7 +761,7 @@ Decision: Add `eng/check-web-retirement.sh` with a default `--report` mode and a
 
 Consequences: The final cutover has a reproducible absence check that can only pass after macOS/Windows host acceptance, cultural/accessibility review and the complete 6–8-hour playthrough. Historical route documents and browser data remain untouched until the separate final decision. No runtime owner, save schema or parity behavior changes in this preflight.
 
-Linked files: `eng/check-web-retirement.sh`, `eng/README.md`, `backlog.md`, `docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
+Linked files: `eng/check-web-retirement.sh`, `eng/README.md`, `backlog.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
 
 ## 2026-08-11 — Exercise authored environment modules in the style benchmarks without accepting art lock
 
@@ -773,7 +773,7 @@ Decision: Add one `HouseA_` placement to the daytime street and one `PineA_` pla
 
 Consequences: Style captures now prove that project-original Blender modules load and render in the benchmark scenes without creating a second physics or narrative owner. The fresh frames remain a production-progress baseline, not final art acceptance: the complete village/forest module family, hero PC, cultural specificity, authored sound and external review are still required.
 
-Linked files: `game/scripts/GeneratedModularKitDressing.cs`, `game/scripts/StyleBenchmarkZone.cs`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/urman_knowledge_base/assets.md`, `docs/aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
+Linked files: `game/scripts/GeneratedModularKitDressing.cs`, `game/scripts/StyleBenchmarkZone.cs`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/urman_knowledge_base/assets.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
 
 ## 2026-08-11 — Improve environment-kit geometry without changing the import contract
 
@@ -785,7 +785,7 @@ Decision: Keep the environment kit deterministic and add only bounded geometry i
 
 Consequences: The same Blender→GLB→Godot pipeline now tests a more readable low-poly silhouette without changing scene selectors, interaction targets or physics boundaries. The rebuilt hashes and captures are recorded in the evidence bundle; the complete environment family, hero-PC art, cultural review and final style acceptance remain open.
 
-Linked files: `tools/blender/generate_modular_environment.py`, `assets/source/blender/urman_modular_kit.blend`, `game/assets/generated/urman_modular_kit.glb`, `tools/blender/verify_modular_environment.py`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
+Linked files: `tools/blender/generate_modular_environment.py`, `assets/source/blender/urman_modular_kit.blend`, `game/assets/generated/urman_modular_kit.glb`, `tools/blender/verify_modular_environment.py`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
 
 ## 2026-08-11 — Replace procedural tree blobs with tapered foliage tiers without accepting art lock
 
@@ -797,7 +797,7 @@ Decision: Keep `PainterlyEnvironmentDetails` as the presentation owner and repla
 
 Consequences: The day and Kara-Urman captures now have clearer faceted conifer silhouettes and remain deterministic; the M4 Pro benchmark still exceeds the 30 FPS floor and the full Godot smoke suite passes. The forest remains a provisional family, so final branch/canopy assets, hero props, cultural review and art acceptance are still open.
 
-Linked files: `game/scripts/PainterlyEnvironmentDetails.cs`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/urman_knowledge_base/assets.md`, `docs/aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
+Linked files: `game/scripts/PainterlyEnvironmentDetails.cs`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/urman_knowledge_base/assets.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
 
 ## 2026-08-11 — Make desktop package verification part of the export wrapper
 
@@ -809,7 +809,7 @@ Decision: Add `eng/verify-desktop-artifacts.sh` and invoke it from `eng/export-d
 
 Consequences: Every local export now fails closed if the package layout or embedded content boundary is incomplete, and the same check can be rerun without re-exporting. No runtime owner, save compatibility path, browser persistence behavior or web-retirement timing changes.
 
-Linked files: `eng/export-desktop-debug.sh`, `eng/verify-desktop-artifacts.sh`, `eng/README.md`, `docs/aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
+Linked files: `eng/export-desktop-debug.sh`, `eng/verify-desktop-artifacts.sh`, `eng/README.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
 
 ## 2026-08-11 — Add a bounded macOS host smoke for the exported app
 
@@ -821,7 +821,7 @@ Decision: Add `eng/verify-macos-host.sh`. It extracts the existing macOS ZIP, ch
 
 Consequences: The current macOS host now has reproducible evidence for the exported PCK/.NET bootstrap (`zone-loaded: village_day@arrival`, Painterly Low-Poly first-person ready, exit 0) for ZIP SHA-256 `04af0c2856897700a62902c4641d6031d30c2cb66e666facb10b3cee529e45d4`. This does not claim Windows execution, M1/Windows performance, signing/notarization, accessibility, cultural review or full playthrough acceptance.
 
-Linked files: `eng/verify-macos-host.sh`, `eng/README.md`, `docs/urman_knowledge_base/execution_backlog.json`, `docs/aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
+Linked files: `eng/verify-macos-host.sh`, `eng/README.md`, `docs/urman_knowledge_base/execution_backlog.json`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
 
 ## 2026-08-11 — Make audio authoring readiness explicit in Content Lab reports
 
@@ -857,7 +857,7 @@ Decision: Keep `GodotSmokeCleanup.ReleaseAsync` as the single test cleanup owner
 
 Consequences: Two consecutive full `./eng/verify-godot.sh` runs pass the complete scene/audio/zone/narrative/persistence/collision/Chapter 1/full-game suite without ObjectDB/RID diagnostics. The collection is reachable only through the explicitly test-only cleanup method; normal gameplay never forces it. No narrative state, shader contract, asset mapping, save schema or web-retirement boundary changes.
 
-Linked files: `game/scripts/PainterlyMaterialLibrary.cs`, `game/tests/GodotSmokeCleanup.cs`, `game/tests/ZoneFlowSmokeTest.cs`, `eng/verify-godot.sh`, `docs/aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
+Linked files: `game/scripts/PainterlyMaterialLibrary.cs`, `game/tests/GodotSmokeCleanup.cs`, `game/tests/ZoneFlowSmokeTest.cs`, `eng/verify-godot.sh`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
 
 ## 2026-08-12 — Add spatial style-readability sweep without accepting art lock
 
@@ -885,7 +885,7 @@ comfort, authored material ownership, cultural review and release-hardware
 performance remain open. This is not a movement/head-bob test and does not
 declare art lock.
 
-Linked files: `game/tests/StyleMotionSweepCapture.cs`, `game/tests/style_motion_sweep_capture.tscn`, `eng/capture-style-motion-sweep.sh`, `docs/urman_knowledge_base/art/style_motion_sweep/`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
+Linked files: `game/tests/StyleMotionSweepCapture.cs`, `game/tests/style_motion_sweep_capture.tscn`, `eng/capture-style-motion-sweep.sh`, `docs/urman_knowledge_base/art/style_motion_sweep/`, `docs/urman_knowledge_base/art/style_frames/README.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md`, `docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md`
 
 ## 2026-08-12 — Give stone and fabric candidates bounded v2-only presentation owners
 
@@ -2217,7 +2217,7 @@ not called ready or art-locked while principal views still read as isolated
 scenes, greybox boxes or repeated procedural cones. The existing one-zone path
 remains the rollback path for tests and non-demo entrypoints.
 
-Linked files: `docs/aegis/plans/2026-08-15-act1-connected-greybox.md`,
+Linked files: `docs/archive_aegis/plans/2026-08-15-act1-connected-greybox.md`,
 `game/scripts/Main.cs`, `game/scripts/Act1DemoRoot.cs`,
 `game/scripts/StyleBenchmarkZone.cs`,
 `docs/urman_knowledge_base/act1_demo_handoff.md`,
@@ -2321,7 +2321,7 @@ Consequences: Это обязательное правило процесса и
 приложении этой записью не изменяется.
 
 Linked files: `../../AGENTS.md`,
-`docs/aegis/plans/2026-08-15-act1-connected-greybox.md`
+`docs/archive_aegis/plans/2026-08-15-act1-connected-greybox.md`
 
 ## 2026-08-17 — Make the complete Act I connected world the mandatory next implementation unit
 
@@ -2351,7 +2351,7 @@ This is an execution-priority and evidence decision, not art lock, release
 readiness or full-game scope expansion.
 
 Linked files: `game/scenes/act1_demo.tscn`,
-`docs/aegis/plans/2026-08-15-act1-connected-greybox.md`,
+`docs/archive_aegis/plans/2026-08-15-act1-connected-greybox.md`,
 `docs/urman_knowledge_base/art/act1_visual_reference_bible_2026-08-17.md`
 
 ## 2026-08-21 — A/B verdict: Agent B experimental world vs main Act I line
@@ -2398,7 +2398,7 @@ kits into the production route with first-person visual review. The main
 line's greybox document stays PARTIAL until that integration passes 360°
 review. This decision does not constitute art lock or release readiness.
 
-Linked files: `docs/experiments/agent_b_act1_world_report.md` (in
+Linked files: `docs/archive_experiments/agent_b_act1_world_report.md` (in
 `URMAN__agent-b-act1`), `game/scenes/act1_demo.tscn`,
 `docs/urman_knowledge_base/art/act1_core_world_greybox_2026-08-17.md`
 
@@ -2693,7 +2693,7 @@ would restart candidate churn.
 
 Decision: Treat exactly these three documents as the acceptance reference for
 every Act I art/zone task in
-`URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md`. Zone tasks must cite a
+`../production/act1_repo_grounded_production_tracker.md`. Zone tasks must cite a
 concrete target/gap from them; target PNGs inside these documents are
 references, never runtime screenshots. No new style document is created; only
 factual contradictions between these documents and the current runtime may be
@@ -3588,7 +3588,7 @@ Linked files: `../../docs/production/act1_author_session_fix_plan_2026-09-14.md`
 
 Status: Accepted; пакет — источник для ревью, а не канон
 
-Context: В репозиторий добавлен `SHURALE_RESEARCH_PACKAGE/` (76 файлов): тринадцать
+Context: В репозиторий добавлен `docs/research_shurale_package/` (76 файлов): тринадцать
 тематических документов, основной отчёт в трёх форматах, шестнадцать
 машиночитаемых реестров и XLSX, девять проектных схем, визуальный атлас, паспорта
 референсов, передача разработчику, руководство по арт-направлению и чек-лист
@@ -3605,8 +3605,8 @@ Consequences: Культурная и художественная приёмк�
 вопросов, к которым можно приложить пакет; ничего из пакета не попадает в контент
 Акта I без отдельного решения, потому что любые правки контента меняют fingerprint
 кампании. Пакет не заменяет ни консультанта, ни плейтест.
-Linked files: `../urman_knowledge_base/README.md`, `../../SHURALE_RESEARCH_PACKAGE/00_START_HERE.md`,
-`../../SHURALE_RESEARCH_PACKAGE/RIGHTS_AND_ATTRIBUTION.md`
+Linked files: `../urman_knowledge_base/README.md`, `../research_shurale_package/00_START_HERE.md`,
+`../research_shurale_package/RIGHTS_AND_ATTRIBUTION.md`
 
 ## 2026-09-14 — План переработки деревни и высокое непроницаемое лесное кольцо
 
@@ -3614,8 +3614,8 @@ Status: Accepted art direction by direct user instruction; implementation plan o
 
 Автор запросил два списка дел: по замечаниям к достоверности деревни, коллизиям,
 посадке объектов, границам, пропорциям NPC и исследованию; затем по материалам
-`SHURALE_RESEARCH_PACKAGE/`, с подробной декомпозицией для следующих исполнителей.
-Подготовлен [план переработки](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md).
+`docs/research_shurale_package/`, с подробной декомпозицией для следующих исполнителей.
+Подготовлен [план переработки](../research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md).
 Код, игровые данные и ассеты при подготовке не менялись; карточки не считаются
 выполненными и не запускают старую производственную очередь.
 
@@ -3636,7 +3636,7 @@ Status: Accepted art direction by direct user instruction; implementation plan o
 
 Повторная проверка по запросу автора выявила: 31 крупная карточка не была
 самодостаточным поручением для небольшой модели. Добавлены
-[поэлементное покрытие](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_SOURCE_COVERAGE_RU.md)
+[поэлементное покрытие](../research_shurale_package/URMAN_ACT1_SOURCE_COVERAGE_RU.md)
 всех 330 записей корпуса, 56 предметных и 12 сценовых паспортов, а также 30 связей
 между объектами. В §11 плана отделена готовность к проектированию от готовности
 к реализации; обязательны точные входные данные одного участка. Разобраны текущие
@@ -3652,7 +3652,7 @@ Status: Accepted art direction by direct user instruction; implementation plan o
 производства и приёмки; игровых изменений и новых доказательств готовности нет.
 
 Для отдельного авторизованного запуска подготовлен
-[launch prompt swarm-исполнителя](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_SWARM_PROMPT_RU.md).
+[launch prompt swarm-исполнителя](../research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_SWARM_PROMPT_RU.md).
 Он использует максимум доступных субагентов в разных read-only ролях, сохраняя
 одного интегратора основного checkout. «100%» в нём означает доказательное покрытие
 всех применимых требований на текущем SHA, а не ложную замену культурной консультации,
@@ -3661,7 +3661,7 @@ Status: Accepted art direction by direct user instruction; implementation plan o
 ## 2026-09-14 — Implement the Act I forest ring on the settlement envelope
 
 Status: Accepted (implements the author's direct instruction recorded in
-`SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md` §2.2)
+`docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md` §2.2)
 
 Context: The previous belt was a six-row hollow shell derived from the authored
 foliage-plan bounding box (−42.5,−126)…(43,42) and built from bare deciduous
@@ -3898,9 +3898,9 @@ Linked files: `../../assets/source/blender/act1/urman_village_exterior_kit.py`,
 
 ## 2026-09-15 — приложение по 14 возможностям и проверке длины Акта I
 
-Автор запросил подробные задачи по всем 14 ранее предложенным возможностям исследования и отдельное выяснение причин прохождения за 5–6 минут при сценарном ориентире около 50. Требования внесены в [существующий план, §13](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md): EX00, EX01–EX14 и LEN01. Разрешение касается перечисленных ограниченных механик; полная физическая песочница, новые сюжетные факты и превращение необязательных секретов в обязательные из него не следуют.
+Автор запросил подробные задачи по всем 14 ранее предложенным возможностям исследования и отдельное выяснение причин прохождения за 5–6 минут при сценарном ориентире около 50. Требования внесены в [существующий план, §13](../research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md): EX00, EX01–EX14 и LEN01. Разрешение касается перечисленных ограниченных механик; полная физическая песочница, новые сюжетные факты и превращение необязательных секретов в обязательные из него не следуют.
 
-Действующий оркестратор должен продолжить текущую работу, сохранив исполнителей, режим, очередь и подтверждённые результаты, и добавить отсутствующий объём. [Сообщение для продолжения](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_SWARM_PROMPT_RU.md) сохранено в конце существующего launch-документа. Эта правка содержит только документацию: механики не реализованы, причина короткого прохождения не объявлена установленной, новые git-разрешения не выданы. Человеческая длительность и интерес остаются отдельной проверкой.
+Действующий оркестратор должен продолжить текущую работу, сохранив исполнителей, режим, очередь и подтверждённые результаты, и добавить отсутствующий объём. [Сообщение для продолжения](../research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_SWARM_PROMPT_RU.md) сохранено в конце существующего launch-документа. Эта правка содержит только документацию: механики не реализованы, причина короткого прохождения не объявлена установленной, новые git-разрешения не выданы. Человеческая длительность и интерес остаются отдельной проверкой.
 
 ## 2026-09-15 — H2 second step: rafter tails, eaves troughs and a downpipe
 
@@ -4396,7 +4396,7 @@ link do not close a row. The four forbidden ways of padding minutes stay forbidd
 slower walking, mandatory waits, no-skip, text inflation, artificial distances and
 forced collection of all finds and EX cards are not used to reach ~50 minutes.
 
-Linked files: `execution_backlog.json`, `../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md` §13
+Linked files: `execution_backlog.json`, `../research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md` §13
 
 ## 2026-09-17 — Имена узлов не зависят от локали хоста (подтверждённый дефект)
 
@@ -4423,3 +4423,29 @@ Linked files: `execution_backlog.json`, `../../SHURALE_RESEARCH_PACKAGE/URMAN_AC
 Следствие для будущих правок: новое построение узлов из чисел должно либо идти
 через область инвариантной культуры, либо форматировать имена через
 `CultureInfo.InvariantCulture`.
+
+## 2026-09-18 — Разрешение противоречий документов по AGENTS.md (§5, §60–64)
+
+Контекст: при наведении порядка в документах (`docs/` как единое место,
+архивы `archive*`, исследование в `research_shurale_package`, очередь только
+`execution_backlog.json`) зафиксированы расхождения между живыми документами.
+Разрешены по правилу приоритета AGENTS.md: поручение автора 2026-09-15 и
+уточнение canon.md от 2026-09-16 выше исторической нормы.
+
+1. Деревня: **КАРА-УРМАН** (решение автора 16.09.2026, canon.md:3-13). Кырлай —
+   исторический alias; тексты `narrative.md`, `chapter1_mvp_campaign.md`,
+   `gameplay.md`, где деревня названа Кырлай, читаются с этим уточнением до
+   их точечного обновления. IDs, forest IDs, сохранения не переименовываются.
+2. Герой: **Айдар**. Айрат — старый alias (Приложение A, 00_codex_context.md:976-982).
+3. Әби: **Гөлсинә Хәмит кызы**. Миннигуль — unresolved alias.
+4. Марат: центральный — друг детства. Марат-лесник требует rename/объединения
+   (canon.md:60); до решения в новых текстах имя «Марат» означает друга.
+5. Длительность: **минимум 60 активных минут** первого основного опыта
+   (AGENTS.md:8-9). Все 40 / 34–48 / 45–60 — история, не приёмка.
+6. Скоуп: обязательны EX00–EX14 §13 плана деревни (порядок — «вторая партия»).
+   Акты II–V, 6–8 часов, web retirement — deferred/long-term, не launch.
+7. Готовность: локальные PASS ≠ приёмка; старые PASS не переносятся на новую
+   сборку; human playthrough и прослушивание — external/not-run.
+8. Режим: действует поручение 2026-09-15; исторический Luna-only отменён;
+   OpenCode-исключение узкое (exact tracker, один агент); нового разрешения
+   на push/публикацию нет.

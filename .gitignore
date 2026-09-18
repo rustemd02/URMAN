@@ -8,9 +8,12 @@ dist/
 # Logs
 *.log
 !docs/production/**/*.log
+!docs/production/evidence_archive/**/*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Local capture/artifact dirs (never commit)
 .codex-captures/
 
 # OS-specific
