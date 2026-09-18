@@ -39,13 +39,18 @@ public partial class Act1CarryInteractionSmokeTest : Node
             var scene = _bridge.ActiveSceneId;
             var log = Item("carry-log");
             var original = log.GlobalPosition;
-            await StandFacing(original + Vector3.Up * log.Height * .5f);
+            await StandFacing(original + Vector3.Up * log.Height * .5f, log);
             await Capture("01_log_and_yard");
 
             // A disposable layer-2 obstruction tests the same layer as rotated
             // facade blockers. It exists only in this test, never in the game.
+            // It sits on the stance-to-target line so it blocks the aim from
+            // whichever side the free-standing fixture picked.
+            var aim = original + Vector3.Up * log.Height * .5f;
+            var sight = (aim - _camera.GlobalPosition).Normalized();
             var barrier = new StaticBody3D { Name = "CarryOcclusionFixture", CollisionLayer = 2u,
-                CollisionMask = 0u, Position = new(original.X, original.Y + .9f, original.Z + .63f) };
+                CollisionMask = 0u, Position = aim - sight * .63f,
+                RotationDegrees = new Vector3(0f, Mathf.RadToDeg(Mathf.Atan2(sight.X, sight.Z)), 0f) };
             barrier.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = new(1f, 1.8f, .08f) } });
             AddChild(barrier);
             await Frames(3);
@@ -77,32 +82,32 @@ public partial class Act1CarryInteractionSmokeTest : Node
             await PutAt(Ground(original + Vector3.Right * 1.25f));
             Check(log.State == CarryableProp.CarryState.Placed && log.CollisionLayer == 1u && _carry.HeldItem is null,
                 "placement restores physical body");
-            await StandFacing(log.GlobalPosition + Vector3.Up * log.Height * .5f);
+            await StandFacing(log.GlobalPosition + Vector3.Up * log.Height * .5f, log);
             await Press("interact");
             Check(_carry.HeldItem == log, "placed thing can be taken again");
             await PutAt(Ground(original + Vector3.Right * 1.25f));
 
             var shovel = Item("carry-tool-shovel");
-            await StandFacing(shovel.GlobalPosition + Vector3.Up * .45f);
+            await StandFacing(shovel.GlobalPosition + Vector3.Up * .45f, shovel);
             await Press("interact");
             Check(_carry.HeldItem == shovel, "shovel is physically carried, not a remote switch");
             var fence = FindUse("fence");
             var woodpile = FindUse("woodpile");
-            await StandFacing(fence.GlobalPosition, Vector3.Right);
+            await StandFacing(fence.GlobalPosition, fence, Vector3.Right);
             await Capture("03_snow_before");
             await Press("interact");
             Check(fence.Completed && !woodpile.Completed, "only the aimed snow opening changes");
             var physicalDrift = _demo.DemoMain.ConnectedWorld!.FindChild("Ex05PassageDriftBarrier", true, false) as StaticBody3D;
             Check(physicalDrift?.CollisionLayer == 0, "clearing removes the actual passage barrier");
             await Capture("04_snow_cleared");
-            await StandFacing(woodpile.GlobalPosition);
+            await StandFacing(woodpile.GlobalPosition, woodpile);
             await Press("interact");
             var axe = Item("carry-axe");
             Check(woodpile.Completed && !axe.IsConcealed && axe.Visible && axe.CollisionLayer == 1u,
                 "second aimed clearing reveals its real object");
             await Capture("05_uncovered_axe");
             await PutAt(Ground(new(-31.05f, 0, 6.2f)));
-            await StandFacing(axe.GlobalPosition + Vector3.Up * axe.Height * .5f);
+            await StandFacing(axe.GlobalPosition + Vector3.Up * axe.Height * .5f, axe);
             await Press("interact");
             Check(_carry.HeldItem == axe, "uncovered axe can be taken");
             Check(await _bridge.SaveSlotAsync("carry-cleared-held"), "cleared yard and held object saved together");
@@ -122,7 +127,7 @@ public partial class Act1CarryInteractionSmokeTest : Node
             await Frames(8);
             Check(_carry.HeldItem is null && axe.IsConcealed && !woodpile.Completed && !fence.Completed,
                 "New Game clears local consequences and re-registers custody");
-            await StandFacing(original + Vector3.Up * log.Height * .5f);
+            await StandFacing(original + Vector3.Up * log.Height * .5f, log);
             await Press("interact");
             Check(_carry.HeldItem == log, "pickup still works after New Game registration");
             exit = 0;
@@ -146,14 +151,79 @@ public partial class Act1CarryInteractionSmokeTest : Node
     private static Vector3 Ground(Vector3 point) => new(point.X,
         AgentBAct1HeightField.CollisionGround(point.X, point.Z) + .025f, point.Z);
 
-    private async Task StandFacing(Vector3 target, Vector3? side = null)
+    // A fixed metre behind every target can put the eye inside a yard canopy
+    // post; the physics push-out then varies per machine and the aim ray clips
+    // the post instead of the target. Walk a small ring around the target and
+    // keep the first stance whose line of sight actually reaches it. A target
+    // with no reachable stance is a real defect and fails instead of passing on
+    // a lucky offset.
+    private async Task StandFacing(Vector3 target, Node? expected = null, Vector3? side = null)
     {
-        var from = Ground(target + (side ?? Vector3.Back) * 1.25f);
-        _player.ApplyZoneSpawn(from, 0);
-        await Frames(5);
-        Aim(target);
-        await Frames(3);
-        GD.Print($"act1-carry: local camera fixture {_player.GlobalPosition} target={target}");
+        foreach (var direction in Stances(side))
+        foreach (var reach in Reaches)
+        {
+            var from = Ground(target + direction * reach);
+            // The real capsule has to fit: a stance overlapping a canopy post
+            // gets pushed out over the next frames and the push differs per run.
+            if (!_player.CanStandAt(from)) continue;
+            _player.ApplyZoneSpawn(from, 0);
+            await Frames(4);
+            if (!await Settle()) continue;
+            Aim(target);
+            await Frames(3);
+            if (!SightReaches(target, expected)) continue;
+            GD.Print($"act1-carry: local camera fixture {_player.GlobalPosition} target={target} side={direction} reach={reach}");
+            return;
+        }
+        throw new InvalidOperationException($"No standing fixture reaches {target}."
+            + (expected is null ? string.Empty : $" Expected {expected.Name} on the aim ray."));
+    }
+
+    // A yard fixture has to stand at a natural interacting distance, and not
+    // every prop is reachable from the same one. Search the near band only:
+    // the reach stays inside the coordinator's own reach of 2.7 m.
+    private static readonly float[] Reaches = { 1.25f, .95f, 1.6f, 2.0f };
+
+    // A stance teleports the capsule a couple of centimetres above its ground;
+    // placing before the fall finishes moves the held item after the placement
+    // point was measured. Wait for a grounded, still player instead.
+    private async Task<bool> Settle()
+    {
+        for (var attempt = 0; attempt < 60; attempt++)
+        {
+            await Frames(1);
+            if (_player.IsOnFloor() && Mathf.Abs(_player.Velocity.Y) < .5f) return true;
+        }
+        return false;
+    }
+
+    private static IEnumerable<Vector3> Stances(Vector3? preferred)
+    {
+        if (preferred is { } first) yield return first.Normalized();
+        yield return Vector3.Back;
+        yield return Vector3.Right;
+        yield return Vector3.Left;
+        yield return Vector3.Forward;
+        yield return new Vector3(1f, 0f, 1f).Normalized();
+        yield return new Vector3(-1f, 0f, 1f).Normalized();
+        yield return new Vector3(1f, 0f, -1f).Normalized();
+        yield return new Vector3(-1f, 0f, -1f).Normalized();
+    }
+
+    // Reachable means the first thing on the segment to the target is the
+    // target itself; a wall or post standing closer rejects the stance. An
+    // empty segment is clear: the fixture targets float slightly above their
+    // support, so a segment to one can legitimately end in open air.
+    private bool SightReaches(Vector3 target, Node? expected)
+    {
+        var from = _camera.GlobalPosition;
+        var ray = PhysicsRayQueryParameters3D.Create(from, target, 7u);
+        ray.Exclude = new global::Godot.Collections.Array<Rid> { _player.GetRid() };
+        var hit = _camera.GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        if (expected is not null)
+            return hit.Count != 0 && ReferenceEquals(hit["collider"].AsGodotObject(), expected);
+        if (hit.Count == 0) return true;
+        return from.DistanceTo(hit["position"].AsVector3()) >= from.DistanceTo(target) - .12f;
     }
 
     private void Aim(Vector3 target)
@@ -172,10 +242,16 @@ public partial class Act1CarryInteractionSmokeTest : Node
         Check(_carry.HeldItem is null && held.GlobalPosition.DistanceTo(point) < .03f, "mapped placement commits checked transform");
     }
 
+    // The game reads interact during its physics step. A press held for a fixed
+    // two frames can fall entirely between two steps on a fast windowed run and
+    // is then lost, so hold the action until the coordinator has picked it up
+    // (or the cap expires) and only then release it.
     private async Task Press(string action)
     {
+        var previous = _carry.PendingAction;
         Input.ActionPress(action);
-        await Frames(2);
+        for (var frame = 0; frame < 20 && ReferenceEquals(_carry.PendingAction, previous); frame++)
+            await Frames(1);
         Input.ActionRelease(action);
         await Frames(2);
         await _carry.PendingAction;
@@ -187,7 +263,8 @@ public partial class Act1CarryInteractionSmokeTest : Node
         if (System.Environment.GetEnvironmentVariable("URMAN_CARRY_CAPTURE") != "1") return;
         if (RenderingServer.GetRenderingDevice() is null)
             throw new InvalidOperationException("A real rendering device is required for image evidence.");
-        var directory = ProjectSettings.GlobalizePath("res://../docs/production/act1_carry_evidence_2026-09-15");
+        var directory = System.Environment.GetEnvironmentVariable("URMAN_CARRY_CAPTURE_DIR")
+            ?? ProjectSettings.GlobalizePath("res://../docs/production/act1_carry_evidence_2026-09-15");
         Directory.CreateDirectory(directory);
         await Frames(2);
         await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
