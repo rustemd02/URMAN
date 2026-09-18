@@ -43,7 +43,7 @@ adapters. Their hidden helper boxes retain local collision ownership; this
 improves the demo composition without expanding Acts 2–5 production or
 changing runtime/save/narrative ownership.
 
-Execution note: `docs/urman_knowledge_base/execution_backlog.json` is the resumable queue for an orchestrator, and `docs/archive_aegis/work/2026-08-10-godot-full-migration/10-intent.md` is its synchronized goal frame. `set_goal` remains the durable outcome contract; the queue only schedules bounded work and cannot override canon, decisions or release gates.
+Execution note: `docs/urman_knowledge_base/execution_backlog.json` is the resumable queue for an orchestrator, and `docs/tasktracker/01_production_tracker.md` (§0) is its synchronized goal frame. `set_goal` remains the durable outcome contract; the queue only schedules bounded work and cannot override canon, decisions or release gates.
 
 Current gate ledger: `release_gate_matrix.md` separates closed technical
 foundations from open art, audio, cultural, accessibility, release-hardware and

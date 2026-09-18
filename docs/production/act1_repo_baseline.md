@@ -11,7 +11,7 @@
   `game/scripts/StyleBenchmarkZone.cs`, `game/scripts/InteractionTarget.cs`,
   `game/scripts/FirstPersonController.cs`
 - Dirty at baseline: `M .DS_Store`, `M AGENTS.md` (pre-existing exception clause),
-  `?? URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (tracker input)
+  `?? docs/tasktracker/01_production_tracker.md` (tracker input, до переноса — корневой файл)
 - Local checks required: `./eng/verify-dotnet.sh`, `./eng/verify-godot.sh`
   (logs in `evidence/act1_repo_baseline/`). No local PASS claimed until logs land.
 - GitHub checks: none published for this SHA; local verification mandatory.

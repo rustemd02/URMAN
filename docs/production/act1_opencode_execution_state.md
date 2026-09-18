@@ -318,7 +318,7 @@ bootstrap обоих целей PASS (RC/release readiness остаются OPEN
 ## Handover — 2026-09-07
 
 Полный handover-отчёт для следующей модели-исполнителя:
-`../archive/act1_handover_2026-09-07.md` (состояние, маркеры правок,
+`../archive/act1_handover_2026-09-07.md` (удалён при чистке 2026-09-18; см. git-историю) (состояние, маркеры правок,
 грабли, очередь). Первичный источник фактов запуска — карточки ниже.
 
 ## Full-frame inspection — 2026-09-07, final candidate sliceF
@@ -1565,7 +1565,7 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 - Base commit: `fc58c408326c0fff420641cdd82e712bb51b4f6c` (`changes`)
 - Current commit (ledger init): `fc58c408326c0fff420641cdd82e712bb51b4f6c`
 - Branch: `main`
-- Tracker: `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` (root, untracked input)
+- Tracker: `docs/tasktracker/01_production_tracker.md` (до переноса — корневой файл, untracked input)
 - Current task/slice: Wave 9/10 final visual closeout on 2026-09-05 — `PARTIAL` /
   `REWORK`, with technical evidence green but the human gate open. Asset
   source/registry `55/55 PASS`, build `0/0` warnings/errors, physical
@@ -2505,7 +2505,7 @@ Run: 2026-09-03, single external OpenCode implementer, canonical checkout
 
 - `M AGENTS.md` — pre-existing narrow exception clause for this exact user-authorized OpenCode Act I run (12 insertions). Preserved, excluded from task-owned commits.
 - `M .DS_Store` (binary 8196 → 10244) — host noise, owned by future BASE-008. Untouched for now.
-- `?? URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md` — tracker input file, untracked. Left untracked.
+- `?? docs/tasktracker/01_production_tracker.md` — tracker input file. Left untracked (историческая запись).
 
 ## Next ready IDs
 

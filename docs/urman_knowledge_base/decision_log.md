@@ -4449,3 +4449,14 @@ Linked files: `execution_backlog.json`, `../research_shurale_package/URMAN_ACT1_
 8. Режим: действует поручение 2026-09-15; исторический Luna-only отменён;
    OpenCode-исключение узкое (exact tracker, один агент); нового разрешения
    на push/публикацию нет.
+
+## 2026-09-18 — Чистка документов: архивы удалены, все ТЗ в docs/tasktracker
+
+Контекст: не-кодовые документы лежали в 7 местах (корень, docs/{handoffs,aegis,modular_migration,experiments,production}, evidence/, tasks/, SHURALE_RESEARCH_PACKAGE/), дублировали друг друга и противоречили друг другу.
+
+Решение:
+- Удалены из репозитория (остались в git-истории): `docs/archive/` (3 старых хэндоффа), `docs/archive_aegis/`, `docs/archive_handoffs_2026-09-03/`, `docs/archive_modular_migration/`, `docs/archive_experiments/`, `docs/archive_tz_mvp_full_tracker_2026-09-03.md`.
+- Все ТЗ собраны в `docs/tasktracker/`: `00_rework_brief.md` (§1–§23), `01_production_tracker.md` (волны, гейты), `02_village_rework_plan.md` (§13 EX00–EX14, LEN01), `address_mechanics_v3/`, единый `TASKS.md` (72 задачи из очереди с привязкой к разделам ТЗ), `README.md`.
+- Оригиналы ТЗ удалены после переноса (требование автора); восстановление — из git-истории.
+- Живые ссылки переписаны на новые пути (KB, матрица, очередь, AGENTS, промпты). Historical provenance в decision_log и receipt-hashes не трогались.
+- Противоречия разрешены по AGENTS.md (запись 2026-09-18 выше): КАРА-УРМАН, Айдар, Гөлсинә, 60 минут, EX00–EX14, PASS ≠ приёмка.

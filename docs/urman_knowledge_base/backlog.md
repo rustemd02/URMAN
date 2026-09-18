@@ -194,7 +194,7 @@ Status: superseded execution list. Preserve as audit evidence only; do not execu
 
 ## Tech
 
-- [x] Epic: Выполнить модульную миграцию по `docs/archive_modular_migration/`.
+- [x] Epic: модульная миграция выполнена (цепочка MM-00–MM-80, удалена при чистке 2026-09-18; см. git-историю).
   Type: Tech / Architecture / Production
   Priority: Critical
   Depends on: architecture freeze `MM-03`, current green content/build baseline
@@ -204,7 +204,7 @@ Status: superseded execution list. Preserve as audit evidence only; do not execu
 - [x] Task: Заморозить portable content, runtime и snapshot contracts.
   Type: Tech / Architecture
   Priority: Critical
-  Depends on: `docs/archive_modular_migration/01_ARCHITECTURE_CONTRACT.md`, stress matrix
+  Depends on: stress matrix
   Output: frozen ID/version, `CompiledContentPack`, `RuntimeContext`, capability lifecycle и historical `GameSnapshotV2` contracts; current desktop persistence is `SaveGameV3`.
   Notes: Кодовая миграция не начинается, пока 12 stress fixtures не пройдут review gate `MM-03`; capability teardown допускается только после immutable kernel claim query подтверждает owner release.
 

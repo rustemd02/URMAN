@@ -2739,7 +2739,7 @@
  "role": "Машиночитаемая очередь исполнения. Она не заменяет goal, канон, decision log, архитектуру или evidence.",
  "authority": {
   "goal": "Current user request 2026-09-15: implement and verify finished Act I in main checkout; maximum useful workers on disjoint files, a single active owner for each shared system; current tool defaults for workers. No new authority to publish or push is inferred from historical handovers.",
-  "goal_frame": "docs/archive_aegis/work/2026-08-10-godot-full-migration/10-intent.md",
+  "goal_frame": "docs/tasktracker/01_production_tracker.md",
   "canonical_sources": [
    "AGENTS.md",
    "docs/urman_knowledge_base/00_codex_context.md",
@@ -2749,10 +2749,10 @@
   ],
   "human_index": "docs/urman_knowledge_base/backlog.md",
   "roadmap": "docs/urman_knowledge_base/roadmap.md",
-  "evidence_root": "docs/archive_aegis/work/2026-08-10-godot-full-migration/",
+  "evidence_root": "docs/production/",
   "active_queue_tracker": "docs/production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md (product acceptance); this JSON is the single executable queue.",
   "superseded_trackers": [
-   "docs/archive_tz_mvp_full_tracker_2026-09-03.md — retired as authority, kept as provenance (fictional verification commands and studio-role model); never cite its commands as real"
+   "MVP full task tracker 2026-09-03 (удалён при чистке 2026-09-18; см. git-историю) — retired as authority, kept as provenance (fictional verification commands and studio-role model); never cite its commands as real"
   ],
   "notes": "Wave rows and dependency order live in the active queue tracker section 10; this JSON keeps milestone/task history and must not invent verification commands. New IDs are imported from the tracker per executed wave only."
  },
@@ -4114,7 +4114,7 @@
    "depends_on": [],
    "owner": "qa/architecture",
    "scope": [
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/",
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #",
     "content/",
     "src-dotnet/",
     "tests-dotnet/"
@@ -4129,8 +4129,8 @@
     "git diff --check"
    ],
    "evidence": [
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/10-intent.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #10-intent.md",
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ]
   },
   {
@@ -4187,7 +4187,7 @@
     "./eng/verify-dotnet.sh"
    ],
    "evidence": [
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md",
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md",
     "docs/urman_knowledge_base/technical_architecture.md"
    ]
   },
@@ -4215,7 +4215,7 @@
     "./eng/verify-dotnet.sh"
    ],
    "evidence": [
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md",
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #20-checkpoint.md",
     "docs/urman_knowledge_base/technical_architecture.md"
    ]
   },
@@ -4246,7 +4246,7 @@
     "./eng/verify-dotnet.sh"
    ],
    "evidence": [
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ]
   },
   {
@@ -4277,7 +4277,7 @@
    ],
    "evidence": [
     "docs/urman_knowledge_base/art/fullgame_frames/README.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ]
   },
   {
@@ -4563,7 +4563,7 @@
    ],
    "evidence": [
     "docs/urman_knowledge_base/playtest_plan.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ],
    "blocked_reason": "Narrative lock завершён; нужен внешний носитель татарского и культурно-религиозный консультант."
   },
@@ -4818,7 +4818,7 @@
     "assets/asset_registry.json",
     "eng/verify-asset-registry.sh",
     "docs/urman_knowledge_base/art/blender_asset_verifier_host_blocker.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ]
   },
   {
@@ -4861,7 +4861,7 @@
     "docs/urman_knowledge_base/art/style_frames/README.md",
     "docs/urman_knowledge_base/art/style_motion_sweep/README.md",
     "docs/urman_knowledge_base/art/style_temporal_sweep/README.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ]
   },
   {
@@ -4897,7 +4897,7 @@
    "evidence": [
     "docs/urman_knowledge_base/art/fullgame_frames/README.md",
     "docs/urman_knowledge_base/decision_log.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ]
   },
   {
@@ -4975,7 +4975,7 @@
     "game/tests/FullGameBoundaryRuntimeCapture.cs",
     "game/tests/OldPcHeroDetailCapture.cs",
     "game/tests/OldPcHeroDetailMotionSweep.cs",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ],
    "blocked_reason": "Technical slice and runtime-backed marker-camera receipt are verified; visual near/mid/far traversal, repetition, authored family coverage, cultural review and release-host performance remain review gates."
   },
@@ -5009,7 +5009,7 @@
    ],
    "evidence": [
     "docs/urman_knowledge_base/playtest_plan.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md",
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md",
     "src-dotnet/Urman.Content/Reporting/AudioProductionReporter.cs",
     "tests-dotnet/Urman.Content.Tests/AudioProductionReporterTests.cs"
    ],
@@ -5044,7 +5044,7 @@
    ],
    "evidence": [
     "docs/urman_knowledge_base/playtest_plan.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ],
    "blocked_reason": "Нужна art/audio-complete наблюдаемая сборка."
   },
@@ -5061,7 +5061,7 @@
    "scope": [
     "eng/benchmark-godot.sh",
     "game/project.godot",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #"
    ],
    "deliverable": "Raw frame-time evidence at 1080p for M1-class Mac and medium Windows PC across low/medium/high presets.",
    "done_when": [
@@ -5075,7 +5075,7 @@
     "manual Windows run"
    ],
    "evidence": [
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ],
    "blocked_reason": "Нет подтверждённых runs на M1 и реальном Windows host."
   },
@@ -5095,7 +5095,7 @@
     "eng/verify-desktop-artifacts.sh",
     "eng/README.md",
     "game/",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #"
    ],
    "deliverable": "Executable macOS and Windows builds launched on their target hosts with save/input/font/GLB checks.",
    "done_when": [
@@ -5111,7 +5111,7 @@
     "manual Windows host smoke"
    ],
    "evidence": [
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md",
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md",
     "eng/verify-macos-host.sh",
     "eng/verify-desktop-artifacts.sh",
     "build/desktop-artifact-receipt.json",
@@ -5136,7 +5136,7 @@
     "content/",
     "game/",
     "docs/urman_knowledge_base/playtest_plan.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #"
    ],
    "deliverable": "Full observed path: arrival → Marat investigation → pact → historical layers → pact destruction → tragic epilogue.",
    "done_when": [
@@ -5150,8 +5150,8 @@
     "manual full playthrough"
    ],
    "evidence": [
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/20-checkpoint.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md",
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #20-checkpoint.md",
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md",
     "docs/urman_knowledge_base/release_gate_matrix.md"
    ]
   },
@@ -5185,7 +5185,7 @@
    ],
    "evidence": [
     "docs/urman_knowledge_base/decision_log.md",
-    "docs/archive_aegis/work/2026-08-10-godot-full-migration/90-evidence.md"
+    "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
    ],
    "blocked_reason": "Это последняя задача; запрещена до полного acceptance path и сохранения архивной истории."
   },
