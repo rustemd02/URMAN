@@ -2162,7 +2162,7 @@
       "id": "ACT1-EX06",
       "title": "§13 EX06: Переносной свет",
       "milestone": "M5",
-      "status": "ready",
+      "status": "in_progress",
       "active_owner": null,
       "depends_on": [
         "ACT1-EX00",
