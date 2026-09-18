@@ -1,0 +1,86 @@
+{
+  "schema_version": "3.0",
+  "world_policy": {
+    "existing_map_first": true,
+    "destructive_regeneration_forbidden_by_default": true,
+    "geometry_edit_mode": "propose_only",
+    "max_automatic_geometry_shift_m": 0.0
+  },
+  "ids": {
+    "entity_id": "stable UUID-like game ID; quests/saves reference this",
+    "parcel_id": "stable internal land-parcel ID",
+    "address_id": "stable address-record ID",
+    "display_address": "mutable human-facing address",
+    "game_cadastral_id": "fictional game-only hierarchical parcel ID; never a real EGRN number"
+  },
+  "addressing": {
+    "street_origin": "nearest connection of street to main street / settlement center",
+    "direction": "from origin outward",
+    "default_numbering": "odd/even by opposite sides",
+    "preserve_existing_numbers": true,
+    "renumbering": "never automatically after first committed save",
+    "corner_building_priority": [
+      "explicit_entrance_street",
+      "driveway_access_street",
+      "main_facade_street",
+      "nearest_road"
+    ],
+    "infill_policy": "use letter suffix before renumbering existing buildings",
+    "allowed_letter_suffixes": [
+      "А",
+      "Б",
+      "В",
+      "Г",
+      "Д",
+      "Е",
+      "Ж",
+      "И",
+      "К",
+      "Л",
+      "М",
+      "Н",
+      "О",
+      "П",
+      "Р",
+      "С",
+      "Т",
+      "У",
+      "Ф",
+      "Х",
+      "Ц",
+      "Ч",
+      "Ш",
+      "Щ",
+      "Э",
+      "Ю",
+      "Я"
+    ],
+    "auxiliary_buildings": "inherit parcel address; do not receive new house number unless independently addressable"
+  },
+  "parceling": {
+    "prefer_existing_parcels": true,
+    "generated_parcel_requires_road_frontage": true,
+    "building_must_belong_to_one_primary_parcel": true,
+    "parcel_without_road_access_is_invalid_for_new_residential_address": true
+  },
+  "navigation": {
+    "same_graph_for_world_map_and_address_routing": true,
+    "building_access_point_required": true,
+    "route_target": "parcel gate/entrance first; building door second"
+  },
+  "special": {
+    "main_street_id": "tukay",
+    "forest_easter_street_id": "usal",
+    "usal_required_house_numbers": [
+      15,
+      52
+    ],
+    "usal_pair_max_distance_m": 40,
+    "usal_requires_forest_edge": true
+  },
+  "visuals": {
+    "generated_by": "Astra 6",
+    "archive_contains_final_visual_asset": false,
+    "mechanics_only": true
+  }
+}

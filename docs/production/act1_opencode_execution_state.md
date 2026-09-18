@@ -318,7 +318,7 @@ bootstrap обоих целей PASS (RC/release readiness остаются OPEN
 ## Handover — 2026-09-07
 
 Полный handover-отчёт для следующей модели-исполнителя:
-`docs/production/act1_handover_2026-09-07.md` (состояние, маркеры правок,
+`../archive/act1_handover_2026-09-07.md` (состояние, маркеры правок,
 грабли, очередь). Первичный источник фактов запуска — карточки ниже.
 
 ## Full-frame inspection — 2026-09-07, final candidate sliceF

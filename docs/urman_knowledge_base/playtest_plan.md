@@ -16,7 +16,7 @@ this demo playable; they remain separate long-term gates. The demo still needs
 observed pacing/comprehension, authored voice/ambience, cultural review and
 release-shaped performance evidence before a human-facing acceptance claim.
 The manual session checklist and current package hashes are in
-`docs/urman_knowledge_base/act1_demo_handoff.md`.
+`../archive/act1_demo_handoff.md`.
 
 ## Current Testability
 

@@ -1,0 +1,213 @@
+{
+  "map_id": "urman_authored_map_clean_demo",
+  "streets": [
+    {
+      "id": "tukay",
+      "odd_side": "left"
+    },
+    {
+      "id": "urman",
+      "odd_side": "left"
+    },
+    {
+      "id": "bakcha",
+      "odd_side": "right"
+    },
+    {
+      "id": "usal",
+      "odd_side": "left"
+    }
+  ],
+  "roads": [
+    {
+      "id": "r_tukay",
+      "street_id": "tukay",
+      "class": "main",
+      "points": [
+        [
+          -300,
+          0
+        ],
+        [
+          -120,
+          5
+        ],
+        [
+          40,
+          0
+        ],
+        [
+          260,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "r_urman",
+      "street_id": "urman",
+      "class": "local",
+      "points": [
+        [
+          -120,
+          5
+        ],
+        [
+          -145,
+          115
+        ],
+        [
+          -170,
+          210
+        ]
+      ]
+    },
+    {
+      "id": "r_bakcha",
+      "street_id": "bakcha",
+      "class": "local",
+      "points": [
+        [
+          40,
+          0
+        ],
+        [
+          65,
+          -95
+        ],
+        [
+          95,
+          -180
+        ]
+      ]
+    },
+    {
+      "id": "r_usal",
+      "street_id": "usal",
+      "class": "local",
+      "points": [
+        [
+          -170,
+          210
+        ],
+        [
+          -210,
+          260
+        ],
+        [
+          -250,
+          310
+        ]
+      ]
+    }
+  ],
+  "constraints": {
+    "forest_edge": {
+      "type": "line",
+      "points": [
+        [
+          -400,
+          340
+        ],
+        [
+          400,
+          340
+        ]
+      ]
+    }
+  },
+  "buildings": [
+    {
+      "id": "house_a",
+      "source_key": "scene/house_a",
+      "position_xz": [
+        -220,
+        25
+      ],
+      "addressable": true,
+      "legacy_address": {
+        "street_id": "tukay",
+        "house_number": "1"
+      }
+    },
+    {
+      "id": "house_b",
+      "source_key": "scene/house_b",
+      "position_xz": [
+        -180,
+        -20
+      ],
+      "addressable": true
+    },
+    {
+      "id": "house_c",
+      "source_key": "scene/house_c",
+      "position_xz": [
+        -120,
+        70
+      ],
+      "addressable": true
+    },
+    {
+      "id": "house_d",
+      "source_key": "scene/house_d",
+      "position_xz": [
+        -170,
+        145
+      ],
+      "addressable": true
+    },
+    {
+      "id": "house_e",
+      "source_key": "scene/house_e",
+      "position_xz": [
+        70,
+        -65
+      ],
+      "addressable": true
+    },
+    {
+      "id": "house_f",
+      "source_key": "scene/house_f",
+      "position_xz": [
+        110,
+        -145
+      ],
+      "addressable": true
+    },
+    {
+      "id": "house_usal_15",
+      "source_key": "scene/usal_15",
+      "position_xz": [
+        -222,
+        279
+      ],
+      "addressable": true,
+      "legacy_address": {
+        "street_id": "usal",
+        "house_number": "15"
+      }
+    },
+    {
+      "id": "house_usal_52",
+      "source_key": "scene/usal_52",
+      "position_xz": [
+        -250,
+        286
+      ],
+      "addressable": true,
+      "legacy_address": {
+        "street_id": "usal",
+        "house_number": "52"
+      }
+    },
+    {
+      "id": "shed_usal",
+      "source_key": "scene/shed_usal",
+      "position_xz": [
+        -244,
+        300
+      ],
+      "addressable": false
+    }
+  ]
+}

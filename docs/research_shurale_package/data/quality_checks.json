@@ -1,0 +1,55 @@
+{
+  "registries": 16,
+  "records": 330,
+  "counts": {
+    "sources": 58,
+    "claims": 40,
+    "visual_references": 18,
+    "dimensions": 31,
+    "villages": 11,
+    "mythology_motifs": 12,
+    "gaps": 18,
+    "households": 6,
+    "assets": 56,
+    "plants_and_seasons": 12,
+    "seasons": 10,
+    "chronology": 16,
+    "language_terms": 10,
+    "audio_video_references": 16,
+    "scenes": 12,
+    "light_estimates": 4
+  },
+  "local_visual_records": 4,
+  "external_visual_records": 14,
+  "png_files": 18,
+  "svg_files": 9,
+  "xlsx_sheets": 17,
+  "xlsx_tables": 16,
+  "xlsx_frozen_sheets": 17,
+  "jsonl_records": 330,
+  "pdfs": {
+    "MASTER_REPORT.pdf": {
+      "pages": 62,
+      "links": 104,
+      "text_outside_page": []
+    },
+    "VISUAL_ATLAS.pdf": {
+      "pages": 19,
+      "links": 19,
+      "text_outside_page": []
+    }
+  },
+  "source_access_counts": {
+    "Релевантные разделы полного текста": 13,
+    "Библиография другого прочитанного источника": 4,
+    "Обнаружено; полный текст недоступен": 1,
+    "Автореферат в воспроизведении агрегатора": 1,
+    "Каталог": 2,
+    "Полный текст": 16,
+    "Обнаружено; страница недоступна": 1,
+    "Главная страница и описание фонда": 1,
+    "Поисковая карточка": 1,
+    "Изображение и карточка": 18
+  },
+  "issues": []
+}

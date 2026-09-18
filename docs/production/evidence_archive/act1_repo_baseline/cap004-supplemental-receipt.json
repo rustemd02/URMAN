@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_supplemental_directional_capture",
+  "captured_at_utc": "2026-09-07T20:22:55.4858260\u002B00:00",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "frames": [
+    {
+      "frame_id": "arrival_up",
+      "zone": "village_day",
+      "pitch_degrees": 55,
+      "evidence_kind": "pitch-up",
+      "output_file": "arrival_up.png",
+      "sha256": "bb8ac047c86a7371bb8ecc2d58707b093a3c1d67e7ddf8f714c26187abb89cf6",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "frame_id": "arrival_down",
+      "zone": "village_day",
+      "pitch_degrees": -55,
+      "evidence_kind": "pitch-down",
+      "output_file": "arrival_down.png",
+      "sha256": "0c7a2a92c89abd8d07afaed1a2410bbeff17f890f5f7575937eaa5dcfc628c47",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "frame_id": "main_street_high",
+      "zone": "village_day",
+      "pitch_degrees": 30,
+      "evidence_kind": "high-lateral",
+      "output_file": "main_street_high.png",
+      "sha256": "789bd4fa76007f66a60e7037bb29732c0d07e9e0d3fb93519ea34df4840da21e",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "frame_id": "house_interior_up",
+      "zone": "house_old_pc",
+      "pitch_degrees": 55,
+      "evidence_kind": "pitch-up",
+      "output_file": "house_interior_up.png",
+      "sha256": "8de6e80821f8ccb362270648c821849191b070a305cef8f05b45af838c6628ac",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "frame_id": "fap_interior_up",
+      "zone": "fap_clinic",
+      "pitch_degrees": 55,
+      "evidence_kind": "pitch-up",
+      "output_file": "fap_interior_up.png",
+      "sha256": "ff173f7fa388c31b5c914775267b65d50f14ff7a445e3f059ad07f154881b951",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "frame_id": "zirat_up",
+      "zone": "zirat_road",
+      "pitch_degrees": 55,
+      "evidence_kind": "pitch-up",
+      "output_file": "zirat_up.png",
+      "sha256": "9d58ae298b473a28894fc739f01f9f798803ba9e9f6dfd05ff16ad852c096065",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "frame_id": "zirat_ground",
+      "zone": "zirat_road",
+      "pitch_degrees": -50,
+      "evidence_kind": "ground-contact",
+      "output_file": "zirat_ground.png",
+      "sha256": "eab937bf064c1a7e14942cbf5e6909e807bc530dad985fb2943f47cbbdd2d4c6",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "frame_id": "kara_up",
+      "zone": "kara_urman_night",
+      "pitch_degrees": 55,
+      "evidence_kind": "pitch-up",
+      "output_file": "kara_up.png",
+      "sha256": "4945141071be33c06875aee99c9636282c200bf0422a8df3153c305460f915b2",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "frame_id": "kara_crowns",
+      "zone": "kara_urman_night",
+      "pitch_degrees": 62,
+      "evidence_kind": "crown-line",
+      "output_file": "kara_crowns.png",
+      "sha256": "1c1e42227b2c43fae1a94f764d0a8f88e129a2373e727f9e54a3e243289ce690",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "frame_id": "kara_ground",
+      "zone": "kara_urman_night",
+      "pitch_degrees": -50,
+      "evidence_kind": "ground-contact",
+      "output_file": "kara_ground.png",
+      "sha256": "8a2d36332453e2b8cb70ce29869327414ba56f9d17e08918f0b4b79ff28832e1",
+      "width": 1280,
+      "height": 720
+    }
+  ]
+}

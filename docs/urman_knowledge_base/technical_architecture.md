@@ -35,7 +35,7 @@ Quest-owned capability sessions синхронизируются по `quests.*.
 
 Ниже сохранены записи модульной миграции, сделанные до принятия Godot/C# target. Они описывают прежний browser composition и `GameSnapshotV2` как исторические доказательства; эти owners не являются текущими production boundaries и не должны восстанавливаться. Текущая архитектура — разделы `Target C# / Godot ownership`, `3D World Presentation` и `Save / Load`.
 
-Миграция `docs/modular_migration/MM-00`–`MM-80` завершила историческую архитектурную подготовку web-oracle к достройке MVP, но не объявляла MVP готовым. В текущем target Production Chapter 1 и full-game campaign — заменяемые C# compiled campaigns, а не встроенный сценарий.
+Миграция `docs/archive_modular_migration/MM-00`–`MM-80` завершила историческую архитектурную подготовку web-oracle к достройке MVP, но не объявляла MVP готовым. В текущем target Production Chapter 1 и full-game campaign — заменяемые C# compiled campaigns, а не встроенный сценарий.
 
 - Portable source of truth — JSON/Markdown в `content/modules/**` и campaign manifests; compiler создаёт immutable `CompiledContentPack` и блокирует duplicate ID, неизвестные opcode, недостижимые обязательные точки, missing assets/providers и раннее раскрытие улики.
 - `RuntimeKernel` — единственный writer progression state и occurrence ledger. Обычный квест/персонаж/диалог/asset меняется данными; уникальная механика приходит capability provider с exact version.
@@ -43,7 +43,7 @@ Quest-owned capability sessions синхронизируются по `quests.*.
 - `main` — единственный browser composition root. Он собирает `RuntimeBootstrap` и named persistence gateway; `Game` получает только presentation facade, без kernel, registry, capability host, raw storage или story IDs.
 - Gateway — единственная production storage boundary. Он один раз удаляет четыре pre-MVP v1 keys, сохраняет username/preferences и Content Lab namespace, а current V2 save удаляет только после exact typed reset proposal.
 - `Content Lab` и legacy MainMap остаются development-only. Old PC/DedOS — отдельный capability module; production не подключает legacy paths без явной campaign registration.
-- Практический authoring flow и data-only side quest example закреплены в `content_authoring_guide.md`; это entrypoint для следующей ЛЛМ, а schema/contract authority остаётся в `content/schemas/**` и `docs/modular_migration/**`.
+- Практический authoring flow и data-only side quest example закреплены в `content_authoring_guide.md`; это entrypoint для следующей ЛЛМ, а schema/contract authority остаётся в `content/schemas/**` и `docs/archive_modular_migration/**`.
 
 Не входят в v1: live hot-swap активного run, пользовательские моды, универсальный scripting framework, ECS и Unity importer. После reload presentation открывает campaign entrypoint без повторного entry effect; точное восстановление экранной позиции потребует отдельного расширения snapshot contract.
 

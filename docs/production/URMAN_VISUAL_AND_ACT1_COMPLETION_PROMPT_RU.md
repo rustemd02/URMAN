@@ -8,7 +8,7 @@ post-processing предшествует зимнему проходу 10–11 �
 
 Дата: 2026-09-07. Адресат: следующая ИИ-модель-исполнитель. Автор диагностики:
 предыдущий запуск (карточки в `docs/production/act1_opencode_execution_state.md`,
-сводка `docs/production/act1_handover_2026-09-07.md`).
+сводка `../archive/act1_handover_2026-09-07.md`).
 
 ---
 
@@ -22,7 +22,7 @@ Worktree/клоны/субагенты/параллельные writer'ы зап
 `df -h .` (в этом проекте уже дважды останавливались из-за диска).
 
 Обязательное чтение перед стартом: `AGENTS.md`, раздел 0
-`URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md`, начало
+`act1_repo_grounded_production_tracker.md`, начало
 `docs/production/act1_opencode_execution_state.md` (карточки сверху —
 свежие результаты), `docs/urman_knowledge_base/design_style.md`,
 `docs/urman_knowledge_base/chapter1_mvp_campaign.md`.

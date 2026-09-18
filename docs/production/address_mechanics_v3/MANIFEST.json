@@ -1,0 +1,102 @@
+{
+  "package": "URMAN_address_mechanics_v3",
+  "mechanics_only": true,
+  "validation": {
+    "status": "OK",
+    "clean_sample_audit_issues": 0,
+    "broken_sample_detects_connectivity_error": true,
+    "buildings": 9,
+    "address_records": 8,
+    "road_nodes": 10,
+    "road_edges": 9,
+    "usal_15_52_distance_m": 28.86,
+    "visual_assets_included": false
+  },
+  "file_count": 21,
+  "files": [
+    {
+      "path": "ASTRA6_HANDOFF.md",
+      "bytes": 3459
+    },
+    {
+      "path": "README.md",
+      "bytes": 3343
+    },
+    {
+      "path": "data/mechanics_rules.json",
+      "bytes": 2395
+    },
+    {
+      "path": "data/sources.json",
+      "bytes": 3618
+    },
+    {
+      "path": "data/street_catalog.json",
+      "bytes": 1413
+    },
+    {
+      "path": "docs/ADDRESS_PARCEL_CADASTRE.md",
+      "bytes": 4942
+    },
+    {
+      "path": "docs/EXISTING_MAP_UPGRADE.md",
+      "bytes": 2256
+    },
+    {
+      "path": "docs/MAP_AND_SETTLEMENT_RESEARCH.md",
+      "bytes": 5196
+    },
+    {
+      "path": "docs/MIGRATION_FROM_OLD_VISUALS.md",
+      "bytes": 681
+    },
+    {
+      "path": "docs/NAV_MAP_SAVE_CONTRACT.md",
+      "bytes": 1286
+    },
+    {
+      "path": "docs/PROCEDURAL_FALLBACK.md",
+      "bytes": 1222
+    },
+    {
+      "path": "sample/broken_map_audit_output.json",
+      "bytes": 11435
+    },
+    {
+      "path": "sample/broken_map_input.json",
+      "bytes": 3338
+    },
+    {
+      "path": "sample/existing_map_enriched.json",
+      "bytes": 10826
+    },
+    {
+      "path": "sample/existing_map_input.json",
+      "bytes": 3340
+    },
+    {
+      "path": "schemas/existing_map_input.schema.json",
+      "bytes": 2022
+    },
+    {
+      "path": "src/__pycache__/mechanics.cpython-313.pyc",
+      "bytes": 19356
+    },
+    {
+      "path": "src/__pycache__/run_pipeline.cpython-313.pyc",
+      "bytes": 2857
+    },
+    {
+      "path": "src/mechanics.py",
+      "bytes": 11579
+    },
+    {
+      "path": "src/run_pipeline.py",
+      "bytes": 1822
+    },
+    {
+      "path": "tests/VALIDATION.json",
+      "bytes": 256
+    }
+  ]
+}

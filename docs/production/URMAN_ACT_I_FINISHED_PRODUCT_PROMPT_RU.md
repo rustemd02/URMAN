@@ -31,7 +31,7 @@
 5. `chapter1_mvp_campaign.md`, `gameplay.md`, `old_pc.md`, `language_learning.md`, `canon.md`, `characters.md` и `content_authoring_guide.md` из knowledge base.
 6. `design_style.md`, `art/act1_master_layout_2026-08-17.md`, `art/act1_visual_reference_bible_2026-08-17.md` и `audio/act1_sound_map.md` из той же базы.
 
-Вопросы канона сверяй с нормализованными разделами `URMAN_Codex_Context.md`. Устаревшие handover и tracker используй как историю, а не как оправдание остановиться на greybox. Этот запрос расширяет прежнюю зимнюю задачу до всего продукта. Старый промпт `URMAN_VISUAL_AND_ACT1_COMPLETION_PROMPT_RU.md` от 7 сентября не исполняй: его предложение лечить картинку глобальным Glow уже устарело.
+Вопросы канона сверяй с нормализованными разделами `../urman_knowledge_base/00_codex_context.md`. Устаревшие handover и tracker используй как историю, а не как оправдание остановиться на greybox. Этот запрос расширяет прежнюю зимнюю задачу до всего продукта. Старый промпт `URMAN_VISUAL_AND_ACT1_COMPLETION_PROMPT_RU.md` от 7 сентября не исполняй: его предложение лечить картинку глобальным Glow уже устарело.
 
 Если есть `graphify-out/graph.json`, перед кодовыми вопросами выполни `graphify query` по геймплейной петле, уликам/диалогам, интерьерам/окружению, audio, UI/меню и save. Затем изучай действующих владельцев и ближайшие зависимости. После каждого изменения кода запускай `graphify update .`; не запускай параллельные обновления общего графа.
 

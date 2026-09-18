@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="780" viewBox="0 0 1500 780">
+<rect width="1500" height="780" fill="#F7F5EF"/>
+<style>text{font-family:DejaVu Sans,sans-serif;fill:#21333B}</style>
+<text x="45" y="50" font-size="27" font-weight="700">От двора к воде и лесу: что можно сжимать</text>
+<text x="45" y="84" font-size="15" font-weight="400">Игровое предложение. Горизонтальные отрезки имеют проектные длины; вертикальный рельеф показан условно.</text>
+<rect x="80" y="270" width="270" height="140" fill="#DED4C3" stroke="#54656B" stroke-width="2"/>
+<rect x="350" y="270" width="430" height="140" fill="#DDE1BB" stroke="#54656B" stroke-width="2"/>
+<rect x="780" y="270" width="120" height="140" fill="#BFCEAF" stroke="#54656B" stroke-width="2"/>
+<rect x="900" y="270" width="500" height="140" fill="#99B69D" stroke="#54656B" stroke-width="2"/>
+<text x="160" y="235" font-size="20" font-weight="700">SC04 / SC10</text>
+<text x="475" y="235" font-size="20" font-weight="700">Поле и тропа</text>
+<text x="790" y="235" font-size="20" font-weight="700">SC11</text>
+<text x="1110" y="235" font-size="20" font-weight="700">SC12</text>
+<text x="120" y="330" font-size="17" font-weight="400">Задние границы</text>
+<text x="120" y="360" font-size="17" font-weight="400">участков</text>
+<text x="440" y="330" font-size="18" font-weight="400">120 м открытого промежутка</text>
+<text x="785" y="330" font-size="18" font-weight="400">15 м</text>
+<text x="1040" y="330" font-size="18" font-weight="400">180 м лесного модуля</text>
+<path d="M 120 470 L 370 470 C 450 470 490 550 550 550 L 640 550 L 720 470 L 1320 470" stroke="#54656B" stroke-width="4" fill="none"/>
+<path d="M 540 550 L 660 550" stroke="#78AABA" stroke-width="13" fill="none"/>
+<text x="535" y="595" font-size="17" font-weight="400">Вода — отдельное понижение</text>
+<text x="80" y="655" font-size="17" font-weight="400">Допустимо сократить длинную дорогу между значимыми местами. Нельзя без последствий убрать открытую полосу: изменятся видимость, ветер, дальность</text>
+<text x="80" y="680" font-size="17" font-weight="400">бытовых звуков и само отношение деревни к лесу. Числа не получены из спутникового измерения.</text><text x="45" y="755" font-family="DejaVu Sans" font-size="13" fill="#65727A">SHURALE RESEARCH • Предложено для игры • Не обмер реального объекта</text></svg>

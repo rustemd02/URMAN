@@ -38,11 +38,11 @@
 
 ## 3. Какие источники считать действующими
 
-Сначала прочитать `AGENTS.md`, `docs/urman_knowledge_base/README.md`, актуальные записи `decision_log.md`, `open_questions.md`, `weak_points.md` и этот документ. Затем прочитать по существу `chapter1_mvp_campaign.md`, `gameplay.md`, `old_pc.md`, `language_learning.md`, `characters.md`, `canon.md` и `content_authoring_guide.md`. В `URMAN_Codex_Context.md` нормализованный канон имеет приоритет перед сырой историей разработки.
+Сначала прочитать `AGENTS.md`, `docs/urman_knowledge_base/README.md`, актуальные записи `decision_log.md`, `open_questions.md`, `weak_points.md` и этот документ. Затем прочитать по существу `chapter1_mvp_campaign.md`, `gameplay.md`, `old_pc.md`, `language_learning.md`, `characters.md`, `canon.md` и `content_authoring_guide.md`. В `../urman_knowledge_base/00_codex_context.md` нормализованный канон имеет приоритет перед сырой историей разработки.
 
 Художественные владельцы уже определены: `design_style.md`, `art/act1_master_layout_2026-08-17.md`, `art/act1_visual_reference_bible_2026-08-17.md`. Зимнее уточнение от 10 сентября и итоговый зимний рендер важнее старых дождливых референсов. Предложенная ниже объединяющая идея развивает эти документы. Если она требует изменения их формулировок, править их точечно с записью решения, а не выпускать ещё одну независимую арт-библию.
 
-`mvp_completion_handoff.md`, `act1_demo_handoff.md`, `docs/production/act1_handover_2026-09-07.md` полезны как история и навигация. Их старые числа, команды и ограничения нельзя автоматически принимать за текущее состояние. Особенно устарел `URMAN_VISUAL_AND_ACT1_COMPLETION_PROMPT_RU.md`: диагноз «не хватает Glow/SSAO/Adjustments» предшествует зимнему проходу и не является заданием снова включить глобальное свечение.
+`../archive/mvp_completion_handoff.md`, `../archive/act1_demo_handoff.md`, `../archive/act1_handover_2026-09-07.md` полезны как история и навигация. Их старые числа, команды и ограничения нельзя автоматически принимать за текущее состояние. Особенно устарел `URMAN_VISUAL_AND_ACT1_COMPLETION_PROMPT_RU.md`: диагноз «не хватает Glow/SSAO/Adjustments» предшествует зимнему проходу и не является заданием снова включить глобальное свечение.
 
 Есть устаревшие разделы даже в действующих файлах. В `technical_architecture.md` упоминание пяти локальных builders не означает пять несвязанных игровых карт. В `playtest_plan.md` старый `npm run build` не является проверкой production Godot. В `audio/act1_sound_map.md` дождь, велосипед и мокрая улица требуют сезонного пересмотра. По каждому столкновению источников сверять текущий entrypoint и данные; не восстанавливать исторический web runtime.
 
