@@ -1,0 +1,92 @@
+{
+  "started": "2026-09-17T05:49:29.248855+00:00",
+  "args": [
+    "sh",
+    "eng/run-act1-vehicle-performance.sh",
+    "--candidate",
+    "/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate",
+    "--output",
+    "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/release01-performance-vehicles-01"
+  ],
+  "scope": "Native moving Release measurements and separate completed viewport images; no listening/human acceptance.",
+  "exitCode": 1,
+  "seconds": 202.104,
+  "samples": [
+    {
+      "sample": "vehicle_niva_radio@main_road",
+      "performanceStatus": "FAIL",
+      "profileAndImageStatus": "PASS",
+      "reasons": [],
+      "capture": {
+        "status": "CAPTURED",
+        "mode": "gameplay",
+        "sample": "vehicle_niva_radio@main_road",
+        "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/release01-performance-vehicles-01-frames/vehicle_niva_radio_main_road.png",
+        "width": 1920,
+        "height": 1080,
+        "sha256": "7650fb59dc927fc643749c9efce3345ccdd32d468ef4b8dfb81b66f97674cb59",
+        "renderedFramesAtReadback": 5888,
+        "processFrameAtReadback": 5888,
+        "cameraAtReadback": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera",
+        "poseAtReadback": "[X: (0.996636, 0, 0.08195545), Y: (0, 1, 0), Z: (-0.08195545, 0, 0.996636), O: (-2.0962496, 1.1491197, -33.120323)]",
+        "feetAtReadback": "(-2.0962496, 0.3991197, -33.120323)",
+        "focusedAtReadback": true,
+        "preset": "medium",
+        "scale": 0.9,
+        "msaa": "Msaa2X",
+        "measuredSamples": 4829,
+        "measuredSeconds": 60.00328599999994,
+        "pixelMinimum": 0,
+        "pixelMaximum": 245,
+        "forceDraw": false,
+        "poseWrites": 0,
+        "timing": "last completed viewport frame; readback outside measurement, before transport exit",
+        "scope": "visual evidence only; performance status remains a separate result"
+      }
+    },
+    {
+      "sample": "vehicle_motorcycle@main_road",
+      "performanceStatus": "FAIL",
+      "profileAndImageStatus": "FAIL",
+      "reasons": [
+        "preset actual None expected medium",
+        "scale actual None expected 0.90",
+        "msaa actual None expected Msaa2X",
+        "vsync actual None expected Disabled",
+        "window actual None expected 1920x1080",
+        "Missing completed gameplay viewport image"
+      ],
+      "capture": {
+        "status": "NOT_CAPTURED",
+        "mode": "gameplay",
+        "sample": "vehicle_motorcycle@main_road",
+        "error": "No completed native gameplay measurement frame is available.",
+        "timing": "outside measurement"
+      }
+    },
+    {
+      "sample": "vehicle_horse_cart@zirat_road",
+      "performanceStatus": "FAIL",
+      "profileAndImageStatus": "FAIL",
+      "reasons": [
+        "preset actual None expected medium",
+        "scale actual None expected 0.90",
+        "msaa actual None expected Msaa2X",
+        "vsync actual None expected Disabled",
+        "window actual None expected 1920x1080",
+        "Missing completed gameplay viewport image"
+      ],
+      "capture": {
+        "status": "NOT_CAPTURED",
+        "mode": "gameplay",
+        "sample": "vehicle_horse_cart@zirat_road",
+        "error": "No completed native gameplay measurement frame is available.",
+        "timing": "outside measurement"
+      }
+    }
+  ],
+  "innerStatus": "FAIL",
+  "receiptSha256": "e7d8b930b70005a9575647201b55a750e07886e39a3b838c938416ecd69fe9b1",
+  "status": "FAIL",
+  "finished": "2026-09-17T05:52:51.356642+00:00"
+}

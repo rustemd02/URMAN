@@ -1,0 +1,41 @@
+*** Begin Patch
+*** Update File: /Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.Addresses.cs
+@@
+-public sealed record AddressBuildingRegistration(Node3D Building,string SourceKey,string BuildingId,string ParcelId,string AddressId,string StreetId,string Number,string Cadastral,Vector3 AccessPoint,Vector3 SignPoint,Vector3 Outward,string Role="public",IReadOnlyList<Vector3>? ApproachPath=null);
++public sealed record AddressBuildingRegistration(Node3D Building,string SourceKey,string BuildingId,string ParcelId,string AddressId,string StreetId,string Number,string Cadastral,Vector3 AccessPoint,Vector3 SignPoint,Vector3 Outward,string Role="public",IReadOnlyList<Vector3>? ApproachPath=null,Vector3? SignOutward=null,string? SignSurfaceName=null);
+@@
+-            var mounted=AddressFacadeMount.TryFind(node,door,outward,this,out var sign,out var mountOwner,out var mountFailure);
++            string? signSurface=row.TryGetProperty("signSurface",out var surfaceRow)?surfaceRow.GetString():null;
++            var signOutward=outward;
++            if(signSurface is not null)
++            {
++                var surface=FindDescendants<MeshInstance3D>(node).Single(n=>n.Name==signSurface&&n.Mesh is not null&&n.IsVisibleInTree());
++                // Explicit facade policy accepts only the two source-confirmed
++                // exterior right-hand walls. It is separate from the door axis.
++                signOutward=surface.GlobalBasis*Vector3.Right;signOutward.Y=0;signOutward=signOutward.Normalized();
++            }
++            var mounted=AddressFacadeMount.TryFind(node,door,signOutward,this,out var sign,out var mountOwner,out var mountFailure,signSurface);
+@@
+-                row.GetProperty("cadastral").GetString()!,access,sign,outward,row.GetProperty("role").GetString()!);
++                row.GetProperty("cadastral").GetString()!,access,sign,outward,row.GetProperty("role").GetString()!,SignOutward:signOutward,SignSurfaceName:signSurface);
+@@
+         r.Building.SetMeta("addressAccessPoint",r.AccessPoint);
++        if(r.SignSurfaceName is not null)r.Building.SetMeta("addressSignSurfaceName",r.SignSurfaceName);
+         _addressPendingAccess.Add((accessId,r.AccessPoint));
+@@
+-            plate.GlobalBasis=doorBasis;
++            var signOutward=r.SignOutward??r.Outward;
++            plate.GlobalBasis=new Basis(Vector3.Up,Mathf.Atan2(signOutward.X,signOutward.Z));
+*** Update File: /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressWorldSmokeTest.cs
+@@
+         var normal=sign.GlobalBasis.Z.Normalized();
++        string? explicitSurface=source?.HasMeta("addressSignSurfaceName")==true?source.GetMeta("addressSignSurfaceName").AsString():null;
+         var samples=new List<object>();
+         var assessment=source is null?new AddressFacadeMount.Coverage(false,0,"","missing source"):
+-            AddressFacadeMount.Inspect(source,sign.GlobalPosition,normal,_world);
++            AddressFacadeMount.Inspect(source,sign.GlobalPosition,normal,_world,explicitSurface);
+         var supportOkay=assessment.Supported;
+         var surfaces=source is null?Array.Empty<(MeshInstance3D Mesh,Vector3[] Faces)>():Descendants(source).OfType<MeshInstance3D>()
+-            .Where(m=>m.Mesh is not null&&m.IsVisibleInTree()&&AddressFacadeMount.Eligible(m.Name.ToString())).Select(m=>(Mesh:m,Faces:m.Mesh!.GetFaces())).ToArray();
++            .Where(m=>m.Mesh is not null&&m.IsVisibleInTree()&&(explicitSurface is null?AddressFacadeMount.Eligible(m.Name.ToString()):m.Name==explicitSurface)).Select(m=>(Mesh:m,Faces:m.Mesh!.GetFaces())).ToArray();
+*** End Patch

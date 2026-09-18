@@ -1,0 +1,102 @@
+{
+  "schema": "urman.m10_candidate_identity.v1",
+  "mode": "checkout-comparison",
+  "candidate": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate",
+    "binarySha256": "abf480fc96f2ee3ac0d9e2343edcf2d7fafc4bef1b7530bde6efd913878c85a5",
+    "pckSha256": "8a59978f31f63bcfc2dd9e02c08b5461364c3f4806a23975e48021a41605a764",
+    "packs": {
+      "urman.chapter1": {
+        "status": "present",
+        "sha256": "6f067f665765890064a6580328a6a8fe089fb8487575112b408607595aa5d0dc",
+        "campaignId": "urman.chapter1",
+        "campaignFingerprint": "9faa754aa13f4d61020962eb1ed0d57182f051025c64562e718c4141c4f54b46"
+      },
+      "urman.fullgame": {
+        "status": "not-shipped"
+      }
+    },
+    "dllSha256": {
+      "arm64/Urman.Game.dll": "ffdbbed8e77b4a0343ff77ff48b34f3211173ca181625b1ceaaecab69d259111",
+      "arm64/Urman.Core.dll": "8fb724759c62eab99ab076a108e63312523884fa95beee46a7285517598c58e1",
+      "arm64/Urman.Content.dll": "f8cdf64071dce9c887ff85d0a4a1c3b2944b400f9eff144ee8e728d37ef7987b",
+      "x86_64/Urman.Game.dll": "703037f33366aadb50fc13984a1998739ee1a1ef5106282f0c8d653f0b95c197",
+      "x86_64/Urman.Core.dll": "8fb724759c62eab99ab076a108e63312523884fa95beee46a7285517598c58e1",
+      "x86_64/Urman.Content.dll": "f8cdf64071dce9c887ff85d0a4a1c3b2944b400f9eff144ee8e728d37ef7987b"
+    },
+    "receiptPath": "/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate/desktop-artifact-receipt.json",
+    "receiptSha256": "96484cf37cb1586c4d1840bbd239354aaab1f64ec88de03a6d922160c4147ab6",
+    "buildProvenance": {
+      "status": "completed",
+      "runId": "72e07c01-e395-4ead-b9d2-18d84b40a1be",
+      "producer": {
+        "script": "eng/export-desktop-release.sh",
+        "mode": "release",
+        "presets": [
+          "Act I Release macOS",
+          "Act I Release Windows"
+        ]
+      }
+    },
+    "source": {
+      "commit": "04f039ee95e6c1320d52d61fff3089fad834393c",
+      "workTree": "dirty",
+      "inputManifest": {
+        "schema": "urman.game_source_manifest.v1",
+        "manifestSha256": "b77188e956edba2b7a7e29f47f4dd4880d25e0bd6db9e9ae2a7151fe805100fb",
+        "fileCount": 1053,
+        "scope": "game sources/assets/import settings; declared content; .NET sources/config"
+      }
+    }
+  },
+  "checkout": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN",
+    "commit": "04f039ee95e6c1320d52d61fff3089fad834393c",
+    "packs": {
+      "urman.chapter1": {
+        "status": "present",
+        "sha256": "6f067f665765890064a6580328a6a8fe089fb8487575112b408607595aa5d0dc",
+        "campaignId": "urman.chapter1",
+        "campaignFingerprint": "9faa754aa13f4d61020962eb1ed0d57182f051025c64562e718c4141c4f54b46"
+      },
+      "urman.fullgame": {
+        "status": "present",
+        "sha256": "00d3c5139f7b2c7bcbc6fee6f138de1e6a8f2d494c7641a50300c214f84bf49e",
+        "campaignId": "urman.fullgame",
+        "campaignFingerprint": "da5f071b094b8ddec9636c2f5f73d22c987fb4ac31f989479336c36d0765befc"
+      }
+    },
+    "debugDllSha256": "73c12ad29f6fc18a98e056712959fbe2cf35ef5f401fa6fc2ff64c92600e6c32",
+    "exportDllSha256": {
+      "ExportDebug/osx-arm64": "cc9bfc5cb487d7a31b9e1a56b234b6ef680eabb25c3b526cef2ac7e34391635c",
+      "ExportDebug/osx-x64": "699039315f7142ae3be4669de0fce6f9991fce19c5b2cdb61152b5b4dbd55058",
+      "ExportRelease/osx-arm64": "ffdbbed8e77b4a0343ff77ff48b34f3211173ca181625b1ceaaecab69d259111",
+      "ExportRelease/osx-x64": "703037f33366aadb50fc13984a1998739ee1a1ef5106282f0c8d653f0b95c197"
+    },
+    "inputManifest": {
+      "schema": "urman.game_source_manifest.v1",
+      "manifestSha256": "b77188e956edba2b7a7e29f47f4dd4880d25e0bd6db9e9ae2a7151fe805100fb",
+      "fileCount": 1053,
+      "scope": "game sources/assets/import settings; declared content; .NET sources/config"
+    }
+  },
+  "comparison": {
+    "status": "matches-recorded-inputs",
+    "sourceInputsMatch": true,
+    "artifactSetBoundToExportRun": true,
+    "unpackedAppBoundToReceipt": true,
+    "packs": {
+      "urman.chapter1": "equal",
+      "urman.fullgame": "not-shipped-in-Act-I"
+    },
+    "changedSourcePaths": [],
+    "differences": [],
+    "unknown": []
+  },
+  "limits": [
+    "Debug and ExportRelease DLLs are different build artifacts; byte difference alone is not staleness.",
+    "Exporter snapshots bind stable inputs to successful exports; coordinated source freeze is still required.",
+    "Before/after snapshots are not compiler attestation and cannot detect a transient edit reverted during export.",
+    "Identity and timing logs do not establish a first human playthrough or 60 active minutes."
+  ]
+}

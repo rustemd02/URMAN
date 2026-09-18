@@ -1,0 +1,11 @@
+*** Begin Patch
+*** Update File: /Users/unterlantas/Documents/GitHub/URMAN/game/content/urman.settlement.addresses.v1.json
+@@
+       "addressId": "ADR-H009",
+       "streetId": "tukay",
+       "number": "6",
+       "cadastral": "URM-Q01-P0108",
++      "primaryDoor": "DwellingFacade_SeniEntry_Door0_Leaf_LOD0",
++      "signSurface": "DwellingFacade_Right_Wall_LOD0",
+       "role": "residential"
+*** End Patch

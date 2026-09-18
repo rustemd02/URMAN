@@ -1,0 +1,55 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+vehicle-smoke: radio boundary carries fractional offset into the next segment
+vehicle-smoke: whole-loop advance still reports a playback boundary
+vehicle-smoke: saved radio segment survives input reordering
+vehicle-smoke: non-finite playback offsets are rejected
+vehicle-smoke: a retired unavailable segment starts the remaining programme at zero instead of copying an unrelated offset
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1724 carved_door_slabs=240 flat_slab_skipped=2473 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+zone-loaded: village_day@arrival connected-world=108531814176
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=108531814176
+SaveGameV3 new game session started; existing slots untouched.
+vehicle-smoke: ordinary New Game
+act1-intro: confirmed with E
+vehicle-smoke: three vehicle instances in the actual connected world
+vehicle-smoke: stable unique fleet IDs
+vehicle-smoke: ordinary free control after arrival card
+vehicle-smoke: babay-niva ordinary authored start needs no parking recovery
+vehicle-smoke: babay-niva starts at its authored grounded position
+vehicle-smoke: babay-niva initial chassis and actual support are valid
+vehicle-smoke: village-motorcycle ordinary authored start needs no parking recovery
+vehicle-smoke: village-motorcycle starts at its authored grounded position
+vehicle-smoke: village-motorcycle initial chassis and actual support are valid
+vehicle-smoke: forest-horse-cart ordinary authored start needs no parking recovery
+vehicle-smoke: forest-horse-cart starts at its authored grounded position
+vehicle-smoke: forest-horse-cart initial chassis and actual support are valid
+vehicle-smoke: one explicit narrow vehicle proof is selected
+vehicle-smoke: vehicle mouse proof uses a native window
+vehicle-smoke: vehicle mouse proof uses the actual requested window size (1280, 720)
+vehicle-smoke: vehicle mouse proof owns active captured input outside modal UI
+vehicle-smoke: one injected physical motion reaches the actual vehicle input pipeline without another motion cancelling it
+vehicle-smoke: captured vehicle camera keeps physical mouse sensitivity at (1280, 720)
+vehicle-smoke: vehicle mouse proof uses the actual requested window size (1920, 1080)
+vehicle-smoke: vehicle mouse proof owns active captured input outside modal UI
+vehicle-smoke: one injected physical motion reaches the actual vehicle input pipeline without another motion cancelling it
+vehicle-smoke: captured vehicle camera keeps physical mouse sensitivity at (1920, 1080)
+vehicle-smoke: actual viewport transforms Relative differently while preserving physical screen motion
+vehicle-smoke: vehicle physical mouse turn agrees at both actual window sizes
+vehicle-smoke: vehicle mouse proof restores the driver's accepted view through ordinary input
+vehicle-smoke: mouse-only proof returns through an ordinary safe exit
+userdata guard: original files and permissions restored and verified

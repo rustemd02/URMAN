@@ -1,0 +1,454 @@
+{
+  "started": "2026-09-17T07:11:23.787778+00:00",
+  "build": "integrated-build-50",
+  "sample": "vehicle_motorcycle@main_road",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "--urman-perf-probe",
+    "--urman-perf-probe-mode=gameplay",
+    "--urman-perf-sample=vehicle_motorcycle@main_road",
+    "--urman-perf-warmup-seconds=12",
+    "--urman-perf-duration-seconds=60",
+    "--urman-perf-request-focus",
+    "--urman-perf-no-vsync"
+  ],
+  "environment": {
+    "URMAN_VEHICLE_CONTACT_DIAGNOSTICS": "1"
+  },
+  "status": "NOT_REPRODUCED",
+  "acceptance": false,
+  "scope": "Native Debug replay of the existing vehicle route with opt-in collision snapshots; not a performance result.",
+  "exitCode": 2,
+  "guardVerified": true,
+  "performanceReports": [
+    "act1-demo-package-performance: status=ROUTE_INVALID mode=gameplay sample=vehicle_motorcycle@main_road reason=contact-diagnostic-stop-not-reproduced"
+  ],
+  "contacts": [],
+  "routes": [
+    {
+      "schema": "urman.vehicle_performance_route.v1",
+      "vehicle": "village-motorcycle",
+      "status": "DIAGNOSTIC",
+      "failure": "contact-diagnostic-stop-not-reproduced",
+      "phase": "Done",
+      "setupSeconds": 11.583333333332678,
+      "drivingSeconds": 24.016666666666584,
+      "distanceMetres": 59.27055609575473,
+      "measurementSeconds": 11.90000000000017,
+      "measurementDistanceMetres": 22.46521021000808,
+      "movingSeconds": 11.716666666666828,
+      "movingFraction": 0.9845938375350135,
+      "minimumMovingFraction": 0.8,
+      "minimumMeasuredDistance": 20,
+      "reversals": 1,
+      "safeExit": true,
+      "actualInput": true,
+      "poseWrites": 0,
+      "zone": "village_day",
+      "route": [
+        {
+          "seconds": 0.016666666666666666,
+          "measuring": false,
+          "position": [
+            1.4,
+            -0.3322522,
+            -23
+          ],
+          "speed": 0,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 1.016666666666668,
+          "measuring": false,
+          "position": [
+            1.0772772,
+            -0.37695646,
+            -24.323606
+          ],
+          "speed": 2.7000005,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 2.033333333333331,
+          "measuring": false,
+          "position": [
+            -0.5361061,
+            -0.37434188,
+            -27.097212
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 3.049999999999994,
+          "measuring": false,
+          "position": [
+            -1.462497,
+            -0.28831413,
+            -30.190235
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 4.0666666666666575,
+          "measuring": false,
+          "position": [
+            -1.4816917,
+            -0.25638273,
+            -33.437
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 5.083333333333321,
+          "measuring": false,
+          "position": [
+            -1.2004635,
+            -0.2730052,
+            -36.678486
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 6.099999999999984,
+          "measuring": false,
+          "position": [
+            -0.85425645,
+            -0.3260211,
+            -39.914696
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 7.116666666666647,
+          "measuring": false,
+          "position": [
+            -0.5643511,
+            -0.32036948,
+            -43.154408
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 8.11666666666665,
+          "measuring": false,
+          "position": [
+            -0.37940276,
+            -0.26655212,
+            -46.34496
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 9.1166666666667,
+          "measuring": false,
+          "position": [
+            -0.30509442,
+            -0.2546234,
+            -49.54266
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 10.116666666666749,
+          "measuring": false,
+          "position": [
+            -0.33142173,
+            -0.28061643,
+            -52.74293
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 11.116666666666799,
+          "measuring": false,
+          "position": [
+            -0.22881113,
+            -0.29396343,
+            -55.941208
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 12.116666666666848,
+          "measuring": true,
+          "position": [
+            -0.032861926,
+            -0.31842354,
+            -59.136215
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 13.116666666666898,
+          "measuring": true,
+          "position": [
+            0.17469499,
+            -0.3238969,
+            -62.32976
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 14.116666666666948,
+          "measuring": true,
+          "position": [
+            0.2385833,
+            -0.23593615,
+            -65.521484
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 15.116666666666998,
+          "measuring": true,
+          "position": [
+            0.18108037,
+            -0.20244919,
+            -68.71863
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 16.116666666667033,
+          "measuring": true,
+          "position": [
+            0.09653082,
+            -0.21336763,
+            -71.91737
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 17.133333333333642,
+          "measuring": true,
+          "position": [
+            0.015363128,
+            -0.32818872,
+            -75.04005
+          ],
+          "speed": 1.9166657,
+          "reverse": false,
+          "braking": true,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 18.15000000000025,
+          "measuring": true,
+          "position": [
+            0.011470239,
+            -0.31522283,
+            -74.808495
+          ],
+          "speed": -0.99,
+          "reverse": true,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 19.16666666666686,
+          "measuring": true,
+          "position": [
+            0.031131707,
+            -0.26477337,
+            -73.81247
+          ],
+          "speed": -0.99,
+          "reverse": true,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 20.18333333333347,
+          "measuring": true,
+          "position": [
+            0.05662307,
+            -0.2212815,
+            -72.81489
+          ],
+          "speed": -0.99,
+          "reverse": true,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 21.200000000000077,
+          "measuring": true,
+          "position": [
+            0.0804774,
+            -0.21298186,
+            -71.80985
+          ],
+          "speed": -0.99,
+          "reverse": true,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 22.216666666666686,
+          "measuring": true,
+          "position": [
+            0.10397906,
+            -0.20494539,
+            -70.80524
+          ],
+          "speed": -0.99,
+          "reverse": true,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 23.233333333333295,
+          "measuring": true,
+          "position": [
+            0.1290084,
+            -0.20687576,
+            -69.79889
+          ],
+          "speed": -0.99,
+          "reverse": true,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        }
+      ],
+      "contactDiagnosticsRequested": true,
+      "diagnosticDrivingLimitSeconds": 24,
+      "contactEvents": [
+        {
+          "kind": "braking-start",
+          "physicsFrame": 1712,
+          "position": [
+            0.028416272,
+            -0.30254433,
+            -74.58207
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "remaining": 1.4179306,
+          "stopping": 1.4314287,
+          "drivingSeconds": 16.95000000000032
+        },
+        {
+          "kind": "direction-reversed",
+          "physicsFrame": 1743,
+          "position": [
+            0.0066130394,
+            -0.342365,
+            -75.28803
+          ],
+          "speed": 0,
+          "reverse": true,
+          "drivingSeconds": 17.466666666666956
+        }
+      ],
+      "firstCollisionStop": null,
+      "limits": "Explicit diagnostic driver in ordinary gameplay; not a human playthrough or listening acceptance."
+    }
+  ],
+  "finished": "2026-09-17T07:12:29.525902+00:00",
+  "seconds": 65.739,
+  "inputsChanged": []
+}

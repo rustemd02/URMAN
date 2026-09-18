@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-09-17T04:25:58.149767+00:00",
+  "build_receipt": "integrated-build-44.json",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1280x720",
+    "res://tests/act1_first_person_walkthrough_smoke_test.tscn",
+    "--urman-smoke-background-input"
+  ],
+  "environment": {
+    "URMAN_WALK_MAIN_ROUTE_ONLY": "1",
+    "URMAN_ADDRESS_SUPPORT_DIAGNOSTICS": "1",
+    "URMAN_WALK_CAPTURE_DIR": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-11",
+    "URMAN_IMAGE_UI_OUTPUT": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-11"
+  },
+  "human_playtest": "external/not-run",
+  "focus_policy": "Test-only background input replay; no foreground performance or human duration claim.",
+  "exit_code": 1,
+  "process_seconds": 254.86,
+  "finished": "2026-09-17T04:30:13.011098+00:00",
+  "inputs_changed_during_run": []
+}

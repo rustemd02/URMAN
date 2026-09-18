@@ -1,0 +1,67 @@
+[
+  {
+    "name": "human-delivery-tests",
+    "command": [
+      "python3",
+      "eng/test-radio-recording-delivery.py"
+    ],
+    "startedUtc": "2026-09-16T23:41:51.758771+00:00",
+    "completedUtc": "2026-09-16T23:41:53.029820+00:00",
+    "exitCode": 0
+  },
+  {
+    "name": "dry-run",
+    "command": [
+      "python3",
+      "eng/apply-act1-radio-previews.py",
+      ".tools/radio-preview/avyl-preview-01",
+      "--project",
+      "."
+    ],
+    "startedUtc": "2026-09-16T23:41:53.029853+00:00",
+    "completedUtc": "2026-09-16T23:41:56.979011+00:00",
+    "exitCode": 0
+  },
+  {
+    "name": "install",
+    "command": [
+      "python3",
+      "eng/apply-act1-radio-previews.py",
+      ".tools/radio-preview/avyl-preview-01",
+      "--project",
+      ".",
+      "--install-preview"
+    ],
+    "startedUtc": "2026-09-16T23:41:56.979552+00:00",
+    "completedUtc": "2026-09-16T23:42:00.914276+00:00",
+    "exitCode": 0
+  },
+  {
+    "name": "repeat-install",
+    "command": [
+      "python3",
+      "eng/apply-act1-radio-previews.py",
+      ".tools/radio-preview/avyl-preview-01",
+      "--project",
+      ".",
+      "--install-preview"
+    ],
+    "startedUtc": "2026-09-16T23:42:00.921070+00:00",
+    "completedUtc": "2026-09-16T23:42:04.723150+00:00",
+    "exitCode": 0,
+    "runtimeBytesIdempotent": true
+  },
+  {
+    "name": "preview-package-tests",
+    "command": [
+      "python3",
+      "eng/test-radio-preview-delivery.py",
+      ".tools/radio-preview/avyl-preview-01",
+      "--project",
+      "."
+    ],
+    "startedUtc": "2026-09-16T23:42:04.729609+00:00",
+    "completedUtc": "2026-09-16T23:42:08.871659+00:00",
+    "exitCode": 0
+  }
+]

@@ -1,0 +1,319 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1579 carved_door_slabs=101 flat_slab_skipped=2469 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=109404229709
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+address-audit-lifecycle: epoch=1 presentation=2 stage=restoring-exterior access= zone=village_day exterior=True ready=True frame=1 
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+address-audit-lifecycle: epoch=1 presentation=2 stage=search-start access=ACC-ADR-BABAI zone=village_day exterior=True ready=True frame=4 
+address-support-probe: ACC-ADR-BABAI approach start result=accepted supplied=(-26.746128, 0.31850967, -1.5201948) floor=(-26.746128, 0.28352106, -1.5201948) acceptedFeet=(-26.746128, 0.28438044, -1.5201948) lift=0.035; normal=(-0.049573414, 0.9986544, 0.015225223) depth=0.0010614773 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-BABAI road anchor result=accepted supplied=(-24, 0.3997803, 1.2) floor=(-24, 0.36474347, 1.2) acceptedFeet=(-24, 0.3651536, 1.2) lift=0.035; normal=(-0.011438925, 0.99991465, -0.0063203587) depth=0.0011225471 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+zone-loaded: village_day@arrival connected-world=109404229709
+address-audit-lifecycle: epoch=2 presentation=3 stage=restoring-exterior access=ACC-ADR-BABAI zone=village_day exterior=True ready=True frame=29 
+SaveGameV3 new game session started; existing slots untouched.
+address-audit-lifecycle: epoch=2 presentation=3 stage=search-start access=ACC-ADR-BABAI zone=village_day exterior=True ready=True frame=32 
+address-support-probe: ACC-ADR-BABAI approach start result=accepted supplied=(-26.746128, 0.31850967, -1.5201948) floor=(-26.746128, 0.28352106, -1.5201948) acceptedFeet=(-26.746128, 0.28438044, -1.5201948) lift=0.035; normal=(-0.049573414, 0.9986544, 0.015225223) depth=0.0010614773 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-BABAI road anchor result=accepted supplied=(-24, 0.3997803, 1.2) floor=(-24, 0.36474347, 1.2) acceptedFeet=(-24, 0.3651536, 1.2) lift=0.035; normal=(-0.011438925, 0.99991465, -0.0063203587) depth=0.0011225471 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+act1-intro: confirmed with E
+address-audit-lifecycle: epoch=2 presentation=3 stage=path-committed access=ACC-ADR-BABAI zone=village_day exterior=True ready=True frame=128 testedAccess=ACC-ADR-BABAI supplied=(-26.746128, 0.31850967, -1.5201948) reason=
+address-audit-lifecycle: epoch=2 presentation=3 stage=search-start access=ACC-ADR-FAP zone=village_day exterior=True ready=True frame=129 
+address-support-probe: ACC-ADR-FAP approach start result=accepted supplied=(26.7, -0.29382363, -27.38) floor=(26.7, 0.16047117, -27.38) acceptedFeet=(26.7, 0.16088133, -27.38) lift=0.035; normal=(0, 1, -0) depth=0.0010390729 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0 shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-FAP road anchor result=accepted supplied=(27.038578, -0.2622051, -25.96926) floor=(27.038578, -0.3486841, -25.96926) acceptedFeet=(27.038578, -0.3469263, -25.96926) lift=0.035; normal=(-0.092380285, 0.99503857, 0.03693291) depth=0.0014342532 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-audit-lifecycle: epoch=2 presentation=3 stage=path-committed access=ACC-ADR-FAP zone=village_day exterior=True ready=True frame=131 testedAccess=ACC-ADR-FAP supplied=(26.7, -0.29382363, -27.38) reason=
+address-audit-lifecycle: epoch=2 presentation=3 stage=search-start access=ACC-ADR-H001 zone=village_day exterior=True ready=True frame=131 
+address-support-probe: ACC-ADR-H001 approach start result=accepted supplied=(-11.175, -0.057786692, 52.858) floor=(-11.175, -0.09279674, 52.858) acceptedFeet=(-11.175, -0.09238659, 52.858) lift=0.035; normal=(0.030481592, 0.9992853, -0.02235863) depth=0.0012892791 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-H001 road anchor result=accepted supplied=(0, -0.37098423, 40) floor=(0, -0.40597734, 40) acceptedFeet=(0, -0.4060164, 40) lift=0.035; normal=(-0.0013540798, 0.9999418, 0.0107045155) depth=0.0015086124 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+walk-frame: approach-urman.chapter1:interaction/view-arrival-message actual-player-position=(3.4304285, -0.38040766, 5.2363014)
+act1-physical-arrival: ordinary walk to bench; phone/photo through camera ray and mapped input; visible personal answer
+walk-frame: arrival-house-path-1 actual-player-position=(-0.20286892, -0.2599498, 2.166699)
+walk-frame: arrival-house-path-2 actual-player-position=(-0.9261041, -0.27279276, -1.4583048)
+walk-frame: arrival-house-path-3 actual-player-position=(-3.8400512, -0.26621324, -5.5741363)
+walk-frame: arrival-house-axis-0 actual-player-position=(-1.4202187, -0.24497142, -7.7976537)
+walk-frame: arrival-house-axis-1 actual-player-position=(-5.776341, -0.2975423, -5.612207)
+walk-frame: arrival-house-axis-2 actual-player-position=(-11.755152, -0.282195, -2.6230683)
+walk-frame: arrival-house-axis-3 actual-player-position=(-18.762238, 0.12843798, -0.08560847)
+walk-frame: arrival-house-axis-4 actual-player-position=(-23.753763, 0.3676317, 1.1396285)
+walk-frame: house-yard-entry--24.42-2.4 actual-player-position=(-24.283499, 0.38458815, 2.1408477)
+walk-frame: house-yard-entry--25.2-2.6 actual-player-position=(-24.942152, 0.38104326, 2.4708219)
+walk-frame: house-yard-entry--26.05-2.2 actual-player-position=(-25.768173, 0.34623858, 2.2688947)
+walk-frame: house-yard-entry--26.05-0.2 actual-player-position=(-26.013012, 0.28919756, 0.4715249)
+walk-frame: house-door-approach actual-player-position=(-26.13773, 0.3056263, -0.9962271)
+walk-frame: approach-urman.chapter1:interaction/arrival-enter-house actual-player-position=(-26.052519, 0.32019094, -1.6133839)
+[34] scene.entered: urman.chapter1:interaction/arrival-enter-house
+zone-loaded: house_old_pc@entry connected-world=109404229709
+address-audit-lifecycle: epoch=3 presentation=4 stage=waiting-for-exterior access=ACC-ADR-H001 zone=house_old_pc exterior=False ready=False frame=1102 
+walk-frame: approach-urman.chapter1:interaction/talk-mansur actual-player-position=(-28.435516, 0.5943085, -4.9563665)
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.5925, 0.5943085, -5.1922317)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.467722, 0.5943085, -6.3616433)
+walk-frame: approach-urman.chapter1:interaction/talk-gulsina actual-player-position=(-30.619196, 0.5943085, -6.284466)
+family-meal-proof: actual invitation, source-dependent personal reply, explicit meal acceptance; topic=photo; decline/return/load=False; no timer, movement automation or human-duration claim
+walk-frame: house-exit-aisle--0.15-1.10 actual-player-position=(-28.972773, 0.5943085, -5.5245924)
+walk-frame: house-exit-aisle--2.82-1.10 actual-player-position=(-29.800892, 0.5943085, -3.232983)
+walk-frame: house-exit-aisle--2.82-2.30 actual-player-position=(-29.027275, 0.5943085, -2.6589348)
+[93] scene.entered: urman.chapter1:interaction/house-to-route
+zone-loaded: village_day@from_house connected-world=109404229709
+address-audit-lifecycle: epoch=4 presentation=5 stage=restoring-exterior access=ACC-ADR-H001 zone=village_day exterior=True ready=True frame=1408 
+address-audit-lifecycle: epoch=4 presentation=5 stage=search-start access=ACC-ADR-H001 zone=village_day exterior=True ready=True frame=1411 
+address-support-probe: ACC-ADR-H001 approach start result=accepted supplied=(-11.175, -0.057786692, 52.858) floor=(-11.175, -0.09279674, 52.858) acceptedFeet=(-11.175, -0.09238659, 52.858) lift=0.035; normal=(0.030481592, 0.9992853, -0.02235863) depth=0.0012892791 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-H001 road anchor result=accepted supplied=(0, -0.37098423, 40) floor=(0, -0.40597734, 40) acceptedFeet=(0, -0.4060164, 40) lift=0.035; normal=(-0.0013540798, 0.9999418, 0.0107045155) depth=0.0015086124 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+walk-frame: house-exit-street--26.05-0.2 actual-player-position=(-26.069223, 0.29562184, -0.05590672)
+walk-frame: house-exit-street--26.05-2.2 actual-player-position=(-26.052824, 0.31674743, 1.9267619)
+walk-frame: house-exit-street--25.2-2.6 actual-player-position=(-25.432014, 0.36245385, 2.4164193)
+walk-frame: house-exit-street--24.42-2.4 actual-player-position=(-24.696135, 0.3852376, 2.4038823)
+walk-frame: house-exit-street--24-1.2 actual-player-position=(-24.128754, 0.36358508, 1.4225329)
+walk-frame: house-exit-street--19-0 actual-player-position=(-19.26683, 0.17012256, 0.07400027)
+walk-frame: house-exit-street--12--2.5 actual-player-position=(-12.264785, -0.29103953, -2.40621)
+walk-frame: house-exit-street--6--5.5 actual-player-position=(-6.220001, -0.30420256, -5.391443)
+walk-frame: house-exit-street--1.2--8 actual-player-position=(-1.4441198, -0.24304232, -7.8731136)
+walk-frame: house-exit-street--0.1--2.8 actual-player-position=(-0.16690536, -0.2746243, -3.0525208)
+walk-frame: house-exit-street--0.1-3.7 actual-player-position=(-0.10271438, -0.30187732, 3.4063578)
+walk-frame: approach-urman.chapter1:interaction/talk-alsu actual-player-position=(0.5696654, -0.30709505, 3.5077903)
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+alsu-walk-proof: requested, physical input, one actor/body/ray, checkpoint=3; return=False; no account until manual question; human-duration=not-run
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/crossroad_signs_inspect
+walk-alsu-turn-bypass: actor=(0.05, -0.21888247, -8.8) player=(0.053304248, -0.24264401, -7.140752) west-corners=(-1.2,-8),(-1.2,-10) ordinary-standing-input=true
+walk-frame: fap-alsu-bypass--1.2--8 actual-player-position=(-0.9748292, -0.23684986, -7.8455687)
+walk-frame: fap-alsu-bypass--1.2--10 actual-player-position=(-1.1692218, -0.22421707, -9.704913)
+walk-frame: fap-branch-0--10 actual-player-position=(-0.29011032, -0.23044756, -9.926783)
+walk-frame: fap-branch-4.5--12.5 actual-player-position=(4.2529216, -0.32646444, -12.367341)
+walk-frame: fap-branch-10--17 actual-player-position=(9.809627, -0.4487882, -16.846676)
+walk-frame: fap-branch-17--21.5 actual-player-position=(16.756174, -0.5673502, -21.342203)
+address-audit-lifecycle: epoch=4 presentation=5 stage=blocked access=ACC-ADR-H001 zone=village_day exterior=True ready=True frame=3699 testedAccess=ACC-ADR-H001 supplied=(-11.175, -0.057786692, 52.858) reason=standing body route not found; examined 4018 cells; no walkable tread within controller step height: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision shape 447 advanceProbe={"phase":"projected-floor-step-rejected","from":"(-6.0317845, -0.3163771, 46.941685)","requested":"(-0.05246479, 0, 0.060366206)","projected":"(-0.05246479, 0.0037597888, 0.060366206)","floorNormalY":0.70710677,"radius":0.35,"height":1.8,"margin":0.001,"collisionMask":3,"recoveryAsCollision":false,"initial":{"travel":"(-0.011543857, 0.00080630183, 0.013307751)","remainder":"(-0.04088565, 0, 0.047043197)","safeFraction":0.22070312,"unsafeFraction":0.2265625,"contacts":[{"owner":"/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision","shape":0,"point":"(-6.0593543, -0.3151065, 46.963455)","normal":"(0.044912856, 0.9987222, -0.023169268)","directionDot":-0.046949655,"depth":0.0010170708}]},"secondary":{"travel":"(-0.042387415, 0.0038464435, 0.04879648)","remainder":"(-0.01004209, 0.00071964716, 0.011554468)","safeFraction":0.80859375,"unsafeFraction":0.8144531,"contacts":[{"owner":"/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision","shape":447,"point":"(-6.155705, 0.021099303, 47.33084)","normal":"(0.23210005, 0.04684014, -0.97156346)","directionDot":-0.8855665,"depth":0.0010405451},{"owner":"/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision","shape":0,"point":"(-6.090236, -0.3128939, 46.998962)","normal":"(0.044912856, 0.9987222, -0.023169268)","directionDot":-0.046949655,"depth":0.00016642628}]}}
+address-audit-lifecycle: epoch=4 presentation=5 stage=search-start access=ACC-ADR-H002 zone=village_day exterior=True ready=True frame=3699 
+address-support-probe: ACC-ADR-H002 approach start result=accepted supplied=(4.855193, -0.29467657, 54.414326) floor=(4.855193, -0.3296608, 54.414326) acceptedFeet=(4.855193, -0.32880142, 54.414326) lift=0.035; normal=(-0.018003395, 0.99818355, -0.057492856) depth=0.0012263104 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-H002 road anchor result=accepted supplied=(0, -0.37098423, 40) floor=(0, -0.40597734, 40) acceptedFeet=(0, -0.4060164, 40) lift=0.035; normal=(-0.0013540798, 0.9999418, 0.0107045155) depth=0.0015086124 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+walk-frame: fap-branch-23--25 actual-player-position=(22.767855, -0.48871624, -24.864208)
+walk-frame: approach-urman.chapter1:interaction/route-to-fap actual-player-position=(26.60125, -0.12544882, -26.465322)
+[157] scene.entered: urman.chapter1:interaction/route-to-fap
+zone-loaded: fap_clinic@waiting_room connected-world=109404229709
+address-audit-lifecycle: epoch=5 presentation=6 stage=waiting-for-exterior access=ACC-ADR-H002 zone=fap_clinic exterior=False ready=False frame=3827 
+walk-frame: naila-reception-aisle-0.00-1.25 actual-player-position=(26.7, 0.06094969, -32.61674)
+walk-frame: naila-reception-aisle-1.00-1.25 actual-player-position=(27.412376, 0.06094969, -32.804287)
+walk-frame: approach-urman.chapter1:interaction/fap-to-document-desk actual-player-position=(26.769945, 0.06094969, -35.036934)
+[172] scene.entered: urman.chapter1:interaction/fap-to-document-desk
+walk-frame: approach-urman.chapter1:interaction/fap-document-desk-to-official-record actual-player-position=(26.87532, 0.06094969, -36.279083)
+[176] scene.entered: urman.chapter1:interaction/fap-document-desk-to-official-record
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-official-death
+walk-frame: approach-urman.chapter1:interaction/official-leave-clinic actual-player-position=(26.707384, 0.06094969, -30.331516)
+zone-loaded: village_day@from_fap connected-world=109404229709
+address-audit-lifecycle: epoch=6 presentation=7 stage=restoring-exterior access=ACC-ADR-H002 zone=village_day exterior=True ready=True frame=4159 
+address-audit-lifecycle: epoch=6 presentation=7 stage=search-start access=ACC-ADR-H002 zone=village_day exterior=True ready=True frame=4162 
+address-support-probe: ACC-ADR-H002 approach start result=accepted supplied=(4.855193, -0.29467657, 54.414326) floor=(4.855193, -0.3296608, 54.414326) acceptedFeet=(4.855193, -0.32880142, 54.414326) lift=0.035; normal=(-0.018003395, 0.99818355, -0.057492856) depth=0.0012263104 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-H002 road anchor result=accepted supplied=(0, -0.37098423, 40) floor=(0, -0.40597734, 40) acceptedFeet=(0, -0.4060164, 40) lift=0.035; normal=(-0.0013540798, 0.9999418, 0.0107045155) depth=0.0015086124 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+walk-frame: fap-return-23--25 actual-player-position=(23.294737, -0.49327457, -25)
+address-audit-lifecycle: epoch=6 presentation=7 stage=path-committed access=ACC-ADR-H002 zone=village_day exterior=True ready=True frame=4353 testedAccess=ACC-ADR-H002 supplied=(4.855193, -0.29467657, 54.414326) reason=
+address-audit-lifecycle: epoch=6 presentation=7 stage=search-start access=ACC-ADR-H003 zone=village_day exterior=True ready=True frame=4353 
+address-support-probe: ACC-ADR-H003 approach start result=accepted supplied=(-10.219967, -0.13834216, 47.113937) floor=(-10.219967, -0.17333227, 47.113937) acceptedFeet=(-10.219967, -0.17292212, 47.113937) lift=0.035; normal=(0.0098755695, 0.99970776, -0.022066025) depth=0.0011413516 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-H003 road anchor result=accepted supplied=(0, -0.37098423, 40) floor=(0, -0.40597734, 40) acceptedFeet=(0, -0.4060164, 40) lift=0.035; normal=(-0.0013540798, 0.9999418, 0.0107045155) depth=0.0015086124 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-audit-lifecycle: epoch=6 presentation=7 stage=path-committed access=ACC-ADR-H003 zone=village_day exterior=True ready=True frame=4360 testedAccess=ACC-ADR-H003 supplied=(-10.219967, -0.13834216, 47.113937) reason=
+address-audit-lifecycle: epoch=6 presentation=7 stage=search-start access=ACC-ADR-H004 zone=village_day exterior=True ready=True frame=4360 
+address-support-probe: ACC-ADR-H004 approach start result=accepted supplied=(-22.960573, 0.7507051, 58.121994) floor=(-22.960573, 0.7157096, 58.121994) acceptedFeet=(-22.960573, 0.7174675, 58.121994) lift=0.035; normal=(0.017728206, 0.9960968, -0.08646897) depth=0.0010628201 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-H004 road anchor result=accepted supplied=(0, -0.37098423, 40) floor=(0, -0.40597734, 40) acceptedFeet=(0, -0.4060164, 40) lift=0.035; normal=(-0.0013540798, 0.9999418, 0.0107045155) depth=0.0015086124 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+walk-frame: fap-return-17--21.5 actual-player-position=(17.25207, -0.5711526, -21.640194)
+walk-frame: fap-return-10--17 actual-player-position=(10.238834, -0.44540134, -17.152824)
+walk-frame: fap-return-4.5--12.5 actual-player-position=(4.702605, -0.29245016, -12.664885)
+walk-frame: fap-return-0--10 actual-player-position=(0.21864004, -0.23601806, -10.123955)
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/walk-fap-return.savegame-v3.json
+zone-loaded: village_day@from_fap connected-world=109404229709
+address-audit-lifecycle: epoch=7 presentation=8 stage=waiting-for-exterior access=ACC-ADR-H004 zone=village_day exterior=True ready=False frame=4768 
+SaveGameV3 restored.
+address-audit-lifecycle: epoch=8 presentation=8 stage=restoring-exterior access=ACC-ADR-H004 zone=village_day exterior=True ready=True frame=4770 
+address-audit-lifecycle: epoch=8 presentation=8 stage=search-start access=ACC-ADR-H004 zone=village_day exterior=True ready=True frame=4773 
+address-support-probe: ACC-ADR-H004 approach start result=accepted supplied=(-22.960573, 0.7507051, 58.121994) floor=(-22.960573, 0.7157096, 58.121994) acceptedFeet=(-22.960573, 0.7174675, 58.121994) lift=0.035; normal=(0.017728206, 0.9960968, -0.08646897) depth=0.0010628201 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-H004 road anchor result=accepted supplied=(0, -0.37098423, 40) floor=(0, -0.40597734, 40) acceptedFeet=(0, -0.4060164, 40) lift=0.035; normal=(-0.0013540798, 0.9999418, 0.0107045155) depth=0.0015086124 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+walk-frame: house-return--1.2--10 actual-player-position=(-0.9102964, -0.23188496, -10.025349)
+walk-frame: house-return--1.2--8 actual-player-position=(-1.159001, -0.22546163, -8.286657)
+walk-frame: house-return--6--5.5 actual-player-position=(-5.7758512, -0.29700455, -5.6290283)
+walk-frame: house-return--12--2.5 actual-player-position=(-11.748153, -0.2819289, -2.6272445)
+walk-frame: house-return--19-0 actual-player-position=(-18.754526, 0.12779237, -0.088449344)
+walk-frame: house-return--24-1.2 actual-player-position=(-23.745674, 0.36811814, 1.1375959)
+walk-frame: house-return-yard--24.42-2.4 actual-player-position=(-24.279696, 0.38448098, 2.1364696)
+walk-frame: house-return-yard--25.2-2.6 actual-player-position=(-24.937614, 0.3809361, 2.467844)
+walk-frame: house-return-yard--26.05-2.2 actual-player-position=(-25.764338, 0.34645367, 2.2687826)
+walk-frame: house-return-yard--26.05-0.2 actual-player-position=(-26.012459, 0.2888754, 0.47186676)
+walk-frame: house-return-yard--26.158367--1.2426405 actual-player-position=(-26.137623, 0.30562696, -0.9957944)
+walk-frame: approach-urman.chapter1:interaction/official-to-internal-register actual-player-position=(-26.052532, 0.3202086, -1.6129482)
+[194] scene.entered: urman.chapter1:interaction/official-to-internal-register
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-internal-register
+zone-loaded: house_old_pc@entry connected-world=109404229709
+address-audit-lifecycle: epoch=9 presentation=9 stage=waiting-for-exterior access=ACC-ADR-H004 zone=house_old_pc exterior=False ready=False frame=5441 
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.748287, 0.5943085, -5.152472)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.4713, 0.5943085, -6.3469896)
+state-final-render-sync-begin: label=source-excerpt-ui/begin/press tick=128633 drawn=6156 process=6156 physics=5562 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/begin/press milliseconds=6 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/begin/release tick=128639 drawn=6156 process=6156 physics=5562 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/begin/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-0/press tick=128649 drawn=6157 process=6157 physics=5562 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-0/press milliseconds=6 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-0/release tick=128655 drawn=6158 process=6158 physics=5563 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-0/release milliseconds=5 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-1/press tick=128660 drawn=6159 process=6159 physics=5564 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-1/press milliseconds=6 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-1/release tick=128666 drawn=6160 process=6160 physics=5564 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-1/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-2/press tick=128675 drawn=6161 process=6161 physics=5565 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-2/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-2/release tick=128683 drawn=6162 process=6162 physics=5565 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-2/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-3/press tick=128691 drawn=6163 process=6163 physics=5566 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-3/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-3/release tick=128699 drawn=6164 process=6164 physics=5566 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-3/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-4/press tick=128708 drawn=6165 process=6165 physics=5567 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-4/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-4/release tick=128716 drawn=6166 process=6166 physics=5567 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-4/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-5/press tick=128725 drawn=6167 process=6167 physics=5568 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-5/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-5/release tick=128733 drawn=6168 process=6168 physics=5568 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-5/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-6/press tick=128741 drawn=6169 process=6169 physics=5569 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-6/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-6/release tick=128750 drawn=6170 process=6170 physics=5569 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-6/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-7/press tick=128758 drawn=6171 process=6171 physics=5570 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-7/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-7/release tick=128766 drawn=6172 process=6172 physics=5570 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-7/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/return-to-reading/press tick=128774 drawn=6173 process=6173 physics=5571 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/return-to-reading/press milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/return-to-reading/release tick=128783 drawn=6174 process=6174 physics=5571 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/return-to-reading/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/begin-again/press tick=128791 drawn=6175 process=6175 physics=5572 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/begin-again/press milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/begin-again/release tick=128800 drawn=6176 process=6176 physics=5572 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/begin-again/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-0/press tick=128808 drawn=6177 process=6177 physics=5573 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-0/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-0/release tick=128816 drawn=6178 process=6178 physics=5573 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-0/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-1/press tick=128824 drawn=6179 process=6179 physics=5574 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-1/press milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-1/release tick=128833 drawn=6180 process=6180 physics=5574 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-1/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-2/press tick=128841 drawn=6181 process=6181 physics=5575 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-2/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-2/release tick=128850 drawn=6182 process=6182 physics=5575 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-2/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-3/press tick=128858 drawn=6183 process=6183 physics=5576 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-3/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-3/release tick=128866 drawn=6184 process=6184 physics=5576 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-3/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-4/press tick=128875 drawn=6185 process=6185 physics=5577 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-4/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-4/release tick=128883 drawn=6186 process=6186 physics=5577 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-4/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-5/press tick=128891 drawn=6187 process=6187 physics=5578 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-5/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-5/release tick=128899 drawn=6188 process=6188 physics=5578 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-5/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-6/press tick=128908 drawn=6189 process=6189 physics=5579 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-6/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-6/release tick=128916 drawn=6190 process=6190 physics=5579 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-6/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-7/press tick=128924 drawn=6191 process=6191 physics=5580 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-7/press milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-7/release tick=128933 drawn=6192 process=6192 physics=5580 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-7/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/tab-to-record/press tick=128941 drawn=6193 process=6193 physics=5581 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/tab-to-record/press milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/tab-to-record/release tick=128950 drawn=6194 process=6194 physics=5581 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/tab-to-record/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/resize-(1280, 720) tick=128959 drawn=6195 process=6195 physics=5582 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/resize-(1280, 720) milliseconds=7 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/layout-(1280, 720) tick=128966 drawn=6196 process=6196 physics=5582 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/layout-(1280, 720) milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/capture-(1280, 720) tick=128975 drawn=6197 process=6197 physics=5582 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/capture-(1280, 720) milliseconds=8 forcedScreenshotRender=False
+source-excerpt-ui: capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-10/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_1280x720.png
+source-excerpt-ui: bounds (1280, 720) actual=(1280, 720) logical=(1920, 1080) textPixels=(516, 325.33334) selectedCharacters=8 capture=PNG
+state-final-render-sync-begin: label=source-excerpt-ui/resize-(1920, 1080) tick=129052 drawn=6198 process=6198 physics=5583 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/resize-(1920, 1080) milliseconds=63 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/layout-(1920, 1080) tick=129115 drawn=6199 process=6199 physics=5587 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/layout-(1920, 1080) milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/capture-(1920, 1080) tick=129123 drawn=6200 process=6200 physics=5591 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/capture-(1920, 1080) milliseconds=6 forcedScreenshotRender=False
+source-excerpt-ui: capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-10/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_1920x1080.png
+source-excerpt-ui: bounds (1920, 1080) actual=(1920, 1080) logical=(1920, 1080) textPixels=(774, 549) selectedCharacters=8 capture=PNG
+state-final-render-sync-begin: label=source-excerpt-ui/restore-window tick=129252 drawn=6201 process=6201 physics=5592 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/restore-window milliseconds=53 forcedScreenshotRender=False
+source-excerpt-ui: PASS real Shift+arrows, Esc-to-reader, re-entry, Tab-to-button, 720/1080 bounds; no excerpt recorded
+source-formatting-proof: paired strong -> unchanged canonical paragraph -> real selection/save follows; literal stars and links retained
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/resize tick=129332 drawn=6205 process=6205 physics=5604 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/resize milliseconds=5 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/layout tick=129341 drawn=6207 process=6207 physics=5605 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/layout milliseconds=8 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-10/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-notice-cause_attempt01_wrong_1280x720.png
+source-excerpt-raster-typography: {"action":"excerpt-notice-cause","phase":"wrong","size":"(1280, 720)","textScale":1,"rasterSize":"(1280, 720)","logicalViewport":"(0, 0), (1920, 1080)","rasterRatio":"(0.6666667, 0.6666667)","readerBounds":"(502.6667, 158), (516, 507.33337)","labels":[{"name":"Hint","logicalFont":21,"screenFontPixels":14,"bounds":"(502.6667, 477.33334), (516, 86.00003)","logicalHeight":129,"minimumHeight":129},{"name":"Feedback","logicalFont":21,"screenFontPixels":14,"bounds":"(502.6667, 596.6667), (516, 42)","logicalHeight":63,"minimumHeight":63},{"name":"Source","logicalFont":21,"screenFontPixels":14,"bounds":"(502.6667, 645.3334), (516, 20)","logicalHeight":30,"minimumHeight":30}],"oracle":"actual raster / logical viewport extent times GlobalWithCanvas; no runtime screen-transform API"}
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/resize tick=129416 drawn=6207 process=6207 physics=5605 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/resize milliseconds=27 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/layout tick=129453 drawn=6210 process=6210 physics=5612 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/layout milliseconds=3 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-10/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-notice-cause_attempt01_wrong_1920x1080.png
+source-excerpt-raster-typography: {"action":"excerpt-notice-cause","phase":"wrong","size":"(1920, 1080)","textScale":1,"rasterSize":"(1920, 1080)","logicalViewport":"(0, 0), (1920, 1080)","rasterRatio":"(1, 1)","readerBounds":"(754, 237), (774, 761)","labels":[{"name":"Hint","logicalFont":16,"screenFontPixels":16,"bounds":"(754, 791), (774, 75)","logicalHeight":75,"minimumHeight":75},{"name":"Feedback","logicalFont":16,"screenFontPixels":16,"bounds":"(754, 916), (774, 49)","logicalHeight":49,"minimumHeight":49},{"name":"Source","logicalFont":16,"screenFontPixels":16,"bounds":"(754, 975), (774, 23)","logicalHeight":23,"minimumHeight":23}],"oracle":"actual raster / logical viewport extent times GlobalWithCanvas; no runtime screen-transform API"}
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/restore tick=129639 drawn=6212 process=6212 physics=5623 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/restore milliseconds=5 forcedScreenshotRender=False
+ERROR: Physical walkthrough exception: System.InvalidOperationException: source-excerpt-proof: the actual selected source range is incorrect
+   at Urman.Godot.Tests.Act1SourceExcerptProof.Check(Boolean condition, String message) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1SourceExcerptProof.cs:line 329
+   at Urman.Godot.Tests.Act1SourceExcerptProof.RecordParagraphAsync(Node host, RuntimeBridge bridge, Excerpt source, String exactText) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1SourceExcerptProof.cs:line 119
+   at Urman.Godot.Tests.Act1SourceExcerptProof.RecordParagraphAsync(Node host, RuntimeBridge bridge, Excerpt source, String exactText) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1SourceExcerptProof.cs:line 164
+   at Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest.RunAsync() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:line 808
+   at Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:line 30
+   at: void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest.Fail(string) (res://tests/Act1FirstPersonWalkthroughSmokeTest.cs:1804)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest.Fail(string) (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1804)
+       [2] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<_Ready>d__21.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:30)
+       [3] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [4] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [5] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [6] void System.Threading.Tasks.Task.RunContinuations(object)
+       [7] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [8] bool System.Threading.Tasks.Task.TrySetException(object)
+       [9] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [10] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<RunAsync>d__22.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:808)
+       [11] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [12] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [13] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [14] void System.Threading.Tasks.Task.RunContinuations(object)
+       [15] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [16] bool System.Threading.Tasks.Task.TrySetException(object)
+       [17] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [18] void Urman.Godot.Tests.Act1SourceExcerptProof+<RecordParagraphAsync>d__12.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1SourceExcerptProof.cs:164)
+       [19] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [20] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [21] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [22] void System.Threading.Tasks.Task.RunContinuations(object)
+       [23] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+       [24] void Urman.Godot.Tests.Act1SourceExcerptProof+<>c__DisplayClass12_1+<<RecordParagraphAsync>g__Frames|2>d.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1SourceExcerptProof.cs:171)
+       [25] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [26] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [27] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+WARNING: 7 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:8900)
+userdata guard: original files and permissions restored and verified

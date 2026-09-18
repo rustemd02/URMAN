@@ -1,0 +1,961 @@
+  Urman.Core -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll
+  Urman.Content -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll
+  Urman.ContentCli -> /Users/unterlantas/Documents/GitHub/URMAN/tools-dotnet/Urman.ContentCli/bin/Debug/net10.0/Urman.ContentCli.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.42
+document-image: game/assets/images/arrival_marat_childhood_existing_v1.png sha256=c4647904f1aad0ea492858547e3f3493c9356c6ef87270d34d244f4fb882ac20
+document-image: game/assets/images/council-sabantuy-2005.png sha256=5847783c6f7e9127bac529c803fc606b4ab53ed29fad64fa83ecd97db2390617
+document-image: game/assets/images/first_snow_existing_v1.png sha256=8c31f2105170e876e36c02a790c2476cf3aa7d1769c20c98c5ab2ce5c72a0d7b
+document-image: game/assets/images/kara_urman_edge_sketch_candidate_v1.png sha256=04b129ef18b34cc6ef49ee839bdc82e2a4c61f5e9567c1b742d69557079ee92a
+document-image: game/assets/images/school-class-2005.png sha256=e1bb3bc6b854c5fdeddabdf7fa6777d7b5b6255221aa677eda24a2628bcfef3c
+document-images: 5 declared raster files packaged
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Инициализация проекта (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Сканирование структуры файлов…[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Загрузка глобальных имен классов…[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Проверка GDExtensions…[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Создание скриптов автозагрузки…[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Инициализация плагинов…[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Начало сканирование файлов…[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Загрузка редактора (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Загрузка макета редактора…[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Загрузка док-панели…[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+act1-release-export: child_group=63785 stopped=true
+desktop-export: provenance start run=72e07c01-e395-4ead-b9d2-18d84b40a1be path=/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T/urman-act1-release-stage.f895sw/export-start.json
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Инициализация проекта (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Сканирование структуры файлов…[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Загрузка глобальных имен классов…[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Проверка GDExtensions…[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Создание скриптов автозагрузки…[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Инициализация плагинов…[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Начало сканирование файлов…[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mdotnet_publish_project[22m | Started Publishing .NET project... (1 steps)[39m[0m
+[   0% ] [90m[1mdotnet_publish_project[22m | Running dotnet publish[39m[0m
+[92m[ DONE ][39m [1mdotnet_publish_project[22m
+[0m
+[   0% ] [90m[1mdotnet_publish_project[22m | Started Publishing .NET project... (1 steps)[39m[0m
+[   0% ] [90m[1mdotnet_publish_project[22m | Running dotnet publish[39m[0m
+[92m[ DONE ][39m [1mdotnet_publish_project[22m
+[0m
+[   0% ] [90m[1mexport[22m | Started Экспорт для macOS (3 steps)[39m[0m
+[   0% ] [90m[1mexport[22m | Создание пакета приложения[39m[0m
+[  25% ] [90m[1mexport[22m | Создание PKG[39m[0m
+[   0% ] [90m[1msavepack[22m | Started Упаковывание (102 steps)[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/door_creak.wav-4d86e3f23d9e13bd8a591e717779a237.sample[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/door_creak.wav.import[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/hollow_board.wav-c9d50854b67e3c4d5f14d4e6a3089b59.sample[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/hollow_board.wav.import[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/keyboard_key.wav-ad6ee9872fb87e2f3a547e7d14cea62d.sample[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/keyboard_key.wav.import[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/metal_rattle.wav-41ad51b9f3578b23183998e4ab0513ae.sample[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/metal_rattle.wav.import[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/paper_open.wav-182ed0660f84c5c772fa183c1a30d832.sample[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/paper_open.wav.import[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/ui_click.wav-0650b99e5fbac48bbf359fce1791314d.sample[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/ui_click.wav.import[39m[0m
+[   3% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/wood_tap.wav-8c1fc3c33e82e6dee5715d7ca3de448c.sample[39m[0m
+[   3% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/wood_tap.wav.import[39m[0m
+[   3% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/manifest.json[39m[0m
+[   3% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_grass_00.wav-e20b03d2d668f678547ceac6c5b3843c.sample[39m[0m
+[   3% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_grass_00.wav.import[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_grass_01.wav-06be6c5b795ebc9a46c734da6c57ecdc.sample[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_grass_01.wav.import[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_grass_02.wav-04a532b9703b173240e7068165f34383.sample[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_grass_02.wav.import[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_interior_floor_00.wav-4ae55c70753bfd3587d32d1e782ae975.sample[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_interior_floor_00.wav.import[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_interior_floor_01.wav-59fee7cc73805a91d312a6b377954618.sample[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_interior_floor_01.wav.import[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_interior_floor_02.wav-7fa1cfaa6edaf201a3fa2ece919a4c90.sample[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_interior_floor_02.wav.import[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_mud_00.wav-9247f57e9db34fdc981467548db113c4.sample[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_mud_00.wav.import[39m[0m
+[   6% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_mud_01.wav-970a0883eb6e499063497dedc2c12478.sample[39m[0m
+[   6% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_mud_01.wav.import[39m[0m
+[   6% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_mud_02.wav-8cad5cd719adf310e159104a938b8441.sample[39m[0m
+[   6% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_mud_02.wav.import[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_packed_00.wav-0951489c8728996f28b53ee02d391e0e.sample[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_packed_00.wav.import[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_packed_01.wav-1081c13965fef255fd68ec6c5ca3ead2.sample[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_packed_01.wav.import[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_packed_02.wav-4ff96bf718957854fd5df62dc7985148.sample[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_packed_02.wav.import[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_soft_00.wav-6b7327c68a26d98ce8881d4388430e3f.sample[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_soft_00.wav.import[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_soft_01.wav-59c1520bc38123442f234acbcfd322a1.sample[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_soft_01.wav.import[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_soft_02.wav-4d937be5785abe6f089ffed9d7125f6f.sample[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_soft_02.wav.import[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wet_road_00.wav-678e8edebca29a547b74ee421b82fca5.sample[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wet_road_00.wav.import[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wet_road_01.wav-d3696913eefe0007bf202fe8c4a53624.sample[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wet_road_01.wav.import[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wet_road_02.wav-a6a5f6a68aa1257e9adab7bafbee7efc.sample[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wet_road_02.wav.import[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wood_00.wav-a22e09b04ab56814d184f32b2169f140.sample[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wood_00.wav.import[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wood_01.wav-4f568e6534479153af864a74f420d9de.sample[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wood_01.wav.import[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wood_02.wav-931ae36534d1105db9a607badb433757.sample[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wood_02.wav.import[39m[0m
+[  11% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/avyl-ident.wav-dc00aa32b58b0b468cd6348f8d808d5a.sample[39m[0m
+[  11% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/avyl-ident.wav.import[39m[0m
+[  11% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/credits-ecad706f6240158020fe22dad11519cc44a459a5956fbd79d611e921ee280ef7.json[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/family-salam.wav-cd77119aa17bddbd4dd4355850ab7c85.sample[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/family-salam.wav.import[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/local-workshop.wav-3b0ed2d3923878355bd2e402eff9e585.sample[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/local-workshop.wav.import[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/lost-glove.wav-bfbd439a04b0a6cd7a33bbdeb9decdbd.sample[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/lost-glove.wav.import[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/nearby-villages.wav-1a5f9722985dc18ba8ee777a9d20a6bd.sample[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/nearby-villages.wav.import[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/night-repeat.wav-7163d1e016b80361c073f49261c534f1.sample[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/night-repeat.wav.import[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/school-bus.wav-7052f4cb4af54a678057bd80e6f7e060.sample[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/school-bus.wav.import[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/village-photos.wav-2fdb5fe26ec4b0bd22953463d346625f.sample[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/village-photos.wav.import[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/winter-congratulations.wav-62f8392f4d2e7d9f869e0eb599213659.sample[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/winter-congratulations.wav.import[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/winter-weather.wav-414622615822a134c102a11abc1e2f64.sample[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/winter-weather.wav.import[39m[0m
+[  15% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/credits-488afc2836463293404a9bacc88a1076cfd17793dabd8ea6273b343238f21bd5.json[39m[0m
+[  15% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/music-one.wav-f22e3ab4fa15456133dbd4c6e9a64e89.sample[39m[0m
+[  15% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/music-one.wav.import[39m[0m
+[  15% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/ambient_manifest.json[39m[0m
+[  16% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/fap_institutional.wav-0ed1da0ae0bfee667bcd0f2a1b982ed1.sample[39m[0m
+[  16% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/fap_institutional.wav.import[39m[0m
+[  16% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/house_room_tone.wav-6a04b720e3b4dc628b04f5f10ca1d3f3.sample[39m[0m
+[  16% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/house_room_tone.wav.import[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/kara_urman_edge_ambience.wav-c6c2260a520e912c2c83877809846379.sample[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/kara_urman_edge_ambience.wav.import[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/village_arrival.wav-733f8ea50a2968a7fa0fef21b525c178.sample[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/village_arrival.wav.import[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/village_day_ambience.wav-1cba906b6c7034eb79ff05d951b6fdc7.sample[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/village_day_ambience.wav.import[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/village_return.wav-f877e6a3124256b3c2cb810378451b6b.sample[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/village_return.wav.import[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/village_yard.wav-4d051dabe6d8ce2a3a93ec6826997d05.sample[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/village_yard.wav.import[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/water_edge_ambience.wav-55fd73f03dd456ef7776f0921de06194.sample[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/water_edge_ambience.wav.import[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/zirat_wind.wav-6f0c4d7498e12fbcdf1cdaab0d117d61.sample[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/zirat_wind.wav.import[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_act1_village_landmark_kit.glb-79cb0a11a8175283585e56c7cbe68e8e.scn[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_act1_village_landmark_kit.glb.import[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit.glb-de28da3c9ac806cf0fec519862cce33d.scn[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit.glb.import[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Eye_Brown.png-d02044f585068e15b4c64a05bae2860c.ctex[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Eye_Brown.png.import[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Eye_Normal.png-943726135011a30c83ec3d4bb5442b63.ctex[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Eye_Normal.png.import[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Superhero_Female_Dark_BaseColor.png-236dd05b4f44019fdd081173c619592a.ctex[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Superhero_Female_Dark_BaseColor.png.import[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Superhero_Female_Normal.png-2f3e16354a9bdaea9df6ec4b88e56633.ctex[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Superhero_Female_Normal.png.import[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Superhero_Male_Dark.png-7dcaf0b79aec1e2addf7353e588f412a.ctex[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Superhero_Male_Dark.png.import[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Superhero_Male_Normal.png-f472ee7e07513a0676d9d311d3409f58.ctex[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Superhero_Male_Normal.png.import[39m[0m
+[  22% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SettlementRoadGraph.cs[39m[0m
+[  22% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_modular_kit.glb-7da7b35e270c68e1ad9e9b10b127b432.scn[39m[0m
+[  22% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_modular_kit.glb.import[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/arrival_marat_childhood_existing_v1.png-ae86fa5bbe5638fad5b0ffd56cac7a21.ctex[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://assets/images/arrival_marat_childhood_existing_v1.png.import[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/council-sabantuy-2005.png-9438c8d9f91009cc0582cda30facfbd1.ctex[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://assets/images/council-sabantuy-2005.png.import[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/first_snow_existing_v1.png-55a6210529786998607b22cf34593937.ctex[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://assets/images/first_snow_existing_v1.png.import[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/kara_urman_edge_sketch_candidate_v1.png-7c6814520428808501ddfd0300b81570.ctex[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://assets/images/kara_urman_edge_sketch_candidate_v1.png.import[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/school-class-2005.png-f1d6d730d4cc54cad67952419699045d.ctex[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://assets/images/school-class-2005.png.import[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_fap_clinic_kit.glb-d75fb78b0513a22add74572a11a98f5b.scn[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_fap_clinic_kit.glb.import[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_kara_forest_edge_kit.glb-5e170a7c47bcab7eef1d4811640e6575.scn[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_kara_forest_edge_kit.glb.import[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_village_exterior_kit.glb-f03cc2b4540e02ffc33c2c487e734c72.scn[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_village_exterior_kit.glb.import[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_wet_village_road_kit.glb-3b2f133dd18f46ab6ff7b3e920e5bdd8.scn[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_wet_village_road_kit.glb.import[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_winter_dead_tree.glb-af4e60404cacb4418799765904bf4562.scn[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_winter_dead_tree.glb.import[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_winter_pine.glb-50b6f58c6db0c5e859ae2201c52883e0.scn[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_winter_pine.glb.import[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_winter_pine_Leaf_Pine_C.png-375dc0e8e2f922bfa5688336112c0520.ctex[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_winter_pine_Leaf_Pine_C.png.import[39m[0m
+[  27% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_zirat_roadside_kit.glb-37ed3a21eabc3ded93947ec067b3b286.scn[39m[0m
+[  27% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_zirat_roadside_kit.glb.import[39m[0m
+[  27% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/agentb_foliage_kit.glb-6c65e7d7c815bf6f799738154fd889cd.scn[39m[0m
+[  27% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/agent_b_act1/agentb_foliage_kit.glb.import[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/agentb_kara_edge_kit.glb-8a990d22dc0128abbb7407ca6cc261a9.scn[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/agent_b_act1/agentb_kara_edge_kit.glb.import[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/agentb_terrain_road_kit.glb-e59b8b420bc036d6cb523b2bc158fb09.scn[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/agent_b_act1/agentb_terrain_road_kit.glb.import[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/agentb_village_buildings_kit.glb-5244fba80ac87002e94c09f20449f38e.scn[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb.import[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/agentb_zirat_kit.glb-79bd2f772c4d49adb2b91ed5ecaaeeaa.scn[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/agent_b_act1/agentb_zirat_kit.glb.import[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/photo_first_snow_v1.png-77e1b711b1f9c07fceb1214225e5e5f1.ctex[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/act1/photo_first_snow_v1.png.import[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/mansur_age_v1_albedo.png-4583cf89d35759e2df35615c4a63a9c9.ctex[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/characters/mansur_age_v1_albedo.png.import[39m[0m
+[  30% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/aged_plaster_albedo.png-db41a6d1f63fa5b19fd25339d1d8296b.ctex[39m[0m
+[  30% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/aged_plaster_albedo.png.import[39m[0m
+[  30% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SettlementRegistry.cs[39m[0m
+[  30% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/aged_plaster_v3_albedo.png-89bcc1eaea442a191197ca97b85f6094.ctex[39m[0m
+[  30% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/aged_plaster_v3_albedo.png.import[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/bark_birch_v1_albedo.png-79f08bdb3964cfee4893af1e231f423d.ctex[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/bark_birch_v1_albedo.png.import[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/bark_birch_v2_albedo.png-682aedfb21af5a1f01cc2790e29d693f.ctex[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/bark_birch_v2_albedo.png.import[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/bark_pine_v1_albedo.png-b0a3589ba3fbc67ecb1b04deb195c8c7.ctex[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/bark_pine_v1_albedo.png.import[39m[0m
+[  32% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/carpet_palas_v1_albedo.png-efcdbfcf750b11c9cf44d7692a52564d.ctex[39m[0m
+[  32% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/carpet_palas_v1_albedo.png.import[39m[0m
+[  32% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/damp_earth_albedo.png-da783899b072a97522e9e6e467589a25.ctex[39m[0m
+[  32% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/damp_earth_albedo.png.import[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SettlementMapControl.cs[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/damp_earth_v3_albedo.png-a41723248cffffad0f1d59ce06e5f3f1.ctex[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/damp_earth_v3_albedo.png.import[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.Notebook.cs[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/damp_earth_v5_albedo.png-f88291ec1627dc661539d2ee8d66085c.ctex[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/damp_earth_v5_albedo.png.import[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.LoadRecovery.cs[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/fabric_chit_v1_albedo.png-7d60eb73bf09cec546e6cc8c7d92151d.ctex[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/fabric_chit_v1_albedo.png.import[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/grass_verge_v1_albedo.png-bece2a3530f175f9d5fcde642ba96391.ctex[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/grass_verge_v1_albedo.png.import[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/grass_verge_v2_albedo.png-e314732f17f0ac57c2ec92eb4f1139f3.ctex[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/grass_verge_v2_albedo.png.import[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/hay_fibers_v1_albedo.png-49e4a5115433b0f0e9aea455482ee07f.ctex[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/hay_fibers_v1_albedo.png.import[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/ice_patch_v1_albedo.png-8425ede905a9d607f95428a18c6ca167.ctex[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/ice_patch_v1_albedo.png.import[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/ice_patch_v2_albedo.png-753257596e8b22827bc58818782d3ec1.ctex[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/ice_patch_v2_albedo.png.import[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/leaf_birch_v1_albedo.png-faf6534f6a848019688ff04d1fe1522d.ctex[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/leaf_birch_v1_albedo.png.import[39m[0m
+[  36% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/leaf_birch_v2_albedo.png-8ec05a4e8c6c6d8d716449e3492d66cb.ctex[39m[0m
+[  36% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/leaf_birch_v2_albedo.png.import[39m[0m
+[  36% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/log_wall_v1_albedo.png-1a6511b65c51f2e9dc62288965851e5e.ctex[39m[0m
+[  36% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/log_wall_v1_albedo.png.import[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/log_wall_v2_albedo.png-0dba800b7813e68e9d83a131c01cd830.ctex[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/log_wall_v2_albedo.png.import[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/mossy_stone_v2_albedo.png-934c759f2180e941174632ff7f4ed3aa.ctex[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/mossy_stone_v2_albedo.png.import[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/mossy_stone_v3_albedo.png-150cb5b00a351e82580f07c79e87b7c4.ctex[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/mossy_stone_v3_albedo.png.import[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/old_fabric_v2_albedo.png-bd00c7f6e8a6be0b8e9a695dbefc51f4.ctex[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/old_fabric_v2_albedo.png.import[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/old_fabric_v3_albedo.png-3954649c8f917401d2dff37ffd46530d.ctex[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/old_fabric_v3_albedo.png.import[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/ornament_trim_v1_albedo.png-780154a4101352c56e13d29b1fe416ff.ctex[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/ornament_trim_v1_albedo.png.import[39m[0m
+[  39% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/pine_foliage_albedo.png-a1aae903ff75fc685b75865f04d6970b.ctex[39m[0m
+[  39% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/pine_foliage_albedo.png.import[39m[0m
+[  39% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/pine_foliage_v2_albedo.png-1a315b81916a48d9ce4290b3c16b9c4f.ctex[39m[0m
+[  39% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/pine_foliage_v2_albedo.png.import[39m[0m
+[  39% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.Shop.cs[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/roof_metal_v2_albedo.png-158307fc32fab56c441f4252c901a9bd.ctex[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/roof_metal_v2_albedo.png.import[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/roof_shingle_v3_albedo.png-67293db0b9fda35632fd763d70346551.ctex[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/roof_shingle_v3_albedo.png.import[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/roof_slate_v1_albedo.png-a84ca57f52b8802e6126d38392a7ec10.ctex[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/roof_slate_v1_albedo.png.import[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_fresh_v1_albedo.png-4e121290d4779bf1b0cb99cd3ef9cb05.ctex[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_fresh_v1_albedo.png.import[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_fresh_v2_albedo.png-cf67996817a67ca403d67629cce5c702.ctex[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_fresh_v2_albedo.png.import[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_grass_peek_v1_albedo.png-1408013615c05168cc5de03a6a8506fd.ctex[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_grass_peek_v1_albedo.png.import[39m[0m
+[  42% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_micro_normal.png-64548d31f95dae7a05bb7e30afb399d8.ctex[39m[0m
+[  42% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_micro_normal.png.import[39m[0m
+[  42% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_micro_response.png-71546886d633dbb36ff113bb8a42e9c1.ctex[39m[0m
+[  42% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_micro_response.png.import[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_road_v1_albedo.png-e45218c81370685ba9978243d04ea4b0.ctex[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_road_v1_albedo.png.import[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_roof_v1_albedo.png-834608168cb8898e2b6ebe43d238b795.ctex[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_roof_v1_albedo.png.import[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_trampled_v1_albedo.png-c277a9e736a3b4298b1b5c33ac7bc340.ctex[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_trampled_v1_albedo.png.import[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/wallpaper_old_v1_albedo.png-6ddfbfa5715efaf12d145a2e924e1a0e.ctex[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/wallpaper_old_v1_albedo.png.import[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/wallpaper_old_v2_albedo.png-c9c6b46b088f44b24a42b0af2ee45663.ctex[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/wallpaper_old_v2_albedo.png.import[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/wall_institution_v1_albedo.png-beba62def9822ca0d4c00e2af471e1ce.ctex[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/wall_institution_v1_albedo.png.import[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/weathered_wood_boards_albedo.png-fb382a1f61d375adbdc8e50efa64e7c1.ctex[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/weathered_wood_boards_albedo.png.import[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/weathered_wood_boards_v2_albedo.png-38f0455f970f40accef80e00bb1aabda.ctex[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/weathered_wood_boards_v2_albedo.png.import[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/weathered_wood_boards_v3_albedo.png-e89a69225418947dea9cb105f83dadd6.ctex[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png.import[39m[0m
+[  46% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/weathered_wood_boards_v4_albedo.png-142dd70b13ae84f5da7dca5ce87b3532.ctex[39m[0m
+[  46% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/weathered_wood_boards_v4_albedo.png.import[39m[0m
+[  46% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.SourceExcerpts.cs[39m[0m
+[  46% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SettingsUi.cs[39m[0m
+[  47% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/wood_carved_gate_v1_albedo.png-6a19fddc9bfedf4c356df6a4242131a1.ctex[39m[0m
+[  47% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/wood_carved_gate_v1_albedo.png.import[39m[0m
+[  47% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/act1_menu_winter_v1.png-4cf03f820676d5eeda880a4b25303931.ctex[39m[0m
+[  47% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/ui/act1_menu_winter_v1.png.import[39m[0m
+[  48% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_app_icon_v1.png-5acf156b61d088c9d961b606e67fce9e.ctex[39m[0m
+[  48% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/ui/urman_app_icon_v1.png.import[39m[0m
+[  48% ] [90m[1msavepack[22m | Сохранение файла: res://content/vehicles/act1_vehicles.v1.json[39m[0m
+[  48% ] [90m[1msavepack[22m | Сохранение файла: res://content/vehicles/avyl_radio.v1.json[39m[0m
+[  49% ] [90m[1msavepack[22m | Сохранение файла: res://content/urman.chapter1.compiled.v1.json[39m[0m
+[  49% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleController.PlacementDiagnostics.cs[39m[0m
+[  49% ] [90m[1msavepack[22m | Сохранение файла: res://content/urman.settlement.addresses.v1.json[39m[0m
+[  50% ] [90m[1msavepack[22m | Сохранение файла: res://content/urman.shop.v1.json[39m[0m
+[  50% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-4b294f74b36e69a2b81b154092f349fe-first_person_player.scn[39m[0m
+[  50% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-f18eb066938d3154a85b780ac76c7918-audio_cue_ui.scn[39m[0m
+[  51% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-5f4622bc4cfe01d3fbbd09203c378191-dialogue_ui.scn[39m[0m
+[  51% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-aa7cd7ea61fe852542ffad3714eeee76-document_ui.scn[39m[0m
+[  51% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-b523aa2e5ff183169a8a1d5a980baf48-journal_ui.scn[39m[0m
+[  52% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/YardMechanism.cs[39m[0m
+[  52% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-c49eb9023acc8678753ea1577e6dd7fa-old_pc_ui.scn[39m[0m
+[  53% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-b52c3db50a2d5439f0db702cb5e4f07c-settings_ui.scn[39m[0m
+[  53% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleDefinition.cs[39m[0m
+[  53% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleMechanicalAudio.cs[39m[0m
+[  54% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleVisualFactory.Horse.cs[39m[0m
+[  54% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleVisualFactory.RoadVehicles.cs[39m[0m
+[  54% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleWheelGeometry.cs[39m[0m
+[  55% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleController.WheelCollision.cs[39m[0m
+[  55% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleRadioPlayer.cs[39m[0m
+[  55% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleHorsePose.cs[39m[0m
+[  56% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleFleet.cs[39m[0m
+[  56% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/WorldFoleyPlayer.cs[39m[0m
+[  56% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/YardTool.cs[39m[0m
+[  57% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleVisualFactory.cs[39m[0m
+[  57% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-b3a512fbeaf2591a2ce7c51abaa87ffd-chapter1_fap_clinic.scn[39m[0m
+[  58% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-f35dd455790393a9ceeb27046d1dbad3-chapter1_zirat_road.scn[39m[0m
+[  58% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/YardUseTarget.cs[39m[0m
+[  58% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-64e7a36a58c76c3caffcf619a16f98f1-style_benchmark_day_street.scn[39m[0m
+[  59% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-08b8df9f5090782ecac83b53f09e0d02-style_benchmark_house_pc.scn[39m[0m
+[  59% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-dee9bf45a1b8fc4a4cc348ff7dd74687-style_benchmark_kara_urman_night.scn[39m[0m
+[  59% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-9e0ce2baca45a4e674cd7bba071dcee4-act1_demo.scn[39m[0m
+[  60% ] [90m[1msavepack[22m | Сохранение файла: res://content/credits.ru.txt[39m[0m
+[  60% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-3ad5c15c4f3250da0cc7c1af1770d85f-main.scn[39m[0m
+[  60% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SnowTrampleField.cs[39m[0m
+[  61% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/StyleBenchmarkInteriorFactory.cs[39m[0m
+[  61% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SourceExcerptSelection.cs[39m[0m
+[  61% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/ShopUi.cs[39m[0m
+[  62% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/ShopCatalog.cs[39m[0m
+[  62% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AccessibilityPresentation.cs[39m[0m
+[  62% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.Addresses.cs[39m[0m
+[  63% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ArrivalStop.cs[39m[0m
+[  63% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.AuthoredKitCollision.cs[39m[0m
+[  64% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.BabaiYardSideGate.cs[39m[0m
+[  64% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.Bathhouse.cs[39m[0m
+[  64% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.BoardCrossing.cs[39m[0m
+[  65% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.BypassDiscoveries.cs[39m[0m
+[  65% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.cs[39m[0m
+[  65% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.Exploration.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ExteriorDiscoveries.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.FapExploration.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ImageDiscoveries.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.InteriorPresentation.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.InvestigationRevisits.cs[39m[0m
+[  67% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs[39m[0m
+[  67% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueBooks.cs[39m[0m
+[  68% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueClothing.cs[39m[0m
+[  68% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueFoundation.cs[39m[0m
+[  68% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueGrounding.cs[39m[0m
+[  69% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueInterior.cs[39m[0m
+[  69% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueSaveSupport.cs[39m[0m
+[  69% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.Notebook.cs[39m[0m
+[  70% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.NpcStaging.cs[39m[0m
+[  70% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.OptionalDiscoveries.cs[39m[0m
+[  70% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.PerformanceSamples.cs[39m[0m
+[  71% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.PlayerFootwear.cs[39m[0m
+[  71% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.PublicBuildings.cs[39m[0m
+[  71% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.PublicFenceJunction.cs[39m[0m
+[  72% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.QuietCareDiscoveries.cs[39m[0m
+[  72% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.RinatArrival.cs[39m[0m
+[  73% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.RoadsideDiscoveries.cs[39m[0m
+[  73% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.RoadsideGrounding.cs[39m[0m
+[  73% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ShopGoods.cs[39m[0m
+[  74% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ShopUses.cs[39m[0m
+[  74% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.StandaloneParcels.cs[39m[0m
+[  74% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.Vehicles.cs[39m[0m
+[  75% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.YardDiscoveries.cs[39m[0m
+[  75% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.YardMechanisms.cs[39m[0m
+[  75% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ZiratFamily.cs[39m[0m
+[  76% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1DemoRoot.cs[39m[0m
+[  76% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1DemoRoot.PerformanceCapture.cs[39m[0m
+[  76% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1FacilityPresentation.cs[39m[0m
+[  77% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1VehiclePerformanceRoute.cs[39m[0m
+[  77% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1WorldLayout.cs[39m[0m
+[  78% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AddressAccessVerifier.cs[39m[0m
+[  78% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AddressFacadeMount.cs[39m[0m
+[  78% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AddressSignVisualComponent.cs[39m[0m
+[  79% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AddressWalkProbe.cs[39m[0m
+[  79% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AlsuStreetWalkPresentation.cs[39m[0m
+[  79% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AmbientAudioDirector.cs[39m[0m
+[  80% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/ArrivalPersonalProps.cs[39m[0m
+[  80% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AudioCueUi.cs[39m[0m
+[  80% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AudioSettingsService.cs[39m[0m
+[  81% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/BathIgnitionChoiceUi.cs[39m[0m
+[  81% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CarryableProp.cs[39m[0m
+[  81% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CarryableProp.Geometry.cs[39m[0m
+[  82% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CarryCoordinator.cs[39m[0m
+[  82% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CarryCoordinator.Mechanisms.cs[39m[0m
+[  82% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CarryCoordinator.Physics.cs[39m[0m
+[  83% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/ClinicSurfacePresentation.cs[39m[0m
+[  83% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CompiledCampaignRepository.cs[39m[0m
+[  84% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/DialogueUi.cs[39m[0m
+[  84% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/DocumentImageReader.cs[39m[0m
+[  84% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/DocumentUi.cs[39m[0m
+[  85% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Body.cs[39m[0m
+[  85% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.cs[39m[0m
+[  85% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Footwear.cs[39m[0m
+[  86% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Movement.cs[39m[0m
+[  86% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Stance.cs[39m[0m
+[  86% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Steps.cs[39m[0m
+[  87% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Traversal.cs[39m[0m
+[  87% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FootstepAudioController.cs[39m[0m
+[  87% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/StyleBenchmarkZone.cs[39m[0m
+[  88% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleController.cs[39m[0m
+[  88% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/UserSettingsStore.cs[39m[0m
+[  89% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/UiFoley.cs[39m[0m
+[  89% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/GeneratedCharacterKitDressing.cs[39m[0m
+[  89% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/GeneratedModularKitDressing.cs[39m[0m
+[  90% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/HouseWallCalendar.cs[39m[0m
+[  90% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/InputBindingService.cs[39m[0m
+[  90% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/InteractionTarget.cs[39m[0m
+[  91% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/JournalUi.cs[39m[0m
+[  91% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/JournalUi.Notebook.cs[39m[0m
+[  91% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/LadderTraversal3D.cs[39m[0m
+[  92% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Main.cs[39m[0m
+[  92% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/MainMenuUi.cs[39m[0m
+[  92% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcDesktopIcon.cs[39m[0m
+[  93% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcUi.Apps.cs[39m[0m
+[  93% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcUi.cs[39m[0m
+[  94% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcUi.Desktop.cs[39m[0m
+[  94% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcUi.Social.cs[39m[0m
+[  94% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcWallpaper.cs[39m[0m
+[  95% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcWindowTitleBar.cs[39m[0m
+[  95% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/PainterlyEnvironmentDetails.cs[39m[0m
+[  95% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/PainterlyMaterialLibrary.cs[39m[0m
+[  96% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/PauseMenuUi.cs[39m[0m
+[  96% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/PublicBuildingShell.cs[39m[0m
+[  96% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/QuestRuntimeCoordinator.cs[39m[0m
+[  97% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RinatFootPlacementModifier.cs[39m[0m
+[  97% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RinatPresencePresentation.cs[39m[0m
+[  97% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.AlsuWalk.cs[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.Bathhouse.cs[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.cs[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/player/first_person_player.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/audio_cue_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/dialogue_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/document_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/journal_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/old_pc_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/settings_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/zones/chapter1_fap_clinic.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/zones/chapter1_zirat_road.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/zones/style_benchmark_day_street.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/zones/style_benchmark_house_pc.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/zones/style_benchmark_kara_urman_night.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/act1_demo.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/main.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/global_script_class_cache.cfg[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/ui/urman_app_icon_v1.png[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/ui/act1_menu_winter_v1.png[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/uid_cache.bin[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://project.binary[39m[0m
+[92m[ DONE ][39m [1msavepack[22m
+[0m
+[  75% ] [90m[1mexport[22m | Создание ZIP[39m[0m
+[92m[ DONE ][39m [1mexport[22m
+[0m
+act1-release-export: child_group=63793 stopped=true
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Инициализация проекта (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Сканирование структуры файлов…[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Загрузка глобальных имен классов…[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Проверка GDExtensions…[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Создание скриптов автозагрузки…[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Инициализация плагинов…[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Начало сканирование файлов…[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mdotnet_publish_project[22m | Started Publishing .NET project... (1 steps)[39m[0m
+[   0% ] [90m[1mdotnet_publish_project[22m | Running dotnet publish[39m[0m
+[92m[ DONE ][39m [1mdotnet_publish_project[22m
+[0m
+[   0% ] [90m[1msavepack[22m | Started Упаковывание (102 steps)[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/door_creak.wav-4d86e3f23d9e13bd8a591e717779a237.sample[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/door_creak.wav.import[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/hollow_board.wav-c9d50854b67e3c4d5f14d4e6a3089b59.sample[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/hollow_board.wav.import[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/keyboard_key.wav-ad6ee9872fb87e2f3a547e7d14cea62d.sample[39m[0m
+[   1% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/keyboard_key.wav.import[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/metal_rattle.wav-41ad51b9f3578b23183998e4ab0513ae.sample[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/metal_rattle.wav.import[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/paper_open.wav-182ed0660f84c5c772fa183c1a30d832.sample[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/paper_open.wav.import[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/ui_click.wav-0650b99e5fbac48bbf359fce1791314d.sample[39m[0m
+[   2% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/ui_click.wav.import[39m[0m
+[   3% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/wood_tap.wav-8c1fc3c33e82e6dee5715d7ca3de448c.sample[39m[0m
+[   3% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/foley/wood_tap.wav.import[39m[0m
+[   3% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/manifest.json[39m[0m
+[   3% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_grass_00.wav-e20b03d2d668f678547ceac6c5b3843c.sample[39m[0m
+[   3% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_grass_00.wav.import[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_grass_01.wav-06be6c5b795ebc9a46c734da6c57ecdc.sample[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_grass_01.wav.import[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_grass_02.wav-04a532b9703b173240e7068165f34383.sample[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_grass_02.wav.import[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_interior_floor_00.wav-4ae55c70753bfd3587d32d1e782ae975.sample[39m[0m
+[   4% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_interior_floor_00.wav.import[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_interior_floor_01.wav-59fee7cc73805a91d312a6b377954618.sample[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_interior_floor_01.wav.import[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_interior_floor_02.wav-7fa1cfaa6edaf201a3fa2ece919a4c90.sample[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_interior_floor_02.wav.import[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_mud_00.wav-9247f57e9db34fdc981467548db113c4.sample[39m[0m
+[   5% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_mud_00.wav.import[39m[0m
+[   6% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_mud_01.wav-970a0883eb6e499063497dedc2c12478.sample[39m[0m
+[   6% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_mud_01.wav.import[39m[0m
+[   6% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_mud_02.wav-8cad5cd719adf310e159104a938b8441.sample[39m[0m
+[   6% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_mud_02.wav.import[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_packed_00.wav-0951489c8728996f28b53ee02d391e0e.sample[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_packed_00.wav.import[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_packed_01.wav-1081c13965fef255fd68ec6c5ca3ead2.sample[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_packed_01.wav.import[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_packed_02.wav-4ff96bf718957854fd5df62dc7985148.sample[39m[0m
+[   7% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_packed_02.wav.import[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_soft_00.wav-6b7327c68a26d98ce8881d4388430e3f.sample[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_soft_00.wav.import[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_soft_01.wav-59c1520bc38123442f234acbcfd322a1.sample[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_soft_01.wav.import[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_snow_soft_02.wav-4d937be5785abe6f089ffed9d7125f6f.sample[39m[0m
+[   8% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_snow_soft_02.wav.import[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wet_road_00.wav-678e8edebca29a547b74ee421b82fca5.sample[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wet_road_00.wav.import[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wet_road_01.wav-d3696913eefe0007bf202fe8c4a53624.sample[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wet_road_01.wav.import[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wet_road_02.wav-a6a5f6a68aa1257e9adab7bafbee7efc.sample[39m[0m
+[   9% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wet_road_02.wav.import[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wood_00.wav-a22e09b04ab56814d184f32b2169f140.sample[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wood_00.wav.import[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wood_01.wav-4f568e6534479153af864a74f420d9de.sample[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wood_01.wav.import[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/step_wood_02.wav-931ae36534d1105db9a607badb433757.sample[39m[0m
+[  10% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/footsteps/step_wood_02.wav.import[39m[0m
+[  11% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/avyl-ident.wav-dc00aa32b58b0b468cd6348f8d808d5a.sample[39m[0m
+[  11% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/avyl-ident.wav.import[39m[0m
+[  11% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/credits-ecad706f6240158020fe22dad11519cc44a459a5956fbd79d611e921ee280ef7.json[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/family-salam.wav-cd77119aa17bddbd4dd4355850ab7c85.sample[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/family-salam.wav.import[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/local-workshop.wav-3b0ed2d3923878355bd2e402eff9e585.sample[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/local-workshop.wav.import[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/lost-glove.wav-bfbd439a04b0a6cd7a33bbdeb9decdbd.sample[39m[0m
+[  12% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/lost-glove.wav.import[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/nearby-villages.wav-1a5f9722985dc18ba8ee777a9d20a6bd.sample[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/nearby-villages.wav.import[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/night-repeat.wav-7163d1e016b80361c073f49261c534f1.sample[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/night-repeat.wav.import[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/school-bus.wav-7052f4cb4af54a678057bd80e6f7e060.sample[39m[0m
+[  13% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/school-bus.wav.import[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/village-photos.wav-2fdb5fe26ec4b0bd22953463d346625f.sample[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/village-photos.wav.import[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/winter-congratulations.wav-62f8392f4d2e7d9f869e0eb599213659.sample[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/winter-congratulations.wav.import[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/winter-weather.wav-414622615822a134c102a11abc1e2f64.sample[39m[0m
+[  14% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/previews/winter-weather.wav.import[39m[0m
+[  15% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/credits-488afc2836463293404a9bacc88a1076cfd17793dabd8ea6273b343238f21bd5.json[39m[0m
+[  15% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/music-one.wav-f22e3ab4fa15456133dbd4c6e9a64e89.sample[39m[0m
+[  15% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/act1/radio/music-one.wav.import[39m[0m
+[  15% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/ambient_manifest.json[39m[0m
+[  16% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/fap_institutional.wav-0ed1da0ae0bfee667bcd0f2a1b982ed1.sample[39m[0m
+[  16% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/fap_institutional.wav.import[39m[0m
+[  16% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/house_room_tone.wav-6a04b720e3b4dc628b04f5f10ca1d3f3.sample[39m[0m
+[  16% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/house_room_tone.wav.import[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/kara_urman_edge_ambience.wav-c6c2260a520e912c2c83877809846379.sample[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/kara_urman_edge_ambience.wav.import[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/village_arrival.wav-733f8ea50a2968a7fa0fef21b525c178.sample[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/village_arrival.wav.import[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/village_day_ambience.wav-1cba906b6c7034eb79ff05d951b6fdc7.sample[39m[0m
+[  17% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/village_day_ambience.wav.import[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/village_return.wav-f877e6a3124256b3c2cb810378451b6b.sample[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/village_return.wav.import[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/village_yard.wav-4d051dabe6d8ce2a3a93ec6826997d05.sample[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/village_yard.wav.import[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/water_edge_ambience.wav-55fd73f03dd456ef7776f0921de06194.sample[39m[0m
+[  18% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/water_edge_ambience.wav.import[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/zirat_wind.wav-6f0c4d7498e12fbcdf1cdaab0d117d61.sample[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://assets/audio/zirat_wind.wav.import[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_act1_village_landmark_kit.glb-79cb0a11a8175283585e56c7cbe68e8e.scn[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_act1_village_landmark_kit.glb.import[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit.glb-de28da3c9ac806cf0fec519862cce33d.scn[39m[0m
+[  19% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit.glb.import[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Eye_Brown.png-d02044f585068e15b4c64a05bae2860c.ctex[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Eye_Brown.png.import[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Eye_Normal.png-943726135011a30c83ec3d4bb5442b63.ctex[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Eye_Normal.png.import[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Superhero_Female_Dark_BaseColor.png-236dd05b4f44019fdd081173c619592a.ctex[39m[0m
+[  20% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Superhero_Female_Dark_BaseColor.png.import[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Superhero_Female_Normal.png-2f3e16354a9bdaea9df6ec4b88e56633.ctex[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Superhero_Female_Normal.png.import[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Superhero_Male_Dark.png-7dcaf0b79aec1e2addf7353e588f412a.ctex[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Superhero_Male_Dark.png.import[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_character_kit_T_Superhero_Male_Normal.png-f472ee7e07513a0676d9d311d3409f58.ctex[39m[0m
+[  21% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_character_kit_T_Superhero_Male_Normal.png.import[39m[0m
+[  22% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SettlementRoadGraph.cs[39m[0m
+[  22% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_modular_kit.glb-7da7b35e270c68e1ad9e9b10b127b432.scn[39m[0m
+[  22% ] [90m[1msavepack[22m | Сохранение файла: res://assets/generated/urman_modular_kit.glb.import[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/arrival_marat_childhood_existing_v1.png-ae86fa5bbe5638fad5b0ffd56cac7a21.ctex[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://assets/images/arrival_marat_childhood_existing_v1.png.import[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/council-sabantuy-2005.png-9438c8d9f91009cc0582cda30facfbd1.ctex[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://assets/images/council-sabantuy-2005.png.import[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/first_snow_existing_v1.png-55a6210529786998607b22cf34593937.ctex[39m[0m
+[  23% ] [90m[1msavepack[22m | Сохранение файла: res://assets/images/first_snow_existing_v1.png.import[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/kara_urman_edge_sketch_candidate_v1.png-7c6814520428808501ddfd0300b81570.ctex[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://assets/images/kara_urman_edge_sketch_candidate_v1.png.import[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/school-class-2005.png-f1d6d730d4cc54cad67952419699045d.ctex[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://assets/images/school-class-2005.png.import[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_fap_clinic_kit.glb-d75fb78b0513a22add74572a11a98f5b.scn[39m[0m
+[  24% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_fap_clinic_kit.glb.import[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_kara_forest_edge_kit.glb-5e170a7c47bcab7eef1d4811640e6575.scn[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_kara_forest_edge_kit.glb.import[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_village_exterior_kit.glb-f03cc2b4540e02ffc33c2c487e734c72.scn[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_village_exterior_kit.glb.import[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_wet_village_road_kit.glb-3b2f133dd18f46ab6ff7b3e920e5bdd8.scn[39m[0m
+[  25% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_wet_village_road_kit.glb.import[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_winter_dead_tree.glb-af4e60404cacb4418799765904bf4562.scn[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_winter_dead_tree.glb.import[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_winter_pine.glb-50b6f58c6db0c5e859ae2201c52883e0.scn[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_winter_pine.glb.import[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_winter_pine_Leaf_Pine_C.png-375dc0e8e2f922bfa5688336112c0520.ctex[39m[0m
+[  26% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_winter_pine_Leaf_Pine_C.png.import[39m[0m
+[  27% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_zirat_roadside_kit.glb-37ed3a21eabc3ded93947ec067b3b286.scn[39m[0m
+[  27% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/act1/urman_zirat_roadside_kit.glb.import[39m[0m
+[  27% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/agentb_foliage_kit.glb-6c65e7d7c815bf6f799738154fd889cd.scn[39m[0m
+[  27% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/agent_b_act1/agentb_foliage_kit.glb.import[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/agentb_kara_edge_kit.glb-8a990d22dc0128abbb7407ca6cc261a9.scn[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/agent_b_act1/agentb_kara_edge_kit.glb.import[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/agentb_terrain_road_kit.glb-e59b8b420bc036d6cb523b2bc158fb09.scn[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/agent_b_act1/agentb_terrain_road_kit.glb.import[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/agentb_village_buildings_kit.glb-5244fba80ac87002e94c09f20449f38e.scn[39m[0m
+[  28% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb.import[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/agentb_zirat_kit.glb-79bd2f772c4d49adb2b91ed5ecaaeeaa.scn[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://assets/models/agent_b_act1/agentb_zirat_kit.glb.import[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/photo_first_snow_v1.png-77e1b711b1f9c07fceb1214225e5e5f1.ctex[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/act1/photo_first_snow_v1.png.import[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/mansur_age_v1_albedo.png-4583cf89d35759e2df35615c4a63a9c9.ctex[39m[0m
+[  29% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/characters/mansur_age_v1_albedo.png.import[39m[0m
+[  30% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/aged_plaster_albedo.png-db41a6d1f63fa5b19fd25339d1d8296b.ctex[39m[0m
+[  30% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/aged_plaster_albedo.png.import[39m[0m
+[  30% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SettlementRegistry.cs[39m[0m
+[  30% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/aged_plaster_v3_albedo.png-89bcc1eaea442a191197ca97b85f6094.ctex[39m[0m
+[  30% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/aged_plaster_v3_albedo.png.import[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/bark_birch_v1_albedo.png-79f08bdb3964cfee4893af1e231f423d.ctex[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/bark_birch_v1_albedo.png.import[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/bark_birch_v2_albedo.png-682aedfb21af5a1f01cc2790e29d693f.ctex[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/bark_birch_v2_albedo.png.import[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/bark_pine_v1_albedo.png-b0a3589ba3fbc67ecb1b04deb195c8c7.ctex[39m[0m
+[  31% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/bark_pine_v1_albedo.png.import[39m[0m
+[  32% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/carpet_palas_v1_albedo.png-efcdbfcf750b11c9cf44d7692a52564d.ctex[39m[0m
+[  32% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/carpet_palas_v1_albedo.png.import[39m[0m
+[  32% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/damp_earth_albedo.png-da783899b072a97522e9e6e467589a25.ctex[39m[0m
+[  32% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/damp_earth_albedo.png.import[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SettlementMapControl.cs[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/damp_earth_v3_albedo.png-a41723248cffffad0f1d59ce06e5f3f1.ctex[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/damp_earth_v3_albedo.png.import[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.Notebook.cs[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/damp_earth_v5_albedo.png-f88291ec1627dc661539d2ee8d66085c.ctex[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/damp_earth_v5_albedo.png.import[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.LoadRecovery.cs[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/fabric_chit_v1_albedo.png-7d60eb73bf09cec546e6cc8c7d92151d.ctex[39m[0m
+[  33% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/fabric_chit_v1_albedo.png.import[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/grass_verge_v1_albedo.png-bece2a3530f175f9d5fcde642ba96391.ctex[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/grass_verge_v1_albedo.png.import[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/grass_verge_v2_albedo.png-e314732f17f0ac57c2ec92eb4f1139f3.ctex[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/grass_verge_v2_albedo.png.import[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/hay_fibers_v1_albedo.png-49e4a5115433b0f0e9aea455482ee07f.ctex[39m[0m
+[  34% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/hay_fibers_v1_albedo.png.import[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/ice_patch_v1_albedo.png-8425ede905a9d607f95428a18c6ca167.ctex[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/ice_patch_v1_albedo.png.import[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/ice_patch_v2_albedo.png-753257596e8b22827bc58818782d3ec1.ctex[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/ice_patch_v2_albedo.png.import[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/leaf_birch_v1_albedo.png-faf6534f6a848019688ff04d1fe1522d.ctex[39m[0m
+[  35% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/leaf_birch_v1_albedo.png.import[39m[0m
+[  36% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/leaf_birch_v2_albedo.png-8ec05a4e8c6c6d8d716449e3492d66cb.ctex[39m[0m
+[  36% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/leaf_birch_v2_albedo.png.import[39m[0m
+[  36% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/log_wall_v1_albedo.png-1a6511b65c51f2e9dc62288965851e5e.ctex[39m[0m
+[  36% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/log_wall_v1_albedo.png.import[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/log_wall_v2_albedo.png-0dba800b7813e68e9d83a131c01cd830.ctex[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/log_wall_v2_albedo.png.import[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/mossy_stone_v2_albedo.png-934c759f2180e941174632ff7f4ed3aa.ctex[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/mossy_stone_v2_albedo.png.import[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/mossy_stone_v3_albedo.png-150cb5b00a351e82580f07c79e87b7c4.ctex[39m[0m
+[  37% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/mossy_stone_v3_albedo.png.import[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/old_fabric_v2_albedo.png-bd00c7f6e8a6be0b8e9a695dbefc51f4.ctex[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/old_fabric_v2_albedo.png.import[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/old_fabric_v3_albedo.png-3954649c8f917401d2dff37ffd46530d.ctex[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/old_fabric_v3_albedo.png.import[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/ornament_trim_v1_albedo.png-780154a4101352c56e13d29b1fe416ff.ctex[39m[0m
+[  38% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/ornament_trim_v1_albedo.png.import[39m[0m
+[  39% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/pine_foliage_albedo.png-a1aae903ff75fc685b75865f04d6970b.ctex[39m[0m
+[  39% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/pine_foliage_albedo.png.import[39m[0m
+[  39% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/pine_foliage_v2_albedo.png-1a315b81916a48d9ce4290b3c16b9c4f.ctex[39m[0m
+[  39% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/pine_foliage_v2_albedo.png.import[39m[0m
+[  39% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.Shop.cs[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/roof_metal_v2_albedo.png-158307fc32fab56c441f4252c901a9bd.ctex[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/roof_metal_v2_albedo.png.import[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/roof_shingle_v3_albedo.png-67293db0b9fda35632fd763d70346551.ctex[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/roof_shingle_v3_albedo.png.import[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/roof_slate_v1_albedo.png-a84ca57f52b8802e6126d38392a7ec10.ctex[39m[0m
+[  40% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/roof_slate_v1_albedo.png.import[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_fresh_v1_albedo.png-4e121290d4779bf1b0cb99cd3ef9cb05.ctex[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_fresh_v1_albedo.png.import[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_fresh_v2_albedo.png-cf67996817a67ca403d67629cce5c702.ctex[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_fresh_v2_albedo.png.import[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_grass_peek_v1_albedo.png-1408013615c05168cc5de03a6a8506fd.ctex[39m[0m
+[  41% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_grass_peek_v1_albedo.png.import[39m[0m
+[  42% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_micro_normal.png-64548d31f95dae7a05bb7e30afb399d8.ctex[39m[0m
+[  42% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_micro_normal.png.import[39m[0m
+[  42% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_micro_response.png-71546886d633dbb36ff113bb8a42e9c1.ctex[39m[0m
+[  42% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_micro_response.png.import[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_road_v1_albedo.png-e45218c81370685ba9978243d04ea4b0.ctex[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_road_v1_albedo.png.import[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_roof_v1_albedo.png-834608168cb8898e2b6ebe43d238b795.ctex[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_roof_v1_albedo.png.import[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/snow_trampled_v1_albedo.png-c277a9e736a3b4298b1b5c33ac7bc340.ctex[39m[0m
+[  43% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/snow_trampled_v1_albedo.png.import[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/wallpaper_old_v1_albedo.png-6ddfbfa5715efaf12d145a2e924e1a0e.ctex[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/wallpaper_old_v1_albedo.png.import[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/wallpaper_old_v2_albedo.png-c9c6b46b088f44b24a42b0af2ee45663.ctex[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/wallpaper_old_v2_albedo.png.import[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/wall_institution_v1_albedo.png-beba62def9822ca0d4c00e2af471e1ce.ctex[39m[0m
+[  44% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/wall_institution_v1_albedo.png.import[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/weathered_wood_boards_albedo.png-fb382a1f61d375adbdc8e50efa64e7c1.ctex[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/weathered_wood_boards_albedo.png.import[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/weathered_wood_boards_v2_albedo.png-38f0455f970f40accef80e00bb1aabda.ctex[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/weathered_wood_boards_v2_albedo.png.import[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/weathered_wood_boards_v3_albedo.png-e89a69225418947dea9cb105f83dadd6.ctex[39m[0m
+[  45% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png.import[39m[0m
+[  46% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/weathered_wood_boards_v4_albedo.png-142dd70b13ae84f5da7dca5ce87b3532.ctex[39m[0m
+[  46% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/weathered_wood_boards_v4_albedo.png.import[39m[0m
+[  46% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.SourceExcerpts.cs[39m[0m
+[  46% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SettingsUi.cs[39m[0m
+[  47% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/wood_carved_gate_v1_albedo.png-6a19fddc9bfedf4c356df6a4242131a1.ctex[39m[0m
+[  47% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/painterly/wood_carved_gate_v1_albedo.png.import[39m[0m
+[  47% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/act1_menu_winter_v1.png-4cf03f820676d5eeda880a4b25303931.ctex[39m[0m
+[  47% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/ui/act1_menu_winter_v1.png.import[39m[0m
+[  48% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/imported/urman_app_icon_v1.png-5acf156b61d088c9d961b606e67fce9e.ctex[39m[0m
+[  48% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/ui/urman_app_icon_v1.png.import[39m[0m
+[  48% ] [90m[1msavepack[22m | Сохранение файла: res://content/vehicles/act1_vehicles.v1.json[39m[0m
+[  48% ] [90m[1msavepack[22m | Сохранение файла: res://content/vehicles/avyl_radio.v1.json[39m[0m
+[  49% ] [90m[1msavepack[22m | Сохранение файла: res://content/urman.chapter1.compiled.v1.json[39m[0m
+[  49% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleController.PlacementDiagnostics.cs[39m[0m
+[  49% ] [90m[1msavepack[22m | Сохранение файла: res://content/urman.settlement.addresses.v1.json[39m[0m
+[  50% ] [90m[1msavepack[22m | Сохранение файла: res://content/urman.shop.v1.json[39m[0m
+[  50% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-4b294f74b36e69a2b81b154092f349fe-first_person_player.scn[39m[0m
+[  50% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-f18eb066938d3154a85b780ac76c7918-audio_cue_ui.scn[39m[0m
+[  51% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-5f4622bc4cfe01d3fbbd09203c378191-dialogue_ui.scn[39m[0m
+[  51% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-aa7cd7ea61fe852542ffad3714eeee76-document_ui.scn[39m[0m
+[  51% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-b523aa2e5ff183169a8a1d5a980baf48-journal_ui.scn[39m[0m
+[  52% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/YardMechanism.cs[39m[0m
+[  52% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-c49eb9023acc8678753ea1577e6dd7fa-old_pc_ui.scn[39m[0m
+[  53% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-b52c3db50a2d5439f0db702cb5e4f07c-settings_ui.scn[39m[0m
+[  53% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleDefinition.cs[39m[0m
+[  53% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleMechanicalAudio.cs[39m[0m
+[  54% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleVisualFactory.Horse.cs[39m[0m
+[  54% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleVisualFactory.RoadVehicles.cs[39m[0m
+[  54% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleWheelGeometry.cs[39m[0m
+[  55% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleController.WheelCollision.cs[39m[0m
+[  55% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleRadioPlayer.cs[39m[0m
+[  55% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleHorsePose.cs[39m[0m
+[  56% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleFleet.cs[39m[0m
+[  56% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/WorldFoleyPlayer.cs[39m[0m
+[  56% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/YardTool.cs[39m[0m
+[  57% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleVisualFactory.cs[39m[0m
+[  57% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-b3a512fbeaf2591a2ce7c51abaa87ffd-chapter1_fap_clinic.scn[39m[0m
+[  58% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-f35dd455790393a9ceeb27046d1dbad3-chapter1_zirat_road.scn[39m[0m
+[  58% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/YardUseTarget.cs[39m[0m
+[  58% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-64e7a36a58c76c3caffcf619a16f98f1-style_benchmark_day_street.scn[39m[0m
+[  59% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-08b8df9f5090782ecac83b53f09e0d02-style_benchmark_house_pc.scn[39m[0m
+[  59% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-dee9bf45a1b8fc4a4cc348ff7dd74687-style_benchmark_kara_urman_night.scn[39m[0m
+[  59% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-9e0ce2baca45a4e674cd7bba071dcee4-act1_demo.scn[39m[0m
+[  60% ] [90m[1msavepack[22m | Сохранение файла: res://content/credits.ru.txt[39m[0m
+[  60% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/exported/133200997/export-3ad5c15c4f3250da0cc7c1af1770d85f-main.scn[39m[0m
+[  60% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SnowTrampleField.cs[39m[0m
+[  61% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/StyleBenchmarkInteriorFactory.cs[39m[0m
+[  61% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/SourceExcerptSelection.cs[39m[0m
+[  61% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/ShopUi.cs[39m[0m
+[  62% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/ShopCatalog.cs[39m[0m
+[  62% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AccessibilityPresentation.cs[39m[0m
+[  62% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.Addresses.cs[39m[0m
+[  63% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ArrivalStop.cs[39m[0m
+[  63% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.AuthoredKitCollision.cs[39m[0m
+[  64% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.BabaiYardSideGate.cs[39m[0m
+[  64% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.Bathhouse.cs[39m[0m
+[  64% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.BoardCrossing.cs[39m[0m
+[  65% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.BypassDiscoveries.cs[39m[0m
+[  65% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.cs[39m[0m
+[  65% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.Exploration.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ExteriorDiscoveries.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.FapExploration.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ImageDiscoveries.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.InteriorPresentation.cs[39m[0m
+[  66% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.InvestigationRevisits.cs[39m[0m
+[  67% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs[39m[0m
+[  67% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueBooks.cs[39m[0m
+[  68% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueClothing.cs[39m[0m
+[  68% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueFoundation.cs[39m[0m
+[  68% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueGrounding.cs[39m[0m
+[  69% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueInterior.cs[39m[0m
+[  69% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.MosqueSaveSupport.cs[39m[0m
+[  69% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.Notebook.cs[39m[0m
+[  70% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.NpcStaging.cs[39m[0m
+[  70% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.OptionalDiscoveries.cs[39m[0m
+[  70% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.PerformanceSamples.cs[39m[0m
+[  71% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.PlayerFootwear.cs[39m[0m
+[  71% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.PublicBuildings.cs[39m[0m
+[  71% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.PublicFenceJunction.cs[39m[0m
+[  72% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.QuietCareDiscoveries.cs[39m[0m
+[  72% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.RinatArrival.cs[39m[0m
+[  73% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.RoadsideDiscoveries.cs[39m[0m
+[  73% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.RoadsideGrounding.cs[39m[0m
+[  73% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ShopGoods.cs[39m[0m
+[  74% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ShopUses.cs[39m[0m
+[  74% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.StandaloneParcels.cs[39m[0m
+[  74% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.Vehicles.cs[39m[0m
+[  75% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.YardDiscoveries.cs[39m[0m
+[  75% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.YardMechanisms.cs[39m[0m
+[  75% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1ConnectedWorld.ZiratFamily.cs[39m[0m
+[  76% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1DemoRoot.cs[39m[0m
+[  76% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1DemoRoot.PerformanceCapture.cs[39m[0m
+[  76% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1FacilityPresentation.cs[39m[0m
+[  77% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1VehiclePerformanceRoute.cs[39m[0m
+[  77% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Act1WorldLayout.cs[39m[0m
+[  78% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AddressAccessVerifier.cs[39m[0m
+[  78% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AddressFacadeMount.cs[39m[0m
+[  78% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AddressSignVisualComponent.cs[39m[0m
+[  79% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AddressWalkProbe.cs[39m[0m
+[  79% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AlsuStreetWalkPresentation.cs[39m[0m
+[  79% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AmbientAudioDirector.cs[39m[0m
+[  80% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/ArrivalPersonalProps.cs[39m[0m
+[  80% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AudioCueUi.cs[39m[0m
+[  80% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/AudioSettingsService.cs[39m[0m
+[  81% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/BathIgnitionChoiceUi.cs[39m[0m
+[  81% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CarryableProp.cs[39m[0m
+[  81% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CarryableProp.Geometry.cs[39m[0m
+[  82% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CarryCoordinator.cs[39m[0m
+[  82% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CarryCoordinator.Mechanisms.cs[39m[0m
+[  82% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CarryCoordinator.Physics.cs[39m[0m
+[  83% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/ClinicSurfacePresentation.cs[39m[0m
+[  83% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/CompiledCampaignRepository.cs[39m[0m
+[  84% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/DialogueUi.cs[39m[0m
+[  84% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/DocumentImageReader.cs[39m[0m
+[  84% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/DocumentUi.cs[39m[0m
+[  85% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Body.cs[39m[0m
+[  85% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.cs[39m[0m
+[  85% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Footwear.cs[39m[0m
+[  86% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Movement.cs[39m[0m
+[  86% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Stance.cs[39m[0m
+[  86% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Steps.cs[39m[0m
+[  87% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FirstPersonController.Traversal.cs[39m[0m
+[  87% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/FootstepAudioController.cs[39m[0m
+[  87% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/StyleBenchmarkZone.cs[39m[0m
+[  88% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/VehicleController.cs[39m[0m
+[  88% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/UserSettingsStore.cs[39m[0m
+[  89% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/UiFoley.cs[39m[0m
+[  89% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/GeneratedCharacterKitDressing.cs[39m[0m
+[  89% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/GeneratedModularKitDressing.cs[39m[0m
+[  90% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/HouseWallCalendar.cs[39m[0m
+[  90% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/InputBindingService.cs[39m[0m
+[  90% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/InteractionTarget.cs[39m[0m
+[  91% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/JournalUi.cs[39m[0m
+[  91% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/JournalUi.Notebook.cs[39m[0m
+[  91% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/LadderTraversal3D.cs[39m[0m
+[  92% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/Main.cs[39m[0m
+[  92% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/MainMenuUi.cs[39m[0m
+[  92% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcDesktopIcon.cs[39m[0m
+[  93% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcUi.Apps.cs[39m[0m
+[  93% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcUi.cs[39m[0m
+[  94% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcUi.Desktop.cs[39m[0m
+[  94% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcUi.Social.cs[39m[0m
+[  94% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcWallpaper.cs[39m[0m
+[  95% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/OldPcWindowTitleBar.cs[39m[0m
+[  95% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/PainterlyEnvironmentDetails.cs[39m[0m
+[  95% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/PainterlyMaterialLibrary.cs[39m[0m
+[  96% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/PauseMenuUi.cs[39m[0m
+[  96% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/PublicBuildingShell.cs[39m[0m
+[  96% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/QuestRuntimeCoordinator.cs[39m[0m
+[  97% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RinatFootPlacementModifier.cs[39m[0m
+[  97% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RinatPresencePresentation.cs[39m[0m
+[  97% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.AlsuWalk.cs[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.Bathhouse.cs[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scripts/RuntimeBridge.cs[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/player/first_person_player.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/audio_cue_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/dialogue_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/document_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/journal_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/old_pc_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/ui/settings_ui.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/zones/chapter1_fap_clinic.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/zones/chapter1_zirat_road.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/zones/style_benchmark_day_street.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/zones/style_benchmark_house_pc.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/zones/style_benchmark_kara_urman_night.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/act1_demo.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://scenes/main.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/global_script_class_cache.cfg[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/ui/urman_app_icon_v1.png[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://assets/textures/ui/act1_menu_winter_v1.png[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://.godot/uid_cache.bin[39m[0m
+[  98% ] [90m[1msavepack[22m | Сохранение файла: res://project.binary[39m[0m
+[92m[ DONE ][39m [1msavepack[22m
+[0m
+act1-release-export: child_group=63921 stopped=true
+desktop-export: provenance complete run=72e07c01-e395-4ead-b9d2-18d84b40a1be path=/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T/urman-act1-release-stage.f895sw/build-provenance.json
+act1-release: URMAN.pck registered dependencies PASS vehicle-json=2 radio-rows=12 unique-wav=11 public-photos=2; presence only, not listening/art acceptance
+act1-release: URMAN.pck PCK scope PASS entries=424
+act1-release: URMAN.pck registered dependencies PASS vehicle-json=2 radio-rows=12 unique-wav=11 public-photos=2; presence only, not listening/art acceptance
+act1-release: URMAN.pck PCK scope PASS entries=424
+act1-release: macOS headless/Dummy bootstrap PASS
+act1-release: Windows headless/Dummy bootstrap PASS
+act1-release: PASS — reproducible Act I PCK scope gate only; RC/release readiness remains OPEN
+/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate/windows/URMAN.exe: PE32+ executable (GUI) x86-64 (stripped to external PDB), for MS Windows
+/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T//urman-desktop-artifacts.YQrXqc/macos/URMAN.app/Contents/MacOS/URMAN: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64]
+/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T//urman-desktop-artifacts.YQrXqc/macos/URMAN.app/Contents/MacOS/URMAN (for architecture x86_64):	Mach-O 64-bit executable x86_64
+/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T//urman-desktop-artifacts.YQrXqc/macos/URMAN.app/Contents/MacOS/URMAN (for architecture arm64):	Mach-O 64-bit executable arm64
+/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T//urman-desktop-artifacts.YQrXqc/windows/windows/URMAN.exe: PE32+ executable (GUI) x86-64 (stripped to external PDB), for MS Windows
+desktop-artifacts: .NET closure PASS data_Urman.Game_macos_arm64 (.NETCoreApp,Version=v10.0/osx-arm64, 195 deps assets)
+desktop-artifacts: .NET closure PASS data_Urman.Game_macos_x86_64 (.NETCoreApp,Version=v10.0/osx-x64, 195 deps assets)
+desktop-artifacts: .NET closure PASS data_Urman.Game_windows_x86_64 (.NETCoreApp,Version=v10.0/win-x64, 196 deps assets)
+desktop-artifacts: WARNING source tree is dirty; receipt records workTree=dirty and the modified paths
+desktop-artifacts: WARNING dirty paths: .gitignore,SHURALE_RESEARCH_PACKAGE/data/visual_references.csv,SHURALE_RESEARCH_PACKAGE/research/10_visual_reference_atlas.md,SHURALE_RESEARCH_PACKAGE/visual_references/VISUAL_ATLAS.html,assets/asset_registry.json,assets/source/blender/act1/urman_fap_clinic_kit.blend,assets/source/blender/act1/urman_fap_clinic_kit.py,assets/source/blender/act1/urman_village_exterior_kit.blend,assets/source/blender/act1/urman_village_exterior_kit.py,assets/source/blender/agent_b_act1/agent_b_terrain.py,assets/source/blender/agent_b_act1/agentb_terrain_road_kit.blend,assets/source/blender/urman_character_kit.blend,assets/source/blender/urman_modular_kit.blend,content/campaigns/urman.chapter1/campaign.json,content/campaigns/urman.fullgame/campaign.json,content/modules/urman-chapter1/definitions.json,content/modules/urman-chapter1/documents/arrival-photo-evidence.md,content/modules/urman-chapter1/investigation-family.json,content/modules/urman-chapter1/investigation-social.json,content/modules/urman-chapter1/module.json,content/modules/urman-fullgame/documents/kazan-1552.md,content/modules/urman-oldpc/documents/doc_kara_urman_edge_sketch.md,content/modules/urman-oldpc/documents/msg_mansur_unsent_note.md,content/modules/urman-oldpc/documents/msg_marat_saved_last_normal.md,content/modules/urman-oldpc/documents/rec_internal_accounting_damaged.md,content/modules/urman-oldpc/documents/rec_marat_case_register_conflict.md,content/modules/urman-oldpc/documents/tw_shurale_urman_boundary.md,content/modules/urman-oldpc/documents/tw_tavysh_boundary_stories.md,content/modules/urman-oldpc/module.json,content/modules/urman-oldpc/schemas/oldpc-state.schema.json,docs/production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md,docs/production/act1_acceptance_matrix_2026-09-14.md,docs/production/act1_carry_evidence_2026-09-15/01_log_and_yard.png,docs/production/act1_carry_evidence_2026-09-15/02_held_log.png,docs/production/act1_carry_evidence_2026-09-15/03_snow_before.png,docs/production/act1_carry_evidence_2026-09-15/04_snow_cleared.png,docs/production/act1_carry_evidence_2026-09-15/05_uncovered_axe.png,docs/production/act1_carry_evidence_2026-09-15/06_loaded_held_axe.png,docs/production/act1_len01_cause_audit_2026-09-15.md,docs/urman_knowledge_base/README.md,docs/urman_knowledge_base/audio/act1_voice_recording_brief.md,docs/urman_knowledge_base/canon.md,docs/urman_knowledge_base/characters/act1_n2_measurement_sheet_2026-09-15.md,docs/urman_knowledge_base/decision_log.md,docs/urman_knowledge_base/execution_backlog.json,docs/urman_knowledge_base/playtest_plan.md,eng/apply-act1-voice-recordings.sh,eng/compile-game-content.sh,eng/export-desktop-debug.sh,eng/export-desktop-release.sh,eng/run-act1-demo-safe.sh,eng/run-act1-demo.sh,eng/run-m10-playtest-session.sh,eng/verify-act1-release-package.sh,eng/verify-desktop-artifacts.sh,game/assets/generated/urman_character_kit.glb,game/assets/generated/urman_modular_kit.glb,game/assets/models/act1/urman_fap_clinic_kit.glb,game/assets/models/act1/urman_village_exterior_kit.glb,game/assets/models/agent_b_act1/agentb_terrain_road_kit.glb,game/assets/textures/painterly/README.md,game/content/credits.ru.txt,game/content/urman.chapter1.compiled.v1.json,game/content/urman.fullgame.compiled.v1.json,game/project.godot,game/scenes/ui/journal_ui.tscn,game/scenes/ui/old_pc_ui.tscn,game/scripts/Act1ConnectedWorld.AuthoredKitCollision.cs,game/scripts/Act1ConnectedWorld.BabaiYardSideGate.cs,game/scripts/Act1ConnectedWorld.BypassDiscoveries.cs,game/scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs,game/scripts/Act1ConnectedWorld.Exploration.cs,game/scripts/Act1ConnectedWorld.ExteriorDiscoveries.cs,game/scripts/Act1ConnectedWorld.FapExploration.cs,game/scripts/Act1ConnectedWorld.InvestigationRevisits.cs,game/scripts/Act1ConnectedWorld.NpcStaging.cs,game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs,game/scripts/Act1ConnectedWorld.cs,game/scripts/Act1DemoRoot.cs,game/scripts/Act1WorldLayout.cs,game/scripts/AmbientAudioDirector.cs,game/scripts/CarryCoordinator.Physics.cs,game/scripts/CarryCoordinator.cs,game/scripts/CarryableProp.Geometry.cs,game/scripts/CarryableProp.cs,game/scripts/CompiledCampaignRepository.cs,game/scripts/DialogueUi.cs,game/scripts/DocumentUi.cs,game/scripts/FirstPersonController.Stance.cs,game/scripts/FirstPersonController.cs,game/scripts/FootstepAudioController.cs,game/scripts/GeneratedCharacterKitDressing.cs,game/scripts/GeneratedModularKitDressing.cs,game/scripts/InputBindingService.cs,game/scripts/InteractionTarget.cs,game/scripts/JournalUi.cs,game/scripts/Main.cs,game/scripts/MainMenuUi.cs,game/scripts/OldPcUi.cs,game/scripts/PainterlyMaterialLibrary.cs,game/scripts/PauseMenuUi.cs,game/scripts/RuntimeBridge.cs,game/scripts/SettingsUi.cs,game/scripts/SnowTrampleField.cs,game/scripts/StyleBenchmarkZone.cs,game/scripts/UiFoley.cs,game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs,game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs,game/tests/Act1AudioSettingsSmokeTest.cs,game/tests/Act1AudioTransitionSmokeTest.cs,game/tests/Act1BoundaryArchitectureSmokeTest.cs,game/tests/Act1BoundaryCollisionSmokeTest.cs,game/tests/Act1CarryInteractionSmokeTest.cs,game/tests/Act1CheckpointSmokeTest.cs,game/tests/Act1DemoLaunchSmokeTest.cs,game/tests/Act1FinalStateSmokeTest.cs,game/tests/Act1FirstPersonCorridorSmokeTest.cs,game/tests/Act1FirstPersonWalkthroughSmokeTest.cs,game/tests/Act1FootstepSmokeTest.cs,game/tests/Act1InterruptionSmokeTest.cs,game/tests/Act1Len01FamilyFlowSmokeTest.cs,game/tests/Act1MainMenuSmokeTest.cs,game/tests/Act1SaveLifecycleSmokeTest.cs,game/tests/AmbientAudioSmokeTest.cs,game/tests/ChapterOneFlowSmokeTest.cs,game/tests/DialogueFlowSmokeTest.cs,game/tests/FirstPersonInteractionSmokeTest.cs,game/tests/FullGameFlowSmokeTest.cs,game/tests/JournalFlowSmokeTest.cs,game/tests/NarrativeTransitionSmokeTest.cs,game/tests/OldPcFlowSmokeTest.cs,graphify-out/.graphify_labels.json,graphify-out/GRAPH_REPORT.md,graphify-out/graph.json,src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs,tasks/URMAN_address_mechanics_v3/schemas/existing_map_input.schema.json,tasks/URMAN_address_mechanics_v3/src/mechanics.py,tasks/URMAN_address_mechanics_v3/src/run_pipeline.py,tests/content/urman-chapter1/chapter1-data.test.mjs,tools/blender/generate_character_kit.py,tools/blender/generate_modular_environment.py,tools/blender/verify_character_kit.py,tools/blender/verify_modular_environment.py,assets/source/audio/act1/foley/,assets/source/audio/act1/radio/,content/modules/urman-chapter1/LEN01_ROUTE_HANDOFF.md,content/modules/urman-chapter1/SOURCE_RETURNS_07.patch,content/modules/urman-chapter1/SOURCE_RETURNS_07_HANDOFF.md,content/modules/urman-chapter1/address-navigation.json,content/modules/urman-chapter1/arrival-personal-sources.json,content/modules/urman-chapter1/documents/arrival-mother-message.md,content/modules/urman-chapter1/documents/arrival-stop-timetable.md,content/modules/urman-chapter1/documents/council-photo-album.md,content/modules/urman-chapter1/documents/council-sabantuy-poster.md,content/modules/urman-chapter1/documents/council-village-plan.md,content/modules/urman-chapter1/documents/first-snow-photo.md,content/modules/urman-chapter1/documents/school-class-photo.md,content/modules/urman-chapter1/documents/school-staff-note.md,content/modules/urman-chapter1/documents/school-transport-notice.md,content/modules/urman-chapter1/documents/shop-account-book.md,content/modules/urman-chapter1/documents/zirat-family-links.md,content/modules/urman-chapter1/exploration-observation-checks.json,content/modules/urman-chapter1/exploration-small-spaces.json,content/modules/urman-chapter1/exploration-sources.json,content/modules/urman-chapter1/images/,content/modules/urman-chapter1/investigation-revisions.json,content/modules/urman-chapter1/investigation-route.json,content/modules/urman-chapter1/investigation-source-checks.json,content/modules/urman-chapter1/investigation-source-returns.json,content/modules/urman-chapter1/rinat-roadside-presence.json,content/modules/urman-chapter1/village-life.json,content/modules/urman-oldpc/documents/mail_household_letter.md,content/modules/urman-oldpc/documents/social_alsu_profile.md,content/modules/urman-oldpc/documents/social_community_avyl.md,content/modules/urman-oldpc/documents/social_family_photo.md,content/modules/urman-oldpc/documents/social_farida_school_album.md,content/modules/urman-oldpc/documents/social_mansur_profile.md,content/modules/urman-oldpc/documents/tw_district_routes.md,content/modules/urman-oldpc/documents/tw_kara_urman_village.md,content/modules/urman-oldpc/documents/tw_local_names.md,content/modules/urman-oldpc/documents/tw_people_and_records.md,content/modules/urman-oldpc/documents/tw_sabantuy_memory.md,content/modules/urman-oldpc/documents/web_school_notice.md,content/modules/urman-oldpc/documents/web_village_archive.md,content/modules/urman-oldpc/documents/web_village_home.md,docs/production/act1_takeover_evidence_2026-09-16/,docs/production/act1_takeover_geometry_evidence_2026-09-15/,docs/production/act1_yard_mechanisms_evidence_2026-09-15/,docs/urman_knowledge_base/art/act1_hero_house_runtime_worker2_2026-09-15.md,docs/urman_knowledge_base/art/worker2_hero_runtime_20260915/,eng/act1_candidate_identity.py,eng/apply-act1-radio-previews.py,eng/apply-act1-radio-recordings.py,eng/desktop_build_provenance.py,eng/fetch-radio-commons-source.py,eng/godot_pck.py,eng/package-document-images.py,eng/prepare-radio-wav.py,eng/radio-recording-delivery.md,eng/radio-synthetic-preview-delivery.md,eng/run-act1-vehicle-performance.sh,eng/test-radio-preview-delivery.py,eng/test-radio-recording-delivery.py,game/assets/audio/act1/foley/hollow_board.wav,game/assets/audio/act1/foley/metal_rattle.wav,game/assets/audio/act1/foley/wood_tap.wav,game/assets/audio/act1/radio/,game/assets/images/,game/assets/textures/painterly/aged_plaster_v3_albedo.png.import,game/assets/textures/painterly/bark_birch_v2_albedo.png.import,game/assets/textures/painterly/bark_pine_v1_albedo.png.import,game/assets/textures/painterly/carpet_palas_v1_albedo.png.import,game/assets/textures/painterly/damp_earth_v3_albedo.png.import,game/assets/textures/painterly/damp_earth_v5_albedo.png.import,game/assets/textures/painterly/hay_fibers_v1_albedo.png,game/assets/textures/painterly/hay_fibers_v1_albedo.png.import,game/assets/textures/painterly/ice_patch_v1_albedo.png.import,game/assets/textures/painterly/log_wall_v1_albedo.png.import,game/assets/textures/painterly/mossy_stone_v3_albedo.png.import,game/assets/textures/painterly/old_fabric_v3_albedo.png.import,game/assets/textures/painterly/pine_foliage_v2_albedo.png.import,game/assets/textures/painterly/snow_fresh_v1_albedo.png.import,game/assets/textures/painterly/snow_grass_peek_v1_albedo.png.import,game/assets/textures/painterly/snow_micro_normal.png.import,game/assets/textures/painterly/snow_micro_response.png.import,game/assets/textures/painterly/snow_road_v1_albedo.png.import,game/assets/textures/painterly/snow_roof_v1_albedo.png.import,game/assets/textures/painterly/snow_trampled_v1_albedo.png.import,game/assets/textures/painterly/wall_institution_v1_albedo.png.import,game/assets/textures/painterly/wallpaper_old_v1_albedo.png.import,game/assets/textures/painterly/weathered_wood_boards_v2_albedo.png.import,game/assets/textures/painterly/weathered_wood_boards_v3_albedo.png.import,game/assets/textures/painterly/weathered_wood_boards_v4_albedo.png.import,game/content/urman.settlement.addresses.v1.json,game/content/urman.shop.v1.json,game/content/vehicles/,game/scripts/Act1ConnectedWorld.Addresses.cs,game/scripts/Act1ConnectedWorld.Addresses.cs.uid,game/scripts/Act1ConnectedWorld.ArrivalStop.cs,game/scripts/Act1ConnectedWorld.ArrivalStop.cs.uid,game/scripts/Act1ConnectedWorld.AuthoredKitCollision.cs.uid,game/scripts/Act1ConnectedWorld.Bathhouse.cs,game/scripts/Act1ConnectedWorld.Bathhouse.cs.uid,game/scripts/Act1ConnectedWorld.BoardCrossing.cs,game/scripts/Act1ConnectedWorld.BoardCrossing.cs.uid,game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs,game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs.uid,game/scripts/Act1ConnectedWorld.InteriorPresentation.cs,game/scripts/Act1ConnectedWorld.InteriorPresentation.cs.uid,game/scripts/Act1ConnectedWorld.InvestigationRevisits.cs.uid,game/scripts/Act1ConnectedWorld.MosqueBooks.cs,game/scripts/Act1ConnectedWorld.MosqueBooks.cs.uid,game/scripts/Act1ConnectedWorld.MosqueClothing.cs,game/scripts/Act1ConnectedWorld.MosqueClothing.cs.uid,game/scripts/Act1ConnectedWorld.MosqueFoundation.cs,game/scripts/Act1ConnectedWorld.MosqueFoundation.cs.uid,game/scripts/Act1ConnectedWorld.MosqueGrounding.cs,game/scripts/Act1ConnectedWorld.MosqueGrounding.cs.uid,game/scripts/Act1ConnectedWorld.MosqueInterior.cs,game/scripts/Act1ConnectedWorld.MosqueInterior.cs.uid,game/scripts/Act1ConnectedWorld.MosqueSaveSupport.cs,game/scripts/Act1ConnectedWorld.MosqueSaveSupport.cs.uid,game/scripts/Act1ConnectedWorld.Notebook.cs,game/scripts/Act1ConnectedWorld.Notebook.cs.uid,game/scripts/Act1ConnectedWorld.PerformanceSamples.cs,game/scripts/Act1ConnectedWorld.PerformanceSamples.cs.uid,game/scripts/Act1ConnectedWorld.PlayerFootwear.cs,game/scripts/Act1ConnectedWorld.PlayerFootwear.cs.uid,game/scripts/Act1ConnectedWorld.PublicBuildings.cs,game/scripts/Act1ConnectedWorld.PublicBuildings.cs.uid,game/scripts/Act1ConnectedWorld.PublicFenceJunction.cs,game/scripts/Act1ConnectedWorld.PublicFenceJunction.cs.uid,game/scripts/Act1ConnectedWorld.RinatArrival.cs,game/scripts/Act1ConnectedWorld.RinatArrival.cs.uid,game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs.uid,game/scripts/Act1ConnectedWorld.ShopGoods.cs,game/scripts/Act1ConnectedWorld.ShopGoods.cs.uid,game/scripts/Act1ConnectedWorld.ShopUses.cs,game/scripts/Act1ConnectedWorld.ShopUses.cs.uid,game/scripts/Act1ConnectedWorld.StandaloneParcels.cs,game/scripts/Act1ConnectedWorld.StandaloneParcels.cs.uid,game/scripts/Act1ConnectedWorld.Vehicles.cs,game/scripts/Act1ConnectedWorld.Vehicles.cs.uid,game/scripts/Act1ConnectedWorld.YardMechanisms.cs,game/scripts/Act1ConnectedWorld.YardMechanisms.cs.uid,game/scripts/Act1ConnectedWorld.ZiratFamily.cs,game/scripts/Act1ConnectedWorld.ZiratFamily.cs.uid,game/scripts/Act1DemoRoot.PerformanceCapture.cs,game/scripts/Act1DemoRoot.PerformanceCapture.cs.uid,game/scripts/Act1FacilityPresentation.cs,game/scripts/Act1FacilityPresentation.cs.uid,game/scripts/Act1VehiclePerformanceRoute.cs,game/scripts/Act1VehiclePerformanceRoute.cs.uid,game/scripts/AddressAccessVerifier.cs,game/scripts/AddressAccessVerifier.cs.uid,game/scripts/AddressFacadeMount.cs,game/scripts/AddressFacadeMount.cs.uid,game/scripts/AddressSignVisualComponent.cs,game/scripts/AddressSignVisualComponent.cs.uid,game/scripts/AddressWalkProbe.cs,game/scripts/AddressWalkProbe.cs.uid,game/scripts/AlsuStreetWalkPresentation.cs,game/scripts/AlsuStreetWalkPresentation.cs.uid,game/scripts/ArrivalPersonalProps.cs,game/scripts/ArrivalPersonalProps.cs.uid,game/scripts/BathIgnitionChoiceUi.cs,game/scripts/BathIgnitionChoiceUi.cs.uid,game/scripts/CarryCoordinator.Mechanisms.cs,game/scripts/CarryCoordinator.Mechanisms.cs.uid,game/scripts/CarryCoordinator.Physics.cs.uid,game/scripts/CarryableProp.Geometry.cs.uid,game/scripts/ClinicSurfacePresentation.cs,game/scripts/ClinicSurfacePresentation.cs.uid,game/scripts/DocumentImageReader.cs,game/scripts/DocumentImageReader.cs.uid,game/scripts/FirstPersonController.Body.cs,game/scripts/FirstPersonController.Body.cs.uid,game/scripts/FirstPersonController.Footwear.cs,game/scripts/FirstPersonController.Footwear.cs.uid,game/scripts/FirstPersonController.Movement.cs,game/scripts/FirstPersonController.Movement.cs.uid,game/scripts/FirstPersonController.Stance.cs.uid,game/scripts/FirstPersonController.Steps.cs,game/scripts/FirstPersonController.Steps.cs.uid,game/scripts/FirstPersonController.Traversal.cs,game/scripts/FirstPersonController.Traversal.cs.uid,game/scripts/HouseWallCalendar.cs,game/scripts/HouseWallCalendar.cs.uid,game/scripts/JournalUi.Notebook.cs,game/scripts/JournalUi.Notebook.cs.uid,game/scripts/LadderTraversal3D.cs,game/scripts/LadderTraversal3D.cs.uid,game/scripts/OldPcDesktopIcon.cs,game/scripts/OldPcDesktopIcon.cs.uid,game/scripts/OldPcUi.Apps.cs,game/scripts/OldPcUi.Apps.cs.uid,game/scripts/OldPcUi.Desktop.cs,game/scripts/OldPcUi.Desktop.cs.uid,game/scripts/OldPcUi.Social.cs,game/scripts/OldPcUi.Social.cs.uid,game/scripts/OldPcWallpaper.cs,game/scripts/OldPcWallpaper.cs.uid,game/scripts/OldPcWindowTitleBar.cs,game/scripts/OldPcWindowTitleBar.cs.uid,game/scripts/PublicBuildingShell.cs,game/scripts/PublicBuildingShell.cs.uid,game/scripts/RinatFootPlacementModifier.cs,game/scripts/RinatFootPlacementModifier.cs.uid,game/scripts/RinatPresencePresentation.cs,game/scripts/RinatPresencePresentation.cs.uid,game/scripts/RuntimeBridge.AlsuWalk.cs,game/scripts/RuntimeBridge.AlsuWalk.cs.uid,game/scripts/RuntimeBridge.Bathhouse.cs,game/scripts/RuntimeBridge.Bathhouse.cs.uid,game/scripts/RuntimeBridge.LoadRecovery.cs,game/scripts/RuntimeBridge.LoadRecovery.cs.uid,game/scripts/RuntimeBridge.Notebook.cs,game/scripts/RuntimeBridge.Notebook.cs.uid,game/scripts/RuntimeBridge.Shop.cs,game/scripts/RuntimeBridge.Shop.cs.uid,game/scripts/RuntimeBridge.SourceExcerpts.cs,game/scripts/RuntimeBridge.SourceExcerpts.cs.uid,game/scripts/SettlementMapControl.cs,game/scripts/SettlementMapControl.cs.uid,game/scripts/SettlementRegistry.cs,game/scripts/SettlementRegistry.cs.uid,game/scripts/SettlementRoadGraph.cs,game/scripts/SettlementRoadGraph.cs.uid,game/scripts/ShopCatalog.cs,game/scripts/ShopCatalog.cs.uid,game/scripts/ShopUi.cs,game/scripts/ShopUi.cs.uid,game/scripts/SourceExcerptSelection.cs,game/scripts/SourceExcerptSelection.cs.uid,game/scripts/StyleBenchmarkInteriorFactory.cs,game/scripts/StyleBenchmarkInteriorFactory.cs.uid,game/scripts/VehicleController.PlacementDiagnostics.cs,game/scripts/VehicleController.PlacementDiagnostics.cs.uid,game/scripts/VehicleController.WheelCollision.cs,game/scripts/VehicleController.WheelCollision.cs.uid,game/scripts/VehicleController.cs,game/scripts/VehicleController.cs.uid,game/scripts/VehicleDefinition.cs,game/scripts/VehicleDefinition.cs.uid,game/scripts/VehicleFleet.cs,game/scripts/VehicleFleet.cs.uid,game/scripts/VehicleHorsePose.cs,game/scripts/VehicleHorsePose.cs.uid,game/scripts/VehicleMechanicalAudio.cs,game/scripts/VehicleMechanicalAudio.cs.uid,game/scripts/VehicleRadioPlayer.cs,game/scripts/VehicleRadioPlayer.cs.uid,game/scripts/VehicleVisualFactory.Horse.cs,game/scripts/VehicleVisualFactory.Horse.cs.uid,game/scripts/VehicleVisualFactory.RoadVehicles.cs,game/scripts/VehicleVisualFactory.RoadVehicles.cs.uid,game/scripts/VehicleVisualFactory.cs,game/scripts/VehicleVisualFactory.cs.uid,game/scripts/VehicleWheelGeometry.cs,game/scripts/VehicleWheelGeometry.cs.uid,game/scripts/WorldFoleyPlayer.cs,game/scripts/WorldFoleyPlayer.cs.uid,game/scripts/YardMechanism.cs,game/scripts/YardMechanism.cs.uid,game/scripts/YardUseTarget.cs.uid,game/tests/Act1AlsuWalkProof.cs,game/tests/Act1AlsuWalkProof.cs.uid,game/tests/Act1ArrivalStopSmokeTest.cs,game/tests/Act1ArrivalStopSmokeTest.cs.uid,game/tests/Act1BoundaryArchitectureSmokeTest.cs.uid,game/tests/Act1BoundaryCollisionSmokeTest.cs.uid,game/tests/Act1CarryInteractionSmokeTest.cs.uid,game/tests/Act1FacilitiesSmokeTest.DoorMigration.cs,game/tests/Act1FacilitiesSmokeTest.DoorMigration.cs.uid,game/tests/Act1FacilitiesSmokeTest.Matches.cs,game/tests/Act1FacilitiesSmokeTest.Matches.cs.uid,game/tests/Act1FacilitiesSmokeTest.MosqueBooks.cs,game/tests/Act1FacilitiesSmokeTest.MosqueBooks.cs.uid,game/tests/Act1FacilitiesSmokeTest.MosqueClothing.cs,game/tests/Act1FacilitiesSmokeTest.MosqueClothing.cs.uid,game/tests/Act1FacilitiesSmokeTest.MosqueGrounding.cs,game/tests/Act1FacilitiesSmokeTest.MosqueGrounding.cs.uid,game/tests/Act1FacilitiesSmokeTest.PlayerFootwear.cs,game/tests/Act1FacilitiesSmokeTest.PlayerFootwear.cs.uid,game/tests/Act1FacilitiesSmokeTest.cs,game/tests/Act1FacilitiesSmokeTest.cs.uid,game/tests/Act1FirstPersonWalkthroughSmokeTest.AddressLifecycle.cs,game/tests/Act1FirstPersonWalkthroughSmokeTest.AddressLifecycle.cs.uid,game/tests/Act1FirstPersonWalkthroughSmokeTest.MosqueRoute.cs,game/tests/Act1FirstPersonWalkthroughSmokeTest.MosqueRoute.cs.uid,game/tests/Act1Len01FamilyFlowSmokeTest.cs.uid,game/tests/Act1NotebookShopSmokeTest.cs,game/tests/Act1NotebookShopSmokeTest.cs.uid,game/tests/Act1NotebookShopSmokeTest.tscn,game/tests/Act1NpcPresentationSmokeTest.cs,game/tests/Act1NpcPresentationSmokeTest.cs.uid,game/tests/Act1PlayerMovementSmokeTest.BodyVisibility.cs,game/tests/Act1PlayerMovementSmokeTest.BodyVisibility.cs.uid,game/tests/Act1PlayerMovementSmokeTest.cs,game/tests/Act1PlayerMovementSmokeTest.cs.uid,game/tests/Act1PublicBuildingsSmokeTest.FenceJunction.cs,game/tests/Act1PublicBuildingsSmokeTest.FenceJunction.cs.uid,game/tests/Act1PublicBuildingsSmokeTest.cs,game/tests/Act1PublicBuildingsSmokeTest.cs.uid,game/tests/Act1RoadsideGeometrySmokeTest.cs.uid,game/tests/Act1RouteLandmarksProof.cs,game/tests/Act1RouteLandmarksProof.cs.uid,game/tests/Act1SourceExcerptProof.cs,game/tests/Act1SourceExcerptProof.cs.uid,game/tests/Act1VisibleSurfaceProbe.cs,game/tests/Act1VisibleSurfaceProbe.cs.uid,game/tests/Act1YardMechanismsSmokeTest.cs,game/tests/Act1YardMechanismsSmokeTest.cs.uid,game/tests/Act1ZiratFamilySmokeTest.cs,game/tests/Act1ZiratFamilySmokeTest.cs.uid,game/tests/Act1ZiratFamilySmokeTest.tscn,game/tests/AddressAccessGeometryProof.cs,game/tests/AddressAccessGeometryProof.cs.uid,game/tests/AddressRegistrySmokeTest.cs,game/tests/AddressRegistrySmokeTest.cs.uid,game/tests/AddressRemediationGeometryProof.cs,game/tests/AddressRemediationGeometryProof.cs.uid,game/tests/AddressWorldSmokeTest.VergeContacts.cs,game/tests/AddressWorldSmokeTest.VergeContacts.cs.uid,game/tests/AddressWorldSmokeTest.cs,game/tests/AddressWorldSmokeTest.cs.uid,game/tests/DocumentImageUiProof.cs,game/tests/DocumentImageUiProof.cs.uid,game/tests/FirstPersonStepSmokeTest.cs,game/tests/FirstPersonStepSmokeTest.cs.uid,game/tests/OldPcDesktopSmokeTest.cs,game/tests/OldPcDesktopSmokeTest.cs.uid,game/tests/SourceExcerptUiProof.cs,game/tests/SourceExcerptUiProof.cs.uid,game/tests/VehicleSmokeTest.AngularRoundtrip.cs,game/tests/VehicleSmokeTest.AngularRoundtrip.cs.uid,game/tests/VehicleSmokeTest.BlockedRestore.cs,game/tests/VehicleSmokeTest.BlockedRestore.cs.uid,game/tests/VehicleSmokeTest.Horse.cs,game/tests/VehicleSmokeTest.Horse.cs.uid,game/tests/VehicleSmokeTest.Input.cs,game/tests/VehicleSmokeTest.Input.cs.uid,game/tests/VehicleSmokeTest.Interior.cs,game/tests/VehicleSmokeTest.Interior.cs.uid,game/tests/VehicleSmokeTest.Radio.cs,game/tests/VehicleSmokeTest.Radio.cs.uid,game/tests/VehicleSmokeTest.RecoveryNewGame.cs,game/tests/VehicleSmokeTest.RecoveryNewGame.cs.uid,game/tests/VehicleSmokeTest.Rollback.cs,game/tests/VehicleSmokeTest.Rollback.cs.uid,game/tests/VehicleSmokeTest.Visuals.cs,game/tests/VehicleSmokeTest.Visuals.cs.uid,game/tests/VehicleSmokeTest.WheelCollision.cs,game/tests/VehicleSmokeTest.WheelCollision.cs.uid,game/tests/VehicleSmokeTest.cs,game/tests/VehicleSmokeTest.cs.uid,game/tests/act1_arrival_stop_smoke_test.tscn,game/tests/act1_facilities_smoke_test.tscn,game/tests/act1_npc_presentation_smoke_test.tscn,game/tests/act1_player_movement_smoke_test.tscn,game/tests/act1_public_buildings_smoke_test.tscn,game/tests/act1_yard_mechanisms_smoke_test.tscn,game/tests/address_registry_smoke_test.tscn,game/tests/address_world_smoke_test.tscn,game/tests/first_person_step_smoke_test.tscn,game/tests/old_pc_desktop_smoke_test.tscn,game/tests/vehicle_smoke_test.tscn,src-dotnet/Urman.Core/Capabilities/OldPc/OldPcDesktopSnapshot.cs,"tasks/URMAN,tasks/URMAN_address_mechanics_v3/tests/test_regression.py,tests-dotnet/Urman.Core.Tests/OldPcDesktopTests.cs
+desktop-artifacts: NOTE /Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate/.desktop-artifact-receipt.92C1sh was built from a dirty tree; it cannot be reproduced from commit 04f039ee95e6c1320d52d61fff3089fad834393c alone. Modified paths: .gitignore, SHURALE_RESEARCH_PACKAGE/data/visual_references.csv, SHURALE_RESEARCH_PACKAGE/research/10_visual_reference_atlas.md, SHURALE_RESEARCH_PACKAGE/visual_references/VISUAL_ATLAS.html, assets/asset_registry.json, assets/source/blender/act1/urman_fap_clinic_kit.blend, assets/source/blender/act1/urman_fap_clinic_kit.py, assets/source/blender/act1/urman_village_exterior_kit.blend, assets/source/blender/act1/urman_village_exterior_kit.py, assets/source/blender/agent_b_act1/agent_b_terrain.py, assets/source/blender/agent_b_act1/agentb_terrain_road_kit.blend, assets/source/blender/urman_character_kit.blend, assets/source/blender/urman_modular_kit.blend, content/campaigns/urman.chapter1/campaign.json, content/campaigns/urman.fullgame/campaign.json, content/modules/urman-chapter1/definitions.json, content/modules/urman-chapter1/documents/arrival-photo-evidence.md, content/modules/urman-chapter1/investigation-family.json, content/modules/urman-chapter1/investigation-social.json, content/modules/urman-chapter1/module.json, content/modules/urman-fullgame/documents/kazan-1552.md, content/modules/urman-oldpc/documents/doc_kara_urman_edge_sketch.md, content/modules/urman-oldpc/documents/msg_mansur_unsent_note.md, content/modules/urman-oldpc/documents/msg_marat_saved_last_normal.md, content/modules/urman-oldpc/documents/rec_internal_accounting_damaged.md, content/modules/urman-oldpc/documents/rec_marat_case_register_conflict.md, content/modules/urman-oldpc/documents/tw_shurale_urman_boundary.md, content/modules/urman-oldpc/documents/tw_tavysh_boundary_stories.md, content/modules/urman-oldpc/module.json, content/modules/urman-oldpc/schemas/oldpc-state.schema.json, docs/production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md, docs/production/act1_acceptance_matrix_2026-09-14.md, docs/production/act1_carry_evidence_2026-09-15/01_log_and_yard.png, docs/production/act1_carry_evidence_2026-09-15/02_held_log.png, docs/production/act1_carry_evidence_2026-09-15/03_snow_before.png, docs/production/act1_carry_evidence_2026-09-15/04_snow_cleared.png, docs/production/act1_carry_evidence_2026-09-15/05_uncovered_axe.png, docs/production/act1_carry_evidence_2026-09-15/06_loaded_held_axe.png, docs/production/act1_len01_cause_audit_2026-09-15.md, docs/urman_knowledge_base/README.md, docs/urman_knowledge_base/audio/act1_voice_recording_brief.md, docs/urman_knowledge_base/canon.md, docs/urman_knowledge_base/characters/act1_n2_measurement_sheet_2026-09-15.md, docs/urman_knowledge_base/decision_log.md, docs/urman_knowledge_base/execution_backlog.json, docs/urman_knowledge_base/playtest_plan.md, eng/apply-act1-voice-recordings.sh, eng/compile-game-content.sh, eng/export-desktop-debug.sh, eng/export-desktop-release.sh, eng/run-act1-demo-safe.sh, eng/run-act1-demo.sh, eng/run-m10-playtest-session.sh, eng/verify-act1-release-package.sh, eng/verify-desktop-artifacts.sh, game/assets/generated/urman_character_kit.glb, game/assets/generated/urman_modular_kit.glb, game/assets/models/act1/urman_fap_clinic_kit.glb, game/assets/models/act1/urman_village_exterior_kit.glb, game/assets/models/agent_b_act1/agentb_terrain_road_kit.glb, game/assets/textures/painterly/README.md, game/content/credits.ru.txt, game/content/urman.chapter1.compiled.v1.json, game/content/urman.fullgame.compiled.v1.json, game/project.godot, game/scenes/ui/journal_ui.tscn, game/scenes/ui/old_pc_ui.tscn, game/scripts/Act1ConnectedWorld.AuthoredKitCollision.cs, game/scripts/Act1ConnectedWorld.BabaiYardSideGate.cs, game/scripts/Act1ConnectedWorld.BypassDiscoveries.cs, game/scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs, game/scripts/Act1ConnectedWorld.Exploration.cs, game/scripts/Act1ConnectedWorld.ExteriorDiscoveries.cs, game/scripts/Act1ConnectedWorld.FapExploration.cs, game/scripts/Act1ConnectedWorld.InvestigationRevisits.cs, game/scripts/Act1ConnectedWorld.NpcStaging.cs, game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/Act1DemoRoot.cs, game/scripts/Act1WorldLayout.cs, game/scripts/AmbientAudioDirector.cs, game/scripts/CarryCoordinator.Physics.cs, game/scripts/CarryCoordinator.cs, game/scripts/CarryableProp.Geometry.cs, game/scripts/CarryableProp.cs, game/scripts/CompiledCampaignRepository.cs, game/scripts/DialogueUi.cs, game/scripts/DocumentUi.cs, game/scripts/FirstPersonController.Stance.cs, game/scripts/FirstPersonController.cs, game/scripts/FootstepAudioController.cs, game/scripts/GeneratedCharacterKitDressing.cs, game/scripts/GeneratedModularKitDressing.cs, game/scripts/InputBindingService.cs, game/scripts/InteractionTarget.cs, game/scripts/JournalUi.cs, game/scripts/Main.cs, game/scripts/MainMenuUi.cs, game/scripts/OldPcUi.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/PauseMenuUi.cs, game/scripts/RuntimeBridge.cs, game/scripts/SettingsUi.cs, game/scripts/SnowTrampleField.cs, game/scripts/StyleBenchmarkZone.cs, game/scripts/UiFoley.cs, game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs, game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs, game/tests/Act1AudioSettingsSmokeTest.cs, game/tests/Act1AudioTransitionSmokeTest.cs, game/tests/Act1BoundaryArchitectureSmokeTest.cs, game/tests/Act1BoundaryCollisionSmokeTest.cs, game/tests/Act1CarryInteractionSmokeTest.cs, game/tests/Act1CheckpointSmokeTest.cs, game/tests/Act1DemoLaunchSmokeTest.cs, game/tests/Act1FinalStateSmokeTest.cs, game/tests/Act1FirstPersonCorridorSmokeTest.cs, game/tests/Act1FirstPersonWalkthroughSmokeTest.cs, game/tests/Act1FootstepSmokeTest.cs, game/tests/Act1InterruptionSmokeTest.cs, game/tests/Act1Len01FamilyFlowSmokeTest.cs, game/tests/Act1MainMenuSmokeTest.cs, game/tests/Act1SaveLifecycleSmokeTest.cs, game/tests/AmbientAudioSmokeTest.cs, game/tests/ChapterOneFlowSmokeTest.cs, game/tests/DialogueFlowSmokeTest.cs, game/tests/FirstPersonInteractionSmokeTest.cs, game/tests/FullGameFlowSmokeTest.cs, game/tests/JournalFlowSmokeTest.cs, game/tests/NarrativeTransitionSmokeTest.cs, game/tests/OldPcFlowSmokeTest.cs, graphify-out/.graphify_labels.json, graphify-out/GRAPH_REPORT.md, graphify-out/graph.json, src-dotnet/Urman.Core/Capabilities/OldPc/OldPcCapabilityProvider.cs, tasks/URMAN_address_mechanics_v3/schemas/existing_map_input.schema.json, tasks/URMAN_address_mechanics_v3/src/mechanics.py, tasks/URMAN_address_mechanics_v3/src/run_pipeline.py, tests/content/urman-chapter1/chapter1-data.test.mjs, tools/blender/generate_character_kit.py, tools/blender/generate_modular_environment.py, tools/blender/verify_character_kit.py, tools/blender/verify_modular_environment.py, assets/source/audio/act1/foley/, assets/source/audio/act1/radio/, content/modules/urman-chapter1/LEN01_ROUTE_HANDOFF.md, content/modules/urman-chapter1/SOURCE_RETURNS_07.patch, content/modules/urman-chapter1/SOURCE_RETURNS_07_HANDOFF.md, content/modules/urman-chapter1/address-navigation.json, content/modules/urman-chapter1/arrival-personal-sources.json, content/modules/urman-chapter1/documents/arrival-mother-message.md, content/modules/urman-chapter1/documents/arrival-stop-timetable.md, content/modules/urman-chapter1/documents/council-photo-album.md, content/modules/urman-chapter1/documents/council-sabantuy-poster.md, content/modules/urman-chapter1/documents/council-village-plan.md, content/modules/urman-chapter1/documents/first-snow-photo.md, content/modules/urman-chapter1/documents/school-class-photo.md, content/modules/urman-chapter1/documents/school-staff-note.md, content/modules/urman-chapter1/documents/school-transport-notice.md, content/modules/urman-chapter1/documents/shop-account-book.md, content/modules/urman-chapter1/documents/zirat-family-links.md, content/modules/urman-chapter1/exploration-observation-checks.json, content/modules/urman-chapter1/exploration-small-spaces.json, content/modules/urman-chapter1/exploration-sources.json, content/modules/urman-chapter1/images/, content/modules/urman-chapter1/investigation-revisions.json, content/modules/urman-chapter1/investigation-route.json, content/modules/urman-chapter1/investigation-source-checks.json, content/modules/urman-chapter1/investigation-source-returns.json, content/modules/urman-chapter1/rinat-roadside-presence.json, content/modules/urman-chapter1/village-life.json, content/modules/urman-oldpc/documents/mail_household_letter.md, content/modules/urman-oldpc/documents/social_alsu_profile.md, content/modules/urman-oldpc/documents/social_community_avyl.md, content/modules/urman-oldpc/documents/social_family_photo.md, content/modules/urman-oldpc/documents/social_farida_school_album.md, content/modules/urman-oldpc/documents/social_mansur_profile.md, content/modules/urman-oldpc/documents/tw_district_routes.md, content/modules/urman-oldpc/documents/tw_kara_urman_village.md, content/modules/urman-oldpc/documents/tw_local_names.md, content/modules/urman-oldpc/documents/tw_people_and_records.md, content/modules/urman-oldpc/documents/tw_sabantuy_memory.md, content/modules/urman-oldpc/documents/web_school_notice.md, content/modules/urman-oldpc/documents/web_village_archive.md, content/modules/urman-oldpc/documents/web_village_home.md, docs/production/act1_takeover_evidence_2026-09-16/, docs/production/act1_takeover_geometry_evidence_2026-09-15/, docs/production/act1_yard_mechanisms_evidence_2026-09-15/, docs/urman_knowledge_base/art/act1_hero_house_runtime_worker2_2026-09-15.md, docs/urman_knowledge_base/art/worker2_hero_runtime_20260915/, eng/act1_candidate_identity.py, eng/apply-act1-radio-previews.py, eng/apply-act1-radio-recordings.py, eng/desktop_build_provenance.py, eng/fetch-radio-commons-source.py, eng/godot_pck.py, eng/package-document-images.py, eng/prepare-radio-wav.py, eng/radio-recording-delivery.md, eng/radio-synthetic-preview-delivery.md, eng/run-act1-vehicle-performance.sh, eng/test-radio-preview-delivery.py, eng/test-radio-recording-delivery.py, game/assets/audio/act1/foley/hollow_board.wav, game/assets/audio/act1/foley/metal_rattle.wav, game/assets/audio/act1/foley/wood_tap.wav, game/assets/audio/act1/radio/, game/assets/images/, game/assets/textures/painterly/aged_plaster_v3_albedo.png.import, game/assets/textures/painterly/bark_birch_v2_albedo.png.import, game/assets/textures/painterly/bark_pine_v1_albedo.png.import, game/assets/textures/painterly/carpet_palas_v1_albedo.png.import, game/assets/textures/painterly/damp_earth_v3_albedo.png.import, game/assets/textures/painterly/damp_earth_v5_albedo.png.import, game/assets/textures/painterly/hay_fibers_v1_albedo.png, game/assets/textures/painterly/hay_fibers_v1_albedo.png.import, game/assets/textures/painterly/ice_patch_v1_albedo.png.import, game/assets/textures/painterly/log_wall_v1_albedo.png.import, game/assets/textures/painterly/mossy_stone_v3_albedo.png.import, game/assets/textures/painterly/old_fabric_v3_albedo.png.import, game/assets/textures/painterly/pine_foliage_v2_albedo.png.import, game/assets/textures/painterly/snow_fresh_v1_albedo.png.import, game/assets/textures/painterly/snow_grass_peek_v1_albedo.png.import, game/assets/textures/painterly/snow_micro_normal.png.import, game/assets/textures/painterly/snow_micro_response.png.import, game/assets/textures/painterly/snow_road_v1_albedo.png.import, game/assets/textures/painterly/snow_roof_v1_albedo.png.import, game/assets/textures/painterly/snow_trampled_v1_albedo.png.import, game/assets/textures/painterly/wall_institution_v1_albedo.png.import, game/assets/textures/painterly/wallpaper_old_v1_albedo.png.import, game/assets/textures/painterly/weathered_wood_boards_v2_albedo.png.import, game/assets/textures/painterly/weathered_wood_boards_v3_albedo.png.import, game/assets/textures/painterly/weathered_wood_boards_v4_albedo.png.import, game/content/urman.settlement.addresses.v1.json, game/content/urman.shop.v1.json, game/content/vehicles/, game/scripts/Act1ConnectedWorld.Addresses.cs, game/scripts/Act1ConnectedWorld.Addresses.cs.uid, game/scripts/Act1ConnectedWorld.ArrivalStop.cs, game/scripts/Act1ConnectedWorld.ArrivalStop.cs.uid, game/scripts/Act1ConnectedWorld.AuthoredKitCollision.cs.uid, game/scripts/Act1ConnectedWorld.Bathhouse.cs, game/scripts/Act1ConnectedWorld.Bathhouse.cs.uid, game/scripts/Act1ConnectedWorld.BoardCrossing.cs, game/scripts/Act1ConnectedWorld.BoardCrossing.cs.uid, game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs, game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs.uid, game/scripts/Act1ConnectedWorld.InteriorPresentation.cs, game/scripts/Act1ConnectedWorld.InteriorPresentation.cs.uid, game/scripts/Act1ConnectedWorld.InvestigationRevisits.cs.uid, game/scripts/Act1ConnectedWorld.MosqueBooks.cs, game/scripts/Act1ConnectedWorld.MosqueBooks.cs.uid, game/scripts/Act1ConnectedWorld.MosqueClothing.cs, game/scripts/Act1ConnectedWorld.MosqueClothing.cs.uid, game/scripts/Act1ConnectedWorld.MosqueFoundation.cs, game/scripts/Act1ConnectedWorld.MosqueFoundation.cs.uid, game/scripts/Act1ConnectedWorld.MosqueGrounding.cs, game/scripts/Act1ConnectedWorld.MosqueGrounding.cs.uid, game/scripts/Act1ConnectedWorld.MosqueInterior.cs, game/scripts/Act1ConnectedWorld.MosqueInterior.cs.uid, game/scripts/Act1ConnectedWorld.MosqueSaveSupport.cs, game/scripts/Act1ConnectedWorld.MosqueSaveSupport.cs.uid, game/scripts/Act1ConnectedWorld.Notebook.cs, game/scripts/Act1ConnectedWorld.Notebook.cs.uid, game/scripts/Act1ConnectedWorld.PerformanceSamples.cs, game/scripts/Act1ConnectedWorld.PerformanceSamples.cs.uid, game/scripts/Act1ConnectedWorld.PlayerFootwear.cs, game/scripts/Act1ConnectedWorld.PlayerFootwear.cs.uid, game/scripts/Act1ConnectedWorld.PublicBuildings.cs, game/scripts/Act1ConnectedWorld.PublicBuildings.cs.uid, game/scripts/Act1ConnectedWorld.PublicFenceJunction.cs, game/scripts/Act1ConnectedWorld.PublicFenceJunction.cs.uid, game/scripts/Act1ConnectedWorld.RinatArrival.cs, game/scripts/Act1ConnectedWorld.RinatArrival.cs.uid, game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs.uid, game/scripts/Act1ConnectedWorld.ShopGoods.cs, game/scripts/Act1ConnectedWorld.ShopGoods.cs.uid, game/scripts/Act1ConnectedWorld.ShopUses.cs, game/scripts/Act1ConnectedWorld.ShopUses.cs.uid, game/scripts/Act1ConnectedWorld.StandaloneParcels.cs, game/scripts/Act1ConnectedWorld.StandaloneParcels.cs.uid, game/scripts/Act1ConnectedWorld.Vehicles.cs, game/scripts/Act1ConnectedWorld.Vehicles.cs.uid, game/scripts/Act1ConnectedWorld.YardMechanisms.cs, game/scripts/Act1ConnectedWorld.YardMechanisms.cs.uid, game/scripts/Act1ConnectedWorld.ZiratFamily.cs, game/scripts/Act1ConnectedWorld.ZiratFamily.cs.uid, game/scripts/Act1DemoRoot.PerformanceCapture.cs, game/scripts/Act1DemoRoot.PerformanceCapture.cs.uid, game/scripts/Act1FacilityPresentation.cs, game/scripts/Act1FacilityPresentation.cs.uid, game/scripts/Act1VehiclePerformanceRoute.cs, game/scripts/Act1VehiclePerformanceRoute.cs.uid, game/scripts/AddressAccessVerifier.cs, game/scripts/AddressAccessVerifier.cs.uid, game/scripts/AddressFacadeMount.cs, game/scripts/AddressFacadeMount.cs.uid, game/scripts/AddressSignVisualComponent.cs, game/scripts/AddressSignVisualComponent.cs.uid, game/scripts/AddressWalkProbe.cs, game/scripts/AddressWalkProbe.cs.uid, game/scripts/AlsuStreetWalkPresentation.cs, game/scripts/AlsuStreetWalkPresentation.cs.uid, game/scripts/ArrivalPersonalProps.cs, game/scripts/ArrivalPersonalProps.cs.uid, game/scripts/BathIgnitionChoiceUi.cs, game/scripts/BathIgnitionChoiceUi.cs.uid, game/scripts/CarryCoordinator.Mechanisms.cs, game/scripts/CarryCoordinator.Mechanisms.cs.uid, game/scripts/CarryCoordinator.Physics.cs.uid, game/scripts/CarryableProp.Geometry.cs.uid, game/scripts/ClinicSurfacePresentation.cs, game/scripts/ClinicSurfacePresentation.cs.uid, game/scripts/DocumentImageReader.cs, game/scripts/DocumentImageReader.cs.uid, game/scripts/FirstPersonController.Body.cs, game/scripts/FirstPersonController.Body.cs.uid, game/scripts/FirstPersonController.Footwear.cs, game/scripts/FirstPersonController.Footwear.cs.uid, game/scripts/FirstPersonController.Movement.cs, game/scripts/FirstPersonController.Movement.cs.uid, game/scripts/FirstPersonController.Stance.cs.uid, game/scripts/FirstPersonController.Steps.cs, game/scripts/FirstPersonController.Steps.cs.uid, game/scripts/FirstPersonController.Traversal.cs, game/scripts/FirstPersonController.Traversal.cs.uid, game/scripts/HouseWallCalendar.cs, game/scripts/HouseWallCalendar.cs.uid, game/scripts/JournalUi.Notebook.cs, game/scripts/JournalUi.Notebook.cs.uid, game/scripts/LadderTraversal3D.cs, game/scripts/LadderTraversal3D.cs.uid, game/scripts/OldPcDesktopIcon.cs, game/scripts/OldPcDesktopIcon.cs.uid, game/scripts/OldPcUi.Apps.cs, game/scripts/OldPcUi.Apps.cs.uid, game/scripts/OldPcUi.Desktop.cs, game/scripts/OldPcUi.Desktop.cs.uid, game/scripts/OldPcUi.Social.cs, game/scripts/OldPcUi.Social.cs.uid, game/scripts/OldPcWallpaper.cs, game/scripts/OldPcWallpaper.cs.uid, game/scripts/OldPcWindowTitleBar.cs, game/scripts/OldPcWindowTitleBar.cs.uid, game/scripts/PublicBuildingShell.cs, game/scripts/PublicBuildingShell.cs.uid, game/scripts/RinatFootPlacementModifier.cs, game/scripts/RinatFootPlacementModifier.cs.uid, game/scripts/RinatPresencePresentation.cs, game/scripts/RinatPresencePresentation.cs.uid, game/scripts/RuntimeBridge.AlsuWalk.cs, game/scripts/RuntimeBridge.AlsuWalk.cs.uid, game/scripts/RuntimeBridge.Bathhouse.cs, game/scripts/RuntimeBridge.Bathhouse.cs.uid, game/scripts/RuntimeBridge.LoadRecovery.cs, game/scripts/RuntimeBridge.LoadRecovery.cs.uid, game/scripts/RuntimeBridge.Notebook.cs, game/scripts/RuntimeBridge.Notebook.cs.uid, game/scripts/RuntimeBridge.Shop.cs, game/scripts/RuntimeBridge.Shop.cs.uid, game/scripts/RuntimeBridge.SourceExcerpts.cs, game/scripts/RuntimeBridge.SourceExcerpts.cs.uid, game/scripts/SettlementMapControl.cs, game/scripts/SettlementMapControl.cs.uid, game/scripts/SettlementRegistry.cs, game/scripts/SettlementRegistry.cs.uid, game/scripts/SettlementRoadGraph.cs, game/scripts/SettlementRoadGraph.cs.uid, game/scripts/ShopCatalog.cs, game/scripts/ShopCatalog.cs.uid, game/scripts/ShopUi.cs, game/scripts/ShopUi.cs.uid, game/scripts/SourceExcerptSelection.cs, game/scripts/SourceExcerptSelection.cs.uid, game/scripts/StyleBenchmarkInteriorFactory.cs, game/scripts/StyleBenchmarkInteriorFactory.cs.uid, game/scripts/VehicleController.PlacementDiagnostics.cs, game/scripts/VehicleController.PlacementDiagnostics.cs.uid, game/scripts/VehicleController.WheelCollision.cs, game/scripts/VehicleController.WheelCollision.cs.uid, game/scripts/VehicleController.cs, game/scripts/VehicleController.cs.uid, game/scripts/VehicleDefinition.cs, game/scripts/VehicleDefinition.cs.uid, game/scripts/VehicleFleet.cs, game/scripts/VehicleFleet.cs.uid, game/scripts/VehicleHorsePose.cs, game/scripts/VehicleHorsePose.cs.uid, game/scripts/VehicleMechanicalAudio.cs, game/scripts/VehicleMechanicalAudio.cs.uid, game/scripts/VehicleRadioPlayer.cs, game/scripts/VehicleRadioPlayer.cs.uid, game/scripts/VehicleVisualFactory.Horse.cs, game/scripts/VehicleVisualFactory.Horse.cs.uid, game/scripts/VehicleVisualFactory.RoadVehicles.cs, game/scripts/VehicleVisualFactory.RoadVehicles.cs.uid, game/scripts/VehicleVisualFactory.cs, game/scripts/VehicleVisualFactory.cs.uid, game/scripts/VehicleWheelGeometry.cs, game/scripts/VehicleWheelGeometry.cs.uid, game/scripts/WorldFoleyPlayer.cs, game/scripts/WorldFoleyPlayer.cs.uid, game/scripts/YardMechanism.cs, game/scripts/YardMechanism.cs.uid, game/scripts/YardUseTarget.cs.uid, game/tests/Act1AlsuWalkProof.cs, game/tests/Act1AlsuWalkProof.cs.uid, game/tests/Act1ArrivalStopSmokeTest.cs, game/tests/Act1ArrivalStopSmokeTest.cs.uid, game/tests/Act1BoundaryArchitectureSmokeTest.cs.uid, game/tests/Act1BoundaryCollisionSmokeTest.cs.uid, game/tests/Act1CarryInteractionSmokeTest.cs.uid, game/tests/Act1FacilitiesSmokeTest.DoorMigration.cs, game/tests/Act1FacilitiesSmokeTest.DoorMigration.cs.uid, game/tests/Act1FacilitiesSmokeTest.Matches.cs, game/tests/Act1FacilitiesSmokeTest.Matches.cs.uid, game/tests/Act1FacilitiesSmokeTest.MosqueBooks.cs, game/tests/Act1FacilitiesSmokeTest.MosqueBooks.cs.uid, game/tests/Act1FacilitiesSmokeTest.MosqueClothing.cs, game/tests/Act1FacilitiesSmokeTest.MosqueClothing.cs.uid, game/tests/Act1FacilitiesSmokeTest.MosqueGrounding.cs, game/tests/Act1FacilitiesSmokeTest.MosqueGrounding.cs.uid, game/tests/Act1FacilitiesSmokeTest.PlayerFootwear.cs, game/tests/Act1FacilitiesSmokeTest.PlayerFootwear.cs.uid, game/tests/Act1FacilitiesSmokeTest.cs, game/tests/Act1FacilitiesSmokeTest.cs.uid, game/tests/Act1FirstPersonWalkthroughSmokeTest.AddressLifecycle.cs, game/tests/Act1FirstPersonWalkthroughSmokeTest.AddressLifecycle.cs.uid, game/tests/Act1FirstPersonWalkthroughSmokeTest.MosqueRoute.cs, game/tests/Act1FirstPersonWalkthroughSmokeTest.MosqueRoute.cs.uid, game/tests/Act1Len01FamilyFlowSmokeTest.cs.uid, game/tests/Act1NotebookShopSmokeTest.cs, game/tests/Act1NotebookShopSmokeTest.cs.uid, game/tests/Act1NotebookShopSmokeTest.tscn, game/tests/Act1NpcPresentationSmokeTest.cs, game/tests/Act1NpcPresentationSmokeTest.cs.uid, game/tests/Act1PlayerMovementSmokeTest.BodyVisibility.cs, game/tests/Act1PlayerMovementSmokeTest.BodyVisibility.cs.uid, game/tests/Act1PlayerMovementSmokeTest.cs, game/tests/Act1PlayerMovementSmokeTest.cs.uid, game/tests/Act1PublicBuildingsSmokeTest.FenceJunction.cs, game/tests/Act1PublicBuildingsSmokeTest.FenceJunction.cs.uid, game/tests/Act1PublicBuildingsSmokeTest.cs, game/tests/Act1PublicBuildingsSmokeTest.cs.uid, game/tests/Act1RoadsideGeometrySmokeTest.cs.uid, game/tests/Act1RouteLandmarksProof.cs, game/tests/Act1RouteLandmarksProof.cs.uid, game/tests/Act1SourceExcerptProof.cs, game/tests/Act1SourceExcerptProof.cs.uid, game/tests/Act1VisibleSurfaceProbe.cs, game/tests/Act1VisibleSurfaceProbe.cs.uid, game/tests/Act1YardMechanismsSmokeTest.cs, game/tests/Act1YardMechanismsSmokeTest.cs.uid, game/tests/Act1ZiratFamilySmokeTest.cs, game/tests/Act1ZiratFamilySmokeTest.cs.uid, game/tests/Act1ZiratFamilySmokeTest.tscn, game/tests/AddressAccessGeometryProof.cs, game/tests/AddressAccessGeometryProof.cs.uid, game/tests/AddressRegistrySmokeTest.cs, game/tests/AddressRegistrySmokeTest.cs.uid, game/tests/AddressRemediationGeometryProof.cs, game/tests/AddressRemediationGeometryProof.cs.uid, game/tests/AddressWorldSmokeTest.VergeContacts.cs, game/tests/AddressWorldSmokeTest.VergeContacts.cs.uid, game/tests/AddressWorldSmokeTest.cs, game/tests/AddressWorldSmokeTest.cs.uid, game/tests/DocumentImageUiProof.cs, game/tests/DocumentImageUiProof.cs.uid, game/tests/FirstPersonStepSmokeTest.cs, game/tests/FirstPersonStepSmokeTest.cs.uid, game/tests/OldPcDesktopSmokeTest.cs, game/tests/OldPcDesktopSmokeTest.cs.uid, game/tests/SourceExcerptUiProof.cs, game/tests/SourceExcerptUiProof.cs.uid, game/tests/VehicleSmokeTest.AngularRoundtrip.cs, game/tests/VehicleSmokeTest.AngularRoundtrip.cs.uid, game/tests/VehicleSmokeTest.BlockedRestore.cs, game/tests/VehicleSmokeTest.BlockedRestore.cs.uid, game/tests/VehicleSmokeTest.Horse.cs, game/tests/VehicleSmokeTest.Horse.cs.uid, game/tests/VehicleSmokeTest.Input.cs, game/tests/VehicleSmokeTest.Input.cs.uid, game/tests/VehicleSmokeTest.Interior.cs, game/tests/VehicleSmokeTest.Interior.cs.uid, game/tests/VehicleSmokeTest.Radio.cs, game/tests/VehicleSmokeTest.Radio.cs.uid, game/tests/VehicleSmokeTest.RecoveryNewGame.cs, game/tests/VehicleSmokeTest.RecoveryNewGame.cs.uid, game/tests/VehicleSmokeTest.Rollback.cs, game/tests/VehicleSmokeTest.Rollback.cs.uid, game/tests/VehicleSmokeTest.Visuals.cs, game/tests/VehicleSmokeTest.Visuals.cs.uid, game/tests/VehicleSmokeTest.WheelCollision.cs, game/tests/VehicleSmokeTest.WheelCollision.cs.uid, game/tests/VehicleSmokeTest.cs, game/tests/VehicleSmokeTest.cs.uid, game/tests/act1_arrival_stop_smoke_test.tscn, game/tests/act1_facilities_smoke_test.tscn, game/tests/act1_npc_presentation_smoke_test.tscn, game/tests/act1_player_movement_smoke_test.tscn, game/tests/act1_public_buildings_smoke_test.tscn, game/tests/act1_yard_mechanisms_smoke_test.tscn, game/tests/address_registry_smoke_test.tscn, game/tests/address_world_smoke_test.tscn, game/tests/first_person_step_smoke_test.tscn, game/tests/old_pc_desktop_smoke_test.tscn, game/tests/vehicle_smoke_test.tscn, src-dotnet/Urman.Core/Capabilities/OldPc/OldPcDesktopSnapshot.cs, "tasks/URMAN, tasks/URMAN_address_mechanics_v3/tests/test_regression.py, tests-dotnet/Urman.Core.Tests/OldPcDesktopTests.cs
+desktop-artifacts: receipt verification PASS /Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate/.desktop-artifact-receipt.92C1sh
+desktop-artifacts: PASS
+desktop-artifacts: macOS ZIP has exact arm64+x86_64 app and complete .NET payloads
+desktop-artifacts: Windows ZIP is safe/clean and matches the staged PE32+ GUI x86-64 executable
+desktop-artifacts: macOS PCK and Windows embedded PCK contain ambient manifest and four routed WAV stems
+desktop-artifacts: receipt: /Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate/desktop-artifact-receipt.json
+desktop-artifacts: Windows host execution remains OPEN
+act1-release-export: macOS=/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate/macos/URMAN.zip bytes=238381523
+act1-release-export: Windows=/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate/windows/URMAN.exe bytes=209259280
+act1-release-export: Windows ZIP=/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate/URMAN-windows-x86_64.zip
+act1-release-export: receipt=/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate/desktop-artifact-receipt.json
+act1-release-export: PASS — unsigned native Act I candidates; host/signing/performance acceptance remains OPEN
+userdata guard: original files and permissions restored and verified

@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-09-17T08:34:00.598214+00:00",
+  "build_receipt": "integrated-build-54.json",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "res://tests/address_world_smoke_test.tscn",
+    "--urman-smoke-background-input",
+    "--no-auto-performance-fallback"
+  ],
+  "environment": {
+    "URMAN_ADDRESS_SCOPE": "standalone-access",
+    "URMAN_ADDRESS_SUPPORT_DIAGNOSTICS": "1",
+    "URMAN_ADDRESS_OUTPUT": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-address-standalone-access-05",
+    "URMAN_ADDRESS_ASSEMBLY_PATH": "/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll"
+  },
+  "human_playtest": "external/not-run",
+  "focus_policy": "Test-only background input replay; no foreground performance or human duration claim.",
+  "exit_code": 1,
+  "process_seconds": 54.43,
+  "finished": "2026-09-17T08:34:55.029742+00:00",
+  "inputs_changed_during_run": [],
+  "guard_verified": true,
+  "engine_error_count": 0,
+  "engine_errors": [],
+  "status": "FAIL"
+}

@@ -1,0 +1,454 @@
+{
+  "started": "2026-09-17T07:12:48.873365+00:00",
+  "build": "integrated-build-50",
+  "sample": "vehicle_horse_cart@zirat_road",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "--urman-perf-probe",
+    "--urman-perf-probe-mode=gameplay",
+    "--urman-perf-sample=vehicle_horse_cart@zirat_road",
+    "--urman-perf-warmup-seconds=12",
+    "--urman-perf-duration-seconds=60",
+    "--urman-perf-request-focus",
+    "--urman-perf-no-vsync"
+  ],
+  "environment": {
+    "URMAN_VEHICLE_CONTACT_DIAGNOSTICS": "1"
+  },
+  "status": "NOT_REPRODUCED",
+  "acceptance": false,
+  "scope": "Native Debug replay of the existing vehicle route with opt-in collision snapshots; not a performance result.",
+  "exitCode": 2,
+  "guardVerified": true,
+  "performanceReports": [
+    "act1-demo-package-performance: status=ROUTE_INVALID mode=gameplay sample=vehicle_horse_cart@zirat_road reason=contact-diagnostic-stop-not-reproduced"
+  ],
+  "contacts": [],
+  "routes": [
+    {
+      "schema": "urman.vehicle_performance_route.v1",
+      "vehicle": "forest-horse-cart",
+      "status": "DIAGNOSTIC",
+      "failure": "contact-diagnostic-stop-not-reproduced",
+      "phase": "Done",
+      "setupSeconds": 14.96666666666582,
+      "drivingSeconds": 24.016666666666584,
+      "distanceMetres": 50.231009872688446,
+      "measurementSeconds": 11.766666666666831,
+      "measurementDistanceMetres": 24.266477063996717,
+      "movingSeconds": 11.416666666666814,
+      "movingFraction": 0.9702549575070811,
+      "minimumMovingFraction": 0.8,
+      "minimumMeasuredDistance": 20,
+      "reversals": 1,
+      "safeExit": true,
+      "actualInput": true,
+      "poseWrites": 0,
+      "zone": "village_day",
+      "route": [
+        {
+          "seconds": 0.016666666666666666,
+          "measuring": false,
+          "position": [
+            0.9,
+            -0.2469068,
+            -34
+          ],
+          "speed": 0,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 1.016666666666668,
+          "measuring": false,
+          "position": [
+            0.8884352,
+            -0.24465737,
+            -34.43196
+          ],
+          "speed": 0.8499995,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 2.033333333333331,
+          "measuring": false,
+          "position": [
+            0.7575879,
+            -0.24160127,
+            -35.735455
+          ],
+          "speed": 1.7141683,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 3.049999999999994,
+          "measuring": false,
+          "position": [
+            0.39237222,
+            -0.2636395,
+            -37.874588
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 4.0666666666666575,
+          "measuring": false,
+          "position": [
+            0.03200075,
+            -0.31339422,
+            -40.289238
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 5.083333333333321,
+          "measuring": false,
+          "position": [
+            -0.18300383,
+            -0.29040217,
+            -42.716953
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 6.099999999999984,
+          "measuring": false,
+          "position": [
+            -0.27529562,
+            -0.26657563,
+            -45.152798
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 7.116666666666647,
+          "measuring": false,
+          "position": [
+            -0.30386925,
+            -0.25521854,
+            -47.591816
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 8.11666666666665,
+          "measuring": false,
+          "position": [
+            -0.3213862,
+            -0.25496492,
+            -49.991817
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 9.1166666666667,
+          "measuring": false,
+          "position": [
+            -0.34458193,
+            -0.2546689,
+            -52.3917
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 10.116666666666749,
+          "measuring": false,
+          "position": [
+            -0.32113644,
+            -0.28271735,
+            -54.792854
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 11.116666666666799,
+          "measuring": false,
+          "position": [
+            -0.22607215,
+            -0.29044676,
+            -57.19128
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 12.116666666666848,
+          "measuring": false,
+          "position": [
+            -0.07983453,
+            -0.30590233,
+            -59.587536
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 13.116666666666898,
+          "measuring": true,
+          "position": [
+            0.09742793,
+            -0.28789902,
+            -61.978695
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 14.116666666666948,
+          "measuring": true,
+          "position": [
+            0.24227844,
+            -0.20897219,
+            -64.36603
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 15.116666666666998,
+          "measuring": true,
+          "position": [
+            0.2947546,
+            -0.18236066,
+            -66.76211
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 16.116666666667033,
+          "measuring": true,
+          "position": [
+            0.25996718,
+            -0.15503065,
+            -69.159
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 17.133333333333642,
+          "measuring": true,
+          "position": [
+            0.17314261,
+            -0.14886445,
+            -71.5967
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 18.15000000000025,
+          "measuring": true,
+          "position": [
+            0.072517365,
+            -0.17396668,
+            -74.03531
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 19.16666666666686,
+          "measuring": true,
+          "position": [
+            -0.025220685,
+            -0.29053518,
+            -76.47469
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 20.18333333333347,
+          "measuring": true,
+          "position": [
+            -0.1281145,
+            -0.4188988,
+            -78.91059
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 21.200000000000077,
+          "measuring": true,
+          "position": [
+            -0.23261341,
+            -0.427651,
+            -81.34687
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 22.216666666666686,
+          "measuring": true,
+          "position": [
+            -0.3151962,
+            -0.42507216,
+            -83.23701
+          ],
+          "speed": 0.67333466,
+          "reverse": false,
+          "braking": true,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 23.233333333333295,
+          "measuring": true,
+          "position": [
+            -0.30785772,
+            -0.42730135,
+            -83.08745
+          ],
+          "speed": -0.6091664,
+          "reverse": true,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+        }
+      ],
+      "contactDiagnosticsRequested": true,
+      "diagnosticDrivingLimitSeconds": 24,
+      "contactEvents": [
+        {
+          "kind": "braking-start",
+          "physicsFrame": 2194,
+          "position": [
+            -0.27471045,
+            -0.4253049,
+            -82.3054
+          ],
+          "speed": 2.4,
+          "reverse": false,
+          "remaining": 1.694603,
+          "stopping": 1.7285714,
+          "drivingSeconds": 21.600000000000055
+        },
+        {
+          "kind": "direction-reversed",
+          "physicsFrame": 2248,
+          "position": [
+            -0.31835634,
+            -0.4245937,
+            -83.31191
+          ],
+          "speed": 0,
+          "reverse": true,
+          "drivingSeconds": 22.500000000000004
+        }
+      ],
+      "firstCollisionStop": null,
+      "limits": "Explicit diagnostic driver in ordinary gameplay; not a human playthrough or listening acceptance."
+    }
+  ],
+  "finished": "2026-09-17T07:13:57.715297+00:00",
+  "seconds": 68.842,
+  "inputsChanged": []
+}

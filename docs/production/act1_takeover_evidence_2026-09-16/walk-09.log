@@ -1,0 +1,551 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1579 carved_door_slabs=101 flat_slab_skipped=2469 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=109404229571
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=109404229571
+SaveGameV3 new game session started; existing slots untouched.
+act1-intro: confirmed with E
+walk-frame: approach-urman.chapter1:interaction/view-arrival-message actual-player-position=(3.4304404, -0.38041213, 5.2362905)
+act1-physical-arrival: ordinary walk to bench; phone/photo through camera ray and mapped input; visible personal answer
+walk-frame: arrival-house-path-1 actual-player-position=(-0.20286229, -0.25994995, 2.1667008)
+walk-frame: arrival-house-path-2 actual-player-position=(-0.9261192, -0.27272403, -1.4584244)
+walk-frame: arrival-house-path-3 actual-player-position=(-3.8400855, -0.26597542, -5.5741973)
+walk-frame: arrival-house-axis-0 actual-player-position=(-1.420257, -0.24496809, -7.7976227)
+walk-frame: arrival-house-axis-1 actual-player-position=(-5.776452, -0.29761013, -5.612151)
+walk-frame: arrival-house-axis-2 actual-player-position=(-11.755281, -0.2821266, -2.623012)
+walk-frame: arrival-house-axis-3 actual-player-position=(-18.762352, 0.1284475, -0.0855688)
+walk-frame: arrival-house-axis-4 actual-player-position=(-23.753855, 0.36763483, 1.139651)
+walk-frame: house-yard-entry--24.42-2.4 actual-player-position=(-24.283545, 0.3845892, 2.1408951)
+walk-frame: house-yard-entry--25.2-2.6 actual-player-position=(-24.942204, 0.3810443, 2.4708538)
+walk-frame: house-yard-entry--26.05-2.2 actual-player-position=(-25.768232, 0.34623963, 2.2688918)
+walk-frame: house-yard-entry--26.05-0.2 actual-player-position=(-26.01302, 0.28919858, 0.4715327)
+walk-frame: house-door-approach actual-player-position=(-26.137732, 0.30562618, -0.99622)
+walk-frame: approach-urman.chapter1:interaction/arrival-enter-house actual-player-position=(-26.05252, 0.32020643, -1.6133766)
+[34] scene.entered: urman.chapter1:interaction/arrival-enter-house
+zone-loaded: house_old_pc@entry connected-world=109404229571
+walk-frame: approach-urman.chapter1:interaction/talk-mansur actual-player-position=(-28.435516, 0.5943085, -4.9563665)
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.5925, 0.5943085, -5.1922317)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.46772, 0.5943085, -6.3616424)
+walk-frame: approach-urman.chapter1:interaction/talk-gulsina actual-player-position=(-30.619194, 0.5943085, -6.2844663)
+family-meal-proof: actual invitation, source-dependent personal reply, explicit meal acceptance; topic=photo; decline/return/load=False; no timer, movement automation or human-duration claim
+walk-frame: house-exit-aisle--0.15-1.10 actual-player-position=(-28.97277, 0.5943085, -5.524592)
+walk-frame: house-exit-aisle--2.82-1.10 actual-player-position=(-29.800892, 0.5943085, -3.232983)
+walk-frame: house-exit-aisle--2.82-2.30 actual-player-position=(-29.027275, 0.5943085, -2.6589348)
+[93] scene.entered: urman.chapter1:interaction/house-to-route
+zone-loaded: village_day@from_house connected-world=109404229571
+walk-frame: house-exit-street--26.05-0.2 actual-player-position=(-26.069223, 0.29562184, -0.05590672)
+walk-frame: house-exit-street--26.05-2.2 actual-player-position=(-26.052824, 0.31674743, 1.9267619)
+walk-frame: house-exit-street--25.2-2.6 actual-player-position=(-25.432014, 0.36245385, 2.4164193)
+walk-frame: house-exit-street--24.42-2.4 actual-player-position=(-24.696135, 0.3852376, 2.4038823)
+walk-frame: house-exit-street--24-1.2 actual-player-position=(-24.128754, 0.36358508, 1.4225329)
+walk-frame: house-exit-street--19-0 actual-player-position=(-19.26683, 0.17012256, 0.07400027)
+walk-frame: house-exit-street--12--2.5 actual-player-position=(-12.264785, -0.29103953, -2.40621)
+walk-frame: house-exit-street--6--5.5 actual-player-position=(-6.220001, -0.30420256, -5.391443)
+walk-frame: house-exit-street--1.2--8 actual-player-position=(-1.4441198, -0.24304232, -7.8731136)
+walk-frame: house-exit-street--0.1--2.8 actual-player-position=(-0.16690536, -0.2746243, -3.0525208)
+walk-frame: house-exit-street--0.1-3.7 actual-player-position=(-0.10271438, -0.30187732, 3.4063578)
+walk-frame: approach-urman.chapter1:interaction/talk-alsu actual-player-position=(0.5696654, -0.30709505, 3.5077903)
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+alsu-walk-proof: requested, physical input, one actor/body/ray, checkpoint=3; return=False; no account until manual question; human-duration=not-run
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/crossroad_signs_inspect
+walk-alsu-turn-bypass: actor=(0.05, -0.21888247, -8.8) player=(0.053304248, -0.24264401, -7.140752) west-corners=(-1.2,-8),(-1.2,-10) ordinary-standing-input=true
+walk-frame: fap-alsu-bypass--1.2--8 actual-player-position=(-0.9748292, -0.23684986, -7.8455687)
+walk-frame: fap-alsu-bypass--1.2--10 actual-player-position=(-1.1692218, -0.22421707, -9.704913)
+walk-frame: fap-branch-0--10 actual-player-position=(-0.29011032, -0.23044756, -9.926783)
+walk-frame: fap-branch-4.5--12.5 actual-player-position=(4.2529216, -0.32646444, -12.367341)
+walk-frame: fap-branch-10--17 actual-player-position=(9.809627, -0.4487882, -16.846676)
+walk-frame: fap-branch-17--21.5 actual-player-position=(16.756174, -0.5673502, -21.342203)
+walk-frame: fap-branch-23--25 actual-player-position=(22.767855, -0.48871624, -24.864208)
+walk-frame: approach-urman.chapter1:interaction/route-to-fap actual-player-position=(26.60125, -0.12544882, -26.465322)
+[157] scene.entered: urman.chapter1:interaction/route-to-fap
+zone-loaded: fap_clinic@waiting_room connected-world=109404229571
+walk-frame: naila-reception-aisle-0.00-1.25 actual-player-position=(26.7, 0.06094969, -32.61674)
+walk-frame: naila-reception-aisle-1.00-1.25 actual-player-position=(27.412376, 0.06094969, -32.804287)
+walk-frame: approach-urman.chapter1:interaction/fap-to-document-desk actual-player-position=(26.769945, 0.06094969, -35.036934)
+[172] scene.entered: urman.chapter1:interaction/fap-to-document-desk
+walk-frame: approach-urman.chapter1:interaction/fap-document-desk-to-official-record actual-player-position=(26.87532, 0.06094969, -36.279083)
+[176] scene.entered: urman.chapter1:interaction/fap-document-desk-to-official-record
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-official-death
+walk-frame: approach-urman.chapter1:interaction/official-leave-clinic actual-player-position=(26.707384, 0.06094969, -30.331516)
+zone-loaded: village_day@from_fap connected-world=109404229571
+walk-frame: fap-return-23--25 actual-player-position=(23.294737, -0.49327457, -25)
+walk-frame: fap-return-17--21.5 actual-player-position=(17.25207, -0.5711526, -21.640194)
+walk-frame: fap-return-10--17 actual-player-position=(10.238834, -0.44540134, -17.152824)
+walk-frame: fap-return-4.5--12.5 actual-player-position=(4.702605, -0.29245016, -12.664885)
+walk-frame: fap-return-0--10 actual-player-position=(0.21864004, -0.23601806, -10.123955)
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/walk-fap-return.savegame-v3.json
+zone-loaded: village_day@from_fap connected-world=109404229571
+SaveGameV3 restored.
+walk-frame: house-return--1.2--10 actual-player-position=(-0.9102964, -0.23188496, -10.025349)
+walk-frame: house-return--1.2--8 actual-player-position=(-1.159001, -0.22546163, -8.286657)
+walk-frame: house-return--6--5.5 actual-player-position=(-5.7758512, -0.29700455, -5.6290283)
+walk-frame: house-return--12--2.5 actual-player-position=(-11.748153, -0.2819289, -2.6272445)
+walk-frame: house-return--19-0 actual-player-position=(-18.754526, 0.12779237, -0.088449344)
+walk-frame: house-return--24-1.2 actual-player-position=(-23.745674, 0.36811814, 1.1375959)
+walk-frame: house-return-yard--24.42-2.4 actual-player-position=(-24.279696, 0.38448098, 2.1364696)
+walk-frame: house-return-yard--25.2-2.6 actual-player-position=(-24.937614, 0.3809361, 2.467844)
+walk-frame: house-return-yard--26.05-2.2 actual-player-position=(-25.764338, 0.34645367, 2.2687826)
+walk-frame: house-return-yard--26.05-0.2 actual-player-position=(-26.012459, 0.2888754, 0.47186676)
+walk-frame: house-return-yard--26.158367--1.2426405 actual-player-position=(-26.137623, 0.30562696, -0.9957944)
+walk-frame: approach-urman.chapter1:interaction/official-to-internal-register actual-player-position=(-26.052532, 0.3202086, -1.6129482)
+[194] scene.entered: urman.chapter1:interaction/official-to-internal-register
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-internal-register
+zone-loaded: house_old_pc@entry connected-world=109404229571
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.748287, 0.5943085, -5.152472)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.4713, 0.5943085, -6.3469896)
+state-final-render-sync-begin: label=source-excerpt-ui/begin/press tick=133258 drawn=6066 process=6066 physics=5596 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/begin/press milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/begin/release tick=133267 drawn=6066 process=6066 physics=5596 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/begin/release milliseconds=10 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-0/press tick=133278 drawn=6067 process=6067 physics=5597 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-0/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-0/release tick=133286 drawn=6068 process=6068 physics=5598 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-0/release milliseconds=4 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-1/press tick=133291 drawn=6069 process=6069 physics=5598 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-1/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-1/release tick=133299 drawn=6070 process=6070 physics=5599 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-1/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-2/press tick=133307 drawn=6071 process=6071 physics=5599 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-2/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-2/release tick=133315 drawn=6072 process=6072 physics=5600 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-2/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-3/press tick=133324 drawn=6073 process=6073 physics=5600 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-3/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-3/release tick=133332 drawn=6074 process=6074 physics=5601 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-3/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-4/press tick=133340 drawn=6075 process=6075 physics=5602 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-4/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-4/release tick=133348 drawn=6076 process=6076 physics=5602 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-4/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-5/press tick=133357 drawn=6077 process=6077 physics=5603 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-5/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-5/release tick=133365 drawn=6078 process=6078 physics=5603 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-5/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-6/press tick=133374 drawn=6079 process=6079 physics=5604 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-6/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-6/release tick=133382 drawn=6080 process=6080 physics=5604 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-6/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-7/press tick=133390 drawn=6081 process=6081 physics=5605 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-7/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-7/release tick=133398 drawn=6082 process=6082 physics=5605 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-7/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/return-to-reading/press tick=133407 drawn=6083 process=6083 physics=5606 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/return-to-reading/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/return-to-reading/release tick=133415 drawn=6084 process=6084 physics=5606 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/return-to-reading/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/begin-again/press tick=133424 drawn=6085 process=6085 physics=5607 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/begin-again/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/begin-again/release tick=133432 drawn=6086 process=6086 physics=5607 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/begin-again/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-0/press tick=133440 drawn=6087 process=6087 physics=5608 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-0/press milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-0/release tick=133449 drawn=6088 process=6088 physics=5608 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-0/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-1/press tick=133457 drawn=6089 process=6089 physics=5609 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-1/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-1/release tick=133465 drawn=6090 process=6090 physics=5609 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-1/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-2/press tick=133474 drawn=6091 process=6091 physics=5610 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-2/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-2/release tick=133482 drawn=6092 process=6092 physics=5610 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-2/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-3/press tick=133490 drawn=6093 process=6093 physics=5611 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-3/press milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-3/release tick=133499 drawn=6094 process=6094 physics=5611 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-3/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-4/press tick=133507 drawn=6095 process=6095 physics=5612 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-4/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-4/release tick=133515 drawn=6096 process=6096 physics=5612 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-4/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-5/press tick=133524 drawn=6097 process=6097 physics=5613 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-5/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-5/release tick=133532 drawn=6098 process=6098 physics=5613 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-5/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-6/press tick=133541 drawn=6099 process=6099 physics=5614 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-6/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-6/release tick=133549 drawn=6100 process=6100 physics=5614 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-6/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-7/press tick=133557 drawn=6101 process=6101 physics=5615 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-7/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/select-character-7/release tick=133565 drawn=6102 process=6102 physics=5615 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/select-character-7/release milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/tab-to-record/press tick=133574 drawn=6103 process=6103 physics=5616 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/tab-to-record/press milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/tab-to-record/release tick=133582 drawn=6104 process=6104 physics=5616 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/tab-to-record/release milliseconds=8 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/resize-(1280, 720) tick=133594 drawn=6105 process=6105 physics=5617 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/resize-(1280, 720) milliseconds=4 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/layout-(1280, 720) tick=133598 drawn=6106 process=6106 physics=5617 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/layout-(1280, 720) milliseconds=9 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/capture-(1280, 720) tick=133608 drawn=6107 process=6107 physics=5618 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/capture-(1280, 720) milliseconds=7 forcedScreenshotRender=False
+source-excerpt-ui: capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_1280x720.png
+source-excerpt-ui: bounds (1280, 720) actual=(1280, 720) logical=(1920, 1080) textPixels=(516, 366) selectedCharacters=8 capture=PNG
+state-final-render-sync-begin: label=source-excerpt-ui/resize-(1920, 1080) tick=133707 drawn=6108 process=6108 physics=5618 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/resize-(1920, 1080) milliseconds=86 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/layout-(1920, 1080) tick=133793 drawn=6109 process=6109 physics=5624 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/layout-(1920, 1080) milliseconds=7 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-ui/capture-(1920, 1080) tick=133800 drawn=6110 process=6110 physics=5629 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/capture-(1920, 1080) milliseconds=6 forcedScreenshotRender=False
+source-excerpt-ui: capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_1920x1080.png
+source-excerpt-ui: bounds (1920, 1080) actual=(1920, 1080) logical=(1920, 1080) textPixels=(774, 549) selectedCharacters=8 capture=PNG
+state-final-render-sync-begin: label=source-excerpt-ui/restore-window tick=133941 drawn=6111 process=6111 physics=5630 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-ui/restore-window milliseconds=59 forcedScreenshotRender=False
+source-excerpt-ui: PASS real Shift+arrows, Esc-to-reader, re-entry, Tab-to-button, 720/1080 bounds; no excerpt recorded
+source-formatting-proof: paired strong -> unchanged canonical paragraph -> real selection/save follows; literal stars and links retained
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/resize tick=134022 drawn=6115 process=6115 physics=5643 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/resize milliseconds=5 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/layout tick=134028 drawn=6115 process=6115 physics=5643 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/layout milliseconds=4 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-notice-cause_attempt01_wrong_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/resize tick=134098 drawn=6116 process=6116 physics=5644 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/resize milliseconds=31 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/layout tick=134130 drawn=6117 process=6117 physics=5647 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/layout milliseconds=5 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-notice-cause_attempt01_wrong_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/restore tick=134257 drawn=6118 process=6118 physics=5649 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/wrong/restore milliseconds=56 forcedScreenshotRender=False
+[210] journal.changed: urman.chapter1:interaction/excerpt-notice-cause
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-internal-register
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/saved/resize tick=134345 drawn=6121 process=6121 physics=5662 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/saved/resize milliseconds=4 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/saved/layout tick=134349 drawn=6121 process=6121 physics=5662 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/saved/layout milliseconds=6 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-notice-cause_attempt01_saved_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/saved/resize tick=134419 drawn=6122 process=6122 physics=5663 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/saved/resize milliseconds=29 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/saved/layout tick=134448 drawn=6123 process=6123 physics=5666 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/saved/layout milliseconds=5 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-notice-cause_attempt01_saved_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/saved/restore tick=134574 drawn=6124 process=6124 physics=5668 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/saved/restore milliseconds=51 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/reopened/resize tick=134660 drawn=6130 process=6130 physics=5681 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/reopened/resize milliseconds=5 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/reopened/layout tick=134665 drawn=6130 process=6130 physics=5681 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/reopened/layout milliseconds=8 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-notice-cause_attempt01_reopened_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/reopened/resize tick=134738 drawn=6131 process=6131 physics=5681 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/reopened/resize milliseconds=29 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/reopened/layout tick=134767 drawn=6132 process=6132 physics=5685 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/reopened/layout milliseconds=6 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-notice-cause_attempt01_reopened_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/reopened/restore tick=134896 drawn=6133 process=6133 physics=5688 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-notice-cause/attempt1/reopened/restore milliseconds=55 forcedScreenshotRender=False
+source-excerpt-proof: document=urman.oldpc:document/doc_marat_official_death_notice action=excerpt-notice-cause; heading refused; cancel refused; actual TextEdit selection -> Record -> one source; scene preserved; one persistent confirmation and remaining fields survive reopen
+source-formatting-proof: paired strong -> unchanged canonical paragraph -> real selection/save follows; literal stars and links retained
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/wrong/resize tick=135019 drawn=6142 process=6142 physics=5703 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/wrong/resize milliseconds=5 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/wrong/layout tick=135024 drawn=6142 process=6142 physics=5703 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/wrong/layout milliseconds=8 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-wording_attempt01_wrong_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/wrong/resize tick=135100 drawn=6143 process=6143 physics=5703 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/wrong/resize milliseconds=31 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/wrong/layout tick=135132 drawn=6144 process=6144 physics=5707 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/wrong/layout milliseconds=5 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-wording_attempt01_wrong_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/wrong/restore tick=135265 drawn=6145 process=6145 physics=5710 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/wrong/restore milliseconds=61 forcedScreenshotRender=False
+[217] journal.changed: urman.chapter1:interaction/excerpt-register-wording
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-internal-register
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/saved/resize tick=135367 drawn=6148 process=6148 physics=5724 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/saved/resize milliseconds=5 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/saved/layout tick=135372 drawn=6148 process=6148 physics=5724 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/saved/layout milliseconds=6 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-wording_attempt01_saved_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/saved/resize tick=135445 drawn=6149 process=6149 physics=5724 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/saved/resize milliseconds=43 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/saved/layout tick=135488 drawn=6150 process=6150 physics=5728 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/saved/layout milliseconds=7 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-wording_attempt01_saved_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/saved/restore tick=135617 drawn=6151 process=6151 physics=5731 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/saved/restore milliseconds=63 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/reopened/resize tick=135725 drawn=6157 process=6157 physics=5745 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/reopened/resize milliseconds=7 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/reopened/layout tick=135732 drawn=6157 process=6157 physics=5745 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/reopened/layout milliseconds=9 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-wording_attempt01_reopened_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/reopened/resize tick=135808 drawn=6158 process=6158 physics=5746 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/reopened/resize milliseconds=33 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/reopened/layout tick=135841 drawn=6159 process=6159 physics=5749 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/reopened/layout milliseconds=8 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-wording_attempt01_reopened_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-wording/attempt1/reopened/restore tick=135973 drawn=6160 process=6160 physics=5752 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-wording/attempt1/reopened/restore milliseconds=67 forcedScreenshotRender=False
+source-excerpt-proof: document=urman.oldpc:document/rec_marat_case_register_conflict action=excerpt-register-wording; heading refused; cancel refused; actual TextEdit selection -> Record -> one source; scene preserved; one persistent confirmation and remaining fields survive reopen
+source-formatting-proof: paired strong -> unchanged canonical paragraph -> real selection/save follows; literal stars and links retained
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/wrong/resize tick=136101 drawn=6169 process=6169 physics=5767 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/wrong/resize milliseconds=6 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/wrong/layout tick=136107 drawn=6169 process=6169 physics=5767 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/wrong/layout milliseconds=8 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-category_attempt01_wrong_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/wrong/resize tick=136181 drawn=6170 process=6170 physics=5768 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/wrong/resize milliseconds=28 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/wrong/layout tick=136209 drawn=6171 process=6171 physics=5772 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/wrong/layout milliseconds=7 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-category_attempt01_wrong_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/wrong/restore tick=136338 drawn=6172 process=6172 physics=5774 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/wrong/restore milliseconds=60 forcedScreenshotRender=False
+[224] journal.changed: urman.chapter1:interaction/excerpt-register-category
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-internal-register
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/saved/resize tick=136435 drawn=6175 process=6175 physics=5788 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/saved/resize milliseconds=5 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/saved/layout tick=136440 drawn=6175 process=6175 physics=5788 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/saved/layout milliseconds=5 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-category_attempt01_saved_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/saved/resize tick=136511 drawn=6176 process=6176 physics=5788 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/saved/resize milliseconds=30 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/saved/layout tick=136541 drawn=6177 process=6177 physics=5792 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/saved/layout milliseconds=6 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-category_attempt01_saved_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/saved/restore tick=136672 drawn=6178 process=6178 physics=5794 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/saved/restore milliseconds=54 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/reopened/resize tick=136760 drawn=6184 process=6184 physics=5807 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/reopened/resize milliseconds=6 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/reopened/layout tick=136766 drawn=6184 process=6184 physics=5807 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/reopened/layout milliseconds=8 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-category_attempt01_reopened_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/reopened/resize tick=136840 drawn=6185 process=6185 physics=5807 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/reopened/resize milliseconds=27 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/reopened/layout tick=136867 drawn=6186 process=6186 physics=5811 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/reopened/layout milliseconds=6 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-register-category_attempt01_reopened_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-register-category/attempt1/reopened/restore tick=136994 drawn=6187 process=6187 physics=5814 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-register-category/attempt1/reopened/restore milliseconds=54 forcedScreenshotRender=False
+source-excerpt-proof: document=urman.oldpc:document/rec_marat_case_register_conflict action=excerpt-register-category; heading refused; cancel refused; actual TextEdit selection -> Record -> one source; scene preserved; one persistent confirmation and remaining fields survive reopen
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-internal-register
+walk-frame: house-exit-aisle--0.15-1.10 actual-player-position=(-28.973783, 0.5943085, -5.542508)
+walk-frame: house-exit-aisle--2.82-1.10 actual-player-position=(-29.795908, 0.5943085, -3.2488065)
+walk-frame: house-exit-aisle--2.82-2.30 actual-player-position=(-29.02957, 0.5943085, -2.6651456)
+zone-loaded: village_day@from_house connected-world=109404229571
+walk-frame: naila-question-outward--26.05-0.2 actual-player-position=(-26.069225, 0.29562184, -0.05594387)
+walk-frame: naila-question-outward--26.05-2.2 actual-player-position=(-26.05287, 0.3174076, 1.9266632)
+walk-frame: naila-question-outward--25.2-2.6 actual-player-position=(-25.432066, 0.36244512, 2.416341)
+walk-frame: naila-question-outward--24.42-2.4 actual-player-position=(-24.69621, 0.38523617, 2.4038653)
+walk-frame: naila-question-outward--24-1.2 actual-player-position=(-24.12879, 0.36358422, 1.4225698)
+walk-frame: naila-question-outward--19-0 actual-player-position=(-19.267145, 0.16979979, 0.07408972)
+walk-frame: naila-question-outward--12--2.5 actual-player-position=(-12.265191, -0.2909326, -2.4060674)
+walk-frame: naila-question-outward--6--5.5 actual-player-position=(-6.2205296, -0.30400816, -5.3911796)
+walk-frame: naila-question-outward--1.2--8 actual-player-position=(-1.4447608, -0.24306367, -7.872792)
+walk-frame: naila-question-outward--1.2--10 actual-player-position=(-1.2311703, -0.22565001, -9.7298565)
+walk-frame: naila-question-outward-0--10 actual-player-position=(-0.29022303, -0.2303766, -9.936318)
+walk-frame: naila-question-outward-4.5--12.5 actual-player-position=(4.2564254, -0.326199, -12.369715)
+walk-frame: naila-question-outward-10--17 actual-player-position=(9.768669, -0.44814363, -16.81366)
+walk-frame: naila-question-outward-17--21.5 actual-player-position=(16.759834, -0.5674103, -21.344357)
+walk-frame: naila-question-outward-23--25 actual-player-position=(22.771431, -0.4893691, -24.866297)
+walk-frame: approach-urman.chapter1:interaction/route-to-fap actual-player-position=(26.603674, -0.122283, -26.471931)
+zone-loaded: fap_clinic@waiting_room connected-world=109404229571
+walk-frame: naila-reception-aisle-0.00-1.25 actual-player-position=(26.7, 0.06030516, -32.61673)
+walk-frame: naila-reception-aisle-1.00-1.25 actual-player-position=(27.412376, 0.06030516, -32.804283)
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-internal-register
+walk-frame: approach-urman.chapter1:interaction/official-leave-clinic actual-player-position=(26.769505, 0.06030516, -30.336763)
+zone-loaded: village_day@from_fap connected-world=109404229571
+walk-frame: naila-question-return-23--25 actual-player-position=(23.29467, -0.49331826, -25)
+walk-frame: naila-question-return-17--21.5 actual-player-position=(17.252121, -0.5719908, -21.640192)
+walk-frame: naila-question-return-10--17 actual-player-position=(10.238934, -0.44588956, -17.152891)
+walk-frame: naila-question-return-4.5--12.5 actual-player-position=(4.702732, -0.2924571, -12.664984)
+walk-frame: naila-question-return-0--10 actual-player-position=(0.2187784, -0.23601468, -10.124034)
+walk-frame: naila-question-return--1.2--10 actual-player-position=(-0.91014266, -0.23188592, -10.025376)
+walk-frame: naila-question-return--1.2--8 actual-player-position=(-1.1589756, -0.22578491, -8.286689)
+walk-frame: naila-question-return--6--5.5 actual-player-position=(-5.775781, -0.2976835, -5.6290684)
+walk-frame: naila-question-return--12--2.5 actual-player-position=(-11.748029, -0.2818675, -2.6273324)
+walk-frame: naila-question-return--19-0 actual-player-position=(-18.754288, 0.12777232, -0.0885335)
+walk-frame: naila-question-return--24-1.2 actual-player-position=(-23.745348, 0.3682588, 1.1375159)
+walk-frame: naila-question-return--24.42-2.4 actual-player-position=(-24.279545, 0.38447526, 2.1362975)
+walk-frame: naila-question-return--25.2-2.6 actual-player-position=(-24.937431, 0.38060808, 2.467724)
+walk-frame: naila-question-return--26.05-2.2 actual-player-position=(-25.764181, 0.3464479, 2.2687783)
+walk-frame: naila-question-return--26.05-0.2 actual-player-position=(-26.012434, 0.2901588, 0.47191295)
+walk-frame: naila-question-return--26.158367--1.2426405 actual-player-position=(-26.137606, 0.305628, -0.99576205)
+walk-frame: approach-urman.chapter1:interaction/official-to-internal-register actual-player-position=(-26.052528, 0.32019818, -1.6129137)
+zone-loaded: house_old_pc@entry connected-world=109404229571
+walk-frame: approach-urman.chapter1:interaction/internal-register-to-rinat actual-player-position=(-30.079224, 0.5943085, -7.3676796)
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.893827, 0.5943085, -5.638386)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.476383, 0.5943085, -6.4007177)
+[282] scene.entered: urman.chapter1:interaction/internal-register-to-saved-message
+source-formatting-proof: paired strong -> unchanged canonical paragraph -> real selection/save follows; literal stars and links retained
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/wrong/resize tick=192167 drawn=10060 process=10060 physics=8821 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/wrong/resize milliseconds=7 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/wrong/layout tick=192174 drawn=10060 process=10060 physics=8821 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/wrong/layout milliseconds=8 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-message-voice_attempt01_wrong_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/wrong/resize tick=192250 drawn=10061 process=10061 physics=8822 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/wrong/resize milliseconds=32 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/wrong/layout tick=192282 drawn=10062 process=10062 physics=8826 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/wrong/layout milliseconds=6 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-message-voice_attempt01_wrong_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/wrong/restore tick=192415 drawn=10063 process=10063 physics=8829 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/wrong/restore milliseconds=67 forcedScreenshotRender=False
+[289] journal.changed: urman.chapter1:interaction/excerpt-message-voice
+[290] journal.changed: urman.chapter1:interaction/excerpt-message-voice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-saved-message
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/saved/resize tick=192526 drawn=10066 process=10066 physics=8843 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/saved/resize milliseconds=4 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/saved/layout tick=192530 drawn=10066 process=10066 physics=8843 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/saved/layout milliseconds=6 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-message-voice_attempt01_saved_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/saved/resize tick=192600 drawn=10067 process=10067 physics=8843 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/saved/resize milliseconds=28 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/saved/layout tick=192629 drawn=10068 process=10068 physics=8847 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/saved/layout milliseconds=5 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-message-voice_attempt01_saved_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/saved/restore tick=192756 drawn=10069 process=10069 physics=8849 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/saved/restore milliseconds=53 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/reopened/resize tick=192846 drawn=10075 process=10075 physics=8862 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/reopened/resize milliseconds=4 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/reopened/layout tick=192850 drawn=10075 process=10075 physics=8862 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/reopened/layout milliseconds=7 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-message-voice_attempt01_reopened_1280x720.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/reopened/resize tick=192924 drawn=10076 process=10076 physics=8863 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/reopened/resize milliseconds=27 forcedScreenshotRender=False
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/reopened/layout tick=192951 drawn=10077 process=10077 physics=8866 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/reopened/layout milliseconds=5 forcedScreenshotRender=False
+source-excerpt-proof: feedback capture /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-walk-sources-09/source_excerpt_Act1FirstPersonWalkthroughSmokeTest_excerpt-message-voice_attempt01_reopened_1920x1080.png
+state-final-render-sync-begin: label=source-excerpt-feedback/excerpt-message-voice/attempt1/reopened/restore tick=193080 drawn=10078 process=10078 physics=8868 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=source-excerpt-feedback/excerpt-message-voice/attempt1/reopened/restore milliseconds=62 forcedScreenshotRender=False
+source-excerpt-proof: document=urman.oldpc:document/msg_marat_saved_last_normal action=excerpt-message-voice; heading refused; cancel refused; actual TextEdit selection -> Record -> one source; scene preserved; one persistent confirmation and remaining fields survive reopen
+walk-frame: house-exit-aisle--0.15-1.10 actual-player-position=(-28.997406, 0.5943085, -5.562676)
+walk-frame: house-exit-aisle--2.82-1.10 actual-player-position=(-29.79489, 0.5943085, -3.2603197)
+walk-frame: house-exit-aisle--2.82-2.30 actual-player-position=(-29.033098, 0.5943085, -2.6707256)
+zone-loaded: village_day@from_house connected-world=109404229571
+walk-frame: alsu-message-outward--26.05-0.2 actual-player-position=(-26.069225, 0.29562184, -0.05594653)
+walk-frame: alsu-message-outward--26.05-2.2 actual-player-position=(-26.052832, 0.31674927, 1.9266467)
+walk-frame: alsu-message-outward--25.2-2.6 actual-player-position=(-25.432055, 0.36245, 2.4163194)
+walk-frame: alsu-message-outward--24.42-2.4 actual-player-position=(-24.696184, 0.38444927, 2.4038954)
+walk-frame: alsu-message-outward--24-1.2 actual-player-position=(-24.128727, 0.36178324, 1.4226079)
+walk-frame: alsu-message-outward--19-0 actual-player-position=(-19.267267, 0.16979985, 0.07412499)
+walk-frame: alsu-message-outward--12--2.5 actual-player-position=(-12.265667, -0.2908251, -2.4058983)
+walk-frame: alsu-message-outward--6--5.5 actual-player-position=(-6.221067, -0.30416912, -5.3909183)
+walk-frame: alsu-message-outward--1.2--8 actual-player-position=(-1.4453424, -0.24308357, -7.8724904)
+walk-frame: approach-urman.chapter1:interaction/talk-alsu actual-player-position=(-1.4488487, -0.22896169, -8.551991)
+walk-frame: alsu-message-return--1.2--8 actual-player-position=(-1.3091593, -0.22971879, -8.242057)
+walk-frame: alsu-message-return--6--5.5 actual-player-position=(-5.7613263, -0.29594308, -5.6395187)
+walk-frame: alsu-message-return--12--2.5 actual-player-position=(-11.732305, -0.28113586, -2.6354008)
+walk-frame: alsu-message-return--19-0 actual-player-position=(-18.737932, 0.12640375, -0.0945203)
+walk-frame: alsu-message-return--24-1.2 actual-player-position=(-23.728436, 0.3672005, 1.1332643)
+walk-frame: alsu-message-return--24.42-2.4 actual-player-position=(-24.298658, 0.38599563, 2.1768646)
+walk-frame: alsu-message-return--25.2-2.6 actual-player-position=(-24.965483, 0.38094682, 2.489906)
+walk-frame: alsu-message-return--26.05-2.2 actual-player-position=(-25.786968, 0.34614217, 2.2703116)
+walk-frame: alsu-message-return--26.05-0.2 actual-player-position=(-26.015589, 0.28899372, 0.47085238)
+walk-frame: alsu-message-return--26.158367--1.2426405 actual-player-position=(-26.13816, 0.30560657, -0.99700844)
+walk-frame: approach-urman.chapter1:interaction/official-to-internal-register actual-player-position=(-26.05259, 0.32019734, -1.6140858)
+zone-loaded: house_old_pc@entry connected-world=109404229571
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.748287, 0.5943085, -5.152427)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.471277, 0.5943085, -6.3469625)
+[314] scene.entered: urman.chapter1:interaction/saved-message-to-boundary-source
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-tatarwiki-boundary
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.97376, 0.5943085, -5.542496)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.457602, 0.5943085, -6.371891)
+[326] scene.entered: urman.chapter1:interaction/boundary-source-to-reread
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-tatarwiki-reread
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-tatarwiki-reread
+WARNING: Interaction urman.chapter1:interaction/reread-to-edge-sketch rejected: ContentConditionRejected Content conditions rejected this action.
+     at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__129.MoveNext() (res://scripts/RuntimeBridge.cs:1139)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__129.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:1139)
+         [2] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [3] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+         [4] void Urman.Godot.RuntimeBridge+<DispatchInteractionAsync>d__91.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:534)
+         [5] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [6] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchInteractionAsync(string)
+         [7] void Urman.Godot.Tests.Act1SourceReturnsProof+<CompleteAsync>d__8.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1Len01FamilyFlowSmokeTest.cs:1713)
+         [8] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [9] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.Tests.Act1SourceReturnsProof.CompleteAsync(Godot.Node, Urman.Godot.RuntimeBridge, bool, bool, bool, System.Func`2[System.String,System.Threading.Tasks.Task`1[System.Boolean]])
+         [10] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<RunAsync>d__8.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:899)
+         [11] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [12] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [13] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [14] void System.Threading.Tasks.Task.RunContinuations(object)
+         [15] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult)
+         [16] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<CompareVisibleSources>d__22.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1605)
+         [17] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [18] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [19] void System.Threading.Tasks.Task.RunContinuations(object)
+         [20] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+         [21] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<Frames>d__28.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1673)
+         [22] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [23] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [24] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.97192, 0.5943085, -5.545811)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.457363, 0.5943085, -6.372391)
+walk-frame: approach-urman.chapter1:interaction/talk-mansur actual-player-position=(-30.126621, 0.5943085, -6.591335)
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.959564, 0.5943085, -5.6020517)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.467459, 0.5943085, -6.3868732)
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-tatarwiki-reread
+walk-frame: approach-urman.chapter1:interaction/internal-register-to-rinat actual-player-position=(-30.210644, 0.5943085, -7.3739605)
+source-returns-proof: two actual archive sources, explicit Mansur reply, bounded accounting comparison, actual Rinat question, hypothesis labels; order=note-first; no repeated pressure or early rule; traversal, interest and duration remain separate
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.918179, 0.5943085, -5.651794)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.450226, 0.5943085, -6.3883643)
+[401] scene.entered: urman.chapter1:interaction/reread-to-edge-sketch
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/evidence-edge-sketch
+walk-frame: house-exit-aisle--0.15-1.10 actual-player-position=(-28.972164, 0.5943085, -5.5487084)
+walk-frame: house-exit-aisle--2.82-1.10 actual-player-position=(-29.793795, 0.5943085, -3.2548685)
+walk-frame: house-exit-aisle--2.82-2.30 actual-player-position=(-29.030317, 0.5943085, -2.6674967)
+zone-loaded: village_day@from_house connected-world=109404229571
+walk-frame: timur-route-outward--26.05-0.2 actual-player-position=(-26.069227, 0.2961589, -0.055958197)
+walk-frame: timur-route-outward--26.05-2.2 actual-player-position=(-26.052837, 0.31674847, 1.9266301)
+walk-frame: timur-route-outward--25.2-2.6 actual-player-position=(-25.432093, 0.36242062, 2.4163146)
+walk-frame: timur-route-outward--24.42-2.4 actual-player-position=(-24.696234, 0.38443008, 2.4038928)
+walk-frame: timur-route-outward--24-1.2 actual-player-position=(-24.12875, 0.36176404, 1.4226301)
+walk-frame: timur-route-outward--19-0 actual-player-position=(-19.267307, 0.16979969, 0.07413736)
+walk-frame: timur-route-outward--12--2.5 actual-player-position=(-12.265678, -0.29082525, -2.4058948)
+walk-frame: timur-route-outward--6--5.5 actual-player-position=(-6.2211666, -0.30419198, -5.390872)
+walk-frame: timur-route-outward--1.2--8 actual-player-position=(-1.4455022, -0.24308917, -7.872403)
+walk-frame: timur-route-outward-0--19 actual-player-position=(-0.03705293, -0.22873777, -18.715525)
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/walk-mosque-heard.savegame-v3.json
+zone-loaded: village_day@from_house connected-world=109404229571
+SaveGameV3 restored.
+ERROR: The reached street has no verified mosque access: blocked: approach start: no walkable floor near supplied approach
+   at: void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest.Fail(string) (res://tests/Act1FirstPersonWalkthroughSmokeTest.cs:1768)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest.Fail(string) (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1768)
+       [2] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<ApproachMosque>d__14.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1419)
+       [3] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [4] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [5] void System.Threading.Tasks.Task.RunContinuations(object)
+       [6] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+       [7] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<PhysicsFrames>d__27.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1665)
+       [8] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [9] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [10] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+WARNING: 7 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:8900)
+userdata guard: original files and permissions restored and verified

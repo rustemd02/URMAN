@@ -1,0 +1,21 @@
+test_changed_station_is_preserved (__main__.RadioDeliveryTests.test_changed_station_is_preserved) ... ok
+test_duplicate_keys_are_rejected (__main__.RadioDeliveryTests.test_duplicate_keys_are_rejected) ... ok
+test_explicit_music_delivery_replaces_repeat_identity (__main__.RadioDeliveryTests.test_explicit_music_delivery_replaces_repeat_identity) ... ok
+test_explicit_recording_replaces_preview_metadata_without_losing_history (__main__.RadioDeliveryTests.test_explicit_recording_replaces_preview_metadata_without_losing_history) ... ok
+test_extensible_pcm_is_decoded_but_float_subtype_is_rejected (__main__.RadioDeliveryTests.test_extensible_pcm_is_decoded_but_float_subtype_is_rejected) ... ok
+test_failed_install_restores_previous_files_and_modes (__main__.RadioDeliveryTests.test_failed_install_restores_previous_files_and_modes) ... ok
+test_mutated_sample_and_evidence_hashes_are_rejected (__main__.RadioDeliveryTests.test_mutated_sample_and_evidence_hashes_are_rejected) ... ok
+test_old_approved_flag_cannot_hide_missing_or_mutated_audio (__main__.RadioDeliveryTests.test_old_approved_flag_cannot_hide_missing_or_mutated_audio) ... ok
+test_partial_cannot_be_reported_complete (__main__.RadioDeliveryTests.test_partial_cannot_be_reported_complete) ... ok
+test_partial_install_is_idempotent_preserves_ids_and_source (__main__.RadioDeliveryTests.test_partial_install_is_idempotent_preserves_ids_and_source) ... ok
+test_path_escape_and_unsupported_licence_are_rejected (__main__.RadioDeliveryTests.test_path_escape_and_unsupported_licence_are_rejected) ... ok
+test_preparation_preserves_signed_samples_and_exact_timeline (__main__.RadioDeliveryTests.test_preparation_preserves_signed_samples_and_exact_timeline) ... ok
+test_real_audio_container_is_required (__main__.RadioDeliveryTests.test_real_audio_container_is_required) ... ok
+test_score_licence_cannot_approve_a_recording (__main__.RadioDeliveryTests.test_score_licence_cannot_approve_a_recording) ... ok
+test_synthesis_is_not_accepted_as_a_performed_recording (__main__.RadioDeliveryTests.test_synthesis_is_not_accepted_as_a_performed_recording) ... ok
+test_transcript_and_duration_must_match (__main__.RadioDeliveryTests.test_transcript_and_duration_must_match) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 1.167s
+
+OK

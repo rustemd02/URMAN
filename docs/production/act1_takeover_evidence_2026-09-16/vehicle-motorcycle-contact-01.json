@@ -1,0 +1,1085 @@
+{
+  "started": "2026-09-17T06:17:23.203730+00:00",
+  "build": "integrated-build-49",
+  "sample": "vehicle_motorcycle@main_road",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "--urman-perf-probe",
+    "--urman-perf-probe-mode=gameplay",
+    "--urman-perf-sample=vehicle_motorcycle@main_road",
+    "--urman-perf-warmup-seconds=12",
+    "--urman-perf-duration-seconds=60",
+    "--urman-perf-request-focus",
+    "--urman-perf-no-vsync"
+  ],
+  "environment": {
+    "URMAN_VEHICLE_CONTACT_DIAGNOSTICS": "1"
+  },
+  "status": "REPRODUCED",
+  "acceptance": false,
+  "scope": "Native Debug replay of the existing vehicle route with opt-in collision snapshots; not a performance result.",
+  "exitCode": 2,
+  "guardVerified": true,
+  "performanceReports": [
+    "act1-demo-package-performance: status=ROUTE_INVALID mode=gameplay sample=vehicle_motorcycle@main_road reason=physical-collision-stop"
+  ],
+  "contacts": [
+    {
+      "schema": "urman.vehicle_collision_stop.v1",
+      "vehicleId": "village-motorcycle",
+      "physicsFrame": 1779,
+      "processFrame": 2525,
+      "nextCollisionStops": 1,
+      "deltaSeconds": 0.016666668,
+      "beforePose": {
+        "origin": [
+          0.0070024766,
+          -0.27642882,
+          -75.053505
+        ],
+        "basisX": [
+          0.9996107,
+          0,
+          -0.027932506
+        ],
+        "basisY": [
+          0,
+          1,
+          0
+        ],
+        "basisZ": [
+          0.027932506,
+          0,
+          0.9996107
+        ]
+      },
+      "afterPose": {
+        "origin": [
+          0.0070024766,
+          -0.27891377,
+          -75.053505
+        ],
+        "basisX": [
+          0.9996093,
+          0,
+          -0.027983455
+        ],
+        "basisY": [
+          0,
+          1,
+          0
+        ],
+        "basisZ": [
+          0.027983455,
+          0,
+          0.9996093
+        ]
+      },
+      "beforeSpeed": -0.99,
+      "desiredSpeed": -0.99,
+      "commandedSpeed": -0.99,
+      "beforeVelocity": [
+        0.027653182,
+        0,
+        0.9896146
+      ],
+      "requestedVelocity": [
+        0.02770362,
+        -0.15,
+        0.98961323
+      ],
+      "requestedMotion": [
+        0.00046172703,
+        -0.0025000002,
+        0.016493555
+      ],
+      "resultVelocity": [
+        0,
+        0,
+        0
+      ],
+      "realVelocity": [
+        0,
+        -0.14909683,
+        0
+      ],
+      "positionDelta": [
+        0,
+        -0.0024849474,
+        0
+      ],
+      "actualXZ": 0,
+      "expectedXZ": 0.016500002,
+      "stopThresholdXZ": 0.008250001,
+      "throttle": -0.9,
+      "steeringInput": 0.008788221,
+      "steeringRadians": 0.004448118,
+      "footBrake": false,
+      "braking": false,
+      "parkingBrake": false,
+      "engineRunning": true,
+      "engineWarmup": 0,
+      "horseState": "Calm",
+      "wasOnFloor": true,
+      "onFloor": true,
+      "onWall": true,
+      "floorNormal": [
+        -0.07073437,
+        0.99596435,
+        -0.05524233
+      ],
+      "wallNormal": [
+        -0.098278835,
+        0.7396728,
+        -0.6657518
+      ],
+      "floorMaxAngle": 0.43633232,
+      "safeMargin": 0.012,
+      "collisionMask": 3,
+      "initialTravelAllowed": true,
+      "initialTravelReason": "",
+      "finalTravelAllowed": true,
+      "finalTravelReason": "",
+      "slides": [
+        {
+          "slide": 0,
+          "travel": [
+            0.00045894948,
+            -0.0024849612,
+            0.016394336
+          ],
+          "remainder": [
+            2.7775532e-06,
+            -1.5038997e-05,
+            9.921938e-05
+          ],
+          "depth": 0.004103294,
+          "contacts": [
+            {
+              "index": 0,
+              "collider": {
+                "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                "name": "AgentB_TerrainCollision",
+                "class": "StaticBody3D",
+                "shapeType": null,
+                "authoredSourceMesh": null,
+                "collisionOwner": "act1-exterior-terrain",
+                "pose": {
+                  "origin": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "basisX": [
+                    1,
+                    0,
+                    0
+                  ],
+                  "basisY": [
+                    0,
+                    1,
+                    0
+                  ],
+                  "basisZ": [
+                    0,
+                    0,
+                    1
+                  ]
+                }
+              },
+              "shapeIndex": 0,
+              "colliderShape": {
+                "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                "name": "AgentB_TerrainFaces",
+                "class": "CollisionShape3D",
+                "shapeType": "ConcavePolygonShape3D",
+                "authoredSourceMesh": null,
+                "collisionOwner": null,
+                "pose": {
+                  "origin": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "basisX": [
+                    1,
+                    0,
+                    0
+                  ],
+                  "basisY": [
+                    0,
+                    1,
+                    0
+                  ],
+                  "basisZ": [
+                    0,
+                    0,
+                    1
+                  ]
+                }
+              },
+              "localShape": {
+                "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/ChassisCollision",
+                "name": "ChassisCollision",
+                "class": "CollisionShape3D",
+                "shapeType": "BoxShape3D",
+                "authoredSourceMesh": null,
+                "collisionOwner": null,
+                "pose": {
+                  "origin": [
+                    0.006722642,
+                    0.4910862,
+                    -75.0635
+                  ],
+                  "basisX": [
+                    0.9996093,
+                    0,
+                    -0.027983455
+                  ],
+                  "basisY": [
+                    0,
+                    1,
+                    0
+                  ],
+                  "basisZ": [
+                    0.027983455,
+                    0,
+                    0.9996093
+                  ]
+                }
+              },
+              "position": [
+                0.5388562,
+                -0.28633103,
+                -73.94103
+              ],
+              "normal": [
+                -0.07073437,
+                0.99596435,
+                -0.05524233
+              ],
+              "colliderVelocity": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "index": 1,
+              "collider": {
+                "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                "name": "AgentB_TerrainCollision",
+                "class": "StaticBody3D",
+                "shapeType": null,
+                "authoredSourceMesh": null,
+                "collisionOwner": "act1-exterior-terrain",
+                "pose": {
+                  "origin": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "basisX": [
+                    1,
+                    0,
+                    0
+                  ],
+                  "basisY": [
+                    0,
+                    1,
+                    0
+                  ],
+                  "basisZ": [
+                    0,
+                    0,
+                    1
+                  ]
+                }
+              },
+              "shapeIndex": 0,
+              "colliderShape": {
+                "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                "name": "AgentB_TerrainFaces",
+                "class": "CollisionShape3D",
+                "shapeType": "ConcavePolygonShape3D",
+                "authoredSourceMesh": null,
+                "collisionOwner": null,
+                "pose": {
+                  "origin": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "basisX": [
+                    1,
+                    0,
+                    0
+                  ],
+                  "basisY": [
+                    0,
+                    1,
+                    0
+                  ],
+                  "basisZ": [
+                    0,
+                    0,
+                    1
+                  ]
+                }
+              },
+              "localShape": {
+                "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/ChassisCollision",
+                "name": "ChassisCollision",
+                "class": "CollisionShape3D",
+                "shapeType": "BoxShape3D",
+                "authoredSourceMesh": null,
+                "collisionOwner": null,
+                "pose": {
+                  "origin": [
+                    0.006722642,
+                    0.4910862,
+                    -75.0635
+                  ],
+                  "basisX": [
+                    0.9996093,
+                    0,
+                    -0.027983455
+                  ],
+                  "basisY": [
+                    0,
+                    1,
+                    0
+                  ],
+                  "basisZ": [
+                    0.027983455,
+                    0,
+                    0.9996093
+                  ]
+                }
+              },
+              "position": [
+                0.53929216,
+                -0.28595033,
+                -73.93473
+              ],
+              "normal": [
+                -0.098278835,
+                0.7396728,
+                -0.6657518
+              ],
+              "colliderVelocity": [
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "scope": "Explicit contact diagnostic only; snapshot before Speed=0; not a performance result."
+    }
+  ],
+  "routes": [
+    {
+      "schema": "urman.vehicle_performance_route.v1",
+      "vehicle": "village-motorcycle",
+      "status": "DIAGNOSTIC",
+      "failure": "physical-collision-stop",
+      "phase": "Done",
+      "setupSeconds": 11.733333333332666,
+      "drivingSeconds": 17.933333333333596,
+      "distanceMetres": 53.29282179957954,
+      "measurementSeconds": 5.8499999999999845,
+      "measurementDistanceMetres": 16.56064819416497,
+      "movingSeconds": 5.666666666666652,
+      "movingFraction": 0.9686609686609687,
+      "minimumMovingFraction": 0.8,
+      "minimumMeasuredDistance": 20,
+      "reversals": 1,
+      "safeExit": true,
+      "actualInput": true,
+      "poseWrites": 0,
+      "zone": "village_day",
+      "route": [
+        {
+          "seconds": 0.016666666666666666,
+          "measuring": false,
+          "position": [
+            1.4,
+            -0.3189689,
+            -23
+          ],
+          "speed": 0,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 1.016666666666668,
+          "measuring": false,
+          "position": [
+            1.0767876,
+            -0.35645512,
+            -24.323336
+          ],
+          "speed": 2.7000005,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 2.033333333333331,
+          "measuring": false,
+          "position": [
+            -0.5366403,
+            -0.3581433,
+            -27.096197
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 3.049999999999994,
+          "measuring": false,
+          "position": [
+            -1.470591,
+            -0.28003842,
+            -30.17499
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 4.0666666666666575,
+          "measuring": false,
+          "position": [
+            -1.4841111,
+            -0.2530391,
+            -33.422222
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 5.083333333333321,
+          "measuring": false,
+          "position": [
+            -1.2015646,
+            -0.26725376,
+            -36.663727
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 6.099999999999984,
+          "measuring": false,
+          "position": [
+            -0.8559016,
+            -0.3219563,
+            -39.89984
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 7.116666666666647,
+          "measuring": false,
+          "position": [
+            -0.5654679,
+            -0.31745172,
+            -43.13973
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 8.11666666666665,
+          "measuring": false,
+          "position": [
+            -0.38055837,
+            -0.27040312,
+            -46.330547
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 9.1166666666667,
+          "measuring": false,
+          "position": [
+            -0.30581427,
+            -0.25644144,
+            -49.528633
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 10.116666666666749,
+          "measuring": false,
+          "position": [
+            -0.332127,
+            -0.2709797,
+            -52.72908
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 11.116666666666799,
+          "measuring": false,
+          "position": [
+            -0.22861762,
+            -0.2867107,
+            -55.927536
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 12.116666666666848,
+          "measuring": true,
+          "position": [
+            -0.03336103,
+            -0.31175733,
+            -59.12262
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 13.116666666666898,
+          "measuring": true,
+          "position": [
+            0.17279729,
+            -0.31411448,
+            -62.31518
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 14.116666666666948,
+          "measuring": true,
+          "position": [
+            0.23604012,
+            -0.21181168,
+            -65.50589
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 15.116666666666998,
+          "measuring": true,
+          "position": [
+            0.16243419,
+            -0.17666788,
+            -68.67928
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 16.116666666667033,
+          "measuring": true,
+          "position": [
+            0.09260786,
+            -0.18012458,
+            -71.87872
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "braking": false,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        },
+        {
+          "seconds": 17.133333333333642,
+          "measuring": true,
+          "position": [
+            0.014998151,
+            -0.27396744,
+            -75.02488
+          ],
+          "speed": 2.0333323,
+          "reverse": false,
+          "braking": true,
+          "radioSegment": null,
+          "radioOffset": null,
+          "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+        }
+      ],
+      "contactDiagnosticsRequested": true,
+      "diagnosticDrivingLimitSeconds": 24,
+      "contactEvents": [
+        {
+          "kind": "braking-start",
+          "physicsFrame": 1721,
+          "position": [
+            0.027075319,
+            -0.25560695,
+            -74.598434
+          ],
+          "speed": 3.2,
+          "reverse": false,
+          "remaining": 1.4015656,
+          "stopping": 1.4314287,
+          "drivingSeconds": 16.966666666666985
+        },
+        {
+          "kind": "direction-reversed",
+          "physicsFrame": 1752,
+          "position": [
+            0.0055758543,
+            -0.29064682,
+            -75.304794
+          ],
+          "speed": 0,
+          "reverse": true,
+          "drivingSeconds": 17.483333333333622
+        },
+        {
+          "kind": "collision-stop-observed",
+          "physicsFrame": 1780,
+          "position": [
+            0.0070024766,
+            -0.27891377,
+            -75.053505
+          ],
+          "reverse": true,
+          "braking": false,
+          "drivingSeconds": 17.933333333333596,
+          "collisionStops": 1
+        }
+      ],
+      "firstCollisionStop": {
+        "schema": "urman.vehicle_collision_stop.v1",
+        "vehicleId": "village-motorcycle",
+        "physicsFrame": 1779,
+        "processFrame": 2525,
+        "nextCollisionStops": 1,
+        "deltaSeconds": 0.016666668,
+        "beforePose": {
+          "origin": [
+            0.0070024766,
+            -0.27642882,
+            -75.053505
+          ],
+          "basisX": [
+            0.9996107,
+            0,
+            -0.027932506
+          ],
+          "basisY": [
+            0,
+            1,
+            0
+          ],
+          "basisZ": [
+            0.027932506,
+            0,
+            0.9996107
+          ]
+        },
+        "afterPose": {
+          "origin": [
+            0.0070024766,
+            -0.27891377,
+            -75.053505
+          ],
+          "basisX": [
+            0.9996093,
+            0,
+            -0.027983455
+          ],
+          "basisY": [
+            0,
+            1,
+            0
+          ],
+          "basisZ": [
+            0.027983455,
+            0,
+            0.9996093
+          ]
+        },
+        "beforeSpeed": -0.99,
+        "desiredSpeed": -0.99,
+        "commandedSpeed": -0.99,
+        "beforeVelocity": [
+          0.027653182,
+          0,
+          0.9896146
+        ],
+        "requestedVelocity": [
+          0.02770362,
+          -0.15,
+          0.98961323
+        ],
+        "requestedMotion": [
+          0.00046172703,
+          -0.0025000002,
+          0.016493555
+        ],
+        "resultVelocity": [
+          0,
+          0,
+          0
+        ],
+        "realVelocity": [
+          0,
+          -0.14909683,
+          0
+        ],
+        "positionDelta": [
+          0,
+          -0.0024849474,
+          0
+        ],
+        "actualXZ": 0,
+        "expectedXZ": 0.016500002,
+        "stopThresholdXZ": 0.008250001,
+        "throttle": -0.9,
+        "steeringInput": 0.008788221,
+        "steeringRadians": 0.004448118,
+        "footBrake": false,
+        "braking": false,
+        "parkingBrake": false,
+        "engineRunning": true,
+        "engineWarmup": 0,
+        "horseState": "Calm",
+        "wasOnFloor": true,
+        "onFloor": true,
+        "onWall": true,
+        "floorNormal": [
+          -0.07073437,
+          0.99596435,
+          -0.05524233
+        ],
+        "wallNormal": [
+          -0.098278835,
+          0.7396728,
+          -0.6657518
+        ],
+        "floorMaxAngle": 0.43633232,
+        "safeMargin": 0.012,
+        "collisionMask": 3,
+        "initialTravelAllowed": true,
+        "initialTravelReason": "",
+        "finalTravelAllowed": true,
+        "finalTravelReason": "",
+        "slides": [
+          {
+            "slide": 0,
+            "travel": [
+              0.00045894948,
+              -0.0024849612,
+              0.016394336
+            ],
+            "remainder": [
+              2.7775532e-06,
+              -1.5038997e-05,
+              9.921938e-05
+            ],
+            "depth": 0.004103294,
+            "contacts": [
+              {
+                "index": 0,
+                "collider": {
+                  "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "name": "AgentB_TerrainCollision",
+                  "class": "StaticBody3D",
+                  "shapeType": null,
+                  "authoredSourceMesh": null,
+                  "collisionOwner": "act1-exterior-terrain",
+                  "pose": {
+                    "origin": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "basisX": [
+                      1,
+                      0,
+                      0
+                    ],
+                    "basisY": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "basisZ": [
+                      0,
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "shapeIndex": 0,
+                "colliderShape": {
+                  "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "name": "AgentB_TerrainFaces",
+                  "class": "CollisionShape3D",
+                  "shapeType": "ConcavePolygonShape3D",
+                  "authoredSourceMesh": null,
+                  "collisionOwner": null,
+                  "pose": {
+                    "origin": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "basisX": [
+                      1,
+                      0,
+                      0
+                    ],
+                    "basisY": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "basisZ": [
+                      0,
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "localShape": {
+                  "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/ChassisCollision",
+                  "name": "ChassisCollision",
+                  "class": "CollisionShape3D",
+                  "shapeType": "BoxShape3D",
+                  "authoredSourceMesh": null,
+                  "collisionOwner": null,
+                  "pose": {
+                    "origin": [
+                      0.006722642,
+                      0.4910862,
+                      -75.0635
+                    ],
+                    "basisX": [
+                      0.9996093,
+                      0,
+                      -0.027983455
+                    ],
+                    "basisY": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "basisZ": [
+                      0.027983455,
+                      0,
+                      0.9996093
+                    ]
+                  }
+                },
+                "position": [
+                  0.5388562,
+                  -0.28633103,
+                  -73.94103
+                ],
+                "normal": [
+                  -0.07073437,
+                  0.99596435,
+                  -0.05524233
+                ],
+                "colliderVelocity": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "index": 1,
+                "collider": {
+                  "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "name": "AgentB_TerrainCollision",
+                  "class": "StaticBody3D",
+                  "shapeType": null,
+                  "authoredSourceMesh": null,
+                  "collisionOwner": "act1-exterior-terrain",
+                  "pose": {
+                    "origin": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "basisX": [
+                      1,
+                      0,
+                      0
+                    ],
+                    "basisY": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "basisZ": [
+                      0,
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "shapeIndex": 0,
+                "colliderShape": {
+                  "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "name": "AgentB_TerrainFaces",
+                  "class": "CollisionShape3D",
+                  "shapeType": "ConcavePolygonShape3D",
+                  "authoredSourceMesh": null,
+                  "collisionOwner": null,
+                  "pose": {
+                    "origin": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "basisX": [
+                      1,
+                      0,
+                      0
+                    ],
+                    "basisY": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "basisZ": [
+                      0,
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "localShape": {
+                  "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/ChassisCollision",
+                  "name": "ChassisCollision",
+                  "class": "CollisionShape3D",
+                  "shapeType": "BoxShape3D",
+                  "authoredSourceMesh": null,
+                  "collisionOwner": null,
+                  "pose": {
+                    "origin": [
+                      0.006722642,
+                      0.4910862,
+                      -75.0635
+                    ],
+                    "basisX": [
+                      0.9996093,
+                      0,
+                      -0.027983455
+                    ],
+                    "basisY": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "basisZ": [
+                      0.027983455,
+                      0,
+                      0.9996093
+                    ]
+                  }
+                },
+                "position": [
+                  0.53929216,
+                  -0.28595033,
+                  -73.93473
+                ],
+                "normal": [
+                  -0.098278835,
+                  0.7396728,
+                  -0.6657518
+                ],
+                "colliderVelocity": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        ],
+        "scope": "Explicit contact diagnostic only; snapshot before Speed=0; not a performance result."
+      },
+      "limits": "Explicit diagnostic driver in ordinary gameplay; not a human playthrough or listening acceptance."
+    }
+  ],
+  "finished": "2026-09-17T06:18:22.572114+00:00",
+  "seconds": 59.368,
+  "inputsChanged": []
+}

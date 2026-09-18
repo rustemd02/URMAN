@@ -1,0 +1,293 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1724 carved_door_slabs=240 flat_slab_skipped=2473 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+zone-loaded: village_day@arrival connected-world=108531813696
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=108531813696
+SaveGameV3 new game session started; existing slots untouched.
+act1-public-buildings: ordinary New Game
+act1-intro: confirmed with E
+act1-public-buildings: three public rooms are in the ordinary connected world
+act1-public-buildings: requested public building exists
+act1-public-buildings: shop: measured exterior setup fits the standing capsule
+act1-public-buildings: shop: setup has actual support
+state-final-render-sync-begin: label=public/shop_01_closed_entrance tick=28554 drawn=10 process=10 physics=35 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/shop_01_closed_entrance milliseconds=32 forcedScreenshotRender=False
+act1-public-buildings: shop: approaching leaves both doors closed and does not knock automatically
+act1-public-buildings: shop: explicit entrance interaction is aimed and available
+act1-public-buildings: closed-leaf approach uses real controller movement
+act1-public-buildings: shop: closed outer leaf stops the standing player
+act1-public-buildings: shop: walking against the leaf never opens it
+act1-public-buildings: shop: outward leaf refuses a player standing in its swept arc
+act1-public-buildings: shop: step away from the leaf: standing capsule reaches the actual destination
+act1-public-buildings: shop: step away from the leaf: no teleport or recovery during movement
+act1-public-buildings: shop/entrance: door starts in the expected state
+act1-public-buildings: shop/entrance: live input ray reaches the door
+act1-public-buildings: shop/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: shop/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: shop/entrance: explicit interaction changes the existing saved door property
+state-final-render-sync-begin: label=public/shop_02_opened_outward tick=31303 drawn=182 process=182 physics=196 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/shop_02_opened_outward milliseconds=14 forcedScreenshotRender=False
+act1-public-buildings: shop: walk up real treads and through the outer aperture: standing capsule reaches the actual destination
+act1-public-buildings: shop: walk up real treads and through the outer aperture: no teleport or recovery during movement
+act1-public-buildings: shop: the seni has standing headroom
+act1-public-buildings: shop/seni: real support is level enough to stand
+act1-public-buildings: shop/inner-door: door starts in the expected state
+act1-public-buildings: shop/inner-door: live input ray reaches the door
+act1-public-buildings: shop/inner-door: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: shop/inner-door: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: shop/inner-door: explicit interaction changes the existing saved door property
+act1-public-buildings: shop: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: shop: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: shop: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: shop: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: shop: public interior owner matches the physical room
+act1-public-buildings: shop: both thresholds are crossed with input and no relocation or fall recovery
+act1-public-buildings: shop/main: real support is level enough to stand
+act1-public-buildings: shop: timber floor is the actual support level
+act1-public-buildings: shop: reach the front of Razilya's counter: standing capsule reaches the actual destination
+act1-public-buildings: shop: reach the front of Razilya's counter: no teleport or recovery during movement
+act1-public-buildings: shop: physical counter and shop UI use the same reachable target
+state-final-render-sync-begin: label=public/shop_03_counter_and_razilya tick=34948 drawn=461 process=461 physics=415 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/shop_03_counter_and_razilya milliseconds=14 forcedScreenshotRender=False
+act1-public-buildings: shop: the actual debt notebook is readable from the public side of the counter
+act1-public-buildings: shop: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: shop: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: shop: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: shop: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: shop: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: shop: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: shop: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: shop: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: shop: ordinary return reaches the exterior
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/public-door-proof-shop.savegame-v3.json
+act1-public-buildings: shop: actual open doors and exterior player pose save together
+act1-public-buildings: shop/entrance: door starts in the expected state
+act1-public-buildings: shop/entrance: live input ray reaches the door
+act1-public-buildings: shop/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: shop/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: shop/entrance: explicit interaction changes the existing saved door property
+zone-loaded: village_day@arrival connected-world=108531813696
+SaveGameV3 restored.
+act1-public-buildings: shop: restore the same runtime snapshot
+act1-public-buildings: shop: both door states are restored without discovering a source
+act1-public-buildings: shop: load leaves an unobstructed standing body
+act1-public-buildings: shop: return through restored outward leaf: standing capsule reaches the actual destination
+act1-public-buildings: shop: return through restored outward leaf: no teleport or recovery during movement
+act1-public-buildings: shop: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: shop: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: shop: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: shop: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: shop: public interior owner matches the physical room
+state-final-render-sync-begin: label=public/shop_05_return_after_load tick=40455 drawn=902 process=902 physics=739 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/shop_05_return_after_load milliseconds=16 forcedScreenshotRender=False
+act1-public-buildings: shop: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: shop: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: shop: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: shop: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: shop: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: shop: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: shop: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: shop: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: shop/entrance: door starts in the expected state
+act1-public-buildings: shop/entrance: live input ray reaches the door
+act1-public-buildings: shop/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: shop/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: shop/entrance: explicit interaction changes the existing saved door property
+act1-public-buildings: school: measured exterior setup fits the standing capsule
+act1-public-buildings: school: setup has actual support
+state-final-render-sync-begin: label=public/school_01_closed_entrance tick=43669 drawn=1146 process=1146 physics=927 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/school_01_closed_entrance milliseconds=8 forcedScreenshotRender=False
+act1-public-buildings: school: approaching leaves both doors closed and does not knock automatically
+act1-public-buildings: school: explicit entrance interaction is aimed and available
+act1-public-buildings: closed-leaf approach uses real controller movement
+act1-public-buildings: school: closed outer leaf stops the standing player
+act1-public-buildings: school: walking against the leaf never opens it
+act1-public-buildings: school: outward leaf refuses a player standing in its swept arc
+act1-public-buildings: school: step away from the leaf: standing capsule reaches the actual destination
+act1-public-buildings: school: step away from the leaf: no teleport or recovery during movement
+act1-public-buildings: school/entrance: door starts in the expected state
+act1-public-buildings: school/entrance: live input ray reaches the door
+act1-public-buildings: school/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/entrance: explicit interaction changes the existing saved door property
+state-final-render-sync-begin: label=public/school_02_opened_outward tick=46411 drawn=1411 process=1411 physics=1091 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/school_02_opened_outward milliseconds=8 forcedScreenshotRender=False
+act1-public-buildings: school: walk up real treads and through the outer aperture: standing capsule reaches the actual destination
+act1-public-buildings: school: walk up real treads and through the outer aperture: no teleport or recovery during movement
+act1-public-buildings: school: the seni has standing headroom
+act1-public-buildings: school/seni: real support is level enough to stand
+act1-public-buildings: school/inner-door: door starts in the expected state
+act1-public-buildings: school/inner-door: live input ray reaches the door
+act1-public-buildings: school/inner-door: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/inner-door: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/inner-door: explicit interaction changes the existing saved door property
+act1-public-buildings: school: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: school: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: school: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: school: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: school: public interior owner matches the physical room
+act1-public-buildings: school: both thresholds are crossed with input and no relocation or fall recovery
+act1-public-buildings: school/main: real support is level enough to stand
+act1-public-buildings: school: timber floor is the actual support level
+act1-public-buildings: school: reach the corridor outside the office: standing capsule reaches the actual destination
+act1-public-buildings: school: reach the corridor outside the office: no teleport or recovery during movement
+act1-public-buildings: school: closed office leaf physically blocks a nearby source
+act1-public-buildings: school/office: door starts in the expected state
+act1-public-buildings: school/office: live input ray reaches the door
+act1-public-buildings: school/office: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/office: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/office: explicit interaction changes the existing saved door property
+act1-public-buildings: school: pass the office door: standing capsule reaches the actual destination
+act1-public-buildings: school: pass the office door: no teleport or recovery during movement
+act1-public-buildings: school: actual staff source becomes readable after entering
+state-final-render-sync-begin: label=public/school_03_office tick=51695 drawn=1964 process=1964 physics=1407 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/school_03_office milliseconds=14 forcedScreenshotRender=False
+act1-public-buildings: school: return to corridor: standing capsule reaches the actual destination
+act1-public-buildings: school: return to corridor: no teleport or recovery during movement
+act1-public-buildings: school: walk to the classroom door: standing capsule reaches the actual destination
+act1-public-buildings: school: walk to the classroom door: no teleport or recovery during movement
+act1-public-buildings: school/classroom: door starts in the expected state
+act1-public-buildings: school/classroom: live input ray reaches the door
+act1-public-buildings: school/classroom: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/classroom: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/classroom: explicit interaction changes the existing saved door property
+act1-public-buildings: school: enter the preserved classroom footprint: standing capsule reaches the actual destination
+act1-public-buildings: school: enter the preserved classroom footprint: no teleport or recovery during movement
+act1-public-buildings: school: class photo belongs to the real room and actual content source
+act1-public-buildings: school_class_photo_Source: a real photograph texture is bound
+act1-public-buildings: school_class_photo_Source: published image provenance and aspect ratio are preserved
+state-final-render-sync-begin: label=public/school_04_classroom_photo tick=54772 drawn=2196 process=2196 physics=1589 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/school_04_classroom_photo milliseconds=12 forcedScreenshotRender=False
+act1-public-buildings: school: leave classroom through the same opening: standing capsule reaches the actual destination
+act1-public-buildings: school: leave classroom through the same opening: no teleport or recovery during movement
+act1-public-buildings: school: return along the corridor without crossing partitions: standing capsule reaches the actual destination
+act1-public-buildings: school: return along the corridor without crossing partitions: no teleport or recovery during movement
+act1-public-buildings: school: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: school: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: school: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: school: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: school: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: school: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: school: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: school: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: school: ordinary return reaches the exterior
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/public-door-proof-school.savegame-v3.json
+act1-public-buildings: school: actual open doors and exterior player pose save together
+act1-public-buildings: school/entrance: door starts in the expected state
+act1-public-buildings: school/entrance: live input ray reaches the door
+act1-public-buildings: school/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/entrance: explicit interaction changes the existing saved door property
+zone-loaded: village_day@arrival connected-world=108531813696
+SaveGameV3 restored.
+act1-public-buildings: school: restore the same runtime snapshot
+act1-public-buildings: school: both door states are restored without discovering a source
+act1-public-buildings: school: load leaves an unobstructed standing body
+act1-public-buildings: school: return through restored outward leaf: standing capsule reaches the actual destination
+act1-public-buildings: school: return through restored outward leaf: no teleport or recovery during movement
+act1-public-buildings: school: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: school: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: school: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: school: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: school: public interior owner matches the physical room
+state-final-render-sync-begin: label=public/school_05_return_after_load tick=61496 drawn=2762 process=2762 physics=1987 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/school_05_return_after_load milliseconds=9 forcedScreenshotRender=False
+act1-public-buildings: school: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: school: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: school: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: school: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: school: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: school: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: school: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: school: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: school/entrance: door starts in the expected state
+act1-public-buildings: school/entrance: live input ray reaches the door
+act1-public-buildings: school/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/entrance: explicit interaction changes the existing saved door property
+act1-public-buildings: council: measured exterior setup fits the standing capsule
+act1-public-buildings: council: setup has actual support
+state-final-render-sync-begin: label=public/council_01_closed_entrance tick=64803 drawn=3000 process=3000 physics=2182 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_01_closed_entrance milliseconds=8 forcedScreenshotRender=False
+act1-public-buildings: council: approaching leaves both doors closed and does not knock automatically
+act1-public-buildings: council: explicit entrance interaction is aimed and available
+act1-public-buildings: closed-leaf approach uses real controller movement
+act1-public-buildings: council: closed outer leaf stops the standing player
+act1-public-buildings: council: walking against the leaf never opens it
+act1-public-buildings: council: outward leaf refuses a player standing in its swept arc
+act1-public-buildings: council: step away from the leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: step away from the leaf: no teleport or recovery during movement
+act1-public-buildings: council/entrance: door starts in the expected state
+act1-public-buildings: council/entrance: live input ray reaches the door
+act1-public-buildings: council/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/entrance: explicit interaction changes the existing saved door property
+state-final-render-sync-begin: label=public/council_02_opened_outward tick=67577 drawn=3258 process=3258 physics=2348 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_02_opened_outward milliseconds=9 forcedScreenshotRender=False
+act1-public-buildings: council: walk up real treads and through the outer aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: walk up real treads and through the outer aperture: no teleport or recovery during movement
+act1-public-buildings: council: the seni has standing headroom
+act1-public-buildings: council/seni: real support is level enough to stand
+act1-public-buildings: council/inner-door: door starts in the expected state
+act1-public-buildings: council/inner-door: live input ray reaches the door
+act1-public-buildings: council/inner-door: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/inner-door: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/inner-door: explicit interaction changes the existing saved door property
+act1-public-buildings: council: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: council: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: council: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: council: public interior owner matches the physical room
+act1-public-buildings: council: both thresholds are crossed with input and no relocation or fall recovery
+act1-public-buildings: council/main: real support is level enough to stand
+act1-public-buildings: council: timber floor is the actual support level
+act1-public-buildings: council: enter the hall beside the village plan: standing capsule reaches the actual destination
+act1-public-buildings: council: enter the hall beside the village plan: no teleport or recovery during movement
+act1-public-buildings: council: physical village plan is reachable in the hall
+act1-public-buildings: council: displayed roads come from the actual common registry graph
+state-final-render-sync-begin: label=public/council_03_hall_and_plan tick=71221 drawn=3591 process=3591 physics=2566 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_03_hall_and_plan milliseconds=9 forcedScreenshotRender=False
+act1-public-buildings: council: approach the office from the open hall: standing capsule reaches the actual destination
+act1-public-buildings: council: approach the office from the open hall: no teleport or recovery during movement
+act1-public-buildings: council/office: door starts in the expected state
+act1-public-buildings: council/office: live input ray reaches the door
+act1-public-buildings: council/office: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/office: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/office: explicit interaction changes the existing saved door property
+act1-public-buildings: System.InvalidOperationException: council: align with the real office doorway: standing capsule reaches the actual destination
+   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.Require(Boolean condition, String label) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 398
+   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.WalkTo(Vector3 goal, String label) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 330
+   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.ExploreRoom(PublicBuildingRoom building) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 218
+   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.Visit(PublicBuildingRoom building) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 117
+   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 42
+state-final-render-sync-begin: label=public/failure tick=76524 drawn=4005 process=4005 physics=2883 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/failure milliseconds=13 forcedScreenshotRender=False
+userdata guard: original files and permissions restored and verified

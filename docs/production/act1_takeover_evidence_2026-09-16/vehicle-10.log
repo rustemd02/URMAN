@@ -1,0 +1,946 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+vehicle-smoke: radio boundary carries fractional offset into the next segment
+vehicle-smoke: whole-loop advance still reports a playback boundary
+vehicle-smoke: saved radio segment survives input reordering
+vehicle-smoke: non-finite playback offsets are rejected
+vehicle-smoke: a retired unavailable segment starts the remaining programme at zero instead of copying an unrelated offset
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1579 carved_door_slabs=101 flat_slab_skipped=2469 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=109370674966
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=109370674966
+SaveGameV3 new game session started; existing slots untouched.
+vehicle-smoke: ordinary New Game
+act1-intro: confirmed with E
+vehicle-smoke: three vehicle instances in the actual connected world
+vehicle-smoke: stable unique fleet IDs
+vehicle-smoke: ordinary free control after arrival card
+vehicle-smoke: babay-niva ordinary authored start needs no parking recovery
+vehicle-smoke: babay-niva starts at its authored grounded position
+vehicle-smoke: babay-niva initial chassis and actual support are valid
+vehicle-smoke: village-motorcycle ordinary authored start needs no parking recovery
+vehicle-smoke: village-motorcycle starts at its authored grounded position
+vehicle-smoke: village-motorcycle initial chassis and actual support are valid
+vehicle-smoke: forest-horse-cart ordinary authored start needs no parking recovery
+vehicle-smoke: forest-horse-cart starts at its authored grounded position
+vehicle-smoke: forest-horse-cart initial chassis and actual support are valid
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in Chassis
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in GaugeFace
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in NeedleMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in GaugeFace
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in NeedleMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in SteeringRim
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in RoadWheelMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in RoadWheelMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in RoadWheelMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in RoadWheelMesh
+vehicle-smoke: complete body, wheels and authored surfaces for babay-niva
+vehicle-smoke: generated vehicle body fits the collision hull with separately proven ground-conforming hooves for babay-niva; visual (-0.895, -0.003000021, -2.029)..(0.895, 1.694, 1.9909999), hull (-0.92200005, -0.012, -2.087)..(0.92200005, 1.732, 2.137)
+vehicle-smoke: Niva parking is checked against Rinat's actual ordinary village stage
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_Body_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_Body_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_BootLeft_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_BootLeft_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_BootRight_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_BootRight_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_CoatFrontPlacket_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_CoatFrontPlacket_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_CoatHem_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_CoatHem_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_EarL_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_EarL_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_EarR_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_EarR_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceBrows_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceBrows_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceEyeIrisL_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceEyeIrisL_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceEyeIrisR_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceEyeIrisR_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceEyes_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceEyes_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceEyeWhiteL_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceEyeWhiteL_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceEyeWhiteR_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceEyeWhiteR_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceMouthLine_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceMouthLine_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceNoseBridge_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceNoseBridge_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceNoseTip_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_FaceNoseTip_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_Hair_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_Hair_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_Head_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_Head_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_HeadHandLeft_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_HeadHandLeft_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_HeadHandRight_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_HeadHandRight_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_HeadHandThumbLeft_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_HeadHandThumbLeft_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_HeadHandThumbRight_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_HeadHandThumbRight_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_ScarfBand_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_ScarfBand_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_ShoulderCuffLeft_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_ShoulderCuffLeft_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_ShoulderCuffRight_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_ShoulderCuffRight_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_SleeveLeft_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_SleeveLeft_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_SleeveRight_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_SleeveRight_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_TrouserLeft_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_TrouserLeft_LOD1
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_TrouserRight_LOD0
+vehicle-smoke: Rinat parking has finite posed vertices for CouncilWitness_TrouserRight_LOD1
+vehicle-smoke: Rinat clearance uses actual visible actor meshes
+vehicle-smoke: Rinat posed bounds surround his actual actor anchor, not the imported character bank
+vehicle-smoke: authored Niva parking clears the existing Rinat posed presentation bounds
+vehicle-smoke: babay-niva has a clear complete front-three-quarter camera, without hiding world geometry
+state-final-render-sync-begin: label=vehicle/babay-niva-front-three-quarter tick=33471 drawn=3 process=3 physics=27 windowVisible=True focus=False mode=Windowed renderLoop=True
+state-final-render-sync-forced: label=vehicle/babay-niva-front-three-quarter forced screenshot render after native focus loss; one focus request + ForceDraw(false); no foreground or performance claim
+state-final-render-sync-forced-readback: label=vehicle/babay-niva-front-three-quarter framePostDraw=True pixels=1280x720 drawnDelta=0; screenshot evidence only
+state-final-render-sync-end: label=vehicle/babay-niva-front-three-quarter milliseconds=26 forcedScreenshotRender=True
+vehicle-smoke: babay-niva has a clear complete full-side camera, without hiding world geometry
+state-final-render-sync-begin: label=vehicle/babay-niva-full-side tick=33626 drawn=3 process=3 physics=30 windowVisible=True focus=False mode=Windowed renderLoop=True
+state-final-render-sync-forced: label=vehicle/babay-niva-full-side forced screenshot render after native focus loss; one focus request + ForceDraw(false); no foreground or performance claim
+state-final-render-sync-forced-readback: label=vehicle/babay-niva-full-side framePostDraw=True pixels=1280x720 drawnDelta=0; screenshot evidence only
+state-final-render-sync-end: label=vehicle/babay-niva-full-side milliseconds=23 forcedScreenshotRender=True
+vehicle-smoke: babay-niva has a clear complete rear-three-quarter camera, without hiding world geometry
+state-final-render-sync-begin: label=vehicle/babay-niva-rear-three-quarter tick=33779 drawn=4 process=4 physics=33 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/babay-niva-rear-three-quarter milliseconds=42 forcedScreenshotRender=False
+state-final-render-sync-begin: label=vehicle/babay-niva-outside tick=33979 drawn=6 process=6 physics=50 windowVisible=True focus=True mode=Windowed renderLoop=True
+act1-demo-performance-rescue: preset=low avg=134.4ms median=154.4ms reason=slow-startup
+state-final-render-sync-end: label=vehicle/babay-niva-outside milliseconds=20 forcedScreenshotRender=False
+vehicle-smoke: babay-niva enters through the actual ray and mapped action
+vehicle-smoke: vehicle camera owns the view
+vehicle-smoke: parked start keeps ignition off
+vehicle-smoke: vehicle mouse proof uses a native window
+vehicle-smoke: vehicle mouse proof uses the actual requested window size (1280, 720)
+vehicle-smoke: vehicle mouse proof owns active captured input outside modal UI
+vehicle-smoke: one injected physical motion reaches the actual vehicle input pipeline without another motion cancelling it
+vehicle-smoke: vehicle camera publishes the accepted mouse angle after event delivery
+vehicle-smoke: captured vehicle camera keeps physical mouse sensitivity at (1280, 720)
+vehicle-smoke: vehicle mouse proof uses the actual requested window size (1920, 1080)
+vehicle-smoke: vehicle mouse proof owns active captured input outside modal UI
+vehicle-smoke: one injected physical motion reaches the actual vehicle input pipeline without another motion cancelling it
+vehicle-smoke: vehicle camera publishes the accepted mouse angle after event delivery
+vehicle-smoke: captured vehicle camera keeps physical mouse sensitivity at (1920, 1080)
+vehicle-smoke: actual viewport transforms Relative differently while preserving physical screen motion
+vehicle-smoke: vehicle physical mouse turn agrees at both actual window sizes
+vehicle-smoke: vehicle mouse proof restores the driver's accepted view through ordinary input
+vehicle-smoke: wheel proof starts in the ordinarily entered parked Niva
+vehicle-smoke: wheel repair retains the authored Niva chassis dimensions
+vehicle-smoke: two front tyre shapes share the existing chassis body
+vehicle-smoke: actual front-wheel model bindings are available to the union audit
+vehicle-smoke: real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases
+vehicle-smoke: actual turned geometry retains its authored track and protrusion beyond the old hull
+vehicle-smoke: straight wheels and chassis clear the actual 40mm post
+vehicle-smoke: full lock would hit the post with the tyre while the unchanged chassis is clear
+vehicle-smoke: ordinary steering stops before the real post at rest
+vehicle-smoke: blocked steering does not displace the parked vehicle sideways
+vehicle-smoke: accepted wheel pose has no full-shape overlap with the post
+vehicle-smoke: steering refusal names the actual post owner
+vehicle-smoke: actual front-wheel model bindings are available to the union audit
+vehicle-smoke: real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases
+vehicle-smoke: right tyre and exact 40mm fixture have a clear close-up camera and a visible post face
+state-final-render-sync-begin: label=vehicle/niva-wheel-stationary-contact tick=35595 drawn=46 process=46 physics=144 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/niva-wheel-stationary-contact milliseconds=37 forcedScreenshotRender=False
+act1-visible-surface: vehicle/niva-wheel-stationary-contact/actual-post pixel=(0.5334879, 0.376251) distance=1.110 point=(-0.6350001, 0.33610448, -0.39554548) mesh=/root/VehicleSmokeTest/StationarySteeringPost/Exact40mmFixtureShell triangle=4 vertices=[(-0.635, 0.47464997, -0.37100002);(-0.635, 0.47464997, -0.41100004);(-0.635, -0.24535002, -0.37100002)] albedo=(1, 0.36, 0.015, 1) texture=
+act1-visible-surface: vehicle/niva-wheel-stationary-contact/actual-post pixel=(0.5334879, 0.376251) distance=1.190 point=(-0.71239126, 0.33047605, -0.37795657) mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/Wheel7/RoadWheelMesh triangle=246 vertices=[(-0.700911, 0.28944993, -0.41820878);(-0.701984, 0.31434995, -0.34398684);(-0.7167127, 0.34114993, -0.37875557)] shader= snow=0.0
+act1-visible-surface: vehicle/niva-wheel-stationary-contact/actual-post pixel=(0.5334879, 0.376251) distance=2.403 point=(-1.8925003, 0.24464992, -0.10974997) mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/Chassis triangle=1031 vertices=[(-2.4, 0.24464993, 2.675);(-2.4, 0.24464993, -0.67499995);(-0.9, 0.24464993, -0.67499995)] shader= snow=0.0
+act1-visible-surface: vehicle/niva-wheel-stationary-contact/actual-post pixel=(0.5334879, 0.376251) distance=2.975 point=(-2.4484673, 0.20421594, 0.016606152) mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/Wheel5/RoadWheelMesh triangle=746 vertices=[(-2.5765555, 0.22044995, -0.04404348);(-2.4252877, 0.18284994, 0.038194194);(-2.4178143, 0.22044995, 0.019535124)] shader= snow=0.0
+act1-visible-surface: vehicle/niva-wheel-stationary-contact/actual-post pixel=(0.5334879, 0.376251) distance=6.561 point=(-5.9365, -0.04945922, 0.80934083) mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Foundation_LOD0 triangle=12 vertices=[(-5.9364996, -0.29125416, 6.1659946);(-5.9364996, -0.0062541813, 0.23409986);(-5.9364996, -0.29125416, 0.23409986)] shader= snow=0.5
+vehicle-smoke: ordinary opposite steering leaves the obstruction without ignoring it
+vehicle-smoke: move_left reaches full lock after the post is removed
+vehicle-smoke: physical wheel rolling direction agrees with the ordinary steering action
+vehicle-smoke: actual front-wheel model bindings are available to the union audit
+vehicle-smoke: real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases
+vehicle-smoke: move_right reaches full lock after the post is removed
+vehicle-smoke: physical wheel rolling direction agrees with the ordinary steering action
+vehicle-smoke: actual front-wheel model bindings are available to the union audit
+vehicle-smoke: real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/vehicle-smoke-niva-wheel-steering.savegame-v3.json
+vehicle-smoke: existing snapshot saves the physical steering angle
+zone-loaded: village_day@arrival connected-world=109370674966
+SaveGameV3 restored.
+vehicle-smoke: ordinary occupied load restores the steering snapshot
+vehicle-smoke: held input cannot alter the restored steering angle before neutral release
+vehicle-smoke: saved steering restores both tyre colliders and visible wheels together
+vehicle-smoke: changed saved obstacle occupies only the turned tyre region
+zone-loaded: village_day@arrival connected-world=109370674966
+WARNING: Vehicle babay-niva placement rejected: the actual FrontRightWheelCollision intersects /root/VehicleSmokeTest/ChangedSavedTyrePost; shape=/root/VehicleSmokeTest/ChangedSavedTyrePost/@CollisionShape3D@1646 index=0; chassisOrigin=(-1.65, -0.24535005, 1); recovered to physically checked parking.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:188)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:188)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:109)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+SaveGameV3 restored.
+vehicle-smoke: existing parking recovery handles a saved tyre obstruction
+vehicle-smoke: saved-placement rejection includes the actual tyre shape
+vehicle-smoke: parking recovery checks and commits straight wheels at a physically clear candidate
+zone-loaded: village_day@arrival connected-world=109370674966
+SaveGameV3 restored.
+vehicle-smoke: the same unmodified snapshot loads after removal of the tyre obstacle
+vehicle-smoke: removing the obstacle restores the original saved angle and possession
+vehicle-smoke: steering migration fixture starts from an ordinary safe exit
+vehicle-smoke: legacy version1 vehicle record without steering remains readable
+vehicle-smoke: legacy steering defaults to zero in the physical forms
+vehicle-smoke: out-of-range steering rejects the record before mutation
+vehicle-smoke: rejected steering leaves the complete vehicle record unchanged
+zone-loaded: village_day@arrival connected-world=109370674966
+SaveGameV3 restored.
+vehicle-smoke: ordinary snapshot restores possession after the explicit migration fixture
+vehicle-smoke: wheel fixture returns to the original parked controls without a second state owner
+vehicle-smoke: context engine/horse action starts and releases parking
+vehicle-smoke: vehicle has a marked physical speedometer with its actual needle
+vehicle-smoke: mapped headlights work
+vehicle-smoke: radio programme has an advancing saved playhead
+vehicle-smoke: licensed speech preview has an explicit playback contract distinct from recorded approval
+vehicle-smoke: preview playback rejects wrong origin, acceptance, licence, absent provenance and synthetic music
+vehicle-smoke: recorded segments, declared repeats, synthetic previews and missing station audio remain separately accounted
+vehicle-smoke: declared archive repeat uses the same approved recording bytes and provenance
+vehicle-smoke: recording repeats reject byte substitution and cyclic source IDs
+vehicle-smoke: delivered station bytes match their provenance digest: avyl-ident
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: winter-weather
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: school-bus
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: music-one
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: family-salam
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: village-photos
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: nearby-villages
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: local-workshop
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: winter-congratulations
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: music-two
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: lost-glove
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: delivered station bytes match their provenance digest: night-repeat
+vehicle-smoke: delivered station recording decodes with its actual timeline length
+vehicle-smoke: turning on the radio selects an actual recording without waiting through pending scripts
+vehicle-smoke: the actual delivered programme starts native audio immediately
+vehicle-smoke: actual delivered audio seeks and follows its saved segment position
+vehicle-smoke: the delivered recording crosses its real end into the available programme
+vehicle-smoke: CC0 radio fixture matches its recorded provenance hash: res://assets/audio/village_arrival.wav
+vehicle-smoke: CC0 radio fixture matches its recorded provenance hash: res://assets/audio/village_yard.wav
+vehicle-smoke: CC0 playback fixtures contain real decoded samples
+vehicle-smoke: radio fixture starts outside an authored voice cue
+vehicle-smoke: radio speakers use the existing ambience bus
+vehicle-smoke: native radio starts at the restored sample position
+vehicle-smoke: saved programme offset and real native stream cursor agree after seek
+vehicle-smoke: radio pause freezes both the mixer cursor and saved timeline
+vehicle-smoke: radio resumes the paused native stream
+vehicle-smoke: radio volume changes the local source gain
+vehicle-smoke: radio off stops both real sources
+vehicle-smoke: radio off preserves its saved position
+vehicle-smoke: saved radio power and position restart real playback
+vehicle-smoke: radio restore retains both native seek and volume
+vehicle-smoke: one ambience owner supplies the voice duck effect
+vehicle-smoke: the actual cue applies one minus-six-decibel ambience bus effect
+vehicle-smoke: voice duck preserves radio local gain and the user's bus volume
+vehicle-smoke: ending the cue releases the actual bus effect
+vehicle-smoke: EOF transition starts from the first real recording
+vehicle-smoke: the native file boundary selects the next recording and preserves fractional time
+vehicle-smoke: recording transition has no sustained loss of both native players
+vehicle-smoke: radio fixtures preserve the ambience owner's shared resource loop settings
+vehicle-smoke: moving-wheel proof uses ordinary running controls
+vehicle-smoke: moving-wheel proof starts with real full steering lock
+vehicle-smoke: moving-wheel fixture begins with a clear full vehicle volume
+vehicle-smoke: the predicted short path isolates tyre contact from chassis contact
+vehicle-smoke: ordinary throttle produces an actual MoveAndSlide tyre-versus-post contact
+vehicle-smoke: contact follows real vehicle movement rather than an overlapped fixture start
+vehicle-smoke: right-steering wheel contact follows an actual right turn of the chassis
+vehicle-smoke: the chassis is still clear at the actual tyre contact
+vehicle-smoke: actual front-wheel model bindings are available to the union audit
+vehicle-smoke: real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases
+vehicle-smoke: right tyre and exact 40mm fixture have a clear close-up camera and a visible post face
+state-final-render-sync-begin: label=vehicle/niva-wheel-moving-contact tick=45809 drawn=405 process=405 physics=750 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/niva-wheel-moving-contact milliseconds=22 forcedScreenshotRender=False
+act1-visible-surface: vehicle/niva-wheel-moving-contact/actual-post pixel=(0.5376677, 0.38406292) distance=1.110 point=(-0.53971565, 0.33609545, -0.51096016) mesh=/root/VehicleSmokeTest/MovingTyrePost/Exact40mmFixtureShell triangle=4 vertices=[(-0.53971577, 0.4746499, -0.4870251);(-0.53971577, 0.4746499, -0.5270251);(-0.53971577, -0.24535005, -0.4870251)] albedo=(1, 0.36, 0.015, 1) texture=
+act1-visible-surface: vehicle/niva-wheel-moving-contact/actual-post pixel=(0.5376677, 0.38406292) distance=1.242 point=(-0.66874444, 0.32676947, -0.48557383) mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/Wheel7/RoadWheelMesh triangle=187 vertices=[(-0.74023485, 0.30141795, -0.5572378);(-0.6254877, 0.30141795, -0.48275757);(-0.64888716, 0.3528399, -0.44670737)] shader= snow=0.0
+act1-visible-surface: vehicle/niva-wheel-moving-contact/actual-post pixel=(0.5376677, 0.38406292) distance=2.270 point=(-1.6742797, 0.25409093, -0.2877354) mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/Chassis triangle=1031 vertices=[(-2.464618, 0.2540909, 2.5170279);(-2.3484738, 0.2540909, -0.83095735);(-0.84937596, 0.2540909, -0.77895254)] shader= snow=0.0
+act1-visible-surface: vehicle/niva-wheel-moving-contact/actual-post pixel=(0.5376677, 0.38406292) distance=3.060 point=(-2.447544, 0.19820058, -0.1355961) mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/Wheel5/RoadWheelMesh triangle=762 vertices=[(-2.5663352, 0.22820064, -0.2313208);(-2.4336107, 0.19041647, -0.12172103);(-2.4229012, 0.22820064, -0.1382205)] shader= snow=0.0
+act1-visible-surface: vehicle/niva-wheel-moving-contact/actual-post pixel=(0.5376677, 0.38406292) distance=6.625 point=(-5.9364996, -0.05397573, 0.55085385) mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Foundation_LOD0 triangle=12 vertices=[(-5.9364996, -0.29125416, 6.1659946);(-5.9364996, -0.0062541813, 0.23409986);(-5.9364996, -0.29125416, 0.23409986)] shader= snow=0.5
+vehicle-smoke: ordinary reverse safely leaves the tyre contact with the post still present
+vehicle-smoke: reversing leaves the complete physical volume clear of the post
+vehicle-smoke: movement proof ends with actual terrain support and clear shapes
+vehicle-smoke: ordinary throttle moves babay-niva
+vehicle-smoke: physical speedometer needle follows real vehicle speed
+vehicle-smoke: the actual full chassis can steer on the village road
+vehicle-smoke: moving exit is refused without changing possession
+vehicle-smoke: parking brake stops babay-niva
+vehicle-smoke: reverse starts from rest through the ordinary controls
+vehicle-smoke: ignition/horse command stops the power state
+vehicle-smoke: ignition check releases the parking brake
+vehicle-smoke: throttle does not move a stopped engine or halted horse
+vehicle-smoke: parking and ignition remain separate after restart
+vehicle-smoke: pause resume does not leak held activation or throttle into babay-niva
+state-final-render-sync-begin: label=vehicle/babay-niva-driver tick=53123 drawn=698 process=698 physics=1187 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/babay-niva-driver milliseconds=23 forcedScreenshotRender=False
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/vehicle-smoke-babay-niva.savegame-v3.json
+vehicle-smoke: one existing SaveGameV3 saves babay-niva
+vehicle-smoke: fleet is in the existing world.props state
+vehicle-smoke: two actual blocked door exits preserve driver state
+vehicle-smoke: thin fences overlapping sweep origins reject exit even with clear endpoints
+vehicle-smoke: unblocked stationary exit succeeds
+vehicle-smoke: standing body and first-person camera return
+vehicle-smoke: exit restores a physically clear standing capsule
+zone-loaded: village_day@arrival connected-world=109370674966
+SaveGameV3 restored.
+vehicle-smoke: occupied save reloads through RuntimeBridge
+vehicle-smoke: saved possession restores without a duplicate actor
+vehicle-smoke: parked transform survives save and load
+vehicle-smoke: ignition and parking state survive load
+vehicle-smoke: radio resumes at the saved segment position
+vehicle-smoke: loaded vehicle can be exited
+zone-loaded: village_day@arrival connected-world=109370674966
+WARNING: Vehicle babay-niva placement rejected: the actual ChassisCollision intersects /root/VehicleSmokeTest/ChangedVehicleParkingProof; shape=/root/VehicleSmokeTest/ChangedVehicleParkingProof/@CollisionShape3D@1653 index=0; chassisOrigin=(-1.9234593, -0.22483526, -0.85871977); recovered to physically checked parking.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:188)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:188)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:109)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+SaveGameV3 restored.
+vehicle-smoke: existing snapshot loads with a changed parking obstacle
+vehicle-smoke: a saved chassis inside a new obstacle recovers to checked parking
+vehicle-smoke: recovered parked vehicle retains one driver after load
+vehicle-smoke: parking repair preserves saved ignition, lights and radio power
+vehicle-smoke: recovered parking has a safe physical exit
+zone-loaded: village_day@arrival connected-world=109370674966
+WARNING: Vehicle babay-niva placement rejected: the actual ChassisCollision intersects /root/VehicleSmokeTest/AllParkingBlocked0; shape=/root/VehicleSmokeTest/AllParkingBlocked0/@CollisionShape3D@1654 index=0; chassisOrigin=(-1.9234593, -0.22483526, -0.85871977); no clear authored parking was found.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:188)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:188)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:109)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+SaveGameV3 restored.
+vehicle-smoke: blocked vehicle save restores the person to checked standing ground
+vehicle-smoke: all five blocked authored parking candidates leave a persistent placement gate
+vehicle-smoke: rejected occupied parking releases possession exactly once
+vehicle-smoke: rejected occupied parking places the real full player capsule clear of obstacles
+vehicle-smoke: both restored and ordinary entry reject an unavailable chassis
+vehicle-smoke: parking rejection preserves ignition, lights, radio and accumulated travel
+vehicle-smoke: removing the actual obstruction restores ordinary entry without recreating the vehicle
+vehicle-smoke: revalidated vehicle has a safe ordinary exit
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in MotorcycleFrame
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in GaugeFace
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in NeedleMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in RoadWheelMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in RoadWheelMesh
+vehicle-smoke: complete body, wheels and authored surfaces for village-motorcycle
+vehicle-smoke: generated vehicle body fits the collision hull with separately proven ground-conforming hooves for village-motorcycle; visual (-0.4482723, -0.003000021, -1.1281773)..(0.4482723, 1.4749999, 1.0669711), hull (-0.512, -0.012, -1.142)..(0.512, 1.5519999, 1.122)
+vehicle-smoke: village-motorcycle has a clear complete front-three-quarter camera, without hiding world geometry
+state-final-render-sync-begin: label=vehicle/village-motorcycle-front-three-quarter tick=54657 drawn=741 process=741 physics=1277 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/village-motorcycle-front-three-quarter milliseconds=14 forcedScreenshotRender=False
+vehicle-smoke: village-motorcycle has a clear complete full-side camera, without hiding world geometry
+state-final-render-sync-begin: label=vehicle/village-motorcycle-full-side tick=54767 drawn=742 process=742 physics=1280 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/village-motorcycle-full-side milliseconds=27 forcedScreenshotRender=False
+vehicle-smoke: village-motorcycle has a clear complete rear-three-quarter camera, without hiding world geometry
+state-final-render-sync-begin: label=vehicle/village-motorcycle-rear-three-quarter tick=54866 drawn=743 process=743 physics=1286 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/village-motorcycle-rear-three-quarter milliseconds=24 forcedScreenshotRender=False
+state-final-render-sync-begin: label=vehicle/village-motorcycle-outside tick=55015 drawn=745 process=745 physics=1299 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/village-motorcycle-outside milliseconds=15 forcedScreenshotRender=False
+vehicle-smoke: village-motorcycle enters through the actual ray and mapped action
+vehicle-smoke: vehicle camera owns the view
+vehicle-smoke: parked start keeps ignition off
+vehicle-smoke: context engine/horse action starts and releases parking
+vehicle-smoke: vehicle has a marked physical speedometer with its actual needle
+vehicle-smoke: mapped headlights work
+vehicle-smoke: ordinary throttle moves village-motorcycle
+vehicle-smoke: physical speedometer needle follows real vehicle speed
+vehicle-smoke: the actual full chassis can steer on the village road
+vehicle-smoke: moving exit is refused without changing possession
+vehicle-smoke: parking brake stops village-motorcycle
+vehicle-smoke: reverse starts from rest through the ordinary controls
+vehicle-smoke: ignition/horse command stops the power state
+vehicle-smoke: ignition check releases the parking brake
+vehicle-smoke: throttle does not move a stopped engine or halted horse
+vehicle-smoke: parking and ignition remain separate after restart
+vehicle-smoke: pause resume does not leak held activation or throttle into village-motorcycle
+state-final-render-sync-begin: label=vehicle/village-motorcycle-driver tick=61625 drawn=1192 process=1192 physics=1696 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/village-motorcycle-driver milliseconds=14 forcedScreenshotRender=False
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/vehicle-smoke-village-motorcycle.savegame-v3.json
+vehicle-smoke: one existing SaveGameV3 saves village-motorcycle
+vehicle-smoke: fleet is in the existing world.props state
+vehicle-smoke: two actual blocked door exits preserve driver state
+vehicle-smoke: thin fences overlapping sweep origins reject exit even with clear endpoints
+vehicle-smoke: unblocked stationary exit succeeds
+vehicle-smoke: standing body and first-person camera return
+vehicle-smoke: exit restores a physically clear standing capsule
+zone-loaded: village_day@arrival connected-world=109370674966
+SaveGameV3 restored.
+vehicle-smoke: occupied save reloads through RuntimeBridge
+vehicle-smoke: saved possession restores without a duplicate actor
+vehicle-smoke: parked transform survives save and load
+vehicle-smoke: ignition and parking state survive load
+vehicle-smoke: loaded vehicle can be exited
+zone-loaded: village_day@arrival connected-world=109370674966
+WARNING: Vehicle village-motorcycle placement rejected: the actual ChassisCollision intersects /root/VehicleSmokeTest/ChangedVehicleParkingProof; shape=/root/VehicleSmokeTest/ChangedVehicleParkingProof/@CollisionShape3D@1665 index=0; chassisOrigin=(1.3285131, -0.37551293, -26.639235); recovered to physically checked parking.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:188)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:188)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:109)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+SaveGameV3 restored.
+vehicle-smoke: existing snapshot loads with a changed parking obstacle
+vehicle-smoke: a saved chassis inside a new obstacle recovers to checked parking
+vehicle-smoke: recovered parked vehicle retains one driver after load
+vehicle-smoke: parking repair preserves saved ignition, lights and radio power
+vehicle-smoke: recovered parking has a safe physical exit
+zone-loaded: village_day@arrival connected-world=109370674966
+WARNING: Vehicle village-motorcycle placement rejected: the actual ChassisCollision intersects /root/VehicleSmokeTest/AllParkingBlocked0; shape=/root/VehicleSmokeTest/AllParkingBlocked0/@CollisionShape3D@1666 index=0; chassisOrigin=(1.3285131, -0.37551293, -26.639235); no clear authored parking was found.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:188)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:188)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:109)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+WARNING: Vehicle forest-horse-cart placement rejected: the actual ChassisCollision intersects /root/VehicleSmokeTest/AllParkingBlocked5; shape=/root/VehicleSmokeTest/AllParkingBlocked5/@CollisionShape3D@1671 index=0; chassisOrigin=(0.9, -0.23743948, -34); recovered to physically checked parking.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:188)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:188)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:109)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+SaveGameV3 restored.
+vehicle-smoke: blocked vehicle save restores the person to checked standing ground
+vehicle-smoke: all five blocked authored parking candidates leave a persistent placement gate
+vehicle-smoke: rejected occupied parking releases possession exactly once
+vehicle-smoke: rejected occupied parking places the real full player capsule clear of obstacles
+vehicle-smoke: both restored and ordinary entry reject an unavailable chassis
+vehicle-smoke: parking rejection preserves ignition, lights, radio and accumulated travel
+vehicle-smoke: removing the actual obstruction restores ordinary entry without recreating the vehicle
+vehicle-smoke: revalidated vehicle has a safe ordinary exit
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in CartAndHarness
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in HorseBody
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in HeadMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in ForearmAndKnee
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in CannonAndFetlock
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in HoofWallAndSole
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in ThighAndHock
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in CannonAndFetlock
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in HoofWallAndSole
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in ForearmAndKnee
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in CannonAndFetlock
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in HoofWallAndSole
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in ThighAndHock
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in CannonAndFetlock
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in HoofWallAndSole
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in ReinLeather
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in ReinLeather
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in WheelMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in WheelMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in WheelMesh
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: vehicle mesh indices refer to actual vertices
+vehicle-smoke: all primitive and authored triangles survive batching in WheelMesh
+vehicle-smoke: complete body, wheels and authored surfaces for forest-horse-cart
+vehicle-smoke: all four ground-conforming hoof meshes have actual full-footprint support
+vehicle-smoke: generated vehicle body fits the collision hull with separately proven ground-conforming hooves for forest-horse-cart; visual (-0.82, -0.060365185, -2.9511867)..(0.82, 2.357196, 2.3199995), hull (-0.912, -0.012, -3.4020002)..(0.912, 2.4620001, 2.4020002)
+vehicle-smoke: forest-horse-cart has a clear complete front-three-quarter camera, without hiding world geometry
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-front-three-quarter tick=63192 drawn=1263 process=1263 physics=1789 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-front-three-quarter milliseconds=18 forcedScreenshotRender=False
+vehicle-smoke: forest-horse-cart has a clear complete full-side camera, without hiding world geometry
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-full-side tick=63323 drawn=1264 process=1264 physics=1792 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-full-side milliseconds=29 forcedScreenshotRender=False
+vehicle-smoke: forest-horse-cart has a clear complete rear-three-quarter camera, without hiding world geometry
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-rear-three-quarter tick=63470 drawn=1265 process=1265 physics=1800 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-rear-three-quarter milliseconds=25 forcedScreenshotRender=False
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-outside tick=63648 drawn=1267 process=1267 physics=1815 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-outside milliseconds=20 forcedScreenshotRender=False
+vehicle-smoke: forest-horse-cart enters through the actual ray and mapped action
+vehicle-smoke: vehicle camera owns the view
+vehicle-smoke: parked start keeps ignition off
+vehicle-smoke: context engine/horse action starts and releases parking
+vehicle-smoke: horse walk has a clear complete side camera 0
+vehicle-smoke: horse pose contains four actual articulated feet
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg0
+vehicle-smoke: planted moving hoof has real full-footprint support: HorseLeg0
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg1
+vehicle-smoke: planted moving hoof has real full-footprint support: HorseLeg1
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg2
+vehicle-smoke: planted moving hoof has real full-footprint support: HorseLeg2
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg3
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-walking-side-1 tick=66106 drawn=1501 process=1501 physics=1964 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-walking-side-1 milliseconds=16 forcedScreenshotRender=False
+vehicle-smoke: horse walk has a clear complete side camera 1
+vehicle-smoke: horse pose contains four actual articulated feet
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg0
+vehicle-smoke: planted moving hoof has real full-footprint support: HorseLeg0
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg1
+vehicle-smoke: planted moving hoof has real full-footprint support: HorseLeg1
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg2
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg3
+vehicle-smoke: planted moving hoof has real full-footprint support: HorseLeg3
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-walking-side-2 tick=66317 drawn=1506 process=1506 physics=1976 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-walking-side-2 milliseconds=17 forcedScreenshotRender=False
+vehicle-smoke: horse walk has a clear complete side camera 2
+vehicle-smoke: horse pose contains four actual articulated feet
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg0
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg1
+vehicle-smoke: planted moving hoof has real full-footprint support: HorseLeg1
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg2
+vehicle-smoke: planted moving hoof has real full-footprint support: HorseLeg2
+vehicle-smoke: moving horse joint chain reaches its actual sole: HorseLeg3
+vehicle-smoke: planted moving hoof has real full-footprint support: HorseLeg3
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-walking-side-3 tick=66513 drawn=1510 process=1510 physics=1988 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-walking-side-3 milliseconds=18 forcedScreenshotRender=False
+vehicle-smoke: horse walk includes real travel, lifted foot and planted foot
+vehicle-smoke: ordinary throttle moves forest-horse-cart
+vehicle-smoke: the actual full chassis can steer on the village road
+vehicle-smoke: moving exit is refused without changing possession
+vehicle-smoke: parking brake stops forest-horse-cart
+vehicle-smoke: hoof settlement starts after actual braking has stopped the vehicle
+vehicle-smoke: stopped horse settles all four actual hooves onto coherent ground
+vehicle-smoke: parked horse starts no new step from floor settling or unchanged heading
+vehicle-smoke: parked hoof retains its supported world contact without sliding: HorseLeg0
+vehicle-smoke: parked hoof retains its supported world contact without sliding: HorseLeg1
+vehicle-smoke: parked hoof retains its supported world contact without sliding: HorseLeg2
+vehicle-smoke: parked hoof retains its supported world contact without sliding: HorseLeg3
+vehicle-smoke: stopped horse has a clear complete side camera
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-stopped-side tick=68169 drawn=1665 process=1665 physics=2087 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-stopped-side milliseconds=16 forcedScreenshotRender=False
+vehicle-smoke: reverse starts from rest through the ordinary controls
+vehicle-smoke: ignition/horse command stops the power state
+vehicle-smoke: ignition check releases the parking brake
+vehicle-smoke: throttle does not move a stopped engine or halted horse
+vehicle-smoke: parking and ignition remain separate after restart
+vehicle-smoke: pause resume does not leak held activation or throttle into forest-horse-cart
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-driver tick=71495 drawn=1993 process=1993 physics=2287 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-driver milliseconds=10 forcedScreenshotRender=False
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/vehicle-smoke-forest-horse-cart.savegame-v3.json
+vehicle-smoke: one existing SaveGameV3 saves forest-horse-cart
+vehicle-smoke: fleet is in the existing world.props state
+vehicle-smoke: two actual blocked door exits preserve driver state
+vehicle-smoke: thin fences overlapping sweep origins reject exit even with clear endpoints
+vehicle-smoke: unblocked stationary exit succeeds
+vehicle-smoke: standing body and first-person camera return
+vehicle-smoke: exit restores a physically clear standing capsule
+zone-loaded: village_day@arrival connected-world=109370674966
+SaveGameV3 restored.
+vehicle-smoke: occupied save reloads through RuntimeBridge
+vehicle-smoke: saved possession restores without a duplicate actor
+vehicle-smoke: parked transform survives save and load
+vehicle-smoke: ignition and parking state survive load
+vehicle-smoke: loaded vehicle can be exited
+zone-loaded: village_day@arrival connected-world=109370674966
+WARNING: Vehicle forest-horse-cart placement rejected: the actual ChassisCollision intersects /root/VehicleSmokeTest/ChangedVehicleParkingProof; shape=/root/VehicleSmokeTest/ChangedVehicleParkingProof/@CollisionShape3D@1677 index=0; chassisOrigin=(0.89274484, -0.28177008, -42.211876); recovered to physically checked parking.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:188)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:188)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:109)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+SaveGameV3 restored.
+vehicle-smoke: existing snapshot loads with a changed parking obstacle
+vehicle-smoke: a saved chassis inside a new obstacle recovers to checked parking
+vehicle-smoke: recovered parked vehicle retains one driver after load
+vehicle-smoke: parking repair preserves saved ignition, lights and radio power
+vehicle-smoke: recovered parking has a safe physical exit
+zone-loaded: village_day@arrival connected-world=109370674966
+WARNING: Vehicle village-motorcycle placement rejected: the actual ChassisCollision intersects /root/VehicleSmokeTest/AllParkingBlocked2; shape=/root/VehicleSmokeTest/AllParkingBlocked2/@CollisionShape3D@1680 index=0; chassisOrigin=(1.3285131, -0.37551293, -26.639235); recovered to physically checked parking.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:188)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:188)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:109)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+WARNING: Vehicle forest-horse-cart placement rejected: the actual ChassisCollision intersects /root/VehicleSmokeTest/AllParkingBlocked3; shape=/root/VehicleSmokeTest/AllParkingBlocked3/@CollisionShape3D@1681 index=0; chassisOrigin=(0.89274484, -0.28177008, -42.211876); no clear authored parking was found.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:188)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:188)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:109)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+SaveGameV3 restored.
+vehicle-smoke: blocked vehicle save restores the person to checked standing ground
+vehicle-smoke: all five blocked authored parking candidates leave a persistent placement gate
+vehicle-smoke: rejected occupied parking releases possession exactly once
+vehicle-smoke: rejected occupied parking places the real full player capsule clear of obstacles
+vehicle-smoke: both restored and ordinary entry reject an unavailable chassis
+vehicle-smoke: parking rejection preserves ignition, lights, radio and accumulated travel
+vehicle-smoke: removing the actual obstruction restores ordinary entry without recreating the vehicle
+vehicle-smoke: revalidated vehicle has a safe ordinary exit
+vehicle-smoke: vehicles cannot silently enter the gated forest
+vehicle-smoke: actual standing recovery stays before the unopened forest approach
+vehicle-smoke: driving rejects unsupported cross-country paths
+vehicle-smoke: interior parking proof begins with an ordinary unoccupied exterior fleet
+WARNING: Interaction urman.chapter1:interaction/arrival-enter-house rejected: ContentConditionRejected Content conditions rejected this action.
+     at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__129.MoveNext() (res://scripts/RuntimeBridge.cs:1126)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__129.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:1126)
+         [2] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [3] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+         [4] void Urman.Godot.RuntimeBridge+<DispatchInteractionAsync>d__91.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:521)
+         [5] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [6] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchInteractionAsync(string)
+         [7] void Urman.Godot.Tests.Act1ArrivalFlowProof+<CompleteAsync>d__1.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1Len01FamilyFlowSmokeTest.cs:1509)
+         [8] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.Start<TStateMachine>(TStateMachine&)
+         [9] System.Threading.Tasks.Task Urman.Godot.Tests.Act1ArrivalFlowProof.CompleteAsync(Godot.Node, Urman.Godot.RuntimeBridge, string, bool)
+         [10] void Urman.Godot.Tests.VehicleSmokeTest+<InteriorParkingSurvivesSaveLoad>d__37.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.Interior.cs:25)
+         [11] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [12] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [13] void System.Threading.Tasks.Task.RunContinuations(object)
+         [14] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+         [15] void Urman.Godot.Tests.VehicleSmokeTest+<Approach>d__11.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs:245)
+         [16] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [17] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [18] void System.Threading.Tasks.Task.RunContinuations(object)
+         [19] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+         [20] void Urman.Godot.Tests.VehicleSmokeTest+<Frames>d__18.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs:392)
+         [21] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [22] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [23] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+arrival-flow: source UI, remembered phrase, distinct help-babai, explicit house continuation
+[61] scene.entered: urman.chapter1:interaction/arrival-enter-house
+vehicle-smoke: interior parking proof earns house entry from the actual arrival sources
+zone-loaded: house_old_pc@entry connected-world=109370674966
+vehicle-smoke: indoor presentation defers exterior placement checks for all three vehicles
+vehicle-smoke: house entry preserves parked position for babay-niva
+vehicle-smoke: house entry preserves parked yawDegrees for babay-niva
+vehicle-smoke: house entry preserves parked engineRunning for babay-niva
+vehicle-smoke: house entry preserves parked parkingBrake for babay-niva
+vehicle-smoke: house entry preserves parked headlights for babay-niva
+vehicle-smoke: house entry preserves parked travelMetres for babay-niva
+vehicle-smoke: house entry preserves parked position for village-motorcycle
+vehicle-smoke: house entry preserves parked yawDegrees for village-motorcycle
+vehicle-smoke: house entry preserves parked engineRunning for village-motorcycle
+vehicle-smoke: house entry preserves parked parkingBrake for village-motorcycle
+vehicle-smoke: house entry preserves parked headlights for village-motorcycle
+vehicle-smoke: house entry preserves parked travelMetres for village-motorcycle
+vehicle-smoke: house entry preserves parked position for forest-horse-cart
+vehicle-smoke: house entry preserves parked yawDegrees for forest-horse-cart
+vehicle-smoke: house entry preserves parked engineRunning for forest-horse-cart
+vehicle-smoke: house entry preserves parked parkingBrake for forest-horse-cart
+vehicle-smoke: house entry preserves parked headlights for forest-horse-cart
+vehicle-smoke: house entry preserves parked travelMetres for forest-horse-cart
+vehicle-smoke: the house visit retains Mansur's ordinary computer request
+family-meal-proof: actual invitation, source-dependent personal reply, explicit meal acceptance; topic=photo; decline/return/load=False; no timer, movement automation or human-duration claim
+vehicle-smoke: the computer source and family conversation earn the real house exit
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/vehicle-interior-parking.savegame-v3.json
+vehicle-smoke: the sole save owner saves the attained indoor visit
+zone-loaded: house_old_pc@entry connected-world=109370674966
+SaveGameV3 restored.
+vehicle-smoke: an indoor snapshot loads without querying disabled exterior terrain
+vehicle-smoke: indoor load releases the ordinary player and leaves only vehicle placement deferred
+vehicle-smoke: indoor save-load preserves parked orientation within float serialization precision and every other state field exactly for babay-niva
+vehicle-smoke: disabled terrain produces no new rejection probe for babay-niva
+vehicle-smoke: indoor save-load preserves parked orientation within float serialization precision and every other state field exactly for village-motorcycle
+vehicle-smoke: disabled terrain produces no new rejection probe for village-motorcycle
+vehicle-smoke: indoor save-load preserves parked orientation within float serialization precision and every other state field exactly for forest-horse-cart
+vehicle-smoke: disabled terrain produces no new rejection probe for forest-horse-cart
+vehicle-smoke: blocked indoor load has a separate actually supported standing position
+vehicle-smoke: the previous indoor position is clear before placing the obstacle
+vehicle-smoke: the real obstacle blocks even a crouched saved capsule while the previous pose remains clear
+zone-loaded: house_old_pc@entry connected-world=109370674966
+ERROR: SaveGameV3 load failed: The loaded player's physical position is blocked.
+   at: void Urman.Godot.RuntimeBridge+<LoadFromStoreAsync>d__81.MoveNext() (res://scripts/RuntimeBridge.cs:385)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.RuntimeBridge+<LoadFromStoreAsync>d__81.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:385)
+       [2] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [4] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [5] void System.Threading.Tasks.Task.RunContinuations(object)
+       [6] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [7] bool System.Threading.Tasks.Task.TrySetException(object)
+       [8] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [9] void Urman.Godot.RuntimeBridge+<RestoreLoadedWorldAsync>d__82.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:449)
+       [10] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [11] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [12] void System.Threading.Tasks.Task.RunContinuations(object)
+       [13] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+       [14] void Urman.Godot.RuntimeBridge+<ProjectPhysicalWorldAsync>d__83.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:465)
+       [15] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [16] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [17] void System.Threading.Tasks.Task.RunContinuations(object)
+       [18] bool System.Threading.Tasks.Task`1.TrySetResult(TResult)
+       [19] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+       [20] void Urman.Godot.VehicleFleet+<CompleteLoadedProjectionAsync>d__44.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:239)
+       [21] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [22] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [23] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+zone-loaded: house_old_pc@entry connected-world=109370674966
+SaveGameV3 rejected the loaded placement; the previous session was restored.
+vehicle-smoke: a real indoor save refuses a newly obstructed player position
+vehicle-smoke: blocked indoor load rolls back to the previous free feet with ordinary control
+ERROR: vehicle-smoke: System.InvalidOperationException: blocked indoor load changes neither attained progress, source slot, backup nor settings profile
+   at Urman.Godot.Tests.VehicleSmokeTest.Require(Boolean condition, String label) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs:line 396
+   at Urman.Godot.Tests.VehicleSmokeTest.RejectBlockedIndoorFeet(String slot) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.Interior.cs:line 176
+   at Urman.Godot.Tests.VehicleSmokeTest.RejectBlockedIndoorFeet(String slot) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.Interior.cs:line 180
+   at Urman.Godot.Tests.VehicleSmokeTest.InteriorParkingSurvivesSaveLoad() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.Interior.cs:line 80
+   at Urman.Godot.Tests.VehicleSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs:line 176
+   at: void Urman.Godot.Tests.VehicleSmokeTest+<_Ready>d__9.MoveNext() (res://tests/VehicleSmokeTest.cs:176)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.Tests.VehicleSmokeTest+<_Ready>d__9.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs:176)
+       [2] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [3] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [4] void System.Threading.Tasks.Task.RunContinuations(object)
+       [5] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [6] bool System.Threading.Tasks.Task.TrySetException(object)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [8] void Urman.Godot.Tests.VehicleSmokeTest+<InteriorParkingSurvivesSaveLoad>d__37.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.Interior.cs:80)
+       [9] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [10] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [11] void System.Threading.Tasks.Task.RunContinuations(object)
+       [12] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [13] bool System.Threading.Tasks.Task.TrySetException(object)
+       [14] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [15] void Urman.Godot.Tests.VehicleSmokeTest+<RejectBlockedIndoorFeet>d__39.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.Interior.cs:180)
+       [16] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [17] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [18] void System.Threading.Tasks.Task.RunContinuations(object)
+       [19] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+       [20] void Urman.Godot.Tests.VehicleSmokeTest+<Frames>d__18.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs:392)
+       [21] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [22] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [23] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+userdata guard: original files and permissions restored and verified

@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-09-17T02:25:37.544329+00:00",
+  "build_receipt": "integrated-build-39.json",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1280x720",
+    "res://tests/act1_len01_family_flow_smoke_test.tscn",
+    "--urman-smoke-background-input",
+    "--urman-smoke-alsu-walk-only"
+  ],
+  "environment": {
+    "URMAN_ALSU_WALK_CAPTURE_DIR": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-alsu-walk-08"
+  },
+  "human_playtest": "external/not-run",
+  "focus_policy": "Test-only background input replay; no foreground performance or human duration claim.",
+  "exit_code": 0,
+  "process_seconds": 79.45,
+  "finished": "2026-09-17T02:26:56.993586+00:00",
+  "inputs_changed_during_run": []
+}

@@ -1,0 +1,161 @@
+{
+  "started": "2026-09-17T06:20:34.829048+00:00",
+  "build": "integrated-build-49",
+  "sample": "village_day@arrival",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "--urman-perf-probe",
+    "--urman-perf-probe-mode=gameplay",
+    "--urman-perf-sample=village_day@arrival",
+    "--urman-perf-warmup-seconds=12",
+    "--urman-perf-duration-seconds=60",
+    "--urman-perf-request-focus",
+    "--urman-perf-no-vsync"
+  ],
+  "environment": {
+    "URMAN_PERF_RENDER_DIAGNOSTICS": "1",
+    "URMAN_PERF_RENDER_OUTPUT": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/renderer-arrival-01-render.json",
+    "URMAN_PERF_CAPTURE_DIR": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-renderer-arrival-01",
+    "URMAN_ADDRESS_GRAPH_PERF": "1"
+  },
+  "status": "RECORDED",
+  "acceptance": false,
+  "scope": "Native instrumented Debug diagnosis; not Release performance or human acceptance.",
+  "exitCode": 2,
+  "guardVerified": true,
+  "performanceReports": [
+    "act1-demo-package-performance: status=DIAGNOSTIC_RENDER mode=gameplay sample=village_day@arrival avg=21.481ms p95=24.436ms p99=32.671ms max=53.060ms long_frame_fraction=0.00859 warmup_avg=23.472ms warmup_max=467.815ms warmup_seconds=12.02 sample_seconds=60.02 sample_count=2794 focused_sample_count=2794 obscured_sample_count=0 foreground_requested=true focused_sample_fraction=1.00000 fps=46.55 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=46.00 process_ms=20.556 physics_ms=7.326 draw_calls=22612 primitives=5502371 acceptance=false"
+  ],
+  "captures": [
+    {
+      "status": "CAPTURED",
+      "mode": "gameplay",
+      "sample": "village_day@arrival",
+      "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-renderer-arrival-01/village_day_arrival.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "458dd2e965c8863503041511af330cfd4a45e2c041fd7340c56c5f0bdf12afe6",
+      "renderedFramesAtReadback": 3305,
+      "processFrameAtReadback": 3305,
+      "cameraAtReadback": "/root/Act1Demo/Main/Player/Head/Camera3D",
+      "poseAtReadback": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (0, 1.1606874, 8.82)]",
+      "feetAtReadback": "(0, -0.53931254, 9)",
+      "focusedAtReadback": true,
+      "preset": "medium",
+      "scale": 0.9,
+      "msaa": "Msaa2X",
+      "measuredSamples": 2794,
+      "measuredSeconds": 60.01913299999999,
+      "pixelMinimum": 13,
+      "pixelMaximum": 235,
+      "forceDraw": false,
+      "poseWrites": 0,
+      "timing": "last completed viewport frame; readback outside measurement, before transport exit",
+      "scope": "visual evidence only; performance status remains a separate result"
+    }
+  ],
+  "render": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/renderer-arrival-01-render.json",
+    "sha256": "cc568ce41787d8db755c0c28c4412d44a465d3e6142284afb0f2e215a63a894d",
+    "status": "RECORDED",
+    "errors": [],
+    "performanceReport": "act1-demo-package-performance: status=FAIL mode=gameplay sample=village_day@arrival avg=21.481ms p95=24.436ms p99=32.671ms max=53.060ms long_frame_fraction=0.00859 warmup_avg=23.472ms warmup_max=467.815ms warmup_seconds=12.02 sample_seconds=60.02 sample_count=2794 focused_sample_count=2794 obscured_sample_count=0 foreground_requested=true focused_sample_fraction=1.00000 fps=46.55 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=46.00 process_ms=20.556 physics_ms=7.326 draw_calls=22612 primitives=5502371",
+    "sampleCount": 2794,
+    "summary": {
+      "cpuMs": {
+        "observed": 2794,
+        "valid": 2794,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "excluded; unavailable or below timer resolution",
+        "mean": 7.9017537614662645,
+        "p95": 8.937000274658203,
+        "p99": 9.77400016784668,
+        "maximum": 11.395000457763672
+      },
+      "gpuMs": {
+        "observed": 2794,
+        "valid": 0,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 2794,
+        "zeroPolicy": "excluded; unavailable or below timer resolution",
+        "mean": null,
+        "p95": null,
+        "p99": null,
+        "maximum": null
+      },
+      "setupMs": {
+        "observed": 2794,
+        "valid": 2794,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "excluded; unavailable or below timer resolution",
+        "mean": 0.04249928418038703,
+        "p95": 0.057,
+        "p99": 0.074,
+        "maximum": 0.112
+      },
+      "visibleDraws": {
+        "observed": 2794,
+        "valid": 2794,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "valid counter value after renderer initialization",
+        "mean": 4873.755547602004,
+        "p95": 4875,
+        "p99": 4875,
+        "maximum": 4875
+      },
+      "visiblePrimitives": {
+        "observed": 2794,
+        "valid": 2794,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "valid counter value after renderer initialization",
+        "mean": 1197092.007158196,
+        "p95": 1197722,
+        "p99": 1197722,
+        "maximum": 1197722
+      },
+      "shadowDraws": {
+        "observed": 2794,
+        "valid": 2794,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "valid counter value after renderer initialization",
+        "mean": 17742.345025053688,
+        "p95": 17773,
+        "p99": 17779,
+        "maximum": 17785
+      },
+      "shadowPrimitives": {
+        "observed": 2794,
+        "valid": 2794,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "valid counter value after renderer initialization",
+        "mean": 4312412.467072298,
+        "p95": 4318143,
+        "p99": 4318624,
+        "maximum": 4318624
+      }
+    }
+  },
+  "finished": "2026-09-17T06:22:17.086079+00:00",
+  "seconds": 102.257,
+  "inputsChanged": []
+}

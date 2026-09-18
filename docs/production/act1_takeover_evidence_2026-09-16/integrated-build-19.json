@@ -1,0 +1,27 @@
+{
+  "build": "integrated-build-19",
+  "started": "2026-09-16T19:02:30.856031+00:00",
+  "finished": "2026-09-16T19:02:34.006549+00:00",
+  "branch": "main",
+  "head": "04f039ee95e6c1320d52d61fff3089fad834393c",
+  "steps": [
+    {
+      "name": "compile-content",
+      "exit_code": 1,
+      "seconds": 2.93,
+      "command": [
+        "sh",
+        "eng/compile-game-content.sh"
+      ]
+    }
+  ],
+  "source_changed_during_build": [],
+  "artifacts": {
+    "game/.godot/mono/temp/bin/Debug/Urman.Game.dll": "0e0fb2e4da2051207c4e8357a4a55087936a0d53463dd517b0d5fdd4be3168af",
+    "game/content/urman.chapter1.compiled.v1.json": "5e5b617f7f7e28d56e9b57240d84405cc619edda588131f539a8321e40cdd373",
+    "game/content/urman.fullgame.compiled.v1.json": "d2735fa6164da84c64c33caa3d921169c1fc61152aafb3fd0240dbfdfb864711",
+    "game/assets/generated/urman_character_kit.glb": "a12a4ef860d80bb2bf5a1e1d929378b51e64314414e1886d25a732c38fc5877d"
+  },
+  "status": "FAIL",
+  "scope": "working tree integration; not a published Release or gameplay acceptance"
+}

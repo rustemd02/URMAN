@@ -1,0 +1,301 @@
+{
+  "started": "2026-09-17T08:48:29.691988+00:00",
+  "build": "integrated-build-54",
+  "sample": "village_day@arrival",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "--urman-perf-probe",
+    "--urman-perf-probe-mode=gameplay",
+    "--urman-perf-sample=village_day@arrival",
+    "--urman-perf-warmup-seconds=12",
+    "--urman-perf-duration-seconds=60",
+    "--urman-perf-request-focus",
+    "--urman-perf-no-vsync"
+  ],
+  "environment": {
+    "URMAN_PERF_RENDER_DIAGNOSTICS": "1",
+    "URMAN_PERF_RENDER_OUTPUT": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/renderer-arrival-05-on-render.json",
+    "URMAN_PERF_CAPTURE_DIR": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-renderer-arrival-05-on",
+    "URMAN_ADDRESS_GRAPH_PERF": "1",
+    "URMAN_WINDOW_BATCH_PILOT": "1"
+  },
+  "status": "INVALID",
+  "acceptance": false,
+  "scope": "Native instrumented Debug diagnosis; not Release performance or human acceptance.",
+  "exitCode": 2,
+  "guardVerified": true,
+  "performanceReports": [
+    "act1-demo-package-performance: status=DIAGNOSTIC_RENDER mode=gameplay sample=village_day@arrival avg=12.885ms p95=28.971ms p99=35.456ms max=56.064ms long_frame_fraction=0.01460 warmup_avg=28.175ms warmup_max=1341.464ms warmup_seconds=12.00 sample_seconds=60.01 sample_count=4657 focused_sample_count=4657 obscured_sample_count=127 foreground_requested=true focused_sample_fraction=1.00000 fps=77.61 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=53.00 process_ms=21.759 physics_ms=14.834 draw_calls=6671 primitives=5820747 acceptance=false"
+  ],
+  "captures": [
+    {
+      "status": "CAPTURED",
+      "mode": "gameplay",
+      "sample": "village_day@arrival",
+      "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-renderer-arrival-05-on/village_day_arrival.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "e952e7a94272b95031046b490add30c7001d7d35e5d59a2184df51954f47f9cb",
+      "renderedFramesAtReadback": 5082,
+      "processFrameAtReadback": 5082,
+      "cameraAtReadback": "/root/Act1Demo/Main/Player/Head/Camera3D",
+      "poseAtReadback": "[X: (0.9367949, 0, 0.34987906), Y: (0.021481266, 0.99811345, -0.0575157), Z: (-0.34921902, 0.06139626, 0.9350276), O: (36.799595, 1.2366687, -41.375374)]",
+      "feetAtReadback": "(36.736618, -0.4633313, -41.206753)",
+      "focusedAtReadback": true,
+      "preset": "medium",
+      "scale": 0.9,
+      "msaa": "Msaa2X",
+      "measuredSamples": 4657,
+      "measuredSeconds": 60.00643699999989,
+      "pixelMinimum": 14,
+      "pixelMaximum": 236,
+      "forceDraw": false,
+      "poseWrites": 0,
+      "timing": "last completed viewport frame; readback outside measurement, before transport exit",
+      "scope": "visual evidence only; performance status remains a separate result"
+    }
+  ],
+  "engineErrorCount": 0,
+  "engineErrors": [],
+  "windowBatchSummaries": [
+    {
+      "scope": "opt-in exact four-part windows; not performance acceptance",
+      "groups": 255,
+      "batches": 0,
+      "hiddenOriginals": 0,
+      "sourceTriangles": 0,
+      "shadowTriangles": 0,
+      "importedResourceCount": 344,
+      "publishedSharedMeshes": 0,
+      "skipped": {
+        "published-world-geometry-or-frame-differs": 246,
+        "source-not-visible": 9
+      },
+      "refusalExamples": {
+        "published-world-geometry-or-frame-differs": {
+          "parent": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster",
+          "window": "HeroHouse_Left_Window0",
+          "details": null
+        },
+        "source-not-visible": {
+          "parent": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiYardAuthoredParcels/BabaiYardWestDepthBanyaYardParcel/VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Dwelling",
+          "window": "VariantC_BanyaYard_Dwelling_Left_Window0",
+          "details": null
+        }
+      },
+      "originalPackedShadowResources": 172,
+      "packedShadowReadExamples": [
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_6wv03",
+          "Rid": 493358598329856,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_gneuw",
+          "Rid": 493392958068222,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_4de7g",
+          "Rid": 493461677544954,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_mljer",
+          "Rid": 493496037283320,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_fwwg0",
+          "Rid": 494698628125808,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_udpqs",
+          "Rid": 494732987864174,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_p2bxo",
+          "Rid": 494801707340906,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_1ne0d",
+          "Rid": 494836067079272,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        }
+      ],
+      "unchangedCollisionOwners": true
+    }
+  ],
+  "windowPilotPublicationVerified": false,
+  "render": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/renderer-arrival-05-on-render.json",
+    "sha256": "1ddb63ce5583a8094baf868bc72dc50ab16ffd1ec84fa74a197bcc7f64b4308c",
+    "status": "RECORDED",
+    "errors": [],
+    "performanceReport": "act1-demo-package-performance: status=OVERLAY_INVALID mode=gameplay sample=village_day@arrival avg=12.885ms p95=28.971ms p99=35.456ms max=56.064ms long_frame_fraction=0.01460 warmup_avg=28.175ms warmup_max=1341.464ms warmup_seconds=12.00 sample_seconds=60.01 sample_count=4657 focused_sample_count=4657 obscured_sample_count=127 foreground_requested=true focused_sample_fraction=1.00000 fps=77.61 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=53.00 process_ms=21.759 physics_ms=14.834 draw_calls=6671 primitives=5820747",
+    "sampleCount": 4657,
+    "summary": {
+      "cpuMs": {
+        "observed": 4657,
+        "valid": 4657,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "excluded; unavailable or below timer resolution",
+        "mean": 4.167793641280841,
+        "p95": 10.800000190734863,
+        "p99": 12.197999954223633,
+        "maximum": 13.930999755859375
+      },
+      "gpuMs": {
+        "observed": 4657,
+        "valid": 0,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 4657,
+        "zeroPolicy": "excluded; unavailable or below timer resolution",
+        "mean": null,
+        "p95": null,
+        "p99": null,
+        "maximum": null
+      },
+      "setupMs": {
+        "observed": 4657,
+        "valid": 4657,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "excluded; unavailable or below timer resolution",
+        "mean": 0.08472149452437243,
+        "p95": 0.427,
+        "p99": 0.513,
+        "maximum": 0.875
+      },
+      "visibleDraws": {
+        "observed": 4657,
+        "valid": 4657,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "valid counter value after renderer initialization",
+        "mean": 2454.5814902297616,
+        "p95": 4261,
+        "p99": 5523,
+        "maximum": 6203
+      },
+      "visiblePrimitives": {
+        "observed": 4657,
+        "valid": 4657,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "valid counter value after renderer initialization",
+        "mean": 1071617.753918832,
+        "p95": 1272877,
+        "p99": 1398244,
+        "maximum": 1491677
+      },
+      "shadowDraws": {
+        "observed": 4657,
+        "valid": 4657,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "valid counter value after renderer initialization",
+        "mean": 8301.733948894138,
+        "p95": 23396,
+        "p99": 27135,
+        "maximum": 27135
+      },
+      "shadowPrimitives": {
+        "observed": 4657,
+        "valid": 4657,
+        "notNewDrawnFrame": 0,
+        "unavailableOrNegative": 0,
+        "zero": 0,
+        "zeroPolicy": "valid counter value after renderer initialization",
+        "mean": 4405617.96242216,
+        "p95": 8523130,
+        "p99": 10768204,
+        "maximum": 11226087
+      }
+    }
+  },
+  "finished": "2026-09-17T08:50:13.688441+00:00",
+  "seconds": 103.996,
+  "inputsChanged": []
+}

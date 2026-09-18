@@ -1,0 +1,124 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1579 carved_door_slabs=101 flat_slab_skipped=2469 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=109404230304
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+address-audit-lifecycle: epoch=1 presentation=2 stage=restoring-exterior access= zone=village_day exterior=True ready=True frame=1 
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+address-audit-lifecycle: epoch=1 presentation=2 stage=search-start access=ACC-ADR-BABAI zone=village_day exterior=True ready=True frame=4 
+address-support-probe: ACC-ADR-BABAI approach start result=accepted supplied=(-26.746128, 0.31850967, -1.5201948) floor=(-26.746128, 0.28352106, -1.5201948) acceptedFeet=(-26.746128, 0.28438044, -1.5201948) lift=0.035; normal=(-0.049573414, 0.9986544, 0.015225223) depth=0.0010614773 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-BABAI road anchor result=accepted supplied=(-24, 0.3997803, 1.2) floor=(-24, 0.36474347, 1.2) acceptedFeet=(-24, 0.3651536, 1.2) lift=0.035; normal=(-0.011438925, 0.99991465, -0.0063203587) depth=0.0011225471 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+zone-loaded: village_day@arrival connected-world=109404230304
+address-audit-lifecycle: epoch=2 presentation=3 stage=restoring-exterior access=ACC-ADR-BABAI zone=village_day exterior=True ready=True frame=32 
+SaveGameV3 new game session started; existing slots untouched.
+address-audit-lifecycle: epoch=2 presentation=3 stage=search-start access=ACC-ADR-BABAI zone=village_day exterior=True ready=True frame=35 
+address-support-probe: ACC-ADR-BABAI approach start result=accepted supplied=(-26.746128, 0.31850967, -1.5201948) floor=(-26.746128, 0.28352106, -1.5201948) acceptedFeet=(-26.746128, 0.28438044, -1.5201948) lift=0.035; normal=(-0.049573414, 0.9986544, 0.015225223) depth=0.0010614773 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-BABAI road anchor result=accepted supplied=(-24, 0.3997803, 1.2) floor=(-24, 0.36474347, 1.2) acceptedFeet=(-24, 0.3651536, 1.2) lift=0.035; normal=(-0.011438925, 0.99991465, -0.0063203587) depth=0.0011225471 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+act1-intro: confirmed with E
+address-audit-lifecycle: epoch=2 presentation=3 stage=path-committed access=ACC-ADR-BABAI zone=village_day exterior=True ready=True frame=129 testedAccess=ACC-ADR-BABAI supplied=(-26.746128, 0.31850967, -1.5201948) reason=
+address-audit-lifecycle: epoch=2 presentation=3 stage=search-start access=ACC-ADR-FAP zone=village_day exterior=True ready=True frame=130 
+address-support-probe: ACC-ADR-FAP approach start result=accepted supplied=(26.7, -0.29382363, -27.38) floor=(26.7, 0.16047117, -27.38) acceptedFeet=(26.7, 0.16088133, -27.38) lift=0.035; normal=(0, 1, -0) depth=0.0010390729 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0 shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-FAP road anchor result=accepted supplied=(27.038578, -0.2622051, -25.96926) floor=(27.038578, -0.3486841, -25.96926) acceptedFeet=(27.038578, -0.3469263, -25.96926) lift=0.035; normal=(-0.092380285, 0.99503857, 0.03693291) depth=0.0014342532 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-audit-lifecycle: epoch=2 presentation=3 stage=path-committed access=ACC-ADR-FAP zone=village_day exterior=True ready=True frame=133 testedAccess=ACC-ADR-FAP supplied=(26.7, -0.29382363, -27.38) reason=
+address-audit-lifecycle: epoch=2 presentation=3 stage=search-start access=ACC-ADR-MOSQUE zone=village_day exterior=True ready=True frame=133 
+address-support-probe: ACC-ADR-MOSQUE approach start result=accepted supplied=(-44.95, 1.6854045, -41.4) floor=(-44.95, 1.6503983, -41.4) acceptedFeet=(-44.95, 1.661365, -41.4) lift=0.035; normal=(0.24159735, 0.97031224, -0.011172824) depth=0.0014038429 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-MOSQUE road anchor result=accepted supplied=(-29.3, 0.4297056, -67.4) floor=(-29.3, 0.39473063, -67.4) acceptedFeet=(-29.3, 0.39648843, -67.4) lift=0.035; normal=(0.095275395, 0.9953115, -0.016663192) depth=0.001338386 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+walk-frame: approach-urman.chapter1:interaction/view-arrival-message actual-player-position=(3.4304404, -0.38041213, 5.2362905)
+act1-physical-arrival: ordinary walk to bench; phone/photo through camera ray and mapped input; visible personal answer
+walk-frame: arrival-house-path-1 actual-player-position=(-0.20286229, -0.25994995, 2.1667008)
+walk-frame: arrival-house-path-2 actual-player-position=(-0.9261192, -0.27272403, -1.4584244)
+walk-frame: arrival-house-path-3 actual-player-position=(-3.8400855, -0.26597542, -5.5741973)
+walk-frame: arrival-house-axis-0 actual-player-position=(-1.420257, -0.24496809, -7.7976227)
+walk-frame: arrival-house-axis-1 actual-player-position=(-5.776452, -0.29761013, -5.612151)
+walk-frame: arrival-house-axis-2 actual-player-position=(-11.755281, -0.2821266, -2.623012)
+walk-frame: arrival-house-axis-3 actual-player-position=(-18.762352, 0.1284475, -0.0855688)
+walk-frame: arrival-house-axis-4 actual-player-position=(-23.753855, 0.36763483, 1.139651)
+walk-frame: house-yard-entry--24.42-2.4 actual-player-position=(-24.283545, 0.3845892, 2.1408951)
+walk-frame: house-yard-entry--25.2-2.6 actual-player-position=(-24.942204, 0.3810443, 2.4708538)
+walk-frame: house-yard-entry--26.05-2.2 actual-player-position=(-25.768232, 0.34623963, 2.2688918)
+walk-frame: house-yard-entry--26.05-0.2 actual-player-position=(-26.01302, 0.28919858, 0.4715327)
+walk-frame: house-door-approach actual-player-position=(-26.137732, 0.30562618, -0.99622)
+walk-address-lifecycle-observation: phase=ordinary-before-ordinary-house-door zone=village_day exterior=True access=ACC-ADR-MOSQUE state=pending-physics epoch=2 stage=search-start steps=25121 commits=2 interrupted=1 readyAfter=35 firstSearch=35 lastSearch=1080 feet=(-26.137732, 0.30562618, -0.99622)
+walk-address-natural-observation: phase=before-ordinary-house-door; target=ACC-ADR-MOSQUE; state=pending-physics; physicsFrame=1080; targetCommitFrame=-1; targetAttachFrame=-1; attachmentFrame=133; attachmentCount=2; pending=54; verified=2; total=56; fullAuditCompleted=False; grounded=True; modal=False
+walk-frame: approach-urman.chapter1:interaction/arrival-enter-house actual-player-position=(-26.05252, 0.32020643, -1.6133766)
+[34] scene.entered: urman.chapter1:interaction/arrival-enter-house
+zone-loaded: house_old_pc@entry connected-world=109404230304
+address-audit-lifecycle: epoch=3 presentation=4 stage=waiting-for-exterior access=ACC-ADR-MOSQUE zone=house_old_pc exterior=False ready=False frame=1106 
+walk-address-lifecycle-observation: phase=ordinary-after-ordinary-house-door zone=house_old_pc exterior=False access=ACC-ADR-MOSQUE state=pending-physics epoch=3 stage=waiting-for-exterior steps=25715 commits=2 interrupted=2 readyAfter=1109 firstSearch=-1 lastSearch=1105 feet=(-28.799225, 0.5943085, -2.4897127)
+walk-address-natural-observation: phase=after-ordinary-house-door; target=ACC-ADR-MOSQUE; state=pending-physics; physicsFrame=1116; targetCommitFrame=-1; targetAttachFrame=-1; attachmentFrame=133; attachmentCount=2; pending=54; verified=2; total=56; fullAuditCompleted=False; grounded=True; modal=False
+walk-frame: approach-urman.chapter1:interaction/talk-mansur actual-player-position=(-28.435516, 0.5943085, -4.9563665)
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.5925, 0.5943085, -5.1922317)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.46772, 0.5943085, -6.3616424)
+walk-frame: approach-urman.chapter1:interaction/talk-gulsina actual-player-position=(-30.619194, 0.5943085, -6.2844663)
+family-meal-proof: actual invitation, source-dependent personal reply, explicit meal acceptance; topic=photo; decline/return/load=False; no timer, movement automation or human-duration claim
+walk-address-lifecycle-observation: phase=ordinary-after-household-actions zone=house_old_pc exterior=False access=ACC-ADR-MOSQUE state=pending-physics epoch=3 stage=waiting-for-exterior steps=25715 commits=2 interrupted=2 readyAfter=1109 firstSearch=-1 lastSearch=1105 feet=(-30.619194, 0.5943085, -6.2844663)
+walk-address-natural-observation: phase=after-household-actions; target=ACC-ADR-MOSQUE; state=pending-physics; physicsFrame=1303; targetCommitFrame=-1; targetAttachFrame=-1; attachmentFrame=133; attachmentCount=2; pending=54; verified=2; total=56; fullAuditCompleted=False; grounded=True; modal=False
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/walk-address-indoor.savegame-v3.json
+zone-loaded: house_old_pc@entry connected-world=109404230304
+address-audit-lifecycle: epoch=4 presentation=5 stage=waiting-for-exterior access=ACC-ADR-MOSQUE zone=house_old_pc exterior=False ready=False frame=1304 
+SaveGameV3 restored.
+address-audit-lifecycle: epoch=5 presentation=5 stage=waiting-for-exterior access=ACC-ADR-MOSQUE zone=house_old_pc exterior=False ready=False frame=1306 
+walk-address-lifecycle-observation: phase=ordinary-after-ordinary-indoor-load zone=house_old_pc exterior=False access=ACC-ADR-MOSQUE state=pending-physics epoch=5 stage=waiting-for-exterior steps=25715 commits=2 interrupted=2 readyAfter=1309 firstSearch=-1 lastSearch=1105 feet=(-30.619194, 0.5943085, -6.2844663)
+walk-address-natural-observation: phase=after-ordinary-indoor-load; target=ACC-ADR-MOSQUE; state=pending-physics; physicsFrame=1318; targetCommitFrame=-1; targetAttachFrame=-1; attachmentFrame=133; attachmentCount=2; pending=54; verified=2; total=56; fullAuditCompleted=False; grounded=True; modal=False
+walk-frame: house-exit-aisle--0.15-1.10 actual-player-position=(-28.97277, 0.5943085, -5.524592)
+walk-frame: house-exit-aisle--2.82-1.10 actual-player-position=(-29.800892, 0.5943085, -3.232983)
+walk-frame: house-exit-aisle--2.82-2.30 actual-player-position=(-29.027275, 0.5943085, -2.6589348)
+[96] scene.entered: urman.chapter1:interaction/house-to-route
+zone-loaded: village_day@from_house connected-world=109404230304
+address-audit-lifecycle: epoch=6 presentation=6 stage=restoring-exterior access=ACC-ADR-MOSQUE zone=village_day exterior=True ready=True frame=1428 
+address-audit-lifecycle: epoch=6 presentation=6 stage=search-start access=ACC-ADR-MOSQUE zone=village_day exterior=True ready=True frame=1431 
+address-support-probe: ACC-ADR-MOSQUE approach start result=accepted supplied=(-44.95, 1.6854045, -41.4) floor=(-44.95, 1.6503983, -41.4) acceptedFeet=(-44.95, 1.661365, -41.4) lift=0.035; normal=(0.24159735, 0.97031224, -0.011172824) depth=0.0014038429 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+address-support-probe: ACC-ADR-MOSQUE road anchor result=accepted supplied=(-29.3, 0.4297056, -67.4) floor=(-29.3, 0.39473063, -67.4) acceptedFeet=(-29.3, 0.39648843, -67.4) lift=0.035; normal=(0.095275395, 0.9953115, -0.016663192) depth=0.001338386 owner=landing: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; 
+walk-address-lifecycle-observation: phase=ordinary-after-ordinary-house-exit zone=village_day exterior=True access=ACC-ADR-MOSQUE state=pending-physics epoch=6 stage=search-start steps=25948 commits=2 interrupted=2 readyAfter=1431 firstSearch=1431 lastSearch=1440 feet=(-26.158367, 0.30990893, -1.2426405)
+walk-address-natural-observation: phase=after-ordinary-house-exit; target=ACC-ADR-MOSQUE; state=pending-physics; physicsFrame=1440; targetCommitFrame=-1; targetAttachFrame=-1; attachmentFrame=133; attachmentCount=2; pending=54; verified=2; total=56; fullAuditCompleted=False; grounded=True; modal=False
+walk-address-natural-floor: before=(-26.158367, 0.30990893, -1.2426405) settled=(-26.158367, 0.30990893, -1.2426405) frames=3; no position writes
+walk-address-lifecycle-observation: phase=ordinary-ordinary-queue-boundary zone=village_day exterior=True access=ACC-ADR-MOSQUE state=pending-physics epoch=6 stage=search-start steps=25997 commits=2 interrupted=2 readyAfter=1431 firstSearch=1431 lastSearch=1442 feet=(-26.158367, 0.30990893, -1.2426405)
+walk-address-natural-observation: phase=ordinary-queue-boundary; target=ACC-ADR-MOSQUE; state=pending-physics; physicsFrame=1443; targetCommitFrame=-1; targetAttachFrame=-1; attachmentFrame=133; attachmentCount=2; pending=54; verified=2; total=56; fullAuditCompleted=False; grounded=True; modal=False
+walk-address-lifecycle-observation: phase=ordinary-failed-budget-target-route-pending zone=village_day exterior=True access=ACC-ADR-MOSQUE state=pending-physics epoch=6 stage=search-start steps=40353 commits=2 interrupted=2 readyAfter=1431 firstSearch=1431 lastSearch=2039 feet=(-26.158367, 0.30990893, -1.2426405)
+walk-address-natural-observation: phase=failed-budget-target-route-pending; target=ACC-ADR-MOSQUE; state=pending-physics; physicsFrame=2040; targetCommitFrame=-1; targetAttachFrame=-1; attachmentFrame=133; attachmentCount=2; pending=54; verified=2; total=56; fullAuditCompleted=False; grounded=True; modal=False
+ERROR: The ordinary mosque queue exceeded its 600-physics-frame/60-second readiness budget: frames=600; elapsedMsec=9993.
+   at: void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest.Fail(string) (res://tests/Act1FirstPersonWalkthroughSmokeTest.cs:1809)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest.Fail(string) (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1809)
+       [2] bool Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<>c__DisplayClass19_0.<CompleteNaturalAddressQueueOutside>g__BudgetFailed|4(string) (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.AddressLifecycle.cs:320)
+       [3] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<>c__DisplayClass19_0+<<CompleteNaturalAddressQueueOutside>g__AwaitBudgetFrame|2>d.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.AddressLifecycle.cs:306)
+       [4] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [5] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<>c__DisplayClass19_0.<CompleteNaturalAddressQueueOutside>g__AwaitBudgetFrame|2(string)
+       [6] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<CompleteNaturalAddressQueueOutside>d__19.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.AddressLifecycle.cs:237)
+       [7] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [8] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [9] void System.Threading.Tasks.Task.RunContinuations(object)
+       [10] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult)
+       [11] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<>c__DisplayClass19_0+<<CompleteNaturalAddressQueueOutside>g__AwaitBudgetFrame|2>d.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.AddressLifecycle.cs:312)
+       [12] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [13] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [14] void System.Threading.Tasks.Task.RunContinuations(object)
+       [15] void System.Threading.Tasks.Task.RunOrQueueCompletionAction(System.Threading.Tasks.ITaskCompletionAction, bool)
+       [16] void System.Threading.Tasks.Task.RunContinuations(object)
+       [17] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+       [18] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<PhysicsFrames>d__51.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1706)
+       [19] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [20] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [21] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+userdata guard: original files and permissions restored and verified

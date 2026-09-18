@@ -1,0 +1,378 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1724 carved_door_slabs=240 flat_slab_skipped=2473 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+zone-loaded: village_day@arrival connected-world=108531813525
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=108531813525
+SaveGameV3 new game session started; existing slots untouched.
+act1-public-buildings: ordinary New Game
+act1-intro: confirmed with E
+act1-public-buildings: three public rooms are in the ordinary connected world
+act1-public-buildings: requested public building exists
+act1-public-buildings: shop: measured exterior setup fits the standing capsule
+act1-public-buildings: shop: setup has actual support
+state-final-render-sync-begin: label=public/shop_01_closed_entrance tick=30200 drawn=11 process=11 physics=35 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/shop_01_closed_entrance milliseconds=31 forcedScreenshotRender=False
+act1-public-buildings: shop: approaching leaves both doors closed and does not knock automatically
+act1-public-buildings: shop: explicit entrance interaction is aimed and available
+act1-public-buildings: closed-leaf approach uses real controller movement
+act1-public-buildings: shop: closed outer leaf stops the standing player
+act1-public-buildings: shop: walking against the leaf never opens it
+act1-public-buildings: shop: outward leaf refuses a player standing in its swept arc
+act1-public-buildings: shop: step away from the leaf: standing capsule reaches the actual destination
+act1-public-buildings: shop: step away from the leaf: no teleport or recovery during movement
+act1-public-buildings: shop/entrance: door starts in the expected state
+act1-public-buildings: shop/entrance: live input ray reaches the door
+act1-public-buildings: shop/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: shop/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: shop/entrance: explicit interaction changes the existing saved door property
+state-final-render-sync-begin: label=public/shop_02_opened_outward tick=32949 drawn=176 process=176 physics=195 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/shop_02_opened_outward milliseconds=16 forcedScreenshotRender=False
+act1-public-buildings: shop: walk up real treads and through the outer aperture: standing capsule reaches the actual destination
+act1-public-buildings: shop: walk up real treads and through the outer aperture: no teleport or recovery during movement
+act1-public-buildings: shop: the seni has standing headroom
+act1-public-buildings: shop/seni: real support is level enough to stand
+act1-public-buildings: shop/inner-door: door starts in the expected state
+act1-public-buildings: shop/inner-door: live input ray reaches the door
+act1-public-buildings: shop/inner-door: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: shop/inner-door: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: shop/inner-door: explicit interaction changes the existing saved door property
+act1-public-buildings: shop: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: shop: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: shop: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: shop: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: shop: public interior owner matches the physical room
+act1-public-buildings: shop: both thresholds are crossed with input and no relocation or fall recovery
+act1-public-buildings: shop/main: real support is level enough to stand
+act1-public-buildings: shop: timber floor is the actual support level
+act1-public-buildings: shop: reach the front of Razilya's counter: standing capsule reaches the actual destination
+act1-public-buildings: shop: reach the front of Razilya's counter: no teleport or recovery during movement
+act1-public-buildings: shop: physical counter and shop UI use the same reachable target
+state-final-render-sync-begin: label=public/shop_03_counter_and_razilya tick=36622 drawn=459 process=459 physics=414 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/shop_03_counter_and_razilya milliseconds=14 forcedScreenshotRender=False
+act1-visible-surface: public/shop_03_counter_and_razilya/floor-owner pixel=(0.45, 0.92) distance=1.819 point=(-31.607042, 0.6980686, -37.695656) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/MainRoom/TimberFloor triangle=8 vertices=[(-28.935162, 0.69806874, -38.75471);(-29.095037, 0.69806874, -34.176502);(-34.32288, 0.69806874, -38.942852)] shader= snow=0.0
+act1-visible-surface: public/shop_03_counter_and_razilya/floor-owner pixel=(0.45, 0.92) distance=1.829 point=(-31.604183, 0.6890688, -37.697544) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_FootingCap_LOD0 triangle=7 vertices=[(-28.885221, 0.68906873, -33.94404);(-34.532784, 0.68906873, -39.17532);(-28.702698, 0.68906873, -38.964523)] shader= snow=0.5
+act1-visible-surface: public/shop_03_counter_and_razilya/floor-owner pixel=(0.45, 0.92) distance=1.882 point=(-31.588465, 0.6395688, -37.707916) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Foundation_LOD0 triangle=7 vertices=[(-28.898333, 0.63956875, -33.958004);(-34.519672, 0.63956875, -39.161354);(-28.716665, 0.63956875, -38.951416)] shader= snow=0.5
+act1-visible-surface: public/shop_03_counter_and_razilya/floor-owner pixel=(0.45, 0.92) distance=2.116 point=(-31.51886, 0.42039323, -37.753838) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Terrain_Main triangle=17641 vertices=[(-32.115498, 0.45229998, -37.991398);(-29.8331, 0.3209, -37.841698);(-29.8923, 0.34719998, -35.985397)] shader= snow=0.0
+act1-visible-surface: public/shop_03_counter_and_razilya/floor-owner pixel=(0.9, 0.9) distance=1.467 point=(-31.519411, 1.3962357, -36.471687) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/MainRoom/RazilyaCounter/CounterFront triangle=2 vertices=[(-31.4733, 1.5380687, -37.792202);(-31.55985, 1.5380687, -35.313713);(-31.4733, 0.69806874, -37.792202)] shader= snow=0.0
+act1-visible-surface: public/shop_03_counter_and_razilya/floor-owner pixel=(0.9, 0.9) distance=2.488 point=(-31.082157, 0.69806874, -35.867107) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/MainRoom/TimberFloor triangle=9 vertices=[(-29.095037, 0.69806874, -34.176502);(-34.482754, 0.69806874, -34.364643);(-34.32288, 0.69806874, -38.942852)] shader= snow=0.0
+act1-visible-surface: public/shop_03_counter_and_razilya/floor-owner pixel=(0.9, 0.9) distance=2.502 point=(-31.07652, 0.6890689, -35.859314) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_FootingCap_LOD0 triangle=9 vertices=[(-34.532784, 0.68906873, -39.17532);(-28.885221, 0.68906873, -33.94404);(-34.71522, 0.68906873, -34.15474)] shader= snow=0.5
+act1-visible-surface: public/shop_03_counter_and_razilya/floor-owner pixel=(0.9, 0.9) distance=2.574 point=(-31.045519, 0.63956845, -35.816452) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Foundation_LOD0 triangle=9 vertices=[(-34.519672, 0.63956875, -39.161354);(-28.898333, 0.63956875, -33.958004);(-34.701256, 0.63956875, -34.16785)] shader= snow=0.5
+act1-visible-surface: public/shop_03_counter_and_razilya/floor-owner pixel=(0.9, 0.9) distance=2.933 point=(-30.892109, 0.39461684, -35.604336) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Terrain_Main triangle=17771 vertices=[(-31.9394, 0.4394, -35.9678);(-29.8923, 0.34719998, -35.985397);(-29.8375, 0.3574, -34.0086)] shader= snow=0.0
+act1-public-buildings: shop: the actual debt notebook is readable from the public side of the counter
+act1-public-buildings: shop: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: shop: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: shop: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: shop: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: shop: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: shop: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: shop: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: shop: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: shop: ordinary return reaches the exterior
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/public-door-proof-shop.savegame-v3.json
+act1-public-buildings: shop: actual open doors and exterior player pose save together
+act1-public-buildings: shop/entrance: door starts in the expected state
+act1-public-buildings: shop/entrance: live input ray reaches the door
+act1-public-buildings: shop/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: shop/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: shop/entrance: explicit interaction changes the existing saved door property
+zone-loaded: village_day@arrival connected-world=108531813525
+SaveGameV3 restored.
+act1-public-buildings: shop: restore the same runtime snapshot
+act1-public-buildings: shop: both door states are restored without discovering a source
+act1-public-buildings: shop: load leaves an unobstructed standing body
+act1-public-buildings: shop: return through restored outward leaf: standing capsule reaches the actual destination
+act1-public-buildings: shop: return through restored outward leaf: no teleport or recovery during movement
+act1-public-buildings: shop: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: shop: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: shop: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: shop: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: shop: public interior owner matches the physical room
+state-final-render-sync-begin: label=public/shop_05_return_after_load tick=42281 drawn=892 process=892 physics=738 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/shop_05_return_after_load milliseconds=17 forcedScreenshotRender=False
+act1-public-buildings: shop: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: shop: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: shop: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: shop: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: shop: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: shop: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: shop: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: shop: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: shop/entrance: door starts in the expected state
+act1-public-buildings: shop/entrance: live input ray reaches the door
+act1-public-buildings: shop/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: shop/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: shop/entrance: explicit interaction changes the existing saved door property
+act1-public-buildings: school: measured exterior setup fits the standing capsule
+act1-public-buildings: school: setup has actual support
+state-final-render-sync-begin: label=public/school_01_closed_entrance tick=45514 drawn=1140 process=1140 physics=926 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/school_01_closed_entrance milliseconds=8 forcedScreenshotRender=False
+act1-public-buildings: school: approaching leaves both doors closed and does not knock automatically
+act1-public-buildings: school: explicit entrance interaction is aimed and available
+act1-public-buildings: closed-leaf approach uses real controller movement
+act1-public-buildings: school: closed outer leaf stops the standing player
+act1-public-buildings: school: walking against the leaf never opens it
+act1-public-buildings: school: outward leaf refuses a player standing in its swept arc
+act1-public-buildings: school: step away from the leaf: standing capsule reaches the actual destination
+act1-public-buildings: school: step away from the leaf: no teleport or recovery during movement
+act1-public-buildings: school/entrance: door starts in the expected state
+act1-public-buildings: school/entrance: live input ray reaches the door
+act1-public-buildings: school/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/entrance: explicit interaction changes the existing saved door property
+state-final-render-sync-begin: label=public/school_02_opened_outward tick=48256 drawn=1412 process=1412 physics=1090 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/school_02_opened_outward milliseconds=8 forcedScreenshotRender=False
+act1-public-buildings: school: walk up real treads and through the outer aperture: standing capsule reaches the actual destination
+act1-public-buildings: school: walk up real treads and through the outer aperture: no teleport or recovery during movement
+act1-public-buildings: school: the seni has standing headroom
+act1-public-buildings: school/seni: real support is level enough to stand
+act1-public-buildings: school/inner-door: door starts in the expected state
+act1-public-buildings: school/inner-door: live input ray reaches the door
+act1-public-buildings: school/inner-door: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/inner-door: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/inner-door: explicit interaction changes the existing saved door property
+act1-public-buildings: school: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: school: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: school: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: school: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: school: public interior owner matches the physical room
+act1-public-buildings: school: both thresholds are crossed with input and no relocation or fall recovery
+act1-public-buildings: school/main: real support is level enough to stand
+act1-public-buildings: school: timber floor is the actual support level
+act1-public-buildings: school: reach the corridor outside the office: standing capsule reaches the actual destination
+act1-public-buildings: school: reach the corridor outside the office: no teleport or recovery during movement
+act1-public-buildings: school: closed office leaf physically blocks a nearby source
+act1-public-buildings: school/office: door starts in the expected state
+act1-public-buildings: school/office: live input ray reaches the door
+act1-public-buildings: school/office: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/office: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/office: explicit interaction changes the existing saved door property
+act1-public-buildings: school: pass the office door: standing capsule reaches the actual destination
+act1-public-buildings: school: pass the office door: no teleport or recovery during movement
+act1-public-buildings: school: actual staff source becomes readable after entering
+state-final-render-sync-begin: label=public/school_03_office tick=53537 drawn=1950 process=1950 physics=1406 windowVisible=True focus=False mode=Windowed renderLoop=True
+state-final-render-sync-forced: label=public/school_03_office forced screenshot render after native focus loss; one focus request + ForceDraw(false); no foreground or performance claim
+state-final-render-sync-forced-readback: label=public/school_03_office framePostDraw=True pixels=1280x720 drawnDelta=0; screenshot evidence only
+state-final-render-sync-end: label=public/school_03_office milliseconds=43 forcedScreenshotRender=True
+act1-visible-surface: public/school_03_office/floor-owner pixel=(0.45, 0.92) distance=1.811 point=(38.263348, 0.05008924, -54.631203) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat triangle=2 vertices=[(37.7556, -0.1713, -52.244698);(38.113197, 0.1256, -55.253498);(39.444298, -0.0995, -53.9222)] shader= snow=0.0
+act1-visible-surface: public/school_03_office/floor-owner pixel=(0.45, 0.92) distance=1.872 point=(38.253605, -0.004970908, -54.654625) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloor triangle=9 vertices=[(34.93045, -0.00497088, -56.38963);(39.50866, -0.00497088, -56.549503);(39.677956, -0.00497088, -51.701458)] shader= snow=0.0
+act1-visible-surface: public/school_03_office/floor-owner pixel=(0.45, 0.92) distance=1.882 point=(38.252014, -0.013970733, -54.65845) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_FootingCap_LOD0 triangle=9 vertices=[(39.90357, -0.013970893, -51.4842);(34.704933, -0.013970893, -56.60689);(39.725925, -0.013970893, -56.775024)] shader= snow=0.5
+act1-visible-surface: public/school_03_office/floor-owner pixel=(0.45, 0.92) distance=1.936 point=(38.243256, -0.06347084, -54.67951) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Foundation_LOD0 triangle=9 vertices=[(39.88952, -0.063470885, -51.49722);(34.718987, -0.063470885, -56.593872);(39.712906, -0.063470885, -56.76106)] shader= snow=0.5
+act1-visible-surface: public/school_03_office/floor-owner pixel=(0.45, 0.92) distance=2.182 point=(38.203716, -0.28698254, -54.774586) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Terrain_Main triangle=6342 vertices=[(38.1124, -0.25169998, -55.940098);(40.0481, -0.26999998, -54.1484);(37.909, -0.3227, -53.8381)] shader= snow=0.0
+act1-visible-surface: public/school_03_office/floor-owner pixel=(0.9, 0.9) distance=0.882 point=(39.11832, 1.1108286, -54.275013) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/SchoolOfficeDoorHinge/SchoolOfficeDoorLeaf triangle=4 vertices=[(39.131496, 1.9950291, -54.52645);(39.07665, 1.9950291, -53.47989);(39.131496, 0.0070291758, -54.52645)] shader= snow=0.0
+act1-visible-surface: public/school_03_office/floor-owner pixel=(0.9, 0.9) distance=0.972 point=(39.176105, 1.0509436, -54.310223) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/SchoolOfficeDoorHinge/SchoolOfficeDoorPlankJoint4 triangle=3 vertices=[(39.187225, 1.975029, -54.30964);(39.187225, 0.015029132, -54.30964);(39.11832, 0.015029132, -54.313248)] shader= snow=0.0
+act1-visible-surface: public/school_03_office/floor-owner pixel=(0.9, 0.9) distance=1.067 point=(39.2364, 0.9884556, -54.346962) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/SchoolOfficeDoorHinge/SchoolOfficeDoorHandle-0_1 triangle=15 vertices=[(39.240986, 1.0650291, -54.34187);(39.240986, 0.9850291, -54.34187);(39.23616, 0.9850291, -54.34723)] albedo=(0.33333334, 0.30980393, 0.24313726, 1) texture=
+act1-visible-surface: public/school_03_office/floor-owner pixel=(0.9, 0.9) distance=1.341 point=(39.411804, 0.8066725, -54.453846) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/SchoolArchiveShelves/Upright0_87799996 triangle=5 vertices=[(39.52667, 1.8250291, -54.457855);(39.52667, -0.004970789, -54.457855);(39.216858, -0.004970789, -54.447037)] shader= snow=0.0
+act1-visible-surface: public/school_03_office/floor-owner pixel=(0.9, 0.9) distance=1.470 point=(39.494602, 0.72086245, -54.5043) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/SchoolArchiveShelves/Shelf1 triangle=8 vertices=[(39.21684, 0.72086245, -54.447536);(39.15367, 0.72086245, -56.256435);(39.52665, 0.72086245, -54.458355)] shader= snow=0.0
+act1-public-buildings: school: return to corridor: standing capsule reaches the actual destination
+act1-public-buildings: school: return to corridor: no teleport or recovery during movement
+act1-public-buildings: school: walk to the classroom door: standing capsule reaches the actual destination
+act1-public-buildings: school: walk to the classroom door: no teleport or recovery during movement
+act1-public-buildings: school/classroom: door starts in the expected state
+act1-public-buildings: school/classroom: live input ray reaches the door
+act1-public-buildings: school/classroom: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/classroom: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/classroom: explicit interaction changes the existing saved door property
+act1-public-buildings: school: enter the preserved classroom footprint: standing capsule reaches the actual destination
+act1-public-buildings: school: enter the preserved classroom footprint: no teleport or recovery during movement
+act1-public-buildings: school: class photo belongs to the real room and actual content source
+act1-public-buildings: school_class_photo_Source: a real photograph texture is bound
+act1-public-buildings: school_class_photo_Source: published image provenance and aspect ratio are preserved
+state-final-render-sync-begin: label=public/school_04_classroom_photo tick=56817 drawn=2178 process=2178 physics=1587 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/school_04_classroom_photo milliseconds=12 forcedScreenshotRender=False
+act1-visible-surface: public/school_04_classroom_photo/floor-owner pixel=(0.45, 0.92) distance=2.595 point=(35.887394, 0.088279724, -56.12584) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat triangle=6 vertices=[(35.2395, 0.0914, -54.7604);(35.5128, -0.073699996, -57.853897);(36.9244, 0.2049, -56.441998)] shader= snow=0.0
+act1-visible-surface: public/school_04_classroom_photo/floor-owner pixel=(0.45, 0.92) distance=2.746 point=(35.850727, -0.004970789, -56.238262) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloor triangle=9 vertices=[(34.93045, -0.00497088, -56.38963);(39.50866, -0.00497088, -56.549503);(39.677956, -0.00497088, -51.701458)] shader= snow=0.0
+act1-visible-surface: public/school_04_classroom_photo/floor-owner pixel=(0.45, 0.92) distance=2.760 point=(35.847187, -0.01397109, -56.249115) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_FootingCap_LOD0 triangle=9 vertices=[(39.90357, -0.013970893, -51.4842);(34.704933, -0.013970893, -56.60689);(39.725925, -0.013970893, -56.775024)] shader= snow=0.5
+act1-visible-surface: public/school_04_classroom_photo/floor-owner pixel=(0.45, 0.92) distance=2.840 point=(35.827724, -0.06347084, -56.308792) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Foundation_LOD0 triangle=9 vertices=[(39.88952, -0.063470885, -51.49722);(34.718987, -0.063470885, -56.593872);(39.712906, -0.063470885, -56.76106)] shader= snow=0.5
+act1-visible-surface: public/school_04_classroom_photo/floor-owner pixel=(0.45, 0.92) distance=3.215 point=(35.736557, -0.29531884, -56.58831) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Terrain_Main triangle=6209 vertices=[(34.048298, -0.2929, -57.9128);(36.1175, -0.2829, -58.0709);(36.0673, -0.29839998, -55.9706)] shader= snow=0.0
+act1-visible-surface: public/school_04_classroom_photo/floor-owner pixel=(0.9, 0.9) distance=1.457 point=(37.3542, 1.0486412, -55.19282) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/ClassOfficeDivider triangle=0 vertices=[(37.309498, 2.286479, -56.472755);(37.41963, 2.286479, -53.319077);(37.309498, -0.0049209595, -56.472755)] shader= snow=0.0
+act1-visible-surface: public/school_04_classroom_photo/floor-owner pixel=(0.9, 0.9) distance=3.379 point=(38.45511, 0.19600046, -56.517212) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Left_Wall_LOD0 triangle=15 vertices=[(38.703583, 0.5125291, -56.525894);(38.703583, -0.0634709, -56.525894);(37.804043, -0.0634709, -56.49448)] shader= snow=0.44999998807907
+act1-visible-surface: public/school_04_classroom_photo/floor-owner pixel=(0.9, 0.9) distance=3.416 point=(38.476223, 0.17964852, -56.542614) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat triangle=14 vertices=[(38.113197, 0.1256, -55.253498);(38.6091, 0.2501, -58.1237);(39.7971, 0.17999999, -56.9356)] shader= snow=0.0
+act1-visible-surface: public/school_04_classroom_photo/floor-owner pixel=(0.9, 0.9) distance=4.337 point=(39.003746, -0.22891068, -57.17722) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Terrain_Main triangle=6213 vertices=[(37.896797, -0.2287, -58.1707);(40.0412, -0.2082, -58.005497);(39.8211, -0.23609999, -55.8518)] shader= snow=0.0
+act1-public-buildings: school: leave classroom through the same opening: standing capsule reaches the actual destination
+act1-public-buildings: school: leave classroom through the same opening: no teleport or recovery during movement
+act1-public-buildings: school: return along the corridor without crossing partitions: standing capsule reaches the actual destination
+act1-public-buildings: school: return along the corridor without crossing partitions: no teleport or recovery during movement
+act1-public-buildings: school: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: school: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: school: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: school: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: school: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: school: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: school: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: school: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: school: ordinary return reaches the exterior
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/public-door-proof-school.savegame-v3.json
+act1-public-buildings: school: actual open doors and exterior player pose save together
+act1-public-buildings: school/entrance: door starts in the expected state
+act1-public-buildings: school/entrance: live input ray reaches the door
+act1-public-buildings: school/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/entrance: explicit interaction changes the existing saved door property
+zone-loaded: village_day@arrival connected-world=108531813525
+SaveGameV3 restored.
+act1-public-buildings: school: restore the same runtime snapshot
+act1-public-buildings: school: both door states are restored without discovering a source
+act1-public-buildings: school: load leaves an unobstructed standing body
+act1-public-buildings: school: return through restored outward leaf: standing capsule reaches the actual destination
+act1-public-buildings: school: return through restored outward leaf: no teleport or recovery during movement
+act1-public-buildings: school: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: school: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: school: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: school: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: school: public interior owner matches the physical room
+state-final-render-sync-begin: label=public/school_05_return_after_load tick=63661 drawn=2757 process=2757 physics=1985 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/school_05_return_after_load milliseconds=9 forcedScreenshotRender=False
+act1-public-buildings: school: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: school: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: school: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: school: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: school: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: school: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: school: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: school: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: school/entrance: door starts in the expected state
+act1-public-buildings: school/entrance: live input ray reaches the door
+act1-public-buildings: school/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: school/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: school/entrance: explicit interaction changes the existing saved door property
+act1-public-buildings: council: measured exterior setup fits the standing capsule
+act1-public-buildings: council: setup has actual support
+state-final-render-sync-begin: label=public/council_01_closed_entrance tick=66977 drawn=2997 process=2997 physics=2180 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_01_closed_entrance milliseconds=8 forcedScreenshotRender=False
+act1-public-buildings: council: approaching leaves both doors closed and does not knock automatically
+act1-public-buildings: council: explicit entrance interaction is aimed and available
+act1-public-buildings: closed-leaf approach uses real controller movement
+act1-public-buildings: council: closed outer leaf stops the standing player
+act1-public-buildings: council: walking against the leaf never opens it
+act1-public-buildings: council: outward leaf refuses a player standing in its swept arc
+act1-public-buildings: council: step away from the leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: step away from the leaf: no teleport or recovery during movement
+act1-public-buildings: council/entrance: door starts in the expected state
+act1-public-buildings: council/entrance: live input ray reaches the door
+act1-public-buildings: council/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/entrance: explicit interaction changes the existing saved door property
+state-final-render-sync-begin: label=public/council_02_opened_outward tick=69743 drawn=3260 process=3260 physics=2346 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_02_opened_outward milliseconds=8 forcedScreenshotRender=False
+act1-public-buildings: council: walk up real treads and through the outer aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: walk up real treads and through the outer aperture: no teleport or recovery during movement
+act1-public-buildings: council: the seni has standing headroom
+act1-public-buildings: council/seni: real support is level enough to stand
+act1-public-buildings: council/inner-door: door starts in the expected state
+act1-public-buildings: council/inner-door: live input ray reaches the door
+act1-public-buildings: council/inner-door: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/inner-door: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/inner-door: explicit interaction changes the existing saved door property
+act1-public-buildings: council: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: council: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: council: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: council: public interior owner matches the physical room
+act1-public-buildings: council: both thresholds are crossed with input and no relocation or fall recovery
+act1-public-buildings: council/main: real support is level enough to stand
+act1-public-buildings: council: timber floor is the actual support level
+act1-public-buildings: council: enter the hall beside the village plan: standing capsule reaches the actual destination
+act1-public-buildings: council: enter the hall beside the village plan: no teleport or recovery during movement
+act1-public-buildings: council: physical village plan is reachable in the hall
+act1-public-buildings: council: displayed roads come from the actual common registry graph
+state-final-render-sync-begin: label=public/council_03_hall_and_plan tick=73398 drawn=3589 process=3589 physics=2565 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_03_hall_and_plan milliseconds=10 forcedScreenshotRender=False
+act1-public-buildings: council: approach the office from the open hall: standing capsule reaches the actual destination
+act1-public-buildings: council: approach the office from the open hall: no teleport or recovery during movement
+act1-public-buildings: council/office: door starts in the expected state
+act1-public-buildings: council/office: live input ray reaches the door
+act1-public-buildings: council/office: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/office: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/office: explicit interaction changes the existing saved door property
+act1-public-buildings: council: the historical stop is identified against the actual office casing
+act1-public-buildings: council: the former desk goal intersects the actual tabletop
+act1-public-buildings: council: aisle and desk standing points fit the unchanged full standing capsule
+act1-public-buildings: council: step into the clear aisle in front of the casing: standing capsule reaches the actual destination
+act1-public-buildings: council: step into the clear aisle in front of the casing: no teleport or recovery during movement
+act1-public-buildings: council: align with the real office doorway through the aisle: standing capsule reaches the actual destination
+act1-public-buildings: council: align with the real office doorway through the aisle: no teleport or recovery during movement
+act1-public-buildings: council: enter the office and stand before the desk: standing capsule reaches the actual destination
+act1-public-buildings: council: enter the office and stand before the desk: no teleport or recovery during movement
+act1-public-buildings: council: album is readable at the actual desk
+act1-public-buildings: council_photo_album_Source: a real photograph texture is bound
+act1-public-buildings: council_photo_album_Source: published image provenance and aspect ratio are preserved
+state-final-render-sync-begin: label=public/council_04_archive_album tick=76436 drawn=3820 process=3820 physics=2746 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_04_archive_album milliseconds=7 forcedScreenshotRender=False
+act1-public-buildings: council: return from office through the same clear aisle: standing capsule reaches the actual destination
+act1-public-buildings: council: return from office through the same clear aisle: no teleport or recovery during movement
+act1-public-buildings: council: return to the hall passage: standing capsule reaches the actual destination
+act1-public-buildings: council: return to the hall passage: no teleport or recovery during movement
+act1-public-buildings: council: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: council: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: council: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: council: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: council: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: council: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: council: ordinary return reaches the exterior
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/public-door-proof-council.savegame-v3.json
+act1-public-buildings: council: actual open doors and exterior player pose save together
+act1-public-buildings: council/entrance: door starts in the expected state
+act1-public-buildings: council/entrance: live input ray reaches the door
+act1-public-buildings: council/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/entrance: explicit interaction changes the existing saved door property
+zone-loaded: village_day@arrival connected-world=108531813525
+SaveGameV3 restored.
+act1-public-buildings: council: restore the same runtime snapshot
+act1-public-buildings: council: both door states are restored without discovering a source
+act1-public-buildings: council: load leaves an unobstructed standing body
+act1-public-buildings: council: return through restored outward leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: return through restored outward leaf: no teleport or recovery during movement
+act1-public-buildings: council: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: council: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: council: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: council: public interior owner matches the physical room
+state-final-render-sync-begin: label=public/council_05_return_after_load tick=83269 drawn=4448 process=4448 physics=3152 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_05_return_after_load milliseconds=12 forcedScreenshotRender=False
+act1-public-buildings: council: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: council: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: council: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: council: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: council: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: council: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: council/entrance: door starts in the expected state
+act1-public-buildings: council/entrance: live input ray reaches the door
+act1-public-buildings: council/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/entrance: explicit interaction changes the existing saved door property
+userdata guard: original files and permissions restored and verified

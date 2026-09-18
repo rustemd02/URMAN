@@ -1,0 +1,182 @@
+[
+  {
+    "segmentId": "avyl-ident",
+    "path": "game/assets/audio/act1/radio/previews/avyl-ident.wav",
+    "sha256": "520fa1c7b706016c9b542a1bf0146056b074ee91449b6dbfa8d13aa01742a6d3",
+    "audio": {
+      "durationSeconds": 11.817479166666667,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bitsPerSample": 16,
+      "frames": 567239,
+      "peakDbfs": -3.0003622493859567,
+      "rmsDbfs": -24.10350195823076,
+      "leadingSilenceSeconds": 0.0,
+      "trailingSilenceSeconds": 0.024666666666666667
+    },
+    "origin": "synthetic-preview",
+    "acceptance": "preview-pending-listening-and-language-review"
+  },
+  {
+    "segmentId": "winter-weather",
+    "path": "game/assets/audio/act1/radio/previews/winter-weather.wav",
+    "sha256": "bc3fb2309e7c6bf00ac3288dcb5506420b7aeb915559b43cf899b25b0b93dcd2",
+    "audio": {
+      "durationSeconds": 15.164166666666667,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bitsPerSample": 16,
+      "frames": 727880,
+      "peakDbfs": -3.0003622493859567,
+      "rmsDbfs": -24.325394083065373,
+      "leadingSilenceSeconds": 0.045083333333333336,
+      "trailingSilenceSeconds": 0.03985416666666667
+    },
+    "origin": "synthetic-preview",
+    "acceptance": "preview-pending-listening-and-language-review"
+  },
+  {
+    "segmentId": "school-bus",
+    "path": "game/assets/audio/act1/radio/previews/school-bus.wav",
+    "sha256": "f36df9d10b04db36c962550aa31c7eb27811beb82289f3f679c0800d62a47740",
+    "audio": {
+      "durationSeconds": 15.542291666666667,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bitsPerSample": 16,
+      "frames": 746030,
+      "peakDbfs": -3.0003622493859567,
+      "rmsDbfs": -22.64780746463184,
+      "leadingSilenceSeconds": 0.04002083333333333,
+      "trailingSilenceSeconds": 0.0156875
+    },
+    "origin": "synthetic-preview",
+    "acceptance": "preview-pending-listening-and-language-review"
+  },
+  {
+    "segmentId": "family-salam",
+    "path": "game/assets/audio/act1/radio/previews/family-salam.wav",
+    "sha256": "53382ff634b2e7cd0d654d541eb147738159596696420eca112ac9927e4e5e43",
+    "audio": {
+      "durationSeconds": 15.429104166666667,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bitsPerSample": 16,
+      "frames": 740597,
+      "peakDbfs": -3.0003622493859567,
+      "rmsDbfs": -21.857348031458766,
+      "leadingSilenceSeconds": 0.04652083333333333,
+      "trailingSilenceSeconds": 0.04158333333333333
+    },
+    "origin": "synthetic-preview",
+    "acceptance": "preview-pending-listening-and-language-review"
+  },
+  {
+    "segmentId": "village-photos",
+    "path": "game/assets/audio/act1/radio/previews/village-photos.wav",
+    "sha256": "8ecce07e26aec8c351345db5439c6de2b441c694881345998956f1d863de30dc",
+    "audio": {
+      "durationSeconds": 15.351520833333334,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bitsPerSample": 16,
+      "frames": 736873,
+      "peakDbfs": -3.0003622493859567,
+      "rmsDbfs": -22.3861934476641,
+      "leadingSilenceSeconds": 0.04766666666666667,
+      "trailingSilenceSeconds": 0.049895833333333334
+    },
+    "origin": "synthetic-preview",
+    "acceptance": "preview-pending-listening-and-language-review"
+  },
+  {
+    "segmentId": "nearby-villages",
+    "path": "game/assets/audio/act1/radio/previews/nearby-villages.wav",
+    "sha256": "181d6f533fbcaba474eaa94d2140efde7845dda345ab0bfeaf9ed1c06da753a0",
+    "audio": {
+      "durationSeconds": 14.809645833333333,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bitsPerSample": 16,
+      "frames": 710863,
+      "peakDbfs": -3.0003622493859567,
+      "rmsDbfs": -21.226464303177274,
+      "leadingSilenceSeconds": 0.0,
+      "trailingSilenceSeconds": 0.016
+    },
+    "origin": "synthetic-preview",
+    "acceptance": "preview-pending-listening-and-language-review"
+  },
+  {
+    "segmentId": "local-workshop",
+    "path": "game/assets/audio/act1/radio/previews/local-workshop.wav",
+    "sha256": "4e0ae5ed25f099782e4ce24ccbc79cc86bf55f9f89767d43233c8eb5fd9c1caa",
+    "audio": {
+      "durationSeconds": 15.913520833333333,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bitsPerSample": 16,
+      "frames": 763849,
+      "peakDbfs": -3.0003622493859567,
+      "rmsDbfs": -23.228344518058325,
+      "leadingSilenceSeconds": 0.0013125,
+      "trailingSilenceSeconds": 0.04691666666666667
+    },
+    "origin": "synthetic-preview",
+    "acceptance": "preview-pending-listening-and-language-review"
+  },
+  {
+    "segmentId": "winter-congratulations",
+    "path": "game/assets/audio/act1/radio/previews/winter-congratulations.wav",
+    "sha256": "25f31a592b4a2d159dd427eff163bff71555d95cd5d7b79e536efd4bc2a17e23",
+    "audio": {
+      "durationSeconds": 11.326458333333333,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bitsPerSample": 16,
+      "frames": 543670,
+      "peakDbfs": -3.0003622493859567,
+      "rmsDbfs": -21.120271380926845,
+      "leadingSilenceSeconds": 0.04625,
+      "trailingSilenceSeconds": 0.0405625
+    },
+    "origin": "synthetic-preview",
+    "acceptance": "preview-pending-listening-and-language-review"
+  },
+  {
+    "segmentId": "lost-glove",
+    "path": "game/assets/audio/act1/radio/previews/lost-glove.wav",
+    "sha256": "a65022fefb337971742b93fe6f304b1c764e7421d84305c6722c09fcbf6d18f8",
+    "audio": {
+      "durationSeconds": 12.224375,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bitsPerSample": 16,
+      "frames": 586770,
+      "peakDbfs": -3.0003622493859567,
+      "rmsDbfs": -24.360203077611754,
+      "leadingSilenceSeconds": 0.019729166666666666,
+      "trailingSilenceSeconds": 0.04777083333333333
+    },
+    "origin": "synthetic-preview",
+    "acceptance": "preview-pending-listening-and-language-review"
+  },
+  {
+    "segmentId": "night-repeat",
+    "path": "game/assets/audio/act1/radio/previews/night-repeat.wav",
+    "sha256": "87aee3fedff5bc6a58cdfaee36a4898b3c6df77fe0c0e3df02a524a4fa845e9d",
+    "audio": {
+      "durationSeconds": 11.8884375,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bitsPerSample": 16,
+      "frames": 570645,
+      "peakDbfs": -3.0003622493859567,
+      "rmsDbfs": -22.752925829366667,
+      "leadingSilenceSeconds": 0.020729166666666667,
+      "trailingSilenceSeconds": 0.0350625
+    },
+    "origin": "synthetic-preview",
+    "acceptance": "preview-pending-listening-and-language-review"
+  }
+]

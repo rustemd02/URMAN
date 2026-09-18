@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "stationId": "avyl-fm",
+  "displayName": "Авыл FM · 101,4",
+  "fictionalStation": true,
+  "audioAcceptance": "partial-recordings-delivered; native playback, listening, mix and language acceptance remain separate",
+  "languageReview": "native Tatar review pending",
+  "segments": [
+    {
+      "id": "avyl-ident",
+      "kind": "ident",
+      "language": "tt-RU",
+      "title": "Авыл FM",
+      "transcript": "Хәерле көн, авылдашлар! Авыл FM эфирда. Исәнмесез, Кара-Урман! Рядом с вами — районные новости, музыка и приветы из дома.",
+      "durationSeconds": 15,
+      "streamPath": "res://assets/audio/act1/radio/avyl-ident.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    },
+    {
+      "id": "winter-weather",
+      "kind": "weather",
+      "language": "ru-RU",
+      "title": "Погода на дорогах",
+      "transcript": "За окном зимний день. К вечеру похолодает; на укатанных поворотах скользко. Водителям — осторожнее у остановок и на подъездах к дворам. Җылы киенегез, юлларда сак булыгыз!",
+      "durationSeconds": 19,
+      "streamPath": "res://assets/audio/act1/radio/winter-weather.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    },
+    {
+      "id": "school-bus",
+      "kind": "news",
+      "language": "ru-RU",
+      "title": "Школьный автобус",
+      "transcript": "Напоминание родителям: дети из небольших авылов ездят в соседнюю школу автобусом. Если ребёнок заболел и сегодня не поедет, предупредите сопровождающего. Водителю не нужно зря ждать у остановки.",
+      "durationSeconds": 19,
+      "streamPath": "res://assets/audio/act1/radio/school-bus.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    },
+    {
+      "id": "music-one",
+      "kind": "music",
+      "language": "zxx",
+      "title": "Архивная скрипка · Айса Хакимджан",
+      "transcript": "Архивная скрипичная запись Айсы Хакимджана. Название мелодии в источнике не указано.",
+      "durationSeconds": 202.06933333333333,
+      "streamPath": "res://assets/audio/act1/radio/music-one.wav",
+      "rightsStatus": "approved",
+      "provenance": "assets/source/audio/act1/radio/488afc2836463293404a9bacc88a1076cfd17793dabd8ea6273b343238f21bd5/provenance.json#music-one",
+      "sha256": "5b147604c8ed33bc022c2a17a882fb0652241069b69a1cd2a643d1caf0c59544"
+    },
+    {
+      "id": "family-salam",
+      "kind": "greetings",
+      "language": "tt-RU",
+      "title": "Сәламнәр",
+      "transcript": "Казаннан туган авылына сәлам юллыйлар. Әниләр, әтиләр, әбиләр, бабайлар — исән-сау булыгыз! А Раилю апу поздравляют с днём рождения дети и внуки. Тёплого дома вам и добрых соседей!",
+      "durationSeconds": 20,
+      "streamPath": "res://assets/audio/act1/radio/family-salam.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    },
+    {
+      "id": "village-photos",
+      "kind": "announcement",
+      "language": "ru-RU",
+      "title": "Старые фотографии",
+      "transcript": "В деревенском клубе собирают подписи к старым фотографиям. Если узнали на снимке родных или соседей, расскажите, где и когда он был сделан. Оригиналы берегите; для стенда достаточно копии.",
+      "durationSeconds": 20,
+      "streamPath": "res://assets/audio/act1/radio/village-photos.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    },
+    {
+      "id": "nearby-villages",
+      "kind": "news",
+      "language": "tt-RU",
+      "title": "Соседние авылы",
+      "transcript": "Сәлам, Яңа Кырлай! Сәлам, Кушлавыч! Слушателям из соседних авылов — хорошего дня. Если возвращаетесь вечером из района, позвоните домой заранее: пусть знают, что вы в пути.",
+      "durationSeconds": 18,
+      "streamPath": "res://assets/audio/act1/radio/nearby-villages.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    },
+    {
+      "id": "local-workshop",
+      "kind": "advertisement",
+      "language": "ru-RU",
+      "title": "Местные услуги",
+      "transcript": "Бытовой ремонт рядом с домом: заточка инструмента, мелкая сварка, помощь с воротами и замками. Объявления мастеров ищите на доске у магазина. О цене и времени договаривайтесь с мастером заранее.",
+      "durationSeconds": 19,
+      "streamPath": "res://assets/audio/act1/radio/local-workshop.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    },
+    {
+      "id": "winter-congratulations",
+      "kind": "greetings",
+      "language": "tt",
+      "title": "Теләкләр",
+      "transcript": "Кадерле авылдашлар! Өйләрегез җылы, күңелләрегез тыныч булсын. Бер-берегезне онытмагыз, хәл белешеп торыгыз. Сәламнәрегезне көтеп калабыз!",
+      "durationSeconds": 17,
+      "streamPath": "res://assets/audio/act1/radio/winter-congratulations.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    },
+    {
+      "id": "music-two",
+      "kind": "music",
+      "language": "tt",
+      "title": "Музыкальная пауза II",
+      "transcript": "Вторая оригинальная татарская музыкальная запись; права на все слои и согласованное исполнение должны быть поставлены отдельно.",
+      "durationSeconds": 135,
+      "streamPath": "res://assets/audio/act1/radio/music-two.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    },
+    {
+      "id": "lost-glove",
+      "kind": "announcement",
+      "language": "ru-RU",
+      "title": "Забытые вещи",
+      "transcript": "На лавке у остановки нашли варежку. Кто потерял — спросите в магазине. Маленькие вещи тоже возвращаются домой, если соседи замечают друг друга.",
+      "durationSeconds": 14,
+      "streamPath": "res://assets/audio/act1/radio/lost-glove.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    },
+    {
+      "id": "night-repeat",
+      "kind": "ident",
+      "language": "tt-RU",
+      "title": "Рядом с домом",
+      "transcript": "Вы слушаете Авыл FM. Спасибо всем, кто передаёт приветы и делится деревенскими новостями. Хәерле юл! Следите за дорогой, берегите себя.",
+      "durationSeconds": 15,
+      "streamPath": "res://assets/audio/act1/radio/night-repeat.wav",
+      "rightsStatus": "pending-recording",
+      "provenance": "Original URMAN programme text authored 2026-09-16. No performance/recording supplied; music requires separate rights."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+*** Begin Patch
+*** Update File: /Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.cs
+@@
+         BuildAct1CoreWorldGreybox();
++        AlignFapClinicArchitecture();
+         BuildAct1NpcStaging();
+@@
+-        if (zoneId == "house_old_pc" && _zoneInstances.TryGetValue(zoneId, out var house)
++        if ((zoneId is "house_old_pc" or "fap_clinic") && _zoneInstances.TryGetValue(zoneId, out var house)
+             && Act1WorldLayout.TryGetPlacement(zoneId, out var housePlacement)
+@@
+-            && housePlacement.SpawnPoints.TryGetValue(spawnPointId, out var houseSpawn))
++            && (housePlacement.SpawnPoints.TryGetValue(spawnPointId, out var houseSpawn)
++                || housePlacement.SpawnPoints.TryGetValue("default", out houseSpawn)))
+@@
+-            // In the connected village the signpost is a direction, not a
+-            // teleport to the clinic. Keep the existing narrative interaction
+-            // but place it at the authored FAP entry apron.
+-            if (zone.GetNodeOrNull<InteractionTarget>("RoadToFap") is { } fapEntry)
+-            {
+-                var apron = AgentBAct1Layout.FapBranchAxis[^1];
+-                fapEntry.Position = new Vector3(apron.X, 0.75f, apron.Y);
+-            }
++            // AlignFapClinicArchitecture binds RoadToFap to the live door once
++            // the authored exterior exists; the source signpost position never
++            // becomes the physical clinic entrance.
+@@
+             "FapAuthoredFacade",
+-            origin - front * 1.8f,
++            origin - side * 1.30f - front * 4.13f,
+@@
+             "FapAuthoredEntryPorch",
+-            origin + front * 1.6f,
++            origin - side * 1.18f + front * 1.6f,
+@@
+             "FapAuthoredBench",
+-            origin + side * -3.2f + front * 2.8f,
++            origin + side * 2.3f + front * 3.1f,
+@@
+             "FapAuthoredNoticeBoard",
+-            origin + side * -5.3f + front * 3.0f,
++            origin - side * 7.9f + front * 3.2f,
+*** End Patch

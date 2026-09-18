@@ -1,0 +1,15 @@
+  Urman.Core -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll
+  Urman.Content -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll
+  Urman.ContentCli -> /Users/unterlantas/Documents/GitHub/URMAN/tools-dotnet/Urman.ContentCli/bin/Debug/net10.0/Urman.ContentCli.dll
+
+Сборка успешно завершена.
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.89
+document-image: game/assets/images/arrival_marat_childhood_existing_v1.png sha256=c4647904f1aad0ea492858547e3f3493c9356c6ef87270d34d244f4fb882ac20
+document-image: game/assets/images/council-sabantuy-2005.png sha256=5847783c6f7e9127bac529c803fc606b4ab53ed29fad64fa83ecd97db2390617
+document-image: game/assets/images/first_snow_existing_v1.png sha256=8c31f2105170e876e36c02a790c2476cf3aa7d1769c20c98c5ab2ce5c72a0d7b
+document-image: game/assets/images/kara_urman_edge_sketch_candidate_v1.png sha256=04b129ef18b34cc6ef49ee839bdc82e2a4c61f5e9567c1b742d69557079ee92a
+document-image: game/assets/images/school-class-2005.png sha256=e1bb3bc6b854c5fdeddabdf7fa6777d7b5b6255221aa677eda24a2628bcfef3c
+document-images: 5 declared raster files packaged

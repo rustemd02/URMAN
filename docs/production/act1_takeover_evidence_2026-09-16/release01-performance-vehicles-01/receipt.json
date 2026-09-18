@@ -1,0 +1,1736 @@
+{
+  "schema": "urman.release_vehicle_performance.v1",
+  "candidate": "/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate",
+  "status": "FAIL",
+  "samples": [
+    {
+      "sample": "vehicle_niva_radio@main_road",
+      "exitCode": 1,
+      "seconds": 99.48512799997116,
+      "log": "01-vehicle_niva_radio-main_road.log",
+      "status": "FAIL",
+      "guardRestored": true,
+      "candidateUnchanged": true,
+      "windowValid": true,
+      "windowFailure": null,
+      "metrics": {
+        "status": "FAIL",
+        "mode": "gameplay",
+        "sample": "vehicle_niva_radio@main_road",
+        "avg": "12.426ms",
+        "p95": "20.235ms",
+        "p99": "35.371ms",
+        "max": "132.066ms",
+        "long_frame_fraction": "0.01077",
+        "warmup_avg": "15.233ms",
+        "warmup_max": "73.048ms",
+        "warmup_seconds": "12.00",
+        "sample_seconds": "60.00",
+        "sample_count": "4829",
+        "focused_sample_count": "4829",
+        "obscured_sample_count": "0",
+        "foreground_requested": "true",
+        "focused_sample_fraction": "1.00000",
+        "fps": "80.48",
+        "window_fps_valid": "true",
+        "display_driver": "macOS",
+        "adapter": "Apple_M4_Pro_(Apple9)",
+        "rendering_method": "forward_plus",
+        "preset": "medium",
+        "scale": "0.90",
+        "msaa": "Msaa2X",
+        "fov": "75.0",
+        "window": "1920x1080",
+        "viewport": "1920x1080",
+        "vsync": "Disabled",
+        "engine_fps": "101.00",
+        "process_ms": "8.915",
+        "physics_ms": "12.258",
+        "draw_calls": "12133",
+        "primitives": "3775496"
+      },
+      "route": {
+        "schema": "urman.vehicle_performance_route.v1",
+        "vehicle": "babay-niva",
+        "status": "PASS",
+        "failure": "",
+        "phase": "Done",
+        "setupSeconds": 5.516666666666353,
+        "drivingSeconds": 72.11666666666386,
+        "distanceMetres": 168.3568960724515,
+        "measurementSeconds": 59.98333333333121,
+        "measurementDistanceMetres": 132.0395519050653,
+        "movingSeconds": 59.416666666664575,
+        "movingFraction": 0.9905529313698251,
+        "minimumMovingFraction": 0.8,
+        "minimumMeasuredDistance": 20,
+        "reversals": 3,
+        "safeExit": true,
+        "actualInput": true,
+        "poseWrites": 0,
+        "zone": "village_day",
+        "route": [
+          {
+            "seconds": 0.016666666666666666,
+            "measuring": false,
+            "position": [
+              -1.65,
+              -0.24535005,
+              1
+            ],
+            "speed": 0,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 0.5160394747474746,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 1.016666666666668,
+            "measuring": false,
+            "position": [
+              -1.6507288,
+              -0.22499381,
+              -0.065818824
+            ],
+            "speed": 2.0999997,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 1.515976666666667,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 2.033333333333331,
+            "measuring": false,
+            "position": [
+              -1.7237213,
+              -0.22411184,
+              -3.0387692
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 2.5421569090909073,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 3.049999999999994,
+            "measuring": false,
+            "position": [
+              -1.9459133,
+              -0.2111313,
+              -6.2826757
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 3.5516909523809543,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 4.0666666666666575,
+            "measuring": false,
+            "position": [
+              -1.9735588,
+              -0.20790237,
+              -9.533644
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 4.581258959595958,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 5.083333333333321,
+            "measuring": false,
+            "position": [
+              -1.6956497,
+              -0.22901009,
+              -12.774493
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 5.582643333333342,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 6.099999999999984,
+            "measuring": false,
+            "position": [
+              -1.4350543,
+              -0.19004324,
+              -15.954176
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 6.609787333333345,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 7.116666666666647,
+            "measuring": false,
+            "position": [
+              -1.1291552,
+              -0.18881005,
+              -19.192373
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 7.620774646464663,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 8.11666666666665,
+            "measuring": false,
+            "position": [
+              -1.1962495,
+              -0.25613233,
+              -22.39153
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 8.623812142857156,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 9.1166666666667,
+            "measuring": false,
+            "position": [
+              -1.488312,
+              -0.34033072,
+              -25.579535
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 9.62949822222224,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 10.116666666666749,
+            "measuring": false,
+            "position": [
+              -1.7931494,
+              -0.28761154,
+              -28.759514
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 10.628747229437254,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 11.116666666666799,
+            "measuring": false,
+            "position": [
+              -1.8102227,
+              -0.2516663,
+              -31.955395
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "avyl-ident",
+            "radioOffset": 11.622643333333379,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 12.116666666666848,
+            "measuring": false,
+            "position": [
+              -1.5664457,
+              -0.253886,
+              -35.145817
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 0.8136585000000415,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 13.116666666666898,
+            "measuring": true,
+            "position": [
+              -1.242774,
+              -0.27253705,
+              -38.330193
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 1.8133884629630042,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 14.116666666666948,
+            "measuring": true,
+            "position": [
+              -0.8633216,
+              -0.31565207,
+              -41.508533
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 2.8100581296296707,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 15.116666666666998,
+            "measuring": true,
+            "position": [
+              -0.5556741,
+              -0.27139574,
+              -44.689613
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 3.8128888333333744,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 16.116666666667033,
+            "measuring": true,
+            "position": [
+              -0.33418065,
+              -0.25454384,
+              -47.88099
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 4.8048813571429125,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 17.133333333333642,
+            "measuring": true,
+            "position": [
+              -0.2831403,
+              -0.25367153,
+              -50.29648
+            ],
+            "speed": 0,
+            "reverse": false,
+            "braking": true,
+            "radioSegment": "winter-weather",
+            "radioOffset": 5.8314348333334,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 18.15000000000025,
+            "measuring": true,
+            "position": [
+              -0.29599527,
+              -0.2513031,
+              -49.283302
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 6.846713261904852,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 19.16666666666686,
+            "measuring": true,
+            "position": [
+              -0.35508296,
+              -0.25636375,
+              -47.454025
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 7.854285166666755,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 20.18333333333347,
+            "measuring": true,
+            "position": [
+              -0.46185794,
+              -0.2660792,
+              -45.62661
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 8.8674137222223,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 21.200000000000077,
+            "measuring": true,
+            "position": [
+              -0.59822947,
+              -0.27943566,
+              -43.801025
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 9.892790166666718,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 22.216666666666686,
+            "measuring": true,
+            "position": [
+              -0.7678357,
+              -0.31579018,
+              -41.976246
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 10.90656516666668,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 23.233333333333295,
+            "measuring": true,
+            "position": [
+              -0.9854969,
+              -0.31379953,
+              -40.159496
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 11.920402452380964,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 24.249999999999904,
+            "measuring": true,
+            "position": [
+              -1.2029175,
+              -0.27233762,
+              -38.34659
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 12.948497500000014,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 25.266666666666513,
+            "measuring": true,
+            "position": [
+              -1.3944452,
+              -0.2554576,
+              -36.528282
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 13.954747500000025,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 26.283333333333122,
+            "measuring": true,
+            "position": [
+              -1.5610455,
+              -0.2508942,
+              -34.70667
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "winter-weather",
+            "radioOffset": 14.97849750000002,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 27.29999999999973,
+            "measuring": true,
+            "position": [
+              -1.7145439,
+              -0.24921727,
+              -32.883724
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 0.8222035000000137,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 28.31666666666634,
+            "measuring": true,
+            "position": [
+              -1.852333,
+              -0.2552524,
+              -31.058746
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 1.8464520454545577,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 29.33333333333295,
+            "measuring": true,
+            "position": [
+              -1.888783,
+              -0.2794887,
+              -29.227999
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 2.856553055555572,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 30.349999999999557,
+            "measuring": true,
+            "position": [
+              -1.7964147,
+              -0.3203953,
+              -27.39823
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 3.8778275000000186,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 31.366666666666166,
+            "measuring": true,
+            "position": [
+              -1.6204933,
+              -0.3380746,
+              -25.577051
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 4.894642500000022,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 32.38333333333278,
+            "measuring": true,
+            "position": [
+              -1.4168292,
+              -0.28875467,
+              -23.763851
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 5.905209166666697,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 33.39999999999939,
+            "measuring": true,
+            "position": [
+              -1.2215443,
+              -0.24340604,
+              -21.949099
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 6.928285706349239,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 34.416666666665996,
+            "measuring": true,
+            "position": [
+              -1.0563328,
+              -0.19290657,
+              -20.132427
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 7.941473690476227,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 35.433333333332605,
+            "measuring": true,
+            "position": [
+              -1.015738,
+              -0.1912244,
+              -18.304445
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 8.960419944444473,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 36.449999999999214,
+            "measuring": true,
+            "position": [
+              -1.1281298,
+              -0.18723874,
+              -16.478634
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 9.967664166666705,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 37.46666666666582,
+            "measuring": true,
+            "position": [
+              -1.3372209,
+              -0.20247415,
+              -14.65985
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 10.990680039682593,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 38.48333333333243,
+            "measuring": true,
+            "position": [
+              -1.5775357,
+              -0.23274033,
+              -12.844525
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 12.013296833333385,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 39.49999999999904,
+            "measuring": true,
+            "position": [
+              -1.8112546,
+              -0.20861347,
+              -11.03156
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 13.025150500000038,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 40.51666666666565,
+            "measuring": true,
+            "position": [
+              -2.0182903,
+              -0.20589833,
+              -9.213015
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 14.04127527777781,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 41.53333333333226,
+            "measuring": true,
+            "position": [
+              -2.101579,
+              -0.21021976,
+              -7.385305
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "school-bus",
+            "radioOffset": 15.0672651666667,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 42.54999999999887,
+            "measuring": true,
+            "position": [
+              -2.0270333,
+              -0.23619199,
+              -5.5558314
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 0.5316225000000424,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 43.566666666665476,
+            "measuring": true,
+            "position": [
+              -1.8485478,
+              -0.22412415,
+              -3.7353308
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 1.5401873148148577,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 44.583333333332085,
+            "measuring": true,
+            "position": [
+              -1.6436815,
+              -0.22662406,
+              -1.9170744
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 2.5568539814815274,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 45.599999999998694,
+            "measuring": true,
+            "position": [
+              -1.5248842,
+              -0.22404079,
+              -0.7228078
+            ],
+            "speed": 0.28,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 3.582481500000044,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 46.6166666666653,
+            "measuring": true,
+            "position": [
+              -1.6487464,
+              -0.22411597,
+              -2.1048648
+            ],
+            "speed": 2.4150004,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 4.597696500000044,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 47.63333333333191,
+            "measuring": true,
+            "position": [
+              -1.9080342,
+              -0.23084442,
+              -5.2074714
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 5.607190681818215,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 48.64999999999852,
+            "measuring": true,
+            "position": [
+              -2.031947,
+              -0.20853364,
+              -8.4547415
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 6.617968833333367,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 49.66666666666513,
+            "measuring": true,
+            "position": [
+              -1.8145921,
+              -0.21006858,
+              -11.699311
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 7.653951500000029,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 50.68333333333174,
+            "measuring": true,
+            "position": [
+              -1.4381826,
+              -0.20550749,
+              -14.929141
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 8.673520648148152,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 51.69999999999835,
+            "measuring": true,
+            "position": [
+              -1.1030979,
+              -0.18871282,
+              -18.163952
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 9.684463409090919,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 52.716666666664956,
+            "measuring": true,
+            "position": [
+              -1.1209717,
+              -0.22867008,
+              -21.416391
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 10.69626683333334,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 53.733333333331565,
+            "measuring": true,
+            "position": [
+              -1.4006758,
+              -0.31458172,
+              -24.658976
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 11.712110227272737,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 54.749999999998174,
+            "measuring": true,
+            "position": [
+              -1.9559374,
+              -0.3146329,
+              -27.619715
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 12.737277261904785,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 55.76666666666478,
+            "measuring": true,
+            "position": [
+              -1.9374188,
+              -0.2579295,
+              -30.86726
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 13.748635500000068,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 56.78333333333139,
+            "measuring": true,
+            "position": [
+              -1.6584117,
+              -0.2538323,
+              -34.10804
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 14.772905500000071,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 57.799999999998,
+            "measuring": true,
+            "position": [
+              -1.3304809,
+              -0.26238552,
+              -37.34534
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 15.79124551587307,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 58.81666666666461,
+            "measuring": true,
+            "position": [
+              -0.9638267,
+              -0.31628722,
+              -40.579205
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 16.792039166666687,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 59.83333333333122,
+            "measuring": true,
+            "position": [
+              -0.6312358,
+              -0.281143,
+              -43.812145
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 17.81746283333332,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 60.84999999999783,
+            "measuring": true,
+            "position": [
+              -0.3793918,
+              -0.25833008,
+              -47.054478
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 18.83411149999994,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 61.866666666664436,
+            "measuring": true,
+            "position": [
+              -0.28528926,
+              -0.25617036,
+              -50.14313
+            ],
+            "speed": 1.7,
+            "reverse": false,
+            "braking": true,
+            "radioSegment": "music-one",
+            "radioOffset": 19.852079499999956,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 62.883333333331045,
+            "measuring": true,
+            "position": [
+              -0.28929543,
+              -0.2551736,
+              -49.770176
+            ],
+            "speed": -1.5049999,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 20.866279833333277,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 63.899999999997654,
+            "measuring": true,
+            "position": [
+              -0.3340537,
+              -0.25415984,
+              -47.959167
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 21.887773499999973,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 64.91666666666427,
+            "measuring": true,
+            "position": [
+              -0.4285776,
+              -0.26304048,
+              -46.13107
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 22.901133833333315,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 65.93333333333088,
+            "measuring": true,
+            "position": [
+              -0.5586274,
+              -0.27217808,
+              -44.305523
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 23.923511075757524,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 66.94999999999749,
+            "measuring": true,
+            "position": [
+              -0.71457344,
+              -0.30729103,
+              -42.478706
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 24.940152499999883,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 67.9666666666641,
+            "measuring": true,
+            "position": [
+              -0.9233726,
+              -0.31691295,
+              -40.660053
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 25.952298462962823,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 68.9833333333307,
+            "measuring": true,
+            "position": [
+              -1.1447586,
+              -0.28038862,
+              -38.847244
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 26.967796742424063,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 69.99999999999731,
+            "measuring": true,
+            "position": [
+              -1.3445003,
+              -0.25939843,
+              -37.030106
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 27.985160859788166,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 71.01666666666392,
+            "measuring": true,
+            "position": [
+              -1.5169352,
+              -0.2534168,
+              -35.209274
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 29.008386722222063,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 72.03333333333053,
+            "measuring": true,
+            "position": [
+              -1.6728561,
+              -0.25089535,
+              -33.386467
+            ],
+            "speed": -1.8,
+            "reverse": true,
+            "braking": false,
+            "radioSegment": "music-one",
+            "radioOffset": 30.016981166666618,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+          }
+        ],
+        "limits": "Explicit diagnostic driver in ordinary gameplay; not a human playthrough or listening acceptance."
+      }
+    },
+    {
+      "sample": "vehicle_motorcycle@main_road",
+      "exitCode": 2,
+      "seconds": 51.46951550000813,
+      "log": "02-vehicle_motorcycle-main_road.log",
+      "status": "FAIL",
+      "guardRestored": true,
+      "candidateUnchanged": true,
+      "windowValid": false,
+      "windowFailure": "Expected actual window 1920x1080; reported missing.",
+      "metrics": {
+        "status": "ROUTE_INVALID",
+        "mode": "gameplay",
+        "sample": "vehicle_motorcycle@main_road",
+        "reason": "physical-collision-stop"
+      },
+      "route": {
+        "schema": "urman.vehicle_performance_route.v1",
+        "vehicle": "village-motorcycle",
+        "status": "INVALID",
+        "failure": "physical-collision-stop",
+        "phase": "Done",
+        "setupSeconds": 11.749999999999332,
+        "drivingSeconds": 17.933333333333596,
+        "distanceMetres": 53.29282179957954,
+        "measurementSeconds": 5.833333333333318,
+        "measurementDistanceMetres": 16.507304626167752,
+        "movingSeconds": 5.649999999999985,
+        "movingFraction": 0.9685714285714286,
+        "minimumMovingFraction": 0.8,
+        "minimumMeasuredDistance": 20,
+        "reversals": 1,
+        "safeExit": true,
+        "actualInput": true,
+        "poseWrites": 0,
+        "zone": "village_day",
+        "route": [
+          {
+            "seconds": 0.016666666666666666,
+            "measuring": false,
+            "position": [
+              1.4,
+              -0.3189689,
+              -23
+            ],
+            "speed": 0,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 1.016666666666668,
+            "measuring": false,
+            "position": [
+              1.0767876,
+              -0.35645512,
+              -24.323336
+            ],
+            "speed": 2.7000005,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 2.033333333333331,
+            "measuring": false,
+            "position": [
+              -0.5366403,
+              -0.3581433,
+              -27.096197
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 3.049999999999994,
+            "measuring": false,
+            "position": [
+              -1.470591,
+              -0.28003842,
+              -30.17499
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 4.0666666666666575,
+            "measuring": false,
+            "position": [
+              -1.4841111,
+              -0.2530391,
+              -33.422222
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 5.083333333333321,
+            "measuring": false,
+            "position": [
+              -1.2015646,
+              -0.26725376,
+              -36.663727
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 6.099999999999984,
+            "measuring": false,
+            "position": [
+              -0.8559016,
+              -0.3219563,
+              -39.89984
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 7.116666666666647,
+            "measuring": false,
+            "position": [
+              -0.5654679,
+              -0.31745172,
+              -43.13973
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 8.11666666666665,
+            "measuring": false,
+            "position": [
+              -0.38055837,
+              -0.27040312,
+              -46.330547
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 9.1166666666667,
+            "measuring": false,
+            "position": [
+              -0.30581427,
+              -0.25644144,
+              -49.528633
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 10.116666666666749,
+            "measuring": false,
+            "position": [
+              -0.332127,
+              -0.2709797,
+              -52.72908
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 11.116666666666799,
+            "measuring": false,
+            "position": [
+              -0.22861762,
+              -0.2867107,
+              -55.927536
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 12.116666666666848,
+            "measuring": true,
+            "position": [
+              -0.03336103,
+              -0.31175733,
+              -59.12262
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 13.116666666666898,
+            "measuring": true,
+            "position": [
+              0.17279729,
+              -0.31411448,
+              -62.31518
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 14.116666666666948,
+            "measuring": true,
+            "position": [
+              0.23604012,
+              -0.21181168,
+              -65.50589
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 15.116666666666998,
+            "measuring": true,
+            "position": [
+              0.16243419,
+              -0.17666788,
+              -68.67928
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 16.116666666667033,
+            "measuring": true,
+            "position": [
+              0.09260786,
+              -0.18012458,
+              -71.87872
+            ],
+            "speed": 3.2,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 17.133333333333642,
+            "measuring": true,
+            "position": [
+              0.014998151,
+              -0.27396744,
+              -75.02488
+            ],
+            "speed": 2.0333323,
+            "reverse": false,
+            "braking": true,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+          }
+        ],
+        "limits": "Explicit diagnostic driver in ordinary gameplay; not a human playthrough or listening acceptance."
+      }
+    },
+    {
+      "sample": "vehicle_horse_cart@zirat_road",
+      "exitCode": 2,
+      "seconds": 50.103169208043255,
+      "log": "03-vehicle_horse_cart-zirat_road.log",
+      "status": "FAIL",
+      "guardRestored": true,
+      "candidateUnchanged": true,
+      "windowValid": false,
+      "windowFailure": "Expected actual window 1920x1080; reported missing.",
+      "metrics": {
+        "status": "ROUTE_INVALID",
+        "mode": "gameplay",
+        "sample": "vehicle_horse_cart@zirat_road",
+        "reason": "physical-collision-stop"
+      },
+      "route": {
+        "schema": "urman.vehicle_performance_route.v1",
+        "vehicle": "forest-horse-cart",
+        "status": "INVALID",
+        "failure": "physical-collision-stop",
+        "phase": "Done",
+        "setupSeconds": 15.066666666666093,
+        "drivingSeconds": 13.333333333333576,
+        "distanceMetres": 28.584234873997048,
+        "measurementSeconds": 1.1333333333333342,
+        "measurementDistanceMetres": 2.7097312919795513,
+        "movingSeconds": 1.1333333333333342,
+        "movingFraction": 1,
+        "minimumMovingFraction": 0.8,
+        "minimumMeasuredDistance": 20,
+        "reversals": 0,
+        "safeExit": true,
+        "actualInput": true,
+        "poseWrites": 0,
+        "zone": "village_day",
+        "route": [
+          {
+            "seconds": 0.016666666666666666,
+            "measuring": false,
+            "position": [
+              0.9,
+              -0.24343948,
+              -34
+            ],
+            "speed": 0,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 1.016666666666668,
+            "measuring": false,
+            "position": [
+              0.88910365,
+              -0.23847993,
+              -34.432514
+            ],
+            "speed": 0.8499995,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 2.033333333333331,
+            "measuring": false,
+            "position": [
+              0.7587819,
+              -0.24092461,
+              -35.736713
+            ],
+            "speed": 1.7141683,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 3.049999999999994,
+            "measuring": false,
+            "position": [
+              0.39652357,
+              -0.25856045,
+              -37.87635
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 4.0666666666666575,
+            "measuring": false,
+            "position": [
+              0.034874175,
+              -0.30302328,
+              -40.290874
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 5.083333333333321,
+            "measuring": false,
+            "position": [
+              -0.18078549,
+              -0.27263045,
+              -42.718254
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 6.099999999999984,
+            "measuring": false,
+            "position": [
+              -0.27423227,
+              -0.26411915,
+              -45.15569
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 7.116666666666647,
+            "measuring": false,
+            "position": [
+              -0.30419838,
+              -0.2536439,
+              -47.594807
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 8.11666666666665,
+            "measuring": false,
+            "position": [
+              -0.3224265,
+              -0.253643,
+              -49.994747
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 9.1166666666667,
+            "measuring": false,
+            "position": [
+              -0.3457467,
+              -0.25363266,
+              -52.394676
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 10.116666666666749,
+            "measuring": false,
+            "position": [
+              -0.32148138,
+              -0.27923238,
+              -54.795982
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 11.116666666666799,
+            "measuring": false,
+            "position": [
+              -0.22647387,
+              -0.28660285,
+              -57.194233
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 12.116666666666848,
+            "measuring": false,
+            "position": [
+              -0.07311659,
+              -0.30329764,
+              -59.590157
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          },
+          {
+            "seconds": 13.116666666666898,
+            "measuring": true,
+            "position": [
+              0.104885526,
+              -0.2344321,
+              -61.976097
+            ],
+            "speed": 2.4,
+            "reverse": false,
+            "braking": false,
+            "radioSegment": null,
+            "radioOffset": null,
+            "camera": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/forest-horse-cart/DriverLook/VehicleCamera"
+          }
+        ],
+        "limits": "Explicit diagnostic driver in ordinary gameplay; not a human playthrough or listening acceptance."
+      }
+    }
+  ],
+  "criteria": {
+    "warmupSeconds": 12,
+    "measurementSeconds": 60,
+    "averageFpsMinimum": 58,
+    "p95MillisecondsMaximum": 18,
+    "p99MillisecondsMaximum": 25,
+    "longFrameFractionMaximum": 0.005,
+    "maximumMilliseconds": 100,
+    "focusedFractionMinimum": 0.95,
+    "obscuredFramesMaximum": 0,
+    "window": "1920x1080"
+  },
+  "limits": [
+    "Explicit diagnostic driver; not a human playthrough.",
+    "Native radio rendering is not listening or language acceptance."
+  ]
+}

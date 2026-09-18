@@ -1,0 +1,27 @@
+  Urman.Core -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll
+  Urman.Content -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/AddressAccessVerifier.cs(30,31): error CS0234: The type or namespace name 'Collections' does not exist in the namespace 'Urman.Godot' (are you missing an assembly reference?) [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.Addresses.cs(46,47): error CS0104: 'FileAccess' is an ambiguous reference between 'Godot.FileAccess' and 'System.IO.FileAccess' [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs(43,21): error CS8602: Dereference of a possibly null reference. [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(168,13): error CS0103: The name '_bathhouse' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(170,21): error CS0103: The name '_bathhouse' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(179,50): error CS0103: The name 'BathhouseObservationInteraction' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(184,16): error CS0103: The name '_bathhouse' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(217,9): error CS0103: The name 'ApplyBathhouseState' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(242,9): error CS0103: The name 'TickBathhouse' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+
+Build FAILED.
+
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/AddressAccessVerifier.cs(30,31): error CS0234: The type or namespace name 'Collections' does not exist in the namespace 'Urman.Godot' (are you missing an assembly reference?) [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.Addresses.cs(46,47): error CS0104: 'FileAccess' is an ambiguous reference between 'Godot.FileAccess' and 'System.IO.FileAccess' [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs(43,21): error CS8602: Dereference of a possibly null reference. [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(168,13): error CS0103: The name '_bathhouse' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(170,21): error CS0103: The name '_bathhouse' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(179,50): error CS0103: The name 'BathhouseObservationInteraction' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(184,16): error CS0103: The name '_bathhouse' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(217,9): error CS0103: The name 'ApplyBathhouseState' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/Act1ConnectedWorld.MosqueInterior.cs(242,9): error CS0103: The name 'TickBathhouse' does not exist in the current context [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+    0 Warning(s)
+    9 Error(s)
+
+Time Elapsed 00:00:04.47

@@ -1,0 +1,399 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1594 carved_door_slabs=103 flat_slab_skipped=2460 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=109404229400
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=109404229400
+SaveGameV3 new game session started; existing slots untouched.
+act1-public-buildings: ordinary New Game
+act1-intro: confirmed with E
+act1-public-buildings: three public rooms are in the ordinary connected world
+act1-public-buildings: requested public building exists
+act1-public-buildings: council: the repair owns only the identified fifteen-member fence
+act1-public-buildings: council: rail ends lie inside the real existing rear wall thickness
+act1-public-buildings: council: the actual footing is closed and convex, and the visible wall has two complete matching panel faces
+act1-public-buildings: council: the full real wall base meets the actual bevelled footing at the shared seam
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_EndPost_00_LOD0
+act1-public-buildings: council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_EndPost_00_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_EndPost_01_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_EndPost_01_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_EndPost_01_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_EndPost_01_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_EndPost_01_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_EndPost_02_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_EndPost_02_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_EndPost_02_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_EndPost_02_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_EndPost_02_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_FoundationStoneLeft_LOD0
+act1-public-buildings: council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_FoundationStoneLeft_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_FoundationStoneRight_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_FoundationStoneRight_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_FoundationStoneRight_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_FoundationStoneRight_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_FoundationStoneRight_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_00_LOD0
+act1-public-buildings: council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_Picket_00_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_01_LOD0
+act1-public-buildings: council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_Picket_01_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_02_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_Picket_02_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_Picket_02_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_Picket_02_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_Picket_02_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_03_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_Picket_03_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_Picket_03_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_Picket_03_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_Picket_03_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_04_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_Picket_04_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_Picket_04_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_Picket_04_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_Picket_04_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_05_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_Picket_05_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_Picket_05_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_Picket_05_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_Picket_05_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_06_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_Picket_06_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_Picket_06_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_Picket_06_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_Picket_06_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every changed member has the measured rail role
+act1-public-buildings: council: only the measured single-surface rails receive a cut
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.3801131, 0.029429121, -4.4) | (3.375125, 0.03178949, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.3950288, 0.022370704, -4.4) | (3.3801131, 0.029429121, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.419146, 0.022415547, -4.4) | (3.3950288, 0.022370704, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.492053, 0.022551104, -4.4) | (3.419146, 0.022415547, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.496918, 0.024871685, -4.4000006) | (3.492053, 0.022551104, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.5119548, 0.0320439, -4.4) | (3.496918, 0.024871685, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.5119548, 0.043272108, -4.4) | (3.5119548, 0.0320439, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.511955, 0.07813755, -4.3999996) | (3.5119548, 0.043272108, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.5071044, 0.08043279, -4.4) | (3.511955, 0.07813755, -4.3999996); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.492053, 0.08755534, -4.4) | (3.5071044, 0.08043279, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.4682102, 0.08751102, -4.4) | (3.492053, 0.08755534, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.395029, 0.08737495, -4.3999996) | (3.4682102, 0.08751102, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.3900557, 0.085003205, -4.3999996) | (3.395029, 0.08737495, -4.3999996); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.375125, 0.07788313, -4.4000006) | (3.3900557, 0.085003205, -4.3999996); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.375125, 0.06632612, -4.4000006) | (3.375125, 0.07788313, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailLower_LOD0; cap=(3.4435594, 0.054935485, -4.4) | (3.375125, 0.03178949, -4.4000006) | (3.375125, 0.06632612, -4.4000006); seamY=0.3
+act1-public-buildings: council: original exterior triangles, attributes and clipped source surfaces survive the closed rail cut: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every changed member has the measured rail role
+act1-public-buildings: council: only the measured single-surface rails receive a cut
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.4016604, 0.14355308, -4.4000006) | (3.3774114, 0.14355308, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.4951797, 0.14355308, -4.4) | (3.4016604, 0.14355308, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.5192447, 0.14355308, -4.4) | (3.4951797, 0.14355308, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.525485, 0.14355308, -4.4) | (3.5192447, 0.14355308, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.525485, 0.15914851, -4.4) | (3.525485, 0.14355308, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.525485, 0.22037125, -4.4000006) | (3.525485, 0.15914851, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.501068, 0.22037125, -4.4) | (3.525485, 0.22037125, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.4766026, 0.22037125, -4.4) | (3.501068, 0.22037125, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.3838773, 0.22037125, -4.4) | (3.4766026, 0.22037125, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.3774114, 0.22037125, -4.4) | (3.3838773, 0.22037125, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.3774114, 0.20415722, -4.4) | (3.3774114, 0.22037125, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailMiddle_Crooked_LOD0; cap=(3.4571936, 0.18191062, -4.4) | (3.3774114, 0.14355308, -4.4) | (3.3774114, 0.20415722, -4.4); seamY=0.3
+act1-public-buildings: council: original exterior triangles, attributes and clipped source surfaces survive the closed rail cut: FenceSegment_RailMiddle_Crooked_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every changed member has the measured rail role
+act1-public-buildings: council: only the measured single-surface rails receive a cut
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.3931887, 0.26223204, -4.4000006) | (3.387565, 0.26489508, -4.400001); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.409958, 0.25429153, -4.4) | (3.3931887, 0.26223204, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.4390454, 0.25433618, -4.4) | (3.409958, 0.25429153, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.5268824, 0.254471, -4.4000006) | (3.4390454, 0.25433618, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.5323434, 0.25707382, -4.3999996) | (3.5268824, 0.254471, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.5492728, 0.26514328, -4.4) | (3.5323434, 0.25707382, -4.3999996); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.549273, 0.2786375, -4.4) | (3.5492728, 0.26514328, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.5492725, 0.3206902, -4.4000006) | (3.549273, 0.2786375, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.54383, 0.32326746, -4.4000006) | (3.5492725, 0.3206902, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.5268826, 0.3312926, -4.4) | (3.54383, 0.32326746, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.4981842, 0.33124855, -4.4) | (3.5268826, 0.3312926, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.4099574, 0.33111313, -4.4000006) | (3.4981842, 0.33124855, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.4043512, 0.3284415, -4.4000006) | (3.4099574, 0.33111313, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.3875651, 0.32044202, -4.4) | (3.4043512, 0.3284415, -4.4000006); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.3875651, 0.30648273, -4.4000006) | (3.3875651, 0.32044202, -4.4); seamY=0.3
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: every complete cap lies inside the real footing/wall union: FenceSegment_RailUpper_LOD0; cap=(3.468446, 0.29275367, -4.4000006) | (3.387565, 0.26489508, -4.400001) | (3.3875651, 0.30648273, -4.4000006); seamY=0.3
+act1-public-buildings: council: original exterior triangles, attributes and clipped source surfaces survive the closed rail cut: FenceSegment_RailUpper_LOD0
+act1-public-buildings: council: the measured four/three/eight member boundary is preserved
+act1-public-buildings: council: geometry inspection changes no player pose or persistent state
+act1-public-buildings: council: measured exterior setup fits the standing capsule
+act1-public-buildings: council: setup has actual support
+state-final-render-sync-begin: label=public/council_01_closed_entrance tick=26882 drawn=6 process=6 physics=35 windowVisible=True focus=False mode=Windowed renderLoop=True
+state-final-render-sync-forced: label=public/council_01_closed_entrance forced screenshot render after native focus loss; one focus request + ForceDraw(false); no foreground or performance claim
+state-final-render-sync-forced-readback: label=public/council_01_closed_entrance framePostDraw=True pixels=1920x1080 drawnDelta=0; screenshot evidence only
+state-final-render-sync-end: label=public/council_01_closed_entrance milliseconds=18 forcedScreenshotRender=True
+act1-public-buildings: council: approaching leaves both doors closed and does not knock automatically
+act1-public-buildings: council: explicit entrance interaction is aimed and available
+act1-public-buildings: closed-leaf approach uses real controller movement
+act1-public-buildings: council: closed outer leaf stops the standing player
+act1-public-buildings: council: walking against the leaf never opens it
+act1-public-buildings: council: outward leaf refuses a player standing in its swept arc
+act1-public-buildings: council: step away from the leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: step away from the leaf: no teleport or recovery during movement
+act1-public-buildings: council/entrance: door starts in the expected state
+act1-public-buildings: council/entrance: live input ray reaches the door
+act1-public-buildings: council/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/entrance: explicit interaction changes the existing saved door property
+state-final-render-sync-begin: label=public/council_02_opened_outward tick=29789 drawn=266 process=266 physics=199 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_02_opened_outward milliseconds=8 forcedScreenshotRender=False
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.45, 0.231) distance=3.902 point=(36.531506, 2.5567722, 21.794586) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0 triangle=1 vertices=[(36.578915, 2.6418357, 21.629255);(36.578915, 2.4156756, 21.629255);(36.215073, 2.4156756, 22.89812)] shader= snow=0.44999998807907
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.472, 0.234) distance=3.750 point=(36.349155, 2.5168757, 21.974905) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Gutter_+1_LOD0 triangle=1 vertices=[(31.268728, 2.5168757, 20.48165);(36.76939, 2.5168757, 22.114325);(36.76916, 2.5168757, 22.03626)] shader= snow=0.44999998807907
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.472, 0.234) distance=3.878 point=(36.472366, 2.5412364, 22.000826) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0 triangle=1 vertices=[(36.578915, 2.6418357, 21.629255);(36.578915, 2.4156756, 21.629255);(36.215073, 2.4156756, 22.89812)] shader= snow=0.44999998807907
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.472, 0.234) distance=4.100 point=(36.685326, 2.5833406, 22.04563) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRoof_LOD0 triangle=2 vertices=[(36.809795, 2.6532757, 21.622223);(33.802803, 2.3980756, 22.43528);(36.36591, 2.3980756, 23.170238)] shader= snow=0.87999999523163
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.55, 0.617) distance=3.589 point=(35.79865, 0.50607586, 22.589157) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloor triangle=8 vertices=[(34.150925, 0.50607574, 22.123142);(34.466255, 0.50607574, 21.02346);(36.134583, 0.50607574, 22.691948)] shader= snow=0.0
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.55, 0.617) distance=3.614 point=(35.819332, 0.49727583, 22.598457) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniFooting_LOD0 triangle=7 vertices=[(34.420773, 0.4972757, 20.992107);(36.216145, 0.4972757, 22.916737);(34.042404, 0.4972757, 22.286102)] shader= snow=0.44999998807907
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.55, 0.617) distance=4.768 point=(36.8005, 0.07984078, 23.039574) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Terrain_Main triangle=16036 vertices=[(36.0564, 0.13229999, 22.087599);(38.156597, 0.015199999, 23.900599);(35.946198, 0.0641, 24.0907)] shader= snow=0.0
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.5, 0.563) distance=3.465 point=(35.93584, 0.8059804, 22.131584) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/council_storeClosedDoor triangle=1 vertices=[(35.80489, 2.3960755, 22.588257);(35.80489, 0.5060758, 22.588257);(36.115368, 0.5060758, 21.505491)] shader= snow=0.0
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.5, 0.563) distance=3.782 point=(36.22777, 0.71457255, 22.215303) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 triangle=3 vertices=[(36.04589, 2.4156756, 22.849607);(36.04589, 0.4972757, 22.849607);(36.409733, 0.4972757, 21.580742)] shader= snow=0.44999998807907
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.5, 0.563) distance=6.035 point=(38.301716, 0.06519437, 22.810055) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Terrain_Main triangle=16038 vertices=[(37.8863, 0.098299995, 22.1405);(39.9764, 0.0002, 24.0362);(38.156597, 0.015199999, 23.900599)] shader= snow=0.0
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.56, 0.71) distance=2.703 point=(34.8752, 0.50607574, 22.260307) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloor triangle=8 vertices=[(34.150925, 0.50607574, 22.123142);(34.466255, 0.50607574, 21.02346);(36.134583, 0.50607574, 22.691948)] shader= snow=0.0
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.56, 0.71) distance=2.721 point=(34.889626, 0.49727583, 22.267378) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniFooting_LOD0 triangle=7 vertices=[(34.420773, 0.4972757, 20.992107);(36.216145, 0.4972757, 22.916737);(34.042404, 0.4972757, 22.286102)] shader= snow=0.44999998807907
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.56, 0.71) distance=3.491 point=(35.49608, 0.12733257, 22.56462) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/AuthoredFoundationSupport115 triangle=21 vertices=[(35.388477, 0.08757573, 22.533766);(35.82499, 0.24527574, 22.658934);(35.388477, 0.24527574, 22.533766)] shader= snow=0.5
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.56, 0.71) distance=3.523 point=(35.521076, 0.11208284, 22.576872) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Terrain_Main triangle=16035 vertices=[(34.0178, 0.1174, 22.1063);(36.0564, 0.13229999, 22.087599);(35.946198, 0.0641, 24.0907)] shader= snow=0.0
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.519, 0.642) distance=3.258 point=(35.568745, 0.506076, 22.197742) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloor triangle=8 vertices=[(34.150925, 0.50607574, 22.123142);(34.466255, 0.50607574, 21.02346);(36.134583, 0.50607574, 22.691948)] shader= snow=0.0
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.519, 0.642) distance=3.280 point=(35.58787, 0.4972756, 22.20439) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniFooting_LOD0 triangle=9 vertices=[(36.216145, 0.4972757, 22.916737);(34.420773, 0.4972757, 20.992107);(36.594513, 0.4972757, 21.622742)] shader= snow=0.44999998807907
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.519, 0.642) distance=4.009 point=(36.219177, 0.20680904, 22.423779) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/AuthoredFoundationSupport115 triangle=177 vertices=[(36.212837, 0.09067574, 22.445885);(36.337368, 0.24527574, 22.011587);(36.212837, 0.24527574, 22.445885)] shader= snow=0.5
+act1-visible-surface: public/council_02_opened_outward/seni-surface-owners pixel=(0.519, 0.642) distance=4.256 point=(36.433357, 0.108263135, 22.49821) mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Terrain_Main triangle=16036 vertices=[(36.0564, 0.13229999, 22.087599);(38.156597, 0.015199999, 23.900599);(35.946198, 0.0641, 24.0907)] shader= snow=0.0
+act1-public-buildings: council: walk up real treads and through the outer aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: walk up real treads and through the outer aperture: no teleport or recovery during movement
+act1-public-buildings: council: the seni has standing headroom
+act1-public-buildings: council/seni: real support is level enough to stand
+act1-public-buildings: council/inner-door: door starts in the expected state
+act1-public-buildings: council/inner-door: live input ray reaches the door
+act1-public-buildings: council/inner-door: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/inner-door: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/inner-door: explicit interaction changes the existing saved door property
+act1-public-buildings: council: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: council: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: council: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: council: public interior owner matches the physical room
+act1-public-buildings: council: both thresholds are crossed with input and no relocation or fall recovery
+act1-public-buildings: council/main: real support is level enough to stand
+act1-public-buildings: council: timber floor is the actual support level
+act1-public-buildings: council: enter the hall beside the village plan: standing capsule reaches the actual destination
+act1-public-buildings: council: enter the hall beside the village plan: no teleport or recovery during movement
+act1-public-buildings: council: physical village plan is reachable in the hall
+act1-public-buildings: council: displayed roads come from the actual common registry graph
+state-final-render-sync-begin: label=public/council_03_hall_and_plan tick=33691 drawn=598 process=598 physics=414 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_03_hall_and_plan milliseconds=8 forcedScreenshotRender=False
+act1-public-buildings: council: approach the office from the open hall: standing capsule reaches the actual destination
+act1-public-buildings: council: approach the office from the open hall: no teleport or recovery during movement
+act1-public-buildings: council/office: door starts in the expected state
+act1-public-buildings: council/office: live input ray reaches the door
+act1-public-buildings: council/office: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/office: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/office: explicit interaction changes the existing saved door property
+act1-public-buildings: council: the historical stop is identified against the actual office casing
+act1-public-buildings: council: the former desk goal intersects the actual tabletop
+act1-public-buildings: council: aisle and desk standing points fit the unchanged full standing capsule
+act1-public-buildings: council: step into the clear aisle in front of the casing: standing capsule reaches the actual destination
+act1-public-buildings: council: step into the clear aisle in front of the casing: no teleport or recovery during movement
+act1-public-buildings: council: align with the real office doorway through the aisle: standing capsule reaches the actual destination
+act1-public-buildings: council: align with the real office doorway through the aisle: no teleport or recovery during movement
+act1-public-buildings: council: enter the office and stand before the desk: standing capsule reaches the actual destination
+act1-public-buildings: council: enter the office and stand before the desk: no teleport or recovery during movement
+act1-public-buildings: council: album is readable at the actual desk
+act1-public-buildings: council_photo_album_Source: a real photograph texture is bound
+act1-public-buildings: council_photo_album_Source: published image provenance and aspect ratio are preserved
+state-final-render-sync-begin: label=public/council_04_archive_album tick=36866 drawn=838 process=838 physics=595 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_04_archive_album milliseconds=6 forcedScreenshotRender=False
+act1-public-buildings: council: return from office through the same clear aisle: standing capsule reaches the actual destination
+act1-public-buildings: council: return from office through the same clear aisle: no teleport or recovery during movement
+act1-public-buildings: council: step clear of the office leaf before closing it: standing capsule reaches the actual destination
+act1-public-buildings: council: step clear of the office leaf before closing it: no teleport or recovery during movement
+act1-public-buildings: council/office: door starts in the expected state
+act1-public-buildings: council/office: live input ray reaches the door
+act1-public-buildings: council/office: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/office: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/office: explicit interaction changes the existing saved door property
+act1-public-buildings: council poster: the manually closed office leaf leaves the wall approach clear
+act1-public-buildings: council poster: the visible face uses the three actual authored lines, without the reverse-side list
+act1-public-buildings: council poster: the photograph is explicitly captioned as preparation and ink retains ordinary occlusion
+act1-public-buildings: council poster: only this bound poster retires its title-and-lines placeholder
+act1-public-buildings: council poster: existing source ID, target, mount and paper dimensions remain fixed
+act1-public-buildings: council poster: the existing source photograph retains its 3:2 frame and mipmapped material
+act1-public-buildings: council poster: fixing 0 has a real opaque wall contact
+act1-public-buildings: council poster: fixing 0 reaches this building's existing wall within its shaft
+act1-public-buildings: council poster: fixing 1 has a real opaque wall contact
+act1-public-buildings: council poster: fixing 1 reaches this building's existing wall within its shaft
+act1-public-buildings: council poster: fixing 2 has a real opaque wall contact
+act1-public-buildings: council poster: fixing 2 reaches this building's existing wall within its shaft
+act1-public-buildings: council poster: fixing 3 has a real opaque wall contact
+act1-public-buildings: council poster: fixing 3 reaches this building's existing wall within its shaft
+act1-public-buildings: council poster: the real visit starts with the expected saved reading state
+act1-public-buildings: council: view the poster from the clear hall aisle: standing capsule reaches the actual destination
+act1-public-buildings: council: view the poster from the clear hall aisle: no teleport or recovery during movement
+state-final-render-sync-begin: label=public/council_04a_poster_in_hall tick=39950 drawn=1053 process=1053 physics=765 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_04a_poster_in_hall milliseconds=17 forcedScreenshotRender=False
+act1-public-buildings: council: approach the actual poster past the closed office leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: approach the actual poster past the closed office leaf: no teleport or recovery during movement
+act1-public-buildings: council poster: the current camera ray reaches its unchanged manual target
+act1-public-buildings: council poster: viewing either angle grants no knowledge, journal entry or scene progress
+state-final-render-sync-begin: label=public/council_04b_poster_face tick=40816 drawn=1083 process=1083 physics=797 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_04b_poster_face milliseconds=23 forcedScreenshotRender=False
+act1-public-buildings: council poster: one deliberate mapped press opens the same existing document
+act1-public-buildings: council poster: manual reading includes its authored reverse and records one existing knowledge entry
+state-final-render-sync-begin: label=public/council_04c_poster_manual_reader tick=41258 drawn=1084 process=1084 physics=802 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_04c_poster_manual_reader milliseconds=37 forcedScreenshotRender=False
+act1-public-buildings: council poster: closing the same reader restores ordinary input
+act1-public-buildings: council: return to the hall passage: standing capsule reaches the actual destination
+act1-public-buildings: council: return to the hall passage: no teleport or recovery during movement
+act1-public-buildings: council: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: council: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: council: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: council: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: council: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: council: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: council: ordinary return reaches the exterior
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/public-door-proof-council.savegame-v3.json
+act1-public-buildings: council: actual open doors and exterior player pose save together
+act1-public-buildings: council/entrance: door starts in the expected state
+act1-public-buildings: council/entrance: live input ray reaches the door
+act1-public-buildings: council/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/entrance: explicit interaction changes the existing saved door property
+zone-loaded: village_day@arrival connected-world=109404229400
+SaveGameV3 restored.
+act1-public-buildings: council: restore the same runtime snapshot
+act1-public-buildings: council: both door states are restored without discovering a source
+act1-public-buildings: council: load leaves an unobstructed standing body
+act1-public-buildings: council: return through restored outward leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: return through restored outward leaf: no teleport or recovery during movement
+act1-public-buildings: council: align within existing seni: standing capsule reaches the actual destination
+act1-public-buildings: council: align within existing seni: no teleport or recovery during movement
+act1-public-buildings: council: cross the actual main-wall aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: cross the actual main-wall aperture: no teleport or recovery during movement
+act1-public-buildings: council: public interior owner matches the physical room
+act1-public-buildings: council: return to the existing hall aisle after load: standing capsule reaches the actual destination
+act1-public-buildings: council: return to the existing hall aisle after load: no teleport or recovery during movement
+act1-public-buildings: council: approach the saved poster through the clear aisle: standing capsule reaches the actual destination
+act1-public-buildings: council: approach the saved poster through the clear aisle: no teleport or recovery during movement
+act1-public-buildings: council poster: the manually closed office leaf leaves the wall approach clear
+act1-public-buildings: council poster: the visible face uses the three actual authored lines, without the reverse-side list
+act1-public-buildings: council poster: the photograph is explicitly captioned as preparation and ink retains ordinary occlusion
+act1-public-buildings: council poster: only this bound poster retires its title-and-lines placeholder
+act1-public-buildings: council poster: existing source ID, target, mount and paper dimensions remain fixed
+act1-public-buildings: council poster: the existing source photograph retains its 3:2 frame and mipmapped material
+act1-public-buildings: council poster: fixing 0 has a real opaque wall contact
+act1-public-buildings: council poster: fixing 0 reaches this building's existing wall within its shaft
+act1-public-buildings: council poster: fixing 1 has a real opaque wall contact
+act1-public-buildings: council poster: fixing 1 reaches this building's existing wall within its shaft
+act1-public-buildings: council poster: fixing 2 has a real opaque wall contact
+act1-public-buildings: council poster: fixing 2 reaches this building's existing wall within its shaft
+act1-public-buildings: council poster: fixing 3 has a real opaque wall contact
+act1-public-buildings: council poster: fixing 3 reaches this building's existing wall within its shaft
+act1-public-buildings: council poster: the real visit starts with the expected saved reading state
+act1-public-buildings: council: view the poster from the clear hall aisle: standing capsule reaches the actual destination
+act1-public-buildings: council: view the poster from the clear hall aisle: no teleport or recovery during movement
+act1-public-buildings: council: approach the actual poster past the closed office leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: approach the actual poster past the closed office leaf: no teleport or recovery during movement
+act1-public-buildings: council poster: the current camera ray reaches its unchanged manual target
+act1-public-buildings: council poster: viewing either angle grants no knowledge, journal entry or scene progress
+act1-public-buildings: council poster: one deliberate mapped press opens the same existing document
+act1-public-buildings: council poster: manual reading includes its authored reverse and records one existing knowledge entry
+act1-public-buildings: council poster: closing the same reader restores ordinary input
+act1-public-buildings: council: leave the poster by the existing hall passage: standing capsule reaches the actual destination
+act1-public-buildings: council: leave the poster by the existing hall passage: no teleport or recovery during movement
+state-final-render-sync-begin: label=public/council_05_return_after_load tick=50875 drawn=1938 process=1938 physics=1382 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/council_05_return_after_load milliseconds=9 forcedScreenshotRender=False
+act1-public-buildings: council: return along the room corridor: standing capsule reaches the actual destination
+act1-public-buildings: council: return along the room corridor: no teleport or recovery during movement
+act1-public-buildings: council: return through inner aperture: standing capsule reaches the actual destination
+act1-public-buildings: council: return through inner aperture: no teleport or recovery during movement
+act1-public-buildings: council: pass the free end of the outer leaf: standing capsule reaches the actual destination
+act1-public-buildings: council: pass the free end of the outer leaf: no teleport or recovery during movement
+act1-public-buildings: council: descend the real entry treads: standing capsule reaches the actual destination
+act1-public-buildings: council: descend the real entry treads: no teleport or recovery during movement
+act1-public-buildings: council/entrance: door starts in the expected state
+act1-public-buildings: council/entrance: live input ray reaches the door
+act1-public-buildings: council/entrance: passive focus follows the actual aimed door during a result notice
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-public-buildings: council/entrance: one deliberate mapped press reaches exactly one door action
+act1-public-buildings: council/entrance: explicit interaction changes the existing saved door property
+userdata guard: original files and permissions restored and verified
