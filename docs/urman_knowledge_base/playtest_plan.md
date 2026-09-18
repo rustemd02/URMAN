@@ -248,7 +248,9 @@ Pass:
 
 ## Script D: Narrative Comprehension
 
-Duration: 45-60 minutes.
+Duration: record the entire unfamiliar player's first main Act I experience. The current acceptance minimum is 60 active minutes, excluding loading, pauses and time lost to defects; optional discoveries are recorded separately. Record the following comprehension interview separately from playtime. Do not add waiting, forced reading or extra secret requirements to meet the minimum.
+
+Historical protocol: the former 45–60-minute session guideline is superseded by the author's current Act I requirement; it does not accept a shorter main experience.
 
 Rules:
 
@@ -288,7 +290,7 @@ Fail signals:
 - "I guess there is a monster in the forest" is the whole takeaway.
 - Марат is remembered only as a name in documents.
 - Татарский is remembered only as flavor.
-- Player thinks Кара-Урман is the village.
+- Player cannot distinguish the village КАРА-УРМАН from the surrounding forest or cannot explain where the village road ends and the forest approach begins. The author named the village КАРА-УРМАН on 2026-09-16; identifying it by that name is correct. Existing forest entities and internal IDs remain separate.
 
 ## Script E: Language Mechanic
 

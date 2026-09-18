@@ -172,8 +172,10 @@ lock и browser saves не удаляются и не становятся ча�
 ## Execution backlog
 
 `execution_backlog.json` — единственная очередь исполняемых задач для текущей
-Godot-миграции. Её текущий scope — `urman-act1-connected-greybox` и
-`game/scenes/act1_demo.tscn`; полный migration intent в
+реализации Акта I. Её действующий goal_key — `urman-act1-finished-product`,
+точка входа — `game/scenes/act1_demo.tscn`. Критерии от 16 сентября 2026:
+минимум 60 активных минут первого основного прохождения, EX00 и все EX01–EX14,
+физика, художественная убедительность и проверка обычной игры. Полный migration intent в
 `docs/aegis/work/2026-08-10-godot-full-migration/10-intent.md` сохранён как
 long-term north star. `backlog.md`, roadmap и Aegis evidence остаются её
 человочитаемыми индексами и доказательствами. Оркестратор не должен создавать
