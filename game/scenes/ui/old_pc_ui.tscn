@@ -95,8 +95,8 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.62, 0.76, 0.66, 1)
-theme_override_font_sizes/font_size = 30
-text = "АРХИВ · КЫРЛАЙ"
+theme_override_font_sizes/font_size = 20
+text = "АРХИВ · КАРА-УРМАН"
 
 [node name="Close" type="Button" parent="Screen/Computer/Layout/Header"]
 layout_mode = 2
@@ -105,7 +105,7 @@ custom_minimum_size = Vector2(0, 44)
 theme_override_styles/normal = SubResource("OldPcInset")
 theme_override_styles/hover = SubResource("OldPcFocus")
 theme_override_styles/focus = SubResource("OldPcFocus")
-text = "Закрыть [Esc]"
+text = "Отойти [Esc]"
 
 [node name="SearchRow" type="HBoxContainer" parent="Screen/Computer/Layout"]
 layout_mode = 2
@@ -131,10 +131,10 @@ text = "Искать"
 [node name="WorkArea" type="HSplitContainer" parent="Screen/Computer/Layout"]
 layout_mode = 2
 size_flags_vertical = 3
-split_offset = 400
+split_offset = 290
 
 [node name="Results" type="ItemList" parent="Screen/Computer/Layout/WorkArea"]
-custom_minimum_size = Vector2(380, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 focus_mode = 2
 theme_override_styles/panel = SubResource("OldPcInset")
@@ -147,8 +147,8 @@ layout_mode = 2
 [node name="DocumentTitle" type="Label" parent="Screen/Computer/Layout/WorkArea/ReaderArea"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.68, 0.79, 0.66, 1)
-theme_override_font_sizes/font_size = 25
-text = "АРХИВ КЫРЛАЙ"
+theme_override_font_sizes/font_size = 21
+text = "АРХИВ КАРА-УРМАНА"
 autowrap_mode = 2
 
 [node name="Reader" type="RichTextLabel" parent="Screen/Computer/Layout/WorkArea/ReaderArea"]
@@ -167,7 +167,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.58, 0.75, 0.62, 1)
-text = "Локальный архив · Кырлай"
+text = "Локальный архив · Кара-Урман"
 autowrap_mode = 2
 
 [node name="Save" type="Button" parent="Screen/Computer/Layout/Footer"]

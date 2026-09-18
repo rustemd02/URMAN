@@ -13,6 +13,19 @@ Shared prompt constraints: seamless square albedo, flat orthographic material sw
 
 License/provenance: project-generated through OpenAI ImageGen for «УРМАН»; no third-party source image was used.
 
+## Hay fibers — 2026-09-16
+
+`hay_fibers_v1_albedo.png` is the retained original output of built-in OpenAI ImageGen, generated without an input image. SHA-256: `10da320c0a3cd6e73c6d8db727cd20a7df319f98cf683fa14ccd572e8cf5be80`. It was transferred through the native artifact download; the source pixels were not recreated or repainted. The committed import settings generate mipmaps and cap the runtime image at 1024 pixels. Source and effective imported dimensions must be checked after Godot import.
+
+The existing `Act1ConnectedWorld.AddVisualHaystack` supplies the actual shape, ground contact, snow cap and collision. Only `PainterlyMaterialLibrary/hay_fibers` samples this image using the mesh's authored UVs: three repeats around the stack and 0.75 per local vertical metre. Other surfaces keep their existing projection. The cached material participates in graphics-quality changes. The generated swatch was visually inspected for straw identity, colour and absence of painted volume; in-game repetition, seam, near/far readability, light and rendering cost remain pending source11 native evidence. Generation itself does not accept the asset.
+
+Exact built-in prompt:
+
+```text
+Use case: stylized-concept. Asset type: seamless tileable albedo texture for the existing actual 3D haystack in URMAN, a restrained painterly winter Tatar village mystery game. Create one square 1024x1024 flat orthographic surface swatch of tightly packed dry meadow hay: many fine short irregular straw stems and split dry grass fibers, generally oriented vertically with gentle crossing and bent strands, layered thin broken ends. Muted desaturated flax, dusty ochre, tan and gray-brown palette, mid-light value, subtle hand-painted variation, readable medium-sized fibers rather than noisy photo microdetail. The whole image is densely occupied by material, evenly distributed and seamless at all four edges for repetition. It is a flat material map ONLY: no haystack silhouette, no rounded volume, no pole, no rope, no wood planks, no boards, no snow, no green leaves, no floor, no perspective, no vignette, no large shadows, no directional light, no text, no watermark, no border. Uniform diffuse color under neutral flat lighting; shallow subtle intrinsic fiber overlap only. Edges should match naturally when tiled, with no unique large clumps or dark seam.
+```
+
+
 The focused `_v6_albedo.png` earth/wood siblings are also project-generated,
 non-destructive production candidates; their exact prompts, provenance and
 Godot receipts are recorded below and in the linked knowledge-base reports.
