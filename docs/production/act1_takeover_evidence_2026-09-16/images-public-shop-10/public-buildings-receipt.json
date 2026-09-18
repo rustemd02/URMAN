@@ -1,0 +1,1090 @@
+{
+  "passed": true,
+  "checks": 77,
+  "measuredWalkingMetres": 19.138485,
+  "fixture": "ordinary NewGame; one explicit supported exterior setup per existing public building; all entrances/returns use controller input",
+  "humanPlaytime": "external/not-run",
+  "visualCulturalAcceptance": "external/not-run",
+  "events": [
+    {
+      "kind": "check",
+      "label": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "three public rooms are in the ordinary connected world",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "requested public building exists",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: measured exterior setup fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: setup has actual support",
+      "passed": true
+    },
+    {
+      "kind": "local-exterior-fixture",
+      "building": "shop",
+      "source": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade",
+      "feet": "(-30.699574, 0.37425822, -39.67635)",
+      "addressId": "ADR-H020",
+      "countsAsWalk": false
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-shop-10/shop_01_closed_entrance.png"
+    },
+    {
+      "kind": "check",
+      "label": "shop: approaching leaves both doors closed and does not knock automatically",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: explicit entrance interaction is aimed and available",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "closed-leaf approach uses real controller movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: closed outer leaf stops the standing player",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: walking against the leaf never opens it",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: outward leaf refuses a player standing in its swept arc",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: step away from the leaf",
+      "from": "(-31.708775, 0.53642666, -39.71165)",
+      "goal": "(-30.699574, 0.40839493, -39.67635)",
+      "final": "(-30.773237, 0.379879, -39.67893)",
+      "remaining": 0.07370883,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": []
+    },
+    {
+      "kind": "check",
+      "label": "shop: step away from the leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: step away from the leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "shop/entrance",
+      "feet": "(-30.773237, 0.379879, -39.67893)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/shop/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopEntranceUse at (-32.03376, 1.7387742, -39.722954)",
+      "actionNumber": 1,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-31.708775, 0.53642666, -39.71165)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "blocked-by-full-shape-sweep",
+      "sweep": "{\u0022clear\u0022:false,\u0022sample\u0022:1,\u0022samples\u0022:88,\u0022yaw\u0022:1.5519547,\u0022size\u0022:\u0022(0.065, 1.9050001, 0.946)\u0022,\u0022pose\u0022:\u0022[X: (-0.99855596, 0, -0.053722292), Y: (0, 1, 0), Z: (0.053722292, 0, -0.99855596), O: (-32.08232, 1.6130688, -39.724552)]\u0022,\u0022collider\u0022:\u0022/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/Player\u0022,\u0022shapeIndex\u0022:0,\u0022shapePath\u0022:\u0022/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/Player/CollisionShape3D\u0022,\u0022authoredSourceMesh\u0022:null}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "shop/entrance",
+      "feet": "(-30.773237, 0.379879, -39.67893)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/shop/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopEntranceUse at (-31.966572, 1.7599804, -39.72061)",
+      "actionNumber": 2,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-30.773237, 0.379879, -39.67893)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "shop/entrance",
+      "feet": "(-30.773237, 0.379879, -39.67893)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/shop/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopEntranceUse at (-31.966572, 1.7599804, -39.72061)",
+      "actionNumber": 2,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-30.773237, 0.379879, -39.67893)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "shop/entrance",
+      "open": true,
+      "player": "(-30.773237, 0.379879, -39.67893)",
+      "target": "(-31.638256, 1.6070688, -39.19459)"
+    },
+    {
+      "kind": "visible-surface-owner-probe",
+      "phase": "shop_02_opened_outward",
+      "key": "seni-surface-owners",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-shop-10/shop_02_opened_outward.png",
+      "normalizedPixels": [
+        "(0.45, 0.161)",
+        "(0.477, 0.16)"
+      ],
+      "camera": "[X: (0.034904618, 0, -0.99939066), Y: (-0.3006631, 0.9536726, -0.010500929), Z: (0.9530915, 0.3008464, 0.033287577), O: (-30.953127, 2.0798788, -39.68521)]",
+      "resultLocation": "act1-visible-surface lines in this run\u0027s log",
+      "meshVisibilityChanged": false
+    },
+    {
+      "kind": "seni-infill-culling",
+      "phase": "shop_02_opened_outward",
+      "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_SeniRearRoofInfill_LOD0",
+      "sourceMaterial": "URMAN_Wood_Weathered",
+      "sourceCull": "Disabled",
+      "activeClass": "ShaderMaterial",
+      "preserved": true,
+      "renderMode": "render_mode diffuse_burley, specular_schlick_ggx, cull_disabled;"
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-shop-10/shop_02_opened_outward.png"
+    },
+    {
+      "kind": "walking",
+      "label": "shop: walk up real treads and through the outer aperture",
+      "from": "(-30.773237, 0.379879, -39.67893)",
+      "goal": "(-32.795296, 0.64856875, -39.749535)",
+      "final": "(-32.723167, 0.6494086, -39.747017)",
+      "remaining": 0.07217222,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/SeniFloorBody",
+          "point": "(-32.723167, 0.6485687, -39.747017)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: walk up real treads and through the outer aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: walk up real treads and through the outer aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: the seni has standing headroom",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop/seni: real support is level enough to stand",
+      "passed": true
+    },
+    {
+      "kind": "floor-probe",
+      "label": "shop/seni",
+      "feet": "(-32.723167, 0.6494086, -39.747017)",
+      "hit": "(-32.723167, 0.64856875, -39.74702)",
+      "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/SeniFloorBody"
+    },
+    {
+      "kind": "check",
+      "label": "shop/inner-door: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop/inner-door: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "shop/inner-door",
+      "feet": "(-32.723167, 0.6494086, -39.747017)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/shop/inner-door",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopInnerDoorUse at (-33.15902, 1.8154564, -38.8862)",
+      "actionNumber": 0,
+      "transformRevision": 3,
+      "action": "not-called",
+      "result": "not-called",
+      "sweep": "not-called"
+    },
+    {
+      "kind": "check",
+      "label": "shop/inner-door: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "shop/inner-door",
+      "feet": "(-32.723167, 0.6494086, -39.747017)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/shop/inner-door",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopInnerDoorUse at (-33.20582, 1.7451165, -38.793774)",
+      "actionNumber": 1,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/inner-door\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-32.723167, 0.6494086, -39.747017)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:94,\u0022from\u0022:0,\u0022to\u0022:-1.6580628}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/inner-door: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "shop/inner-door",
+      "feet": "(-32.723167, 0.6494086, -39.747017)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/shop/inner-door",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopInnerDoorUse at (-33.20582, 1.7451165, -38.793774)",
+      "actionNumber": 1,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/inner-door\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-32.723167, 0.6494086, -39.747017)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:94,\u0022from\u0022:0,\u0022to\u0022:-1.6580628}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/inner-door: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "shop/inner-door",
+      "open": true,
+      "player": "(-32.723167, 0.6494086, -39.747017)",
+      "target": "(-33.937126, 1.6498187, -38.34946)"
+    },
+    {
+      "kind": "fixed-aperture-approach",
+      "building": "shop",
+      "actualApertureGoal": "(-33.33496, 0.64856875, -39.76838)",
+      "formerMovingTargetGoal": "(-33.8869, 0.64856875, -39.787655)",
+      "fixedGoalFits": true,
+      "movingTargetGoalFits": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: align within existing seni",
+      "from": "(-32.723167, 0.6494086, -39.747017)",
+      "goal": "(-33.33496, 0.64856875, -39.76838)",
+      "final": "(-33.26116, 0.6494086, -39.765804)",
+      "remaining": 0.07384404,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/SeniFloorBody",
+          "point": "(-33.26116, 0.6485687, -39.765804)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: align within existing seni: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: align within existing seni: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: cross the actual main-wall aperture",
+      "from": "(-33.26116, 0.6494086, -39.765804)",
+      "goal": "(-33.381363, 0.69806874, -38.43969)",
+      "final": "(-33.374287, 0.69827545, -38.51791)",
+      "remaining": 0.078539796,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/MainRoom/TimberFloorBody",
+          "point": "(-33.374287, 0.69806874, -38.51791)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: cross the actual main-wall aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: cross the actual main-wall aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: public interior owner matches the physical room",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: both thresholds are crossed with input and no relocation or fall recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop/main: real support is level enough to stand",
+      "passed": true
+    },
+    {
+      "kind": "floor-probe",
+      "label": "shop/main",
+      "feet": "(-33.374287, 0.69827545, -38.51791)",
+      "hit": "(-33.37429, 0.69806874, -38.51791)",
+      "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/MainRoom/TimberFloorBody"
+    },
+    {
+      "kind": "check",
+      "label": "shop: timber floor is the actual support level",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: reach the front of Razilya\u0027s counter",
+      "from": "(-33.374287, 0.69827545, -38.51791)",
+      "goal": "(-32.26592, 0.69806874, -37.229523)",
+      "final": "(-32.321056, 0.69827545, -37.29363)",
+      "remaining": 0.08455611,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/MainRoom/TimberFloorBody",
+          "point": "(-32.321056, 0.69806874, -37.29363)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: reach the front of Razilya\u0027s counter: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: reach the front of Razilya\u0027s counter: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: physical counter and shop UI use the same reachable target",
+      "passed": true
+    },
+    {
+      "kind": "visible-surface-owner-probe",
+      "phase": "shop_03_counter_and_razilya",
+      "key": "floor-owner",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-shop-10/shop_03_counter_and_razilya.png",
+      "normalizedPixels": [
+        "(.45,.92)",
+        "(.9,.9)"
+      ],
+      "camera": "[X: (0.25432277, 0, 0.9671194), Y: (0.5870825, 0.79466945, -0.1543847), Z: (-0.7685402, 0.60704243, 0.20210253), O: (-32.146976, 2.3982754, -37.339405)]",
+      "resultLocation": "act1-visible-surface lines in this run\u0027s log",
+      "meshVisibilityChanged": false
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-shop-10/shop_03_counter_and_razilya.png"
+    },
+    {
+      "kind": "check",
+      "label": "shop: the actual debt notebook is readable from the public side of the counter",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: return along the room corridor",
+      "from": "(-32.321056, 0.69827545, -37.29363)",
+      "goal": "(-33.381363, 0.69806874, -38.43969)",
+      "final": "(-33.331226, 0.69827545, -38.38551)",
+      "remaining": 0.07381845,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/MainRoom/TimberFloorBody",
+          "point": "(-33.331226, 0.69806874, -38.38551)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: return along the room corridor: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: return along the room corridor: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: return through inner aperture",
+      "from": "(-33.331226, 0.69827545, -38.38551)",
+      "goal": "(-33.33496, 0.64856875, -39.76838)",
+      "final": "(-33.33474, 0.6493985, -39.688988)",
+      "remaining": 0.079391785,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/SeniFloorBody",
+          "point": "(-33.33474, 0.6485687, -39.688988)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: return through inner aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: return through inner aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: pass the free end of the outer leaf",
+      "from": "(-33.33474, 0.6493985, -39.688988)",
+      "goal": "(-32.795296, 0.64856875, -39.749535)",
+      "final": "(-32.870148, 0.6493985, -39.741127)",
+      "remaining": 0.075322695,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/SeniFloorBody",
+          "point": "(-32.870148, 0.6485687, -39.741127)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: pass the free end of the outer leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: pass the free end of the outer leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: descend the real entry treads",
+      "from": "(-32.870148, 0.6493985, -39.741127)",
+      "goal": "(-30.699574, 0.40839493, -39.67635)",
+      "final": "(-30.771664, 0.37864494, -39.678505)",
+      "remaining": 0.07212236,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "point": "(-30.794205, 0.37950033, -39.67785)",
+          "normal": "(0.06442513, 0.99792075, -0.0018739755)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: descend the real entry treads: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: descend the real entry treads: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: ordinary return reaches the exterior",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: actual open doors and exterior player pose save together",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "shop/entrance",
+      "feet": "(-30.771664, 0.37864494, -39.678505)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": false,
+      "focusedInteraction": "urman.chapter1:local/shop/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopEntranceUse at (-31.689484, 1.7388256, -39.258812)",
+      "actionNumber": 2,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-30.773237, 0.379879, -39.67893)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "shop/entrance",
+      "feet": "(-30.771664, 0.37864494, -39.678505)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/shop/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopEntranceUse at (-31.55662, 1.7986968, -39.31957)",
+      "actionNumber": 3,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-30.771664, 0.37864494, -39.678505)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "shop/entrance",
+      "feet": "(-30.771664, 0.37864494, -39.678505)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/shop/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopEntranceUse at (-31.55662, 1.7986968, -39.31957)",
+      "actionNumber": 3,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-30.771664, 0.37864494, -39.678505)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "shop/entrance",
+      "open": false,
+      "player": "(-30.771664, 0.37864494, -39.678505)",
+      "target": "(-32.091225, 1.6070688, -39.72495)"
+    },
+    {
+      "kind": "check",
+      "label": "shop: restore the same runtime snapshot",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: both door states are restored without discovering a source",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: load leaves an unobstructed standing body",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: return through restored outward leaf",
+      "from": "(-30.771664, 0.37864494, -39.678505)",
+      "goal": "(-32.795296, 0.64856875, -39.749535)",
+      "final": "(-32.723263, 0.6494198, -39.747005)",
+      "remaining": 0.07207732,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/SeniFloorBody",
+          "point": "(-32.723263, 0.6485687, -39.747005)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: return through restored outward leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: return through restored outward leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "fixed-aperture-approach",
+      "building": "shop",
+      "actualApertureGoal": "(-33.33496, 0.64856875, -39.76838)",
+      "formerMovingTargetGoal": "(-33.8869, 0.64856875, -39.787655)",
+      "fixedGoalFits": true,
+      "movingTargetGoalFits": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: align within existing seni",
+      "from": "(-32.723263, 0.6494198, -39.747005)",
+      "goal": "(-33.33496, 0.64856875, -39.76838)",
+      "final": "(-33.261257, 0.6494198, -39.76581)",
+      "remaining": 0.073748596,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/SeniFloorBody",
+          "point": "(-33.261257, 0.6485687, -39.76581)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: align within existing seni: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: align within existing seni: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: cross the actual main-wall aperture",
+      "from": "(-33.261257, 0.6494198, -39.76581)",
+      "goal": "(-33.381363, 0.69806874, -38.43969)",
+      "final": "(-33.374287, 0.6982931, -38.517918)",
+      "remaining": 0.078547396,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/MainRoom/TimberFloorBody",
+          "point": "(-33.374287, 0.69806874, -38.517918)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: cross the actual main-wall aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: cross the actual main-wall aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: public interior owner matches the physical room",
+      "passed": true
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-shop-10/shop_05_return_after_load.png"
+    },
+    {
+      "kind": "walking",
+      "label": "shop: return along the room corridor",
+      "from": "(-33.374287, 0.6982931, -38.517918)",
+      "goal": "(-33.381363, 0.69806874, -38.43969)",
+      "final": "(-33.374287, 0.6982931, -38.517918)",
+      "remaining": 0.078547396,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/MainRoom/TimberFloorBody",
+          "point": "(-33.374287, 0.69806874, -38.517918)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: return along the room corridor: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: return along the room corridor: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: return through inner aperture",
+      "from": "(-33.374287, 0.6982931, -38.517918)",
+      "goal": "(-33.33496, 0.64856875, -39.76838)",
+      "final": "(-33.33731, 0.64877164, -39.69348)",
+      "remaining": 0.07493462,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/SeniFloorBody",
+          "point": "(-33.33731, 0.6485687, -39.69348)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: return through inner aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: return through inner aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: pass the free end of the outer leaf",
+      "from": "(-33.33731, 0.64877164, -39.69348)",
+      "goal": "(-32.795296, 0.64856875, -39.749535)",
+      "final": "(-32.87229, 0.64877164, -39.74157)",
+      "remaining": 0.07740674,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/PublicInterior_shop/SeniFloorBody",
+          "point": "(-32.87229, 0.6485687, -39.74157)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "shop: pass the free end of the outer leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: pass the free end of the outer leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "shop: descend the real entry treads",
+      "from": "(-32.87229, 0.64877164, -39.74157)",
+      "goal": "(-30.699574, 0.40839493, -39.67635)",
+      "final": "(-30.773933, 0.38000074, -39.67858)",
+      "remaining": 0.07439338,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": []
+    },
+    {
+      "kind": "check",
+      "label": "shop: descend the real entry treads: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop: descend the real entry treads: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "shop/entrance",
+      "feet": "(-30.773933, 0.38000074, -39.67858)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": false,
+      "focusedInteraction": "urman.chapter1:local/shop/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopEntranceUse at (-31.689758, 1.7393377, -39.258846)",
+      "actionNumber": 3,
+      "transformRevision": 5,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-30.771664, 0.37864494, -39.678505)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "shop/entrance",
+      "feet": "(-30.773933, 0.38000074, -39.67858)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/shop/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopEntranceUse at (-31.557302, 1.7993267, -39.319557)",
+      "actionNumber": 4,
+      "transformRevision": 5,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-30.773933, 0.38000074, -39.67858)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "shop/entrance",
+      "feet": "(-30.773933, 0.38000074, -39.67858)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/shop/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/shopEntranceUse at (-31.557302, 1.7993267, -39.319557)",
+      "actionNumber": 4,
+      "transformRevision": 5,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022shop/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(-30.773933, 0.38000074, -39.67858)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "shop/entrance: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "shop/entrance",
+      "open": false,
+      "player": "(-30.773933, 0.38000074, -39.67858)",
+      "target": "(-32.091225, 1.6070688, -39.72495)"
+    },
+    {
+      "kind": "building-complete",
+      "building": "shop",
+      "addressId": "ADR-H020",
+      "exterior": "(-30.699574, 0.40839493, -39.67635)",
+      "entry": "(-32.18367, 0.64856875, -39.728176)",
+      "halfSize": "(2.2904997, 2.6954997)",
+      "ceiling": 2.1564999
+    }
+  ]
+}

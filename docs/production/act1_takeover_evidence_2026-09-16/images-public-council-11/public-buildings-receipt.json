@@ -1,0 +1,320 @@
+{
+  "passed": false,
+  "checks": 60,
+  "measuredWalkingMetres": 0,
+  "fixture": "ordinary NewGame; one explicit supported exterior setup per existing public building; all entrances/returns use controller input",
+  "humanPlaytime": "external/not-run",
+  "visualCulturalAcceptance": "external/not-run",
+  "events": [
+    {
+      "kind": "check",
+      "label": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "three public rooms are in the ordinary connected world",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "requested public building exists",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: the repair owns only the identified fifteen-member fence",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: rail ends lie inside the real existing rear wall thickness",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_EndPost_00_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_EndPost_00_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_EndPost_01_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: retained fence visibility is unchanged: FenceSegment_EndPost_01_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: every retained fence surface keeps its material: FenceSegment_EndPost_01_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: published fence has no surface extending into the seni: FenceSegment_EndPost_01_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: exterior member retains the exact original mesh: FenceSegment_EndPost_01_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_EndPost_02_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: retained fence visibility is unchanged: FenceSegment_EndPost_02_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: every retained fence surface keeps its material: FenceSegment_EndPost_02_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: published fence has no surface extending into the seni: FenceSegment_EndPost_02_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: exterior member retains the exact original mesh: FenceSegment_EndPost_02_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_FoundationStoneLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_FoundationStoneLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_FoundationStoneRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: retained fence visibility is unchanged: FenceSegment_FoundationStoneRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: every retained fence surface keeps its material: FenceSegment_FoundationStoneRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: published fence has no surface extending into the seni: FenceSegment_FoundationStoneRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: exterior member retains the exact original mesh: FenceSegment_FoundationStoneRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_Picket_00_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_Picket_00_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_Picket_01_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_Picket_01_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_Picket_02_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: retained fence visibility is unchanged: FenceSegment_Picket_02_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: every retained fence surface keeps its material: FenceSegment_Picket_02_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: published fence has no surface extending into the seni: FenceSegment_Picket_02_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: exterior member retains the exact original mesh: FenceSegment_Picket_02_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_Picket_03_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: retained fence visibility is unchanged: FenceSegment_Picket_03_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: every retained fence surface keeps its material: FenceSegment_Picket_03_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: published fence has no surface extending into the seni: FenceSegment_Picket_03_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: exterior member retains the exact original mesh: FenceSegment_Picket_03_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_Picket_04_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: retained fence visibility is unchanged: FenceSegment_Picket_04_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: every retained fence surface keeps its material: FenceSegment_Picket_04_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: published fence has no surface extending into the seni: FenceSegment_Picket_04_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: exterior member retains the exact original mesh: FenceSegment_Picket_04_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_Picket_05_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: retained fence visibility is unchanged: FenceSegment_Picket_05_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: every retained fence surface keeps its material: FenceSegment_Picket_05_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: published fence has no surface extending into the seni: FenceSegment_Picket_05_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: exterior member retains the exact original mesh: FenceSegment_Picket_05_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_Picket_06_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: retained fence visibility is unchanged: FenceSegment_Picket_06_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: every retained fence surface keeps its material: FenceSegment_Picket_06_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: published fence has no surface extending into the seni: FenceSegment_Picket_06_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: exterior member retains the exact original mesh: FenceSegment_Picket_06_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: fence member keeps its original transform: FenceSegment_RailLower_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: retained fence visibility is unchanged: FenceSegment_RailLower_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: every retained fence surface keeps its material: FenceSegment_RailLower_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: published fence has no surface extending into the seni: FenceSegment_RailLower_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: every changed member has the measured rail role",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: only the measured single-surface rails receive a cut",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "failure",
+      "error": "System.InvalidOperationException: council: every rail cap remains behind the actual rear wall face: FenceSegment_RailLower_LOD0\n   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.Require(Boolean condition, String label) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 640\n   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.CheckCouncilFenceJunction(PublicBuildingRoom council) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.FenceJunction.cs:line 77\n   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.Visit(PublicBuildingRoom building) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 74\n   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 42",
+      "feet": "(0, -0.11800001, 9)",
+      "currentAim": "no hit"
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-council-11/failure.png"
+    }
+  ]
+}
