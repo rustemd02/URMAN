@@ -1,0 +1,324 @@
+{
+  "passed": false,
+  "surfaces": [
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootLeft_LOD0",
+      "surface": 0,
+      "vertices": 48,
+      "indices": 180,
+      "attributes": true,
+      "lodsSame": true,
+      "cuffError": 0,
+      "oldSole": 0.01,
+      "newSole": 0.01,
+      "edgeHeight": 0.0024999995,
+      "lowerWidth": 0.11506939,
+      "wrongFacing": 0,
+      "originalMaterial": "StylizedBoot",
+      "presentationMaterial": "ShaderMaterial"
+    },
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootLeft_LOD1",
+      "surface": 0,
+      "vertices": 30,
+      "indices": 90,
+      "attributes": true,
+      "lodsSame": true,
+      "cuffError": 0,
+      "oldSole": 0.010184307,
+      "newSole": 0.010184307,
+      "edgeHeight": -1,
+      "lowerWidth": 0.111938,
+      "wrongFacing": 0,
+      "originalMaterial": "StylizedBoot",
+      "presentationMaterial": "ShaderMaterial"
+    },
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootRight_LOD0",
+      "surface": 0,
+      "vertices": 48,
+      "indices": 180,
+      "attributes": true,
+      "lodsSame": true,
+      "cuffError": 0,
+      "oldSole": 0.01,
+      "newSole": 0.01,
+      "edgeHeight": 0.0024999995,
+      "lowerWidth": 0.11506939,
+      "wrongFacing": 0,
+      "originalMaterial": "StylizedBoot",
+      "presentationMaterial": "ShaderMaterial"
+    },
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootRight_LOD1",
+      "surface": 0,
+      "vertices": 30,
+      "indices": 90,
+      "attributes": true,
+      "lodsSame": true,
+      "cuffError": 0,
+      "oldSole": 0.010184307,
+      "newSole": 0.010184307,
+      "edgeHeight": -1,
+      "lowerWidth": 0.111938,
+      "wrongFacing": 0,
+      "originalMaterial": "StylizedBoot",
+      "presentationMaterial": "ShaderMaterial"
+    }
+  ],
+  "views": [
+    {
+      "name": "09e_timur_sock_idle_lod0",
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootLeft_LOD0",
+      "clip": "Idle",
+      "actualAnimation": "TimurHazrat_Idle",
+      "animationPosition": 0.28001833333333415,
+      "imageWritten": true,
+      "posedMeasurementAfterCaptureFrames": 2,
+      "forcedLodAtOrdinaryDistance": 0,
+      "camera": "[X: (0.8966596, 0, -0.44272056), Y: (-0.302949, 0.7292105, -0.61357474), Z: (0.3228365, 0.68428946, 0.6538536), O: (-51.834522, 6.482429, -35.16015)]",
+      "feet": {
+        "x": -51.754833,
+        "y": 4.782429,
+        "z": -34.99875
+      },
+      "posedSoleY": 4.782295,
+      "supportY": 4.782295,
+      "gap": 0,
+      "visualCarpetTopY": 4.798795,
+      "visualCarpetGap": -0.016499996,
+      "supportOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+      "pixelsMin": {
+        "x": 894.0704,
+        "y": 525.4038
+      },
+      "pixelsMax": {
+        "x": 940.0833,
+        "y": 619.4452
+      },
+      "artisticReadabilityRequiresImageReview": true
+    },
+    {
+      "name": "09e_timur_sock_idle_lod0",
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootRight_LOD0",
+      "clip": "Idle",
+      "actualAnimation": "TimurHazrat_Idle",
+      "animationPosition": 0.28001833333333415,
+      "imageWritten": true,
+      "posedMeasurementAfterCaptureFrames": 2,
+      "forcedLodAtOrdinaryDistance": 0,
+      "camera": "[X: (0.8966596, 0, -0.44272056), Y: (-0.302949, 0.7292105, -0.61357474), Z: (0.3228365, 0.68428946, 0.6538536), O: (-51.834522, 6.482429, -35.16015)]",
+      "feet": {
+        "x": -51.754833,
+        "y": 4.782429,
+        "z": -34.99875
+      },
+      "posedSoleY": 4.782295,
+      "supportY": 4.782295,
+      "gap": 0,
+      "visualCarpetTopY": 4.798795,
+      "visualCarpetGap": -0.016499996,
+      "supportOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+      "pixelsMin": {
+        "x": 982.92773,
+        "y": 514.3561
+      },
+      "pixelsMax": {
+        "x": 1036.51,
+        "y": 605.3641
+      },
+      "artisticReadabilityRequiresImageReview": true
+    },
+    {
+      "name": "09e_timur_sock_idle_lod1",
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootLeft_LOD1",
+      "clip": "Idle",
+      "actualAnimation": "TimurHazrat_Idle",
+      "animationPosition": 0.4068666666666675,
+      "imageWritten": true,
+      "posedMeasurementAfterCaptureFrames": 2,
+      "forcedLodAtOrdinaryDistance": 1,
+      "camera": "[X: (0.8966596, 0, -0.44272056), Y: (-0.302949, 0.7292105, -0.61357474), Z: (0.3228365, 0.68428946, 0.6538536), O: (-51.834522, 6.482429, -35.16015)]",
+      "feet": {
+        "x": -51.754833,
+        "y": 4.782429,
+        "z": -34.99875
+      },
+      "posedSoleY": 4.7824793,
+      "supportY": 4.782295,
+      "gap": 0.00018405914,
+      "visualCarpetTopY": 4.798795,
+      "visualCarpetGap": -0.016315937,
+      "supportOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+      "pixelsMin": {
+        "x": 894.0995,
+        "y": 523.5753
+      },
+      "pixelsMax": {
+        "x": 935.45135,
+        "y": 614.5335
+      },
+      "artisticReadabilityRequiresImageReview": true
+    },
+    {
+      "name": "09e_timur_sock_idle_lod1",
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootRight_LOD1",
+      "clip": "Idle",
+      "actualAnimation": "TimurHazrat_Idle",
+      "animationPosition": 0.4068666666666675,
+      "imageWritten": true,
+      "posedMeasurementAfterCaptureFrames": 2,
+      "forcedLodAtOrdinaryDistance": 1,
+      "camera": "[X: (0.8966596, 0, -0.44272056), Y: (-0.302949, 0.7292105, -0.61357474), Z: (0.3228365, 0.68428946, 0.6538536), O: (-51.834522, 6.482429, -35.16015)]",
+      "feet": {
+        "x": -51.754833,
+        "y": 4.782429,
+        "z": -34.99875
+      },
+      "posedSoleY": 4.7824793,
+      "supportY": 4.782295,
+      "gap": 0.00018405914,
+      "visualCarpetTopY": 4.798795,
+      "visualCarpetGap": -0.016315937,
+      "supportOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+      "pixelsMin": {
+        "x": 986.6979,
+        "y": 518.96533
+      },
+      "pixelsMax": {
+        "x": 1031.0168,
+        "y": 609.99347
+      },
+      "artisticReadabilityRequiresImageReview": true
+    },
+    {
+      "name": "09e_timur_sock_tension_lod0",
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootLeft_LOD0",
+      "clip": "Tension",
+      "actualAnimation": "TimurHazrat_Tension",
+      "animationPosition": 0.38340266666666656,
+      "imageWritten": true,
+      "posedMeasurementAfterCaptureFrames": 2,
+      "forcedLodAtOrdinaryDistance": 0,
+      "camera": "[X: (0.8966596, 0, -0.44272056), Y: (-0.302949, 0.7292105, -0.61357474), Z: (0.3228365, 0.68428946, 0.6538536), O: (-51.834522, 6.482429, -35.16015)]",
+      "feet": {
+        "x": -51.754833,
+        "y": 4.782429,
+        "z": -34.99875
+      },
+      "posedSoleY": 4.782295,
+      "supportY": 4.782295,
+      "gap": 0,
+      "visualCarpetTopY": 4.798795,
+      "visualCarpetGap": -0.016499996,
+      "supportOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+      "pixelsMin": {
+        "x": 891.0423,
+        "y": 521.1365
+      },
+      "pixelsMax": {
+        "x": 934.69696,
+        "y": 611.5068
+      },
+      "artisticReadabilityRequiresImageReview": true
+    },
+    {
+      "name": "09e_timur_sock_tension_lod0",
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootRight_LOD0",
+      "clip": "Tension",
+      "actualAnimation": "TimurHazrat_Tension",
+      "animationPosition": 0.38340266666666656,
+      "imageWritten": true,
+      "posedMeasurementAfterCaptureFrames": 2,
+      "forcedLodAtOrdinaryDistance": 0,
+      "camera": "[X: (0.8966596, 0, -0.44272056), Y: (-0.302949, 0.7292105, -0.61357474), Z: (0.3228365, 0.68428946, 0.6538536), O: (-51.834522, 6.482429, -35.16015)]",
+      "feet": {
+        "x": -51.754833,
+        "y": 4.782429,
+        "z": -34.99875
+      },
+      "posedSoleY": 4.782295,
+      "supportY": 4.782295,
+      "gap": 0,
+      "visualCarpetTopY": 4.798795,
+      "visualCarpetGap": -0.016499996,
+      "supportOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+      "pixelsMin": {
+        "x": 985.302,
+        "y": 521.13666
+      },
+      "pixelsMax": {
+        "x": 1028.9568,
+        "y": 611.5071
+      },
+      "artisticReadabilityRequiresImageReview": true
+    },
+    {
+      "name": "09e_timur_sock_tension_lod1",
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootLeft_LOD1",
+      "clip": "Tension",
+      "actualAnimation": "TimurHazrat_Tension",
+      "animationPosition": 0.5046783333333325,
+      "imageWritten": true,
+      "posedMeasurementAfterCaptureFrames": 2,
+      "forcedLodAtOrdinaryDistance": 1,
+      "camera": "[X: (0.8966596, 0, -0.44272056), Y: (-0.302949, 0.7292105, -0.61357474), Z: (0.3228365, 0.68428946, 0.6538536), O: (-51.834522, 6.482429, -35.16015)]",
+      "feet": {
+        "x": -51.754833,
+        "y": 4.782429,
+        "z": -34.99875
+      },
+      "posedSoleY": 4.7824793,
+      "supportY": 4.782295,
+      "gap": 0.00018405914,
+      "visualCarpetTopY": 4.798795,
+      "visualCarpetGap": -0.016315937,
+      "supportOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+      "pixelsMin": {
+        "x": 892.5108,
+        "y": 521.25684
+      },
+      "pixelsMax": {
+        "x": 934.15704,
+        "y": 611.937
+      },
+      "artisticReadabilityRequiresImageReview": true
+    },
+    {
+      "name": "09e_timur_sock_tension_lod1",
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat/TimurHazrat_Rig/Skeleton3D/TimurHazrat_BootRight_LOD1",
+      "clip": "Tension",
+      "actualAnimation": "TimurHazrat_Tension",
+      "animationPosition": 0.5046783333333325,
+      "imageWritten": true,
+      "posedMeasurementAfterCaptureFrames": 2,
+      "forcedLodAtOrdinaryDistance": 1,
+      "camera": "[X: (0.8966596, 0, -0.44272056), Y: (-0.302949, 0.7292105, -0.61357474), Z: (0.3228365, 0.68428946, 0.6538536), O: (-51.834522, 6.482429, -35.16015)]",
+      "feet": {
+        "x": -51.754833,
+        "y": 4.782429,
+        "z": -34.99875
+      },
+      "posedSoleY": 4.7824793,
+      "supportY": 4.782295,
+      "gap": 0.00018405914,
+      "visualCarpetTopY": 4.798795,
+      "visualCarpetGap": -0.016315937,
+      "supportOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+      "pixelsMin": {
+        "x": 985.45514,
+        "y": 521.2174
+      },
+      "pixelsMax": {
+        "x": 1028.0728,
+        "y": 611.9365
+      },
+      "artisticReadabilityRequiresImageReview": true
+    }
+  ],
+  "failures": [
+    "Footwear inspection preserves actor anchor and the physically reached player position."
+  ],
+  "scope": "four local meshes, current rig, ordinary camera; forced LOD comparison is diagnostic",
+  "artAndCulturalAcceptance": "not-established-by-test"
+}
