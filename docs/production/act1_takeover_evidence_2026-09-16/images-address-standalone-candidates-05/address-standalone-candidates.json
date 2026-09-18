@@ -1,0 +1,3981 @@
+{
+  "schemaVersion": 3,
+  "loadedModule": "0427848a-5dbe-48b8-9265-8c1d1421a796",
+  "scope": "standalone-candidates",
+  "existingPhysicalEntranceComparison": true,
+  "auditRun": false,
+  "acceptance": false,
+  "primaryDoorUnchanged": true,
+  "geometryChanged": false,
+  "registryUnchanged": true,
+  "playerPoseAndStateUnchanged": true,
+  "sourceTransformsUnchanged": true,
+  "records": [
+    {
+      "address": null,
+      "parcel": {
+        "ParcelId": "PAR-3BE818BAD103E824",
+        "QuarterId": "Q01",
+        "GameCadastralId": "URM-Q01-P0201",
+        "PrimaryBuildingId": "BLD-3BE818BAD103E824",
+        "AccessId": "ACC-3BE818BAD103E824",
+        "Polygon": [
+          {
+            "X": 11.56879997253418,
+            "Y": 0,
+            "Z": -50.57640075683594
+          },
+          {
+            "X": 15.04421615600586,
+            "Y": 0,
+            "Z": -50.57640075683594
+          },
+          {
+            "X": 15.04421615600586,
+            "Y": 0,
+            "Z": -47.42359924316406
+          },
+          {
+            "X": 11.56879997253418,
+            "Y": 0,
+            "Z": -47.42359924316406
+          }
+        ]
+      },
+      "access": {
+        "AccessId": "ACC-3BE818BAD103E824",
+        "BuildingId": "BLD-3BE818BAD103E824",
+        "Kind": "entrance",
+        "Position": {
+          "X": 12.06879997253418,
+          "Y": -0.36221471428871155,
+          "Z": -48.78160095214844
+        },
+        "GraphNodeId": "",
+        "State": "pending-physics"
+      },
+      "buildingId": "BLD-3BE818BAD103E824",
+      "source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed",
+      "logicalAnchor": "zirat_road@village-edge-east-shed",
+      "nonAddressableStandalone": true,
+      "technicalRegistrationPresent": true,
+      "productionPrimary": {
+        "configuredLeafName": null,
+        "leaf": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Door_Panel_LOD0",
+        "registryAccess": {
+          "X": 12.06879997253418,
+          "Y": -0.36221471428871155,
+          "Z": -48.78160095214844
+        },
+        "selectedBy": "explicit standalone shed door panel"
+      },
+      "aliases": [],
+      "candidates": [
+        {
+          "label": "existing-shed-door",
+          "leaf": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Door_Panel_LOD0",
+          "productionPrimary": true,
+          "approachDerivedFromOwnLeaf": true,
+          "centre": {
+            "x": 13.1188,
+            "y": 0.2175838,
+            "z": -48.7816
+          },
+          "outward": {
+            "x": -1,
+            "y": 0,
+            "z": -4.371139E-08
+          },
+          "leafHeight": 0.87359995,
+          "leafWidth": 0.6032028,
+          "accessProposed": {
+            "x": 12.0688,
+            "y": -0.3622147,
+            "z": -48.7816
+          },
+          "support": {
+            "supported": true,
+            "feet": {
+              "x": 12.0688,
+              "y": -0.39679593,
+              "z": -48.7816
+            },
+            "supportRefusal": "",
+            "supportDiagnostic": "supplied=(12.0688, -0.3622147, -48.7816) floor=(12.0688, -0.3972061, -48.7816) acceptedFeet=(12.0688, -0.39679593, -48.7816) lift=0.035; normal=(0.005967774, 0.9999227, -0.010907527) depth=0.0010661412 owner=landing: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; ",
+            "observations": {
+              "supplied": {
+                "x": 12.0688,
+                "y": -0.3622147,
+                "z": -48.7816
+              },
+              "playerCanStand": true,
+              "floor": {
+                "from": {
+                  "x": 12.0688,
+                  "y": 0.1877853,
+                  "z": -48.7816
+                },
+                "to": {
+                  "x": 12.0688,
+                  "y": -1.1122147,
+                  "z": -48.7816
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": 12.0688,
+                  "y": -0.3972061,
+                  "z": -48.7816
+                },
+                "normal": {
+                  "x": 0.005967774,
+                  "y": 0.9999227,
+                  "z": -0.010907527
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            }
+          },
+          "direct": {
+            "reached": false,
+            "directOnly": true,
+            "routeDiscovery": false,
+            "maximumAdvances": 1000,
+            "advances": 95,
+            "Edge": {
+              "Id": "ED-9ADADAD877CB8D98",
+              "A": "ND-F9FB5C1E717F66AA",
+              "B": "ND-DD8405CD3820730E",
+              "RoadId": "authored/main-axis",
+              "StreetId": "tukay",
+              "Length": 12.006781606898823,
+              "Width": 5.6,
+              "Surface": "snow_trampled",
+              "Modes": 15,
+              "WinterBlocked": false,
+              "GateKey": ""
+            },
+            "exactAnchor": {
+              "X": -0.2290557508108142,
+              "Y": -0.284729140565721,
+              "Z": -48.37167242192853
+            },
+            "suppliedAnchor": {
+              "x": -0.22905575,
+              "y": -0.28472915,
+              "z": -48.371674
+            },
+            "supported": true,
+            "supportDiagnostic": "supplied=(-0.22905575, -0.28472915, -48.371674) floor=(-0.22905575, -0.27663824, -48.371674) acceptedFeet=(-0.22905575, -0.27622807, -48.371674) lift=0.035; normal=(0.007364056, 0.9999623, 0.004629714) depth=0.0010523256 owner=landing: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; ",
+            "anchorObservation": {
+              "supplied": {
+                "x": -0.22905575,
+                "y": -0.28472915,
+                "z": -48.371674
+              },
+              "playerCanStand": true,
+              "floor": {
+                "from": {
+                  "x": -0.22905575,
+                  "y": 0.26527086,
+                  "z": -48.371674
+                },
+                "to": {
+                  "x": -0.22905575,
+                  "y": -1.0347291,
+                  "z": -48.371674
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": -0.22905575,
+                  "y": -0.27663824,
+                  "z": -48.371674
+                },
+                "normal": {
+                  "x": 0.007364055,
+                  "y": 0.99996215,
+                  "z": 0.0046297135
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [
+                {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                }
+              ],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            },
+            "refusal": "no walkable tread within controller step height: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision shape 317",
+            "stepsClimbed": 0,
+            "finalObservation": {
+              "supplied": {
+                "x": 7.286886,
+                "y": -0.37081826,
+                "z": -48.62209
+              },
+              "playerCanStand": true,
+              "floor": {
+                "from": {
+                  "x": 7.286886,
+                  "y": 0.17918175,
+                  "z": -48.62209
+                },
+                "to": {
+                  "x": 7.286886,
+                  "y": -1.1208183,
+                  "z": -48.62209
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": 7.286886,
+                  "y": -0.37121087,
+                  "z": -48.62209
+                },
+                "normal": {
+                  "x": 0.014387419,
+                  "y": 0.99952006,
+                  "z": 0.027435495
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [
+                {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                }
+              ],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            },
+            "path": [
+              {
+                "x": -0.22905575,
+                "y": -0.27622807,
+                "z": -48.371674
+              },
+              {
+                "x": -0.14910015,
+                "y": -0.27703738,
+                "z": -48.37434
+              },
+              {
+                "x": -0.06914321,
+                "y": -0.27766436,
+                "z": -48.377007
+              },
+              {
+                "x": 0.010814046,
+                "y": -0.2782474,
+                "z": -48.379673
+              },
+              {
+                "x": 0.09077135,
+                "y": -0.27882472,
+                "z": -48.38234
+              },
+              {
+                "x": 0.17072865,
+                "y": -0.27940133,
+                "z": -48.385006
+              },
+              {
+                "x": 0.25068596,
+                "y": -0.27997786,
+                "z": -48.387672
+              },
+              {
+                "x": 0.33064327,
+                "y": -0.28055432,
+                "z": -48.39034
+              },
+              {
+                "x": 0.41060057,
+                "y": -0.28113076,
+                "z": -48.393005
+              },
+              {
+                "x": 0.49055788,
+                "y": -0.2817073,
+                "z": -48.39567
+              },
+              {
+                "x": 0.5705152,
+                "y": -0.2822838,
+                "z": -48.39834
+              },
+              {
+                "x": 0.6504725,
+                "y": -0.28286025,
+                "z": -48.401005
+              },
+              {
+                "x": 0.7304298,
+                "y": -0.28343675,
+                "z": -48.40367
+              },
+              {
+                "x": 0.81038713,
+                "y": -0.2842,
+                "z": -48.406338
+              },
+              {
+                "x": 0.89034563,
+                "y": -0.2848007,
+                "z": -48.409004
+              },
+              {
+                "x": 0.97030425,
+                "y": -0.28500685,
+                "z": -48.41167
+              },
+              {
+                "x": 1.0502607,
+                "y": -0.28572205,
+                "z": -48.414337
+              },
+              {
+                "x": 1.1302178,
+                "y": -0.28631654,
+                "z": -48.417004
+              },
+              {
+                "x": 1.2101749,
+                "y": -0.28689533,
+                "z": -48.41967
+              },
+              {
+                "x": 1.2901323,
+                "y": -0.2876589,
+                "z": -48.422337
+              },
+              {
+                "x": 1.3700907,
+                "y": -0.2878815,
+                "z": -48.425003
+              },
+              {
+                "x": 1.4500471,
+                "y": -0.28858876,
+                "z": -48.42767
+              },
+              {
+                "x": 1.5300043,
+                "y": -0.2893589,
+                "z": -48.430336
+              },
+              {
+                "x": 1.6099627,
+                "y": -0.28957695,
+                "z": -48.433002
+              },
+              {
+                "x": 1.6899191,
+                "y": -0.29028362,
+                "z": -48.43567
+              },
+              {
+                "x": 1.7698762,
+                "y": -0.29086694,
+                "z": -48.438335
+              },
+              {
+                "x": 1.8498336,
+                "y": -0.2914342,
+                "z": -48.441
+              },
+              {
+                "x": 1.929791,
+                "y": -0.29199943,
+                "z": -48.44367
+              },
+              {
+                "x": 2.0097475,
+                "y": -0.2927352,
+                "z": -48.446335
+              },
+              {
+                "x": 2.089703,
+                "y": -0.2948519,
+                "z": -48.449
+              },
+              {
+                "x": 2.1696587,
+                "y": -0.29771566,
+                "z": -48.451668
+              },
+              {
+                "x": 2.2496142,
+                "y": -0.3002059,
+                "z": -48.454334
+              },
+              {
+                "x": 2.3295698,
+                "y": -0.30306965,
+                "z": -48.457
+              },
+              {
+                "x": 2.4095254,
+                "y": -0.30555987,
+                "z": -48.459667
+              },
+              {
+                "x": 2.489481,
+                "y": -0.30842364,
+                "z": -48.462334
+              },
+              {
+                "x": 2.5694366,
+                "y": -0.3112874,
+                "z": -48.465
+              },
+              {
+                "x": 2.6493921,
+                "y": -0.31377763,
+                "z": -48.467667
+              },
+              {
+                "x": 2.7293477,
+                "y": -0.3166414,
+                "z": -48.470333
+              },
+              {
+                "x": 2.8093033,
+                "y": -0.3191316,
+                "z": -48.473
+              },
+              {
+                "x": 2.8892589,
+                "y": -0.32199538,
+                "z": -48.475666
+              },
+              {
+                "x": 2.9692144,
+                "y": -0.3244856,
+                "z": -48.478333
+              },
+              {
+                "x": 3.04917,
+                "y": -0.32734936,
+                "z": -48.481
+              },
+              {
+                "x": 3.1291256,
+                "y": -0.33021313,
+                "z": -48.483665
+              },
+              {
+                "x": 3.2090812,
+                "y": -0.33270335,
+                "z": -48.486332
+              },
+              {
+                "x": 3.2890368,
+                "y": -0.33519357,
+                "z": -48.489
+              },
+              {
+                "x": 3.3689923,
+                "y": -0.33731028,
+                "z": -48.491665
+              },
+              {
+                "x": 3.4489498,
+                "y": -0.33778042,
+                "z": -48.494324
+              },
+              {
+                "x": 3.5289078,
+                "y": -0.33817545,
+                "z": -48.496983
+              },
+              {
+                "x": 3.608866,
+                "y": -0.3385605,
+                "z": -48.49964
+              },
+              {
+                "x": 3.6888242,
+                "y": -0.33894438,
+                "z": -48.5023
+              },
+              {
+                "x": 3.7687824,
+                "y": -0.33932805,
+                "z": -48.50496
+              },
+              {
+                "x": 3.8487406,
+                "y": -0.33971173,
+                "z": -48.507618
+              },
+              {
+                "x": 3.9286988,
+                "y": -0.34021744,
+                "z": -48.510277
+              },
+              {
+                "x": 4.0086565,
+                "y": -0.3408177,
+                "z": -48.51294
+              },
+              {
+                "x": 4.0886135,
+                "y": -0.34143007,
+                "z": -48.515602
+              },
+              {
+                "x": 4.1685705,
+                "y": -0.34204417,
+                "z": -48.518265
+              },
+              {
+                "x": 4.2485275,
+                "y": -0.34265834,
+                "z": -48.520927
+              },
+              {
+                "x": 4.3284845,
+                "y": -0.3432726,
+                "z": -48.52359
+              },
+              {
+                "x": 4.4084415,
+                "y": -0.34388694,
+                "z": -48.526253
+              },
+              {
+                "x": 4.4883986,
+                "y": -0.34450126,
+                "z": -48.528915
+              },
+              {
+                "x": 4.5683556,
+                "y": -0.3451155,
+                "z": -48.531578
+              },
+              {
+                "x": 4.6483126,
+                "y": -0.3457297,
+                "z": -48.53424
+              },
+              {
+                "x": 4.7282696,
+                "y": -0.346344,
+                "z": -48.536903
+              },
+              {
+                "x": 4.8082266,
+                "y": -0.34695825,
+                "z": -48.539566
+              },
+              {
+                "x": 4.8881836,
+                "y": -0.3475726,
+                "z": -48.54223
+              },
+              {
+                "x": 4.9681406,
+                "y": -0.34837344,
+                "z": -48.54489
+              },
+              {
+                "x": 5.0480995,
+                "y": -0.3488253,
+                "z": -48.54755
+              },
+              {
+                "x": 5.128057,
+                "y": -0.34941873,
+                "z": -48.550213
+              },
+              {
+                "x": 5.208014,
+                "y": -0.35021687,
+                "z": -48.552876
+              },
+              {
+                "x": 5.287973,
+                "y": -0.3506683,
+                "z": -48.555534
+              },
+              {
+                "x": 5.3679304,
+                "y": -0.35144827,
+                "z": -48.558197
+              },
+              {
+                "x": 5.4478893,
+                "y": -0.3518974,
+                "z": -48.560856
+              },
+              {
+                "x": 5.5278463,
+                "y": -0.35248685,
+                "z": -48.56352
+              },
+              {
+                "x": 5.6078043,
+                "y": -0.35285696,
+                "z": -48.566174
+              },
+              {
+                "x": 5.6877623,
+                "y": -0.35315734,
+                "z": -48.568825
+              },
+              {
+                "x": 5.76772,
+                "y": -0.3534488,
+                "z": -48.571476
+              },
+              {
+                "x": 5.847678,
+                "y": -0.35373914,
+                "z": -48.574127
+              },
+              {
+                "x": 5.927636,
+                "y": -0.35402924,
+                "z": -48.57678
+              },
+              {
+                "x": 6.007594,
+                "y": -0.35413256,
+                "z": -48.57943
+              },
+              {
+                "x": 6.0875525,
+                "y": -0.35476264,
+                "z": -48.582092
+              },
+              {
+                "x": 6.167508,
+                "y": -0.35575873,
+                "z": -48.58476
+              },
+              {
+                "x": 6.2474637,
+                "y": -0.3567548,
+                "z": -48.587425
+              },
+              {
+                "x": 6.3274193,
+                "y": -0.3577509,
+                "z": -48.59009
+              },
+              {
+                "x": 6.407375,
+                "y": -0.35912052,
+                "z": -48.59276
+              },
+              {
+                "x": 6.4873304,
+                "y": -0.3601166,
+                "z": -48.595425
+              },
+              {
+                "x": 6.567286,
+                "y": -0.36148623,
+                "z": -48.59809
+              },
+              {
+                "x": 6.6472416,
+                "y": -0.36247605,
+                "z": -48.600758
+              },
+              {
+                "x": 6.727197,
+                "y": -0.36347213,
+                "z": -48.603424
+              },
+              {
+                "x": 6.8071527,
+                "y": -0.36446822,
+                "z": -48.60609
+              },
+              {
+                "x": 6.8871083,
+                "y": -0.3654643,
+                "z": -48.608757
+              },
+              {
+                "x": 6.967064,
+                "y": -0.36646038,
+                "z": -48.611423
+              },
+              {
+                "x": 7.0470195,
+                "y": -0.36783,
+                "z": -48.61409
+              },
+              {
+                "x": 7.126975,
+                "y": -0.3688261,
+                "z": -48.616756
+              },
+              {
+                "x": 7.2069306,
+                "y": -0.36982217,
+                "z": -48.619423
+              },
+              {
+                "x": 7.286886,
+                "y": -0.37081826,
+                "z": -48.62209
+              }
+            ],
+            "interpretation": "A blocked straight segment does not establish that every route is blocked."
+          },
+          "view": {
+            "ray": {
+              "from": {
+                "x": 12.2488,
+                "y": 1.303204,
+                "z": -48.7816
+              },
+              "to": {
+                "x": 13.1988,
+                "y": 0.2175838,
+                "z": -48.7816
+              },
+              "hit": true,
+              "owner": {
+                "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy",
+                "shape": 0,
+                "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy/OutbuildingShed_Wall_LOD0_SurfaceContact",
+                "authoredSourceMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0"
+              },
+              "point": {
+                "x": 13.193993,
+                "y": 0.22307786,
+                "z": -48.781597
+              },
+              "normal": {
+                "x": -0.9998743,
+                "y": 0.015858253,
+                "z": -6.43876E-08
+              },
+              "expectedSourceMatched": false,
+              "sourceTriangleComparison": null
+            },
+            "normalRay": {
+              "from": {
+                "x": 12.6688,
+                "y": 0.2175838,
+                "z": -48.7816
+              },
+              "to": {
+                "x": 13.218801,
+                "y": 0.2175838,
+                "z": -48.7816
+              },
+              "hit": true,
+              "owner": {
+                "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy",
+                "shape": 0,
+                "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy/OutbuildingShed_Wall_LOD0_SurfaceContact",
+                "authoredSourceMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0"
+              },
+              "point": {
+                "x": 13.193905,
+                "y": 0.21758386,
+                "z": -48.781597
+              },
+              "normal": {
+                "x": -0.9998743,
+                "y": 0.015858253,
+                "z": -6.43876E-08
+              },
+              "expectedSourceMatched": false,
+              "sourceTriangleComparison": null
+            },
+            "cameraLocal": {
+              "x": 0,
+              "y": 1.7,
+              "z": -0.1800003
+            },
+            "physicsLeafMatched": false,
+            "authoredVisibility": null,
+            "expectedDoorAssembly": [
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Door_Handle_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Door_Panel_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Door_Plank_00_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Door_Plank_01_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Door_Plank_02_LOD0"
+            ],
+            "interactionRayLength": 2.7,
+            "eyeToLeaf": 1.3912121,
+            "existingLeafVisibleAndInRange": false
+          },
+          "mount": {
+            "canMount": false,
+            "point": null,
+            "mountOwner": "",
+            "mountFailure": "No exterior facade rectangle with supported fasteners; eligible planes=1",
+            "coverage": null,
+            "requiredForThisBuilding": false,
+            "existingPlateMoved": false,
+            "plateWasCreated": false
+          },
+          "numberingProposal": null,
+          "comparisonConditionsSatisfied": false,
+          "interactionPerformed": false,
+          "accepted": false
+        }
+      ],
+      "alternateMounts": []
+    },
+    {
+      "address": null,
+      "parcel": {
+        "ParcelId": "PAR-CD709C39546561E0",
+        "QuarterId": "Q01",
+        "GameCadastralId": "URM-Q01-P0202",
+        "PrimaryBuildingId": "BLD-CD709C39546561E0",
+        "AccessId": "ACC-CD709C39546561E0",
+        "Polygon": [
+          {
+            "X": -21.143482208251953,
+            "Y": 0,
+            "Z": -13.381999969482422
+          },
+          {
+            "X": -17.91706085205078,
+            "Y": 0,
+            "Z": -13.381999969482422
+          },
+          {
+            "X": -17.91706085205078,
+            "Y": 0,
+            "Z": -10.618836402893066
+          },
+          {
+            "X": -21.143482208251953,
+            "Y": 0,
+            "Z": -10.618836402893066
+          }
+        ]
+      },
+      "access": {
+        "AccessId": "ACC-CD709C39546561E0",
+        "BuildingId": "BLD-CD709C39546561E0",
+        "Kind": "entrance",
+        "Position": {
+          "X": -18.41706085205078,
+          "Y": 0.18271848559379578,
+          "Z": -12.002552032470703
+        },
+        "GraphNodeId": "",
+        "State": "pending-physics"
+      },
+      "buildingId": "BLD-CD709C39546561E0",
+      "source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed",
+      "logicalAnchor": "village_day@perimeter-west-street-shed",
+      "nonAddressableStandalone": true,
+      "technicalRegistrationPresent": true,
+      "productionPrimary": {
+        "configuredLeafName": null,
+        "leaf": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/OutbuildingShed_Low/OutbuildingShed_Door_Panel_LOD0",
+        "registryAccess": {
+          "X": -18.41706085205078,
+          "Y": 0.18271848559379578,
+          "Z": -12.002552032470703
+        },
+        "selectedBy": "explicit standalone shed door panel"
+      },
+      "aliases": [],
+      "candidates": [
+        {
+          "label": "existing-shed-door",
+          "leaf": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/OutbuildingShed_Low/OutbuildingShed_Door_Panel_LOD0",
+          "productionPrimary": true,
+          "approachDerivedFromOwnLeaf": true,
+          "centre": {
+            "x": -19.46131,
+            "y": 0.7206422,
+            "z": -12.112307
+          },
+          "outward": {
+            "x": 0.9945219,
+            "y": 0,
+            "z": 0.10452842
+          },
+          "leafHeight": 0.67199993,
+          "leafWidth": 0.46399975,
+          "accessProposed": {
+            "x": -18.41706,
+            "y": 0.18271849,
+            "z": -12.002552
+          },
+          "support": {
+            "supported": true,
+            "feet": {
+              "x": -18.41706,
+              "y": 0.14856046,
+              "z": -12.002552
+            },
+            "supportRefusal": "",
+            "supportDiagnostic": "supplied=(-18.41706, 0.18271849, -12.002552) floor=(-18.41706, 0.14770108, -12.002552) acceptedFeet=(-18.41706, 0.14856046, -12.002552) lift=0.035; normal=(0.053548306, 0.9985606, 0.0030470141) depth=0.001094245 owner=landing: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; ",
+            "observations": {
+              "supplied": {
+                "x": -18.41706,
+                "y": 0.18271849,
+                "z": -12.002552
+              },
+              "playerCanStand": true,
+              "floor": {
+                "from": {
+                  "x": -18.41706,
+                  "y": 0.73271847,
+                  "z": -12.002552
+                },
+                "to": {
+                  "x": -18.41706,
+                  "y": -0.5672815,
+                  "z": -12.002552
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": -18.41706,
+                  "y": 0.14770108,
+                  "z": -12.002552
+                },
+                "normal": {
+                  "x": 0.053548306,
+                  "y": 0.9985606,
+                  "z": 0.0030470141
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            }
+          },
+          "direct": {
+            "reached": true,
+            "directOnly": true,
+            "routeDiscovery": false,
+            "maximumAdvances": 1000,
+            "advances": 139,
+            "Edge": {
+              "Id": "ED-63A54129523F405B",
+              "A": "ND-88B643F8EF057ED4",
+              "B": "ND-93CAF8A4CEBF2CB5",
+              "RoadId": "authored/house-path",
+              "StreetId": "tukay",
+              "Length": 7.446050717450812,
+              "Width": 1.15,
+              "Surface": "snow_trampled",
+              "Modes": 1,
+              "WinterBlocked": false,
+              "GateKey": ""
+            },
+            "exactAnchor": {
+              "X": -14.681290881126714,
+              "Y": -0.09015731618648909,
+              "Z": -1.5423961138833162
+            },
+            "suppliedAnchor": {
+              "x": -14.681291,
+              "y": -0.090157315,
+              "z": -1.5423961
+            },
+            "supported": true,
+            "supportDiagnostic": "supplied=(-14.681291, -0.090157315, -1.5423961) floor=(-14.681291, -0.17678595, -1.5423961) acceptedFeet=(-14.681291, -0.17637579, -1.5423961) lift=0.035; normal=(0.05539989, 0.9984449, -0.0062103337) depth=0.0015832826 owner=landing: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; ",
+            "anchorObservation": {
+              "supplied": {
+                "x": -14.681291,
+                "y": -0.090157315,
+                "z": -1.5423961
+              },
+              "playerCanStand": true,
+              "floor": {
+                "from": {
+                  "x": -14.681291,
+                  "y": 0.45984268,
+                  "z": -1.5423961
+                },
+                "to": {
+                  "x": -14.681291,
+                  "y": -0.84015733,
+                  "z": -1.5423961
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": -14.681291,
+                  "y": -0.17678595,
+                  "z": -1.5423961
+                },
+                "normal": {
+                  "x": 0.05539989,
+                  "y": 0.9984449,
+                  "z": -0.0062103337
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            },
+            "refusal": "",
+            "stepsClimbed": 0,
+            "finalObservation": {
+              "supplied": {
+                "x": -18.417034,
+                "y": 0.14830002,
+                "z": -12.002553
+              },
+              "playerCanStand": true,
+              "floor": {
+                "from": {
+                  "x": -18.417034,
+                  "y": 0.6983,
+                  "z": -12.002553
+                },
+                "to": {
+                  "x": -18.417034,
+                  "y": -0.60169995,
+                  "z": -12.002553
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": -18.417034,
+                  "y": 0.1476996,
+                  "z": -12.002553
+                },
+                "normal": {
+                  "x": 0.053548306,
+                  "y": 0.9985606,
+                  "z": 0.0030470141
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [
+                {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                }
+              ],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            },
+            "path": [
+              {
+                "x": -14.681291,
+                "y": -0.17637579,
+                "z": -1.5423961
+              },
+              {
+                "x": -14.708145,
+                "y": -0.17521805,
+                "z": -1.6177413
+              },
+              {
+                "x": -14.734957,
+                "y": -0.17450093,
+                "z": -1.6930913
+              },
+              {
+                "x": -14.761806,
+                "y": -0.17301276,
+                "z": -1.768437
+              },
+              {
+                "x": -14.788676,
+                "y": -0.17192987,
+                "z": -1.84378
+              },
+              {
+                "x": -14.81555,
+                "y": -0.1708995,
+                "z": -1.9191226
+              },
+              {
+                "x": -14.842424,
+                "y": -0.17006272,
+                "z": -1.9944651
+              },
+              {
+                "x": -14.86929,
+                "y": -0.168878,
+                "z": -2.0698082
+              },
+              {
+                "x": -14.896199,
+                "y": -0.16675018,
+                "z": -2.1451468
+              },
+              {
+                "x": -14.923068,
+                "y": -0.16399157,
+                "z": -2.2204754
+              },
+              {
+                "x": -14.949926,
+                "y": -0.16089396,
+                "z": -2.2958014
+              },
+              {
+                "x": -14.976795,
+                "y": -0.15793835,
+                "z": -2.3711298
+              },
+              {
+                "x": -15.003665,
+                "y": -0.15518786,
+                "z": -2.446458
+              },
+              {
+                "x": -15.030524,
+                "y": -0.152278,
+                "z": -2.5217838
+              },
+              {
+                "x": -15.057384,
+                "y": -0.14916071,
+                "z": -2.597109
+              },
+              {
+                "x": -15.084253,
+                "y": -0.14638922,
+                "z": -2.672437
+              },
+              {
+                "x": -15.111114,
+                "y": -0.14328986,
+                "z": -2.7477622
+              },
+              {
+                "x": -15.137984,
+                "y": -0.14052074,
+                "z": -2.8230898
+              },
+              {
+                "x": -15.1648445,
+                "y": -0.13760829,
+                "z": -2.898415
+              },
+              {
+                "x": -15.191706,
+                "y": -0.13467735,
+                "z": -2.9737399
+              },
+              {
+                "x": -15.218567,
+                "y": -0.13155708,
+                "z": -3.0490644
+              },
+              {
+                "x": -15.245439,
+                "y": -0.12878516,
+                "z": -3.1243916
+              },
+              {
+                "x": -15.272301,
+                "y": -0.12587242,
+                "z": -3.1997163
+              },
+              {
+                "x": -15.299163,
+                "y": -0.12275453,
+                "z": -3.2750406
+              },
+              {
+                "x": -15.3260355,
+                "y": -0.119796075,
+                "z": -3.3503673
+              },
+              {
+                "x": -15.352911,
+                "y": -0.116849944,
+                "z": -3.4256914
+              },
+              {
+                "x": -15.379784,
+                "y": -0.1138573,
+                "z": -3.5010157
+              },
+              {
+                "x": -15.406659,
+                "y": -0.110763416,
+                "z": -3.5763402
+              },
+              {
+                "x": -15.433536,
+                "y": -0.10767415,
+                "z": -3.651665
+              },
+              {
+                "x": -15.460412,
+                "y": -0.10458559,
+                "z": -3.7269895
+              },
+              {
+                "x": -15.487288,
+                "y": -0.101497054,
+                "z": -3.802314
+              },
+              {
+                "x": -15.514163,
+                "y": -0.09855185,
+                "z": -3.8776362
+              },
+              {
+                "x": -15.541031,
+                "y": -0.095123075,
+                "z": -3.9529555
+              },
+              {
+                "x": -15.567907,
+                "y": -0.092026755,
+                "z": -4.0282774
+              },
+              {
+                "x": -15.594776,
+                "y": -0.088600785,
+                "z": -4.103596
+              },
+              {
+                "x": -15.621654,
+                "y": -0.0856917,
+                "z": -4.178918
+              },
+              {
+                "x": -15.648513,
+                "y": -0.08247725,
+                "z": -4.254233
+              },
+              {
+                "x": -15.67537,
+                "y": -0.07922325,
+                "z": -4.329548
+              },
+              {
+                "x": -15.702227,
+                "y": -0.075964145,
+                "z": -4.4048624
+              },
+              {
+                "x": -15.729084,
+                "y": -0.07270438,
+                "z": -4.480177
+              },
+              {
+                "x": -15.755941,
+                "y": -0.06907101,
+                "z": -4.5554914
+              },
+              {
+                "x": -15.782821,
+                "y": -0.06613468,
+                "z": -4.6308117
+              },
+              {
+                "x": -15.809683,
+                "y": -0.06272989,
+                "z": -4.7061257
+              },
+              {
+                "x": -15.836553,
+                "y": -0.05926379,
+                "z": -4.7814426
+              },
+              {
+                "x": -15.863434,
+                "y": -0.055975683,
+                "z": -4.856763
+              },
+              {
+                "x": -15.890317,
+                "y": -0.052897308,
+                "z": -4.932083
+              },
+              {
+                "x": -15.9171915,
+                "y": -0.049660232,
+                "z": -5.0074
+              },
+              {
+                "x": -15.944064,
+                "y": -0.046402358,
+                "z": -5.082717
+              },
+              {
+                "x": -15.970926,
+                "y": -0.042930987,
+                "z": -5.1580334
+              },
+              {
+                "x": -15.997807,
+                "y": -0.039773434,
+                "z": -5.2333517
+              },
+              {
+                "x": -16.02469,
+                "y": -0.03684438,
+                "z": -5.30867
+              },
+              {
+                "x": -16.05156,
+                "y": -0.033673927,
+                "z": -5.3839827
+              },
+              {
+                "x": -16.078424,
+                "y": -0.030470932,
+                "z": -5.459295
+              },
+              {
+                "x": -16.10529,
+                "y": -0.026890261,
+                "z": -5.534607
+              },
+              {
+                "x": -16.132177,
+                "y": -0.0236326,
+                "z": -5.6099253
+              },
+              {
+                "x": -16.159067,
+                "y": -0.020416955,
+                "z": -5.685244
+              },
+              {
+                "x": -16.185957,
+                "y": -0.017206654,
+                "z": -5.760563
+              },
+              {
+                "x": -16.212847,
+                "y": -0.013997106,
+                "z": -5.835881
+              },
+              {
+                "x": -16.239737,
+                "y": -0.0107877785,
+                "z": -5.9111996
+              },
+              {
+                "x": -16.266626,
+                "y": -0.007943168,
+                "z": -5.986514
+              },
+              {
+                "x": -16.293554,
+                "y": -0.0057273465,
+                "z": -6.0618463
+              },
+              {
+                "x": -16.32044,
+                "y": -0.004554915,
+                "z": -6.1371818
+              },
+              {
+                "x": -16.34732,
+                "y": -0.0030899327,
+                "z": -6.212517
+              },
+              {
+                "x": -16.374159,
+                "y": -0.0019082215,
+                "z": -6.28784
+              },
+              {
+                "x": -16.401043,
+                "y": -0.00057214417,
+                "z": -6.363168
+              },
+              {
+                "x": -16.427938,
+                "y": 0.001352438,
+                "z": -6.4384937
+              },
+              {
+                "x": -16.454838,
+                "y": 0.0029897466,
+                "z": -6.5138197
+              },
+              {
+                "x": -16.481731,
+                "y": 0.0049627963,
+                "z": -6.589145
+              },
+              {
+                "x": -16.508633,
+                "y": 0.0066064782,
+                "z": -6.664471
+              },
+              {
+                "x": -16.535528,
+                "y": 0.008580495,
+                "z": -6.7397966
+              },
+              {
+                "x": -16.56243,
+                "y": 0.010224285,
+                "z": -6.815122
+              },
+              {
+                "x": -16.589325,
+                "y": 0.012011593,
+                "z": -6.890447
+              },
+              {
+                "x": -16.61622,
+                "y": 0.014004344,
+                "z": -6.965772
+              },
+              {
+                "x": -16.643124,
+                "y": 0.015650602,
+                "z": -7.041097
+              },
+              {
+                "x": -16.670021,
+                "y": 0.017625095,
+                "z": -7.1164217
+              },
+              {
+                "x": -16.696924,
+                "y": 0.0194557,
+                "z": -7.1917467
+              },
+              {
+                "x": -16.723827,
+                "y": 0.021267673,
+                "z": -7.2670712
+              },
+              {
+                "x": -16.750732,
+                "y": 0.022890463,
+                "z": -7.342396
+              },
+              {
+                "x": -16.777632,
+                "y": 0.024675187,
+                "z": -7.41772
+              },
+              {
+                "x": -16.80453,
+                "y": 0.026480926,
+                "z": -7.4930434
+              },
+              {
+                "x": -16.831427,
+                "y": 0.028289434,
+                "z": -7.568367
+              },
+              {
+                "x": -16.858326,
+                "y": 0.030285068,
+                "z": -7.6436906
+              },
+              {
+                "x": -16.885233,
+                "y": 0.032118544,
+                "z": -7.719014
+              },
+              {
+                "x": -16.91214,
+                "y": 0.033557538,
+                "z": -7.7943377
+              },
+              {
+                "x": -16.939035,
+                "y": 0.03550495,
+                "z": -7.869659
+              },
+              {
+                "x": -16.965937,
+                "y": 0.037145197,
+                "z": -7.944981
+              },
+              {
+                "x": -16.99283,
+                "y": 0.039118703,
+                "z": -8.020302
+              },
+              {
+                "x": -17.019737,
+                "y": 0.040796775,
+                "z": -8.095629
+              },
+              {
+                "x": -17.046642,
+                "y": 0.04208439,
+                "z": -8.170956
+              },
+              {
+                "x": -17.073545,
+                "y": 0.043386772,
+                "z": -8.246283
+              },
+              {
+                "x": -17.10045,
+                "y": 0.044691183,
+                "z": -8.3216095
+              },
+              {
+                "x": -17.127356,
+                "y": 0.04599586,
+                "z": -8.396936
+              },
+              {
+                "x": -17.15426,
+                "y": 0.047300525,
+                "z": -8.472262
+              },
+              {
+                "x": -17.181168,
+                "y": 0.048792068,
+                "z": -8.547588
+              },
+              {
+                "x": -17.208082,
+                "y": 0.0499347,
+                "z": -8.622914
+              },
+              {
+                "x": -17.234991,
+                "y": 0.051405206,
+                "z": -8.698239
+              },
+              {
+                "x": -17.261908,
+                "y": 0.052545182,
+                "z": -8.773564
+              },
+              {
+                "x": -17.288818,
+                "y": 0.053828694,
+                "z": -8.848889
+              },
+              {
+                "x": -17.315727,
+                "y": 0.055317547,
+                "z": -8.924214
+              },
+              {
+                "x": -17.342646,
+                "y": 0.056459993,
+                "z": -8.999538
+              },
+              {
+                "x": -17.369558,
+                "y": 0.057930678,
+                "z": -9.0748625
+              },
+              {
+                "x": -17.396479,
+                "y": 0.059070762,
+                "z": -9.150187
+              },
+              {
+                "x": -17.423393,
+                "y": 0.06054125,
+                "z": -9.225511
+              },
+              {
+                "x": -17.450315,
+                "y": 0.061868228,
+                "z": -9.300834
+              },
+              {
+                "x": -17.477238,
+                "y": 0.06298977,
+                "z": -9.376157
+              },
+              {
+                "x": -17.504154,
+                "y": 0.064084336,
+                "z": -9.45148
+              },
+              {
+                "x": -17.531063,
+                "y": 0.065735444,
+                "z": -9.526802
+              },
+              {
+                "x": -17.557983,
+                "y": 0.06708576,
+                "z": -9.602124
+              },
+              {
+                "x": -17.58491,
+                "y": 0.06839729,
+                "z": -9.677445
+              },
+              {
+                "x": -17.611835,
+                "y": 0.06970378,
+                "z": -9.752767
+              },
+              {
+                "x": -17.638767,
+                "y": 0.07102921,
+                "z": -9.828086
+              },
+              {
+                "x": -17.665695,
+                "y": 0.072390474,
+                "z": -9.903408
+              },
+              {
+                "x": -17.692629,
+                "y": 0.0737683,
+                "z": -9.978727
+              },
+              {
+                "x": -17.71956,
+                "y": 0.075163014,
+                "z": -10.054047
+              },
+              {
+                "x": -17.746485,
+                "y": 0.07679302,
+                "z": -10.129352
+              },
+              {
+                "x": -17.773418,
+                "y": 0.07950537,
+                "z": -10.2046585
+              },
+              {
+                "x": -17.800354,
+                "y": 0.08220276,
+                "z": -10.279965
+              },
+              {
+                "x": -17.82729,
+                "y": 0.08489826,
+                "z": -10.355271
+              },
+              {
+                "x": -17.854227,
+                "y": 0.08759665,
+                "z": -10.430577
+              },
+              {
+                "x": -17.881159,
+                "y": 0.09019756,
+                "z": -10.505881
+              },
+              {
+                "x": -17.908089,
+                "y": 0.093256265,
+                "z": -10.581183
+              },
+              {
+                "x": -17.935024,
+                "y": 0.096204385,
+                "z": -10.656487
+              },
+              {
+                "x": -17.961962,
+                "y": 0.099138185,
+                "z": -10.7317915
+              },
+              {
+                "x": -17.988901,
+                "y": 0.10207024,
+                "z": -10.807095
+              },
+              {
+                "x": -18.01584,
+                "y": 0.10481516,
+                "z": -10.882398
+              },
+              {
+                "x": -18.042776,
+                "y": 0.10772227,
+                "z": -10.957696
+              },
+              {
+                "x": -18.069714,
+                "y": 0.110837415,
+                "z": -11.032992
+              },
+              {
+                "x": -18.09666,
+                "y": 0.11360652,
+                "z": -11.108293
+              },
+              {
+                "x": -18.123604,
+                "y": 0.11670391,
+                "z": -11.183588
+              },
+              {
+                "x": -18.150555,
+                "y": 0.11947096,
+                "z": -11.258886
+              },
+              {
+                "x": -18.177504,
+                "y": 0.12238149,
+                "z": -11.33418
+              },
+              {
+                "x": -18.204454,
+                "y": 0.12549755,
+                "z": -11.4094715
+              },
+              {
+                "x": -18.231417,
+                "y": 0.12808073,
+                "z": -11.484767
+              },
+              {
+                "x": -18.258368,
+                "y": 0.13096729,
+                "z": -11.560054
+              },
+              {
+                "x": -18.28532,
+                "y": 0.13389362,
+                "z": -11.635337
+              },
+              {
+                "x": -18.31228,
+                "y": 0.1371987,
+                "z": -11.710617
+              },
+              {
+                "x": -18.33927,
+                "y": 0.14018096,
+                "z": -11.785901
+              },
+              {
+                "x": -18.36627,
+                "y": 0.14293498,
+                "z": -11.861182
+              },
+              {
+                "x": -18.39328,
+                "y": 0.14603326,
+                "z": -11.936455
+              },
+              {
+                "x": -18.417034,
+                "y": 0.14830002,
+                "z": -12.002553
+              }
+            ],
+            "interpretation": "A blocked straight segment does not establish that every route is blocked."
+          },
+          "view": {
+            "ray": {
+              "from": {
+                "x": -18.596075,
+                "y": 1.8485606,
+                "z": -12.021367
+              },
+              "to": {
+                "x": -19.54087,
+                "y": 0.7206422,
+                "z": -12.120668
+              },
+              "hit": true,
+              "owner": {
+                "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/AuthoredKitCollisionProxy",
+                "shape": 0,
+                "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/AuthoredKitCollisionProxy/OutbuildingShed_Wall_LOD0_SurfaceContact",
+                "authoredSourceMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0"
+              },
+              "point": {
+                "x": -19.519175,
+                "y": 0.74654067,
+                "z": -12.118387
+              },
+              "normal": {
+                "x": 0.99439687,
+                "y": 0.015858267,
+                "z": 0.10451528
+              },
+              "expectedSourceMatched": false,
+              "sourceTriangleComparison": null
+            },
+            "normalRay": {
+              "from": {
+                "x": -19.013775,
+                "y": 0.7206422,
+                "z": -12.0652685
+              },
+              "to": {
+                "x": -19.560762,
+                "y": 0.7206422,
+                "z": -12.12276
+              },
+              "hit": true,
+              "owner": {
+                "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/AuthoredKitCollisionProxy",
+                "shape": 0,
+                "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/AuthoredKitCollisionProxy/OutbuildingShed_Wall_LOD0_SurfaceContact",
+                "authoredSourceMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0"
+              },
+              "point": {
+                "x": -19.518766,
+                "y": 0.72064215,
+                "z": -12.118345
+              },
+              "normal": {
+                "x": 0.99439687,
+                "y": 0.015858267,
+                "z": 0.10451528
+              },
+              "expectedSourceMatched": false,
+              "sourceTriangleComparison": null
+            },
+            "cameraLocal": {
+              "x": 0,
+              "y": 1.7,
+              "z": -0.1800003
+            },
+            "physicsLeafMatched": false,
+            "authoredVisibility": null,
+            "expectedDoorAssembly": [
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/OutbuildingShed_Low/OutbuildingShed_Door_Handle_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/OutbuildingShed_Low/OutbuildingShed_Door_Panel_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/OutbuildingShed_Low/OutbuildingShed_Door_Plank_00_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/OutbuildingShed_Low/OutbuildingShed_Door_Plank_01_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestStreetShed/OutbuildingShed_Low/OutbuildingShed_Door_Plank_02_LOD0"
+            ],
+            "interactionRayLength": 2.7,
+            "eyeToLeaf": 1.424465,
+            "existingLeafVisibleAndInRange": false
+          },
+          "mount": {
+            "canMount": false,
+            "point": null,
+            "mountOwner": "",
+            "mountFailure": "No exterior facade rectangle with supported fasteners; eligible planes=1",
+            "coverage": null,
+            "requiredForThisBuilding": false,
+            "existingPlateMoved": false,
+            "plateWasCreated": false
+          },
+          "numberingProposal": null,
+          "comparisonConditionsSatisfied": false,
+          "interactionPerformed": false,
+          "accepted": false
+        }
+      ],
+      "alternateMounts": []
+    },
+    {
+      "address": null,
+      "parcel": {
+        "ParcelId": "PAR-F0BEBEC3DE92DD30",
+        "QuarterId": "Q01",
+        "GameCadastralId": "URM-Q01-P0203",
+        "PrimaryBuildingId": "BLD-F0BEBEC3DE92DD30",
+        "AccessId": "ACC-F0BEBEC3DE92DD30",
+        "Polygon": [
+          {
+            "X": 9.919389724731445,
+            "Y": 0,
+            "Z": 24.81380271911621
+          },
+          {
+            "X": 13.081308364868164,
+            "Y": 0,
+            "Z": 24.81380271911621
+          },
+          {
+            "X": 13.081308364868164,
+            "Y": 0,
+            "Z": 28.28415298461914
+          },
+          {
+            "X": 9.919389724731445,
+            "Y": 0,
+            "Z": 28.28415298461914
+          }
+        ]
+      },
+      "access": {
+        "AccessId": "ACC-F0BEBEC3DE92DD30",
+        "BuildingId": "BLD-F0BEBEC3DE92DD30",
+        "Kind": "entrance",
+        "Position": {
+          "X": 11.171577453613281,
+          "Y": -0.14901894330978394,
+          "Z": 25.31380271911621
+        },
+        "GraphNodeId": "",
+        "State": "pending-physics"
+      },
+      "buildingId": "BLD-F0BEBEC3DE92DD30",
+      "source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed",
+      "logicalAnchor": "village_day@arrival-reverse-east-domestic-shed",
+      "nonAddressableStandalone": true,
+      "technicalRegistrationPresent": true,
+      "productionPrimary": {
+        "configuredLeafName": null,
+        "leaf": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/OutbuildingShed_Low/OutbuildingShed_Door_Panel_LOD0",
+        "registryAccess": {
+          "X": 11.171577453613281,
+          "Y": -0.14901894330978394,
+          "Z": 25.31380271911621
+        },
+        "selectedBy": "explicit standalone shed door panel"
+      },
+      "aliases": [],
+      "candidates": [
+        {
+          "label": "existing-shed-door",
+          "leaf": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/OutbuildingShed_Low/OutbuildingShed_Door_Panel_LOD0",
+          "productionPrimary": true,
+          "approachDerivedFromOwnLeaf": true,
+          "centre": {
+            "x": 11.244822,
+            "y": 0.42681777,
+            "z": 26.361244
+          },
+          "outward": {
+            "x": -0.0697564,
+            "y": 0,
+            "z": -0.9975641
+          },
+          "leafHeight": 0.8399999,
+          "leafWidth": 0.5800009,
+          "accessProposed": {
+            "x": 11.171577,
+            "y": -0.14901894,
+            "z": 25.313803
+          },
+          "support": {
+            "supported": false,
+            "feet": null,
+            "supportRefusal": "standing body blocked before landing probe",
+            "supportDiagnostic": "supplied=(11.171577, -0.14901894, 25.313803) floor=(11.171577, -0.18399501, 25.313803) bodyCentre=(0, 0.9, 0) radius=0.35 height=1.8 margin=.001; lift=0.035 initial=(11.171577, -0.14899501, 25.313803) contacts=[/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy shape 23 | /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy shape 20] playerCanStandAtInitial=False; lift=0.08 initial=(11.171577, -0.10399501, 25.313803) contacts=[/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy shape 23 | /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy shape 20] playerCanStandAtInitial=False; lift=0.15 initial=(11.171577, -0.033995003, 25.313803) contacts=[/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy shape 23 | /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy shape 20] playerCanStandAtInitial=False; lift=0.228 initial=(11.171577, 0.04400499, 25.313803) contacts=[/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy shape 23] playerCanStandAtInitial=False",
+            "observations": {
+              "supplied": {
+                "x": 11.171577,
+                "y": -0.14901894,
+                "z": 25.313803
+              },
+              "playerCanStand": false,
+              "floor": {
+                "from": {
+                  "x": 11.171577,
+                  "y": 0.40098107,
+                  "z": 25.313803
+                },
+                "to": {
+                  "x": 11.171577,
+                  "y": -0.89901894,
+                  "z": 25.313803
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": 11.171577,
+                  "y": -0.18399501,
+                  "z": 25.313803
+                },
+                "normal": {
+                  "x": -0.0034686697,
+                  "y": 0.99998665,
+                  "z": -0.0038354406
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [
+                {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+                  "shape": 23,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy/DwellingFacade_StreetDoorClosed_LOD0_SurfaceContact",
+                  "authoredSourceMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_StreetDoorClosed_LOD0"
+                },
+                {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+                  "shape": 20,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy/DwellingFacade_Street_Wall_LOD0_SurfaceContact",
+                  "authoredSourceMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0"
+                }
+              ],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            }
+          },
+          "direct": {
+            "reached": false,
+            "directOnly": true,
+            "routeDiscovery": false,
+            "maximumAdvances": 1000,
+            "advances": 81,
+            "Edge": {
+              "Id": "ED-D34186F961D1110F",
+              "A": "ND-D5588EE66D153654",
+              "B": "ND-F700E872BD36441A",
+              "RoadId": "authored/main-axis",
+              "StreetId": "tukay",
+              "Length": 31.000288106696875,
+              "Width": 5.6,
+              "Surface": "snow_trampled",
+              "Modes": 15,
+              "WinterBlocked": false,
+              "GateKey": ""
+            },
+            "exactAnchor": {
+              "X": 0,
+              "Y": -0.43430135256557656,
+              "Z": 25.31380271911621
+            },
+            "suppliedAnchor": {
+              "x": 0,
+              "y": -0.43430135,
+              "z": 25.313803
+            },
+            "supported": true,
+            "supportDiagnostic": "supplied=(0, -0.43430135, 25.313803) floor=(0, -0.36250222, 25.313803) acceptedFeet=(0, -0.36209208, 25.313803) lift=0.035; normal=(0.022535555, 0.99925673, -0.031274162) depth=0.001299256 owner=landing: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; ",
+            "anchorObservation": {
+              "supplied": {
+                "x": 0,
+                "y": -0.43430135,
+                "z": 25.313803
+              },
+              "playerCanStand": false,
+              "floor": {
+                "from": {
+                  "x": 0,
+                  "y": 0.115698665,
+                  "z": 25.313803
+                },
+                "to": {
+                  "x": 0,
+                  "y": -1.1843014,
+                  "z": 25.313803
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": 0,
+                  "y": -0.36250222,
+                  "z": 25.313803
+                },
+                "normal": {
+                  "x": 0.022535557,
+                  "y": 0.9992568,
+                  "z": -0.031274166
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [
+                {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                }
+              ],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            },
+            "refusal": "standing body blocked before ordinary step-down probe landingProbe={\u0022phase\u0022:\u0022advanced-standing-blocked\u0022,\u0022from\u0022:\u0022(6.398665, -0.23663205, 25.312681)\u0022,\u0022advance\u0022:\u0022(0.08, 0, 1.8798099E-05)\u0022,\u0022advanced\u0022:\u0022(6.478665, -0.23663205, 25.3127)\u0022,\u0022landed\u0022:null,\u0022advancedClear\u0022:false,\u0022downHit\u0022:null,\u0022landedClear\u0022:null,\u0022down\u0022:\u0022(0, -0.255, 0)\u0022,\u0022floorNormalY\u0022:0.70710677,\u0022radius\u0022:0.35,\u0022height\u0022:1.8,\u0022margin\u0022:0.001,\u0022collisionMask\u0022:3,\u0022recoveryAsCollision\u0022:false,\u0022standingClearanceOwner\u0022:\u0022FirstPersonController.CanStandAt\u0022,\u0022rawMotionCapsuleAdvancedContacts\u0022:\u0022/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 | /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy shape 13\u0022,\u0022rawMotionCapsuleLandedContacts\u0022:null,\u0022travel\u0022:null,\u0022remainder\u0022:null,\u0022candidateFeet\u0022:null,\u0022landingNormalY\u0022:null,\u0022safeFraction\u0022:null,\u0022unsafeFraction\u0022:null,\u0022contacts\u0022:null}",
+            "stepsClimbed": 0,
+            "finalObservation": {
+              "supplied": {
+                "x": 6.398665,
+                "y": -0.23663205,
+                "z": 25.312681
+              },
+              "playerCanStand": true,
+              "floor": {
+                "from": {
+                  "x": 6.398665,
+                  "y": 0.31336796,
+                  "z": 25.312681
+                },
+                "to": {
+                  "x": 6.398665,
+                  "y": -0.98663205,
+                  "z": 25.312681
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": 6.398665,
+                  "y": -0.2366398,
+                  "z": 25.312681
+                },
+                "normal": {
+                  "x": -0.0075783264,
+                  "y": 0.99985564,
+                  "z": -0.015206693
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [
+                {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                }
+              ],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            },
+            "path": [
+              {
+                "x": 0,
+                "y": -0.36209208,
+                "z": 25.313803
+              },
+              {
+                "x": 0.08,
+                "y": -0.36383525,
+                "z": 25.313803
+              },
+              {
+                "x": 0.16,
+                "y": -0.3655784,
+                "z": 25.313803
+              },
+              {
+                "x": 0.24,
+                "y": -0.36732158,
+                "z": 25.313803
+              },
+              {
+                "x": 0.32,
+                "y": -0.3694383,
+                "z": 25.313803
+              },
+              {
+                "x": 0.39999998,
+                "y": -0.37043437,
+                "z": 25.313803
+              },
+              {
+                "x": 0.47998846,
+                "y": -0.36921918,
+                "z": 25.313786
+              },
+              {
+                "x": 0.5599752,
+                "y": -0.3677141,
+                "z": 25.313765
+              },
+              {
+                "x": 0.6399644,
+                "y": -0.36635807,
+                "z": 25.313747
+              },
+              {
+                "x": 0.719954,
+                "y": -0.36539492,
+                "z": 25.313732
+              },
+              {
+                "x": 0.7999382,
+                "y": -0.3637359,
+                "z": 25.31371
+              },
+              {
+                "x": 0.8799271,
+                "y": -0.36254665,
+                "z": 25.313692
+              },
+              {
+                "x": 0.9599139,
+                "y": -0.36123174,
+                "z": 25.313671
+              },
+              {
+                "x": 1.0399004,
+                "y": -0.35990053,
+                "z": 25.313652
+              },
+              {
+                "x": 1.1198677,
+                "y": -0.35855433,
+                "z": 25.313604
+              },
+              {
+                "x": 1.1998545,
+                "y": -0.35723272,
+                "z": 25.313585
+              },
+              {
+                "x": 1.2798411,
+                "y": -0.3559007,
+                "z": 25.313566
+              },
+              {
+                "x": 1.3598276,
+                "y": -0.35456726,
+                "z": 25.313547
+              },
+              {
+                "x": 1.4398142,
+                "y": -0.3530468,
+                "z": 25.313528
+              },
+              {
+                "x": 1.5197841,
+                "y": -0.35186273,
+                "z": 25.313482
+              },
+              {
+                "x": 1.5997711,
+                "y": -0.35037547,
+                "z": 25.313463
+              },
+              {
+                "x": 1.6797605,
+                "y": -0.34920844,
+                "z": 25.313448
+              },
+              {
+                "x": 1.7597495,
+                "y": -0.3477944,
+                "z": 25.313427
+              },
+              {
+                "x": 1.8397357,
+                "y": -0.34700477,
+                "z": 25.313383
+              },
+              {
+                "x": 1.9197223,
+                "y": -0.3462295,
+                "z": 25.313341
+              },
+              {
+                "x": 1.999709,
+                "y": -0.34545612,
+                "z": 25.3133
+              },
+              {
+                "x": 2.079702,
+                "y": -0.34476843,
+                "z": 25.313278
+              },
+              {
+                "x": 2.1596875,
+                "y": -0.34392023,
+                "z": 25.313234
+              },
+              {
+                "x": 2.2396736,
+                "y": -0.34313732,
+                "z": 25.313192
+              },
+              {
+                "x": 2.3196597,
+                "y": -0.34236288,
+                "z": 25.313152
+              },
+              {
+                "x": 2.3996525,
+                "y": -0.34167504,
+                "z": 25.313133
+              },
+              {
+                "x": 2.4796524,
+                "y": -0.33996895,
+                "z": 25.313139
+              },
+              {
+                "x": 2.5596383,
+                "y": -0.33765566,
+                "z": 25.313131
+              },
+              {
+                "x": 2.6396124,
+                "y": -0.33500534,
+                "z": 25.313116
+              },
+              {
+                "x": 2.7195854,
+                "y": -0.33212456,
+                "z": 25.313099
+              },
+              {
+                "x": 2.7995636,
+                "y": -0.32958698,
+                "z": 25.313086
+              },
+              {
+                "x": 2.879537,
+                "y": -0.3269076,
+                "z": 25.31307
+              },
+              {
+                "x": 2.9595098,
+                "y": -0.32402298,
+                "z": 25.313055
+              },
+              {
+                "x": 3.039488,
+                "y": -0.3214849,
+                "z": 25.313044
+              },
+              {
+                "x": 3.1194615,
+                "y": -0.31861866,
+                "z": 25.313028
+              },
+              {
+                "x": 3.1994398,
+                "y": -0.31589627,
+                "z": 25.313017
+              },
+              {
+                "x": 3.2794344,
+                "y": -0.31379205,
+                "z": 25.313017
+              },
+              {
+                "x": 3.359416,
+                "y": -0.31168267,
+                "z": 25.313
+              },
+              {
+                "x": 3.4394,
+                "y": -0.30985516,
+                "z": 25.312984
+              },
+              {
+                "x": 3.51938,
+                "y": -0.30806446,
+                "z": 25.312963
+              },
+              {
+                "x": 3.5993557,
+                "y": -0.30571845,
+                "z": 25.312939
+              },
+              {
+                "x": 3.679339,
+                "y": -0.30386016,
+                "z": 25.312925
+              },
+              {
+                "x": 3.759319,
+                "y": -0.30187857,
+                "z": 25.312906
+              },
+              {
+                "x": 3.839299,
+                "y": -0.29988122,
+                "z": 25.312887
+              },
+              {
+                "x": 3.9192836,
+                "y": -0.29778478,
+                "z": 25.312872
+              },
+              {
+                "x": 3.9992702,
+                "y": -0.29607034,
+                "z": 25.31286
+              },
+              {
+                "x": 4.0792565,
+                "y": -0.2945535,
+                "z": 25.31285
+              },
+              {
+                "x": 4.1592393,
+                "y": -0.29287574,
+                "z": 25.312838
+              },
+              {
+                "x": 4.2392216,
+                "y": -0.29117712,
+                "z": 25.31282
+              },
+              {
+                "x": 4.319204,
+                "y": -0.28947598,
+                "z": 25.312803
+              },
+              {
+                "x": 4.399186,
+                "y": -0.28758767,
+                "z": 25.312786
+              },
+              {
+                "x": 4.479172,
+                "y": -0.28604835,
+                "z": 25.312775
+              },
+              {
+                "x": 4.559155,
+                "y": -0.2843678,
+                "z": 25.312757
+              },
+              {
+                "x": 4.6391373,
+                "y": -0.28266877,
+                "z": 25.312742
+              },
+              {
+                "x": 4.7191195,
+                "y": -0.28096744,
+                "z": 25.312727
+              },
+              {
+                "x": 4.799102,
+                "y": -0.27926585,
+                "z": 25.312712
+              },
+              {
+                "x": 4.879084,
+                "y": -0.27756408,
+                "z": 25.312696
+              },
+              {
+                "x": 4.9590664,
+                "y": -0.2758624,
+                "z": 25.312681
+              },
+              {
+                "x": 5.0390487,
+                "y": -0.2741607,
+                "z": 25.312668
+              },
+              {
+                "x": 5.119031,
+                "y": -0.2722722,
+                "z": 25.312654
+              },
+              {
+                "x": 5.199017,
+                "y": -0.27073273,
+                "z": 25.312647
+              },
+              {
+                "x": 5.279,
+                "y": -0.26886523,
+                "z": 25.312634
+              },
+              {
+                "x": 5.3589664,
+                "y": -0.2668978,
+                "z": 25.312634
+              },
+              {
+                "x": 5.438941,
+                "y": -0.26367497,
+                "z": 25.31264
+              },
+              {
+                "x": 5.518916,
+                "y": -0.26083142,
+                "z": 25.312647
+              },
+              {
+                "x": 5.598878,
+                "y": -0.257664,
+                "z": 25.31265
+              },
+              {
+                "x": 5.6788383,
+                "y": -0.25445464,
+                "z": 25.312654
+              },
+              {
+                "x": 5.7587986,
+                "y": -0.25086626,
+                "z": 25.312658
+              },
+              {
+                "x": 5.8387713,
+                "y": -0.24778843,
+                "z": 25.312666
+              },
+              {
+                "x": 5.9187393,
+                "y": -0.24459049,
+                "z": 25.312672
+              },
+              {
+                "x": 5.998707,
+                "y": -0.24156357,
+                "z": 25.312677
+              },
+              {
+                "x": 6.078705,
+                "y": -0.2390968,
+                "z": 25.31269
+              },
+              {
+                "x": 6.1586943,
+                "y": -0.23847975,
+                "z": 25.312687
+              },
+              {
+                "x": 6.2386837,
+                "y": -0.23768532,
+                "z": 25.312683
+              },
+              {
+                "x": 6.318674,
+                "y": -0.23705469,
+                "z": 25.312681
+              },
+              {
+                "x": 6.398665,
+                "y": -0.23663205,
+                "z": 25.312681
+              }
+            ],
+            "interpretation": "A blocked straight segment does not establish that every route is blocked."
+          },
+          "view": {
+            "ray": {
+              "from": {
+                "x": 11.184134,
+                "y": 1.550981,
+                "z": 25.493364
+              },
+              "to": {
+                "x": 11.250402,
+                "y": 0.42681777,
+                "z": 26.44105
+              },
+              "hit": true,
+              "owner": {
+                "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/AuthoredKitCollisionProxy",
+                "shape": 0,
+                "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/AuthoredKitCollisionProxy/OutbuildingShed_Wall_LOD0_SurfaceContact",
+                "authoredSourceMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0"
+              },
+              "point": {
+                "x": 11.249869,
+                "y": 0.43586105,
+                "z": 26.433428
+              },
+              "normal": {
+                "x": -0.06974763,
+                "y": 0.015858244,
+                "z": -0.9974386
+              },
+              "expectedSourceMatched": false,
+              "sourceTriangleComparison": null
+            },
+            "normalRay": {
+              "from": {
+                "x": 11.213431,
+                "y": 0.42681777,
+                "z": 25.91234
+              },
+              "to": {
+                "x": 11.251797,
+                "y": 0.42681777,
+                "z": 26.461
+              },
+              "hit": true,
+              "owner": {
+                "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/AuthoredKitCollisionProxy",
+                "shape": 0,
+                "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/AuthoredKitCollisionProxy/OutbuildingShed_Wall_LOD0_SurfaceContact",
+                "authoredSourceMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0"
+              },
+              "point": {
+                "x": 11.249859,
+                "y": 0.42681777,
+                "z": 26.433285
+              },
+              "normal": {
+                "x": -0.06974763,
+                "y": 0.015858244,
+                "z": -0.9974386
+              },
+              "expectedSourceMatched": false,
+              "sourceTriangleComparison": null
+            },
+            "cameraLocal": {
+              "x": 0,
+              "y": 1.7,
+              "z": -0.1800003
+            },
+            "physicsLeafMatched": false,
+            "authoredVisibility": null,
+            "expectedDoorAssembly": [
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/OutbuildingShed_Low/OutbuildingShed_Door_Handle_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/OutbuildingShed_Low/OutbuildingShed_Door_Panel_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/OutbuildingShed_Low/OutbuildingShed_Door_Plank_00_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/OutbuildingShed_Low/OutbuildingShed_Door_Plank_01_LOD0",
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseEastDomesticParcel/ArrivalReverseEastDomesticShed/OutbuildingShed_Low/OutbuildingShed_Door_Plank_02_LOD0"
+            ],
+            "interactionRayLength": 2.7,
+            "eyeToLeaf": 1.4214927,
+            "existingLeafVisibleAndInRange": false
+          },
+          "mount": {
+            "canMount": false,
+            "point": null,
+            "mountOwner": "",
+            "mountFailure": "No exterior facade rectangle with supported fasteners; eligible planes=1",
+            "coverage": null,
+            "requiredForThisBuilding": false,
+            "existingPlateMoved": false,
+            "plateWasCreated": false
+          },
+          "numberingProposal": null,
+          "comparisonConditionsSatisfied": false,
+          "interactionPerformed": false,
+          "accepted": false
+        }
+      ],
+      "alternateMounts": []
+    },
+    {
+      "address": null,
+      "parcel": null,
+      "access": null,
+      "buildingId": null,
+      "source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette",
+      "logicalAnchor": "village-house@ReturnWestBanyaSilhouette",
+      "nonAddressableStandalone": false,
+      "technicalRegistrationPresent": false,
+      "productionPrimary": {
+        "configuredLeafName": null,
+        "leaf": null,
+        "registryAccess": null,
+        "selectedBy": "not imported"
+      },
+      "aliases": [],
+      "candidates": [
+        {
+          "label": "existing-seni-door",
+          "leaf": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0",
+          "productionPrimary": false,
+          "approachDerivedFromOwnLeaf": true,
+          "centre": {
+            "x": -10.5447645,
+            "y": 0.91805816,
+            "z": -49.05595
+          },
+          "outward": {
+            "x": 0.9945219,
+            "y": 0,
+            "z": 0.10452842
+          },
+          "leafHeight": 1.7279999,
+          "leafWidth": 0.7560005,
+          "accessProposed": {
+            "x": -9.500517,
+            "y": -0.34950343,
+            "z": -48.946194
+          },
+          "support": {
+            "supported": true,
+            "feet": {
+              "x": -9.500517,
+              "y": -0.3840829,
+              "z": -48.946194
+            },
+            "supportRefusal": "",
+            "supportDiagnostic": "supplied=(-9.500517, -0.34950343, -48.946194) floor=(-9.500517, -0.38449308, -48.946194) acceptedFeet=(-9.500517, -0.3840829, -48.946194) lift=0.035; normal=(-0.017017292, 0.99961513, -0.021906462) depth=0.0011738219 owner=landing: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; ",
+            "observations": {
+              "supplied": {
+                "x": -9.500517,
+                "y": -0.34950343,
+                "z": -48.946194
+              },
+              "playerCanStand": true,
+              "floor": {
+                "from": {
+                  "x": -9.500517,
+                  "y": 0.20049658,
+                  "z": -48.946194
+                },
+                "to": {
+                  "x": -9.500517,
+                  "y": -1.0995034,
+                  "z": -48.946194
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": -9.500517,
+                  "y": -0.38449308,
+                  "z": -48.946194
+                },
+                "normal": {
+                  "x": -0.017017294,
+                  "y": 0.99961525,
+                  "z": -0.021906463
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            }
+          },
+          "direct": {
+            "reached": true,
+            "directOnly": true,
+            "routeDiscovery": false,
+            "maximumAdvances": 1000,
+            "advances": 115,
+            "Edge": {
+              "Id": "ED-6080577E27AD4126",
+              "A": "ND-CE4AE614BD5BEA06",
+              "B": "ND-DD8405CD3820730E",
+              "RoadId": "connector/house-to-zirat-return",
+              "StreetId": "tukay",
+              "Length": 14.648064209672377,
+              "Width": 4.800000190734863,
+              "Surface": "snow_trampled",
+              "Modes": 15,
+              "WinterBlocked": false,
+              "GateKey": ""
+            },
+            "exactAnchor": {
+              "X": -0.3484325248412201,
+              "Y": -0.27581537185870386,
+              "Z": -49.052304819740996
+            },
+            "suppliedAnchor": {
+              "x": -0.3484325,
+              "y": -0.27581537,
+              "z": -49.052303
+            },
+            "supported": true,
+            "supportDiagnostic": "supplied=(-0.3484325, -0.27581537, -49.052303) floor=(-0.3484325, -0.27260786, -49.052303) acceptedFeet=(-0.3484325, -0.27219772, -49.052303) lift=0.035; normal=(0.007364056, 0.9999623, 0.004629714) depth=0.0010523256 owner=landing: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape 0 playerCanStandAtLanded=True; ",
+            "anchorObservation": {
+              "supplied": {
+                "x": -0.3484325,
+                "y": -0.27581537,
+                "z": -49.052303
+              },
+              "playerCanStand": true,
+              "floor": {
+                "from": {
+                  "x": -0.3484325,
+                  "y": 0.27418464,
+                  "z": -49.052303
+                },
+                "to": {
+                  "x": -0.3484325,
+                  "y": -1.0258154,
+                  "z": -49.052303
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": -0.3484325,
+                  "y": -0.27260786,
+                  "z": -49.052303
+                },
+                "normal": {
+                  "x": 0.007364055,
+                  "y": 0.99996215,
+                  "z": 0.0046297135
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [
+                {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                }
+              ],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            },
+            "refusal": "",
+            "stepsClimbed": 0,
+            "finalObservation": {
+              "supplied": {
+                "x": -9.500518,
+                "y": -0.38422847,
+                "z": -48.946194
+              },
+              "playerCanStand": true,
+              "floor": {
+                "from": {
+                  "x": -9.500518,
+                  "y": 0.16577154,
+                  "z": -48.946194
+                },
+                "to": {
+                  "x": -9.500518,
+                  "y": -1.1342285,
+                  "z": -48.946194
+                },
+                "hit": true,
+                "owner": {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                },
+                "point": {
+                  "x": -9.500518,
+                  "y": -0.38449317,
+                  "z": -48.946194
+                },
+                "normal": {
+                  "x": -0.017017294,
+                  "y": 0.99961525,
+                  "z": -0.021906463
+                },
+                "expectedSourceMatched": false,
+                "sourceTriangleComparison": null
+              },
+              "fullCapsuleContacts": [
+                {
+                  "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+                  "shape": 0,
+                  "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+                  "authoredSourceMesh": ""
+                }
+              ],
+              "contactsSaturated": false,
+              "interpretation": "Contacts include a resting floor; acceptance uses the existing controller and motion probe."
+            },
+            "path": [
+              {
+                "x": -0.3484325,
+                "y": -0.27219772,
+                "z": -49.052303
+              },
+              {
+                "x": -0.42842254,
+                "y": -0.27194086,
+                "z": -49.05137
+              },
+              {
+                "x": -0.5084147,
+                "y": -0.27182022,
+                "z": -49.05044
+              },
+              {
+                "x": -0.5884065,
+                "y": -0.27161768,
+                "z": -49.049515
+              },
+              {
+                "x": -0.6683983,
+                "y": -0.2712178,
+                "z": -49.048584
+              },
+              {
+                "x": -0.74839056,
+                "y": -0.27097917,
+                "z": -49.047657
+              },
+              {
+                "x": -0.82838285,
+                "y": -0.27113488,
+                "z": -49.04673
+              },
+              {
+                "x": -0.90837425,
+                "y": -0.27078143,
+                "z": -49.0458
+              },
+              {
+                "x": -0.988366,
+                "y": -0.27036205,
+                "z": -49.04487
+              },
+              {
+                "x": -1.0683582,
+                "y": -0.2704943,
+                "z": -49.04394
+              },
+              {
+                "x": -1.1483496,
+                "y": -0.27032456,
+                "z": -49.04301
+              },
+              {
+                "x": -1.2283407,
+                "y": -0.2697422,
+                "z": -49.04208
+              },
+              {
+                "x": -1.3083313,
+                "y": -0.26947278,
+                "z": -49.041153
+              },
+              {
+                "x": -1.3883258,
+                "y": -0.269569,
+                "z": -49.040226
+              },
+              {
+                "x": -1.4683203,
+                "y": -0.26956686,
+                "z": -49.039295
+              },
+              {
+                "x": -1.5483148,
+                "y": -0.26936522,
+                "z": -49.038364
+              },
+              {
+                "x": -1.6283239,
+                "y": -0.2696096,
+                "z": -49.03743
+              },
+              {
+                "x": -1.7083186,
+                "y": -0.27135277,
+                "z": -49.036503
+              },
+              {
+                "x": -1.7883133,
+                "y": -0.27309594,
+                "z": -49.035576
+              },
+              {
+                "x": -1.868308,
+                "y": -0.2748391,
+                "z": -49.03465
+              },
+              {
+                "x": -1.9483026,
+                "y": -0.27658227,
+                "z": -49.033722
+              },
+              {
+                "x": -2.0282972,
+                "y": -0.27869898,
+                "z": -49.032795
+              },
+              {
+                "x": -2.1082919,
+                "y": -0.28044215,
+                "z": -49.031868
+              },
+              {
+                "x": -2.1882865,
+                "y": -0.28181177,
+                "z": -49.03094
+              },
+              {
+                "x": -2.2682812,
+                "y": -0.28392848,
+                "z": -49.030014
+              },
+              {
+                "x": -2.348276,
+                "y": -0.28567165,
+                "z": -49.029087
+              },
+              {
+                "x": -2.4282706,
+                "y": -0.28741482,
+                "z": -49.02816
+              },
+              {
+                "x": -2.5082653,
+                "y": -0.289158,
+                "z": -49.027233
+              },
+              {
+                "x": -2.58826,
+                "y": -0.29090115,
+                "z": -49.026306
+              },
+              {
+                "x": -2.6682546,
+                "y": -0.29301786,
+                "z": -49.02538
+              },
+              {
+                "x": -2.7482493,
+                "y": -0.2943875,
+                "z": -49.024452
+              },
+              {
+                "x": -2.828244,
+                "y": -0.2965042,
+                "z": -49.023525
+              },
+              {
+                "x": -2.9082386,
+                "y": -0.29824737,
+                "z": -49.0226
+              },
+              {
+                "x": -2.9882333,
+                "y": -0.29999053,
+                "z": -49.02167
+              },
+              {
+                "x": -3.068228,
+                "y": -0.3017337,
+                "z": -49.020744
+              },
+              {
+                "x": -3.1482227,
+                "y": -0.30347687,
+                "z": -49.019817
+              },
+              {
+                "x": -3.2282174,
+                "y": -0.3048465,
+                "z": -49.01889
+              },
+              {
+                "x": -3.3082137,
+                "y": -0.3055417,
+                "z": -49.017963
+              },
+              {
+                "x": -3.3882113,
+                "y": -0.30598614,
+                "z": -49.01704
+              },
+              {
+                "x": -3.468209,
+                "y": -0.3062113,
+                "z": -49.016117
+              },
+              {
+                "x": -3.548206,
+                "y": -0.30678156,
+                "z": -49.015194
+              },
+              {
+                "x": -3.6282039,
+                "y": -0.3072098,
+                "z": -49.01427
+              },
+              {
+                "x": -3.7082016,
+                "y": -0.30743286,
+                "z": -49.013348
+              },
+              {
+                "x": -3.7881987,
+                "y": -0.3080029,
+                "z": -49.012424
+              },
+              {
+                "x": -3.8681965,
+                "y": -0.30824438,
+                "z": -49.0115
+              },
+              {
+                "x": -3.9481936,
+                "y": -0.3088167,
+                "z": -49.01058
+              },
+              {
+                "x": -4.028188,
+                "y": -0.309626,
+                "z": -49.00965
+              },
+              {
+                "x": -4.108183,
+                "y": -0.31136918,
+                "z": -49.008724
+              },
+              {
+                "x": -4.1881776,
+                "y": -0.3134859,
+                "z": -49.007797
+              },
+              {
+                "x": -4.2681723,
+                "y": -0.31485552,
+                "z": -49.00687
+              },
+              {
+                "x": -4.348167,
+                "y": -0.31697223,
+                "z": -49.005943
+              },
+              {
+                "x": -4.4281616,
+                "y": -0.3187154,
+                "z": -49.005016
+              },
+              {
+                "x": -4.5081563,
+                "y": -0.32045856,
+                "z": -49.00409
+              },
+              {
+                "x": -4.588151,
+                "y": -0.32220173,
+                "z": -49.003162
+              },
+              {
+                "x": -4.6681457,
+                "y": -0.3239449,
+                "z": -49.002235
+              },
+              {
+                "x": -4.7481403,
+                "y": -0.32568806,
+                "z": -49.00131
+              },
+              {
+                "x": -4.828135,
+                "y": -0.32780477,
+                "z": -49.00038
+              },
+              {
+                "x": -4.9081297,
+                "y": -0.32954794,
+                "z": -48.999454
+              },
+              {
+                "x": -4.9881244,
+                "y": -0.33091757,
+                "z": -48.998528
+              },
+              {
+                "x": -5.068119,
+                "y": -0.33191365,
+                "z": -48.9976
+              },
+              {
+                "x": -5.1481137,
+                "y": -0.3319827,
+                "z": -48.996693
+              },
+              {
+                "x": -5.2281084,
+                "y": -0.3323965,
+                "z": -48.995785
+              },
+              {
+                "x": -5.3081036,
+                "y": -0.33210814,
+                "z": -48.994884
+              },
+              {
+                "x": -5.3880982,
+                "y": -0.33210182,
+                "z": -48.993973
+              },
+              {
+                "x": -5.468093,
+                "y": -0.332132,
+                "z": -48.99306
+              },
+              {
+                "x": -5.5480876,
+                "y": -0.33254057,
+                "z": -48.99215
+              },
+              {
+                "x": -5.6280828,
+                "y": -0.3324382,
+                "z": -48.991245
+              },
+              {
+                "x": -5.708078,
+                "y": -0.3324562,
+                "z": -48.99034
+              },
+              {
+                "x": -5.788073,
+                "y": -0.33249,
+                "z": -48.989437
+              },
+              {
+                "x": -5.868068,
+                "y": -0.3325257,
+                "z": -48.988533
+              },
+              {
+                "x": -5.9480634,
+                "y": -0.33256158,
+                "z": -48.98763
+              },
+              {
+                "x": -6.028058,
+                "y": -0.33355767,
+                "z": -48.986694
+              },
+              {
+                "x": -6.1080527,
+                "y": -0.3349273,
+                "z": -48.98576
+              },
+              {
+                "x": -6.1880474,
+                "y": -0.33667046,
+                "z": -48.984825
+              },
+              {
+                "x": -6.268042,
+                "y": -0.33841363,
+                "z": -48.98389
+              },
+              {
+                "x": -6.348037,
+                "y": -0.3401568,
+                "z": -48.982956
+              },
+              {
+                "x": -6.4280314,
+                "y": -0.34189996,
+                "z": -48.98202
+              },
+              {
+                "x": -6.508026,
+                "y": -0.34364313,
+                "z": -48.981087
+              },
+              {
+                "x": -6.588021,
+                "y": -0.3453863,
+                "z": -48.980152
+              },
+              {
+                "x": -6.6680155,
+                "y": -0.34712946,
+                "z": -48.979218
+              },
+              {
+                "x": -6.74801,
+                "y": -0.3484991,
+                "z": -48.978287
+              },
+              {
+                "x": -6.828005,
+                "y": -0.35024226,
+                "z": -48.977352
+              },
+              {
+                "x": -6.9079995,
+                "y": -0.35198542,
+                "z": -48.97642
+              },
+              {
+                "x": -6.987994,
+                "y": -0.3537286,
+                "z": -48.975487
+              },
+              {
+                "x": -7.067989,
+                "y": -0.35509822,
+                "z": -48.974556
+              },
+              {
+                "x": -7.1479836,
+                "y": -0.35646784,
+                "z": -48.97362
+              },
+              {
+                "x": -7.227978,
+                "y": -0.35783747,
+                "z": -48.97269
+              },
+              {
+                "x": -7.307973,
+                "y": -0.3592071,
+                "z": -48.971756
+              },
+              {
+                "x": -7.3879676,
+                "y": -0.36057672,
+                "z": -48.970825
+              },
+              {
+                "x": -7.4679623,
+                "y": -0.36194634,
+                "z": -48.96989
+              },
+              {
+                "x": -7.547957,
+                "y": -0.36331597,
+                "z": -48.96896
+              },
+              {
+                "x": -7.6279516,
+                "y": -0.3646856,
+                "z": -48.968025
+              },
+              {
+                "x": -7.7079463,
+                "y": -0.36642876,
+                "z": -48.967094
+              },
+              {
+                "x": -7.787941,
+                "y": -0.3677984,
+                "z": -48.96616
+              },
+              {
+                "x": -7.8679357,
+                "y": -0.369168,
+                "z": -48.96523
+              },
+              {
+                "x": -7.9479303,
+                "y": -0.37091118,
+                "z": -48.964294
+              },
+              {
+                "x": -8.027925,
+                "y": -0.37157404,
+                "z": -48.963367
+              },
+              {
+                "x": -8.107921,
+                "y": -0.37194136,
+                "z": -48.96245
+              },
+              {
+                "x": -8.187917,
+                "y": -0.3722704,
+                "z": -48.961533
+              },
+              {
+                "x": -8.267913,
+                "y": -0.37259442,
+                "z": -48.960617
+              },
+              {
+                "x": -8.347909,
+                "y": -0.37291792,
+                "z": -48.9597
+              },
+              {
+                "x": -8.427905,
+                "y": -0.37324113,
+                "z": -48.958782
+              },
+              {
+                "x": -8.507901,
+                "y": -0.37375125,
+                "z": -48.957863
+              },
+              {
+                "x": -8.587897,
+                "y": -0.3737254,
+                "z": -48.956947
+              },
+              {
+                "x": -8.667892,
+                "y": -0.37418982,
+                "z": -48.956017
+              },
+              {
+                "x": -8.747889,
+                "y": -0.37453124,
+                "z": -48.955093
+              },
+              {
+                "x": -8.827885,
+                "y": -0.3748566,
+                "z": -48.954166
+              },
+              {
+                "x": -8.907881,
+                "y": -0.3751798,
+                "z": -48.953236
+              },
+              {
+                "x": -8.987883,
+                "y": -0.37564954,
+                "z": -48.95229
+              },
+              {
+                "x": -9.067877,
+                "y": -0.37701917,
+                "z": -48.95134
+              },
+              {
+                "x": -9.147871,
+                "y": -0.3783888,
+                "z": -48.95039
+              },
+              {
+                "x": -9.227865,
+                "y": -0.37938488,
+                "z": -48.949436
+              },
+              {
+                "x": -9.307859,
+                "y": -0.3807545,
+                "z": -48.948486
+              },
+              {
+                "x": -9.387854,
+                "y": -0.38249767,
+                "z": -48.947533
+              },
+              {
+                "x": -9.467848,
+                "y": -0.38349375,
+                "z": -48.946583
+              },
+              {
+                "x": -9.500518,
+                "y": -0.38422847,
+                "z": -48.946194
+              }
+            ],
+            "interpretation": "A blocked straight segment does not establish that every route is blocked."
+          },
+          "view": {
+            "ray": {
+              "from": {
+                "x": -9.679531,
+                "y": 1.3159171,
+                "z": -48.965008
+              },
+              "to": {
+                "x": -10.624327,
+                "y": 0.91805816,
+                "z": -49.064312
+              },
+              "hit": true,
+              "owner": {
+                "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/AuthoredKitCollisionProxy",
+                "shape": 15,
+                "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/AuthoredKitCollisionProxy/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0_SurfaceContact",
+                "authoredSourceMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0"
+              },
+              "point": {
+                "x": -10.5291,
+                "y": 0.9581585,
+                "z": -49.054295
+              },
+              "normal": {
+                "x": 0.9945219,
+                "y": 0,
+                "z": 0.10452843
+              },
+              "expectedSourceMatched": true,
+              "sourceTriangleComparison": {
+                "coverageComplete": true,
+                "testedTriangles": 28,
+                "triangleLimit": 50000,
+                "failures": [],
+                "Source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0",
+                "sourceVisible": true,
+                "sourceTransform": {
+                  "origin": {
+                    "x": -10.5447645,
+                    "y": 0.91805816,
+                    "z": -49.05595
+                  },
+                  "x": {
+                    "x": 0.094075575,
+                    "y": 0,
+                    "z": -0.8950697
+                  },
+                  "y": {
+                    "x": 0,
+                    "y": 0.9,
+                    "z": 0
+                  },
+                  "z": {
+                    "x": 0.8950697,
+                    "y": 0,
+                    "z": 0.094075575
+                  }
+                },
+                "sourceAabb": {
+                  "position": {
+                    "x": -0.42,
+                    "y": -0.96,
+                    "z": -0.0175
+                  },
+                  "size": {
+                    "x": 0.84,
+                    "y": 1.92,
+                    "z": 0.035
+                  }
+                },
+                "proxy": {
+                  "path": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/AuthoredKitCollisionProxy/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0_SurfaceContact",
+                  "shape": "ConcavePolygonShape3D",
+                  "boxSize": null,
+                  "origin": {
+                    "x": -10.544764,
+                    "y": 0.91805816,
+                    "z": -49.055946
+                  },
+                  "x": {
+                    "x": 0.9999999,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "y": {
+                    "x": 0,
+                    "y": 0.99999994,
+                    "z": 0
+                  },
+                  "z": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0.9999999
+                  }
+                },
+                "physicsPoint": {
+                  "x": -10.5291,
+                  "y": 0.9581585,
+                  "z": -49.054295
+                },
+                "physicsDistance": 0.9261379,
+                "actualTriangleHit": true,
+                "actualTrianglePoint": {
+                  "x": -10.5291,
+                  "y": 0.9581584,
+                  "z": -49.054302
+                },
+                "actualTriangleDistance": 0.9261392,
+                "surfaceHit": 0,
+                "triangleHit": 13,
+                "rayMissesItsProxySource": false,
+                "interpretation": "Only the physics hit\u0027s exact authored mesh is examined; no other obstruction is ignored or removed."
+              }
+            },
+            "normalRay": {
+              "from": {
+                "x": -10.09723,
+                "y": 0.91805816,
+                "z": -49.00891
+              },
+              "to": {
+                "x": -10.644217,
+                "y": 0.91805816,
+                "z": -49.066402
+              },
+              "hit": true,
+              "owner": {
+                "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/AuthoredKitCollisionProxy",
+                "shape": 15,
+                "shapeOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/AuthoredKitCollisionProxy/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0_SurfaceContact",
+                "authoredSourceMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0"
+              },
+              "point": {
+                "x": -10.5291,
+                "y": 0.9180581,
+                "z": -49.054295
+              },
+              "normal": {
+                "x": 0.9945219,
+                "y": 0,
+                "z": 0.10452843
+              },
+              "expectedSourceMatched": true,
+              "sourceTriangleComparison": {
+                "coverageComplete": true,
+                "testedTriangles": 28,
+                "triangleLimit": 50000,
+                "failures": [],
+                "Source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0",
+                "sourceVisible": true,
+                "sourceTransform": {
+                  "origin": {
+                    "x": -10.5447645,
+                    "y": 0.91805816,
+                    "z": -49.05595
+                  },
+                  "x": {
+                    "x": 0.094075575,
+                    "y": 0,
+                    "z": -0.8950697
+                  },
+                  "y": {
+                    "x": 0,
+                    "y": 0.9,
+                    "z": 0
+                  },
+                  "z": {
+                    "x": 0.8950697,
+                    "y": 0,
+                    "z": 0.094075575
+                  }
+                },
+                "sourceAabb": {
+                  "position": {
+                    "x": -0.42,
+                    "y": -0.96,
+                    "z": -0.0175
+                  },
+                  "size": {
+                    "x": 0.84,
+                    "y": 1.92,
+                    "z": 0.035
+                  }
+                },
+                "proxy": {
+                  "path": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/AuthoredKitCollisionProxy/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0_SurfaceContact",
+                  "shape": "ConcavePolygonShape3D",
+                  "boxSize": null,
+                  "origin": {
+                    "x": -10.544764,
+                    "y": 0.91805816,
+                    "z": -49.055946
+                  },
+                  "x": {
+                    "x": 0.9999999,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "y": {
+                    "x": 0,
+                    "y": 0.99999994,
+                    "z": 0
+                  },
+                  "z": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0.9999999
+                  }
+                },
+                "physicsPoint": {
+                  "x": -10.5291,
+                  "y": 0.9180581,
+                  "z": -49.054295
+                },
+                "physicsDistance": 0.43424848,
+                "actualTriangleHit": true,
+                "actualTrianglePoint": {
+                  "x": -10.5291,
+                  "y": 0.91805816,
+                  "z": -49.054302
+                },
+                "actualTriangleDistance": 0.43424964,
+                "surfaceHit": 0,
+                "triangleHit": 12,
+                "rayMissesItsProxySource": false,
+                "interpretation": "Only the physics hit\u0027s exact authored mesh is examined; no other obstruction is ignored or removed."
+              }
+            },
+            "cameraLocal": {
+              "x": 0,
+              "y": 1.7,
+              "z": -0.1800003
+            },
+            "physicsLeafMatched": true,
+            "authoredVisibility": {
+              "coverageComplete": true,
+              "physicsLeafMatched": true,
+              "knownObstruction": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_BoardedGable_LOD0",
+              "knownVisibleObstructionBeforeLeaf": true,
+              "gableDistance": 0.870766,
+              "leafDistance": 0.9261392,
+              "gable": {
+                "coverageComplete": true,
+                "testedTriangles": 56,
+                "triangleLimit": 50000,
+                "failures": [],
+                "Source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_BoardedGable_LOD0",
+                "sourceVisible": true,
+                "sourceTransform": {
+                  "origin": {
+                    "x": -11,
+                    "y": -0.37229744,
+                    "z": -48.5
+                  },
+                  "x": {
+                    "x": -0.17498423,
+                    "y": 0,
+                    "z": -0.48967388
+                  },
+                  "y": {
+                    "x": 0,
+                    "y": 0.42,
+                    "z": 0
+                  },
+                  "z": {
+                    "x": 0.48967388,
+                    "y": 0,
+                    "z": -0.17498423
+                  }
+                },
+                "sourceAabb": {
+                  "position": {
+                    "x": -3.096,
+                    "y": 2.86,
+                    "z": 1.3
+                  },
+                  "size": {
+                    "x": 6.192,
+                    "y": 1.7877419,
+                    "z": 1E-05
+                  }
+                },
+                "proxy": null,
+                "physicsPoint": null,
+                "physicsDistance": null,
+                "actualTriangleHit": true,
+                "actualTrianglePoint": {
+                  "x": -10.478306,
+                  "y": 0.97954845,
+                  "z": -49.048965
+                },
+                "actualTriangleDistance": 0.870766,
+                "surfaceHit": 0,
+                "triangleHit": 32,
+                "rayMissesItsProxySource": false,
+                "interpretation": "This explicitly identified visible source is examined independently of physics; not a whole-scene visibility audit."
+              },
+              "leaf": {
+                "coverageComplete": true,
+                "testedTriangles": 28,
+                "triangleLimit": 50000,
+                "failures": [],
+                "Source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0",
+                "sourceVisible": true,
+                "sourceTransform": {
+                  "origin": {
+                    "x": -10.5447645,
+                    "y": 0.91805816,
+                    "z": -49.05595
+                  },
+                  "x": {
+                    "x": 0.094075575,
+                    "y": 0,
+                    "z": -0.8950697
+                  },
+                  "y": {
+                    "x": 0,
+                    "y": 0.9,
+                    "z": 0
+                  },
+                  "z": {
+                    "x": 0.8950697,
+                    "y": 0,
+                    "z": 0.094075575
+                  }
+                },
+                "sourceAabb": {
+                  "position": {
+                    "x": -0.42,
+                    "y": -0.96,
+                    "z": -0.0175
+                  },
+                  "size": {
+                    "x": 0.84,
+                    "y": 1.92,
+                    "z": 0.035
+                  }
+                },
+                "proxy": null,
+                "physicsPoint": null,
+                "physicsDistance": null,
+                "actualTriangleHit": true,
+                "actualTrianglePoint": {
+                  "x": -10.5291,
+                  "y": 0.9581584,
+                  "z": -49.054302
+                },
+                "actualTriangleDistance": 0.9261392,
+                "surfaceHit": 0,
+                "triangleHit": 13,
+                "rayMissesItsProxySource": false,
+                "interpretation": "This explicitly identified visible source is examined independently of physics; not a whole-scene visibility audit."
+              },
+              "scope": "Exact H024 gable versus ReturnWest leaf; other visible surfaces require the real camera view.",
+              "renderedAppearanceAccepted": false
+            },
+            "expectedDoorAssembly": [
+              "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0"
+            ],
+            "interactionRayLength": 2.7,
+            "eyeToLeaf": 0.9566562,
+            "existingLeafVisibleAndInRange": false
+          },
+          "mount": {
+            "canMount": true,
+            "point": {
+              "x": -7.8323946,
+              "y": 2.7480578,
+              "z": -45.214993
+            },
+            "mountOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_BoardedGable_LOD0",
+            "mountFailure": "",
+            "coverage": {
+              "Supported": true,
+              "MissingArea": 0.018581535550765693,
+              "Owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_BoardedGable_LOD0",
+              "Reason": "complete facade and exterior sightline"
+            },
+            "requiredForThisBuilding": true,
+            "existingPlateMoved": false,
+            "plateWasCreated": false
+          },
+          "numberingProposal": {
+            "assigned": false,
+            "street": "tukay",
+            "fixedOrigin": {
+              "X": 0,
+              "Y": 0,
+              "Z": 62
+            },
+            "projectedOrigin": {
+              "X": 0,
+              "Y": -0.3709842264652252,
+              "Z": 40
+            },
+            "Chainage": 89.16434806813206,
+            "Side": "left",
+            "OddSide": "left",
+            "parity": "odd",
+            "previous": {
+              "AddressId": "ADR-H024",
+              "HouseNumber": "25",
+              "Chainage": 88.58684181606377
+            },
+            "following": null,
+            "reservedIncludingInactiveSources": [
+              "17",
+              "23\u0410",
+              "1",
+              "2",
+              "3",
+              "1\u0410",
+              "2\u0410",
+              "5",
+              "4",
+              "7",
+              "6",
+              "7\u0410",
+              "6\u0410",
+              "9",
+              "8",
+              "11",
+              "10",
+              "15",
+              "12",
+              "19",
+              "14",
+              "23",
+              "21",
+              "18",
+              "20",
+              "25",
+              "22",
+              "26",
+              "24",
+              "28",
+              "8\u0410",
+              "17\u0410",
+              "17\u0411",
+              "13",
+              "5\u0410",
+              "7\u0411",
+              "27",
+              "5\u0411",
+              "3\u0410",
+              "15\u0410",
+              "13\u0410",
+              "17\u0412",
+              "21\u0410",
+              "25\u0410",
+              "22\u0410",
+              "7\u0412",
+              "6\u0411",
+              "13\u0411",
+              "10\u0410",
+              "19\u0410",
+              "16",
+              "3\u0411",
+              "4\u0410",
+              "17\u0413"
+            ],
+            "proposedNumber": "25\u0411",
+            "preservesEveryExistingAddress": true,
+            "usesActualEntrance": true,
+            "productionAssignmentPending": true
+          },
+          "comparisonConditionsSatisfied": false,
+          "interactionPerformed": false,
+          "accepted": false
+        }
+      ],
+      "alternateMounts": []
+    }
+  ]
+}

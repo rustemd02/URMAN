@@ -1,0 +1,1651 @@
+{
+  "schemaVersion": 1,
+  "ordinaryNewGame": true,
+  "humanSearchPlaytest": false,
+  "diagnosticCameraFixtures": true,
+  "assembly": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll",
+    "pathSource": "URMAN_ADDRESS_ASSEMBLY_PATH",
+    "assemblyLocation": "",
+    "loadedModule": "159732e8-c9e5-4a5a-bc4e-967430d5b36b",
+    "diskModule": "159732e8-c9e5-4a5a-bc4e-967430d5b36b",
+    "status": "module-match",
+    "sha256": "041425b5111ca4488a87668a106788a9c88d95bc564673f30bdaca7c7232d85c"
+  },
+  "scope": "production-entrances",
+  "auditRun": false,
+  "fullAuditRun": false,
+  "selectedAccessAuditRun": true,
+  "acceptance": false,
+  "auditCompleted": false,
+  "registry": null,
+  "mounts": [
+    {
+      "addressId": "ADR-H009",
+      "buildingId": "BLD-H009",
+      "source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade",
+      "plate": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H009",
+      "platePosition": {
+        "x": 6.983913,
+        "y": 1.633866,
+        "z": 27.809309
+      },
+      "plateBasis": {
+        "x": {
+          "x": 0.069756396,
+          "y": 0,
+          "z": 0.9975641
+        },
+        "y": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "z": {
+          "x": -0.9975641,
+          "y": 0,
+          "z": 0.069756396
+        }
+      },
+      "plateWidth": 1.18,
+      "plateHeight": 0.43,
+      "labels": {
+        "TatarStreet": {
+          "text": "\u0422\u0443\u043A\u0430\u0439 \u0443\u0440.",
+          "font": "",
+          "pixelSize": 0.0026,
+          "fontSize": 34
+        },
+        "RussianStreet": {
+          "text": "\u0443\u043B. \u0422\u0443\u043A\u0430\u044F",
+          "font": "",
+          "pixelSize": 0.0026,
+          "fontSize": 30
+        },
+        "HouseNumber": {
+          "text": "6",
+          "font": "",
+          "pixelSize": 0.0026,
+          "fontSize": 65
+        }
+      },
+      "physicalMountSupported": true,
+      "mountAssessment": {
+        "Supported": true,
+        "MissingArea": 0,
+        "Owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+        "Reason": "complete facade and exterior sightline"
+      },
+      "mountSamples": [
+        {
+          "sample": {
+            "x": 6.9427567,
+            "y": 1.4188659,
+            "z": 27.220747
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.963706,
+            "y": 1.4188659,
+            "z": 27.219284
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9427567,
+            "y": 1.848866,
+            "z": 27.220747
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.963706,
+            "y": 1.8488659,
+            "z": 27.219284
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.949616,
+            "y": 1.4188659,
+            "z": 27.31884
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.970565,
+            "y": 1.4188659,
+            "z": 27.317377
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.02099976,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.949616,
+            "y": 1.848866,
+            "z": 27.31884
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.970565,
+            "y": 1.8488659,
+            "z": 27.317377
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.02099976,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9564753,
+            "y": 1.4188659,
+            "z": 27.416933
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.9774246,
+            "y": 1.4188659,
+            "z": 27.41547
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.02099976,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9564753,
+            "y": 1.848866,
+            "z": 27.416933
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.9774246,
+            "y": 1.8488659,
+            "z": 27.41547
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.02099976,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.963335,
+            "y": 1.4188659,
+            "z": 27.515028
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.984284,
+            "y": 1.4188659,
+            "z": 27.513565
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.963335,
+            "y": 1.848866,
+            "z": 27.515028
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.984284,
+            "y": 1.8488659,
+            "z": 27.513565
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9701943,
+            "y": 1.4188659,
+            "z": 27.613121
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.991143,
+            "y": 1.4188659,
+            "z": 27.611658
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9701943,
+            "y": 1.848866,
+            "z": 27.613121
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.991143,
+            "y": 1.8488659,
+            "z": 27.611658
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9770536,
+            "y": 1.4188659,
+            "z": 27.711216
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.9980025,
+            "y": 1.4188659,
+            "z": 27.709753
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9770536,
+            "y": 1.848866,
+            "z": 27.711216
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.9980025,
+            "y": 1.8488659,
+            "z": 27.709753
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.983913,
+            "y": 1.4188659,
+            "z": 27.809309
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.004862,
+            "y": 1.4188659,
+            "z": 27.807846
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.983913,
+            "y": 1.848866,
+            "z": 27.809309
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.004862,
+            "y": 1.8488659,
+            "z": 27.807846
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9907722,
+            "y": 1.4188659,
+            "z": 27.907402
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.0117216,
+            "y": 1.4188659,
+            "z": 27.90594
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9907722,
+            "y": 1.848866,
+            "z": 27.907402
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.0117216,
+            "y": 1.8488659,
+            "z": 27.90594
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9976315,
+            "y": 1.4188659,
+            "z": 28.005497
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.0185804,
+            "y": 1.4188659,
+            "z": 28.004034
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.02099976,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9976315,
+            "y": 1.848866,
+            "z": 28.005497
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.0185804,
+            "y": 1.8488659,
+            "z": 28.004034
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.02099976,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.004491,
+            "y": 1.4188659,
+            "z": 28.10359
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.02544,
+            "y": 1.4188659,
+            "z": 28.102127
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.02099976,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.004491,
+            "y": 1.848866,
+            "z": 28.10359
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.02544,
+            "y": 1.8488659,
+            "z": 28.102127
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.02099976,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.0113506,
+            "y": 1.4188659,
+            "z": 28.201685
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.0322995,
+            "y": 1.4188659,
+            "z": 28.200222
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.0113506,
+            "y": 1.848866,
+            "z": 28.201685
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.0322995,
+            "y": 1.8488659,
+            "z": 28.200222
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.01821,
+            "y": 1.4188659,
+            "z": 28.299778
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.039159,
+            "y": 1.4188659,
+            "z": 28.298315
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.01821,
+            "y": 1.848866,
+            "z": 28.299778
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.039159,
+            "y": 1.8488659,
+            "z": 28.298315
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.025069,
+            "y": 1.4188659,
+            "z": 28.397871
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.046018,
+            "y": 1.4188659,
+            "z": 28.396408
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.025069,
+            "y": 1.848866,
+            "z": 28.397871
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.046018,
+            "y": 1.8488659,
+            "z": 28.396408
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9427567,
+            "y": 1.4905326,
+            "z": 27.220747
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.963706,
+            "y": 1.4905326,
+            "z": 27.219284
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.025069,
+            "y": 1.4905326,
+            "z": 28.397871
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.046018,
+            "y": 1.4905326,
+            "z": 28.396408
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9427567,
+            "y": 1.5621992,
+            "z": 27.220747
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.963706,
+            "y": 1.5621992,
+            "z": 27.219284
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.025069,
+            "y": 1.5621992,
+            "z": 28.397871
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.046018,
+            "y": 1.5621992,
+            "z": 28.396408
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9427567,
+            "y": 1.633866,
+            "z": 27.220747
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.963706,
+            "y": 1.633866,
+            "z": 27.219284
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.025069,
+            "y": 1.633866,
+            "z": 28.397871
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.046018,
+            "y": 1.633866,
+            "z": 28.396408
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9427567,
+            "y": 1.7055326,
+            "z": 27.220747
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.963706,
+            "y": 1.7055326,
+            "z": 27.219284
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.025069,
+            "y": 1.7055326,
+            "z": 28.397871
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.046018,
+            "y": 1.7055326,
+            "z": 28.396408
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9427567,
+            "y": 1.7771993,
+            "z": 27.220747
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.963706,
+            "y": 1.7771993,
+            "z": 27.219284
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.025069,
+            "y": 1.7771993,
+            "z": 28.397871
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.046018,
+            "y": 1.7771993,
+            "z": 28.396408
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9465933,
+            "y": 1.480866,
+            "z": 27.275612
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.967542,
+            "y": 1.480866,
+            "z": 27.274149
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 6.9465933,
+            "y": 1.786866,
+            "z": 27.275612
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 6.967542,
+            "y": 1.786866,
+            "z": 27.274149
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.020999907,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.0212326,
+            "y": 1.480866,
+            "z": 28.343006
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.042182,
+            "y": 1.480866,
+            "z": 28.341543
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        },
+        {
+          "sample": {
+            "x": 7.0212326,
+            "y": 1.786866,
+            "z": 28.343006
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 7.042182,
+            "y": 1.786866,
+            "z": 28.341543
+          },
+          "normal": {
+            "x": -0.997564,
+            "y": 0,
+            "z": 0.0697564
+          },
+          "physicsGapMeters": 0.021000382,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Right_Wall_LOD0",
+          "visualGapMeters": 0.020999253,
+          "mounted": true,
+          "boardJoint": false
+        }
+      ],
+      "doorMeshes": [
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Handle_LOD0",
+          "visible": true,
+          "position": {
+            "x": 6.033622,
+            "y": 1.1538659,
+            "z": 28.712803
+          },
+          "basis": {
+            "x": {
+              "x": -0.9975641,
+              "y": 0,
+              "z": 0.0697564
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": -0.0697564,
+              "y": 0,
+              "z": -0.9975641
+            }
+          },
+          "aabbSize": {
+            "x": 0.045,
+            "y": 0.16,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Jamb-1_LOD0",
+          "visible": true,
+          "position": {
+            "x": 6.8113804,
+            "y": 1.1538659,
+            "z": 28.55316
+          },
+          "basis": {
+            "x": {
+              "x": -0.9975641,
+              "y": 0,
+              "z": 0.0697564
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": -0.0697564,
+              "y": 0,
+              "z": -0.9975641
+            }
+          },
+          "aabbSize": {
+            "x": 0.095,
+            "y": 2.16,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Jamb1_LOD0",
+          "visible": true,
+          "position": {
+            "x": 5.803841,
+            "y": 1.1538659,
+            "z": 28.623613
+          },
+          "basis": {
+            "x": {
+              "x": -0.9975641,
+              "y": 0,
+              "z": 0.0697564
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": -0.0697564,
+              "y": 0,
+              "z": -0.9975641
+            }
+          },
+          "aabbSize": {
+            "x": 0.095,
+            "y": 2.16,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Leaf_LOD0",
+          "visible": true,
+          "position": {
+            "x": 6.3212132,
+            "y": 1.1538659,
+            "z": 28.782911
+          },
+          "basis": {
+            "x": {
+              "x": -0.9975641,
+              "y": 0,
+              "z": 0.0697564
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": -0.0697564,
+              "y": 0,
+              "z": -0.9975641
+            }
+          },
+          "aabbSize": {
+            "x": 0.84,
+            "y": 1.92,
+            "z": 0.035
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Rail-1_LOD0",
+          "visible": true,
+          "position": {
+            "x": 6.3076105,
+            "y": 0.10886602,
+            "z": 28.588387
+          },
+          "basis": {
+            "x": {
+              "x": -0.9975641,
+              "y": 0,
+              "z": 0.0697564
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": -0.0697564,
+              "y": 0,
+              "z": -0.9975641
+            }
+          },
+          "aabbSize": {
+            "x": 1.1,
+            "y": 0.095,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Rail1_LOD0",
+          "visible": true,
+          "position": {
+            "x": 6.3076105,
+            "y": 2.1988661,
+            "z": 28.588387
+          },
+          "basis": {
+            "x": {
+              "x": -0.9975641,
+              "y": 0,
+              "z": 0.0697564
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": -0.0697564,
+              "y": 0,
+              "z": -0.9975641
+            }
+          },
+          "aabbSize": {
+            "x": 1.1,
+            "y": 0.095,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Recess_LOD0",
+          "visible": true,
+          "position": {
+            "x": 6.324003,
+            "y": 1.1538659,
+            "z": 28.822815
+          },
+          "basis": {
+            "x": {
+              "x": -0.9975641,
+              "y": 0,
+              "z": 0.0697564
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": -0.0697564,
+              "y": 0,
+              "z": -0.9975641
+            }
+          },
+          "aabbSize": {
+            "x": 0.94,
+            "y": 2.02,
+            "z": 0.045
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_StreetDoorClosed_LOD0",
+          "visible": true,
+          "position": {
+            "x": 11.331002,
+            "y": 1.2688661,
+            "z": 24.877684
+          },
+          "basis": {
+            "x": {
+              "x": -0.9975641,
+              "y": 0,
+              "z": 0.0697564
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": -0.0697564,
+              "y": 0,
+              "z": -0.9975641
+            }
+          },
+          "aabbSize": {
+            "x": 1.22,
+            "y": 2.17,
+            "z": 0.17250001
+          }
+        }
+      ],
+      "accessPosition": {
+        "X": 6.246102809906006,
+        "Y": -0.2561497390270233,
+        "Z": 27.73592185974121
+      },
+      "accessState": "verified",
+      "standingCapsuleFits": true,
+      "floorHit": true,
+      "floorOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision"
+    }
+  ],
+  "captures": [
+    {
+      "file": "11_ADR-H009_production_plate.png",
+      "addressId": "ADR-H009",
+      "camera": {
+        "x": 2.9936566,
+        "y": 1.933866,
+        "z": 28.088335
+      },
+      "basis": {
+        "x": {
+          "x": 0.06975651,
+          "y": 0,
+          "z": 0.9975641
+        },
+        "y": {
+          "x": 0.074607775,
+          "y": 0.9971993,
+          "z": -0.005217086
+        },
+        "z": {
+          "x": -0.99477017,
+          "y": 0.074789956,
+          "z": 0.06956114
+        }
+      },
+      "fieldOfView": 68,
+      "diagnostic": true,
+      "controllerTraversal": false
+    }
+  ],
+  "checks": [
+    {
+      "kind": "check",
+      "message": "ordinary New Game starts",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "construction and proximity do not record a plate read",
+      "passed": true
+    },
+    {
+      "kind": "audit-not-run-in-narrow-scope",
+      "auditRun": false,
+      "constructionEntriesAlreadyObserved": 0,
+      "previousPhysicsProcessing": true,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H009: current physical search succeeded before graph attachment",
+      "passed": true
+    },
+    {
+      "kind": "selected-production-access",
+      "addressId": "ADR-H009",
+      "access": {
+        "AccessId": "ACC-ADR-H009",
+        "BuildingId": "BLD-H009",
+        "Kind": "entrance",
+        "Position": {
+          "X": 6.24697732925415,
+          "Y": -0.25594791769981384,
+          "Z": 27.7357234954834
+        },
+        "GraphNodeId": "ND-CC09F8090395AFA6",
+        "State": "verified"
+      },
+      "advances": 81,
+      "route": [
+        {
+          "X": 0,
+          "Y": -0.3709842264652252,
+          "Z": 40
+        },
+        {
+          "X": 0,
+          "Y": -0.42386073283619446,
+          "Z": 27.735469818115234
+        },
+        {
+          "X": 0.39536306262016296,
+          "Y": -0.33486083149909973,
+          "Z": 27.73541259765625
+        },
+        {
+          "X": 0.47443464398384094,
+          "Y": -0.33315709233283997,
+          "Z": 27.73539924621582
+        },
+        {
+          "X": 1.9769035577774048,
+          "Y": -0.3109159469604492,
+          "Z": 27.73548126220703
+        },
+        {
+          "X": 2.0558724403381348,
+          "Y": -0.30834242701530457,
+          "Z": 27.73554229736328
+        },
+        {
+          "X": 2.134960651397705,
+          "Y": -0.30680373311042786,
+          "Z": 27.73554229736328
+        },
+        {
+          "X": 3.795649766921997,
+          "Y": -0.29682523012161255,
+          "Z": 27.73536491394043
+        },
+        {
+          "X": 3.8747103214263916,
+          "Y": -0.29369527101516724,
+          "Z": 27.735376358032227
+        },
+        {
+          "X": 4.0328545570373535,
+          "Y": -0.2904365658760071,
+          "Z": 27.735403060913086
+        },
+        {
+          "X": 5.2189812660217285,
+          "Y": -0.27154532074928284,
+          "Z": 27.735565185546875
+        },
+        {
+          "X": 5.456205368041992,
+          "Y": -0.26819556951522827,
+          "Z": 27.735599517822266
+        },
+        {
+          "X": 6.009739875793457,
+          "Y": -0.2582094967365265,
+          "Z": 27.73567771911621
+        },
+        {
+          "X": 6.24697732925415,
+          "Y": -0.25594791769981384,
+          "Z": 27.7357234954834
+        }
+      ],
+      "globalAuditCompleted": false,
+      "usesExistingSearch": true,
+      "usesSharedGraph": true,
+      "routeShownToPlayer": false
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H009: actual standing path is attached to the shared graph at the selected entrance",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "real standing-body obstruction rejects the previously verified entrance",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "graph attachment cannot restore a rejected cached access path",
+      "passed": true
+    },
+    {
+      "kind": "actual-access-retry-refusal",
+      "accessId": "ACC-ADR-H009",
+      "refused": "blocked: approach start: standing body blocked before landing probe",
+      "fixture": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/DiagnosticStandingAccessRefusal",
+      "physicalObstacleIntroduced": true,
+      "directStateMutation": false,
+      "cachedRouteInvalidated": true
+    },
+    {
+      "kind": "check",
+      "message": "temporary standing-body obstruction is removed before the restored path check",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "removing the actual obstruction permits a fresh physical access proof",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "fresh physical proof restores the same access identity after a real refusal",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "mounted plate rests against actual facade triangles: ADR-H009",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "sign text agrees with registry: ADR-H009",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H009: selected door approach admits the real standing controller",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H009: ordinary interaction ray and passive focus reach the actual selected door",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H009: one mapped input invokes one ordinary knock response",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H009: unsuccessful knock invents no address or quest knowledge",
+      "passed": true
+    },
+    {
+      "kind": "actual-residential-knock",
+      "addressId": "ADR-H009",
+      "observed": 1,
+      "feet": {
+        "x": 6.246103,
+        "y": -0.25614974,
+        "z": 27.735922
+      },
+      "target": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/Knock_ADR-H009",
+      "diagnosticApproach": true,
+      "directActionInvocation": false,
+      "existingCallbackRetained": true,
+      "worldPropsUnchanged": true
+    },
+    {
+      "kind": "check",
+      "message": "ordinary player controls are available for the deliberate read",
+      "passed": true
+    },
+    {
+      "kind": "manual-read-position",
+      "addressId": "ADR-H009",
+      "distance": 0.75,
+      "lateral": 0,
+      "candidate": {
+        "x": 6.2357397,
+        "y": -0.22324061,
+        "z": 27.861626
+      },
+      "canStand": true,
+      "contacts": [],
+      "diagnosticApproach": true,
+      "humanNavigationTest": false
+    },
+    {
+      "kind": "manual-read-ray",
+      "addressId": "ADR-H009",
+      "distance": 0.75,
+      "lateral": 0,
+      "player": {
+        "x": 6.2357397,
+        "y": -0.25761563,
+        "z": 27.861626
+      },
+      "camera": {
+        "x": 6.415292,
+        "y": 1.4423845,
+        "z": 27.848938
+      },
+      "target": {
+        "x": 6.983913,
+        "y": 1.633866,
+        "z": 27.809309
+      },
+      "rayDirection": {
+        "x": 0.9455838,
+        "y": 0.3184439,
+        "z": -0.06681871
+      },
+      "alignment": 0.9999996,
+      "targetDistance": 0.6013033,
+      "hit": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H009/Read_ADR-H009",
+      "expected": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H009/Read_ADR-H009"
+    },
+    {
+      "kind": "check",
+      "message": "real controller ray reaches the plate from a supported local fixture",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "plate starts unread before deliberate input",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "one actual interact input records the read address",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "notebook contains exactly one matching address",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "notebook closes back to ordinary controls",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "notebook map shows only actually located houses: ADR-H009_06_located_map_large",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "map retains usable drawing height: ADR-H009_06_located_map_large",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "map bounds stay inside the notebook: ADR-H009_06_located_map_large",
+      "passed": true
+    },
+    {
+      "kind": "notebook-map",
+      "name": "ADR-H009_06_located_map_large",
+      "located": 1,
+      "empty": false,
+      "enlarged": true,
+      "textScale": 1.600000023841858,
+      "size": {
+        "x": 1472,
+        "y": 690
+      },
+      "humanNavigationTest": false
+    },
+    {
+      "kind": "check",
+      "message": "save actual read state through existing snapshot owner",
+      "passed": false
+    },
+    {
+      "kind": "check",
+      "message": "assembly candidate MVID matches the executing module",
+      "passed": true
+    }
+  ],
+  "failures": [
+    "save actual read state through existing snapshot owner",
+    "System.InvalidOperationException: save actual read state through existing snapshot owner\n   at Urman.Godot.Tests.AddressWorldSmokeTest.Require(Boolean value, String message) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressWorldSmokeTest.cs:line 612\n   at Urman.Godot.Tests.AddressWorldSmokeTest.ReadNotebookSaveLoad(String addressId, String capturePrefix) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressWorldSmokeTest.cs:line 558\n   at Urman.Godot.Tests.AddressWorldSmokeTest.VerifyProductionEntrances(AddressAccessVerifier audit) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressWorldSmokeTest.cs:line 417\n   at Urman.Godot.Tests.AddressWorldSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressWorldSmokeTest.cs:line 68"
+  ]
+}

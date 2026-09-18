@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "ordinaryNewGame": true,
+  "humanSearchPlaytest": false,
+  "diagnosticCameraFixtures": false,
+  "assembly": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll",
+    "pathSource": "URMAN_ADDRESS_ASSEMBLY_PATH",
+    "assemblyLocation": "",
+    "loadedModule": "7b4d0c02-9c46-4f07-80dd-062004f8c19f",
+    "diskModule": "7b4d0c02-9c46-4f07-80dd-062004f8c19f",
+    "status": "module-match",
+    "sha256": "b361e89aeb71522ec97909e3b046a8f526a50c383e5a118218e70810f6a38473"
+  },
+  "scope": "standalone-candidates",
+  "auditRun": false,
+  "fullAuditRun": false,
+  "selectedAccessAuditRun": false,
+  "acceptance": false,
+  "auditCompleted": false,
+  "registry": null,
+  "mounts": [],
+  "captures": [],
+  "checks": [
+    {
+      "kind": "check",
+      "message": "ordinary New Game starts",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "construction and proximity do not record a plate read",
+      "passed": true
+    },
+    {
+      "kind": "audit-not-run-in-narrow-scope",
+      "auditRun": false,
+      "constructionEntriesAlreadyObserved": 0,
+      "previousPhysicsProcessing": true,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "diagnostic plate views do not change discovered addresses or world state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "blocked entrance view is bounded to the measured ReturnWest candidate",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "assembly candidate MVID matches the executing module",
+      "passed": true
+    }
+  ],
+  "failures": []
+}
