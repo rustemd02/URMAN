@@ -384,6 +384,7 @@ public partial class Act1ConnectedWorld : Node3D
         BuildFapServiceExploration();
         BuildRoadsideDiscoveries();
         BuildAct1YardDiscoveries();
+        BuildAct1LanternDetails();
         BuildAct1QuietCareDiscoveries();
         BuildAct1OptionalDiscoveries();
         BuildAct1CulvertVerandaDiscoveries();
@@ -645,7 +646,10 @@ public partial class Act1ConnectedWorld : Node3D
                 // one-shot suppression is undone the next time the zone routes.
                 var enabled = !binding.Node.HasMeta("legacySignSuppression")
                     && (isActiveZone || _runtimeBridge?.IsWorldInteraction(binding.Node.InteractionId) == true)
-                    && binding.Node.IsAvailable();
+                    // Routing follows authored availability: a shut world gate
+                    // must keep the target aimable, otherwise the player never
+                    // learns why the place cannot be read yet.
+                    && binding.Node.AuthoredAvailable;
                 binding.Node.CollisionLayer = enabled ? binding.CollisionLayer : 0;
                 binding.Node.CollisionMask = enabled ? binding.CollisionMask : 0;
                 if (enabled)

@@ -414,7 +414,9 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         var completed = !available && target.GetMeta("discoveryCompleted", false).AsBool();
         if (!available && !completed)
         {
-            SetInteractionPrompt(string.Empty);
+            // A shut world gate is not "nothing here": the place is authored and
+            // the player is looking straight at it, so name what is missing.
+            SetInteractionPrompt(target.HeldByGate ? target.PresentationGateHint : string.Empty);
             return;
         }
         var label = available ? target.Prompt : "Осмотрено";

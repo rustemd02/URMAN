@@ -3182,6 +3182,70 @@
     "targetJournalEntryId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner"
    },
    {
+    "id": "urman.chapter1:interaction/discover-babai-yard-porch-paint-tin",
+    "labelTextId": "urman.chapter1:text/discover-babai-yard-porch-paint-tin",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin",
+      "sourceId": "urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin"
+   },
+   {
+    "id": "urman.chapter1:interaction/discover-babai-yard-entry-wall-joint",
+    "labelTextId": "urman.chapter1:text/discover-babai-yard-entry-wall-joint",
+    "conditions": [
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint",
+       "status": "confirmed"
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint",
+      "status": "confirmed"
+     },
+     {
+      "op": "journal.record",
+      "entryId": "urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint",
+      "sourceId": "urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint"
+     }
+    ],
+    "worldLocations": [
+     "village_day",
+     "zirat_road",
+     "kara_urman_night"
+    ],
+    "targetJournalEntryId": "urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint"
+   },
+   {
     "id": "urman.chapter1:interaction/discover-babai-yard-sled-repair",
     "labelTextId": "urman.chapter1:text/discover-babai-yard-sled-repair",
     "conditions": [
@@ -6070,11 +6134,92 @@
  },
  {
   "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin",
+  "kind": "fact",
+  "title": {
+   "default": "Под крыльцом: банка из-под краски",
+   "translations": {
+    "ru": "Под крыльцом: банка из-под краски"
+   }
+  },
+  "summary": {
+   "default": "Под кромкой крыльца, в тени, лежит примятая жестяная банка с засохшей краской и обрезок наличника. Красили недавно и держали всё здесь же, под рукой.",
+   "translations": {
+    "ru": "Под кромкой крыльца, в тени, лежит примятая жестяная банка с засохшей краской и обрезок наличника. Красили недавно и держали всё здесь же, под рукой."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint",
+  "kind": "fact",
+  "title": {
+   "default": "Стена у входа: царапина и старые отверстия",
+   "translations": {
+    "ru": "Стена у входа: царапина и старые отверстия"
+   }
+  },
+  "summary": {
+   "default": "При боковом свете на стене у входа видна длинная царапина и два заделанных отверстия ниже. Перила крепились тут, пока крыльцо перебирали; стену оставили прежнюю.",
+   "translations": {
+    "ru": "При боковом свете на стене у входа видна длинная царапина и два заделанных отверстия ниже. Перила крепились тут, пока крыльцо перебирали; стену оставили прежнюю."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/crossroad_signs_inspect"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
   "id": "urman.chapter1:text/discover-babai-yard-childhood-spinner",
   "value": {
    "default": "Крутануть волчок",
    "translations": {
     "ru": "Крутануть волчок"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-babai-yard-porch-paint-tin",
+  "value": {
+   "default": "Заглянуть под крыльцо",
+   "translations": {
+    "ru": "Заглянуть под крыльцо"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/discover-babai-yard-entry-wall-joint",
+  "value": {
+   "default": "Осмотреть стену у входа",
+   "translations": {
+    "ru": "Осмотреть стену у входа"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/needs-light",
+  "value": {
+   "default": "Слишком темно — нужен свет",
+   "translations": {
+    "ru": "Слишком темно — нужен свет"
    }
   },
   "purpose": "ui"

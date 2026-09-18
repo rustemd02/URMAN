@@ -42,6 +42,16 @@ public partial class InteractionTarget : StaticBody3D
     internal Func<bool>? PresentationRepeatAvailable { get; set; }
     internal Action? PresentationRepeat { get; set; }
 
+    // A physical prerequisite owned by the world, not by authored knowledge:
+    // the target stays authored-available while the gate is shut, so the
+    // ordinary interaction simply offers no reading, and the gate hint explains
+    // what is missing. Copying no knowledge and writing no state by itself.
+    internal Func<bool>? PresentationGate { get; set; }
+    internal string PresentationGateHint { get; set; } = string.Empty;
+
+    /// <summary>Authored conditions pass, but the world gate is still shut.</summary>
+    internal bool HeldByGate => _available == true && PresentationGate is not null && !PresentationGate();
+
     public override void _Ready()
     {
         _activeCollisionLayer = CollisionLayer;
@@ -59,10 +69,17 @@ public partial class InteractionTarget : StaticBody3D
         _bridge = null;
         PresentationRepeatAvailable = null;
         PresentationRepeat = null;
+        PresentationGate = null;
+        PresentationGateHint = string.Empty;
     }
 
-    public bool IsAvailable() =>
+    /// <summary>Authored availability only: what the content rules allow.</summary>
+    internal bool AuthoredAvailable =>
         _available == true
+        || (_available == false && PresentationRepeatAvailable?.Invoke() == true);
+
+    public bool IsAvailable() =>
+        (_available == true && (PresentationGate?.Invoke() ?? true))
         || (_available == false && PresentationRepeatAvailable?.Invoke() == true);
 
     public async void Interact()

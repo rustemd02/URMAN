@@ -110,6 +110,7 @@ public partial class Act1CarryInteractionSmokeTest : Node
             await StandFacing(axe.GlobalPosition + Vector3.Up * axe.Height * .5f, axe);
             await Press("interact");
             Check(_carry.HeldItem == axe, "uncovered axe can be taken");
+
             Check(await _bridge.SaveSlotAsync("carry-cleared-held"), "cleared yard and held object saved together");
 
             Check(await _bridge.LoadSlotAsync("carry-pristine"), "load pristine snapshot");
@@ -123,9 +124,104 @@ public partial class Act1CarryInteractionSmokeTest : Node
                 && woodpile.Completed && fence.Completed, "restored held find is visible and the clearing persists");
             await Capture("06_loaded_held_axe");
             Check(_bridge.ActiveSceneId == scene, "optional physical work grants no story transition");
+            // EX06: the portable lantern is a light, not a scanner. Both lit
+            // details are authored marks in the world; in the dark the ordinary
+            // interaction offers nothing, and a lit lantern - carried or left
+            // standing on a support - makes the reading available.
+            // Free both hands for the lamp. The axe goes back down at the first
+            // yard spot with real room, since the earlier fixtures already
+            // occupy the exact places used before.
+            var dropped = false;
+            foreach (var spot in new[]
+                     {
+                         new Vector3(-30.0f, 0f, 7.6f), new Vector3(-31.6f, 0f, 1.2f),
+                         new Vector3(-29.4f, 0f, -1.4f), new Vector3(-33.4f, 0f, 7.2f)
+                     })
+            {
+                await StandFacing(Ground(spot));
+                var carried = _carry.HeldItem;
+                if (carried is null || !_carry.TryPlacement(carried, out _, out _)) continue;
+                await Press("carry_place");
+                if (_carry.HeldItem is null) { dropped = true; break; }
+            }
+            Check(dropped, "hands free before the lamp");
+            var lantern = Item("carry-lantern");
+            var tin = LightDetail("paint tin at the entrance step");
+            var joint = LightDetail("street wall scratch joint");
+            await StandFacing(tin.GlobalPosition, tin);
+            Check(tin.HeldByGate && !tin.IsAvailable(), "an unlit authored detail offers no reading");
+            await Press("interact");
+            Check(!Found("babai-yard-porch-paint-tin"), "the dark reading grants no knowledge");
+            Check(_player.GetNodeOrNull<Label>("Hud/InteractionPrompt")?.Text
+                == _bridge.ResolveText("urman.chapter1:text/needs-light"), "the dark reading names what is missing");
+
+            await StandFacing(lantern.GlobalPosition + Vector3.Up * lantern.Height * .5f, lantern);
+            await Press("interact");
+            Check(_carry.HeldItem == lantern, "the lamp is physically carried");
+            await StandFacing(Ground(new(-30.2f, 0f, 2.2f)));
+            _player.ApplySmokeLook(-42f, _player.RotationDegrees.Y);
+            await Frames(3);
+            await Press("interact");
+            Check(lantern.LightOn && lantern.State == CarryableProp.CarryState.Held,
+                "ordinary interact switches the carried lamp");
+
+            await Capture("07_lantern_dark_step");
+            await StandFacing(tin.GlobalPosition, tin);
+            Check(tin.IsAvailable(), "a lit lantern opens the authored reading");
+            await Capture("08_lantern_lit_detail");
+            await Press("interact");
+            await Frames(6);
+            Check(Found("babai-yard-porch-paint-tin"), "the lit detail grants its authored knowledge");
+            Check(_bridge.JournalEntries().Any(entry => entry.EntryId
+                    == "urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin"),
+                "the lit reading writes one journal card");
+
+            // A wall between the lamp and an unread mark must not read through
+            // it. The check uses the second detail: once a reading is taken the
+            // authored condition closes it, so it could never reopen.
+            await StandFacing(joint.GlobalPosition, joint);
+            Check(joint.IsAvailable(), "the carried lamp opens the second reading");
+            var line = new Vector3(joint.GlobalPosition.X - lantern.GlobalPosition.X, 0f,
+                joint.GlobalPosition.Z - lantern.GlobalPosition.Z).Normalized();
+            var shade = new StaticBody3D { Name = "LanternOcclusionFixture", CollisionLayer = 2u, CollisionMask = 0u,
+                Position = (lantern.GlobalPosition + joint.GlobalPosition) * .5f,
+                RotationDegrees = new Vector3(0f, Mathf.RadToDeg(Mathf.Atan2(line.X, line.Z)), 0f) };
+            shade.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = new(1.6f, 1.6f, .1f) } });
+            AddChild(shade);
+            await Frames(3);
+            Check(!joint.IsAvailable(), "a wall between the lamp and the mark blocks the reading");
+            shade.QueueFree();
+            // Queued deletion is applied on the idle frame, which need not fall
+            // between two physics frames in a headless run.
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await Frames(3);
+            Check(joint.IsAvailable(), "removing the wall restores the reading");
+
+            // Left on the ground the lamp keeps burning and frees both hands
+            // for the second, further reading.
+            var outward = _player.GlobalPosition - joint.GlobalPosition;
+            outward.Y = 0f;
+            await PutAt(Ground(joint.GlobalPosition + outward.Normalized() * 1.2f));
+            Check(_carry.HeldItem is null && lantern.LightOn && lantern.State == CarryableProp.CarryState.Placed,
+                "a lamp left standing keeps burning with free hands");
+            await StandFacing(joint.GlobalPosition, joint);
+            Check(joint.IsAvailable(), "the standing lamp lights the second reading");
+            await Capture("09_lantern_left_standing");
+            await Press("interact");
+            await Frames(6);
+            Check(Found("babai-yard-entry-wall-joint"), "the second lit reading grants its knowledge");
+
+            Check(await _bridge.SaveSlotAsync("carry-light"), "lit yard saved with both readings");
+            Check(await _bridge.LoadSlotAsync("carry-light"), "load the lit snapshot");
+            await Frames(6);
+            Check(Found("babai-yard-porch-paint-tin") && Found("babai-yard-entry-wall-joint")
+                && lantern.LightOn && lantern.State == CarryableProp.CarryState.Placed,
+                "both light readings and the standing lamp survive the save/load");
+
             Check(await _bridge.StartNewGameAsync(), "new runtime session on persistent world");
             await Frames(8);
-            Check(_carry.HeldItem is null && axe.IsConcealed && !woodpile.Completed && !fence.Completed,
+            Check(_carry.HeldItem is null && axe.IsConcealed && !woodpile.Completed && !fence.Completed
+                && !Found("babai-yard-porch-paint-tin") && !Found("babai-yard-entry-wall-joint"),
                 "New Game clears local consequences and re-registers custody");
             await StandFacing(original + Vector3.Up * log.Height * .5f, log);
             await Press("interact");
@@ -146,6 +242,12 @@ public partial class Act1CarryInteractionSmokeTest : Node
     }
 
     private CarryableProp Item(string id) => _carry.Items.Single(item => item.ItemId == id);
+    private InteractionTarget LightDetail(string role) => _demo!.DemoMain.ConnectedWorld!
+        .FindChildren("*", "StaticBody3D", true, false).OfType<InteractionTarget>()
+        .Single(node => node.HasMeta("lightGateRole") && node.GetMeta("lightGateRole").AsString() == role);
+    private bool Found(string slug) => _bridge.SelectRuntimeState().GetProperty("knowledge")
+        .TryGetProperty("urman.chapter1:knowledge/discovery-" + slug, out var entry)
+        && entry.GetProperty("status").GetString() is "confirmed" or "hypothesis";
     private YardUseTarget FindUse(string id) => _carry.GetChildren().OfType<YardTool>()
         .SelectMany(tool => tool.Targets).Single(target => target.UseId == id);
     private static Vector3 Ground(Vector3 point) => new(point.X,
@@ -239,7 +341,11 @@ public partial class Act1CarryInteractionSmokeTest : Node
         var held = _carry.HeldItem ?? throw new InvalidOperationException("Placement fixture has no carried item.");
         Check(_carry.TryPlacement(held, out var point, out var reason), $"supported placement: {reason}");
         await Press("carry_place");
-        Check(_carry.HeldItem is null && held.GlobalPosition.DistanceTo(point) < .03f, "mapped placement commits checked transform");
+        // The preview is measured one physics frame before the commit; a
+        // windowed frame can settle the capsule a couple of centimetres, so the
+        // tolerance covers that without hiding a placement on the wrong support.
+        Check(_carry.HeldItem is null && held.GlobalPosition.DistanceTo(point) < .06f,
+            "mapped placement commits checked transform");
     }
 
     // The game reads interact during its physics step. A press held for a fixed

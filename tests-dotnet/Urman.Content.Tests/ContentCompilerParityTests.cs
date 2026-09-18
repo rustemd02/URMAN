@@ -23,7 +23,7 @@ public sealed class ContentCompilerParityTests
         var goldenPath = Path.Combine(root, "tests-dotnet", "fixtures", "content", "urman.chapter1.compiled.v1.json");
         var golden = JsonNode.Parse(await File.ReadAllTextAsync(goldenPath, TestContext.Current.CancellationToken));
         Assert.True(JsonNode.DeepEquals(golden, result.Pack));
-        Assert.Equal("6eb1d1e2f6d7e293e20953e849110f92680b5c249a311537ba3f400ccb218a9a", result.Pack["campaignFingerprint"]!.GetValue<string>());
+        Assert.Equal("783040a4748006dd7a7381181186bf533c6880a6ccbdf8b7bf0467b41b127bcb", result.Pack["campaignFingerprint"]!.GetValue<string>());
         var house = result.Pack["registries"]!["scenes"]!.AsArray()
             .Single(scene => scene!["id"]!.GetValue<string>() == "urman.chapter1:scene/house");
         Assert.Contains(
@@ -46,8 +46,10 @@ public sealed class ContentCompilerParityTests
         var second = await simulator.SimulateNarrativeOrderAsync(compilation.Pack, TestContext.Current.CancellationToken);
 
         Assert.Equal(first, second);
-        Assert.Equal(16, first.Steps);
-        Assert.Equal(16, first.EventSequence);
+        // 17 after the authored finale beat replaced the earlier rinat beat in
+        // 04f039e; the frozen pack below carries that content.
+        Assert.Equal(17, first.Steps);
+        Assert.Equal(17, first.EventSequence);
     }
 
     private static string FindWorkspaceRoot()

@@ -159,6 +159,9 @@ public partial class Act1ConnectedWorld
                 {
                     var slug = binding.Node.GetMeta("discoverySlug").AsString();
                     binding.Node.Prompt = _runtimeBridge.ResolveText("urman.chapter1:text/discover-" + slug);
+                    if (binding.Node.HasMeta("lightGateTextId"))
+                        binding.Node.PresentationGateHint = _runtimeBridge.ResolveText(
+                            binding.Node.GetMeta("lightGateTextId").AsString());
                     binding.Node.SetMeta("discoveryCompleted", Found(slug));
                 }
         UpdateRoadsideDiscoveries(Found("zirat-outer-rest-bench"));
