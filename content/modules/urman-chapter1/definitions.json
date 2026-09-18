@@ -1526,8 +1526,29 @@
       "conditions": [],
       "effects": [],
       "nextNodeId": "stay-for-tea-reply"
+     },
+     {
+      "id": "ask-porch-paint",
+      "textId": "urman.chapter1:text/choice-gulsina-porch-paint",
+      "conditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin",
+        "status": "confirmed"
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "porch-paint-reply"
      }
     ]
+   },
+   {
+    "id": "porch-paint-reply",
+    "speakerRole": "gulsina",
+    "textId": "urman.chapter1:text/dialogue-gulsina-porch-paint-reply",
+    "conditions": [],
+    "effects": [],
+    "choices": []
    },
    {
     "id": "marat-reply",
@@ -6220,6 +6241,28 @@
    "default": "Слишком темно — нужен свет",
    "translations": {
     "ru": "Слишком темно — нужен свет"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/choice-gulsina-porch-paint",
+  "value": {
+   "default": "Спросить про краску под крыльцом",
+   "translations": {
+    "ru": "Спросить про краску под крыльцом"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/dialogue-gulsina-porch-paint-reply",
+  "value": {
+   "default": "Краску я под крыльцом держу: наличники подновляли, до второго окна руки не дошли. Примечай, где что лежит, — тут всё своё.",
+   "translations": {
+    "ru": "Краску я под крыльцом держу: наличники подновляли, до второго окна руки не дошли. Примечай, где что лежит, — тут всё своё."
    }
   },
   "purpose": "ui"

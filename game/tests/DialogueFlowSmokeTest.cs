@@ -71,6 +71,62 @@ public partial class DialogueFlowSmokeTest : Node
             return;
         }
 
+        // EX14.4: one existing resident notices the player's own reading at her
+        // house. The question waits for that knowledge, names its source (she
+        // keeps the paint under the step) and adds no new story fact.
+        bridge.OpenDialogueUi("urman.chapter1:dialogue/gulsina_yaramyy");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var paintBefore = dialogueUi.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>()
+            .FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-gulsina-porch-paint"));
+        if (paintBefore is not null)
+        {
+            Fail("Gulsina offered the porch paint question before the player had read it.");
+            return;
+        }
+        dialogueUi._UnhandledInput(new InputEventKey
+        {
+            Keycode = Key.Escape,
+            PhysicalKeycode = Key.Escape,
+            Pressed = true,
+            Echo = false
+        });
+        if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/discover-babai-yard-porch-paint-tin"))
+        {
+            Fail("The authored porch paint reading was rejected.");
+            return;
+        }
+        bridge.OpenDialogueUi("urman.chapter1:dialogue/gulsina_yaramyy");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var paintButton = dialogueUi.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
+            .GetChildren().OfType<Button>()
+            .FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-gulsina-porch-paint"));
+        if (paintButton is null)
+        {
+            Fail("Gulsina's porch paint question did not appear after the player read the tin.");
+            return;
+        }
+        paintButton.EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (dialogueUi.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text
+            != bridge.ResolveText("urman.chapter1:text/dialogue-gulsina-porch-paint-reply"))
+        {
+            Fail("Gulsina's porch paint reply did not match its authored line.");
+            return;
+        }
+        dialogueUi._UnhandledInput(new InputEventKey
+        {
+            Keycode = Key.E,
+            PhysicalKeycode = Key.E,
+            Pressed = true,
+            Echo = false
+        });
+        if (dialogueUi.IsOpen || player.ModalOpen)
+        {
+            Fail("Gulsina's porch paint reaction did not release the player.");
+            return;
+        }
+
         bridge.OpenDialogueUi("urman.chapter1:dialogue/gulsina_yaramyy");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         var secondChoices = dialogueUi.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
@@ -201,7 +257,7 @@ public partial class DialogueFlowSmokeTest : Node
         if (dialogueUi.IsOpen || player.ModalOpen)
         { Fail("Mansur's closing reply did not release the player."); return; }
 
-        GD.Print("dialogue-flow-smoke: Gulsina vocabulary + Rinat choice + discovery-gated Mansur memory and its return visit through production UI");
+        GD.Print("dialogue-flow-smoke: Gulsina vocabulary, her discovery-gated porch paint reaction + Rinat choice + discovery-gated Mansur memory and its return visit through production UI");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
     }

@@ -2419,9 +2419,14 @@
         "ручной сценарий карточки"
       ],
       "evidence": [
-        "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+        "SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13",
+        "docs/production/act1_takeover_evidence_2026-09-16/act1_ex14_consequences_2026-09-18.md",
+        "docs/production/act1_takeover_evidence_2026-09-16/act1_ex06_carry_smoke_2026-09-18.log",
+        "content/modules/urman-chapter1/definitions.json",
+        "game/tests/DialogueFlowSmokeTest.cs"
       ],
-      "note": "Проверка каждой партии §13.2: контракт EX00 и реализованные выбранные EX; проверка каждой партии."
+      "note": "Проверка каждой партии §13.2: контракт EX00 и реализованные выбранные EX; проверка каждой партии.",
+      "progress_2026_09_18": "2026-09-18 EX14: persistence table written in docs/production/act1_takeover_evidence_2026-09-16/act1_ex14_consequences_2026-09-18.md; zone creation/load rebuilds every EX object from the one existing runtime state through CarryCoordinator.ApplyWorldState, and the resident reaction is implemented: Gulsina notices the player's own reading at her porch. The new choice ask-porch-paint in urman.chapter1:dialogue/gulsina_yaramyy is available only while urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin is confirmed, leads to the porch-paint-reply node, names the source of her awareness (she keeps the paint under the step) and adds no new story fact, ending or automatic knowledge. Verified through the production dialogue UI in dialogue_flow_smoke_test (choice absent before the reading, present after, reply matches the authored line, player released) and by the carry smoke for save/load/revisit/New Game; verify-dotnet is green (44 Core + 12 Content). Limits: the sound half of the consequences belongs to EX08 and is not claimed here, and no human pass was run."
     },
     {
       "id": "ACT1-EX-ACCEPT",

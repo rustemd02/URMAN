@@ -23,7 +23,7 @@ public sealed class ContentCompilerParityTests
         var goldenPath = Path.Combine(root, "tests-dotnet", "fixtures", "content", "urman.chapter1.compiled.v1.json");
         var golden = JsonNode.Parse(await File.ReadAllTextAsync(goldenPath, TestContext.Current.CancellationToken));
         Assert.True(JsonNode.DeepEquals(golden, result.Pack));
-        Assert.Equal("783040a4748006dd7a7381181186bf533c6880a6ccbdf8b7bf0467b41b127bcb", result.Pack["campaignFingerprint"]!.GetValue<string>());
+        Assert.Equal("148a6fd5ce06241a180cd05a0e84d9cf94221ceed7e9ee8dae01effd9603965f", result.Pack["campaignFingerprint"]!.GetValue<string>());
         var house = result.Pack["registries"]!["scenes"]!.AsArray()
             .Single(scene => scene!["id"]!.GetValue<string>() == "urman.chapter1:scene/house");
         Assert.Contains(

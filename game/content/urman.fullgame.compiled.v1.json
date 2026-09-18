@@ -913,8 +913,29 @@
                 "conditions": [],
                 "effects": [],
                 "nextNodeId": "stay-for-tea-reply"
+              },
+              {
+                "id": "ask-porch-paint",
+                "textId": "urman.chapter1:text/choice-gulsina-porch-paint",
+                "conditions": [
+                  {
+                    "op": "knowledge.status",
+                    "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin",
+                    "status": "confirmed"
+                  }
+                ],
+                "effects": [],
+                "nextNodeId": "porch-paint-reply"
               }
             ]
+          },
+          {
+            "id": "porch-paint-reply",
+            "speakerRole": "gulsina",
+            "textId": "urman.chapter1:text/dialogue-gulsina-porch-paint-reply",
+            "conditions": [],
+            "effects": [],
+            "choices": []
           },
           {
             "id": "marat-reply",
@@ -9282,6 +9303,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/choice-gulsina-porch-paint",
+        "value": {
+          "default": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u043F\u0440\u043E \u043A\u0440\u0430\u0441\u043A\u0443 \u043F\u043E\u0434 \u043A\u0440\u044B\u043B\u044C\u0446\u043E\u043C",
+          "translations": {
+            "ru": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u043F\u0440\u043E \u043A\u0440\u0430\u0441\u043A\u0443 \u043F\u043E\u0434 \u043A\u0440\u044B\u043B\u044C\u0446\u043E\u043C"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/choice-gulsina-stay-for-tea",
         "value": {
           "default": "All right. I\u2019ll sit with you for a while.",
@@ -10160,6 +10192,17 @@
           }
         },
         "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/dialogue-gulsina-porch-paint-reply",
+        "value": {
+          "default": "\u041A\u0440\u0430\u0441\u043A\u0443 \u044F \u043F\u043E\u0434 \u043A\u0440\u044B\u043B\u044C\u0446\u043E\u043C \u0434\u0435\u0440\u0436\u0443: \u043D\u0430\u043B\u0438\u0447\u043D\u0438\u043A\u0438 \u043F\u043E\u0434\u043D\u043E\u0432\u043B\u044F\u043B\u0438, \u0434\u043E \u0432\u0442\u043E\u0440\u043E\u0433\u043E \u043E\u043A\u043D\u0430 \u0440\u0443\u043A\u0438 \u043D\u0435 \u0434\u043E\u0448\u043B\u0438. \u041F\u0440\u0438\u043C\u0435\u0447\u0430\u0439, \u0433\u0434\u0435 \u0447\u0442\u043E \u043B\u0435\u0436\u0438\u0442, \u2014 \u0442\u0443\u0442 \u0432\u0441\u0451 \u0441\u0432\u043E\u0451.",
+          "translations": {
+            "ru": "\u041A\u0440\u0430\u0441\u043A\u0443 \u044F \u043F\u043E\u0434 \u043A\u0440\u044B\u043B\u044C\u0446\u043E\u043C \u0434\u0435\u0440\u0436\u0443: \u043D\u0430\u043B\u0438\u0447\u043D\u0438\u043A\u0438 \u043F\u043E\u0434\u043D\u043E\u0432\u043B\u044F\u043B\u0438, \u0434\u043E \u0432\u0442\u043E\u0440\u043E\u0433\u043E \u043E\u043A\u043D\u0430 \u0440\u0443\u043A\u0438 \u043D\u0435 \u0434\u043E\u0448\u043B\u0438. \u041F\u0440\u0438\u043C\u0435\u0447\u0430\u0439, \u0433\u0434\u0435 \u0447\u0442\u043E \u043B\u0435\u0436\u0438\u0442, \u2014 \u0442\u0443\u0442 \u0432\u0441\u0451 \u0441\u0432\u043E\u0451."
+          }
+        },
+        "purpose": "ui"
       },
       {
         "schemaVersion": 1,
@@ -11939,7 +11982,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "473bfb7dd2d15816e7b0f88712ddd944e7caa29e30e14283b0dd339194e3f795"
+      "sha256": "83c46ad41dd9e7e5510279b7df13370b24edde7e64bbfbdf29a61f2ea6a9a8fd"
     },
     {
       "moduleId": "urman.core",
@@ -11957,5 +12000,5 @@
       "sha256": "bf23f5723b14ed711c0d72464b77ddc6ca1250f40fcf095afcbf63a36a852ff1"
     }
   ],
-  "campaignFingerprint": "426f5929d53fb24be86bbe2b7095e0bcb990408791e0b2ee6edc66482c8a249c"
+  "campaignFingerprint": "c1c82423e56ca7362c38c3b34b0be3e9cf3f1e21c48df03dd8f48f22d91acd9f"
 }
