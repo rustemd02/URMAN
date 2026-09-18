@@ -1,0 +1,892 @@
+{
+  "kind": "actual-game-vehicle-smoke",
+  "scope": "vehicle-captured-mouse",
+  "exitCode": 0,
+  "checks": 32,
+  "failure": null,
+  "records": [
+    {
+      "kind": "check",
+      "label": "radio boundary carries fractional offset into the next segment",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "whole-loop advance still reports a playback boundary",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "saved radio segment survives input reordering",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "non-finite playback offsets are rejected",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "a retired unavailable segment starts the remaining programme at zero instead of copying an unrelated offset",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "three vehicle instances in the actual connected world",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "stable unique fleet IDs",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary free control after arrival card",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "babay-niva",
+      "probe": {
+        "vehicleId": "babay-niva",
+        "origin": [
+          -1.65,
+          -0.22735006,
+          1
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          0.86,
+          0.025
+        ],
+        "hullSize": [
+          1.82,
+          1.72,
+          4.2
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.25232512,
+              -0.571
+            ],
+            "normal": [
+              0.018784864,
+              0.99977803,
+              0.009541303
+            ],
+            "gapMetres": 0.024975061,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.29845876,
+              2.6209998
+            ],
+            "normal": [
+              -0.008939898,
+              0.9998704,
+              0.013390849
+            ],
+            "gapMetres": 0.0711087,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.2781468,
+              -0.571
+            ],
+            "normal": [
+              0.022432983,
+              0.999722,
+              0.0072584394
+            ],
+            "gapMetres": 0.050796747,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.29313195,
+              2.6209998
+            ],
+            "normal": [
+              0.0014286969,
+              0.99989986,
+              0.014080784
+            ],
+            "gapMetres": 0.06578189,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ],
+        "steering": {
+          "angle": 0,
+          "stops": 0,
+          "volumes": [
+            {
+              "name": "FrontLeftWheelCollision",
+              "centre": "(-0.78, 0.345, -1.18)",
+              "radius": 0.345,
+              "width": 0.19,
+              "colliderYaw": 0,
+              "visualYaw": -0,
+              "spin": 0,
+              "envelopeSides": 64,
+              "radialOverestimateMetres": 0.00042014546
+            },
+            {
+              "name": "FrontRightWheelCollision",
+              "centre": "(0.78, 0.345, -1.18)",
+              "radius": 0.345,
+              "width": 0.19,
+              "colliderYaw": 0,
+              "visualYaw": -0,
+              "spin": 0,
+              "envelopeSides": 64,
+              "radialOverestimateMetres": 0.00042014546
+            }
+          ],
+          "lastRejectedAngle": 0,
+          "lastContact": null
+        }
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "village-motorcycle",
+      "probe": {
+        "vehicleId": "village-motorcycle",
+        "origin": [
+          1.4,
+          -0.31296888,
+          -23
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          0.77,
+          -0.01
+        ],
+        "hullSize": [
+          1,
+          1.54,
+          2.24
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              1.04,
+              -0.31296888,
+              -23.8612
+            ],
+            "hit": true,
+            "position": [
+              1.04,
+              -0.39393127,
+              -23.8612
+            ],
+            "normal": [
+              0.012477273,
+              0.99922377,
+              -0.03736695
+            ],
+            "gapMetres": 0.08096239,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.04,
+              -0.31296888,
+              -22.1588
+            ],
+            "hit": true,
+            "position": [
+              1.04,
+              -0.3379547,
+              -22.1588
+            ],
+            "normal": [
+              0.0016139989,
+              0.99961066,
+              -0.027855622
+            ],
+            "gapMetres": 0.02498582,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.76,
+              -0.31296888,
+              -23.8612
+            ],
+            "hit": true,
+            "position": [
+              1.76,
+              -0.40292192,
+              -23.8612
+            ],
+            "normal": [
+              0.012477273,
+              0.99922377,
+              -0.03736695
+            ],
+            "gapMetres": 0.089953035,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.76,
+              -0.31296888,
+              -22.1588
+            ],
+            "hit": true,
+            "position": [
+              1.76,
+              -0.33925897,
+              -22.1588
+            ],
+            "normal": [
+              0.012477273,
+              0.99922377,
+              -0.03736695
+            ],
+            "gapMetres": 0.026290089,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ],
+        "steering": {
+          "angle": 0,
+          "stops": 0,
+          "volumes": [],
+          "lastRejectedAngle": 0,
+          "lastContact": null
+        }
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "forest-horse-cart",
+      "probe": {
+        "vehicleId": "forest-horse-cart",
+        "origin": [
+          0.9,
+          -0.23743948,
+          -34
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          1.225,
+          -0.5
+        ],
+        "hullSize": [
+          1.8,
+          2.45,
+          5.78
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              0.25199997,
+              -0.23743948,
+              -36.6964
+            ],
+            "hit": true,
+            "position": [
+              0.25199997,
+              -0.29491353,
+              -36.6964
+            ],
+            "normal": [
+              -0.00035888905,
+              0.99962604,
+              -0.027344355
+            ],
+            "gapMetres": 0.057474047,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              0.25199997,
+              -0.23743948,
+              -32.3036
+            ],
+            "hit": true,
+            "position": [
+              0.25199997,
+              -0.26245517,
+              -32.3036
+            ],
+            "normal": [
+              0.007376721,
+              0.99991095,
+              0.011125258
+            ],
+            "gapMetres": 0.025015682,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.548,
+              -0.23743948,
+              -36.6964
+            ],
+            "hit": true,
+            "position": [
+              1.548,
+              -0.2942285,
+              -36.6964
+            ],
+            "normal": [
+              -0.0098749595,
+              0.9998921,
+              -0.010874788
+            ],
+            "gapMetres": 0.05678901,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.548,
+              -0.23743948,
+              -32.3036
+            ],
+            "hit": true,
+            "position": [
+              1.548,
+              -0.2720163,
+              -32.3036
+            ],
+            "normal": [
+              0.007376721,
+              0.99991095,
+              0.011125258
+            ],
+            "gapMetres": 0.034576803,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ],
+        "steering": {
+          "angle": 0,
+          "stops": 0,
+          "volumes": [],
+          "lastRejectedAngle": 0,
+          "lastContact": null
+        }
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "one explicit narrow vehicle proof is selected",
+      "passed": true
+    },
+    {
+      "kind": "local-fixture",
+      "vehicle": "babay-niva",
+      "feet": "(-2.9661467, -0.27911785, 0.41089636)",
+      "target": "(-2.6599998, 0.74265, 1.15)",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mouse proof uses a native window",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mouse proof uses the actual requested window size (1280, 720)",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mouse proof owns active captured input outside modal UI",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-screen-relative",
+      "requestedSize": "(1280, 720)",
+      "actualSize": "(1280, 720)",
+      "viewport": "(1920, 1080)",
+      "physicalMotion": "(17, -7)",
+      "sensitivity": 0.16,
+      "yaw": -2.72,
+      "pitch": 1.12,
+      "beforeOwner": {
+        "storedYaw": 0,
+        "storedPitch": 0,
+        "projectedRotation": "(0, 0, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 50,
+        "processFrame": 17
+      },
+      "immediatelyAfter": {
+        "storedYaw": 0,
+        "storedPitch": 0,
+        "projectedRotation": "(0, 0, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 50,
+        "processFrame": 17
+      },
+      "afterOwner": {
+        "storedYaw": -2.72,
+        "storedPitch": 1.12,
+        "projectedRotation": "(1.12, -2.72, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 53,
+        "processFrame": 19
+      },
+      "deliveredMatching": 1,
+      "unhandledMatching": 1,
+      "deliveredScreenTotal": "(17, -7)",
+      "events": [
+        {
+          "stage": "input",
+          "relative": "(25.499998, -10.499999)",
+          "screenRelative": "(17, -7)",
+          "Device": 32,
+          "state": {
+            "storedYaw": 0,
+            "storedPitch": 0,
+            "projectedRotation": "(0, 0, 0)",
+            "hasDriver": true,
+            "driverModal": false,
+            "vehicleControlled": true,
+            "fleetSuspended": false,
+            "placementAvailable": true,
+            "treePaused": false,
+            "ownerCanProcess": true,
+            "controlsNeedRelease": false,
+            "mouseMode": "Captured",
+            "focus": true,
+            "physicsFrame": 50,
+            "processFrame": 18
+          }
+        },
+        {
+          "stage": "unhandled",
+          "relative": "(25.499998, -10.499999)",
+          "screenRelative": "(17, -7)",
+          "Device": 32,
+          "state": {
+            "storedYaw": -2.72,
+            "storedPitch": 1.12,
+            "projectedRotation": "(0, 0, 0)",
+            "hasDriver": true,
+            "driverModal": false,
+            "vehicleControlled": true,
+            "fleetSuspended": false,
+            "placementAvailable": true,
+            "treePaused": false,
+            "ownerCanProcess": true,
+            "controlsNeedRelease": false,
+            "mouseMode": "Captured",
+            "focus": true,
+            "physicsFrame": 50,
+            "processFrame": 18
+          }
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "one injected physical motion reaches the actual vehicle input pipeline without another motion cancelling it",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "captured vehicle camera keeps physical mouse sensitivity at (1280, 720)",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mouse proof uses the actual requested window size (1920, 1080)",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mouse proof owns active captured input outside modal UI",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-screen-relative",
+      "requestedSize": "(1920, 1080)",
+      "actualSize": "(1920, 1080)",
+      "viewport": "(1920, 1080)",
+      "physicalMotion": "(17, -7)",
+      "sensitivity": 0.16,
+      "yaw": -2.72,
+      "pitch": 1.12,
+      "beforeOwner": {
+        "storedYaw": -2.72,
+        "storedPitch": 1.12,
+        "projectedRotation": "(1.12, -2.72, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 61,
+        "processFrame": 22
+      },
+      "immediatelyAfter": {
+        "storedYaw": -2.72,
+        "storedPitch": 1.12,
+        "projectedRotation": "(1.12, -2.72, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 61,
+        "processFrame": 22
+      },
+      "afterOwner": {
+        "storedYaw": -5.44,
+        "storedPitch": 2.24,
+        "projectedRotation": "(2.24, -5.44, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 64,
+        "processFrame": 24
+      },
+      "deliveredMatching": 1,
+      "unhandledMatching": 1,
+      "deliveredScreenTotal": "(17, -7)",
+      "events": [
+        {
+          "stage": "input",
+          "relative": "(17, -7)",
+          "screenRelative": "(17, -7)",
+          "Device": 32,
+          "state": {
+            "storedYaw": -2.72,
+            "storedPitch": 1.12,
+            "projectedRotation": "(1.12, -2.72, 0)",
+            "hasDriver": true,
+            "driverModal": false,
+            "vehicleControlled": true,
+            "fleetSuspended": false,
+            "placementAvailable": true,
+            "treePaused": false,
+            "ownerCanProcess": true,
+            "controlsNeedRelease": false,
+            "mouseMode": "Captured",
+            "focus": true,
+            "physicsFrame": 61,
+            "processFrame": 23
+          }
+        },
+        {
+          "stage": "unhandled",
+          "relative": "(17, -7)",
+          "screenRelative": "(17, -7)",
+          "Device": 32,
+          "state": {
+            "storedYaw": -5.44,
+            "storedPitch": 2.24,
+            "projectedRotation": "(1.12, -2.72, 0)",
+            "hasDriver": true,
+            "driverModal": false,
+            "vehicleControlled": true,
+            "fleetSuspended": false,
+            "placementAvailable": true,
+            "treePaused": false,
+            "ownerCanProcess": true,
+            "controlsNeedRelease": false,
+            "mouseMode": "Captured",
+            "focus": true,
+            "physicsFrame": 61,
+            "processFrame": 23
+          }
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "one injected physical motion reaches the actual vehicle input pipeline without another motion cancelling it",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "captured vehicle camera keeps physical mouse sensitivity at (1920, 1080)",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "actual viewport transforms Relative differently while preserving physical screen motion",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle physical mouse turn agrees at both actual window sizes",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-restoration",
+      "initial": "(0, 0)",
+      "accepted": "(-5.44, 2.24)",
+      "after": "(0, 0)",
+      "state": {
+        "storedYaw": 0,
+        "storedPitch": 0,
+        "projectedRotation": "(0, 0, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 75,
+        "processFrame": 29
+      }
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mouse proof restores the driver\u0027s accepted view through ordinary input",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "mouse-only proof returns through an ordinary safe exit",
+      "passed": true
+    }
+  ],
+  "limit": "local fixtures; not human experience, final art, listening or performance",
+  "stationRecordings": "actual delivered and missing programme rows reported separately; playback fixtures are not station content"
+}

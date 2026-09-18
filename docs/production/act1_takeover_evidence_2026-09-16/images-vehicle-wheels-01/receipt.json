@@ -1,0 +1,1197 @@
+{
+  "kind": "actual-game-vehicle-smoke",
+  "scope": "niva-front-wheel-collision",
+  "exitCode": 0,
+  "checks": 75,
+  "failure": null,
+  "records": [
+    {
+      "kind": "check",
+      "label": "radio boundary carries fractional offset into the next segment",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "whole-loop advance still reports a playback boundary",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "saved radio segment survives input reordering",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "non-finite playback offsets are rejected",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "a retired unavailable segment starts the remaining programme at zero instead of copying an unrelated offset",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "three vehicle instances in the actual connected world",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "stable unique fleet IDs",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary free control after arrival card",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "babay-niva",
+      "probe": {
+        "vehicleId": "babay-niva",
+        "origin": [
+          -1.65,
+          -0.22735006,
+          1
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          0.86,
+          0.025
+        ],
+        "hullSize": [
+          1.82,
+          1.72,
+          4.2
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.25232512,
+              -0.571
+            ],
+            "normal": [
+              0.018784864,
+              0.99977803,
+              0.009541303
+            ],
+            "gapMetres": 0.024975061,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.29845876,
+              2.6209998
+            ],
+            "normal": [
+              -0.008939898,
+              0.9998704,
+              0.013390849
+            ],
+            "gapMetres": 0.0711087,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.2781468,
+              -0.571
+            ],
+            "normal": [
+              0.022432983,
+              0.999722,
+              0.0072584394
+            ],
+            "gapMetres": 0.050796747,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.29313195,
+              2.6209998
+            ],
+            "normal": [
+              0.0014286969,
+              0.99989986,
+              0.014080784
+            ],
+            "gapMetres": 0.06578189,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ],
+        "steering": {
+          "angle": 0,
+          "stops": 0,
+          "volumes": [
+            {
+              "name": "FrontLeftWheelCollision",
+              "centre": "(-0.78, 0.345, -1.18)",
+              "radius": 0.345,
+              "width": 0.19,
+              "colliderYaw": 0,
+              "visualYaw": -0,
+              "spin": 0,
+              "envelopeSides": 64,
+              "radialOverestimateMetres": 0.00042014546
+            },
+            {
+              "name": "FrontRightWheelCollision",
+              "centre": "(0.78, 0.345, -1.18)",
+              "radius": 0.345,
+              "width": 0.19,
+              "colliderYaw": 0,
+              "visualYaw": -0,
+              "spin": 0,
+              "envelopeSides": 64,
+              "radialOverestimateMetres": 0.00042014546
+            }
+          ],
+          "lastRejectedAngle": 0,
+          "lastContact": null
+        }
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "village-motorcycle",
+      "probe": {
+        "vehicleId": "village-motorcycle",
+        "origin": [
+          1.4,
+          -0.31296888,
+          -23
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          0.77,
+          -0.01
+        ],
+        "hullSize": [
+          1,
+          1.54,
+          2.24
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              1.04,
+              -0.31296888,
+              -23.8612
+            ],
+            "hit": true,
+            "position": [
+              1.04,
+              -0.39393127,
+              -23.8612
+            ],
+            "normal": [
+              0.012477273,
+              0.99922377,
+              -0.03736695
+            ],
+            "gapMetres": 0.08096239,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.04,
+              -0.31296888,
+              -22.1588
+            ],
+            "hit": true,
+            "position": [
+              1.04,
+              -0.3379547,
+              -22.1588
+            ],
+            "normal": [
+              0.0016139989,
+              0.99961066,
+              -0.027855622
+            ],
+            "gapMetres": 0.02498582,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.76,
+              -0.31296888,
+              -23.8612
+            ],
+            "hit": true,
+            "position": [
+              1.76,
+              -0.40292192,
+              -23.8612
+            ],
+            "normal": [
+              0.012477273,
+              0.99922377,
+              -0.03736695
+            ],
+            "gapMetres": 0.089953035,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.76,
+              -0.31296888,
+              -22.1588
+            ],
+            "hit": true,
+            "position": [
+              1.76,
+              -0.33925897,
+              -22.1588
+            ],
+            "normal": [
+              0.012477273,
+              0.99922377,
+              -0.03736695
+            ],
+            "gapMetres": 0.026290089,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ],
+        "steering": {
+          "angle": 0,
+          "stops": 0,
+          "volumes": [],
+          "lastRejectedAngle": 0,
+          "lastContact": null
+        }
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "forest-horse-cart",
+      "probe": {
+        "vehicleId": "forest-horse-cart",
+        "origin": [
+          0.9,
+          -0.23743948,
+          -34
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          1.225,
+          -0.5
+        ],
+        "hullSize": [
+          1.8,
+          2.45,
+          5.78
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              0.25199997,
+              -0.23743948,
+              -36.6964
+            ],
+            "hit": true,
+            "position": [
+              0.25199997,
+              -0.29491353,
+              -36.6964
+            ],
+            "normal": [
+              -0.00035888905,
+              0.99962604,
+              -0.027344355
+            ],
+            "gapMetres": 0.057474047,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              0.25199997,
+              -0.23743948,
+              -32.3036
+            ],
+            "hit": true,
+            "position": [
+              0.25199997,
+              -0.26245517,
+              -32.3036
+            ],
+            "normal": [
+              0.007376721,
+              0.99991095,
+              0.011125258
+            ],
+            "gapMetres": 0.025015682,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.548,
+              -0.23743948,
+              -36.6964
+            ],
+            "hit": true,
+            "position": [
+              1.548,
+              -0.2942285,
+              -36.6964
+            ],
+            "normal": [
+              -0.0098749595,
+              0.9998921,
+              -0.010874788
+            ],
+            "gapMetres": 0.05678901,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.548,
+              -0.23743948,
+              -32.3036
+            ],
+            "hit": true,
+            "position": [
+              1.548,
+              -0.2720163,
+              -32.3036
+            ],
+            "normal": [
+              0.007376721,
+              0.99991095,
+              0.011125258
+            ],
+            "gapMetres": 0.034576803,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ],
+        "steering": {
+          "angle": 0,
+          "stops": 0,
+          "volumes": [],
+          "lastRejectedAngle": 0,
+          "lastContact": null
+        }
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "local-fixture",
+      "vehicle": "babay-niva",
+      "feet": "(-2.9661467, -0.27911785, 0.41089636)",
+      "target": "(-2.6599998, 0.74265, 1.15)",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "wheel-only proof enters through the ordinary ray and action",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "wheel proof starts in the ordinarily entered parked Niva",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "wheel repair retains the authored Niva chassis dimensions",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "two front tyre shapes share the existing chassis body",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "actual front-wheel model bindings are available to the union audit",
+      "passed": true
+    },
+    {
+      "kind": "actual-tyre-mesh-union",
+      "allPhases": true,
+      "angles": [
+        -0.54105204,
+        0,
+        0.54105204
+      ],
+      "phases": [
+        0,
+        0.09817477,
+        0.19634955,
+        0.3926991,
+        0.7853982
+      ],
+      "checkedVertices": 103110,
+      "outside": 0,
+      "maximumX": 1.0177964,
+      "physical": {
+        "angle": 0,
+        "stops": 0,
+        "volumes": [
+          {
+            "name": "FrontLeftWheelCollision",
+            "centre": "(-0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": 0,
+            "visualYaw": -0,
+            "spin": 0,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          },
+          {
+            "name": "FrontRightWheelCollision",
+            "centre": "(0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": 0,
+            "visualYaw": -0,
+            "spin": 0,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          }
+        ],
+        "lastRejectedAngle": 0,
+        "lastContact": null
+      },
+      "limit": "mesh vertices against the production convex envelope; contact is separately exercised through normal input"
+    },
+    {
+      "kind": "check",
+      "label": "real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "actual turned geometry retains its authored track and protrusion beyond the old hull",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "straight wheels and chassis clear the actual 40mm post",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "full lock would hit the post with the tyre while the unchanged chassis is clear",
+      "passed": true
+    },
+    {
+      "kind": "stationary-wheel-post-fixture",
+      "post": "/root/VehicleSmokeTest/StationarySteeringPost",
+      "pose": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-0.655, 0.11464997, -0.39100003)]",
+      "size": "0.04 x 0.72 x 0.04 m",
+      "predicted": [
+        "{\u0022vehicleShape\u0022:\u0022FrontRightWheelCollision\u0022,\u0022colliderPath\u0022:\u0022/root/VehicleSmokeTest/StationarySteeringPost\u0022,\u0022shapeIndex\u0022:0,\u0022shapePath\u0022:\u0022/root/VehicleSmokeTest/StationarySteeringPost/@CollisionShape3D@1635\u0022,\u0022shapeType\u0022:\u0022BoxShape3D\u0022,\u0022collisionOwner\u0022:null,\u0022authoredSourceMesh\u0022:null}"
+      ],
+      "limit": "explicit local collision fixture; not a player traversal or art acceptance"
+    },
+    {
+      "kind": "check",
+      "label": "ordinary steering stops before the real post at rest",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "blocked steering does not displace the parked vehicle sideways",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "accepted wheel pose has no full-shape overlap with the post",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "steering refusal names the actual post owner",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "actual front-wheel model bindings are available to the union audit",
+      "passed": true
+    },
+    {
+      "kind": "actual-tyre-mesh-union",
+      "allPhases": false,
+      "angles": [
+        0.38095242
+      ],
+      "phases": [
+        0
+      ],
+      "checkedVertices": 6874,
+      "outside": 0,
+      "maximumX": 0.98106945,
+      "physical": {
+        "angle": 0.38095242,
+        "stops": 21,
+        "volumes": [
+          {
+            "name": "FrontLeftWheelCollision",
+            "centre": "(-0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": -0.38095242,
+            "visualYaw": -0.38095242,
+            "spin": 0,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          },
+          {
+            "name": "FrontRightWheelCollision",
+            "centre": "(0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": -0.38095242,
+            "visualYaw": -0.38095242,
+            "spin": 0,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          }
+        ],
+        "lastRejectedAngle": 0.38476193,
+        "lastContact": {
+          "vehicleShape": "FrontRightWheelCollision",
+          "colliderPath": "/root/VehicleSmokeTest/StationarySteeringPost",
+          "shapeIndex": 0,
+          "shapePath": "/root/VehicleSmokeTest/StationarySteeringPost/@CollisionShape3D@1635",
+          "shapeType": "BoxShape3D",
+          "collisionOwner": null,
+          "authoredSourceMesh": null
+        }
+      },
+      "limit": "mesh vertices against the production convex envelope; contact is separately exercised through normal input"
+    },
+    {
+      "kind": "check",
+      "label": "real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases",
+      "passed": true
+    },
+    {
+      "kind": "actual-stationary-steering-contact",
+      "proof": {
+        "angle": 0.38095242,
+        "stops": 21,
+        "volumes": [
+          {
+            "name": "FrontLeftWheelCollision",
+            "centre": "(-0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": -0.38095242,
+            "visualYaw": -0.38095242,
+            "spin": 0,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          },
+          {
+            "name": "FrontRightWheelCollision",
+            "centre": "(0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": -0.38095242,
+            "visualYaw": -0.38095242,
+            "spin": 0,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          }
+        ],
+        "lastRejectedAngle": 0.38476193,
+        "lastContact": {
+          "vehicleShape": "FrontRightWheelCollision",
+          "colliderPath": "/root/VehicleSmokeTest/StationarySteeringPost",
+          "shapeIndex": 0,
+          "shapePath": "/root/VehicleSmokeTest/StationarySteeringPost/@CollisionShape3D@1635",
+          "shapeType": "BoxShape3D",
+          "collisionOwner": null,
+          "authoredSourceMesh": null
+        }
+      }
+    },
+    {
+      "kind": "check",
+      "label": "wheel-contact diagnostic camera clears the actual world",
+      "passed": true
+    },
+    {
+      "kind": "actual-rendered-frame",
+      "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-wheels-01/niva-wheel-stationary-contact.png",
+      "camera": "/root/VehicleSmokeTest/WheelContactProofCamera"
+    },
+    {
+      "kind": "check",
+      "label": "ordinary opposite steering leaves the obstruction without ignoring it",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "move_left reaches full lock after the post is removed",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "physical wheel rolling direction agrees with the ordinary steering action",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "actual front-wheel model bindings are available to the union audit",
+      "passed": true
+    },
+    {
+      "kind": "actual-tyre-mesh-union",
+      "allPhases": false,
+      "angles": [
+        -0.54105204
+      ],
+      "phases": [
+        0
+      ],
+      "checkedVertices": 6874,
+      "outside": 0,
+      "maximumX": 1.0177964,
+      "physical": {
+        "angle": -0.54105204,
+        "stops": 26,
+        "volumes": [
+          {
+            "name": "FrontLeftWheelCollision",
+            "centre": "(-0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": 0.54105204,
+            "visualYaw": 0.54105204,
+            "spin": 0,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          },
+          {
+            "name": "FrontRightWheelCollision",
+            "centre": "(0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": 0.54105204,
+            "visualYaw": 0.54105204,
+            "spin": 0,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          }
+        ],
+        "lastRejectedAngle": 0.38476193,
+        "lastContact": {
+          "vehicleShape": "FrontRightWheelCollision",
+          "colliderPath": "/root/VehicleSmokeTest/StationarySteeringPost",
+          "shapeIndex": 0,
+          "shapePath": "/root/VehicleSmokeTest/StationarySteeringPost/@CollisionShape3D@1635",
+          "shapeType": "BoxShape3D",
+          "collisionOwner": null,
+          "authoredSourceMesh": null
+        }
+      },
+      "limit": "mesh vertices against the production convex envelope; contact is separately exercised through normal input"
+    },
+    {
+      "kind": "check",
+      "label": "real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "move_right reaches full lock after the post is removed",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "physical wheel rolling direction agrees with the ordinary steering action",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "actual front-wheel model bindings are available to the union audit",
+      "passed": true
+    },
+    {
+      "kind": "actual-tyre-mesh-union",
+      "allPhases": false,
+      "angles": [
+        0.54105204
+      ],
+      "phases": [
+        0
+      ],
+      "checkedVertices": 6874,
+      "outside": 0,
+      "maximumX": 1.0177964,
+      "physical": {
+        "angle": 0.54105204,
+        "stops": 26,
+        "volumes": [
+          {
+            "name": "FrontLeftWheelCollision",
+            "centre": "(-0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": -0.54105204,
+            "visualYaw": -0.54105204,
+            "spin": 0,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          },
+          {
+            "name": "FrontRightWheelCollision",
+            "centre": "(0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": -0.54105204,
+            "visualYaw": -0.54105204,
+            "spin": 0,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          }
+        ],
+        "lastRejectedAngle": 0.38476193,
+        "lastContact": {
+          "vehicleShape": "FrontRightWheelCollision",
+          "colliderPath": "/root/VehicleSmokeTest/StationarySteeringPost",
+          "shapeIndex": 0,
+          "shapePath": "/root/VehicleSmokeTest/StationarySteeringPost/@CollisionShape3D@1635",
+          "shapeType": "BoxShape3D",
+          "collisionOwner": null,
+          "authoredSourceMesh": null
+        }
+      },
+      "limit": "mesh vertices against the production convex envelope; contact is separately exercised through normal input"
+    },
+    {
+      "kind": "check",
+      "label": "real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "existing snapshot saves the physical steering angle",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary occupied load restores the steering snapshot",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "held input cannot alter the restored steering angle before neutral release",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "saved steering restores both tyre colliders and visible wheels together",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "changed saved obstacle occupies only the turned tyre region",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "existing parking recovery handles a saved tyre obstruction",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "saved-placement rejection includes the actual tyre shape",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "parking recovery checks and commits straight wheels at a physically clear candidate",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the same unmodified snapshot loads after removal of the tyre obstacle",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "removing the obstacle restores the original saved angle and possession",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "steering migration fixture starts from an ordinary safe exit",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "legacy version1 vehicle record without steering remains readable",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "legacy steering defaults to zero in the physical forms",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "out-of-range steering rejects the record before mutation",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "rejected steering leaves the complete vehicle record unchanged",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary snapshot restores possession after the explicit migration fixture",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "wheel fixture returns to the original parked controls without a second state owner",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "moving-wheel proof uses ordinary running controls",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "moving-wheel proof starts with real full steering lock",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "moving-wheel fixture begins with a clear full vehicle volume",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the predicted short path isolates tyre contact from chassis contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary throttle produces an actual MoveAndSlide tyre-versus-post contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "contact follows real vehicle movement rather than an overlapped fixture start",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "right-steering wheel contact follows an actual right turn of the chassis",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the chassis is still clear at the actual tyre contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "actual front-wheel model bindings are available to the union audit",
+      "passed": true
+    },
+    {
+      "kind": "actual-tyre-mesh-union",
+      "allPhases": false,
+      "angles": [
+        0.54105204
+      ],
+      "phases": [
+        -0.31976697
+      ],
+      "checkedVertices": 6874,
+      "outside": 0,
+      "maximumX": 1.0173807,
+      "physical": {
+        "angle": 0.54105204,
+        "stops": 26,
+        "volumes": [
+          {
+            "name": "FrontLeftWheelCollision",
+            "centre": "(-0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": -0.54105204,
+            "visualYaw": -0.54105204,
+            "spin": -0.31976697,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          },
+          {
+            "name": "FrontRightWheelCollision",
+            "centre": "(0.78, 0.345, -1.18)",
+            "radius": 0.345,
+            "width": 0.19,
+            "colliderYaw": -0.54105204,
+            "visualYaw": -0.54105204,
+            "spin": -0.31976697,
+            "envelopeSides": 64,
+            "radialOverestimateMetres": 0.00042014546
+          }
+        ],
+        "lastRejectedAngle": 0.38476193,
+        "lastContact": {
+          "vehicleShape": "FrontRightWheelCollision",
+          "colliderPath": "/root/VehicleSmokeTest/StationarySteeringPost",
+          "shapeIndex": 0,
+          "shapePath": "/root/VehicleSmokeTest/StationarySteeringPost/@CollisionShape3D@1635",
+          "shapeType": "BoxShape3D",
+          "collisionOwner": null,
+          "authoredSourceMesh": null
+        }
+      },
+      "limit": "mesh vertices against the production convex envelope; contact is separately exercised through normal input"
+    },
+    {
+      "kind": "check",
+      "label": "real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases",
+      "passed": true
+    },
+    {
+      "kind": "actual-moving-wheel-contact",
+      "contact": {
+        "localShape": "FrontRightWheelCollision",
+        "colliderPath": "/root/VehicleSmokeTest/MovingTyrePost",
+        "position": "(-0.5797157, 0.10883887, -0.52471334)",
+        "normal": "(-1, 0, 0)",
+        "vehicleOrigin": "(-1.6494248, -0.23616113, 0.8897053)",
+        "speed": 0.6650001,
+        "steering": 0.54105204
+      },
+      "fixturePose": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-0.55971575, 0.11464994, -0.5070251)]",
+      "fullVolume": {
+        "origin": "(-1.6494248, -0.23616113, 0.8897053)",
+        "steering": 0.54105204,
+        "contacts": []
+      }
+    },
+    {
+      "kind": "check",
+      "label": "wheel-contact diagnostic camera clears the actual world",
+      "passed": true
+    },
+    {
+      "kind": "actual-rendered-frame",
+      "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-wheels-01/niva-wheel-moving-contact.png",
+      "camera": "/root/VehicleSmokeTest/WheelContactProofCamera"
+    },
+    {
+      "kind": "check",
+      "label": "ordinary reverse safely leaves the tyre contact with the post still present",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "reversing leaves the complete physical volume clear of the post",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "movement proof ends with actual terrain support and clear shapes",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "wheel-only proof finishes with an ordinary physically clear exit",
+      "passed": true
+    }
+  ],
+  "limit": "local fixtures; not human experience, final art, listening or performance",
+  "stationRecordings": "actual delivered and missing programme rows reported separately; playback fixtures are not station content"
+}
