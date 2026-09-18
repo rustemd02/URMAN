@@ -359,6 +359,23 @@ INTERIOR_CHILDREN = (
     + INTERIOR_JOINERY_CHILDREN
 )
 
+# The room keeps its published furnishing coordinates and metric scale. The
+# outer shell now shares its floor, wall planes and openings with that room.
+FAP_ENVELOPE = {"outer_half": 5.99, "inner_half": 5.81, "floor": 0.40,
+                "wall_top": 3.81, "door_z": 5.70, "side_window_z": -0.90}
+FACADE_ENVELOPE_CHILDREN = tuple(
+    f"FapFacade_SideWindow{side}_{part}_LOD0"
+    for side in ("Left", "Right")
+    for part in ("Glass", "TrimBottom", "TrimTop", "TrimLeft", "TrimRight", "MuntinHorizontal", "MuntinVertical")
+)
+INTERIOR_ENVELOPE_CHILDREN = tuple(
+    f"FapInteriorShell_WindowFront{side}{part}_LOD0"
+    for side in ("Left", "Right")
+    for part in ("Glass", "TrimBottom", "TrimTop", "TrimLeft", "TrimRight", "MuntinHorizontal", "MuntinVertical")
+) + tuple(f"FapInteriorShell_ServiceDoor{part}_LOD0" for part in ("Panel", "JambFront", "JambBack", "Header", "Handle")) \
+  + ("FapInteriorWashUnit_FootFront_LOD0", "FapInteriorWashUnit_FootBack_LOD0")
+INTERIOR_CHILDREN += INTERIOR_ENVELOPE_CHILDREN
+
 
 def arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -668,11 +685,19 @@ def prism_profile(
     role: str,
     allow_new: bool = False,
 ) -> bpy.types.Object:
+    # Profiles run counter-clockwise in X/Z and extrude toward increasing Y.
+    # Their front/back caps already face outward. Side loops must traverse the
+    # front edge in reverse; the old order made every side point into the solid.
+    signed_area = sum(profile[i][0] * profile[(i + 1) % len(profile)][1]
+                      - profile[(i + 1) % len(profile)][0] * profile[i][1]
+                      for i in range(len(profile))) * 0.5
+    if len(profile) < 3 or signed_area <= 1e-8 or back_y <= front_y:
+        raise RuntimeError(f"Invalid counter-clockwise extruded profile: {name}")
     vertices = [(x, front_y, z) for x, z in profile]
     vertices.extend((x, back_y, z) for x, z in profile)
     count = len(profile)
     faces: list[tuple[int, ...]] = [tuple(range(count)), tuple(reversed(range(count, count * 2)))]
-    faces.extend((i, (i + 1) % count, (i + 1) % count + count, i + count) for i in range(count))
+    faces.extend((i, i + count, (i + 1) % count + count, (i + 1) % count) for i in range(count))
     builder = authored_mesh_object if allow_new else mesh_object
     return builder(name, parent, vertices, faces, material_names, material_indices, role=role)
 
@@ -739,7 +764,8 @@ def ensure_contract(root: bpy.types.Object) -> dict[str, bpy.types.Object]:
         if component is None or component.parent is not root or component.type != "EMPTY":
             raise RuntimeError(f"Missing component root: {component_name}")
         actual_children = {child.name for child in component.children}
-        if actual_children != set(expected_children):
+        permitted = set(expected_children) | (set(FACADE_ENVELOPE_CHILDREN) if component_name == FACADE else set())
+        if not set(expected_children).issubset(actual_children) or not actual_children.issubset(permitted):
             raise RuntimeError(f"{component_name} child contract changed: {sorted(actual_children ^ set(expected_children))}")
         result[component_name] = component
     result[INTERIOR] = interior
@@ -940,28 +966,61 @@ def build_facade(parent: bpy.types.Object) -> None:
 
 def build_porch(parent: bpy.types.Object) -> None:
     b("FapEntryPorch_Deck_LOD0", parent, (0.0, -0.34, 0.40), (3.30, 1.62, 0.20), "FapPaintedTimber", 0.045, role="raised timber entry deck")
-    b("FapEntryPorch_Threshold_LOD0", parent, (-0.12, 0.36, 0.52), (1.48, 0.34, 0.08), "FapWetStone", 0.02, role="door threshold supported by the deck")
+    b("FapEntryPorch_Threshold_LOD0", parent, (-0.12, 0.03, 0.54), (1.50, 0.34, 0.08), "FapWetStone", 0.018, role="full leaf-width threshold resting on the unchanged deck; leaf closes into its upper rebate")
     # Solid masonry risers meet the ground and overlap in plan. The old
     # separate shallow slabs floated above each other and widened uphill.
     for index, (y, width, height) in enumerate(((-1.20, 2.74, 0.38), (-1.55, 2.92, 0.25), (-1.90, 3.10, 0.12))):
         b(f"FapEntryPorch_Step_{index:02d}_LOD0", parent,
                  (-0.04, y, height / 2), (width, 0.46, height),
                  "FapWetStone", 0.018, role="grounded solid masonry entry step")
-    b("FapEntryPorch_Post_L_LOD0", parent, (-1.42, -0.94, 1.73), (0.22, 0.22, 2.66), "FapPaintedTimber", 0.03, rotation=(0.0, 0.0, math.radians(-0.8)), role="left porch post")
-    b("FapEntryPorch_Post_R_LOD0", parent, (1.42, -0.94, 1.74), (0.22, 0.22, 2.68), "FapPaintedTimber", 0.03, rotation=(0.0, 0.0, math.radians(0.6)), role="right porch post")
-    b("FapEntryPorch_PostCap_L_LOD0", parent, (-1.42, -0.94, 3.10), (0.34, 0.32, 0.18), "FapDarkTimber", 0.03, role="left porch post cap")
-    b("FapEntryPorch_PostCap_R_LOD0", parent, (1.42, -0.94, 3.11), (0.34, 0.32, 0.18), "FapDarkTimber", 0.03, role="right porch post cap")
-    b("FapEntryPorch_RailPost_L_LOD0", parent, (-1.46, -1.55, 0.79), (0.15, 0.15, 0.76), "FapPaintedTimber", 0.025, role="left porch rail post")
-    b("FapEntryPorch_RailPost_R_LOD0", parent, (1.46, -1.55, 0.79), (0.15, 0.15, 0.76), "FapPaintedTimber", 0.025, role="right porch rail post")
-    b("FapEntryPorch_Rail_L_LOD0", parent, (-1.46, -1.23, 0.82), (0.17, 0.98, 0.15), "FapPaintedTimber", 0.025, role="left porch rail")
-    b("FapEntryPorch_Rail_R_LOD0", parent, (1.46, -1.23, 0.82), (0.17, 0.98, 0.15), "FapPaintedTimber", 0.025, role="right porch rail")
-    b("FapEntryPorch_BraceLeft_LOD0", parent, (-1.03, -1.26, 2.63), (1.12, 0.13, 0.13), "FapDarkTimber", 0.02, rotation=(0.0, 0.0, math.radians(27.0)), role="left porch knee brace")
-    b("FapEntryPorch_BraceRight_LOD0", parent, (1.03, -1.26, 2.63), (1.12, 0.13, 0.13), "FapDarkTimber", 0.02, rotation=(0.0, 0.0, math.radians(-27.0)), role="right porch knee brace")
-    b("FapEntryPorch_DoorHeaderPlaque_LOD0", parent, (-0.12, -1.84, 2.79), (1.28, 0.08, 0.18), "FapPaintedDustyBlue", 0.02, role="plain porch header plaque")
-    # Sloping canopy with a generous rain overhang.  The mesh is a thin prism
-    # so it reads as construction, not a floating flat card.
-    prism_profile("FapEntryPorch_RainCanopy_LOD0", parent, ((-1.95, 2.88), (1.95, 2.88), (1.95, 2.68), (-1.95, 2.68)), -2.02, 0.16, ("FapRoofEdge",), [0] * 6, "deep sloped entry rain canopy")
-    b("FapEntryPorch_CanopyFascia_LOD0", parent, (0.0, -2.03, 2.80), (4.04, 0.18, 0.22), "FapOldRoof", 0.03, role="canopy front fascia")
+    # The old flat canopy cut through the entry leaf/header and its own post
+    # caps. Give it a real outward fall, above the matched 3.23m door frame.
+    # The porch mount is 5.73m in front of the facade origin. Terminate the
+    # canopy at its outer wall face (5.99m), with 3cm construction overlap;
+    # the former rear edge continued through the front wall into the room.
+    front_y, back_y = -2.02, -.23
+    front_under, back_under, thickness = 3.18, 3.45, .14
+    post_y = -.94
+    under_at_post = front_under + (post_y - front_y) / (back_y - front_y) * (back_under - front_under)
+    cap_top = under_at_post + .010
+    cap_bottom = cap_top - .16
+    post_bottom, post_top = .40, cap_bottom + .012
+    for token, sign, brace_name in (("L", -1, "Left"), ("R", 1, "Right")):
+        b(f"FapEntryPorch_Post_{token}_LOD0", parent,
+          (sign * 1.42, post_y, (post_bottom + post_top) / 2),
+          (.22, .22, post_top - post_bottom), "FapPaintedTimber", .025,
+          role="porch post bearing from the unchanged deck into its roof cap")
+        cap_ring = [(sign * 1.42 - .17, post_y - .16), (sign * 1.42 + .17, post_y - .16),
+                    (sign * 1.42 + .17, post_y + .16), (sign * 1.42 - .17, post_y + .16)]
+        cap_vertices = [(x, y, cap_bottom) for x, y in cap_ring]
+        cap_vertices += [(x, y, front_under + (y - front_y) / (back_y - front_y)
+                           * (back_under - front_under) + .010) for x, y in cap_ring]
+        mesh_object(f"FapEntryPorch_PostCap_{token}_LOD0", parent, cap_vertices,
+                    [(3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4),
+                     (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)],
+                    ("FapDarkTimber",), role="cap scribed to the underside of the sloped canopy")
+        # Lower posts stand on Step_01. The former feet stopped 16cm above it,
+        # and the right post overhung its tread. The masonry stays unchanged.
+        b(f"FapEntryPorch_RailPost_{token}_LOD0", parent,
+          (sign * 1.33, -1.55, .71), (.15, .15, .92), "FapPaintedTimber", .018,
+          role="rail post resting on the existing middle masonry tread")
+        b(f"FapEntryPorch_Rail_{token}_LOD0", parent,
+          (sign * 1.33, -1.23, .82), (.17, .98, .15), "FapPaintedTimber", .018,
+          role="porch side rail joined to both support posts")
+        beam_between(f"FapEntryPorch_Brace{brace_name}_LOD0", parent,
+          (sign * 1.42, post_y, 2.56), (sign * .56, post_y, under_at_post - .012),
+          .14, .14, "FapDarkTimber", role="vertical knee brace joining the post to the roof")
+    lower = [(-1.95, front_y, front_under), (1.95, front_y, front_under),
+             (1.95, back_y, back_under), (-1.95, back_y, back_under)]
+    vertices = lower + [(x, y, z + thickness) for x, y, z in lower]
+    faces = [(3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4),
+             (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]
+    mesh_object("FapEntryPorch_RainCanopy_LOD0", parent, vertices, faces,
+                ("FapRoofEdge",), role="sloped solid entry canopy joined above the visible door header")
+    b("FapEntryPorch_CanopyFascia_LOD0", parent, (0, -2.03, 3.25),
+      (4.04, .18, .24), "FapOldRoof", .018, role="fascia joined to the low canopy edge")
+    b("FapEntryPorch_DoorHeaderPlaque_LOD0", parent, (-.12, -2.14, 3.25),
+      (1.28, .08, .18), "FapPaintedDustyBlue", .018, role="existing plain plaque mounted on the canopy fascia")
 
 
 def build_shed(parent: bpy.types.Object) -> None:
@@ -979,6 +1038,78 @@ def build_shed(parent: bpy.types.Object) -> None:
     b("FapServiceShed_Vent_LOD0", parent, (1.00, -1.31, 2.32), (0.60, 0.08, 0.30), "FapVentDark", 0.02, role="shed ventilation slot")
     for z, token in ((2.23, "2_06"), (2.32, "2_15"), (2.41, "2_24")):
         b(f"FapServiceShed_VentSlat_{token}_LOD0", parent, (1.00, -1.37, z), (0.50, 0.05, 0.035), "FapPaintedTimber", 0.01, role="shed vent slat")
+
+
+def build_wash_basin(parent: bpy.types.Object) -> None:
+    """A supported enamel bowl, not a solid shelf with a painted inset.
+
+    Coordinates retain the existing right-wall fitting. The cabinet has an
+    open top below the bowl and two bearing side panels; the shallow basin
+    keeps a closed ceramic shell and an actual descending inner surface.
+    """
+    vertices, faces = [], []
+
+    def panel(center, size):
+        x, y, z = center
+        width, depth, height = size
+        offset = len(vertices)
+        vertices.extend((x + dx * width / 2, y + dy * depth / 2, z + dz * height / 2)
+                        for dx, dy, dz in ((-1,-1,-1),(1,-1,-1),(1,1,-1),(-1,1,-1),
+                                           (-1,-1,1),(1,-1,1),(1,1,1),(-1,1,1)))
+        faces.extend(tuple(offset + i for i in face) for face in
+                     ((3,2,1,0),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7)))
+
+    panel((5.055, -1.56, .22), (.53, .88, .06))
+    panel((5.300, -1.56, .5325), (.04, .88, .645))
+    for side in (-1, 1):
+        panel((5.055, -1.56 + side * .4175, .5375), (.53, .045, .635))
+        panel((4.815, -1.56 + side * .216, .4925), (.04, .416, .475))
+        # Small real handles face the room; no new interaction is promised.
+        panel((4.775, -1.56 + side * .065, .69), (.06, .025, .105))
+    mesh_object("FapInteriorWashUnit_Body_LOD0", parent, vertices, faces,
+                ("FapPaintedSage",), role="two-door wash cupboard with open bowl clearance and two bearing side panels")
+
+    vertices, faces = [], []
+    # Each octagonal ring is counter-clockwise viewed from above. The rim
+    # overhangs its two .045m cabinet sides by 3cm. The bowl's floor descends
+    # 16cm below the rim and stays clear of the cupboard's rear/front panels.
+    rings = (
+        (5.04, .310, .470, .055, .855),
+        (5.04, .310, .470, .070, .940),
+        (5.00, .220, .360, .060, .940),
+        (4.99, .190, .310, .065, .850),
+        (4.97, .090, .190, .035, .780),
+        (4.97, .120, .220, .045, .750),
+        (5.00, .240, .380, .060, .855),
+    )
+    for cx, rx, ry, corner, z in rings:
+        vertices.extend((cx + x, -1.56 + y, z) for x, y in
+                        ((rx, -ry + corner), (rx, ry - corner), (rx - corner, ry),
+                         (-rx + corner, ry), (-rx, ry - corner), (-rx, -ry + corner),
+                         (-rx + corner, -ry), (rx - corner, -ry)))
+    for first, second in ((0,1), (1,2), (2,3), (3,4), (5,6), (6,0)):
+        for i in range(8):
+            j = (i + 1) % 8
+            faces.append((first * 8 + i, first * 8 + j, second * 8 + j, second * 8 + i))
+    faces.append(tuple(4 * 8 + i for i in range(8)))
+    faces.append(tuple(5 * 8 + i for i in reversed(range(8))))
+    mesh_object("FapInteriorWashUnit_Basin_LOD0", parent, vertices, faces,
+                ("FapRainMetal",), role="closed enamel basin shell; .94m rim, .78m inner floor and visible bowl depth")
+
+    # Reuse the old inset's stable node as a small physical waste strainer at
+    # the bottom. It is no longer a narrow painted mark on top of a solid box.
+    vertices, faces = [], []
+    for radius, z in ((.024, .781), (.019, .784), (.010, .783)):
+        vertices.extend((4.97 + math.cos(i * math.tau / 12) * radius,
+                         -1.56 + math.sin(i * math.tau / 12) * radius, z) for i in range(12))
+    for first, second in ((0,1), (1,2)):
+        for i in range(12):
+            j = (i + 1) % 12
+            faces.append((first * 12 + i, first * 12 + j, second * 12 + j, second * 12 + i))
+    faces.append(tuple(24 + i for i in range(12)))
+    faces.append(tuple(reversed(range(12))))
+    mesh_object("FapInteriorWashUnit_BasinInset_LOD0", parent, vertices, faces,
+                ("FapRainMetalDark",), role="small drain strainer seated on the actual bowl floor")
 
 
 def build_interior(parent: bpy.types.Object) -> None:
@@ -1146,11 +1277,11 @@ def build_interior(parent: bpy.types.Object) -> None:
     ib(
         "FapInteriorShell_Threshold_LOD0",
         parent,
-        (0.0, -5.34, 0.10),
-        (1.86, 0.60, 0.16),
+        (0.0, -5.66, 0.09),
+        (1.86, 0.60, 0.18),
         "FapWetStone",
-        0.035,
-        role="grounded porch-to-room threshold",
+        0.018,
+        role="floor-supported threshold reaching beneath the matched door leaf",
     )
 
     for name, center, size in (
@@ -1286,8 +1417,8 @@ def build_interior(parent: bpy.types.Object) -> None:
     ib(
         "FapInteriorShell_EntryMat_LOD0",
         parent,
-        (0.0, -4.62, 0.15),
-        (1.82, 1.04, 0.06),
+        (0.0, -4.62, 0.009),
+        (1.82, 1.04, 0.018),
         "FapWetStone",
         0.020,
         role="plain grounded entry mat at threshold",
@@ -1518,14 +1649,18 @@ def build_interior(parent: bpy.types.Object) -> None:
         ("FapInteriorTrolley_LegBackRight_LOD0", 5.17, 2.30),
     ):
         ib(name, parent, (x, y, 0.725), (0.11, 0.11, 0.97), "FapRainMetalDark", 0.022, role="instrument trolley metal leg")
-    ib(
+    # One continuous push handle, including the two uprights welded into the
+    # tray. The former horizontal grip floated 37cm above every support after
+    # ordinary floor grounding; preserve its top, width and published node.
+    prism_profile(
         "FapInteriorTrolley_Handle_LOD0",
         parent,
-        (4.62, 2.38, 1.66),
-        (0.98, 0.10, 0.10),
-        "FapRainMetalDark",
-        0.024,
-        role="instrument trolley push handle",
+        ((4.13, 1.16), (4.195, 1.16), (4.195, 1.61), (5.045, 1.61),
+         (5.045, 1.16), (5.11, 1.16), (5.11, 1.71), (4.13, 1.71)),
+        2.27, 2.37,
+        ("FapRainMetalDark",), [0] * 10,
+        "continuous trolley push handle with two tray-supported uprights",
+        allow_new=True,
     )
     for name, x, y in (
         ("FapInteriorTrolley_WheelFrontLeft_LOD0", 4.07, 1.90),
@@ -1861,33 +1996,7 @@ def build_interior(parent: bpy.types.Object) -> None:
     # A quiet wash station, attendant stool and blank records pinboard add
     # believable reverse-view anchors while leaving Naila, the desk and the
     # entry corridor open.  Faces stay deliberately unmarked and text-free.
-    ib(
-        "FapInteriorWashUnit_Body_LOD0",
-        parent,
-        (5.24, -1.56, 0.58),
-        (0.38, 1.18, 0.78),
-        "FapPaintedSage",
-        0.045,
-        role="compact rural clinic wash-unit cabinet",
-    )
-    ib(
-        "FapInteriorWashUnit_Basin_LOD0",
-        parent,
-        (5.00, -1.56, 1.08),
-        (0.46, 1.24, 0.14),
-        "FapRainMetal",
-        0.045,
-        role="faceted enamel wash basin",
-    )
-    ib(
-        "FapInteriorWashUnit_BasinInset_LOD0",
-        parent,
-        (4.78, -1.56, 1.16),
-        (0.035, 0.58, 0.035),
-        "FapWindowCool",
-        0.012,
-        role="cool inset in wash basin",
-    )
+    build_wash_basin(parent)
     ib(
         "FapInteriorWashUnit_Splash_LOD0",
         parent,
@@ -1897,41 +2006,54 @@ def build_interior(parent: bpy.types.Object) -> None:
         0.035,
         role="plain enamel wash splashback",
     )
-    ib(
-        "FapInteriorWashUnit_TowelRail_LOD0",
-        parent,
-        (4.82, -1.56, 1.58),
-        (0.10, 0.76, 0.08),
-        "FapRainMetalDark",
-        0.022,
-        role="small wash-station towel rail",
-    )
-    ib(
+    # Keep the existing towel fitting beside the basin on its real wall. The
+    # previous bar crossed the faucet in empty space. Two short returns now
+    # reach the wall; the towel folds over the bar rather than floating below.
+    ib("FapInteriorWashUnit_TowelRail_LOD0", parent, (5.31, -2.62, 1.54),
+       (.08, .76, .08), "FapRainMetalDark", .016, role="wall-mounted wash-station towel rail")
+    rail_vertices, rail_faces = [], []
+    for (x, y, z), (width, depth, height) in (
+        ((5.31, -2.62, 1.54), (.08, .76, .08)),
+        ((5.39, -2.94, 1.54), (.18, .06, .06)),
+        ((5.39, -2.30, 1.54), (.18, .06, .06)),
+    ):
+        offset = len(rail_vertices)
+        rail_vertices += [(x + dx * width / 2, y + dy * depth / 2, z + dz * height / 2)
+                          for dx, dy, dz in ((-1,-1,-1),(1,-1,-1),(1,1,-1),(-1,1,-1),
+                                             (-1,-1,1),(1,-1,1),(1,1,1),(-1,1,1))]
+        rail_faces += [tuple(offset + i for i in face) for face in
+                       ((3,2,1,0),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7))]
+    mesh_object("FapInteriorWashUnit_TowelRail_LOD0", parent, rail_vertices, rail_faces,
+                ("FapRainMetalDark",), role="one towel bar with two short wall returns")
+    towel_profile = ((5.25, 1.08), (5.25, 1.56), (5.266, 1.592), (5.29, 1.602),
+                     (5.36, 1.602), (5.386, 1.576), (5.386, 1.34), (5.374, 1.34),
+                     (5.374, 1.572), (5.353, 1.580), (5.295, 1.580), (5.278, 1.570),
+                     (5.262, 1.556), (5.262, 1.08))
+    prism_profile(
         "FapInteriorWashUnit_Towel_LOD0",
         parent,
-        (4.72, -1.56, 1.28),
-        (0.08, 0.46, 0.38),
-        "FapNoticeBlank",
-        0.035,
-        role="muted folded clinic towel",
+        tuple(reversed(towel_profile)), -2.85, -2.39,
+        ("FapNoticeBlank",), [0] * (len(towel_profile) + 2),
+        "muted clinic towel with a supported top fold and short rear return",
+        allow_new=True,
     )
     ib(
         "FapInteriorWashUnit_FaucetStem_LOD0",
         parent,
-        (4.78, -1.56, 1.47),
-        (0.09, 0.09, 0.38),
-        "FapRainMetalDark",
-        0.018,
-        role="plain wash-unit faucet stem",
+        (5.28, -1.56, 1.015),
+        (0.065, 0.065, 0.15),
+        "FapRainMetal",
+        0.014,
+        role="compact mixer mounted on the basin's rear rim",
     )
     ib(
         "FapInteriorWashUnit_FaucetSpout_LOD0",
         parent,
-        (4.88, -1.56, 1.65),
-        (0.22, 0.09, 0.09),
-        "FapRainMetalDark",
-        0.018,
-        role="plain wash-unit faucet spout",
+        (5.20, -1.56, 1.065),
+        (0.22, 0.065, 0.05),
+        "FapRainMetal",
+        0.012,
+        role="short mixer spout pointing into the actual bowl",
     )
     # Keep the authored floor-plan anchor, but use a low rounded cushion and
     # compact grounded support so the stool reads as household clinic furniture.
@@ -2237,15 +2359,17 @@ def build_interior(parent: bpy.types.Object) -> None:
         role="zoning partition grounded lower rail",
     )
 
-    # Wave17 composition anchors: the existing shell and furniture remain the
-    # contract, while broad low floor fields, an overhead beam and a few
+    # Linoleum fields lie directly on the metric room floor at local Z=0.
+    # The old 0.12m underside belonged to an earlier raised preview floor and
+    # left every field floating after the actual room was seated on its slab.
+    # Broad low floor fields, an overhead beam and a few
     # joined furniture/wall forms give the entry-to-records sightline a human
     # scale.  None of these presentation meshes narrows the center aisle.
     ib(
         "FapInteriorFloor_EntryRunner_LOD0",
         parent,
-        (0.0, -1.95, 0.145),
-        (2.12, 4.30, 0.05),
+        (0.0, -1.95, 0.002),
+        (2.12, 4.30, 0.004),
         "FapPaintedDustyBlue",
         0.018,
         role="worn linoleum entry-to-center runner",
@@ -2253,8 +2377,8 @@ def build_interior(parent: bpy.types.Object) -> None:
     ib(
         "FapInteriorFloor_ExamMat_LOD0",
         parent,
-        (-3.65, 2.0, 0.145),
-        (3.20, 2.65, 0.05),
+        (-3.65, 2.0, 0.002),
+        (3.20, 2.65, 0.004),
         "FapShedWall",
         0.020,
         role="muted exam-bay floor field beneath cot",
@@ -2262,8 +2386,8 @@ def build_interior(parent: bpy.types.Object) -> None:
     ib(
         "FapInteriorFloor_WaitingMat_LOD0",
         parent,
-        (3.25, -2.25, 0.145),
-        (3.20, 1.95, 0.05),
+        (3.25, -2.25, 0.002),
+        (3.20, 1.95, 0.004),
         "FapPaintedSage",
         0.020,
         role="muted waiting-bay floor field beneath bench",
@@ -2271,8 +2395,8 @@ def build_interior(parent: bpy.types.Object) -> None:
     ib(
         "FapInteriorFloor_RecordsMat_LOD0",
         parent,
-        (0.0, 4.05, 0.145),
-        (3.65, 1.50, 0.05),
+        (0.0, 4.05, 0.002),
+        (3.65, 1.50, 0.004),
         "FapShedWall",
         0.020,
         role="worn records-bay floor field beneath desk",
@@ -2429,6 +2553,185 @@ def build_interior(parent: bpy.types.Object) -> None:
     parent["source_coordinate_note"] = "Godot depth is -Blender Y; origin is benchmark-room safe transform; shell matches the 12 m benchmark envelope"
 
 
+def pierced_wall_geometry(origin, tangent, normal, width, low, high, thickness, holes):
+    """Closed wall cells with real rectangular openings and full-depth reveals."""
+    vertices, faces = [], []
+    us = sorted(set([-width / 2, width / 2] + [u for hole in holes for u in hole[:2]]))
+    zs = sorted(set([low, high] + [z for hole in holes for z in hole[2:]]))
+    us = [u for u in us if -width / 2 <= u <= width / 2]
+    zs = [z for z in zs if low <= z <= high]
+    for u0, u1 in zip(us, us[1:]):
+        for z0, z1 in zip(zs, zs[1:]):
+            if any(a < (u0 + u1) / 2 < b and c < (z0 + z1) / 2 < d for a, b, c, d in holes):
+                continue
+            base = len(vertices)
+            for z in (z0, z1):
+                for u, n in ((u0, -thickness / 2), (u1, -thickness / 2),
+                             (u1, thickness / 2), (u0, thickness / 2)):
+                    vertices.append((origin[0] + tangent[0] * u + normal[0] * n,
+                                     origin[1] + tangent[1] * u + normal[1] * n, z))
+            for face in ((3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4),
+                         (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)):
+                ordered = tuple(reversed(face)) if tangent[0] * normal[1] - tangent[1] * normal[0] < 0 else face
+                faces.append(tuple(base + i for i in ordered))
+    return vertices, faces
+
+
+def reconcile_clinic_envelope(components: dict[str, bpy.types.Object]) -> None:
+    """One physical clinic: exact room dimensions, supported fittings, paired openings."""
+    facade, room = components[FACADE], components[INTERIOR]
+    floor, half = FAP_ENVELOPE["floor"], FAP_ENVELOPE["outer_half"]
+    front_windows = (("Left", -3.45, 1.54, 1.16), ("Right", 3.45, 1.48, 1.22))
+    front_holes = [(-.89, .89, floor, floor + 2.83)]
+    front_holes += [(x - w / 2, x + w / 2, floor + 1.95 - h / 2, floor + 1.95 + h / 2)
+                    for _, x, w, h in front_windows]
+    side_hole = (.90 - 1.04, .90 + 1.04, floor + 1.37, floor + 2.53)
+    walls = [((0, -5.90), (1, 0), (0, -1), front_holes),
+             ((0, 5.90), (-1, 0), (0, 1), []),
+             ((-5.90, 0), (0, -1), (-1, 0), [(-side_hole[1], -side_hole[0], side_hole[2], side_hole[3])]),
+             ((5.90, 0), (0, 1), (1, 0), [side_hole, (4.32, 5.38, floor, floor + 2.17)])]
+    vertices, faces = [], []
+    for origin, tangent, normal, holes in walls:
+        points, polygons = pierced_wall_geometry(origin, tangent, normal, half * 2, floor, 3.81, .18, holes)
+        offset = len(vertices)
+        vertices.extend(points)
+        faces.extend(tuple(offset + vertex for vertex in polygon) for polygon in polygons)
+    mesh_object("FapFacade_Body_LOD0", facade, vertices, faces, ("FapPaintedSage",),
+                role="11.98m hollow clinic shell; four walls with door and window reveals")
+    b("FapFacade_Foundation_LOD0", facade, (0, 0, .20), (12.30, 12.30, .40), "FapFoundationStone", .07)
+    # The linoleum floor is a real 12cm slab at facade Y=.28.. .40.
+    # Its former coplanar full foundation top became visible when looking out
+    # of the room. Retain the octagonal outer footing and wall-bearing level,
+    # while seating the floor on a continuous lower bed inside the clear room.
+    outer = ((-6.08,-6.15),(6.08,-6.15),(6.15,-6.08),(6.15,6.08),
+             (6.08,6.15),(-6.08,6.15),(-6.15,6.08),(-6.15,-6.08))
+    inner = ((-5.63,-5.63),(5.63,-5.63),(5.63,5.63),(-5.63,5.63))
+    foundation_vertices = [(x,y,0) for x,y in outer] + [(x,y,.40) for x,y in outer]
+    foundation_vertices += [(x,y,.40) for x,y in inner] + [(x,y,.28) for x,y in inner]
+    foundation_faces = [tuple(reversed(range(8)))]
+    foundation_faces += [(i,(i+1)%8,(i+1)%8+8,i+8) for i in range(8)]
+    for edge in range(4):
+        first, last = 8 + edge * 2, 8 + edge * 2 + 1
+        corner, next_corner = 16 + edge, 16 + (edge + 1) % 4
+        foundation_faces += [(first,last,next_corner,corner),
+                             (last,8 + (edge * 2 + 2) % 8,next_corner)]
+    foundation_faces += [(16+i,16+(i+1)%4,20+(i+1)%4,20+i) for i in range(4)]
+    foundation_faces.append((20,21,22,23))
+    mesh_object("FapFacade_Foundation_LOD0", facade, foundation_vertices, foundation_faces,
+                ("FapFoundationStone",), role="continuous foundation with wall-bearing perimeter and recessed floor support bed")
+    b("FapFacade_FrontPlinth_LOD0", facade, (0, -6.01, .37), (11.98, .10, .10), "FapPaintedDustyBlue", .018)
+    for name, y in (("Front", -5.99), ("Back", 5.99)):
+        b(f"FapFacade_{name}Course_LOD0", facade, (0, y, 3.78), (12.08, .18, .20), "FapPaintedTimber", .025)
+    for name, x, y in (("CornerPost_L", -5.92, -5.93), ("CornerPost_R", 5.92, -5.93),
+                       ("BackCornerPost_L", -5.92, 5.93), ("BackCornerPost_R", 5.92, 5.93)):
+        b(f"FapFacade_{name}_LOD0", facade, (x, y, 2.08), (.23, .23, 3.36), "FapPaintedTimber", .025)
+    prism_profile("FapFacade_Gable_LOD0", facade, ((-5.99, 3.75), (5.99, 3.75), (-.15, 5.72)),
+                  -5.99, 5.99, ("FapPaintedSage", "FapPaintedTimber"), [0, 0, 1, 1, 1], "gable supported by matched clinic walls")
+    # Keep the established roof owner; its four facets retain real thickness.
+    roof = bpy.data.objects["FapFacade_Roof_LOD0"]
+    roof_top = ((-6.31, -6.26, 3.82), (-.20, -6.26, 5.78), (6.31, -6.26, 3.82),
+                (-6.31, 6.26, 3.82), (-.20, 6.26, 5.78), (6.31, 6.26, 3.82))
+    if len(roof.data.vertices) != 12:
+        raise RuntimeError("Unexpected baseline FAP roof topology")
+    for index, vertex in enumerate(roof.data.vertices):
+        x, y, z = roof_top[index % 6]
+        vertex.co = (x, y, z - (.16 if index >= 6 else 0))
+    b("FapFacade_RidgeCap_LOD0", facade, (-.20, 0, 5.87), (.24, 12.62, .18), "FapRoofEdge", .03)
+    for prefix, y in (("RoofEdge", -6.28), ("RoofEdgeBack", 6.28)):
+        beam_between(f"FapFacade_{prefix}_L_LOD0", facade, (-6.32, y, 3.82), (-.20, y, 5.78), .20, .18, "FapRoofEdge")
+        beam_between(f"FapFacade_{prefix}_R_LOD0", facade, (-.20, y, 5.78), (6.32, y, 3.82), .20, .18, "FapRoofEdge")
+    b("FapFacade_GableVent_LOD0", facade, (-.20, -6.04, 4.70), (.58, .10, .34), "FapVentDark", .02)
+    b("FapFacade_DoorPanel_LOD0", facade, (0, -5.70, floor + 1.42), (1.50, .07, 2.50), "FapDoorWood", .025)
+    b("FapFacade_DoorPanelInset_LOD0", facade, (0, -5.748, floor + .88), (1.08, .035, .72), "FapDoorInset", .018)
+    for token, x in (("Left", -.82), ("Right", .82)):
+        b(f"FapFacade_DoorFrame{token}_LOD0", facade, (x, -5.97, floor + 1.465), (.14, .38, 2.73), "FapPaintedTimber", .018)
+    b("FapFacade_DoorFrameTop_LOD0", facade, (0, -5.97, floor + 2.75), (1.78, .38, .16), "FapPaintedTimber", .018)
+    b("FapFacade_DoorHandle_LOD0", facade, (.48, -5.79, floor + 1.50), (.10, .12, .16), "FapRainMetal", .016)
+
+    def window(parent, prefix, center, width, height, side=False):
+        x, y, z = center
+        def part(suffix, u, v, w, h, depth, material_name):
+            location = (x, y + u, z + v) if side else (x + u, y, z + v)
+            setback = 0 if suffix == "Glass" else .03 if suffix.startswith("Muntin") else .25
+            if parent is room:
+                setback = 0 if suffix == "Glass" else -.03 if suffix.startswith("Muntin") else -.18
+            location = (location[0] + math.copysign(setback, x), location[1], location[2]) if side else (location[0], location[1] - setback, location[2])
+            size = (depth, w, h) if side else (w, depth, h)
+            ib(prefix + suffix + "_LOD0", parent, location, size, material_name, .015)
+        part("Glass", 0, 0, width, height, .06, "FapWindowCool")
+        for token, v in (("Bottom", -height / 2 - .045), ("Top", height / 2 + .045)):
+            part("Trim" + token, 0, v, width + .24, .12, .16, "FapPaintedTimber")
+        for token, u in (("Left", -width / 2 - .06), ("Right", width / 2 + .06)):
+            part("Trim" + token, u, 0, .12, height + .20, .16, "FapPaintedTimber")
+        part("MuntinHorizontal", 0, 0, width, .07, .09, "FapPaintedTimber")
+        part("MuntinVertical", 0, 0, .07, height, .09, "FapPaintedTimber")
+
+    for side, x, width, height in front_windows:
+        window(facade, f"FapFacade_Window{side}_", (x, -5.78, floor + 1.95), width, height)
+        window(room, f"FapInteriorShell_WindowFront{side}", (x, -5.78, 1.95), width, height)
+    b("FapFacade_WindowRight_WarmInset_LOD0", facade, (3.45, -5.82, floor + 2.23), (.92, .025, .20), "FapWindowWarm", .01)
+    for side, x in (("Left", -5.78), ("Right", 5.78)):
+        window(facade, f"FapFacade_SideWindow{side}_", (x, .90, floor + 1.95), 2.08, 1.16, True)
+        # Existing side windows keep their names and size; all returns follow
+        # their new matching plane, including the source's separate sills.
+        for child in room.children:
+            if child.name.startswith(f"FapInteriorShell_Window{side}"):
+                child.location.x = x if "Glass" in child.name else math.copysign(5.60, x)
+                child.location.y -= .45
+            elif child.name.startswith(f"FapInteriorShell_Reveal{side}"):
+                child.location.x = math.copysign(5.62, x)
+                child.location.y -= .45
+    side_door = (5.78, 4.85, floor + 1.025)
+    b("FapFacade_ServiceDoor_LOD0", facade, side_door, (.07, .94, 2.05), "FapDoorWood", .02)
+    b("FapFacade_ServiceDoorFrame_LOD0", facade, (5.95, 4.85, floor + 2.11), (.36, 1.18, .12), "FapPaintedTimber", .018)
+    for token, y in (("0_7", 4.32), ("1_95", 5.38)):
+        b(f"FapFacade_SideBand_{token}_LOD0", facade, (5.95, y, floor + 1.085), (.36, .12, 2.17), "FapPaintedTimber", .018)
+    ib("FapInteriorShell_ServiceDoorPanel_LOD0", room, (5.78, 4.85, 1.025), (.07, .94, 2.05), "FapDoorWood", .02)
+    for token, y in (("JambFront", 4.32), ("JambBack", 5.38)):
+        ib(f"FapInteriorShell_ServiceDoor{token}_LOD0", room, (5.64, y, 1.085), (.14, .12, 2.17), "FapPaintedTimber", .018)
+    ib("FapInteriorShell_ServiceDoorHeader_LOD0", room, (5.64, 4.85, 2.11), (.14, 1.18, .12), "FapPaintedTimber", .018)
+    ib("FapInteriorShell_ServiceDoorHandle_LOD0", room, (5.70, 4.52, 1.05), (.12, .10, .14), "FapRainMetal", .014)
+
+    # Rebuild the room wall owners with the same reveals. No solid wall remains
+    # behind a window, and no old lower band crosses the closed service door.
+    inner_front_holes = [(a, b, c - floor, d - floor) for a, b, c, d in front_holes]
+    specs = [("FrontWallLeft", (0, -5.72), (1, 0), (0, -1), 11.62, 0, 3.27, .18, inner_front_holes),
+             ("BackWall", (0, 5.72), (-1, 0), (0, 1), 11.62, 0, 3.27, .18, []),
+             ("LeftWall", (-5.72, 0), (0, -1), (-1, 0), 11.62, 0, 3.27, .18, [(-1.94, .14, 1.37, 2.53)]),
+             ("RightWall", (5.72, 0), (0, 1), (1, 0), 11.62, 0, 3.27, .18, [(-.14, 1.94, 1.37, 2.53), (4.32, 5.38, 0, 2.17)]),
+             ("LowerBandRight", (5.59, 0), (0, 1), (1, 0), 11.24, .24, .92, .06, [(4.32, 5.38, 0, 2.17)]),
+             ("BaseCapRight", (5.58, 0), (0, 1), (1, 0), 11.18, .90, 1.04, .12, [(4.32, 5.38, 0, 2.17)])]
+    for name, origin, tangent, normal, width, low, high, thickness, holes in specs:
+        vertices, faces = pierced_wall_geometry(origin, tangent, normal, width, low, high, thickness, holes)
+        mat = "FapPaintedDustyBlue" if name.startswith("Lower") else "FapPaintedTimber" if name.startswith("Base") else "FapPaintedSage"
+        mesh_object(f"FapInteriorShell_{name}_LOD0", room, vertices, faces, (mat,), role="matching clinic wall with physical openings")
+    # The former right front wall/header names now denote their real jamb and
+    # lintel, avoiding a second solid slab across the new front windows.
+    ib("FapInteriorShell_FrontWallRight_LOD0", room, (.82, -5.72, 1.50), (.14, .18, 2.66), "FapPaintedTimber", .015)
+    ib("FapInteriorShell_FrontWallHeader_LOD0", room, (0, -5.72, 2.75), (1.78, .18, .16), "FapPaintedTimber", .015)
+    ib("FapInteriorShell_DoorInset_LOD0", room, (0, -5.70, 1.42), (1.50, .07, 2.50), "FapDoorWood", .025)
+    for token, x in (("Left", -.82), ("Right", .82)):
+        ib(f"FapInteriorShell_DoorFrame{token}_LOD0", room, (x, -5.63, 1.50), (.14, .18, 2.66), "FapPaintedTimber", .015)
+    ib("FapInteriorShell_DoorFrameTop_LOD0", room, (0, -5.63, 2.75), (1.78, .18, .16), "FapPaintedTimber", .015)
+    ib("FapInteriorShell_DoorHandle_LOD0", room, (.48, -5.60, 1.50), (.10, .12, .16), "FapRainMetal", .014)
+    # A full-width coat rail cannot hang across the added front glazing. Keep
+    # the existing rail as a rigid fitting on the empty rear wall.
+    reframe_mesh_group(room, "FapInteriorCoatHook", (3.25, -5.40), math.pi, (-7.0, 10.95))
+    # The medicine cupboard was suspended away from its wall after Wave25.
+    # Rotate the unchanged cabinet onto the right wall, behind the side window.
+    reframe_mesh_group(room, "FapInteriorCabinet_", (4.73, 2.90), -math.pi / 2, (.67, .30))
+    for token, y in (("Front", -1.20), ("Back", -1.92)):
+        ib(f"FapInteriorWashUnit_Foot{token}_LOD0", room, (5.055, y, .095), (.46, .12, .19), "FapRainMetalDark", .018)
+    for child in room.children:
+        if child.name.startswith("FapInteriorWashUnit_"):
+            child.location.x += .19
+    for name in INTERIOR_DETAIL_LOD0_CHILDREN:
+        rebuild_interior_lod1(name)
+    facade["envelope_contract"] = "fap-room-metric-v1: 11.98 outer shell; 11.55 floor; 0.40 floor offset; four paired windows"
+    room["envelope_contract"] = facade["envelope_contract"]
+    room["source_coordinate_note"] = "Godot depth is -Blender Y; room origin is exterior origin plus 0.40m vertical floor offset; furniture retains metric size"
+
+
 def validate(root: bpy.types.Object, components: dict[str, bpy.types.Object]) -> None:
     if any(obj.type in {"CAMERA", "LIGHT"} for obj in bpy.data.objects):
         raise RuntimeError("Cameras/lights are not allowed in the authored kit")
@@ -2448,7 +2751,7 @@ def validate(root: bpy.types.Object, components: dict[str, bpy.types.Object]) ->
     if components[INTERIOR].type != "EMPTY" or components[INTERIOR].parent is not root:
         raise RuntimeError("FapInteriorSet must remain one direct scene-level component")
     expected = {
-        FACADE: FACADE_CHILDREN,
+        FACADE: FACADE_CHILDREN + FACADE_ENVELOPE_CHILDREN,
         PORCH: PORCH_CHILDREN,
         SHED: SHED_CHILDREN,
         INTERIOR: INTERIOR_CHILDREN,
@@ -2500,7 +2803,7 @@ def validate(root: bpy.types.Object, components: dict[str, bpy.types.Object]) ->
         % (
             root.name,
             len(root.children),
-            len(FACADE_CHILDREN),
+            len(FACADE_CHILDREN) + len(FACADE_ENVELOPE_CHILDREN),
             len(PORCH_CHILDREN),
             len(SHED_CHILDREN),
             interior_meshes,
@@ -2528,12 +2831,13 @@ def main() -> None:
     build_porch(components[PORCH])
     build_shed(components[SHED])
     build_interior(components[INTERIOR])
+    reconcile_clinic_envelope(components)
     rebuild_path_puddles()
     scene = bpy.context.scene
     scene["generator"] = "assets/source/blender/act1/urman_fap_clinic_kit.py"
     scene["blender_version_lock"] = "4.5.12 LTS"
-    scene["asset_status"] = "authored modest weathered rural clinic facade, porch, service shed and Wave25 interior composition candidate; presentation-only"
-    scene["geometry_pass"] = "weathered painterly palette, entry-to-Naila-to-records diagonal, rotated exam bay, grounded front-wall reveal header and explicit puddle triangulation"
+    scene["asset_status"] = "metric matched clinic exterior/interior shell with four paired windows; retained authored furnishings, porch and service shed; runtime owns contacts"
+    scene["geometry_pass"] = "11.98m hollow envelope matched to the existing metric room; actual door and window reveals; grounded cupboard and wash unit; existing palette and furnishing scale preserved"
     scene["texture_policy"] = "existing named basic materials only; no texture files"
     scene["component_scope"] = "FapFacade_Main|FapEntryPorch|FapServiceShed|FapInteriorSet"
     scene["interior_scope"] = "authored 12 m shell plus thirty-one compact silhouettes: entry-to-Naila-to-records diagonal, left-wall tall storage anchor, rotated examination cot/privacy screen, rear records desk goal, wall radiator/pipes, open supply shelf, blank examination chart, grounded front-wall coat rail/header reveal, wash unit, attendant stool, blank records pinboard and partial-height zoning partition; four broad floor fields, grounded entry header accent, cot backboard/instrument shelf, bench rail, records cubby, service shelf and paired entry wall panels; clear center aisle, wall/periphery staging, joined trim and furniture joinery; 28 authored LOD0/LOD1 detail pairs"

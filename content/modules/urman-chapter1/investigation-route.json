@@ -1,0 +1,323 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:knowledge/clue_alsu_heard_versions",
+    "kind": "clue",
+    "title": {"default": "Что слышала Алсу", "translations": {"ru": "Что слышала Алсу"}},
+    "summary": {
+      "default": "Алсу пересказала разговоры: несчастный случай, сердце, отъезд. Она отдельно сказала, что самого случая не видела. Это её свидетельство о разговорах, а не о смерти или отъезде Марата. Нужно найти справку и проверить, что в ней действительно написано, прежде чем сопоставлять услышанное.",
+      "translations": {"ru": "Алсу пересказала разговоры: несчастный случай, сердце, отъезд. Она отдельно сказала, что самого случая не видела. Это её свидетельство о разговорах, а не о смерти или отъезде Марата. Нужно найти справку и проверить, что в ней действительно написано, прежде чем сопоставлять услышанное."}
+    },
+    "initialStatus": "hidden",
+    "sourceIds": ["urman.chapter1:dialogue/alsu_route_context"],
+    "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:knowledge/clue_route_check_intent",
+    "kind": "clue",
+    "title": {"default": "Что я могу проверить у дороги", "translations": {"ru": "Что я могу проверить у дороги"}},
+    "summary": {
+      "default": "В сообщении Марат описывает услышанный голос и намерение искать. На схеме есть другая проверяемая часть: канава, бирка с двумя засечками и путь вдоль внешней ограды. Совпадение этих ориентиров поможет проверить место со схемы. Ни рисунок, ни старое сообщение не обещают, что Марат ждёт там сейчас. Я хочу проверить дорогу, а не воспроизвести то, что его напугало. Прежде чем уходить, поговорю об этом с Тимуром.",
+      "translations": {"ru": "В сообщении Марат описывает услышанный голос и намерение искать. На схеме есть другая проверяемая часть: канава, бирка с двумя засечками и путь вдоль внешней ограды. Совпадение этих ориентиров поможет проверить место со схемы. Ни рисунок, ни старое сообщение не обещают, что Марат ждёт там сейчас. Я хочу проверить дорогу, а не воспроизвести то, что его напугало. Прежде чем уходить, поговорю об этом с Тимуром."}
+    },
+    "initialStatus": "hidden",
+    "sourceIds": ["urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/doc_kara_urman_edge_sketch"],
+    "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:knowledge/clue_route_check_discussed",
+    "kind": "fact",
+    "title": {"default": "Разговор перед дорогой", "translations": {"ru": "Разговор перед дорогой"}},
+    "summary": {
+      "default": "Я рассказал Тимуру о реестре и объяснил, что хочу сверить ориентиры со схемой. Он не обещал ответа у кромки и не выдал чужой рассказ за знание. Если место не совпадёт, это тоже результат; можно вернуться с точным вопросом. Я не должен доказывать свою правоту тем, что повторю попытку Марата.",
+      "translations": {"ru": "Я рассказал Тимуру о реестре и объяснил, что хочу сверить ориентиры со схемой. Он не обещал ответа у кромки и не выдал чужой рассказ за знание. Если место не совпадёт, это тоже результат; можно вернуться с точным вопросом. Я не должен доказывать свою правоту тем, что повторю попытку Марата."}
+    },
+    "initialStatus": "hidden",
+    "sourceIds": ["urman.chapter1:dialogue/timur_restraint", "urman.chapter1:knowledge/clue_route_check_intent"],
+    "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-versions-scope",
+    "value": {"default": "Что осталось непонятным в справке после слов Алсу?", "translations": {"ru": "Что осталось непонятным в справке после слов Алсу?"}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-versions-scope-result",
+    "value": {
+      "default": "«Сердце» и «несчастный случай» стоят в справке вместе: это ещё не две взаимоисключающие версии. Но что назвали случаем, в ней не написано. Рассказ об отъезде тоже пока без свидетеля. Начну с конкретного вопроса Наиле: что подтверждает эта запись и чего из неё узнать нельзя?",
+      "translations": {"ru": "«Сердце» и «несчастный случай» стоят в справке вместе: это ещё не две взаимоисключающие версии. Но что назвали случаем, в ней не написано. Рассказ об отъезде тоже пока без свидетеля. Начну с конкретного вопроса Наиле: что подтверждает эта запись и чего из неё узнать нельзя?"}
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-versions-diagnoses",
+    "value": {"default": "«Сердце» опровергает «несчастный случай»?", "translations": {"ru": "«Сердце» опровергает «несчастный случай»?"}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-versions-diagnoses-result",
+    "value": {
+      "default": "Я разорвал одну формулировку на две: в самой справке сказано «на фоне несчастного случая». По этому отличию нельзя объявить одну версию ложной. Лучше перечитать всю строку и спросить, что за обстоятельства она пропускает.",
+      "translations": {"ru": "Я разорвал одну формулировку на две: в самой справке сказано «на фоне несчастного случая». По этому отличию нельзя объявить одну версию ложной. Лучше перечитать всю строку и спросить, что за обстоятельства она пропускает."}
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-versions-departure",
+    "value": {"default": "Рассказ об отъезде доказывает, что справка чужая?", "translations": {"ru": "Рассказ об отъезде доказывает, что справка чужая?"}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-versions-departure-result",
+    "value": {
+      "default": "Алсу не говорила, что видела отъезд, и в справке указано имя Марата. Пока нет ни другого человека, ни свидетеля, который подтвердит этот рассказ. Версию можно оставить вопросом; подменять ею найденную запись рано. Алсу можно переспросить о том, что она видела сама.",
+      "translations": {"ru": "Алсу не говорила, что видела отъезд, и в справке указано имя Марата. Пока нет ни другого человека, ни свидетеля, который подтвердит этот рассказ. Версию можно оставить вопросом; подменять ею найденную запись рано. Алсу можно переспросить о том, что она видела сама."}
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-alsu-saw-departure",
+    "value": {"default": "Ты сама видела, как он уехал?", "translations": {"ru": "Ты сама видела, как он уехал?"}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-alsu-no-departure-witness",
+    "value": {
+      "default": "«Нет. Я сказала: так говорят. Это не одно и то же». Алсу не сердится, но повторяет медленнее. «Мне тоже хочется выбрать объяснение, после которого можно перестать спрашивать. Только я не могу назвать себя свидетелем ради такого объяснения». Значит, нужен сам документ: важно, что в нём написано, а не какая версия мне легче.",
+      "translations": {"ru": "«Нет. Я сказала: так говорят. Это не одно и то же». Алсу не сердится, но повторяет медленнее. «Мне тоже хочется выбрать объяснение, после которого можно перестать спрашивать. Только я не могу назвать себя свидетелем ради такого объяснения». Значит, нужен сам документ: важно, что в нём написано, а не какая версия мне легче."}
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-route-purpose-landmarks",
+    "value": {"default": "Сравнить то, что можно проверить на месте.", "translations": {"ru": "Сравнить то, что можно проверить на месте."}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-route-purpose-landmarks-result",
+    "value": {
+      "default": "На схеме есть канава, две засечки на бирке и направление вдоль внешней ограды. Это можно сверить, не пытаясь добиться голоса из леса. Старое сообщение объясняет, почему я хочу туда пойти, но не обещает, что там Марат. Поговорю с Тимуром, прежде чем превращать тревогу в поступок.",
+      "translations": {"ru": "На схеме есть канава, две засечки на бирке и направление вдоль внешней ограды. Это можно сверить, не пытаясь добиться голоса из леса. Старое сообщение объясняет, почему я хочу туда пойти, но не обещает, что там Марат. Поговорю с Тимуром, прежде чем превращать тревогу в поступок."}
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-route-purpose-alive",
+    "value": {"default": "На схеме отмечено, где Марат ждёт меня сейчас?", "translations": {"ru": "На схеме отмечено, где Марат ждёт меня сейчас?"}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-route-purpose-alive-result",
+    "value": {
+      "default": "В сообщении нет обещания встретить меня у бирки. На схеме нет человека, даты встречи или подписи Марата. Его имя я добавил сам, потому что очень хочу найти его. Нужно отделить эту надежду от того, что нарисовано, и вернуться к проверяемым ориентирам.",
+      "translations": {"ru": "В сообщении нет обещания встретить меня у бирки. На схеме нет человека, даты встречи или подписи Марата. Его имя я добавил сам, потому что очень хочу найти его. Нужно отделить эту надежду от того, что нарисовано, и вернуться к проверяемым ориентирам."}
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-route-purpose-summon",
+    "value": {"default": "Повторить попытку Марата — это проверка схемы?", "translations": {"ru": "Повторить попытку Марата — это проверка схемы?"}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/compare-route-purpose-summon-result",
+    "value": {
+      "default": "Сообщение рассказывает о страхе и поиске, а не описывает проверку с известным результатом. Если я просто повторю его попытку, происхождение схемы от этого не станет яснее. Сначала стоит разобраться, совпадает ли сама дорога. Три ориентира на рисунке дают для этого больше, чем догадка о голосе.",
+      "translations": {"ru": "Сообщение рассказывает о страхе и поиске, а не описывает проверку с известным результатом. Если я просто повторю его попытку, происхождение схемы от этого не станет яснее. Сначала стоит разобраться, совпадает ли сама дорога. Три ориентира на рисунке дают для этого больше, чем догадка о голосе."}
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-timur-route-check",
+    "value": {"default": "Я нашёл схему. Хочу понять, зачем иду туда.", "translations": {"ru": "Я нашёл схему. Хочу понять, зачем иду туда."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-timur-route-question",
+    "value": {
+      "default": "«Покажи». Тимур смотрит на схему, потом на меня. «На бумаге дорога. Но когда ты о ней думаешь — это просто место или надежда встретить там Марата? Чего ты ждёшь от этого места, Айдар?»",
+      "translations": {"ru": "«Покажи». Тимур смотрит на схему, потом на меня. «На бумаге дорога. Но когда ты о ней думаешь — это просто место или надежда встретить там Марата? Чего ты ждёшь от этого места, Айдар?»"}
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-timur-marat-waiting",
+    "value": {"default": "А вдруг он всё это время ждёт там?", "translations": {"ru": "А вдруг он всё это время ждёт там?"}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-timur-marat-hope",
+    "value": {
+      "default": "«Ты можешь надеяться. Я не стану за это тебя стыдить. Но надежда не добавляет на этот лист человека». Он возвращает схему. «Прочитай ещё раз рядом с сообщением. Что Марат написал сам, а что ты сейчас хочешь услышать? С этим вопросом можно вернуться. Не надо отвечать мне наспех».",
+      "translations": {"ru": "«Ты можешь надеяться. Я не стану за это тебя стыдить. Но надежда не добавляет на этот лист человека». Он возвращает схему. «Прочитай ещё раз рядом с сообщением. Что Марат написал сам, а что ты сейчас хочешь услышать? С этим вопросом можно вернуться. Не надо отвечать мне наспех»."}
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-timur-repeat-marat",
+    "value": {"default": "Пройду, как он хотел. Иначе ничего не узнаю.", "translations": {"ru": "Пройду, как он хотел. Иначе ничего не узнаю."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-timur-repeat-refusal",
+    "value": {
+      "default": "«Ты принёс две записи и говоришь, что они не сходятся. Это уже вопрос, которого у тебя раньше не было. Почему теперь осталось только повторить чужую попытку?» Тимур не забирает лист и не преграждает дорогу. «Не делай свою жизнь последним доводом в споре. Посмотри, что здесь можно проверить иначе».",
+      "translations": {"ru": "«Ты принёс две записи и говоришь, что они не сходятся. Это уже вопрос, которого у тебя раньше не было. Почему теперь осталось только повторить чужую попытку?» Тимур не забирает лист и не преграждает дорогу. «Не делай свою жизнь последним доводом в споре. Посмотри, что здесь можно проверить иначе»."}
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-timur-name-landmarks",
+    "value": {"default": "Сверю канаву, засечки и путь вдоль ограды. Это проверка места.", "translations": {"ru": "Сверю канаву, засечки и путь вдоль ограды. Это проверка места."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-timur-bounded-route",
+    "value": {
+      "default": "«И если не совпадёт, так и запиши. Несовпадение не нужно исправлять собственной смелостью». Тимур возвращает мне схему. «Ты не обязан за один вечер найти ответ на всё. Вернёшься с точным вопросом — разговор продолжится». Я всё ещё хочу увидеть эту дорогу. Но теперь могу назвать, что именно собираюсь там проверить.",
+      "translations": {"ru": "«И если не совпадёт, так и запиши. Несовпадение не нужно исправлять собственной смелостью». Тимур возвращает мне схему. «Ты не обязан за один вечер найти ответ на всё. Вернёшься с точным вопросом — разговор продолжится». Я всё ещё хочу увидеть эту дорогу. Но теперь могу назвать, что именно собираюсь там проверить."}
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-timur-reread-sources",
+    "value": {"default": "Ещё раз сравню сообщение и схему. Потом вернусь.", "translations": {"ru": "Ещё раз сравню сообщение и схему. Потом вернусь."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-timur-reconsider-route",
+    "value": {"default": "Попробую объяснить точнее.", "translations": {"ru": "Попробую объяснить точнее."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/objective-route-intent",
+    "value": {
+      "default": "Сопоставить сообщение Марата со схемой в журнале [J]. Рассказать Тимуру о реестре и обсудить, что именно можно проверить у дороги.",
+      "translations": {"ru": "Сопоставить сообщение Марата со схемой в журнале [J]. Рассказать Тимуру о реестре и обсудить, что именно можно проверить у дороги."}
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-timur-route-return",
+    "value": {
+      "default": "Тимур узнаёт лист у меня в руке. «О двух записях ты уже рассказал. Давай вернёмся к твоему вопросу: что именно хочешь проверить по этой схеме?»",
+      "translations": {"ru": "Тимур узнаёт лист у меня в руке. «О двух записях ты уже рассказал. Давай вернёмся к твоему вопросу: что именно хочешь проверить по этой схеме?»"}
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-timur-route-follow-up",
+    "value": {
+      "default": "«Про дорогу мы поговорили». Тимур остаётся рядом со столом. «Есть ещё что-то, о чём ты хотел спросить?»",
+      "translations": {"ru": "«Про дорогу мы поговорили». Тимур остаётся рядом со столом. «Есть ещё что-то, о чём ты хотел спросить?»"}
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:scene/investigation-route-intent",
+    "sceneType": "presentation",
+    "title": {"default": "Проверка версии и цели", "translations": {"ru": "Проверка версии и цели"}},
+    "assetRefs": [], "textRefs": [], "entryConditions": [], "onEnter": [], "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.chapter1:interaction/compare-versions-scope",
+        "labelTextId": "urman.chapter1:text/compare-versions-scope",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict", "status": "confirmed"}}],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_marat_versions_conflict", "sourceId": "urman.chapter1:knowledge/clue_marat_versions_conflict"}
+        ],
+        "journalAction": {"sourceIds": ["urman.oldpc:document/doc_marat_official_death_notice", "urman.chapter1:knowledge/clue_alsu_heard_versions"], "resultTextId": "urman.chapter1:text/compare-versions-scope-result"}
+      },
+      {
+        "id": "urman.chapter1:interaction/compare-versions-diagnoses",
+        "labelTextId": "urman.chapter1:text/compare-versions-diagnoses",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict", "status": "confirmed"}}],
+        "effects": [],
+        "journalAction": {"sourceIds": ["urman.oldpc:document/doc_marat_official_death_notice", "urman.chapter1:knowledge/clue_alsu_heard_versions"], "resultTextId": "urman.chapter1:text/compare-versions-diagnoses-result"}
+      },
+      {
+        "id": "urman.chapter1:interaction/compare-versions-departure",
+        "labelTextId": "urman.chapter1:text/compare-versions-departure",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict", "status": "confirmed"}}],
+        "effects": [],
+        "journalAction": {"sourceIds": ["urman.oldpc:document/doc_marat_official_death_notice", "urman.chapter1:knowledge/clue_alsu_heard_versions"], "resultTextId": "urman.chapter1:text/compare-versions-departure-result"}
+      },
+      {
+        "id": "urman.chapter1:interaction/compare-route-purpose-landmarks",
+        "labelTextId": "urman.chapter1:text/compare-route-purpose-landmarks",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_intent", "status": "confirmed"}}],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_intent", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_route_check_intent", "sourceId": "urman.chapter1:knowledge/clue_route_check_intent"}
+        ],
+        "journalAction": {"sourceIds": ["urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/doc_kara_urman_edge_sketch"], "resultTextId": "urman.chapter1:text/compare-route-purpose-landmarks-result"}
+      },
+      {
+        "id": "urman.chapter1:interaction/compare-route-purpose-alive",
+        "labelTextId": "urman.chapter1:text/compare-route-purpose-alive",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_intent", "status": "confirmed"}}],
+        "effects": [],
+        "journalAction": {"sourceIds": ["urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/doc_kara_urman_edge_sketch"], "resultTextId": "urman.chapter1:text/compare-route-purpose-alive-result"}
+      },
+      {
+        "id": "urman.chapter1:interaction/compare-route-purpose-summon",
+        "labelTextId": "urman.chapter1:text/compare-route-purpose-summon",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_intent", "status": "confirmed"}}],
+        "effects": [],
+        "journalAction": {"sourceIds": ["urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/doc_kara_urman_edge_sketch"], "resultTextId": "urman.chapter1:text/compare-route-purpose-summon-result"}
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-naila-desk-light",
+    "value": {"default": "Так света достаточно?", "translations": {"ru": "Так света достаточно?"}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-naila-desk-light-reply",
+    "value": {
+      "default": "Наиля переводит взгляд на освещённый стол. «Так лучше, спасибо. Только плафон резко не поворачивай — видишь, он на скрепке держится». Свет ложится на бумагу. Мне становится немного легче от этой маленькой помощи.",
+      "translations": {"ru": "Наиля переводит взгляд на освещённый стол. «Так лучше, спасибо. Только плафон резко не поворачивай — видишь, он на скрепке держится». Свет ложится на бумагу. Мне становится немного легче от этой маленькой помощи."}
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-naila-return-from-light",
+    "value": {"default": "Вернуться к разговору о записи.", "translations": {"ru": "Вернуться к разговору о записи."}},
+    "purpose": "dialogue"
+  }
+]

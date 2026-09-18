@@ -1,0 +1,123 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:asset/kara-urman-edge-sketch-image",
+    "kind": "image",
+    "file": "images/kara_urman_edge_sketch_candidate_v1.png",
+    "mediaType": "image/png",
+    "sha256": "04b129ef18b34cc6ef49ee839bdc82e2a4c61f5e9567c1b742d69557079ee92a",
+    "variants": [],
+    "accessibility": {"decorative": false, "altTextId": "urman.chapter1:text/kara-urman-edge-sketch-image-alt"}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/kara-urman-edge-sketch-image-alt",
+    "value": {
+      "default": "Схематический рисунок на потёртом листе. Канава подходит к изгибу тропы слева; рядом вертикальная придорожная бирка с двумя короткими горизонтальными засечками. Справа ограда, стрелка идёт вдоль её внешней стороны к лесу. Ответвление внутрь ограды зачёркнуто. Внизу написано: «Р. знает, где стоять».",
+      "translations": {"ru": "Схематический рисунок на потёртом листе. Канава подходит к изгибу тропы слева; рядом вертикальная придорожная бирка с двумя короткими горизонтальными засечками. Справа ограда, стрелка идёт вдоль её внешней стороны к лесу. Ответвление внутрь ограды зачёркнуто. Внизу написано: «Р. знает, где стоять»."}
+    },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:asset/photo-first-snow",
+    "kind": "image",
+    "file": "images/first_snow_existing_v1.png",
+    "mediaType": "image/png",
+    "sha256": "8c31f2105170e876e36c02a790c2476cf3aa7d1769c20c98c5ab2ce5c72a0d7b",
+    "variants": [],
+    "accessibility": {"decorative": false, "altTextId": "urman.chapter1:text/photo-first-snow-alt"}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/photo-first-snow-alt",
+    "value": {
+      "default": "Старая зимняя фотография из дома. Слева белый ствол берёзы. Перед светлым домом стоит синяя калитка с диагональной перекладиной. На длинном фасаде три окна с синими наличниками; ещё одно видно на боковом. Ребёнок в зимней одежде держится за ручку калитки. Подпись на обороте: «Первый снег».",
+      "translations": {"ru": "Старая зимняя фотография из дома. Слева белый ствол берёзы. Перед светлым домом стоит синяя калитка с диагональной перекладиной. На длинном фасаде три окна с синими наличниками; ещё одно видно на боковом. Ребёнок в зимней одежде держится за ручку калитки. Подпись на обороте: «Первый снег»."}
+    },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/view-first-snow-photo",
+    "value": {"default": "Посмотреть фотографию «Первый снег».", "translations": {"ru": "Посмотреть фотографию «Первый снег»."}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:scene/exploration-image-sources",
+    "sceneType": "presentation",
+    "title": {"default": "Изображения найденных мест", "translations": {"ru": "Изображения найденных мест"}},
+    "assetRefs": [], "textRefs": [], "entryConditions": [], "onEnter": [], "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.chapter1:interaction/view-first-snow-photo",
+        "labelTextId": "urman.chapter1:text/view-first-snow-photo",
+        "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-house-interior-photo-back", "status": "confirmed"}],
+        "effects": [],
+        "worldLocations": ["house_old_pc", "village_day", "zirat_road", "kara_urman_night"],
+        "targetDocumentId": "urman.chapter1:document/first-snow-photo"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/ex11-well-observation",
+    "value": {"default": "Варежка висит слишком аккуратно, чтобы просто потеряться. Что держит её с обратной стороны?", "translations": {"ru": "Варежка висит слишком аккуратно, чтобы просто потеряться. Что держит её с обратной стороны?"}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/ex11-well-front-refusal",
+    "value": {"default": "С этой стороны видна только ткань. Нужно посмотреть, к чему она привязана; по одной варежке нельзя узнать, кто здесь был.", "translations": {"ru": "С этой стороны видна только ткань. Нужно посмотреть, к чему она привязана; по одной варежке нельзя узнать, кто здесь был."}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/ex11-bench-observation",
+    "value": {"default": "Под снегом одна планка светлее остальных. Её заменили или это только свет?", "translations": {"ru": "Под снегом одна планка светлее остальных. Её заменили или это только свет?"}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/ex11-bench-pry-refusal",
+    "value": {"default": "Видны гвозди; это сиденье, а не крышка. Достаточно убрать снег и посмотреть, чем средняя планка отличается от соседних.", "translations": {"ru": "Видны гвозди; это сиденье, а не крышка. Достаточно убрать снег и посмотреть, чем средняя планка отличается от соседних."}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/ex11-profile-observation",
+    "value": {"default": "На краю дороги будто плечо и длинная рука. Стоит сместиться в сторону и проверить, соединены ли эти линии.", "translations": {"ru": "На краю дороги будто плечо и длинная рука. Стоит сместиться в сторону и проверить, соединены ли эти линии."}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/ex11-profile-front-refusal",
+    "value": {"default": "С этого ракурса ствол и ветка перекрывают друг друга. Назвать это человеком было бы догадкой. Тропы сбоку достаточно, чтобы проверить силуэт, не уходя в чащу.", "translations": {"ru": "С этого ракурса ствол и ветка перекрывают друг друга. Назвать это человеком было бы догадкой. Тропы сбоку достаточно, чтобы проверить силуэт, не уходя в чащу."}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/ex12-photo-neighbor-reject",
+    "value": {"default": "Похожего дома недостаточно. Нужно проверить вместе расположение берёзы, диагональную перекладину калитки и три окна длинного фасада.", "translations": {"ru": "Похожего дома недостаточно. Нужно проверить вместе расположение берёзы, диагональную перекладину калитки и три окна длинного фасада."}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/ex12-sketch-minaret-reject",
+    "value": {"default": "На схеме канава, бирка с двумя засечками и путь снаружи ограды. Вид на минарет за домом не подтверждает ни один из этих трёх ориентиров.", "translations": {"ru": "На схеме канава, бирка с двумя засечками и путь снаружи ограды. Вид на минарет за домом не подтверждает ни один из этих трёх ориентиров."}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/ex13-yard-return",
+    "value": {"default": "Санки и поленница останутся на месте. Можно вернуться к этому двору после разговора; боковой выход снова ведёт к крыльцу.", "translations": {"ru": "Санки и поленница останутся на месте. Можно вернуться к этому двору после разговора; боковой выход снова ведёт к крыльцу."}},
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/ex13-forest-return",
+    "value": {"default": "Проверю этот ракурс позже. Если держаться знакомой тропы, можно вернуться к дороге; не нужно идти наугад между деревьями.", "translations": {"ru": "Проверю этот ракурс позже. Если держаться знакомой тропы, можно вернуться к дороге; не нужно идти наугад между деревьями."}},
+    "purpose": "ui"
+  }
+]

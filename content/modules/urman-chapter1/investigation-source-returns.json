@@ -1,0 +1,396 @@
+[
+ {
+  "contradicts": [],
+  "id": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
+  "initialStatus": "hidden",
+  "kind": "fact",
+  "reveals": [],
+  "schemaVersion": 1,
+  "sourceIds": [
+   "urman.oldpc:document/msg_mansur_unsent_note"
+  ],
+  "summary": {
+   "default": "В сохранённых сообщениях нашёл черновик без адресата: «Пусть лучше увидит бумаги здесь, где можно остановить». Он хранится на ПК Мансура. Не стану решать за него, зачем он оставил доступ: можно спросить его самого.",
+   "translations": {
+    "ru": "В сохранённых сообщениях нашёл черновик без адресата: «Пусть лучше увидит бумаги здесь, где можно остановить». Он хранится на ПК Мансура. Не стану решать за него, зачем он оставил доступ: можно спросить его самого."
+   }
+  },
+  "title": {
+   "default": "Черновик, в котором есть моё имя",
+   "translations": {
+    "ru": "Черновик, в котором есть моё имя"
+   }
+  },
+  "unlocks": []
+ },
+ {
+  "contradicts": [],
+  "id": "urman.chapter1:knowledge/clue_accounting_fragment_read",
+  "initialStatus": "hidden",
+  "kind": "fact",
+  "reveals": [],
+  "schemaVersion": 1,
+  "sourceIds": [
+   "urman.oldpc:document/rec_internal_accounting_damaged"
+  ],
+  "summary": {
+   "default": "В повреждённом фрагменте прочитал «Компенсация: принята не полностью». В реестре Марата это же слово стояло рядом с «закрыта». Сохраню оба текста и сравню, что именно в них указано, прежде чем связывать случаи.",
+   "translations": {
+    "ru": "В повреждённом фрагменте прочитал «Компенсация: принята не полностью». В реестре Марата это же слово стояло рядом с «закрыта». Сохраню оба текста и сравню, что именно в них указано, прежде чем связывать случаи."
+   }
+  },
+  "title": {
+   "default": "Две разные отметки",
+   "translations": {
+    "ru": "Две разные отметки"
+   }
+  },
+  "unlocks": []
+ },
+ {
+  "contradicts": [],
+  "id": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+  "initialStatus": "hidden",
+  "kind": "hypothesis",
+  "reveals": [],
+  "schemaVersion": 1,
+  "sourceIds": [
+   "urman.oldpc:document/rec_marat_case_register_conflict",
+   "urman.oldpc:document/rec_internal_accounting_damaged"
+  ],
+  "summary": {
+   "default": "В реестре Марата — «компенсация закрыта». В повреждённом фрагменте — «принята не полностью», но имя и дата не сохранились. Похоже, помимо медицинских справок здесь ведут ещё какой-то учёт. Пока я не знаю, относится ли фрагмент к тому же случаю и что именно в нём называют компенсацией.",
+   "translations": {
+    "ru": "В реестре Марата — «компенсация закрыта». В повреждённом фрагменте — «принята не полностью», но имя и дата не сохранились. Похоже, помимо медицинских справок здесь ведут ещё какой-то учёт. Пока я не знаю, относится ли фрагмент к тому же случаю и что именно в нём называют компенсацией."
+   }
+  },
+  "title": {
+   "default": "Что здесь называют компенсацией?",
+   "translations": {
+    "ru": "Что здесь называют компенсацией?"
+   }
+  },
+  "unlocks": []
+ },
+ {
+  "contradicts": [],
+  "id": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
+  "initialStatus": "hidden",
+  "kind": "fact",
+  "reveals": [],
+  "schemaVersion": 1,
+  "sourceIds": [
+   "urman.chapter1:dialogue/rinat_internal_register",
+   "urman.chapter1:knowledge/clue_village_has_internal_compensation_system"
+  ],
+  "summary": {
+   "default": "Я спросил Рината о двух отметках про компенсацию. Он не объяснил слово: сначала спросил, кому я уже показывал строки, затем попросил оставить записи дома. Его реакция усиливает тревогу, но не подтверждает, что фрагмент относится к Марату, и не раскрывает смысл учёта.",
+   "translations": {
+    "ru": "Я спросил Рината о двух отметках про компенсацию. Он не объяснил слово: сначала спросил, кому я уже показывал строки, затем попросил оставить записи дома. Его реакция усиливает тревогу, но не подтверждает, что фрагмент относится к Марату, и не раскрывает смысл учёта."
+   }
+  },
+  "title": {
+   "default": "Ринат спросил, кому я показал записи",
+   "translations": {
+    "ru": "Ринат спросил, кому я показал записи"
+   }
+  },
+  "unlocks": []
+ },
+ {
+  "id": "urman.chapter1:text/choice-mansur-ask-draft",
+  "purpose": "dialogue",
+  "schemaVersion": 1,
+  "value": {
+   "default": "Бабай, в черновике написано обо мне. Ты оставил эти бумаги, чтобы я их увидел?",
+   "translations": {
+    "ru": "Бабай, в черновике написано обо мне. Ты оставил эти бумаги, чтобы я их увидел?"
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/dialogue-mansur-draft-folder",
+  "purpose": "dialogue",
+  "schemaVersion": 1,
+  "value": {
+   "default": "«Какую папку ты открыл?» Мансур спрашивает сразу, потом замолкает. Не «что ты нашёл», а «какую папку». Я ещё не показал ему текст.",
+   "translations": {
+    "ru": "«Какую папку ты открыл?» Мансур спрашивает сразу, потом замолкает. Не «что ты нашёл», а «какую папку». Я ещё не показал ему текст."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/choice-mansur-name-folder",
+  "purpose": "dialogue",
+  "schemaVersion": 1,
+  "value": {
+   "default": "«Сохранённые сообщения». Там: «Пусть лучше увидит бумаги здесь».",
+   "translations": {
+    "ru": "«Сохранённые сообщения». Там: «Пусть лучше увидит бумаги здесь»."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/choice-mansur-ask-intent",
+  "purpose": "dialogue",
+  "schemaVersion": 1,
+  "value": {
+   "default": "Про папку скажу. Сначала ответь: ты хотел, чтобы я это прочитал?",
+   "translations": {
+    "ru": "Про папку скажу. Сначала ответь: ты хотел, чтобы я это прочитал?"
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/dialogue-mansur-draft-name-result",
+  "purpose": "dialogue",
+  "schemaVersion": 1,
+  "value": {
+   "default": "«До черновиков, значит». Мансур поправляет очки. «В папке “Лес” на компьютере есть схема кромки. Если будешь спрашивать про дорогу — сначала её посмотри. Не надо искать ночью, Айдар. А поговорить об этом можешь с Тимуром хәзрәтом. Он в мечети, {address:ADR-MOSQUE}. С улицы увидишь минарет; вход ищи у таблички». Он тянется к чайнику. На вопрос о доступе прямого ответа нет; но теперь я знаю, где искать лист, о котором он говорит.",
+   "translations": {
+    "ru": "«До черновиков, значит». Мансур поправляет очки. «В папке “Лес” на компьютере есть схема кромки. Если будешь спрашивать про дорогу — сначала её посмотри. Не надо искать ночью, Айдар. А поговорить об этом можешь с Тимуром хәзрәтом. Он в мечети, {address:ADR-MOSQUE}. С улицы увидишь минарет; вход ищи у таблички». Он тянется к чайнику. На вопрос о доступе прямого ответа нет; но теперь я знаю, где искать лист, о котором он говорит."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/dialogue-mansur-draft-question-result",
+  "purpose": "dialogue",
+  "schemaVersion": 1,
+  "value": {
+   "default": "Мансур смотрит на меня дольше обычного. «Не сейчас. Ты с дороги». Он подвигает чашку ближе. «Про дорогу хочешь спрашивать — в папке “Лес” на компьютере есть схема кромки. Сначала её посмотри. А поговорить об этом можешь с Тимуром хәзрәтом. Он в мечети, {address:ADR-MOSQUE}. С улицы увидишь минарет; вход ищи у таблички». Это забота, но вопрос о доступе остался. Похоже, ему спокойнее, пока я ищу здесь, рядом с ним.",
+   "translations": {
+    "ru": "Мансур смотрит на меня дольше обычного. «Не сейчас. Ты с дороги». Он подвигает чашку ближе. «Про дорогу хочешь спрашивать — в папке “Лес” на компьютере есть схема кромки. Сначала её посмотри. А поговорить об этом можешь с Тимуром хәзрәтом. Он в мечети, {address:ADR-MOSQUE}. С улицы увидишь минарет; вход ищи у таблички». Это забота, но вопрос о доступе остался. Похоже, ему спокойнее, пока я ищу здесь, рядом с ним."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/choice-mansur-draft-later",
+  "purpose": "dialogue",
+  "schemaVersion": 1,
+  "value": {
+   "default": "Я ещё перечитаю. Вернусь к этому вопросу.",
+   "translations": {
+    "ru": "Я ещё перечитаю. Вернусь к этому вопросу."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/compare-accounting-scope",
+  "purpose": "ui",
+  "schemaVersion": 1,
+  "value": {
+   "default": "Две отметки о «компенсации»: что можно связать?",
+   "translations": {
+    "ru": "Две отметки о «компенсации»: что можно связать?"
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/compare-accounting-scope-result",
+  "purpose": "ui",
+  "schemaVersion": 1,
+  "value": {
+   "default": "В реестре Марата — «компенсация закрыта». В повреждённом фрагменте — «принята не полностью», но имя и дата не сохранились. Похоже, помимо медицинских справок здесь ведут ещё какой-то учёт. Пока я не знаю, относится ли фрагмент к тому же случаю и что именно в нём называют компенсацией. Спрошу Рината о самих строках, не выдавая догадку за установленный случай.",
+   "translations": {
+    "ru": "В реестре Марата — «компенсация закрыта». В повреждённом фрагменте — «принята не полностью», но имя и дата не сохранились. Похоже, помимо медицинских справок здесь ведут ещё какой-то учёт. Пока я не знаю, относится ли фрагмент к тому же случаю и что именно в нём называют компенсацией. Спрошу Рината о самих строках, не выдавая догадку за установленный случай."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/compare-accounting-same-case",
+  "purpose": "ui",
+  "schemaVersion": 1,
+  "value": {
+   "default": "«Принята не полностью» доказывает, что дело Марата не закрыто?",
+   "translations": {
+    "ru": "«Принята не полностью» доказывает, что дело Марата не закрыто?"
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/compare-accounting-same-case-result",
+  "purpose": "ui",
+  "schemaVersion": 1,
+  "value": {
+   "default": "В реестре есть имя Марата. В повреждённом фрагменте — только «линия М.» и «внук», без имени и даты. Повтор слова не доказывает, что это одна запись или один случай. Сначала нужно отделить то, что написано, от того, кого я подставил в пропуски.",
+   "translations": {
+    "ru": "В реестре есть имя Марата. В повреждённом фрагменте — только «линия М.» и «внук», без имени и даты. Повтор слова не доказывает, что это одна запись или один случай. Сначала нужно отделить то, что написано, от того, кого я подставил в пропуски."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/choice-rinat-accounting",
+  "purpose": "dialogue",
+  "schemaVersion": 1,
+  "value": {
+   "default": "В реестре «компенсация закрыта», в другом фрагменте — «принята не полностью». О каком учёте речь?",
+   "translations": {
+    "ru": "В реестре «компенсация закрыта», в другом фрагменте — «принята не полностью». О каком учёте речь?"
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/dialogue-rinat-accounting",
+  "purpose": "dialogue",
+  "schemaVersion": 1,
+  "value": {
+   "default": "«Кому ты это показывал?» Ринат произносит вопрос тише прежнего. Я повторяю две строки. Он не берёт лист. «Оставь записи дома, Айдар». Значение слова осталось без ответа; зато теперь его интересует, кто ещё видел найденное.",
+   "translations": {
+    "ru": "«Кому ты это показывал?» Ринат произносит вопрос тише прежнего. Я повторяю две строки. Он не берёт лист. «Оставь записи дома, Айдар». Значение слова осталось без ответа; зато теперь его интересует, кто ещё видел найденное."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/objective-mansur-draft-search",
+  "purpose": "ui",
+  "schemaVersion": 1,
+  "value": {
+   "default": "На ПК в сохранённых сообщениях найти черновик по словам «Мансур» или «черновик».",
+   "translations": {
+    "ru": "На ПК в сохранённых сообщениях найти черновик по словам «Мансур» или «черновик»."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/objective-mansur-draft-question",
+  "purpose": "ui",
+  "schemaVersion": 1,
+  "value": {
+   "default": "Спросить Мансура дома о черновике, в котором упомянуто моё имя.",
+   "translations": {
+    "ru": "Спросить Мансура дома о черновике, в котором упомянуто моё имя."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/objective-accounting-search",
+  "purpose": "ui",
+  "schemaVersion": 1,
+  "value": {
+   "default": "На ПК поискать «компенсация» из реестра; прочитать повреждённый фрагмент.",
+   "translations": {
+    "ru": "На ПК поискать «компенсация» из реестра; прочитать повреждённый фрагмент."
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/objective-accounting-compare",
+  "purpose": "ui",
+  "schemaVersion": 1,
+  "value": {
+   "default": "В журнале сопоставить реестр Марата и повреждённую запись: что означают две разные отметки?",
+   "translations": {
+    "ru": "В журнале сопоставить реестр Марата и повреждённую запись: что означают две разные отметки?"
+   }
+  }
+ },
+ {
+  "id": "urman.chapter1:text/objective-accounting-question",
+  "purpose": "ui",
+  "schemaVersion": 1,
+  "value": {
+   "default": "Спросить Рината у двери дома о двух строках про компенсацию.",
+   "translations": {
+    "ru": "Спросить Рината у двери дома о двух строках про компенсацию."
+   }
+  }
+ },
+ {
+  "assetRefs": [],
+  "entryConditions": [],
+  "id": "urman.chapter1:scene/investigation-source-returns",
+  "interactions": [
+   {
+    "conditions": [
+     {
+      "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
+      "op": "knowledge.status",
+      "status": "confirmed"
+     },
+     {
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
+      "op": "knowledge.status",
+      "status": "confirmed"
+     },
+     {
+      "condition": {
+       "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+       "op": "knowledge.status",
+       "status": "hypothesis"
+      },
+      "op": "not"
+     }
+    ],
+    "effects": [
+     {
+      "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+      "op": "knowledge.set-status",
+      "status": "hypothesis"
+     },
+     {
+      "entryId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+      "op": "journal.record",
+      "sourceId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system"
+     }
+    ],
+    "id": "urman.chapter1:interaction/compare-accounting-scope",
+    "journalAction": {
+     "resultTextId": "urman.chapter1:text/compare-accounting-scope-result",
+     "sourceIds": [
+      "urman.oldpc:document/rec_marat_case_register_conflict",
+      "urman.oldpc:document/rec_internal_accounting_damaged"
+     ]
+    },
+    "labelTextId": "urman.chapter1:text/compare-accounting-scope"
+   },
+   {
+    "conditions": [
+     {
+      "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
+      "op": "knowledge.status",
+      "status": "confirmed"
+     },
+     {
+      "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
+      "op": "knowledge.status",
+      "status": "confirmed"
+     },
+     {
+      "condition": {
+       "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+       "op": "knowledge.status",
+       "status": "hypothesis"
+      },
+      "op": "not"
+     }
+    ],
+    "effects": [],
+    "id": "urman.chapter1:interaction/compare-accounting-same-case",
+    "journalAction": {
+     "resultTextId": "urman.chapter1:text/compare-accounting-same-case-result",
+     "sourceIds": [
+      "urman.oldpc:document/rec_marat_case_register_conflict",
+      "urman.oldpc:document/rec_internal_accounting_damaged"
+     ]
+    },
+    "labelTextId": "urman.chapter1:text/compare-accounting-same-case"
+   }
+  ],
+  "onEnter": [],
+  "onExit": [],
+  "sceneType": "presentation",
+  "schemaVersion": 1,
+  "textRefs": [
+   "urman.chapter1:text/compare-accounting-scope",
+   "urman.chapter1:text/compare-accounting-scope-result",
+   "urman.chapter1:text/compare-accounting-same-case",
+   "urman.chapter1:text/compare-accounting-same-case-result"
+  ],
+  "title": {
+   "default": "Возвращение к владельцам записей",
+   "translations": {
+    "ru": "Возвращение к владельцам записей"
+   }
+  }
+ }
+]

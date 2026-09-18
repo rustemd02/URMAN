@@ -5,9 +5,9 @@ title: {"default":"Damaged internal accounting record","translations":{"ru":"П�
 format: markdown
 sourceFile: documents/rec_internal_accounting_damaged.md
 assetRefs: ["urman.oldpc:asset/ui-old-pc-error-corrupt-file-base"]
-knowledgeRefs: ["urman.chapter1:knowledge/clue_marat_case_boundary_marker"]
+knowledgeRefs: []
 accessConditions: [{"op":"all","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_marat_case_boundary_marker","status":"confirmed"},{"op":"vocabulary.status","vocabularyId":"urman.chapter1:vocabulary/tt_urman","status":"confirmed"}]}]
-openEffects: []
+openEffects: [{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/clue_accounting_fragment_read","status":"confirmed"},{"op":"journal.record","entryId":"urman.oldpc:document/rec_internal_accounting_damaged","sourceId":"urman.oldpc:document/rec_internal_accounting_damaged"}]
 oldPc: {"type":"corrupted_fragment","pcSection":"damaged_hidden","canonStatus":"canon","reliability":"corrupted","searchTerms":["компенсация","нарушение","дом","урман","Марат","ответил"],"suggestedTerms":["дом","совет","компенсация"]}
 ---
 

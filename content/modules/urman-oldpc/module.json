@@ -30,7 +30,21 @@
   "documents/doc_household_photo_box_labels.md",
   "documents/doc_household_seed_catalog.md",
   "documents/rec_household_line_fanis.md",
-  "documents/rec_internal_accounting_counts_by_decade.md"
+  "documents/rec_internal_accounting_counts_by_decade.md",
+  "documents/tw_kara_urman_village.md",
+  "documents/tw_local_names.md",
+  "documents/tw_people_and_records.md",
+  "documents/tw_district_routes.md",
+  "documents/tw_sabantuy_memory.md",
+  "documents/social_mansur_profile.md",
+  "documents/social_alsu_profile.md",
+  "documents/social_community_avyl.md",
+  "documents/social_family_photo.md",
+  "documents/web_village_home.md",
+  "documents/web_school_notice.md",
+  "documents/web_village_archive.md",
+  "documents/mail_household_letter.md",
+  "documents/social_farida_school_album.md"
  ],
  "assets": [
   "urman.oldpc:asset/doc-marat-medical-record-bg",
@@ -102,7 +116,21 @@
   "urman.oldpc:document/doc_household_photo_box_labels",
   "urman.oldpc:document/doc_household_seed_catalog",
   "urman.oldpc:document/rec_household_line_fanis",
-  "urman.oldpc:document/rec_internal_accounting_counts_by_decade"
+  "urman.oldpc:document/rec_internal_accounting_counts_by_decade",
+  "urman.oldpc:document/tw_kara_urman_village",
+  "urman.oldpc:document/tw_local_names",
+  "urman.oldpc:document/tw_people_and_records",
+  "urman.oldpc:document/tw_district_routes",
+  "urman.oldpc:document/tw_sabantuy_memory",
+  "urman.oldpc:document/social_mansur_profile",
+  "urman.oldpc:document/social_alsu_profile",
+  "urman.oldpc:document/social_community_avyl",
+  "urman.oldpc:document/social_family_photo",
+  "urman.oldpc:document/web_village_home",
+  "urman.oldpc:document/web_school_notice",
+  "urman.oldpc:document/web_village_archive",
+  "urman.oldpc:document/mail_household_letter",
+  "urman.oldpc:document/social_farida_school_album"
  ],
  "requires": []
 }

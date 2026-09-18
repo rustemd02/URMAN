@@ -5,7 +5,7 @@ title: {"default":"Marat's saved message","translations":{"ru":"Сохранён
 format: markdown
 sourceFile: documents/msg_marat_saved_last_normal.md
 assetRefs: ["urman.oldpc:asset/ui-yalkyn-messenger-saved-marat-log"]
-knowledgeRefs: ["urman.chapter1:knowledge/clue_marat_was_afraid_before_death"]
+knowledgeRefs: ["urman.chapter1:knowledge/clue_marat_message_read"]
 accessConditions: [{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/contradiction_marat_official_vs_internal","status":"confirmed"},{"op":"npc.state","characterId":"urman.chapter1:character/rinat","stateKey":"alerted","value":true}]
 openEffects: [{"op":"scene.request","sceneId":"urman.chapter1:scene/evidence-saved-message"},{"op":"journal.record","entryId":"urman.oldpc:document/msg_marat_saved_last_normal","sourceId":"urman.oldpc:document/msg_marat_saved_last_normal"}]
 oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"canon","reliability":"personal_memory","searchTerms":["Марат","сообщение","урман","бабай","ночь"],"suggestedTerms":["урман","кромка"]}

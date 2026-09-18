@@ -25,6 +25,7 @@
     "marat": "urman.chapter1:character/marat",
     "naila": "urman.chapter1:character/naila",
     "rinat": "urman.chapter1:character/rinat",
+    "razilya": "urman.chapter1:character/razilya",
     "timur-hazrat": "urman.chapter1:character/timur_hazrat"
   },
   "capabilityRequirements": [

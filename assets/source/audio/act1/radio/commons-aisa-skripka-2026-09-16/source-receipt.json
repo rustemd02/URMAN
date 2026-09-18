@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "sourceTitle": "File:Aisa Hakimcan skripka.flac",
+  "sourcePage": "https://commons.wikimedia.org/wiki/File:Aisa_Hakimcan_skripka.flac",
+  "sourceApi": "https://commons.wikimedia.org/w/api.php?action=query&titles=File%3AAisa+Hakimcan+skripka.flac&prop=revisions%7Cimageinfo&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&iiprop=url%7Cextmetadata%7Csha1%7Csize%7Ctimestamp&format=json",
+  "sourceRevision": {
+    "revid": 787148219,
+    "parentid": 744052346,
+    "timestamp": "2023-07-27T01:05:07Z",
+    "slots": {
+      "main": {
+        "contentmodel": "wikitext",
+        "contentformat": "text/x-wiki",
+        "*": "=={{int:filedesc}}==\n{{Information\n|description={{en|1=Finnish Tatar folk artist Aisa Hakimcan (1896-1972) playing the violin.}}\n|date={{other date|s|1900}}\n|source={{own}}\n|author=[[User:Xәkim|Hakimdzhan]]\n|permission=\n|other versions=\n}}\n\n=={{int:license-header}}==\n{{self|cc-by-sa-4.0}}\n\n[[Category:Aisa Hakimcan]]\n[[Category:Mishar Tatars]]\n[[Category:Volga Tatars]]\n[[Category:Folk music]]"
+      }
+    }
+  },
+  "sourceFile": "original.flac",
+  "sourceSha1": "ab04d54a24182bf85a9f2bfbf0869c9aa8c5c45e",
+  "sourceSha256": "9fb40b3ce18d11604356d42577abe78bd871eb5542affa8c9c6f9af9744acc47",
+  "sourceBytes": 16170626,
+  "primaryEvidence": "commons-primary-source.json",
+  "primaryEvidenceSha256": "1df96ba144d1b390d1c312bf6ba99ca8d1818aeda00f337d6e639588c345f02a",
+  "declaredLicenseURL": "https://creativecommons.org/licenses/by-sa/4.0",
+  "durationSeconds": 202.06933333333333,
+  "acceptance": "original bytes and primary declaration retained; no listening or station acceptance"
+}

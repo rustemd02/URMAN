@@ -7,7 +7,7 @@ sourceFile: documents/tw_shurale_urman_boundary.md
 assetRefs: ["urman.oldpc:asset/ui-tatarwiki-article-template"]
 knowledgeRefs: []
 accessConditions: [{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_marat_was_afraid_before_death","status":"confirmed"}]
-openEffects: [{"op":"scene.request","sceneId":"urman.chapter1:scene/evidence-tatarwiki-boundary"},{"op":"journal.record","entryId":"urman.oldpc:document/tw_shurale_urman_boundary","sourceId":"urman.oldpc:document/tw_shurale_urman_boundary"}]
+openEffects: [{"op":"scene.request","sceneId":"urman.chapter1:scene/evidence-tatarwiki-boundary"},{"op":"journal.record","entryId":"urman.oldpc:document/tw_shurale_urman_boundary","sourceId":"urman.oldpc:document/tw_shurale_urman_boundary"},{"op":"vocabulary.set-status","vocabularyId":"urman.chapter1:vocabulary/tt_urman","status":"confirmed"},{"op":"vocabulary.set-status","vocabularyId":"urman.chapter1:vocabulary/tt_tavysh","status":"guessed"},{"op":"vocabulary.set-status","vocabularyId":"urman.chapter1:vocabulary/tt_javap","status":"guessed"},{"op":"vocabulary.set-status","vocabularyId":"urman.chapter1:vocabulary/tt_shurale","status":"guessed"}]
 oldPc: {"type":"tatarwiki_article","pcSection":"tatarwiki","canonStatus":"canon","reliability":"folklore_mask","searchTerms":["Шүрәле","урман","лес","граница","голос"],"suggestedTerms":["урман","тавыш","җавап"]}
 ---
 

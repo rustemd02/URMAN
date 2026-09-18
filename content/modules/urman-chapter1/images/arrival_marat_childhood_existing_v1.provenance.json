@@ -1,0 +1,35 @@
+{
+  "assetId": "urman.chapter1:asset/photo-marat-childhood",
+  "file": "arrival_marat_childhood_existing_v1.png",
+  "sha256": "c4647904f1aad0ea492858547e3f3493c9356c6ef87270d34d244f4fb882ac20",
+  "width": 1024,
+  "height": 1024,
+  "bytes": 1411356,
+  "preparedOn": "2026-09-16",
+  "operation": "Byte-identical reuse of an existing project asset; no new generation, crop, resampling or colour change.",
+  "source": {
+    "file": "public/assets/urman_mvp_remaining/photo_aidar_marat_childhood_clean.png",
+    "manifest": "public/assets/urman_mvp_remaining/asset_manifest.json",
+    "assetId": "photo_aidar_marat_childhood_clean",
+    "packGeneratedOn": "2026-05-17",
+    "style": "ink-wash storybook, hand-drawn black ink line, muted watercolor wash, visible paper grain",
+    "promptSummary": "Childhood evidence photo set of Айдар and Марат; clean, damaged and journal thumbnail variants.",
+    "consistencyAnchors": "Same two childhood friends; evidence photo treatment, no supernatural reveal."
+  },
+  "role": "Existing childhood photograph of Aidar and Marat at arrival. Separate from the domestic first-snow photograph used by EX12.",
+  "observedContent": "Two boys stand together in a lived-in village yard; one has an arm around the other's shoulder and the other holds a worn football. Timber house, fence and foliage behind them. Muted sepia paper and dark blue-grey jackets; no supernatural figure or written date.",
+  "captionOwner": "The authored arrival-photo-evidence document and world presentation retain the exact personal phrase Казанский, не отставай. The raster contains no baked lettering.",
+  "review": {
+    "sourcePngViewed": true,
+    "comparedAlternatives": [
+      "photo_aidar_marat_childhood_damaged.png",
+      "photo_aidar_marat_childhood_journal_thumb.png",
+      "photo_aidar_marat_childhood_contact_sheet.png",
+      "char_marat_evidence_old_photo.png"
+    ],
+    "selectionReason": "The existing clean photograph already depicts the two friends with human warmth and matches the project's documentary art. The damaged and thumbnail derivatives contain neighbouring-panel fragments; the separate Marat portrait contains only one boy.",
+    "worldPresentationNote": "The square source includes black scan margins. Preserve aspect ratio in the reader. For the physical print, sample the picture region with texture UVs or AtlasTexture rather than stretching the scan to the former landscape placeholder.",
+    "runtimeSceneReview": "not-run; root owns binding, import and capture",
+    "humanNarrativeComprehension": "external/not-run"
+  }
+}

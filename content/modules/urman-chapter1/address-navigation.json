@@ -1,0 +1,80 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:knowledge/address-babai",
+    "kind": "fact",
+    "title": {"default": "Дом бабая и әби", "translations": {"ru": "Дом бабая и әби"}},
+    "summary": {"default": "Мама написала адрес: {address:ADR-BABAI}. Сначала сверить название улицы на табличке у входа, затем номер дома. Сохраню адрес, чтобы найти дом сейчас и вернуться после прогулки.", "translations": {"ru": "Мама написала адрес: {address:ADR-BABAI}. Сначала сверить название улицы на табличке у входа, затем номер дома. Сохраню адрес, чтобы найти дом сейчас и вернуться после прогулки."}},
+    "initialStatus": "hidden",
+    "sourceIds": ["urman.chapter1:document/arrival-mother-message"],
+    "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:knowledge/address-fap",
+    "kind": "fact",
+    "title": {"default": "Наиля — ФАП", "translations": {"ru": "Наиля — ФАП"}},
+    "summary": {"default": "Алсу назвала адрес ФАПа: {address:ADR-FAP}. «Урман» на табличке — название улицы, Лесная. У входа надпись «ФАП». Проверить и улицу, и номер: второй дом на другой улице — другой адрес. Если запутаюсь, можно снова уточнить у Алсу.", "translations": {"ru": "Алсу назвала адрес ФАПа: {address:ADR-FAP}. «Урман» на табличке — название улицы, Лесная. У входа надпись «ФАП». Проверить и улицу, и номер: второй дом на другой улице — другой адрес. Если запутаюсь, можно снова уточнить у Алсу."}},
+    "initialStatus": "hidden",
+    "sourceIds": ["urman.chapter1:dialogue/alsu_route_context"],
+    "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:knowledge/address-mosque",
+    "kind": "fact",
+    "title": {"default": "Тимур хәзрәт — мечеть", "translations": {"ru": "Тимур хәзрәт — мечеть"}},
+    "summary": {"default": "Мансур предложил поговорить с Тимуром хәзрәтом и назвал адрес мечети: {address:ADR-MOSQUE}. С улицы виден минарет; вход надо найти у адресной таблички. Адрес можно уточнить у бабая, а место — проверить самому.", "translations": {"ru": "Мансур предложил поговорить с Тимуром хәзрәтом и назвал адрес мечети: {address:ADR-MOSQUE}. С улицы виден минарет; вход надо найти у адресной таблички. Адрес можно уточнить у бабая, а место — проверить самому."}},
+    "initialStatus": "hidden",
+    "sourceIds": ["urman.chapter1:dialogue/mansur_pc_request"],
+    "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-mansur-mosque-address",
+    "value": {"default": "Где найти Тимура? Напомни адрес мечети.", "translations": {"ru": "Где найти Тимура? Напомни адрес мечети."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-mansur-mosque-address",
+    "value": {"default": "«В мечети, {address:ADR-MOSQUE}. Минарет с улицы виден, а номер сверяй у входа целиком: буква тоже его часть. С Тимуром можно спокойно поговорить». Мансур повторяет адрес, пока я записываю.", "translations": {"ru": "«В мечети, {address:ADR-MOSQUE}. Минарет с улицы виден, а номер сверяй у входа целиком: буква тоже его часть. С Тимуром можно спокойно поговорить». Мансур повторяет адрес, пока я записываю."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-alsu-fap-address",
+    "value": {"default": "Как найти ФАП? Назови адрес ещё раз.", "translations": {"ru": "Как найти ФАП? Назови адрес ещё раз."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-alsu-fap-address",
+    "value": {"default": "«{address:ADR-FAP}. Наиля там. На татарской строке увидишь „Урман“, на русской — „Лесная“. Это улица в деревне; идти в сам лес не надо. Сверь обе строки и номер, потом подходи к входу». Алсу ждёт, пока я запишу.", "translations": {"ru": "«{address:ADR-FAP}. Наиля там. На татарской строке увидишь „Урман“, на русской — „Лесная“. Это улица в деревне; идти в сам лес не надо. Сверь обе строки и номер, потом подходи к входу». Алсу ждёт, пока я запишу."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-alsu-address-number",
+    "value": {"default": "А второй дом на улице Тукая — это другой адрес?", "translations": {"ru": "А второй дом на улице Тукая — это другой адрес?"}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-alsu-address-number",
+    "value": {"default": "«Да, у каждой улицы свои номера. Читай название над цифрой. У ФАПа — {address:ADR-FAP}, у твоего бабая — {address:ADR-BABAI}. Между нечётными номерами идут пропуски, на другой стороне — чётные. Если дверь не та, проверь табличку и вернись на улицу; обходить все дворы не нужно».", "translations": {"ru": "«Да, у каждой улицы свои номера. Читай название над цифрой. У ФАПа — {address:ADR-FAP}, у твоего бабая — {address:ADR-BABAI}. Между нечётными номерами идут пропуски, на другой стороне — чётные. Если дверь не та, проверь табличку и вернись на улицу; обходить все дворы не нужно»."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/choice-alsu-babai-address",
+    "value": {"default": "Напомни, как вернуться к бабаю.", "translations": {"ru": "Напомни, как вернуться к бабаю."}},
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-alsu-babai-address",
+    "value": {"default": "«{address:ADR-BABAI}. Тукай ур. — это та же улица Тукая. Номер написан у дома. Не ищи фамилию: на адресной табличке её нет». Я сверяю адрес с маминым сообщением.", "translations": {"ru": "«{address:ADR-BABAI}. Тукай ур. — это та же улица Тукая. Номер написан у дома. Не ищи фамилию: на адресной табличке её нет». Я сверяю адрес с маминым сообщением."}},
+    "purpose": "dialogue"
+  }
+]

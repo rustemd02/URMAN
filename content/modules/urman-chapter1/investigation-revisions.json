@@ -1,0 +1,313 @@
+[
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/hypothesis_voice_explained_as_echo",
+  "kind": "hypothesis",
+  "title": {
+   "default": "Эхо уже объясняет сообщение?",
+   "translations": {
+    "ru": "Эхо уже объясняет сообщение?"
+   }
+  },
+  "summary": {
+   "default": "Я принял эхо за достаточное объяснение слов Марата. Эта версия требует проверки по самому сообщению: описывает ли он повтор своего звука или чужое обращение? Моя уверенность не равна установленной причине.",
+   "translations": {
+    "ru": "Я принял эхо за достаточное объяснение слов Марата. Эта версия требует проверки по самому сообщению: описывает ли он повтор своего звука или чужое обращение? Моя уверенность не равна установленной причине."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.oldpc:document/msg_marat_saved_last_normal"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/revise-echo",
+  "value": {
+   "default": "Снять уверенность в эхе: Марат описывает обращение и ожидание ответа.",
+   "translations": {
+    "ru": "Снять уверенность в эхе: Марат описывает обращение и ожидание ответа."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/revise-echo-result",
+  "value": {
+   "default": "В сообщении есть «Не как эхо» и «ждёт, что я отвечу». Это его впечатление, а не измерение звука. Я снимаю собственную уверенность, будто всё уже объяснено эхом; причину голоса пока не знаю. Теперь можно сопоставить сообщение со словами на полях статьи.",
+   "translations": {
+    "ru": "В сообщении есть «Не как эхо» и «ждёт, что я отвечу». Это его впечатление, а не измерение звука. Я снимаю собственную уверенность, будто всё уже объяснено эхом; причину голоса пока не знаю. Теперь можно сопоставить сообщение со словами на полях статьи."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/hypothesis_heading_identifies_voice",
+  "kind": "hypothesis",
+  "title": {
+   "default": "Заголовок называет говорившего?",
+   "translations": {
+    "ru": "Заголовок называет говорившего?"
+   }
+  },
+  "summary": {
+   "default": "Я приписал голос существу из заголовка архивной заметки. Нужно проверить, есть ли в самой заметке свидетельство о Марате или только пересказ без названного автора. Совпадение темы ещё не устанавливает говорившего.",
+   "translations": {
+    "ru": "Я приписал голос существу из заголовка архивной заметки. Нужно проверить, есть ли в самой заметке свидетельство о Марате или только пересказ без названного автора. Совпадение темы ещё не устанавливает говорившего."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.oldpc:document/tw_shurale_urman_boundary"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/revise-creature",
+  "value": {
+   "default": "Снять отождествление: заметка не является свидетельством о Марате.",
+   "translations": {
+    "ru": "Снять отождествление: заметка не является свидетельством о Марате."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/revise-creature-result",
+  "value": {
+   "default": "Автор и источник пересказа в заметке не указаны. Имя в заголовке не связывает её с конкретным событием Марата. Снимаю утверждение, что говоривший уже установлен; слова о месте, голосе и отклике остаются пригодны для сравнения.",
+   "translations": {
+    "ru": "Автор и источник пересказа в заметке не указаны. Имя в заголовке не связывает её с конкретным событием Марата. Снимаю утверждение, что говоривший уже установлен; слова о месте, голосе и отклике остаются пригодны для сравнения."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/hypothesis_route_enters_zirat",
+  "kind": "hypothesis",
+  "title": {
+   "default": "Отметка ведёт внутрь зирата?",
+   "translations": {
+    "ru": "Отметка ведёт внутрь зирата?"
+   }
+  },
+  "summary": {
+   "default": "Я выбрал путь внутрь ограды, увидев слово «зират». Проверю, что на схеме обозначает направление: само название места, стрелка вдоль ограды или зачёркнутый ход. Осмотренная бирка остаётся внешним ориентиром.",
+   "translations": {
+    "ru": "Я выбрал путь внутрь ограды, увидев слово «зират». Проверю, что на схеме обозначает направление: само название места, стрелка вдоль ограды или зачёркнутый ход. Осмотренная бирка остаётся внешним ориентиром."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.oldpc:document/doc_kara_urman_edge_sketch"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/revise-inside",
+  "value": {
+   "default": "Снять путь внутрь: стрелка идёт вдоль ограды, внутренний ход зачёркнут.",
+   "translations": {
+    "ru": "Снять путь внутрь: стрелка идёт вдоль ограды, внутренний ход зачёркнут."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/revise-inside-result",
+  "value": {
+   "default": "На схеме зачёркнут ход внутрь, а стрелка продолжает внешнюю дорогу. Название «зират» указывает соседнее место, а не цель входа. Исправляю направление; затем сверю его с канавой и биркой на местности.",
+   "translations": {
+    "ru": "На схеме зачёркнут ход внутрь, а стрелка продолжает внешнюю дорогу. Название «зират» указывает соседнее место, а не цель входа. Исправляю направление; затем сверю его с канавой и биркой на местности."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/hypothesis_tag_identifies_marat",
+  "kind": "hypothesis",
+  "title": {
+   "default": "Засечки доказывают путь Марата?",
+   "translations": {
+    "ru": "Засечки доказывают путь Марата?"
+   }
+  },
+  "summary": {
+   "default": "Я принял две засечки за личную отметку Марата. Нужно сверить эту версию с записью осмотра бирки: видел ли я имя, дату или только ориентир? Совпадение места и принадлежность следа — разные вопросы.",
+   "translations": {
+    "ru": "Я принял две засечки за личную отметку Марата. Нужно сверить эту версию с записью осмотра бирки: видел ли я имя, дату или только ориентир? Совпадение места и принадлежность следа — разные вопросы."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:knowledge/clue_zirat_roadside_marks"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/revise-identity",
+  "value": {
+   "default": "Снять вывод о личности: в осмотре есть две засечки, но нет имени или даты.",
+   "translations": {
+    "ru": "Снять вывод о личности: в осмотре есть две засечки, но нет имени или даты."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/revise-identity-result",
+  "value": {
+   "default": "В записи осмотра нет имени и даты. Бирка помогает узнать место со схемы; она не устанавливает, кто здесь проходил. Снимаю утверждение о личном следе Марата и возвращаюсь к проверке самого пути.",
+   "translations": {
+    "ru": "В записи осмотра нет имени и даты. Бирка помогает узнать место со схемы; она не устанавливает, кто здесь проходил. Снимаю утверждение о личном следе Марата и возвращаюсь к проверке самого пути."
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/investigation-revisions",
+  "sceneType": "presentation",
+  "title": {
+   "default": "Проверка собственных версий",
+   "translations": {
+    "ru": "Проверка собственных версий"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [
+   "urman.chapter1:text/revise-echo",
+   "urman.chapter1:text/revise-echo-result",
+   "urman.chapter1:text/revise-creature",
+   "urman.chapter1:text/revise-creature-result",
+   "urman.chapter1:text/revise-inside",
+   "urman.chapter1:text/revise-inside-result",
+   "urman.chapter1:text/revise-identity",
+   "urman.chapter1:text/revise-identity-result"
+  ],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/revise-echo",
+    "labelTextId": "urman.chapter1:text/revise-echo",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/hypothesis_voice_explained_as_echo",
+      "status": "hypothesis"
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/hypothesis_voice_explained_as_echo",
+      "status": "contradicted"
+     }
+    ],
+    "journalAction": {
+     "sourceIds": [
+      "urman.chapter1:knowledge/hypothesis_voice_explained_as_echo",
+      "urman.oldpc:document/msg_marat_saved_last_normal"
+     ],
+     "resultTextId": "urman.chapter1:text/revise-echo-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/revise-creature",
+    "labelTextId": "urman.chapter1:text/revise-creature",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/hypothesis_heading_identifies_voice",
+      "status": "hypothesis"
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/hypothesis_heading_identifies_voice",
+      "status": "contradicted"
+     }
+    ],
+    "journalAction": {
+     "sourceIds": [
+      "urman.chapter1:knowledge/hypothesis_heading_identifies_voice",
+      "urman.oldpc:document/tw_shurale_urman_boundary"
+     ],
+     "resultTextId": "urman.chapter1:text/revise-creature-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/revise-inside",
+    "labelTextId": "urman.chapter1:text/revise-inside",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/hypothesis_route_enters_zirat",
+      "status": "hypothesis"
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/hypothesis_route_enters_zirat",
+      "status": "contradicted"
+     }
+    ],
+    "journalAction": {
+     "sourceIds": [
+      "urman.chapter1:knowledge/hypothesis_route_enters_zirat",
+      "urman.oldpc:document/doc_kara_urman_edge_sketch"
+     ],
+     "resultTextId": "urman.chapter1:text/revise-inside-result"
+    }
+   },
+   {
+    "id": "urman.chapter1:interaction/revise-identity",
+    "labelTextId": "urman.chapter1:text/revise-identity",
+    "conditions": [
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/hypothesis_tag_identifies_marat",
+      "status": "hypothesis"
+     }
+    ],
+    "effects": [
+     {
+      "op": "knowledge.set-status",
+      "knowledgeId": "urman.chapter1:knowledge/hypothesis_tag_identifies_marat",
+      "status": "contradicted"
+     }
+    ],
+    "journalAction": {
+     "sourceIds": [
+      "urman.chapter1:knowledge/hypothesis_tag_identifies_marat",
+      "urman.chapter1:knowledge/clue_zirat_roadside_marks"
+     ],
+     "resultTextId": "urman.chapter1:text/revise-identity-result"
+    }
+   }
+  ]
+ }
+]

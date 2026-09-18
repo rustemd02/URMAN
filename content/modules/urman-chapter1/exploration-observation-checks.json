@@ -1,0 +1,323 @@
+[
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/observation-well-tie", "kind": "clue",
+    "title": {"default": "Варежка держится на рукояти", "translations": {"ru": "Варежка держится на рукояти"}},
+    "summary": {"default": "Спереди видна ткань, но не её крепление. Потерянная вещь или обёртка для холодного металла? Это можно проверить: обойти колодец и посмотреть на шнур и крючок с обратной стороны. По одной варежке нельзя узнать, кто здесь был.", "translations": {"ru": "Спереди видна ткань, но не её крепление. Потерянная вещь или обёртка для холодного металла? Это можно проверить: обойти колодец и посмотреть на шнур и крючок с обратной стороны. По одной варежке нельзя узнать, кто здесь был."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:scene/exploration-observation-checks"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/observation-bench-plank", "kind": "clue",
+    "title": {"default": "Светлая полоска под снегом", "translations": {"ru": "Светлая полоска под снегом"}},
+    "summary": {"default": "На скамье у дороги одна полоска кажется светлее. Я ещё не видел всю планку. Поддевать прибитое сиденье незачем: можно смахнуть снег рукой и сравнить дерево и крепления с соседними досками.", "translations": {"ru": "На скамье у дороги одна полоска кажется светлее. Я ещё не видел всю планку. Поддевать прибитое сиденье незачем: можно смахнуть снег рукой и сравнить дерево и крепления с соседними досками."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:scene/exploration-observation-checks"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/observation-branch-overlap", "kind": "clue",
+    "title": {"default": "Линии складываются в фигуру", "translations": {"ru": "Линии складываются в фигуру"}},
+    "summary": {"default": "С дороги контуры похожи на плечо и длинную руку. Из этого ракурса я не вижу, соединены ли они. На доступной стороне тропы можно сместиться поперёк взгляда и проследить оба основания до снега; уходить в чащу для этого не нужно.", "translations": {"ru": "С дороги контуры похожи на плечо и длинную руку. Из этого ракурса я не вижу, соединены ли они. На доступной стороне тропы можно сместиться поперёк взгляда и проследить оба основания до снега; уходить в чащу для этого не нужно."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:scene/exploration-observation-checks"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_first_snow_source_read", "kind": "clue",
+    "title": {"default": "Ориентиры на старой фотографии", "translations": {"ru": "Ориентиры на старой фотографии"}},
+    "summary": {"default": "Рассмотрел фотографию «Первый снег»: берёза слева, диагональная перекладина калитки и три окна длинного фасада. Фотографию можно снова открыть из журнала. Проверю окна с открытой стороны фасада, а берёзу и калитку — у входа во двор. После этого можно сопоставить все ориентиры со снимком и посмотреть на саму калитку ближе.", "translations": {"ru": "Рассмотрел фотографию «Первый снег»: берёза слева, диагональная перекладина калитки и три окна длинного фасада. Фотографию можно снова открыть из журнала. Проверю окна с открытой стороны фасада, а берёзу и калитку — у входа во двор. После этого можно сопоставить все ориентиры со снимком и посмотреть на саму калитку ближе."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:document/first-snow-photo"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_photo_facade_windows_observed", "kind": "clue",
+    "title": {"default": "Три окна длинного фасада", "translations": {"ru": "Три окна длинного фасада"}},
+    "summary": {"default": "На длинном фасаде нашего дома три окна в синих наличниках. Я рассмотрел их с открытой стороны фасада. Теперь сверю вход во двор: берёзу слева от дома и диагональную перекладину калитки. Снимок можно открыть в журнале. Одних окон ещё недостаточно, чтобы узнать место фотографии.", "translations": {"ru": "На длинном фасаде нашего дома три окна в синих наличниках. Я рассмотрел их с открытой стороны фасада. Теперь сверю вход во двор: берёзу слева от дома и диагональную перекладину калитки. Снимок можно открыть в журнале. Одних окон ещё недостаточно, чтобы узнать место фотографии."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:scene/exploration-observation-checks"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_photo_yard_observed", "kind": "clue",
+    "title": {"default": "Двор со стороны калитки", "translations": {"ru": "Двор со стороны калитки"}},
+    "summary": {"default": "Осмотрел наш двор: берёза слева от дома, косая перекладина калитки и три окна длинного фасада. Я проверил и вход, и фасад; все детали не обязательно видны из одной точки. Внизу калитки заметна светлая деревянная вставка. Теперь можно сопоставить наблюдения со старой фотографией в журнале. Похожей крыши у соседей недостаточно.", "translations": {"ru": "Осмотрел наш двор: берёза слева от дома, косая перекладина калитки и три окна длинного фасада. Я проверил и вход, и фасад; все детали не обязательно видны из одной точки. Внизу калитки заметна светлая деревянная вставка. Теперь можно сопоставить наблюдения со старой фотографией в журнале. Похожей крыши у соседей недостаточно."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:scene/exploration-observation-checks"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_photo_place_compared", "kind": "clue",
+    "title": {"default": "Калитка на снимке и передо мной", "translations": {"ru": "Калитка на снимке и передо мной"}},
+    "summary": {"default": "Берёза, перекладина и три окна совпали в расположении. На снимке нижняя часть калитки окрашена целиком, сейчас выделяется светлая вставка. Подойду к ней: шов и крепление помогут отличить заменённую деталь от пятна снега или освещения. Само совпадение места ничего не говорит о Марате.", "translations": {"ru": "Берёза, перекладина и три окна совпали в расположении. На снимке нижняя часть калитки окрашена целиком, сейчас выделяется светлая вставка. Подойду к ней: шов и крепление помогут отличить заменённую деталь от пятна снега или освещения. Само совпадение места ничего не говорит о Марате."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:document/first-snow-photo", "urman.chapter1:knowledge/clue_photo_yard_observed"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_photo_gate_repair_checked", "kind": "clue",
+    "title": {"default": "Шов внизу калитки", "translations": {"ru": "Шов внизу калитки"}},
+    "summary": {"default": "Вблизи видны стык светлой вставки и два крепления. Это отдельная деревянная деталь, а не снег или пятно света. На старом снимке такого стыка не видно. Теперь у меня точный вопрос к Мансуру о фотографии и калитке; я ещё не знаю, кто и когда её чинил.", "translations": {"ru": "Вблизи видны стык светлой вставки и два крепления. Это отдельная деревянная деталь, а не снег или пятно света. На старом снимке такого стыка не видно. Теперь у меня точный вопрос к Мансуру о фотографии и калитке; я ещё не знаю, кто и когда её чинил."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:knowledge/clue_photo_place_compared"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_photo_question_answered", "kind": "clue",
+    "title": {"default": "Показал Мансуру калитку на снимке", "translations": {"ru": "Показал Мансуру калитку на снимке"}},
+    "summary": {"default": "Я спросил о конкретной вставке. Мансур посмотрел на фотографию: «Ты на ручку едва дотягивался. А теперь первым делом доску проверяешь». Он не назвал ни года, ни мастера. Разговор вернул снимку личный смысл, но не превратил мою догадку о ремонте в документированную историю.", "translations": {"ru": "Я спросил о конкретной вставке. Мансур посмотрел на фотографию: «Ты на ручку едва дотягивался. А теперь первым делом доску проверяешь». Он не назвал ни года, ни мастера. Разговор вернул снимку личный смысл, но не превратил мою догадку о ремонте в документированную историю."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:knowledge/clue_photo_gate_repair_checked", "urman.chapter1:dialogue/mansur_pc_request"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_sketch_field_landmarks", "kind": "clue",
+    "title": {"default": "Три ориентира у дороги", "translations": {"ru": "Три ориентира у дороги"}},
+    "summary": {"default": "Осмотрел место с наружной стороны ограды. Слева у дороги канава и узкая бирка с двумя засечками; ограда остаётся справа, путь продолжается вдоль неё. Снег прикрыл нижний край бирки, но не засечки. Это наблюдения на месте; их ещё нужно сопоставить с рисунком.", "translations": {"ru": "Осмотрел место с наружной стороны ограды. Слева у дороги канава и узкая бирка с двумя засечками; ограда остаётся справа, путь продолжается вдоль неё. Снег прикрыл нижний край бирки, но не засечки. Это наблюдения на месте; их ещё нужно сопоставить с рисунком."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:scene/exploration-observation-checks"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_sketch_place_compared", "kind": "clue",
+    "title": {"default": "Рисунок подходит к этому изгибу", "translations": {"ru": "Рисунок подходит к этому изгибу"}},
+    "summary": {"default": "Сопоставил рисунок и наблюдение: канава и бирка слева, ограда справа, продолжение снаружи. Это не вид на минарет за домом. На рисунке виден нижний край бирки, сейчас он под снегом. Проверю его вблизи, прежде чем искать там ещё один знак или подпись.", "translations": {"ru": "Сопоставил рисунок и наблюдение: канава и бирка слева, ограда справа, продолжение снаружи. Это не вид на минарет за домом. На рисунке виден нижний край бирки, сейчас он под снегом. Проверю его вблизи, прежде чем искать там ещё один знак или подпись."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_sketch_field_landmarks"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_sketch_tag_base_checked", "kind": "clue",
+    "title": {"default": "Под снегом — крепление", "translations": {"ru": "Под снегом — крепление"}},
+    "summary": {"default": "Смахнул снег с нижнего края бирки. Под ним край дерева и ржавая петля крепления; третьей засечки, имени и даты здесь нет. Два видимых штриха помогают проверить место рисунка, но не личность прошедшего человека. Снег убран, при возвращении деталь остаётся открытой.", "translations": {"ru": "Смахнул снег с нижнего края бирки. Под ним край дерева и ржавая петля крепления; третьей засечки, имени и даты здесь нет. Два видимых штриха помогают проверить место рисунка, но не личность прошедшего человека. Снег убран, при возвращении деталь остаётся открытой."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:knowledge/clue_sketch_place_compared"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_local_words_return", "kind": "clue",
+    "title": {"default": "Два знакомых слова", "translations": {"ru": "Два знакомых слова"}},
+    "summary": {"default": "От варежки на колодце я обернулся к старому указателю, затем вспомнил коробку с нитками дома. Вернувшись к стрелке, различил слова: «юл» — дорога, «өй» — дом. На карточке не повторяется надпись указателя. Теперь старая стрелка помогает узнать обратное направление без новой отметки на карте.", "translations": {"ru": "От варежки на колодце я обернулся к старому указателю, затем вспомнил коробку с нитками дома. Вернувшись к стрелке, различил слова: «юл» — дорога, «өй» — дом. На карточке не повторяется надпись указателя. Теперь старая стрелка помогает узнать обратное направление без новой отметки на карте."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:knowledge/discovery-arrival-insulated-well", "urman.chapter1:knowledge/discovery-main-street-sign-reverse", "urman.chapter1:knowledge/discovery-house-interior-language-tin"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_yard_loop_return", "kind": "route",
+    "title": {"default": "Короткий круг по двору", "translations": {"ru": "Короткий круг по двору"}},
+    "summary": {"default": "Синяя перекладина санок, красный ободок у поленницы и боковой щит вывели меня обратно к двору. Санки остались там, где я их оставил; с этой стороны понятнее, как вернуться к крыльцу. Любое из этих мест можно оставить и осмотреть позже. Для дороги к ФАПу этот круг не нужен.", "translations": {"ru": "Синяя перекладина санок, красный ободок у поленницы и боковой щит вывели меня обратно к двору. Санки остались там, где я их оставил; с этой стороны понятнее, как вернуться к крыльцу. Любое из этих мест можно оставить и осмотреть позже. Для дороги к ФАПу этот круг не нужен."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:knowledge/discovery-babai-yard-sled-repair", "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner", "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {"schemaVersion": 1, "id": "urman.chapter1:text/observe-well-tie", "value": {"default": "Посмотреть, как держится варежка", "translations": {"ru": "Посмотреть, как держится варежка"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/observe-bench-plank", "value": {"default": "Рассмотреть светлую полоску на скамье", "translations": {"ru": "Рассмотреть светлую полоску на скамье"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/observe-branch-profile", "value": {"default": "Проследить странный контур у тропы", "translations": {"ru": "Проследить странный контур у тропы"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/observation-check-in-world", "value": {"default": "Закрыть запись и проверить на месте.", "translations": {"ru": "Закрыть запись и проверить на месте."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/observation-leave", "value": {"default": "Оставить вопрос и вернуться позже.", "translations": {"ru": "Оставить вопрос и вернуться позже."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/well-wrong-attempt", "value": {"default": "По одной варежке понять, кто её оставил.", "translations": {"ru": "По одной варежке понять, кто её оставил."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/bench-wrong-attempt", "value": {"default": "Поддеть светлую планку: может, под ней тайник?", "translations": {"ru": "Поддеть светлую планку: может, под ней тайник?"}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/profile-wrong-attempt", "value": {"default": "Из этого силуэта заключить, что у тропы человек.", "translations": {"ru": "Из этого силуэта заключить, что у тропы человек."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/observe-photo-facade-windows", "value": {"default": "Посчитать окна на фасаде", "translations": {"ru": "Посчитать окна на фасаде"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/observe-photo-yard", "value": {"default": "Сверить берёзу, калитку и три окна", "translations": {"ru": "Сверить берёзу, калитку и три окна"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/inspect-photo-gate-repair", "value": {"default": "Рассмотреть стык светлой вставки", "translations": {"ru": "Рассмотреть стык светлой вставки"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/observe-sketch-landmarks", "value": {"default": "Сверить канаву, бирку и внешнюю ограду", "translations": {"ru": "Сверить канаву, бирку и внешнюю ограду"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/inspect-sketch-tag-base", "value": {"default": "Смахнуть снег с нижнего края бирки", "translations": {"ru": "Смахнуть снег с нижнего края бирки"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/compare-photo-yard", "value": {"default": "Сопоставить три ориентира, затем проверить вставку.", "translations": {"ru": "Сопоставить три ориентира, затем проверить вставку."}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/compare-photo-yard-result", "value": {"default": "Берёза слева, косая перекладина и три окна совпали в расположении. Но нижняя часть калитки выглядит иначе. Подойду и проверю стык, не объясняя его по одному пятну света.", "translations": {"ru": "Берёза слева, косая перекладина и три окна совпали в расположении. Но нижняя часть калитки выглядит иначе. Подойду и проверю стык, не объясняя его по одному пятну света."}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/compare-photo-neighbor", "value": {"default": "Считать похожий соседний двор местом снимка.", "translations": {"ru": "Считать похожий соседний двор местом снимка."}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/compare-sketch-place", "value": {"default": "Сопоставить три ориентира с рисунком.", "translations": {"ru": "Сопоставить три ориентира с рисунком."}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/compare-sketch-place-result", "value": {"default": "Канава с биркой слева, ограда справа, путь снаружи — расположение совпало. У рисунка есть предел: сейчас нижний край бирки под снегом. Проверю его руками, прежде чем искать дополнительные знаки.", "translations": {"ru": "Канава с биркой слева, ограда справа, путь снаружи — расположение совпало. У рисунка есть предел: сейчас нижний край бирки под снегом. Проверю его руками, прежде чем искать дополнительные знаки."}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/compare-sketch-minaret", "value": {"default": "Принять вид на минарет за место рисунка.", "translations": {"ru": "Принять вид на минарет за место рисунка."}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/return-local-words", "value": {"default": "Вернуться к слову на указателе", "translations": {"ru": "Вернуться к слову на указателе"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/local-words-question", "value": {"default": "Варежка на рукояти, старый указатель, коробка с нитками дома. Я снова у стрелки. На ней «юл»; на карточке было «өй». Одно ли это слово?", "translations": {"ru": "Варежка на рукояти, старый указатель, коробка с нитками дома. Я снова у стрелки. На ней «юл»; на карточке было «өй». Одно ли это слово?"}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/local-words-correct", "value": {"default": "Разные: юл — дорога, өй — дом.", "translations": {"ru": "Разные: юл — дорога, өй — дом."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/local-words-wrong", "value": {"default": "Обе надписи означают «дом».", "translations": {"ru": "Обе надписи означают «дом»."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/local-words-correction", "value": {"default": "На карточке были другие буквы. Можно перечитать обе записи в журнале: значение не меняется оттого, что стрелка ведёт к дому.", "translations": {"ru": "На карточке были другие буквы. Можно перечитать обе записи в журнале: значение не меняется оттого, что стрелка ведёт к дому."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/local-words-result", "value": {"default": "Юл — дорога, өй — дом. Старую стрелку я теперь узнаю с обратной стороны. Отсюда можно продолжить по улице или снова зайти домой; карточка останется в коробке.", "translations": {"ru": "Юл — дорога, өй — дом. Старую стрелку я теперь узнаю с обратной стороны. Отсюда можно продолжить по улице или снова зайти домой; карточка останется в коробке."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/return-yard-loop", "value": {"default": "Узнать двор с обратной стороны прохода", "translations": {"ru": "Узнать двор с обратной стороны прохода"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/ask-mansur-photo", "value": {"default": "Показать Мансуру фотографию и спросить о калитке", "translations": {"ru": "Показать Мансуру фотографию и спросить о калитке"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/mansur-photo-question", "value": {"default": "«Что нашёл?» Мансур смотрит на снимок. Я могу показать ему калитку и спросить об отличии, которое проверил во дворе.", "translations": {"ru": "«Что нашёл?» Мансур смотрит на снимок. Я могу показать ему калитку и спросить об отличии, которое проверил во дворе."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/mansur-photo-ask-seam", "value": {"default": "На снимке низ калитки целиком синий. Сейчас там вставка со стыком. Ты помнишь её?", "translations": {"ru": "На снимке низ калитки целиком синий. Сейчас там вставка со стыком. Ты помнишь её?"}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/mansur-photo-reply", "value": {"default": "Мансур приближает снимок. «Ты на ручку едва дотягивался. А теперь первым делом доску проверяешь». Уголок рта чуть поднимается. Он возвращает фотографию, ещё раз коснувшись края. Ни года, ни мастера он не назвал; этот ответ нельзя дописать за него. Но сейчас я принёс ему не только вопрос о чужой записи.", "translations": {"ru": "Мансур приближает снимок. «Ты на ручку едва дотягивался. А теперь первым делом доску проверяешь». Уголок рта чуть поднимается. Он возвращает фотографию, ещё раз коснувшись края. Ни года, ни мастера он не назвал; этот ответ нельзя дописать за него. Но сейчас я принёс ему не только вопрос о чужой записи."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/choice-gulsina-open-tin", "value": {"default": "Нашёл карточку «өй» в коробке с нитками. Крышку пока оставил открытой.", "translations": {"ru": "Нашёл карточку «өй» в коробке с нитками. Крышку пока оставил открытой."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-gulsina-open-tin", "value": {"default": "Гульсина смотрит на поднятую крышку. «Нашёл всё-таки. Только мотки обратно положи, а то опять будем искать нужный цвет». Она подвигает ко мне чашку. Открытая коробка осталась у нас перед глазами; разговор о ней не закрыл остальные вопросы.", "translations": {"ru": "Гульсина смотрит на поднятую крышку. «Нашёл всё-таки. Только мотки обратно положи, а то опять будем искать нужный цвет». Она подвигает ко мне чашку. Открытая коробка осталась у нас перед глазами; разговор о ней не закрыл остальные вопросы."}}, "purpose": "dialogue"},
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:dialogue/well_observation", "participantRoles": ["aidar"], "startNodeId": "question",
+    "nodes": [
+      {"id": "question", "speakerRole": "aidar", "textId": "urman.chapter1:text/ex11-well-observation", "conditions": [], "effects": [], "choices": [
+        {"id": "guess-owner", "textId": "urman.chapter1:text/well-wrong-attempt", "conditions": [], "effects": [], "nextNodeId": "front-refusal"},
+        {"id": "check-behind", "textId": "urman.chapter1:text/observation-check-in-world", "conditions": [], "effects": [], "nextNodeId": null},
+        {"id": "leave", "textId": "urman.chapter1:text/observation-leave", "conditions": [], "effects": [], "nextNodeId": null}
+      ]},
+      {"id": "front-refusal", "speakerRole": "aidar", "textId": "urman.chapter1:text/ex11-well-front-refusal", "conditions": [], "effects": [], "choices": [
+        {"id": "check-behind", "textId": "urman.chapter1:text/observation-check-in-world", "conditions": [], "effects": [], "nextNodeId": null}
+      ]}
+    ]
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:dialogue/bench_observation", "participantRoles": ["aidar"], "startNodeId": "question",
+    "nodes": [
+      {"id": "question", "speakerRole": "aidar", "textId": "urman.chapter1:text/ex11-bench-observation", "conditions": [], "effects": [], "choices": [
+        {"id": "pry-plank", "textId": "urman.chapter1:text/bench-wrong-attempt", "conditions": [], "effects": [], "nextNodeId": "pry-refusal"},
+        {"id": "brush-snow", "textId": "urman.chapter1:text/observation-check-in-world", "conditions": [], "effects": [], "nextNodeId": null},
+        {"id": "leave", "textId": "urman.chapter1:text/observation-leave", "conditions": [], "effects": [], "nextNodeId": null}
+      ]},
+      {"id": "pry-refusal", "speakerRole": "aidar", "textId": "urman.chapter1:text/ex11-bench-pry-refusal", "conditions": [], "effects": [], "choices": [
+        {"id": "brush-snow", "textId": "urman.chapter1:text/observation-check-in-world", "conditions": [], "effects": [], "nextNodeId": null}
+      ]}
+    ]
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:dialogue/profile_observation", "participantRoles": ["aidar"], "startNodeId": "question",
+    "nodes": [
+      {"id": "question", "speakerRole": "aidar", "textId": "urman.chapter1:text/ex11-profile-observation", "conditions": [], "effects": [], "choices": [
+        {"id": "name-person", "textId": "urman.chapter1:text/profile-wrong-attempt", "conditions": [], "effects": [], "nextNodeId": "front-refusal"},
+        {"id": "check-side", "textId": "urman.chapter1:text/observation-check-in-world", "conditions": [], "effects": [], "nextNodeId": null},
+        {"id": "leave", "textId": "urman.chapter1:text/observation-leave", "conditions": [], "effects": [], "nextNodeId": null}
+      ]},
+      {"id": "front-refusal", "speakerRole": "aidar", "textId": "urman.chapter1:text/ex11-profile-front-refusal", "conditions": [], "effects": [], "choices": [
+        {"id": "check-side", "textId": "urman.chapter1:text/observation-check-in-world", "conditions": [], "effects": [], "nextNodeId": null}
+      ]}
+    ]
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:dialogue/local_words_return", "participantRoles": ["aidar"], "startNodeId": "question",
+    "nodes": [
+      {"id": "question", "speakerRole": "aidar", "textId": "urman.chapter1:text/local-words-question", "conditions": [], "effects": [], "choices": [
+        {"id": "different-words", "textId": "urman.chapter1:text/local-words-correct", "conditions": [], "effects": [], "nextNodeId": "words-distinguished"},
+        {"id": "same-word", "textId": "urman.chapter1:text/local-words-wrong", "conditions": [], "effects": [], "nextNodeId": "correction"},
+        {"id": "leave", "textId": "urman.chapter1:text/observation-leave", "conditions": [], "effects": [], "nextNodeId": null}
+      ]},
+      {"id": "correction", "speakerRole": "aidar", "textId": "urman.chapter1:text/local-words-correction", "conditions": [], "effects": [], "choices": [
+        {"id": "reconsider", "textId": "urman.chapter1:text/return-local-words", "conditions": [], "effects": [], "nextNodeId": "question"},
+        {"id": "leave", "textId": "urman.chapter1:text/observation-leave", "conditions": [], "effects": [], "nextNodeId": null}
+      ]},
+      {"id": "words-distinguished", "speakerRole": "aidar", "textId": "urman.chapter1:text/local-words-result",
+        "conditions": [
+          {"op": "npc.state", "characterId": "urman.chapter1:character/aidar", "stateKey": "local_words_sign_revisited", "value": true},
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-arrival-insulated-well", "status": "confirmed"},
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-main-street-sign-reverse", "status": "confirmed"},
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-house-interior-language-tin", "status": "confirmed"}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_local_words_return", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_local_words_return", "sourceId": "urman.chapter1:knowledge/clue_local_words_return"}
+        ], "choices": []}
+    ]
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:scene/exploration-observation-checks", "sceneType": "presentation",
+    "title": {"default": "Проверка замеченных деталей", "translations": {"ru": "Проверка замеченных деталей"}},
+    "assetRefs": [], "textRefs": [], "entryConditions": [], "onEnter": [], "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.chapter1:interaction/observe-well-tie", "labelTextId": "urman.chapter1:text/observe-well-tie",
+        "conditions": [
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/observation-well-tie", "status": "confirmed"}},
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-arrival-insulated-well", "status": "confirmed"}}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/observation-well-tie", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/observation-well-tie", "sourceId": "urman.chapter1:knowledge/observation-well-tie"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetDialogueId": "urman.chapter1:dialogue/well_observation"
+      },
+      {
+        "id": "urman.chapter1:interaction/observe-bench-plank", "labelTextId": "urman.chapter1:text/observe-bench-plank",
+        "conditions": [
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/observation-bench-plank", "status": "confirmed"}},
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-zirat-outer-rest-bench", "status": "confirmed"}}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/observation-bench-plank", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/observation-bench-plank", "sourceId": "urman.chapter1:knowledge/observation-bench-plank"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetDialogueId": "urman.chapter1:dialogue/bench_observation"
+      },
+      {
+        "id": "urman.chapter1:interaction/observe-branch-profile", "labelTextId": "urman.chapter1:text/observe-branch-profile",
+        "conditions": [
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/observation-branch-overlap", "status": "confirmed"}},
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-kara-branch-profile", "status": "hidden"}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/observation-branch-overlap", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/observation-branch-overlap", "sourceId": "urman.chapter1:knowledge/observation-branch-overlap"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetDialogueId": "urman.chapter1:dialogue/profile_observation"
+      },
+      {
+        "id": "urman.chapter1:interaction/observe-photo-facade-windows", "labelTextId": "urman.chapter1:text/observe-photo-facade-windows",
+        "conditions": [
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_first_snow_source_read", "status": "confirmed"},
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_facade_windows_observed", "status": "confirmed"}}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_facade_windows_observed", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_photo_facade_windows_observed", "sourceId": "urman.chapter1:knowledge/clue_photo_facade_windows_observed"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetJournalEntryId": "urman.chapter1:knowledge/clue_photo_facade_windows_observed"
+      },
+      {
+        "id": "urman.chapter1:interaction/observe-photo-yard", "labelTextId": "urman.chapter1:text/observe-photo-yard",
+        "conditions": [
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_first_snow_source_read", "status": "confirmed"},
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_yard_observed", "status": "confirmed"}}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_yard_observed", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_photo_yard_observed", "sourceId": "urman.chapter1:knowledge/clue_photo_yard_observed"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetJournalEntryId": "urman.chapter1:knowledge/clue_photo_yard_observed"
+      },
+      {
+        "id": "urman.chapter1:interaction/inspect-photo-gate-repair", "labelTextId": "urman.chapter1:text/inspect-photo-gate-repair",
+        "conditions": [
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_place_compared", "status": "confirmed"},
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_gate_repair_checked", "status": "confirmed"}}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_gate_repair_checked", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_photo_gate_repair_checked", "sourceId": "urman.chapter1:knowledge/clue_photo_gate_repair_checked"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetJournalEntryId": "urman.chapter1:knowledge/clue_photo_gate_repair_checked"
+      },
+      {
+        "id": "urman.chapter1:interaction/observe-sketch-landmarks", "labelTextId": "urman.chapter1:text/observe-sketch-landmarks",
+        "conditions": [
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed"},
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_sketch_field_landmarks", "status": "confirmed"}}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_sketch_field_landmarks", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_sketch_field_landmarks", "sourceId": "urman.chapter1:knowledge/clue_sketch_field_landmarks"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetJournalEntryId": "urman.chapter1:knowledge/clue_sketch_field_landmarks"
+      },
+      {
+        "id": "urman.chapter1:interaction/inspect-sketch-tag-base", "labelTextId": "urman.chapter1:text/inspect-sketch-tag-base",
+        "conditions": [
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_sketch_place_compared", "status": "confirmed"},
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_sketch_tag_base_checked", "status": "confirmed"}}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_sketch_tag_base_checked", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_sketch_tag_base_checked", "sourceId": "urman.chapter1:knowledge/clue_sketch_tag_base_checked"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetJournalEntryId": "urman.chapter1:knowledge/clue_sketch_tag_base_checked"
+      },
+      {
+        "id": "urman.chapter1:interaction/return-local-words", "labelTextId": "urman.chapter1:text/return-local-words",
+        "conditions": [
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-arrival-insulated-well", "status": "confirmed"},
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-main-street-sign-reverse", "status": "confirmed"},
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-house-interior-language-tin", "status": "confirmed"},
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_local_words_return", "status": "confirmed"}}
+        ], "effects": [{"op": "npc.set-state", "characterId": "urman.chapter1:character/aidar", "stateKey": "local_words_sign_revisited", "value": true}], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetDialogueId": "urman.chapter1:dialogue/local_words_return"
+      },
+      {
+        "id": "urman.chapter1:interaction/return-yard-loop", "labelTextId": "urman.chapter1:text/return-yard-loop",
+        "conditions": [
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair", "status": "confirmed"},
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner", "status": "confirmed"},
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board", "status": "confirmed"},
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_yard_loop_return", "status": "confirmed"}}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_yard_loop_return", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_yard_loop_return", "sourceId": "urman.chapter1:knowledge/clue_yard_loop_return"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetJournalEntryId": "urman.chapter1:knowledge/clue_yard_loop_return"
+      },
+      {
+        "id": "urman.chapter1:interaction/compare-photo-yard", "labelTextId": "urman.chapter1:text/compare-photo-yard",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_place_compared", "status": "confirmed"}}],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_place_compared", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_photo_place_compared", "sourceId": "urman.chapter1:knowledge/clue_photo_place_compared"}
+        ], "journalAction": {"sourceIds": ["urman.chapter1:document/first-snow-photo", "urman.chapter1:knowledge/clue_photo_yard_observed"], "resultTextId": "urman.chapter1:text/compare-photo-yard-result"}
+      },
+      {
+        "id": "urman.chapter1:interaction/compare-photo-neighbor", "labelTextId": "urman.chapter1:text/compare-photo-neighbor", "conditions": [], "effects": [],
+        "journalAction": {"sourceIds": ["urman.chapter1:document/first-snow-photo", "urman.chapter1:knowledge/discovery-main-street-side-window"], "resultTextId": "urman.chapter1:text/ex12-photo-neighbor-reject"}
+      },
+      {
+        "id": "urman.chapter1:interaction/compare-sketch-place", "labelTextId": "urman.chapter1:text/compare-sketch-place",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_sketch_place_compared", "status": "confirmed"}}],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_sketch_place_compared", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_sketch_place_compared", "sourceId": "urman.chapter1:knowledge/clue_sketch_place_compared"}
+        ], "journalAction": {"sourceIds": ["urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_sketch_field_landmarks"], "resultTextId": "urman.chapter1:text/compare-sketch-place-result"}
+      },
+      {
+        "id": "urman.chapter1:interaction/compare-sketch-minaret", "labelTextId": "urman.chapter1:text/compare-sketch-minaret", "conditions": [], "effects": [],
+        "journalAction": {"sourceIds": ["urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view"], "resultTextId": "urman.chapter1:text/ex12-sketch-minaret-reject"}
+      }
+    ]
+  }
+]

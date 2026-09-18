@@ -1,0 +1,495 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:asset/photo-marat-childhood",
+    "kind": "image",
+    "file": "images/arrival_marat_childhood_existing_v1.png",
+    "mediaType": "image/png",
+    "sha256": "c4647904f1aad0ea492858547e3f3493c9356c6ef87270d34d244f4fb882ac20",
+    "variants": [],
+    "accessibility": {
+      "decorative": false,
+      "altTextId": "urman.chapter1:text/photo-marat-childhood-alt"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/photo-marat-childhood-alt",
+    "value": {
+      "default": "Детская фотография Айдара и Марата: двое мальчиков стоят рядом во дворе; один обнимает другого за плечо, другой держит старый футбольный мяч. За ними деревянный дом и ограда. Снимок выцвел, по краям светлая бумажная рамка. Подпись на обороте: «Казанский, не отставай».",
+      "translations": {
+        "ru": "Детская фотография Айдара и Марата: двое мальчиков стоят рядом во дворе; один обнимает другого за плечо, другой держит старый футбольный мяч. За ними деревянный дом и ограда. Снимок выцвел, по краям светлая бумажная рамка. Подпись на обороте: «Казанский, не отставай»."
+      }
+    },
+    "purpose": "accessibility"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:knowledge/arrival_mother_message_read",
+    "kind": "fact",
+    "title": {
+      "default": "Мама ждёт ответа",
+      "translations": {
+        "ru": "Мама ждёт ответа"
+      }
+    },
+    "summary": {
+      "default": "Мама спросила, доехал ли я, и напомнила зайти к бабаю и әби. Они меня ждут.",
+      "translations": {
+        "ru": "Мама спросила, доехал ли я, и напомнила зайти к бабаю и әби. Они меня ждут."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.chapter1:document/arrival-mother-message"
+    ],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:knowledge/arrival_reply_help_babai",
+    "kind": "fact",
+    "title": {
+      "default": "Сначала помогу бабаю",
+      "translations": {
+        "ru": "Сначала помогу бабаю"
+      }
+    },
+    "summary": {
+      "default": "Я ответил маме: «Я просто помогу бабаю». Снимок с Маратом убрал, но его «Казанский, не отставай» осталось в голове. Теперь — к бабаю и әби.",
+      "translations": {
+        "ru": "Я ответил маме: «Я просто помогу бабаю». Снимок с Маратом убрал, но его «Казанский, не отставай» осталось в голове. Теперь — к бабаю и әби."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.chapter1:dialogue/arrival_mother_reply",
+      "urman.chapter1:document/arrival-mother-message",
+      "urman.chapter1:document/arrival-photo-evidence"
+    ],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:knowledge/arrival_reply_kept_silent",
+    "kind": "fact",
+    "title": {
+      "default": "Пока без ответа",
+      "translations": {
+        "ru": "Пока без ответа"
+      }
+    },
+    "summary": {
+      "default": "Я прочитал сообщение мамы и убрал телефон, ничего не написав. Фото Марата вернул в карман. Сначала увижу бабая и әби; объяснить себе возвращение пока труднее, чем просто войти.",
+      "translations": {
+        "ru": "Я прочитал сообщение мамы и убрал телефон, ничего не написав. Фото Марата вернул в карман. Сначала увижу бабая и әби; объяснить себе возвращение пока труднее, чем просто войти."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.chapter1:dialogue/arrival_mother_reply",
+      "urman.chapter1:document/arrival-mother-message",
+      "urman.chapter1:document/arrival-photo-evidence"
+    ],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/view-arrival-message",
+    "value": {
+      "default": "Прочитать сообщение мамы",
+      "translations": {
+        "ru": "Прочитать сообщение мамы"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/view-arrival-photo",
+    "value": {
+      "default": "Посмотреть фотографию Марата",
+      "translations": {
+        "ru": "Посмотреть фотографию Марата"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/arrival-answer-mother",
+    "value": {
+      "default": "Ответить маме",
+      "translations": {
+        "ru": "Ответить маме"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/arrival-enter-house",
+    "value": {
+      "default": "Войти к бабаю и әби",
+      "translations": {
+        "ru": "Войти к бабаю и әби"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/arrival-mother-reply",
+    "value": {
+      "default": "Мама спросила, доехал ли я. Да, доехал. Фотография передо мной; на ней Марат стоит рядом со мной. Что ей ответить?",
+      "translations": {
+        "ru": "Мама спросила, доехал ли я. Да, доехал. Фотография передо мной; на ней Марат стоит рядом со мной. Что ей ответить?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/arrival-reply-help-babai",
+    "value": {
+      "default": "Написать: «Я просто помогу бабаю».",
+      "translations": {
+        "ru": "Написать: «Я просто помогу бабаю»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/arrival-reply-keep-silent",
+    "value": {
+      "default": "Убрать телефон, не отвечая.",
+      "translations": {
+        "ru": "Убрать телефон, не отвечая."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/arrival-reply-help-result",
+    "value": {
+      "default": "Отправлено. Убираю снимок и телефон. Адрес бабая — {address:ADR-BABAI}. Пора найти дом.",
+      "translations": {
+        "ru": "Отправлено. Убираю снимок и телефон. Адрес бабая — {address:ADR-BABAI}. Пора найти дом."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/arrival-reply-silent-result",
+    "value": {
+      "default": "Пока ничего не пишу. Убираю снимок и телефон. Адрес бабая — {address:ADR-BABAI}. Пора найти дом.",
+      "translations": {
+        "ru": "Пока ничего не пишу. Убираю снимок и телефон. Адрес бабая — {address:ADR-BABAI}. Пора найти дом."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:dialogue/arrival_mother_reply",
+    "participantRoles": [
+      "aidar"
+    ],
+    "startNodeId": "reply",
+    "nodes": [
+      {
+        "id": "reply",
+        "speakerRole": "aidar",
+        "textId": "urman.chapter1:text/arrival-mother-reply",
+        "conditions": [
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.chapter1:knowledge/arrival_mother_message_read",
+            "status": "confirmed"
+          },
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
+            "status": "confirmed"
+          },
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
+            "status": "confirmed"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "any",
+              "conditions": [
+                {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/arrival_reply_help_babai",
+                  "status": "confirmed"
+                },
+                {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/arrival_reply_kept_silent",
+                  "status": "confirmed"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [],
+        "choices": [
+          {
+            "id": "help-babai",
+            "textId": "urman.chapter1:text/arrival-reply-help-babai",
+            "conditions": [
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.chapter1:knowledge/arrival_mother_message_read",
+                "status": "confirmed"
+              },
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
+                "status": "confirmed"
+              },
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
+                "status": "confirmed"
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "any",
+                  "conditions": [
+                    {
+                      "op": "knowledge.status",
+                      "knowledgeId": "urman.chapter1:knowledge/arrival_reply_help_babai",
+                      "status": "confirmed"
+                    },
+                    {
+                      "op": "knowledge.status",
+                      "knowledgeId": "urman.chapter1:knowledge/arrival_reply_kept_silent",
+                      "status": "confirmed"
+                    }
+                  ]
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.chapter1:knowledge/arrival_reply_help_babai",
+                "status": "confirmed"
+              },
+              {
+                "op": "journal.record",
+                "entryId": "urman.chapter1:knowledge/arrival_reply_help_babai",
+                "sourceId": "urman.chapter1:knowledge/arrival_reply_help_babai"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.chapter1:beat/arrival",
+                "state": "completed"
+              }
+            ],
+            "nextNodeId": "help-result"
+          },
+          {
+            "id": "keep-silent",
+            "textId": "urman.chapter1:text/arrival-reply-keep-silent",
+            "conditions": [
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.chapter1:knowledge/arrival_mother_message_read",
+                "status": "confirmed"
+              },
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
+                "status": "confirmed"
+              },
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
+                "status": "confirmed"
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "any",
+                  "conditions": [
+                    {
+                      "op": "knowledge.status",
+                      "knowledgeId": "urman.chapter1:knowledge/arrival_reply_help_babai",
+                      "status": "confirmed"
+                    },
+                    {
+                      "op": "knowledge.status",
+                      "knowledgeId": "urman.chapter1:knowledge/arrival_reply_kept_silent",
+                      "status": "confirmed"
+                    }
+                  ]
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.chapter1:knowledge/arrival_reply_kept_silent",
+                "status": "confirmed"
+              },
+              {
+                "op": "journal.record",
+                "entryId": "urman.chapter1:knowledge/arrival_reply_kept_silent",
+                "sourceId": "urman.chapter1:knowledge/arrival_reply_kept_silent"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.chapter1:beat/arrival",
+                "state": "completed"
+              }
+            ],
+            "nextNodeId": "silent-result"
+          }
+        ]
+      },
+      {
+        "id": "help-result",
+        "speakerRole": "aidar",
+        "textId": "urman.chapter1:text/arrival-reply-help-result",
+        "conditions": [],
+        "effects": [],
+        "choices": []
+      },
+      {
+        "id": "silent-result",
+        "speakerRole": "aidar",
+        "textId": "urman.chapter1:text/arrival-reply-silent-result",
+        "conditions": [],
+        "effects": [],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:scene/arrival-personal-sources",
+    "sceneType": "presentation",
+    "assetRefs": [],
+    "textRefs": [],
+    "entryConditions": [],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.chapter1:interaction/view-arrival-message",
+        "labelTextId": "urman.chapter1:text/view-arrival-message",
+        "conditions": [
+          {
+            "op": "not",
+            "condition": {
+              "op": "all",
+              "conditions": [
+                {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/arrival_mother_message_read",
+                  "status": "confirmed"
+                },
+                {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
+                  "status": "confirmed"
+                },
+                {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
+                  "status": "confirmed"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [],
+        "worldLocations": [
+          "village_day"
+        ],
+        "targetDocumentId": "urman.chapter1:document/arrival-mother-message"
+      },
+      {
+        "id": "urman.chapter1:interaction/view-arrival-photo",
+        "labelTextId": "urman.chapter1:text/view-arrival-photo",
+        "conditions": [
+          {
+            "op": "not",
+            "condition": {
+              "op": "any",
+              "conditions": [
+                {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/arrival_reply_help_babai", "status": "confirmed"},
+                {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/arrival_reply_kept_silent", "status": "confirmed"}
+              ]
+            }
+          }
+        ],
+        "effects": [],
+        "worldLocations": [
+          "village_day"
+        ],
+        "targetDocumentId": "urman.chapter1:document/arrival-photo-evidence"
+      },
+      {
+        "id": "urman.chapter1:interaction/arrival-answer-mother",
+        "labelTextId": "urman.chapter1:text/arrival-answer-mother",
+        "conditions": [
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.chapter1:knowledge/arrival_mother_message_read",
+            "status": "confirmed"
+          },
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
+            "status": "confirmed"
+          },
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
+            "status": "confirmed"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "any",
+              "conditions": [
+                {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/arrival_reply_help_babai",
+                  "status": "confirmed"
+                },
+                {
+                  "op": "knowledge.status",
+                  "knowledgeId": "urman.chapter1:knowledge/arrival_reply_kept_silent",
+                  "status": "confirmed"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [],
+        "worldLocations": [
+          "village_day"
+        ],
+        "targetDialogueId": "urman.chapter1:dialogue/arrival_mother_reply"
+      }
+    ]
+  }
+]

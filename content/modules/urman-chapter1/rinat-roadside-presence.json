@@ -1,0 +1,108 @@
+[
+  {
+    "contradicts": [],
+    "id": "urman.chapter1:knowledge/clue_rinat_at_roadside",
+    "initialStatus": "hidden",
+    "kind": "fact",
+    "reveals": [],
+    "schemaVersion": 1,
+    "sourceIds": [
+      "urman.chapter1:scene/zirat-road"
+    ],
+    "summary": {
+      "default": "Ринат уже здесь, на правой обочине. В руке фонарь; свет ложится на снег у дороги. Он стоит лицом к дороге и молчит. Я видел его здесь до того, как подошёл к кромке.",
+      "translations": {
+        "ru": "Ринат уже здесь, на правой обочине. В руке фонарь; свет ложится на снег у дороги. Он стоит лицом к дороге и молчит. Я видел его здесь до того, как подошёл к кромке."
+      }
+    },
+    "title": {
+      "default": "Ринат у зиратской дороги",
+      "translations": {
+        "ru": "Ринат у зиратской дороги"
+      }
+    },
+    "unlocks": []
+  },
+  {
+    "id": "urman.chapter1:text/observe-rinat-roadside",
+    "purpose": "ui",
+    "schemaVersion": 1,
+    "value": {
+      "default": "Рассмотреть свет у дороги",
+      "translations": {
+        "ru": "Рассмотреть свет у дороги"
+      }
+    }
+  },
+  {
+    "id": "urman.chapter1:text/objective-rinat-roadside",
+    "purpose": "ui",
+    "schemaVersion": 1,
+    "value": {
+      "default": "На правой обочине свет. Подойти и посмотреть, кто держит фонарь.",
+      "translations": {
+        "ru": "На правой обочине свет. Подойти и посмотреть, кто держит фонарь."
+      }
+    }
+  },
+  {
+    "assetRefs": [],
+    "entryConditions": [],
+    "id": "urman.chapter1:scene/rinat-roadside-presence",
+    "interactions": [
+      {
+        "conditions": [
+          {
+            "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
+            "op": "knowledge.status",
+            "status": "confirmed"
+          },
+          {
+            "characterId": "urman.chapter1:character/rinat",
+            "op": "npc.state",
+            "stateKey": "alerted",
+            "value": true
+          },
+          {
+            "condition": {
+              "beatId": "urman.chapter1:beat/rinat-visible-before-edge",
+              "op": "beat.state",
+              "state": "completed"
+            },
+            "op": "not"
+          }
+        ],
+        "effects": [
+          {
+            "knowledgeId": "urman.chapter1:knowledge/clue_rinat_at_roadside",
+            "op": "knowledge.set-status",
+            "status": "confirmed"
+          },
+          {
+            "entryId": "urman.chapter1:knowledge/clue_rinat_at_roadside",
+            "op": "journal.record",
+            "sourceId": "urman.chapter1:knowledge/clue_rinat_at_roadside"
+          },
+          {
+            "beatId": "urman.chapter1:beat/rinat-visible-before-edge",
+            "op": "beat.set-state",
+            "state": "completed"
+          }
+        ],
+        "id": "urman.chapter1:interaction/observe-rinat-roadside",
+        "labelTextId": "urman.chapter1:text/observe-rinat-roadside",
+        "worldLocations": [
+          "zirat_road"
+        ]
+      }
+    ],
+    "onEnter": [],
+    "onExit": [],
+    "sceneType": "presentation",
+    "schemaVersion": 1,
+    "textRefs": [
+      "urman.chapter1:text/observe-rinat-roadside",
+      "urman.chapter1:text/objective-rinat-roadside"
+    ]
+  }
+]

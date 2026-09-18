@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "tool": "eng/prepare-radio-wav.py",
+  "pythonVersion": "3.11.9",
+  "source": "decoded-pcm16.wav",
+  "sourceSha256": "78311d662d47d880860907ce1832a290ec0160d2448fa897784acc3bbc9c8e5d",
+  "output": "music-one-v2.wav",
+  "outputSha256": "5b147604c8ed33bc022c2a17a882fb0652241069b69a1cd2a643d1caf0c59544",
+  "processing": "canonical integer PCM16 WAVE; constant attenuation only; no resampling, trimming, time stretch, or generated samples",
+  "linearGain": 0.7776723923130885,
+  "gainDb": -2.1840663680468957,
+  "audio": {
+    "durationSeconds": 202.06933333333333,
+    "sampleRate": 48000,
+    "channels": 1,
+    "bitsPerSample": 16,
+    "frames": 9699328,
+    "peakDbfs": -2.9999878172428636,
+    "rmsDbfs": -32.17186180070926,
+    "leadingSilenceSeconds": 0.0468125,
+    "trailingSilenceSeconds": 0.06404166666666666
+  },
+  "acceptance": "technical preparation only; source rights and listening remain separate"
+}

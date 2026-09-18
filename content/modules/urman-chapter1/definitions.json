@@ -135,9 +135,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/scene-arrival-title",
   "value": {
-   "default": "Road to Kyrlay",
+   "default": "Road to Kara-Urman village",
    "translations": {
-    "ru": "Дорога к Кырлаю"
+    "ru": "Дорога в Кара-Урман"
    }
   },
   "purpose": "ui"
@@ -157,9 +157,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/scene-route-title",
   "value": {
-   "default": "Kyrlay route",
+   "default": "Kara-Urman village street",
    "translations": {
-    "ru": "Улица Кырлая"
+    "ru": "Улица деревни Кара-Урман"
    }
   },
   "purpose": "ui"
@@ -278,9 +278,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-alsu-route",
   "value": {
-   "default": "Alsu points to the faded sign: “Зират is that way. People tell Marat's story differently; we take the main street first.”",
+   "default": "Алсу показывает вдоль улицы: «Зират — дальше по этой дороге, за последними домами. Ты ведь столько лет не приезжал. Что тебе говорили о Марате?»",
    "translations": {
-    "ru": "Алсу поправляет шарф и показывает вдоль улицы: «Зират — вон туда, за последними домами. Ты к Марату? Давай сначала здесь поговорим. Ты ведь столько лет не приезжал. Что тебе дома сказали?»"
+    "ru": "Алсу показывает вдоль улицы: «Зират — дальше по этой дороге, за последними домами. Ты ведь столько лет не приезжал. Что тебе говорили о Марате?»"
    }
   },
   "purpose": "dialogue"
@@ -388,9 +388,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-timur-restraint",
   "value": {
-   "default": "«Айдар, ты совсем замёрз. Постой здесь, за забором меньше дует». Тимур ждёт, пока я подойду. «Ты всё спрашиваешь про Марата. Что именно ты узнал?»",
+   "default": "«Айдар, ты совсем замёрз. Проходи, здесь тепло». Тимур оставляет место рядом со столом. «Ты всё спрашиваешь про Марата. Что именно ты узнал?»",
    "translations": {
-    "ru": "«Айдар, ты совсем замёрз. Постой здесь, за забором меньше дует». Тимур ждёт, пока я подойду. «Ты всё спрашиваешь про Марата. Что именно ты узнал?»"
+    "ru": "«Айдар, ты совсем замёрз. Проходи, здесь тепло». Тимур оставляет место рядом со столом. «Ты всё спрашиваешь про Марата. Что именно ты узнал?»"
    }
   },
   "purpose": "dialogue"
@@ -969,14 +969,14 @@
    }
   },
   "summary": {
-   "default": "Aidar remembers Marat as a friend, not a case file.",
+   "default": "Марат на детской фотографии. Он первым срывался с места и оборачивался: «Казанский, не отставай». Я помню, как догонял его.",
    "translations": {
-    "ru": "Айдар помнит Марата другом, а не строкой в деле."
+    "ru": "Марат на детской фотографии. Он первым срывался с места и оборачивался: «Казанский, не отставай». Я помню, как догонял его."
    }
   },
   "initialStatus": "hidden",
   "sourceIds": [
-   "urman.chapter1:scene/arrival_vehicle_dusk"
+   "urman.chapter1:document/arrival-photo-evidence"
   ],
   "reveals": [
    "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay"
@@ -995,14 +995,14 @@
    }
   },
   "summary": {
-   "default": "A personal childhood tease anchors the final voice without explaining it.",
+   "default": "«Казанский, не отставай» — так Марат поддразнивал меня в детстве. На фотографии остались эти слова, а я всё ещё помню его интонацию.",
    "translations": {
-    "ru": "Личная детская подколка связывает финальный голос с памятью, ничего не объясняя."
+    "ru": "«Казанский, не отставай» — так Марат поддразнивал меня в детстве. На фотографии остались эти слова, а я всё ещё помню его интонацию."
    }
   },
   "initialStatus": "hidden",
   "sourceIds": [
-   "urman.chapter1:scene/arrival_vehicle_dusk"
+   "urman.chapter1:document/arrival-photo-evidence"
   ],
   "reveals": [],
   "contradicts": [],
@@ -1064,22 +1064,23 @@
  {
   "schemaVersion": 1,
   "id": "urman.chapter1:knowledge/clue_marat_versions_conflict",
-  "kind": "contradiction",
+  "kind": "clue",
   "title": {
-   "default": "Different versions of Marat",
+   "default": "The question left by the accounts of Marat",
    "translations": {
-    "ru": "Разные версии о Марате"
+    "ru": "Что не объясняет справка о Марате"
    }
   },
   "summary": {
-   "default": "The village's answers do not line up, but no one calls it an investigation yet.",
+   "default": "Alsu's secondhand accounts were checked against the notice. Heart failure and an accident are in the same sentence; the accident itself is unexplained. Departure remains an unverified account. Ask Naila what the record establishes.",
    "translations": {
-    "ru": "Ответы деревни не сходятся, но никто ещё не называет это расследованием."
+    "ru": "Слова Алсу проверены по справке. Сердечная недостаточность и несчастный случай указаны в одной строке, но сам случай не описан. Рассказ об отъезде пока никто не подтвердил. Следующий вопрос Наиле — что устанавливает эта запись и какие обстоятельства в неё не вошли."
    }
   },
   "initialStatus": "hidden",
   "sourceIds": [
-   "urman.chapter1:dialogue/alsu_route_context"
+   "urman.chapter1:knowledge/clue_alsu_heard_versions",
+   "urman.oldpc:document/doc_marat_official_death_notice"
   ],
   "reveals": [],
   "contradicts": [],
@@ -1096,9 +1097,9 @@
    }
   },
   "summary": {
-   "default": "Alsu helps Aidar move through Kyrlay but avoids the forest boundary.",
+   "default": "Alsu helps Aidar navigate the village but avoids the forest boundary.",
    "translations": {
-    "ru": "Алсу помогает Айдару идти по Кырлаю, но избегает лесной границы."
+    "ru": "Алсу помогает Айдару ориентироваться в деревне, но избегает лесной границы."
    }
   },
   "initialStatus": "hidden",
@@ -1146,21 +1147,17 @@
    }
   },
   "summary": {
-   "default": "An internal category is not medical language.",
+   "default": "В отдельном поле реестра написано «Категория: граница / ответил». Пока это прочитанная строка; её отношение к внешней формулировке ещё надо проверить.",
    "translations": {
-    "ru": "Внутренняя категория не похожа на медицинский язык."
+    "ru": "В отдельном поле реестра написано «Категория: граница / ответил». Пока это прочитанная строка; её отношение к внешней формулировке ещё надо проверить."
    }
   },
   "initialStatus": "hidden",
   "sourceIds": [
-   "urman.chapter1:scene/evidence-internal-register"
+   "urman.oldpc:document/rec_marat_case_register_conflict"
   ],
-  "reveals": [
-   "urman.chapter1:knowledge/contradiction_marat_official_vs_internal"
-  ],
-  "contradicts": [
-   "urman.chapter1:knowledge/clue_marat_official_death_version"
-  ],
+  "reveals": [],
+  "contradicts": [],
   "unlocks": [
    "urman.chapter1:dialogue/rinat_internal_register"
   ]
@@ -1202,27 +1199,24 @@
   "id": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death",
   "kind": "clue",
   "title": {
-   "default": "Marat was afraid before his death",
+   "default": "Тревога в словах Марата",
    "translations": {
-    "ru": "Марат боялся перед смертью"
+    "ru": "Тревога в словах Марата"
    }
   },
   "summary": {
-   "default": "A saved message says Marat heard a voice from the urman and feared answering it.",
+   "default": "Я проверил точную фразу Марата и вернулся с ней к Алсу. Он пишет, что слышал из урмана голос; человека у деревьев описывает через «как будто». Это тревожное личное сообщение, отличающееся от пересказанных версий. Оно не показывает, кого он видел, не устанавливает причину смерти и не сообщает готового правила леса.",
    "translations": {
-    "ru": "В сохранённом сообщении Марат пишет, что слышал голос из урмана и боялся ему ответить."
+    "ru": "Я проверил точную фразу Марата и вернулся с ней к Алсу. Он пишет, что слышал из урмана голос; человека у деревьев описывает через «как будто». Это тревожное личное сообщение, отличающееся от пересказанных версий. Оно не показывает, кого он видел, не устанавливает причину смерти и не сообщает готового правила леса."
    }
   },
   "initialStatus": "hidden",
   "sourceIds": [
-   "urman.chapter1:scene/evidence-saved-message"
+   "urman.oldpc:document/msg_marat_saved_last_normal",
+   "urman.chapter1:knowledge/clue_alsu_message_reply"
   ],
-  "reveals": [
-   "urman.chapter1:knowledge/clue_folklore_as_survival_rule"
-  ],
-  "contradicts": [
-   "urman.chapter1:knowledge/clue_marat_official_death_version"
-  ],
+  "reveals": [],
+  "contradicts": [],
   "unlocks": []
  },
  {
@@ -1243,7 +1237,9 @@
   },
   "initialStatus": "hidden",
   "sourceIds": [
-   "urman.chapter1:scene/zirat-road"
+   "urman.oldpc:document/doc_kara_urman_edge_sketch",
+   "urman.chapter1:knowledge/clue_zirat_roadside_marks",
+   "urman.chapter1:knowledge/clue_sketch_field_landmarks"
   ],
   "reveals": [],
   "contradicts": [],
@@ -1303,30 +1299,29 @@
   "unlocks": []
  },
  {
-  "schemaVersion": 1,
-  "id": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
-  "kind": "hypothesis",
-  "title": {
-   "default": "Mansur left access deliberately",
-   "translations": {
-    "ru": "Мансур оставил доступ намеренно"
-   }
-  },
-  "summary": {
-   "default": "The old computer was not simply left open, but Mansur is not made into a villain.",
-   "translations": {
-    "ru": "Старый ПК оказался доступен не случайно, но Мансур не становится злодеем."
-   }
-  },
-  "initialStatus": "hidden",
-  "sourceIds": [
-   "urman.chapter1:scene/house",
-   "urman.chapter1:scene/evidence-edge-sketch"
-  ],
-  "reveals": [
-   "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary"
-  ],
   "contradicts": [],
+  "id": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+  "initialStatus": "hidden",
+  "kind": "hypothesis",
+  "reveals": [],
+  "schemaVersion": 1,
+  "sourceIds": [
+   "urman.oldpc:document/msg_mansur_unsent_note",
+   "urman.chapter1:knowledge/clue_mansur_household_request",
+   "urman.chapter1:dialogue/mansur_pc_request"
+  ],
+  "summary": {
+   "default": "В черновике предлагают дать мне увидеть бумаги дома. Мансур сразу спросил, какую папку я открыл, и указал, где лежит схема, но не объяснил, зачем оставил доступ. Похоже, он хотел держать мои поиски рядом с собой. Это предположение о его намерении, а не признание и не ответ на вопрос о Марате.",
+   "translations": {
+    "ru": "В черновике предлагают дать мне увидеть бумаги дома. Мансур сразу спросил, какую папку я открыл, и указал, где лежит схема, но не объяснил, зачем оставил доступ. Похоже, он хотел держать мои поиски рядом с собой. Это предположение о его намерении, а не признание и не ответ на вопрос о Марате."
+   }
+  },
+  "title": {
+   "default": "Мансур пустил к ПК не случайно?",
+   "translations": {
+    "ru": "Мансур пустил к ПК не случайно?"
+   }
+  },
   "unlocks": []
  },
  {
@@ -1368,9 +1363,9 @@
    }
   },
   "summary": {
-   "default": "The route is a concrete source chain, not a journal guess.",
+   "default": "Mansur's sketch follows the outside of the zirat fence: the ditch, a roadside tag with two short notches, then the old path. I need to compare those marks with the road before taking the turning.",
    "translations": {
-    "ru": "Маршрут рождается из конкретной цепочки источников, а не из догадки журнала."
+    "ru": "На схеме Мансура путь идёт вдоль внешней ограды зирата: канава, придорожная бирка с двумя короткими засечками, затем старая тропа. Сверю эти отметки с дорогой, прежде чем идти дальше."
    }
   },
   "initialStatus": "hidden",
@@ -1465,6 +1460,7 @@
    "gulsina"
   ],
   "startNodeId": "home-warning",
+  "entryRoutes": [{"conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"photo"},{"op":"not","condition":{"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"}}],"nodeId":"tea-photo-reply"},{"conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"help"},{"op":"not","condition":{"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"}}],"nodeId":"tea-help-reply"},{"conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"silent"},{"op":"not","condition":{"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"}}],"nodeId":"tea-silent-reply"},{"conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"not","condition":{"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"}}],"nodeId":"stay-for-tea-reply"}],
   "nodes": [
    {
     "id": "home-warning",
@@ -1472,6 +1468,8 @@
     "textId": "urman.chapter1:text/dialogue-gulsina-warning",
     "conditions": [],
     "effects": [
+     {"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/family_home_invitation","status":"confirmed"},
+     {"op":"journal.record","entryId":"urman.chapter1:knowledge/family_home_invitation","sourceId":"urman.chapter1:knowledge/family_home_invitation"},
      {
       "op": "vocabulary.set-status",
       "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
@@ -1485,6 +1483,14 @@
      }
     ],
     "choices": [
+     {
+      "id": "ask-open-tin",
+      "textId": "urman.chapter1:text/choice-gulsina-open-tin",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-house-interior-language-tin", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/gulsina", "stateKey": "tin_lid_noticed", "value": true}}
+      ], "effects": [{"op": "npc.set-state", "characterId": "urman.chapter1:character/gulsina", "stateKey": "tin_lid_noticed", "value": true}], "nextNodeId": "open-tin-reply"
+     },
      {
       "id": "ask-naila-word",
       "textId": "urman.chapter1:text/choice-gulsina-naila-word",
@@ -1523,10 +1529,11 @@
      {
       "id": "stay-for-tea",
       "textId": "urman.chapter1:text/choice-gulsina-stay-for-tea",
-      "conditions": [],
-      "effects": [],
+      "conditions": [{"op":"not","condition":{"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"}}],
+      "effects": [{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":""}],
       "nextNodeId": "stay-for-tea-reply"
-     }
+     },
+     {"id":"tea-again","textId":"urman.chapter1:text/choice-gulsina-tea-again","conditions":[{"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"}],"effects":[],"nextNodeId":"tea-return-reply"}
     ]
    },
    {
@@ -1535,7 +1542,6 @@
     "textId": "urman.chapter1:text/dialogue-gulsina-marat-reply",
     "conditions": [],
     "effects": [
-     {"op": "beat.set-state", "beatId": "urman.chapter1:beat/house-warmth-and-pause", "state": "completed"},
      {
       "op": "knowledge.set-status",
       "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat",
@@ -1565,11 +1571,14 @@
     "speakerRole": "gulsina",
     "textId": "urman.chapter1:text/dialogue-gulsina-stay-for-tea-reply",
     "conditions": [],
-    "effects": [
-     {"op": "beat.set-state", "beatId": "urman.chapter1:beat/house-warmth-and-pause", "state": "completed"}
-    ],
-    "choices": []
+    "effects": [],
+    "choices": [{"id":"tea-help","textId":"urman.chapter1:text/choice-gulsina-tea-help","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/arrival_reply_help_babai","status":"confirmed"}],"effects":[{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"help"}],"nextNodeId":"tea-help-reply"},{"id":"tea-silent","textId":"urman.chapter1:text/choice-gulsina-tea-silent","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/arrival_reply_kept_silent","status":"confirmed"}],"effects":[{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"silent"}],"nextNodeId":"tea-silent-reply"},{"id":"tea-photo","textId":"urman.chapter1:text/choice-gulsina-tea-photo","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/memory_marat_childhood_photo","status":"confirmed"}],"effects":[{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"photo"},{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/memory_gulsina_childhood_table","status":"confirmed"},{"op":"journal.record","entryId":"urman.chapter1:knowledge/memory_gulsina_childhood_table","sourceId":"urman.chapter1:knowledge/memory_gulsina_childhood_table"}],"nextNodeId":"tea-photo-reply"},{"id":"tea-later","textId":"urman.chapter1:text/choice-gulsina-tea-later","conditions":[],"effects":[{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":false},{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":""}],"nextNodeId":null}]
    },
+   {"id":"tea-help-reply","speakerRole":"gulsina","textId":"urman.chapter1:text/dialogue-gulsina-tea-help","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/arrival_reply_help_babai","status":"confirmed"}],"effects":[],"choices":[{"id":"accept-meal","textId":"urman.chapter1:text/choice-gulsina-accept-meal","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"photo"},{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"help"},{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"silent"}]},{"op":"not","condition":{"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"}}],"effects":[{"op":"beat.set-state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"},{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":false},{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/family_home_pause","status":"confirmed"},{"op":"journal.record","entryId":"urman.chapter1:knowledge/family_home_pause","sourceId":"urman.chapter1:knowledge/family_home_pause"}],"nextNodeId":"tea-finished-reply"},{"id":"tea-later","textId":"urman.chapter1:text/choice-gulsina-tea-later","conditions":[],"effects":[{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":false},{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":""}],"nextNodeId":null}]},
+   {"id":"tea-silent-reply","speakerRole":"gulsina","textId":"urman.chapter1:text/dialogue-gulsina-tea-silent","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/arrival_reply_kept_silent","status":"confirmed"}],"effects":[],"choices":[{"id":"accept-meal","textId":"urman.chapter1:text/choice-gulsina-accept-meal","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"photo"},{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"help"},{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"silent"}]},{"op":"not","condition":{"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"}}],"effects":[{"op":"beat.set-state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"},{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":false},{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/family_home_pause","status":"confirmed"},{"op":"journal.record","entryId":"urman.chapter1:knowledge/family_home_pause","sourceId":"urman.chapter1:knowledge/family_home_pause"}],"nextNodeId":"tea-finished-reply"},{"id":"tea-later","textId":"urman.chapter1:text/choice-gulsina-tea-later","conditions":[],"effects":[{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":false},{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":""}],"nextNodeId":null}]},
+   {"id":"tea-photo-reply","speakerRole":"gulsina","textId":"urman.chapter1:text/dialogue-gulsina-tea-photo","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/memory_marat_childhood_photo","status":"confirmed"}],"effects":[],"choices":[{"id":"accept-meal","textId":"urman.chapter1:text/choice-gulsina-accept-meal","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":true},{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"photo"},{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"help"},{"op":"npc.state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":"silent"}]},{"op":"not","condition":{"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"}}],"effects":[{"op":"beat.set-state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"},{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":false},{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/family_home_pause","status":"confirmed"},{"op":"journal.record","entryId":"urman.chapter1:knowledge/family_home_pause","sourceId":"urman.chapter1:knowledge/family_home_pause"}],"nextNodeId":"tea-finished-reply"},{"id":"tea-later","textId":"urman.chapter1:text/choice-gulsina-tea-later","conditions":[],"effects":[{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_pending","value":false},{"op":"npc.set-state","characterId":"urman.chapter1:character/gulsina","stateKey":"meal_topic","value":""}],"nextNodeId":null}]},
+   {"id":"tea-finished-reply","speakerRole":"gulsina","textId":"urman.chapter1:text/dialogue-gulsina-tea-finished","conditions":[],"effects":[],"choices":[]},
+   {"id":"tea-return-reply","speakerRole":"gulsina","textId":"urman.chapter1:text/dialogue-gulsina-tea-return","conditions":[{"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"}],"effects":[],"choices":[]},
    {
     "id": "naila-word-reply",
     "speakerRole": "gulsina",
@@ -1580,6 +1589,12 @@
      {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_gulsina_warning_context", "sourceId": "urman.chapter1:knowledge/clue_gulsina_warning_context"}
     ],
     "choices": []
+   },
+   {
+    "id": "open-tin-reply", "speakerRole": "gulsina", "textId": "urman.chapter1:text/dialogue-gulsina-open-tin",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-house-interior-language-tin", "status": "confirmed"}],
+    "effects": [],
+    "choices": [{"id": "other-questions", "textId": "urman.chapter1:text/choice-alsu-street-questions", "conditions": [], "effects": [], "nextNodeId": "home-warning"}]
    }
   ]
  },
@@ -1591,12 +1606,45 @@
    "alsu"
   ],
   "startNodeId": "name-road",
+  "entryRoutes": [
+   {
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_message_reply", "status": "confirmed"}},
+     {"op": "npc.state", "characterId": "urman.chapter1:character/alsu", "stateKey": "message_shown", "value": true}
+    ],
+    "nodeId": "message-question"
+   },
+   {
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_message_reply", "status": "confirmed"}}
+    ],
+    "nodeId": "message-return"
+   },
+   {
+    "conditions": [{"op":"not","condition":{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_arrived","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_alsu_heard_versions","status":"confirmed"}]}}],
+    "nodeId": "walk-invitation"
+   }
+  ],
   "nodes": [
+   {
+    "id":"walk-invitation","speakerRole":"alsu","textId":"urman.chapter1:text/dialogue-alsu-walk-invitation",
+    "conditions":[{"op":"not","condition":{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_arrived","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_alsu_heard_versions","status":"confirmed"}]}}],
+    "effects":[{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/alsu_walk_invitation","status":"confirmed"},{"op":"journal.record","entryId":"urman.chapter1:knowledge/alsu_walk_invitation","sourceId":"urman.chapter1:knowledge/alsu_walk_invitation"}],
+    "choices":[
+     {"id":"walk-with-alsu","textId":"urman.chapter1:text/choice-alsu-walk-together","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/alsu_walk_invitation","status":"confirmed"},{"op":"not","condition":{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_arrived","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_alsu_heard_versions","status":"confirmed"}]}}],"effects":[{"op":"npc.set-state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_requested","value":true}],"nextNodeId":"walk-start-reply"},
+     {"id":"walk-later","textId":"urman.chapter1:text/choice-alsu-walk-later","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/alsu_walk_invitation","status":"confirmed"},{"op":"not","condition":{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_arrived","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_alsu_heard_versions","status":"confirmed"}]}}],"effects":[{"op":"npc.set-state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_requested","value":false}],"nextNodeId":"walk-later-reply"},
+     {"id":"ask-babai-address","textId":"urman.chapter1:text/choice-alsu-babai-address","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/address-babai","status":"confirmed"}],"effects":[],"nextNodeId":"babai-address-reply"}
+    ]
+   },
+   {"id":"walk-start-reply","speakerRole":"alsu","textId":"urman.chapter1:text/dialogue-alsu-walk-start","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/alsu_walk_invitation","status":"confirmed"}],"effects":[],"choices":[]},
+   {"id":"walk-later-reply","speakerRole":"alsu","textId":"urman.chapter1:text/dialogue-alsu-walk-later","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/alsu_walk_invitation","status":"confirmed"}],"effects":[],"choices":[]},
    {
     "id": "name-road",
     "speakerRole": "alsu",
     "textId": "urman.chapter1:text/dialogue-alsu-route",
-    "conditions": [],
+    "conditions": [{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_arrived","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_alsu_heard_versions","status":"confirmed"}]}],
     "effects": [
      {
       "op": "vocabulary.set-status",
@@ -1605,12 +1653,31 @@
      }
     ],
     "choices": [
+     {"id": "ask-fap-address", "textId": "urman.chapter1:text/choice-alsu-fap-address", "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_heard_versions", "status": "confirmed"}], "effects": [], "nextNodeId": "fap-address-reply"},
+     {"id": "ask-babai-address", "textId": "urman.chapter1:text/choice-alsu-babai-address", "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/address-babai", "status": "confirmed"}], "effects": [], "nextNodeId": "babai-address-reply"},
+     {
+      "id": "show-saved-message",
+      "textId": "urman.chapter1:text/choice-alsu-show-message",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_message_reply", "status": "confirmed"}}
+      ],
+      "effects": [{"op": "npc.set-state", "characterId": "urman.chapter1:character/alsu", "stateKey": "message_shown", "value": true}],
+      "nextNodeId": "message-question"
+     },
      {
       "id": "ask-versions",
       "textId": "urman.chapter1:text/choice-alsu-versions",
-      "conditions": [],
+      "conditions": [{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_arrived","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_alsu_heard_versions","status":"confirmed"}]}],
       "effects": [],
-      "nextNodeId": "versions-reply"
+     "nextNodeId": "versions-reply"
+     },
+     {
+      "id": "ask-saw-departure",
+      "textId": "urman.chapter1:text/choice-alsu-saw-departure",
+      "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_heard_versions", "status": "confirmed"}],
+      "effects": [],
+      "nextNodeId": "no-departure-witness"
      },
      {
       "id": "ask-boundary",
@@ -1657,8 +1724,11 @@
     "id": "boundary-reply",
     "speakerRole": "alsu",
     "textId": "urman.chapter1:text/dialogue-alsu-boundary-reply",
-    "conditions": [],
-    "effects": [],
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker", "status": "confirmed"}],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says", "status": "hypothesis"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says", "sourceId": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says"}
+    ],
     "choices": []
    },
    {
@@ -1681,25 +1751,23 @@
     "id": "versions-reply",
     "speakerRole": "alsu",
     "textId": "urman.chapter1:text/dialogue-alsu-versions-reply",
-    "conditions": [],
+    "conditions": [{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_arrived","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_alsu_heard_versions","status":"confirmed"}]}],
     "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/address-fap", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/address-fap", "sourceId": "urman.chapter1:knowledge/address-fap"},
      {
       "op": "knowledge.set-status",
-      "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict",
+      "knowledgeId": "urman.chapter1:knowledge/clue_alsu_heard_versions",
       "status": "confirmed"
      },
      {
-      "op": "knowledge.set-status",
-      "knowledgeId": "urman.chapter1:knowledge/clue_alsu_knows_more_than_says",
-      "status": "hypothesis"
-     },
-     {
       "op": "journal.record",
-      "entryId": "urman.chapter1:knowledge/clue_marat_versions_conflict",
-      "sourceId": "urman.chapter1:knowledge/clue_marat_versions_conflict"
+      "entryId": "urman.chapter1:knowledge/clue_alsu_heard_versions",
+      "sourceId": "urman.chapter1:knowledge/clue_alsu_heard_versions"
      }
     ],
     "choices": [
+     {"id": "ask-fap-address", "textId": "urman.chapter1:text/choice-alsu-fap-address", "conditions": [], "effects": [], "nextNodeId": "fap-address-reply"},
      {
       "id": "ask-source",
       "textId": "urman.chapter1:text/choice-alsu-source",
@@ -1717,12 +1785,162 @@
     ]
    },
    {
+    "id": "fap-address-reply",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-fap-address",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_heard_versions", "status": "confirmed"}],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/address-fap", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/address-fap", "sourceId": "urman.chapter1:knowledge/address-fap"}
+    ],
+    "choices": [
+     {"id": "ask-same-number", "textId": "urman.chapter1:text/choice-alsu-address-number", "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/address-babai", "status": "confirmed"}], "effects": [], "nextNodeId": "address-number-reply"},
+     {"id": "street-questions", "textId": "urman.chapter1:text/choice-alsu-street-questions", "conditions": [], "effects": [], "nextNodeId": "name-road"},
+     {"id": "go-to-naila", "textId": "urman.chapter1:text/choice-alsu-go-to-naila", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "address-number-reply", "speakerRole": "alsu", "textId": "urman.chapter1:text/dialogue-alsu-address-number",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/address-fap", "status": "confirmed"}, {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/address-babai", "status": "confirmed"}], "effects": [],
+    "choices": [{"id": "street-questions", "textId": "urman.chapter1:text/choice-alsu-street-questions", "conditions": [], "effects": [], "nextNodeId": "name-road"}]
+   },
+   {
+    "id": "babai-address-reply", "speakerRole": "alsu", "textId": "urman.chapter1:text/dialogue-alsu-babai-address",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/address-babai", "status": "confirmed"}], "effects": [],
+    "choices": [
+     {"id":"street-questions","textId":"urman.chapter1:text/choice-alsu-street-questions","conditions":[{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_arrived","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_alsu_heard_versions","status":"confirmed"}]}],"effects":[],"nextNodeId":"name-road"},
+     {"id":"return-walk-invitation","textId":"urman.chapter1:text/choice-alsu-street-questions","conditions":[{"op":"not","condition":{"op":"any","conditions":[{"op":"npc.state","characterId":"urman.chapter1:character/alsu","stateKey":"walk_arrived","value":true},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_alsu_heard_versions","status":"confirmed"}]}}],"effects":[],"nextNodeId":"walk-invitation"}
+    ]
+   },
+   {
     "id": "source-reply",
     "speakerRole": "alsu",
     "textId": "urman.chapter1:text/dialogue-alsu-source-reply",
     "conditions": [],
     "effects": [],
     "choices": []
+   },
+   {
+    "id": "no-departure-witness",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-no-departure-witness",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_heard_versions", "status": "confirmed"}],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "message-return",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-message-return",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_message_reply", "status": "confirmed"}}
+    ],
+    "effects": [],
+    "choices": [
+     {
+      "id": "show-saved-message",
+      "textId": "urman.chapter1:text/choice-alsu-show-message",
+      "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"}],
+      "effects": [{"op": "npc.set-state", "characterId": "urman.chapter1:character/alsu", "stateKey": "message_shown", "value": true}],
+      "nextNodeId": "message-question"
+     },
+     {"id": "street-questions", "textId": "urman.chapter1:text/choice-alsu-street-questions", "conditions": [], "effects": [], "nextNodeId": "name-road"},
+     {"id": "check-original", "textId": "urman.chapter1:text/choice-alsu-check-original", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "message-question",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-message-question",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_message_reply", "status": "confirmed"}}
+    ],
+    "effects": [],
+    "choices": [
+     {
+      "id": "quote-heard-voice",
+      "textId": "urman.chapter1:text/choice-alsu-quote-heard-voice",
+      "conditions": [
+       {"op": "npc.state", "characterId": "urman.chapter1:character/alsu", "stateKey": "message_shown", "value": true},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_message_question_prepared", "status": "confirmed"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_message_voice_excerpt", "status": "confirmed"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_heard_versions", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_message_reply", "status": "confirmed"}},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting", "status": "hypothesis"}}
+      ],
+      "effects": [
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_message_reply", "status": "confirmed"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_alsu_message_reply", "sourceId": "urman.chapter1:knowledge/clue_alsu_message_reply"},
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death", "status": "confirmed"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death", "sourceId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death"}
+      ],
+      "nextNodeId": "message-bounded-reply"
+     },
+     {
+      "id": "quote-seen-person",
+      "textId": "urman.chapter1:text/choice-alsu-quote-seen-person",
+      "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting", "status": "contradicted"}}],
+      "effects": [
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting", "status": "hypothesis"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting", "sourceId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting"}
+      ],
+      "nextNodeId": "message-overreach"
+     },
+     {
+      "id": "correct-seen-person",
+      "textId": "urman.chapter1:text/choice-alsu-correct-seen-person",
+      "conditions": [
+       {"op": "npc.state", "characterId": "urman.chapter1:character/alsu", "stateKey": "message_shown", "value": true},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_message_question_prepared", "status": "confirmed"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_message_voice_excerpt", "status": "confirmed"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_heard_versions", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_message_reply", "status": "confirmed"}},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting", "status": "hypothesis"}
+      ],
+      "effects": [
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting", "status": "contradicted"},
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_message_reply", "status": "confirmed"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_alsu_message_reply", "sourceId": "urman.chapter1:knowledge/clue_alsu_message_reply"},
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death", "status": "confirmed"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death", "sourceId": "urman.chapter1:knowledge/clue_marat_was_afraid_before_death"}
+      ],
+      "nextNodeId": "message-bounded-reply"
+     },
+     {"id": "check-original", "textId": "urman.chapter1:text/choice-alsu-check-original", "conditions": [], "effects": [], "nextNodeId": null},
+     {"id": "street-questions", "textId": "urman.chapter1:text/choice-alsu-street-questions", "conditions": [], "effects": [], "nextNodeId": "name-road"}
+    ]
+   },
+   {
+    "id": "message-overreach",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-message-overreach",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"}],
+    "effects": [],
+    "choices": [
+     {"id": "return-to-message", "textId": "urman.chapter1:text/choice-alsu-show-message", "conditions": [], "effects": [], "nextNodeId": "message-question"},
+     {"id": "check-original", "textId": "urman.chapter1:text/choice-alsu-check-original", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "message-bounded-reply",
+    "speakerRole": "alsu",
+    "textId": "urman.chapter1:text/dialogue-alsu-message-bounded-reply",
+    "conditions": [
+     {"op": "npc.state", "characterId": "urman.chapter1:character/alsu", "stateKey": "message_shown", "value": true},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_message_question_prepared", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_message_voice_excerpt", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_heard_versions", "status": "confirmed"}
+    ],
+    "effects": [],
+    "choices": [
+     {"id": "street-questions", "textId": "urman.chapter1:text/choice-alsu-street-questions", "conditions": [], "effects": [], "nextNodeId": "name-road"},
+     {"id": "check-original", "textId": "urman.chapter1:text/choice-alsu-check-original", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
    }
   ]
  },
@@ -1742,6 +1960,55 @@
     "conditions": [],
     "effects": [],
     "choices": [
+     {
+      "id": "ask-mosque-address", "textId": "urman.chapter1:text/choice-mansur-mosque-address",
+      "conditions": [{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately","status":"hypothesis"}],
+      "effects": [
+       {"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/address-mosque","status":"confirmed"},
+       {"op":"journal.record","entryId":"urman.chapter1:knowledge/address-mosque","sourceId":"urman.chapter1:knowledge/address-mosque"}
+      ], "nextNodeId": "mosque-address-reply"
+     },
+     {
+      "id": "ask-kept-draft",
+      "textId": "urman.chapter1:text/choice-mansur-ask-draft",
+      "conditions": [
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/mansur",
+        "stateKey": "pc_access_granted",
+        "value": true
+       },
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
+        "status": "confirmed"
+       },
+       {
+        "op": "not",
+        "condition": {
+         "op": "knowledge.status",
+         "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+         "status": "hypothesis"
+        }
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "draft-folder-question"
+     },
+     {
+      "id": "ask-underdeck-quiet", "textId": "urman.chapter1:text/choice-mansur-underdeck-quiet",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_underdeck_rattle_quiet", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/mansur", "stateKey": "underdeck_quiet_noticed", "value": true}}
+      ], "effects": [{"op": "npc.set-state", "characterId": "urman.chapter1:character/mansur", "stateKey": "underdeck_quiet_noticed", "value": true}], "nextNodeId": "underdeck-quiet-reply"
+     },
+     {
+      "id": "ask-photo", "textId": "urman.chapter1:text/ask-mansur-photo",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_gate_repair_checked", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_question_answered", "status": "confirmed"}}
+      ], "effects": [], "nextNodeId": "photo-question"
+     },
      {
       "id": "ask-about-javap",
       "textId": "urman.chapter1:text/choice-mansur-javap",
@@ -1852,6 +2119,55 @@
     "conditions": [],
     "effects": [],
     "choices": [
+     {
+      "id": "ask-mosque-address", "textId": "urman.chapter1:text/choice-mansur-mosque-address",
+      "conditions": [{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately","status":"hypothesis"}],
+      "effects": [
+       {"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/address-mosque","status":"confirmed"},
+       {"op":"journal.record","entryId":"urman.chapter1:knowledge/address-mosque","sourceId":"urman.chapter1:knowledge/address-mosque"}
+      ], "nextNodeId": "mosque-address-reply"
+     },
+     {
+      "id": "ask-kept-draft",
+      "textId": "urman.chapter1:text/choice-mansur-ask-draft",
+      "conditions": [
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/mansur",
+        "stateKey": "pc_access_granted",
+        "value": true
+       },
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
+        "status": "confirmed"
+       },
+       {
+        "op": "not",
+        "condition": {
+         "op": "knowledge.status",
+         "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+         "status": "hypothesis"
+        }
+       }
+      ],
+      "effects": [],
+      "nextNodeId": "draft-folder-question"
+     },
+     {
+      "id": "ask-underdeck-quiet", "textId": "urman.chapter1:text/choice-mansur-underdeck-quiet",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_underdeck_rattle_quiet", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/mansur", "stateKey": "underdeck_quiet_noticed", "value": true}}
+      ], "effects": [{"op": "npc.set-state", "characterId": "urman.chapter1:character/mansur", "stateKey": "underdeck_quiet_noticed", "value": true}], "nextNodeId": "underdeck-quiet-reply"
+     },
+     {
+      "id": "ask-photo", "textId": "urman.chapter1:text/ask-mansur-photo",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_gate_repair_checked", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_question_answered", "status": "confirmed"}}
+      ], "effects": [], "nextNodeId": "photo-question"
+     },
      {
       "id": "check-household-list",
       "textId": "urman.chapter1:text/choice-mansur-check-household-list",
@@ -1997,6 +2313,154 @@
     ]
    },
    {
+    "id": "draft-folder-question",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-draft-folder",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/mansur",
+      "stateKey": "pc_access_granted",
+      "value": true
+     },
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
+      "status": "confirmed"
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "knowledge.status",
+       "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+       "status": "hypothesis"
+      }
+     }
+    ],
+    "effects": [],
+    "choices": [
+     {
+      "id": "name-saved-folder",
+      "textId": "urman.chapter1:text/choice-mansur-name-folder",
+      "conditions": [
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/mansur",
+        "stateKey": "pc_access_granted",
+        "value": true
+       },
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
+        "status": "confirmed"
+       },
+       {
+        "op": "not",
+        "condition": {
+         "op": "knowledge.status",
+         "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+         "status": "hypothesis"
+        }
+       }
+      ],
+      "effects": [
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately", "status": "hypothesis"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately", "sourceId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately"},
+       {"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/address-mosque","status":"confirmed"},
+       {"op":"journal.record","entryId":"urman.chapter1:knowledge/address-mosque","sourceId":"urman.chapter1:knowledge/address-mosque"}
+      ],
+      "nextNodeId": "draft-named-reply"
+     },
+     {
+      "id": "ask-intent-again",
+      "textId": "urman.chapter1:text/choice-mansur-ask-intent",
+      "conditions": [
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/mansur",
+        "stateKey": "pc_access_granted",
+        "value": true
+       },
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
+        "status": "confirmed"
+       },
+       {
+        "op": "not",
+        "condition": {
+         "op": "knowledge.status",
+         "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+         "status": "hypothesis"
+        }
+       }
+      ],
+      "effects": [
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately", "status": "hypothesis"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately", "sourceId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately"},
+       {"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/address-mosque","status":"confirmed"},
+       {"op":"journal.record","entryId":"urman.chapter1:knowledge/address-mosque","sourceId":"urman.chapter1:knowledge/address-mosque"}
+      ],
+      "nextNodeId": "draft-intent-reply"
+     },
+     {
+      "id": "leave-draft",
+      "textId": "urman.chapter1:text/choice-mansur-draft-later",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": null
+     }
+    ]
+   },
+   {
+    "id": "draft-named-reply",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-draft-name-result",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/mansur",
+      "stateKey": "pc_access_granted",
+      "value": true
+     },
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
+      "status": "confirmed"
+     }
+    ],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "draft-intent-reply",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-draft-question-result",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/mansur",
+      "stateKey": "pc_access_granted",
+      "value": true
+     },
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
+      "status": "confirmed"
+     }
+    ],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "mosque-address-reply",
+    "speakerRole": "mansur",
+    "textId": "urman.chapter1:text/dialogue-mansur-mosque-address",
+    "conditions": [{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately","status":"hypothesis"}],
+    "effects": [],
+    "choices": [{"id":"ask-follow-up","textId":"urman.chapter1:text/choice-mansur-follow-up","conditions":[],"effects":[],"nextNodeId":"follow-up"}]
+   },
+   {
     "id": "why-reply",
     "speakerRole": "mansur",
     "textId": "urman.chapter1:text/dialogue-mansur-why-reply",
@@ -2034,7 +2498,6 @@
     "textId": "urman.chapter1:text/dialogue-mansur-marat-reply",
     "conditions": [],
     "effects": [
-     {"op": "beat.set-state", "beatId": "urman.chapter1:beat/house-warmth-and-pause", "state": "completed"},
      {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_family_notice_by_phone", "status": "confirmed"},
      {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_family_notice_by_phone", "sourceId": "urman.chapter1:knowledge/clue_family_notice_by_phone"},
      {
@@ -2147,6 +2610,35 @@
     "choices": [
      {"id": "keep-looking", "textId": "urman.chapter1:text/choice-mansur-keep-looking", "conditions": [], "effects": [], "nextNodeId": null}
     ]
+   },
+   {
+    "id": "photo-question", "speakerRole": "mansur", "textId": "urman.chapter1:text/mansur-photo-question",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_gate_repair_checked", "status": "confirmed"}],
+    "effects": [], "choices": [
+     {
+      "id": "ask-about-seam", "textId": "urman.chapter1:text/mansur-photo-ask-seam",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_gate_repair_checked", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_question_answered", "status": "confirmed"}}
+      ],
+      "effects": [
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_question_answered", "status": "confirmed"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_photo_question_answered", "sourceId": "urman.chapter1:knowledge/clue_photo_question_answered"}
+      ], "nextNodeId": "photo-response"
+     },
+     {"id": "leave", "textId": "urman.chapter1:text/observation-leave", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "photo-response", "speakerRole": "mansur", "textId": "urman.chapter1:text/mansur-photo-reply",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_photo_gate_repair_checked", "status": "confirmed"}],
+    "effects": [], "choices": []
+   },
+   {
+    "id": "underdeck-quiet-reply", "speakerRole": "mansur", "textId": "urman.chapter1:text/dialogue-mansur-underdeck-quiet",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_underdeck_rattle_quiet", "status": "confirmed"}],
+    "effects": [],
+    "choices": [{"id": "other-questions", "textId": "urman.chapter1:text/choice-alsu-street-questions", "conditions": [], "effects": [], "nextNodeId": "follow-up"}]
    }
   ],
   "entryRoutes": [
@@ -2180,6 +2672,16 @@
     "effects": [],
     "choices": [
      {
+      "id": "ask-desk-light",
+      "textId": "urman.chapter1:text/choice-naila-desk-light",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/naila", "stateKey": "desk_light_noticed", "value": true}}
+      ],
+      "effects": [{"op": "npc.set-state", "characterId": "urman.chapter1:character/naila", "stateKey": "desk_light_noticed", "value": true}],
+      "nextNodeId": "desk-light-reply"
+     },
+     {
       "id": "ask-family-request-entry",
       "textId": "urman.chapter1:text/choice-naila-family-request-entry",
       "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"}],
@@ -2197,7 +2699,7 @@
        }
       ],
       "effects": [],
-      "nextNodeId": "separate-record"
+      "nextNodeId": "record-question"
      },
      {
       "id": "ask-wording",
@@ -2219,8 +2721,14 @@
     "id": "separate-record",
     "speakerRole": "naila",
     "textId": "urman.chapter1:text/dialogue-naila-separate-record",
-    "conditions": [],
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_record_shared_formulation", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_register_category_excerpt", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis", "status": "hypothesis"}},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker", "status": "confirmed"}
+    ],
     "effects": [
+     {"op": "npc.set-state", "characterId": "urman.chapter1:character/naila", "stateKey": "record_question_pending", "value": false},
      {
       "op": "vocabulary.set-status",
       "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
@@ -2292,6 +2800,16 @@
     "effects": [],
     "choices": [
      {
+      "id": "ask-desk-light",
+      "textId": "urman.chapter1:text/choice-naila-desk-light",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/naila", "stateKey": "desk_light_noticed", "value": true}}
+      ],
+      "effects": [{"op": "npc.set-state", "characterId": "urman.chapter1:character/naila", "stateKey": "desk_light_noticed", "value": true}],
+      "nextNodeId": "desk-light-reply"
+     },
+     {
       "id": "ask-family-request-entry",
       "textId": "urman.chapter1:text/choice-naila-family-request-entry",
       "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"}],
@@ -2309,7 +2827,7 @@
        }
       ],
       "effects": [],
-      "nextNodeId": "separate-record"
+      "nextNodeId": "record-question"
      },
      {
       "id": "ask-wording",
@@ -2342,9 +2860,136 @@
      {"id": "ask-transfer", "textId": "urman.chapter1:text/choice-naila-transfer", "conditions": [], "effects": [], "nextNodeId": "transfer-detail"},
      {"id": "check-answer", "textId": "urman.chapter1:text/choice-naila-check-answer", "conditions": [], "effects": [], "nextNodeId": null}
     ]
+   },
+   {
+    "id": "desk-light-reply",
+    "speakerRole": "naila",
+    "textId": "urman.chapter1:text/dialogue-naila-desk-light-reply",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object", "status": "confirmed"}],
+    "effects": [],
+    "choices": [
+     {"id": "return-to-record", "textId": "urman.chapter1:text/choice-naila-return-from-light", "conditions": [], "effects": [], "nextNodeId": "follow-up"}
+    ]
+   },
+   {
+    "id": "record-question",
+    "speakerRole": "naila",
+    "textId": "urman.chapter1:text/dialogue-naila-record-question",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker", "status": "confirmed"}
+    ],
+    "effects": [{"op": "npc.set-state", "characterId": "urman.chapter1:character/naila", "stateKey": "record_question_pending", "value": true}],
+    "choices": [
+     {
+      "id": "show-external-wording",
+      "textId": "urman.chapter1:text/choice-naila-show-external-wording",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_cause_excerpt", "status": "confirmed"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_register_wording_excerpt", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis", "status": "hypothesis"}},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_record_shared_formulation", "status": "confirmed"}}
+      ],
+      "effects": [
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_record_shared_formulation", "status": "confirmed"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_record_shared_formulation", "sourceId": "urman.chapter1:knowledge/clue_record_shared_formulation"}
+      ],
+      "nextNodeId": "matching-formulation"
+     },
+     {
+      "id": "category-as-diagnosis",
+      "textId": "urman.chapter1:text/choice-naila-category-as-diagnosis",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_register_category_excerpt", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_record_shared_formulation", "status": "confirmed"}},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis", "status": "contradicted"}}
+      ],
+      "effects": [
+       {"op": "npc.set-state", "characterId": "urman.chapter1:character/naila", "stateKey": "category_excerpt_review_requested", "value": true},
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis", "status": "hypothesis"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis", "sourceId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis"}
+      ],
+      "nextNodeId": "category-correction"
+     },
+     {
+      "id": "ask-category-scope",
+      "textId": "urman.chapter1:text/choice-naila-ask-category-scope",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_record_shared_formulation", "status": "confirmed"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_register_category_excerpt", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis", "status": "hypothesis"}}
+      ],
+      "effects": [],
+      "nextNodeId": "separate-record"
+     },
+     {"id": "recheck-records", "textId": "urman.chapter1:text/choice-naila-recheck-records", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "matching-formulation",
+    "speakerRole": "naila",
+    "textId": "urman.chapter1:text/dialogue-naila-matching-formulation",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker", "status": "confirmed"}
+    ],
+    "effects": [],
+    "choices": [
+     {
+      "id": "ask-category-scope",
+      "textId": "urman.chapter1:text/choice-naila-ask-category-scope",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_record_shared_formulation", "status": "confirmed"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_register_category_excerpt", "status": "confirmed"},
+       {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis", "status": "hypothesis"}}
+      ],
+      "effects": [],
+      "nextNodeId": "separate-record"
+     },
+     {"id": "recheck-records", "textId": "urman.chapter1:text/choice-naila-recheck-records", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "category-correction",
+    "speakerRole": "naila",
+    "textId": "urman.chapter1:text/dialogue-naila-category-correction",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker", "status": "confirmed"}],
+    "effects": [],
+    "choices": [
+     {
+      "id": "review-record-fields",
+      "textId": "urman.chapter1:text/choice-naila-review-record-fields",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis", "status": "hypothesis"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_register_category_excerpt", "status": "confirmed"},
+       {"op": "npc.state", "characterId": "urman.chapter1:character/naila", "stateKey": "category_excerpt_review_requested", "value": false}
+      ],
+      "effects": [{"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis", "status": "contradicted"}],
+      "nextNodeId": "record-question"
+     },
+     {"id": "recheck-records", "textId": "urman.chapter1:text/choice-naila-recheck-records", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
    }
   ],
   "entryRoutes": [
+   {
+    "conditions": [
+     {"op": "npc.state", "characterId": "urman.chapter1:character/naila", "stateKey": "record_question_pending", "value": true},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis", "status": "hypothesis"}
+    ],
+    "nodeId": "category-correction"
+   },
+   {
+    "conditions": [
+     {"op": "npc.state", "characterId": "urman.chapter1:character/naila", "stateKey": "record_question_pending", "value": true},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_record_shared_formulation", "status": "confirmed"}
+    ],
+    "nodeId": "matching-formulation"
+   },
+   {
+    "conditions": [{"op": "npc.state", "characterId": "urman.chapter1:character/naila", "stateKey": "record_question_pending", "value": true}],
+    "nodeId": "record-question"
+   },
    {
     "conditions": [
      {
@@ -2472,11 +3117,6 @@
        },
        {
         "op": "knowledge.set-status",
-        "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
-        "status": "hypothesis"
-       },
-       {
-        "op": "knowledge.set-status",
         "knowledgeId": "urman.chapter1:knowledge/pressure_council_attention_1",
         "status": "confirmed"
        },
@@ -2540,6 +3180,41 @@
     "effects": [],
     "choices": [
      {
+      "id": "ask-compensation-records",
+      "textId": "urman.chapter1:text/choice-rinat-accounting",
+      "conditions": [
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/rinat",
+        "stateKey": "alerted",
+        "value": true
+       },
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
+        "status": "confirmed"
+       },
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+        "status": "hypothesis"
+       },
+       {
+        "op": "not",
+        "condition": {
+         "op": "knowledge.status",
+         "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
+         "status": "confirmed"
+        }
+       }
+      ],
+      "effects": [
+       {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard", "status": "confirmed"},
+       {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard", "sourceId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard"}
+      ],
+      "nextNodeId": "accounting-question-reply"
+     },
+     {
       "id": "say-javap",
       "textId": "urman.chapter1:text/choice-rinat-javap",
       "conditions": [
@@ -2564,6 +3239,31 @@
       "nextNodeId": null
      }
     ]
+   },
+   {
+    "id": "accounting-question-reply",
+    "speakerRole": "rinat",
+    "textId": "urman.chapter1:text/dialogue-rinat-accounting",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/rinat",
+      "stateKey": "alerted",
+      "value": true
+     },
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
+      "status": "confirmed"
+     },
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+      "status": "hypothesis"
+     }
+    ],
+    "effects": [],
+    "choices": []
    },
    {
     "id": "javap-interrupt",
@@ -2613,6 +3313,19 @@
    "timur-hazrat"
   ],
   "startNodeId": "restraint",
+  "entryRoutes": [
+   {
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_discussed", "status": "confirmed"}],
+    "nodeId": "route-follow-up"
+   },
+   {
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed"}
+    ],
+    "nodeId": "route-return"
+   }
+  ],
   "nodes": [
    {
     "id": "restraint",
@@ -2626,11 +3339,6 @@
      }
     ],
     "effects": [
-     {
-      "op": "knowledge.set-status",
-      "knowledgeId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path",
-      "status": "confirmed"
-     },
      {
       "op": "vocabulary.set-status",
       "vocabularyId": "urman.chapter1:vocabulary/tt_xazrat",
@@ -2649,7 +3357,17 @@
        }
       ],
       "effects": [],
-      "nextNodeId": "boundary-reply"
+     "nextNodeId": "boundary-reply"
+     },
+     {
+      "id": "discuss-route-check",
+      "textId": "urman.chapter1:text/choice-timur-route-check",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path", "status": "confirmed"},
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed"}
+      ],
+      "effects": [],
+      "nextNodeId": "route-question"
      },
      {
       "id": "ask-silence",
@@ -2669,13 +3387,13 @@
       "id": "ask-shurale-name",
       "textId": "urman.chapter1:text/choice-timur-shurale",
       "conditions": [
-       {
-        "op": "vocabulary.status",
-        "vocabularyId": "urman.chapter1:vocabulary/tt_shurale",
-        "status": "confirmed"
-       }
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis"},
+       {"op": "any", "conditions": [
+        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "guessed"},
+        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}
+       ]}
       ],
-      "effects": [],
+      "effects": [{"op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}],
       "nextNodeId": "shurale-reply"
      }
     ]
@@ -2684,8 +3402,10 @@
     "id": "boundary-reply",
     "speakerRole": "timur-hazrat",
     "textId": "urman.chapter1:text/dialogue-timur-boundary-reply",
-    "conditions": [],
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/contradiction_marat_official_vs_internal", "status": "confirmed"}],
     "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path", "sourceId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path"},
      {
       "op": "npc.set-state",
       "characterId": "urman.chapter1:character/timur_hazrat",
@@ -2693,7 +3413,16 @@
       "value": true
      }
     ],
-    "choices": []
+    "choices": [
+     {
+      "id": "discuss-route-check",
+      "textId": "urman.chapter1:text/choice-timur-route-check",
+      "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed"}],
+      "effects": [],
+      "nextNodeId": "route-question"
+     },
+     {"id": "return-to-sources", "textId": "urman.chapter1:text/choice-timur-reread-sources", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
    },
    {
     "id": "silence-reply",
@@ -2715,9 +3444,123 @@
     "id": "shurale-reply",
     "speakerRole": "timur-hazrat",
     "textId": "urman.chapter1:text/dialogue-timur-shurale-reply",
-    "conditions": [],
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis"},
+     {"op": "any", "conditions": [
+      {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "guessed"},
+      {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}
+     ]}
+    ],
     "effects": [],
     "choices": []
+   },
+   {
+    "id": "route-question",
+    "speakerRole": "timur-hazrat",
+    "textId": "urman.chapter1:text/dialogue-timur-route-question",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed"}
+    ],
+    "effects": [],
+    "choices": [
+     {"id": "hope-marat-waiting", "textId": "urman.chapter1:text/choice-timur-marat-waiting", "conditions": [], "effects": [], "nextNodeId": "marat-hope"},
+     {"id": "repeat-marat", "textId": "urman.chapter1:text/choice-timur-repeat-marat", "conditions": [], "effects": [], "nextNodeId": "repeat-refusal"},
+     {
+      "id": "name-landmark-check",
+      "textId": "urman.chapter1:text/choice-timur-name-landmarks",
+      "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_intent", "status": "confirmed"}],
+      "effects": [],
+      "nextNodeId": "bounded-route-reply"
+     },
+     {"id": "return-to-sources", "textId": "urman.chapter1:text/choice-timur-reread-sources", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "marat-hope",
+    "speakerRole": "timur-hazrat",
+    "textId": "urman.chapter1:text/dialogue-timur-marat-hope",
+    "conditions": [],
+    "effects": [],
+    "choices": [
+     {"id": "reconsider-route", "textId": "urman.chapter1:text/choice-timur-reconsider-route", "conditions": [], "effects": [], "nextNodeId": "route-question"},
+     {"id": "return-to-sources", "textId": "urman.chapter1:text/choice-timur-reread-sources", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "repeat-refusal",
+    "speakerRole": "timur-hazrat",
+    "textId": "urman.chapter1:text/dialogue-timur-repeat-refusal",
+    "conditions": [],
+    "effects": [],
+    "choices": [
+     {"id": "reconsider-route", "textId": "urman.chapter1:text/choice-timur-reconsider-route", "conditions": [], "effects": [], "nextNodeId": "route-question"},
+     {"id": "return-to-sources", "textId": "urman.chapter1:text/choice-timur-reread-sources", "conditions": [], "effects": [], "nextNodeId": null}
+    ]
+   },
+   {
+    "id": "bounded-route-reply",
+    "speakerRole": "timur-hazrat",
+    "textId": "urman.chapter1:text/dialogue-timur-bounded-route",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_intent", "status": "confirmed"}
+    ],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_discussed", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_route_check_discussed", "sourceId": "urman.chapter1:knowledge/clue_route_check_discussed"}
+    ],
+    "choices": []
+   },
+   {
+    "id": "route-return",
+    "speakerRole": "timur-hazrat",
+    "textId": "urman.chapter1:text/dialogue-timur-route-return",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_timur_warns_against_marat_path", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed"}
+    ],
+    "effects": [],
+    "choices": [
+     {"id": "discuss-route-check", "textId": "urman.chapter1:text/choice-timur-route-check", "conditions": [], "effects": [], "nextNodeId": "route-question"},
+     {"id": "ask-silence", "textId": "urman.chapter1:text/choice-timur-silence", "conditions": [], "effects": [], "nextNodeId": "silence-reply"},
+     {"id": "ask-grandparents", "textId": "urman.chapter1:text/choice-timur-grandparents", "conditions": [], "effects": [], "nextNodeId": "grandparents-reply"},
+     {
+      "id": "ask-shurale-name", "textId": "urman.chapter1:text/choice-timur-shurale",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis"},
+       {"op": "any", "conditions": [
+        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "guessed"},
+        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}
+       ]}
+      ],
+      "effects": [{"op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}],
+      "nextNodeId": "shurale-reply"
+     }
+    ]
+   },
+   {
+    "id": "route-follow-up",
+    "speakerRole": "timur-hazrat",
+    "textId": "urman.chapter1:text/dialogue-timur-route-follow-up",
+    "conditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_discussed", "status": "confirmed"}],
+    "effects": [],
+    "choices": [
+     {"id": "ask-silence", "textId": "urman.chapter1:text/choice-timur-silence", "conditions": [], "effects": [], "nextNodeId": "silence-reply"},
+     {"id": "ask-grandparents", "textId": "urman.chapter1:text/choice-timur-grandparents", "conditions": [], "effects": [], "nextNodeId": "grandparents-reply"},
+     {
+      "id": "ask-shurale-name", "textId": "urman.chapter1:text/choice-timur-shurale",
+      "conditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis"},
+       {"op": "any", "conditions": [
+        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "guessed"},
+        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}
+       ]}
+      ],
+      "effects": [{"op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}],
+      "nextNodeId": "shurale-reply"
+     }
+    ]
    }
   ]
  },
@@ -2726,9 +3569,9 @@
   "id": "urman.chapter1:scene/arrival_vehicle_dusk",
   "sceneType": "route",
   "title": {
-   "default": "Road to Kyrlay",
+   "default": "Road to Kara-Urman village",
    "translations": {
-    "ru": "Дорога к Кырлаю"
+    "ru": "Дорога в Кара-Урман"
    }
   },
   "assetRefs": [
@@ -2752,15 +3595,46 @@
    {
     "op": "beat.set-state",
     "beatId": "urman.chapter1:beat/arrival",
-    "state": "completed"
+    "state": "available"
    }
   ],
   "onExit": [],
   "interactions": [
    {
     "id": "urman.chapter1:interaction/arrival-enter-house",
-    "labelTextId": "urman.chapter1:text/continue",
-    "conditions": [],
+    "labelTextId": "urman.chapter1:text/arrival-enter-house",
+    "conditions": [
+     {
+      "knowledgeId": "urman.chapter1:knowledge/arrival_mother_message_read",
+      "op": "knowledge.status",
+      "status": "confirmed"
+     },
+     {
+      "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
+      "op": "knowledge.status",
+      "status": "confirmed"
+     },
+     {
+      "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
+      "op": "knowledge.status",
+      "status": "confirmed"
+     },
+     {
+      "conditions": [
+       {
+        "knowledgeId": "urman.chapter1:knowledge/arrival_reply_help_babai",
+        "op": "knowledge.status",
+        "status": "confirmed"
+       },
+       {
+        "knowledgeId": "urman.chapter1:knowledge/arrival_reply_kept_silent",
+        "op": "knowledge.status",
+        "status": "confirmed"
+       }
+      ],
+      "op": "any"
+     }
+    ],
     "effects": [],
     "targetSceneId": "urman.chapter1:scene/house"
    },
@@ -2800,6 +3674,7 @@
     "id": "urman.chapter1:interaction/discover-arrival-insulated-well",
     "labelTextId": "urman.chapter1:text/discover-arrival-insulated-well",
     "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/observation-well-tie", "status": "confirmed"},
      {
       "op": "not",
       "condition": {
@@ -2905,6 +3780,7 @@
     "id": "urman.chapter1:interaction/house-to-route",
     "labelTextId": "urman.chapter1:text/continue",
     "conditions": [
+     {"op":"beat.state","beatId":"urman.chapter1:beat/house-warmth-and-pause","state":"completed"},
      {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat", "status": "confirmed"},
      {
       "op": "knowledge.status",
@@ -2993,9 +3869,9 @@
   "id": "urman.chapter1:scene/crossroad_signs_inspect",
   "sceneType": "route",
   "title": {
-   "default": "Kyrlay street",
+   "default": "Kara-Urman village street",
    "translations": {
-    "ru": "Улица Кырлая"
+    "ru": "Улица деревни Кара-Урман"
    }
   },
   "assetRefs": [],
@@ -3017,7 +3893,8 @@
     "labelTextId": "urman.chapter1:text/inspect",
     "conditions": [],
     "effects": [],
-    "targetDialogueId": "urman.chapter1:dialogue/alsu_route_context"
+    "targetDialogueId": "urman.chapter1:dialogue/alsu_route_context",
+    "worldLocations": ["village_day", "zirat_road", "kara_urman_night"]
    },
    {
     "id": "urman.chapter1:interaction/talk-rinat",
@@ -3080,6 +3957,7 @@
     "id": "urman.chapter1:interaction/discover-zirat-outer-rest-bench",
     "labelTextId": "urman.chapter1:text/discover-zirat-outer-rest-bench",
     "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/observation-bench-plank", "status": "confirmed"},
      {
       "op": "not",
       "condition": {
@@ -3581,7 +4459,7 @@
   "textRefs": [
    "urman.chapter1:text/scene-route-title"
   ],
-  "entryConditions": [],
+  "entryConditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_versions_conflict", "status": "confirmed"}],
   "onEnter": [],
   "onExit": [],
   "interactions": [
@@ -3734,6 +4612,7 @@
     "id": "urman.chapter1:interaction/discover-kara-branch-profile",
     "labelTextId": "urman.chapter1:text/discover-kara-branch-profile",
     "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/observation-branch-overlap", "status": "confirmed"},
      {
       "op": "not",
       "condition": {
@@ -3872,13 +4751,7 @@
     "status": "confirmed"
    }
   ],
-  "onEnter": [
-   {
-    "op": "vocabulary.set-status",
-    "vocabularyId": "urman.chapter1:vocabulary/tt_urman",
-    "status": "confirmed"
-   }
-  ],
+  "onEnter": [],
   "onExit": [],
   "interactions": [
    {
@@ -3905,6 +4778,10 @@
        {"op": "all", "conditions": [
         {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "confirmed"},
         {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "javap_interrupted", "value": true}}
+       ]},
+       {"op": "all", "conditions": [
+        {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system", "status": "hypothesis"},
+        {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard", "status": "confirmed"}}
        ]}
       ]
      }
@@ -3994,33 +4871,7 @@
     "status": "confirmed"
    }
   ],
-  "onEnter": [
-   {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
-    "status": "hypothesis"
-   },
-   {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint",
-    "status": "hypothesis"
-   },
-   {
-    "op": "vocabulary.set-status",
-    "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh",
-    "status": "guessed"
-   },
-   {
-    "op": "vocabulary.set-status",
-    "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
-    "status": "guessed"
-   },
-   {
-    "op": "vocabulary.set-status",
-    "vocabularyId": "urman.chapter1:vocabulary/tt_shurale",
-    "status": "guessed"
-   }
-  ],
+  "onEnter": [],
   "onExit": [],
   "interactions": [
    {
@@ -4105,6 +4956,21 @@
     "labelTextId": "urman.chapter1:text/continue",
     "conditions": [
      {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+      "status": "hypothesis"
+     },
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+      "status": "hypothesis"
+     },
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
+      "status": "confirmed"
+     },
+     {
       "op": "vocabulary.status",
       "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
       "status": "confirmed"
@@ -4137,6 +5003,21 @@
   "entryConditions": [
    {
     "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+    "status": "hypothesis"
+   },
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+    "status": "hypothesis"
+   },
+   {
+    "op": "knowledge.status",
+    "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
+    "status": "confirmed"
+   },
+   {
+    "op": "knowledge.status",
     "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule",
     "status": "hypothesis"
    },
@@ -4151,24 +5032,14 @@
     "state": "completed"
    }
   ],
-  "onEnter": [
-   {
-    "op": "knowledge.set-status",
-    "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
-    "status": "hypothesis"
-   },
-   {
-    "op": "vocabulary.set-status",
-    "vocabularyId": "urman.chapter1:vocabulary/tt_zirat",
-    "status": "confirmed"
-   }
-  ],
+  "onEnter": [],
   "onExit": [],
   "interactions": [
    {
     "id": "urman.chapter1:interaction/edge-sketch-to-zirat-road",
     "labelTextId": "urman.chapter1:text/continue",
     "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_discussed", "status": "confirmed"},
      {
       "op": "knowledge.status",
       "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
@@ -4224,6 +5095,7 @@
    "urman.chapter1:text/scene-zirat-title"
   ],
   "entryConditions": [
+   {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_discussed", "status": "confirmed"},
    {
     "op": "knowledge.status",
     "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary",
@@ -4246,11 +5118,6 @@
     "op": "knowledge.set-status",
     "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
     "status": "confirmed"
-   },
-   {
-    "op": "beat.set-state",
-    "beatId": "urman.chapter1:beat/rinat-visible-before-edge",
-    "state": "completed"
    },
    {
     "op": "route.unlock",
@@ -4346,6 +5213,8 @@
    "urman.chapter1:text/scene-forest-title"
   ],
   "entryConditions": [
+   {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_discussed", "status": "confirmed"},
+   {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat", "status": "confirmed"},
    {
     "op": "knowledge.status",
     "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
@@ -4393,6 +5262,8 @@
    "urman.chapter1:text/finale-rinat-warning"
   ],
   "entryConditions": [
+   {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_discussed", "status": "confirmed"},
+   {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_last_route_near_zirat", "status": "confirmed"},
    {
     "op": "knowledge.status",
     "knowledgeId": "urman.chapter1:knowledge/route_kara_urman_edge_hint",
@@ -4426,6 +5297,16 @@
     "id": "urman.chapter1:interaction/forest-rinat-intervention",
     "labelTextId": "urman.chapter1:text/finale-rinat-warning",
     "conditions": [
+     {
+      "op": "beat.state",
+      "beatId": "urman.chapter1:beat/rinat-visible-before-edge",
+      "state": "completed"
+     },
+     {
+      "op": "knowledge.status",
+      "knowledgeId": "urman.chapter1:knowledge/clue_rinat_at_roadside",
+      "status": "confirmed"
+     },
      {
       "op": "not",
       "condition": {
@@ -4555,6 +5436,21 @@
   "titleTextId": "urman.chapter1:text/quest-language-reread-title",
   "stages": [
    {
+    "id": "check-message-account",
+    "objectives": [
+     {
+      "id": "show-checked-message",
+      "titleTextId": "urman.chapter1:text/objective-check-message-account",
+      "optional": false,
+      "startConditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"}],
+      "completionConditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_message_reply", "status": "confirmed"}],
+      "completionEffects": [],
+      "failureEffects": []
+     }
+    ],
+    "composition": {"mode": "all", "objectiveIds": ["show-checked-message"]}
+   },
+   {
     "id": "reread-boundary",
     "objectives": [
      {
@@ -4596,6 +5492,126 @@
       "apply-words"
      ]
     }
+   },
+   {
+    "id": "check-source-owners",
+    "objectives": [
+     {
+      "id": "find-owner-draft",
+      "titleTextId": "urman.chapter1:text/objective-mansur-draft-search",
+      "optional": false,
+      "startConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_internal_wording_reread",
+        "status": "confirmed"
+       }
+      ],
+      "completionConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
+        "status": "confirmed"
+       }
+      ],
+      "completionEffects": [],
+      "failureEffects": []
+     },
+     {
+      "id": "question-owner-draft",
+      "titleTextId": "urman.chapter1:text/objective-mansur-draft-question",
+      "optional": false,
+      "startConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
+        "status": "confirmed"
+       }
+      ],
+      "completionConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+        "status": "hypothesis"
+       }
+      ],
+      "completionEffects": [],
+      "failureEffects": []
+     },
+     {
+      "id": "find-damaged-fragment",
+      "titleTextId": "urman.chapter1:text/objective-accounting-search",
+      "optional": false,
+      "startConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_internal_wording_reread",
+        "status": "confirmed"
+       }
+      ],
+      "completionConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
+        "status": "confirmed"
+       }
+      ],
+      "completionEffects": [],
+      "failureEffects": []
+     },
+     {
+      "id": "compare-damaged-fragment",
+      "titleTextId": "urman.chapter1:text/objective-accounting-compare",
+      "optional": false,
+      "startConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
+        "status": "confirmed"
+       }
+      ],
+      "completionConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+        "status": "hypothesis"
+       }
+      ],
+      "completionEffects": [],
+      "failureEffects": []
+     },
+     {
+      "id": "question-damaged-fragment",
+      "titleTextId": "urman.chapter1:text/objective-accounting-question",
+      "optional": false,
+      "startConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
+        "status": "hypothesis"
+       }
+      ],
+      "completionConditions": [
+       {
+        "op": "knowledge.status",
+        "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
+        "status": "confirmed"
+       }
+      ],
+      "completionEffects": [],
+      "failureEffects": []
+     }
+    ],
+    "composition": {
+     "mode": "all",
+     "objectiveIds": [
+      "find-owner-draft",
+      "question-owner-draft",
+      "find-damaged-fragment",
+      "compare-damaged-fragment",
+      "question-damaged-fragment"
+     ]
+    }
    }
   ],
   "outcomes": {
@@ -4624,10 +5640,20 @@
     "id": "reach-edge",
     "objectives": [
      {
+      "id": "discuss-route-intent",
+      "titleTextId": "urman.chapter1:text/objective-route-intent",
+      "optional": false,
+      "startConditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary", "status": "confirmed"}],
+      "completionConditions": [{"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_discussed", "status": "confirmed"}],
+      "completionEffects": [],
+      "failureEffects": []
+     },
+     {
       "id": "follow-evidence",
       "titleTextId": "urman.chapter1:text/objective-edge",
       "optional": false,
       "startConditions": [
+       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_route_check_discussed", "status": "confirmed"},
        {
         "op": "beat.state",
         "beatId": "urman.chapter1:beat/language-reread",
@@ -4665,6 +5691,7 @@
     "composition": {
      "mode": "all",
      "objectiveIds": [
+      "discuss-route-intent",
       "follow-evidence"
      ]
     }
@@ -5163,9 +6190,9 @@
    }
   },
   "summary": {
-   "default": "Тропа идёт вдоль внешней ограды зирата и сворачивает к канаве. На придорожной бирке — две короткие засечки. Имени и даты нет.",
+   "default": "На узкой деревянной бирке — две короткие засечки. Имени и даты нет. На схеме Мансура похожая отметка стоит рядом с канавой. Отойду от столбика на дорогу и сверю, как расположены канава, бирка и ограда.",
    "translations": {
-    "ru": "Тропа идёт вдоль внешней ограды зирата и сворачивает к канаве. На придорожной бирке — две короткие засечки. Имени и даты нет."
+    "ru": "На узкой деревянной бирке — две короткие засечки. Имени и даты нет. На схеме Мансура похожая отметка стоит рядом с канавой. Отойду от столбика на дорогу и сверю, как расположены канава, бирка и ограда."
    }
   },
   "initialStatus": "hidden",
@@ -5202,9 +6229,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-records-contradiction",
   "value": {
-   "default": "Сверить причину закрытия и категорию случая.",
+   "default": "Сопоставить выписанные строки.",
    "translations": {
-    "ru": "Сверить причину закрытия и категорию случая."
+    "ru": "Сопоставить выписанные строки."
    }
   },
   "purpose": "ui"
@@ -5213,9 +6240,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-records-contradiction-result",
   "value": {
-   "default": "В справке указана причина закрытия, в реестре — категория «граница / ответил». Это разные поля об одном деле. Я ещё не выяснил, можно ли читать категорию как другую медицинскую причину. Покажу её Наиле и проверю её точный ответ по реестру в журнале [J].",
+   "default": "В выписанных строках совпадает «несчастный случай». В справке эти слова входят в причину закрытия дела, а в реестре стоят под заголовком «Внешняя формулировка». Заголовки различаются. Покажу обе строки Наиле и спрошу, как здесь устроена запись.",
    "translations": {
-    "ru": "В справке указана причина закрытия, в реестре — категория «граница / ответил». Это разные поля об одном деле. Я ещё не выяснил, можно ли читать категорию как другую медицинскую причину. Покажу её Наиле и проверю её точный ответ по реестру в журнале [J]."
+    "ru": "В выписанных строках совпадает «несчастный случай». В справке эти слова входят в причину закрытия дела, а в реестре стоят под заголовком «Внешняя формулировка». Заголовки различаются. Покажу обе строки Наиле и спрошу, как здесь устроена запись."
    }
   },
   "purpose": "ui"
@@ -5246,9 +6273,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-voice-echo",
   "value": {
-   "default": "Проверить, могло ли это быть эхом.",
+   "default": "Принять версию: это было только эхо.",
    "translations": {
-    "ru": "Проверить, могло ли это быть эхом."
+    "ru": "Принять версию: это было только эхо."
    }
   },
   "purpose": "ui"
@@ -5257,9 +6284,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-voice-echo-result",
   "value": {
-   "default": "Марат специально пишет: «Не как эхо». А в записи рядом стоят «тавыш» и «җавап». Версия эха оставляет это совпадение без объяснения.",
+   "default": "В журнале осталась моя версия об эхе. Проверю её отдельно: выберу эту карточку вместе с сообщением Марата и посмотрю, какие его слова я не учёл. До проверки это не объяснение случившегося.",
    "translations": {
-    "ru": "Марат специально пишет: «Не как эхо». А в записи рядом стоят «тавыш» и «җавап». Версия эха оставляет это совпадение без объяснения."
+    "ru": "В журнале осталась моя версия об эхе. Проверю её отдельно: выберу эту карточку вместе с сообщением Марата и посмотрю, какие его слова я не учёл. До проверки это не объяснение случившегося."
    }
   },
   "purpose": "ui"
@@ -5290,9 +6317,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-voice-creature",
   "value": {
-   "default": "Проверить имя в заголовке по сообщению Марата.",
+   "default": "Назвать говорившего по заголовку: это Шүрәле.",
    "translations": {
-    "ru": "Проверить имя в заголовке по сообщению Марата."
+    "ru": "Назвать говорившего по заголовку: это Шүрәле."
    }
   },
   "purpose": "ui"
@@ -5301,9 +6328,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-voice-creature-result",
   "value": {
-   "default": "Фольклорное имя в заголовке не устанавливает, кого слышал Марат. Два источника позволяют проверить связь слов, но не назвать того, кто говорил.",
+   "default": "Я назвал говорившего по заголовку статьи. Сохраню это как собственную версию и проверю её: выберу карточку версии вместе с самой статьёй. Нужно найти, на каком свидетельстве держится такое отождествление.",
    "translations": {
-    "ru": "Фольклорное имя в заголовке не устанавливает, кого слышал Марат. Два источника позволяют проверить связь слов, но не назвать того, кто говорил."
+    "ru": "Я назвал говорившего по заголовку статьи. Сохраню это как собственную версию и проверю её: выберу карточку версии вместе с самой статьёй. Нужно найти, на каком свидетельстве держится такое отождествление."
    }
   },
   "purpose": "ui"
@@ -5312,9 +6339,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-route-center",
   "value": {
-   "default": "Проверить тропу внутри ограды.",
+   "default": "Считать, что отметка ведёт внутрь зирата.",
    "translations": {
-    "ru": "Проверить тропу внутри ограды."
+    "ru": "Считать, что отметка ведёт внутрь зирата."
    }
   },
   "purpose": "ui"
@@ -5323,9 +6350,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-route-center-result",
   "value": {
-   "default": "На схеме тропа обходит зират. Бирка стоит у внешней ограды и канавы. Путь внутрь не совпадает с обоими источниками.",
+   "default": "Я отметил путь внутрь зирата. Перед тем как идти, сверю собственную карточку со схемой: название места ещё не указывает направление стрелки. Вернуться к этой проверке можно после осмотра дороги.",
    "translations": {
-    "ru": "На схеме тропа обходит зират. Бирка стоит у внешней ограды и канавы. Путь внутрь не совпадает с обоими источниками."
+    "ru": "Я отметил путь внутрь зирата. Перед тем как идти, сверю собственную карточку со схемой: название места ещё не указывает направление стрелки. Вернуться к этой проверке можно после осмотра дороги."
    }
   },
   "purpose": "ui"
@@ -5345,9 +6372,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-route-match-result",
   "value": {
-   "default": "Ориентиры совпали: тропа идёт вдоль ограды к отметке «двойная слышимость». Есть конкретное место для проверки сообщения Марата. Ринат уже здесь — он следил за этим поворотом.",
+   "default": "Ориентиры совпали: тропа идёт вдоль ограды к отметке «двойная слышимость». Теперь есть конкретное место для проверки сообщения Марата. Бирка и схема показывают путь; кто здесь проходил, они не устанавливают.",
    "translations": {
-    "ru": "Ориентиры совпали: тропа идёт вдоль ограды к отметке «двойная слышимость». Есть конкретное место для проверки сообщения Марата. Ринат уже здесь — он следил за этим поворотом."
+    "ru": "Ориентиры совпали: тропа идёт вдоль ограды к отметке «двойная слышимость». Теперь есть конкретное место для проверки сообщения Марата. Бирка и схема показывают путь; кто здесь проходил, они не устанавливают."
    }
   },
   "purpose": "ui"
@@ -5356,9 +6383,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-route-marat-proof",
   "value": {
-   "default": "Проверить, принадлежала ли бирка Марату.",
+   "default": "Считать две засечки личным следом Марата.",
    "translations": {
-    "ru": "Проверить, принадлежала ли бирка Марату."
+    "ru": "Считать две засечки личным следом Марата."
    }
   },
   "purpose": "ui"
@@ -5367,9 +6394,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/compare-route-marat-proof-result",
   "value": {
-   "default": "На бирке нет ни имени, ни даты. Она подтверждает место со схемы, но не личность прошедшего человека.",
+   "default": "Я приписал засечки Марату. Проверю это по собственному осмотру: выберу карточку этой версии вместе с записью о придорожной бирке. Важно различить найденный ориентир и след конкретного человека.",
    "translations": {
-    "ru": "На бирке нет ни имени, ни даты. Она подтверждает место со схемы, но не личность прошедшего человека."
+    "ru": "Я приписал засечки Марату. Проверю это по собственному осмотру: выберу карточку этой версии вместе с записью о придорожной бирке. Важно различить найденный ориентир и след конкретного человека."
    }
   },
   "purpose": "ui"
@@ -5435,6 +6462,8 @@
     "id": "urman.chapter1:interaction/compare-records-contradiction",
     "labelTextId": "urman.chapter1:text/compare-records-contradiction",
     "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_cause_excerpt", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_register_wording_excerpt", "status": "confirmed"},
      {
       "op": "not",
       "condition": {
@@ -5490,6 +6519,8 @@
     "id": "urman.chapter1:interaction/compare-voice-echo",
     "labelTextId": "urman.chapter1:text/compare-voice-echo",
     "conditions": [
+     {"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_voice_explained_as_echo","status":"hidden"},
+     {"op":"not","condition":{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_heading_identifies_voice","status":"hypothesis"}},
      {
       "op": "npc.state",
       "characterId": "urman.chapter1:character/rinat",
@@ -5505,7 +6536,10 @@
       }
      }
     ],
-    "effects": [],
+    "effects": [
+     {"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/hypothesis_voice_explained_as_echo","status":"hypothesis"},
+     {"op":"journal.record","entryId":"urman.chapter1:knowledge/hypothesis_voice_explained_as_echo","sourceId":"urman.chapter1:knowledge/hypothesis_voice_explained_as_echo"}
+    ],
     "journalAction": {
      "sourceIds": [
       "urman.oldpc:document/msg_marat_saved_last_normal",
@@ -5518,6 +6552,8 @@
     "id": "urman.chapter1:interaction/compare-voice-link",
     "labelTextId": "urman.chapter1:text/compare-voice-link",
     "conditions": [
+     {"op":"not","condition":{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_voice_explained_as_echo","status":"hypothesis"}},
+     {"op":"not","condition":{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_heading_identifies_voice","status":"hypothesis"}},
      {
       "op": "npc.state",
       "characterId": "urman.chapter1:character/rinat",
@@ -5567,6 +6603,8 @@
     "id": "urman.chapter1:interaction/compare-voice-creature",
     "labelTextId": "urman.chapter1:text/compare-voice-creature",
     "conditions": [
+     {"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_heading_identifies_voice","status":"hidden"},
+     {"op":"not","condition":{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_voice_explained_as_echo","status":"hypothesis"}},
      {
       "op": "npc.state",
       "characterId": "urman.chapter1:character/rinat",
@@ -5582,7 +6620,10 @@
       }
      }
     ],
-    "effects": [],
+    "effects": [
+     {"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/hypothesis_heading_identifies_voice","status":"hypothesis"},
+     {"op":"journal.record","entryId":"urman.chapter1:knowledge/hypothesis_heading_identifies_voice","sourceId":"urman.chapter1:knowledge/hypothesis_heading_identifies_voice"}
+    ],
     "journalAction": {
      "sourceIds": [
       "urman.oldpc:document/msg_marat_saved_last_normal",
@@ -5595,6 +6636,8 @@
     "id": "urman.chapter1:interaction/compare-route-center",
     "labelTextId": "urman.chapter1:text/compare-route-center",
     "conditions": [
+     {"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_route_enters_zirat","status":"hidden"},
+     {"op":"not","condition":{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_tag_identifies_marat","status":"hypothesis"}},
      {
       "op": "not",
       "condition": {
@@ -5604,7 +6647,10 @@
       }
      }
     ],
-    "effects": [],
+    "effects": [
+     {"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/hypothesis_route_enters_zirat","status":"hypothesis"},
+     {"op":"journal.record","entryId":"urman.chapter1:knowledge/hypothesis_route_enters_zirat","sourceId":"urman.chapter1:knowledge/hypothesis_route_enters_zirat"}
+    ],
     "journalAction": {
      "sourceIds": [
       "urman.oldpc:document/doc_kara_urman_edge_sketch",
@@ -5617,6 +6663,9 @@
     "id": "urman.chapter1:interaction/compare-route-match",
     "labelTextId": "urman.chapter1:text/compare-route-match",
     "conditions": [
+     {"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_sketch_field_landmarks","status":"confirmed"},
+     {"op":"not","condition":{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_route_enters_zirat","status":"hypothesis"}},
+     {"op":"not","condition":{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_tag_identifies_marat","status":"hypothesis"}},
      {
       "op": "not",
       "condition": {
@@ -5645,6 +6694,8 @@
     "id": "urman.chapter1:interaction/compare-route-marat-proof",
     "labelTextId": "urman.chapter1:text/compare-route-marat-proof",
     "conditions": [
+     {"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_tag_identifies_marat","status":"hidden"},
+     {"op":"not","condition":{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/hypothesis_route_enters_zirat","status":"hypothesis"}},
      {
       "op": "not",
       "condition": {
@@ -5654,7 +6705,10 @@
       }
      }
     ],
-    "effects": [],
+    "effects": [
+     {"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/hypothesis_tag_identifies_marat","status":"hypothesis"},
+     {"op":"journal.record","entryId":"urman.chapter1:knowledge/hypothesis_tag_identifies_marat","sourceId":"urman.chapter1:knowledge/hypothesis_tag_identifies_marat"}
+    ],
     "journalAction": {
      "sourceIds": [
       "urman.oldpc:document/doc_kara_urman_edge_sketch",
@@ -6674,8 +7728,8 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/choice-alsu-versions",
   "value": {
-   "default": "Что тебе говорили о Марате? В справке только причина закрытия.",
-   "translations": {"ru": "Что тебе говорили о Марате? В справке только причина закрытия."}
+   "default": "А тебе что говорили о Марате?",
+   "translations": {"ru": "А тебе что говорили о Марате?"}
   },
   "purpose": "dialogue"
  },
@@ -6683,8 +7737,8 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/dialogue-alsu-versions-reply",
   "value": {
-   "default": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал». Алсу смотрит на лист. «Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе может показать, что действительно написано. Спроси её, что здесь назвали случаем». Теперь у меня есть вопрос к справке, а не только чужая версия.",
-   "translations": {"ru": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал». Алсу смотрит на лист. «Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе может показать, что действительно написано. Спроси её, что здесь назвали случаем». Теперь у меня есть вопрос к справке, а не только чужая версия."}
+   "default": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал». Алсу ненадолго замолкает. «Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе — {address:ADR-FAP}. Спроси её, что здесь назвали случаем. На табличке улица подписана „Урман“ и „Лесная“; номер ищи уже на ней. У входа написано „ФАП“». Теперь знаю, у кого проверять пересказ.",
+   "translations": {"ru": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал». Алсу ненадолго замолкает. «Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе — {address:ADR-FAP}. Спроси её, что здесь назвали случаем. На табличке улица подписана „Урман“ и „Лесная“; номер ищи уже на ней. У входа написано „ФАП“». Теперь знаю, у кого проверять пересказ."}
   },
   "purpose": "dialogue"
  },
@@ -6701,8 +7755,8 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/choice-alsu-go-to-naila",
   "value": {
-   "default": "Спрошу Наилю о точной формулировке.",
-   "translations": {"ru": "Спрошу Наилю о точной формулировке."}
+   "default": "Сначала сравню твои слова со справкой.",
+   "translations": {"ru": "Сначала сравню твои слова со справкой."}
   },
   "purpose": "dialogue"
  },

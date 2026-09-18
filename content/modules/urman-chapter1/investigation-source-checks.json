@@ -1,0 +1,196 @@
+[
+ {
+  "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_notice_cause_excerpt", "kind": "clue",
+  "title": {"default": "Выписка из справки", "translations": {"ru": "Выписка из справки"}},
+  "summary": {"default": "Причина закрытия дела: внезапная сердечная недостаточность на фоне несчастного случая.", "translations": {"ru": "Причина закрытия дела: внезапная сердечная недостаточность на фоне несчастного случая."}},
+  "initialStatus": "hidden", "sourceIds": ["urman.oldpc:document/doc_marat_official_death_notice"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_register_wording_excerpt", "kind": "clue",
+  "title": {"default": "Выписка из поля реестра", "translations": {"ru": "Выписка из поля реестра"}},
+  "summary": {"default": "Внешняя формулировка: несчастный случай.", "translations": {"ru": "Внешняя формулировка: несчастный случай."}},
+  "initialStatus": "hidden", "sourceIds": ["urman.oldpc:document/rec_marat_case_register_conflict"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_register_category_excerpt", "kind": "clue",
+  "title": {"default": "Ещё одна строка реестра", "translations": {"ru": "Ещё одна строка реестра"}},
+  "summary": {"default": "Категория: граница / ответил.", "translations": {"ru": "Категория: граница / ответил."}},
+  "initialStatus": "hidden", "sourceIds": ["urman.oldpc:document/rec_marat_case_register_conflict"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_message_voice_excerpt", "kind": "clue",
+  "title": {"default": "Выписка из сообщения Марата", "translations": {"ru": "Выписка из сообщения Марата"}},
+  "summary": {"default": "Сегодня опять слышал из урмана голос. Не как эхо. Как будто человек стоит рядом с деревьями и ждёт, когда ты ответишь.", "translations": {"ru": "Сегодня опять слышал из урмана голос. Не как эхо. Как будто человек стоит рядом с деревьями и ждёт, когда ты ответишь."}},
+  "initialStatus": "hidden", "sourceIds": ["urman.oldpc:document/msg_marat_saved_last_normal"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_record_shared_formulation",
+  "kind": "clue",
+  "title": {"default": "Слова, которые совпали", "translations": {"ru": "Слова, которые совпали"}},
+  "summary": {"default": "Я показал Наиле выписанные поля: в справке «несчастный случай» входит в причину закрытия дела, в реестре стоит под заголовком «Внешняя формулировка». Наиля подтвердила совпадение этих слов и попросила показать, что ещё осталось непонятным.", "translations": {"ru": "Я показал Наиле выписанные поля: в справке «несчастный случай» входит в причину закрытия дела, в реестре стоит под заголовком «Внешняя формулировка». Наиля подтвердила совпадение этих слов и попросила показать, что ещё осталось непонятным."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict", "urman.chapter1:knowledge/clue_notice_cause_excerpt", "urman.chapter1:knowledge/clue_register_wording_excerpt"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/hypothesis_category_is_diagnosis",
+  "kind": "hypothesis",
+  "title": {"default": "Категория вместо диагноза?", "translations": {"ru": "Категория вместо диагноза?"}},
+  "summary": {"default": "Я назвал «граница / ответил» другой медицинской причиной. Наиля попросила прочитать заголовок поля. Чтобы проверить мой вывод, нужно различить категорию случая и внешнюю формулировку, затем задать ей вопрос об одной конкретной строке. Это моя версия, не заключение Наили.", "translations": {"ru": "Я назвал «граница / ответил» другой медицинской причиной. Наиля попросила прочитать заголовок поля. Чтобы проверить мой вывод, нужно различить категорию случая и внешнюю формулировку, затем задать ей вопрос об одной конкретной строке. Это моя версия, не заключение Наили."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/rec_marat_case_register_conflict", "urman.chapter1:dialogue/naila_medical_record"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_marat_message_read",
+  "kind": "clue",
+  "title": {"default": "Сообщение, обращённое ко мне", "translations": {"ru": "Сообщение, обращённое ко мне"}},
+  "summary": {"default": "В сохранённом сообщении Марат обращается ко мне по имени. Я могу перечитать его слова в журнале. Раньше Алсу пересказывала версии о нём; теперь у меня есть его собственный текст. Выделю в исходном сообщении цельный фрагмент и вернусь к ней с выпиской.", "translations": {"ru": "В сохранённом сообщении Марат обращается ко мне по имени. Я могу перечитать его слова в журнале. Раньше Алсу пересказывала версии о нём; теперь у меня есть его собственный текст. Выделю в исходном сообщении цельный фрагмент и вернусь к ней с выпиской."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/msg_marat_saved_last_normal"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_message_question_prepared",
+  "kind": "clue",
+  "title": {"default": "Что Марат написал сам", "translations": {"ru": "Что Марат написал сам"}},
+  "summary": {"default": "Выписал из сообщения: «слышал из урмана голос» и «как будто человек стоит рядом с деревьями». В пересказе Алсу были чужие версии, в том числе об отъезде. Теперь спрошу её о разнице между этими источниками, сохранив слова «как будто». Само сообщение ещё не свидетельство о том, кого он видел и что с ним произошло.", "translations": {"ru": "Выписал из сообщения: «слышал из урмана голос» и «как будто человек стоит рядом с деревьями». В пересказе Алсу были чужие версии, в том числе об отъезде. Теперь спрошу её о разнице между этими источниками, сохранив слова «как будто». Само сообщение ещё не свидетельство о том, кого он видел и что с ним произошло."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/msg_marat_saved_last_normal", "urman.chapter1:knowledge/clue_alsu_heard_versions", "urman.chapter1:knowledge/clue_message_voice_excerpt"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/hypothesis_message_proves_sighting",
+  "kind": "hypothesis",
+  "title": {"default": "Он видел человека?", "translations": {"ru": "Он видел человека?"}},
+  "summary": {"default": "Я записал версию, будто Марат видел человека у деревьев. Это моё усиление его слов. Нужно вернуться к исходной фразе и поправить её при разговоре с Алсу. Проверка этой версии относится к содержанию сообщения, а не устанавливает, был ли кто-то в лесу.", "translations": {"ru": "Я записал версию, будто Марат видел человека у деревьев. Это моё усиление его слов. Нужно вернуться к исходной фразе и поправить её при разговоре с Алсу. Проверка этой версии относится к содержанию сообщения, а не устанавливает, был ли кто-то в лесу."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/msg_marat_saved_last_normal"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_alsu_message_reply",
+  "kind": "clue",
+  "title": {"default": "Алсу прочитала выписку", "translations": {"ru": "Алсу прочитала выписку"}},
+  "summary": {"default": "Я вернулся к Алсу с сообщением и прочитал «слышал» вместе с «как будто». Она попросила не превращать эти слова в чужой рассказ: «В тех версиях, которые я тебе пересказала, этого не было». Её ответ не удостоверяет событие в лесу. Теперь у меня есть точная тревожная фраза Марата, с которой можно искать источник об урмане, не выдавая слух за его свидетельство.", "translations": {"ru": "Я вернулся к Алсу с сообщением и прочитал «слышал» вместе с «как будто». Она попросила не превращать эти слова в чужой рассказ: «В тех версиях, которые я тебе пересказала, этого не было». Её ответ не удостоверяет событие в лесу. Теперь у меня есть точная тревожная фраза Марата, с которой можно искать источник об урмане, не выдавая слух за его свидетельство."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/msg_marat_saved_last_normal", "urman.chapter1:dialogue/alsu_route_context"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-naila-record-question", "value": {"default": "Наиля придвигает справку к краю стола. «Покажи, какую строку ты сравниваешь. Тут причина закрытия, там несколько разных полей. Не всё сразу, Айдар». Можно сверить обе записи в журнале и вернуться к вопросу.", "translations": {"ru": "Наиля придвигает справку к краю стола. «Покажи, какую строку ты сравниваешь. Тут причина закрытия, там несколько разных полей. Не всё сразу, Айдар». Можно сверить обе записи в журнале и вернуться к вопросу."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-naila-show-external-wording", "value": {"default": "Показать выписанные строки.", "translations": {"ru": "Показать выписанные строки."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-naila-matching-formulation", "value": {"default": "«Да. Ты показал слова, которые совпадают». Она держит палец на справке. «Теперь покажи, что осталось непонятным». Наиля ждёт, пока я найду отдельное поле в выписке.", "translations": {"ru": "«Да. Ты показал слова, которые совпадают». Она держит палец на справке. «Теперь покажи, что осталось непонятным». Наиля ждёт, пока я найду отдельное поле в выписке."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-naila-ask-category-scope", "value": {"default": "Показать строку, о которой хотел спросить.", "translations": {"ru": "Показать строку, о которой хотел спросить."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-naila-category-as-diagnosis", "value": {"default": "Значит, здесь другая медицинская причина?", "translations": {"ru": "Значит, здесь другая медицинская причина?"}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-naila-category-correction", "value": {"default": "«Прочитай заголовок над этими словами». Наиля не берёт выписку. «Ты сам сейчас назвал это диагнозом. Где там так написано?» Можно уйти, снова открыть записи и продолжить с этого вопроса.", "translations": {"ru": "«Прочитай заголовок над этими словами». Наиля не берёт выписку. «Ты сам сейчас назвал это диагнозом. Где там так написано?» Можно уйти, снова открыть записи и продолжить с этого вопроса."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-naila-review-record-fields", "value": {"default": "Показать уточнённую выписку.", "translations": {"ru": "Показать уточнённую выписку."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-naila-recheck-records", "value": {"default": "Перечитать обе записи, прежде чем продолжить.", "translations": {"ru": "Перечитать обе записи, прежде чем продолжить."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/compare-message-seen", "value": {"default": "Считать сообщение свидетельством: Марат видел человека у деревьев.", "translations": {"ru": "Считать сообщение свидетельством: Марат видел человека у деревьев."}}, "purpose": "ui"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/compare-message-seen-result", "value": {"default": "Я записал версию о виденном человеке. Но в пересказе Алсу такого свидетельства не было. Перед следующим разговором стоит проверить, какие слова в моём выводе принадлежат самому Марату. Исходное сообщение остаётся в журнале.", "translations": {"ru": "Я записал версию о виденном человеке. Но в пересказе Алсу такого свидетельства не было. Перед следующим разговором стоит проверить, какие слова в моём выводе принадлежат самому Марату. Исходное сообщение остаётся в журнале."}}, "purpose": "ui"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-alsu-message-return", "value": {"default": "«Ты уже возвращаешься?» Алсу перестаёт растирать ладони. Я говорю, что нашёл сообщение Марата. Она смотрит на раскрытый журнал: «Покажешь?»", "translations": {"ru": "«Ты уже возвращаешься?» Алсу перестаёт растирать ладони. Я говорю, что нашёл сообщение Марата. Она смотрит на раскрытый журнал: «Покажешь?»"}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-alsu-show-message", "value": {"default": "Показать сохранённое сообщение Марата.", "translations": {"ru": "Показать сохранённое сообщение Марата."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-alsu-message-question", "value": {"default": "Алсу задерживается на «если когда-нибудь это найдёшь». Потом возвращает взгляд к началу выписки. «Ты говоришь, это меняет мой рассказ. Прочитай, что он написал сам. Только не пересказывай за него». Можно открыть само сообщение в журнале и выделить фрагмент для выписки.", "translations": {"ru": "Алсу задерживается на «если когда-нибудь это найдёшь». Потом возвращает взгляд к началу выписки. «Ты говоришь, это меняет мой рассказ. Прочитай, что он написал сам. Только не пересказывай за него». Можно открыть само сообщение в журнале и выделить фрагмент для выписки."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-alsu-quote-heard-voice", "value": {"default": "Прочитать выписку.", "translations": {"ru": "Прочитать выписку."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-alsu-quote-seen-person", "value": {"default": "Он видел человека, который ждал у деревьев.", "translations": {"ru": "Он видел человека, который ждал у деревьев."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-alsu-message-overreach", "value": {"default": "«Где у него “видел”?» Алсу наклоняется к странице. «Я передала тебе чужое “уехал”. Пересказ не стал свидетельством только потому, что я его произнесла. Не делай с его словами то же самое». Она оставляет страницу открытой. Разговор можно продолжить после проверки исходной фразы.", "translations": {"ru": "«Где у него “видел”?» Алсу наклоняется к странице. «Я передала тебе чужое “уехал”. Пересказ не стал свидетельством только потому, что я его произнесла. Не делай с его словами то же самое». Она оставляет страницу открытой. Разговор можно продолжить после проверки исходной фразы."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-alsu-correct-seen-person", "value": {"default": "Прочитать выписку без моей догадки.", "translations": {"ru": "Прочитать выписку без моей догадки."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-alsu-message-bounded-reply", "value": {"default": "Алсу слушает до конца. «В тех версиях, которые я тебе пересказала, этого не было». Она отворачивается от страницы, потом придерживает её от ветра. «Он тебе написал, Айдар. Мне страшно это читать. Будешь спрашивать дальше — не убирай “как будто”. Не хочу, чтобы вместо Марата у тебя опять получился чужой рассказ». Теперь можно вернуться к ПК и поискать, что есть об урмане.", "translations": {"ru": "Алсу слушает до конца. «В тех версиях, которые я тебе пересказала, этого не было». Она отворачивается от страницы, потом придерживает её от ветра. «Он тебе написал, Айдар. Мне страшно это читать. Будешь спрашивать дальше — не убирай “как будто”. Не хочу, чтобы вместо Марата у тебя опять получился чужой рассказ». Теперь можно вернуться к ПК и поискать, что есть об урмане."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-alsu-check-original", "value": {"default": "Вернуться к исходному сообщению и её прежним словам.", "translations": {"ru": "Вернуться к исходному сообщению и её прежним словам."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-alsu-street-questions", "value": {"default": "Спросить о другом.", "translations": {"ru": "Спросить о другом."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/objective-check-message-account", "value": {"default": "Выделить в сообщении Марата цельный фрагмент и показать выписку Алсу.", "translations": {"ru": "Выделить в сообщении Марата цельный фрагмент и показать выписку Алсу."}}, "purpose": "ui"},
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/investigation-message-account",
+  "sceneType": "presentation",
+  "title": {"default": "Сообщение и пересказ", "translations": {"ru": "Сообщение и пересказ"}},
+  "assetRefs": [],
+  "textRefs": ["urman.chapter1:text/compare-message-seen", "urman.chapter1:text/compare-message-seen-result"],
+  "entryConditions": [], "onEnter": [], "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/compare-message-seen",
+    "labelTextId": "urman.chapter1:text/compare-message-seen",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_message_question_prepared", "status": "confirmed"}},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting", "status": "contradicted"}}
+    ],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting", "status": "hypothesis"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting", "sourceId": "urman.chapter1:knowledge/hypothesis_message_proves_sighting"}
+    ],
+    "journalAction": {"sourceIds": ["urman.oldpc:document/msg_marat_saved_last_normal", "urman.chapter1:knowledge/clue_alsu_heard_versions"], "resultTextId": "urman.chapter1:text/compare-message-seen-result"}
+   }
+  ]
+ },
+ {"schemaVersion": 1, "id": "urman.chapter1:text/record-source-excerpt", "value": {"default": "Сохранить выделенную выписку.", "translations": {"ru": "Сохранить выделенную выписку."}}, "purpose": "ui"},
+ {
+  "schemaVersion": 1, "id": "urman.chapter1:scene/investigation-source-excerpts", "sceneType": "presentation",
+  "title": {"default": "Выписки из источников", "translations": {"ru": "Выписки из источников"}},
+  "assetRefs": [], "textRefs": ["urman.chapter1:text/record-source-excerpt"],
+  "entryConditions": [], "onEnter": [], "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/excerpt-notice-cause", "labelTextId": "urman.chapter1:text/record-source-excerpt",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_cause_excerpt", "status": "confirmed"}}
+    ],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_cause_excerpt", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_notice_cause_excerpt", "sourceId": "urman.chapter1:knowledge/clue_notice_cause_excerpt"}
+    ]
+   },
+   {
+    "id": "urman.chapter1:interaction/excerpt-register-wording", "labelTextId": "urman.chapter1:text/record-source-excerpt",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_register_wording_excerpt", "status": "confirmed"}}
+    ],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_register_wording_excerpt", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_register_wording_excerpt", "sourceId": "urman.chapter1:knowledge/clue_register_wording_excerpt"}
+    ]
+   },
+   {
+    "id": "urman.chapter1:interaction/excerpt-register-category", "labelTextId": "urman.chapter1:text/record-source-excerpt",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker", "status": "confirmed"},
+     {"op": "any", "conditions": [
+      {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_register_category_excerpt", "status": "confirmed"}},
+      {"op": "npc.state", "characterId": "urman.chapter1:character/naila", "stateKey": "category_excerpt_review_requested", "value": true}
+     ]}
+    ],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_register_category_excerpt", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_register_category_excerpt", "sourceId": "urman.chapter1:knowledge/clue_register_category_excerpt"},
+     {"op": "npc.set-state", "characterId": "urman.chapter1:character/naila", "stateKey": "category_excerpt_review_requested", "value": false}
+    ]
+   },
+   {
+    "id": "urman.chapter1:interaction/excerpt-message-voice", "labelTextId": "urman.chapter1:text/record-source-excerpt",
+    "conditions": [
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_marat_message_read", "status": "confirmed"},
+     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_alsu_heard_versions", "status": "confirmed"},
+     {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_message_voice_excerpt", "status": "confirmed"}}
+    ],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_message_voice_excerpt", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_message_voice_excerpt", "sourceId": "urman.chapter1:knowledge/clue_message_voice_excerpt"},
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_message_question_prepared", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_message_question_prepared", "sourceId": "urman.chapter1:knowledge/clue_message_question_prepared"}
+    ]
+   }
+  ]
+ }
+]
