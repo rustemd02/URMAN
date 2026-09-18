@@ -1,0 +1,4 @@
+- Prefers communication in Russian. Confidence: 0.95
+- Prefers agent to set and track work via explicit /goal objective. Confidence: 0.85
+- Prefers agent to autonomously finish all closable work without waiting for human playthrough / external gates. Confidence: 0.85
+- Prefers agent to delete temporary runs and temp files (videos, photos, logs) once unneeded to free disk space. Confidence: 0.9
