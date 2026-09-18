@@ -3218,6 +3218,166 @@
    ]
   },
   {
+   "id": "ACT1-OLDPC-CHAT",
+   "title": "Живой чат «Ялкын · Сообщения»: треды Алсу/Ринат/бабай/заметки, варианты ответа, триггеры, unread, bounded-снапшот",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-OLDPC"
+   ],
+   "scope": [
+    "game/scripts/OldPcUi.cs",
+    "src-dotnet/Urman.Core/Capabilities/OldPc",
+    "content/modules/urman-oldpc/chat"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/03_oldpc_full_system.md",
+    "author/2026-09-18-oldpc-full-system-request"
+   ],
+   "deliverable": "§3 ТЗ 03: живой чат — Марат только read-only архив, Ринат после rinat.alerted, первая сцена ПК — первое сообщение бабая; свободный текст не двигает сюжет; чат не выдаёт закрытые документы.",
+   "done_when": [
+    "Требование реализовано в основной игре и подтверждено соответствующей проверкой на точной текущей сборке.",
+    "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-OLDPC-HINTS",
+   "title": "Контекстные подсказки 3 уровней: тред «Заметки Айдара» + строка архива, hints/*.md, gating без спойлеров, hintsSeen",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-OLDPC",
+    "ACT1-OLDPC-CHAT"
+   ],
+   "scope": [
+    "game/scripts/OldPcUi.cs",
+    "src-dotnet/Urman.Core/Capabilities/OldPc",
+    "content/modules/urman-oldpc/hints"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/03_oldpc_full_system.md",
+    "author/2026-09-18-oldpc-full-system-request"
+   ],
+   "deliverable": "§4 ТЗ 03: хинт ведёт к месту улики, не цитирует закрытое; уровень 3 после ≥2 Tier-A; хинты не пишут knowledge/журнал.",
+   "done_when": [
+    "Требование реализовано в основной игре и подтверждено соответствующей проверкой на точной текущей сборке.",
+    "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-OLDPC-SEARCH",
+   "title": "Глобальный поиск: поле в «Пуске» + «Искать везде»; доки+чат+заметки+история; татарские ключи",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-OLDPC"
+   ],
+   "scope": [
+    "game/scripts/OldPcUi.cs",
+    "src-dotnet/Urman.Core/Capabilities/OldPc"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/03_oldpc_full_system.md",
+    "author/2026-09-18-oldpc-full-system-request"
+   ],
+   "deliverable": "§2 ТЗ 03: закрытые не участвуют в выдаче («🔒 Закрытые записи»); клик через IsOldPcDocumentAccessible; поиск не даёт знаний.",
+   "done_when": [
+    "Требование реализовано в основной игре и подтверждено соответствующей проверкой на точной текущей сборке.",
+    "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-OLDPC-DOCS",
+   "title": "30+ глубоких документов: Tier A 12 × ≥350 слов / Tier B 10 × ≥150 / Tier C 10+, gating-цепочки, татарский слой, ссылки",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-OLDPC"
+   ],
+   "scope": [
+    "content/modules/urman-oldpc/documents",
+    "content/modules/urman-oldpc/module.json"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/03_oldpc_full_system.md",
+    "author/2026-09-18-oldpc-full-system-request"
+   ],
+   "deliverable": "§6 ТЗ 03: Tier-A — searchTerms ≥5 (≥1 татарское), suggestedTerms ≥2, reveals/requires/unlocks, reliability+canonStatus, ≥2 ссылки; пароль максимум один (татарское слово); быт — ложные следы.",
+   "done_when": [
+    "Требование реализовано в основной игре и подтверждено соответствующей проверкой на точной текущей сборке.",
+    "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-OLDPC-TETRIS",
+   "title": "Тетрис-пасхалка: стакан 10×20, 7 фигур, уровни/пауза, только tetrisHigh, изоляция от knowledge",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-OLDPC"
+   ],
+   "scope": [
+    "game/scripts",
+    "src-dotnet/Urman.Core/Capabilities/OldPc"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/03_oldpc_full_system.md",
+    "author/2026-09-18-oldpc-full-system-request"
+   ],
+   "deliverable": "§7 ТЗ 03: счёт не открывает документы/реплики/хинты/журнал; середина партии не сохраняется; пауза при сворачивании; отдельный UI-класс.",
+   "done_when": [
+    "Требование реализовано в основной игре и подтверждено соответствующей проверкой на точной текущей сборке.",
+    "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-OLDPC-SHELL",
+   "title": "Оболочка под 9 окон: снапшот/схема/провайдер (chat, tetris, hintsSeen, tetrisHigh), миграция сейвов, доступность",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-OLDPC"
+   ],
+   "scope": [
+    "game/scripts/OldPcUi.Desktop.cs",
+    "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcDesktopSnapshot.cs",
+    "content/modules/urman-oldpc/schemas/oldpc-state.schema.json"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/03_oldpc_full_system.md",
+    "author/2026-09-18-oldpc-full-system-request"
+   ],
+   "deliverable": "§9 ТЗ 03: C#+схема+провайдер меняются вместе; старые сейвы мигрируют без краша; новые контролы в ApplyDesktopAccessibility.",
+   "done_when": [
+    "Требование реализовано в основной игре и подтверждено соответствующей проверкой на точной текущей сборке.",
+    "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
    "id": "ACT1-TRANSPORT",
    "progress_2026_09_17_B43": {
     "build": "B43",
