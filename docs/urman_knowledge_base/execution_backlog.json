@@ -3375,7 +3375,13 @@
     "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
     "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
    ],
-   "evidence": []
+   "evidence": [
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_shell_2026-09-19.md",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_shell_smoke_2026-09-19.log",
+    "src-dotnet/Urman.Core/Capabilities/OldPc/OldPcDesktopSnapshot.cs",
+    "content/modules/urman-oldpc/schemas/oldpc-state.schema.json"
+   ],
+   "progress_2026_09_19": "2026-09-19 state layer implemented and verified on this build: Applications 7->9 (chat, tetris), chat threads/messages, hintsSeen and tetrisHigh bounded in C# and mirrored in the schema; unknown window ids are dropped and pre-existing saves get defaults instead of failing the load. verify-dotnet green (Core 57/57 with four new tests, Content 12/12), old_pc_desktop_smoke_test and old_pc_flow_smoke_test PASS under the userdata guard. The chat and tetris windows themselves, and their controls, belong to ACT1-OLDPC-CHAT/TETRIS; ApplyDesktopAccessibility already walks the whole screen tree, so they are covered when they land."
   },
   {
    "id": "ACT1-TRANSPORT",

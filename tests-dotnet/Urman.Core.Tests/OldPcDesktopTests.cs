@@ -72,6 +72,105 @@ public sealed class OldPcDesktopTests
     }
 
     [Fact]
+    public void Desktop_RoundTripsChatHintsAndTetrisRecordAlongsideNineWindows()
+    {
+        using var host = NewHost();
+        host.Handle(InstanceId, DesktopInput(new()
+        {
+            Windows =
+            [
+                new() { Id = "chat", X = .1f, Y = .1f, Width = .7f, Height = .7f },
+                new() { Id = "tetris", X = .2f, Y = .2f, Width = .5f, Height = .5f, Minimized = true }
+            ],
+            Chat =
+            [
+                new() { Id = "alsu", Unread = true, Messages =
+                    [new() { From = "npc", Text = "Сәлам, Айдар." }, new() { From = "player", Text = "Исәнмесез." }] }
+            ],
+            HintsSeen = ["hint-look-at-registry"],
+            TetrisHigh = 12345
+        }));
+        var copy = ReadDesktop(host);
+        Assert.Equal(["chat", "tetris"], copy.Windows.Select(window => window.Id));
+        Assert.Equal(12345, copy.TetrisHigh);
+        Assert.Equal(["hint-look-at-registry"], copy.HintsSeen);
+        var thread = Assert.Single(copy.Chat);
+        Assert.Equal("alsu", thread.Id);
+        Assert.True(thread.Unread);
+        Assert.Equal(2, thread.Messages.Count);
+        Assert.Equal("npc", thread.Messages[0].From);
+        Assert.Equal("player", thread.Messages[1].From);
+    }
+
+    [Fact]
+    public void Desktop_DefaultsNewFieldsForASnapshotWrittenBeforeTheyExisted()
+    {
+        using var host = NewHost();
+        host.Handle(InstanceId, DesktopInput(new()
+        {
+            Files = [new() { Id = "note-kept", Title = "Заметка.txt", Text = "Из старого сейва" }]
+        }));
+        var saved = JsonNode.Parse(host.Capture(InstanceId).State.GetRawText())!;
+        var desktop = saved["desktop"]!.AsObject();
+        Assert.True(desktop.Remove("chat"));
+        Assert.True(desktop.Remove("hintsSeen"));
+        Assert.True(desktop.Remove("tetrisHigh"));
+        host.Handle(InstanceId, JsonSerializer.SerializeToElement(new { type = "desktop", desktop = saved["desktop"] }));
+        var copy = ReadDesktop(host);
+        Assert.Empty(copy.Chat);
+        Assert.Empty(copy.HintsSeen);
+        Assert.Equal(0, copy.TetrisHigh);
+        Assert.Equal("Из старого сейва", Assert.Single(copy.Files).Text);
+    }
+
+    [Fact]
+    public void Desktop_DropsWindowsOfProgramsThisBuildDoesNotShip()
+    {
+        using var host = NewHost();
+        host.Handle(InstanceId, DesktopInput(new() { Windows = [new() { Id = "browser" }] }));
+        var desktop = JsonNode.Parse(host.Capture(InstanceId).State.GetRawText())!["desktop"]!.AsObject();
+        desktop["windows"]!.AsArray().Add(JsonNode.Parse(
+            """{"id":"legacy-net","x":0.1,"y":0.1,"width":0.5,"height":0.5,"minimized":false,"maximized":false}"""));
+        desktop["activeWindowId"] = "legacy-net";
+        host.Handle(InstanceId, JsonSerializer.SerializeToElement(new { type = "desktop", desktop = desktop }));
+        var copy = ReadDesktop(host);
+        Assert.Equal("browser", Assert.Single(copy.Windows).Id);
+        Assert.Null(copy.ActiveWindowId);
+    }
+
+    [Fact]
+    public void Desktop_RejectsOutOfBoundsChatHintsAndTetris()
+    {
+        using var host = NewHost();
+        Assert.Throws<InvalidDataException>(() => host.Handle(InstanceId, DesktopInput(new()
+        {
+            Chat = [.. Enumerable.Range(0, 5).Select(_ => new OldPcChatThreadSnapshot { Id = "alsu" })]
+        })));
+        Assert.Throws<InvalidDataException>(() => host.Handle(InstanceId, DesktopInput(new()
+        {
+            Chat = [new() { Id = "rinat", Messages = [.. Enumerable.Range(0, 65)
+                .Select(_ => new OldPcChatMessageSnapshot { From = "npc", Text = "Строка" })] }]
+        })));
+        Assert.Throws<InvalidDataException>(() => host.Handle(InstanceId, DesktopInput(new()
+        {
+            Chat = [new() { Id = "mansur", Messages =
+                [new() { From = "npc", Text = new string('я', 501) }] }]
+        })));
+        Assert.Throws<InvalidDataException>(() => host.Handle(InstanceId, DesktopInput(new()
+        {
+            Chat = [new() { Id = "unknown-thread" }]
+        })));
+        Assert.Throws<InvalidDataException>(() => host.Handle(InstanceId, DesktopInput(new()
+        {
+            HintsSeen = [.. Enumerable.Range(0, 65).Select(index => $"hint-{index}")]
+        })));
+        Assert.Throws<InvalidDataException>(() => host.Handle(InstanceId, DesktopInput(new()
+        {
+            TetrisHigh = 1000000
+        })));
+    }
+
+    [Fact]
     public void Desktop_InvalidMutationDoesNotLosePreviousState()
     {
         using var host = NewHost();

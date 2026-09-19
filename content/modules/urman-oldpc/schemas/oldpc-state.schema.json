@@ -9,7 +9,7 @@
   "properties": {
     "windows": {
       "type": "array",
-      "maxItems": 7,
+      "maxItems": 9,
       "items": {
         "type": "object",
         "required": [
@@ -30,7 +30,9 @@
               "notepad",
               "writer",
               "pictures",
-              "trash"
+              "trash",
+              "chat",
+              "tetris"
             ]
           },
           "x": {
@@ -147,6 +149,72 @@
       "type": "number",
       "minimum": 0,
       "maximum": 315360000
+    },
+    "chat": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "unread",
+          "messages"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "alsu",
+              "rinat",
+              "mansur",
+              "self"
+            ]
+          },
+          "unread": {
+            "type": "boolean"
+          },
+          "messages": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "type": "object",
+              "required": [
+                "from",
+                "text"
+              ],
+              "properties": {
+                "from": {
+                  "enum": [
+                    "npc",
+                    "player"
+                  ]
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "hintsSeen": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64
+      }
+    },
+    "tetrisHigh": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999999
     }
   },
   "additionalProperties": false
