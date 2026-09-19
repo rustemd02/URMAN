@@ -1,0 +1,70 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M1 (Apple7)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=101 shapes=716 carved_door_slabs=12 flat_slab_skipped=2001 interior_shell_skipped=1300 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=86 worst_analytic_vs_collision_delta=0,028m worst_placement=ArrivalForwardEastShed
+zone-loaded: village_day@arrival connected-world=55431923803
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=1120
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=55431923803
+SaveGameV3 new game session started; existing slots untouched.
+act1-carry: check ordinary New Game
+act1-carry: check debug-off normal controls after intro
+SaveGameV3 written to /Users/kadyrahunov/Library/Application Support/Godot/app_userdata/URMAN/savegames/carry-pristine.savegame-v3.json
+act1-carry: check pristine reachable snapshot
+act1-carry: local camera fixture (-31.150002, 0.5821749, 4.6) target=(-32.4, 0.75500333, 4.6) side=(1, 0, 0) reach=1,25
+act1-carry: check real camera capture 01_log_and_yard
+act1-carry: check layer-2 wall blocks pickup and aim
+act1-carry: check aimed pickup commits one held item
+act1-carry: check real camera capture 02_held_log
+act1-carry: check second simultaneous ownership rejected atomically
+act1-carry: check modal blocks take/place/rotate without hidden progress
+act1-carry: local camera fixture (-31.150002, 0.7412784, 5.85) target=(-31.150002, 0.60307336, 4.6) side=(0, 0, 1) reach=1,25
+act1-carry: check supported placement: 
+act1-carry: check mapped placement commits checked transform
+act1-carry: check placement restores physical body
+act1-carry: local camera fixture (-31.150002, 0.73948544, 5.831407) target=(-31.150002, 0.6700994, 4.581407) side=(0, 0, 1) reach=1,25
+act1-carry: check placed thing can be taken again
+act1-carry: local camera fixture (-31.150002, 0.7412784, 5.85) target=(-31.150002, 0.60307336, 4.6) side=(0, 0, 1) reach=1,25
+act1-carry: check supported placement: 
+act1-carry: check mapped placement commits checked transform
+act1-carry: local camera fixture (-27.6, 0.26995757, 2.15) target=(-27.6, 0.6765409, 0.9) side=(0, 0, 1) reach=1,25
+act1-carry: check shovel is physically carried, not a remote switch
+act1-carry: local camera fixture (-23.95, 0.37133414, -2.85) target=(-25.2, 0.5909158, -2.85) side=(1, 0, 0) reach=1,25
+act1-carry: check real camera capture 03_snow_before
+act1-carry: check only the aimed snow opening changes
+act1-carry: check clearing removes the actual passage barrier
+act1-carry: check real camera capture 04_snow_cleared
+act1-carry: local camera fixture (-30.5, 0.5035467, 4.3) target=(-32.5, 0.81727445, 4.3) side=(1, 0, 0) reach=2
+act1-carry: check second aimed clearing reveals its real object
+act1-carry: check real camera capture 05_uncovered_axe
+act1-carry: local camera fixture (-31.05, 0.89195925, 7.45) target=(-31.05, 0.7954645, 6.2) side=(0, 0, 1) reach=1,25
+act1-carry: check supported placement: 
+act1-carry: check mapped placement commits checked transform
+act1-carry: local camera fixture (-30.5, 0.5035467, 4.3) target=(-32.5, 0.7047745, 4.3) side=(1, 0, 0) reach=2
+act1-carry: check uncovered axe can be taken
+SaveGameV3 written to /Users/kadyrahunov/Library/Application Support/Godot/app_userdata/URMAN/savegames/carry-cleared-held.savegame-v3.json
+act1-carry: check cleared yard and held object saved together
+zone-loaded: village_day@arrival connected-world=55431923803
+SaveGameV3 restored.
+act1-carry: check load pristine snapshot
+act1-carry: check missing deviations reset transforms, custody, concealment and snow
+zone-loaded: village_day@arrival connected-world=55431923803
+SaveGameV3 restored.
+act1-carry: check load cleared/held snapshot
+act1-carry: check restored held find is visible and the clearing persists
+act1-carry: check real camera capture 06_loaded_held_axe
+act1-carry: check optional physical work grants no story transition
+zone-loaded: village_day@arrival connected-world=55431923803
+SaveGameV3 new game session started; existing slots untouched.
+act1-carry: check new runtime session on persistent world
+act1-carry: check New Game clears local consequences and re-registers custody
+act1-carry: local camera fixture (-31.150002, 0.5821749, 4.6) target=(-32.4, 0.75500333, 4.6) side=(1, 0, 0) reach=1,25
+act1-carry: check pickup still works after New Game registration
+act1-carry: PASS 35 meaningful local checks; no human duration/art claim
+userdata guard: original files and permissions restored and verified

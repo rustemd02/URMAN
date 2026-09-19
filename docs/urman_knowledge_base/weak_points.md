@@ -1,5 +1,39 @@
 # Weak Points
 
+## M1-фото недостижимо, отладочные спавны и контент-гейт сломаны (верификация 2026-09-15)
+
+2026-09-15, второй проход по коду (`../production/urman_ttz_audit_verification_2026-09-15.md`):
+
+- `ArrivalPhotoTarget` (`Act1ConnectedWorld.ExteriorDiscoveries.cs:77–83`) создан с
+  **пустым** `interactionId`, поэтому `RuntimeBridge.IsInteractionAvailable("")` всегда
+  ложен: цель навсегда получает `CollisionLayer=0` (`InteractionTarget.cs:164–187`, маршрутизация
+  гасит её повторно в `Act1ConnectedWorld.cs:606–630`). Документ
+  `urman.chapter1:document/arrival-photo-evidence` есть в паке, но на него не ссылается
+  ни одна сущность — память Марата в игре не получить. Тесты закрывают только
+  программное открытие документа (`JournalFlowSmokeTest.cs:159`).
+- Две записи меню «Отладка: локации» (`MainMenuUi.cs:52–53`: `Мечеть`,
+  `подход к лесу`) ссылаются на спавны, не объявленные в `Act1WorldLayout`
+  (`village_day/mosque`, `kara_urman_night/forest-approach`): `Main.SwitchZone` печатает
+  ошибку и прерывает переход (`Main.cs:98–111`), а `Act1DemoRoot` после этого всё равно
+  записывает запрошенные zone/spawn в мост. Тест проверяет только `village_path`.
+- Гейт контента красный: `npm run content:check` падает, `npm run test:content` 6/68 fail,
+  `npm run test:runtime` 3/102 fail — одна причина: `urman.chapter1` ссылается на
+  документы `urman.oldpc` в `journalAction.sourceIds`, а манифест объявляет
+  `"dependencies": []` (обратная зависимость oldpc→chapter1 уже есть, поэтому просто
+  объявить нельзя — будет цикл). Ссылки внесены коммитом `401f5bd`; `content:check`
+  не входит в `eng/`-проверки, поэтому расхождение накопилось незамеченным.
+
+## Управление и двери расходятся с ТЗ на доработку
+
+2026-09-15, аудит ТЗ (`../production/urman_ttz_compliance_audit_2026-09-15.md`):
+прыжка нет вовсе; действие `crouch` связано с C/gamepad B и переназначается в
+настройках («Пригнуться» в `SettingsUi.cs:40`), но его не читает ни один скрипт —
+UI обещает механику; у игрока нет меша, ног и тени (`first_person_player.tscn`);
+двери — статичные меши без состояний (открыта/заперта/стук). Пока это не
+исправлено, настройки ввода вводят игрока в заблуждение, а ТЗ §2–§4 остаётся
+невыполненным. Отдельно: премиса ТЗ об автоматическом стуке не подтверждается
+кодом и историей git — стука нет ни автоматического, ни ручного.
+
 ## New painterly surface families remain candidates
 
 2026-09-10: 19 ImageGen albedos cover 12 previously missing surface families
