@@ -82,6 +82,19 @@ public partial class OldPcChatSmokeTest : Node
                 && bridge.JournalEntries().Count == journalBefore,
                 "the chat grants no knowledge and writes no journal entry");
 
+            // ACT1-OLDPC-SHELL's last clause: the new window's controls go
+            // through the existing accessibility pass instead of private theming.
+            ui.ApplyAccessibilitySettings(AccessibilitySettingsSnapshot.Default with { TextScale = 1.6, HighContrast = true });
+            await Frames(4);
+            var screen = ui.GetNode<Control>("Screen");
+            var chatWindow = ui.GetNode<Control>("Screen/App_chat");
+            Check(screen.GetGlobalRect().Grow(1).Encloses(chatWindow.GetGlobalRect()),
+                "large text and high contrast keep the chat window inside the desktop: " + chatWindow.GetGlobalRect());
+            Check(log.GetThemeFontSize("normal_font_size") == 38,
+                "the chat log follows the shared text scale: " + log.GetThemeFontSize("normal_font_size"));
+            ui.ApplyAccessibilitySettings(AccessibilitySettingsSnapshot.Default);
+            await Frames(4);
+
             Check(await bridge.SaveSlotAsync(Slot), "the chat saves inside the existing desktop snapshot");
             Check(await bridge.LoadSlotAsync(Slot), "the chat loads back");
             await Frames(6);

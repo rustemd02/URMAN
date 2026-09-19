@@ -90,12 +90,12 @@
   Результат: `03_oldpc_full_system.md` §7: счёт не открывает документы/реплики/хинты/журнал; середина партии не сохраняется; пауза при сворачивании; отдельный UI-класс.
   Зависимости: ACT1-OLDPC. Владелец: root/expanded-act1.
   Готово когда: Требование реализовано в основной игре и подтверждено соответствующей проверкой на точной текущей сборке.
-- **ACT1-OLDPC-SHELL** [in_progress] (milestone M5 — External QA and release acceptance, deferred): Оболочка под 9 окон: снапшот/схема/провайдер (`Applications += chat, tetris`, окон max 9, `chat`/`hintsSeen`/`tetrisHigh`), миграция старых сейвов, доступность новых окон
+- **ACT1-OLDPC-SHELL** [completed] (milestone M5 — External QA and release acceptance, deferred): Оболочка под 9 окон: снапшот/схема/провайдер (`Applications += chat, tetris`, окон max 9, `chat`/`hintsSeen`/`tetrisHigh`), миграция старых сейвов, доступность новых окон
   Результат: `03_oldpc_full_system.md` §9: C# + схема + провайдер меняются только вместе; неизвестные id окон отбрасываются, новые поля — дефолты, load не крашится; новые контролы вписаны в `ApplyDesktopAccessibility`.
   Зависимости: ACT1-OLDPC. Владелец: root/expanded-act1.
   Готово когда: Требование реализовано в основной игре и подтверждено соответствующей проверкой на точной текущей сборке.
   Evidence: docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_shell_2026-09-19.md
-  2026-09-19: слой состояния готов и проверен на текущей сборке (`Applications` 7→9, `chat`/`hintsSeen`/`tetrisHigh` в C# и в схеме, отбрасывание неизвестных окон, дефолты для старых сейвов); `verify-dotnet` зелёный (Core 57/57, четыре новых теста; Content 12/12), `old_pc_desktop_smoke_test` и `old_pc_flow_smoke_test` PASS под guard'ом. Сами окна чата и тетриса и их контролы — в ACT1-OLDPC-CHAT/TETRIS; `ApplyDesktopAccessibility` уже обходит всё дерево `_screen`, поэтому покроет их при появлении.
+  2026-09-19: слой состояния готов и проверен на текущей сборке (`Applications` 7→9, `chat`/`hintsSeen`/`tetrisHigh` в C# и в схеме, отбрасывание неизвестных окон, дефолты для старых сейвов); `verify-dotnet` зелёный (Core 57/57, четыре новых теста; Content 12/12), `old_pc_desktop_smoke_test` и `old_pc_flow_smoke_test` PASS под guard'ом. Окно чата пришло в ACT1-OLDPC-CHAT, и `old_pc_chat_smoke_test` подтвердил его контролы через тот же проход доступности (крупный текст и контраст держат окно внутри стола, лог следует общему масштабу 1.6); контролы тетриса закрывают ту же строку внутри ACT1-OLDPC-TETRIS.
 
 ### §7. Старая Нива
 
