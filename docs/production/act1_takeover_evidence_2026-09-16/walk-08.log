@@ -1,0 +1,91 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1579 carved_door_slabs=101 flat_slab_skipped=2469 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=109370674991
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=109370674991
+SaveGameV3 new game session started; existing slots untouched.
+act1-intro: confirmed with E
+walk-frame: approach-urman.chapter1:interaction/view-arrival-message actual-player-position=(3.4304404, -0.38041213, 5.2362905)
+act1-physical-arrival: ordinary walk to bench; phone/photo through camera ray and mapped input; visible personal answer
+walk-frame: arrival-house-path-1 actual-player-position=(-0.20286229, -0.25994995, 2.1667008)
+walk-frame: arrival-house-path-2 actual-player-position=(-0.9261192, -0.27272403, -1.4584244)
+walk-frame: arrival-house-path-3 actual-player-position=(-3.8400855, -0.26597542, -5.5741973)
+walk-frame: arrival-house-axis-0 actual-player-position=(-1.420257, -0.24496809, -7.7976227)
+walk-frame: arrival-house-axis-1 actual-player-position=(-5.776452, -0.29761013, -5.612151)
+walk-frame: arrival-house-axis-2 actual-player-position=(-11.755281, -0.2821266, -2.623012)
+walk-frame: arrival-house-axis-3 actual-player-position=(-18.762352, 0.1284475, -0.0855688)
+walk-frame: arrival-house-axis-4 actual-player-position=(-23.753855, 0.36763483, 1.139651)
+walk-frame: house-yard-entry--24.42-2.4 actual-player-position=(-24.283545, 0.3845892, 2.1408951)
+walk-frame: house-yard-entry--25.2-2.6 actual-player-position=(-24.942204, 0.3810443, 2.4708538)
+walk-frame: house-yard-entry--26.05-2.2 actual-player-position=(-25.768232, 0.34623963, 2.2688918)
+walk-frame: house-yard-entry--26.05-0.2 actual-player-position=(-26.01302, 0.28919858, 0.4715327)
+walk-frame: house-door-approach actual-player-position=(-26.137732, 0.30562618, -0.99622)
+walk-frame: approach-urman.chapter1:interaction/arrival-enter-house actual-player-position=(-26.05252, 0.32020643, -1.6133766)
+[34] scene.entered: urman.chapter1:interaction/arrival-enter-house
+zone-loaded: house_old_pc@entry connected-world=109370674991
+walk-frame: approach-urman.chapter1:interaction/talk-mansur actual-player-position=(-28.435516, 0.5943085, -4.9563665)
+walk-frame: computer-aisle--0.15-1.10 actual-player-position=(-28.5925, 0.5943085, -5.1922317)
+walk-frame: computer-aisle-0.00--1.15 actual-player-position=(-30.46772, 0.5943085, -6.3616424)
+walk-frame: approach-urman.chapter1:interaction/talk-gulsina actual-player-position=(-30.619194, 0.5943085, -6.2844663)
+family-meal-proof: actual invitation, source-dependent personal reply, explicit meal acceptance; topic=photo; decline/return/load=False; no timer, movement automation or human-duration claim
+walk-frame: house-exit-aisle--0.15-1.10 actual-player-position=(-28.97277, 0.5943085, -5.524592)
+walk-frame: house-exit-aisle--2.82-1.10 actual-player-position=(-29.800892, 0.5943085, -3.232983)
+walk-frame: house-exit-aisle--2.82-2.30 actual-player-position=(-29.027275, 0.5943085, -2.6589348)
+[93] scene.entered: urman.chapter1:interaction/house-to-route
+zone-loaded: village_day@from_house connected-world=109370674991
+walk-frame: house-exit-street--26.05-0.2 actual-player-position=(-26.069223, 0.29562184, -0.05590672)
+walk-frame: house-exit-street--26.05-2.2 actual-player-position=(-26.052824, 0.31674743, 1.9267619)
+walk-frame: house-exit-street--25.2-2.6 actual-player-position=(-25.432014, 0.36245385, 2.4164193)
+walk-frame: house-exit-street--24.42-2.4 actual-player-position=(-24.696135, 0.3852376, 2.4038823)
+walk-frame: house-exit-street--24-1.2 actual-player-position=(-24.128754, 0.36358508, 1.4225329)
+walk-frame: house-exit-street--19-0 actual-player-position=(-19.26683, 0.17012256, 0.07400027)
+walk-frame: house-exit-street--12--2.5 actual-player-position=(-12.264785, -0.29103953, -2.40621)
+walk-frame: house-exit-street--6--5.5 actual-player-position=(-6.220001, -0.30420256, -5.391443)
+walk-frame: house-exit-street--1.2--8 actual-player-position=(-1.4441198, -0.24304232, -7.8731136)
+walk-frame: house-exit-street--0.1--2.8 actual-player-position=(-0.16690536, -0.2746243, -3.0525208)
+walk-frame: house-exit-street--0.1-3.7 actual-player-position=(-0.10271438, -0.30187732, 3.4063578)
+walk-frame: approach-urman.chapter1:interaction/talk-alsu actual-player-position=(0.5696654, -0.30709505, 3.5077903)
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+alsu-walk-proof: requested, physical input, one actor/body/ray, checkpoint=3; return=False; no account until manual question; human-duration=not-run
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/crossroad_signs_inspect
+walk-frame: fap-branch-0--10 actual-player-position=(0.034379117, -0.21987115, -8.160001)
+ERROR: Physical walkthrough could not reach fap-branch-0--10: start=(0.053304248, -0.24264401, -7.140752), target=(0, -0.24264401, -10), actual=(0.034379117, -0.21987115, -8.160001), remaining=1.84m, blocker=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Act1NpcPresentation/Npc_alsu/AlsuStreetWalk/AlsuPhysicalContact shape=/root/Act1FirstPersonWalkthroughSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Act1NpcPresentation/Npc_alsu/AlsuStreetWalk/AlsuPhysicalContact/@CollisionShape3D@979 normal=(-0.025113111, 0, 0.9996846) position=(0.04296837, 1.2011176, -8.52009) velocity=(0, 0, 0) modal=False.
+   at: void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest.Fail(string) (res://tests/Act1FirstPersonWalkthroughSmokeTest.cs:1744)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest.Fail(string) (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1744)
+       [2] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<WalkTo>d__11.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1189)
+       [3] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [4] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [5] void System.Threading.Tasks.Task.RunContinuations(object)
+       [6] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+       [7] void Urman.Godot.Tests.Act1FirstPersonWalkthroughSmokeTest+<Frames>d__28.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FirstPersonWalkthroughSmokeTest.cs:1649)
+       [8] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [9] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [10] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+userdata guard: original files and permissions restored and verified

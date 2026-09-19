@@ -1,0 +1,14 @@
+{
+  "game/assets/audio/act1/radio/previews/lost-glove.wav": "a65022fefb337971742b93fe6f304b1c764e7421d84305c6722c09fcbf6d18f8",
+  "game/assets/audio/act1/radio/previews/credits-ecad706f6240158020fe22dad11519cc44a459a5956fbd79d611e921ee280ef7.json": "26891f214b945b516b81a2d8df3d956cfd773396ea3dae1d6e1c4d287a9e023f",
+  "game/assets/audio/act1/radio/previews/family-salam.wav": "53382ff634b2e7cd0d654d541eb147738159596696420eca112ac9927e4e5e43",
+  "game/assets/audio/act1/radio/previews/local-workshop.wav": "4e0ae5ed25f099782e4ce24ccbc79cc86bf55f9f89767d43233c8eb5fd9c1caa",
+  "game/assets/audio/act1/radio/previews/avyl-ident.wav": "520fa1c7b706016c9b542a1bf0146056b074ee91449b6dbfa8d13aa01742a6d3",
+  "game/assets/audio/act1/radio/previews/school-bus.wav": "f36df9d10b04db36c962550aa31c7eb27811beb82289f3f679c0800d62a47740",
+  "game/assets/audio/act1/radio/previews/winter-weather.wav": "bc3fb2309e7c6bf00ac3288dcb5506420b7aeb915559b43cf899b25b0b93dcd2",
+  "game/assets/audio/act1/radio/previews/night-repeat.wav": "87aee3fedff5bc6a58cdfaee36a4898b3c6df77fe0c0e3df02a524a4fa845e9d",
+  "game/assets/audio/act1/radio/previews/village-photos.wav": "8ecce07e26aec8c351345db5439c6de2b441c694881345998956f1d863de30dc",
+  "game/assets/audio/act1/radio/previews/winter-congratulations.wav": "25f31a592b4a2d159dd427eff163bff71555d95cd5d7b79e536efd4bc2a17e23",
+  "game/assets/audio/act1/radio/previews/nearby-villages.wav": "181d6f533fbcaba474eaa94d2140efde7845dda345ab0bfeaf9ed1c06da753a0",
+  "game/content/vehicles/avyl_radio.v1.json": "f9993a898619acd1d4d7a7444f29f9a95b602236f6e71fe91fde8a4754aaedcc"
+}

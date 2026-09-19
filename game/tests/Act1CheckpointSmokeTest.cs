@@ -14,9 +14,34 @@ public partial class Act1CheckpointSmokeTest : Node
     private const string ChapterPrefix = "urman.chapter1:";
     private const string OfficialNotice = "urman.oldpc:document/doc_marat_official_death_notice";
 
+    private Act1DemoRoot? _demo;
+    private bool _finished;
+
     public override async void _Ready()
     {
-        var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")?.Instantiate<Act1DemoRoot>();
+        var exit = 1;
+        try
+        {
+            await RunAsync();
+            if (!_finished) throw new InvalidOperationException("The authored state setup stopped before its final assertion.");
+            exit = 0;
+        }
+        catch (Exception error) { GD.PrintErr("act1-checkpoint: FAIL " + error); }
+        finally
+        {
+            try { if (_demo is not null) await GodotSmokeCleanup.ReleaseAsync(_demo); }
+            catch (Exception cleanupError)
+            {
+                exit = 1;
+                GD.PrintErr("act1-checkpoint: cleanup failed: " + cleanupError);
+            }
+            GetTree().Quit(exit);
+        }
+    }
+
+    private async Task RunAsync()
+    {
+        var demo = _demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")?.Instantiate<Act1DemoRoot>();
         if (demo is null)
         {
             Fail("Checkpoint smoke could not instantiate the demo entrypoint.");
@@ -47,6 +72,10 @@ public partial class Act1CheckpointSmokeTest : Node
             return;
         }
 
+        demo._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
+        await Frames(2);
+        await Act1ArrivalFlowProof.CompleteAsync(this, bridge);
+
         // Authored chain: arrival -> house -> FAP -> official record.
         if (!await Advance(bridge, "arrival-enter-house", "house")) return;
         main.SwitchZone("house_old_pc", "entry");
@@ -59,13 +88,18 @@ public partial class Act1CheckpointSmokeTest : Node
         if (!bridge.IsInteractionAvailable(Interaction("talk-gulsina"))
             || !await bridge.DispatchInteractionAsync(Interaction("talk-gulsina"))
             || !await bridge.EnterDialogueNodeAsync(Dialogue("gulsina_yaramyy"), "home-warning")
+            || !await bridge.ChooseDialogueAsync(Dialogue("gulsina_yaramyy"), "home-warning", "ask-marat")
+            || !await Act1FamilyMealProof.CompleteAsync(this, bridge)
             || !await Advance(bridge, "house-to-route", "crossroad_signs_inspect")) return;
         main.SwitchZone("village_day", "from_house");
         await Frames(1);
         if (!bridge.IsInteractionAvailable(Interaction("talk-alsu"))
             || !await bridge.DispatchInteractionAsync(Interaction("talk-alsu"))
+            || !await Act1AlsuWalkProof.CompleteAsync(this, bridge)
             || !await bridge.EnterDialogueNodeAsync(Dialogue("alsu_route_context"), "name-road")
             || !await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-versions")
+            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-versions-scope"),
+                new[] { OfficialNotice, ChapterPrefix + "knowledge/clue_alsu_heard_versions" })
             || !await Advance(bridge, "route-to-fap", "fap_waiting_room_day")) return;
         main.SwitchZone("fap_clinic", "waiting_room");
         await Frames(1);
@@ -100,10 +134,15 @@ public partial class Act1CheckpointSmokeTest : Node
         main.SwitchZone("house_old_pc", "entry");
         await Frames(1);
         if (!await bridge.OpenDocumentAsync("urman.oldpc:document/doc_marat_official_death_notice")
-            || !await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict")
-            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" })
+            || !await bridge.OpenDocumentAsync("urman.oldpc:document/rec_marat_case_register_conflict"))
+        { Fail("The record comparison sources could not be read."); return; }
+        await Act1SourceExcerptProof.RecordNoticeCauseAsync(this, bridge);
+        await Act1SourceExcerptProof.RecordRegisterFieldsAsync(this, bridge);
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { "urman.oldpc:document/doc_marat_official_death_notice", "urman.oldpc:document/rec_marat_case_register_conflict" })
             || !await bridge.EnterDialogueNodeAsync(Dialogue("naila_medical_record"), "follow-up")
             || !await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "follow-up", "press-contradiction")
+            || !await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "record-question", "show-external-wording")
+            || !await bridge.ChooseDialogueAsync(Dialogue("naila_medical_record"), "matching-formulation", "ask-category-scope")
             || !await bridge.CompareJournalSourcesAsync(Interaction("compare-record-scope"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.chapter1:knowledge/clue_naila_record_scope" }))
         { Fail("The record comparison was rejected."); return; }
         if (!bridge.IsInteractionAvailable(Interaction("internal-register-to-rinat"))
@@ -112,6 +151,7 @@ public partial class Act1CheckpointSmokeTest : Node
             || !await bridge.ChooseDialogueAsync(Dialogue("rinat_internal_register"), "dangerous-category", "present-category")
             || !await Advance(bridge, "internal-register-to-saved-message", "evidence-saved-message")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/msg_marat_saved_last_normal")
+            || !await Act1StateFlowProof.MessageReturnAsync(this, bridge)
             || !await Advance(bridge, "saved-message-to-boundary-source", "evidence-tatarwiki-boundary")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/tw_shurale_urman_boundary")
             || !await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" })
@@ -146,9 +186,16 @@ public partial class Act1CheckpointSmokeTest : Node
             || BeatState(bridge.SelectRuntimeState(), "boundary-source-reopened") != "completed")
         { Fail("Checkpoint treated a reopened source as a completed interpretation, or lost the reread action."); return; }
         if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary" })
+            || bridge.IsInteractionAvailable(Interaction("reread-to-edge-sketch")))
+        { Fail("The reread bypassed the required return to the two archival sources."); return; }
+        if (!await Act1SourceReturnsProof.CompleteAsync(this, bridge)
             || !await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")
             || !await bridge.OpenDocumentAsync("urman.oldpc:document/doc_kara_urman_edge_sketch")
+            || !await Act1StateFlowProof.RouteDiscussionAsync(this, bridge)
             || !await Advance(bridge, "edge-sketch-to-zirat-road", "zirat-road")) return;
+        main.SwitchZone("zirat_road", "village_side");
+        await Frames(2);
+        if (!await Act1RinatRoadsideProof.ObserveAsync(this, bridge)) return;
         var clue = Interaction("zirat-roadside-clue");
         if (!bridge.IsInteractionAvailable(clue)
             || !await bridge.DispatchInteractionAsync(clue)
@@ -159,12 +206,14 @@ public partial class Act1CheckpointSmokeTest : Node
         }
 
         // The restored session continues to the terminal: exactly once.
+        await Act1RouteLandmarksProof.ObserveAsync(this, bridge);
         if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" }))
         { Fail("The route comparison was rejected."); return; }
         // The authored route stages Kara-Urman in two steps: the zirat road leads
         // to the forest approach, and only that approach leads into the forest.
         if (!await Advance(bridge, "zirat-road-to-forest", "forest-approach")
-            || !await Advance(bridge, "forest-approach-to-forest", "forest")
+            || !await Act1StateFlowProof.EnterForestAsync(this, bridge)
+            || !await Act1StateFlowProof.WaitForTerminalAsync(this, bridge)
             || FinalKnowledge(bridge.SelectRuntimeState()) != "confirmed"
             || BeatState(bridge.SelectRuntimeState(), "cliffhanger-hard-cut") != "completed")
         {
@@ -174,8 +223,7 @@ public partial class Act1CheckpointSmokeTest : Node
 
         GD.Print("act1-checkpoint: PASS rolling checkpoints at internal-register/reread + exact restore + terminal once");
         DeleteCheckpoint();
-        await GodotSmokeCleanup.ReleaseAsync(demo);
-        GetTree().Quit(0);
+        _finished = true;
     }
 
     /// <summary>
@@ -222,12 +270,6 @@ public partial class Act1CheckpointSmokeTest : Node
         {
             Fail($"Checkpoint interaction did not reach {targetSceneLocalId}: {interactionId}.");
             return false;
-        }
-
-        if (targetSceneLocalId == "forest")
-        {
-        for (var attempt = 0; attempt < 200 && bridge.IsInteractionAvailable("urman.chapter1:interaction/forest-rinat-intervention"); attempt++)
-            await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
         }
 
         return true;
@@ -291,9 +333,5 @@ public partial class Act1CheckpointSmokeTest : Node
         }
     }
 
-    private void Fail(string message)
-    {
-        GD.PushError(message);
-        GetTree().Quit(1);
-    }
+    private static void Fail(string message) => throw new InvalidOperationException(message);
 }

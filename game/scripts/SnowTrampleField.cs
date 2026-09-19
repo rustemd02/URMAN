@@ -78,7 +78,7 @@ public partial class SnowTrampleField : Node3D
             ResetStep();
         }
         var position = new Vector2(_player.GlobalPosition.X, _player.GlobalPosition.Z);
-        if (!_player.IsOnFloor() || _player.ModalOpen) { ResetStep(); return; }
+        if (!_player.IsOnFloor() || _player.ModalOpen || _player.VehicleControlled) { ResetStep(); return; }
         if (_lastPosition is not Vector2 previous) { _lastPosition = position; return; }
         _lastPosition = position;
         var movement = position - previous;

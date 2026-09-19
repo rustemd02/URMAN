@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "units": "metres; forward=-Z; runtime grounds authored parking on existing collision heightfield",
+  "vehicles": [
+    {
+      "id": "babay-niva",
+      "kind": "Niva",
+      "displayName": "Нива бабая",
+      "spawn": [
+        -1.65,
+        0,
+        1
+      ],
+      "yawDegrees": 0,
+      "maxForwardSpeed": 7,
+      "reverseSpeed": 2,
+      "acceleration": 2.1,
+      "brakeDeceleration": 7.5,
+      "wheelBase": 2.28,
+      "steeringDegrees": 31,
+      "hullSize": [
+        1.82,
+        1.72,
+        4.2
+      ],
+      "hullCenter": [
+        0,
+        0.86,
+        0.025
+      ],
+      "seat": [
+        -0.4,
+        0.65,
+        0.12
+      ],
+      "wheelRadius": 0.345,
+      "hasRadio": true
+    },
+    {
+      "id": "village-motorcycle",
+      "kind": "Motorcycle",
+      "displayName": "Старый мотоцикл",
+      "spawn": [
+        1.4,
+        0,
+        -23
+      ],
+      "yawDegrees": 0,
+      "maxForwardSpeed": 9,
+      "reverseSpeed": 1.1,
+      "acceleration": 2.7,
+      "brakeDeceleration": 7,
+      "wheelBase": 1.44,
+      "steeringDegrees": 29,
+      "hullSize": [
+        1.0,
+        1.54,
+        2.24
+      ],
+      "hullCenter": [
+        0,
+        0.77,
+        -0.01
+      ],
+      "seat": [
+        0,
+        1.015,
+        0.4
+      ],
+      "wheelRadius": 0.34,
+      "hasRadio": false
+    },
+    {
+      "id": "forest-horse-cart",
+      "kind": "HorseCart",
+      "displayName": "Лошадь с телегой",
+      "spawn": [
+        0.9,
+        0,
+        -34
+      ],
+      "yawDegrees": 0,
+      "maxForwardSpeed": 3.5,
+      "reverseSpeed": 0.85,
+      "acceleration": 0.85,
+      "brakeDeceleration": 2.8,
+      "wheelBase": 3.65,
+      "steeringDegrees": 28,
+      "hullSize": [
+        1.8,
+        2.45,
+        5.78
+      ],
+      "hullCenter": [
+        0,
+        1.225,
+        -0.5
+      ],
+      "seat": [
+        0,
+        1.1,
+        0.42
+      ],
+      "wheelRadius": 0.43,
+      "hasRadio": false
+    }
+  ]
+}

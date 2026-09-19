@@ -177,22 +177,26 @@ public partial class Act1ConnectedWorld
         // EX05 barrier with real physics, so clearing it changes a passage; the
         // visible pile is the barrier - same volume, grounded the same way - and
         // not a decoration beside an invisible wall.
-        _ex05PassageDrift = AddVisualBox(
+        _ex05PassageDrift = AddVisualLandformSurface(
             presentation,
             "ToolSnowPileServiceGap",
-            new(0.46f, 0.44f, 1.10f),
-            GroundedYardPoint(new Vector3(-25.20f, 0f, -2.85f)) + new Vector3(0f, 0.22f, 0f),
-            "e8e2d4",
-            "snow");
+            .72f, .46f, 1.38f,
+            new(-25.20f, 0f, -2.85f),
+            "eef2f6",
+            "snow_ground", 0,
+            conformToTerrain: true);
+        _ex05PassageDrift.SetMeta("visualOnly", false);
+        _ex05PassageDrift.SetMeta("terrainRole", "authored service-gap drift; visible snow surface owns its matching barrier");
         _ex05PassageBarrier = CreateYardCollisionBody(presentation, "Ex05PassageDriftBarrier");
-        AddYardCollisionBox(
-            _ex05PassageBarrier,
-            "ServiceGapDriftBlock",
-            new(-25.20f, 0f, -3.40f),
-            new(-25.20f, 0f, -2.30f),
-            .46f,
-            .44f,
-            .22f);
+        _ex05PassageBarrier.SetMeta("footstepSurface", "snow");
+        var driftContact = new CollisionShape3D
+        {
+            Name = "ServiceGapDriftBlock",
+            Shape = _ex05PassageDrift.Mesh.CreateTrimeshShape(),
+            Transform = _ex05PassageBarrier.GlobalTransform.AffineInverse() * _ex05PassageDrift.GlobalTransform
+        };
+        driftContact.SetMeta("authoredSourceMesh", _ex05PassageDrift.GetPath().ToString());
+        _ex05PassageBarrier.AddChild(driftContact);
         SetYardCollisionEnabled(_ex05PassageBarrier, true);
 
         AddYardCollisionBox(_babaiYardSideFenceCollision, "UpperFence", new(-25.2f, 0, .12f),

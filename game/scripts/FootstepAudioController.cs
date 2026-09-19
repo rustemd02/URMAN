@@ -5,8 +5,8 @@ namespace Urman.Godot;
 
 /// <summary>
 /// AUDIO-004: presentation-only footstep cadence driven by the player's real
-/// XZ displacement. Holds no gameplay state — surface selection is a pure
-/// zone/space mapping, steps play through the SFX bus, and reduced motion does
+/// XZ displacement. Holds no gameplay state — surface selection follows the
+/// actual floor contact, then the zone/space fallback; steps use SFX and reduced motion does
 /// not mute sound.
 /// </summary>
 public partial class FootstepAudioController : Node
@@ -33,6 +33,9 @@ public partial class FootstepAudioController : Node
         LoadSurface("snow_soft");
         LoadSurface("wood");
         LoadSurface("interior_floor");
+        LoadSurface("grass");
+        LoadSurface("mud");
+        LoadSurface("wet_road");
         _stepPlayer = new AudioStreamPlayer
         {
             Name = "FootstepPlayer",
@@ -74,7 +77,7 @@ public partial class FootstepAudioController : Node
         }
 
         var position = new Vector2(_actor.GlobalPosition.X, _actor.GlobalPosition.Z);
-        if (!_actor.IsOnFloor() || _actor.ModalOpen)
+        if (!_actor.IsOnFloor() || _actor.ModalOpen || _actor.IsClimbingLadder || _actor.VehicleControlled)
         {
             ResetStep();
             return;
@@ -111,7 +114,7 @@ public partial class FootstepAudioController : Node
 
         _distanceSinceStep %= interval;
         var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
-        LastSurface = SurfaceForZone(bridge?.CurrentZoneId ?? "village_day", position);
+        LastSurface = SurfaceUnderfoot(bridge?.CurrentZoneId ?? "village_day", position);
         PlayStep(LastSurface);
     }
 
@@ -143,6 +146,44 @@ public partial class FootstepAudioController : Node
 
     public bool HasSurface(string surface) => _bySurface.ContainsKey(surface);
 
+    private string SurfaceUnderfoot(string zoneId, Vector2 position)
+    {
+        // A board, crate or loft can stand above snow at the same XZ. The
+        // active slide contact is the support the player actually stepped on;
+        // a nearby wall or a carried item must not change the footstep family.
+        if (_actor is not null)
+        {
+            for (var index = 0; index < _actor.GetSlideCollisionCount(); index++)
+            {
+                var contact = _actor.GetSlideCollision(index);
+                if (contact.GetNormal().Dot(_actor.UpDirection) < Mathf.Cos(_actor.FloorMaxAngle)
+                    || contact.GetCollider() is not Node support
+                    || !support.HasMeta("footstepSurface")) continue;
+                var surface = support.GetMeta("footstepSurface").AsString();
+                if (_bySurface.ContainsKey(surface)) return surface;
+            }
+
+            // Floor snapping can support a standing or tangentially moving
+            // capsule without adding a slide collision. Resolve that support
+            // at the actual feet, once per step, rather than reverting a wood
+            // platform to the snow family underneath its XZ.
+            using var query = PhysicsRayQueryParameters3D.Create(
+                _actor.GlobalPosition + _actor.UpDirection * .03f,
+                _actor.GlobalPosition - _actor.UpDirection * .08f,
+                _actor.CollisionMask,
+                new global::Godot.Collections.Array<Rid> { _actor.GetRid() });
+            var hit = _actor.GetWorld3D().DirectSpaceState.IntersectRay(query);
+            if (hit.Count > 0
+                && hit["normal"].AsVector3().Dot(_actor.UpDirection) >= Mathf.Cos(_actor.FloorMaxAngle)
+                && hit["collider"].AsGodotObject() is Node floor && floor.HasMeta("footstepSurface"))
+            {
+                var surface = floor.GetMeta("footstepSurface").AsString();
+                if (_bySurface.ContainsKey(surface)) return surface;
+            }
+        }
+        return SurfaceForZone(zoneId, position);
+    }
+
     private static string SurfaceForZone(string zoneId, Vector2 position) => zoneId switch
     {
         "house_old_pc" => "wood",
@@ -153,7 +194,15 @@ public partial class FootstepAudioController : Node
     private static string SurfaceForExterior(Vector2 position)
     {
         var road = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
-        return road.Distance < road.HalfWidth ? "snow_packed" : "snow_soft";
+        if (road.Distance < road.HalfWidth) return "snow_packed";
+        // Off-road winter ground is not one sound: trampled snow near the
+        // road edge, soft snow further out, and exposed mud where the thaw
+        // or traffic wore through. The physics road frame already measures
+        // distance from the travelled surface, so reuse it as the selector.
+        var off = road.Distance - road.HalfWidth;
+        if (off < .6f) return "snow_packed";
+        if (off < 2.2f) return "snow_soft";
+        return "mud";
     }
 
     private void LoadSurface(string surface)

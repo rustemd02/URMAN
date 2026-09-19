@@ -13,10 +13,13 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
     private Label _title = null!;
     private Label _documentTitle = null!;
     private RichTextLabel _reader = null!;
+    private DocumentImageReader _images = null!;
     private Label _status = null!;
     private Button _save = null!;
+    private SourceExcerptSelection _excerpts = null!;
     private RuntimeBridge? _bridge;
     private string? _activeDocumentId;
+    private long _readerVersion;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
     public string StatusText => _status?.Text ?? string.Empty;
@@ -35,10 +38,16 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _results = GetNode<ItemList>("Screen/Computer/Layout/WorkArea/Results");
         _documentTitle = GetNode<Label>("Screen/Computer/Layout/WorkArea/ReaderArea/DocumentTitle");
         _reader = GetNode<RichTextLabel>("Screen/Computer/Layout/WorkArea/ReaderArea/Reader");
+        _reader.MetaClicked += meta => NavigateBrowser(meta.AsString());
+        _images = DocumentImageReader.Attach(_reader);
         _status = GetNode<Label>("Screen/Computer/Layout/Footer/Status");
         _save = GetNode<Button>("Screen/Computer/Layout/Footer/Save");
-        GetNode<Button>("Screen/Computer/Layout/Header/Close").Pressed += Close;
-        GetNode<Button>("Screen/Computer/Layout/Header/Close").Pressed += () => PlayFoley("ui_click");
+        _excerpts = SourceExcerptSelection.Attach(_reader, _save);
+        var close = GetNode<Button>("Screen/Computer/Layout/Header/Close");
+        var closeLabel = close.Text;
+        _excerpts.SelectionModeChanged += selecting => close.Text = selecting ? "Закрыть" : closeLabel;
+        close.Pressed += Close;
+        close.Pressed += () => PlayFoley("ui_click");
         GetNode<Button>("Screen/Computer/Layout/SearchRow/Search").Pressed += Search;
         GetNode<Button>("Screen/Computer/Layout/SearchRow/Search").Pressed += () => PlayFoley("keyboard_key");
         _query.TextSubmitted += _ => Search();
@@ -47,6 +56,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _save.Pressed += () => PlayFoley("paper_open");
         // AUDIO-010: presentation-only interaction foley on the SFX bus.
         _foley = UiFoley.Attach(this);
+        BuildDesktop();
         if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
         {
             ApplyAccessibilitySettings(player.Accessibility);
@@ -67,6 +77,8 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _status.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("94b19a"));
         _results.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("aebcac"));
         _results.AddThemeColorOverride("font_selected_color", settings.HighContrast ? Colors.White : new Color("d0b46d"));
+        _excerpts?.ApplyPresentation();
+        ApplyDesktopAccessibility(settings);
     }
 
     public override void _ExitTree()
@@ -85,38 +97,68 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         if (_screen.Visible && inputEvent.IsActionPressed("ui_cancel"))
         {
-            Close();
+            if (_startMenu.Visible)
+            {
+                _startMenu.Hide();
+                _taskbar.GetNode<Button>("Layout/Start").GrabFocus();
+            }
+            else Close();
             GetViewport().SetInputAsHandled();
         }
     }
 
     public void Open(RuntimeBridge bridge)
     {
+        _readerVersion++;
+        _excerpts.Clear();
         _bridge = bridge;
         _screen.Visible = true;
+        RestoreDesktop(bridge);
         _activeDocumentId = null;
-        _documentTitle.Text = "АРХИВ КЫРЛАЙ";
+        _images.SetImages(null);
+        _documentTitle.Text = "АРХИВ КАРА-УРМАНА";
         _reader.Text = "Введите слово или выберите запись слева. ✓ — запись уже открывали. Закрытые записи появятся после связанной улики или понятого татарского слова.";
-        _status.Text = "Локальный архив · Кырлай";
+        _status.Text = "Локальный архив · Кара-Урман";
         _save.Disabled = true;
+        _query.Text = bridge.OldPcState().GetProperty("query").GetString() ?? string.Empty;
         RefreshResults();
         SetPlayerModal(true);
-        _query.GrabFocus();
+        var state = bridge.OldPcState();
+        var previous = state.GetProperty("activeDocumentId").GetString();
+        if (previous is not null && bridge.IsOldPcDocumentAccessible(previous)
+            && bridge.SelectRuntimeState().GetProperty("presentation").GetProperty("openedDocumentIds")
+                .EnumerateArray().Any(id => id.GetString() == previous))
+        {
+            var document = bridge.OldPcDocuments.Single(item => item.Id == previous);
+            _activeDocumentId = previous;
+            _documentTitle.Text = document.Title;
+            _reader.BbcodeEnabled = true;
+            _reader.Text = RenderLinkedSource(document.BodyMarkdown);
+            _images.SetImages(document.Images);
+            _excerpts.Bind(bridge, previous);
+            _save.Disabled = false;
+            RefreshResults();
+        }
+        FocusActiveDesktopWindow();
     }
 
     private async void Search()
     {
         PlayFoley("keyboard_key");
-        if (_bridge is null)
+        if (_bridge is not { } bridge)
         {
             return;
         }
-
+        var version = ++_readerVersion;
+        var session = bridge.SessionIdentity;
         try
         {
-            await _bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "search", query = _query.Text }));
+            await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "search", query = _query.Text }));
+            if (!IsCurrentReader(bridge, session, version)) return;
             _activeDocumentId = null;
-            _documentTitle.Text = "АРХИВ КЫРЛАЙ";
+            _excerpts.Clear();
+            _images.SetImages(null);
+            _documentTitle.Text = "АРХИВ КАРА-УРМАНА";
             _reader.Text = "Выберите запись слева, чтобы открыть документ. Некоторые записи пока закрыты для Айдара.";
             _save.Disabled = true;
             RefreshResults();
@@ -127,13 +169,13 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         }
         catch (Exception exception)
         {
-            _status.Text = exception.Message;
+            if (IsCurrentReader(bridge, session, version)) _status.Text = exception.Message;
         }
     }
 
     private async void OpenDocument(long index)
     {
-        if (_bridge is null
+        if (_bridge is not { } bridge
             || index < 0 || index >= _results.ItemCount
             || !_results.IsItemSelectable((int)index))
         {
@@ -141,21 +183,31 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         }
 
         var documentId = _results.GetItemMetadata((int)index).AsString();
+        var version = ++_readerVersion;
+        var session = bridge.SessionIdentity;
+        _excerpts.Clear();
         try
         {
-            await _bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "open", documentId }));
-            var document = _bridge.OldPcDocuments.Single(item => item.Id == documentId);
+            await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "open", documentId }));
+            if (!IsCurrentReader(bridge, session, version)) return;
+            var document = bridge.OldPcDocuments.Single(item => item.Id == documentId);
             _activeDocumentId = documentId;
             _documentTitle.Text = document.Title;
-            _reader.Text = document.BodyMarkdown;
-            _status.Text = $"C:\\KYRLAY\\{document.Section}\\{document.Id.Split('/')[^1]}.txt";
+            _reader.BbcodeEnabled = true;
+            _reader.Text = RenderLinkedSource(document.BodyMarkdown);
+            _images.SetImages(document.Images);
+            _excerpts.Bind(bridge, documentId);
+            _status.Text = $"Мои документы · {SectionLabel(document.Section)}";
             _save.Disabled = false;
             RefreshResults();
         }
         catch (Exception exception)
         {
+            if (!IsCurrentReader(bridge, session, version)) return;
             _activeDocumentId = null;
+            _excerpts.Clear();
             _documentTitle.Text = "ДОСТУП ОГРАНИЧЕН";
+            _images.SetImages(null);
             _reader.Text = exception.Message;
             _status.Text = "Нужна ещё одна связь в расследовании";
             _save.Disabled = true;
@@ -164,19 +216,23 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async void SaveDocument()
     {
-        if (_bridge is null || _activeDocumentId is null)
+        if (_bridge is not { } bridge || _activeDocumentId is not { } documentId)
         {
             return;
         }
 
         _save.Disabled = true;
+        var version = _readerVersion;
+        var session = bridge.SessionIdentity;
         try
         {
-            await _bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "save", documentId = _activeDocumentId }));
+            await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "save", documentId }));
+            if (!IsCurrentReader(bridge, session, version)) return;
             _status.Text = $"Документ добавлен в журнал · Откройте журнал [{JournalShortcutLabel()}]";
         }
         catch (Exception exception)
         {
+            if (!IsCurrentReader(bridge, session, version)) return;
             _status.Text = exception.Message;
             _save.Disabled = false;
         }
@@ -222,9 +278,25 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void Close()
     {
+        PersistDesktop();
+        _browserVersion++;
+        _pictureVersion++;
+        _browserExcerpts?.Clear();
+        _browserImages?.SetImages(null);
+        _pictureReader?.SetImages(null);
+        _dragWindow = null;
+        _readerVersion++;
         _screen.Visible = false;
+        _excerpts.Clear();
+        _images.SetImages(null);
+        _bridge = null;
+        _activeDocumentId = null;
         SetPlayerModal(false);
     }
+
+    private bool IsCurrentReader(RuntimeBridge bridge, object? session, long version) =>
+        IsInsideTree() && _screen.Visible && _bridge == bridge && _readerVersion == version
+        && ReferenceEquals(session, bridge.SessionIdentity);
 
     private void SetPlayerModal(bool open)
     {

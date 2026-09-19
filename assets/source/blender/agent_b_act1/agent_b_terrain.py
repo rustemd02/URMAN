@@ -357,12 +357,23 @@ def _low_bank(
     for row in range(len(samples) - 1):
         for col in range(cols - 1):
             a = row * cols + col
-            faces.append((a, a + 1, a + cols + 1, a + cols))
+            # Samples advance along the bank; columns run across its left
+            # normal. The top must face upward, like _deformed_ribbon above.
+            # Reversed tops exported downward normals and rejected winter
+            # snow on the exposed EastFenceSwale beside the board crossing.
+            faces.append((a, a + cols, a + cols + 1, a + 1))
     # Close the two ends so the bank reads as a shallow solid at oblique views.
     faces.append(tuple(reversed(range(cols))))
     last = (len(samples) - 1) * cols
     faces.append(tuple(last + col for col in range(cols)))
     bank = ab.mesh_from_pydata(name, vertices, faces)
+    # A broad shoulder can turn back across a sharp centreline bend. Its
+    # local face orientation must still follow the actual upper surface.
+    # End caps retain their authored outward direction.
+    for polygon in list(bank.data.polygons)[:-2]:
+        if polygon.normal.z < 0.0:
+            polygon.flip()
+    bank.data.update()
     ab.assign_material(bank, material_name)
     return bank
 

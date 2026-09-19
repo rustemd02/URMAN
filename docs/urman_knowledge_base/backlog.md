@@ -2,7 +2,7 @@
 
 Current production baseline, 2026-08-10: Godot 4.7.1 .NET, C#/.NET 10, Painterly Low-Poly 3D and walkable first-person compact zones. Tasks that extend the old discrete route runtime, replace 3D scenes with static ink-wash screens or validate fixed 90-degree navigation are historical and must not be executed.
 
-Execution queue: `execution_backlog.json` is the machine-readable source for orchestration. This file remains the human-readable index and historical audit; do not create a second task owner in an external tracker. 2026-09-03: the active task queue for the Act I repo-grounded run is `URMAN_ACT_I_REPO_GROUNDED_PRODUCTION_TRACKER_RU.md`; `URMAN_ACT_I_MVP_FULL_TASK_TRACKER_RU_2026-09-03.md` is retired as authority and kept as provenance only (its verification commands are fictional and must never be executed or cited as evidence). Current focus: `GODOT-005` (dedicated Act 1 demo entrypoint) alongside the still-open `GODOT-003` style gate; `ASSET-006` (host-independent provenance preflight) is completed; `NARR-001` (Acts 2–5 narrative lock) completed 2026-08-11, while `NARR-002` remains deferred from the current demo and blocked on external cultural review.
+Execution queue: `execution_backlog.json` is the machine-readable source for orchestration. This file remains the human-readable index and historical audit; do not create a second task owner in an external tracker. 2026-09-03: the active task queue for the Act I repo-grounded run is `../production/act1_repo_grounded_production_tracker.md`; `../archive_tz_mvp_full_tracker_2026-09-03.md` is retired as authority and kept as provenance only (its verification commands are fictional and must never be executed or cited as evidence). Current focus: `GODOT-005` (dedicated Act 1 demo entrypoint) alongside the still-open `GODOT-003` style gate; `ASSET-006` (host-independent provenance preflight) is completed; `NARR-001` (Acts 2–5 narrative lock) completed 2026-08-11, while `NARR-002` remains deferred from the current demo and blocked on external cultural review.
 
 ## Current scope: connected greybox of Act 1 — 2026-08-15
 
@@ -15,7 +15,7 @@ Execution queue: `execution_backlog.json` is the machine-readable source for orc
   arrival → old PC → ФАП evidence → Rinat dialogue → saved message / Татарвики
   reread / edge sketch → zirat → Kara-Urman, with shared `DocumentUi` handoffs.
 - [x] Technical cliffhanger presentation: `НЕ ОТВЕЧАЙ` / `Конец демо`.
-- [x] Manual-playtest handoff: `act1_demo_handoff.md` records controls, route,
+- [x] Manual-playtest handoff: `../archive/act1_demo_handoff.md` records controls, route,
   current artifacts, known issues and the explicit Acts 2–5 boundary.
 - [ ] Unified Act I territory: keep arrival, road, yard/house, village street,
   FAP, return road, zirat and Kara-Urman approach in one connected world; the
@@ -62,7 +62,7 @@ Status: current 2026-08-15 debug packages are structurally verified (macOS ZIP `
 
 Status: superseded execution list. Preserve as audit evidence only; do not execute its legacy file/owner instructions.
 
-- [ ] Task: Выполнить `mvp_completion_handoff.md` как главный P0-план до заявления "MVP готов".
+- [ ] Task: Выполнить `../archive/mvp_completion_handoff.md` как главный P0-план до заявления "MVP готов".
   Type: Production / Integration
   Priority: Critical
   Depends on: current old PC and route prototypes
@@ -72,7 +72,7 @@ Status: superseded execution list. Preserve as audit evidence only; do not execu
 - [ ] Task: Создать shared knowledge source of truth.
   Type: Tech / Gameplay
   Priority: Critical
-  Depends on: `technical_architecture.md`, `mvp_completion_handoff.md`
+  Depends on: `technical_architecture.md`, `../archive/mvp_completion_handoff.md`
   Output: `KnowledgeKey`, `VocabularyEntry`, dialogue, quest and village pressure data that old PC, journal, dialogue, route and save/load can all consume.
   Notes: Начать с TS data modules: `src/data/knowledge_keys.ts`, `src/data/vocabulary_data.ts`, `src/data/dialogue_data.ts`, `src/data/quests.ts`, plus shared state in `GameState`.
 
@@ -194,7 +194,7 @@ Status: superseded execution list. Preserve as audit evidence only; do not execu
 
 ## Tech
 
-- [x] Epic: Выполнить модульную миграцию по `docs/modular_migration/`.
+- [x] Epic: модульная миграция выполнена (цепочка MM-00–MM-80, удалена при чистке 2026-09-18; см. git-историю).
   Type: Tech / Architecture / Production
   Priority: Critical
   Depends on: architecture freeze `MM-03`, current green content/build baseline
@@ -204,7 +204,7 @@ Status: superseded execution list. Preserve as audit evidence only; do not execu
 - [x] Task: Заморозить portable content, runtime и snapshot contracts.
   Type: Tech / Architecture
   Priority: Critical
-  Depends on: `docs/modular_migration/01_ARCHITECTURE_CONTRACT.md`, stress matrix
+  Depends on: stress matrix
   Output: frozen ID/version, `CompiledContentPack`, `RuntimeContext`, capability lifecycle и historical `GameSnapshotV2` contracts; current desktop persistence is `SaveGameV3`.
   Notes: Кодовая миграция не начинается, пока 12 stress fixtures не пройдут review gate `MM-03`; capability teardown допускается только после immutable kernel claim query подтверждает owner release.
 

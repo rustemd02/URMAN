@@ -34,6 +34,24 @@ public partial class InteractionTarget : StaticBody3D
     internal uint ActiveCollisionLayer => _activeCollisionLayer;
     private bool? _available;
     private RuntimeBridge? _bridge;
+    private bool _presentationEnabled = true;
+
+    // The existing world router also uses IsSemanticallyAvailable, so an owner
+    // waiting for a physical projection cannot be re-enabled by a later refresh.
+    internal void SetPresentationEnabled(bool enabled)
+    {
+        _presentationEnabled = enabled;
+        CollisionLayer = IsSemanticallyAvailable() ? _activeCollisionLayer : 0u;
+    }
+
+    // A moving character owns its physical body separately. Keep this stable
+    // interaction target on the ray layer, including future routing refreshes.
+    internal void ConfigureRayOnly()
+    {
+        _activeCollisionLayer = 4u;
+        CollisionMask = 0u;
+        CollisionLayer = _available is null || IsSemanticallyAvailable() ? 4u : 0u;
+    }
 
     // Presentation-only repeat actions stay outside RuntimeBridge state. The
     // one-shot interaction still owns the journal/knowledge commit; a caller
@@ -73,14 +91,13 @@ public partial class InteractionTarget : StaticBody3D
         PresentationGateHint = string.Empty;
     }
 
-    /// <summary>Authored availability only: what the content rules allow.</summary>
-    internal bool AuthoredAvailable =>
-        _available == true
-        || (_available == false && PresentationRepeatAvailable?.Invoke() == true);
+    internal bool IsSemanticallyAvailable() => _presentationEnabled
+        && (_available == true
+            || (_available == false && PresentationRepeatAvailable?.Invoke() == true));
 
-    public bool IsAvailable() =>
-        (_available == true && (PresentationGate?.Invoke() ?? true))
-        || (_available == false && PresentationRepeatAvailable?.Invoke() == true);
+    public bool IsAvailable() => IsSemanticallyAvailable()
+        && (PresentationGate?.Invoke() ?? true)
+        && (_bridge?.CanPhysicallyUseInteraction(InteractionId) ?? true);
 
     public async void Interact()
     {
@@ -145,7 +162,7 @@ public partial class InteractionTarget : StaticBody3D
         if (!string.IsNullOrWhiteSpace(TargetZoneId))
         {
             main = GetTree().GetFirstNodeInGroup("zone_manager") as Main;
-            main?.SwitchZone(TargetZoneId, TargetSpawnPointId);
+            if (main is not null && !await main.SwitchZoneAsync(TargetZoneId, TargetSpawnPointId)) return;
         }
 
         if (!string.IsNullOrWhiteSpace(WorldFoleySample))
@@ -193,7 +210,7 @@ public partial class InteractionTarget : StaticBody3D
         // preserve the ray layer for an authored local repeat instead of
         // clobbering the routing pass with zero.
         var repeatAvailable = !available && PresentationRepeatAvailable?.Invoke() == true;
-        CollisionLayer = available || repeatAvailable ? _activeCollisionLayer : 0;
+        CollisionLayer = _presentationEnabled && (available || repeatAvailable) ? _activeCollisionLayer : 0;
         foreach (var child in GetChildren())
         {
             if (child is MeshInstance3D mesh)

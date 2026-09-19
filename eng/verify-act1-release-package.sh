@@ -35,7 +35,7 @@ command -v python3 >/dev/null 2>&1 || fail "the 'python3' command is required"
 
 # Python owns the timeout so a hung export cannot leave a detached Godot
 # process behind on the developer machine. The process group is terminated on
-# timeout; no package output is ever written inside the repository.
+# timeout or cancellation; package output stays in the existing temporary tree.
 run_godot() {
   timeout_seconds=$1
   log_file=$2
@@ -45,35 +45,94 @@ import os
 import signal
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 godot, timeout_text, log_path, *arguments = sys.argv[1:]
 timeout_seconds = int(timeout_text)
-with Path(log_path).open("w", encoding="utf-8") as log:
-    process = subprocess.Popen(
-        [godot, *arguments],
-        stdout=log,
-        stderr=subprocess.STDOUT,
-        start_new_session=True,
-    )
-    try:
-        status = process.wait(timeout=timeout_seconds)
-    except subprocess.TimeoutExpired:
+process = None
+interrupted = 0
+
+def signal_group(signum):
+    if process is not None:
         try:
-            os.killpg(process.pid, signal.SIGTERM)
+            os.killpg(process.pid, signum)
         except ProcessLookupError:
             pass
-        try:
-            process.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
+
+def interrupt(signum, _frame):
+    global interrupted
+    if not interrupted:
+        interrupted = signum
+    signal_group(signal.SIGTERM)
+
+def group_exists():
+    try:
+        os.killpg(process.pid, 0)
+        return True
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        # A macOS group can briefly refuse the zero-signal probe while exiting.
+        # This is not proof of termination: retain the bounded wait, then fail
+        # cleanup unless a later probe confirms that the whole group is gone.
+        return True
+
+def await_group_exit(seconds):
+    deadline = time.monotonic() + seconds
+    while True:
+        # Reap the direct child, but also wait for its remaining group members.
+        process.poll()
+        if not group_exists():
             process.wait()
-        log.write(f"act1-release: Godot timed out after {timeout_seconds}s\n")
-        raise SystemExit(124)
-raise SystemExit(status)
+            return True
+        if time.monotonic() >= deadline:
+            return False
+        time.sleep(.025)
+
+# The outer userdata guard signals the shell/helper group. Godot has its own
+# group, so this helper must forward cancellation and finish cleanup before the
+# shell can remove staging files or the guard can restore the player's data.
+previous = {sig: signal.signal(sig, interrupt)
+            for sig in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP)}
+status = 1
+cleanup_failed = False
+with Path(log_path).open("w", encoding="utf-8") as log:
+    try:
+        if not interrupted:
+            process = subprocess.Popen(
+                [godot, *arguments], stdout=log, stderr=subprocess.STDOUT,
+                start_new_session=True,
+            )
+            deadline = time.monotonic() + timeout_seconds
+            while process.poll() is None and not interrupted:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    status = 124
+                    log.write(f"act1-release: Godot timed out after {timeout_seconds}s\n")
+                    break
+                try:
+                    status = process.wait(timeout=min(.1, remaining))
+                except subprocess.TimeoutExpired:
+                    pass
+            if process.returncode is not None and status != 124:
+                status = process.returncode
+    finally:
+        if process is not None:
+            # Stay below the outer guard's five-second TERM deadline. Even a
+            # successfully exited child can have descendants left in its group.
+            signal_group(signal.SIGTERM)
+            stopped = await_group_exit(2)
+            if not stopped:
+                signal_group(signal.SIGKILL)
+                stopped = await_group_exit(1)
+            cleanup_failed = not stopped
+            log.write(f"act1-release: child_group={process.pid} stopped={str(stopped).lower()}\n")
+        for sig, handler in previous.items():
+            signal.signal(sig, handler)
+if cleanup_failed:
+    raise SystemExit(125)
+raise SystemExit(128 + interrupted if interrupted else (status if status >= 0 else 128 - status))
 PY
 }
 
@@ -108,13 +167,15 @@ else
   fail "usage: $0 [<macOS-pck> <Windows-pck>]"
 fi
 
-python3 - "$MAC_PCK" "$WINDOWS_PCK" <<'PY'
+python3 - "$URMAN_ROOT/eng" "$MAC_PCK" "$WINDOWS_PCK" <<'PY'
 from __future__ import annotations
 
-import struct
+import json
 import sys
-import unicodedata
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+
+sys.path.insert(0, sys.argv.pop(1))
+from godot_pck import read_pck
 
 
 def fail(message: str) -> None:
@@ -122,70 +183,6 @@ def fail(message: str) -> None:
     raise SystemExit(1)
 
 
-def read_pck(path: Path) -> tuple[bytes, dict[str, tuple[int, int]]]:
-    raw = path.read_bytes()
-    if len(raw) < 0x70 or raw[:4] != b"GDPC":
-        fail(f"{path.name} is not a Godot PCK")
-    if struct.unpack_from("<I", raw, 4)[0] != 4:
-        fail(f"{path.name} is not a Godot 4 PCK")
-
-    data_base, index_base = struct.unpack_from("<QQ", raw, 0x18)
-    if not 0x70 <= data_base < index_base < len(raw):
-        fail(f"{path.name} has invalid data/index bounds")
-
-    count = struct.unpack_from("<I", raw, index_base)[0]
-    if not 0 < count <= 10000:
-        fail(f"{path.name} has an invalid file count: {count}")
-
-    entries: dict[str, tuple[int, int]] = {}
-    folded: dict[str, str] = {}
-    cursor = index_base + 4
-    for entry_number in range(count):
-        if cursor + 4 > len(raw):
-            fail(f"{path.name} index ends before entry {entry_number}")
-        field_length = struct.unpack_from("<I", raw, cursor)[0]
-        cursor += 4
-        if field_length == 0 or field_length > 4096 or cursor + field_length > len(raw):
-            fail(f"{path.name} has an invalid path length at entry {entry_number}")
-        field = raw[cursor : cursor + field_length]
-        cursor += field_length
-        trimmed = field.rstrip(b"\0")
-        if not trimmed or b"\0" in trimmed:
-            fail(f"{path.name} has an invalid padded path at entry {entry_number}")
-        try:
-            name = trimmed.decode("utf-8")
-        except UnicodeDecodeError as error:
-            fail(f"{path.name} has a non-UTF-8 path at entry {entry_number}: {error}")
-
-        if cursor + 8 + 8 + 16 + 4 > len(raw):
-            fail(f"{path.name} index ends inside entry {entry_number}")
-        data_offset, data_size = struct.unpack_from("<QQ", raw, cursor)
-        cursor += 16 + 16 + 4
-        # Godot PCK v4 stores payload offsets relative to the file-data base.
-        # Offset zero is the first payload, not a missing-resource sentinel.
-        data_offset += data_base
-        if data_offset > len(raw) or data_size > len(raw) - data_offset:
-            fail(f"{path.name} has an out-of-bounds payload: {name}")
-        if data_offset < data_base or data_offset + data_size > index_base:
-            fail(f"{path.name} has a payload overlapping its index: {name}")
-
-        if "\\" in name or name.startswith("/") or any(part in {"", ".", ".."} for part in name.split("/")):
-            fail(f"{path.name} has an unsafe resource path: {name}")
-        normalized = unicodedata.normalize("NFKC", name).casefold()
-        previous = folded.get(normalized)
-        if previous is not None and previous != name:
-            fail(f"{path.name} has a case-folded path collision: {previous} / {name}")
-        folded[normalized] = name
-        if name in entries:
-            fail(f"{path.name} contains a duplicate resource path: {name}")
-        entries[name] = (data_offset, data_size)
-
-    # Native Windows exports append at most seven zero alignment bytes before
-    # their size/magic footer; extracted PCKs retain that alignment.
-    trailing = raw[cursor:]
-    if len(trailing) > 7 or any(trailing):
-        fail(f"{path.name} has non-alignment bytes after its resource index")
-    return raw, entries
 
 
 def require(entries: dict[str, tuple[int, int]], name: str) -> None:
@@ -197,6 +194,32 @@ def require_prefix(entries: dict[str, tuple[int, int]], prefix: str, suffix: str
     matches = sorted(name for name in entries if name.startswith(prefix) and name.endswith(suffix))
     if len(matches) != 1 or entries[matches[0]][1] == 0:
         fail(f"required derived resource is missing or ambiguous: {prefix}*{suffix}")
+
+
+def payload(raw: bytes, entries: dict[str, tuple[int, int]], name: str) -> bytes:
+    require(entries, name)
+    offset, size = entries[name]
+    return raw[offset : offset + size]
+
+
+def require_imported_resource(raw: bytes, entries: dict[str, tuple[int, int]],
+                              source: str, suffix: str) -> None:
+    if not isinstance(source, str) or not source:
+        fail(f"invalid registered resource path: {source!r}")
+    path = PurePosixPath(source)
+    if path.is_absolute() or ".." in path.parts or ":" in source or "\\" in source:
+        fail(f"invalid registered resource path: {source}")
+    try:
+        remap = payload(raw, entries, source + ".import").decode("utf-8")
+    except UnicodeDecodeError:
+        fail(f"import remap is not UTF-8: {source}")
+    targets = re.findall(r'^path(?:\.[A-Za-z0-9_]+)?="res://([^"]+)"$', remap, re.MULTILINE)
+    if not targets:
+        fail(f"required imported resource has no export remap: {source}")
+    for target in targets:
+        if not target.startswith(f".godot/imported/{path.name}-") or not target.endswith(suffix):
+            fail(f"unexpected imported resource remap: {source} -> {target}")
+        require(entries, target)
 
 
 # Keep the scope gate aligned with the shared runtime material owner.
@@ -356,6 +379,48 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
     if b'"schemaVersion": 1' not in content_payload or b'"id": "urman.chapter1"' not in content_payload:
         fail(f"{label} content does not contain the chapter-one campaign marker")
 
+    # These owners load JSON dynamically; all_resources alone is not evidence
+    # that the native package retained their complete registered dependencies.
+    vehicle_data = {}
+    for name in ("content/vehicles/act1_vehicles.v1.json", "content/vehicles/avyl_radio.v1.json"):
+        packed = payload(raw, entries, name)
+        if packed != Path("game", name).read_bytes():
+            fail(f"{label} contains stale vehicle/radio data: {name}")
+        vehicle_data[name] = json.loads(packed)
+    programme = vehicle_data["content/vehicles/avyl_radio.v1.json"]["segments"]
+    radio_paths = set()
+    for segment in programme:
+        resource = segment.get("streamPath")
+        if (not isinstance(resource, str) or not resource.startswith("res://assets/audio/act1/radio/")
+                or not resource.endswith(".wav")):
+            fail(f"radio segment has no delivered WAV resource: {resource!r}")
+        radio_paths.add(resource)
+    for resource in sorted(radio_paths):
+        require_imported_resource(raw, entries, resource.removeprefix("res://"), ".sample")
+
+    compiled = json.loads(content_payload)
+    packed_assets = {asset["id"]: asset for asset in compiled["registries"]["assets"]}
+    expected_assets = {
+        asset["id"]: asset for asset in
+        json.loads(Path("game", content_name).read_bytes())["registries"]["assets"]
+    }
+    public_photo_ids = ("urman.chapter1:asset/school-class-photo",
+                        "urman.chapter1:asset/council-photo-album")
+    for asset_id in public_photo_ids:
+        asset = packed_assets.get(asset_id)
+        expected = expected_assets.get(asset_id)
+        if asset is None or expected is None or any(
+            asset.get(key) != expected.get(key) for key in ("kind", "file", "mediaType", "sha256", "variants")
+        ):
+            fail(f"{label} public photograph is missing or stale in the registry: {asset_id}")
+        if asset["kind"] != "image" or asset["mediaType"] != "image/png":
+            fail(f"public photograph must remain a registered PNG image: {asset_id}")
+        for image in (asset, *asset.get("variants", [])):
+            require_imported_resource(raw, entries, "assets/" + image["file"], ".ctex")
+    print(f"act1-release: {label} registered dependencies PASS vehicle-json=2 "
+          f"radio-rows={len(programme)} unique-wav={len(radio_paths)} public-photos={len(public_photo_ids)}; "
+          "presence only, not listening/art acceptance")
+
     for root, kit in act1_kits:
         require(entries, f"{root}/{kit}.glb.import")
         require_prefix(entries, f".godot/imported/{kit}.glb-", ".scn")
@@ -405,7 +470,10 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
 
 
 for pck_path in map(Path, sys.argv[1:]):
-    raw, pck_entries = read_pck(pck_path)
+    try:
+        raw, pck_entries = read_pck(pck_path)
+    except (OSError, ValueError) as error:
+        fail(str(error))
     assert_scope(raw, pck_entries, pck_path.name)
 PY
 

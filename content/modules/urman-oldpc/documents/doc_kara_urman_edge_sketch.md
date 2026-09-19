@@ -4,10 +4,10 @@ id: urman.oldpc:document/doc_kara_urman_edge_sketch
 title: {"default":"Kara-Urman edge sketch","translations":{"ru":"Схема кромки Кара-Урмана"}}
 format: markdown
 sourceFile: documents/doc_kara_urman_edge_sketch.md
-assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
+assetRefs: ["urman.oldpc:asset/ui-document-viewer-template","urman.chapter1:asset/kara-urman-edge-sketch-image"]
 knowledgeRefs: ["urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary"]
-accessConditions: [{"op":"all","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_folklore_as_survival_rule","status":"hypothesis"},{"op":"vocabulary.status","vocabularyId":"urman.chapter1:vocabulary/tt_javap","status":"confirmed"},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_internal_wording_reread","status":"confirmed"}]}]
-openEffects: [{"op":"scene.request","sceneId":"urman.chapter1:scene/evidence-edge-sketch"},{"op":"journal.record","entryId":"urman.oldpc:document/doc_kara_urman_edge_sketch","sourceId":"urman.oldpc:document/doc_kara_urman_edge_sketch"}]
+accessConditions: [{"op":"all","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_folklore_as_survival_rule","status":"hypothesis"},{"op":"vocabulary.status","vocabularyId":"urman.chapter1:vocabulary/tt_javap","status":"confirmed"},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_internal_wording_reread","status":"confirmed"},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately","status":"hypothesis"},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_village_has_internal_compensation_system","status":"hypothesis"},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_rinat_accounting_question_heard","status":"confirmed"}]}]
+openEffects: [{"op":"scene.request","sceneId":"urman.chapter1:scene/evidence-edge-sketch"},{"op":"journal.record","entryId":"urman.oldpc:document/doc_kara_urman_edge_sketch","sourceId":"urman.oldpc:document/doc_kara_urman_edge_sketch"},{"op":"vocabulary.set-status","vocabularyId":"urman.chapter1:vocabulary/tt_zirat","status":"confirmed"}]
 oldPc: {"type":"document","pcSection":"kara_urman","canonStatus":"soft_canon","reliability":"partial_truth","searchTerms":["Кара-Урман","кромка","граница","Шүрәле","тавыш"],"suggestedTerms":["тавыш","ответ","Ринат"]}
 ---
 

@@ -1,0 +1,436 @@
+{
+  "schemaVersion": 1,
+  "ordinaryNewGame": true,
+  "humanSearchPlaytest": false,
+  "diagnosticCameraFixtures": true,
+  "assembly": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll",
+    "pathSource": "URMAN_ADDRESS_ASSEMBLY_PATH",
+    "assemblyLocation": "",
+    "loadedModule": "0427848a-5dbe-48b8-9265-8c1d1421a796",
+    "diskModule": "0427848a-5dbe-48b8-9265-8c1d1421a796",
+    "status": "module-match",
+    "sha256": "fca96e0d9faa7c7b7c19a8583c1efbc2edeb5d3a94ee83f531a57eb37a730e07"
+  },
+  "scope": "standalone-candidates",
+  "auditRun": false,
+  "fullAuditRun": false,
+  "selectedAccessAuditRun": false,
+  "acceptance": false,
+  "auditCompleted": false,
+  "registry": null,
+  "mounts": [],
+  "captures": [
+    {
+      "file": "13_ReturnWest_existing_seni_blocked_view.png",
+      "SourceName": "ReturnWestBanyaSilhouette",
+      "LeafPath": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0",
+      "feet": {
+        "x": -9.500517,
+        "y": -0.3840829,
+        "z": -48.946194
+      },
+      "camera": {
+        "x": -9.679531,
+        "y": 1.3159171,
+        "z": -48.965008
+      },
+      "target": {
+        "x": -10.5447645,
+        "y": 0.91805816,
+        "z": -49.05595
+      },
+      "PhysicsLeafMatched": true,
+      "KnownVisibleObstruction": true,
+      "diagnostic": true,
+      "physicalApproachSupported": true,
+      "actorMoved": false,
+      "worldPropsUnchanged": true,
+      "geometryChanged": false,
+      "visibilityChanged": false,
+      "fieldOfView": 75,
+      "accepted": false,
+      "humanSearchPlaytest": false
+    }
+  ],
+  "checks": [
+    {
+      "kind": "check",
+      "message": "ordinary New Game starts",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "construction and proximity do not record a plate read",
+      "passed": true
+    },
+    {
+      "kind": "audit-not-run-in-narrow-scope",
+      "auditRun": false,
+      "constructionEntriesAlreadyObserved": 0,
+      "previousPhysicsProcessing": true,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "diagnostic plate views do not change discovered addresses or world state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "standalone comparison includes its one actually supported ReturnWest photograph",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "blocked entrance view is bounded to the measured ReturnWest candidate",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "photo baseline allows ordinary pedestrian physics",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "photo baseline has measured nearby walkable support",
+      "passed": true
+    },
+    {
+      "kind": "blocked-entrance-natural-baseline",
+      "initialPose": {
+        "Position": {
+          "X": 0,
+          "Y": -0.11800000816583633,
+          "Z": 9
+        },
+        "RotationDegrees": {
+          "X": 0,
+          "Y": 0,
+          "Z": 0
+        }
+      },
+      "initialVelocity": {
+        "x": 0,
+        "y": -2.52,
+        "z": 0
+      },
+      "finalPose": {
+        "Position": {
+          "X": 0,
+          "Y": -0.5393125414848328,
+          "Z": 9
+        },
+        "RotationDegrees": {
+          "X": 0,
+          "Y": 0,
+          "Z": 0
+        }
+      },
+      "expectedSupportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "expectedSupportPoint": {
+        "x": 0,
+        "y": -0.539636,
+        "z": 9
+      },
+      "expectedSupportNormal": {
+        "x": -0.013267062,
+        "y": 0.9997987,
+        "z": 0.015052593
+      },
+      "stableSamples": 6,
+      "samples": 7,
+      "observations": [
+        {
+          "sample": 1,
+          "pose": {
+            "Position": {
+              "X": 0,
+              "Y": -0.5393125414848328,
+              "Z": 9
+            },
+            "RotationDegrees": {
+              "X": 0,
+              "Y": 0,
+              "Z": 0
+            }
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "onFloor": true,
+          "supported": true,
+          "stableSamples": 0,
+          "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "supportPoint": {
+            "x": 0,
+            "y": -0.5396361,
+            "z": 9
+          }
+        },
+        {
+          "sample": 2,
+          "pose": {
+            "Position": {
+              "X": 0,
+              "Y": -0.5393125414848328,
+              "Z": 9
+            },
+            "RotationDegrees": {
+              "X": 0,
+              "Y": 0,
+              "Z": 0
+            }
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "onFloor": true,
+          "supported": true,
+          "stableSamples": 1,
+          "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "supportPoint": {
+            "x": 0,
+            "y": -0.5396361,
+            "z": 9
+          }
+        },
+        {
+          "sample": 3,
+          "pose": {
+            "Position": {
+              "X": 0,
+              "Y": -0.5393125414848328,
+              "Z": 9
+            },
+            "RotationDegrees": {
+              "X": 0,
+              "Y": 0,
+              "Z": 0
+            }
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "onFloor": true,
+          "supported": true,
+          "stableSamples": 2,
+          "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "supportPoint": {
+            "x": 0,
+            "y": -0.5396361,
+            "z": 9
+          }
+        },
+        {
+          "sample": 4,
+          "pose": {
+            "Position": {
+              "X": 0,
+              "Y": -0.5393125414848328,
+              "Z": 9
+            },
+            "RotationDegrees": {
+              "X": 0,
+              "Y": 0,
+              "Z": 0
+            }
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "onFloor": true,
+          "supported": true,
+          "stableSamples": 3,
+          "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "supportPoint": {
+            "x": 0,
+            "y": -0.5396361,
+            "z": 9
+          }
+        },
+        {
+          "sample": 5,
+          "pose": {
+            "Position": {
+              "X": 0,
+              "Y": -0.5393125414848328,
+              "Z": 9
+            },
+            "RotationDegrees": {
+              "X": 0,
+              "Y": 0,
+              "Z": 0
+            }
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "onFloor": true,
+          "supported": true,
+          "stableSamples": 4,
+          "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "supportPoint": {
+            "x": 0,
+            "y": -0.5396361,
+            "z": 9
+          }
+        },
+        {
+          "sample": 6,
+          "pose": {
+            "Position": {
+              "X": 0,
+              "Y": -0.5393125414848328,
+              "Z": 9
+            },
+            "RotationDegrees": {
+              "X": 0,
+              "Y": 0,
+              "Z": 0
+            }
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "onFloor": true,
+          "supported": true,
+          "stableSamples": 5,
+          "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "supportPoint": {
+            "x": 0,
+            "y": -0.5396361,
+            "z": 9
+          }
+        },
+        {
+          "sample": 7,
+          "pose": {
+            "Position": {
+              "X": 0,
+              "Y": -0.5393125414848328,
+              "Z": 9
+            },
+            "RotationDegrees": {
+              "X": 0,
+              "Y": 0,
+              "Z": 0
+            }
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "onFloor": true,
+          "supported": true,
+          "stableSamples": 6,
+          "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "supportPoint": {
+            "x": 0,
+            "y": -0.5396361,
+            "z": 9
+          }
+        }
+      ],
+      "elapsedMilliseconds": 153,
+      "physicsFrames": 16,
+      "processFrames": 7,
+      "displacement": {
+        "x": 0,
+        "y": -0.42131254,
+        "z": 0
+      },
+      "propsUnchanged": true,
+      "unchangedControl": true,
+      "actorTransformWritten": false,
+      "playerPhysicsSuspended": false,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "photo baseline reaches stable real floor contact without relocation or progress",
+      "passed": true
+    },
+    {
+      "kind": "blocked-entrance-photograph-state",
+      "beforePose": {
+        "Position": {
+          "X": 0,
+          "Y": -0.5393125414848328,
+          "Z": 9
+        },
+        "RotationDegrees": {
+          "X": 0,
+          "Y": 0,
+          "Z": 0
+        }
+      },
+      "afterPose": {
+        "Position": {
+          "X": 0,
+          "Y": -0.5393125414848328,
+          "Z": 9
+        },
+        "RotationDegrees": {
+          "X": 0,
+          "Y": 0,
+          "Z": 0
+        }
+      },
+      "poseUnchanged": true,
+      "propsUnchanged": true,
+      "changedProps": [],
+      "beforeRevision": 2,
+      "afterRevision": 2,
+      "beforeClamps": 0,
+      "afterClamps": 0,
+      "beforeRecoveries": 0,
+      "afterRecoveries": 0,
+      "beforeVelocity": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "afterVelocity": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "beforeFloor": true,
+      "afterFloor": true,
+      "beforePlayerProcessing": true,
+      "afterPlayerProcessing": true,
+      "elapsedMilliseconds": 369,
+      "physicsFrames": 5,
+      "processFrames": 3,
+      "ordinaryCameraRestored": true,
+      "diagnosticCameraRemoved": true,
+      "cameraOnlyTransformWrites": true,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "blocked entrance photograph leaves actor pose and world progress unchanged",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "assembly candidate MVID matches the executing module",
+      "passed": true
+    }
+  ],
+  "failures": []
+}

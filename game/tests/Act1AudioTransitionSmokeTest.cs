@@ -12,23 +12,35 @@ public partial class Act1AudioTransitionSmokeTest : Node
 {
     public override async void _Ready()
     {
-        var main = ResourceLoader.Load<PackedScene>("res://scenes/main.tscn")?.Instantiate<Main>();
-        if (main is null)
+        var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")?.Instantiate<Act1DemoRoot>();
+        if (demo is null)
         {
-            Fail("Audio transition smoke could not load main.");
+            Fail("Audio transition smoke could not load the ordinary Act I entrypoint.");
             return;
         }
 
-        main.InitialZoneId = "village_day";
-        main.InitialSpawnPointId = "arrival";
-        main.EnableAct1ConnectedWorld = true;
-        AddChild(main);
-        await Frames(3);
+        // Act1DemoRoot owns the actual pause menu. The internal Main scene
+        // alone cannot exercise the product's pause and resume lifecycle.
+        AddChild(demo);
+        await Frames(1);
+        if (!await this.StartThroughMainMenuAsync(demo))
+        {
+            Fail("Audio transition smoke could not start an ordinary New Game.");
+            return;
+        }
+        demo._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
+        await Frames(2);
+        var main = demo.DemoMain;
 
         var director = GetTree().GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector;
         if (director is null)
         {
             Fail("Audio transition smoke could not find the ambience director.");
+            return;
+        }
+
+        if (!await VerifyRinatLandingStep(main))
+        {
             return;
         }
 
@@ -113,17 +125,32 @@ public partial class Act1AudioTransitionSmokeTest : Node
         }
 
         GD.Print("act1-audio-transitions: PASS 5 zones -> manifest beds + world foley spatial lifecycle");
-        await GodotSmokeCleanup.ReleaseAsync(main);
+        await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
     }
 
     private async Task<bool> VerifyWorldFoley(Main main)
     {
         const string worldFoleyGroup = "world_foley";
-        // This is the interior HouseExit source after the house_old_pc origin
-        // (-28, 0, 0). The village_day HouseDoorPortalCenter is an exterior
-        // anchor and must not be reused after the player enters the interior.
-        var source = new Vector3(-28f, 1.05f, 4.82f);
+        // The physical interior exit follows the current house contract. Do
+        // not retain the old room's numeric anchor after the shell is resized.
+        var exit = main.ConnectedWorld?.FindChild("HouseExit", true, false) as Node3D;
+        if (exit is null)
+        {
+            Fail("World foley smoke could not find the current interior HouseExit source.");
+            return false;
+        }
+        var source = exit.GlobalPosition;
+        var listener = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        var previousListener = listener?.CapturePortableTransform();
+        if (DisplayServer.GetName() != "headless" && listener is not null)
+        {
+            // Keep this source-positioned sound inside its authored 14 m
+            // range. A listener at village arrival is about 30 m from the
+            // actual house door and cannot prove native audible pause.
+            listener.ApplyZoneSpawn(source + new Vector3(0f, 0f, 2f), 0f);
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        }
 
         UiFoley.StopWorld(GetTree());
         UiFoley.PlayWorld(main, source, "door_creak");
@@ -176,22 +203,19 @@ public partial class Act1AudioTransitionSmokeTest : Node
             return false;
         }
 
-        // PlayWorld hands playback to the audio server, which starts a mix later
-        // than the node appears in the group. Setting StreamPaused before the
-        // stream is actually playing is a no-op in Godot, which made the pause
-        // assertion race the audio thread: it failed once in a full 34-scene run
-        // and passed on every re-run. Wait for playback to start within a bound
-        // that sits safely inside the 1.21 s source, and fail if it never starts;
-        // the pause contract itself is unchanged.
+        // AudioStreamPlayer3D.Play queues the start for the next physics frame.
+        // Playing alone also describes that queued start; prove an actual
+        // mixer cursor before exercising pause, inside the 1.21 s source.
         var playDeadline = Time.GetTicksMsec() + 400;
-        while (!player.Playing && Time.GetTicksMsec() < playDeadline)
+        while ((!player.Playing || !player.HasStreamPlayback() || player.GetPlaybackPosition() < .02f)
+            && Time.GetTicksMsec() < playDeadline)
         {
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         }
 
-        if (!player.Playing)
+        if (!player.Playing || !player.HasStreamPlayback() || player.GetPlaybackPosition() < .02f)
         {
-            Fail("World foley never started playing, so its pause contract cannot be checked.");
+            Fail($"World foley did not reach native playback (playing={player.Playing}, playback={player.HasStreamPlayback()}, cursor={player.GetPlaybackPosition():0.000}, paused={player.StreamPaused}); its pause contract is unverified.");
             return false;
         }
 
@@ -219,6 +243,62 @@ public partial class Act1AudioTransitionSmokeTest : Node
             return false;
         }
 
+        var pause = GetTree().GetFirstNodeInGroup("pause_menu") as PauseMenuUi;
+        if (pause is null)
+        {
+            Fail("World foley paused-start check has no real pause menu.");
+            return false;
+        }
+        if (!await OpenActualPause(pause)) return false;
+        UiFoley.PlayWorld(main, source, "door_creak");
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        await Frames(1);
+        var pausedSource = GetTree().GetNodesInGroup(worldFoleyGroup).OfType<AudioStreamPlayer3D>().Single();
+        var pausedStart = pausedSource.GetPlaybackPosition();
+        await ToSignal(GetTree().CreateTimer(.20), SceneTreeTimer.SignalName.Timeout);
+        var pausedEnd = pausedSource.GetPlaybackPosition();
+        var stillPaused = pause.IsOpen;
+        GD.Print($"act1-world-foley-paused-start: menuOpen={stillPaused} queuedPlaying={pausedSource.Playing} nativePlayback={pausedSource.HasStreamPlayback()} nativePaused={pausedSource.StreamPaused} cursor={pausedStart:0.000}->{pausedEnd:0.000}");
+        // A queued Playing flag is not a failure. A correct implementation may
+        // retain a paused playback or defer its native start until Resume.
+        var advancedWhilePaused = pausedEnd > .04f || pausedEnd - pausedStart > .025f;
+        if (!await ResumeActualPause(pause)) return false;
+        if (!stillPaused || advancedWhilePaused)
+        {
+            UiFoley.StopWorld(GetTree());
+            Fail(!stillPaused
+                ? "Paused-start fixture lost its real pause state before the native cursor sample."
+                : $"A newly requested world one-shot advanced while pause was open ({pausedStart:0.000}->{pausedEnd:0.000}s).");
+            return false;
+        }
+        var resumeDeadline = Time.GetTicksMsec() + 400;
+        while (pausedSource.GetPlaybackPosition() <= pausedEnd + .02f && Time.GetTicksMsec() < resumeDeadline)
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        if (pausedSource.GetPlaybackPosition() <= pausedEnd + .02f)
+        {
+            UiFoley.StopWorld(GetTree());
+            Fail("The world one-shot requested during pause did not start/resume after Resume.");
+            return false;
+        }
+        UiFoley.StopWorld(GetTree());
+        await Frames(1);
+
+        // Cancelling a source requested during the real pause must also remove
+        // its deferred start, so Resume cannot resurrect a door sound after a
+        // load/menu cleanup. This is the same owner reset used by those flows.
+        if (!await OpenActualPause(pause)) return false;
+        UiFoley.PlayWorld(main, source, "door_creak");
+        await Frames(1);
+        UiFoley.StopWorld(GetTree());
+        await Frames(2);
+        if (!await ResumeActualPause(pause)) return false;
+        await ToSignal(GetTree().CreateTimer(.12), SceneTreeTimer.SignalName.Timeout);
+        if (GetTree().GetNodesInGroup(worldFoleyGroup).Count != 0)
+        {
+            Fail("A world one-shot cancelled during pause reappeared after Resume.");
+            return false;
+        }
+
         // Play again without StopWorld and let the real stream duration drive
         // Finished cleanup. The checked-in source-backed candidate is 1.21 s;
         // the margin keeps this check independent of the render frame rate.
@@ -232,7 +312,203 @@ public partial class Act1AudioTransitionSmokeTest : Node
         }
 
         GD.Print("act1-world-foley: PASS source position + SFX routing + unit/max distance + pause/resume + StopWorld + Finished cleanup");
+        if (listener is not null && previousListener is { } previous) listener.ApplyPortableTransform(previous);
         return true;
+    }
+
+    private async Task<bool> VerifyRinatLandingStep(Main main)
+    {
+        var presentation = RinatPresencePresentation.Current(GetTree());
+        var sound = main.ConnectedWorld?.FindChild("RinatLandingStep", true, false) as AudioStreamPlayer3D;
+        var pause = GetTree().GetFirstNodeInGroup("pause_menu") as PauseMenuUi;
+        var listener = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (presentation is null || sound is null || pause is null || listener is null || bridge is null)
+        {
+            Fail("Rinat landing audio has no actual retained player, presentation, listener or pause shell.");
+            return false;
+        }
+        var identity = sound.GetInstanceId();
+        var previous = listener.CapturePortableTransform();
+        var state = bridge.SelectRuntimeState().GetRawText();
+        var finishedLandings = 0;
+        void RecordFinishedLanding() { finishedLandings++; }
+        sound.Finished += RecordFinishedLanding;
+        try
+        {
+            if (DisplayServer.GetName() == "headless")
+            {
+                presentation.RequestLandingStep();
+                presentation.CancelIntervention();
+                if (sound.Playing || sound.Stream is null || sound.GetInstanceId() != identity)
+                {
+                    Fail("Headless Rinat landing replay started native sound or destroyed its retained player.");
+                    return false;
+                }
+                GD.Print("act1-rinat-audio: headless replay/cancel guard PASS; native pause external to this display");
+                return true;
+            }
+
+            listener.ApplyZoneSpawn(sound.GlobalPosition + new Vector3(0f, 0f, 2f), 0f);
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            presentation.RequestLandingStep();
+            if (!await NativeCursorAfter(sound, .02f))
+            {
+                Fail("Rinat's actual landing stream did not reach native playback before pause.");
+                return false;
+            }
+            if (!await OpenActualPause(pause)) return false;
+            var start = sound.GetPlaybackPosition();
+            await ToSignal(GetTree().CreateTimer(.20), SceneTreeTimer.SignalName.Timeout);
+            var end = sound.GetPlaybackPosition();
+            GD.Print($"act1-rinat-audio-pause: menu={pause.IsOpen} nativePaused={sound.StreamPaused} cursor={start:0.000}->{end:0.000} retained={sound.GetInstanceId() == identity}");
+            if (!pause.IsOpen || !sound.StreamPaused || Math.Abs(end - start) > .025f || sound.IsQueuedForDeletion())
+            {
+                Fail("Rinat's retained landing sound continued or was destroyed while the real pause menu was open.");
+                return false;
+            }
+            if (!await ResumeActualPause(pause) || !await NativeCursorAfter(sound, end + .02f))
+            {
+                Fail("Rinat's retained landing sound did not resume its native cursor after the Resume button.");
+                return false;
+            }
+
+            presentation.CancelIntervention();
+            await Frames(2);
+            if (sound.Playing || sound.Stream is null || sound.GetInstanceId() != identity)
+            {
+                Fail("Rinat's cancellation did not stop and retain his reusable landing player.");
+                return false;
+            }
+
+            // A landing can request Play during the render frame in which
+            // Escape opens pause, before AudioStreamPlayer3D creates its native
+            // playback on the next physics tick. Exercise that third ordering
+            // through the production pause owner and the normal presentation
+            // update; neither the already-playing nor paused-request checks
+            // above/below covers it.
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            var finishesBeforeQueuedStart = finishedLandings;
+            presentation.RequestLandingStep();
+            var playingBeforePause = sound.Playing;
+            var playbackBeforePause = sound.HasStreamPlayback();
+            var cursorBeforePause = sound.GetPlaybackPosition();
+            pause.Open();
+            GD.Print($"act1-rinat-audio-request-before-pause: playing={playingBeforePause} retainedPlayback={playbackBeforePause} cursor={cursorBeforePause:0.000000} menu={pause.IsOpen} controlsPaused={listener.ModalOpen}");
+            // A reused AudioStreamPlayer3D may retain its previous playback
+            // object after Stop. The synchronous request -> Open ordering
+            // establishes this case; HasStreamPlayback cannot identify a new
+            // native start on a retained player.
+            if (!playingBeforePause || !pause.IsOpen || !listener.ModalOpen)
+            {
+                Fail("Rinat queued-start fixture did not open the actual pause before native playback.");
+                return false;
+            }
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            await ToSignal(GetTree().CreateTimer(.12), SceneTreeTimer.SignalName.Timeout);
+            var queuedPausedCursor = sound.GetPlaybackPosition();
+            GD.Print($"act1-rinat-audio-queued-pause: menu={pause.IsOpen} nativePlayback={sound.HasStreamPlayback()} nativePaused={sound.StreamPaused} cursor={cursorBeforePause:0.000000}->{queuedPausedCursor:0.000000}");
+            if (!pause.IsOpen || queuedPausedCursor > .001f)
+            {
+                Fail($"Rinat's queued landing advanced before Resume ({queuedPausedCursor:0.000000}s).");
+                return false;
+            }
+            if (!await ResumeActualPause(pause) || !await NativeCursorAfter(sound, .02f))
+            {
+                Fail("Rinat's landing queued immediately before pause did not play after Resume.");
+                return false;
+            }
+
+            // Let this retained player finish naturally, without cancelling it
+            // or opening another menu while its native playback is active.
+            // A stale queued marker must not resurrect that completed landing.
+            var finishDeadline = Time.GetTicksMsec() + 1500;
+            while ((sound.Playing || finishedLandings == finishesBeforeQueuedStart)
+                && Time.GetTicksMsec() < finishDeadline)
+                await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            if (sound.Playing || finishedLandings != finishesBeforeQueuedStart + 1)
+            {
+                Fail("Rinat's resumed landing did not finish naturally exactly once.");
+                return false;
+            }
+            var naturalFinishes = finishedLandings;
+            if (!await OpenActualPause(pause)) return false;
+            await ToSignal(GetTree().CreateTimer(.12), SceneTreeTimer.SignalName.Timeout);
+            if (!await ResumeActualPause(pause)) return false;
+            await ToSignal(GetTree().CreateTimer(.20), SceneTreeTimer.SignalName.Timeout);
+            GD.Print($"act1-rinat-audio-after-natural-end: playing={sound.Playing} cursor={sound.GetPlaybackPosition():0.000000} finishes={naturalFinishes}->{finishedLandings} retained={sound.GetInstanceId() == identity}");
+            if (sound.Playing || finishedLandings != naturalFinishes || sound.GetInstanceId() != identity)
+            {
+                Fail("A late Pause/Resume replayed a Rinat landing that had already finished naturally.");
+                return false;
+            }
+            presentation.CancelIntervention();
+            await Frames(2);
+
+            if (!await OpenActualPause(pause)) return false;
+            presentation.RequestLandingStep();
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            await ToSignal(GetTree().CreateTimer(.12), SceneTreeTimer.SignalName.Timeout);
+            if (!pause.IsOpen || sound.GetPlaybackPosition() > .025f)
+            {
+                Fail("A Rinat landing requested during pause started its native cursor before Resume.");
+                return false;
+            }
+            presentation.CancelIntervention();
+            if (!await ResumeActualPause(pause)) return false;
+            await ToSignal(GetTree().CreateTimer(.12), SceneTreeTimer.SignalName.Timeout);
+            if (sound.Playing || sound.GetInstanceId() != identity || sound.Stream is null
+                || bridge.SelectRuntimeState().GetRawText() != state)
+            {
+                Fail("Rinat's cancelled paused request replayed later, destroyed its player, or changed narrative state.");
+                return false;
+            }
+            GD.Print("act1-rinat-audio: PASS native landing replay + Escape pause + Resume + natural-end no replay + pending cancel + retained player; physical step is a separate finale check");
+            return true;
+        }
+        finally
+        {
+            sound.Finished -= RecordFinishedLanding;
+            presentation.CancelIntervention();
+            if (pause.IsOpen) pause.Resume();
+            listener.ApplyPortableTransform(previous);
+        }
+    }
+
+    private async Task<bool> NativeCursorAfter(AudioStreamPlayer3D player, double minimum)
+    {
+        var deadline = Time.GetTicksMsec() + 400;
+        do
+        {
+            if (player.Playing && player.HasStreamPlayback() && player.GetPlaybackPosition() > minimum) return true;
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        } while (Time.GetTicksMsec() < deadline);
+        return false;
+    }
+
+    private async Task<bool> OpenActualPause(PauseMenuUi pause)
+    {
+        Input.ParseInputEvent(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        await Frames(2);
+        Input.ParseInputEvent(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = false });
+        await Frames(2);
+        if (pause.IsOpen && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { ModalOpen: true }) return true;
+        Fail("Real Escape did not open the production pause menu and gate player controls.");
+        return false;
+    }
+
+    private async Task<bool> ResumeActualPause(PauseMenuUi pause)
+    {
+        if (pause.ResumeButton is not { Disabled: false } button)
+        {
+            Fail("The production pause menu has no enabled Resume button.");
+            return false;
+        }
+        button.EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        if (!pause.IsOpen && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { ModalOpen: false }) return true;
+        Fail("The production Resume button did not close pause and restore player controls.");
+        return false;
     }
 
     private async Task<bool> VerifyHouseDoorInteraction(Main main)
@@ -249,6 +525,10 @@ public partial class Act1AudioTransitionSmokeTest : Node
             return false;
         }
 
+        // Ordinary arrival now requires reading both personal sources and an
+        // actual reply. Reuse the same reader/choice proof as the family flow;
+        // the audio fixture must not bypass those gates with synthetic flags.
+        await Act1ArrivalFlowProof.CompleteAsync(this, bridge);
         DeleteSlot(slot);
         if (!await bridge.SaveSlotAsync(slot))
         {

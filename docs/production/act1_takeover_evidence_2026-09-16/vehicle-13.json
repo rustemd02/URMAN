@@ -1,0 +1,51 @@
+{
+  "timestamp": "2026-09-17T08:38:35.817001+00:00",
+  "build_receipt": "integrated-build-54.json",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "res://tests/vehicle_smoke_test.tscn",
+    "--urman-smoke-background-input",
+    "--no-auto-performance-fallback"
+  ],
+  "environment": {
+    "URMAN_VEHICLE_CAPTURE": "1",
+    "URMAN_VEHICLE_OUTPUT": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-13",
+    "URMAN_VEHICLE_COMPOUND_ONLY": "0",
+    "URMAN_VEHICLE_WHEELS_ONLY": "0",
+    "URMAN_VEHICLE_MOUSE_ONLY": "0"
+  },
+  "human_playtest": "external/not-run",
+  "focus_policy": "Test-only background input replay; no foreground performance or human duration claim.",
+  "exit_code": 0,
+  "process_seconds": 86.69,
+  "finished": "2026-09-17T08:40:02.509047+00:00",
+  "inputs_changed_during_run": [],
+  "guard_verified": true,
+  "engine_error_count": 15,
+  "engine_errors": [
+    {
+      "message": "ERROR: SaveGameV3 could not restore the previous physical placement: The saved vehicle and all checked standing recovery positions are blocked.",
+      "count": 3
+    },
+    {
+      "message": "ERROR: SaveGameV3 load failed: The loaded player's physical position is blocked.",
+      "count": 1
+    },
+    {
+      "message": "ERROR: SaveGameV3 load failed: The saved vehicle and all checked standing recovery positions are blocked.",
+      "count": 4
+    },
+    {
+      "message": "ERROR: The saved vehicle and all checked standing recovery positions are blocked.",
+      "count": 7
+    }
+  ],
+  "status": "FAIL"
+}

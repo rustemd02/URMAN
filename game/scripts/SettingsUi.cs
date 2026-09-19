@@ -38,12 +38,15 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         ["move_right"] = "Вправо",
         ["interact"] = "Взаимодействие",
         ["crouch"] = "Пригнуться",
+        ["jump"] = "Прыжок",
+        ["sprint"] = "Бежать",
         ["journal"] = "Журнал",
         ["pause"] = "Меню",
         ["quick_save"] = "Быстрое сохранение",
         ["quick_load"] = "Быстрая загрузка",
         ["carry_rotate"] = "Повернуть предмет",
-        ["carry_place"] = "Поставить предмет"
+        ["carry_place"] = "Поставить предмет",
+        ["carry_use"] = "Переключить фонарь"
     };
 
     public bool IsOpen => _screen.Visible;

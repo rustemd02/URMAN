@@ -26,6 +26,7 @@ from mathutils import Vector
 KIT_ROOT = "URMAN_VillageExteriorKit"
 DWELLING_ROOT = "DwellingFacade_TimberPlaster"
 HERO_DWELLING_ROOT = "HeroHouse_TimberPlaster"
+HERO_YARD_SHED_ROOT = "HeroYardShed_Loft"
 WELL_ROOT = "Well_YardLandmark"
 WOODPILE_ROOT = "Woodpile_StackedLogs"
 CAT_ROOT = "AmbientCat"
@@ -64,6 +65,28 @@ HERO_HOUSE_CONTRACT = {
     "stove_room_xz": [-3.15, -0.45],
 }
 
+HERO_YARD_SHED_CONTRACT = {
+    "version": "hero-yard-shed-two-level-v1",
+    "component": HERO_YARD_SHED_ROOT,
+    "runtime_scale": 1.0,
+    "footprint_xz": [4.4, 4.4],
+    "ground_floor_y": 0.04,
+    "loft_floor_y": 1.46,
+    "lowest_joist_y": 1.26,
+    "underdeck_clear_height": 1.22,
+    "eave_y": 3.42,
+    "ridge_y": 4.36,
+    "lower_landing_xyz": [0, 0.04, 3.92],
+    "lower_grip_xyz": [0, 0.04, 3.75],
+    "upper_grip_xyz": [0, 1.50, 2.65],
+    "upper_landing_xyz": [0, 1.50, 1.45],
+    "underdeck_route_x": -1.15,
+    "loft_observation_xyz": [0, 2.52, -2.06],
+    "underdeck_repair_root_xyz": [-1.51, 0.04, -1.37],
+    "underdeck_rattle_xyz": [-1.15, 0.15, -0.75],
+    "underdeck_mechanism_owner": "yard/loose-footboard",
+}
+
 ANIMAL_ROOTS = (CAT_ROOT, CROW_ROOT)
 CAT_CHILDREN = (
     "CatBody",
@@ -86,6 +109,8 @@ WOODPILE_SUPPORT_NAMES = ("Woodpile_SupportLeft_LOD0", "Woodpile_SupportRight_LO
 def arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", required=True)
+    parser.add_argument("--component-only", choices=("hero-yard-shed",),
+                        help="Update only the new hero shed; preserve every existing kit component")
     tokens: list[str] = []
     if "--" in sys.argv:
         tokens = sys.argv[sys.argv.index("--") + 1 :]
@@ -2066,8 +2091,34 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
              [(-1.65,-.65,.94,2.38,"Window"),(.65,1.65,.94,2.38,"Window")])
         wall("Right", (half,(front+back)/2), (0,1), depth,
              [(-depth/2+.80,-depth/2+1.80,.94,2.38,"Window")])
-    box("Foundation", (0,(front+back)/2,wall_base/2), (width+.06,depth+.06,wall_base), "URMAN_Stone_Mossy")
-    box("FootingCap", (0,(front+back)/2,wall_base+.02), (width+.09,depth+.09,.07), "URMAN_Stone_LightFace")
+    if hero_layout:
+        # The occupied room has its own timber floor. A full stone cap at
+        # floor+55mm covered it with an exterior snow material. Keep both
+        # published foundation names, but build the actual bearing perimeter
+        # underneath the four walls, with no stone surface across the room.
+        def foundation_ring(suffix, extension, bottom, top, material_name):
+            x_outer = (width + extension) / 2
+            y_front, y_back = front - extension / 2, back + extension / 2
+            x_inner, inner_front, inner_back = half - .20, front + .20, back - .20
+            rectangles = [(-x_outer, x_outer, y_front, inner_front),
+                          (-x_outer, x_outer, inner_back, y_back),
+                          (-x_outer, -x_inner, inner_front, inner_back),
+                          (x_inner, x_outer, inner_front, inner_back)]
+            vertices, faces = [], []
+            for left, right, near, far in rectangles:
+                offset = len(vertices)
+                vertices += [(x, y, z) for z in (bottom, top)
+                             for x, y in ((left, near), (right, near), (right, far), (left, far))]
+                faces += [tuple(offset + i for i in face) for face in
+                          ((3,2,1,0),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7))]
+            mesh_object(f"{prefix}_{suffix}_LOD0", parent, vertices, faces,
+                        (material_name,), component_root=root_name,
+                        role="continuous perimeter support beneath hero room walls; clear timber floor inside")
+        foundation_ring("Foundation", .06, 0, wall_base, "URMAN_Stone_Mossy")
+        foundation_ring("FootingCap", .09, wall_base - .015, wall_base + .055, "URMAN_Stone_LightFace")
+    else:
+        box("Foundation", (0,(front+back)/2,wall_base/2), (width+.06,depth+.06,wall_base), "URMAN_Stone_Mossy")
+        box("FootingCap", (0,(front+back)/2,wall_base+.02), (width+.09,depth+.09,.07), "URMAN_Stone_LightFace")
     if parent.name == DWELLING_ROOT or hero_layout:
         # A real threshold at the hero's street portal. The wall base sits
         # 0.30 m above grade, so without a step the doorway read as a door
@@ -2233,6 +2284,123 @@ def validate_hero_house(root: bpy.types.Object) -> None:
           f"ceiling=2.6 threshold=.246 door=1.3x2.25 fingerprint={fingerprint}")
 
 
+def author_hero_yard_shed(root: bpy.types.Object) -> bpy.types.Object:
+    """One metric storage loft with a real low undercroft and fixed ladder.
+
+    Existing village sheds remain untouched. Blender coordinates below are
+    X/lateral, Y/rear and Z/height; the contract above is in Godot coordinates.
+    """
+    shed = variant_empty(HERO_YARD_SHED_ROOT, root, (44.0, 0.8, 0.0),
+                         "small hay storage loft with a low service passage", "hero yard")
+    for child in reversed(list(shed.children_recursive)):
+        data = child.data if child.type == "MESH" else None
+        bpy.data.objects.remove(child, do_unlink=True)
+        if data is not None and data.users == 0:
+            bpy.data.meshes.remove(data)
+    wood = "URMAN_Wood_Weathered"
+    dark = "URMAN_Wood_Dark"
+
+    def box(name, at, size, finish=wood, bevel=.008):
+        return variant_box("HeroYardShed_" + name + "_LOD0", shed, at, size,
+                           (finish,), HERO_YARD_SHED_ROOT, name.replace("_", " "),
+                           chamfer=bevel, geometry_pass=HERO_YARD_SHED_CONTRACT["version"])
+
+    # One level ground platform and the narrow fixed-ladder apron. Runtime
+    # seats the component above the sampled terrain and scribes its plinth.
+    box("Foundation", (0, 0, 0), (4.4, 4.4, .08), "URMAN_Stone_Mossy")
+    box("LadderApron", (0, -3.15, 0), (.98, 1.90, .08), "URMAN_Stone_Mossy")
+    for x in (-2.08, 2.08):
+        for y in (-2.08, 2.08):
+            suffix = ("L" if x < 0 else "R") + ("Front" if y < 0 else "Back")
+            box("SupportPost_" + suffix, (x, y, 1.69), (.18, .18, 3.30), dark)
+    # Board top 1.46; joist bottom 1.26; the 1.08m crouch capsule has 14cm
+    # vertical clearance above the ground platform, including beneath joists.
+    for index in range(11):
+        x = -2.0 + index * .4
+        box("LoftBoard_%02d" % index, (x, 0, 1.42), (.4, 4.4, .08))
+    for index, y in enumerate((-2.0, 0.0, 2.0)):
+        box("FloorJoist_%d" % index, (0, y, 1.32), (4.4, .16, .12), dark)
+    box("Left_Wall", (-2.16, 0, 2.44), (.08, 4.4, 1.96))
+    box("Right_Wall", (2.16, 0, 2.44), (.08, 4.4, 1.96))
+    for side in (-1, 1):
+        box("Front_WallPier_" + ("L" if side < 0 else "R"),
+            (side * 1.35, -2.16, 2.44), (1.70, .08, 1.96))
+        box("Rear_WallPier_" + ("L" if side < 0 else "R"),
+            (side * 1.42, 2.16, 2.44), (1.56, .08, 1.96))
+    box("FrontDoorLintel", (0, -2.16, 3.40), (1.0, .12, .12), dark)
+    # The hay vent is a genuine unglazed opening with a timber sill, not a
+    # picture on a solid wall. Its height prevents a crouched person exiting.
+    box("Rear_WindowSillWall", (0, 2.16, 1.81), (1.28, .08, .70))
+    box("Rear_WindowHeadWall", (0, 2.16, 3.21), (1.28, .08, .42))
+    box("Rear_WindowSill", (0, 2.15, 2.12), (1.44, .28, .08), dark)
+    for side in (-1, 1):
+        box("Rear_WindowJamb_" + ("L" if side < 0 else "R"),
+            (side * .68, 2.13, 2.58), (.08, .13, 1.02), dark)
+    for name, a, b in (("Front", -2.20, -2.12), ("Back", 2.12, 2.20)):
+        gable = variant_gable("HeroYardShed_" + name + "Gable_LOD0", shed,
+                              4.4, a, b, 3.40, 0, 4.24, HERO_YARD_SHED_ROOT)
+        gable.data.materials.clear()
+        gable.data.materials.append(material(wood))
+        for face in gable.data.polygons:
+            face.material_index = 0
+    variant_roof("HeroYardShed_Roof_LOD0", shed, 4.4, -2.42, 2.42,
+                 3.42, 0, 4.36, .20, HERO_YARD_SHED_ROOT, thickness=.12)
+
+    # Rails are fixed to the loft, not a carry item. Their cross-sections stay
+    # outside the capsule's centre corridor; the player climbs in front of
+    # the rungs and steps physically over the upper lip.
+    start = Vector((0, -3.32, .04))
+    end = Vector((0, -2.18, 1.64))
+    delta = end - start
+    for side in (-1, 1):
+        rail = box("LadderRail_" + ("L" if side < 0 else "R"),
+                   tuple((start + end) * .5 + Vector((side * .44, 0, 0))),
+                   (.085, .085, delta.length), dark)
+        rail.rotation_euler = delta.to_track_quat("Z", "Y").to_euler()
+    for index in range(7):
+        center = start.lerp(end, .08 + index * .135)
+        box("LadderRung_%02d" % index, tuple(center), (.84, .105, .07))
+    for x in (-.44, .44):
+        box("LadderFixing_" + ("L" if x < 0 else "R"), (x, -2.14, 1.59),
+            (.16, .20, .07), "URMAN_Roof_WetSlate")
+
+    for index, (x, y) in enumerate(((-1.50, -.9), (-1.50, .6), (1.50, -.9), (1.50, .6))):
+        box("HayBundle_%d" % index, (x, y, 1.77), (.84, 1.05, .62), "URMAN_Wood_CutEnd", .10)
+        for stripe in (-.26, .26):
+            box("HayBinding_%d_%s" % (index, "A" if stripe < 0 else "B"),
+                (x + stripe, y, 2.085), (.045, 1.02, .025), dark)
+    # The existing physical QuietRattle board is mounted here by the runtime's
+    # single yard-mechanism owner. No duplicate loose-board/metal-clip prop is
+    # authored: its movement, sound and persisted quiet state share that owner.
+    shed["component_root"] = HERO_YARD_SHED_ROOT
+    shed["geometry_pass"] = HERO_YARD_SHED_CONTRACT["version"]
+    shed["small_spaces_contract"] = json.dumps(HERO_YARD_SHED_CONTRACT, sort_keys=True)
+    return shed
+
+
+def validate_hero_yard_shed(root: bpy.types.Object) -> None:
+    shed = bpy.data.objects[HERO_YARD_SHED_ROOT]
+    if shed.parent is not root or tuple(shed.scale) != (1.0, 1.0, 1.0):
+        raise RuntimeError("Hero shed must be an independent metric component")
+    meshes = [obj for obj in shed.children if obj.type == "MESH"]
+    if len(meshes) < 40 or any(not obj.name.startswith("HeroYardShed_") for obj in meshes):
+        raise RuntimeError("Incomplete hero shed or a collision with existing mesh names")
+    for obj in meshes:
+        obj.data.calc_loop_triangles()
+        if not obj.data.materials or any(face.area <= 1e-10 for face in obj.data.polygons):
+            raise RuntimeError("Invalid hero shed mesh: " + obj.name)
+    # Model-space rays through the undercroft at seated head height must be
+    # unobstructed in both directions, including beneath all three joists.
+    for height in (.12, .58, 1.14):
+        for obj in meshes:
+            origin = obj.matrix_local.inverted() @ Vector((-1.15, -2.30, height))
+            direction = obj.matrix_local.inverted().to_3x3() @ Vector((0, 1, 0))
+            if obj.ray_cast(origin, direction.normalized(), distance=4.60)[0]:
+                raise RuntimeError(f"Underdeck passage blocked by {obj.name} at {height}m")
+    print(f"hero-yard-shed-pass: meshes={len(meshes)} metric=4.4x4.4 floor=.04 loft=1.46 "
+          "underdeck_clearance=1.22 fixed_ladder=7_rungs legacy_components_untouched")
+
+
 
 
 def author_well(parent: bpy.types.Object) -> None:
@@ -2363,7 +2531,7 @@ def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types
         raise RuntimeError(f"Canonical component roots changed: expected at least={sorted(required_components)} actual={sorted(actual_components)}")
     if not variant_components.issubset(actual_components):
         raise RuntimeError(f"Variant parcel roots missing: expected={sorted(variant_components)} actual={sorted(actual_components)}")
-    unexpected_components = actual_components - required_components - variant_components - set(ANIMAL_ROOTS) - {HERO_DWELLING_ROOT}
+    unexpected_components = actual_components - required_components - variant_components - set(ANIMAL_ROOTS) - {HERO_DWELLING_ROOT, HERO_YARD_SHED_ROOT}
     if unexpected_components:
         raise RuntimeError(f"Unexpected direct component roots: {sorted(unexpected_components)}")
     if any(abs(value) > 1e-6 for value in root.location) or any(abs(value) > 1e-6 for value in root.rotation_euler) or any(abs(value - 1.0) > 1e-6 for value in root.scale):
@@ -2656,6 +2824,18 @@ def validate(root: bpy.types.Object, dwelling: bpy.types.Object, well: bpy.types
     print("variant-pass: " + " | ".join(variant_summaries))
 
 
+def save_kit(blend_path: Path, glb_path: Path) -> None:
+    save_versions = bpy.context.preferences.filepaths.save_version
+    bpy.context.preferences.filepaths.save_version = 0
+    try:
+        bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
+    finally:
+        bpy.context.preferences.filepaths.save_version = save_versions
+    bpy.ops.export_scene.gltf(filepath=str(glb_path), export_format="GLB", use_selection=False, export_apply=True)
+    print(f"village-exterior-pass: saved {blend_path}")
+    print(f"village-exterior-pass: exported {glb_path}")
+
+
 def main() -> None:
     args = arguments()
     root_path = Path(args.root).resolve()
@@ -2669,9 +2849,19 @@ def main() -> None:
     if root is None or dwelling is None or well is None or woodpile is None or dwelling.parent is not root or well.parent is not root or woodpile.parent is not root:
         raise RuntimeError("Baseline kit root/component hierarchy is incomplete")
 
+    if args.component_only == "hero-yard-shed":
+        # Do not reauthor the previous 1,016 exported nodes. This mode is the
+        # bounded integration entry point while the main checkout is in use.
+        author_hero_yard_shed(root)
+        bpy.context.view_layer.update()
+        validate_hero_yard_shed(root)
+        save_kit(blend_path, glb_path)
+        return
+
     clear_variant_roots(root)
     author_rural_dwelling(dwelling)
     author_hero_house(root)
+    author_hero_yard_shed(root)
     author_shed_volume(bpy.data.objects["OutbuildingShed_Low"])
     author_fence_variation(bpy.data.objects["FenceSegment_RoughPicket"])
     author_gate_variation(bpy.data.objects["Gate_CrookedTimber"])
@@ -2694,22 +2884,10 @@ def main() -> None:
     scene["texture_policy"] = "geometry and existing basic materials only; no texture files"
     bpy.context.view_layer.update()
     validate_hero_house(root)
+    validate_hero_yard_shed(root)
     validate(root, dwelling, well, woodpile)
 
-    save_versions = bpy.context.preferences.filepaths.save_version
-    bpy.context.preferences.filepaths.save_version = 0
-    try:
-        bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
-    finally:
-        bpy.context.preferences.filepaths.save_version = save_versions
-    bpy.ops.export_scene.gltf(
-        filepath=str(glb_path),
-        export_format="GLB",
-        use_selection=False,
-        export_apply=True,
-    )
-    print(f"village-exterior-pass: saved {blend_path}")
-    print(f"village-exterior-pass: exported {glb_path}")
+    save_kit(blend_path, glb_path)
 
 
 if __name__ == "__main__":

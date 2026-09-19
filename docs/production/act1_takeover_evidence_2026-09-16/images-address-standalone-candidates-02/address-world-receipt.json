@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "ordinaryNewGame": true,
+  "humanSearchPlaytest": false,
+  "diagnosticCameraFixtures": true,
+  "assembly": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll",
+    "pathSource": "URMAN_ADDRESS_ASSEMBLY_PATH",
+    "assemblyLocation": "",
+    "loadedModule": "b5e3002e-c970-4178-879d-a120174b3107",
+    "diskModule": "b5e3002e-c970-4178-879d-a120174b3107",
+    "status": "module-match",
+    "sha256": "0a3e655ae9f3a25a882e3cc45c83feb331587749f38cc9c09a68d7f4762564b3"
+  },
+  "scope": "standalone-candidates",
+  "auditRun": false,
+  "fullAuditRun": false,
+  "selectedAccessAuditRun": false,
+  "acceptance": false,
+  "auditCompleted": false,
+  "registry": null,
+  "mounts": [],
+  "captures": [
+    {
+      "file": "13_ReturnWest_existing_seni_blocked_view.png",
+      "SourceName": "ReturnWestBanyaSilhouette",
+      "LeafPath": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0",
+      "feet": {
+        "x": -9.500517,
+        "y": -0.3840829,
+        "z": -48.946194
+      },
+      "camera": {
+        "x": -9.679531,
+        "y": 1.3159171,
+        "z": -48.965008
+      },
+      "target": {
+        "x": -10.5447645,
+        "y": 0.91805816,
+        "z": -49.05595
+      },
+      "diagnostic": true,
+      "physicalApproachSupported": true,
+      "actorMoved": false,
+      "geometryChanged": false,
+      "visibilityChanged": false,
+      "fieldOfView": 75,
+      "accepted": false,
+      "humanSearchPlaytest": false
+    }
+  ],
+  "checks": [
+    {
+      "kind": "check",
+      "message": "ordinary New Game starts",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "construction and proximity do not record a plate read",
+      "passed": true
+    },
+    {
+      "kind": "audit-not-run-in-narrow-scope",
+      "auditRun": false,
+      "constructionEntriesAlreadyObserved": 0,
+      "previousPhysicsProcessing": true,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "diagnostic plate views do not change discovered addresses or world state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "blocked entrance view is bounded to the measured ReturnWest candidate",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "blocked entrance photograph leaves actor pose and world progress unchanged",
+      "passed": false
+    },
+    {
+      "kind": "check",
+      "message": "assembly candidate MVID matches the executing module",
+      "passed": true
+    }
+  ],
+  "failures": [
+    "blocked entrance photograph leaves actor pose and world progress unchanged",
+    "System.InvalidOperationException: blocked entrance photograph leaves actor pose and world progress unchanged\n   at Urman.Godot.Tests.AddressWorldSmokeTest.Require(Boolean value, String message) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressWorldSmokeTest.cs:line 636\n   at Urman.Godot.Tests.AddressWorldSmokeTest.CaptureBlockedEntranceView(IReadOnlyList\u00601 views) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressWorldSmokeTest.cs:line 281\n   at Urman.Godot.Tests.AddressWorldSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressWorldSmokeTest.cs:line 74"
+  ]
+}

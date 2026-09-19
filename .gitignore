@@ -7,9 +7,13 @@ dist/
 
 # Logs
 *.log
+!docs/production/**/*.log
+!docs/production/evidence_archive/**/*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Local capture/artifact dirs (never commit)
 .codex-captures/
 
 # OS-specific
@@ -43,3 +47,42 @@ graphify-out/cache/
 # Local ZCode session state (plans, agent notes)
 .zcode/
 graphify-out/.rebuild.lock
+
+# CommandCode local session state: permissions cache, per-project taste.
+# Taste files that SHOULD be committed (shared conventions) live in
+# .commandcode/taste/ and .commandcode/commands/ — only the machine-local
+# settings.json stays out.
+.commandcode/settings.json
+.commandcode/*.log
+
+# Runtime painterly textures require mipmaps on every checkout. Retain only
+# these import settings; derived .godot caches and other imports stay local.
+!game/assets/textures/painterly/aged_plaster_v3_albedo.png.import
+!game/assets/textures/painterly/bark_birch_v2_albedo.png.import
+!game/assets/textures/painterly/bark_pine_v1_albedo.png.import
+!game/assets/textures/painterly/carpet_palas_v1_albedo.png.import
+!game/assets/textures/painterly/damp_earth_v3_albedo.png.import
+!game/assets/textures/painterly/damp_earth_v5_albedo.png.import
+!game/assets/textures/painterly/ice_patch_v1_albedo.png.import
+!game/assets/textures/painterly/log_wall_v1_albedo.png.import
+!game/assets/textures/painterly/mossy_stone_v3_albedo.png.import
+!game/assets/textures/painterly/old_fabric_v3_albedo.png.import
+!game/assets/textures/painterly/pine_foliage_v2_albedo.png.import
+!game/assets/textures/painterly/snow_fresh_v1_albedo.png.import
+!game/assets/textures/painterly/snow_grass_peek_v1_albedo.png.import
+!game/assets/textures/painterly/snow_micro_normal.png.import
+!game/assets/textures/painterly/snow_micro_response.png.import
+!game/assets/textures/painterly/snow_road_v1_albedo.png.import
+!game/assets/textures/painterly/snow_roof_v1_albedo.png.import
+!game/assets/textures/painterly/snow_trampled_v1_albedo.png.import
+!game/assets/textures/painterly/wall_institution_v1_albedo.png.import
+!game/assets/textures/painterly/wallpaper_old_v1_albedo.png.import
+!game/assets/textures/painterly/weathered_wood_boards_v2_albedo.png.import
+!game/assets/textures/painterly/weathered_wood_boards_v3_albedo.png.import
+!game/assets/textures/painterly/weathered_wood_boards_v4_albedo.png.import
+
+# The arrival photograph is also sampled on a world-space print.
+!game/assets/images/arrival_marat_childhood_existing_v1.png.import
+
+# Packed hay retains its authored-UV mipmaps and bounded import resolution.
+!game/assets/textures/painterly/hay_fibers_v1_albedo.png.import

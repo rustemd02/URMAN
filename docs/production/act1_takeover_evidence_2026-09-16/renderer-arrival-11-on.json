@@ -1,0 +1,186 @@
+{
+  "started": "2026-09-17T21:29:00+00:00",
+  "build": "integrated-build-70",
+  "sample": "village_day@arrival",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    ".tools/godot/.../Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "--urman-perf-probe",
+    "--urman-perf-probe-mode=gameplay",
+    "--urman-perf-sample=village_day@arrival",
+    "--urman-perf-warmup-seconds=12",
+    "--urman-perf-duration-seconds=60",
+    "--urman-perf-no-vsync"
+  ],
+  "environment": {
+    "URMAN_PERF_RENDER_DIAGNOSTICS": "1",
+    "URMAN_WINDOW_BATCH_PILOT": "1",
+    "URMAN_ADDRESS_GRAPH_PERF": "1",
+    "DOTNET_ROOT": ".tools/dotnet",
+    "focus": "NO --urman-perf-request-focus; caffeinate -dimsu held sleep/display"
+  },
+  "status": "RECORDED",
+  "acceptance": false,
+  "scope": "Native instrumented Debug diagnosis on B70. First VALID focused A/B pair: no focus request, window kept focus naturally (focus 100%, OVERLAY-flagged only by the capture overlay). Not Release/human acceptance.",
+  "exitCode": 2,
+  "guardVerified": true,
+  "performanceReports": [
+    "act1-demo-package-performance: status=DIAGNOSTIC_RENDER mode=gameplay sample=village_day@arrival avg=20.854ms p95=23.462ms p99=30.487ms max=46.512ms long_frame_fraction=0.00486 warmup_avg=24.607ms warmup_max=1487.167ms warmup_seconds=12.01 sample_seconds=60.02 sample_count=2878 focused_sample_count=2878 obscured_sample_count=2878 foreground_requested=false focused_sample_fraction=1.00000 fps=47.95 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=48.00 process_ms=20.390 physics_ms=8.556 draw_calls=21777 primitives=5501074 acceptance=false"
+  ],
+  "captures": [
+    {
+      "status": "CAPTURED",
+      "sample": "village_day@arrival",
+      "path": ".../images-renderer-arrival-11-on/village_day_arrival.png"
+    }
+  ],
+  "engineErrorCount": 0,
+  "engineErrors": [],
+  "windowBatchSummaries": [
+    {
+      "scope": "opt-in exact four-part windows; not performance acceptance",
+      "groups": 255,
+      "batches": 246,
+      "hiddenOriginals": 984,
+      "sourceTriangles": 27552,
+      "shadowTriangles": 27552,
+      "importedResourceCount": 344,
+      "publishedSharedMeshes": 43,
+      "skipped": {
+        "source-not-visible": 9
+      },
+      "refusalExamples": {
+        "source-not-visible": {
+          "parent": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiYardAuthoredParcels/BabaiYardWestDepthBanyaYardParcel/VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Dwelling",
+          "window": "VariantC_BanyaYard_Dwelling_Left_Window0",
+          "details": null
+        }
+      },
+      "originalPackedShadowResources": 172,
+      "packedShadowReadExamples": [
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_6wv03",
+          "Rid": 355103601071571,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_gneuw",
+          "Rid": 355137960809937,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_4de7g",
+          "Rid": 355206680286669,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_mljer",
+          "Rid": 355241040025035,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_fwwg0",
+          "Rid": 356443630867565,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_udpqs",
+          "Rid": 356477990605931,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_p2bxo",
+          "Rid": 356546710082663,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_1ne0d",
+          "Rid": 356581069821029,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        }
+      ],
+      "unchangedCollisionOwners": true
+    }
+  ],
+  "windowPilotPublicationVerified": true,
+  "render": {
+    "path": ".../renderer-arrival-11-on-render.json",
+    "status": "RECORDED",
+    "performanceReport": "act1-demo-package-performance: status=OVERLAY_INVALID mode=gameplay sample=village_day@arrival avg=20.854ms p95=23.462ms p99=30.487ms max=46.512ms long_frame_fraction=0.00486 warmup_avg=24.607ms warmup_max=1487.167ms warmup_seconds=12.01 sample_seconds=60.02 sample_count=2878 focused_sample_count=2878 obscured_sample_count=2878 foreground_requested=false focused_sample_fraction=1.00000 fps=47.95 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=48.00 process_ms=20.390 physics_ms=8.556 draw_calls=21777 primitives=5501074",
+    "sampleCount": 2878
+  },
+  "finished": "2026-09-17T21:40:00+00:00",
+  "seconds": 150,
+  "inputsChanged": [],
+  "note": "B70 pilot-ON arm of the valid A/B pair: 246/255 published."
+}

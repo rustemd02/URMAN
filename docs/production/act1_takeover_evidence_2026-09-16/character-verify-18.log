@@ -1,0 +1,28 @@
+character-face: Mansur 18 pieces in own head frame; Head binding; both LODs
+character-face: Gulsina 18 pieces in own head frame; Head binding; both LODs
+character-face: Alsu 18 pieces in own head frame; Head binding; both LODs
+character-face: TimurHazrat 18 pieces in own head frame; Head binding; both LODs
+character-face: CouncilElder 18 pieces in own head frame; Head binding; both LODs
+character-face: CouncilWitness 18 pieces in own head frame; Head binding; both LODs
+character-face: Naila 18 pieces in own head frame; Head binding; both LODs
+character-face: ArchiveClerk 18 pieces in own head frame; Head binding; both LODs
+character-face: PactKeeper 18 pieces in own head frame; Head binding; both LODs
+character-fit: Mansur collar=0.097m boot=0.166x0.278m sole=0.010m
+character-fit: Gulsina collar=0.091m boot=0.151x0.278m sole=0.010m
+character-fit: Alsu collar=0.119m boot=0.140x0.278m sole=0.010m
+character-fit: TimurHazrat collar=0.128m boot=0.154x0.278m sole=0.010m
+character-fit: CouncilElder collar=0.105m boot=0.163x0.278m sole=0.010m
+character-fit: CouncilWitness collar=0.128m boot=0.148x0.278m sole=0.010m
+character-fit: Naila collar=0.112m boot=0.143x0.278m sole=0.010m
+character-fit: ArchiveClerk collar=0.110m boot=0.148x0.278m sole=0.010m
+character-fit: PactKeeper collar=0.113m boot=0.161x0.278m sole=0.010m
+character-clothing-fit: Naila/LOD0 torso/placket surface gaps 0.0028..0.0073m
+character-clothing-fit: TimurHazrat/LOD0 cap/scalp surface gaps 0.0024..0.0079m
+character-clothing-fit: Naila/LOD1 torso/placket surface gaps -0.0009..0.0029m
+character-clothing-fit: TimurHazrat/LOD1 cap/scalp surface gaps -0.0076..0.0146m
+character-asset-smoke: 9 prefixes, 271 LOD0/271 LOD1 meshes; face/clothing detail; Idle/Tension clips; 542 rigid skin bindings; no collision meshes
+Blender 4.5.12 LTS (hash 84afd5f785f7 built 2026-07-21 01:41:35)
+Read blend: "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/urman_character_kit.blend"
+
+Blender quit
+userdata guard: original files and permissions restored and verified

@@ -1,0 +1,3130 @@
+{
+  "schemaVersion": 1,
+  "loadedModule": "0427848a-5dbe-48b8-9265-8c1d1421a796",
+  "passed": true,
+  "diagnosticOnly": true,
+  "geometryChangedByObservation": false,
+  "renderedAppearance": "separate native frame review required",
+  "originalTop": {
+    "x": -53,
+    "y": 4.7522955,
+    "z": -35
+  },
+  "actualTop": {
+    "x": -53,
+    "y": 4.7522955,
+    "z": -35
+  },
+  "originalBottom": {
+    "x": -53,
+    "y": 4.2522955,
+    "z": -35
+  },
+  "actualBottom": {
+    "x": -53,
+    "y": 2.155468,
+    "z": -35
+  },
+  "oldFloor": {
+    "x": -53,
+    "y": 4.782295,
+    "z": -35
+  },
+  "actualFloor": {
+    "x": -53,
+    "y": 4.782295,
+    "z": -35
+  },
+  "topUnchanged": true,
+  "footprintUnchanged": true,
+  "floorUnchanged": true,
+  "originalSize": {
+    "x": 11.5,
+    "y": 0.5,
+    "z": 9
+  },
+  "actualSize": {
+    "x": 11.5,
+    "y": 2.5968275,
+    "z": 9
+  },
+  "activeContacts": [
+    "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact"
+  ],
+  "coveredTriangles": 70,
+  "coveredArea": 103.50000031747845,
+  "footprintArea": 103.5,
+  "lowestTerrain": {
+    "x": -47.25,
+    "y": 2.205468,
+    "z": -33.968723
+  },
+  "samples": [
+    {
+      "label": "corner -5.75/-4.5",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.6180496,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.31489888,
+          "y": 0.9483461,
+          "z": 0.038451675
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "corner -5.75/4.5",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.1533957,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.2665252,
+          "y": 0.9602877,
+          "z": 0.08253475
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "corner 5.75/-4.5",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2666717,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.27171835,
+          "y": 0.9623237,
+          "z": 0.010115313
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "corner 5.75/4.5",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2170691,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.2602292,
+          "y": 0.96551335,
+          "z": 0.008046862
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/1",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -39
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.5977764,
+          "z": -39
+        },
+        "normal": {
+          "x": 0.31489888,
+          "y": 0.9483461,
+          "z": 0.038451675
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/2",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -38.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.5787463,
+          "z": -38.5
+        },
+        "normal": {
+          "x": 0.31760252,
+          "y": 0.94755477,
+          "z": 0.03561807
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/3",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -38
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.559934,
+          "z": -38
+        },
+        "normal": {
+          "x": 0.31754035,
+          "y": 0.9475739,
+          "z": 0.035662808
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/4",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -37.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.551526,
+          "z": -37.5
+        },
+        "normal": {
+          "x": 0.31687242,
+          "y": 0.9483517,
+          "z": 0.014866601
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/5",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -37
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.543688,
+          "z": -37
+        },
+        "normal": {
+          "x": 0.31687242,
+          "y": 0.9483517,
+          "z": 0.014866601
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/6",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -36.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.530992,
+          "z": -36.5
+        },
+        "normal": {
+          "x": 0.29707563,
+          "y": 0.9542004,
+          "z": 0.035324123
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/7",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -36
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.511902,
+          "z": -36
+        },
+        "normal": {
+          "x": 0.2958883,
+          "y": 0.9539726,
+          "z": 0.048852284
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/8",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -35.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.486297,
+          "z": -35.5
+        },
+        "normal": {
+          "x": 0.2958883,
+          "y": 0.9539726,
+          "z": 0.048852284
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/9",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -35
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.4606924,
+          "z": -35
+        },
+        "normal": {
+          "x": 0.2958883,
+          "y": 0.9539726,
+          "z": 0.048852284
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/10",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -34.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.4325967,
+          "z": -34.5
+        },
+        "normal": {
+          "x": 0.29021725,
+          "y": 0.95539623,
+          "z": 0.0546999
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/11",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -34
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.4037857,
+          "z": -34
+        },
+        "normal": {
+          "x": 0.28947046,
+          "y": 0.9546779,
+          "z": 0.06926014
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/12",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -33.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.3675113,
+          "z": -33.5
+        },
+        "normal": {
+          "x": 0.28947046,
+          "y": 0.9546779,
+          "z": 0.06926014
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/13",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -33
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.3312373,
+          "z": -33
+        },
+        "normal": {
+          "x": 0.28947046,
+          "y": 0.9546779,
+          "z": 0.06926014
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/14",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -32.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.2943854,
+          "z": -32.5
+        },
+        "normal": {
+          "x": 0.28714028,
+          "y": 0.9551977,
+          "z": 0.07174885
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/15",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -32
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.257334,
+          "z": -32
+        },
+        "normal": {
+          "x": 0.28708237,
+          "y": 0.9558659,
+          "z": 0.06248271
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/16",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -31.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.2246504,
+          "z": -31.5
+        },
+        "normal": {
+          "x": 0.28708237,
+          "y": 0.9558659,
+          "z": 0.06248271
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "x-edge -1/17",
+      "at": {
+        "x": -58.75,
+        "y": 3.4538817,
+        "z": -31
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.75,
+          "y": 6.1919665,
+          "z": -31
+        },
+        "normal": {
+          "x": 0.28708237,
+          "y": 0.9558659,
+          "z": 0.06248271
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/1",
+      "at": {
+        "x": -58.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.25,
+          "y": 6.4519734,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.31505537,
+          "y": 0.9482949,
+          "z": 0.038431462
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/2",
+      "at": {
+        "x": -57.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -57.75,
+          "y": 6.2750807,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.34296817,
+          "y": 0.93872356,
+          "z": 0.03421983
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/3",
+      "at": {
+        "x": -57.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -57.25,
+          "y": 6.0908146,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.34832987,
+          "y": 0.9369541,
+          "z": 0.027989065
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/4",
+      "at": {
+        "x": -56.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -56.75,
+          "y": 5.9049306,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.34832987,
+          "y": 0.9369541,
+          "z": 0.027989065
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/5",
+      "at": {
+        "x": -56.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -56.25,
+          "y": 5.7190256,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.34836468,
+          "y": 0.93693864,
+          "z": 0.028071022
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/6",
+      "at": {
+        "x": -55.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -55.75,
+          "y": 5.5311017,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.3597353,
+          "y": 0.93263376,
+          "z": 0.028014371
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/7",
+      "at": {
+        "x": -55.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -55.25,
+          "y": 5.340206,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.35379308,
+          "y": 0.9347013,
+          "z": 0.034115236
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/8",
+      "at": {
+        "x": -54.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -54.75,
+          "y": 5.150951,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.35379457,
+          "y": 0.9347007,
+          "z": 0.0341174
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/9",
+      "at": {
+        "x": -54.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -54.25,
+          "y": 4.961695,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.35379457,
+          "y": 0.9347007,
+          "z": 0.0341174
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/10",
+      "at": {
+        "x": -53.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -53.75,
+          "y": 4.763795,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.37147665,
+          "y": 0.9278582,
+          "z": 0.032930247
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/11",
+      "at": {
+        "x": -53.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -53.25,
+          "y": 4.565546,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.36688676,
+          "y": 0.92949057,
+          "z": 0.037966087
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/12",
+      "at": {
+        "x": -52.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -52.75,
+          "y": 4.368206,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.36682883,
+          "y": 0.9295172,
+          "z": 0.037873574
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/13",
+      "at": {
+        "x": -52.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -52.25,
+          "y": 4.170884,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.36682883,
+          "y": 0.9295172,
+          "z": 0.037873574
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge -1/14",
+      "at": {
+        "x": -51.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -51.75,
+          "y": 3.972487,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.3693955,
+          "y": 0.92850226,
+          "z": 0.037821997
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -51.75,
+          "y": 4.1123915,
+          "z": -39.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -51.75,
+            "y": 4.1123915,
+            "z": -39.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge -1/15",
+      "at": {
+        "x": -51.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -51.25,
+          "y": 3.7705557,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.38150123,
+          "y": 0.92404246,
+          "z": 0.024544151
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -51.25,
+          "y": 4.0114255,
+          "z": -39.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -51.25,
+            "y": 4.0114255,
+            "z": -39.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge -1/16",
+      "at": {
+        "x": -50.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -50.75,
+          "y": 3.5641222,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.3815221,
+          "y": 0.92403287,
+          "z": 0.024579676
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -50.75,
+          "y": 3.9082088,
+          "z": -39.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -50.75,
+            "y": 3.9082088,
+            "z": -39.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge -1/17",
+      "at": {
+        "x": -50.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -50.25,
+          "y": 3.3576782,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.3815221,
+          "y": 0.92403287,
+          "z": 0.024579676
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -50.25,
+          "y": 3.804987,
+          "z": -39.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -50.25,
+            "y": 3.804987,
+            "z": -39.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge -1/18",
+      "at": {
+        "x": -49.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -49.75,
+          "y": 3.161696,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.35958755,
+          "y": 0.9327171,
+          "z": 0.027123282
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -49.75,
+          "y": 3.7069957,
+          "z": -39.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -49.75,
+            "y": 3.7069957,
+            "z": -39.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge -1/19",
+      "at": {
+        "x": -49.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -49.25,
+          "y": 2.9697313,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.3582029,
+          "y": 0.9332044,
+          "z": 0.028640918
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -49.25,
+          "y": 3.6110134,
+          "z": -39.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -49.25,
+            "y": 3.6110134,
+            "z": -39.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge -1/20",
+      "at": {
+        "x": -48.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -48.75,
+          "y": 2.7778115,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.3581967,
+          "y": 0.9332074,
+          "z": 0.02862028
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -48.75,
+          "y": 3.5150535,
+          "z": -39.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -48.75,
+            "y": 3.5150535,
+            "z": -39.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge -1/21",
+      "at": {
+        "x": -48.25,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -48.25,
+          "y": 2.5858946,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.3581967,
+          "y": 0.9332074,
+          "z": 0.02862028
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -48.25,
+          "y": 3.419095,
+          "z": -39.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -48.25,
+            "y": 3.419095,
+            "z": -39.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge -1/22",
+      "at": {
+        "x": -47.75,
+        "y": 3.4538817,
+        "z": -39.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.75,
+          "y": 2.4067774,
+          "z": -39.5
+        },
+        "normal": {
+          "x": 0.2677964,
+          "y": 0.963373,
+          "z": 0.0140558565
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.75,
+          "y": 3.3295364,
+          "z": -39.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.75,
+            "y": 3.3295364,
+            "z": -39.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/1",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -39
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2604995,
+          "z": -39
+        },
+        "normal": {
+          "x": 0.26774964,
+          "y": 0.9633858,
+          "z": 0.0140700005
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2563975,
+          "z": -39
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2563975,
+            "z": -39
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/2",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -38.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2531972,
+          "z": -38.5
+        },
+        "normal": {
+          "x": 0.26774964,
+          "y": 0.9633858,
+          "z": 0.0140700005
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2527463,
+          "z": -38.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2527463,
+            "z": -38.5
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/3",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -38
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.245895,
+          "z": -38
+        },
+        "normal": {
+          "x": 0.26774964,
+          "y": 0.9633858,
+          "z": 0.0140700005
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2490952,
+          "z": -38
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2490952,
+            "z": -38
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/4",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -37.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2408886,
+          "z": -37.5
+        },
+        "normal": {
+          "x": 0.267444,
+          "y": 0.96353817,
+          "z": 0.008243955
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.246592,
+          "z": -37.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.246592,
+            "z": -37.5
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/5",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -37
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2357817,
+          "z": -37
+        },
+        "normal": {
+          "x": 0.25922993,
+          "y": 0.96563774,
+          "z": 0.01853584
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2440386,
+          "z": -37
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2440386,
+            "z": -37
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/6",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -36.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.226184,
+          "z": -36.5
+        },
+        "normal": {
+          "x": 0.25922993,
+          "y": 0.96563774,
+          "z": 0.01853584
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2392397,
+          "z": -36.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2392397,
+            "z": -36.5
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/7",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -36
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2165866,
+          "z": -36
+        },
+        "normal": {
+          "x": 0.25922993,
+          "y": 0.96563774,
+          "z": 0.01853584
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.234441,
+          "z": -36
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.234441,
+            "z": -36
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/8",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -35.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2159066,
+          "z": -35.5
+        },
+        "normal": {
+          "x": 0.25996214,
+          "y": 0.9656187,
+          "z": 0.0004158317
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.234101,
+          "z": -35.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.234101,
+            "z": -35.5
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/9",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -35
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2140212,
+          "z": -35
+        },
+        "normal": {
+          "x": 0.25257614,
+          "y": 0.9675441,
+          "z": 0.007990455
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2331583,
+          "z": -35
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2331583,
+            "z": -35
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/10",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -34.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2098923,
+          "z": -34.5
+        },
+        "normal": {
+          "x": 0.25257614,
+          "y": 0.9675441,
+          "z": 0.007990455
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.231094,
+          "z": -34.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.231094,
+            "z": -34.5
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/11",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -34
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2057629,
+          "z": -34
+        },
+        "normal": {
+          "x": 0.25257614,
+          "y": 0.9675441,
+          "z": 0.007990455
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2290292,
+          "z": -34
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2290292,
+            "z": -34
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/12",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -33.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.207611,
+          "z": -33.5
+        },
+        "normal": {
+          "x": 0.25273946,
+          "y": 0.9675242,
+          "z": -0.0044447216
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2299533,
+          "z": -33.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2299533,
+            "z": -33.5
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/13",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -33
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2134662,
+          "z": -33
+        },
+        "normal": {
+          "x": 0.2640873,
+          "y": 0.9643822,
+          "z": -0.01500104
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2328808,
+          "z": -33
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2328808,
+            "z": -33
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/14",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -32.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2212439,
+          "z": -32.5
+        },
+        "normal": {
+          "x": 0.2640873,
+          "y": 0.9643822,
+          "z": -0.01500104
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2367697,
+          "z": -32.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2367697,
+            "z": -32.5
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/15",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -32
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2280407,
+          "z": -32
+        },
+        "normal": {
+          "x": 0.26217538,
+          "y": 0.9650011,
+          "z": 0.0060768123
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.240168,
+          "z": -32
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.240168,
+            "z": -32
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/16",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -31.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.224896,
+          "z": -31.5
+        },
+        "normal": {
+          "x": 0.26216447,
+          "y": 0.9650044,
+          "z": 0.006034695
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2385957,
+          "z": -31.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2385957,
+            "z": -31.5
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "x-edge 1/17",
+      "at": {
+        "x": -47.25,
+        "y": 3.4538817,
+        "z": -31
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.25,
+          "y": 2.2212362,
+          "z": -31
+        },
+        "normal": {
+          "x": 0.2602292,
+          "y": 0.96551335,
+          "z": 0.008046862
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.25,
+          "y": 3.2367659,
+          "z": -31
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.25,
+            "y": 3.2367659,
+            "z": -31
+          },
+          "normal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/1",
+      "at": {
+        "x": -58.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -58.25,
+          "y": 6.0091276,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.28703916,
+          "y": 0.95588547,
+          "z": 0.06238258
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/2",
+      "at": {
+        "x": -57.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -57.75,
+          "y": 5.8417463,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.32911813,
+          "y": 0.94227415,
+          "z": 0.0616504
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/3",
+      "at": {
+        "x": -57.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -57.25,
+          "y": 5.6671157,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.32907012,
+          "y": 0.9422819,
+          "z": 0.061787233
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/4",
+      "at": {
+        "x": -56.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -56.75,
+          "y": 5.492502,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.32907012,
+          "y": 0.9422819,
+          "z": 0.061787233
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/5",
+      "at": {
+        "x": -56.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -56.25,
+          "y": 5.3177123,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.32967377,
+          "y": 0.94211566,
+          "z": 0.061100613
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/6",
+      "at": {
+        "x": -55.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -55.75,
+          "y": 5.1381707,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.3471665,
+          "y": 0.9359152,
+          "z": 0.059483588
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/7",
+      "at": {
+        "x": -55.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -55.25,
+          "y": 4.9527025,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.34712878,
+          "y": 0.9359218,
+          "z": 0.05959877
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/8",
+      "at": {
+        "x": -54.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -54.75,
+          "y": 4.767256,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.34712878,
+          "y": 0.9359218,
+          "z": 0.05959877
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/9",
+      "at": {
+        "x": -54.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -54.25,
+          "y": 4.5768824,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.363484,
+          "y": 0.93078,
+          "z": 0.039089013
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/10",
+      "at": {
+        "x": -53.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -53.75,
+          "y": 4.389366,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.3379574,
+          "y": 0.9403812,
+          "z": 0.038314454
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/11",
+      "at": {
+        "x": -53.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -53.25,
+          "y": 4.209671,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.33797306,
+          "y": 0.9403772,
+          "z": 0.038276225
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": null
+    },
+    {
+      "label": "z-edge 1/12",
+      "at": {
+        "x": -52.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -52.75,
+          "y": 4.02997,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.33797306,
+          "y": 0.9403772,
+          "z": 0.038276225
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -52.75,
+          "y": 4.141133,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -52.75,
+            "y": 4.141133,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/13",
+      "at": {
+        "x": -52.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -52.25,
+          "y": 3.839724,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.36277366,
+          "y": 0.9317854,
+          "z": 0.013086252
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -52.25,
+          "y": 4.04601,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -52.25,
+            "y": 4.04601,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/14",
+      "at": {
+        "x": -51.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -51.75,
+          "y": 3.6580975,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.32652178,
+          "y": 0.9450974,
+          "z": 0.01320668
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -51.75,
+          "y": 3.9551964,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -51.75,
+            "y": 3.9551964,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/15",
+      "at": {
+        "x": -51.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -51.25,
+          "y": 3.4853396,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.32659432,
+          "y": 0.9450753,
+          "z": 0.012996757
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -51.25,
+          "y": 3.8688176,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -51.25,
+            "y": 3.8688176,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/16",
+      "at": {
+        "x": -50.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -50.75,
+          "y": 3.312552,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.32659432,
+          "y": 0.9450753,
+          "z": 0.012996757
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -50.75,
+          "y": 3.7824237,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -50.75,
+            "y": 3.7824237,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/17",
+      "at": {
+        "x": -50.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -50.25,
+          "y": 3.1378863,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.3315719,
+          "y": 0.9434054,
+          "z": 0.0068181916
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -50.25,
+          "y": 3.6950908,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -50.25,
+            "y": 3.6950908,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/18",
+      "at": {
+        "x": -49.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -49.75,
+          "y": 2.9701052,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.30269742,
+          "y": 0.95305175,
+          "z": 0.00817154
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -49.75,
+          "y": 3.6112003,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -49.75,
+            "y": 3.6112003,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/19",
+      "at": {
+        "x": -49.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -49.25,
+          "y": 2.8112884,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.30274218,
+          "y": 0.9530383,
+          "z": 0.008073448
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -49.25,
+          "y": 3.531792,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -49.25,
+            "y": 3.531792,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/20",
+      "at": {
+        "x": -48.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -48.75,
+          "y": 2.6524591,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.30274218,
+          "y": 0.9530383,
+          "z": 0.008073448
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -48.75,
+          "y": 3.4523773,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -48.75,
+            "y": 3.4523773,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/21",
+      "at": {
+        "x": -48.25,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -48.25,
+          "y": 2.4936204,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.30275628,
+          "y": 0.953034,
+          "z": 0.008059629
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -48.25,
+          "y": 3.372958,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -48.25,
+            "y": 3.372958,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    },
+    {
+      "label": "z-edge 1/22",
+      "at": {
+        "x": -47.75,
+        "y": 3.4538817,
+        "z": -30.5
+      },
+      "actualTerrain": {
+        "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+        "shape": 0,
+        "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+        "authoredSourceMesh": "",
+        "point": {
+          "x": -47.75,
+          "y": 2.3518162,
+          "z": -30.5
+        },
+        "normal": {
+          "x": 0.2602641,
+          "y": 0.9655043,
+          "z": 0.008009827
+        }
+      },
+      "bottomY": 2.155468,
+      "embedded": true,
+      "side": {
+        "midpointInFormerAirGap": {
+          "x": -47.75,
+          "y": 3.3020558,
+          "z": -30.5
+        },
+        "matchesExistingPlinth": true,
+        "hit": {
+          "collider": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy",
+          "shape": 4,
+          "shapeOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosquePlinth_SurfaceContact",
+          "authoredSourceMesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosquePlinth",
+          "point": {
+            "x": -47.75,
+            "y": 3.3020558,
+            "z": -30.5
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          }
+        }
+      }
+    }
+  ],
+  "failures": []
+}

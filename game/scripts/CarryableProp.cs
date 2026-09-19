@@ -7,7 +7,7 @@ public partial class CarryableProp : StaticBody3D
 {
     public enum CarryState { World, Held, Placed, Combined }
     public enum ItemClass { Light, Medium, Bucket, Bulky }
-    public enum ItemKind { Log, Crate, Bucket, Axe, Shovel, Pole, Lantern, Board, Ladder, Cloth }
+    public enum ItemKind { Log, Crate, Bucket, Axe, Shovel, Pole, Lantern, Board, Ladder, Cloth, Hook }
 
     public string ItemId { get; private set; } = string.Empty;
     public string PromptName { get; private set; } = string.Empty;
@@ -23,12 +23,18 @@ public partial class CarryableProp : StaticBody3D
     public bool IsConcealed { get; private set; }
     public bool HasOwnDeviation { get; private set; }
     public bool LightOn { get; private set; }
+    public bool IsWarm { get; internal set; }
+    public bool HasHook { get; private set; }
+    public string AssemblyKey { get; internal set; } = string.Empty;
     public string ToolId { get; internal set; } = string.Empty;
     public string PlacementZone { get; internal set; } = string.Empty;
 
     private Transform3D _authoredTransform;
     private bool _authoredConcealed;
     private bool _authoredCaptured;
+    private string _authoredZone = string.Empty;
+    private Vector3 _uncombinedSize;
+    private Node3D? _hookPresentation;
     private OmniLight3D? _lamp;
     private MeshInstance3D? _lampGlow;
     private bool _presentationEnabled = true;
@@ -57,10 +63,12 @@ public partial class CarryableProp : StaticBody3D
                 ItemKind.Board => new(.32f, .075f, 1.8f),
                 ItemKind.Ladder => new(.52f, .14f, 2.15f),
                 ItemKind.Cloth => new(.28f, .07f, .20f),
+                ItemKind.Hook => new(.14f, .06f, .14f),
                 _ => new(.38f, .13f, .14f)
             }),
             CollisionLayer = 1u, CollisionMask = 0u
         };
+        prop._uncombinedSize = prop.Size;
         prop.BuildGeometry(colour, surface);
         prop.AddChild(new CollisionShape3D
         {
@@ -69,6 +77,8 @@ public partial class CarryableProp : StaticBody3D
         });
         prop.SetMeta("carryItemId", itemId);
         prop.SetMeta("collisionOwner", "carryable-prop");
+        if (resolvedKind is ItemKind.Board or ItemKind.Crate or ItemKind.Log or ItemKind.Ladder or ItemKind.Pole)
+            prop.SetMeta("footstepSurface", "wood");
         prop.SetMeta("runtimeStateOwner", "RuntimeBridge/world.custody + world.props");
         return prop;
     }
@@ -77,6 +87,7 @@ public partial class CarryableProp : StaticBody3D
     {
         _authoredTransform = Transform;
         _authoredConcealed = IsConcealed;
+        _authoredZone = PlacementZone;
         _authoredCaptured = true;
         ResetToAuthored();
     }
@@ -89,7 +100,10 @@ public partial class CarryableProp : StaticBody3D
         YawDegrees = RotationDegrees.Y;
         HasOwnDeviation = false;
         State = CarryState.World;
-        PlacementZone = string.Empty;
+        PlacementZone = _authoredZone;
+        AssemblyKey = string.Empty;
+        IsWarm = false;
+        SetHook(false);
         SetConcealed(_authoredConcealed);
         SetLight(false);
     }
@@ -129,6 +143,18 @@ public partial class CarryableProp : StaticBody3D
         LightOn = Kind == ItemKind.Lantern && enabled;
         if (_lamp is not null) _lamp.Visible = LightOn && !IsConcealed && _presentationEnabled;
         if (_lampGlow is not null) _lampGlow.Visible = LightOn && !IsConcealed && _presentationEnabled;
+    }
+
+    internal void SetHook(bool attached)
+    {
+        HasHook = Kind == ItemKind.Pole && attached;
+        if (_hookPresentation is not null) _hookPresentation.Visible = HasHook;
+        Size = HasHook ? new(.16f, .14f, 1.90f) : _uncombinedSize;
+        if (GetNodeOrNull<CollisionShape3D>("BodyCollision") is { Shape: BoxShape3D box } collision)
+        {
+            box.Size = Size;
+            collision.Position = Vector3.Up * Size.Y * .5f;
+        }
     }
 
     public void SetPresentationEnabled(bool enabled)

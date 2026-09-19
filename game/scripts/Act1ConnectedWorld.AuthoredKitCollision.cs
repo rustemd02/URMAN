@@ -7,21 +7,26 @@ public partial class Act1ConnectedWorld
 {
     /// <summary>
     /// Authored kit components arrive presentation-only, so walls, fences and
-    /// outbuildings used to be walk-through. Block the bulk volumes with layer-2
-    /// proxies: they stop the player but own no navigation, narrative or route
-    /// data, and open passages (gates, porches, doors, steps) are deliberately
-    /// left clear so yards and doorways stay enterable.
+    /// outbuildings used to be walk-through. Pierced walls use their actual
+    /// triangle surfaces, including reveals. Separate solid members keep their
+    /// own contact shape; no interaction carves a hole in a visible wall.
     /// </summary>
     private void BuildAuthoredKitBlockers()
     {
+        if (_zoneInstances.GetValueOrDefault("village_day") is StyleBenchmarkZone village)
+            village.RetireBenchmarkHouseAssemblies();
         GroundZiratRoadsideContacts();
+        BuildAuthoredWellContacts();
         var placements = 0;
         var blocked = 0;
         var skippedHidden = 0;
         var skippedRoadClear = 0;
         var skippedFlatSlab = 0;
-        var skippedInteriorShell = 0;
+        var exactArchitecture = 0;
         var carved = 0;
+        var existingSourceContacts = FindDescendants<CollisionShape3D>(this)
+            .Where(shape => shape.HasMeta("authoredSourceMesh"))
+            .Select(shape => shape.GetMeta("authoredSourceMesh").AsString()).ToHashSet(StringComparer.Ordinal);
         // Authored doors that carry an interaction target must stay reachable: a
         // wall box around a doorway would seal the entrance the route uses. The
         // carve targets are the live interaction approaches themselves.
@@ -52,6 +57,32 @@ public partial class Act1ConnectedWorld
             }
 
             var meshName = mesh.Name.ToString();
+            // A mesh already assigned to an explicit physical owner (service
+            // shed, usable porch or local support) must not receive a second body.
+            if (existingSourceContacts.Contains(mesh.GetPath().ToString()))
+                continue;
+            var building = meshName.StartsWith("HeroHouse_", StringComparison.Ordinal)
+                || AuthoredKitBlockerFamilies.Any(family => meshName.StartsWith(family, StringComparison.Ordinal));
+            // Use the authored opening topology on every house, not only its
+            // street face. The old global DwellingFacade side/rear exception
+            // also removed walls from non-enterable neighboring houses.
+            var piercedWall = building && meshName.Contains("_Wall", StringComparison.Ordinal)
+                && meshName.EndsWith("_LOD0", StringComparison.Ordinal);
+            var clinicShell = meshName is "FapFacade_Body_LOD0" or "FapServiceShed_Body_LOD0";
+            var closedOpening = building && meshName.EndsWith("_LOD0", StringComparison.Ordinal)
+                && (meshName.Contains("_Glass_", StringComparison.Ordinal)
+                    || meshName.Contains("_Leaf_", StringComparison.Ordinal)
+                    || meshName.EndsWith("StreetDoorClosed_LOD0", StringComparison.Ordinal)
+                    || meshName is "FapFacade_DoorPanel_LOD0" or "FapFacade_ServiceDoor_LOD0");
+            if (piercedWall || clinicShell || closedOpening)
+            {
+                proxy ??= NewKitBlockerProxy();
+                proxy.AddChild(AuthoredSurfaceContact(placement, mesh));
+                componentBlocked++;
+                blocked++;
+                exactArchitecture++;
+                continue;
+            }
             // Each log and transverse beam is a solid of its own. The generic
             // wall filter intentionally rejects low slabs and previously also
             // rejected every log here. Preserve the empty spaces between them.
@@ -67,35 +98,13 @@ public partial class Act1ConnectedWorld
                 blocked++;
                 continue;
             }
-            if (!AuthoredKitBlockerFamilies.Any(family => meshName.StartsWith(family, StringComparison.Ordinal)))
+            if (!building)
             {
                 continue;
             }
 
             if (AuthoredKitClearanceParts.Any(part => meshName.Contains(part, StringComparison.Ordinal)))
             {
-                continue;
-            }
-
-            // Dwelling facades wrap a walkable interior room whose own walls own
-            // the collision. Blocking the facade's side and back walls would cut
-            // through that room, so only the street-facing wall blocks; the
-            // doorway carve below keeps the entrance reachable.
-            if (meshName.StartsWith("DwellingFacade_", StringComparison.Ordinal)
-                && !meshName.Contains("Street", StringComparison.Ordinal))
-            {
-                skippedInteriorShell++;
-                continue;
-            }
-
-            // Facade bodies and clinic shells wrap walkable interiors the same way:
-            // their own room walls carry the collision, and a solid body box would
-            // seal the room the route walks into (the FAP and the hero house).
-            if ((meshName.StartsWith("FapFacade_", StringComparison.Ordinal)
-                    || meshName.Contains("_Body", StringComparison.Ordinal))
-                && meshName.Contains("Body", StringComparison.Ordinal))
-            {
-                skippedInteriorShell++;
                 continue;
             }
 
@@ -126,6 +135,21 @@ public partial class Act1ConnectedWorld
                 continue;
             }
 
+            // A raking verge is one inclined solid, not an upright wall. The
+            // generic five-slab envelope filled the air below its slope. Keep
+            // the existing eligibility filters and bake the actual beam instead.
+            if (meshName.EndsWith("_VergeLeft_LOD0", StringComparison.Ordinal)
+                || meshName.EndsWith("_VergeRight_LOD0", StringComparison.Ordinal))
+            {
+                proxy ??= NewKitBlockerProxy();
+                var contact = AuthoredSolidContact(placement, mesh, $"{meshName}_Contact");
+                contact.SetMeta("contactPolicy", "authored-solid-inclined-verge");
+                proxy.AddChild(contact);
+                componentBlocked++;
+                blocked++;
+                continue;
+            }
+
             var shapes = AuthoredKitMeshBlockers(placement, mesh.Name, frame, bounds, doorTargets, out var meshCarved);
             carved += meshCarved;
             foreach (var shape in shapes)
@@ -150,7 +174,7 @@ public partial class Act1ConnectedWorld
 
         GD.Print(
             $"act1-kit-blockers: placements={placements} shapes={blocked} carved_door_slabs={carved} "
-            + $"flat_slab_skipped={skippedFlatSlab} interior_shell_skipped={skippedInteriorShell} "
+            + $"flat_slab_skipped={skippedFlatSlab} exact_architecture_surfaces={exactArchitecture} "
             + $"hidden_skipped={skippedHidden} road_clearance_skipped={skippedRoadClear}");
         GD.Print(
             $"act1-dwelling-threshold: placements={_dwellingThresholdPlacements} "
@@ -160,7 +184,87 @@ public partial class Act1ConnectedWorld
         SetMeta("authoredKitBlockerShapeCount", blocked);
         SetMeta("authoredKitBlockerHiddenSkipCount", skippedHidden);
         SetMeta("authoredKitBlockerRoadSkipCount", skippedRoadClear);
+        SetMeta("authoredArchitectureSurfaceCount", exactArchitecture);
+        GroundAuthoredBuildingSupports();
         BuildYardSupportContacts();
+        RebuildMosqueSurfaceContacts();
+        SetAuthoredKitCollisionEnabled(!Act1WorldLayout.TryGetPlacement(ActiveZoneId, out var activePlacement)
+            || !activePlacement.Interior, ActiveZoneId);
+    }
+
+    private void SetAuthoredKitCollisionEnabled(bool exteriorEnabled, string activeZoneId)
+    {
+        // The inner room uses the same seven real openings. Exterior dark
+        // backing cards are useful only while that room is not presented;
+        // retaining them inside made otherwise transparent glazing opaque.
+        var heroFacade = GetNodeOrNull<Node3D>(
+            "Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade");
+        var roomWindowPrefixes = new[] { "Street_Window1", "Street_Window2", "Street_Window3",
+            "Rear_Window0", "Rear_Window1", "Left_Window0", "Right_Window0" };
+        if (heroFacade is not null)
+        foreach (var mesh in FindDescendants<MeshInstance3D>(heroFacade).Where(mesh =>
+            roomWindowPrefixes.Any(prefix => mesh.Name == "HeroHouse_" + prefix + "_Glass_LOD0"
+                || mesh.Name == "HeroHouse_" + prefix + "_Recess_LOD0")))
+        {
+            if (!mesh.HasMeta("heroWindowExteriorOriginalVisibility"))
+                mesh.SetMeta("heroWindowExteriorOriginalVisibility", mesh.Visible);
+            mesh.Visible = activeZoneId != "house_old_pc" && mesh.GetMeta("heroWindowExteriorOriginalVisibility").AsBool();
+        }
+        if (GetNodeOrNull<Node3D>(
+            "Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade") is { } clinicFacade)
+            ClinicSurfacePresentation.SetExteriorGlassVisible(clinicFacade, activeZoneId != "fap_clinic");
+        // Visibility alone leaves the outdoor terrain and previous architecture
+        // physical inside a separate room. Disable only these explicit exterior
+        // owners; local room/NPC/interaction contacts keep their own lifecycle.
+        foreach (var body in FindDescendants<StaticBody3D>(this)
+            .Where(body => body.Name == "AuthoredKitCollisionProxy"
+                || body.HasMeta("collisionOwner") && body.GetMeta("collisionOwner").AsString()
+                    is "act1-exterior-terrain" or "act1-exterior-architecture" or "mosque-blocker"))
+        {
+            if (!body.HasMeta("exteriorOriginalCollisionLayer"))
+            {
+                body.SetMeta("exteriorOriginalCollisionLayer", (int)body.CollisionLayer);
+                body.SetMeta("exteriorOriginalCollisionMask", (int)body.CollisionMask);
+            }
+            body.CollisionLayer = exteriorEnabled ? (uint)body.GetMeta("exteriorOriginalCollisionLayer").AsInt32() : 0;
+            body.CollisionMask = exteriorEnabled ? (uint)body.GetMeta("exteriorOriginalCollisionMask").AsInt32() : 0;
+        }
+    }
+
+    private void RebuildMosqueSurfaceContacts()
+    {
+        var mosque = GetNode<Node3D>("Act1CoreWorldGreybox/VillageMosqueComplex");
+        var body = mosque.GetNode<StaticBody3D>("MosqueCollisionProxy");
+        foreach (var old in body.GetChildren().OfType<CollisionShape3D>().ToArray())
+        {
+            // The old height cap shortened a 5.2m wall around its midpoint,
+            // leaving its bottom half-metre unsupported. Use the actual wall.
+            var name = old.Name.ToString();
+            if (!name.EndsWith("_Blocker", StringComparison.Ordinal)) continue;
+            var mesh = mosque.GetNode<MeshInstance3D>(name[..^8]);
+            old.Free();
+            body.AddChild(AuthoredSurfaceContact(body, mesh));
+        }
+        foreach (var name in new[] { "MosqueEntranceDoor", "MosqueEntranceStep" })
+            body.AddChild(AuthoredSurfaceContact(body, mosque.GetNode<MeshInstance3D>(name)));
+        var count = body.GetChildCount();
+        body.SetMeta("mosqueBlockerShapeCount", count);
+        mosque.SetMeta("mosqueBlockerShapeCount", count);
+        mosque.SetMeta("contactPolicy", "full visible wall/closed-door/step triangles; no height cap or floating lower edge");
+    }
+
+    internal static CollisionShape3D AuthoredSurfaceContact(Node3D owner, MeshInstance3D mesh)
+    {
+        var surface = new ConcavePolygonShape3D { BackfaceCollision = true };
+        surface.SetFaces(mesh.Mesh.GetFaces().Select(vertex => mesh.GlobalBasis * vertex).ToArray());
+        var shape = new CollisionShape3D
+        {
+            Name = mesh.Name + "_SurfaceContact", Shape = surface,
+            Transform = owner.GlobalTransform.AffineInverse() * new Transform3D(Basis.Identity, mesh.GlobalPosition)
+        };
+        shape.SetMeta("authoredSourceMesh", mesh.GetPath().ToString());
+        shape.SetMeta("contactPolicy", "authored-triangles-preserve-openings");
+        return shape;
     }
 
     private void BuildYardSupportContacts()

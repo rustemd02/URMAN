@@ -6,10 +6,11 @@ using Urman.Core.Persistence;
 namespace Urman.Godot.Tests;
 
 /// <summary>
-/// Exercises the compact Act 1 detective corridor through the same production
-/// path a player uses: first-person camera ray, physical target, mapped E input,
-/// zone transition and diegetic document/dialogue UI. This is intentionally a
-/// deterministic smoke route, not a substitute for a human playthrough.
+/// Exercises the production Act 1 interaction route: first-person camera ray,
+/// physical target, mapped E input, zone transitions and document/dialogue UI.
+/// Approach fixtures set the portable player transform; source comparisons also
+/// call the runtime API. This does not prove pedestrian reachability, first-run
+/// understanding, interest or duration. The walkthrough owns continuous walking.
 /// </summary>
 public partial class Act1FirstPersonCorridorSmokeTest : Node
 {
@@ -21,6 +22,16 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
     private const float InteractionStandOff = 1.5f;
 
     public override async void _Ready()
+    {
+        try { await RunAsync(); }
+        catch (Exception exception)
+        {
+            GD.PushError("First-person corridor exception: " + exception);
+            GetTree().Quit(1);
+        }
+    }
+
+    private async Task RunAsync()
     {
         var packed = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn");
         var demo = packed?.Instantiate<Act1DemoRoot>();
@@ -71,6 +82,7 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             return;
         }
 
+        await Act1ArrivalFlowProof.CompleteAsync(this, bridge);
         await InteractAt(player, ray, Interaction("arrival-enter-house"));
         await Frames(4);
         AssertState(main, bridge, "house_old_pc", "house", "res://scenes/zones/style_benchmark_house_pc.tscn");
@@ -78,6 +90,15 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_family_avoids_marat") != "hidden")
         { Fail("Entering the house inferred the family's answer before asking about Marat."); return; }
 
+        var mansurActor = main.ConnectedWorld?.FindChild("Npc_mansur", true, false) as Node3D;
+        var mansurProxy = FindInteraction(Interaction("talk-mansur"), GetTree().Root);
+        if (mansurActor is null || mansurProxy is null)
+        {
+            Fail("The corridor could not find both the visible Mansur actor and his separate interaction target.");
+            return;
+        }
+        var mansurProxyTransform = mansurProxy.GlobalTransform;
+        var mansurFeet = mansurActor.GlobalPosition;
         await InteractAt(player, ray, Interaction("talk-mansur"));
         await Frames(5);
         var mansurDialogue = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
@@ -88,19 +109,27 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         }
         if (bridge.IsInteractionAvailable(Interaction("oldpc-power")))
         { Fail("Opening Mansur's conversation granted computer access before an answer."); return; }
-        var mansurActor = main.ConnectedWorld?.FindChild("MansurNpc", true, false) as Node3D;
-        if (mansurActor is null)
-        {
-            Fail("The corridor could not find the staged Mansur actor beside the old PC.");
-            return;
-        }
+        // A metadata-only check used to pass while the invisible ray target
+        // rotated and the visible person did nothing. Wait for the authored
+        // turn, then inspect the actor's actual facing and planted origin.
+        await ToSignal(GetTree().CreateTimer(.60d), SceneTreeTimer.SignalName.Timeout);
         var mansurFacing = mansurActor.GetMeta("conversationFacing", "unset").AsString();
         var mansurDistance = mansurActor.GlobalPosition.DistanceTo(player.GlobalPosition);
-        if (mansurFacing != "towards-player" || mansurDistance > 2.9f)
+        var toPlayer = player.GlobalPosition - mansurActor.GlobalPosition;
+        toPlayer.Y = 0f;
+        var forward = mansurActor.GlobalBasis.Z;
+        forward.Y = 0f;
+        var alignment = forward.Normalized().Dot(toPlayer.Normalized());
+        if (mansurFacing != "towards-player" || mansurDistance > 2.9f
+            || mansurActor.GetMeta("characterId", "").AsString() != "mansur"
+            || alignment < Mathf.Cos(Mathf.DegToRad(3f))
+            || mansurActor.GlobalPosition.DistanceTo(mansurFeet) > .001f
+            || !mansurProxy.GlobalTransform.IsEqualApprox(mansurProxyTransform))
         {
-            Fail($"Mansur did not turn to the player at dialogue distance: facing={mansurFacing} distance={mansurDistance:0.00}m");
+            Fail($"Visible Mansur did not face the player on planted feet with a stable target: facing={mansurFacing} distance={mansurDistance:0.00}m alignment={alignment:0.000}");
             return;
         }
+        GD.Print("act1-npc-facing: Mansur visible geometry faces the player; feet and interaction target stayed fixed");
         var mansurChoices = mansurDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
             .GetChildren().OfType<Button>().ToArray();
         var offerHelp = mansurChoices.FirstOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-mansur-offer-help"));
@@ -182,9 +211,8 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         }
         stayForTea.EmitSignal(Button.SignalName.Pressed);
         await Frames(4);
-        gulsinaDialogue.GetNode<Button>("Screen/Panel/Layout/Continue")
-            .EmitSignal(Button.SignalName.Pressed);
-        await Frames(4);
+        if (!await Act1FamilyMealProof.CompleteAsync(this, bridge, interactPhysically: async action =>
+            { await InteractAt(player, ray, Interaction(action)); return gulsinaDialogue.IsOpen; })) return;
         var gulsinaState = bridge.SelectRuntimeState();
         if (gulsinaDialogue.IsOpen || player.ModalOpen
             || VocabularyStatus(gulsinaState, "tt_yaramyy") != "guessed"
@@ -286,9 +314,18 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         await Frames(2);
         if (bridge.IsInteractionAvailable(Interaction("route-to-fap")))
         { Fail("Closing Alsu's unanswered conversation unlocked the FAP."); return; }
+        if (!await Act1AlsuWalkProof.CompleteAsync(this, bridge)) return;
         await InteractAt(player, ray, Interaction("talk-alsu"));
         if (!await ChooseVisibleDialogue(bridge, "choice-alsu-versions")
             || !await ChooseVisibleDialogue(bridge, "choice-alsu-go-to-naila")) return;
+        if (alsuDialogue.IsOpen || player.ModalOpen
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_alsu_heard_versions") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_versions_conflict") != "hidden"
+            || bridge.IsInteractionAvailable(Interaction("route-to-fap")))
+        { Fail("Alsu's account supplied its comparison before the player checked the two sources."); return; }
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-versions-scope"),
+                new[] { OfficialNotice, ChapterPrefix + "knowledge/clue_alsu_heard_versions" }))
+        { Fail("The heard account could not be compared with the official notice."); return; }
         if (alsuDialogue.IsOpen || player.ModalOpen
             || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_versions_conflict") != "confirmed"
             || !bridge.IsInteractionAvailable(Interaction("route-to-fap")))
@@ -360,6 +397,10 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         { Fail("The returning player could not read the internal register on the old PC."); return; }
         archive.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
         await Frames(2);
+        if (await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" }))
+        { Fail("Reading the two documents bypassed selecting their source fields."); return; }
+        await Act1SourceExcerptProof.RecordNoticeCauseAsync(this, bridge);
+        await Act1SourceExcerptProof.RecordRegisterFieldsAsync(this, bridge);
         if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" }))
         { Fail("The record comparison was rejected."); return; }
         var registerScene = bridge.ActiveSceneId;
@@ -378,6 +419,10 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         AssertState(main, bridge, "fap_clinic", "evidence-internal-register", "res://scenes/zones/chapter1_fap_clinic.tscn");
         await InteractAt(player, ray, Interaction("talk-naila"));
         if (!await ChooseVisibleDialogue(bridge, "choice-naila-contradiction")
+            || !await ChooseVisibleDialogue(bridge, "choice-naila-show-external-wording")) return;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_naila_record_scope") != "hidden")
+        { Fail("Showing matching wording answered the separate category question before it was asked."); return; }
+        if (!await ChooseVisibleDialogue(bridge, "choice-naila-ask-category-scope")
             || !await ChooseVisibleDialogue(bridge, "choice-naila-check-answer")) return;
         if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_naila_record_scope") != "confirmed"
             || VocabularyStatus(bridge.SelectRuntimeState(), "tt_yaramyy") != "confirmed"
@@ -465,6 +510,27 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         CloseDocument();
         await Frames(3);
 
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_message_read") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_alsu_message_reply") != "hidden"
+            || bridge.IsInteractionAvailable(Interaction("saved-message-to-boundary-source")))
+        { Fail("Reading Marat's message supplied Alsu's response or opened the next source."); return; }
+        await Act1SourceExcerptProof.RecordMessageVoiceAsync(this, bridge);
+        await InteractAt(player, ray, Interaction("house-to-route"));
+        AssertState(main, bridge, "village_day", "evidence-saved-message", "res://scenes/zones/style_benchmark_day_street.tscn");
+        await InteractAt(player, ray, Interaction("talk-alsu"));
+        if (!await ChooseVisibleDialogue(bridge, "choice-alsu-show-message")) return;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_alsu_message_reply") != "hidden")
+        { Fail("Showing the message silently chose its interpretation."); return; }
+        if (!await ChooseVisibleDialogue(bridge, "choice-alsu-quote-heard-voice")
+            || !await ChooseVisibleDialogue(bridge, "choice-alsu-check-original")) return;
+        if (player.ModalOpen || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_alsu_message_reply") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_was_afraid_before_death") != "confirmed")
+        { Fail("Alsu's reply did not preserve the selected source or release the return to the archive."); return; }
+        // This physical target uses the existing presentation repeater after
+        // the register visit, preserving the later message scene.
+        await InteractAt(player, ray, Interaction("official-to-internal-register"));
+        AssertState(main, bridge, "house_old_pc", "evidence-saved-message", "res://scenes/zones/style_benchmark_house_pc.tscn");
+
         await InteractAt(player, ray, Interaction("saved-message-to-boundary-source"));
         await Frames(6);
         AssertDocument(BoundarySource);
@@ -504,27 +570,30 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             || bridge.ActiveSceneId != ChapterPrefix + "scene/evidence-tatarwiki-boundary")
         { Fail("Rinat's late word reaction was absent, repeated pressure, replayed the plot, or disclosed the final rule."); return; }
 
-        // The archive can expose the sketch as soon as its vocabulary is
-        // understood. Reading ahead is allowed; it must not count as doing
-        // the missing investigation or enable a jump to the final route.
+        // Understood vocabulary alone does not expose the sketch. Check the
+        // actual archive as well as the document API before the two source
+        // returns; an early row must not bypass their ordinary access gates.
         await InteractAt(player, ray, Interaction("oldpc-power"));
         await Frames(4);
         var earlySketchRow = Enumerable.Range(0, archiveRows.ItemCount)
             .FirstOrDefault(index => archiveRows.GetItemMetadata(index).AsString() == EdgeSketch, -1);
-        if (earlySketchRow < 0)
-        { Fail("The accessible sketch was missing from the real archive reader."); return; }
-        archiveRows.EmitSignal(ItemList.SignalName.ItemSelected, earlySketchRow);
-        await Frames(6);
+        if (earlySketchRow >= 0)
+        {
+            archiveRows.EmitSignal(ItemList.SignalName.ItemSelected, earlySketchRow);
+            await Frames(6);
+        }
+        var earlySketchDisplayed = archive.ActiveDocumentId == EdgeSketch;
         archive.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
         await Frames(3);
-        if (archive.ActiveDocumentId != EdgeSketch
-            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_kara_urman_edge_is_rule_boundary") != "confirmed"
+        if (earlySketchDisplayed
+            || bridge.IsOldPcDocumentAccessible(EdgeSketch) || await bridge.OpenDocumentAsync(EdgeSketch)
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_kara_urman_edge_is_rule_boundary") != "hidden"
             || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_internal_wording_reread") != "hidden"
             || bridge.ActiveObjectives().Any(objective => objective.ObjectiveId == "follow-evidence")
             || bridge.IsInteractionAvailable(Interaction("reread-to-edge-sketch"))
             || await bridge.DispatchInteractionAsync(Interaction("edge-sketch-to-zirat-road"))
             || bridge.ActiveSceneId != ChapterPrefix + "scene/evidence-tatarwiki-boundary")
-        { Fail("Reading the sketch early completed the missing reread or bypassed the investigation route."); return; }
+        { Fail("The archive exposed the sketch before the reread and source-holder returns."); return; }
 
         await InteractAt(player, ray, Interaction("boundary-source-to-reread"));
         await Frames(6);
@@ -549,38 +618,59 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             || !await bridge.LoadSlotAsync(RuntimeBridge.CheckpointSlot)
             || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_internal_wording_reread") != "confirmed"
             || bridge.JournalEntries().Count(entry => entry.EntryId == ChapterPrefix + "knowledge/clue_internal_wording_reread") != 1
-            || !bridge.IsInteractionAvailable(Interaction("reread-to-edge-sketch"))
+            || bridge.IsInteractionAvailable(Interaction("reread-to-edge-sketch"))
             || await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), rereadPair))
-        { Fail("The grounded reread was not checkpointed exactly once, or its restored result did not unlock the sketch."); return; }
+        { Fail("The grounded reread was not checkpointed exactly once, or it skipped the two source returns."); return; }
         await Frames(4);
 
+        if (!await Act1SourceReturnsProof.CompleteAsync(this, bridge,
+                interactPhysically: async action => { await InteractAt(player, ray, Interaction(action)); return true; })) return;
         await InteractAt(player, ray, Interaction("reread-to-edge-sketch"));
         await Frames(6);
         AssertDocument(EdgeSketch);
         CloseDocument();
         await Frames(3);
 
-        // The journal objective must advance through all three investigation
-        // cycles, not only the first two: the third quest is activated by the
-        // edge-sketch scene, and until now nothing asserted that.
+        // The map first opens a discussion of what the road can establish.
+        // Its destination objective begins only after the actual conversation.
         var objectivesAfterSketch = bridge.ActiveObjectives();
         GD.Print("act1-corridor: active objectives -> " + string.Join(", ",
             objectivesAfterSketch.Select(entry => $"{entry.QuestId.Split('/')[^1]}/{entry.ObjectiveId}")));
         if (!objectivesAfterSketch.Any(entry => entry.QuestId == "urman.chapter1:quest/quest_kara_urman_cliffhanger"
-                && entry.ObjectiveId == "follow-evidence")
-            || objectivesAfterSketch.Any(entry => entry.ObjectiveId is "find-contradiction" or "apply-words"))
+                && entry.ObjectiveId == "discuss-route-intent")
+            || objectivesAfterSketch.Any(entry => entry.ObjectiveId is "find-contradiction" or "apply-words" or "follow-evidence")
+            || bridge.IsInteractionAvailable(Interaction("edge-sketch-to-zirat-road")))
         {
-            Fail("The journal objective did not advance to the third investigation cycle after the edge sketch, "
-                + "or an earlier cycle stayed active next to it.");
+            Fail("The sketch did not expose its route discussion, retained an earlier cycle or skipped straight to the road.");
             return;
         }
+
+        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-route-purpose-landmarks"), new[] { SavedMessage, EdgeSketch }))
+        { Fail("The actual message and map did not support a bounded purpose for the route."); return; }
+        await InteractAt(player, ray, Interaction("house-to-route"));
+        await InteractAt(player, ray, Interaction("route-to-mosque"));
+        if (!await ChooseVisibleDialogue(bridge, "choice-timur-register")
+            || !await ChooseVisibleDialogue(bridge, "choice-timur-route-check")) return;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_route_check_discussed") != "hidden")
+        { Fail("Timur's question silently chose why Aidar intends to inspect the road."); return; }
+        if (!await ChooseVisibleDialogue(bridge, "choice-timur-name-landmarks")) return;
+        ((DialogueUi)GetTree().GetFirstNodeInGroup("dialogue_ui"))
+            ._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        await Frames(4);
+        if (player.ModalOpen || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_route_check_discussed") != "confirmed"
+            || !bridge.ActiveObjectives().Any(entry => entry.QuestId == ChapterPrefix + "quest/quest_kara_urman_cliffhanger"
+                && entry.ObjectiveId == "follow-evidence")
+            || bridge.ActiveObjectives().Any(entry => entry.ObjectiveId is "find-contradiction" or "apply-words" or "discuss-route-intent"))
+        { Fail("The explicit route discussion did not release the player with the current destination objective."); return; }
 
         await InteractAt(player, ray, Interaction("edge-sketch-to-zirat-road"));
         await Frames(4);
         AssertState(main, bridge, "zirat_road", "zirat-road", "res://scenes/zones/chapter1_zirat_road.tscn");
         AssertRouteFacing(main, 0f, "zirat-entry-to-forest");
 
+        if (!await Act1RinatRoadsideProof.ObserveAsync(this, bridge)) return;
         await InteractAt(player, ray, Interaction("zirat-roadside-clue"));
+        await Act1RouteLandmarksProof.ObserveAsync(this, bridge);
         if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" }))
         { Fail("The route comparison was rejected."); return; }
         if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_last_route_near_zirat") != "confirmed")
@@ -596,8 +686,13 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         await Frames(8);
         AssertState(main, bridge, "kara_urman_night", "forest", "res://scenes/zones/style_benchmark_kara_urman_night.tscn");
         AssertRouteFacing(main, 0f, "forest-entry-to-cliffhanger");
-        for (var attempt = 0; attempt < 200 && bridge.IsInteractionAvailable("urman.chapter1:interaction/forest-rinat-intervention"); attempt++)
+        for (var attempt = 0; attempt < 600
+                && bridge.SelectRuntimeState().GetProperty("beats").GetProperty($"{ChapterPrefix}beat/cliffhanger-hard-cut").GetString() != "completed";
+                attempt++)
+        {
+            if (!Act1RinatRoadsideProof.LookAtIntervention(this)) return;
             await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
+        }
         var state = bridge.SelectRuntimeState();
         if (state.GetProperty("beats").GetProperty($"{ChapterPrefix}beat/cliffhanger-hard-cut").GetString() != "completed"
             || state.GetProperty("knowledge").GetProperty($"{ChapterPrefix}knowledge/clue_do_not_answer_rule").GetProperty("status").GetString() != "confirmed")
@@ -767,6 +862,8 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         for (var index = 0; index < count; index++)
         {
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            if (GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true })
+                Fail("The physical corridor was interrupted by an actual pause overlay.");
         }
     }
 
@@ -780,6 +877,8 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
 
     private static Vector3 ApproachPosition(FirstPersonController player, InteractionTarget target)
     {
+        if (target.InteractionId == Interaction("route-to-fap"))
+            return new Vector3(target.GlobalPosition.X, player.GlobalPosition.Y, target.GlobalPosition.Z + 1.50f);
         var delta = player.GlobalPosition - target.GlobalPosition;
         var direction = Mathf.Abs(delta.Z) >= Mathf.Abs(delta.X)
             ? new Vector3(0f, 0f, Mathf.Sign(delta.Z))
@@ -818,7 +917,8 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
 
     private void Fail(string message)
     {
-        GD.PushError(message);
-        GetTree().Quit(1);
+        // Abort the current route: continuing after a failed void assertion
+        // could otherwise overwrite Quit(1) with a later success receipt.
+        throw new InvalidOperationException(message);
     }
 }

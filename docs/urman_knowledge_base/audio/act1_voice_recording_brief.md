@@ -101,8 +101,9 @@
    `urman.chapter1:asset/audio-marat-voice` и `.../audio-rinat-interruption`
    значение `file` меняется с `logical/audio-marat-voice.ref` на
    `audio/act1/voice/marat_call.wav` и `audio/act1/voice/rinat_warning.wav`,
-   добавляется `sha256` файла. Идентификаторы, `mediaType`, `variants` и поля
-   `captionTextId` / `audioDescriptionTextId` не меняются.
+   добавляется `sha256` файла, а `mediaType` меняется с
+   `application/vnd.urman.logical-asset-ref` на `audio/wav`. Идентификаторы,
+   `variants` и поля `captionTextId` / `audioDescriptionTextId` не меняются.
 3. `eng/compile-game-content.sh`, затем сборка C#.
 
 Почему это сработает: `CompiledCampaignRepository` строит `AudioResolver` с

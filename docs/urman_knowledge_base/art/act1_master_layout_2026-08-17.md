@@ -27,7 +27,7 @@
 
 ### Authority and confidence
 
-Приоритет источников: `URMAN_Codex_Context.md`, knowledge base и утверждённая
+Приоритет источников: `../00_codex_context.md`, knowledge base и утверждённая
 `art/act1_visual_reference_bible_2026-08-17.md`; фактические координаты и
 владельцы ниже сверены с primary `game/scripts/Act1WorldLayout.cs`,
 `Act1ConnectedWorld.cs`, `Main.cs`, `StyleBenchmarkZone.cs`, zone scenes и

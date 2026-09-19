@@ -1,0 +1,69 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-school-bank-cut: mesh=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1707 carved_door_slabs=237 flat_slab_skipped=2473 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+zone-loaded: village_day@arrival connected-world=108548591527
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=108548591527
+SaveGameV3 new game session started; existing slots untouched.
+act1-carry: check ordinary New Game
+act1-intro: confirmed with E
+act1-carry: check debug-off normal controls after intro
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/carry-pristine.savegame-v3.json
+act1-carry: check pristine reachable snapshot
+act1-carry: check explicit local proof scope: full
+act1-carry: local camera fixture (-33.42394, 0.8332816, 4.706752) target=(-32.17394, 0.74158806, 4.706752)
+act1-carry: check six terrain-resting carry items use the shared authored support owner
+act1-carry: check carry-log authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.90124553, -0.16354421, -0.40126038), Y: (0.12671697, 0.9850308, -0.11686417), Z: (0.41436628, 0.05447681, 0.9084784), O: (-32.17394, 0.67658806, 4.706752)]
+act1-carry: check carry-log has actual ground support across 9 footprint samples, gaps 0.0030–0.0030m
+act1-carry: check carry-crate authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.9776721, 0.031176694, 0.20781063), Y: (-0.011615854, 0.9954389, -0.09469197), Z: (-0.20981497, 0.0901638, 0.973575), O: (-27.5, 0.3315878, 2.8)]
+act1-carry: check carry-crate has actual ground support across 12 footprint samples, gaps 0.0030–0.0059m
+act1-carry: check carry-bucket authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.98839056, 0.061550256, -0.13890925), Y: (-0.05954554, 0.9980533, 0.018545846), Z: (0.13978034, -0.010059113, 0.9901315), O: (-26.6, 0.26607022, 0.2)]
+act1-carry: check carry-bucket has actual ground support across 9 footprint samples, gaps 0.0030–0.0069m
+act1-carry: check carry-axe authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.46482128, -0.14040194, -0.8742016), Y: (0.06272975, 0.99008816, -0.12566002), Z: (0.88317955, 0.0035709962, 0.46902144), O: (-31.6, 0.5715371, 4.3)]
+act1-carry: check carry-axe has actual ground support across 9 footprint samples, gaps 0.0030–0.0033m
+act1-carry: check carry-tool-shovel authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (-0.104479425, -0.030640919, -0.9940549), Y: (-0.04023672, 0.9988371, -0.026559275), Z: (0.9937128, 0.037222613, -0.10559083), O: (-27.6, 0.22954099, 0.9)]
+act1-carry: check carry-tool-shovel has actual ground support across 9 footprint samples, gaps 0.0030–0.0030m
+act1-carry: check carry-tool-pole authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)]
+act1-carry: check carry-tool-pole has actual ground support across 30 footprint samples, gaps 0.0030–0.0050m
+act1-carry: check off-centre board end keeps its support occupied
+act1-carry: check adjacent support is not falsely treated as under the board
+state-final-render-sync-begin: label=carry/01_log_and_yard tick=29403 drawn=14 process=14 physics=42 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/01_log_and_yard milliseconds=13 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-22/01_log_and_yard.png
+act1-carry: check real camera capture 01_log_and_yard
+act1-carry: check layer-2 wall blocks pickup and aim
+act1-carry: check the narrow opening leaves the actual pickup ray on the visible prop
+act1-carry: check an opening narrower than the prop rejects pickup without moving it or transferring custody
+state-final-render-sync-begin: label=carry/01b_narrow_pickup_opening_refused tick=29799 drawn=34 process=34 physics=65 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/01b_narrow_pickup_opening_refused milliseconds=11 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-22/01b_narrow_pickup_opening_refused.png
+act1-carry: check real camera capture 01b_narrow_pickup_opening_refused
+act1-carry: check aimed pickup commits one held item
+state-final-render-sync-begin: label=carry/02_held_log tick=29988 drawn=38 process=38 physics=76 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/02_held_log milliseconds=11 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-22/02_held_log.png
+act1-carry: check real camera capture 02_held_log
+act1-carry: check second simultaneous ownership rejected atomically
+act1-carry: check modal blocks take/place/rotate without hidden progress
+act1-carry: FAIL System.InvalidOperationException: No unobstructed standing approach to (-33.42394, 0.85483235, 4.706752): camera=(-33.24394, 2.5332816, 4.7067485) ray=(0.5127272, -0.85855156, -9.8182045E-06) hit=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces at=(-32.12997, 0.6679623, 4.706727) held=carry-log busy=False registering=False registered=True heldPosition=(-32.46394, 2.0932815, 4.7067337) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=True physicsEnabled=True treePaused=False inputFrame=76/94 interactPresses=3 feedback=Предмет задевает преграду. Подойдите с открытой стороны. pickupProbe=item=carry-log source=[X: (0.90124553, -0.16354421, -0.40126038), Y: (0.12671697, 0.9850308, -0.11686417), Z: (0.41436628, 0.05447681, 0.9084784), O: (-32.17394, 0.67658806, 4.706752)] size=(0.38, 0.13, 0.14); path=direct; accepted=(-32.46394, 2.0932815, 4.7067337);
+   at Urman.Godot.Tests.Act1CarryInteractionSmokeTest.StandFacing(Vector3 target, Nullable`1 side, Single distance) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1CarryInteractionSmokeTest.cs:line 837
+   at Urman.Godot.Tests.Act1CarryInteractionSmokeTest.CheckNarrowPlacementOpening(CarryableProp prop, Vector3 target) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1CarryInteractionSmokeTest.cs:line 270
+   at Urman.Godot.Tests.Act1CarryInteractionSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1CarryInteractionSmokeTest.cs:line 101
+HUD: 
+camera=(-33.24394, 2.5332816, 4.7067485) ray=(0.5127272, -0.85855156, -9.8182045E-06) hit=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision shape=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces at=(-32.12997, 0.6679623, 4.706727) held=carry-log busy=False registering=False registered=True heldPosition=(-32.46394, 2.0932815, 4.7067337) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=True physicsEnabled=True treePaused=False inputFrame=76/94 interactPresses=3 feedback=Предмет задевает преграду. Подойдите с открытой стороны. pickupProbe=item=carry-log source=[X: (0.90124553, -0.16354421, -0.40126038), Y: (0.12671697, 0.9850308, -0.11686417), Z: (0.41436628, 0.05447681, 0.9084784), O: (-32.17394, 0.67658806, 4.706752)] size=(0.38, 0.13, 0.14); path=direct; accepted=(-32.46394, 2.0932815, 4.7067337);
+userdata guard: original files and permissions restored and verified

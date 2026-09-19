@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "stationId": "avyl-fm",
+  "recordings": [
+    {
+      "segmentId": "music-one",
+      "origin": "recorded-music",
+      "title": "Архивная скрипка · Айса Хакимджан",
+      "performer": "Aisa Hakimcan (Айса Хакимджан), attributed by the source page",
+      "credit": "Aisa Hakimcan playing violin; recording attributed on Wikimedia Commons to Hakimdzhan (User:Xәkim). CC BY-SA 4.0. URMAN conversion: FLAC decoded to mono PCM16/48 kHz and attenuated by 2.184066 dB; full timeline preserved. The derived recording remains CC BY-SA 4.0.",
+      "file": "music-one-v2.wav",
+      "sha256": "5b147604c8ed33bc022c2a17a882fb0652241069b69a1cd2a643d1caf0c59544",
+      "sourceFile": "original.flac",
+      "sourceSha256": "9fb40b3ce18d11604356d42577abe78bd871eb5542affa8c9c6f9af9744acc47",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Aisa_Hakimcan_skripka.flac",
+      "language": "zxx",
+      "instrumental": true,
+      "durationSeconds": 202.06933333333333,
+      "transcript": "Архивная скрипичная запись Айсы Хакимджана. Название мелодии в источнике не указано.",
+      "compositionTitle": null,
+      "compositionAuthor": null,
+      "processing": [
+        "Original FLAC SHA-1 ab04d54a24182bf85a9f2bfbf0869c9aa8c5c45e and 16170626-byte length match the saved primary Commons API declaration.",
+        "macOS /usr/bin/afconvert -f WAVE -d LEI16@48000 original.flac decoded-pcm16.wav; decoded SHA256 78311d662d47d880860907ce1832a290ec0160d2448fa897784acc3bbc9c8e5d.",
+        "python3 -B eng/prepare-radio-wav.py decoded-pcm16.wav music-one-v2.wav --peak-db -3; integer PCM16 canonical WAVE, 9699328 frames unchanged, constant linear gain 0.7776723923130885. No trimming, synthesis, resampling or time stretch.",
+        "Peak -2.999987817 dBFS; RMS -32.171861801 dBFS. Technical validation does not constitute listening or cultural acceptance."
+      ],
+      "rights": [
+        {
+          "licenseId": "CC-BY-SA-4.0",
+          "licenseURL": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "copyrightHolder": "Hakimdzhan (User:Xәkim), the author/uploader credited by the primary source",
+          "sourceURL": "https://commons.wikimedia.org/wiki/File:Aisa_Hakimcan_skripka.flac",
+          "evidenceFile": "commons-primary-source.json",
+          "evidenceSha256": "1df96ba144d1b390d1c312bf6ba99ca8d1818aeda00f337d6e639588c345f02a",
+          "covers": ["recording", "performance", "composition", "arrangement"],
+          "coverageBasis": "Primary Commons revision 787148219 attributes the entire audio file as Own work with self CC BY-SA 4.0. These scopes record that whole-file declaration; no separate composition title, composer, performance contract or recording date is asserted by URMAN.",
+          "derivedLicenseId": "CC-BY-SA-4.0"
+        }
+      ],
+      "acceptance": "Actual source bytes and primary whole-file licence declaration retained; prepared recording technically validated. Instrumental classification follows the source description. Listening, identification of the tune and cultural review are not run. This is one musical recording, not a complete station and not either finale voice."
+    }
+  ]
+}

@@ -1,0 +1,1759 @@
+{
+  "passed": true,
+  "checks": 100,
+  "measuredWalkingMetres": 26.15453,
+  "fixture": "ordinary NewGame; one explicit supported exterior setup per existing public building; all entrances/returns use controller input",
+  "humanPlaytime": "external/not-run",
+  "visualCulturalAcceptance": "external/not-run",
+  "events": [
+    {
+      "kind": "check",
+      "label": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "three public rooms are in the ordinary connected world",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "requested public building exists",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: measured exterior setup fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: setup has actual support",
+      "passed": true
+    },
+    {
+      "kind": "local-exterior-fixture",
+      "building": "council",
+      "source": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade",
+      "feet": "(32.504845, 0.10303931, 21.147633)",
+      "addressId": "ADR-H040",
+      "countsAsWalk": false
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-council-10/council_01_closed_entrance.png"
+    },
+    {
+      "kind": "check",
+      "label": "council: approaching leaves both doors closed and does not knock automatically",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: explicit entrance interaction is aimed and available",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "closed-leaf approach uses real controller movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: closed outer leaf stops the standing player",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: walking against the leaf never opens it",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: outward leaf refuses a player standing in its swept arc",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: step away from the leaf",
+      "from": "(33.77391, 0.37947607, 21.511969)",
+      "goal": "(32.504845, 0.13770337, 21.147633)",
+      "final": "(32.573498, 0.104596734, 21.167353)",
+      "remaining": 0.0714292,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(32.573498, 0.104596734, 21.167353)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "point": "(32.58355, 0.104689546, 21.156853)",
+          "normal": "(-0.028701136, 0.99913836, 0.029980717)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: step away from the leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: step away from the leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "council/entrance",
+      "feet": "(32.573498, 0.104596734, 21.167353)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/council/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/councilEntranceUse at (34.09571, 1.5259581, 21.603884)",
+      "actionNumber": 1,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(33.77391, 0.37947607, 21.511969)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "blocked-by-full-shape-sweep",
+      "sweep": "{\u0022clear\u0022:false,\u0022sample\u0022:1,\u0022samples\u0022:86,\u0022yaw\u0022:1.5515165,\u0022size\u0022:\u0022(0.065, 1.8620002, 0.9244001)\u0022,\u0022pose\u0022:\u0022[X: (0.9557691, 0, 0.29411787), Y: (0, 0.9999999, 0), Z: (-0.29411787, 0, 0.9557691), O: (34.142464, 1.4490757, 21.617123)]\u0022,\u0022collider\u0022:\u0022/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/Player\u0022,\u0022shapeIndex\u0022:0,\u0022shapePath\u0022:\u0022/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/Player/CollisionShape3D\u0022,\u0022authoredSourceMesh\u0022:null}"
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "council/entrance",
+      "feet": "(32.573498, 0.104596734, 21.167353)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/council/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/councilEntranceUse at (34.032543, 1.5390043, 21.585768)",
+      "actionNumber": 2,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(32.573498, 0.104596734, 21.167353)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:86,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "council/entrance",
+      "feet": "(32.573498, 0.104596734, 21.167353)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/council/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/councilEntranceUse at (34.032543, 1.5390043, 21.585768)",
+      "actionNumber": 2,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(32.573498, 0.104596734, 21.167353)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:86,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "council/entrance",
+      "open": true,
+      "player": "(32.573498, 0.104596734, 21.167353)",
+      "target": "(33.846905, 1.4430757, 21.009727)"
+    },
+    {
+      "kind": "visible-surface-owner-probe",
+      "phase": "council_02_opened_outward",
+      "key": "seni-surface-owners",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-council-10/council_02_opened_outward.png",
+      "normalizedPixels": [
+        "(0.45, 0.231)",
+        "(0.472, 0.234)",
+        "(0.55, 0.617)",
+        "(0.5, 0.563)",
+        "(0.56, 0.71)",
+        "(0.519, 0.642)"
+      ],
+      "camera": "[X: (-0.27566257, 0, 0.9612545), Y: (0.18717648, 0.9808587, 0.053677306), Z: (-0.94285476, 0.19472103, -0.270386), O: (32.746525, 1.8045965, 21.216972)]",
+      "resultLocation": "act1-visible-surface lines in this run\u0027s log",
+      "meshVisibilityChanged": false
+    },
+    {
+      "kind": "seni-infill-culling",
+      "phase": "council_02_opened_outward",
+      "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0",
+      "sourceMaterial": "URMAN_Wood_Weathered",
+      "sourceCull": "Disabled",
+      "activeClass": "ShaderMaterial",
+      "preserved": true,
+      "renderMode": "render_mode diffuse_burley, specular_schlick_ggx, cull_disabled;"
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-council-10/council_02_opened_outward.png"
+    },
+    {
+      "kind": "council-motion-contact",
+      "label": "council: walk up real treads and through the outer aperture",
+      "frame": 0,
+      "current": {
+        "feet": "(32.573498, 0.104596734, 21.167353)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "goal": {
+        "feet": "(34.81514, 0.50607574, 21.810099)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "velocity": "(0, 0, 0)"
+    },
+    {
+      "kind": "walking",
+      "label": "council: walk up real treads and through the outer aperture",
+      "from": "(32.573498, 0.104596734, 21.167353)",
+      "goal": "(34.81514, 0.50607574, 21.810099)",
+      "final": "(34.737576, 0.50629336, 21.787878)",
+      "remaining": 0.080684364,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(34.737576, 0.50629336, 21.787878)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloorBody",
+          "point": "(34.737576, 0.50607574, 21.787878)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: walk up real treads and through the outer aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: walk up real treads and through the outer aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: the seni has standing headroom",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/seni: real support is level enough to stand",
+      "passed": true
+    },
+    {
+      "kind": "floor-probe",
+      "label": "council/seni",
+      "feet": "(34.737576, 0.50629336, 21.787878)",
+      "hit": "(34.73758, 0.50607574, 21.787878)",
+      "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloorBody"
+    },
+    {
+      "kind": "check",
+      "label": "council/inner-door: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/inner-door: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "council/inner-door",
+      "feet": "(34.737576, 0.50629336, 21.787878)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": false,
+      "focusedInteraction": "urman.chapter1:local/council/inner-door",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/councilInnerDoorUse at (35.35981, 1.658949, 21.075369)",
+      "actionNumber": 0,
+      "transformRevision": 3,
+      "action": "not-called",
+      "result": "not-called",
+      "sweep": "not-called"
+    },
+    {
+      "kind": "check",
+      "label": "council/inner-door: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "council/inner-door",
+      "feet": "(34.737576, 0.50629336, 21.787878)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/council/inner-door",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/council_village_plan_Use at (35.3896, 1.6267477, 21.041258)",
+      "actionNumber": 1,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/inner-door\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(34.737576, 0.50629336, 21.787878)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:92,\u0022from\u0022:0,\u0022to\u0022:-1.6580628}"
+    },
+    {
+      "kind": "check",
+      "label": "council/inner-door: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "council/inner-door",
+      "feet": "(34.737576, 0.50629336, 21.787878)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/council/inner-door",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/council_village_plan_Use at (35.3896, 1.6267477, 21.041258)",
+      "actionNumber": 1,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/inner-door\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(34.737576, 0.50629336, 21.787878)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:92,\u0022from\u0022:0,\u0022to\u0022:-1.6580628}"
+    },
+    {
+      "kind": "check",
+      "label": "council/inner-door: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "council/inner-door",
+      "open": true,
+      "player": "(34.737576, 0.50629336, 21.787878)",
+      "target": "(36.229656, 1.4848757, 20.750536)"
+    },
+    {
+      "kind": "fixed-aperture-approach",
+      "building": "council",
+      "actualApertureGoal": "(35.32268, 0.50607574, 21.955633)",
+      "formerMovingTargetGoal": "(35.841446, 0.50607574, 22.104387)",
+      "fixedGoalFits": true,
+      "movingTargetGoalFits": false
+    },
+    {
+      "kind": "walking",
+      "label": "council: align within existing seni",
+      "from": "(34.737576, 0.50629336, 21.787878)",
+      "goal": "(35.32268, 0.50607574, 21.955633)",
+      "final": "(35.24144, 0.50629336, 21.932339)",
+      "remaining": 0.084515266,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.24144, 0.50629336, 21.932339)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloorBody",
+          "point": "(35.24144, 0.50607574, 21.932339)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: align within existing seni: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: align within existing seni: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: cross the actual main-wall aperture",
+      "from": "(35.24144, 0.50629336, 21.932339)",
+      "goal": "(35.68388, 0.5544758, 20.696)",
+      "final": "(35.65908, 0.5546162, 20.765345)",
+      "remaining": 0.07364647,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.65908, 0.5546162, 20.765345)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(35.65908, 0.5544758, 20.765345)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: cross the actual main-wall aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: cross the actual main-wall aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: public interior owner matches the physical room",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: both thresholds are crossed with input and no relocation or fall recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/main: real support is level enough to stand",
+      "passed": true
+    },
+    {
+      "kind": "floor-probe",
+      "label": "council/main",
+      "feet": "(35.65908, 0.5546162, 20.765345)",
+      "hit": "(35.65908, 0.5544758, 20.765345)",
+      "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody"
+    },
+    {
+      "kind": "check",
+      "label": "council: timber floor is the actual support level",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: enter the hall beside the village plan",
+      "from": "(35.65908, 0.5546162, 20.765345)",
+      "goal": "(35.251976, 0.5544758, 19.646702)",
+      "final": "(35.276352, 0.5546162, 19.713673)",
+      "remaining": 0.07126904,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.276352, 0.5546162, 19.713673)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(35.276352, 0.5544758, 19.713673)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: enter the hall beside the village plan: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: enter the hall beside the village plan: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: physical village plan is reachable in the hall",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: displayed roads come from the actual common registry graph",
+      "passed": true
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-council-10/council_03_hall_and_plan.png"
+    },
+    {
+      "kind": "council-motion-contact",
+      "label": "council: approach the office from the open hall",
+      "frame": 0,
+      "current": {
+        "feet": "(35.276352, 0.5546162, 19.713673)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "goal": {
+        "feet": "(34.88322, 0.5544758, 18.864767)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "velocity": "(0, 0, 0)"
+    },
+    {
+      "kind": "walking",
+      "label": "council: approach the office from the open hall",
+      "from": "(35.276352, 0.5546162, 19.713673)",
+      "goal": "(34.88322, 0.5544758, 18.864767)",
+      "final": "(34.9132, 0.5546162, 18.92951)",
+      "remaining": 0.07134735,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(34.9132, 0.5546162, 18.92951)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(34.9132, 0.5544758, 18.92951)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: approach the office from the open hall: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: approach the office from the open hall: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/office: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/office: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "council/office",
+      "feet": "(34.9132, 0.5546162, 18.92951)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": false,
+      "focusedInteraction": "urman.chapter1:local/council/office",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/CouncilOfficeDoorUse at (35.44511, 1.8305047, 18.000671)",
+      "actionNumber": 0,
+      "transformRevision": 3,
+      "action": "not-called",
+      "result": "not-called",
+      "sweep": "not-called"
+    },
+    {
+      "kind": "check",
+      "label": "council/office: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "council/office",
+      "feet": "(34.9132, 0.5546162, 18.92951)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "",
+      "aim": "no hit",
+      "actionNumber": 1,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/office\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(34.9132, 0.5546162, 18.92951)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:98,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "council/office: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "council/office",
+      "feet": "(34.9132, 0.5546162, 18.92951)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "",
+      "aim": "no hit",
+      "actionNumber": 1,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/office\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(34.9132, 0.5546162, 18.92951)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:98,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "council/office: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "council/office",
+      "open": true,
+      "player": "(34.9132, 0.5546162, 18.92951)",
+      "target": "(35.23169, 1.5444757, 16.777012)"
+    },
+    {
+      "kind": "council-route-contact-probes",
+      "formerStop": {
+        "feet": "(35.130096, 0.5554178, 17.907942)",
+        "canStand": false,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [
+          {
+            "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/CouncilOfficeFrame/Jamb0_57500005Body",
+            "shapeIndex": 0,
+            "shape": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/CouncilOfficeFrame/Jamb0_57500005Body/Contact",
+            "shapeType": "BoxShape3D",
+            "authoredSourceMesh": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/CouncilOfficeFrame/Jamb0_57500005",
+            "transform": "[X: (-0.27563733, 0, 0.96126163), Y: (0, 0.9999999, 0), Z: (-0.96126163, 0, -0.27563733), O: (35.490585, 1.5544757, 18.04544)]"
+          }
+        ],
+        "saturated": false
+      },
+      "formerAlignmentGoal": {
+        "feet": "(35.304943, 0.5544758, 17.394037)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "formerDeskGoal": {
+        "feet": "(36.073956, 0.5544758, 17.614548)",
+        "canStand": false,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [
+          {
+            "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/CouncilDesk/TopBody",
+            "shapeIndex": 0,
+            "shape": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/CouncilDesk/TopBody/Contact",
+            "shapeType": "BoxShape3D",
+            "authoredSourceMesh": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/CouncilDesk/Top",
+            "transform": "[X: (-0.27563733, 0, 0.96126163), Y: (0, 0.9999999, 0), Z: (-0.96126163, 0, -0.27563733), O: (36.694813, 1.2944758, 17.626127)]"
+          }
+        ],
+        "saturated": false
+      },
+      "aisleStart": {
+        "feet": "(34.710194, 0.5544758, 18.815153)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "aisleAlignment": {
+        "feet": "(35.131916, 0.5544758, 17.344423)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "deskStanding": {
+        "feet": "(35.958603, 0.5544758, 17.58147)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      }
+    },
+    {
+      "kind": "check",
+      "label": "council: the historical stop is identified against the actual office casing",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: the former desk goal intersects the actual tabletop",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: aisle and desk standing points fit the unchanged full standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: step into the clear aisle in front of the casing",
+      "from": "(34.9132, 0.5546162, 18.92951)",
+      "goal": "(34.710194, 0.5544758, 18.815153)",
+      "final": "(34.777412, 0.5546162, 18.853022)",
+      "remaining": 0.07715172,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(34.777412, 0.5546162, 18.853022)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(34.777412, 0.5544758, 18.853022)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: step into the clear aisle in front of the casing: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: step into the clear aisle in front of the casing: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: align with the real office doorway through the aisle",
+      "from": "(34.777412, 0.5546162, 18.853022)",
+      "goal": "(35.131916, 0.5544758, 17.344423)",
+      "final": "(35.114452, 0.5546162, 17.418753)",
+      "remaining": 0.07635336,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.114452, 0.5546162, 17.418753)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(35.114452, 0.5544758, 17.418753)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: align with the real office doorway through the aisle: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: align with the real office doorway through the aisle: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: enter the office and stand before the desk",
+      "from": "(35.114452, 0.5546162, 17.418753)",
+      "goal": "(35.958603, 0.5544758, 17.58147)",
+      "final": "(35.87954, 0.5546162, 17.566229)",
+      "remaining": 0.08051913,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.87954, 0.5546162, 17.566229)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(35.87954, 0.5544758, 17.566229)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: enter the office and stand before the desk: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: enter the office and stand before the desk: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: album is readable at the actual desk",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council_photo_album_Source: a real photograph texture is bound",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council_photo_album_Source: published image provenance and aspect ratio are preserved",
+      "passed": true
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-council-10/council_04_archive_album.png"
+    },
+    {
+      "kind": "council-motion-contact",
+      "label": "council: return from office through the same clear aisle",
+      "frame": 0,
+      "current": {
+        "feet": "(35.87954, 0.5546162, 17.566229)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "goal": {
+        "feet": "(35.131916, 0.5544758, 17.344423)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "velocity": "(0, 0, 0)"
+    },
+    {
+      "kind": "walking",
+      "label": "council: return from office through the same clear aisle",
+      "from": "(35.87954, 0.5546162, 17.566229)",
+      "goal": "(35.131916, 0.5544758, 17.344423)",
+      "final": "(35.200485, 0.5546162, 17.364765)",
+      "remaining": 0.0715229,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.200485, 0.5546162, 17.364765)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(35.200485, 0.5544758, 17.364765)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: return from office through the same clear aisle: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: return from office through the same clear aisle: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: return to the hall passage",
+      "from": "(35.200485, 0.5546162, 17.364765)",
+      "goal": "(34.641285, 0.5544758, 19.055468)",
+      "final": "(34.666653, 0.5546162, 18.978786)",
+      "remaining": 0.0807683,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(34.666653, 0.5546162, 18.978786)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(34.666653, 0.5544758, 18.978786)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: return to the hall passage: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: return to the hall passage: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: return along the room corridor",
+      "from": "(34.666653, 0.5546162, 18.978786)",
+      "goal": "(35.68388, 0.5544758, 20.696)",
+      "final": "(35.64139, 0.5546162, 20.624266)",
+      "remaining": 0.083372235,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.64139, 0.5546162, 20.624266)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(35.64139, 0.5544758, 20.624266)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: return along the room corridor: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: return along the room corridor: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: return through inner aperture",
+      "from": "(35.64139, 0.5546162, 20.624266)",
+      "goal": "(35.32268, 0.50607574, 21.955633)",
+      "final": "(35.341248, 0.50692093, 21.878073)",
+      "remaining": 0.07975162,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.341248, 0.50692093, 21.878073)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloorBody",
+          "point": "(35.341248, 0.50607574, 21.878073)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: return through inner aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: return through inner aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: pass the free end of the outer leaf",
+      "from": "(35.341248, 0.50692093, 21.878073)",
+      "goal": "(34.81514, 0.50607574, 21.810099)",
+      "final": "(34.891663, 0.50692093, 21.819983)",
+      "remaining": 0.077158496,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(34.891663, 0.50692093, 21.819983)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloorBody",
+          "point": "(34.891663, 0.50607574, 21.819983)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: pass the free end of the outer leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: pass the free end of the outer leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: descend the real entry treads",
+      "from": "(34.891663, 0.50692093, 21.819983)",
+      "goal": "(32.504845, 0.13770337, 21.147633)",
+      "final": "(32.585545, 0.10492757, 21.170374)",
+      "remaining": 0.08384298,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(32.585545, 0.10492757, 21.170374)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "point": "(32.5956, 0.10494508, 21.159872)",
+          "normal": "(-0.028701136, 0.99913836, 0.029980717)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: descend the real entry treads: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: descend the real entry treads: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: ordinary return reaches the exterior",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: actual open doors and exterior player pose save together",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "council/entrance",
+      "feet": "(32.585545, 0.10492757, 21.170374)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": false,
+      "focusedInteraction": "urman.chapter1:local/council/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/councilEntranceUse at (33.848495, 1.5316381, 21.07193)",
+      "actionNumber": 2,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(32.573498, 0.104596734, 21.167353)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:86,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "council/entrance",
+      "feet": "(32.585545, 0.10492757, 21.170374)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/council/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/councilEntranceUse at (33.643066, 1.5834547, 21.087944)",
+      "actionNumber": 3,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(32.585545, 0.10492757, 21.170374)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:86,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "council/entrance",
+      "feet": "(32.585545, 0.10492757, 21.170374)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/council/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/councilEntranceUse at (33.643066, 1.5834547, 21.087944)",
+      "actionNumber": 3,
+      "transformRevision": 3,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(32.585545, 0.10492757, 21.170374)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:86,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "council/entrance",
+      "open": false,
+      "player": "(32.585545, 0.10492757, 21.170374)",
+      "target": "(34.151005, 1.4430757, 21.619661)"
+    },
+    {
+      "kind": "check",
+      "label": "council: restore the same runtime snapshot",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: both door states are restored without discovering a source",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: load leaves an unobstructed standing body",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: return through restored outward leaf",
+      "from": "(32.585545, 0.10492757, 21.170374)",
+      "goal": "(34.81514, 0.50607574, 21.810099)",
+      "final": "(34.73543, 0.50646293, 21.787247)",
+      "remaining": 0.08291919,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(34.73543, 0.50646293, 21.787247)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloorBody",
+          "point": "(34.73543, 0.50607574, 21.787247)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: return through restored outward leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: return through restored outward leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "fixed-aperture-approach",
+      "building": "council",
+      "actualApertureGoal": "(35.32268, 0.50607574, 21.955633)",
+      "formerMovingTargetGoal": "(35.841446, 0.50607574, 22.104387)",
+      "fixedGoalFits": true,
+      "movingTargetGoalFits": false
+    },
+    {
+      "kind": "walking",
+      "label": "council: align within existing seni",
+      "from": "(34.73543, 0.50646293, 21.787247)",
+      "goal": "(35.32268, 0.50607574, 21.955633)",
+      "final": "(35.252907, 0.50646293, 21.935623)",
+      "remaining": 0.07258718,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.252907, 0.50646293, 21.935623)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloorBody",
+          "point": "(35.252907, 0.50607574, 21.935623)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: align within existing seni: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: align within existing seni: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: cross the actual main-wall aperture",
+      "from": "(35.252907, 0.50646293, 21.935623)",
+      "goal": "(35.68388, 0.5544758, 20.696)",
+      "final": "(35.660015, 0.5546033, 20.764685)",
+      "remaining": 0.07271333,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.660015, 0.5546033, 20.764685)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(35.660015, 0.5544758, 20.764685)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: cross the actual main-wall aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: cross the actual main-wall aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: public interior owner matches the physical room",
+      "passed": true
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-council-10/council_05_return_after_load.png"
+    },
+    {
+      "kind": "walking",
+      "label": "council: return along the room corridor",
+      "from": "(35.660015, 0.5546033, 20.764685)",
+      "goal": "(35.68388, 0.5544758, 20.696)",
+      "final": "(35.660015, 0.5546033, 20.764685)",
+      "remaining": 0.07271333,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.660015, 0.5546033, 20.764685)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/MainRoom/TimberFloorBody",
+          "point": "(35.660015, 0.5544758, 20.764685)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: return along the room corridor: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: return along the room corridor: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: return through inner aperture",
+      "from": "(35.660015, 0.5546033, 20.764685)",
+      "goal": "(35.32268, 0.50607574, 21.955633)",
+      "final": "(35.343357, 0.5066931, 21.882658)",
+      "remaining": 0.07584759,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(35.343357, 0.5066931, 21.882658)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloorBody",
+          "point": "(35.343357, 0.50607574, 21.882658)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: return through inner aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: return through inner aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: pass the free end of the outer leaf",
+      "from": "(35.343357, 0.5066931, 21.882658)",
+      "goal": "(34.81514, 0.50607574, 21.810099)",
+      "final": "(34.894238, 0.5066931, 21.820963)",
+      "remaining": 0.07984038,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(34.894238, 0.5066931, 21.820963)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/PublicInterior_council/SeniFloorBody",
+          "point": "(34.894238, 0.50607574, 21.820963)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: pass the free end of the outer leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: pass the free end of the outer leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "council: descend the real entry treads",
+      "from": "(34.894238, 0.5066931, 21.820963)",
+      "goal": "(32.504845, 0.13770337, 21.147633)",
+      "final": "(32.574795, 0.10444414, 21.167353)",
+      "remaining": 0.07267667,
+      "support": true,
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": {
+        "feet": "(32.574795, 0.10444414, 21.167353)",
+        "canStand": true,
+        "height": 1.8,
+        "radius": 0.35,
+        "mask": 3,
+        "margin": 0.002,
+        "contacts": [],
+        "saturated": false
+      },
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "point": "(32.58484, 0.1047263, 21.15686)",
+          "normal": "(-0.028701136, 0.99913836, 0.029980717)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "council: descend the real entry treads: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council: descend the real entry treads: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "council/entrance",
+      "feet": "(32.574795, 0.10444414, 21.167353)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": false,
+      "focusedInteraction": "urman.chapter1:local/council/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/councilEntranceUse at (33.84753, 1.5311126, 21.071558)",
+      "actionNumber": 3,
+      "transformRevision": 5,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(32.585545, 0.10492757, 21.170374)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:86,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "council/entrance",
+      "feet": "(32.574795, 0.10444414, 21.167353)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/council/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/councilEntranceUse at (33.63981, 1.5830472, 21.087194)",
+      "actionNumber": 4,
+      "transformRevision": 5,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(32.574795, 0.10444414, 21.167353)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:86,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "council/entrance",
+      "feet": "(32.574795, 0.10444414, 21.167353)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/council/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/councilEntranceUse at (33.63981, 1.5830472, 21.087194)",
+      "actionNumber": 4,
+      "transformRevision": 5,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022council/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(32.574795, 0.10444414, 21.167353)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:86,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "council/entrance: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "council/entrance",
+      "open": false,
+      "player": "(32.574795, 0.10444414, 21.167353)",
+      "target": "(34.151005, 1.4430757, 21.619661)"
+    },
+    {
+      "kind": "building-complete",
+      "building": "council",
+      "addressId": "ADR-H040",
+      "exterior": "(32.504845, 0.13770337, 21.147633)",
+      "entry": "(34.23992, 0.50607574, 21.645157)",
+      "halfSize": "(2.4596002, 2.3716004)",
+      "ceiling": 2.1518
+    }
+  ]
+}

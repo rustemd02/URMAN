@@ -1,0 +1,52 @@
+{
+  "schema": "urman.pck_registered_dependencies_check.v1",
+  "recorded_at": "2026-09-17T02:19:49.700309+00:00",
+  "execution_timestamp": null,
+  "execution_timestamp_note": "Exact execution UTC was not recorded by the one-shot command; this receipt was written afterward from its retained code and terminal output. No rerun was performed.",
+  "workdir": "/Users/unterlantas/Documents/GitHub/URMAN",
+  "status": "PASS",
+  "source_tool_chunk": "00086f",
+  "source_tool_terminal_exit_code": 0,
+  "sha256": {
+    "docs/production/act1_takeover_evidence_2026-09-16/pck-registered-dependencies-01.py": "ade72044697624d776bf2b4636daccd3a7bec6818f794bf31bfb86659385053d",
+    "eng/verify-act1-release-package.sh": "8a58a924287c05431d4ef1961d2ad7f17f7704a453f9fb04d33152914b169cf3"
+  },
+  "executed_commands": [
+    "sh -n eng/verify-act1-release-package.sh",
+    "PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY' (exact Python body retained in pck-registered-dependencies-01.py)",
+    "git diff --check -- eng/verify-act1-release-package.sh"
+  ],
+  "replay_command": "PYTHONDONTWRITEBYTECODE=1 python3 docs/production/act1_takeover_evidence_2026-09-16/pck-registered-dependencies-01.py",
+  "replay_note": "Run from workdir against matching verifier/content/import inputs. The retained file is the exact executed Python body; file-based replay has not been run.",
+  "checks": {
+    "shell_syntax": "PASS",
+    "embedded_python_blocks_compiled": 2,
+    "actual_verifier_assert_scope": "PASS",
+    "actual_shared_pck_v4_reader": "PASS",
+    "synthetic_pck_entries": 194,
+    "vehicle_json": 2,
+    "programme_rows": 12,
+    "unique_imported_wav": 11,
+    "registered_imported_public_png": 2,
+    "raw_wav_png_required": false,
+    "bounded_cases_passed": 24,
+    "negative_cases": {
+      "missing_vehicle_or_radio_json": 2,
+      "stale_radio_json": 1,
+      "missing_import_missing_target_empty_target_wrong_remap_for_sample_and_ctex": 8,
+      "missing_remap_path_and_invalid_utf8": 2,
+      "missing_or_stale_public_asset_record": 2,
+      "invalid_registered_paths": 7,
+      "unsafe_pck_directory_entry": 1
+    },
+    "git_diff_check": "PASS"
+  },
+  "fixtures": "Temporary PCK v4 bytes with current JSON and actual import remaps; derived payloads are nonempty structural placeholders, not playable audio/images. All temp files removed by TemporaryDirectory.",
+  "limits": [
+    "No Godot, content compiler, build or export launched.",
+    "No real exported candidate PCK tested.",
+    "No audio decode, image render, rights, listening, language, art or gameplay acceptance.",
+    "Source script compares registered dependencies; it is the existing verifier, not a replacement validator.",
+    "No independent whole feature acceptance inferred from these bounded structural checks."
+  ]
+}

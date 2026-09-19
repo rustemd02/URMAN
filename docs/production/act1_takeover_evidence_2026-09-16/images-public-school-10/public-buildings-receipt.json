@@ -1,0 +1,74 @@
+{
+  "passed": false,
+  "checks": 7,
+  "measuredWalkingMetres": 0,
+  "fixture": "ordinary NewGame; one explicit supported exterior setup per existing public building; all entrances/returns use controller input",
+  "humanPlaytime": "external/not-run",
+  "visualCulturalAcceptance": "external/not-run",
+  "events": [
+    {
+      "kind": "check",
+      "label": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "three public rooms are in the ordinary connected world",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "requested public building exists",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: the measured exterior bank has an explicit occupied-room cut",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: only the identified single-surface bank is cut with its original material",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: the cut boundary lies inside the existing wall thickness",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: the timber floor top retains the existing room height",
+      "passed": true
+    },
+    {
+      "kind": "school-exterior-bank-cut",
+      "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat",
+      "room": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom",
+      "halfSize": "(2.5154998, 2.3804996)",
+      "wallThickness": 0.17999999,
+      "originalTriangles": 148,
+      "publishedTriangles": 162,
+      "originalArea": 293.8145095169978,
+      "removedArea": 17.667522952955064,
+      "publishedArea": 276.1471452897283,
+      "insideArea": 0.00012600807028285524,
+      "exteriorTriangles": 128,
+      "missingExterior": 0,
+      "offOriginalPlane": 24,
+      "changedExteriorAttributes": 0,
+      "floorY": -0.0049708784,
+      "limit": "published mesh geometry and material; actual floor appearance is captured with the same camera pixel probes"
+    },
+    {
+      "kind": "failure",
+      "error": "System.InvalidOperationException: school: published bank has no area inside the room cut and preserves the complete exterior area\n   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.Require(Boolean condition, String label) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 623\n   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.CheckSchoolBankCut(PublicBuildingRoom school) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 613\n   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.Visit(PublicBuildingRoom building) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 73\n   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 42",
+      "feet": "(0, -0.11800001, 9)",
+      "currentAim": "no hit"
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-public-school-10/failure.png"
+    }
+  ]
+}

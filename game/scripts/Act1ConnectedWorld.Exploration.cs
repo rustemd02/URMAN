@@ -21,26 +21,31 @@ public partial class Act1ConnectedWorld
         var house = (StyleBenchmarkZone)_zoneInstances["house_old_pc"];
         foreach (var name in new[] { "FamilyPhoto", "FamilyPhotoInner" })
             if (house.GetNodeOrNull<Node3D>(name) is { } old) old.Visible = false;
-        _familyPhoto = new Node3D { Name = "DiscoveryFamilyPhoto", Position = new(-2.1f, 1.45f, -4.60f) };
+        _familyPhoto = new Node3D { Name = "DiscoveryFamilyPhoto", Position = StyleBenchmarkInteriorFactory.PhotoAnchor,
+            RotationDegrees = new(0, StyleBenchmarkInteriorFactory.PhotoYawDegrees, 0) };
         house.AddChild(_familyPhoto);
-        AddVisualBox(_familyPhoto, "WalnutFrame", new(.58f, .72f, .045f), Vector3.Zero, "72533d", "wood");
-        AddVisualBox(_familyPhoto, "IvoryMount", new(.51f, .65f, .012f), new(0, 0, .029f), "e2d5b8");
+        var photoTexture = ResourceLoader.Load<Texture2D>("res://assets/images/first_snow_existing_v1.png");
+        var photoSize = new Vector2(.45f, .45f * photoTexture.GetHeight() / photoTexture.GetWidth());
+        AddVisualBox(_familyPhoto, "WalnutFrame", new(photoSize.X + .13f, photoSize.Y + .16f, .045f), Vector3.Zero, "72533d", "wood");
+        AddVisualBox(_familyPhoto, "IvoryMount", new(photoSize.X + .06f, photoSize.Y + .09f, .012f), new(0, 0, .029f), "e2d5b8");
         _familyPhoto.AddChild(new MeshInstance3D
         {
             Name = "FirstSnowPhotograph", Position = new(0, 0, .038f),
-            Mesh = new QuadMesh { Size = new(.45f, .56f) },
+            Mesh = new QuadMesh { Size = photoSize },
             MaterialOverride = new StandardMaterial3D
             {
-                AlbedoTexture = ResourceLoader.Load<Texture2D>("res://assets/textures/act1/photo_first_snow_v1.png"),
+                AlbedoTexture = photoTexture,
                 Roughness = .85f, TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
             }
         });
-        AddVisualBox(_familyPhoto, "CardBacking", new(.50f, .64f, .008f), new(0, 0, -.027f), "c8b493");
+        AddVisualBox(_familyPhoto, "CardBacking", new(photoSize.X + .05f, photoSize.Y + .08f, .008f), new(0, 0, -.027f), "c8b493");
         var handwriting = DiscoveryLabel(_familyPhoto, "FirstSnowInscription", "Первый снег", new(0, .05f, -.034f), .00105f);
         handwriting.RotationDegrees = new(0, 180, -6);
-        DiscoveryTarget(house, "house-interior-photo-back", new(.63f, .77f, .12f), _familyPhoto.Position, true);
+        DiscoveryTarget(house, "house-interior-photo-back", new(photoSize.X + .18f, photoSize.Y + .21f, .12f), _familyPhoto.Position, true)
+            .RotationDegrees = new(0, StyleBenchmarkInteriorFactory.PhotoYawDegrees, 0);
 
-        var tin = new Node3D { Name = "DiscoverySewingTin", Position = new(-3.97f, .858f, 3.70f), RotationDegrees = new(4f, 180f, 0) };
+        var tin = new Node3D { Name = "DiscoverySewingTin", Position = StyleBenchmarkInteriorFactory.TinAnchor,
+            RotationDegrees = new(0, 180f, 0) };
         house.AddChild(tin);
         DiscoveryCylinder(tin, "TinBottom", .25f, .25f, .025f, new(0, .015f, 0), "517c77");
         // A rim of individual shallow metal panels leaves the contents visible
@@ -64,6 +69,7 @@ public partial class Act1ConnectedWorld
         tin.AddChild(_sewingTinLid);
         DiscoveryCylinder(_sewingTinLid, "EnamelLid", .26f, .26f, .018f, new(0, 0, .24f), "59867c");
         DiscoveryCylinder(_sewingTinLid, "IvoryMedallion", .13f, .13f, .004f, new(0, .012f, .24f), "c9ba8b");
+        StyleBenchmarkInteriorFactory.SeatOnChest(house, tin);
         DiscoveryTarget(house, "house-interior-language-tin", new(.55f, .25f, .55f), tin.Position + new Vector3(0, .12f, 0), true);
 
         var fap = (StyleBenchmarkZone)_zoneInstances["fap_clinic"];
@@ -89,7 +95,15 @@ public partial class Act1ConnectedWorld
             new(0, .31f, -.020f), "d8d5c8", "plaster").RotationDegrees = new(-20, 0, -2);
         DiscoveryTarget(fap, "fap-interior-height-marks", new(.24f, .82f, .08f), new(.86f, 1.16f, 5.47f), false);
 
-        var lamp = new Node3D { Name = "DiscoveryRepairedLamp", Position = new(1.17f, 1.023f, -4.15f) };
+        var recordsDeskTop = fap.FindChild("FapInteriorRecordsDesk_Top_LOD0", true, false) as MeshInstance3D
+            ?? throw new InvalidOperationException("The repaired desk lamp requires the authored records desk surface.");
+        var deskBounds = (fap.GlobalTransform.AffineInverse() * recordsDeskTop.GlobalTransform)
+            * recordsDeskTop.Mesh.GetAabb();
+        var lamp = new Node3D
+        {
+            Name = "DiscoveryRepairedLamp",
+            Position = new(1.17f, deskBounds.End.Y + .0225f, -4.15f)
+        };
         fap.AddChild(lamp);
         DiscoveryCylinder(lamp, "WeightedFoot", .16f, .18f, .045f, Vector3.Zero, "526f65");
         DiscoveryCylinder(lamp, "LowerArm", .014f, .014f, .26f, new(-.07f, .14f, 0), "697b76").RotationDegrees = new(0, 0, -24);
@@ -175,9 +189,10 @@ public partial class Act1ConnectedWorld
         if (_familyPhoto is not null && _photoFound != photo)
         {
             _photoTurn?.Kill();
+            var photoYaw = Mathf.DegToRad(StyleBenchmarkInteriorFactory.PhotoYawDegrees) + (photo ? Mathf.Pi : 0);
             if (_photoFound == false && photo && ActiveZoneId == "house_old_pc")
-                { _photoTurn = CreateTween(); _photoTurn.TweenProperty(_familyPhoto, "rotation:y", Mathf.Pi, .65); }
-            else _familyPhoto.Rotation = new(0, photo ? Mathf.Pi : 0, 0);
+                { _photoTurn = CreateTween(); _photoTurn.TweenProperty(_familyPhoto, "rotation:y", photoYaw, .65); }
+            else _familyPhoto.Rotation = new(0, photoYaw, 0);
             _photoFound = photo;
         }
         var tin = Found("house-interior-language-tin");
@@ -210,5 +225,6 @@ public partial class Act1ConnectedWorld
         UpdateAct1KaraOptionalDiscoveries();
         UpdateAct1BypassDiscoveries();
         UpdateFapServiceExploration();
+        UpdateAct1ImageDiscoveries();
     }
 }

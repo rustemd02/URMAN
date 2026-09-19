@@ -39,7 +39,13 @@ public partial class CarryableProp
                     for (var z = -1; z <= 1; z += 2)
                         Box($"Corner{x}_{z}", new(.036f, Size.Y, .036f), new(x * (Size.X * .5f - .025f), Size.Y * .5f, z * (Size.Z * .5f - .025f)), timber);
                 for (var plank = 0; plank < 5; plank++)
+                {
                     Box($"Bottom{plank}", new(Size.X / 5f - .006f, .025f, Size.Z), new(-Size.X * .4f + plank * Size.X / 5f, .013f, 0), timber);
+                    // The resting body has a solid top. Its load-bearing lid
+                    // must exist in the image too, or a lamp floats over a hole.
+                    Box($"Lid{plank}", new(Size.X / 5f - .006f, .025f, Size.Z),
+                        new(-Size.X * .4f + plank * Size.X / 5f, Size.Y - .0125f, 0), timber);
+                }
                 Box("HandleRailFront", new(Size.X, .038f, .028f), new(0, Size.Y - .022f, Size.Z * .5f - .014f), timber);
                 Box("HandleRailBack", new(Size.X, .038f, .028f), new(0, Size.Y - .022f, -Size.Z * .5f + .014f), timber);
                 break;
@@ -74,11 +80,31 @@ public partial class CarryableProp
             case ItemKind.Pole:
                 Rod("WoodenPole", .021f, Size.Z, new(0, .025f, 0), new(90, 0, 0), timber);
                 Box("PoleNotch", new(.052f, .034f, .09f), new(0, .051f, -Size.Z * .5f + .065f), metal);
+                for (var notch = 0; notch < 3; notch++)
+                    Box($"RepairMeasureNotch{notch}", new(.047f, .003f, .008f),
+                        new(0, .047f, -.37f + notch * .285f), metal);
+                _hookPresentation = new Node3D { Name = "AttachedSteelHook", Position = new(0, .055f, -.87f), Visible = false };
+                AddChild(_hookPresentation);
+                BuildSteelHook(_hookPresentation, metal);
+                break;
+            case ItemKind.Hook:
+                var looseHook = new Node3D { Name = "BentSteelHook", Position = new(0, .018f, 0) };
+                AddChild(looseHook);
+                BuildSteelHook(looseHook, metal);
                 break;
             case ItemKind.Board:
-                Box("Board", Size, Vector3.Up * Size.Y * .5f, wood);
+                // Sample a single timber strip in the board's own coordinates.
+                // Piece offsets keep the worn ends continuous with its grain,
+                // while cached variants still follow live graphics settings.
+                void BoardPiece(string name, Vector3 size, Vector3 at)
+                {
+                    var grainOrigin = new Vector3((1f / 12f) / .30f,
+                        (1f / 12f) / .30f - Size.Y * .5f, .5f / .55f);
+                    Box(name, size, at, PainterlyMaterialLibrary.ForLocalWoodPiece(colour, at + grainOrigin));
+                }
+                BoardPiece("Board", Size, Vector3.Up * Size.Y * .5f);
                 for (var i = -1; i <= 1; i += 2)
-                    Box($"WornEnd{i}", new(Size.X, .004f, .04f), new(0, Size.Y + .002f, i * (Size.Z * .5f - .04f)), timber);
+                    BoardPiece($"WornEnd{i}", new(Size.X, .004f, .04f), new(0, Size.Y + .002f, i * (Size.Z * .5f - .04f)));
                 break;
             case ItemKind.Ladder:
                 for (var side = -1; side <= 1; side += 2)
@@ -111,6 +137,26 @@ public partial class CarryableProp
                         EmissionEnabled = true, Emission = new Color("ffd49b"), EmissionEnergyMultiplier = .9f }, Visible = false };
                 AddChild(_lampGlow);
                 break;
+        }
+    }
+
+    private static void BuildSteelHook(Node3D parent, Material metal)
+    {
+        // A bent C-shaped rod, not a painted hook silhouette.
+        for (var segment = 0; segment < 12; segment++)
+        {
+            var a = Mathf.DegToRad(-55 + segment * 23f);
+            var b = Mathf.DegToRad(-55 + (segment + 1) * 23f);
+            var from = new Vector3(Mathf.Sin(a) * .054f, 0, Mathf.Cos(a) * .054f);
+            var to = new Vector3(Mathf.Sin(b) * .054f, 0, Mathf.Cos(b) * .054f);
+            parent.AddChild(new MeshInstance3D
+            {
+                Name = $"Bend{segment}", Position = (from + to) * .5f,
+                Quaternion = new Quaternion(Vector3.Up, (to - from).Normalized()),
+                Mesh = new CylinderMesh { TopRadius = .007f, BottomRadius = .007f,
+                    Height = from.DistanceTo(to) + .002f, RadialSegments = 8, Rings = 1 },
+                MaterialOverride = metal
+            });
         }
     }
 

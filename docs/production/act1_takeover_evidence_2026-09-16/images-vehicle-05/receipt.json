@@ -1,0 +1,2405 @@
+{
+  "kind": "actual-game-vehicle-smoke",
+  "exitCode": 1,
+  "checks": 189,
+  "failure": "System.InvalidOperationException: captured vehicle camera keeps physical mouse sensitivity at (1920, 1080)\n   at Urman.Godot.Tests.VehicleSmokeTest.Require(Boolean condition, String label) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs:line 374\n   at Urman.Godot.Tests.VehicleSmokeTest.VehicleMouseSensitivityAcrossResolutions(VehicleController vehicle) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.Input.cs:line 34\n   at Urman.Godot.Tests.VehicleSmokeTest.VehicleMouseSensitivityAcrossResolutions(VehicleController vehicle) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.Input.cs:line 48\n   at Urman.Godot.Tests.VehicleSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs:line 76",
+  "records": [
+    {
+      "kind": "check",
+      "label": "radio boundary carries fractional offset into the next segment",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "whole-loop advance still reports a playback boundary",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "saved radio segment survives input reordering",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "non-finite playback offsets are rejected",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "a retired unavailable segment starts the remaining programme at zero instead of copying an unrelated offset",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "three vehicle instances in the actual connected world",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "stable unique fleet IDs",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary free control after arrival card",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "babay-niva",
+      "probe": {
+        "vehicleId": "babay-niva",
+        "origin": [
+          -1.65,
+          -0.22735006,
+          1
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          0.86,
+          0.025
+        ],
+        "hullSize": [
+          1.82,
+          1.72,
+          4.2
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.25232512,
+              -0.571
+            ],
+            "normal": [
+              0.018784864,
+              0.99977803,
+              0.009541303
+            ],
+            "gapMetres": 0.024975061,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.29845876,
+              2.6209998
+            ],
+            "normal": [
+              -0.008939898,
+              0.9998704,
+              0.013390849
+            ],
+            "gapMetres": 0.0711087,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.2781468,
+              -0.571
+            ],
+            "normal": [
+              0.022432983,
+              0.999722,
+              0.0072584394
+            ],
+            "gapMetres": 0.050796747,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.29313195,
+              2.6209998
+            ],
+            "normal": [
+              0.0014286969,
+              0.99989986,
+              0.014080784
+            ],
+            "gapMetres": 0.06578189,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ]
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "village-motorcycle",
+      "probe": {
+        "vehicleId": "village-motorcycle",
+        "origin": [
+          1.4,
+          -0.31296888,
+          -23
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          0.77,
+          -0.01
+        ],
+        "hullSize": [
+          1,
+          1.54,
+          2.24
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              1.04,
+              -0.31296888,
+              -23.8612
+            ],
+            "hit": true,
+            "position": [
+              1.04,
+              -0.39393127,
+              -23.8612
+            ],
+            "normal": [
+              0.012477273,
+              0.99922377,
+              -0.03736695
+            ],
+            "gapMetres": 0.08096239,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.04,
+              -0.31296888,
+              -22.1588
+            ],
+            "hit": true,
+            "position": [
+              1.04,
+              -0.3379547,
+              -22.1588
+            ],
+            "normal": [
+              0.0016139989,
+              0.99961066,
+              -0.027855622
+            ],
+            "gapMetres": 0.02498582,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.76,
+              -0.31296888,
+              -23.8612
+            ],
+            "hit": true,
+            "position": [
+              1.76,
+              -0.40292192,
+              -23.8612
+            ],
+            "normal": [
+              0.012477273,
+              0.99922377,
+              -0.03736695
+            ],
+            "gapMetres": 0.089953035,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.76,
+              -0.31296888,
+              -22.1588
+            ],
+            "hit": true,
+            "position": [
+              1.76,
+              -0.33925897,
+              -22.1588
+            ],
+            "normal": [
+              0.012477273,
+              0.99922377,
+              -0.03736695
+            ],
+            "gapMetres": 0.026290089,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ]
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "forest-horse-cart",
+      "probe": {
+        "vehicleId": "forest-horse-cart",
+        "origin": [
+          0.9,
+          -0.23743948,
+          -34
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          1.225,
+          -0.5
+        ],
+        "hullSize": [
+          1.8,
+          2.45,
+          5.78
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              0.25199997,
+              -0.23743948,
+              -36.6964
+            ],
+            "hit": true,
+            "position": [
+              0.25199997,
+              -0.29491353,
+              -36.6964
+            ],
+            "normal": [
+              -0.00035888905,
+              0.99962604,
+              -0.027344355
+            ],
+            "gapMetres": 0.057474047,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              0.25199997,
+              -0.23743948,
+              -32.3036
+            ],
+            "hit": true,
+            "position": [
+              0.25199997,
+              -0.26245517,
+              -32.3036
+            ],
+            "normal": [
+              0.007376721,
+              0.99991095,
+              0.011125258
+            ],
+            "gapMetres": 0.025015682,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.548,
+              -0.23743948,
+              -36.6964
+            ],
+            "hit": true,
+            "position": [
+              1.548,
+              -0.2942285,
+              -36.6964
+            ],
+            "normal": [
+              -0.0098749595,
+              0.9998921,
+              -0.010874788
+            ],
+            "gapMetres": 0.05678901,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.548,
+              -0.23743948,
+              -32.3036
+            ],
+            "hit": true,
+            "position": [
+              1.548,
+              -0.2720163,
+              -32.3036
+            ],
+            "normal": [
+              0.007376721,
+              0.99991095,
+              0.011125258
+            ],
+            "gapMetres": 0.034576803,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ]
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "authored-parking-probe",
+      "vehicle": "babay-niva",
+      "authored": {
+        "vehicleId": "babay-niva",
+        "origin": [
+          -1.65,
+          -0.22735006,
+          1
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          0.86,
+          0.025
+        ],
+        "hullSize": [
+          1.82,
+          1.72,
+          4.2
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.25232512,
+              -0.571
+            ],
+            "normal": [
+              0.018784864,
+              0.99977803,
+              0.009541303
+            ],
+            "gapMetres": 0.024975061,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.29845876,
+              2.6209998
+            ],
+            "normal": [
+              -0.008939898,
+              0.9998704,
+              0.013390849
+            ],
+            "gapMetres": 0.0711087,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.2781468,
+              -0.571
+            ],
+            "normal": [
+              0.022432983,
+              0.999722,
+              0.0072584394
+            ],
+            "gapMetres": 0.050796747,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.29313195,
+              2.6209998
+            ],
+            "normal": [
+              0.0014286969,
+              0.99989986,
+              0.014080784
+            ],
+            "gapMetres": 0.06578189,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ]
+      },
+      "actual": {
+        "vehicleId": "babay-niva",
+        "origin": [
+          -1.65,
+          -0.22735006,
+          1
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          0.86,
+          0.025
+        ],
+        "hullSize": [
+          1.82,
+          1.72,
+          4.2
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.25232512,
+              -0.571
+            ],
+            "normal": [
+              0.018784864,
+              0.99977803,
+              0.009541303
+            ],
+            "gapMetres": 0.024975061,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.29845876,
+              2.6209998
+            ],
+            "normal": [
+              -0.008939898,
+              0.9998704,
+              0.013390849
+            ],
+            "gapMetres": 0.0711087,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.2781468,
+              -0.571
+            ],
+            "normal": [
+              0.022432983,
+              0.999722,
+              0.0072584394
+            ],
+            "gapMetres": 0.050796747,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.29313195,
+              2.6209998
+            ],
+            "normal": [
+              0.0014286969,
+              0.99989986,
+              0.014080784
+            ],
+            "gapMetres": 0.06578189,
+            "contact": {
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ]
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all primitive and authored triangles survive batching in Chassis",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all primitive and authored triangles survive batching in GaugeFace",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all primitive and authored triangles survive batching in NeedleMesh",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all primitive and authored triangles survive batching in GaugeFace",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all primitive and authored triangles survive batching in NeedleMesh",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all primitive and authored triangles survive batching in SteeringRim",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all primitive and authored triangles survive batching in RoadWheelMesh",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all primitive and authored triangles survive batching in RoadWheelMesh",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all primitive and authored triangles survive batching in RoadWheelMesh",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mesh indices refer to actual vertices",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all primitive and authored triangles survive batching in RoadWheelMesh",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "complete body, wheels and authored surfaces for babay-niva",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "generated vehicle body fits the collision hull with separately proven ground-conforming hooves for babay-niva; visual (-0.895, -0.003000021, -2.029)..(0.895, 1.694, 1.9909999), hull (-0.92200005, -0.012, -2.087)..(0.92200005, 1.732, 2.137)",
+      "passed": true
+    },
+    {
+      "kind": "actual-mesh-index-audit",
+      "vehicle": "babay-niva",
+      "meshes": 10,
+      "corners": 75774,
+      "manual": 12018,
+      "visualLow": "(-0.895, -0.003000021, -2.029)",
+      "visualHigh": "(0.895, 1.694, 1.9909999)",
+      "hullLow": "(-0.92200005, -0.012, -2.087)",
+      "hullHigh": "(0.92200005, 1.732, 2.137)"
+    },
+    {
+      "kind": "check",
+      "label": "Niva parking is checked against Rinat\u0027s actual ordinary village stage",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_Body_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_Body_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_BootLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_BootLeft_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_BootRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_BootRight_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_CoatFrontPlacket_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_CoatFrontPlacket_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_CoatHem_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_CoatHem_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_EarL_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_EarL_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_EarR_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_EarR_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceBrows_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceBrows_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceEyeIrisL_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceEyeIrisL_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceEyeIrisR_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceEyeIrisR_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceEyes_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceEyes_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceEyeWhiteL_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceEyeWhiteL_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceEyeWhiteR_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceEyeWhiteR_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceMouthLine_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceMouthLine_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceNoseBridge_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceNoseBridge_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceNoseTip_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_FaceNoseTip_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_Hair_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_Hair_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_Head_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_Head_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_HeadHandLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_HeadHandLeft_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_HeadHandRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_HeadHandRight_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_HeadHandThumbLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_HeadHandThumbLeft_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_HeadHandThumbRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_HeadHandThumbRight_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_ScarfBand_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_ScarfBand_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_ShoulderCuffLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_ShoulderCuffLeft_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_ShoulderCuffRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_ShoulderCuffRight_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_SleeveLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_SleeveLeft_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_SleeveRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_SleeveRight_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_TrouserLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_TrouserLeft_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_TrouserRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat parking has finite posed vertices for CouncilWitness_TrouserRight_LOD1",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Rinat clearance uses actual visible actor meshes",
+      "passed": true
+    },
+    {
+      "kind": "authored-npc-parking-clearance",
+      "vehicle": "babay-niva",
+      "npc": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat",
+      "stage": "village",
+      "npcFeet": "(-1.5, -0.25530684, -3.8)",
+      "vehicleFeet": "(-1.65, -0.22735006, 1)",
+      "actorBoundsInVehicle": {
+        "minimum": "(-0.14143503, -0.017956778, -4.9564943)",
+        "maximum": "(0.44007945, 1.825459, -4.5570107)"
+      },
+      "visibleMeshes": 58,
+      "actorLocalBounds": {
+        "minimum": "(-0.2976703, 0.010000005, -0.15025139)",
+        "maximum": "(0.29142565, 1.8534157, 0.20733237)"
+      },
+      "plausibleAtActor": true,
+      "clearsHull": true,
+      "meshes": [
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_Body_LOD0",
+          "vertexCount": 100,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.21399689, 0.7207, -0.14596415)",
+            "maximum": "(0.20969194, 1.4416, 0.15611959)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_Body_LOD1",
+          "vertexCount": 61,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.21162796, 0.7207, -0.14596415)",
+            "maximum": "(0.2081995, 1.4414178, 0.15611959)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_BootLeft_LOD0",
+          "vertexCount": 48,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.2202205, 0.010000005, -0.072999954)",
+            "maximum": "(-0.072380066, 0.155, 0.20500016)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_BootLeft_LOD1",
+          "vertexCount": 31,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.22016811, 0.010154322, -0.07358456)",
+            "maximum": "(-0.07298571, 0.15496479, 0.20733237)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_BootRight_LOD0",
+          "vertexCount": 48,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.072380126, 0.010000005, -0.072999954)",
+            "maximum": "(0.2202205, 0.155, 0.20500016)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_BootRight_LOD1",
+          "vertexCount": 30,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.07243252, 0.010154322, -0.07358456)",
+            "maximum": "(0.21961492, 0.15524067, 0.20733237)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_CoatFrontPlacket_LOD0",
+          "vertexCount": 30,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.017137527, 0.95883286, 0.114087105)",
+            "maximum": "(0.014299452, 1.3786942, 0.1579938)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_CoatFrontPlacket_LOD1",
+          "vertexCount": 17,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.01695919, 0.95885, 0.11620498)",
+            "maximum": "(0.01620102, 1.3786942, 0.15582705)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_CoatHem_LOD0",
+          "vertexCount": 34,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.1813916, 0.709, -0.12999296)",
+            "maximum": "(0.18128872, 0.77400005, 0.13999295)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_CoatHem_LOD1",
+          "vertexCount": 24,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.17595106, 0.7085815, -0.13000202)",
+            "maximum": "(0.17807776, 0.77400005, 0.14000177)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_EarL_LOD0",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.107162476, 1.6514499, -0.008023739)",
+            "maximum": "(-0.09687334, 1.6837499, 0.017511368)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_EarL_LOD1",
+          "vertexCount": 9,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.107073784, 1.6514499, -0.008023739)",
+            "maximum": "(-0.09687334, 1.6837499, 0.017499447)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_EarR_LOD0",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.096837044, 1.6514499, -0.007311344)",
+            "maximum": "(0.107126236, 1.6837499, 0.01822424)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_EarR_LOD1",
+          "vertexCount": 9,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.096925735, 1.6514499, -0.007311344)",
+            "maximum": "(0.107126236, 1.6837499, 0.018212318)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceBrows_LOD0",
+          "vertexCount": 72,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.07443231, 1.6823612, 0.06777191)",
+            "maximum": "(0.073945105, 1.7174349, 0.113016844)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceBrows_LOD1",
+          "vertexCount": 38,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.074884355, 1.6893207, 0.06777191)",
+            "maximum": "(0.07438743, 1.7169333, 0.11093807)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceEyeIrisL_LOD0",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.036989212, 1.67865, 0.1154716)",
+            "maximum": "(-0.025052965, 1.69055, 0.12571335)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceEyeIrisL_LOD1",
+          "vertexCount": 9,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.036989212, 1.67865, 0.1154716)",
+            "maximum": "(-0.025065422, 1.69055, 0.12567186)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceEyeIrisR_LOD0",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.024209023, 1.67865, 0.11568546)",
+            "maximum": "(0.03614515, 1.69055, 0.12592697)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceEyeIrisR_LOD1",
+          "vertexCount": 9,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.024209023, 1.67865, 0.11568546)",
+            "maximum": "(0.036132872, 1.69055, 0.12588549)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceEyes_LOD0",
+          "vertexCount": 200,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.05858612, 1.6681793, 0.06043291)",
+            "maximum": "(0.058041573, 1.7044218, 0.09625888)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceEyes_LOD1",
+          "vertexCount": 125,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.058426917, 1.6680968, 0.06021452)",
+            "maximum": "(0.058041573, 1.7043624, 0.096349)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceEyeWhiteL_LOD0",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.04376793, 1.6786499, 0.106098175)",
+            "maximum": "(-0.018220842, 1.6939499, 0.11978698)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceEyeWhiteL_LOD1",
+          "vertexCount": 9,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.04376793, 1.6786499, 0.106098175)",
+            "maximum": "(-0.018237174, 1.6939499, 0.11969805)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceEyeWhiteR_LOD0",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.017430186, 1.6786499, 0.10631204)",
+            "maximum": "(0.042977333, 1.6939499, 0.12000084)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceEyeWhiteR_LOD1",
+          "vertexCount": 9,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.017430186, 1.6786499, 0.10631204)",
+            "maximum": "(0.04296112, 1.6939499, 0.11991191)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceMouthLine_LOD0",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.019206941, 1.6174499, 0.13678408)",
+            "maximum": "(0.018220901, 1.62595, 0.14541483)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceMouthLine_LOD1",
+          "vertexCount": 10,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.019206941, 1.6174499, 0.13678408)",
+            "maximum": "(0.018220901, 1.62595, 0.14541483)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceNoseBridge_LOD0",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.009851456, 1.6522999, 0.12831664)",
+            "maximum": "(0.008900642, 1.6931, 0.143682)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceNoseBridge_LOD1",
+          "vertexCount": 9,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.009851456, 1.6522999, 0.12831664)",
+            "maximum": "(0.008882523, 1.6931, 0.14361668)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceNoseTip_LOD0",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.012434006, 1.6386999, 0.13425756)",
+            "maximum": "(0.0114296675, 1.6590999, 0.15304089)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_FaceNoseTip_LOD1",
+          "vertexCount": 9,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.012434006, 1.6386999, 0.13425756)",
+            "maximum": "(0.011407912, 1.6590999, 0.15295768)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_Hair_LOD0",
+          "vertexCount": 259,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.10192394, 1.6414586, -0.12966776)",
+            "maximum": "(0.10777956, 1.8534157, 0.092781544)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_Hair_LOD1",
+          "vertexCount": 139,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.09832662, 1.6411397, -0.1287241)",
+            "maximum": "(0.10830206, 1.8518966, 0.09220743)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_Head_LOD0",
+          "vertexCount": 529,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.107590616, 1.4853885, -0.12628508)",
+            "maximum": "(0.1078015, 1.8194815, 0.13708663)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_Head_LOD1",
+          "vertexCount": 280,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.10887617, 1.4853339, -0.12888956)",
+            "maximum": "(0.10907549, 1.8193785, 0.13667083)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_HeadHandLeft_LOD0",
+          "vertexCount": 56,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.27957153, 0.60889053, -0.024550438)",
+            "maximum": "(-0.1761989, 0.8011895, 0.078095436)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_HeadHandLeft_LOD1",
+          "vertexCount": 31,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.28166765, 0.60841674, -0.024550438)",
+            "maximum": "(-0.1761989, 0.8010302, 0.07792759)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_HeadHandRight_LOD0",
+          "vertexCount": 56,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.17531574, 0.61093545, 0.001982212)",
+            "maximum": "(0.27923584, 0.79880434, 0.067175865)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_HeadHandRight_LOD1",
+          "vertexCount": 29,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.17531574, 0.6110947, -0.00033426285)",
+            "maximum": "(0.2805242, 0.7983518, 0.06427765)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_HeadHandThumbLeft_LOD0",
+          "vertexCount": 24,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.27579588, 0.6377489, 0.015172958)",
+            "maximum": "(-0.21572685, 0.70313156, 0.06815338)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_HeadHandThumbLeft_LOD1",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.27497482, 0.63914, 0.015172958)",
+            "maximum": "(-0.21575934, 0.70134187, 0.061805725)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_HeadHandThumbRight_LOD0",
+          "vertexCount": 24,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.21597576, 0.63710433, 0.020061016)",
+            "maximum": "(0.27389246, 0.7040625, 0.07346296)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_HeadHandThumbRight_LOD1",
+          "vertexCount": 14,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.21560293, 0.6393698, 0.020061016)",
+            "maximum": "(0.27171898, 0.7016051, 0.06715679)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_ScarfBand_LOD0",
+          "vertexCount": 60,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.11211783, 1.4216, -0.15025139)",
+            "maximum": "(0.11255741, 1.5494499, 0.13056636)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_ScarfBand_LOD1",
+          "vertexCount": 30,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.11211783, 1.4216, -0.15025139)",
+            "maximum": "(0.10436064, 1.5507635, 0.12696981)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_ShoulderCuffLeft_LOD0",
+          "vertexCount": 34,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.2845602, 0.7689316, -0.07868624)",
+            "maximum": "(-0.15968996, 0.8340988, 0.08300519)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_ShoulderCuffLeft_LOD1",
+          "vertexCount": 20,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.28457928, 0.7691234, -0.07476711)",
+            "maximum": "(-0.15968996, 0.8337176, 0.0790844)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_ShoulderCuffRight_LOD0",
+          "vertexCount": 34,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.15863037, 0.76631486, -0.074157715)",
+            "maximum": "(0.2831164, 0.8371046, 0.08753395)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_ShoulderCuffRight_LOD1",
+          "vertexCount": 20,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.15868855, 0.7666138, -0.070239544)",
+            "maximum": "(0.28271288, 0.8371046, 0.08361578)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_SleeveLeft_LOD0",
+          "vertexCount": 42,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.2976703, 0.81307757, -0.07850981)",
+            "maximum": "(-0.12474823, 1.3946822, 0.08298993)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_SleeveLeft_LOD1",
+          "vertexCount": 22,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.29039764, 0.8140681, -0.08450127)",
+            "maximum": "(-0.126297, 1.3921882, 0.08193588)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_SleeveRight_LOD0",
+          "vertexCount": 42,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.120609224, 0.8124614, -0.0744257)",
+            "maximum": "(0.29142565, 1.3937678, 0.08709741)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_SleeveRight_LOD1",
+          "vertexCount": 23,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.11653513, 0.8123983, -0.07937813)",
+            "maximum": "(0.2863751, 1.3937678, 0.087524176)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_TrouserLeft_LOD0",
+          "vertexCount": 49,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.25458235, 0.08831531, -0.122982025)",
+            "maximum": "(-0.044664443, 0.88119525, 0.12886167)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_TrouserLeft_LOD1",
+          "vertexCount": 27,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(-0.24840826, 0.08831531, -0.12326574)",
+            "maximum": "(-0.037765443, 0.8815573, 0.12995744)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_TrouserRight_LOD0",
+          "vertexCount": 49,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.03216654, 0.08831531, -0.122982025)",
+            "maximum": "(0.24222559, 0.88130593, 0.12886167)"
+          }
+        },
+        {
+          "mesh": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D/CouncilWitness_TrouserRight_LOD1",
+          "vertexCount": 27,
+          "mode": "native-current-skeleton-pose",
+          "skeleton": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/CouncilWitness_Rig/Skeleton3D",
+          "skinBinds": 9,
+          "boundsAtActor": {
+            "minimum": "(0.04419613, 0.08831531, -0.123254776)",
+            "maximum": "(0.25330812, 0.88152397, 0.12994361)"
+          }
+        }
+      ],
+      "limit": "current posed presentation bounds and parking; headless uses live skin math, not rendered evidence; not a dynamic vehicle-versus-person contact test"
+    },
+    {
+      "kind": "check",
+      "label": "Rinat posed bounds surround his actual actor anchor, not the imported character bank",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "authored Niva parking clears the existing Rinat posed presentation bounds",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva has a clear complete front-three-quarter camera, without hiding world geometry",
+      "passed": true
+    },
+    {
+      "kind": "actual-rendered-frame",
+      "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-05/babay-niva-front-three-quarter.png",
+      "camera": "/root/VehicleSmokeTest/VehicleArtProofCamera"
+    },
+    {
+      "kind": "diagnostic-art-camera",
+      "vehicle": "babay-niva",
+      "view": "front-three-quarter",
+      "cameraFeet": "(1.7909237, 1.77265, -0.5069977)",
+      "target": "(-1.65, 0.63264996, 1.025)",
+      "fov": 56,
+      "rejectedCandidates": 31,
+      "firstRejections": [
+        "full hull outside camera framing",
+        "full hull outside camera framing",
+        "full hull outside camera framing",
+        "full hull outside camera framing",
+        "full hull outside camera framing",
+        "full hull outside camera framing"
+      ],
+      "limit": "actual world geometry; full hull framing, camera clearance and visibility rays; rendered appearance still requires visual review"
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva has a clear complete full-side camera, without hiding world geometry",
+      "passed": true
+    },
+    {
+      "kind": "actual-rendered-frame",
+      "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-05/babay-niva-full-side.png",
+      "camera": "/root/VehicleSmokeTest/VehicleArtProofCamera"
+    },
+    {
+      "kind": "diagnostic-art-camera",
+      "vehicle": "babay-niva",
+      "view": "full-side",
+      "cameraFeet": "(-5.4165597, 1.77265, 1.0249999)",
+      "target": "(-1.65, 0.63264996, 1.025)",
+      "fov": 56,
+      "rejectedCandidates": 4,
+      "firstRejections": [
+        "full hull outside camera framing",
+        "view blocked by /root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Act1NpcPresentation/Npc_alsu/AlsuStreetWalk/AlsuPhysicalContact",
+        "full hull outside camera framing",
+        "full hull outside camera framing"
+      ],
+      "limit": "actual world geometry; full hull framing, camera clearance and visibility rays; rendered appearance still requires visual review"
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva has a clear complete rear-three-quarter camera, without hiding world geometry",
+      "passed": true
+    },
+    {
+      "kind": "actual-rendered-frame",
+      "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-05/babay-niva-rear-three-quarter.png",
+      "camera": "/root/VehicleSmokeTest/VehicleArtProofCamera"
+    },
+    {
+      "kind": "diagnostic-art-camera",
+      "vehicle": "babay-niva",
+      "view": "rear-three-quarter",
+      "cameraFeet": "(-5.1422935, 1.77265, 2.4359784)",
+      "target": "(-1.65, 0.63264996, 1.025)",
+      "fov": 56,
+      "rejectedCandidates": 31,
+      "firstRejections": [
+        "full hull outside camera framing",
+        "full hull outside camera framing",
+        "full hull outside camera framing",
+        "full hull outside camera framing",
+        "full hull outside camera framing",
+        "full hull outside camera framing"
+      ],
+      "limit": "actual world geometry; full hull framing, camera clearance and visibility rays; rendered appearance still requires visual review"
+    },
+    {
+      "kind": "local-fixture",
+      "vehicle": "babay-niva",
+      "feet": "(-2.9661467, -0.27784443, 0.41089636)",
+      "target": "(-2.6599998, 0.74265, 1.15)",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "actual-rendered-frame",
+      "path": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-05/babay-niva-outside.png",
+      "camera": "/root/VehicleSmokeTest/Act1Demo/Main/Player/Head/Camera3D"
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva enters through the actual ray and mapped action",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle camera owns the view",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "parked start keeps ignition off",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mouse proof uses the actual requested window size (1280, 720)",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mouse proof owns captured input outside modal UI",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-screen-relative",
+      "requestedSize": "(1280, 720)",
+      "actualSize": "(1280, 720)",
+      "viewport": "(1920, 1080)",
+      "physicalMotion": "(17, -7)",
+      "sensitivity": 0.16,
+      "yaw": -2.72,
+      "pitch": 1.12
+    },
+    {
+      "kind": "check",
+      "label": "captured vehicle camera keeps physical mouse sensitivity at (1280, 720)",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mouse proof uses the actual requested window size (1920, 1080)",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "vehicle mouse proof owns captured input outside modal UI",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-screen-relative",
+      "requestedSize": "(1920, 1080)",
+      "actualSize": "(1920, 1080)",
+      "viewport": "(1920, 1080)",
+      "physicalMotion": "(17, -7)",
+      "sensitivity": 0.16,
+      "yaw": 0,
+      "pitch": 0
+    }
+  ],
+  "limit": "local fixtures; not human experience, final art, listening or performance",
+  "stationRecordings": "actual delivered and missing programme rows reported separately; playback fixtures are not station content"
+}

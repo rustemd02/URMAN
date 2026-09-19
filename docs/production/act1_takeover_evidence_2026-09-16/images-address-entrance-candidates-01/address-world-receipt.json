@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "ordinaryNewGame": true,
+  "humanSearchPlaytest": false,
+  "diagnosticCameraFixtures": false,
+  "assembly": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll",
+    "pathSource": "URMAN_ADDRESS_ASSEMBLY_PATH",
+    "assemblyLocation": "",
+    "loadedModule": "d48b50b4-0e40-4fba-bd70-1051f5032104",
+    "diskModule": "d48b50b4-0e40-4fba-bd70-1051f5032104",
+    "status": "module-match",
+    "sha256": "1282a540d73bbfd33536996ea00b681c8ea67efb4d8b31541011702e4884f436"
+  },
+  "scope": "entrance-candidates",
+  "auditRun": false,
+  "acceptance": false,
+  "auditCompleted": false,
+  "registry": null,
+  "mounts": [],
+  "captures": [],
+  "checks": [
+    {
+      "kind": "check",
+      "message": "ordinary New Game starts",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "construction and proximity do not record a plate read",
+      "passed": true
+    },
+    {
+      "kind": "audit-not-run-in-narrow-scope",
+      "auditRun": false,
+      "constructionEntriesAlreadyObserved": 0,
+      "previousPhysicsProcessing": true,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "assembly candidate MVID matches the executing module",
+      "passed": true
+    }
+  ],
+  "failures": []
+}

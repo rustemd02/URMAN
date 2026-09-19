@@ -107,6 +107,6 @@ probe_status=$?
 set -e
 
 if [ "$probe_status" -eq 2 ]; then
-  echo "act1-package-performance: no valid windowed gameplay FPS result (headless or menu diagnostic)" >&2
+  echo "act1-package-performance: no acceptance FPS result; see the runtime status and reason above." >&2
 fi
 exit "$probe_status"

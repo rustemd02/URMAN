@@ -1,0 +1,28 @@
+*** Begin Patch
+*** Update File: /Users/unterlantas/Documents/GitHub/URMAN/game/scripts/PainterlyMaterialLibrary.cs
+@@
+         uniform bool upright_texture = false;
++        // Opt-in for the carried plank: its grain follows local Z. Offsets
++        // align the three rigid pieces with one board-sized texture swatch.
++        // Lighting, weather and snow continue to use the world-space varyings.
++        uniform bool local_wood_texture = false;
++        uniform vec3 local_wood_offset = vec3(0.0);
+@@
+         varying vec3 world_position;
+         varying vec3 world_normal;
++        varying vec3 local_wood_position;
++        varying vec3 local_wood_normal;
+@@
+         void vertex() {
++            local_wood_position = (VERTEX + local_wood_offset).zyx;
++            local_wood_normal = NORMAL.zyx;
+             world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+@@
+             float upward = clamp(dot(normalize(world_normal), vec3(0.0, 1.0, 0.0)) * 0.08 + 0.92, 0.84, 1.0);
++            vec3 albedo_position = local_wood_texture ? local_wood_position : world_position;
++            vec3 albedo_normal = local_wood_texture ? local_wood_normal : world_normal;
+             vec3 texture_color = has_albedo_texture
+-                ? triplanar_albedo(world_position, normalize(world_normal))
++                ? triplanar_albedo(albedo_position, normalize(albedo_normal))
+                 : vec3(1.0);
+*** End Patch

@@ -1,0 +1,41 @@
+{
+  "origin": "URMAN project-original procedural material foley; not a field recording",
+  "generator": "assets/source/audio/act1/foley/generate_yard_foley.py",
+  "seeded": true,
+  "gameplayStateOwner": "RuntimeBridge/world.props; audio never changes progress",
+  "files": [
+    {
+      "file": "game/assets/audio/act1/foley/wood_tap.wav",
+      "sha256": "f09231f76c91d2ed82a63c5d0007a96e488d4f9fb0de7b3419157248376663d5",
+      "durationSeconds": 0.46,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bits": 16,
+      "loop": false,
+      "purpose": "Loose wooden side panel against a batten",
+      "listeningReview": "external/not-run"
+    },
+    {
+      "file": "game/assets/audio/act1/foley/metal_rattle.wav",
+      "sha256": "13bd0ff40729fd630370e3d64375939ac4b4b2e03b601125231e0b2a2bfca25f",
+      "durationSeconds": 0.66,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bits": 16,
+      "loop": false,
+      "purpose": "Small loose metal shutter latch",
+      "listeningReview": "external/not-run"
+    },
+    {
+      "file": "game/assets/audio/act1/foley/hollow_board.wav",
+      "sha256": "ac190af803afde281a4db78cf391f2409537a8f6241cf215bcdb86a45ad05245",
+      "durationSeconds": 0.63,
+      "sampleRate": 48000,
+      "channels": 1,
+      "bits": 16,
+      "loop": false,
+      "purpose": "Short board tapping two spacers above a hollow",
+      "listeningReview": "external/not-run"
+    }
+  ]
+}

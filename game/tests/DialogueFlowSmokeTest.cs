@@ -24,6 +24,11 @@ public partial class DialogueFlowSmokeTest : Node
             return;
         }
 
+        if (await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/mansur_pc_request", "ask-for-help", "ask-kept-draft")
+            || await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/mansur_pc_request", "draft-folder-question", "name-saved-folder")
+            || await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/rinat_internal_register", "category-reply", "ask-compensation-records"))
+        { Fail("Unread archive sources were bypassed through a direct source-holder choice."); return; }
+
         if (!await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning"))
         {
             Fail("Gulsina dialogue was rejected.");
@@ -65,11 +70,19 @@ public partial class DialogueFlowSmokeTest : Node
             Pressed = true,
             Echo = false
         });
-        if (dialogueUi.IsOpen || player.ModalOpen)
+        if (!dialogueUi.IsOpen || !player.ModalOpen
+            || dialogueUi.GetNode<Button>("Screen/Panel/Layout/Continue").Visible)
         {
-            Fail("The mapped keyboard interact action did not continue dialogue through the Continue button path.");
+            Fail("Mapped interact skipped the unanswered family invitation or chose an unseen source.");
             return;
         }
+        var deferMeal = dialogueUi.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices").GetChildren()
+            .OfType<Button>().SingleOrDefault(button => button.Text == bridge.ResolveText("urman.chapter1:text/choice-gulsina-tea-later"));
+        if (deferMeal is null) { Fail("An unread-source home invitation offered no natural refusal."); return; }
+        deferMeal.EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (dialogueUi.IsOpen || player.ModalOpen)
+        { Fail("Deferring the meal retained the conversation modal."); return; }
 
         // EX14.4: one existing resident notices the player's own reading at her
         // house. The question waits for that knowledge, names its source (she

@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-09-17T21:23:37+00:00",
+  "build_receipt": "integrated-build-70.json",
+  "args": [
+    "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "res://tests/vehicle_smoke_test.tscn",
+    "--urman-smoke-background-input",
+    "--no-auto-performance-fallback"
+  ],
+  "environment": {
+    "DOTNET_ROOT": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/dotnet",
+    "DOTNET_ROOT_ARM64": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/dotnet",
+    "DOTNET_CLI_HOME": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/dotnet-home",
+    "NUGET_PACKAGES": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/nuget",
+    "MSBUILDUSESERVER": "0",
+    "URMAN_VEHICLE_OUTPUT": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-27",
+    "URMAN_ADDRESS_OUTPUT": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-27"
+  },
+  "human_playtest": "external/not-run",
+  "focus_policy": "Test-only background input replay; no foreground performance or human duration claim.",
+  "note": "B70 full-fleet rerun on final DLL incl cart driver occupancy",
+  "exit_code": 0,
+  "expected_exit_code": 0,
+  "process_seconds": 82.46,
+  "finished": "2026-09-17T21:24:59+00:00",
+  "inputs_changed_during_run": [],
+  "guard_verified": true,
+  "engine_error_count": 15,
+  "harness_assertion_errors": [],
+  "fatal_engine_errors": [],
+  "status_rule": "FAIL on a wrong exit code, a harness assertion error, a fatal engine marker or a failed userdata guard; engine-side refusals alone are recorded, not decisive",
+  "engine_errors": [
+    {
+      "message": "The saved vehicle and all checked standing recovery positions are blocked.",
+      "count": 7
+    },
+    {
+      "message": "SaveGameV3 load failed: The saved vehicle and all checked standing recovery positions are blocked.",
+      "count": 4
+    },
+    {
+      "message": "SaveGameV3 could not restore the previous physical placement: The saved vehicle and all checked standing recovery positions are blocked.",
+      "count": 3
+    },
+    {
+      "message": "SaveGameV3 load failed: The loaded player's physical position is blocked.",
+      "count": 1
+    }
+  ],
+  "log": "vehicle-27.log",
+  "status": "PASS"
+}

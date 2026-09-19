@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-09-17T01:56:12.388225+00:00",
+  "source_sha256": {
+    "tools/blender/generate_modular_environment.py": "4daffff4347a3051915f082e3e7a26a75c73aef218b5a3e7af14be8b3c79827b",
+    "tools/blender/verify_modular_environment.py": "bf5b2188d68ae6a8839c1c0b2726022f1ee02088c057f5d5f63479a94ca53e63"
+  },
+  "before_sha256": {
+    "assets/source/blender/urman_modular_kit.blend": "403ac6c2a307a84cf683de42c8d4be2e8886d3c8ef7874a1b3467a13f90bd08d",
+    "assets/source/blender/urman_modular_kit.blend1": "f022903dddc4b9271c349f37c095ca176ed543cc7ff3b1ce6d3ac2a804763455",
+    "game/assets/generated/urman_modular_kit.glb": "ad844aaf65ed3721b69e5f4e8f0e83ccef9c67291536518b69e169fd57e085ac",
+    "assets/asset_registry.json": "41d5b660caec5fb152b61c345911681109499c15afd2bfd3dfc0812d35da94ab"
+  },
+  "command": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/MacOS/Blender",
+    "--background",
+    "--factory-startup",
+    "--python-exit-code",
+    "1",
+    "--python-expr",
+    "import bpy; bpy.context.preferences.filepaths.save_version = 0",
+    "--python",
+    "tools/blender/generate_modular_environment.py",
+    "--python",
+    "tools/blender/verify_modular_environment.py",
+    "--",
+    "--root",
+    "/Users/unterlantas/Documents/GitHub/URMAN"
+  ],
+  "backup": "docs/production/act1_takeover_evidence_2026-09-16/modular-export-38-before",
+  "scope": "project-original kettle, lid and keyboard geometry; no native art or Release claim",
+  "exit_code": 0,
+  "process_seconds": 2.58,
+  "finished": "2026-09-17T01:56:14.973756+00:00",
+  "after_sha256": {
+    "assets/source/blender/urman_modular_kit.blend": "6b4e13ea80a2bcd41d4c50bfe5d329dcc525203f732f5a2dcf0f7d19633534f0",
+    "assets/source/blender/urman_modular_kit.blend1": "f022903dddc4b9271c349f37c095ca176ed543cc7ff3b1ce6d3ac2a804763455",
+    "game/assets/generated/urman_modular_kit.glb": "b02fd575ccb3ae1630c5998bb41e8bf20ae8476175a5bfc43ae877c689bd553e",
+    "assets/asset_registry.json": "41d5b660caec5fb152b61c345911681109499c15afd2bfd3dfc0812d35da94ab"
+  },
+  "sources_changed": [],
+  "inherited_blend1_preserved": true,
+  "registry_unchanged": true,
+  "status": "PASS-export-and-verifier"
+}

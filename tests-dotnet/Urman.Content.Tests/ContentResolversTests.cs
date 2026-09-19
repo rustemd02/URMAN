@@ -17,7 +17,9 @@ public sealed class ContentResolversTests
         var textId = closure.TextIds.Single(id => id.EndsWith(":text/scene-arrival-title", StringComparison.Ordinal));
         var model = new TextResolver(pack, validate: false).Resolve(textId, "ru");
 
-        Assert.Equal("Дорога к Кырлаю", model.Text);
+        // The village is КАРА-УРМАН since the author decision of 2026-09-16
+        // (decision_log 2026-09-18); Кырлай remains a historical alias only.
+        Assert.Equal("Дорога в Кара-Урман", model.Text);
         Assert.Equal("ru", model.ResolvedLocale);
         Assert.NotEmpty(closure.AssetIds);
     }

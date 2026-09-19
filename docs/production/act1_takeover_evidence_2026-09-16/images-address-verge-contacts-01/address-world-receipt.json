@@ -1,0 +1,1824 @@
+{
+  "schemaVersion": 1,
+  "ordinaryNewGame": true,
+  "humanSearchPlaytest": false,
+  "diagnosticCameraFixtures": false,
+  "assembly": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll",
+    "pathSource": "URMAN_ADDRESS_ASSEMBLY_PATH",
+    "assemblyLocation": "",
+    "loadedModule": "7b4d0c02-9c46-4f07-80dd-062004f8c19f",
+    "diskModule": "7b4d0c02-9c46-4f07-80dd-062004f8c19f",
+    "status": "module-match",
+    "sha256": "b361e89aeb71522ec97909e3b046a8f526a50c383e5a118218e70810f6a38473"
+  },
+  "scope": "verge-contacts",
+  "auditRun": false,
+  "fullAuditRun": false,
+  "selectedAccessAuditRun": false,
+  "acceptance": false,
+  "auditCompleted": false,
+  "registry": null,
+  "mounts": [],
+  "captures": [],
+  "checks": [
+    {
+      "kind": "check",
+      "message": "ordinary New Game starts",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "construction and proximity do not record a plate read",
+      "passed": true
+    },
+    {
+      "kind": "audit-not-run-in-narrow-scope",
+      "auditRun": false,
+      "constructionEntriesAlreadyObserved": 0,
+      "previousPhysicsProcessing": true,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "bounded actual inclined-verge contact census exists",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastArrivalMidParcel/EastArrivalMidFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastArrivalMidParcel/EastArrivalMidFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastArrivalMidParcel/EastArrivalMidFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastArrivalMidParcel/EastArrivalMidFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastArrivalNearParcel/EastArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastArrivalNearParcel/EastArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastArrivalNearParcel/EastArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastArrivalNearParcel/EastArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetMidParcel/EastStreetMidFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetMidParcel/EastStreetMidFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetMidParcel/EastStreetMidFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetMidParcel/EastStreetMidFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/FapEastViewHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/FapEastViewHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/FapEastViewHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/FapEastViewHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterEastArrivalFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterEastArrivalFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterEastArrivalFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterEastArrivalFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterEastReturnFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterEastReturnFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterEastReturnFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterEastReturnFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestArrivalFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestArrivalFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestArrivalFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/PerimeterWestArrivalFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalMidParcel/WestArrivalMidFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalMidParcel/WestArrivalMidFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalMidParcel/WestArrivalMidFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalMidParcel/WestArrivalMidFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/ZiratEastBoundaryHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/ZiratEastBoundaryHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/ZiratEastBoundaryHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/ZiratEastBoundaryHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ConnectiveStreet/ConnectiveEastHouseA6Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ConnectiveStreet/ConnectiveEastHouseA6Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ConnectiveStreet/ConnectiveEastHouseA6Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ConnectiveStreet/ConnectiveEastHouseA6Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ConnectiveStreet/DeepParcel/ConnectiveStreetDeepBanyaYardParcel/VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ConnectiveStreet/DeepParcel/ConnectiveStreetDeepBanyaYardParcel/VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ConnectiveStreet/DeepParcel/ConnectiveStreetDeepBanyaYardParcel/VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ConnectiveStreet/DeepParcel/ConnectiveStreetDeepBanyaYardParcel/VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/HouseExterior/WestSideParcel/HouseExteriorWestNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/HouseExterior/WestSideParcel/HouseExteriorWestNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/HouseExterior/WestSideParcel/HouseExteriorWestNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/HouseExterior/WestSideParcel/HouseExteriorWestNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnEastFarHouse2Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnEastFarHouse2Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnEastFarHouse2Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnEastFarHouse2Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnEastHouseA8Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnEastHouseA8Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnEastHouseA8Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnEastHouseA8Silhouette/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestBanyaSilhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestFarHouse1Silhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestFarHouse1Silhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestFarHouse1Silhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/ReturnWestFarHouse1Silhouette/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalEastLateralParcel/ArrivalEastLateralFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalEastLateralParcel/ArrivalEastLateralFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalEastLateralParcel/ArrivalEastLateralFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalEastLateralParcel/ArrivalEastLateralFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseWestDomesticParcel/ArrivalReverseWestDomesticFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseWestDomesticParcel/ArrivalReverseWestDomesticFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseWestDomesticParcel/ArrivalReverseWestDomesticFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalReverseWestDomesticParcel/ArrivalReverseWestDomesticFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalWestLateralParcel/ArrivalWestLateralFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalWestLateralParcel/ArrivalWestLateralFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalWestLateralParcel/ArrivalWestLateralFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/ArrivalWestLateralParcel/ArrivalWestLateralFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/FapReverseWestDomesticFacadeParcel/FapReverseWestDomesticFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/FapReverseWestDomesticFacadeParcel/FapReverseWestDomesticFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/FapReverseWestDomesticFacadeParcel/FapReverseWestDomesticFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredSightlineClosurePass/VillageLateralParcels/FapReverseWestDomesticFacadeParcel/FapReverseWestDomesticFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseEdgeHouseEast/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseEdgeHouseEast/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseEdgeHouseEast/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseEdgeHouseEast/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseEdgeHouseWest/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseEdgeHouseWest/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseEdgeHouseWest/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseEdgeHouseWest/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseFarCenterHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseFarCenterHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseFarCenterHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseFarCenterHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseFarEastHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseFarEastHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseFarEastHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Arrival/ArrivalReverseFarEastHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapEastHorizonAuthoredHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapEastHorizonAuthoredHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapEastHorizonAuthoredHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapEastHorizonAuthoredHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapEastFieldViewHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapEastFieldViewHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapEastFieldViewHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapEastFieldViewHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapOppositeFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapOppositeFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapOppositeFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapOppositeFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapRightFieldHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapRightFieldHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapRightFieldHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapRightFieldHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapWestFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapWestFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapWestFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapWestFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/HouseExteriorApproach/BabaiReverseFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/HouseExteriorApproach/BabaiReverseFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/HouseExteriorApproach/BabaiReverseFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/HouseExteriorApproach/BabaiReverseFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/HouseExteriorApproach/BabaiWestFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/HouseExteriorApproach/BabaiWestFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/HouseExteriorApproach/BabaiWestFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/HouseExteriorApproach/BabaiWestFieldNeighborHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/EastStreetFarHolding/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/EastStreetFarHolding/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/EastStreetFarHolding/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/EastStreetFarHolding/VillageParcel_VariantC_BanyaYard_Dwelling/VariantC_BanyaYard_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastFarParcelHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastFarParcelHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastFarParcelHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastFarParcelHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastLateralHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastLateralHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastLateralHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastLateralHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastNearMidHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastNearMidHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastNearMidHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/MainStreet/MainStreetEastNearMidHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratEastLateralHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratEastLateralHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratEastLateralHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratEastLateralHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratEastNearMidHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratEastNearMidHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratEastNearMidHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratEastNearMidHouse/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratWestLateralHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratWestLateralHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratWestLateralHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "inclined verge has one existing-owner convex contact: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratWestLateralHouse/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "actual rays cover six different authored placements",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "two actual beam face samples exist: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "at least one measured empty ray crosses the former upright envelope: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ReturnStreet/DistantParcel/ReturnStreetDistantLowFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeRight_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "two actual beam face samples exist: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "at least one measured empty ray crosses the former upright envelope: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalEastNearAuthoredFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "two actual beam face samples exist: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "at least one measured empty ray crosses the former upright envelope: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalFarWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "two actual beam face samples exist: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "at least one measured empty ray crosses the former upright envelope: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardEastFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "two actual beam face samples exist: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "at least one measured empty ray crosses the former upright envelope: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "two actual beam face samples exist: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ray through actual inclined timber hits its own solid: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "air outside inclined timber is not filled by its proxy: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "at least one measured empty ray crosses the former upright envelope: /root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalWestNearAuthoredTimberGableParcel/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ReturnWest comparison still uses the actual supported approach",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "B39 ReturnWest ray no longer hits the oversized verge proxy",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the real H024 gable still precedes ReturnWest\u0027s door in the sightline",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "verge repair does not bind or number the obstructed ReturnWest house",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "verge contact queries preserve player, progress, registry and all source transforms",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "assembly candidate MVID matches the executing module",
+      "passed": true
+    }
+  ],
+  "failures": []
+}

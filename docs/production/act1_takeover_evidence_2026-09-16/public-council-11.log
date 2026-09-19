@@ -1,0 +1,97 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1707 carved_door_slabs=237 flat_slab_skipped=2469 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=109169348386
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=109169348386
+SaveGameV3 new game session started; existing slots untouched.
+act1-public-buildings: ordinary New Game
+act1-intro: confirmed with E
+act1-public-buildings: three public rooms are in the ordinary connected world
+act1-public-buildings: requested public building exists
+act1-public-buildings: council: the repair owns only the identified fifteen-member fence
+act1-public-buildings: council: rail ends lie inside the real existing rear wall thickness
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_EndPost_00_LOD0
+act1-public-buildings: council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_EndPost_00_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_EndPost_01_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_EndPost_01_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_EndPost_01_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_EndPost_01_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_EndPost_01_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_EndPost_02_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_EndPost_02_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_EndPost_02_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_EndPost_02_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_EndPost_02_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_FoundationStoneLeft_LOD0
+act1-public-buildings: council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_FoundationStoneLeft_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_FoundationStoneRight_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_FoundationStoneRight_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_FoundationStoneRight_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_FoundationStoneRight_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_FoundationStoneRight_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_00_LOD0
+act1-public-buildings: council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_Picket_00_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_01_LOD0
+act1-public-buildings: council: only an entirely intruding member is hidden without a remaining contact: FenceSegment_Picket_01_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_02_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_Picket_02_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_Picket_02_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_Picket_02_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_Picket_02_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_03_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_Picket_03_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_Picket_03_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_Picket_03_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_Picket_03_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_04_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_Picket_04_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_Picket_04_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_Picket_04_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_Picket_04_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_05_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_Picket_05_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_Picket_05_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_Picket_05_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_Picket_05_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_Picket_06_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_Picket_06_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_Picket_06_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_Picket_06_LOD0
+act1-public-buildings: council: exterior member retains the exact original mesh: FenceSegment_Picket_06_LOD0
+act1-public-buildings: council: fence member keeps its original transform: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: retained fence visibility is unchanged: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every retained fence surface keeps its material: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: published fence has no surface extending into the seni: FenceSegment_RailLower_LOD0
+act1-public-buildings: council: every changed member has the measured rail role
+act1-public-buildings: council: only the measured single-surface rails receive a cut
+act1-public-buildings: council: wall-end cap has outward clockwise winding: FenceSegment_RailLower_LOD0
+act1-public-buildings: System.InvalidOperationException: council: every rail cap remains behind the actual rear wall face: FenceSegment_RailLower_LOD0
+   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.Require(Boolean condition, String label) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 640
+   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.CheckCouncilFenceJunction(PublicBuildingRoom council) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.FenceJunction.cs:line 77
+   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest.Visit(PublicBuildingRoom building) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 74
+   at Urman.Godot.Tests.Act1PublicBuildingsSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1PublicBuildingsSmokeTest.cs:line 42
+state-final-render-sync-begin: label=public/failure tick=29510 drawn=2 process=2 physics=24 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=public/failure milliseconds=37 forcedScreenshotRender=False
+userdata guard: original files and permissions restored and verified

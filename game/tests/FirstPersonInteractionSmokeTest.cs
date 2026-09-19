@@ -34,6 +34,8 @@ public partial class FirstPersonInteractionSmokeTest : Node
             return;
         }
 
+        await Act1ArrivalFlowProof.CompleteAsync(this, bridge);
+
         // Stage on the physical approach normal of the authored GLB portal,
         // rather than the legacy yard anchor. The target and player Y values
         // both come from the shared Agent B heightfield contract.

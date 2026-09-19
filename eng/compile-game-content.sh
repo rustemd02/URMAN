@@ -16,3 +16,5 @@ tools-dotnet/Urman.ContentCli/bin/Debug/net10.0/Urman.ContentCli compile \
   --root "$URMAN_ROOT" \
   --campaign urman.fullgame \
   --out game/content/urman.fullgame.compiled.v1.json
+
+python3 eng/package-document-images.py

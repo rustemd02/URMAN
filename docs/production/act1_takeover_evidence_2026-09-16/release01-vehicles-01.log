@@ -1,0 +1,6 @@
+vehicle-performance: starting vehicle_niva_radio@main_road; log=/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/release01-performance-vehicles-01/01-vehicle_niva_radio-main_road.log
+vehicle-performance: vehicle_niva_radio@main_road FAIL
+vehicle-performance: starting vehicle_motorcycle@main_road; log=/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/release01-performance-vehicles-01/02-vehicle_motorcycle-main_road.log
+vehicle-performance: vehicle_motorcycle@main_road FAIL
+vehicle-performance: starting vehicle_horse_cart@zirat_road; log=/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/release01-performance-vehicles-01/03-vehicle_horse_cart-zirat_road.log
+vehicle-performance: vehicle_horse_cart@zirat_road FAIL

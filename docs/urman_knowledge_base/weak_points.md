@@ -1,5 +1,24 @@
 # Weak Points
 
+## Маршрут по боковой площадке бани не проходится шагом (2026-09-19)
+
+2026-09-19, carry-smoke на слитой сборке (`integrated-build-85`, лог
+`../production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-19.log`):
+сценарий `ApproachWoodpileFromBathSteps` (новая ветка, пришедшая с origin) доводит игрока
+до `entryApproach`, поднимает по лестнице (`BathEntryTread*`, подъём ≤0.17 м на ступень)
+и на третьем отрезке — «reach the woodpile view by walking onto the actual upper landing»
+`WalkLocal(bypass[1] = bath.ToGlobal(3.70, 0, 1.84))` — срывается: игрок уходит **вниз**
+(старт `(-30.02, 1.11, 4.57)` → финал `(-31.70, 0.63, 4.14)`), упирается в
+`BathEntryTread1Body` / `BathEntryLandingBypassBody`, и шаг отклоняется строкой
+`no walkable tread within step height` (`FirstPersonController.Steps.cs:56`,
+лимит `MaximumStepHeight = .22f`). `WalkLocal` проверяет только горизонтальное
+приближение (`Vector2(X,Z)`), поэтому предыдущий отрезок «засчитан» на 0.3 м ниже площадки.
+Дефект не связан со слиянием 2026-09-19: маршрут стартует из фиксированного
+`entryApproach`, а `Act1ConnectedWorld.Bathhouse.cs` и шаговая логика контроллера в слиянии
+не менялись. Нужно: либо удержать игрока на боковой площадке (ширина 1.0 м, поворот через
+обычный mouse-look сносит его с края), либо дать честный маршрут подъёма на неё, либо
+пересмотреть сам отрезок. Проверять шагом, а не телепортом; фиктивное «прибытие» не засчитывать.
+
 ## M1-фото недостижимо, отладочные спавны и контент-гейт сломаны (верификация 2026-09-15)
 
 2026-09-15, второй проход по коду (`../production/urman_ttz_audit_verification_2026-09-15.md`):
@@ -39,7 +58,7 @@ UI обещает механику; у игрока нет меша, ног и �
 2026-09-10: 19 ImageGen albedos cover 12 previously missing surface families
 and are wired into the existing material/runtime paths. Technical seams,
 imports, traversal, capture and the 30 FPS floor are covered by evidence under
-`evidence/act1_repo_baseline/textures_new_families/`, but large grass planes can
+`docs/production/evidence_archive/act1_repo_baseline/textures_new_families/`, but large grass planes can
 still expose repetition and the Tatar ornament/carved-wood choices have no
 human cultural approval. Keep art lock open until moving first-person review
 selects final family variants and a cultural reviewer accepts the restricted
@@ -54,7 +73,7 @@ mesh + upturned leader tip), the birch trunk is thicker with base flare
 and carries a second smaller leaf spray on each hanging shoot, and the
 arrival uncut-verge grass pattern extends along the main street with
 gaps at gates and the FAP apron. Benchmark stays green (111-120 FPS avg
-vs the 30 floor). Zoom pairs: evidence/act1_repo_baseline/trees/.
+vs the 30 floor). Zoom pairs: docs/production/evidence_archive/act1_repo_baseline/trees/.
 Broadleaf/understory richness and whole-zone art acceptance remain open.
 
 
@@ -65,13 +84,13 @@ GLB albedo outside `RebindWetVillageRoadMaterials`; bound the eight
 missing organic/fence entries plus the village kit's well water, cut
 wood, bark and dull metal in `RegradeAct1DaylightKitMaterials`. Frames:
 mass now reads as a muted bog-green bush, fences dark wet wood, well
-water dark (evidence/act1_repo_baseline/matfix/). This closes that
+water dark (docs/production/evidence_archive/act1_repo_baseline/matfix/). This closes that
 specific raw-albedo family for the road+village kits. Same-day follow-up
 bound the zirat roadside and FAP kit leftovers (MossGreen, MossyStone,
 WeatheredWood/Dark, DistantFence/Foliage, DitchWater, WetSheen,
 FapBirch/Shrub/Vent) in the same table: cemetery pale stone/shrub masses
 and washed clinic greens are gone from the frames
-(evidence/act1_repo_baseline/sliceb/). Kara edge materials were already
+(docs/production/evidence_archive/act1_repo_baseline/sliceb/). Kara edge materials were already
 fully covered by their scoped table; agentb kits receive materials from
 their C# builders rather than raw GLB albedo.
 
@@ -80,7 +99,7 @@ their C# builders rather than raw GLB albedo.
 west/east return-mid, east-street horizon) now place the kit's three
 full-volume variant dwellings (VariantA/B/C) at house scale 0.88-0.90.
 Frames: mixed families read on both street sides
-(evidence/act1_repo_baseline/slicec/); walkthrough and capture stay green.
+(docs/production/evidence_archive/act1_repo_baseline/slicec/); walkthrough and capture stay green.
 Near-camera clones (arrival group with the hero window, side-closure,
 zirat village edge) are intentionally retained. Subagent review found the
 fifth conversion (EastStreetMid) had silently failed plus two geometric
@@ -89,7 +108,7 @@ AABB 8.63x6.32), and the babai service-yard fences cut the drawn house
 path. All fixed the same day: rule narrowed to "FarHolding", holding
 relaid out with measured clearances, babai boundary rebuilt as an
 L-fence north of the path, fifth conversion applied at a shifted anchor
-(evidence/act1_repo_baseline/sliced/).
+(docs/production/evidence_archive/act1_repo_baseline/sliced/).
 
 2026-09-07, Kara ground life: the flat boulder-disc cluster moved off the
 road shoulder into the stand (yaw -35, 0.95 scale), muted stone clusters
@@ -97,7 +116,7 @@ and root shrubs added on the slopes outside the route envelope; one
 first-candidate stone exposed on the open shoulder was rejected by its
 own frame and removed. The duplicate ZiratVillageEdgeWestFacade in front
 of the standing full-depth core house is removed (boundary remains on
-the fence). Frames: evidence/act1_repo_baseline/sliceE/.
+the fence). Frames: docs/production/evidence_archive/act1_repo_baseline/sliceE/.
 
 Follow-up (same day): continued footprint re-checks with real asymmetric
 AABBs found the east side-closure facade volume intersecting the
@@ -106,7 +125,7 @@ relocated EastStreetMid dwelling crossing the holding boundary at
 x=30.7. The intersecting facade is removed (the standing near-mid house
 owns that read; shed/fence/trees stay as its yard) and EastStreetMid is
 shifted to (25.3,-19.2) with a 0.5 m boundary clearance
-(evidence/act1_repo_baseline/slicef/).
+(docs/production/evidence_archive/act1_repo_baseline/slicef/).
 
 2026-09-07, Babai yard east depth: the miniature 0.44/0.48-scale
 `BabaiEastDepthPlasterAnnexParcel` between full-sized dwellings is replaced
@@ -1821,7 +1840,7 @@ corridor PASS (все три квеста завершены), проба кра
 читается, следующий шаг: шире полыньи, тёмнее лёд, рябь/торосы по берегам.
 
 2026-09-14, исследовательский пакет по Шүрәле: что он даёт и чего в нём нет.
-В репозиторий добавлен `SHURALE_RESEARCH_PACKAGE/` — 76 файлов, 19 МБ: тринадцать
+В репозиторий добавлен `docs/research_shurale_package/` — 76 файлов, 19 МБ: тринадцать
 тематических документов, отчёт в Markdown/PDF/DOCX, шестнадцать машиночитаемых
 реестров плюс XLSX и JSON/JSONL, девять схем (пять интерьерных планов, профили улиц,
 структура деревни, переход ландшафта), визуальный атлас и паспорта референсов,
@@ -1847,7 +1866,7 @@ corridor PASS (все три квеста завершены), проба кра
 2026-09-14, новая авторская оценка деревни: прежние технические PASS не закрывают
 замечания к её достоверности, коллизиям, посадке объектов, границам мира, человеческим
 пропорциям и интересу исследования. Подготовлен
-[подробный план](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md),
+[подробный план](../research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md),
 без изменений игры. Сообщённые дефекты отделены от воспроизведённых и рисков из кода.
 В частности, шесть рядов пояса в `AgentBAct1ExteriorLayer` не доказывают ни закрытие
 всего доступного периметра, ни непроходимость: растительность этого слоя остаётся
@@ -1857,7 +1876,7 @@ presentation-only. Автор теперь явно требует очень в
 физической границы и человеческого интереса. Культурные ограничения пакета остаются.
 
 Повторная проверка плана: покрытие тем отчёта не обеспечивало самодостаточность
-карточек для небольшой модели. В [поэлементном дополнении](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_SOURCE_COVERAGE_RU.md)
+карточек для небольшой модели. В [поэлементном дополнении](../research_shurale_package/URMAN_ACT1_SOURCE_COVERAGE_RU.md)
 учтены все 330 записей; §11 основного плана требует заполненного паспорта объекта
 перед реализацией. Новая полная геометрия домов и лесного кольца пока не спроектирована
 и не проверена игровыми кадрами. Этот риск нельзя закрывать количеством страниц,
@@ -1928,7 +1947,7 @@ seam):
 ### 2026-09-15 — длительность и расширенный объём исследования
 
 - **LEN01, причина не установлена:** автор сообщает о прохождении Акта I за 5–6 минут при сценарном ориентире около 50. Нужны проверка сборки/режима, матрица сценарий→действие→вывод, проверка условий финала и раздельный хронометраж технического маршрута и первого человеческого опыта. Существующие PASS по отдельным функциям не доказывают полноту или длительность главы.
-- **EX01–EX14, новый порученный объём:** [§13 плана деревни](../../SHURALE_RESEARCH_PACKAGE/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md) задаёт зависимости, атомарные работы и приёмку. Риски — потеря/дублирование переносимых вещей, рассогласование сохранения с физикой, обход сюжетных условий и новые сквозные виды на границу сверху. Наличие спецификации не закрывает эти пункты; полная реализация всех 14 и человеческая оценка интереса ещё требуют доказательств.
+- **EX01–EX14, новый порученный объём:** [§13 плана деревни](../research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md) задаёт зависимости, атомарные работы и приёмку. Риски — потеря/дублирование переносимых вещей, рассогласование сохранения с физикой, обход сюжетных условий и новые сквозные виды на границу сверху. Наличие спецификации не закрывает эти пункты; полная реализация всех 14 и человеческая оценка интереса ещё требуют доказательств.
 
 ## Историческая арифметическая оценка длительности — не замер
 

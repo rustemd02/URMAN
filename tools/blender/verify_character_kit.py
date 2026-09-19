@@ -1,6 +1,9 @@
 """Verify the generated character kit's provenance and LOD contract."""
 
 import bpy
+import math
+from mathutils import Vector
+from mathutils.bvhtree import BVHTree
 
 
 scene = bpy.context.scene
@@ -97,6 +100,183 @@ missing_human_detail = [
 ]
 if missing_human_detail:
     raise RuntimeError(f"Character silhouette detail missing: {missing_human_detail}")
+
+def rest_vertices(obj):
+    return [obj.matrix_world @ vertex.co for vertex in obj.data.vertices]
+
+
+def extent(points, axis):
+    return min(point[axis] for point in points), max(point[axis] for point in points)
+
+
+# Inventory and correct skin weights alone did not catch facial pieces authored
+# at world zero. Check actual surfaces in each head's frame after rigging, for
+# every family and both LODs, without relying on the generator's anchor labels.
+bpy.context.view_layer.update()
+face_names = ("FaceEyeWhiteL", "FaceEyeWhiteR", "FaceEyeIrisL", "FaceEyeIrisR",
+              "FaceNoseBridge", "FaceNoseTip", "FaceMouthLine", "EarL", "EarR")
+face_piece_count = 0
+for prefix in prefixes:
+    rig = scene.objects.get(f"{prefix}_Rig")
+    lod_centres = {}
+    for level in (0, 1):
+        head_obj = scene.objects[f"{prefix}_Head_LOD{level}"]
+        head_inverse = head_obj.matrix_world.inverted()
+        head_points = [vertex.co for vertex in head_obj.data.vertices]
+        bounds = [extent(head_points, axis) for axis in range(3)]
+        head_height = bounds[2][1] - bounds[2][0]
+        centres = {}
+        for name in face_names:
+            obj = scene.objects.get(f"{prefix}_{name}_LOD{level}")
+            if obj is None:
+                raise RuntimeError(f"{prefix}: missing facial piece {name} at LOD{level}")
+            skins = [modifier for modifier in obj.modifiers if modifier.type == "ARMATURE"]
+            if (obj.parent is not rig or obj.parent_type != "OBJECT"
+                    or len(skins) != 1 or skins[0].object is not rig
+                    or [group.name for group in obj.vertex_groups] != ["Head"]):
+                raise RuntimeError(f"{obj.name}: facial piece must follow its own rig's Head bone")
+            points = [head_inverse @ point for point in rest_vertices(obj)]
+            piece_bounds = [extent(points, axis) for axis in range(3)]
+            # The mouth/eyes/ears occupy the face around the template origin,
+            # above the neck and below the crown. Modest front/side protrusions
+            # are expected for the nose and ears; displacement to a neighbour's
+            # head or to the feet must fail even with otherwise valid skinning.
+            for axis in (0, 1):
+                if (piece_bounds[axis][0] < bounds[axis][0] - 0.04
+                        or piece_bounds[axis][1] > bounds[axis][1] + 0.04):
+                    raise RuntimeError(f"{obj.name}: facial vertices leave their own head envelope on axis {axis}")
+            if (piece_bounds[2][0] < -head_height * 0.25
+                    or piece_bounds[2][1] > head_height * 0.25):
+                raise RuntimeError(f"{obj.name}: facial vertices are outside the face height band")
+            centre = Vector(tuple((low + high) * 0.5 for low, high in piece_bounds))
+            if not name.startswith("Ear") and centre.y >= 0.0:
+                raise RuntimeError(f"{obj.name}: facial feature is behind the face")
+            centres[name] = centre
+            face_piece_count += 1
+        for side, sign in (("L", -1.0), ("R", 1.0)):
+            eye = centres[f"FaceEyeWhite{side}"]
+            iris = centres[f"FaceEyeIris{side}"]
+            ear = centres[f"Ear{side}"]
+            if not 0.0 < sign * eye.x < sign * ear.x:
+                raise RuntimeError(f"{prefix}/LOD{level}: eye and ear are not on their own side of the head")
+            if iris.y >= eye.y or abs(iris.x - eye.x) > 0.01:
+                raise RuntimeError(f"{prefix}/LOD{level}: iris is detached from its eye")
+            if not eye.z > centres["FaceNoseTip"].z > centres["FaceMouthLine"].z:
+                raise RuntimeError(f"{prefix}/LOD{level}: eyes, nose and mouth have invalid vertical order")
+        lod_centres[level] = centres
+    if any((lod_centres[0][name] - lod_centres[1][name]).length > 0.012 for name in face_names):
+        raise RuntimeError(f"{prefix}: a facial piece moves by more than 12mm between LODs")
+    print(f"character-face: {prefix} 18 pieces in own head frame; Head binding; both LODs")
+
+
+# Measure actual surfaces, not the generator's profile labels. The previous
+# collar sat inside the neck and the two-ring boots looked like blocks even
+# though the mesh/rig/LOD inventory passed all contract checks above.
+for prefix in prefixes:
+    head = rest_vertices(scene.objects[f"{prefix}_Head_LOD0"])
+    body = rest_vertices(scene.objects[f"{prefix}_Body_LOD0"])
+    collar_obj = scene.objects[f"{prefix}_ScarfBand_LOD0"]
+    collar = rest_vertices(collar_obj)
+    head_bottom, head_top = extent(head, 2)
+    collar_bottom, collar_top = extent(collar, 2)
+    if collar_bottom >= extent(body, 2)[1] or collar_top <= head_bottom + 0.025:
+        raise RuntimeError(f"{prefix}: collar does not meet the torso and cover the lower neck")
+    if collar_top >= head_top - 0.18:
+        raise RuntimeError(f"{prefix}: collar rises into the face")
+    neck = [point for point in head if collar_bottom <= point.z <= collar_top]
+    for axis in (0, 1):
+        low, high = extent(neck, axis)
+        outer_low, outer_high = extent(collar, axis)
+        if outer_low > low - 0.003 or outer_high < high + 0.003:
+            raise RuntimeError(f"{prefix}: collar is still buried inside the neck on axis {axis}")
+    # A bounding box can pass while a neck bend intersects the inner wall.
+    # From each covered vertex, both lateral rays must first meet an inward
+    # cloth face. A vertex within the cloth, outside it or against the rim fails.
+    collar_surface = BVHTree.FromPolygons(
+        collar, [list(polygon.vertices) for polygon in collar_obj.data.polygons])
+    for point in neck:
+        if not collar_bottom + 0.0001 < point.z < collar_top - 0.0001:
+            continue
+        for direction in (Vector((-1.0, 0.0, 0.0)), Vector((1.0, 0.0, 0.0))):
+            hit, normal, face_index, distance = collar_surface.ray_cast(point, direction, 1.0)
+            if face_index is None or normal.dot(direction) >= -0.1 or distance < 0.003:
+                raise RuntimeError(f"{prefix}: neck intersects or exits the collar at {tuple(point)}")
+
+    for side in ("Left", "Right"):
+        boot_obj = scene.objects[f"{prefix}_Boot{side}_LOD0"]
+        boot = rest_vertices(boot_obj)
+        trouser = rest_vertices(scene.objects[f"{prefix}_Trouser{side}_LOD0"])
+        x0, x1 = extent(boot, 0)
+        y0, y1 = extent(boot, 1)
+        z0, z1 = extent(boot, 2)
+        width, length = x1 - x0, y1 - y0
+        if not 0.42 < width / length < 0.65:
+            raise RuntimeError(f"{prefix}/{side}: boot reads as a broad block ({width:.3f} x {length:.3f}m)")
+        if abs(z0 - 0.010) > 0.0001:
+            raise RuntimeError(f"{prefix}/{side}: boot moved the established sole plane to {z0:.4f}m")
+        sole = [point for point in boot if abs(point.z - z0) < 0.0001]
+        if len(sole) < 4 or extent(sole, 0)[1] - extent(sole, 0)[0] < width * 0.90:
+            raise RuntimeError(f"{prefix}/{side}: boot lost its broad, flat bearing sole")
+        toe = [point for point in boot if point.y < y0 + length * 0.25]
+        if z1 - max(point.z for point in toe) < 0.035 or z1 <= extent(trouser, 2)[0] + 0.020:
+            raise RuntimeError(f"{prefix}/{side}: the toe/instep does not rise into the trouser ankle")
+    print(f"character-fit: {prefix} collar={collar_top - collar_bottom:.3f}m "
+          f"boot={width:.3f}x{length:.3f}m sole={z0:.3f}m")
+
+
+for level in (0, 1):
+    # The old detached cardigan strip passed whole-character bounds. Shoot
+    # through both real surfaces at several heights to measure its fit.
+    body_obj = scene.objects[f"Naila_Body_LOD{level}"]
+    placket_obj = scene.objects[f"Naila_CardiganPlacket_LOD{level}"]
+    body = rest_vertices(body_obj)
+    placket = rest_vertices(placket_obj)
+    low, high = extent(placket, 2)
+    body_low, body_high = extent(body, 2)
+    if low < body_low - 0.004 or high > body_high + 0.004:
+        raise RuntimeError(f"Naila/LOD{level}: cardigan placket extends past its real torso")
+    surfaces = [BVHTree.FromPolygons(rest_vertices(obj), [list(face.vertices) for face in obj.data.polygons])
+                for obj in (body_obj, placket_obj)]
+    gaps = []
+    for fraction in (0.05, 0.2, 0.4, 0.6, 0.8, 0.95):
+        origin = Vector((scene.objects["Naila_Anchor"].location.x,
+                         min(extent(body, 1)[0], extent(placket, 1)[0]) - 0.10,
+                         low + (high - low) * fraction))
+        hits = [surface.ray_cast(origin, Vector((0, 1, 0)), 1.0) for surface in surfaces]
+        if any(hit[2] is None for hit in hits):
+            raise RuntimeError(f"Naila/LOD{level}: placket or supporting torso is missing at {fraction}")
+        gap = hits[0][0].y - hits[1][0].y
+        if not -0.005 <= gap <= 0.018:
+            raise RuntimeError(f"Naila/LOD{level}: cardigan placket is detached/buried by {gap:.4f}m")
+        gaps.append(gap)
+    if [group.name for group in placket_obj.vertex_groups] != ["Spine"]:
+        raise RuntimeError(f"Naila/LOD{level}: cardigan must move with the torso")
+    print(f"character-clothing-fit: Naila/LOD{level} torso/placket surface gaps {min(gaps):.4f}..{max(gaps):.4f}m")
+
+    cap_obj = scene.objects[f"TimurHazrat_Hat_LOD{level}"]
+    cap = rest_vertices(cap_obj)
+    scalp_objects = [scene.objects[f"TimurHazrat_{part}_LOD{level}"] for part in ("Head", "Hair")]
+    cap_surface = BVHTree.FromPolygons(cap, [list(face.vertices) for face in cap_obj.data.polygons])
+    scalp_surfaces = [BVHTree.FromPolygons(rest_vertices(obj), [list(face.vertices) for face in obj.data.polygons])
+                      for obj in scalp_objects]
+    origin = Vector((sum(extent(cap, 0)) * 0.5, sum(extent(cap, 1)) * 0.5, extent(cap, 2)[0] + 0.003))
+    gaps = []
+    for index in range(8):
+        angle = 0.123 + index * math.tau / 8
+        direction = Vector((math.cos(angle), math.sin(angle), 0))
+        cap_hit = cap_surface.ray_cast(origin, direction, 1.0)
+        scalp_hits = [surface.ray_cast(origin, direction, 1.0) for surface in scalp_surfaces]
+        scalp_distances = [hit[3] for hit in scalp_hits if hit[2] is not None]
+        if cap_hit[2] is None or not scalp_distances:
+            raise RuntimeError(f"TimurHazrat/LOD{level}: cap rim has no real scalp section at {index}")
+        gap = cap_hit[3] - max(scalp_distances)
+        if not -0.012 <= gap <= 0.025:
+            raise RuntimeError(f"TimurHazrat/LOD{level}: cap rim leaves its head/hair by {gap:.4f}m")
+        gaps.append(gap)
+    if [group.name for group in cap_obj.vertex_groups] != ["Head"]:
+        raise RuntimeError(f"TimurHazrat/LOD{level}: cap must move with the head")
+    print(f"character-clothing-fit: TimurHazrat/LOD{level} cap/scalp surface gaps {min(gaps):.4f}..{max(gaps):.4f}m")
+
 
 detail_policy = scene.get("detail_policy")
 if not isinstance(detail_policy, str) or "face landmarks" not in detail_policy or "layered clothing" not in detail_policy or "Idle/Tension" not in detail_policy:

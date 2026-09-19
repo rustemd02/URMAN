@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-09-17T01:40:22.381640+00:00",
+  "build_receipt": "integrated-build-36.json",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1280x720",
+    "res://tests/act1_facilities_smoke_test.tscn",
+    "--urman-smoke-background-input"
+  ],
+  "environment": {
+    "URMAN_FACILITY_CAPTURE": "1",
+    "URMAN_FACILITY_OUTPUT": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-facilities-09",
+    "URMAN_FACILITY_BUILD_ID": "integrated-build-36"
+  },
+  "human_playtest": "external/not-run",
+  "focus_policy": "Test-only background input replay; no foreground performance or human duration claim.",
+  "exit_code": 1,
+  "process_seconds": 111.15,
+  "finished": "2026-09-17T01:42:13.534993+00:00",
+  "inputs_changed_during_run": []
+}

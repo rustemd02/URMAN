@@ -30,19 +30,42 @@ public partial class RuntimeBridge : Node
     public string CampaignResourcePath { get; set; } = CompiledCampaignRepository.ResourcePath;
 
     private RuntimeKernel? _kernel;
-    internal RuntimeKernel? SessionIdentity => _loadingSlot ? null : _kernel;
+    internal RuntimeKernel? SessionIdentity => _loadingSlot || NeedsPhysicalRecovery ? null : _kernel;
+    // Identity only: physical projections cannot dispatch through this handle.
+    internal object? ProjectionSessionIdentity => _kernel;
     private CapabilityHost? _capabilities;
     private QuestCapabilitySessionOrchestrator? _questCapabilities;
     private LogicalClock _clock = new();
     private OwnerRngStreams _rngStreams = new(0x55524d41);
     private DeterministicScheduler _scheduler = new();
     private AtomicSaveGameStore? _saveStore;
+    private AtomicSaveGameStore? _debugSaveStore;
+    public bool IsDebugSession { get; private set; }
+    private AtomicSaveGameStore? SessionSaveStore => IsDebugSession ? _debugSaveStore : _saveStore;
     private CompiledCampaignRepository _content = null!;
     private QuestRuntimeCoordinator _questCoordinator = null!;
     private long _interactionSequence;
     private double _playTimeSeconds;
+    private ulong _loadingTimeSampleUsec;
+    private double _loadingSecondsSinceProcess;
+
+    // A modal reader is part of play. Only these actual lifecycle states stop
+    // new accrual; the accumulated value restored from older saves is retained.
+    [Flags]
+    internal enum PlayTimeBlock
+    {
+        None = 0, NotReady = 1, Loading = 2, MainMenu = 4, Pause = 8,
+        Settings = 16, Unfocused = 32, Ending = 64
+    }
+
+    internal double PlayTimeSeconds => _playTimeSeconds;
+    internal event Action<string>? PlayTimeBoundary;
+    private bool _checkpointAfterLadder;
     private bool _runtimeStateNotificationQueued;
     private AudioCueUi? _audioCueUi;
+    private object? _rinatInterventionPendingSession;
+    private object? _rinatInterventionAuthorizedSession;
+    private long _rinatPresentationGeneration;
 
     /// <summary>
     /// Presentation-only invalidation for physical interaction targets. The
@@ -57,6 +80,7 @@ public partial class RuntimeBridge : Node
         _content = CompiledCampaignRepository.Load(CampaignResourcePath);
         _questCoordinator = new QuestRuntimeCoordinator(_content);
         _saveStore = new AtomicSaveGameStore(ProjectSettings.GlobalizePath("user://savegames"));
+        _debugSaveStore = new AtomicSaveGameStore(ProjectSettings.GlobalizePath("user://debug-savegames"));
         CreateNewSession();
         _ = InitializeEntrypointAsync();
         CallDeferred(nameof(AttachAudioCueUi));
@@ -64,7 +88,41 @@ public partial class RuntimeBridge : Node
 
     public override void _Process(double delta)
     {
-        _playTimeSeconds += delta;
+        SampleLoadingTime();
+        if (CapturePlayTimeBlocks() == PlayTimeBlock.None)
+            _playTimeSeconds += Math.Max(0, delta - _loadingSecondsSinceProcess);
+        _loadingSecondsSinceProcess = 0;
+        if (_checkpointAfterLadder && !_loadingSlot && !_checkpointBusy
+            && FindPlayer() is { IsClimbingLadder: false } player && player.IsOnFloor())
+        {
+            _checkpointAfterLadder = false;
+            _ = SaveCheckpointAsync(force: true);
+        }
+    }
+
+    internal PlayTimeBlock CapturePlayTimeBlocks()
+    {
+        var blocks = PlayTimeBlock.None;
+        if (_kernel is null || FindPlayer() is null || NeedsPhysicalRecovery) blocks |= PlayTimeBlock.NotReady;
+        if (_loadingSlot || _loadPreparing) blocks |= PlayTimeBlock.Loading;
+        var demo = GetParent()?.GetParent() as Act1DemoRoot;
+        if (demo?.MainMenuVisible == true || (demo is null && HasActiveMainMenu()))
+            blocks |= PlayTimeBlock.MainMenu;
+        if (demo?.DemoEnded == true) blocks |= PlayTimeBlock.Ending;
+        if (GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true })
+            blocks |= PlayTimeBlock.Pause;
+        if (GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true })
+            blocks |= PlayTimeBlock.Settings;
+        if (!DisplayServer.WindowIsFocused()) blocks |= PlayTimeBlock.Unfocused;
+        return blocks;
+    }
+
+    private void SampleLoadingTime()
+    {
+        if (!_loadingSlot && !_loadPreparing) return;
+        var now = Time.GetTicksUsec();
+        _loadingSecondsSinceProcess += (now - _loadingTimeSampleUsec) / 1_000_000.0;
+        _loadingTimeSampleUsec = now;
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
@@ -88,6 +146,7 @@ public partial class RuntimeBridge : Node
         _audioCueUi = null;
         _runtimeStateNotificationQueued = false;
         RuntimeStateChanged = null;
+        PlayTimeBoundary = null;
         _questCapabilities = null;
         _capabilities?.Dispose();
         _capabilities = null;
@@ -102,31 +161,36 @@ public partial class RuntimeBridge : Node
 
     public async Task<bool> SaveSlotAsync(string slot)
     {
-        if (_loadingSlot || _kernel is null || _capabilities is null || _saveStore is null || FindPlayer() is not { } player)
+        // Capture the store with this session before awaiting disk I/O. A menu
+        // transition must never redirect an in-flight debug save into player slots.
+        var store = SessionSaveStore;
+        if (_loadingSlot || _loadPreparing || NeedsPhysicalRecovery || _kernel is null || _capabilities is null || store is null || FindPlayer() is not { } player)
         {
             GD.PushWarning("Quick save is unavailable before the runtime and player are ready.");
             return false;
         }
 
+        if (player.SaveBlockReason is { } reason)
+        {
+            player.NotifyTraversal(reason);
+            return false;
+        }
+
         try
         {
-            var runtime = _kernel.CaptureSnapshot();
-            var save = new SaveGameV3(
-                SaveGameV3.CurrentSchemaVersion,
-                _content.CampaignFingerprint,
-                runtime.EventSequence,
-                runtime,
-                _clock.CaptureSnapshot(),
-                _rngStreams.CaptureSnapshot(),
-                _scheduler.CaptureSnapshot(),
-                _capabilities.CaptureAll(),
-                new WorldLocationId(CurrentZoneId),
-                new SpawnPointId(CurrentSpawnPointId),
-                player.CapturePortableTransform(),
-                player.CaptureSettings(),
-                _playTimeSeconds);
-            await _saveStore.SaveAsync(slot, save);
-            GD.Print($"SaveGameV3 written to {_saveStore.SlotPath(slot)}");
+            var session = _kernel;
+            if (GetTree().GetFirstNodeInGroup("vehicle_fleet") is VehicleFleet fleet
+                && !await fleet.FlushForSaveAsync()) return false;
+            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+            if (GetTree().GetFirstNodeInGroup("act1_connected_world") is Act1ConnectedWorld world
+                && !await world.FlushFacilitiesForSaveAsync()) return false;
+            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+            if (AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
+                && !await companion.FlushForSaveAsync()) return false;
+            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+            var save = CaptureSessionSave(player);
+            await store.SaveAsync(slot, save);
+            GD.Print($"SaveGameV3 written to {store.SlotPath(slot)}");
             return true;
         }
         catch (Exception exception)
@@ -136,9 +200,28 @@ public partial class RuntimeBridge : Node
         }
     }
 
-    public bool IsSlotAvailable(string slot) =>
-        _saveStore is not null
-        && (File.Exists(_saveStore.SlotPath(slot)) || File.Exists(_saveStore.BackupPath(slot)));
+    private SaveGameV3 CaptureSessionSave(FirstPersonController player)
+    {
+        if (_kernel is null || _capabilities is null)
+            throw new InvalidOperationException("The runtime session is not ready for a snapshot.");
+        var runtime = _kernel.CaptureSnapshot();
+        return new SaveGameV3(
+            SaveGameV3.CurrentSchemaVersion, _content.CampaignFingerprint,
+            runtime.EventSequence, runtime, _clock.CaptureSnapshot(),
+            _rngStreams.CaptureSnapshot(), _scheduler.CaptureSnapshot(),
+            _capabilities.CaptureAll(), new WorldLocationId(CurrentZoneId),
+            new SpawnPointId(CurrentSpawnPointId), player.CapturePortableTransform(),
+            player.CaptureSettings(), _playTimeSeconds);
+    }
+
+    public bool IsSlotAvailable(string slot) => StoreHasSlot(SessionSaveStore, slot);
+
+    // Main-menu Continue always describes the player's game, including after
+    // returning from a debug visit. Pause/F9 use the current session's store.
+    public bool IsPlayerSlotAvailable(string slot) => StoreHasSlot(_saveStore, slot);
+
+    private static bool StoreHasSlot(AtomicSaveGameStore? store, string slot) =>
+        store is not null && (File.Exists(store.SlotPath(slot)) || File.Exists(store.BackupPath(slot)));
 
     /// <summary>
     /// SAVE-003 Continue contract: a slot is loadable when the atomic store
@@ -166,7 +249,7 @@ public partial class RuntimeBridge : Node
                 var place = loaded.Save.CurrentZone.Value switch
                 {
                     "house_old_pc" => "Дом", "fap_clinic" => "ФАП",
-                    "zirat_road" => "Дорога к зирату", "kara_urman_night" => "Кромка леса", _ => "Кырлай"
+                    "zirat_road" => "Дорога к зирату", "kara_urman_night" => "Кромка леса", _ => "Кара-Урман"
                 };
                 newest = (slot, $"{place} · {time.ToLocalTime():dd.MM HH:mm}");
             }
@@ -187,17 +270,28 @@ public partial class RuntimeBridge : Node
     /// exactly as at first boot, the campaign entrypoint is re-applied, and
     /// the player is placed at the canonical arrival spawn.
     /// </summary>
-    public async Task<bool> StartNewGameAsync()
+    public Task<bool> StartNewGameAsync() => StartSessionAsync(debugSession: false);
+
+    public Task<bool> StartDebugSessionAsync() => StartSessionAsync(debugSession: true);
+
+    private async Task<bool> StartSessionAsync(bool debugSession)
     {
         var player = FindPlayer();
-        if (_loadingSlot || _content is null || player is null)
+        if (_loadingSlot || _loadPreparing || _content is null || player is null)
         {
             GD.PushWarning("New game is unavailable before the runtime and player are ready.");
             return false;
         }
 
+        if (NeedsPhysicalRecovery) return await StartRecoverySessionAsync(debugSession, player);
+        return await CreateFreshSessionAsync(debugSession, player);
+    }
+
+    private async Task<bool> CreateFreshSessionAsync(bool debugSession, FirstPersonController player)
+    {
         ResetAudioCuePresentation();
         var preservedSettings = player.CaptureSettings();
+        IsDebugSession = debugSession;
         CreateNewSession();
         CurrentZoneId = "village_day";
         CurrentSpawnPointId = "arrival";
@@ -208,9 +302,12 @@ public partial class RuntimeBridge : Node
             main.SwitchZone(CurrentZoneId, CurrentSpawnPointId);
         }
 
+        await ProjectPhysicalWorldAsync();
         player.ApplySettings(preservedSettings);
         QueueRuntimeStateChanged();
-        GD.Print("SaveGameV3 new game session started; existing slots untouched.");
+        GD.Print(debugSession
+            ? "SaveGameV3 debug session started; saves use debug-savegames."
+            : "SaveGameV3 new game session started; existing slots untouched.");
         return true;
     }
 
@@ -219,15 +316,31 @@ public partial class RuntimeBridge : Node
         _ = await LoadSlotAsync("quick");
     }
 
-    public async Task<bool> LoadSlotAsync(string slot)
+    public Task<bool> LoadSlotAsync(string slot) => LoadFromStoreAsync(slot, SessionSaveStore, IsDebugSession);
+
+    public Task<bool> LoadPlayerSlotAsync(string slot) => LoadFromStoreAsync(slot, _saveStore, debugSession: false);
+
+    private async Task<bool> LoadFromStoreAsync(string slot, AtomicSaveGameStore? store, bool debugSession)
     {
-        if (_loadingSlot || _saveStore is null || FindPlayer() is not { } player)
+        if (_loadingSlot || _loadPreparing || store is null || FindPlayer() is not { } player)
         {
             GD.PushWarning("Quick load is unavailable before the runtime and player are ready.");
             return false;
         }
 
-        _loadingSlot = true;
+        var sessionBeforeLoad = _kernel;
+        var loadSucceeded = false;
+        SaveGameV3? previousSave = _physicalRecoverySave;
+        var previousDebugSession = IsDebugSession;
+        var projectionApplied = false;
+        var rolledBack = false;
+        // Reserve the load while live owners finish their normal commits. Input,
+        // save and new-game are blocked without opening dispatch during projection.
+        _loadPreparing = true;
+        player.SetSessionTransition(true);
+        _loadingTimeSampleUsec = Time.GetTicksUsec();
+        PlayTimeBoundary?.Invoke("load-start");
+        CancelRinatPresentation();
         // A load is a presentation boundary even while the atomic store is
         // reading. Do not let a pre-load world one-shot leak into the result.
         UiFoley.StopWorld(GetTree());
@@ -236,17 +349,32 @@ public partial class RuntimeBridge : Node
         audio?.SetPaused(true);
         try
         {
-            var result = await _saveStore.LoadAsync(slot, _content.CampaignFingerprint);
-            ResetAudioCuePresentation();
-            RestoreSession(result.Save);
-            if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main)
+            var result = await store.LoadAsync(slot, _content.CampaignFingerprint);
+            // Preserve the live physical owners through the same snapshot used
+            // by SaveSlotAsync. This rollback is in memory and never writes a slot.
+            if (!NeedsPhysicalRecovery)
             {
-                main.SwitchZone(result.Save.CurrentZone.Value, result.Save.SpawnPoint.Value);
+                if (GetTree().GetFirstNodeInGroup("vehicle_fleet") is VehicleFleet fleet
+                    && !await fleet.FlushForSaveAsync())
+                    throw new InvalidOperationException("The current vehicle state could not be captured before loading.");
+                if (GetTree().GetFirstNodeInGroup("act1_connected_world") is Act1ConnectedWorld world
+                    && !await world.FlushFacilitiesForSaveAsync())
+                    throw new InvalidOperationException("The current facility state could not be captured before loading.");
+                if (AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
+                    && !await companion.FlushForSaveAsync())
+                    throw new InvalidOperationException("Alsu's current physical position could not be captured before loading.");
             }
-
-            player.ApplyPortableTransform(result.Save.PlayerTransform);
+            if (!ReferenceEquals(sessionBeforeLoad, _kernel))
+                throw new InvalidOperationException("The runtime session changed while reading the save.");
+            previousSave ??= CaptureSessionSave(player);
+            _loadingSlot = true;
+            _loadPreparing = false;
+            projectionApplied = true;
+            await RestoreLoadedWorldAsync(result.Save, debugSession, player);
+            NeedsPhysicalRecovery = false;
+            _physicalRecoverySave = null;
             // Current profile settings remain authoritative across story loads.
-            ReplayIncompleteFinale();
+            loadSucceeded = true;
             GD.Print(result.RecoveredFromBackup
                 ? "SaveGameV3 restored from the last working backup."
                 : "SaveGameV3 restored.");
@@ -255,23 +383,107 @@ public partial class RuntimeBridge : Node
         catch (Exception exception)
         {
             GD.PushError($"SaveGameV3 load failed: {exception.Message}");
+            if (projectionApplied && previousSave is not null)
+            {
+                try
+                {
+                    // Begin the old projection in this continuation, before
+                    // physics can advance at a rejected saved vehicle position.
+                    await RestoreLoadedWorldAsync(previousSave, previousDebugSession, player);
+                    NeedsPhysicalRecovery = false;
+                    _physicalRecoverySave = null;
+                    rolledBack = true;
+                    GD.Print("SaveGameV3 rejected the loaded placement; the previous session was restored.");
+                }
+                catch (Exception rollbackException)
+                {
+                    NeedsPhysicalRecovery = true;
+                    _physicalRecoverySave = previousSave;
+                    GD.PushError($"SaveGameV3 could not restore the previous physical placement: {rollbackException.Message}");
+                }
+            }
             return false;
         }
         finally
         {
+            // A short async load may begin and end between two process frames.
+            // Subtract that measured interval from the next accrual as well.
+            SampleLoadingTime();
             _loadingSlot = false;
-            if (audio is not null && IsInstanceValid(audio)) audio.SetPaused(wasPaused);
+            _loadPreparing = false;
+            player.SetSessionTransition(NeedsPhysicalRecovery);
+            QueueRuntimeStateChanged();
+            PlayTimeBoundary?.Invoke(loadSucceeded ? "load-restored" : "load-failed");
+            if (audio is not null && IsInstanceValid(audio)) audio.SetPaused(wasPaused || NeedsPhysicalRecovery);
+            if (NeedsPhysicalRecovery) ShowPhysicalRecoveryMenu();
+            if (loadSucceeded)
+            {
+                ReplayIncompleteFinale();
+            }
+            else if (!NeedsPhysicalRecovery && (rolledBack || ReferenceEquals(sessionBeforeLoad, _kernel))
+                && ActiveSceneId == "urman.chapter1:scene/forest" && !HasActiveMainMenu()
+                && IsInteractionAvailable("urman.chapter1:interaction/forest-rinat-intervention"))
+            {
+                // A failed read kept the original world, but deliberately
+                // cancelled its pending presentation. Reconstruct only cues
+                // from that reachable scene, never its state-changing effects.
+                ResetAudioCuePresentation();
+                if (audio is not null && IsInstanceValid(audio)) audio.SetPaused(wasPaused);
+                ReplayIncompleteFinale();
+            }
         }
+    }
+
+    private async Task RestoreLoadedWorldAsync(SaveGameV3 save, bool debugSession, FirstPersonController player)
+    {
+        ResetAudioCuePresentation();
+        RestoreSession(save);
+        IsDebugSession = debugSession;
+        if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main)
+            main.SwitchZone(save.CurrentZone.Value, save.SpawnPoint.Value);
+        player.ApplyPortableTransform(save.PlayerTransform);
+        await ProjectPhysicalWorldAsync();
+        if (!player.VehicleControlled && !player.CanCrouchAt(player.GlobalPosition)
+            && GetTree().GetFirstNodeInGroup("act1_connected_world") is Act1ConnectedWorld restoredWorld
+            && restoredWorld.TryResolveLegacyMosqueCarpetFeet(player, out var carpetFeet))
+        {
+            var original = player.CapturePortableTransform();
+            player.ApplyPortableTransform(new PlayerTransform(new(carpetFeet.X, carpetFeet.Y, carpetFeet.Z), original.RotationDegrees));
+            // Reproject the same saved owners, including an actually held item,
+            // at the corrected feet. No slot or narrative state is rewritten.
+            await ProjectPhysicalWorldAsync();
+            if (GetTree().GetFirstNodeInGroup("carry_coordinator") is CarryCoordinator { HeldItem: not null, HasValidHeldPose: false })
+                throw new InvalidDataException("The loaded held item is blocked above the restored mosque carpet.");
+            GD.Print($"act1-loaded-floor-migration: mosque-timber-to-carpet from={original.Position} to={carpetFeet}");
+        }
+        // A valid small-space save may require crouching. Reject the placement
+        // only when even that real capsule cannot fit after the world is restored.
+        if (!player.VehicleControlled && !player.CanCrouchAt(player.GlobalPosition))
+            throw new InvalidDataException("The loaded player's physical position is blocked.");
+    }
+
+    private async Task ProjectPhysicalWorldAsync()
+    {
+        if (GetTree().GetFirstNodeInGroup("act1_connected_world") is Act1ConnectedWorld world)
+            world.ProjectLoadedPhysicalState();
+        // Stage every saved body before querying their contacts. The fleet's
+        // existing physics barrier publishes its scene transforms; a companion
+        // query before that barrier could collide with a previous chassis pose.
+        var companion = AlsuStreetWalkPresentation.SessionOwner(GetTree());
+        companion?.ProjectLoadedPhysicalState(deferValidation: true);
+        if (GetTree().GetFirstNodeInGroup("vehicle_fleet") is VehicleFleet fleet
+            && !await fleet.CompleteLoadedProjectionAsync())
+            throw new InvalidDataException(fleet.ProjectionFailure ?? "The loaded vehicle placement could not be verified.");
+        if (companion is not null) await companion.CompleteLoadedPhysicalProjectionAsync();
     }
 
     public const string CheckpointSlot = "checkpoint";
 
     /// <summary>
-    /// SAVE-004 checkpoint policy: after each of the four stable
-    /// investigation beats the runtime writes one rolling checkpoint slot.
-    /// No autosave inside dialogue/document/transition states — the
-    /// checkpoint fires only when an interaction commit lands the campaign
-    /// on one of these scenes.
+    /// SAVE-004 writes one rolling checkpoint at stable investigation beats.
+    /// Committed world consequences and excerpts selected in an existing
+    /// source also save immediately, including while its reader remains open.
+    /// Merely opening a reader or choosing a dialogue line does not force a save.
     /// </summary>
     private static readonly string[] CheckpointScenes =
     [
@@ -284,10 +496,35 @@ public partial class RuntimeBridge : Node
     private string? _lastCheckpointScene;
     private bool _checkpointBusy;
     private bool _loadingSlot;
+    private bool _loadPreparing;
+
+    // Pose is checked at the instant of the attempt, not cached with narrative
+    // state. Technical runtimes without a connected world retain their contract.
+    internal bool CanPhysicallyUseInteraction(string interactionId)
+    {
+        if (_loadingSlot || _loadPreparing || NeedsPhysicalRecovery) return false;
+        if (!HasRequiredWorldState(interactionId)) return false;
+        if (interactionId == "urman.chapter1:interaction/talk-alsu"
+            && AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { PhysicalAccessReady: false }) return false;
+        if (IsSourceExcerptAction(interactionId)) return IsSourceExcerptAuthorized(interactionId);
+        if (interactionId == RinatPresencePresentation.ObservationId)
+            return RinatPresencePresentation.Current(GetTree())?.CanObserveRoadside() == true;
+        if (interactionId == "urman.chapter1:interaction/forest-rinat-intervention")
+            return SessionIdentity is { } session && ReferenceEquals(session, _rinatInterventionAuthorizedSession);
+        if (interactionId == "urman.chapter1:interaction/mark-underdeck-quiet")
+        {
+            if (CurrentZoneId is not ("village_day" or "zirat_road" or "kara_urman_night")) return false;
+        }
+        var world = GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld;
+        return world is null || (world.CanUseSmallSpaceInteraction(interactionId)
+            && world.CanUseObservationInteraction(interactionId)
+            && world.CanUseFacilityInteraction(interactionId)
+            && world.CanUseShopSupplyInteraction(interactionId));
+    }
 
     public async Task<bool> DispatchInteractionAsync(string interactionId)
     {
-        if (_kernel is null)
+        if (_kernel is null || !CanPhysicallyUseInteraction(interactionId))
         {
             return false;
         }
@@ -297,7 +534,8 @@ public partial class RuntimeBridge : Node
             var dispatched = await DispatchCompiledInteractionAsync(interaction);
             if (dispatched)
             {
-                await SaveCheckpointAsync(force: interaction.WorldLocations is not null && interaction.Effects.GetArrayLength() > 0);
+                await SaveCheckpointAsync(force: (interaction.WorldLocations is not null || IsSourceExcerptAction(interaction.Id))
+                    && interaction.Effects.GetArrayLength() > 0);
             }
 
             return dispatched;
@@ -319,6 +557,11 @@ public partial class RuntimeBridge : Node
             return;
         }
 
+        if (FindPlayer()?.IsClimbingLadder == true)
+        {
+            _checkpointAfterLadder = true;
+            return;
+        }
         _checkpointBusy = true;
         var session = _kernel;
         try
@@ -344,7 +587,12 @@ public partial class RuntimeBridge : Node
         QueueRuntimeStateChanged();
     }
 
-    public IReadOnlyList<OldPcDocumentContent> OldPcDocuments => _content.OldPcDocuments;
+    public IReadOnlyList<OldPcDocumentContent> OldPcDocuments => _content.OldPcDocuments
+        .Select(document => document with
+        {
+            Title = ResolveWorldText(document.Title),
+            BodyMarkdown = ResolveWorldText(document.BodyMarkdown)
+        }).ToArray();
 
     /// <summary>
     /// Read-only projection of vocabulary already encountered in the shared
@@ -404,9 +652,16 @@ public partial class RuntimeBridge : Node
     public bool IsWorldInteraction(string interactionId) =>
         _content.TryGetInteraction(interactionId, out var interaction) && interaction.WorldLocations is not null;
 
+    // A consequence recorded by the physical mechanism is a saved prerequisite,
+    // not a camera condition. Availability and dispatch must use the same owner.
+    private bool HasRequiredWorldState(string interactionId) =>
+        interactionId != "urman.chapter1:interaction/mark-underdeck-quiet"
+        || (_kernel is not null && YardMechanism.Flag(SelectWorldProps(), "yard/loose-footboard"));
+
     public bool IsInteractionAvailable(string interactionId)
     {
-        if (_kernel is null || !_content.TryGetInteraction(interactionId, out var interaction) || interaction.JournalAction is not null)
+        if (_kernel is null || !HasRequiredWorldState(interactionId)
+            || !_content.TryGetInteraction(interactionId, out var interaction) || interaction.JournalAction is not null)
         {
             return false;
         }
@@ -452,9 +707,24 @@ public partial class RuntimeBridge : Node
 
     public CompiledSceneContent RequireScene(string sceneId) => _content.RequireScene(sceneId);
 
-    public CompiledDocumentContent RequireDocument(string documentId) => _content.RequireDocument(documentId);
+    public CompiledDocumentContent RequireDocument(string documentId)
+    {
+        var document = _content.RequireDocument(documentId);
+        return document with
+        {
+            Title = ResolveWorldText(document.Title),
+            BodyMarkdown = ResolveWorldText(document.BodyMarkdown)
+                + (documentId == "urman.chapter1:document/shop-account-book" ? "\n\n" + ShopLedgerText() : string.Empty)
+        };
+    }
 
-    public string ResolveText(string textId) => _content.ResolveText(textId);
+    public string ResolveText(string textId) => ResolveWorldText(_content.ResolveText(textId));
+
+    // The world registry owns displayed addresses. Save and quest references
+    // stay as authored IDs; readers resolve again after a street-name change.
+    public string ResolveWorldText(string text) =>
+        (GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld)
+            ?.AddressRegistry?.ResolveText(text) ?? text;
 
     public IReadOnlyList<ResolvedJournalEntry> JournalEntries()
     {
@@ -463,10 +733,26 @@ public partial class RuntimeBridge : Node
             return [];
         }
 
-        return _kernel.SelectState().GetProperty("journal").EnumerateArray()
-            .Select(item => _content.ResolveJournalEntry(
-                item.GetProperty("entryId").GetString()!,
-                item.GetProperty("sourceId").GetString()!))
+        var state = _kernel.SelectState();
+        var knowledge = state.GetProperty("knowledge");
+        return state.GetProperty("journal").EnumerateArray()
+            .Select(item =>
+            {
+                var entry = _content.ResolveJournalEntry(item.GetProperty("entryId").GetString()!,
+                    item.GetProperty("sourceId").GetString()!);
+                entry = entry with
+                {
+                    Title = ResolveWorldText(entry.Title),
+                    Body = ResolveWorldText(entry.Body)
+                        + (entry.EntryId == "urman.chapter1:document/shop-account-book" ? "\n\n" + ShopLedgerText() : string.Empty),
+                    SourceTitle = ResolveWorldText(entry.SourceTitle)
+                };
+                // Preserve the authored source and history. Only knowledge cards
+                // carry a live conclusion status; a document remains a source.
+                return knowledge.TryGetProperty(entry.EntryId, out var fact)
+                    && fact.TryGetProperty("status", out var status)
+                    ? entry with { Status = status.GetString() } : entry;
+            })
             .ToArray();
     }
 
@@ -542,6 +828,7 @@ public partial class RuntimeBridge : Node
 
     public async Task<bool> EnterDialogueNodeAsync(string dialogueId, string nodeId)
     {
+        var session = SessionIdentity;
         var dialogue = _content.RequireDialogue(dialogueId);
         var node = dialogue.Nodes.TryGetValue(nodeId, out var found)
             ? found
@@ -551,6 +838,8 @@ public partial class RuntimeBridge : Node
             node.Conditions,
             node.Effects,
             activeSceneId: null);
+        if (result.Status == CommandStatus.Committed && ReferenceEquals(session, SessionIdentity))
+            await RememberDialogueSpeakerAsync(dialogueId, node);
         return result.Status == CommandStatus.Committed;
     }
 
@@ -602,7 +891,7 @@ public partial class RuntimeBridge : Node
     {
         if (GetTree().GetFirstNodeInGroup("document_ui") is DocumentUi documentUi)
         {
-            documentUi.Open(this, _content.RequireDocument(documentId));
+            documentUi.Open(this, RequireDocument(documentId));
         }
     }
 
@@ -698,7 +987,7 @@ public partial class RuntimeBridge : Node
 
         var inputType = input.GetProperty("type").GetString()
             ?? throw new ArgumentException("Old PC input type is missing.");
-        if (inputType == "section")
+        if (inputType is "section" or "desktop")
         {
             return _capabilities.Handle(OldPcInstanceId, input);
         }
@@ -807,7 +1096,9 @@ public partial class RuntimeBridge : Node
     }
 
     private bool OwnsInteraction(CompiledInteractionContent interaction, JsonElement state) =>
-        interaction.WorldLocations is { } locations
+        IsSourceExcerptAction(interaction.Id)
+            ? OwnsSourceExcerptInteraction(interaction.Id)
+            : interaction.WorldLocations is { } locations
             ? locations.Contains(CurrentZoneId, StringComparer.Ordinal)
             : state.TryGetProperty("activeScene", out var scene) && scene.GetString() == interaction.SourceSceneId;
 
@@ -967,6 +1258,10 @@ public partial class RuntimeBridge : Node
         handlers.Add("oldpc.search", HandleOldPcPassthrough);
         handlers.Add("oldpc.document.open", HandleOldPcOpen);
         handlers.Add("oldpc.document.save", HandleOldPcSave);
+        handlers.Add("shop.purchase", HandleShopPurchase);
+        handlers.Add("shop.use", HandleShopUse);
+        handlers.Add("bathhouse.ignite", HandleBathIgnition);
+        handlers.Add("npc.alsu.walk-checkpoint", HandleAlsuWalkCheckpoint);
         handlers.Add("quest.lifecycle", _questCoordinator.Handle);
         return handlers;
     }
@@ -1232,6 +1527,7 @@ public partial class RuntimeBridge : Node
 
     private void ResetAudioCuePresentation()
     {
+        CancelRinatPresentation();
         UiFoley.StopWorld(GetTree());
         if (GetTree().GetFirstNodeInGroup("audio_cue_ui") is AudioCueUi audioCueUi)
         {
@@ -1252,15 +1548,68 @@ public partial class RuntimeBridge : Node
             CallDeferred(nameof(CommitRinatIntervention));
     }
 
+    private bool HasActiveMainMenu() => GetTree().GetNodesInGroup("main_menu")
+        .OfType<MainMenuUi>().Any(menu => IsInstanceValid(menu) && !menu.IsQueuedForDeletion() && !menu.IsDismissed);
+
+    internal bool CanPresentRinatIntervention(object session) => IsInsideTree()
+        && ReferenceEquals(session, SessionIdentity) && CurrentZoneId == "kara_urman_night"
+        && ActiveSceneId == "urman.chapter1:scene/forest" && !HasActiveMainMenu()
+        && _audioCueUi?.LastStartedAssetId == "urman.chapter1:asset/audio-rinat-interruption";
+
+    internal void CancelRinatPresentation()
+    {
+        _rinatPresentationGeneration++;
+        _rinatInterventionPendingSession = null;
+        _rinatInterventionAuthorizedSession = null;
+        if (IsInsideTree()) RinatPresencePresentation.Current(GetTree())?.CancelIntervention();
+    }
+
     private async void CommitRinatIntervention()
     {
         const string actionId = "urman.chapter1:interaction/forest-rinat-intervention";
         // A reset/load clears LastStartedAssetId before this deferred callback.
         if (_audioCueUi?.LastStartedAssetId != "urman.chapter1:asset/audio-rinat-interruption"
             || !IsInteractionAvailable(actionId)) return;
-        var kernel = _kernel;
-        if (await DispatchInteractionAsync(actionId) && ReferenceEquals(kernel, _kernel))
-            await SaveCheckpointAsync(force: true);
+        var session = SessionIdentity;
+        if (session is null || ReferenceEquals(session, _rinatInterventionPendingSession)) return;
+        if (!CanPresentRinatIntervention(session)) return;
+        var generation = _rinatPresentationGeneration;
+        _rinatInterventionPendingSession = session;
+        try
+        {
+            var presentation = RinatPresencePresentation.Current(GetTree());
+            if (presentation is null)
+            {
+                GD.PushError("Rinat's finale requires his visible scene presentation.");
+                return;
+            }
+            if (!await presentation.PresentRinatInterventionAsync(session)
+                || generation != _rinatPresentationGeneration || !CanPresentRinatIntervention(session)) return;
+            // A cue-start callback is not an experienced intervention. Let the
+            // actual stop gesture and authored voice/caption finish before the
+            // rule and hard cut can commit, including after a mid-scene load.
+            while (_audioCueUi?.IsPresenting == true)
+            {
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                if (generation != _rinatPresentationGeneration || !CanPresentRinatIntervention(session)) return;
+            }
+            if (generation != _rinatPresentationGeneration || !CanPresentRinatIntervention(session)) return;
+            _rinatInterventionAuthorizedSession = session;
+            if (await DispatchInteractionAsync(actionId) && ReferenceEquals(session, SessionIdentity))
+                await SaveCheckpointAsync(force: true);
+        }
+        catch (Exception exception)
+        {
+            GD.PushError("Rinat's intervention presentation failed: " + exception);
+        }
+        finally
+        {
+            if (generation == _rinatPresentationGeneration)
+            {
+                if (ReferenceEquals(session, _rinatInterventionAuthorizedSession)) _rinatInterventionAuthorizedSession = null;
+                if (ReferenceEquals(session, _rinatInterventionPendingSession)) _rinatInterventionPendingSession = null;
+            }
+        }
     }
 
     private void ReplayIncompleteFinale()
@@ -1291,6 +1640,7 @@ public partial class RuntimeBridge : Node
 
     private void ReplaceKernel(RuntimeKernel kernel)
     {
+        _checkpointAfterLadder = false;
         _kernel?.Dispose();
         _kernel = kernel;
         _lastCheckpointScene = null;
@@ -1327,29 +1677,23 @@ public partial class RuntimeBridge : Node
     private static CommandPlan HandleOldPcOpen(GameCommand command, RuntimeCommandContext context)
     {
         var documentId = command.Payload.GetProperty("documentId").GetString()!;
-        var knowledge = JsonNode.Parse(context.State.GetProperty("knowledge").GetRawText())!.AsObject();
-        foreach (var knowledgeId in command.Payload.GetProperty("knowledgeRefs").EnumerateArray().Select(item => item.GetString()!))
-        {
-            knowledge[knowledgeId] = new JsonObject { ["status"] = "confirmed" };
-        }
-
-        var effects = new List<StateEffect>();
-        var events = new List<EventDraft>();
+        // Use the same ordered transaction as the physical document reader:
+        // declared source facts first, then authored effects and the open event.
+        // Replacing knowledge from the original snapshot after PlanEffects erased
+        // facts created by openEffects (including both source-return read facts).
+        var documentEffects = command.Payload.GetProperty("knowledgeRefs").EnumerateArray()
+            .Select(item => JsonSerializer.SerializeToElement(new
+            {
+                op = "knowledge.set-status", knowledgeId = item.GetString()!, status = "confirmed"
+            })).ToList();
         if (command.Payload.TryGetProperty("openEffects", out var openEffects))
-        {
-            var documentEffects = openEffects.EnumerateArray()
-                .Select(item => item.Clone())
-                .ToList();
-            documentEffects.Add(JsonSerializer.SerializeToElement(new { op = "document.open", documentId }));
-            var planned = ContentRuleEngine.PlanEffects(JsonSerializer.SerializeToElement(documentEffects), context.State);
-            effects.AddRange(planned.Effects);
-            events.AddRange(planned.Events);
-        }
-
-        effects.Add(new(StateEffectOperation.Set, "knowledge", JsonSerializer.SerializeToElement(knowledge)));
+            documentEffects.AddRange(openEffects.EnumerateArray().Select(item => item.Clone()));
+        documentEffects.Add(JsonSerializer.SerializeToElement(new { op = "document.open", documentId }));
+        var planned = ContentRuleEngine.PlanEffects(JsonSerializer.SerializeToElement(documentEffects), context.State);
+        var events = planned.Events.ToList();
         events.Add(new("oldpc.document.opened", command.Payload.Clone()));
         return new(
-            Effects: effects,
+            Effects: planned.Effects,
             Events: events);
     }
 

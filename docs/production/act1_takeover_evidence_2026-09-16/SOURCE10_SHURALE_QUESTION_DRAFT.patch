@@ -1,0 +1,159 @@
+*** Begin Patch
+*** Update File: /Users/unterlantas/Documents/GitHub/URMAN/content/modules/urman-chapter1/definitions.json
+@@
+       "id": "ask-shurale-name",
+       "textId": "urman.chapter1:text/choice-timur-shurale",
+       "conditions": [
+-       {
+-        "op": "vocabulary.status",
+-        "vocabularyId": "urman.chapter1:vocabulary/tt_shurale",
+-        "status": "confirmed"
+-       }
++       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis"},
++       {"op": "any", "conditions": [
++        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "guessed"},
++        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}
++       ]}
+       ],
+-      "effects": [],
++      "effects": [{"op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}],
+       "nextNodeId": "shurale-reply"
+@@
+     "id": "shurale-reply",
+     "speakerRole": "timur-hazrat",
+     "textId": "urman.chapter1:text/dialogue-timur-shurale-reply",
+-    "conditions": [],
++    "conditions": [
++     {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis"},
++     {"op": "any", "conditions": [
++      {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "guessed"},
++      {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}
++     ]}
++    ],
+     "effects": [],
+@@
+      {"id": "discuss-route-check", "textId": "urman.chapter1:text/choice-timur-route-check", "conditions": [], "effects": [], "nextNodeId": "route-question"},
+      {"id": "ask-silence", "textId": "urman.chapter1:text/choice-timur-silence", "conditions": [], "effects": [], "nextNodeId": "silence-reply"},
+-     {"id": "ask-grandparents", "textId": "urman.chapter1:text/choice-timur-grandparents", "conditions": [], "effects": [], "nextNodeId": "grandparents-reply"}
++     {"id": "ask-grandparents", "textId": "urman.chapter1:text/choice-timur-grandparents", "conditions": [], "effects": [], "nextNodeId": "grandparents-reply"},
++     {
++      "id": "ask-shurale-name", "textId": "urman.chapter1:text/choice-timur-shurale",
++      "conditions": [
++       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis"},
++       {"op": "any", "conditions": [
++        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "guessed"},
++        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}
++       ]}
++      ],
++      "effects": [{"op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}],
++      "nextNodeId": "shurale-reply"
++     }
+@@
+       "id": "ask-shurale-name", "textId": "urman.chapter1:text/choice-timur-shurale",
+-      "conditions": [{"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}],
+-      "effects": [], "nextNodeId": "shurale-reply"
++      "conditions": [
++       {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_folklore_as_survival_rule", "status": "hypothesis"},
++       {"op": "any", "conditions": [
++        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "guessed"},
++        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}
++       ]}
++      ],
++      "effects": [{"op": "vocabulary.set-status", "vocabularyId": "urman.chapter1:vocabulary/tt_shurale", "status": "confirmed"}],
++      "nextNodeId": "shurale-reply"
+*** Update File: /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1Len01FamilyFlowSmokeTest.cs
+@@
+             Require(!_demo.IntroVisible && !_player.ModalOpen, "Intro did not release input.");
+ 
++            foreach (var node in new[] { "restraint", "route-return", "route-follow-up" })
++                Require(!await _bridge.ChooseDialogueAsync(Prefix + "dialogue/timur_restraint", node, "ask-shurale-name"),
++                    "An unread folklore name allowed Timur's question from " + node);
++            Require(Vocabulary("tt_shurale") == "unknown", "A rejected name question taught an unread word.");
+             await Act1ArrivalFlowProof.CompleteAsync(this, _bridge, verifyReturn: true);
+@@
+             Require(Vocabulary("tt_javap") == "guessed" && Vocabulary("tt_tavysh") == "guessed"
++                && Vocabulary("tt_shurale") == "guessed"
++                && Status("discovery-kara-branch-profile") == "hidden"
++                && _bridge.SelectRuntimeState().GetProperty("presentation").GetProperty("openedDocumentIds")
++                    .EnumerateArray().Any(id => id.GetString() == BoundaryArticle)
+                 && Status("clue_folklore_as_survival_rule") == "hidden",
+@@
+             await Talk("route-to-mosque", "timur_restraint");
+             Require(!Known("clue_timur_warns_against_marat_path") && !HasChoice("choice-timur-route-check"),
+                 "Timur's greeting supplied his unheard warning or skipped the account of the register.");
++            Require(Vocabulary("tt_shurale") == "guessed" && HasChoice("choice-timur-shurale"),
++                "The actual article did not make its name available to ask about without an optional discovery.");
+             await CloseTalk();
+             await RoundTrip("len01-unanswered-timur");
+             Require(!Known("clue_timur_warns_against_marat_path") && !Available("edge-sketch-to-zirat-road"),
+                 "An unanswered greeting became a conversation after load.");
+-            await Talk("route-to-mosque", "timur_restraint");
++            Require(Vocabulary("tt_shurale") == "guessed", "Abandoning the question confirmed the folklore name.");
++            await TalkToTimurTarget();
++            await VerifyShuraleReply();
++            await CloseTalk();
++            await RoundTrip("len01-shurale-name-heard");
++            Require(Vocabulary("tt_shurale") == "confirmed" && !Known("clue_timur_warns_against_marat_path")
++                && !Known("clue_do_not_answer_rule") && !Available("edge-sketch-to-zirat-road"),
++                "The word's saved meaning replaced the route discussion or taught a creature rule.");
++            await TalkToTimurTarget();
+             await Choose("choice-timur-register");
+@@
+             Require(Known("clue_timur_warns_against_marat_path") && !Available("edge-sketch-to-zirat-road"),
+                 "The warning was not tied to its spoken reply, or completed the entire plan.");
++            await CloseTalk();
++            await TalkToTimurTarget();
++            await VerifyShuraleReply();
++            await CloseTalk();
++            await TalkToTimurTarget();
+             await Choose("choice-timur-route-check");
+@@
+-            Require(Vocabulary("tt_javap") == "confirmed" && Vocabulary("tt_tavysh") == "confirmed",
++            Require(Vocabulary("tt_javap") == "confirmed" && Vocabulary("tt_tavysh") == "confirmed"
++                && Vocabulary("tt_shurale") == "confirmed",
+                 "Rereading a document downgraded its previously understood words.");
+@@
+-            await Talk("route-to-mosque", "timur_restraint");
++            await TalkToTimurTarget();
+             Require(!HasChoice("choice-timur-register") && !HasChoice("choice-timur-route-check")
+                 && HasChoice("choice-timur-grandparents"),
+                 "A completed route conversation replayed its request or removed Timur's other questions.");
++            await VerifyShuraleReply();
+             await CloseTalk();
+@@
+-    private async Task Talk(string interaction, string dialogue)
++    private async Task TalkToTimurTarget()
++    {
++        var target = _demo.DemoMain.ConnectedWorld!.FindChildren("*", "", true, false)
++            .OfType<InteractionTarget>().SingleOrDefault(candidate => candidate.InteractionId == Interaction("route-to-mosque"));
++        Require(target?.IsAvailable() == true, "Timur's actual world target is unavailable for the read source.");
++        target!.Interact();
++        for (var frame = 0; frame < 180 && !_dialogue.IsOpen; frame++) await Frames(1);
++        await Frames(3);
++        Require(_dialogue.IsOpen && _player.ModalOpen, "Timur's actual target failed to open the conversation.");
++    }
++
++    private async Task VerifyShuraleReply()
++    {
++        Require(_dialogue.IsOpen && HasChoice("choice-timur-shurale"), "Timur lost the read name on a conversation return.");
++        var before = _bridge.SelectRuntimeState();
++        var wordBefore = Vocabulary("tt_shurale");
++        Require(await _bridge.EnterDialogueNodeAsync(Prefix + "dialogue/timur_restraint", "shurale-reply")
++            && Vocabulary("tt_shurale") == wordBefore,
++            "Entering a reply directly confirmed the name without an explicit question.");
++        await Choose("choice-timur-shurale");
++        var expected = _bridge.ResolveText(Prefix + "text/dialogue-timur-shurale-reply");
++        var line = _dialogue.GetNode<RichTextLabel>("Screen/Panel/Layout/Line");
++        for (var frame = 0; frame < 180 && line.Text != expected; frame++) await Frames(1);
++        Require(Vocabulary("tt_shurale") == "confirmed", "The explicit name question failed to confirm its cautious meaning.");
++        Require(_dialogue.IsOpen && line.IsVisibleInTree() && line.Text == expected
++            && _dialogue.GetNode<Button>("Screen/Panel/Layout/Continue").Visible,
++            "The name question's committed vocabulary hid its authored terminal reply: " + line.Text);
++        var after = _bridge.SelectRuntimeState();
++        foreach (var field in new[] { "knowledge", "journal", "pressure", "beats" })
++            Require(before.GetProperty(field).GetRawText() == after.GetProperty(field).GetRawText(),
++                "The folklore name question changed unrelated investigation state: " + field);
++    }
++
++    private async Task Talk(string interaction, string dialogue)
+*** End Patch

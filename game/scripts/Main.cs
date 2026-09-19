@@ -31,6 +31,7 @@ public partial class Main : Node3D
     private Tween? _zoneTransitionTween;
     private bool _hasLoadedInitialZone;
     private Act1ConnectedWorld? _connectedWorld;
+    private bool _zoneSwitchBusy;
 
     public string ActiveZoneScenePath { get; private set; } = string.Empty;
 
@@ -85,6 +86,31 @@ public partial class Main : Node3D
         SwitchZone(InitialZoneId, InitialSpawnPointId);
         _hasLoadedInitialZone = true;
         GD.Print("УРМАН Godot vertical slice ready: Painterly Low-Poly / first person");
+    }
+
+    /// <summary>
+    /// Ordinary compact-zone travel captures the departing physical companion
+    /// through the existing runtime before disposing her presentation. Load,
+    /// new game and explicit review fixtures already own their snapshot and
+    /// continue to use the synchronous projection below.
+    /// </summary>
+    public async Task<bool> SwitchZoneAsync(string zoneId, string spawnPointId)
+    {
+        if (_zoneSwitchBusy || !ZoneScenes.ContainsKey(zoneId)) return false;
+        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        var session = bridge?.SessionIdentity;
+        if (bridge is null || session is null) return false;
+        _zoneSwitchBusy = true;
+        try
+        {
+            if (_connectedWorld is null && AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
+                && !await companion.FlushForSaveAsync()) return false;
+            if (!IsInsideTree() || IsQueuedForDeletion() || !ReferenceEquals(session, bridge.SessionIdentity))
+                return false;
+            SwitchZone(zoneId, spawnPointId);
+            return bridge.CurrentZoneId == zoneId && bridge.CurrentSpawnPointId == spawnPointId;
+        }
+        finally { _zoneSwitchBusy = false; }
     }
 
     public void SwitchZone(string zoneId, string spawnPointId)
@@ -143,6 +169,9 @@ public partial class Main : Node3D
             return;
         }
 
+        // QueueFree retires the old zone at the end of the frame. Its companion
+        // must stop participating in contact tests before the new one projects.
+        AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
         foreach (var child in _zoneHost.GetChildren())
         {
             child.QueueFree();
@@ -155,6 +184,7 @@ public partial class Main : Node3D
         }
 
         _zoneHost.AddChild(zone);
+        RinatPresencePresentation.AttachCompact(zone, zoneId);
         ActiveZoneScenePath = scenePath;
         if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
         {

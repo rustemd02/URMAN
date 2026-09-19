@@ -8,9 +8,10 @@ namespace Urman.Godot.Tests;
 
 /// <summary>
 /// A bounded, test-only physical walkthrough of the Act 1 demo. Unlike the
-/// deterministic corridor smoke, this route never writes a player position:
-/// movement is driven through the production input actions and CharacterBody3D
-/// collision, while interactions still use the first-person camera ray.
+/// deterministic corridor smoke, main-route movement uses production input and
+/// CharacterBody3D collision, with the first-person camera ray for interactions.
+/// Separate labelled edge fixtures write positions; URMAN_WALK_MAIN_ROUTE_ONLY=1
+/// omits those fixtures and starts the physical route at the normal arrival.
 /// It is evidence of a traversable build, not a substitute for a human pass.
 /// </summary>
 public partial class Act1FirstPersonWalkthroughSmokeTest : Node
@@ -22,9 +23,26 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
     private float _lookPitch;
     private float _walkedMeters;
     private bool _failed;
+    private readonly System.Collections.Generic.List<Vector3> _mosqueReturnRoute = new();
 
     public override async void _Ready()
     {
+        try { await RunAsync(); }
+        catch (Exception exception) { Fail("Physical walkthrough exception: " + exception); }
+    }
+
+    private async Task RunAsync()
+    {
+        var mainRouteOnly = OS.GetEnvironment("URMAN_WALK_MAIN_ROUTE_ONLY") == "1";
+        _addressLifecycleOnly = OS.GetEnvironment("URMAN_WALK_ADDRESS_LIFECYCLE_ONLY") == "1";
+        _addressNaturalQueueOnly = OS.GetEnvironment("URMAN_WALK_ADDRESS_NATURAL_QUEUE_ONLY") == "1";
+        if (_addressLifecycleOnly && _addressNaturalQueueOnly)
+            throw new InvalidOperationException("Selected diagnostic and ordinary address queue coverage are separate scopes.");
+        _addressLifecycleOnly |= _addressNaturalQueueOnly;
+        if (_addressLifecycleOnly && !mainRouteOnly)
+            throw new InvalidOperationException("Address lifecycle coverage requires the ordinary main route without local fixtures.");
+        if (_addressLifecycleOnly && OS.GetEnvironment("URMAN_ADDRESS_SUPPORT_DIAGNOSTICS") != "1")
+            throw new InvalidOperationException("Address lifecycle coverage requires live per-query support diagnostics.");
         var packed = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn");
         var demo = packed?.Instantiate<Act1DemoRoot>();
         if (demo is null)
@@ -78,7 +96,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         {
             foreach (var point in AgentBAct1Layout.WalkChain.Skip(1).Take(3).Concat(AgentBAct1Layout.HousePathAxis.Skip(1)))
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-approach-{point.X}-{point.Y}")) return;
-            var access = new Vector2[] { new(-24.4f,2.6f), new(-26.05f,2.6f), new(-29f,2.6f), new(-34.2f,.8f), new(-34.2f,-8.6f), new(-33.8311f,-8.711206f) };
+            var access = new Vector2[] { new(-24.4f,2.6f), new(-26.05f,2.2f), new(-29f,2.6f), new(-34.2f,.8f), new(-34.2f,-8.6f), new(-33.8311f,-8.711206f) };
             foreach (var point in access)
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-side-{point.X}-{point.Y}")) return;
             if (!await InteractAt(player, ray, Interaction("discover-house-exterior-rear-minaret-view"))) return;
@@ -264,7 +282,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             await Frames(35);
             if (gate.CollisionLayer != 0 || bridge.ActiveSceneId != sceneBefore)
             { Fail("Babai side board failed to clear its collider while preserving the scene."); return; }
-            foreach (var point in new Vector2[] { new(-24.35f,-.70f), new(-26.05f,-.70f), new(-26.05f,.20f), new(-26.05f,2.60f), new(-25.20f,2.60f), new(-24.42f,2.40f), new(-24.42f,1.70f) })
+            foreach (var point in new Vector2[] { new(-24.35f,-.70f), new(-26.05f,-.70f), new(-26.05f,.20f), new(-26.05f,2.20f), new(-25.20f,2.60f), new(-24.42f,2.40f), new(-24.42f,1.70f) })
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"yard-side-loop-{point.X}-{point.Y}")) return;
             GD.Print($"act1-discovery-walk: PASS loop=babai-side mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
             await GodotSmokeCleanup.ReleaseAsync(demo);
@@ -277,6 +295,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         // block some edges on its own (a ridge does stop the south one), so the
         // assertion is the invariant that matters: the player never leaves the
         // world window, never ends up below ground and never needs a recovery.
+        if (!mainRouteOnly)
+        {
         var probeStart = player.GlobalPosition;
         var edgeClampTotal = 0;
         var edgeFramesOutside = 0;
@@ -357,6 +377,9 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         player.GlobalPosition = probeStart;
         player.Velocity = Vector3.Zero;
         await PhysicsFrames(3);
+        }
+
+        if (!await CompletePhysicalArrival(player, ray, bridge)) return;
 
         // Arrival -> house. Keep the authored signpost clear, then resolve the
         // door's connected-world position from its named interaction target.
@@ -403,17 +426,17 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             }
         }
 
-        foreach (var point in new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.6f), new(-26.05f,.2f) })
+        foreach (var point in new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.2f), new(-26.05f,.2f) })
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"house-yard-entry-{point.X}-{point.Y}")) return;
         var houseApproach = AgentBAct1Layout.HouseDoorApproach;
-        if (!await WalkTo(player, houseApproach, "house-door-approach")
-            || !await InteractAt(player, ray, Interaction("arrival-enter-house")))
-        {
-            return;
-        }
+        if (!await WalkTo(player, houseApproach, "house-door-approach")) return;
+        if (_addressLifecycleOnly && !PrepareAddressLifecycle(main.ConnectedWorld, player)) return;
+        if (!await InteractAt(player, ray, Interaction("arrival-enter-house"))) return;
         await Frames(4);
         AssertState(main, bridge, "house_old_pc", "house", "res://scenes/zones/style_benchmark_house_pc.tscn");
         if (HasFailed()) return;
+        if (_addressLifecycleOnly && !_addressNaturalQueueOnly) _addressLifecycleAudit!.SetPhysicsProcess(true);
+        if (_addressNaturalQueueOnly && !BeginNaturalAddressIndoor(main.ConnectedWorld, bridge, player)) return;
 
         // House -> Mansur -> old PC -> street. The household request is a
         // real player-facing gate: find Mansur with the camera ray, close the
@@ -443,9 +466,9 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         }
         offerHelp.EmitSignal(Button.SignalName.Pressed);
         await Frames(4);
-        mansurDialogue.GetNode<Button>("Screen/Panel/Layout/Continue")
-            .EmitSignal(Button.SignalName.Pressed);
-        await Frames(4);
+        // The reply now offers a real follow-up choice. Escape is the ordinary
+        // way to leave it; a hidden Continue button must not complete the UI.
+        if (!await CloseDialogue(player)) return;
         if (mansurDialogue.IsOpen || player.ModalOpen
             || !bridge.IsInteractionAvailable(Interaction("oldpc-power")))
         {
@@ -521,9 +544,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         }
         stayForTea.EmitSignal(Button.SignalName.Pressed);
         await Frames(4);
-        gulsinaDialogue.GetNode<Button>("Screen/Panel/Layout/Continue")
-            .EmitSignal(Button.SignalName.Pressed);
-        await Frames(4);
+        if (!await Act1FamilyMealProof.CompleteAsync(this, bridge,
+            interactPhysically: action => InteractAt(player, ray, Interaction(action)))) return;
         var gulsinaState = bridge.SelectRuntimeState();
         if (gulsinaDialogue.IsOpen || player.ModalOpen
             || VocabularyStatus(gulsinaState, "tt_yaramyy") != "guessed"
@@ -550,6 +572,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
         { Fail("The family answer did not unlock the walk to Alsu."); return; }
 
+        if (_addressLifecycleOnly && !await VerifyAddressLifecycleIndoors(main.ConnectedWorld, bridge, player)) return;
         if (!await InteractAt(player, ray, Interaction("house-to-route")))
         {
             return;
@@ -560,7 +583,16 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
 
         if (HorizontalDistance(player.GlobalPosition, houseApproach) > .3f)
         { Fail("Leaving the house did not return to its physical door."); return; }
-        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.6f), new(-25.2f,2.6f), new(-24.42f,2.4f) }.Concat(AgentBAct1Layout.HousePathAxis.Reverse()).Append(new Vector2(-.4f,2f)))
+        if (_addressLifecycleOnly)
+        {
+            if (!await CompleteAddressLifecycleOutside(main.ConnectedWorld, bridge, player)) return;
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.2f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
+                     .Concat(AgentBAct1Layout.HousePathAxis.Reverse())
+                     .Concat(new Vector2[] { new(-.1f,-2.8f), new(-.1f,3.7f) }))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"house-exit-street-{point.X}-{point.Y}")) return;
 
         // The street conversation is a physical detective beat, not an
@@ -583,8 +615,15 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             Fail("Physical walkthrough did not open Alsu's route dialogue before the FAP.");
             return;
         }
+        if (!await Act1AlsuWalkProof.CompleteAsync(this, bridge)
+            || !await InteractAt(player, ray, Interaction("talk-alsu"))) return;
         if (!await ChooseVisibleDialogue(bridge, "choice-alsu-versions")
             || !await ChooseVisibleDialogue(bridge, "choice-alsu-go-to-naila")) return;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_versions_conflict") != "hidden"
+            || bridge.IsInteractionAvailable(Interaction("route-to-fap")))
+        { Fail("Alsu's account silently performed the first source comparison."); return; }
+        if (!await CompareVisibleSources(bridge, "compare-versions-scope",
+                OfficialNotice, ChapterPrefix + "knowledge/clue_alsu_heard_versions")) return;
         if (alsuDialogue.IsOpen || player.ModalOpen
             || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_versions_conflict") != "confirmed"
             || !bridge.IsInteractionAvailable(Interaction("route-to-fap")))
@@ -596,12 +635,35 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         // Street -> FAP is an actual walk along the authored branch, not an
         // interaction at the main-road sign followed by a clinic teleport.
         var fapEntry = FindInteraction(Interaction("route-to-fap"), GetTree().Root);
-        var fapApron = AgentBAct1Layout.FapBranchAxis[^1];
-        if (fapEntry is null || new Vector2(fapEntry.GlobalPosition.X,
-                fapEntry.GlobalPosition.Z).DistanceTo(fapApron) > 0.01f)
+        var fapDoor = fapEntry?.HasMeta("authoredDoorSurface") == true
+            ? GetNodeOrNull<MeshInstance3D>(fapEntry.GetMeta("authoredDoorSurface").AsString()) : null;
+        if (fapEntry is null || fapDoor?.Mesh is null
+            || fapEntry.GlobalPosition.DistanceTo(fapDoor.GlobalTransform * fapDoor.Mesh.GetAabb().GetCenter()) > .25f)
         {
-            Fail("FAP transition is not at the authored clinic entry apron.");
+            Fail("FAP transition does not correspond to the actual clinic door surface.");
             return;
+        }
+        // Alsu now remains at the actual conversation turn (.05,-8.8).
+        // The former direct segment to (0,-10) walked into her physical body.
+        // Round the west side on the existing street; retain the same route
+        // corner on later FAP visits and returns instead of crossing her again.
+        var stoppedAlsu = AlsuStreetWalkPresentation.Current(GetTree());
+        if (stoppedAlsu is null || !stoppedAlsu.Arrived || !stoppedAlsu.PhysicalAccessReady)
+        { Fail("The FAP walk requires the actual stopped companion at the completed street turn."); return; }
+        var alsuTurnPosition = stoppedAlsu.Actor.GlobalPosition;
+        var turnRevision = player.PresentationTransformRevision;
+        var turnRecoveries = player.FallRecoveries;
+        var turnClamps = player.EdgeClamps;
+        GD.Print($"walk-alsu-turn-bypass: actor={alsuTurnPosition} player={player.GlobalPosition} "
+            + "west-corners=(-1.2,-8),(-1.2,-10) ordinary-standing-input=true");
+        foreach (var point in new Vector2[] { new(-1.2f, -8f), new(-1.2f, -10f) })
+        {
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y),
+                    $"fap-alsu-bypass-{point.X}-{point.Y}")) return;
+            if (player.IsCrouching || !player.CanStandAt(player.GlobalPosition)
+                || player.PresentationTransformRevision != turnRevision || player.FallRecoveries != turnRecoveries
+                || player.EdgeClamps != turnClamps || stoppedAlsu.Actor.GlobalPosition.DistanceTo(alsuTurnPosition) > .002f)
+            { Fail("The physical FAP bypass changed standing clearance, the companion or the player transform owner."); return; }
         }
         foreach (var point in AgentBAct1Layout.FapBranchAxis.SkipLast(1))
         {
@@ -672,7 +734,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         {
             if (!await WalkTo(player, new Vector3(point.X, player.GlobalPosition.Y, point.Y),
                 $"fap-return-{point.X}-{point.Y}")) return;
-            if (point == new Vector2(23f, -25f))
+            if (!mainRouteOnly && point == new Vector2(23f, -25f))
             {
                 // Physically enter and leave the actual neighboring holding;
                 // presentation-camera checkpoints alone cannot prove access.
@@ -719,12 +781,12 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             Fail("FAP return resume lost the street position or house interaction.");
             return;
         }
-        foreach (var point in AgentBAct1Layout.HousePathAxis)
+        foreach (var point in AgentBAct1Layout.HousePathAxis.Prepend(new Vector2(-1.2f, -10f)))
         {
             if (!await WalkTo(player, new Vector3(point.X, player.GlobalPosition.Y, point.Y),
                 $"house-return-{point.X}-{point.Y}")) return;
         }
-        foreach (var point in new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.6f), new(-26.05f,.2f), new(houseApproach.X,houseApproach.Z) })
+        foreach (var point in new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.2f), new(-26.05f,.2f), new(houseApproach.X,houseApproach.Z) })
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"house-return-yard-{point.X}-{point.Y}")) return;
         if (!await InteractAt(player, ray, Interaction("official-to-internal-register")))
         {
@@ -737,7 +799,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         // The second house visit checks that the physical route remains usable
         // after the evidence transition. Rinat and the shared archive steps
         // are kept here because they are the Act 1 state gates for the forest.
-        await InteractAt(player, ray, Interaction("oldpc-power"));
+        if (!await InteractAt(player, ray, Interaction("oldpc-power"))) return;
         await Frames(4);
         var archive = GetTree().GetFirstNodeInGroup("old_pc_ui") as OldPcUi;
         var archiveRows = archive!.GetNode<ItemList>("Screen/Computer/Layout/WorkArea/Results");
@@ -748,28 +810,38 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         { Fail("The returning player could not read the internal register on the old PC."); return; }
         archive.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
         await Frames(2);
-        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-records-contradiction"), new[] { OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict" }))
+        await Act1SourceExcerptProof.RecordNoticeCauseAsync(this, bridge);
+        await Act1SourceExcerptProof.RecordRegisterFieldsAsync(this, bridge);
+        if (!await CompareVisibleSources(bridge, "compare-records-contradiction",
+                OfficialNotice, "urman.oldpc:document/rec_marat_case_register_conflict"))
         { Fail("The record comparison was rejected."); return; }
 
         // Return with a new question, preserving the investigation phase at
         // both doors. The outside legs use the same tested footpaths as the
         // first visit, without inserting a direct SwitchZone shortcut.
         if (!await InteractAt(player, ray, Interaction("house-to-route"))) return;
-        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.6f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
+        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.2f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
                      .Concat(AgentBAct1Layout.HousePathAxis.Reverse())
-                     .Append(new Vector2(-.4f,2f))
+                     .Append(new Vector2(-1.2f, -10f))
                      .Concat(AgentBAct1Layout.FapBranchAxis.SkipLast(1)))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"naila-question-outward-{point.X}-{point.Y}")) return;
         if (!await InteractAt(player, ray, Interaction("route-to-fap"))
             || !await InteractAt(player, ray, Interaction("talk-naila"))
-            || !await ChooseVisibleDialogue(bridge, "choice-naila-contradiction")
+            || !await ChooseVisibleDialogue(bridge, "choice-naila-contradiction"))
+        { Fail("The physical return did not present Naila's pending record question."); return; }
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_naila_record_scope") != "hidden")
+        { Fail("Naila's question supplied an answer before checking the two fields."); return; }
+        if (!await ChooseVisibleDialogue(bridge, "choice-naila-show-external-wording")
+            || !await ChooseVisibleDialogue(bridge, "choice-naila-ask-category-scope")
             || !await ChooseVisibleDialogue(bridge, "choice-naila-check-answer")
-            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-record-scope"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", ChapterPrefix + "knowledge/clue_naila_record_scope" })
+            || !await CompareVisibleSources(bridge, "compare-record-scope",
+                "urman.oldpc:document/rec_marat_case_register_conflict", ChapterPrefix + "knowledge/clue_naila_record_scope")
             || !await InteractAt(player, ray, Interaction("official-leave-clinic")))
         { Fail("The physical return to Naila did not resolve the record question."); return; }
         foreach (var point in AgentBAct1Layout.FapBranchAxis.Reverse().Skip(1)
+                     .Append(new Vector2(-1.2f, -10f))
                      .Concat(AgentBAct1Layout.HousePathAxis)
-                     .Concat(new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.6f), new(-26.05f,.2f), new(houseApproach.X,houseApproach.Z) }))
+                     .Concat(new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.2f), new(-26.05f,.2f), new(houseApproach.X,houseApproach.Z) }))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"naila-question-return-{point.X}-{point.Y}")) return;
         if (!await InteractAt(player, ray, Interaction("official-to-internal-register"))) return;
         AssertState(main, bridge, "house_old_pc", "evidence-internal-register", "res://scenes/zones/style_benchmark_house_pc.tscn");
@@ -794,8 +866,37 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
         await Frames(5);
+        AssertDocument("urman.oldpc:document/msg_marat_saved_last_normal");
+        if (HasFailed()) return;
         CloseDocument();
         await Frames(3);
+
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_message_read") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_was_afraid_before_death") != "hidden"
+            || bridge.IsInteractionAvailable(Interaction("saved-message-to-boundary-source")))
+        { Fail("Reading Marat's message silently answered the question for Alsu."); return; }
+        await Act1SourceExcerptProof.RecordMessageVoiceAsync(this, bridge);
+        if (!await InteractAt(player, ray, Interaction("house-to-route"))) return;
+        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.2f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
+                     .Concat(AgentBAct1Layout.HousePathAxis.Reverse()))
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"alsu-message-outward-{point.X}-{point.Y}")) return;
+        AssertState(main, bridge, "village_day", "evidence-saved-message", "res://scenes/zones/style_benchmark_day_street.tscn");
+        if (HasFailed() || !await InteractAt(player, ray, Interaction("talk-alsu"))
+            || !await ChooseVisibleDialogue(bridge, "choice-alsu-show-message")) return;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_alsu_message_reply") != "hidden")
+        { Fail("Showing the message silently chose its interpretation."); return; }
+        if (!await ChooseVisibleDialogue(bridge, "choice-alsu-quote-heard-voice")
+            || !await ChooseVisibleDialogue(bridge, "choice-alsu-check-original")) return;
+        if (player.ModalOpen
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_alsu_message_reply") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_was_afraid_before_death") != "confirmed")
+        { Fail("Alsu's bounded reply did not preserve the source and release the physical return."); return; }
+        foreach (var point in AgentBAct1Layout.HousePathAxis
+                     .Concat(new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.2f), new(-26.05f,.2f), new(houseApproach.X,houseApproach.Z) }))
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"alsu-message-return-{point.X}-{point.Y}")) return;
+        if (!await InteractAt(player, ray, Interaction("official-to-internal-register"))) return;
+        AssertState(main, bridge, "house_old_pc", "evidence-saved-message", "res://scenes/zones/style_benchmark_house_pc.tscn");
+        if (HasFailed()) return;
 
         foreach (var interaction in new[]
         {
@@ -805,21 +906,56 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         })
         {
             if (interaction == "boundary-source-to-reread"
-                && !await bridge.CompareJournalSourcesAsync(Interaction("compare-voice-link"), new[] { "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary" }))
+                && !await CompareVisibleSources(bridge, "compare-voice-link",
+                    "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/tw_shurale_urman_boundary"))
             { Fail("The voice comparison was rejected."); return; }
             if (interaction == "reread-to-edge-sketch"
-                && !await bridge.CompareJournalSourcesAsync(Interaction("compare-reread-response"), new[] { "urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary" }))
+                && !await CompareVisibleSources(bridge, "compare-reread-response",
+                    "urman.oldpc:document/rec_marat_case_register_conflict", "urman.oldpc:document/tw_shurale_urman_boundary"))
             { Fail("The reread comparison was rejected."); return; }
+            if (interaction == "reread-to-edge-sketch"
+                && !await Act1SourceReturnsProof.CompleteAsync(this, bridge,
+                    interactPhysically: action => InteractAt(player, ray, Interaction(action)))) return;
             if (!await InteractAt(player, ray, Interaction(interaction)))
             {
                 return;
             }
             await Frames(5);
+            AssertDocument(interaction == "reread-to-edge-sketch"
+                ? "urman.oldpc:document/doc_kara_urman_edge_sketch"
+                : "urman.oldpc:document/tw_shurale_urman_boundary");
+            if (HasFailed()) return;
             CloseDocument();
             await Frames(3);
         }
 
-        if (!await InteractAt(player, ray, Interaction("edge-sketch-to-zirat-road")))
+        if (bridge.IsInteractionAvailable(Interaction("edge-sketch-to-zirat-road")))
+        { Fail("Reading the sketch bypassed explaining the intended route to Timur."); return; }
+        if (!await CompareVisibleSources(bridge, "compare-route-purpose-landmarks",
+                "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/doc_kara_urman_edge_sketch")
+            || !await InteractAt(player, ray, Interaction("house-to-route"))) return;
+        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.2f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
+                     .Concat(AgentBAct1Layout.HousePathAxis.Reverse()).Append(AgentBAct1Layout.MainRoadAxis[4]))
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"timur-route-outward-{point.X}-{point.Y}")) return;
+        if (!await InteractAt(player, ray, Interaction("route-to-mosque"))
+            || !await ChooseVisibleDialogue(bridge, "choice-timur-register")
+            || !await ChooseVisibleDialogue(bridge, "choice-timur-route-check")) return;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_route_check_discussed") != "hidden")
+        { Fail("Timur's question silently chose the reason for walking to the boundary."); return; }
+        if (!await ChooseVisibleDialogue(bridge, "choice-timur-name-landmarks")
+            || !await CloseDialogue(player)) return;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_route_check_discussed") != "confirmed")
+        { Fail("The visible route-intent answer did not complete the conversation with Timur."); return; }
+        if (!bridge.IsInteractionAvailable(Interaction("edge-sketch-to-zirat-road"))
+            || bridge.CurrentZoneId != "village_day" || bridge.ActiveSceneId != ChapterPrefix + "scene/evidence-edge-sketch")
+        { Fail("The explicit route discussion did not leave the reached sketch and street departure available."); return; }
+        if (!await LeaveMosque(player, main.ConnectedWorld)) return;
+        // Follow the inhabited street to its actual roadside transition. This
+        // traversal checks the connected space; it is not a duration estimate.
+        foreach (var point in AgentBAct1Layout.MainRoadAxis.Skip(4).Take(4))
+            if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"timur-to-zirat-street-{point.X}-{point.Y}")) return;
+
+        if (!await InteractAt(player, ray, Interaction("edge-sketch-to-zirat-road"), maxTransitionDistance: 2.5f))
         {
             return;
         }
@@ -829,6 +965,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
 
         // Inspect the last inhabited holding via its open gate and side seni,
         // then return to the cemetery route without teleporting the player.
+        if (!mainRouteOnly)
         foreach (var point in new Vector2[]
                  { new(0f, -59.5f), new(-3.8f, -59.5f), new(-12f, -59.5f),
                    new(-19f, -63.2f), new(-24f, -64.5f), new(-25f, -68.3f),
@@ -842,12 +979,35 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         // This is intentionally a long physical walk: it catches a broken
         // floor, a wrong collision layer or a bad spawn that teleport-based
         // tests cannot see.
+        if (!await InteractAt(player, ray, RinatPresencePresentation.ObservationId)) return;
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_rinat_at_roadside") != "confirmed"
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_do_not_answer_rule") != "hidden")
+        { Fail("The actual walk to Rinat did not record his presence independently of the final warning."); return; }
         if (!await InteractAt(player, ray, Interaction("zirat-roadside-clue")))
         {
             return;
         }
 
-        if (!await bridge.CompareJournalSourcesAsync(Interaction("compare-route-match"), new[] { "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks" }))
+        if (bridge.IsInteractionAvailable(Interaction("compare-route-match"))
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_sketch_field_landmarks") != "hidden")
+        { Fail("Reading the tag supplied the unobserved ditch/fence relationship."); return; }
+        if (!await InteractAt(player, ray, Interaction("observe-sketch-landmarks"))) return;
+
+        // The physical target opens its source reader after the awaited save.
+        // Finish reading that actual result before opening the comparison tab.
+        var landmarksJournal = (JournalUi)GetTree().GetFirstNodeInGroup("journal_ui");
+        const string landmarksSource = "urman.chapter1:knowledge/clue_sketch_field_landmarks";
+        for (var frame = 0; frame < 180 && (!landmarksJournal.GetNode<Control>("Screen").Visible
+                || landmarksJournal.ActiveEntryId != landmarksSource); frame++) await Frames(1);
+        if (!landmarksJournal.GetNode<Control>("Screen").Visible || landmarksJournal.ActiveEntryId != landmarksSource
+            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_sketch_field_landmarks") != "confirmed")
+        { Fail("The physical landmark observation did not open its actual source reader."); return; }
+        landmarksJournal.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+        await Frames(4);
+        if (player.ModalOpen) { Fail("Closing the landmark source did not release the physical player."); return; }
+
+        if (!await CompareVisibleSources(bridge, "compare-route-match",
+                "urman.oldpc:document/doc_kara_urman_edge_sketch", "urman.chapter1:knowledge/clue_zirat_roadside_marks"))
         { Fail("The route comparison was rejected."); return; }
         var ziratState = bridge.SelectRuntimeState();
         if (KnowledgeStatus(ziratState, "clue_marat_last_route_near_zirat") != "confirmed")
@@ -874,6 +1034,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         await Frames(8);
         AssertState(main, bridge, "kara_urman_night", "forest-approach", "res://scenes/zones/style_benchmark_kara_urman_night.tscn");
         if (HasFailed()) return;
+        if (!mainRouteOnly && !await ProbeEightHeadings(player)) return;
         foreach (var point in AgentBAct1Layout.KaraRoadAxis.Skip(3).SkipLast(1).Append(new Vector2(.6f, -121f)))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"forest-approach-{point.X}-{point.Y}")) return;
         if (!await InteractAt(player, ray, Interaction("forest-approach-to-forest"))) return;
@@ -881,20 +1042,34 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         AssertState(main, bridge, "kara_urman_night", "forest", "res://scenes/zones/style_benchmark_kara_urman_night.tscn");
         if (HasFailed()) return;
 
-        for (var attempt = 0; attempt < 200 && bridge.IsInteractionAvailable("urman.chapter1:interaction/forest-rinat-intervention"); attempt++)
+        for (var attempt = 0; attempt < 600 && !CliffhangerComplete(bridge); attempt++)
+        {
+            if (!Act1RinatRoadsideProof.LookAtIntervention(this)) return;
             await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
+        }
         var state = bridge.SelectRuntimeState();
-        if (state.GetProperty("beats").GetProperty($"{ChapterPrefix}beat/cliffhanger-hard-cut").GetString() != "completed")
+        var endingAudio = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
+        if (!CliffhangerComplete(bridge)
+            || KnowledgeStatus(state, "clue_do_not_answer_rule") != "confirmed"
+            || endingAudio?.IsPresenting != false)
         {
             Fail("Physical walkthrough reached Kara-Urman without committing the Act 1 cliffhanger.");
             return;
         }
 
-        // World edge and fall probe: the author walked to the end of the world and
-        // fell through it. Walk outward on eight headings from the Kara edge and
-        // require that the player never leaves the authored window, never ends up
-        // below the ground and never needs a fall recovery.
+
+
+        GD.Print($"act1-first-person-walkthrough: PASS mode=physical-characterbody-walk (real movement/ray/input; distinct from the capture harness's presentation waypoint audit) distance={_walkedMeters:F2}m final-zone={bridge.CurrentZoneId} cliffhanger=completed");
+        await GodotSmokeCleanup.ReleaseAsync(demo);
+        GetTree().Quit(0);
+    }
+
+    private async Task<bool> ProbeEightHeadings(FirstPersonController player)
+    {
+        if (player.ModalOpen)
+        { Fail("Eight-heading probe requires the playable night approach before its final trigger."); return false; }
         var headingProbeStart = player.GlobalPosition;
+        var walkedTrace = new System.Collections.Generic.List<Vector3> { headingProbeStart };
         var worstBelowGround = 0f;
         var outsideWindow = 0;
         for (var heading = 0; heading < 8; heading++)
@@ -905,15 +1080,15 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             {
                 for (var frame = 0; frame < 240; frame++)
                 {
+                    var before = player.GlobalPosition;
                     await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
                     var position = player.GlobalPosition;
-                    _walkedMeters += 0.01f;
+                    _walkedMeters += HorizontalDistance(before, position);
+                    if (frame % 15 == 0 && HorizontalDistance(walkedTrace[^1], position) > .30f)
+                        walkedTrace.Add(position);
                     if (position.X < AgentBAct1HeightField.MinX - .05f || position.X > AgentBAct1HeightField.MaxX + .05f
                         || position.Z < AgentBAct1HeightField.MinZ - .05f || position.Z > AgentBAct1HeightField.MaxZ + .05f)
-                    {
                         outsideWindow++;
-                    }
-
                     var ground = (float)AgentBAct1HeightField.Ground(position.X, position.Z);
                     worstBelowGround = Mathf.Max(worstBelowGround, ground - position.Y);
                 }
@@ -924,29 +1099,32 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
                 await PhysicsFrames(2);
             }
         }
-
-        if (outsideWindow > 0 || worstBelowGround > .60f || player.FallRecoveries > 0)
+        if (outsideWindow > 0 || worstBelowGround > .60f || player.FallRecoveries > 0 || player.ModalOpen)
         {
-            Fail(
-                $"Eight-heading edge walk failed: frames_outside_window={outsideWindow} "
-                + $"worst_below_ground={worstBelowGround:F2}m fall_recoveries={player.FallRecoveries} from={headingProbeStart}.");
-            return;
+            Fail($"Eight-heading edge walk failed: frames_outside_window={outsideWindow} "
+                + $"worst_below_ground={worstBelowGround:F2}m fall_recoveries={player.FallRecoveries} "
+                + $"modal={player.ModalOpen} from={headingProbeStart}.");
+            return false;
         }
-
-        GD.Print(
-            $"act1-world-edge-probe: headings=8 frames_outside_window={outsideWindow} "
-            + $"worst_below_ground={worstBelowGround:F2}m edge_clamps_observed={player.EdgeClamps}");
-
-        GD.Print($"act1-first-person-walkthrough: PASS mode=physical-characterbody-walk (real movement/ray/input; distinct from the capture harness's presentation waypoint audit) distance={_walkedMeters:F2}m final-zone={bridge.CurrentZoneId} cliffhanger=completed");
-        await GodotSmokeCleanup.ReleaseAsync(demo);
-        GetTree().Quit(0);
+        // Retrace positions actually reached by CharacterBody movement. This
+        // returns from the optional probe without writing the player's transform.
+        for (var index = walkedTrace.Count - 1; index >= 0; index--)
+            if (!await WalkTo(player, walkedTrace[index], $"edge-probe-return-{index}")) return false;
+        GD.Print($"act1-world-edge-probe: headings=8 before-final-trigger frames_outside_window={outsideWindow} "
+            + $"worst_below_ground={worstBelowGround:F2}m edge_clamps_observed={player.EdgeClamps}; returned by physical walk");
+        return true;
     }
 
-    private async Task<bool> WalkTo(FirstPersonController player, Vector3 destination, string label)
+    private static bool CliffhangerComplete(RuntimeBridge bridge) =>
+        bridge.SelectRuntimeState().GetProperty("beats")
+            .TryGetProperty(ChapterPrefix + "beat/cliffhanger-hard-cut", out var beat)
+        && beat.GetString() == "completed";
+
+    private async Task<bool> WalkTo(FirstPersonController player, Vector3 destination, string label, float arrivalRadius = .30f)
     {
         var start = player.GlobalPosition;
         var initialDistance = HorizontalDistance(player.GlobalPosition, destination);
-        if (initialDistance <= 0.30f)
+        if (initialDistance <= arrivalRadius)
         {
             return true;
         }
@@ -970,7 +1148,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
                 }
                 _walkedMeters += HorizontalDistance(before, player.GlobalPosition);
                 var currentDistance = HorizontalDistance(player.GlobalPosition, destination);
-                if (currentDistance <= 0.30f)
+                if (currentDistance <= arrivalRadius)
                 {
                     return true;
                 }
@@ -1056,7 +1234,9 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
     private async Task<bool> InteractAt(
         FirstPersonController player,
         RayCast3D ray,
-        string interactionId)
+        string interactionId,
+        float? maxTransitionDistance = null,
+        Vector3? approachOverride = null)
     {
         var expected = FindInteraction(interactionId, GetTree().Root);
         if (expected is null)
@@ -1065,12 +1245,80 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return false;
         }
 
+        if (interactionId == Interaction("route-to-mosque"))
+        {
+            var main = GetTree().GetFirstNodeInGroup("zone_manager") as Main;
+            var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+            if (main?.ConnectedWorld is not { } world || bridge is null)
+            { Fail("The physical mosque interaction has no connected world or runtime owner."); return false; }
+            if (!await ApproachMosque(player, ray, bridge, world)) return false;
+            approachOverride = player.GlobalPosition;
+        }
         var targetPosition = expected.GlobalPosition;
-        // Naila is staged behind the left waiting bench; use the clear right
-        // aisle for the production movement path before turning to her.
-        var approach = interactionId == Interaction("talk-naila")
-            ? new Vector3(expected.GlobalPosition.X + 1.8f, player.GlobalPosition.Y, expected.GlobalPosition.Z)
-            : ApproachPosition(player, expected);
+        var approach = approachOverride ?? ApproachPosition(player, expected);
+        if (expected.GetParent() is StyleBenchmarkZone
+            { ZoneKind: StyleBenchmarkZone.BenchmarkKind.HouseOldPc } house
+            && expected.Position.DistanceTo(StyleBenchmarkInteriorFactory.PcAnchor) < .50f)
+        {
+            // A cardinal stand-off from the rotated computer put the returning
+            // player behind Gulsina and walked straight through her body. Use
+            // the furnished room's central aisle for every interaction at this
+            // physical desk, including the later message/article/sketch visits.
+            var floorY = house.ToLocal(player.GlobalPosition).Y;
+            foreach (var local in new[] { new Vector3(-.15f, floorY, 1.10f),
+                new Vector3(StyleBenchmarkInteriorFactory.PcAnchor.X, floorY, -1.15f) })
+            {
+                var point = house.ToGlobal(local);
+                if (!player.CanStandAt(point))
+                { Fail($"The computer aisle does not fit a standing player: local={local}, world={point}."); return false; }
+                if (!await WalkTo(player, point, $"computer-aisle-{local.X:F2}-{local.Z:F2}")) return false;
+            }
+            approach = player.GlobalPosition;
+        }
+        if (interactionId == Interaction("talk-naila") && expected.GetParent() is StyleBenchmarkZone
+            { ZoneKind: StyleBenchmarkZone.BenchmarkKind.FapClinic } clinic)
+        {
+            // Approach the actual reception from the central waiting aisle.
+            // The former world-X offset crossed both the bench and the counter.
+            var floorY = clinic.ToLocal(player.GlobalPosition).Y;
+            foreach (var local in new[] { new Vector3(0, floorY, 1.25f), new Vector3(1f, floorY, 1.25f) })
+            {
+                var point = clinic.ToGlobal(local);
+                if (!player.CanStandAt(point))
+                { Fail($"The actual reception aisle does not fit a standing player: local={local}, world={point}."); return false; }
+                if (!await WalkTo(player, point, $"naila-reception-aisle-{local.X:F2}-{local.Z:F2}")) return false;
+            }
+            approach = player.GlobalPosition;
+        }
+        if (expected.HasMeta("observationReferenceEye") && expected.HasMeta("observationLookAt"))
+        {
+            var reference = expected.GetMeta("observationReferenceEye").AsVector3();
+            approach = new Vector3(reference.X, player.GlobalPosition.Y, reference.Z);
+            targetPosition = expected.GetMeta("observationLookAt").AsVector3();
+        }
+        if (interactionId is "urman.chapter1:interaction/view-arrival-message"
+            or "urman.chapter1:interaction/view-arrival-photo" or "urman.chapter1:interaction/arrival-answer-mother")
+            approach = new Vector3(3.60f, player.GlobalPosition.Y, 5.05f);
+        if (interactionId == Interaction("route-to-fap"))
+            approach = new Vector3(expected.GlobalPosition.X, player.GlobalPosition.Y, expected.GlobalPosition.Z + 1.50f);
+        if (expected.Name == "HouseExit" && expected.GetParent() is StyleBenchmarkZone
+            { ZoneKind: StyleBenchmarkZone.BenchmarkKind.HouseOldPc } room)
+        {
+            // The house is rotated in the connected world. A world-cardinal
+            // stand-off landed on the storage chest, while the diagonal to
+            // the door crossed Gulsina. Walk the actual central and door aisles.
+            var floorY = room.ToLocal(player.GlobalPosition).Y;
+            foreach (var local in new[] { new Vector3(-.15f, floorY, 1.10f),
+                new Vector3(StyleBenchmarkInteriorFactory.DoorX, floorY, 1.10f),
+                StyleBenchmarkInteriorFactory.Entry with { Y = floorY } })
+            {
+                var point = room.ToGlobal(local);
+                if (!player.CanStandAt(point))
+                { Fail($"The actual house exit aisle does not fit a standing player: local={local}, world={point}."); return false; }
+                if (!await WalkTo(player, point, $"house-exit-aisle-{local.X:F2}-{local.Z:F2}")) return false;
+            }
+            approach = player.GlobalPosition;
+        }
         if (!await WalkTo(player, approach, $"approach-{interactionId}"))
         {
             return false;
@@ -1079,6 +1327,11 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         AimAt(player, targetPosition);
         await PhysicsFrames(3);
         ray.ForceRaycastUpdate();
+        var actualCamera = player.GetNode<Camera3D>("Head/Camera3D");
+        var rayDirection = (ray.GlobalBasis * ray.TargetPosition).Normalized();
+        if (ray.GlobalPosition.DistanceTo(actualCamera.GlobalPosition) > .001f
+            || rayDirection.Dot(-actualCamera.GlobalBasis.Z.Normalized()) < .9999f)
+        { Fail("The physical interaction ray does not follow the actual camera forward axis."); return false; }
         if (!ray.IsColliding() || ray.GetCollider() is not InteractionTarget target
             || target.InteractionId != interactionId || !target.IsAvailable())
         {
@@ -1095,25 +1348,223 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return false;
         }
 
+        var beforeInteraction = player.GlobalPosition;
         await PressInteract();
         await Frames(6);
+        if (maxTransitionDistance is { } limit)
+        {
+            var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+            if (bridge is null || string.IsNullOrEmpty(expected.TargetZoneId))
+            { Fail("The measured transition has no runtime or physical destination: " + interactionId); return false; }
+            for (var frame = 0; frame < 180 && bridge.CurrentZoneId != expected.TargetZoneId; frame++)
+                await Frames(1);
+            if (bridge.CurrentZoneId != expected.TargetZoneId)
+            { Fail("The measured transition did not reach its authored destination: " + interactionId); return false; }
+            await PhysicsFrames(2);
+            var transitionDistance = HorizontalDistance(beforeInteraction, player.GlobalPosition);
+            if (transitionDistance > limit)
+            {
+                Fail($"The roadside transition moved the player {transitionDistance:F2}m, beyond {limit:F2}m: "
+                    + $"{interactionId} from={beforeInteraction} to={player.GlobalPosition}.");
+                return false;
+            }
+            GD.Print($"walk-transition: {interactionId} horizontal-displacement={transitionDistance:F2}m "
+                + $"limit={limit:F2}m from={beforeInteraction} to={player.GlobalPosition}");
+        }
+        return true;
+    }
+
+    private async Task<bool> CompletePhysicalArrival(FirstPersonController player, RayCast3D ray, RuntimeBridge bridge)
+    {
+        foreach (var (action, document) in new[]
+                 { ("view-arrival-message", "arrival-mother-message"), ("view-arrival-photo", "arrival-photo-evidence") })
+        {
+            if (!await InteractAt(player, ray, Interaction(action))) return false;
+            AssertDocument(ChapterPrefix + "document/" + document);
+            if (HasFailed()) return false;
+            CloseDocument();
+            await Frames(3);
+        }
+        if (bridge.IsInteractionAvailable(Interaction("arrival-enter-house")))
+        { Fail("Physical arrival skipped the personal answer after reading the two sources."); return false; }
+        if (!await InteractAt(player, ray, Interaction("arrival-answer-mother"))
+            || !await ChooseVisibleDialogue(bridge, "arrival-reply-help-babai")) return false;
+        (GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi)?._UnhandledInput(
+            new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        await Frames(3);
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "arrival_reply_help_babai") != "confirmed"
+            || !bridge.IsInteractionAvailable(Interaction("arrival-enter-house")) || player.ModalOpen)
+        { Fail("The visible arrival choice did not open the house route and release the player."); return false; }
+        GD.Print("act1-physical-arrival: ordinary walk to bench; phone/photo through camera ray and mapped input; visible personal answer");
+        return true;
+    }
+
+    private async Task<bool> ApproachMosque(FirstPersonController player, RayCast3D ray,
+        RuntimeBridge bridge, Act1ConnectedWorld world)
+    {
+        var room = world.GetNode<Node3D>("Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior");
+        if (world.FacilityInteriorAt(player.GlobalPosition) == "mosque")
+        {
+            if (_mosqueReturnRoute.Count >= 2) return true;
+            Fail("The first mosque dialogue began inside without its actual approach.");
+            return false;
+        }
+        var registry = bridge.NotebookSettlement;
+        if (registry is null || !registry.TryResolve("ADR-MOSQUE", out var address)
+            || !bridge.KnownAddressIds().Contains(address.AddressId)
+            || bridge.LocatedAddressIds().Contains(address.AddressId)
+            || await bridge.RememberAddressAsync(address.AddressId))
+        { Fail("The ordinary mosque return lacks heard-only directions or read a distant plate."); return false; }
+        ObserveMosqueAccess("before-heard-load");
+        var before = player.GlobalPosition;
+        if (!await bridge.SaveSlotAsync("walk-mosque-heard") || !await bridge.LoadSlotAsync("walk-mosque-heard"))
+        { Fail("The actually reached heard-only mosque return could not be saved and resumed."); return false; }
+        await PhysicsFrames(4);
+        ObserveMosqueAccess("after-heard-load");
+        if (player.GlobalPosition.DistanceTo(before) > .15f
+            || !bridge.KnownAddressIds().Contains(address.AddressId) || bridge.LocatedAddressIds().Contains(address.AddressId))
+        { Fail("Loading heard directions moved the walking player or located the unread mosque."); return false; }
+
+        // Use the common, physics-verified access graph only as test input. It is
+        // never drawn in the player's notebook, and it cannot grant knowledge.
+        for (var frame = 0; frame < 600
+            && registry.AccessPoints[address.AccessId].State.StartsWith("pending", StringComparison.Ordinal); frame++)
+            await PhysicsFrames(1);
+        var access = registry.AccessPoints[address.AccessId];
+        var origin = registry.Graph.Nodes.Values.OrderBy(node =>
+            node.Position.DistanceXZ(new(player.GlobalPosition.X, player.GlobalPosition.Y, player.GlobalPosition.Z))).FirstOrDefault();
+        if (access.State != "verified" || origin is null
+            || origin.Position.DistanceXZ(new(player.GlobalPosition.X, player.GlobalPosition.Y, player.GlobalPosition.Z)) > .60)
+        { Fail("The reached street has no verified mosque access: " + access.State); return false; }
+        var route = registry.DiagnosticRoute(origin.Id, address.AddressId, SettlementTravelMode.Foot)
+            .Select(point => new Vector3((float)point.X, (float)point.Y, (float)point.Z)).ToArray();
+        var approach = room.GetMeta("entryApproachPath").AsVector3Array();
+        if (route.Length < 2 || approach.Length < 2 || route[^1].DistanceTo(approach[^1]) > .12f)
+        { Fail("The common graph does not end at the actual authored mosque stair landing."); return false; }
+        var knowledge = bridge.SelectRuntimeState().GetProperty("knowledge").GetRawText();
+        var scene = bridge.ActiveSceneId;
+        _mosqueReturnRoute.Clear();
+        _mosqueReturnRoute.Add(player.GlobalPosition);
+        _mosqueReturnRoute.AddRange(route);
+        var stepsBefore = player.StepsClimbed;
+        await FollowFullMosqueRoute(player, bridge, route, "mosque-access");
+        if (Math.Abs(player.GlobalPosition.Y - room.GlobalPosition.Y) > .08f
+            || player.StepsClimbed <= stepsBefore || bridge.LocatedAddressIds().Contains(address.AddressId))
+        { Fail("The actual mosque climb failed or approaching automatically read its address."); return false; }
+        var sign = FindInteraction("urman.address:read/" + address.AddressId, GetTree().Root);
+        if (sign?.GetParent() is not AddressSignVisualComponent plate || plate.AddressId != address.AddressId)
+        { Fail("The heard mosque address has no matching real plate target."); return false; }
+        if (!await InteractAt(player, ray, sign.InteractionId, approachOverride: player.GlobalPosition)) return false;
+        for (var frame = 0; frame < 180 && !bridge.LocatedAddressIds().Contains(address.AddressId); frame++) await Frames(1);
+        if (!bridge.LocatedAddressIds().Contains(address.AddressId)
+            || bridge.NotebookAddresses().Count(entry => entry.EntryId == "notebook/address/" + address.AddressId) != 1
+            || bridge.JournalEntries().Count(entry => entry.EntryId == ChapterPrefix + "knowledge/address-mosque") != 1)
+        { Fail("The real mosque plate press did not retain one matching spoken and located address."); return false; }
+        if (!await InteractAt(player, ray, sign.InteractionId, approachOverride: player.GlobalPosition)
+            || !await bridge.SaveSlotAsync("walk-mosque-plate") || !await bridge.LoadSlotAsync("walk-mosque-plate"))
+        { Fail("The actual repeated mosque plate read could not be saved and resumed."); return false; }
+        await PhysicsFrames(4);
+        if (!bridge.LocatedAddressIds().Contains(address.AddressId)
+            || bridge.NotebookAddresses().Count(entry => entry.EntryId == "notebook/address/" + address.AddressId) != 1)
+        { Fail("Repeating or loading the read plate lost or duplicated its address."); return false; }
+
+        var entrance = FindInteraction("urman.chapter1:local/mosque/entrance", GetTree().Root);
+        var hinge = room.GetNode<Node3D>("MosqueEntranceHinge");
+        if (entrance is null || Math.Abs(hinge.RotationDegrees.Y) > .5f)
+        { Fail("The first physical mosque visit does not start at its closed manual entrance."); return false; }
+        var actionBefore = entrance.GetMeta("lastDoorActionNumber", 0).AsInt32();
+        if (!await InteractAt(player, ray, entrance.InteractionId, approachOverride: player.GlobalPosition)) return false;
+        for (var frame = 0; frame < 180 && Math.Abs(hinge.RotationDegrees.Y + 95) > .5f; frame++) await PhysicsFrames(1);
+        if (Math.Abs(hinge.RotationDegrees.Y + 95) > .5f
+            || entrance.GetMeta("lastDoorActionNumber", 0).AsInt32() != actionBefore + 1)
+        { Fail("One mapped door press did not open the actual full inward mosque leaf."); return false; }
+        foreach (var (point, label) in new[]
+            { (new Vector3(4.65f, 0, -.25f), "doorway"), (new Vector3(3.65f, 0, 0), "vestibule"),
+              (new Vector3(1.20f, 0, 0), "timur-hall") })
+            if (!await WalkMosquePoint(player, room.ToGlobal(point), "mosque-enter-" + label)) return false;
+        if (world.FacilityInteriorAt(player.GlobalPosition) != "mosque"
+            || bridge.ActiveSceneId != scene || bridge.SelectRuntimeState().GetProperty("knowledge").GetRawText() != knowledge)
+        { Fail("Reading the address or entering the real mosque supplied an unasked narrative answer."); return false; }
+        GD.Print($"walk-mosque: heard/load -> verified graph walked -> physical plate/E/repeat/load -> manual door/E -> hall; address={registry.FormatAddress(address.AddressId)}; steps={player.StepsClimbed - stepsBefore}; no narrative auto-credit");
+        return true;
+
+        void ObserveMosqueAccess(string phase)
+        {
+            // Read the live owner's cached result and the exact support ray used
+            // by TrySupport. This observation never runs or commits an audit.
+            var current = registry.AccessPoints[address.AccessId];
+            var authored = world.AddressApproachPath(address.AccessId);
+            var target = authored.Count == 0 ? Act1ConnectedWorld.AddressVector(current.Position) : authored[0];
+            using var query = PhysicsRayQueryParameters3D.Create(target + Vector3.Up * .55f,
+                target - Vector3.Up * .75f, 3,
+                new global::Godot.Collections.Array<Rid> { player.GetRid() });
+            var hit = world.GetWorld3D().DirectSpaceState.IntersectRay(query);
+            var owner = hit.Count == 0 ? null : hit["collider"].AsGodotObject() as Node;
+            var floor = hit.Count == 0 ? "none" : hit["position"].AsVector3().ToString();
+            var normal = hit.Count == 0 ? "none" : hit["normal"].AsVector3().ToString();
+            GD.Print($"walk-mosque-access-observation: phase={phase} zone={world.ActiveZoneId} "
+                + $"exterior={world.GetMeta("activeExteriorAtmosphere", false).AsBool()} "
+                + $"access={address.AccessId} cachedState={current.State} approachStart={target} targetY={target.Y:R} "
+                + $"floor={floor} normal={normal} supportOwner={owner?.GetPath().ToString() ?? "none"} "
+                + $"playerFeet={player.GlobalPosition} grounded={player.IsOnFloor()} "
+                + $"standingClear={player.CanStandAt(player.GlobalPosition)}");
+        }
+    }
+
+    private async Task<bool> LeaveMosque(FirstPersonController player, Act1ConnectedWorld world)
+    {
+        var room = world.GetNode<Node3D>("Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior");
+        if (world.FacilityInteriorAt(player.GlobalPosition) != "mosque" || _mosqueReturnRoute.Count < 2)
+        { Fail("The spoken route has no actual mosque entrance walk to retrace."); return false; }
+        foreach (var (point, label) in new[]
+            { (new Vector3(3.65f, 0, 0), "vestibule"), (new Vector3(4.65f, 0, -.25f), "doorway"),
+              (new Vector3(6.65f, 0, -.25f), "landing") })
+            if (!await WalkMosquePoint(player, room.ToGlobal(point), "mosque-leave-" + label)) return false;
+        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge
+            ?? throw new InvalidOperationException("The actual mosque return lost its runtime bridge.");
+        await FollowFullMosqueRoute(player, bridge, _mosqueReturnRoute.AsEnumerable().Reverse().ToArray(), "mosque-return");
+        if (world.FacilityInteriorAt(player.GlobalPosition).Length != 0)
+        { Fail("The actual mosque return did not regain the village street."); return false; }
+        return true;
+    }
+
+    private async Task<bool> WalkMosquePoint(FirstPersonController player, Vector3 point, string label)
+    {
+        var revision = player.PresentationTransformRevision;
+        var recoveries = player.FallRecoveries;
+        var clamps = player.EdgeClamps;
+        if (!await WalkTo(player, point, label, arrivalRadius: .09f)) return false;
+        var settled = 0;
+        var previousY = player.GlobalPosition.Y;
+        for (var frame = 0; frame < 45 && settled < 3; frame++)
+        {
+            await PhysicsFrames(1);
+            var y = player.GlobalPosition.Y;
+            settled = player.IsOnFloor() && Math.Abs(player.Velocity.Y) < .05f && Math.Abs(y - previousY) < .002f
+                ? settled + 1 : 0;
+            previousY = y;
+        }
+        if (settled < 3 || HorizontalDistance(player.GlobalPosition, point) > .09f
+            || player.PresentationTransformRevision != revision || player.FallRecoveries != recoveries
+            || player.EdgeClamps != clamps || player.ModalOpen)
+        { Fail($"The mosque walk did not settle without transform recovery: {label}; feet={player.GlobalPosition}; expected={point}."); return false; }
         return true;
     }
 
     private void AimAt(FirstPersonController player, Vector3 target)
     {
-        var cameraPosition = player.GlobalPosition + Vector3.Up * 1.7f;
-        var delta = target - cameraPosition;
-        var horizontal = new Vector2(delta.X, delta.Z).Length();
-        // Godot's positive Y rotation turns local -Z toward -X, so negate X
-        // when converting a world-space target to the controller's yaw.
-        var yaw = Mathf.RadToDeg(Mathf.Atan2(-delta.X, -delta.Z));
-        var pitch = Mathf.RadToDeg(Mathf.Atan2(delta.Y, Math.Max(horizontal, 0.001f)));
-        SetYaw(player, yaw);
-        // The smoke owns no real mouse device. Apply only the controller's
-        // test-only look state; body position remains physics-driven.
-        player.ApplySmokeLook(pitch, yaw);
-        _lookPitch = pitch;
+        var camera = player.GetNode<Camera3D>("Head/Camera3D");
+        // The ordinary head is offset forward by 18 cm and changes height while
+        // crouching. Re-evaluate its real origin after each look rotation.
+        for (var iteration = 0; iteration < 6; iteration++)
+        {
+            var delta = target - camera.GlobalPosition;
+            var horizontal = new Vector2(delta.X, delta.Z).Length();
+            var yaw = Mathf.RadToDeg(Mathf.Atan2(-delta.X, -delta.Z));
+            var pitch = Mathf.RadToDeg(Mathf.Atan2(delta.Y, Math.Max(horizontal, .001f)));
+            player.ApplySmokeLook(pitch, yaw);
+            _lookPitch = pitch;
+        }
     }
 
     private static Vector3 ApproachPosition(FirstPersonController player, InteractionTarget target)
@@ -1148,12 +1599,57 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         }
     }
 
+    private async Task<bool> CloseDialogue(FirstPersonController player)
+    {
+        var ui = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
+        if (ui?.IsOpen == true)
+            ui._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        await Frames(4);
+        if (ui?.IsOpen == true || player.ModalOpen)
+        { Fail("Closing the visible dialogue did not release physical movement."); return false; }
+        return true;
+    }
+
+    private async Task<bool> CompareVisibleSources(RuntimeBridge bridge, string action, params string[] sourceIds)
+    {
+        var journal = GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi;
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        if (journal is null || player is null || player.ModalOpen || sourceIds.Length != 2)
+        { Fail("The physical route cannot open its two-source journal comparison: " + action); return false; }
+        journal.Open(bridge);
+        await Frames(3);
+        journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 1;
+        for (var slot = 0; slot < 2; slot++)
+        {
+            var picker = journal.GetNode<OptionButton>($"Screen/Book/Layout/Comparisons/Layout/Source{slot + 1}/Source");
+            var index = Enumerable.Range(1, picker.ItemCount - 1).FirstOrDefault(i =>
+                picker.GetItemMetadata(i).AsString() == sourceIds[slot], -1);
+            if (index < 1) { Fail("A real comparison picker lacks its read source: " + sourceIds[slot]); return false; }
+            picker.Select(index);
+            picker.EmitSignal(OptionButton.SignalName.ItemSelected, (long)index);
+        }
+        await Frames(3);
+        var button = journal.GetNode<VBoxContainer>("Screen/Book/Layout/Comparisons/Layout/Hypotheses").GetChildren()
+            .OfType<Button>().SingleOrDefault(candidate => candidate.IsVisibleInTree() && !candidate.Disabled
+                && candidate.Text == bridge.ResolveText(ChapterPrefix + "text/" + action));
+        if (button is null) { Fail("The visible journal has no available comparison: " + action); return false; }
+        button.EmitSignal(Button.SignalName.Pressed);
+        var firstPicker = journal.GetNode<OptionButton>("Screen/Book/Layout/Comparisons/Layout/Source1/Source");
+        for (var frame = 0; frame < 180 && firstPicker.Disabled; frame++) await Frames(1);
+        if (firstPicker.Disabled) { Fail("The journal comparison did not finish: " + action); return false; }
+        journal.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+        await Frames(3);
+        if (player.ModalOpen) { Fail("The journal retained movement after comparison: " + action); return false; }
+        return true;
+    }
+
     private async Task<bool> ChooseVisibleDialogue(RuntimeBridge bridge, string textId)
     {
         var ui = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
         var choice = ui?.IsOpen == true
             ? ui.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices").GetChildren().OfType<Button>()
-                .FirstOrDefault(button => button.Text == bridge.ResolveText(ChapterPrefix + "text/" + textId))
+                .FirstOrDefault(button => button.IsVisibleInTree() && !button.Disabled
+                    && button.Text == bridge.ResolveText(ChapterPrefix + "text/" + textId))
             : null;
         if (choice is null)
         { Fail("The physical conversation did not expose " + textId); return false; }
@@ -1202,6 +1698,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         for (var index = 0; index < count; index++)
         {
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            if (GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true })
+                throw new InvalidOperationException("The physical walk was interrupted by an actual pause overlay.");
         }
     }
 

@@ -1,0 +1,54 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+ADDRESS PASS road reorder/reversal keeps graph nodes
+ADDRESS PASS road reorder/reversal keeps graph edges
+ADDRESS PASS small geometry movement keeps node references
+ADDRESS PASS repeat import retains exactly one address
+ADDRESS PASS reimport cannot change committed cadastre
+ADDRESS PASS reimport cannot detach committed access ID
+ADDRESS PASS rejected import is atomic
+ADDRESS PASS semantic public alias keeps original address identity
+ADDRESS PASS saved building reference survives street rename
+ADDRESS PASS infill keeps existing numbering
+ADDRESS PASS old numbered alias resolves stable address
+ADDRESS PASS renumbering preserves building identity
+ADDRESS PASS stale reimport cannot erase migrated history
+ADDRESS PASS migrated reimport preserves historical alias
+ADDRESS PASS address normalization merges keyboard aliases
+ADDRESS PASS route ends at real gate instead of building centroid
+ADDRESS PASS vehicle cannot use narrow foot access
+ADDRESS PASS notebook only labels learned addresses
+ADDRESS PASS notebook and routing share graph edges
+ADDRESS PASS closed road removes route
+ADDRESS PASS duplicate fictional cadastral identity rejected
+ADDRESS PASS unverified access is never declared reachable
+ADDRESS PASS collinear overlap is split and connected
+ADDRESS PASS small geometric gap is not rounded shut
+ADDRESS PASS complete real plate rectangle is supported
+ADDRESS PASS exact footprint rejects a hole between probe samples
+ADDRESS PASS full outer rim rejects an eleven-centimetre unchecked overhang
+ADDRESS PASS only explicitly boarded facade accepts a five-millimetre vertical joint
+ADDRESS PASS eight-millimetre board joint may cross the metal rim between supported fasteners
+ADDRESS PASS a five-millimetre exterior overhang cannot masquerade as a board joint
+ADDRESS PASS a fastener cannot be fixed into a narrow construction joint
+ADDRESS PASS compound rear wall and glass cannot own an exterior plate
+ADDRESS PASS foreground post two metres away blocks the outer rim
+ADDRESS PASS post outside the full plate footprint does not block it
+ADDRESS PASS native H020 access retains its exact road projection after physics probing
+ADDRESS PASS shed retains authored parcel and address through repeated geometry import
+ADDRESS PASS auxiliary registration cannot overwrite the primary house
+ADDRESS PASS standalone shed repeat import preserves its own parcel without inventing a residential address
+ADDRESS PASS non-addressable parcel access is included in validation
+ADDRESS PASS verified utility access uses the same graph and parcel validation
+ADDRESS PASS independent technical parcel does not leak into notebook knowledge
+ADDRESS PASS non-addressable import cannot invent an address reference without its record
+ADDRESS PASS retired authored 25А reserves its normalized number without a visible address record
+ADDRESS PASS repeat enriched import retains infill and leaves the existing house and retired reservation unchanged
+ADDRESS PASS another source cannot claim a retired authored number
+ADDRESS PASS repeat physical access attachment is idempotent and preserves the authored roads
+ADDRESS PASS located house receives real road context without learning other street names
+ADDRESS PASS located house and real entrance remain on the map while access physics is pending
+ADDRESS PASS map cannot reveal a gated shortcut or another house's computed access path
+ADDRESS PASS successful access audit adds no automatic route and preserves the map's real road geometry
+ADDRESS PASS empty notebook map contains no house, entrance or street-name discovery
+userdata guard: original files and permissions restored and verified

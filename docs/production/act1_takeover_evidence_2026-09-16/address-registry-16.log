@@ -1,0 +1,28 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+address-graph-rebuild: ticks_us=185627 process_frame=0 physics_frame=0 elapsed_us=4676 allocated_thread_bytes=25896 roads=2 segments=2 pairs=1 broadphase=1 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=4 edges=3
+address-graph-rebuild: ticks_us=186145 process_frame=0 physics_frame=0 elapsed_us=38 allocated_thread_bytes=14760 roads=2 segments=2 pairs=1 broadphase=1 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=4 edges=3
+address-graph-rebuild: ticks_us=186183 process_frame=0 physics_frame=0 elapsed_us=15 allocated_thread_bytes=14760 roads=2 segments=2 pairs=1 broadphase=1 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=4 edges=3
+address-graph-rebuild: ticks_us=194649 process_frame=0 physics_frame=0 elapsed_us=116 allocated_thread_bytes=16744 roads=2 segments=2 pairs=1 broadphase=1 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=4 edges=4
+address-graph-rebuild: ticks_us=194801 process_frame=0 physics_frame=0 elapsed_us=38 allocated_thread_bytes=16744 roads=2 segments=2 pairs=1 broadphase=1 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=4 edges=4
+address-graph-rebuild: ticks_us=195460 process_frame=0 physics_frame=0 elapsed_us=38 allocated_thread_bytes=18216 roads=2 segments=2 pairs=1 broadphase=1 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=5 edges=4
+address-graph-rebuild: ticks_us=195686 process_frame=0 physics_frame=0 elapsed_us=18 allocated_thread_bytes=18152 roads=2 segments=2 pairs=1 broadphase=0 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=5 edges=4
+address-graph-rebuild: ticks_us=196159 process_frame=0 physics_frame=0 elapsed_us=13 allocated_thread_bytes=12216 roads=2 segments=2 pairs=1 broadphase=1 broadphase_rejected_pairs=0 accepted_pairs=0 nodes=4 edges=2
+address-graph-rebuild: ticks_us=196189 process_frame=0 physics_frame=0 elapsed_us=11 allocated_thread_bytes=12216 roads=2 segments=2 pairs=1 broadphase=0 broadphase_rejected_pairs=0 accepted_pairs=0 nodes=4 edges=2
+address-graph-rebuild: ticks_us=196217 process_frame=0 physics_frame=0 elapsed_us=10 allocated_thread_bytes=11768 roads=2 segments=2 pairs=1 broadphase=1 broadphase_rejected_pairs=1 accepted_pairs=0 nodes=4 edges=2
+address-graph-rebuild: ticks_us=196248 process_frame=0 physics_frame=0 elapsed_us=13 allocated_thread_bytes=15856 roads=2 segments=2 pairs=1 broadphase=1 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=5 edges=3
+address-graph-rebuild: ticks_us=196270 process_frame=0 physics_frame=0 elapsed_us=12 allocated_thread_bytes=15856 roads=2 segments=2 pairs=1 broadphase=0 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=5 edges=3
+address-graph-rebuild: ticks_us=196299 process_frame=0 physics_frame=0 elapsed_us=12 allocated_thread_bytes=15856 roads=2 segments=2 pairs=1 broadphase=1 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=5 edges=3
+address-graph-rebuild: ticks_us=196321 process_frame=0 physics_frame=0 elapsed_us=12 allocated_thread_bytes=15856 roads=2 segments=2 pairs=1 broadphase=0 broadphase_rejected_pairs=0 accepted_pairs=1 nodes=5 edges=3
+ERROR: System.InvalidOperationException: Address invariant failed: broadphase keeps reversal and import order: t just beyond the endpoint
+   at Urman.Godot.AddressRegistrySmokeTest.<>c__DisplayClass1_0.<RunPureChecks>g__Check|0(Boolean okay, String name) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressRegistrySmokeTest.cs:line 18
+   at Urman.Godot.AddressRegistrySmokeTest.RunPureChecks() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressRegistrySmokeTest.cs:line 144
+   at Urman.Godot.AddressRegistrySmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressRegistrySmokeTest.cs:line 12
+   at: void Urman.Godot.AddressRegistrySmokeTest._Ready() (res://tests/AddressRegistrySmokeTest.cs:12)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.AddressRegistrySmokeTest._Ready() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/AddressRegistrySmokeTest.cs:12)
+       [2] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [3] bool Urman.Godot.AddressRegistrySmokeTest.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.AddressRegistrySmokeTest_ScriptMethods.generated.cs:40)
+       [4] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+userdata guard: original files and permissions restored and verified

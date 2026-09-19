@@ -289,6 +289,8 @@ public partial class Act1MainMenuSmokeTest : Node
 
         // Debug zone jump, exercised from the menu the exit probe just returned to:
         // it must place the session in the chosen zone and grant no progression.
+        var regularSaveHashes = PlayerSaveHashes();
+        var regularKnowledge = bridge.SelectRuntimeState().GetProperty("knowledge").GetRawText();
         var debugEntry = demo.MainMenu?.FindChild("DebugZonesButton", recursive: true, owned: false) as Button;
         if (debugEntry is null)
         {
@@ -315,6 +317,7 @@ public partial class Act1MainMenuSmokeTest : Node
         var world = demo.DemoMain?.ConnectedWorld;
         if (demo.MainMenuVisible
             || demo.IntroVisible
+            || !bridge.IsDebugSession
             || world?.ActiveZoneId != "kara_urman_night"
             || bridge.CurrentZoneId != "kara_urman_night"
             // Entering a zone legitimately writes a *heard* word, so the check is
@@ -330,6 +333,23 @@ public partial class Act1MainMenuSmokeTest : Node
         }
 
         GD.Print($"act1-main-menu: debug zone jump reached {bridge.CurrentZoneId}@{bridge.CurrentSpawnPointId} without granting confirmed knowledge or a completed quest");
+
+        // Use the actual world-command/autosave and quick-save/load owners after
+        // the menu jump. The guard protects the host; this checks the unguarded
+        // product behaviour inside that isolated profile, including both backups.
+        if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/discover-kara-warm-window-clearing"))
+        { Fail("Debug save regression could not execute its available world discovery."); return; }
+        var debugCheckpoint = ProjectSettings.GlobalizePath("user://debug-savegames/checkpoint.savegame-v3.json");
+        if (!System.IO.File.Exists(debugCheckpoint))
+        { Fail("A debug world discovery did not autosave in the debug directory."); return; }
+        bridge._UnhandledInput(new InputEventAction { Action = "quick_save", Pressed = true });
+        var debugQuick = ProjectSettings.GlobalizePath("user://debug-savegames/quick.savegame-v3.json");
+        for (var frame = 0; frame < 900 && !System.IO.File.Exists(debugQuick); frame++) await Frames(1);
+        if (!System.IO.File.Exists(debugQuick) || !await bridge.LoadSlotAsync("quick")
+            || !bridge.IsDebugSession || bridge.CurrentZoneId != "kara_urman_night"
+            || PlayerSaveHashes() != regularSaveHashes)
+        { Fail("Debug autosave/F5/F9 touched player saves or escaped its isolated session."); return; }
+
         System.IO.File.Delete(debugFlag);
         if (MainMenuUi.DebugZonesEnabled)
         {
@@ -349,6 +369,19 @@ public partial class Act1MainMenuSmokeTest : Node
             return;
         }
 
+        var playerContinue = await bridge.FindContinueAsync();
+        if (playerContinue?.Slot != MainMenuUi.CheckpointSlot || demo.MainMenu?.ContinueButton?.Visible != true)
+        { Fail("Debug saves replaced the player's main-menu Continue candidate."); return; }
+        demo.MainMenu.ContinueButton.EmitSignal(BaseButton.SignalName.Pressed);
+        for (var frame = 0; frame < 900 && demo.MainMenuVisible; frame++) await Frames(1);
+        if (demo.MainMenuVisible || bridge.IsDebugSession || bridge.CurrentZoneId != expectedZone
+            || bridge.SelectRuntimeState().GetProperty("knowledge").GetRawText() != regularKnowledge
+            || PlayerSaveHashes() != regularSaveHashes)
+        { Fail("Continue after debug did not restore the untouched player's session."); return; }
+        GD.Print("act1-main-menu: PASS debug autosave/F5/F9 isolated; normal Continue restored original knowledge and byte-identical saves");
+        if (!await TryShowMainMenu(demo, pauseMenu))
+        { Fail("Could not return to the main menu after the isolated debug save regression."); return; }
+
         var exitButton = demo.MainMenu?.FindChild("QuitButton", recursive: true, owned: false) as Button;
         if (exitButton is null || exitButton.Disabled)
         {
@@ -364,6 +397,14 @@ public partial class Act1MainMenuSmokeTest : Node
         }
 
         Fail("The menu exit affordance did not close the application within 30 frames.");
+    }
+
+    private static string PlayerSaveHashes()
+    {
+        var directory = ProjectSettings.GlobalizePath("user://savegames");
+        return string.Join("\n", System.IO.Directory.EnumerateFiles(directory).OrderBy(path => path, StringComparer.Ordinal)
+            .Select(path => System.IO.Path.GetFileName(path) + ":" + Convert.ToHexString(
+                System.Security.Cryptography.SHA256.HashData(System.IO.File.ReadAllBytes(path)))));
     }
 
     private static void DeleteSlot(string slot)

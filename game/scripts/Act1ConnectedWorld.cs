@@ -72,7 +72,8 @@ public partial class Act1ConnectedWorld : Node3D
         "Well_YardLandmark",
         "VillageParcel_VariantA_TimberGable",
         "VillageParcel_VariantB_PlasterAnnex",
-        "VillageParcel_VariantC_BanyaYard"
+        "VillageParcel_VariantC_BanyaYard",
+        StyleBenchmarkInteriorFactory.ExteriorComponent
     ];
 
     private sealed record Act1ExteriorParcelComponentPlacement(
@@ -302,6 +303,25 @@ public partial class Act1ConnectedWorld : Node3D
         Build();
     }
 
+    /// <summary>
+    /// Generated node names become resolved NodePaths: they live in metas such as
+    /// <c>authoredSourceMesh</c>, in saves and in later <c>GetNode</c> lookups. A
+    /// host locale with a comma decimal separator would format
+    /// <c>$"MosqueWindowPier{side}_{4.4f}"</c> as <c>Pier1_4,4</c> instead of the
+    /// published <c>Pier1_4_4</c>, so construction formats names invariantly and
+    /// restores the player's culture for everything else.
+    /// </summary>
+    internal static IDisposable InvariantNameScope() => new NamingCultureScope();
+
+    private sealed class NamingCultureScope : IDisposable
+    {
+        private readonly CultureInfo _previous = CultureInfo.CurrentCulture;
+
+        internal NamingCultureScope() => CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
+        public void Dispose() => CultureInfo.CurrentCulture = _previous;
+    }
+
     public override void _ExitTree()
     {
         if (_runtimeBridgeSubscribed && _runtimeBridge is not null && GodotObject.IsInstanceValid(_runtimeBridge))
@@ -320,6 +340,7 @@ public partial class Act1ConnectedWorld : Node3D
             return;
         }
 
+        using var naming = InvariantNameScope();
         _buildStarted = true;
         PersistentInstanceIdentity = GetInstanceId().ToString(CultureInfo.InvariantCulture);
         SetMeta("worldOwner", nameof(Act1ConnectedWorld));
@@ -378,9 +399,15 @@ public partial class Act1ConnectedWorld : Node3D
         _dwellingThresholdWorst = 0f;
         _dwellingThresholdWorstPlacement = string.Empty;
         BuildAct1CoreWorldGreybox();
+        AlignFapClinicArchitecture();
+        GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
+            .ExcludeOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
+                StyleBenchmarkInteriorFactory.ClearWidth * .5f,
+                StyleBenchmarkInteriorFactory.ClearDepth * .5f));
         BuildAct1NpcStaging();
         BuildAct1InteriorDiscoveries();
         BuildAct1ExteriorDiscoveries();
+        BuildArrivalBusStop();
         BuildFapServiceExploration();
         BuildRoadsideDiscoveries();
         BuildAct1YardDiscoveries();
@@ -392,7 +419,17 @@ public partial class Act1ConnectedWorld : Node3D
         BuildCarryables(GetNode<Node3D>("Act1CoreWorldGreybox"));
         BuildAct1KaraOptionalDiscoveries();
         BuildAct1BypassDiscoveries();
+        BuildAct1ImageDiscoveries();
+        BuildRinatRoadsidePresentation();
         ConfigureInvestigationRevisits();
+        BuildMosqueInterior();
+        BuildBathhouse();
+        BuildPublicBuildings();
+        RepairStandaloneZiratFenceJunction();
+        BuildShopUses();
+        BuildAddressRegistry();
+        AddressRead += RememberReadAddress;
+        BuildAct1Vehicles();
         foreach (var placement in Act1WorldLayout.Placements)
         {
             var zone = _zoneInstances[placement.ZoneId];
@@ -433,6 +470,11 @@ public partial class Act1ConnectedWorld : Node3D
         // Blockers and the hidden-presentation audit both run after mounting and
         // after the first zone's suppressions, so nothing hidden can block.
         BuildAuthoredKitBlockers();
+        FinalizeStandaloneZiratFenceContacts();
+        FinalizeFacilityContacts();
+        FinalizePublicBuildingContacts();
+        FinalizeArrivalBusStop();
+        BuildZiratFamily();
         CallDeferred(nameof(DisableBlockersUnderHiddenPresentation));
         CallDeferred(nameof(ReapplyLogicalZonePresentationSuppressions));
         // Parcel facades are attached across several build steps, so the painted
@@ -455,6 +497,14 @@ public partial class Act1ConnectedWorld : Node3D
         out Act1WorldLayout.SpawnTransform worldSpawn)
     {
         worldSpawn = default;
+        if ((zoneId is "house_old_pc" or "fap_clinic") && _zoneInstances.TryGetValue(zoneId, out var house)
+            && Act1WorldLayout.TryGetPlacement(zoneId, out var housePlacement)
+            && (housePlacement.SpawnPoints.TryGetValue(spawnPointId, out var houseSpawn)
+                || housePlacement.SpawnPoints.TryGetValue("default", out houseSpawn)))
+        {
+            worldSpawn = new(house.ToGlobal(houseSpawn.Position), house.GlobalRotationDegrees.Y + houseSpawn.YawDegrees);
+            return true;
+        }
         if (!Act1WorldLayout.TryGetWorldSpawn(zoneId, spawnPointId, out var rootRelativeSpawn))
         {
             return false;
@@ -533,17 +583,23 @@ public partial class Act1ConnectedWorld : Node3D
         var coreWorld = GetNodeOrNull<Node3D>("Act1CoreWorldGreybox");
         if (coreWorld is not null)
         {
-            coreWorld.Visible = useExteriorAtmosphere;
+            // The windows look into the same village. Interior atmosphere and
+            // collision remain owned separately from this exterior scenery.
+            coreWorld.Visible = useExteriorAtmosphere || zoneId is "house_old_pc" or "fap_clinic";
+            SetAuthoredKitCollisionEnabled(useExteriorAtmosphere, zoneId);
             TuneConnectedAct1Atmosphere(coreWorld, useExteriorAtmosphere, isKaraNight, isZirat);
         }
 
         ActiveZoneId = zoneId;
         _carryCoordinator?.SetZonePresentation(zoneId, useExteriorAtmosphere);
+        VehicleFleet?.SetZonePresentation(zoneId, useExteriorAtmosphere);
+        AlsuStreetWalkPresentation.SessionOwner(GetTree())?.SetZonePresentation(zoneId, useExteriorAtmosphere);
         SetMeta("activeZoneId", ActiveZoneId);
         SetMeta(
             "activeWorldEnvironmentCount",
             useExteriorAtmosphere ? 0 : _environmentsByZone[zoneId].Count);
         SetMeta("activeExteriorAtmosphere", useExteriorAtmosphere);
+        GetNodeOrNull<AddressAccessVerifier>("AddressAccessVerification")?.NotifyPresentationChanged();
         SetMeta(
             "activeAtmosphereOwner",
             useExteriorAtmosphere ? "AgentBExteriorWorld" : $"logical-zone/{zoneId}");
@@ -603,6 +659,10 @@ public partial class Act1ConnectedWorld : Node3D
             }
         }
 
+        // Capture the clinic's static reflection only after its actual room,
+        // lights and environment are active. The same village is visible through
+        // its glazed openings; the exterior contacts remain separately disabled.
+        ClinicSurfacePresentation.SetClinicActive(_zoneInstances["fap_clinic"], zoneId == "fap_clinic");
         UpdateAct1Discoveries();
         ApplyInteractionRouting();
     }
@@ -649,7 +709,7 @@ public partial class Act1ConnectedWorld : Node3D
                     // Routing follows authored availability: a shut world gate
                     // must keep the target aimable, otherwise the player never
                     // learns why the place cannot be read yet.
-                    && binding.Node.AuthoredAvailable;
+                    && binding.Node.IsSemanticallyAvailable();
                 binding.Node.CollisionLayer = enabled ? binding.CollisionLayer : 0;
                 binding.Node.CollisionMask = enabled ? binding.CollisionMask : 0;
                 if (enabled)
@@ -714,14 +774,9 @@ public partial class Act1ConnectedWorld : Node3D
             // Repeated benchmark trees receive anonymous Godot names, so
             // prefix suppression alone leaves invisible trunks across the road.
             HideBenchmarkTreeBodies(zone);
-            // In the connected village the signpost is a direction, not a
-            // teleport to the clinic. Keep the existing narrative interaction
-            // but place it at the authored FAP entry apron.
-            if (zone.GetNodeOrNull<InteractionTarget>("RoadToFap") is { } fapEntry)
-            {
-                var apron = AgentBAct1Layout.FapBranchAxis[^1];
-                fapEntry.Position = new Vector3(apron.X, 0.75f, apron.Y);
-            }
+            // AlignFapClinicArchitecture binds RoadToFap to the live door once
+            // the authored exterior exists; the source signpost position never
+            // becomes the physical clinic entrance.
             // The benchmark sign's board/post/arrow/text are gone from this
             // composition: the connected world supplies its own readable FAP sign
             // as DiscoveryMainStreetSign with the reverse-word discovery. The
@@ -777,6 +832,9 @@ public partial class Act1ConnectedWorld : Node3D
                 "BoundaryThread",
                 "BoundaryRibbonLeft",
                 "BoundaryRibbonRight",
+                // The study's cloth and cord belong to the removed boundary
+                // posts, not to the authored winter edge or Rinat's staging.
+                "BoundaryCharm",
                 "ForestBranchSilhouette",
                 "Act2Continuation",
                 // The project-original Kara pine module is re-anchored
@@ -795,6 +853,7 @@ public partial class Act1ConnectedWorld : Node3D
 
     private void ReapplyLogicalZonePresentationSuppressions()
     {
+        using var naming = InvariantNameScope();
         if (_logicalZonePresentationSuppressionsReapplied)
         {
             return;
@@ -1091,7 +1150,7 @@ public partial class Act1ConnectedWorld : Node3D
             CarryableProp.Create("carry-log", "Полено", CarryableProp.ItemClass.Light,
                 GroundedYardPoint(new(-32.4f, 0f, 4.6f)), 24f, "8a6b50", "wood"),
             CarryableProp.Create("carry-crate", "Ящик", CarryableProp.ItemClass.Medium,
-                GroundedYardPoint(new(-29.6f, 0f, 2.4f)), -12f, "7a5c3a", "wood"),
+                GroundedYardPoint(new(-27.5f, 0f, 2.8f)), -12f, "7a5c3a", "wood"),
             CarryableProp.Create("carry-bucket", "Ведро", CarryableProp.ItemClass.Bucket,
                 GroundedYardPoint(new(-26.6f, 0f, 0.2f)), 8f, "6f6d61", "metal"),
             CarryableProp.Create("carry-board", "Доска", CarryableProp.ItemClass.Bulky,
@@ -1099,11 +1158,11 @@ public partial class Act1ConnectedWorld : Node3D
             CarryableProp.Create("carry-lantern", "Аккумуляторный фонарь", CarryableProp.ItemClass.Light,
                 GroundedYardPoint(new(-28.4f, 0f, 1.6f)), 0f, "575b57", "metal", CarryableProp.ItemKind.Lantern),
         };
-        // EX02: a second carryable crate stands in the south boundary's gap -
-        // the two-solution access. Carrying it aside (EX01) or walking the long
-        // way around the fence's east end both reach the return street.
-        var gapCrate = CarryableProp.Create("carry-gap-crate", "Ящик в проёме",
-            CarryableProp.ItemClass.Medium, GroundedYardPoint(new(26.4f, 0f, -38.6f)), 0f, "7a5c3a", "wood",
+        // EX02: this crate obstructs the timber approach on the existing east
+        // service loop. Carry it aside or walk around through the open snow;
+        // both approaches reach the same service yard outside the clinic.
+        var gapCrate = CarryableProp.Create("carry-gap-crate", "Ящик на настиле",
+            CarryableProp.ItemClass.Medium, GroundedYardPoint(new(41.5f, 0f, -27.24f)), 0f, "7a5c3a", "wood",
             size: new(1.16f, .65f, .70f));
         props.Add(gapCrate);
         var coordinator = CarryCoordinator.Create(props);
@@ -1142,13 +1201,20 @@ public partial class Act1ConnectedWorld : Node3D
 
         var gateGround = GroundedYardPoint(new Vector3(-25.20f, 0f, -2.85f));
         var gateSnow = _ex05PassageDrift ?? throw new InvalidOperationException("Yard service drift must be built before its shovel target.");
-        var gateSwept = AddVisualBox(core, "ToolSnowSweptAtLeaf",
-            new(0.62f, 0.03f, 1.30f), gateGround + new Vector3(0f, 0.02f, 0f), "b9b3a6", "snow");
+        var gateSwept = AddYardSnowDetail(core, "ToolSnowSweptAtLeaf",
+            new(0.62f, 0.03f, 1.30f), gateGround, "c4cdd3", swept: true);
         gateSwept.Visible = false;
-        var gateWorked = AddVisualBox(trail, "ToolSnowWorkedEdge",
-            new(0.34f, 0.05f, 0.40f), GroundedYardPoint(new(-24.62f, 0f, -2.85f)) + Vector3.Up * .025f, "c6bfb0", "snow");
-        var woodSnow = AddVisualBox(core, "ToolSnowPileWood",
-            new(0.66f, 0.30f, 0.5f), GroundedYardPoint(new(-32.5f, 0f, 4.3f)) + Vector3.Up * .15f, "e8e2d4", "snow");
+        var gateWorked = AddYardSnowDetail(trail, "ToolSnowWorkedEdge",
+            new(0.34f, 0.05f, 0.40f), GroundedYardPoint(new(-24.62f, 0f, -2.85f)), "dce3e8");
+        // Keep the buried tool beside the solid logs, not inside their hull.
+        // The drift, visible handle and recoverable item share this one anchor.
+        var buriedToolPoint = GroundedYardPoint(new(-31.6f, 0f, 4.3f));
+        var woodSnow = AddYardSnowDetail(core, "ToolSnowPileWood",
+            new(0.34f, 0.18f, 0.26f), buriedToolPoint, "eef2f6");
+        var axeHandleHint = AddVisualBox(core, "BuriedAxeHandleTip",
+            new(.17f, .027f, .027f), buriedToolPoint + new Vector3(-.15f, .025f, .12f), "94775a", "wood");
+        axeHandleHint.RotationDegrees = new(0, 62, 0);
+        axeHandleHint.SetMeta("itemVisualOwner", "carry-axe");
 
         // EX05.3: two drifts. The one at the side opening is cleared by the same
         // shovel use, but it is a windrow beside the walked line, not a barrier:
@@ -1163,7 +1229,7 @@ public partial class Act1ConnectedWorld : Node3D
         // world.props, so the step stays open after a load while the cosmetic
         // snow dust of SnowTrampleField still resets by its own contract.
         var kindlingAxe = CarryableProp.Create("carry-axe", "Топорик", CarryableProp.ItemClass.Light,
-            GroundedYardPoint(new(-32.5f, 0f, 4.3f)), 62f, "5d5b52", "metal");
+            buriedToolPoint, 62f, "5d5b52", "metal");
         kindlingAxe.SetConcealed(true);
         props.Add(kindlingAxe);
         coordinator.Register(kindlingAxe);
@@ -1188,6 +1254,7 @@ public partial class Act1ConnectedWorld : Node3D
         shovel.AddUse("woodpile", "Расчистить снег у поленницы", woodSnow,
             visible =>
             {
+                axeHandleHint.Visible = visible;
                 if (!kindlingAxe.HasOwnDeviation)
                 {
                     kindlingAxe.SetConcealed(visible);
@@ -1200,6 +1267,7 @@ public partial class Act1ConnectedWorld : Node3D
 
         // Carried things cross the actual house/FAP portal. They must not be
         // children of the outdoor-only visual root, which is hidden indoors.
+        BuildYardMechanisms(core, coordinator);
         AddChild(coordinator);
         _carryCoordinator = coordinator;
         if (_runtimeBridge is not null)
@@ -1349,6 +1417,7 @@ public partial class Act1ConnectedWorld : Node3D
 
     public override void _Process(double delta)
     {
+        UpdatePhysicalInteriorPresentation();
         if (_villageLife is null) return;
         _lifePlayer ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
         _lifeCue ??= GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
@@ -1471,7 +1540,8 @@ public partial class Act1ConnectedWorld : Node3D
         core.AddChild(layer);
         layer.Build();
         SuppressAgentBOverlappingRoadDecor(layer);
-        ExcludeInteriorZonesFromExteriorCollision(layer);
+        // The exterior owner suppresses replaced building families before it
+        // creates their contacts. Nearby visible fences keep their own collision.
     }
 
     private static void SuppressAgentBOverlappingRoadDecor(Node3D layer)
@@ -1944,7 +2014,7 @@ public partial class Act1ConnectedWorld : Node3D
             ["URMAN_Well_DarkWater"] = PainterlyMaterialLibrary.ForColor("2c3740", "ice"),
             ["URMAN_Wood_CutEnd"] = PainterlyMaterialLibrary.ForColor("b39a70", "wood_cut"),
             ["URMAN_Bark_Muted"] = PainterlyMaterialLibrary.ForColor("715943", "bark_pine"),
-            ["URMAN_Metal_Dulled"] = PainterlyMaterialLibrary.ForColor("5a5f5c", "stone"),
+            ["URMAN_Metal_Dulled"] = PainterlyMaterialLibrary.ForColor("5a5f5c", "iron"),
             // Zirat roadside kit members that are outside the kara-scoped
             // table: the raw albedo left pale stone/shrub groupings and pale
             // roadside fence runs in the cemetery views.
@@ -2039,6 +2109,40 @@ public partial class Act1ConnectedWorld : Node3D
                     }
                 }
 
+                // The loft boards and bale ties are inside the roof envelope.
+                // Their shared outdoor source slots added snow to dry storage;
+                // scope the sheltered finish to these members at both LODs.
+                var memberName = mesh.Name.ToString();
+                if (memberName.StartsWith("HeroYardShed_LoftBoard_", StringComparison.Ordinal))
+                {
+                    material = PainterlyMaterialLibrary.ForColor("6f6353", "wood", sheltered: true);
+                    mesh.SetMeta("painterlyMaterial", "sheltered_loft_wood");
+                }
+                else if (memberName.StartsWith("HeroYardShed_HayBinding_", StringComparison.Ordinal))
+                {
+                    material = PainterlyMaterialLibrary.ForColor("605044", "fabric", sheltered: true);
+                    mesh.SetMeta("painterlyMaterial", "sheltered_bale_ties");
+                }
+
+                // These four supported hay bales inherited the kit's wood-end
+                // slot. Their mesh has no UVs; the material library supplies a
+                // local projection that stays attached to each rigid bale.
+                if (mesh.Name.ToString() is "HeroYardShed_HayBundle_0_LOD0" or "HeroYardShed_HayBundle_0_LOD1"
+                    or "HeroYardShed_HayBundle_1_LOD0" or "HeroYardShed_HayBundle_1_LOD1"
+                    or "HeroYardShed_HayBundle_2_LOD0" or "HeroYardShed_HayBundle_2_LOD1"
+                    or "HeroYardShed_HayBundle_3_LOD0" or "HeroYardShed_HayBundle_3_LOD1")
+                {
+                    material = PainterlyMaterialLibrary.ForColor("9b978c", "hay_bundle", sheltered: true);
+                    mesh.SetMeta("painterlyMaterial", "hay_bundle");
+                    mesh.SetMeta("materialProjection", "object-local triplanar; existing hay fiber texture; dry sheltered storage");
+                }
+
+                // Public09: the five authored rear seni infill families are
+                // opaque planar sheets with doubleSided=true in the GLB. Their
+                // inward faces must retain that source contract after grading.
+                if (memberName.EndsWith("_SeniRearRoofInfill_LOD0", StringComparison.Ordinal))
+                    material = PainterlyMaterialLibrary.PreserveSourceCulling(material, source);
+
                 mesh.SetSurfaceOverrideMaterial(surface, material);
                 rebound++;
             }
@@ -2047,114 +2151,6 @@ public partial class Act1ConnectedWorld : Node3D
         return rebound;
     }
 
-    /// <summary>
-    /// Interior zone footprints (house/FAP) keep their own authored floors and
-    /// interaction anchors; the exterior architecture collision must not wall
-    /// off their doorways. Excludes the two interior building volumes from the
-    /// exterior collision body while keeping all outdoor volumes intact.
-    /// </summary>
-    private static void ExcludeInteriorZonesFromExteriorCollision(Node3D layer)
-    {
-        var architecture = layer.GetNodeOrNull<StaticBody3D>("AgentB_ArchitectureCollision");
-        if (architecture is null)
-        {
-            return;
-        }
-
-        // House interior footprint (house_old_pc at (-28, 0, 0), local floor
-        // 12x10) and FAP footprint (fap_clinic at (28, -30)). Any collider
-        // whose XZ center falls inside these rectangles is a building shell,
-        // not an outdoor obstacle, so the interior owners stay authoritative.
-        (Vector2 Center, Vector2 HalfSize)[] interiorFootprints =
-        {
-            (new(-28f, 0f), new(6.5f, 5.5f)),
-            (new(28f, -30f), new(6.0f, 5.0f)),
-            // Zirat fence wall crossing the production zirat_road route
-            // corridor (x -1.6..14.5 at z -63.9..-76.1). The route owner keeps
-        // the walkable corridor authoritative; the exterior dressing stays visual.
-            (new(6.5f, -70f), new(8.6f, 7.2f))
-        };
-
-        // The Babai house exterior volume from the authored kit sits exactly
-        // where the production interior zone (house_old_pc at (-28,0,0))
-        // mounts its own floor/walls. The interior owner is authoritative;
-        // the exterior kit shell must not wall off the approach or doorway.
-        Vector2[] excludedVolumeCenters =
-        {
-            new(-30f, -1f)
-        };
-        var excluded = 0;
-        foreach (var shape in architecture.GetChildren().OfType<CollisionShape3D>().ToArray())
-        {
-            var center = shape.GlobalTransform.Origin;
-        // The Babai house kit volume (AABB x -32.8..-27.2, z -4.3..2.3)
-        // coincides with the production interior zone. Match by AABB
-        // overlap with the interior rectangle instead of the collider
-        // origin, because trimesh origins can sit outside the shell.
-        // The zirat fence line (z -63.9 .. -76.1, x -1.6..14.5) crosses the
-        // production zirat_road route corridor (x ±2.2 around 0). Its gate is
-        // authored at x -1.5..-1.4, but the walkthrough approaches along x=0,
-        // so the whole fence wall blocks the physical path. The exterior
-        // layer's own zirat dressing stays visual; the route owner keeps the
-        // authoritative walkable corridor.
-        var debugMesh = shape.Shape?.GetDebugMesh();
-            if (debugMesh is not null)
-            {
-                var aabb = debugMesh.GetAabb();
-                var worldMin = shape.GlobalTransform * aabb.Position;
-                var worldMax = shape.GlobalTransform * aabb.End;
-                var lo = new Vector3(
-                    System.Math.Min(worldMin.X, worldMax.X),
-                    System.Math.Min(worldMin.Y, worldMax.Y),
-                    System.Math.Min(worldMin.Z, worldMax.Z));
-                var hi = new Vector3(
-                    System.Math.Max(worldMin.X, worldMax.X),
-                    System.Math.Max(worldMin.Y, worldMax.Y),
-                    System.Math.Max(worldMin.Z, worldMax.Z));
-                foreach (var (footprintCenter, halfSize) in interiorFootprints)
-                {
-                    var fpMinX = footprintCenter.X - halfSize.X;
-                    var fpMaxX = footprintCenter.X + halfSize.X;
-                    var fpMinZ = footprintCenter.Y - halfSize.Y;
-                    var fpMaxZ = footprintCenter.Y + halfSize.Y;
-                    var overlaps = lo.X < fpMaxX && hi.X > fpMinX
-                        && lo.Z < fpMaxZ && hi.Z > fpMinZ;
-                    if (overlaps)
-                    {
-                        shape.Disabled = true;
-                        shape.QueueFree();
-                        excluded++;
-                    }
-                }
-            }
-            foreach (var volumeCenter in excludedVolumeCenters)
-            {
-                if (System.Math.Abs(center.X - volumeCenter.X) <= 3.5f
-                    && System.Math.Abs(center.Z - volumeCenter.Y) <= 3.5f)
-                {
-                    // Disabled immediately: QueueFree alone leaves the shape
-                    // active for the remainder of the frame, which is exactly
-                    // when spawn/first-step queries run.
-                    shape.Disabled = true;
-                    shape.QueueFree();
-                    excluded++;
-                }
-            }
-            foreach (var (footprintCenter, halfSize) in interiorFootprints)
-            {
-                if (System.Math.Abs(center.X - footprintCenter.X) <= halfSize.X
-                    && System.Math.Abs(center.Z - footprintCenter.Y) <= halfSize.Y)
-                {
-                    shape.Disabled = true;
-                    shape.QueueFree();
-                    excluded++;
-                    break;
-                }
-            }
-        }
-
-        layer.SetMeta("interiorFootprintCollidersExcluded", excluded);
-    }
 
     private static void BuildAct1WetVillageRoadKit(Node3D core)
     {
@@ -2745,7 +2741,7 @@ public partial class Act1ConnectedWorld : Node3D
             presentation,
             components[0].Root!,
             "FapAuthoredFacade",
-            origin - front * 1.8f,
+            origin - side * 1.30f - front * 4.13f,
             yaw,
             Vector3.One,
             "fap_clinic@authored-facade",
@@ -2755,7 +2751,7 @@ public partial class Act1ConnectedWorld : Node3D
             presentation,
             components[1].Root!,
             "FapAuthoredEntryPorch",
-            origin + front * 1.6f,
+            origin - side * 1.18f + front * 1.6f,
             yaw,
             Vector3.One,
             "fap_clinic@open-entry-porch",
@@ -2819,7 +2815,7 @@ public partial class Act1ConnectedWorld : Node3D
             presentation,
             components[6].Root!,
             "FapAuthoredBench",
-            origin + side * -3.2f + front * 2.8f,
+            origin + side * 2.3f + front * 3.1f,
             yaw,
             Vector3.One,
             "fap_clinic@near-entry-bench",
@@ -2828,7 +2824,7 @@ public partial class Act1ConnectedWorld : Node3D
             presentation,
             components[7].Root!,
             "FapAuthoredNoticeBoard",
-            origin + side * -5.3f + front * 3.0f,
+            origin - side * 7.9f + front * 3.2f,
             yaw,
             Vector3.One,
             "fap_clinic@blank-notice-board",
@@ -3616,7 +3612,7 @@ public partial class Act1ConnectedWorld : Node3D
         kitRoot.SetMeta("wetRoadMaterialGradeReboundCount", rebound);
     }
 
-    private static void BuildAct1AuthoredExteriorKit(Node3D core)
+    private void BuildAct1AuthoredExteriorKit(Node3D core)
     {
         var presentation = new Node3D { Name = "Act1AuthoredExteriorKitPresentation" };
         presentation.SetMeta("presentationOnly", true);
@@ -3693,12 +3689,14 @@ public partial class Act1ConnectedWorld : Node3D
         // translation, yaw and scale.
         var babaiApproachFacade = AttachAct1ExteriorKitComponent(
             presentation,
-            components[0].Root!,
+            components[9].Root!,
             "BabaiApproachDwellingFacade",
             housePlacement.Origin + new Vector3(0f, 0f, -3.4f),
             houseYaw,
-            Vector3.One * 0.82f,
+            Vector3.One,
             "house_old_pc@babai-approach");
+        _zoneInstances["house_old_pc"].GlobalTransform =
+            StyleBenchmarkInteriorFactory.TransformFromFacade(babaiApproachFacade);
         ApplyHeroWarmWindow(babaiApproachFacade);
         // The playable house keeps its authored closed street door visible. Hiding
         // the leaf left an open hole, and because the interior zone sits behind the
@@ -3707,7 +3705,7 @@ public partial class Act1ConnectedWorld : Node3D
         // происходит"). The leaf is presentation-only, so the entry interaction
         // still owns the transition.
         var streetDoorLeaf = FindDescendants<MeshInstance3D>(babaiApproachFacade)
-            .Single(mesh => mesh.Name == "DwellingFacade_StreetDoorClosed_LOD0");
+            .Single(mesh => mesh.Name == "HeroHouse_StreetDoorClosed_LOD0");
         streetDoorLeaf.Visible = true;
         streetDoorLeaf.MaterialOverride = PainterlyMaterialLibrary.ForColor("5a4433", "wood");
         babaiApproachFacade.SetMeta("streetDoorPolicy", "authored closed leaf visible; entry stays an interaction");
@@ -3966,10 +3964,10 @@ public partial class Act1ConnectedWorld : Node3D
                     "zirat_road@village-edge-west-fence"),
                 new Act1ExteriorParcelComponentPlacement(
                     "OutbuildingShed_Low",
-                    "ZiratVillageEdgeEastShed",
-                    authoredZiratPlacement.Origin + new Vector3(13.8f, 0f, 21.0f),
-                    -90f,
-                    Vector3.One * 0.52f,
+                "ZiratVillageEdgeEastShed",
+                authoredZiratPlacement.Origin + new Vector3(15.8f, 0f, 21.4f),
+                -90f,
+                Vector3.One * 1.15f,
                     "zirat_road@village-edge-east-shed"));
             AddAct1AuthoredExteriorParcel(
                 ziratEdgeParcels,
@@ -4046,23 +4044,18 @@ public partial class Act1ConnectedWorld : Node3D
                 "village_day@perimeter-east-arrival-fence"));
         AddAct1AuthoredExteriorParcel(
             perimeterParcels,
-            new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "PerimeterWestStreetFacade",
-                new(-21.8f, 0f, -5.8f),
-                90f,
-                Vector3.One * 0.48f,
-                "village_day@perimeter-west-street-facade"),
+            // The usable household shed occupies the former overlapping backdrop
+            // parcel at (-21.6,-4.7); keep the separate neighbouring shed below.
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
                 "PerimeterWestStreetShed",
-                new(-20.0f, 0f, -12.0f),
+                new(-21.6f, 0f, -13.4f),
                 84f,
-                Vector3.One * 0.40f,
+                Vector3.One * 1.15f,
                 "village_day@perimeter-west-street-shed"));
         AddAct1AuthoredExteriorParcel(
             perimeterParcels,
-            new Act1ExteriorParcelComponentPlacement(
+                new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
                 "PerimeterEastStreetShed",
                 new(18.4f, 0f, -11.0f),
@@ -4165,27 +4158,8 @@ public partial class Act1ConnectedWorld : Node3D
                 178f,
                 new(1.28f, 0.62f, 1f),
                 "village_day@east-arrival-mid-fence"));
-        AddAct1AuthoredExteriorParcel(
-            AddAct1ExteriorParcelSubmount(
-                perimeterParcels,
-                "WestStreetMidParcel",
-                new(-25.0f, 0f, -11.0f),
-                "village_day@west-street-mid-parcel",
-                "staggered side house closes the main-street reverse field"),
-            new Act1ExteriorParcelComponentPlacement(
-                "VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Dwelling",
-                "WestStreetMidFacade",
-                Vector3.Zero,
-                101f,
-                Vector3.One * 0.90f,
-                "village_day@west-street-mid-facade"),
-            new Act1ExteriorParcelComponentPlacement(
-                "OutbuildingShed_Low",
-                "WestStreetMidShed",
-                new(4.0f, 0f, 3.6f),
-                104f,
-                Vector3.One * 0.42f,
-                "village_day@west-street-mid-shed"));
+        // This plot is occupied by the playable HeroHouse. A second backdrop
+        // dwelling here put its side walls and footing through the real room.
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
@@ -4254,7 +4228,10 @@ public partial class Act1ConnectedWorld : Node3D
             AddAct1ExteriorParcelSubmount(
                 perimeterParcels,
                 "EastReturnMidParcel",
-                new(31.5f, 0f, -40.0f),
+                // The former backdrop anchor cuts through the full clinic.
+                // Move this existing dwelling and its shed together onto the
+                // next holding; foundation supports follow their new ground.
+                new(36.0f, 0f, -54.0f),
                 "zirat_road@east-return-mid-parcel",
                 "low return-street house and shed; quiet transition toward zirat"),
             new Act1ExteriorParcelComponentPlacement(
@@ -4333,18 +4310,16 @@ public partial class Act1ConnectedWorld : Node3D
                 "WestStreetNearParcel",
                 new(-18.0f, 0f, -5.0f),
                 "village_day@west-street-near-parcel",
-                "near-side house closes the main-street lateral field"),
-            new Act1ExteriorParcelComponentPlacement(
-                "DwellingFacade_TimberPlaster",
-                "WestStreetNearFacade",
-                Vector3.Zero,
-                94f,
-                Vector3.One * 0.62f,
-                "village_day@west-street-near-facade"),
+                "wood storage beside the inhabited house and playable yard shed"),
+            // The playable shed now occupies this yard. The former backdrop
+            // facade cut through its loft with a second roof and gable collider.
+            // Keep the separate woodpile; the actual house and shed own the view.
             new Act1ExteriorParcelComponentPlacement(
                 "Woodpile_StackedLogs",
                 "WestStreetNearWoodpile",
-                new(3.6f, 0f, 3.5f),
+                // Keep the logs inside the storage yard: the former z=3.5
+                // placed them directly across the authored path to the house.
+                new(3.6f, 0f, .8f),
                 10f,
                 Vector3.One * 0.66f,
                 "village_day@west-street-near-woodpile"));
@@ -4676,9 +4651,9 @@ public partial class Act1ConnectedWorld : Node3D
             new Act1ExteriorParcelComponentPlacement(
                 "OutbuildingShed_Low",
                 "ArrivalReverseEastDomesticShed",
-                Vector3.Zero,
-                184f,
-                Vector3.One * 0.50f,
+                new(6.5f, 0f, 3.0f),
+                -90f,
+                Vector3.One * 1.15f,
                 "village_day@arrival-reverse-east-domestic-shed"));
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(
@@ -5416,6 +5391,7 @@ public partial class Act1ConnectedWorld : Node3D
     /// </summary>
     private void DisableBlockersUnderHiddenPresentation()
     {
+        using var naming = InvariantNameScope();
         var disabled = 0;
         foreach (var proxy in FindDescendants<StaticBody3D>(this)
             .Where(body => body.HasMeta("collisionOwner") && body.GetMeta("collisionOwner").AsString() == "authored-kit-blocker"))
@@ -5894,7 +5870,11 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualWattleFence(parent, "BabaiYardWattleRun", origin + side * 4.6f + approach * 5.4f, 7, yaw - 6f);
         AddVisualPalisade(parent, "BabaiYardFrontPalisade", origin + side * -1.9f + approach * 5.6f, 14, yaw + 2f);
         AddVisualSled(parent, "BabaiYardSled", origin + side * -3.2f + approach * 4.2f, yaw + 68f);
-        AddVisualHaystack(parent, "BabaiYardHaystack", origin + side * 8.6f - approach * 1.2f, 1.0f, yaw - 34f);
+        // The full room now occupies the old diagonal haystack anchor. Keep
+        // this single stack in the front yard, outside the repair approach and
+        // both fence runs and the carryable crate; its complete horizontal
+        // radius is below .80 m and the crate's south approach stays clear.
+        AddVisualHaystack(parent, "BabaiYardHaystack", new(-26.2f, 0f, 3.30f), .58f, yaw - 34f);
         AddVisualWattleFence(parent, "BabaiYardWattleRunEast", origin + side * 9.4f + approach * 2.4f, 6, yaw + 84f);
         AddVisualTree(parent, "BabaiYardBirchMass", origin + side * -13.2f - approach * 1.5f, 7.3f, VegetationStyle.Birch, "596047");
         AddVisualTree(parent, "BabaiYardBroadleafMass", origin + side * 13.4f + approach * 2.0f, 6.6f, VegetationStyle.Broadleaf, "48553f");
@@ -5951,7 +5931,7 @@ public partial class Act1ConnectedWorld : Node3D
                 {
                     mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("718078", "wood_carved");
                 }
-                else if (name is "DwellingFacade_Front_VergeLeft_LOD0" or "DwellingFacade_Front_VergeRight_LOD0")
+                else if (name is "HeroHouse_Front_VergeLeft_LOD0" or "HeroHouse_Front_VergeRight_LOD0")
                 {
                     mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("8a765b", "ornament_trim");
                 }
@@ -5959,7 +5939,7 @@ public partial class Act1ConnectedWorld : Node3D
         }
 
         var warmWindow = FindDescendants<MeshInstance3D>(facade)
-            .FirstOrDefault(mesh => mesh.Name == "DwellingFacade_Street_Window1_Glass_LOD0");
+            .FirstOrDefault(mesh => mesh.Name == "HeroHouse_Street_Window2_Glass_LOD0");
         if (warmWindow is null)
         {
             return;
@@ -5985,7 +5965,7 @@ public partial class Act1ConnectedWorld : Node3D
             Name = "BabaiDwellingRearFacadeDressing",
             Position = origin,
             RotationDegrees = new Vector3(0f, yawDegrees, 0f),
-            Scale = Vector3.One * 0.82f
+            Scale = Vector3.One * (parent.Name == "BabaiApproachDwellingFacade" ? 1f : .82f)
         };
         dressing.SetMeta("presentationOnly", true);
         dressing.SetMeta("visualOnly", true);
@@ -6003,7 +5983,7 @@ public partial class Act1ConnectedWorld : Node3D
             var rearWindowLight = new OmniLight3D
             {
                 Name = "BabaiRearWindowWarmLight",
-                Position = new Vector3(-0.15f, 2.45f, -0.30f),
+                Position = StyleBenchmarkInteriorFactory.RoomOffset + new Vector3(-2.55f, 1.65f, -3.25f),
                 LightColor = Color.FromHtml("c38d62"),
                 LightEnergy = 0.38f,
                 OmniRange = 4.6f,
@@ -8478,15 +8458,85 @@ public partial class Act1ConnectedWorld : Node3D
         stack.SetMeta("presentationRole", "winter haystack (стог сена) yard detail");
         parent.AddChild(stack);
 
-        AddVisualBox(stack, "HayBase", new(2.6f, 1.1f, 2.2f), new(0f, 0.55f, 0f), "8a7a52", "grass");
-        AddVisualBox(stack, "HayMid", new(2.2f, 0.9f, 1.85f), new(0f, 1.5f, 0f), "94835a", "grass");
-        AddVisualBox(stack, "HayTop", new(1.5f, 0.75f, 1.3f), new(0f, 2.3f, 0f), "9c8b60", "grass");
-        AddVisualBox(stack, "HaySnowCap", new(1.6f, 0.22f, 1.4f), new(0f, 2.72f, 0f), "eef2f6", "snow_ground");
-        AddVisualBox(stack, "HaySnowSkirt", new(2.7f, 0.16f, 2.3f), new(0f, 1.16f, 0f), "e8eef3", "snow_ground");
-        AddVisualBox(stack, "HayPole", new(0.14f, 3.4f, 0.14f), new(0.6f, 1.7f, 0.5f), "6b5b46", "wood");
+        var ground = stack.GlobalPosition;
+        ground.Y = AgentBAct1HeightField.CollisionGround(ground.X, ground.Z);
+        stack.GlobalPosition = ground;
+        // One packed, oval stack, with its lower skirt seated into the actual
+        // terrain. The former three boxes and horizontal snow strips looked
+        // like shelving and had neither a hay silhouette nor physical contact.
+        const int segments = 18;
+        ArrayMesh Profile((float Height, float Radius)[] rings, bool seatBase)
+        {
+            using var surface = new SurfaceTool();
+            surface.Begin(Mesh.PrimitiveType.Triangles);
+            var points = new Vector3[rings.Length, segments];
+            for (var ring = 0; ring < rings.Length; ring++)
+            for (var index = 0; index < segments; index++)
+            {
+                var angle = Mathf.Tau * index / segments;
+                var irregularity = 1f + .035f * Mathf.Sin(angle * 3f + .7f)
+                    + .022f * Mathf.Cos(angle * 5f);
+                var point = new Vector3(Mathf.Cos(angle) * rings[ring].Radius * irregularity,
+                    rings[ring].Height, Mathf.Sin(angle) * rings[ring].Radius * .84f * irregularity);
+                if (seatBase && ring == 0)
+                {
+                    var world = stack.ToGlobal(point);
+                    world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z) - .025f;
+                    point = stack.ToLocal(world);
+                }
+                points[ring, index] = point;
+            }
+            void Vertex(Vector3 point, float u)
+            {
+                surface.SetUV(new Vector2(u, point.Y * .75f));
+                surface.AddVertex(point);
+            }
+            for (var ring = 0; ring < rings.Length - 1; ring++)
+            for (var index = 0; index < segments; index++)
+            {
+                var next = (index + 1) % segments;
+                var u = index / (float)segments * 3f;
+                var v = (index + 1) / (float)segments * 3f;
+                // Godot's clockwise front faces and SurfaceTool normals must
+                // both point out of the packed stack.
+                Vertex(points[ring, index], u); Vertex(points[ring, next], v); Vertex(points[ring + 1, index], u);
+                Vertex(points[ring, next], v); Vertex(points[ring + 1, next], v); Vertex(points[ring + 1, index], u);
+            }
+            for (var index = 0; index < segments; index++)
+            {
+                var next = (index + 1) % segments;
+                Vertex(new Vector3(0, rings[^1].Height, 0), .5f);
+                Vertex(points[rings.Length - 1, index], 0f);
+                Vertex(points[rings.Length - 1, next], 1f);
+                if (seatBase)
+                {
+                    Vertex(new Vector3(0, -.04f, 0), .5f);
+                    Vertex(points[0, next], 1f); Vertex(points[0, index], 0f);
+                }
+            }
+            surface.GenerateNormals();
+            return surface.Commit();
+        }
+        var hayMaterial = PainterlyMaterialLibrary.ForColor("9b978c", "hay_fibers", sheltered: true);
+        var hay = new MeshInstance3D { Name = "HayPackedBody",
+            Mesh = Profile([(0f, 1.30f), (.60f, 1.27f), (1.28f, 1.08f), (1.90f, .76f), (2.34f, .34f), (2.58f, .035f)], true),
+            MaterialOverride = hayMaterial };
+        stack.AddChild(hay);
+        var snow = new MeshInstance3D { Name = "HaySnowCap",
+            Mesh = Profile([(1.91f, .79f), (2.37f, .36f), (2.62f, .038f)], false),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("e8edf1", "snow_ground") };
+        stack.AddChild(snow);
+        var pole = AddVisualBox(stack, "HayPole", new(.10f, 2.85f, .10f), new(0, 1.40f, 0), "6b5b46", "wood");
+        var contact = NewKitBlockerProxy();
+        stack.AddChild(contact);
+        contact.AddChild(AuthoredSurfaceContact(contact, hay));
+        contact.AddChild(AuthoredSurfaceContact(contact, snow));
+        contact.AddChild(AuthoredSolidContact(contact, pole, "HayPoleContact"));
+        stack.SetMeta("collisionOwner", "authored-kit-blocker");
+        stack.SetMeta("groundingPolicy", "actual terrain at each lower-ring vertex; packed body and snow share visible triangle contacts");
     }
 
-    private static void AddVisualStreetLandmark(Node3D parent, string name, Vector3 anchor, float yawDegrees, string labelText = "КЫРЛАЙ")
+    private static void AddVisualStreetLandmark(Node3D parent, string name, Vector3 anchor, float yawDegrees, string labelText = "КАРА-УРМАН")
     {
         var landmark = new Node3D
         {
@@ -9036,6 +9086,258 @@ public partial class Act1ConnectedWorld : Node3D
                     new Vector3(post.X, 0.46f, post.Z),
                     "594a39",
                     "wood");
+            }
+        }
+    }
+
+    internal sealed record StandaloneFenceRailRecord(PublicFenceMemberRecord Member,
+        int PrefixVertices, int LinkVertices, int FarVertices, int FrontCaps, int RearCaps, Material? OriginalOverride);
+    internal sealed record StandaloneFencePostRecord(MeshInstance3D Mesh, Mesh Source,
+        Transform3D OriginalTransform, bool OriginalVisible, Material? OriginalOverride, string Action)
+    {
+        internal CollisionShape3D[] Contacts { get; set; } = Array.Empty<CollisionShape3D>();
+    }
+    internal sealed record StandaloneFenceJunctionRecord(Node3D Shed, MeshInstance3D Wall,
+        MeshInstance3D Foundation, MeshInstance3D Recess, Plane FrontCut, Plane RearCut,
+        StandaloneFenceRailRecord[] Rails, StandaloneFencePostRecord[] Posts);
+    internal StandaloneFenceJunctionRecord? ZiratShedFenceJunction { get; private set; }
+
+    private void RepairStandaloneZiratFenceJunction()
+    {
+        // StandaloneAccess02 identified these two old presentation rails. Keep
+        // their external geometry and paths, ending them against the actual shed
+        // instead of running through its right door recess and occupied volume.
+        var shed = FindDescendants<Node3D>(this).Single(n => n.Name == "ZiratVillageEdgeEastShed");
+        MeshInstance3D Part(string name) => FindDescendants<MeshInstance3D>(shed).Single(m => m.Name == name);
+        var wall = Part("OutbuildingShed_Wall_LOD0");
+        var foundation = Part("OutbuildingShed_Foundation_LOD0");
+        var recess = Part("OutbuildingShed_Door_Recess_LOD0");
+        var front = StandaloneFenceWallPlane(wall, shed.GlobalBasis.Z.Normalized());
+        var rear = StandaloneFenceWallPlane(wall, -shed.GlobalBasis.Z.Normalized());
+        // A small timber joint lies inside the real support. This is geometry,
+        // not a query margin; the physical capsule and all collision policy stay unchanged.
+        front = new Plane(front.Normal, front.D - .003f);
+        rear = new Plane(rear.Normal, rear.D - .003f);
+        var recessPoints = StandaloneFenceWorldVertices(recess);
+        var wallPoints = StandaloneFenceWorldVertices(wall);
+        var attachmentZ = (recessPoints.Max(p => p.Z) + wallPoints.Max(p => p.Z)) * .5f;
+        var railRoot = GetNode<MeshInstance3D>("Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail");
+        var fenceParent = railRoot.GetParent<Node3D>();
+        var postPositions = Enumerable.Range(0, 5).Select(i =>
+            fenceParent.GetNode<MeshInstance3D>("ReturnEastParcelFencePost" + i).GlobalPosition).ToArray();
+        var rails = new List<StandaloneFenceRailRecord>();
+        foreach (var mesh in new[] { railRoot, railRoot.GetNode<MeshInstance3D>("ReturnEastParcelFenceLowerRail") })
+        {
+            var source = mesh.Mesh as ArrayMesh ?? throw new InvalidOperationException("Missing measured Zirat fence rail.");
+            GD.Print($"act1-zirat-fence-source: owner={mesh.GetPath()} surfaces={source.GetSurfaceCount()}");
+            if (source.GetSurfaceCount() != 1) throw new InvalidOperationException("The measured Zirat rail must retain its single surface.");
+            var arrays = source.SurfaceGetArrays(0);
+            var rawPoints = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+            var normalValue = arrays[(int)Mesh.ArrayType.Normal];
+            var rawNormals = normalValue.VariantType == Variant.Type.Nil ? Array.Empty<Vector3>() : normalValue.AsVector3Array();
+            var tangentValue = arrays[(int)Mesh.ArrayType.Tangent];
+            var rawTangents = tangentValue.VariantType == Variant.Type.Nil ? Array.Empty<float>() : tangentValue.AsFloat32Array();
+            var indexValue = arrays[(int)Mesh.ArrayType.Index];
+            var indices = indexValue.VariantType == Variant.Type.Nil ? Array.Empty<int>() : indexValue.AsInt32Array();
+            using var imported = ImporterMesh.FromMesh(source);
+            var format = (ulong)source.SurfaceGetFormat(0);
+            var indexed = (format & (1UL << (int)Mesh.ArrayType.Index)) != 0;
+            var expandedCount = indexed ? indices.Length : rawPoints.Length;
+            var failures = new List<string>();
+            if (expandedCount != 144) failures.Add("expanded-triangle-stream-count");
+            if (rawNormals.Length != rawPoints.Length) failures.Add("normal-count");
+            if (rawTangents.Length != rawPoints.Length * 4) failures.Add("tangent-count");
+            if (indexed != (indices.Length > 0) || indices.Any(i => i < 0 || i >= rawPoints.Length)) failures.Add("index-buffer");
+            if (imported.GetSurfaceLodCount(0) != 0) failures.Add("unexpected-LOD");
+            if (source.ShadowMesh is not null) failures.Add("unexpected-shadow-mesh");
+            if (source.SurfaceGetPrimitiveType(0) != Mesh.PrimitiveType.Triangles) failures.Add("primitive");
+            // RenderingServer requires tangents when normals are supplied and
+            // synthesizes this real published channel even without authored UVs.
+            var channels = (1UL << (int)Mesh.ArrayType.Vertex) | (1UL << (int)Mesh.ArrayType.Normal) | (1UL << (int)Mesh.ArrayType.Tangent)
+                | (indexed ? 1UL << (int)Mesh.ArrayType.Index : 0UL);
+            if ((format & ((1UL << (int)Mesh.ArrayType.Max) - 1)) != channels) failures.Add("unexpected-attribute-channel");
+            GD.Print($"act1-zirat-fence-source: owner={mesh.GetPath()} rawVertices={rawPoints.Length} normals={rawNormals.Length} tangents={rawTangents.Length} indices={indices.Length} expandedVertices={expandedCount} format={format} indexed={indexed} primitive={source.SurfaceGetPrimitiveType(0)} lods={imported.GetSurfaceLodCount(0)} shadow={source.ShadowMesh is not null} failedTerms={string.Join(',', failures)}");
+            if (failures.Count != 0) throw new InvalidOperationException("Unsupported measured Zirat rail source: " + string.Join(',', failures));
+            var points = indexed ? indices.Select(i => rawPoints[i]).ToArray() : rawPoints;
+            var normals = indexed ? indices.Select(i => rawNormals[i]).ToArray() : rawNormals;
+            var tangents = Enumerable.Range(0, rawPoints.Length).Select(i => new Plane(
+                new Vector3(rawTangents[i * 4], rawTangents[i * 4 + 1], rawTangents[i * 4 + 2]), rawTangents[i * 4 + 3])).ToArray();
+            var expandedTangents = indexed ? indices.Select(i => tangents[i]).ToArray() : tangents;
+            FenceCutVertex Vertex(Vector3 point, Vector3 normal)
+            {
+                var tangent = (Math.Abs(normal.Y) < .9f ? Vector3.Up : Vector3.Right).Cross(normal).Normalized();
+                return new(point, normal, Vector2.Zero, new Plane(tangent, 1), Colors.White, Vector2.Zero);
+            }
+            var original = points.Select((p, i) => new FenceCutVertex(p, normals[i], Vector2.Zero,
+                expandedTangents[i], Colors.White, Vector2.Zero)).ToArray();
+            // Decode any actual index buffer, then validate the triangle stream
+            // against the posts before preserving its first two spans.
+            const int prefix = 72;
+            var toWorld = mesh.GlobalTransform;
+            var toLocal = toWorld.AffineInverse();
+            var spanCorners = StandaloneFenceSpanCorners(points, toWorld, postPositions);
+            var startCorners = spanCorners[2].Take(4).ToArray();
+            var a = startCorners.Aggregate(Vector3.Zero, (sum, p) => sum + p) * .25f;
+            var b = spanCorners[2].Skip(4).Aggregate(Vector3.Zero, (sum, p) => sum + p) * .25f;
+            var slope = (b.Y - a.Y) / (b.X - a.X);
+            var x = (front.D - front.Normal.Y * (a.Y - slope * a.X) - front.Normal.Z * attachmentZ)
+                / (front.Normal.X + front.Normal.Y * slope);
+            var attachment = new Vector3(x, a.Y + slope * (x - a.X), attachmentZ);
+            var direction = attachment - a;
+            var end = attachment + direction.Normalized() * .20f;
+            var halfWidth = startCorners[0].DistanceTo(startCorners[1]) * .5f;
+            var halfHeight = startCorners[1].DistanceTo(startCorners[2]) * .5f;
+            var across = new Vector3(direction.Z, 0, -direction.X).Normalized() * halfWidth;
+            var up = Vector3.Up * halfHeight;
+            var corners = new[] { toLocal * startCorners[0], toLocal * startCorners[1], toLocal * startCorners[2], toLocal * startCorners[3],
+                toLocal * (end - across - up), toLocal * (end + across - up),
+                toLocal * (end + across + up), toLocal * (end - across + up) };
+            var order = new[] { 0, 1, 2, 0, 2, 3, 4, 6, 5, 4, 7, 6,
+                0, 5, 1, 0, 4, 5, 3, 6, 7, 3, 2, 6, 1, 6, 2, 1, 5, 6, 0, 7, 4, 0, 3, 7 };
+            var link = new List<FenceCutVertex>();
+            for (var i = 0; i < order.Length; i += 3)
+            {
+                var p = corners[order[i]]; var q = corners[order[i + 1]]; var r = corners[order[i + 2]];
+                var normal = -(q - p).Cross(r - p).Normalized();
+                link.Add(Vertex(p, normal)); link.Add(Vertex(q, normal)); link.Add(Vertex(r, normal));
+            }
+            var (near, frontCaps) = ClipCouncilFenceRail(link.ToArray(), Enumerable.Range(0, link.Count).ToArray(),
+                StandaloneFenceCutCoordinates(front) * toWorld, 0);
+            var (far, rearCaps) = ClipCouncilFenceRail(original, Enumerable.Range(0, original.Length).ToArray(),
+                StandaloneFenceCutCoordinates(rear) * toWorld, 0);
+            var output = original.Take(prefix).Concat(near).Concat(far).ToArray();
+            var published = new global::Godot.Collections.Array(); published.Resize((int)Mesh.ArrayType.Max);
+            published[(int)Mesh.ArrayType.Vertex] = output.Select(v => v.Point).ToArray();
+            published[(int)Mesh.ArrayType.Normal] = output.Select(v => v.Normal).ToArray();
+            published[(int)Mesh.ArrayType.Tangent] = output.SelectMany(v =>
+                new[] { v.Tangent.Normal.X, v.Tangent.Normal.Y, v.Tangent.Normal.Z, v.Tangent.D }).ToArray();
+            if (indexed) published[(int)Mesh.ArrayType.Index] = Enumerable.Range(0, output.Length).ToArray();
+            var result = new ArrayMesh(); result.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, published);
+            result.SurfaceSetMaterial(0, source.SurfaceGetMaterial(0));
+            result.SurfaceSetName(0, source.SurfaceGetName(0));
+            mesh.Mesh = result;
+            mesh.SetMeta("standaloneFenceJunction", "short wall joint after original second post; actual shed interior removed; external far end retained");
+            var record = new PublicFenceMemberRecord(mesh, source, mesh.GlobalTransform, mesh.Visible,
+                "rail-ended-in-shed-wall", points.Length / 3, output.Length / 3, frontCaps + rearCaps);
+            rails.Add(new(record, prefix, near.Count, far.Count, frontCaps, rearCaps, mesh.MaterialOverride));
+        }
+        var parent = railRoot.GetParent<Node3D>();
+        var posts = Enumerable.Range(0, 5).Select(i =>
+        {
+            var post = parent.GetNode<MeshInstance3D>("ReturnEastParcelFencePost" + i);
+            var source = post.Mesh ?? throw new InvalidOperationException("Missing original Zirat fence post mesh.");
+            GD.Print($"act1-zirat-fence-post-source: owner={post.GetPath()} meshType={source.GetClass()} surfaces={source.GetSurfaceCount()}");
+            var record = new StandaloneFencePostRecord(post, source, post.GlobalTransform, post.Visible, post.MaterialOverride,
+                i == 3 ? "inside-member-hidden" : "retained");
+            if (i == 3) { post.Visible = false; post.SetMeta("retirementReason", "StandaloneAccess02: this post is inside the existing Zirat shed footprint"); }
+            return record;
+        }).ToArray();
+        ZiratShedFenceJunction = new(shed, wall, foundation, recess, front, rear, rails.ToArray(), posts);
+        GD.Print($"act1-zirat-shed-fence-junction: wall={wall.GetPath()} attachmentZ={attachmentZ} retainedFirstSpans=2 hiddenPost=3 retainedFarPost=4 frontCut={front} rearCut={rear}");
+    }
+
+    private static Vector3[][] StandaloneFenceSpanCorners(Vector3[] stream, Transform3D toWorld, Vector3[] posts)
+    {
+        var spans = new Vector3[4][];
+        for (var span = 0; span < spans.Length; span++)
+        {
+            var faces = stream.Skip(span * 36).Take(36).Select(p => toWorld * p).ToArray();
+            var corners = faces.Distinct().ToArray();
+            var delta = posts[span + 1] - posts[span]; delta.Y = 0;
+            var length = delta.Length(); var along = delta / length;
+            var across = new Vector3(along.Z, 0, -along.X);
+            var edges = new Dictionary<(Vector3, Vector3), int>();
+            for (var i = 0; i < faces.Length; i += 3)
+                for (var e = 0; e < 3; e++)
+                {
+                    var left = faces[i + e]; var right = faces[i + (e + 1) % 3];
+                    var key = (left, right); var reverse = (right, left);
+                    if (edges.ContainsKey(reverse)) key = reverse;
+                    edges[key] = edges.GetValueOrDefault(key) + 1;
+                }
+            Vector3[] Section(float distance)
+            {
+                var section = corners.Where(p => Math.Abs((p - posts[span]).Dot(along) - distance) < .00002f).ToArray();
+                if (section.Length != 4) throw new InvalidOperationException($"Zirat span {span} has no complete section at its actual post.");
+                var lower = section.OrderBy(p => p.Y).Take(2).OrderBy(p => p.Dot(across)).ToArray();
+                var upper = section.OrderByDescending(p => p.Y).Take(2).OrderByDescending(p => p.Dot(across)).ToArray();
+                return lower.Concat(upper).ToArray();
+            }
+            if (corners.Length != 8 || edges.Count != 18 || edges.Values.Any(count => count != 2)
+                || corners.Any(p => (p - posts[span]).Dot(along) < -.00002f || (p - posts[span]).Dot(along) > length + .00002f))
+                throw new InvalidOperationException($"Zirat source triangle span {span} no longer matches the closed member between its actual posts.");
+            spans[span] = Section(0).Concat(Section(length)).ToArray();
+        }
+        return spans;
+    }
+
+    private static Vector3[] StandaloneFenceWorldVertices(MeshInstance3D mesh)
+        => Enumerable.Range(0, mesh.Mesh.GetSurfaceCount()).SelectMany(i =>
+            mesh.Mesh.SurfaceGetArrays(i)[(int)Mesh.ArrayType.Vertex].AsVector3Array()).Select(p => mesh.GlobalTransform * p).ToArray();
+
+    private static Plane StandaloneFenceWallPlane(MeshInstance3D wall, Vector3 outward)
+    {
+        var points = Enumerable.Range(0, wall.Mesh.GetSurfaceCount()).SelectMany(surface =>
+        {
+            var arrays = wall.Mesh.SurfaceGetArrays(surface);
+            var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+            var value = arrays[(int)Mesh.ArrayType.Index];
+            var indices = value.VariantType == Variant.Type.Nil ? Array.Empty<int>() : value.AsInt32Array();
+            return (indices.Length == 0 ? vertices : indices.Select(i => vertices[i])).Select(p => wall.GlobalTransform * p);
+        }).ToArray();
+        var center = points.Aggregate(Vector3.Zero, (sum, p) => sum + p) / points.Length;
+        var candidates = new List<Plane>();
+        for (var i = 0; i < points.Length; i += 3)
+        {
+            var a = points[i]; var normal = (points[i + 1] - a).Cross(points[i + 2] - a).Normalized();
+            if (normal.Dot(center - a) > 0) normal = -normal;
+            if (normal.Dot(outward) > .99f) candidates.Add(new Plane(normal, normal.Dot(a)));
+        }
+        if (candidates.Count != 2 || candidates[0].Normal.DistanceTo(candidates[1].Normal) > .0001f
+            || Math.Abs(candidates[0].D - candidates[1].D) > .0001f)
+            throw new InvalidOperationException("The measured Zirat wall no longer has its complete planar support face.");
+        return candidates[0];
+    }
+
+    private static Transform3D StandaloneFenceCutCoordinates(Plane outside)
+    {
+        var normal = -outside.Normal;
+        var tangent = Vector3.Up.Cross(normal).Normalized();
+        var up = normal.Cross(tangent).Normalized();
+        return new Transform3D(new Basis(tangent, up, normal).Transposed(), new Vector3(0, 0, outside.D));
+    }
+
+    private void FinalizeStandaloneZiratFenceContacts()
+    {
+        var repair = ZiratShedFenceJunction ?? throw new InvalidOperationException("Missing Zirat fence projection.");
+        var contacts = FindDescendants<CollisionShape3D>(this).Where(s => s.HasMeta("authoredSourceMesh")).ToArray();
+        // This exact low foundation is a visible support for the new rail ends.
+        // The general flat-slab policy intentionally does not own its triangles.
+        var foundationPath = repair.Foundation.GetPath().ToString();
+        if (contacts.Any(c => c.GetMeta("authoredSourceMesh").AsString() == foundationPath))
+            throw new InvalidOperationException("The Zirat foundation already has a physical owner; refusing a duplicate.");
+        var proxy = repair.Shed.GetNode<StaticBody3D>("AuthoredKitCollisionProxy");
+        var foundationContact = AuthoredSurfaceContact(proxy, repair.Foundation);
+        foundationContact.SetMeta("standaloneFenceFoundation", true);
+        proxy.AddChild(foundationContact);
+        repair.Shed.SetMeta("authoredKitBlockerCount", repair.Shed.GetMeta("authoredKitBlockerCount").AsInt32() + 1);
+        GD.Print($"act1-zirat-foundation-contact: owner={foundationContact.GetPath()} source={foundationPath} policy=exact-existing-mesh-triangles");
+        foreach (var post in repair.Posts)
+        {
+            post.Contacts = contacts.Where(c => c.GetMeta("authoredSourceMesh").AsString() == post.Mesh.GetPath().ToString()).ToArray();
+            if (post.Action == "inside-member-hidden" && post.Contacts.Length != 0)
+                throw new InvalidOperationException("A hidden Zirat fence post still owns collision.");
+        }
+        foreach (var member in repair.Rails.Select(r => r.Member))
+        {
+            member.Contacts = contacts.Where(c => c.GetMeta("authoredSourceMesh").AsString() == member.Mesh.GetPath().ToString()).ToArray();
+            foreach (var contact in member.Contacts)
+            {
+                var owner = contact.GetParent<Node3D>();
+                var shape = new ConcavePolygonShape3D { BackfaceCollision = true };
+                shape.SetFaces(member.Mesh.Mesh.GetFaces().Select(p => member.Mesh.GlobalBasis * p).ToArray());
+                contact.Transform = owner.GlobalTransform.AffineInverse() * new Transform3D(Basis.Identity, member.Mesh.GlobalPosition);
+                contact.Shape = shape;
             }
         }
     }
@@ -9941,6 +10243,7 @@ public partial class Act1ConnectedWorld : Node3D
     /// </summary>
     private void SuppressLegacySignInteraction()
     {
+        using var naming = InvariantNameScope();
         var suppressed = 0;
         foreach (var legacySign in FindDescendants<InteractionTarget>(this)
                      .Where(target => target.InteractionId.EndsWith(":interaction/village-sign", StringComparison.Ordinal))
@@ -9958,9 +10261,11 @@ public partial class Act1ConnectedWorld : Node3D
 
     private void DressDeferredPaintedWindowSurrounds()
     {
+        using var naming = InvariantNameScope();
         if (FindChild("Act1AuthoredExteriorKitPresentation", true, false) is Node3D presentation)
         {
             DressPaintedWindowSurrounds(presentation);
+            BatchPaintedWindowSurrounds(presentation);
         }
     }
 

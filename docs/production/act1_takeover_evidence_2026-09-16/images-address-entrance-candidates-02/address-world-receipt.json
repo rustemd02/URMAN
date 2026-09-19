@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "ordinaryNewGame": true,
+  "humanSearchPlaytest": false,
+  "diagnosticCameraFixtures": true,
+  "assembly": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll",
+    "pathSource": "URMAN_ADDRESS_ASSEMBLY_PATH",
+    "assemblyLocation": "",
+    "loadedModule": "ae6837cf-ee86-401e-9f71-e75886225514",
+    "diskModule": "ae6837cf-ee86-401e-9f71-e75886225514",
+    "status": "module-match",
+    "sha256": "1e73aedb6918c1793f8fb708eb7dd7b3ce800c4eb00e452402132a55036a6fef"
+  },
+  "scope": "entrance-candidates",
+  "auditRun": false,
+  "acceptance": false,
+  "auditCompleted": false,
+  "registry": null,
+  "mounts": [],
+  "captures": [
+    {
+      "file": "10_ADR-H009_SeniOuter_road.png",
+      "AddressId": "ADR-H009",
+      "SurfaceName": "DwellingFacade_SeniOuter_Wall_LOD0",
+      "view": "road",
+      "diagnostic": true,
+      "previewOnly": true,
+      "actualProductionPlate": false,
+      "sourceGeometryChanged": false,
+      "temporaryPlatePresent": false,
+      "point": {
+        "x": 5.749877,
+        "y": 1.2338661,
+        "z": 29.930561
+      },
+      "feet": {
+        "x": 0,
+        "y": -0.356629,
+        "z": 29.930561
+      },
+      "camera": {
+        "x": 0.17956184,
+        "y": 1.343371,
+        "z": 29.918005
+      },
+      "fieldOfView": 75,
+      "usesOrdinaryFieldOfView": true,
+      "standingEyeHeight": 1.7,
+      "projectedPlateCorners": [],
+      "distance": 5.571406,
+      "humanReadability": "requires inspection",
+      "humanSearchPlaytest": false
+    },
+    {
+      "file": "10_ADR-H009_SeniOuter_approach.png",
+      "AddressId": "ADR-H009",
+      "SurfaceName": "DwellingFacade_SeniOuter_Wall_LOD0",
+      "view": "approach",
+      "diagnostic": true,
+      "previewOnly": true,
+      "actualProductionPlate": false,
+      "sourceGeometryChanged": false,
+      "temporaryPlatePresent": false,
+      "point": {
+        "x": 5.749877,
+        "y": 1.2338661,
+        "z": 29.930561
+      },
+      "feet": {
+        "x": 4.1537743,
+        "y": -0.27154487,
+        "z": 30.042171
+      },
+      "camera": {
+        "x": 4.333336,
+        "y": 1.4284551,
+        "z": 30.029615
+      },
+      "fieldOfView": 75,
+      "usesOrdinaryFieldOfView": true,
+      "standingEyeHeight": 1.7,
+      "projectedPlateCorners": [],
+      "distance": 1.4332709,
+      "humanReadability": "requires inspection",
+      "humanSearchPlaytest": false
+    },
+    {
+      "file": "10_ADR-H009_Right_road.png",
+      "AddressId": "ADR-H009",
+      "SurfaceName": "DwellingFacade_Right_Wall_LOD0",
+      "view": "road",
+      "diagnostic": true,
+      "previewOnly": true,
+      "actualProductionPlate": false,
+      "sourceGeometryChanged": false,
+      "temporaryPlatePresent": true,
+      "point": {
+        "x": 6.983913,
+        "y": 1.633866,
+        "z": 27.809309
+      },
+      "feet": {
+        "x": 0,
+        "y": -0.34022593,
+        "z": 27.809309
+      },
+      "camera": {
+        "x": 0.17956184,
+        "y": 1.3597741,
+        "z": 27.796753
+      },
+      "fieldOfView": 75,
+      "usesOrdinaryFieldOfView": true,
+      "standingEyeHeight": 1.7,
+      "projectedPlateCorners": [
+        {
+          "x": 898.7276,
+          "y": 562.1904
+        },
+        {
+          "x": 898.8841,
+          "y": 517.5131
+        },
+        {
+          "x": 1020.36395,
+          "y": 518.1386
+        },
+        {
+          "x": 1020.5166,
+          "y": 562.26636
+        }
+      ],
+      "distance": 6.809881,
+      "humanReadability": "requires inspection",
+      "humanSearchPlaytest": false
+    },
+    {
+      "file": "10_ADR-H009_Right_approach.png",
+      "AddressId": "ADR-H009",
+      "SurfaceName": "DwellingFacade_Right_Wall_LOD0",
+      "view": "approach",
+      "diagnostic": true,
+      "previewOnly": true,
+      "actualProductionPlate": false,
+      "sourceGeometryChanged": false,
+      "temporaryPlatePresent": true,
+      "point": {
+        "x": 6.983913,
+        "y": 1.633866,
+        "z": 27.809309
+      },
+      "feet": {
+        "x": 5.38781,
+        "y": -0.27125704,
+        "z": 27.92092
+      },
+      "camera": {
+        "x": 5.567372,
+        "y": 1.428743,
+        "z": 27.908363
+      },
+      "fieldOfView": 75,
+      "usesOrdinaryFieldOfView": true,
+      "standingEyeHeight": 1.7,
+      "projectedPlateCorners": [
+        {
+          "x": 664.2687,
+          "y": 646.6596
+        },
+        {
+          "x": 676.67456,
+          "y": 437.81476
+        },
+        {
+          "x": 1243.3256,
+          "y": 437.81473
+        },
+        {
+          "x": 1255.7314,
+          "y": 646.6596
+        }
+      ],
+      "distance": 1.434739,
+      "humanReadability": "requires inspection",
+      "humanSearchPlaytest": false
+    }
+  ],
+  "checks": [
+    {
+      "kind": "check",
+      "message": "ordinary New Game starts",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "construction and proximity do not record a plate read",
+      "passed": true
+    },
+    {
+      "kind": "audit-not-run-in-narrow-scope",
+      "auditRun": false,
+      "constructionEntriesAlreadyObserved": 0,
+      "previousPhysicsProcessing": true,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "temporary mount preview removed in finally",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "diagnostic sign preview creates no collider or interaction",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "temporary mount preview removed in finally",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "diagnostic plate views do not change discovered addresses or world state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "assembly candidate MVID matches the executing module",
+      "passed": true
+    }
+  ],
+  "failures": []
+}

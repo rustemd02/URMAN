@@ -1,0 +1,670 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+vehicle-smoke: radio boundary carries fractional offset into the next segment
+vehicle-smoke: whole-loop advance still reports a playback boundary
+vehicle-smoke: saved radio segment survives input reordering
+vehicle-smoke: non-finite playback offsets are rejected
+vehicle-smoke: a retired unavailable segment starts the remaining programme at zero instead of copying an unrelated offset
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1594 carved_door_slabs=103 flat_slab_skipped=2460 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=109404229399
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=109404229399
+SaveGameV3 new game session started; existing slots untouched.
+vehicle-smoke: ordinary New Game
+act1-intro: confirmed with E
+vehicle-smoke: three vehicle instances in the actual connected world
+vehicle-smoke: stable unique fleet IDs
+vehicle-smoke: ordinary free control after arrival card
+vehicle-smoke: babay-niva ordinary authored start needs no parking recovery
+vehicle-smoke: babay-niva starts at its authored grounded position
+vehicle-smoke: babay-niva initial chassis and actual support are valid
+vehicle-smoke: village-motorcycle ordinary authored start needs no parking recovery
+vehicle-smoke: village-motorcycle starts at its authored grounded position
+vehicle-smoke: village-motorcycle initial chassis and actual support are valid
+vehicle-smoke: forest-horse-cart ordinary authored start needs no parking recovery
+vehicle-smoke: forest-horse-cart starts at its authored grounded position
+vehicle-smoke: forest-horse-cart initial chassis and actual support are valid
+vehicle-smoke: village-motorcycle actual non-hoof mesh lies in the physical union at authored-parking
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: support point follows the actual applied convex bottom: RearWheelCollision
+vehicle-smoke: support point follows the actual applied convex bottom: FrontWheelCollision
+vehicle-smoke: compound proof uses ordinary ray entry
+vehicle-smoke: village-motorcycle actual non-hoof mesh lies in the physical union at move_left
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: support point follows the actual applied convex bottom: RearWheelCollision
+vehicle-smoke: support point follows the actual applied convex bottom: FrontWheelCollision
+vehicle-smoke: the motorcycle reaches its real full steering lock with its complete physical union
+vehicle-smoke: village-motorcycle actual non-hoof mesh lies in the physical union at move_right
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: support point follows the actual applied convex bottom: RearWheelCollision
+vehicle-smoke: support point follows the actual applied convex bottom: FrontWheelCollision
+vehicle-smoke: the motorcycle reaches its real full steering lock with its complete physical union
+vehicle-smoke: compound proof uses ordinary ignition/horse action
+vehicle-smoke: compound low-post fixture has a real ground owner
+vehicle-smoke: the low post starts clear of every actual physical volume
+vehicle-smoke: village-motorcycle actual non-hoof mesh lies in the physical union at low-post-motion-0
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: support point follows the actual applied convex bottom: RearWheelCollision
+vehicle-smoke: support point follows the actual applied convex bottom: FrontWheelCollision
+vehicle-smoke: village-motorcycle actual non-hoof mesh lies in the physical union at low-post-motion-8
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: support point follows the actual applied convex bottom: RearWheelCollision
+vehicle-smoke: support point follows the actual applied convex bottom: FrontWheelCollision
+vehicle-smoke: village-motorcycle actual non-hoof mesh lies in the physical union at low-post-motion-16
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: support point follows the actual applied convex bottom: RearWheelCollision
+vehicle-smoke: support point follows the actual applied convex bottom: FrontWheelCollision
+vehicle-smoke: ordinary motion meets the real low post with a rounded ground-contact part
+vehicle-smoke: low-post contact follows real movement rather than an initial overlap
+state-final-render-sync-begin: label=vehicle/village-motorcycle-compound-post-contact tick=31769 drawn=209 process=209 physics=264 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/village-motorcycle-compound-post-contact milliseconds=36 forcedScreenshotRender=False
+vehicle-smoke: ordinary reverse leaves the same obstacle without collision bypass
+vehicle-smoke: bank proof holds an ordinarily attained full steering angle
+vehicle-smoke: bank proof reaches a real partial lean through acceleration
+vehicle-smoke: ordinary next-frame braking requests a smaller bank at the same steering angle
+vehicle-smoke: a real low post is clear at the accepted bank and obstructs the next braking bank only
+vehicle-smoke: the actually applied bank never penetrates the braking post
+vehicle-smoke: same-angle ordinary braking is refused only for the changed physical bank
+vehicle-smoke: the ordinary pause retains a genuinely banked attainable pose for saving
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/compound-banked-motorcycle.savegame-v3.json
+vehicle-smoke: ordinary snapshot stores the attained bank
+zone-loaded: village_day@arrival connected-world=109404229399
+SaveGameV3 restored.
+vehicle-smoke: ordinary load checks the same banked physical union
+vehicle-smoke: held steering preserves the complete saved bank before neutral release
+vehicle-smoke: banked load uses actual transformed tyre support points
+vehicle-smoke: village-motorcycle actual non-hoof mesh lies in the physical union at banked-save-load
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: support point follows the actual applied convex bottom: RearWheelCollision
+vehicle-smoke: support point follows the actual applied convex bottom: FrontWheelCollision
+vehicle-smoke: compound vehicle parks through the ordinary brake
+vehicle-smoke: village-motorcycle actual non-hoof mesh lies in the physical union at parked-after-post
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: support point follows the actual applied convex bottom: RearWheelCollision
+vehicle-smoke: support point follows the actual applied convex bottom: FrontWheelCollision
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/compound-village-motorcycle.savegame-v3.json
+vehicle-smoke: compound vehicle saves through the existing snapshot
+vehicle-smoke: compound vehicle has an ordinary safe exit
+zone-loaded: village_day@arrival connected-world=109404229399
+SaveGameV3 restored.
+vehicle-smoke: compound occupied save restores through the existing snapshot
+vehicle-smoke: compound pose and complete state round-trip without a second owner or repair
+vehicle-smoke: restored compound union and all support groups remain physically valid
+vehicle-smoke: village-motorcycle actual non-hoof mesh lies in the physical union at after-load
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: support point follows the actual applied convex bottom: RearWheelCollision
+vehicle-smoke: support point follows the actual applied convex bottom: FrontWheelCollision
+vehicle-smoke: loaded compound vehicle returns to a clear standing capsule
+vehicle-smoke: forest-horse-cart actual non-hoof mesh lies in the physical union at authored-parking
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/15
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision9
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision10
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision11
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision12
+vehicle-smoke: compound proof uses ordinary ray entry
+vehicle-smoke: compound proof uses ordinary ignition/horse action
+vehicle-smoke: compound low-post fixture has a real ground owner
+vehicle-smoke: the low post starts clear of every actual physical volume
+vehicle-smoke: forest-horse-cart actual non-hoof mesh lies in the physical union at low-post-motion-0
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/15
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision9
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision10
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision11
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision12
+vehicle-smoke: forest-horse-cart actual non-hoof mesh lies in the physical union at low-post-motion-8
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/15
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision9
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision10
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision11
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision12
+vehicle-smoke: forest-horse-cart actual non-hoof mesh lies in the physical union at low-post-motion-16
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/15
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision9
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision10
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision11
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision12
+vehicle-smoke: forest-horse-cart actual non-hoof mesh lies in the physical union at low-post-motion-24
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/15
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision9
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision10
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision11
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision12
+vehicle-smoke: ordinary motion meets the real low post with a rounded ground-contact part
+vehicle-smoke: low-post contact follows real movement rather than an initial overlap
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-compound-post-contact tick=37878 drawn=491 process=491 physics=621 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-compound-post-contact milliseconds=16 forcedScreenshotRender=False
+vehicle-smoke: ordinary reverse leaves the same obstacle without collision bypass
+vehicle-smoke: compound vehicle parks through the ordinary brake
+vehicle-smoke: forest-horse-cart actual non-hoof mesh lies in the physical union at parked-after-post
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/15
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision9
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision10
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision11
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision12
+vehicle-smoke: hoof settlement starts after actual braking has stopped the vehicle
+vehicle-smoke: stopped horse settles all four actual hooves onto coherent ground
+vehicle-smoke: parked horse starts no new step from floor settling or unchanged heading
+vehicle-smoke: parked hoof retains its supported world contact without sliding: HorseLeg0
+vehicle-smoke: parked hoof retains its supported world contact without sliding: HorseLeg1
+vehicle-smoke: parked hoof retains its supported world contact without sliding: HorseLeg2
+vehicle-smoke: parked hoof retains its supported world contact without sliding: HorseLeg3
+vehicle-smoke: stopped horse has a clear complete side camera
+state-final-render-sync-begin: label=vehicle/forest-horse-cart-stopped-side tick=40525 drawn=625 process=625 physics=770 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/forest-horse-cart-stopped-side milliseconds=18 forcedScreenshotRender=False
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/compound-forest-horse-cart.savegame-v3.json
+vehicle-smoke: compound vehicle saves through the existing snapshot
+vehicle-smoke: compound vehicle has an ordinary safe exit
+zone-loaded: village_day@arrival connected-world=109404229399
+SaveGameV3 restored.
+vehicle-smoke: compound occupied save restores through the existing snapshot
+vehicle-smoke: compound pose and complete state round-trip without a second owner or repair
+vehicle-smoke: restored compound union and all support groups remain physically valid
+vehicle-smoke: forest-horse-cart actual non-hoof mesh lies in the physical union at after-load
+vehicle-smoke: only four articulated hoof meshes are checked by their existing support proof
+vehicle-smoke: every enabled shape on the vehicle body participates in the query union
+vehicle-smoke: every real motorcycle wheel or cart-wheel/hoof support group is required
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-0/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-1/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: fore-hoof-2/15
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/0
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/1
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/2
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/3
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/4
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/5
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/6
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/7
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/8
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/9
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/10
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/11
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/12
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/13
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/14
+vehicle-smoke: fixed physical support covers the complete neutral flat sole: hind-hoof-3/15
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision9
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision10
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision11
+vehicle-smoke: support point follows the actual applied convex bottom: CartWheelCollision12
+vehicle-smoke: loaded compound vehicle returns to a clear standing capsule
+userdata guard: original files and permissions restored and verified

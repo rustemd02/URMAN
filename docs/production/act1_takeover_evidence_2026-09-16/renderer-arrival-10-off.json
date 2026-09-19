@@ -1,0 +1,57 @@
+{
+  "started": "2026-09-17T21:29:00+00:00",
+  "build": "integrated-build-70",
+  "sample": "village_day@arrival",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    ".tools/godot/.../Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "--urman-perf-probe",
+    "--urman-perf-probe-mode=gameplay",
+    "--urman-perf-sample=village_day@arrival",
+    "--urman-perf-warmup-seconds=12",
+    "--urman-perf-duration-seconds=60",
+    "--urman-perf-no-vsync"
+  ],
+  "environment": {
+    "URMAN_PERF_RENDER_DIAGNOSTICS": "1",
+    "URMAN_WINDOW_BATCH_PILOT": "0",
+    "URMAN_ADDRESS_GRAPH_PERF": "1",
+    "DOTNET_ROOT": ".tools/dotnet",
+    "focus": "NO --urman-perf-request-focus; caffeinate -dimsu held sleep/display"
+  },
+  "status": "RECORDED",
+  "acceptance": false,
+  "scope": "Native instrumented Debug diagnosis on B70. First VALID focused A/B pair: no focus request, window kept focus naturally (focus 100%, OVERLAY-flagged only by the capture overlay). Not Release/human acceptance.",
+  "exitCode": 2,
+  "guardVerified": true,
+  "performanceReports": [
+    "act1-demo-package-performance: status=DIAGNOSTIC_RENDER mode=gameplay sample=village_day@arrival avg=21.135ms p95=23.874ms p99=30.310ms max=42.731ms long_frame_fraction=0.00352 warmup_avg=23.044ms warmup_max=498.711ms warmup_seconds=12.01 sample_seconds=60.00 sample_count=2839 focused_sample_count=2839 obscured_sample_count=2839 foreground_requested=false focused_sample_fraction=1.00000 fps=47.31 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=47.00 process_ms=18.865 physics_ms=12.952 draw_calls=22567 primitives=5510570 acceptance=false"
+  ],
+  "captures": [
+    {
+      "status": "CAPTURED",
+      "sample": "village_day@arrival",
+      "path": ".../images-renderer-arrival-10-off/village_day_arrival.png"
+    }
+  ],
+  "engineErrorCount": 0,
+  "engineErrors": [],
+  "windowBatchSummaries": [],
+  "windowPilotPublicationVerified": false,
+  "render": {
+    "path": ".../renderer-arrival-10-off-render.json",
+    "status": "RECORDED",
+    "performanceReport": "act1-demo-package-performance: status=OVERLAY_INVALID mode=gameplay sample=village_day@arrival avg=21.135ms p95=23.874ms p99=30.310ms max=42.731ms long_frame_fraction=0.00352 warmup_avg=23.044ms warmup_max=498.711ms warmup_seconds=12.01 sample_seconds=60.00 sample_count=2839 focused_sample_count=2839 obscured_sample_count=2839 foreground_requested=false focused_sample_fraction=1.00000 fps=47.31 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=47.00 process_ms=18.865 physics_ms=12.952 draw_calls=22567 primitives=5510570",
+    "sampleCount": 2839
+  },
+  "finished": "2026-09-17T21:40:00+00:00",
+  "seconds": 150,
+  "inputsChanged": [],
+  "note": "B70 pilot-OFF arm of the valid A/B pair."
+}

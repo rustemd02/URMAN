@@ -1,0 +1,14 @@
+*** Begin Patch
+*** Update File: game/content/urman.settlement.addresses.v1.json
+@@
+       "sourceName": "ArrivalForwardWestFacade",
+       "sourceKey": "act1/holding/ArrivalForwardWestFacade",
+       "buildingId": "BLD-H016",
+       "parcelId": "PAR-H016",
+       "addressId": "ADR-H016",
+       "streetId": "tukay",
+       "number": "15",
+       "cadastral": "URM-Q01-P0115",
++      "primaryDoor": "DwellingFacade_SeniEntry_Door0_Leaf_LOD0",
+       "role": "residential"
+*** End Patch

@@ -1,0 +1,119 @@
+{
+  "schema": "urman.exporter_lifecycle_dummy.v1",
+  "source": "eng/export-desktop-release.sh",
+  "sourceSha256": "544c42f1269c4cbb4f866104ea403b16b7e2d08380e5a73f49fa8e01d354f293",
+  "scope": "Exact embedded helper and actual sh signal ordering; dummy Python children only, no Godot/export/userdata.",
+  "equivalentToExporterExceptLogPrefix": true,
+  "fixtureRoot": "/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T/exporter-lifecycle-46-02-bubf836z",
+  "cases": [
+    {
+      "case": "term",
+      "code": 143,
+      "expected": 143,
+      "secondsAfterReady": 0.019007000024430454,
+      "childGroupGone": true,
+      "child": {
+        "pid": 52060,
+        "pgid": 52060,
+        "descendant": null
+      },
+      "helperLog": "act1-release-export: child_group=52060 stopped=true\n",
+      "pass": true
+    },
+    {
+      "case": "int",
+      "code": 130,
+      "expected": 130,
+      "secondsAfterReady": 0.018987583986017853,
+      "childGroupGone": true,
+      "child": {
+        "pid": 52062,
+        "pgid": 52062,
+        "descendant": null
+      },
+      "helperLog": "act1-release-export: child_group=52062 stopped=true\n",
+      "pass": true
+    },
+    {
+      "case": "hup",
+      "code": 129,
+      "expected": 129,
+      "secondsAfterReady": 0.01893345802091062,
+      "childGroupGone": true,
+      "child": {
+        "pid": 52064,
+        "pgid": 52064,
+        "descendant": null
+      },
+      "helperLog": "act1-release-export: child_group=52064 stopped=true\n",
+      "pass": true
+    },
+    {
+      "case": "repeat-kill",
+      "code": 143,
+      "expected": 143,
+      "secondsAfterReady": 2.1513431249768473,
+      "childGroupGone": true,
+      "child": {
+        "pid": 52066,
+        "pgid": 52066,
+        "descendant": 52067
+      },
+      "helperLog": "act1-release-export: child_group=52066 stopped=true\n",
+      "pass": true
+    },
+    {
+      "case": "timeout",
+      "code": 124,
+      "expected": 124,
+      "secondsAfterReady": 3.0564194170292467,
+      "childGroupGone": true,
+      "child": {
+        "pid": 52070,
+        "pgid": 52070,
+        "descendant": 52071
+      },
+      "helperLog": "act1-release-export: Godot timed out after 1s\nact1-release-export: child_group=52070 stopped=true\n",
+      "pass": true
+    },
+    {
+      "case": "normal-orphan",
+      "code": 0,
+      "expected": 0,
+      "secondsAfterReady": 2.063884874980431,
+      "childGroupGone": true,
+      "child": {
+        "pid": 52092,
+        "pgid": 52092,
+        "descendant": 52093
+      },
+      "helperLog": "act1-release-export: child_group=52092 stopped=true\n",
+      "pass": true
+    },
+    {
+      "case": "failed-exit",
+      "code": 7,
+      "expected": 7,
+      "secondsAfterReady": 0.008918709005229175,
+      "childGroupGone": true,
+      "child": {
+        "pid": 52159,
+        "pgid": 52159,
+        "descendant": null
+      },
+      "helperLog": "act1-release-export: child_group=52159 stopped=true\n",
+      "pass": true
+    },
+    {
+      "case": "guard-style-shell-group-signal",
+      "code": 143,
+      "expected": 143,
+      "secondsAfterReady": 2.1945902919978835,
+      "childGroupGone": true,
+      "groupAliveAtShellCleanup": false,
+      "helperLog": "act1-release-export: child_group=52162 stopped=true\n",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

@@ -1,0 +1,59 @@
+{
+  "build": "integrated-build-25",
+  "started": "2026-09-16T20:56:23.283099+00:00",
+  "branch": "main",
+  "head": "04f039ee95e6c1320d52d61fff3089fad834393c",
+  "steps": [
+    {
+      "name": "compile-content",
+      "exit_code": 0,
+      "seconds": 1.88,
+      "command": [
+        "sh",
+        "eng/compile-game-content.sh"
+      ]
+    },
+    {
+      "name": "csharp",
+      "exit_code": 0,
+      "seconds": 5.92,
+      "command": [
+        "/Users/unterlantas/Documents/GitHub/URMAN/.tools/dotnet/dotnet",
+        "build",
+        "game/Urman.Game.csproj",
+        "--no-restore",
+        "--disable-build-servers",
+        "--verbosity",
+        "minimal",
+        "-nodeReuse:false",
+        "-m:1"
+      ]
+    },
+    {
+      "name": "godot-import",
+      "exit_code": 0,
+      "seconds": 2.77,
+      "command": [
+        "python3",
+        "eng/protected_run.py",
+        "--clean",
+        "/Users/unterlantas/Documents/GitHub/URMAN/.tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "game",
+        "--import"
+      ]
+    }
+  ],
+  "source_changed_during_build": [],
+  "input_changed_during_build": [],
+  "artifacts": {
+    "game/.godot/mono/temp/bin/Debug/Urman.Game.dll": "45cfc386f542ec8949f4c13d6c51cc7753bf4c10863ae8776feab9b225611cca",
+    "game/content/urman.chapter1.compiled.v1.json": "4c7016ad4949245dc3c7c461ebc9e8a8d8aef307fa9ab73d9fc4d3a4a43f5b33",
+    "game/content/urman.fullgame.compiled.v1.json": "3af598c21a9f5410194927ad840a368f6e6e680aae38dc3de4e4b2a0b1574e33",
+    "game/assets/generated/urman_character_kit.glb": "a12a4ef860d80bb2bf5a1e1d929378b51e64314414e1886d25a732c38fc5877d"
+  },
+  "finished": "2026-09-16T20:56:33.959412+00:00",
+  "status": "PASS",
+  "scope": "working tree integration; not a published Release or gameplay acceptance"
+}

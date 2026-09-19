@@ -1,0 +1,12 @@
+{
+  "started": "2026-09-17T05:33:24.167731+00:00",
+  "command": [
+    "/Users/unterlantas/.local/bin/graphify",
+    "update",
+    "."
+  ],
+  "scope": "Required AST-only graph update after B47 source changes; no gameplay acceptance",
+  "exit_code": 0,
+  "seconds": 26.59,
+  "finished": "2026-09-17T05:33:50.756537+00:00"
+}

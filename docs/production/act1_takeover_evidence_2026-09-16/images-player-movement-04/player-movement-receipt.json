@@ -1,0 +1,560 @@
+{
+  "passed": true,
+  "checks": 70,
+  "humanArtReview": "external/not-run",
+  "events": [
+    {
+      "kind": "check",
+      "message": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ordinary controller has the six source-derived lower-body meshes",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "jump has keyboard, gamepad and remapping",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "sprint has keyboard, gamepad and remapping",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "loading older settings retains the new project-default actions",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the explicit local road fixture fits the real standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "local start has actual ground contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "mouse resolution proof uses ordinary captured gameplay in a native window",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "actual captured mouse window is (1280, 720)",
+      "passed": true
+    },
+    {
+      "kind": "captured-mouse-resolution",
+      "window": "(1280, 720)",
+      "logicalSize": "(1920, 1080)",
+      "contentScaleFactor": 1,
+      "injectedScreenRelative": "(64, 32)",
+      "deliveredRelative": "(95.99999, 47.999996)",
+      "deliveredScreenRelative": "(64, 32)",
+      "sensitivity": 0.16,
+      "expectedYawPitch": "(-10.24, -5.12)",
+      "actualYawPitch": "(-10.23999, -5.12)",
+      "inputPath": "Input.ParseInputEvent -\u003E viewport -\u003E FirstPersonController._UnhandledInput"
+    },
+    {
+      "kind": "check",
+      "message": "screen-relative motion gives the actual expected yaw and pitch at (1280, 720): (-10.23999, -5.12)",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "actual captured mouse window is (1920, 1080)",
+      "passed": true
+    },
+    {
+      "kind": "captured-mouse-resolution",
+      "window": "(1920, 1080)",
+      "logicalSize": "(1920, 1080)",
+      "contentScaleFactor": 1,
+      "injectedScreenRelative": "(64, 32)",
+      "deliveredRelative": "(64, 32)",
+      "deliveredScreenRelative": "(64, 32)",
+      "sensitivity": 0.16,
+      "expectedYawPitch": "(-10.24, -5.12)",
+      "actualYawPitch": "(-10.23999, -5.12)",
+      "inputPath": "Input.ParseInputEvent -\u003E viewport -\u003E FirstPersonController._UnhandledInput"
+    },
+    {
+      "kind": "check",
+      "message": "screen-relative motion gives the actual expected yaw and pitch at (1920, 1080): (-10.23999, -5.12)",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the two actual viewports transform Relative differently, exercising the original resolution regression",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the same screen motion gives equal yaw and pitch at 720p and 1080p",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the explicit local road fixture fits the real standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "local start has actual ground contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "measured movement uses input with no relocation or fall recovery",
+      "passed": true
+    },
+    {
+      "kind": "movement",
+      "sprint": false,
+      "strength": 1,
+      "diagonal": false,
+      "distance": 1.7000122,
+      "physicsTicks": 30
+    },
+    {
+      "kind": "check",
+      "message": "the explicit local road fixture fits the real standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "local start has actual ground contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "measured movement uses input with no relocation or fall recovery",
+      "passed": true
+    },
+    {
+      "kind": "movement",
+      "sprint": true,
+      "strength": 1,
+      "diagonal": false,
+      "distance": 2.5496187,
+      "physicsTicks": 30
+    },
+    {
+      "kind": "check",
+      "message": "the explicit local road fixture fits the real standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "local start has actual ground contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "measured movement uses input with no relocation or fall recovery",
+      "passed": true
+    },
+    {
+      "kind": "movement",
+      "sprint": false,
+      "strength": 0.35,
+      "diagonal": false,
+      "distance": 0.3188076,
+      "physicsTicks": 30
+    },
+    {
+      "kind": "check",
+      "message": "the explicit local road fixture fits the real standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "local start has actual ground contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "measured movement uses input with no relocation or fall recovery",
+      "passed": true
+    },
+    {
+      "kind": "movement",
+      "sprint": false,
+      "strength": 1,
+      "diagonal": true,
+      "distance": 1.6995258,
+      "physicsTicks": 30
+    },
+    {
+      "kind": "check",
+      "message": "real run is faster than unchanged walking: walk=1.700m run=2.550m per 30 physics ticks",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "analogue approach stays gradual and diagonals stay bounded: analogue=0.319, diagonal=1.700",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the explicit local road fixture fits the real standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "local start has actual ground contact",
+      "passed": true
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-player-movement-04/01_standing_look_down.png"
+    },
+    {
+      "kind": "check",
+      "message": "standing actual trouser halves remain joined at the posed pelvis seam",
+      "passed": true
+    },
+    {
+      "kind": "body-waist-seam",
+      "pose": "standing",
+      "left": [
+        "(-1.13649605E-08, 0.4241622, 17.93)",
+        "(-1.0499853E-08, 0.32849133, 17.939896)",
+        "(-8.036241E-09, 0.2473855, 17.968075)",
+        "(-4.34918E-09, 0.1931923, 18.01025)",
+        "(9.935564E-16, 0.17416221, 18.06)",
+        "(4.3491823E-09, 0.1931923, 18.109749)",
+        "(8.036242E-09, 0.24738556, 18.151924)",
+        "(1.0499856E-08, 0.32849145, 18.180103)",
+        "(1.3571063E-08, 0.4241622, 18.189999)"
+      ],
+      "right": [
+        "(-1.13649605E-08, 0.4241622, 17.93)",
+        "(-1.0499853E-08, 0.32849133, 17.939896)",
+        "(-8.036241E-09, 0.2473855, 17.968075)",
+        "(-4.34918E-09, 0.1931923, 18.01025)",
+        "(9.935564E-16, 0.17416221, 18.06)",
+        "(4.3491823E-09, 0.1931923, 18.109749)",
+        "(8.036242E-09, 0.24738556, 18.151924)",
+        "(1.0499856E-08, 0.32849145, 18.180103)",
+        "(9.158858E-09, 0.4241622, 18.189999)"
+      ]
+    },
+    {
+      "kind": "body-visibility",
+      "pose": "standing",
+      "source": "native renderer posed triangles",
+      "camera": "(0, 1.1441622, 17.82)",
+      "projectedVisiblePixels": {
+        "CouncilWitness_BootLeft_LOD0": 2732.1782,
+        "CouncilWitness_BootRight_LOD0": 2439.5715,
+        "CouncilWitness_TrouserLeft_LOD0": 5901.315,
+        "CouncilWitness_TrouserRight_LOD0": 5902.222
+      },
+      "limit": "geometric visibility only; the saved native picture still requires visual review"
+    },
+    {
+      "kind": "check",
+      "message": "standing actual Left trouser has visible projected surface outside the coat",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "standing actual Left shaped boot is visible from the game camera",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "standing actual Right trouser has visible projected surface outside the coat",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "standing actual Right shaped boot is visible from the game camera",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "standing imported boot sole has a nearby real support",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "standing imported boot sole has a nearby real support",
+      "passed": true
+    },
+    {
+      "kind": "body-soles",
+      "stance": "standing",
+      "soles": [
+        "(0.14633088, -0.555121, 17.994146)",
+        "(-0.14632897, -0.55512017, 17.994137)"
+      ]
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-player-movement-04/02_walking_lower_body.png"
+    },
+    {
+      "kind": "check",
+      "message": "walking actual trouser halves remain joined at the posed pelvis seam",
+      "passed": true
+    },
+    {
+      "kind": "body-waist-seam",
+      "pose": "walking",
+      "left": [
+        "(-1.13649605E-08, 0.42147666, 17.249979)",
+        "(-1.0499853E-08, 0.32580578, 17.259874)",
+        "(-8.036241E-09, 0.24469995, 17.288054)",
+        "(-4.34918E-09, 0.19050676, 17.330229)",
+        "(9.935564E-16, 0.17147666, 17.379978)",
+        "(4.3491823E-09, 0.19050676, 17.429728)",
+        "(8.036242E-09, 0.24470001, 17.471903)",
+        "(1.0499856E-08, 0.3258059, 17.500082)",
+        "(1.3571063E-08, 0.42147666, 17.509977)"
+      ],
+      "right": [
+        "(-1.13649605E-08, 0.42147666, 17.249979)",
+        "(-1.0499853E-08, 0.32580578, 17.259874)",
+        "(-8.036241E-09, 0.24469995, 17.288054)",
+        "(-4.34918E-09, 0.19050676, 17.330229)",
+        "(9.935564E-16, 0.17147666, 17.379978)",
+        "(4.3491823E-09, 0.19050676, 17.429728)",
+        "(8.036242E-09, 0.24470001, 17.471903)",
+        "(1.0499856E-08, 0.3258059, 17.500082)",
+        "(9.158858E-09, 0.42147666, 17.509977)"
+      ]
+    },
+    {
+      "kind": "body-visibility",
+      "pose": "walking",
+      "source": "native renderer posed triangles",
+      "camera": "(0, 1.1414766, 17.139978)",
+      "projectedVisiblePixels": {
+        "CouncilWitness_BootLeft_LOD0": 1085.5367,
+        "CouncilWitness_BootRight_LOD0": 0,
+        "CouncilWitness_TrouserLeft_LOD0": 6171.5303,
+        "CouncilWitness_TrouserRight_LOD0": 19342.396
+      },
+      "limit": "geometric visibility only; the saved native picture still requires visual review"
+    },
+    {
+      "kind": "check",
+      "message": "walking actual Left trouser has visible projected surface outside the coat",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "walking actual Right trouser has visible projected surface outside the coat",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the explicit local road fixture fits the real standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "local start has actual ground contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "a grounded mapped press starts one real jump",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "airborne repress and held landing cannot double-jump or repeat; peak=0.456m",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "crouch changes the actual capsule to human low-passage height",
+      "passed": true
+    },
+    {
+      "kind": "game-camera",
+      "file": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-player-movement-04/03_crouched_look_down.png"
+    },
+    {
+      "kind": "check",
+      "message": "crouched actual trouser halves remain joined at the posed pelvis seam",
+      "passed": true
+    },
+    {
+      "kind": "body-waist-seam",
+      "pose": "crouched",
+      "left": [
+        "(-2.6226827E-09, 0.1534161, 18.029999)",
+        "(-1.757576E-09, 0.05774522, 18.039896)",
+        "(7.060372E-10, -0.02336061, 18.068075)",
+        "(4.3930974E-09, -0.07755381, 18.11025)",
+        "(8.742279E-09, -0.0965839, 18.16)",
+        "(1.309146E-08, -0.07755381, 18.20975)",
+        "(1.677852E-08, -0.02336055, 18.251923)",
+        "(1.9242135E-08, 0.057745337, 18.280104)",
+        "(2.231334E-08, 0.1534161, 18.289999)"
+      ],
+      "right": [
+        "(-2.6226827E-09, 0.1534161, 18.029999)",
+        "(-1.757576E-09, 0.05774522, 18.039896)",
+        "(7.060372E-10, -0.02336061, 18.068075)",
+        "(4.3930974E-09, -0.07755381, 18.11025)",
+        "(8.742279E-09, -0.0965839, 18.16)",
+        "(1.309146E-08, -0.07755381, 18.20975)",
+        "(1.677852E-08, -0.02336055, 18.251923)",
+        "(1.9242135E-08, 0.057745337, 18.280104)",
+        "(1.7901137E-08, 0.1534161, 18.289999)"
+      ]
+    },
+    {
+      "kind": "body-visibility",
+      "pose": "crouched",
+      "source": "native renderer posed triangles",
+      "camera": "(0, 0.42341626, 17.82)",
+      "projectedVisiblePixels": {
+        "CouncilWitness_BootLeft_LOD0": 238.43848,
+        "CouncilWitness_BootRight_LOD0": 113.338524,
+        "CouncilWitness_TrouserLeft_LOD0": 135702.9,
+        "CouncilWitness_TrouserRight_LOD0": 138135.75
+      },
+      "limit": "geometric visibility only; the saved native picture still requires visual review"
+    },
+    {
+      "kind": "check",
+      "message": "crouched actual Left trouser has visible projected surface outside the coat",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "crouched actual Right trouser has visible projected surface outside the coat",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "crouched imported boot sole has a nearby real support",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "crouched imported boot sole has a nearby real support",
+      "passed": true
+    },
+    {
+      "kind": "body-soles",
+      "stance": "crouched",
+      "soles": [
+        "(0.14630032, -0.5567174, 17.994)",
+        "(-0.14630033, -0.556618, 17.994)"
+      ]
+    },
+    {
+      "kind": "check",
+      "message": "the real low roof rejects the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "standing and jumping cannot force the player\u0027s body through a low roof",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "leaving the obstruction restores the original standing collider",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the explicit local road fixture fits the real standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "local start has actual ground contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "sprinting stops the actual capsule at a physical wall",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the explicit local road fixture fits the real standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "local start has actual ground contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "modal input cannot run or jump",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "holding accept-era jump across close cannot start a world jump",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the explicit local road fixture fits the real standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "local start has actual ground contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "session projection holds the exact supplied pose, camera and stance despite held inputs",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "session projection gates interaction without taking modal, mouse or transport ownership",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ending session projection preserves the real modal and its mouse mode",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "normal control resumes after load and modal release",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "free grounded hands permit transport possession: ",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "vehicle handover disables pedestrian collision and lower-body presentation",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "the seated pedestrian neither walks, jumps nor clamps the vehicle-owned position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "safe exit restores the same capsule, camera and ordinary support",
+      "passed": true
+    }
+  ]
+}

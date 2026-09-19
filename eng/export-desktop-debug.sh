@@ -49,6 +49,22 @@ printf '%s\n' "$lock_token" >"$LOCK_DIR/owner"
 stage_root=$(mktemp -d "$BUILD_ROOT/.desktop-stage.XXXXXX")
 mkdir -p "$stage_root/macos" "$stage_root/windows" "$stage_root/logs"
 
+# Stabilize generated campaign packs and import settings before recording the
+# sources used by the real exports. Any later input change refuses provenance.
+sh "$URMAN_ROOT/eng/compile-game-content.sh"
+import_log="$stage_root/logs/preflight-import.stdout.log"
+if ! "$GODOT" --headless --path game --import >"$import_log" 2>&1; then
+  cat "$import_log"
+  exit 1
+fi
+cat "$import_log"
+if grep -Eq '^(ERROR:|SCRIPT ERROR:)' "$import_log"; then
+  echo "desktop-export: import preflight reported errors" >&2
+  exit 1
+fi
+python3 "$URMAN_ROOT/eng/desktop_build_provenance.py" --root "$URMAN_ROOT" start \
+  --mode debug --output "$stage_root/export-start.json"
+
 run_export() {
   preset=$1
   destination=$2
@@ -83,8 +99,14 @@ run_export "Windows Desktop" "$stage_root/windows/URMAN.exe" windows
   zip -q -r -X "$stage_root/URMAN-windows-x86_64.zip" windows
 )
 
+python3 "$URMAN_ROOT/eng/desktop_build_provenance.py" --root "$URMAN_ROOT" complete \
+  --start "$stage_root/export-start.json" --mac-zip "$stage_root/macos/URMAN.zip" \
+  --windows-zip "$stage_root/URMAN-windows-x86_64.zip" --windows-exe "$stage_root/windows/URMAN.exe" \
+  --output "$stage_root/build-provenance.json"
+
 # Verify the isolated outputs before replacing any published build artifact.
-URMAN_DESKTOP_LOCK_TOKEN=$lock_token "$URMAN_ROOT/eng/verify-desktop-artifacts.sh" \
+URMAN_DESKTOP_BUILD_PROVENANCE="$stage_root/build-provenance.json" \
+  URMAN_DESKTOP_LOCK_TOKEN=$lock_token "$URMAN_ROOT/eng/verify-desktop-artifacts.sh" \
   "$stage_root/macos/URMAN.zip" \
   "$stage_root/windows/URMAN.exe" \
   "$stage_root/URMAN-windows-x86_64.zip" \
@@ -106,4 +128,5 @@ rm -rf "$BUILD_ROOT/windows"
 mv "$stage_root/windows" "$BUILD_ROOT/windows"
 
 # Generate the durable receipt from the final published paths.
-URMAN_DESKTOP_LOCK_TOKEN=$lock_token "$URMAN_ROOT/eng/verify-desktop-artifacts.sh"
+URMAN_DESKTOP_BUILD_PROVENANCE="$stage_root/build-provenance.json" \
+  URMAN_DESKTOP_LOCK_TOKEN=$lock_token "$URMAN_ROOT/eng/verify-desktop-artifacts.sh"

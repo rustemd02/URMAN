@@ -1,0 +1,423 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1707 carved_door_slabs=237 flat_slab_skipped=2469 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=109169348520
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 new game session started; existing slots untouched.
+act1-carry: check ordinary New Game
+act1-intro: confirmed with E
+act1-carry: check debug-off normal controls after intro
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/carry-pristine.savegame-v3.json
+act1-carry: check pristine reachable snapshot
+act1-carry: check explicit local proof scope: full
+act1-carry: local stance refused feet=(-32.17394, 0.5594057, 3.4567518) target=(-32.17394, 0.74158806, 4.706752) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local stance refused feet=(-32.17394, 0.8437785, 5.956752) target=(-32.17394, 0.74158806, 4.706752) direction=(0, 0, 1) phase=standing-capsule
+act1-carry: local camera fixture (-33.42394, 0.8332816, 4.706752) target=(-32.17394, 0.74158806, 4.706752)
+act1-carry: check six terrain-resting carry items use the shared authored support owner
+act1-carry: check carry-log authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.90124553, -0.16354421, -0.40126038), Y: (0.12671697, 0.9850308, -0.11686417), Z: (0.41436628, 0.05447681, 0.9084784), O: (-32.17394, 0.67658806, 4.706752)]
+act1-carry: check carry-log has actual ground support across 9 footprint samples, gaps 0.0030–0.0030m
+act1-carry: check carry-crate authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.9776721, 0.031176694, 0.20781063), Y: (-0.011615854, 0.9954389, -0.09469197), Z: (-0.20981497, 0.0901638, 0.973575), O: (-27.5, 0.3315878, 2.8)]
+act1-carry: check carry-crate has actual ground support across 12 footprint samples, gaps 0.0030–0.0059m
+act1-carry: check carry-bucket authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.98839056, 0.061550256, -0.13890925), Y: (-0.05954554, 0.9980533, 0.018545846), Z: (0.13978034, -0.010059113, 0.9901315), O: (-26.6, 0.26607022, 0.2)]
+act1-carry: check carry-bucket has actual ground support across 9 footprint samples, gaps 0.0030–0.0069m
+act1-carry: check carry-axe authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.46482128, -0.14040194, -0.8742016), Y: (0.06272975, 0.99008816, -0.12566002), Z: (0.88317955, 0.0035709962, 0.46902144), O: (-31.6, 0.5715371, 4.3)]
+act1-carry: check carry-axe has actual ground support across 9 footprint samples, gaps 0.0030–0.0033m
+act1-carry: check carry-tool-shovel authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (-0.104479425, -0.030640919, -0.9940549), Y: (-0.04023672, 0.9988371, -0.026559275), Z: (0.9937128, 0.037222613, -0.10559083), O: (-27.6, 0.22954099, 0.9)]
+act1-carry: check carry-tool-shovel has actual ground support across 9 footprint samples, gaps 0.0030–0.0030m
+act1-carry: check carry-tool-pole authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)]
+act1-carry: check carry-tool-pole has actual ground support across 30 footprint samples, gaps 0.0030–0.0050m
+act1-carry: check off-centre board end keeps its support occupied
+act1-carry: check adjacent support is not falsely treated as under the board
+state-final-render-sync-begin: label=carry/01_log_and_yard tick=29395 drawn=15 process=15 physics=42 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/01_log_and_yard milliseconds=13 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/01_log_and_yard.png
+act1-carry: check real camera capture 01_log_and_yard
+act1-carry: check layer-2 wall blocks pickup and aim
+act1-carry: check the narrow opening leaves the actual pickup ray on the visible prop
+act1-carry: check an opening narrower than the prop rejects pickup without moving it or transferring custody
+state-final-render-sync-begin: label=carry/01b_narrow_pickup_opening_refused tick=29790 drawn=36 process=36 physics=65 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/01b_narrow_pickup_opening_refused milliseconds=11 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/01b_narrow_pickup_opening_refused.png
+act1-carry: check real camera capture 01b_narrow_pickup_opening_refused
+act1-carry: check aimed pickup commits one held item
+state-final-render-sync-begin: label=carry/02_held_log tick=29984 drawn=40 process=40 physics=76 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/02_held_log milliseconds=11 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/02_held_log.png
+act1-carry: check real camera capture 02_held_log
+act1-carry: check second simultaneous ownership rejected atomically
+act1-carry: check modal blocks take/place/rotate without hidden progress
+act1-carry: local stance refused feet=(-33.42394, 0.6888125, 3.0567517) target=(-33.42394, 0.85483235, 4.706752) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local stance refused feet=(-33.42394, 1.0064949, 6.356752) target=(-33.42394, 0.85483235, 4.706752) direction=(0, 0, 1) phase=standing-capsule
+act1-carry: local stance refused feet=(-35.07394, 1.065771, 4.706752) target=(-33.42394, 0.85483235, 4.706752) direction=(-1, 0, 0) phase=standing-capsule
+act1-carry: local stance refused feet=(-31.77394, 0.65639853, 4.706752) target=(-33.42394, 0.85483235, 4.706752) direction=(1, 0, 0) phase=standing-capsule
+act1-carry: local camera fixture (-34.590664, 0.8850574, 3.5400257) target=(-33.42394, 0.85483235, 4.706752)
+act1-carry: check the real held log has a clear ordinary placement before the narrow fixture
+act1-carry: check record the unchanged supported placement: 
+act1-carry: check the fixture fits strictly between the held pose and destination: held=0.7800 destination=1.4913 camera=(-34.463383, 2.5850575, 3.6673048)
+act1-carry: check the narrow placement fixture leaves the full held and destination bodies clear
+act1-carry: check the narrow placement fixture leaves the full held and destination bodies clear
+act1-carry: check the actual placement sightline passes through the visible slot
+act1-carry: check the independent full body cast hits a jamb between the two clear endpoint poses
+act1-carry: check only the blocked transfer path refuses the same supported destination: Предмет не проходит к этой опоре
+act1-carry: check the ordinary HUD previews the concrete refusal reason before input without a saved-state change: [Q] нельзя поставить: Предмет не проходит к этой опоре · [R] повернуть
+act1-carry: check mapped placement through the narrow slot preserves the held pose, custody and saved props
+state-final-render-sync-begin: label=carry/02a_narrow_placement_refused tick=31645 drawn=205 process=205 physics=175 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/02a_narrow_placement_refused milliseconds=8 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/02a_narrow_placement_refused.png
+act1-carry: check real camera capture 02a_narrow_placement_refused
+act1-carry: check removing only the narrow fixture restores the same ordinary placement: 
+act1-carry: local stance refused feet=(-33.42394, 0.72446716, 3.4567518) target=(-33.42394, 0.85483235, 4.706752) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local stance refused feet=(-33.42394, 0.9725199, 5.956752) target=(-33.42394, 0.85483235, 4.706752) direction=(0, 0, 1) phase=standing-capsule
+act1-carry: local camera fixture (-34.67394, 0.98964584, 4.706752) target=(-33.42394, 0.85483235, 4.706752)
+act1-carry: check supported placement: 
+act1-carry: check mapped placement commits checked transform
+act1-carry: check placement restores physical body
+act1-carry: local stance refused feet=(-33.408432, 0.722508, 3.4567275) target=(-33.408432, 0.92354953, 4.7067275) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local stance refused feet=(-33.408432, 0.9709239, 5.9567275) target=(-33.408432, 0.92354953, 4.7067275) direction=(0, 0, 1) phase=standing-capsule
+act1-carry: local camera fixture (-34.658432, 0.9874253, 4.7067275) target=(-33.408432, 0.92354953, 4.7067275)
+act1-carry: check placed thing can be taken again
+act1-carry: local stance refused feet=(-33.42394, 0.72446716, 3.4567518) target=(-33.42394, 0.85483235, 4.706752) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local stance refused feet=(-33.42394, 0.9725199, 5.956752) target=(-33.42394, 0.85483235, 4.706752) direction=(0, 0, 1) phase=standing-capsule
+act1-carry: local camera fixture (-34.67394, 0.98964584, 4.706752) target=(-33.42394, 0.85483235, 4.706752)
+act1-carry: check supported placement: 
+act1-carry: check mapped placement commits checked transform
+act1-carry: local camera fixture (-26.6, 0.2845291, -1.05) target=(-26.6, 0.47607023, 0.2)
+act1-carry: check the bucket also leaves its actual authored rest through the shared full-volume pickup
+act1-carry: local camera fixture (-26.6, 0.2845291, -1.05) target=(-26.6, 0.2848633, 0.2)
+act1-carry: check supported placement: 
+act1-carry: check mapped placement commits checked transform
+act1-carry: check setting the bucket back restores its real body and world custody
+state-final-render-sync-begin: label=carry/02b_bucket_back_on_ground tick=32902 drawn=299 process=299 physics=250 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/02b_bucket_back_on_ground milliseconds=8 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/02b_bucket_back_on_ground.png
+act1-carry: check real camera capture 02b_bucket_back_on_ground
+act1-carry: local camera fixture (-27.5, 0.2487906, 1.55) target=(-27.5, 0.5215878, 2.8)
+act1-carry: check carry the reusable crate stand to another place
+act1-carry: local stance refused feet=(-30.4, 0.6510763, 5.35) target=(-30.4, 0.796319, 6.6) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local camera fixture (-30.4, 0.89801633, 7.85) target=(-30.4, 0.796319, 6.6)
+act1-carry: check the previously rejected sloping patch still requires a level support
+act1-carry: check the ordinary HUD previews the concrete refusal reason before input without a saved-state change: [Q] нельзя поставить: Край предмета останется без опоры · [R] повернуть
+state-final-render-sync-begin: label=carry/07_preview_uneven_crate tick=33297 drawn=317 process=317 physics=274 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/07_preview_uneven_crate milliseconds=16 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/07_preview_uneven_crate.png
+act1-carry: check real camera capture 07_preview_uneven_crate
+act1-carry: check refused uneven placement preserves the carried crate before trying a level patch
+act1-carry: local stance refused feet=(-27, 0.3992929, 3.25) target=(-27, 0.5099174, 4.5) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local camera fixture (-27, 0.6052689, 5.75) target=(-27, 0.5099174, 4.5)
+act1-carry: check supported placement: 
+act1-carry: check the ordinary HUD previews supported placement before input without a saved-state change: [Q] поставить здесь · [R] повернуть
+state-final-render-sync-begin: label=carry/07_preview_supported_crate tick=35328 drawn=427 process=427 physics=394 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/07_preview_supported_crate milliseconds=16 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/07_preview_supported_crate.png
+act1-carry: check real camera capture 07_preview_supported_crate
+act1-carry: check mapped placement commits checked transform
+act1-carry: local stance refused feet=(-31.529999, 0.23948434, 0.28999996) target=(-31.529999, 1.2797437, 1.54) direction=(0, 0, -1) phase=actual-sightline owner=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/BackBoard4/SolidContact at=(-31.529999, 1.6204041, 0.9875)
+act1-carry: local camera fixture (-31.529999, 0.40160266, 2.79) target=(-31.529999, 1.2797437, 1.54)
+act1-carry: check take the same lamp for the moved stand
+act1-carry: local stance refused feet=(-27, 0.39780697, 3.2343798) target=(-27, 0.8899763, 4.48438) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local camera fixture (-27, 0.60368127, 5.73438) target=(-27, 0.8899763, 4.48438)
+act1-carry: check crate lid supports lamp: 
+act1-carry: check lamp rests on the visible crate lid using ordinary placement
+act1-carry: local stance refused feet=(-27, 0.39780697, 3.2343798) target=(-27, 0.64297634, 4.48438) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local camera fixture (-27, 0.60368127, 5.73438) target=(-27, 0.64297634, 4.48438)
+act1-carry: check occupied portable stand cannot be removed from under its lamp
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/carry-portable-stand.savegame-v3.json
+act1-carry: check crate and resting lamp save together
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check restore the moved portable stand
+act1-carry: check loaded stand retains visible support, lamp position and physical ownership
+act1-carry: local stance refused feet=(-27, 0.3978071, 3.2343807) target=(-27, 1.0909762, 4.4843807) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local camera fixture (-27, 0.6036814, 5.7343807) target=(-27, 1.0909762, 4.4843807)
+act1-carry: check remove the supported thing before moving the crate again
+act1-carry: local stance refused feet=(-27, 0.5099174, 4.5) target=(-27, 0.62804234, 5.75) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local camera fixture (-27, 0.65754163, 7) target=(-27, 0.62804234, 5.75)
+act1-carry: check supported placement: 
+act1-carry: check mapped placement commits checked transform
+act1-carry: local stance refused feet=(-27, 0.39780697, 3.2343798) target=(-27, 0.6999763, 4.48438) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local stance refused feet=(-27, 0.6264547, 5.73438) target=(-27, 0.6999763, 4.48438) direction=(0, 0, 1) phase=standing-capsule
+act1-carry: local camera fixture (-28.251097, 0.51088935, 4.484433) target=(-27, 0.6999763, 4.48438)
+act1-carry: check carry the reusable crate stand to another place
+act1-carry: local stance refused feet=(-27.8, 0.576291, 5.15) target=(-27.8, 0.68592775, 6.4) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local camera fixture (-27.8, 0.74432176, 7.65) target=(-27.8, 0.68592775, 6.4)
+act1-carry: check supported placement: 
+act1-carry: check mapped placement commits checked transform
+act1-carry: local camera fixture (-27, 0.4858443, 4.4834948) target=(-27, 0.8132951, 5.7334948)
+act1-carry: check take the same lamp for the moved stand
+act1-carry: local stance refused feet=(-27.8, 0.5746819, 5.134168) target=(-27.8, 1.0649114, 6.384168) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local camera fixture (-27.8, 0.74200463, 7.634168) target=(-27.8, 1.0649114, 6.384168)
+act1-carry: check crate lid supports lamp: 
+act1-carry: check lamp rests on the visible crate lid using ordinary placement
+act1-carry: local stance refused feet=(-27.8, 0.5746819, 5.134168) target=(-27.8, 0.81791145, 6.384168) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local camera fixture (-27.8, 0.74200463, 7.634168) target=(-27.8, 0.81791145, 6.384168)
+act1-carry: check occupied portable stand cannot be removed from under its lamp
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/carry-portable-stand.savegame-v3.json
+act1-carry: check crate and resting lamp save together
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check restore the moved portable stand
+act1-carry: check loaded stand retains visible support, lamp position and physical ownership
+act1-carry: local stance refused feet=(-27.8, 0.5746819, 5.1341677) target=(-27.8, 1.2659116, 6.3841677) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local camera fixture (-27.8, 0.74200463, 7.6341677) target=(-27.8, 1.2659116, 6.3841677)
+act1-carry: check remove the supported thing before moving the crate again
+act1-carry: local camera fixture (-27, 0.48714393, 4.5) target=(-27, 0.62804234, 5.75)
+act1-carry: check supported placement: 
+act1-carry: check mapped placement commits checked transform
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check each crate access order starts from the ordinary pristine save
+act1-carry: check a pristine save has no legacy coordinate deviation and restores the supported exterior crate with world custody
+act1-carry: check authored crate corner rests on the actual service planks: (40.943295, -0.33939454, -27.575985), body /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapServiceExplorationPresentation/FapServicePathCollision, gap 0.0071m
+act1-carry: check authored crate corner rests on the actual service planks: (40.94345, -0.33306694, -26.904015), body /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapServiceExplorationPresentation/FapServicePathCollision, gap 0.0030m
+act1-carry: check authored crate corner rests on the actual service planks: (42.05655, -0.36704487, -27.575985), body /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapServiceExplorationPresentation/FapServicePathCollision, gap 0.0071m
+act1-carry: check authored crate corner rests on the actual service planks: (42.056705, -0.36071727, -26.904015), body /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapServiceExplorationPresentation/FapServicePathCollision, gap 0.0069m
+act1-carry: check the crate access route starts on supported ordinary ground
+act1-carry: explicit local start fixture (41.5, -0.27927974, -24.6); subsequent alternative paths use normal input
+state-final-render-sync-begin: label=carry/07c_crate_before_walking_around tick=39066 drawn=620 process=620 physics=617 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/07c_crate_before_walking_around milliseconds=16 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/07c_crate_before_walking_around.png
+act1-carry: check real camera capture 07c_crate_before_walking_around
+act1-carry: check the unmoved crate physically prevents the direct crossing
+act1-carry: check return from the blocked direct attempt: actual input (41.142063, -0.33201343, -26.54311) -> (41.491047, -0.27493173, -24.650126); no teleport/recovery; goal (41.5, 0, -24.6)
+act1-carry: check walk through the open snow beside the service timber path: actual input (41.491047, -0.27493173, -24.650126) -> (43.134815, -0.36720723, -24.601912); no teleport/recovery; goal (43.2, 0, -24.6)
+act1-carry: check walk through the open snow beside the service timber path: actual input (43.134815, -0.36720723, -24.601912) -> (43.199013, -0.45378938, -28.342215); no teleport/recovery; goal (43.2, 0, -28.4)
+act1-carry: check walk through the open snow beside the service timber path: actual input (43.199013, -0.45378938, -28.342215) -> (41.571175, -0.37677443, -28.397724); no teleport/recovery; goal (41.5, 0, -28.4)
+act1-carry: check walk through the open snow beside the service timber path: actual input (41.571175, -0.37677443, -28.397724) -> (40.891552, -0.36037484, -28.399876); no teleport/recovery; goal (40.8, 0, -28.4)
+act1-carry: check the longer walking alternative succeeds with the crate left in the gap
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/carry-gap-alternative.savegame-v3.json
+act1-carry: check save at the common destination between solutions
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check load between the two access solutions
+act1-carry: check save restores the reached exterior destination and the complete crate pose, deviation and custody
+act1-carry: check return through the same open snow beside the crate: actual input (40.891552, -0.36037484, -28.399876) -> (41.40169, -0.37262094, -28.399979); no teleport/recovery; goal (41.5, 0, -28.4)
+act1-carry: check return through the same open snow beside the crate: actual input (41.40169, -0.37262094, -28.399979) -> (43.102535, -0.4522205, -28.399998); no teleport/recovery; goal (43.2, 0, -28.4)
+act1-carry: check return through the same open snow beside the crate: actual input (43.102535, -0.4522205, -28.399998) -> (43.198647, -0.37139243, -24.663486); no teleport/recovery; goal (43.2, 0, -24.6)
+act1-carry: check return to the original access decision: actual input (43.198647, -0.37139243, -24.663486) -> (41.572136, -0.27618724, -24.603142); no teleport/recovery; goal (41.5, 0, -24.6)
+act1-carry: check approach the service-path crate on foot: actual input (41.572136, -0.27618724, -24.603142) -> (41.50589, -0.31303304, -25.56451); no teleport/recovery; goal (41.5, 0, -25.65)
+act1-carry: check take the actual barrier crate with the normal aimed interaction
+act1-carry: check carry the crate away from the timber approach: actual input (41.50589, -0.31303304, -25.56451) -> (41.50037, -0.28568658, -24.14965); no teleport/recovery; goal (41.5, 0, -24.1)
+act1-carry: check the moved crate is set down on a real supported surface
+act1-carry: check return to the timber approach with empty hands: actual input (41.50037, -0.28568658, -24.14965) -> (41.500183, -0.27155036, -24.539415); no teleport/recovery; goal (41.5, 0, -24.6)
+act1-carry: check use the direct gap after first learning the walking alternative: actual input (41.500183, -0.27155036, -24.539415) -> (40.812366, -0.35845456, -28.331808); no teleport/recovery; goal (40.8, 0, -28.4)
+act1-carry: check return through the now cleared gap: actual input (40.812366, -0.35845456, -28.331808) -> (41.490005, -0.2751298, -24.655989); no teleport/recovery; goal (41.5, 0, -24.6)
+act1-carry: check both access orders and the common destination grant no unobserved story knowledge
+state-final-render-sync-begin: label=carry/07a_bypass_then_crate tick=49302 drawn=1487 process=1487 physics=1231 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/07a_bypass_then_crate milliseconds=11 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/07a_bypass_then_crate.png
+act1-carry: check real camera capture 07a_bypass_then_crate
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check each crate access order starts from the ordinary pristine save
+act1-carry: check a pristine save has no legacy coordinate deviation and restores the supported exterior crate with world custody
+act1-carry: check authored crate corner rests on the actual service planks: (40.943295, -0.33939454, -27.575985), body /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapServiceExplorationPresentation/FapServicePathCollision, gap 0.0071m
+act1-carry: check authored crate corner rests on the actual service planks: (40.94345, -0.33306694, -26.904015), body /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapServiceExplorationPresentation/FapServicePathCollision, gap 0.0030m
+act1-carry: check authored crate corner rests on the actual service planks: (42.05655, -0.36704487, -27.575985), body /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapServiceExplorationPresentation/FapServicePathCollision, gap 0.0071m
+act1-carry: check authored crate corner rests on the actual service planks: (42.056705, -0.36071727, -26.904015), body /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapServiceExplorationPresentation/FapServicePathCollision, gap 0.0069m
+act1-carry: check the crate access route starts on supported ordinary ground
+act1-carry: explicit local start fixture (41.5, -0.27927974, -24.6); subsequent alternative paths use normal input
+state-final-render-sync-begin: label=carry/07d_crate_before_carrying tick=49816 drawn=1503 process=1503 physics=1260 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/07d_crate_before_carrying milliseconds=15 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/07d_crate_before_carrying.png
+act1-carry: check real camera capture 07d_crate_before_carrying
+act1-carry: check the unmoved crate physically prevents the direct crossing
+act1-carry: check return from the blocked direct attempt: actual input (41.142063, -0.33203137, -26.543068) -> (41.49105, -0.274934, -24.650095); no teleport/recovery; goal (41.5, 0, -24.6)
+act1-carry: check approach the service-path crate on foot: actual input (41.49105, -0.274934, -24.650095) -> (41.49917, -0.3125317, -25.55709); no teleport/recovery; goal (41.5, 0, -25.65)
+act1-carry: check take the actual barrier crate with the normal aimed interaction
+act1-carry: check carry the crate away from the timber approach: actual input (41.49917, -0.3125317, -25.55709) -> (41.50014, -0.2878143, -24.198734); no teleport/recovery; goal (41.5, 0, -24.1)
+act1-carry: check the moved crate is set down on a real supported surface
+act1-carry: check return to the timber approach with empty hands: actual input (41.50014, -0.2878143, -24.198734) -> (41.500183, -0.27125472, -24.532043); no teleport/recovery; goal (41.5, 0, -24.6)
+act1-carry: check cross the gap after carrying its crate aside: actual input (41.500183, -0.27125472, -24.532043) -> (40.813644, -0.35826635, -28.324614); no teleport/recovery; goal (40.8, 0, -28.4)
+act1-carry: check return through the cleared gap: actual input (40.813644, -0.35826635, -28.324614) -> (41.491272, -0.2748951, -24.64892); no teleport/recovery; goal (41.5, 0, -24.6)
+act1-carry: check walk through the open snow beside the service timber path: actual input (41.491272, -0.2748951, -24.64892) -> (43.135075, -0.3671706, -24.601858); no teleport/recovery; goal (43.2, 0, -24.6)
+act1-carry: check walk through the open snow beside the service timber path: actual input (43.135075, -0.3671706, -24.601858) -> (43.199013, -0.4538602, -28.34218); no teleport/recovery; goal (43.2, 0, -28.4)
+act1-carry: check walk through the open snow beside the service timber path: actual input (43.199013, -0.4538602, -28.34218) -> (41.57115, -0.37677386, -28.39772); no teleport/recovery; goal (41.5, 0, -28.4)
+act1-carry: check walk through the open snow beside the service timber path: actual input (41.57115, -0.37677386, -28.39772) -> (40.891533, -0.3603789, -28.399874); no teleport/recovery; goal (40.8, 0, -28.4)
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/carry-gap-alternative.savegame-v3.json
+act1-carry: check save at the common destination between solutions
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check load between the two access solutions
+act1-carry: check save restores the reached exterior destination and the complete crate pose, deviation and custody
+act1-carry: check return through the same open snow beside the crate: actual input (40.891533, -0.3603789, -28.399874) -> (41.401672, -0.372625, -28.399979); no teleport/recovery; goal (41.5, 0, -28.4)
+act1-carry: check return through the same open snow beside the crate: actual input (41.401672, -0.372625, -28.399979) -> (43.10252, -0.45222455, -28.399998); no teleport/recovery; goal (43.2, 0, -28.4)
+act1-carry: check return through the same open snow beside the crate: actual input (43.10252, -0.45222455, -28.399998) -> (43.198643, -0.37139627, -24.66349); no teleport/recovery; goal (43.2, 0, -24.6)
+act1-carry: check return to the original access decision: actual input (43.198643, -0.37139627, -24.66349) -> (41.57216, -0.2761888, -24.603144); no teleport/recovery; goal (41.5, 0, -24.6)
+act1-carry: check both access orders and the common destination grant no unobserved story knowledge
+state-final-render-sync-begin: label=carry/07b_crate_then_bypass tick=60014 drawn=2359 process=2359 physics=1871 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/07b_crate_then_bypass milliseconds=23 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/07b_crate_then_bypass.png
+act1-carry: check real camera capture 07b_crate_then_bypass
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check restore the yard before independent shovel checks
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check board crossing begins from the ordinary pristine save
+act1-carry: check the drain starts from a supported, clear nearby stance
+act1-carry: explicit drain start fixture (-12.070532, -0.22308865, 8.411092); pickup, approach, crossing and return use normal input
+act1-carry: check take the single board from its visible drying battens
+act1-carry: check the board can take the workshop's zero-degree orientation in open space
+state-final-render-sync-begin: label=carry/08_board_held_zero_yaw tick=61069 drawn=2418 process=2418 physics=1932 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/08_board_held_zero_yaw milliseconds=10 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/08_board_held_zero_yaw.png
+act1-carry: check real camera capture 08_board_held_zero_yaw
+act1-carry: check normal rotation recovers the crossing axis after the board's other use
+state-final-render-sync-begin: label=carry/08_board_held_crossing_yaw tick=62000 drawn=2509 process=2509 physics=1988 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/08_board_held_crossing_yaw milliseconds=8 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/08_board_held_crossing_yaw.png
+act1-carry: check real camera capture 08_board_held_crossing_yaw
+act1-carry: check carry the board to the near drain approach: actual input (-12.070532, -0.24671364, 8.411092) -> (-13.54805, -0.12919247, 6.932823); no teleport/recovery; goal (-13.590812, -0.10306046, 6.890812)
+act1-carry: check walk up the stone bank with the board: actual input (-13.54805, -0.12919247, 6.932823) -> (-14.47827, 0.5861178, 7.7842903); no teleport/recovery; goal (-14.545406, 0.06681704, 7.845406)
+act1-carry: check an offset plank with one end in the bed is refused
+act1-carry: check the failed crossing attempt keeps the held board and its saved state
+act1-carry: check the two actual banks accept the ordinary board: 
+act1-carry: check free placement makes a physical crossing without a new assembly or quest flag
+act1-carry: check board end -1, corner -1 rests on its own visible bank
+act1-carry: check board end -1, corner 1 rests on its own visible bank
+act1-carry: check board end 1, corner -1 rests on its own visible bank
+act1-carry: check board end 1, corner 1 rests on its own visible bank
+act1-carry: check surface isolation begins after ordinary camera smoothing settles
+state-final-render-sync-begin: label=carry/08a_board_drain_from_approach tick=63648 drawn=2645 process=2645 physics=2087 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/08a_board_drain_from_approach milliseconds=9 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/08a_board_drain_from_approach.png
+act1-carry: check real camera capture 08a_board_drain_from_approach
+act1-visible-strip: 08a_board_drain_from_approach image=1280x720 no-long-green-component-in-current-frame; historical UVs not substituted
+act1-carry: check walk onto the plank over the open drain bed: actual input (-14.47827, 0.5861178, 7.7842903) -> (-15.431948, 0.62722945, 8.732355); no teleport/recovery; goal (-15.5000105, 0.55211705, 8.80001)
+act1-carry: check the actual plank supports the player above the channel
+act1-carry: check the player cannot remove the crossing from under their own feet
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/carry-drain-on-board.savegame-v3.json
+act1-carry: check save the placed board and supported player midway across
+act1-carry: check surface isolation begins after ordinary camera smoothing settles
+state-final-render-sync-begin: label=carry/08b_board_drain_underfoot tick=64316 drawn=2709 process=2709 physics=2127 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/08b_board_drain_underfoot milliseconds=10 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/08b_board_drain_underfoot.png
+act1-carry: check real camera capture 08b_board_drain_underfoot
+act1-visible-strip: 08b_board_drain_underfoot image=1280x720 no-long-green-component-in-current-frame; historical UVs not substituted
+act1-carry: check leave the board over the opposite flush approach: actual input (-15.431948, 0.62722945, 8.732355) -> (-17.355688, 0.1812915, 10.655874); no teleport/recovery; goal (-17.409187, 0.20708954, 10.709188)
+act1-carry: check follow the household path north of the existing lateral dwelling: actual input (-17.355688, 0.1812915, 10.655874) -> (-17.39458, 0.17592041, 11.221239); no teleport/recovery; goal (-17.4, 0.19930542, 11.3)
+act1-carry: check follow the household path north of the existing lateral dwelling: actual input (-17.39458, 0.17592041, 11.221239) -> (-14.8459, 0.030717395, 11.298627); no teleport/recovery; goal (-14.8, 0.052539192, 11.3)
+act1-carry: check follow the household path north of the existing lateral dwelling: actual input (-14.8459, 0.030717395, 11.298627) -> (-10.876109, -0.266304, 11.2999735); no teleport/recovery; goal (-10.8, -0.2456724, 11.3)
+act1-carry: check follow the household path north of the existing lateral dwelling: actual input (-10.876109, -0.266304, 11.2999735) -> (-7.3614545, -0.37447792, 11.299999); no teleport/recovery; goal (-7.3, -0.3522647, 11.3)
+act1-carry: check the crossing remains behind after reaching its useful destination
+act1-carry: check return from the existing service yard: actual input (-7.3614545, -0.37447792, 11.299999) -> (-10.701552, -0.27393124, 11.299885); no teleport/recovery; goal (-10.8, -0.2456724, 11.3)
+act1-carry: check return from the existing service yard: actual input (-10.701552, -0.27393124, 11.299885) -> (-14.701454, 0.022787653, 11.299745); no teleport/recovery; goal (-14.8, 0.052539192, 11.3)
+act1-carry: check return from the existing service yard: actual input (-14.701454, 0.022787653, 11.299745) -> (-17.352, 0.17311116, 11.300104); no teleport/recovery; goal (-17.4, 0.19930542, 11.3)
+act1-carry: check return to the far bank without moving the plank: actual input (-17.352, 0.17311116, 11.300104) -> (-17.400928, 0.18180394, 10.792622); no teleport/recovery; goal (-17.409187, 0.20708954, 10.709188)
+act1-carry: check cross back on the same real plank: actual input (-17.400928, 0.18180394, 10.792622) -> (-15.5425205, 0.6268323, 8.844552); no teleport/recovery; goal (-15.5000105, 0.55211705, 8.80001)
+act1-carry: check return down the near bank: actual input (-15.5425205, 0.6268323, 8.844552) -> (-13.6578455, -0.11949268, 6.957915); no teleport/recovery; goal (-13.590812, -0.10306046, 6.890812)
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check reload the snapshot made over the channel
+act1-carry: check loading restores the player's physical support and the placed crossing together
+act1-carry: check walk off the restored crossing: actual input (-15.431948, 0.62722945, 8.732355) -> (-13.627066, -0.12285135, 6.9270735); no teleport/recovery; goal (-13.590812, -0.10306046, 6.890812)
+act1-carry: check approach the empty board from the bank: actual input (-13.627066, -0.12285135, 6.9270735) -> (-14.481638, 0.58634776, 7.781665); no teleport/recovery; goal (-14.545406, 0.06681704, 7.845406)
+act1-carry: check the empty crossing can be dismantled and its one board reused
+act1-carry: check carry the removed plank down the bank: actual input (-14.481638, 0.58634776, 7.781665) -> (-13.637405, -0.121992044, 6.937407); no teleport/recovery; goal (-13.590812, -0.10306046, 6.890812)
+act1-carry: check the return turn uses captured ordinary mouse input
+act1-carry-ordinary-turn: feet=(-13.637405, -0.121992044, 6.937407) yawDelta=-88.24548 mouseRelative=(551.5343, 0) screenRelative=(551.5343, 0) held=[X: (-0.70710677, 0, -0.70710677), Y: (0, 1, 0), Z: (0.70710677, 0, -0.70710677), O: (-12.732326, 1.1380081, 6.032297)]
+act1-carry: check the normal mouse handler applied the requested return turn
+act1-carry-held-movement: label=try the direct return beside the visible gate post stalled=3 feet=(-13.394979, -0.14197253, 7.0559907) goal=(-12.070532, -0.22308865, 8.411092) input=(0, -1) velocity=(0, 0, 0) camera=[X: (-0.7151492, 0, 0.69897187), Y: (0, 1, 0), Z: (-0.69897187, 0, -0.7151492), O: (-13.269165, 1.5580275, 7.1847157)] requested=(2.376471, 0, 2.4314733) constrained=(0, 0, 0) valid=True revision=46/46; full=[item=carry-board from=(-12.489899, 1.1180277, 6.1508813) cameraDelta=(0.039607853, 0, 0.040524557) start=[]; kind=camera to=(-12.460688, 1.1180274, 8.011905) endpoint=[] swept=0.0361 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.586503, 1.1180274, 7.8831778) endpoint=[] swept=0.0420 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.705328, 1.1180274, 7.7616024) endpoint=[] swept=0.0508 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.61802, 1.1180274, 8.165679) endpoint=[] swept=0.0361 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.303355, 1.1180274, 7.858131) endpoint=[] swept=0.0361 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; retained accepted=False reason=sweep-blocked ownerAnchor=(-13.394979, -0.14197253, 7.0559907) ownerFeet=(-13.394979, -0.14197253, 7.0559907) horizontalReach=1.28000/1.35000 heightDifference=0.00000/0.25000; kind=retained to=(-12.450291, 1.1180277, 6.191406) endpoint=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW] swept=0.9023 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]]; x=[item=carry-board from=(-12.489899, 1.1180277, 6.1508813) cameraDelta=(0.039607853, 0, 0) start=[]; kind=camera to=(-12.460688, 1.1180274, 7.9713798) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.586503, 1.1180274, 7.842653) endpoint=[] swept=0.0449 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.705328, 1.1180274, 7.7210774) endpoint=[] swept=0.0508 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.61802, 1.1180274, 8.125154) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.303355, 1.1180274, 7.817606) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; retained accepted=False reason=endpoint-blocked ownerAnchor=(-13.394979, -0.14197253, 7.0559907) ownerFeet=(-13.394979, -0.14197253, 7.0559907) horizontalReach=1.28000/1.35000 heightDifference=0.00000/0.25000; kind=retained to=(-12.450291, 1.1180277, 6.1508813) endpoint=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW] swept=1.0000 contact=[]]; z=[item=carry-board from=(-12.489899, 1.1180277, 6.1508813) cameraDelta=(0, 0, 0.040524557) start=[]; kind=camera to=(-12.500296, 1.1180274, 8.011905) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.626111, 1.1180274, 7.8831778) endpoint=[] swept=0.0449 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.744936, 1.1180274, 7.7616024) endpoint=[] swept=0.0508 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.657628, 1.1180274, 8.165679) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.342963, 1.1180274, 7.858131) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; retained accepted=False reason=endpoint-blocked ownerAnchor=(-13.394979, -0.14197253, 7.0559907) ownerFeet=(-13.394979, -0.14197253, 7.0559907) horizontalReach=1.28000/1.35000 heightDifference=0.00000/0.25000; kind=retained to=(-12.489899, 1.1180277, 6.191406) endpoint=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW] swept=1.0000 contact=[]]
+act1-carry-held-movement: label=try the direct return beside the visible gate post stalled=30 feet=(-13.394979, -0.14197253, 7.0559907) goal=(-12.070532, -0.22308865, 8.411092) input=(0, -1) velocity=(0, 0, 0) camera=[X: (-0.7151492, 0, 0.69897187), Y: (0, 1, 0), Z: (-0.69897187, 0, -0.7151492), O: (-13.269165, 1.5580275, 7.1847157)] requested=(2.376471, 0, 2.4314733) constrained=(0, 0, 0) valid=True revision=46/46; full=[item=carry-board from=(-12.489899, 1.1180277, 6.1508813) cameraDelta=(0.039607853, 0, 0.040524557) start=[]; kind=camera to=(-12.460688, 1.1180274, 8.011905) endpoint=[] swept=0.0361 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.586503, 1.1180274, 7.8831778) endpoint=[] swept=0.0420 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.705328, 1.1180274, 7.7616024) endpoint=[] swept=0.0508 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.61802, 1.1180274, 8.165679) endpoint=[] swept=0.0361 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.303355, 1.1180274, 7.858131) endpoint=[] swept=0.0361 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; retained accepted=False reason=sweep-blocked ownerAnchor=(-13.394979, -0.14197253, 7.0559907) ownerFeet=(-13.394979, -0.14197253, 7.0559907) horizontalReach=1.28000/1.35000 heightDifference=0.00000/0.25000; kind=retained to=(-12.450291, 1.1180277, 6.191406) endpoint=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW] swept=0.9023 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]]; x=[item=carry-board from=(-12.489899, 1.1180277, 6.1508813) cameraDelta=(0.039607853, 0, 0) start=[]; kind=camera to=(-12.460688, 1.1180274, 7.9713798) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.586503, 1.1180274, 7.842653) endpoint=[] swept=0.0449 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.705328, 1.1180274, 7.7210774) endpoint=[] swept=0.0508 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.61802, 1.1180274, 8.125154) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.303355, 1.1180274, 7.817606) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; retained accepted=False reason=endpoint-blocked ownerAnchor=(-13.394979, -0.14197253, 7.0559907) ownerFeet=(-13.394979, -0.14197253, 7.0559907) horizontalReach=1.28000/1.35000 heightDifference=0.00000/0.25000; kind=retained to=(-12.450291, 1.1180277, 6.1508813) endpoint=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW] swept=1.0000 contact=[]]; z=[item=carry-board from=(-12.489899, 1.1180277, 6.1508813) cameraDelta=(0, 0, 0.040524557) start=[]; kind=camera to=(-12.500296, 1.1180274, 8.011905) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.626111, 1.1180274, 7.8831778) endpoint=[] swept=0.0449 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.744936, 1.1180274, 7.7616024) endpoint=[] swept=0.0508 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.657628, 1.1180274, 8.165679) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.342963, 1.1180274, 7.858131) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; retained accepted=False reason=endpoint-blocked ownerAnchor=(-13.394979, -0.14197253, 7.0559907) ownerFeet=(-13.394979, -0.14197253, 7.0559907) horizontalReach=1.28000/1.35000 heightDifference=0.00000/0.25000; kind=retained to=(-12.489899, 1.1180277, 6.191406) endpoint=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW] swept=1.0000 contact=[]]
+act1-carry-held-movement: label=try the direct return beside the visible gate post stalled=89 feet=(-13.394979, -0.14197253, 7.0559907) goal=(-12.070532, -0.22308865, 8.411092) input=(0, -1) velocity=(0, 0, 0) camera=[X: (-0.7151492, 0, 0.69897187), Y: (0, 1, 0), Z: (-0.69897187, 0, -0.7151492), O: (-13.269165, 1.5580275, 7.1847157)] requested=(2.376471, 0, 2.4314733) constrained=(0, 0, 0) valid=True revision=46/46; full=[item=carry-board from=(-12.489899, 1.1180277, 6.1508813) cameraDelta=(0.039607853, 0, 0.040524557) start=[]; kind=camera to=(-12.460688, 1.1180274, 8.011905) endpoint=[] swept=0.0361 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.586503, 1.1180274, 7.8831778) endpoint=[] swept=0.0420 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.705328, 1.1180274, 7.7616024) endpoint=[] swept=0.0508 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.61802, 1.1180274, 8.165679) endpoint=[] swept=0.0361 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.303355, 1.1180274, 7.858131) endpoint=[] swept=0.0361 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; retained accepted=False reason=sweep-blocked ownerAnchor=(-13.394979, -0.14197253, 7.0559907) ownerFeet=(-13.394979, -0.14197253, 7.0559907) horizontalReach=1.28000/1.35000 heightDifference=0.00000/0.25000; kind=retained to=(-12.450291, 1.1180277, 6.191406) endpoint=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW] swept=0.9023 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]]; x=[item=carry-board from=(-12.489899, 1.1180277, 6.1508813) cameraDelta=(0.039607853, 0, 0) start=[]; kind=camera to=(-12.460688, 1.1180274, 7.9713798) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.586503, 1.1180274, 7.842653) endpoint=[] swept=0.0449 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.705328, 1.1180274, 7.7210774) endpoint=[] swept=0.0508 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.61802, 1.1180274, 8.125154) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.303355, 1.1180274, 7.817606) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; retained accepted=False reason=endpoint-blocked ownerAnchor=(-13.394979, -0.14197253, 7.0559907) ownerFeet=(-13.394979, -0.14197253, 7.0559907) horizontalReach=1.28000/1.35000 heightDifference=0.00000/0.25000; kind=retained to=(-12.450291, 1.1180277, 6.1508813) endpoint=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW] swept=1.0000 contact=[]]; z=[item=carry-board from=(-12.489899, 1.1180277, 6.1508813) cameraDelta=(0, 0, 0.040524557) start=[]; kind=camera to=(-12.500296, 1.1180274, 8.011905) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.626111, 1.1180274, 7.8831778) endpoint=[] swept=0.0449 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.744936, 1.1180274, 7.7616024) endpoint=[] swept=0.0508 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.657628, 1.1180274, 8.165679) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; kind=camera to=(-12.342963, 1.1180274, 7.858131) endpoint=[] swept=0.0391 contact=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW | /root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostW]; retained accepted=False reason=endpoint-blocked ownerAnchor=(-13.394979, -0.14197253, 7.0559907) ownerFeet=(-13.394979, -0.14197253, 7.0559907) horizontalReach=1.28000/1.35000 heightDifference=0.00000/0.25000; kind=retained to=(-12.489899, 1.1180277, 6.191406) endpoint=[/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision/Col_Gate_HouseA1_PostCapW] swept=1.0000 contact=[]]
+act1-carry-observed-obstruction-hud: Предмет упирается в преграду. Отойдите назад или в сторону.
+[Q] нельзя поставить: Край предмета останется без опоры · [R] повернуть
+state-final-render-sync-begin: label=carry/09_carry_walk_blocked tick=77238 drawn=3741 process=3741 physics=2902 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/09_carry_walk_blocked milliseconds=11 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/09_carry_walk_blocked.png
+act1-carry: check real camera capture 09_carry_walk_blocked
+act1-carry: check try the direct return beside the visible gate post: actual input (-13.637405, -0.121992044, 6.937407) -> (-13.394979, -0.14197253, 7.0559907); no teleport/recovery; goal (-12.070532, -0.22308865, 8.411092); observed refusal, destination NOT reached; contacts ; step 
+act1-carry: check the observed refusal identifies the real gate post, not an unknown movement blocker
+act1-carry: check ordinary HUD explains the carried object's obstruction and the available retreat
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+act1-carry: check ordinary retreat retains the same physically valid board
+state-final-render-sync-begin: label=carry/09a_board_backward_retreat tick=77594 drawn=3757 process=3757 physics=2924 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/09a_board_backward_retreat milliseconds=11 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/09a_board_backward_retreat.png
+act1-carry: check real camera capture 09a_board_backward_retreat
+act1-carry: check ordinary backward input moves the board around the post: (-13.394979, -0.14197253, 7.0559907) -> (-14.025442, -0.09395226, 6.407997); no new pose, turn or recovery
+act1-carry: check the return turn uses captured ordinary mouse input
+act1-carry-ordinary-turn: feet=(-14.025442, -0.09395226, 6.407997) yawDelta=-0.042114258 mouseRelative=(0.2632141, 0) screenRelative=(0.2632141, 0) held=[X: (-0.70710677, 0, -0.70710677), Y: (0, 1, 0), Z: (0.70710677, 0, -0.70710677), O: (-13.130759, 1.1660478, 7.323386)]
+act1-carry: check the normal mouse handler applied the requested return turn
+act1-carry: check return the same reusable plank after an ordinary backward retreat: actual input (-14.025442, -0.09395226, 6.407997) -> (-12.12443, -0.24219453, 8.355866); no teleport/recovery; goal (-12.070532, -0.22308865, 8.411092)
+act1-carry: check the original battens also accept ordinary replacement: 
+act1-carry: check one physical board is set down after return, with no duplicate in the channel
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/carry-drain-returned.savegame-v3.json
+act1-carry: check save the dismantled crossing and returned plank
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check restore the returned object state
+act1-carry: check return, reuse and save grant no unseen story knowledge or scene transition
+zone-loaded: village_day@arrival connected-world=109169348520
+SaveGameV3 restored.
+act1-carry: check restore pristine carryables before the independent snow checks
+act1-carry: check the unworked service drift has its real body and the blocking attempt has empty hands
+act1-carry: check the snow gap has a clear supported street approach
+act1-carry: check the visible snow mound physically blocks the uncleared service gap without moving a prop: (-24.68655, 0.3762911, -2.8499804); drift contact=True
+act1-carry: check step back from the snow drift before fetching the shovel: actual input (-24.68655, 0.3762911, -2.8499804) -> (-24.006548, 0.3727462, -2.8499982); no teleport/recovery; goal (-23.95, 0.3957482, -2.85)
+act1-carry: local camera fixture (-27.6, 0.21481629, -0.35000002) target=(-27.6, 0.679541, 0.9)
+act1-carry: check shovel is physically carried, not a remote switch
+act1-carry: local camera fixture (-23.95, 0.37039664, -2.85) target=(-25.2, 0.56376266, -2.85)
+state-final-render-sync-begin: label=carry/03_snow_before tick=80702 drawn=4007 process=4007 physics=3109 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/03_snow_before milliseconds=15 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/03_snow_before.png
+act1-carry: check real camera capture 03_snow_before
+act1-carry: check only the aimed snow opening changes
+act1-carry: check clearing removes the actual passage barrier
+state-final-render-sync-begin: label=carry/04_snow_cleared tick=80883 drawn=4008 process=4008 physics=3117 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=carry/04_snow_cleared milliseconds=16 forcedScreenshotRender=False
+act1-carry-capture-save-begin: /Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/images-carry-23/04_snow_cleared.png
+act1-carry: check real camera capture 04_snow_cleared
+act1-carry: check walk through the cleared snow gap with the same shovel: actual input (-23.95, 0.37039664, -2.85) -> (-26.114418, 0.35233006, -2.8364718); no teleport/recovery; goal (-26.2, 0, -2.85)
+act1-carry: check return through the same cleared service gap: actual input (-26.114418, 0.35233006, -2.8364718) -> (-24.023022, 0.37213367, -2.8411129); no teleport/recovery; goal (-23.95, 0, -2.85)
+act1-carry: local stance refused feet=(-31.6, 0.45510456, 3.0500002) target=(-31.6, 0.6201632, 4.3) direction=(0, 0, -1) phase=standing-capsule
+act1-carry: local stance refused feet=(-31.6, 0.7531637, 5.55) target=(-31.6, 0.6201632, 4.3) direction=(0, 0, 1) phase=standing-capsule
+act1-carry: local stance refused feet=(-32.85, 0.737299, 4.3) target=(-31.6, 0.6201632, 4.3) direction=(-1, 0, 0) phase=standing-capsule
+act1-carry: local stance refused feet=(-30.35, 0.5157404, 4.3) target=(-31.6, 0.6201632, 4.3) direction=(1, 0, 0) phase=standing-capsule
+act1-carry: local stance refused feet=(-32.483883, 0.6009444, 3.4161167) target=(-31.6, 0.6201632, 4.3) direction=(-0.70710677, 0, -0.70710677) phase=standing-capsule
+act1-carry: local stance refused feet=(-30.716118, 0.41694131, 3.4161167) target=(-31.6, 0.6201632, 4.3) direction=(0.70710677, 0, -0.70710677) phase=actual-sightline owner=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/BabaiBathhouse/BathEntryLandingBypassBody at=(-31.20022, 1.4110625, 3.9002082)
+act1-carry: local stance refused feet=(-32.483883, 0.7950678, 5.1838837) target=(-31.6, 0.6201632, 4.3) direction=(-0.70710677, 0, 0.70710677) phase=standing-capsule
+act1-carry: local stance refused feet=(-30.716118, 0.64978075, 5.1838837) target=(-31.6, 0.6201632, 4.3) direction=(0.70710677, 0, 0.70710677) phase=standing-capsule
+act1-carry: FAIL System.InvalidOperationException: No unobstructed standing approach to (-31.6, 0.6201632, 4.3): camera=(-30.843397, 2.1169415, 3.5433927) ray=(-0.4112288, -0.81350464, 0.411219) hit=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/BabaiBathhouse/BathEntryLandingBypassBody shape=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/BabaiBathhouse/BathEntryLandingBypassBody/Contact at=(-31.20022, 1.4110625, 3.900208) held=carry-tool-shovel busy=False registering=False registered=True heldPosition=(-30.716118, 1.2754414, 2.4561193) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=True physicsEnabled=True treePaused=False inputFrame=3211/3212 interactPresses=20 feedback= pickupProbe=item=carry-tool-shovel source=[X: (-0.104479425, -0.030640919, -0.9940549), Y: (-0.04023672, 0.9988371, -0.026559275), Z: (0.9937128, 0.037222613, -0.10559083), O: (-27.6, 0.22954099, 0.9)] size=(0.3, 1.18, 0.12); path=direct; accepted=(-27.6, 1.0733163, 0.6099974);
+   at Urman.Godot.Tests.Act1CarryInteractionSmokeTest.StandFacing(Vector3 target, Nullable`1 side, Single distance) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1CarryInteractionSmokeTest.cs:line 845
+   at Urman.Godot.Tests.Act1CarryInteractionSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1CarryInteractionSmokeTest.cs:line 142
+HUD: [Q] нельзя поставить: Край предмета останется без опоры · [R] повернуть
+camera=(-30.843397, 2.1169415, 3.5433927) ray=(-0.4112288, -0.81350464, 0.411219) hit=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/BabaiBathhouse/BathEntryLandingBypassBody shape=/root/Act1CarryInteractionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/BabaiBathhouse/BathEntryLandingBypassBody/Contact at=(-31.20022, 1.4110625, 3.900208) held=carry-tool-shovel busy=False registering=False registered=True heldPosition=(-30.716118, 1.2754414, 2.4561193) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=True physicsEnabled=True treePaused=False inputFrame=3211/3212 interactPresses=20 feedback= pickupProbe=item=carry-tool-shovel source=[X: (-0.104479425, -0.030640919, -0.9940549), Y: (-0.04023672, 0.9988371, -0.026559275), Z: (0.9937128, 0.037222613, -0.10559083), O: (-27.6, 0.22954099, 0.9)] size=(0.3, 1.18, 0.12); path=direct; accepted=(-27.6, 1.0733163, 0.6099974);
+userdata guard: original files and permissions restored and verified

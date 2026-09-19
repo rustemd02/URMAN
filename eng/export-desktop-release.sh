@@ -23,8 +23,12 @@ OUTPUT_DIR=$1
 mkdir -p "$OUTPUT_DIR"
 OUTPUT_DIR=$(CDPATH= cd -- "$OUTPUT_DIR" && pwd -P)
 case "$OUTPUT_DIR" in
+  "$URMAN_ROOT"/build/*)
+    # A fresh child of build is also a valid local deliverable destination.
+    # Canonical resolution above prevents a symlink from bypassing this scope.
+    ;;
   "$URMAN_ROOT"|"$URMAN_ROOT"/*)
-    fail "output directory must be outside the repository: $OUTPUT_DIR"
+    fail "output directory must be outside source folders or a fresh child of build: $OUTPUT_DIR"
     ;;
 esac
 [ "$OUTPUT_DIR" != "/" ] || fail "refusing to publish into the filesystem root"
@@ -74,35 +78,94 @@ import os
 import signal
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 godot, timeout_text, log_path, *arguments = sys.argv[1:]
 timeout_seconds = int(timeout_text)
-with Path(log_path).open("w", encoding="utf-8") as log:
-    process = subprocess.Popen(
-        [godot, *arguments],
-        stdout=log,
-        stderr=subprocess.STDOUT,
-        start_new_session=True,
-    )
-    try:
-        status = process.wait(timeout=timeout_seconds)
-    except subprocess.TimeoutExpired:
+process = None
+interrupted = 0
+
+def signal_group(signum):
+    if process is not None:
         try:
-            os.killpg(process.pid, signal.SIGTERM)
+            os.killpg(process.pid, signum)
         except ProcessLookupError:
             pass
-        try:
-            process.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
+
+def interrupt(signum, _frame):
+    global interrupted
+    if not interrupted:
+        interrupted = signum
+    signal_group(signal.SIGTERM)
+
+def group_exists():
+    try:
+        os.killpg(process.pid, 0)
+        return True
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        # A macOS group can briefly refuse the zero-signal probe while exiting.
+        # This is not proof of termination: retain the bounded wait, then fail
+        # cleanup unless a later probe confirms that the whole group is gone.
+        return True
+
+def await_group_exit(seconds):
+    deadline = time.monotonic() + seconds
+    while True:
+        # Reap the direct child, but also wait for its remaining group members.
+        process.poll()
+        if not group_exists():
             process.wait()
-        log.write(f"act1-release-export: Godot timed out after {timeout_seconds}s\n")
-        raise SystemExit(124)
-raise SystemExit(status)
+            return True
+        if time.monotonic() >= deadline:
+            return False
+        time.sleep(.025)
+
+# The outer userdata guard signals the shell/helper group. Godot has its own
+# group, so this helper must forward cancellation and finish cleanup before the
+# shell can remove staging files or the guard can restore the player's data.
+previous = {sig: signal.signal(sig, interrupt)
+            for sig in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP)}
+status = 1
+cleanup_failed = False
+with Path(log_path).open("w", encoding="utf-8") as log:
+    try:
+        if not interrupted:
+            process = subprocess.Popen(
+                [godot, *arguments], stdout=log, stderr=subprocess.STDOUT,
+                start_new_session=True,
+            )
+            deadline = time.monotonic() + timeout_seconds
+            while process.poll() is None and not interrupted:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    status = 124
+                    log.write(f"act1-release-export: Godot timed out after {timeout_seconds}s\n")
+                    break
+                try:
+                    status = process.wait(timeout=min(.1, remaining))
+                except subprocess.TimeoutExpired:
+                    pass
+            if process.returncode is not None and status != 124:
+                status = process.returncode
+    finally:
+        if process is not None:
+            # Stay below the outer guard's five-second TERM deadline. Even a
+            # successfully exited child can have descendants left in its group.
+            signal_group(signal.SIGTERM)
+            stopped = await_group_exit(2)
+            if not stopped:
+                signal_group(signal.SIGKILL)
+                stopped = await_group_exit(1)
+            cleanup_failed = not stopped
+            log.write(f"act1-release-export: child_group={process.pid} stopped={str(stopped).lower()}\n")
+        for sig, handler in previous.items():
+            signal.signal(sig, handler)
+if cleanup_failed:
+    raise SystemExit(125)
+raise SystemExit(128 + interrupted if interrupted else (status if status >= 0 else 128 - status))
 PY
 }
 
@@ -128,6 +191,19 @@ run_export() {
 stage_root=$(mktemp -d "${TMPDIR:-/tmp}/urman-act1-release-stage.XXXXXX")
 mkdir -p "$stage_root/macos" "$stage_root/windows"
 
+sh "$URMAN_ROOT/eng/compile-game-content.sh"
+import_log="$LOG_ROOT/preflight-import.stdout.log"
+if ! run_godot 180 "$import_log" --headless --audio-driver Dummy --path "$URMAN_ROOT/game" --import; then
+  cat "$import_log"
+  fail "import preflight failed"
+fi
+cat "$import_log"
+if grep -Eq '^(ERROR:|SCRIPT ERROR:)' "$import_log"; then
+  fail "import preflight reported errors"
+fi
+python3 "$URMAN_ROOT/eng/desktop_build_provenance.py" --root "$URMAN_ROOT" start \
+  --mode release --output "$stage_root/export-start.json"
+
 run_export "Act I Release macOS" "$stage_root/macos/URMAN.zip" macos
 run_export "Act I Release Windows" "$stage_root/windows/URMAN.exe" windows
 
@@ -140,6 +216,11 @@ run_export "Act I Release Windows" "$stage_root/windows/URMAN.exe" windows
   cd "$stage_root"
   zip -q -r -X "$stage_root/URMAN-windows-x86_64.zip" windows
 )
+
+python3 "$URMAN_ROOT/eng/desktop_build_provenance.py" --root "$URMAN_ROOT" complete \
+  --start "$stage_root/export-start.json" --mac-zip "$stage_root/macos/URMAN.zip" \
+  --windows-zip "$stage_root/URMAN-windows-x86_64.zip" --windows-exe "$stage_root/windows/URMAN.exe" \
+  --output "$stage_root/build-provenance.json"
 
 # The caller supplied an empty directory, so these moves publish one complete
 # native package set without retaining files from a previous run.
@@ -178,7 +259,7 @@ PY
 
 # Rebind the native receipt to the caller's final paths after the PCK scope
 # verifier and publication both succeed.
-"$URMAN_ROOT/eng/verify-desktop-artifacts.sh" \
+URMAN_DESKTOP_BUILD_PROVENANCE="$stage_root/build-provenance.json" "$URMAN_ROOT/eng/verify-desktop-artifacts.sh" \
   "$MAC_ZIP" "$WINDOWS_EXE" "$WINDOWS_ZIP" "$RECEIPT"
 
 cleanup_output=0

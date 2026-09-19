@@ -10,28 +10,39 @@ URMAN_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$URMAN_ROOT"
 
 RESOLVE_ONLY=0
+HISTORICAL=0
+if [ "$#" -gt 0 ] && [ "$1" = "--historical" ]; then
+  HISTORICAL=1
+  shift
+fi
 if [ "$#" -eq 1 ] && [ "$1" = "--resolve-only" ]; then
   RESOLVE_ONLY=1
 elif [ "$#" -eq 1 ]; then
   :
 else
-  echo "usage: $0 <output-directory-outside-repository>" >&2
-  echo "       $0 --resolve-only   # check that the kit can find a candidate, then exit" >&2
+  echo "usage: $0 [--historical] <output-directory-outside-source-folders>" >&2
+  echo "       $0 [--historical] --resolve-only   # inspect candidate identity without launching" >&2
   exit 2
 fi
 
-# Candidate resolution: an explicit URMAN_M10_CANDIDATE wins, otherwise take the
-# newest exported candidate so this kit cannot rot into pointing at a build that
-# has been superseded and deleted. Candidate directories live in the evidence root.
-EVIDENCE_ROOT=${URMAN_M10_EVIDENCE_ROOT:-/Users/unterlantas/Documents/URMAN_ActI_Finish_20260911}
+# A name chooses a candidate; its actual payload and source hashes establish
+# the comparison. Keep the default inside the checkout's ignored build folder.
+# Historical external candidates remain selectable through either override.
+EVIDENCE_ROOT=${URMAN_M10_EVIDENCE_ROOT:-$URMAN_ROOT/build}
 GUARD=${URMAN_GUARD:-$URMAN_ROOT/eng/protected_run.py}
 if [ -n "${URMAN_M10_CANDIDATE:-}" ]; then
   CANDIDATE=$URMAN_M10_CANDIDATE
 else
-  CANDIDATE=
-  for dir in $(ls -d "$EVIDENCE_ROOT"/native_*_candidate 2>/dev/null | sort -r); do
-    if [ -x "$dir/launch/URMAN.app/Contents/MacOS/URMAN" ]; then CANDIDATE=$dir; break; fi
-  done
+  CANDIDATE=$(python3 - "$EVIDENCE_ROOT" <<'PY'
+import os
+from pathlib import Path
+import sys
+for directory in sorted(Path(sys.argv[1]).glob("native_*_candidate"), reverse=True):
+    if os.access(directory / "launch/URMAN.app/Contents/MacOS/URMAN", os.X_OK):
+        print(directory)
+        break
+PY
+)
   [ -n "$CANDIDATE" ] || {
     echo "$0: no unpacked candidate found under $EVIDENCE_ROOT" >&2
     echo "$0: export one with eng/export-desktop-release.sh and unpack macos/URMAN.zip into <dir>/launch/" >&2
@@ -45,29 +56,40 @@ MAX_MINUTES=${URMAN_M10_MAX_MINUTES:-90}
 
 echo "act1-m10-session: candidate=$CANDIDATE"
 [ -x "$BINARY" ] || { echo "candidate binary not found: $BINARY" >&2; exit 1; }
-[ -f "$GUARD" ] || { echo "userdata guard not found: $GUARD" >&2; exit 1; }
-command -v screencapture >/dev/null 2>&1 || { echo "screencapture is required" >&2; exit 1; }
+
+inspect_candidate() {
+  if [ "$HISTORICAL" -eq 1 ]; then
+    python3 "$URMAN_ROOT/eng/act1_candidate_identity.py" --candidate "$CANDIDATE" --historical "$@"
+  else
+    python3 "$URMAN_ROOT/eng/act1_candidate_identity.py" --candidate "$CANDIDATE" "$@"
+  fi
+}
 
 if [ "$RESOLVE_ONLY" -eq 1 ]; then
-  # A session takes an hour with a human at the keyboard, so let the operator (or
-  # a script) prove the kit resolves everything first instead of discovering a
-  # missing candidate or guard at minute zero.
+  inspect_candidate --resolve-only
   echo "act1-m10-session: guard=$GUARD"
   echo "act1-m10-session: binary=$BINARY bytes=$(wc -c < "$BINARY" | tr -d '[:space:]')"
   echo "act1-m10-session: notes-template=$URMAN_ROOT/docs/production/act1_m10_handoff_package_2026-09-14.md section 8"
-  echo "act1-m10-session: --resolve-only PASS; rerun without the flag to sit the session"
+  echo "act1-m10-session: identity inspection complete; see comparison.status and limitations above"
   exit 0
 fi
+
+[ -f "$GUARD" ] || { echo "userdata guard not found: $GUARD" >&2; exit 1; }
+command -v screencapture >/dev/null 2>&1 || { echo "screencapture is required" >&2; exit 1; }
 
 OUTPUT_INPUT=$1
 mkdir -p "$OUTPUT_INPUT"
 OUTPUT_DIR=$(CDPATH= cd -- "$OUTPUT_INPUT" && pwd -P)
 case "$OUTPUT_DIR" in
-  "$URMAN_ROOT"|"$URMAN_ROOT"/*) echo "output must be outside the repository: $OUTPUT_DIR" >&2; exit 1 ;;
+  "$URMAN_ROOT"/build/*) ;;
+  "$URMAN_ROOT"|"$URMAN_ROOT"/*) echo "output must be outside source folders or inside build/: $OUTPUT_DIR" >&2; exit 1 ;;
 esac
 [ "$OUTPUT_DIR" != "/" ] || { echo "refusing to use the filesystem root" >&2; exit 1; }
+[ ! -e "$OUTPUT_DIR/game.log" ] || { echo "session output already contains game.log: $OUTPUT_DIR" >&2; exit 1; }
 
 STAMP=$(date +%Y%m%d-%H%M%S)
+IDENTITY="$OUTPUT_DIR/candidate_identity_$STAMP.json"
+inspect_candidate --output "$IDENTITY"
 mkdir -p "$OUTPUT_DIR/frames"
 QUESTIONS="$OUTPUT_DIR/session_notes_$STAMP.md"
 
@@ -75,8 +97,9 @@ cat >"$QUESTIONS" <<'MD'
 # M10 session — ответы заполняет человек
 
 Протокол: `docs/production/act1_m10_handoff_package_2026-09-14.md`, раздел 8.
-Чистое состояние истории: начать с «Новая игра» (она сбрасывает прогресс и
-сохраняет настройки). Подсказок не давать, играть вслух.
+Guard создаёт отдельное пустое userdata без прежнего прогресса, настроек и
+debug-zones.enabled; после сеанса восстанавливает пользовательские данные.
+Начать с «Новая игра». Подсказок не давать, играть вслух.
 
 Все девять пунктов протокола, чтобы ответы ложились в раздел 8 один к одному:
 вопросы 1–8 задаются в указанный момент, пункт 9 — наблюдение за весь сеанс.
@@ -102,6 +125,12 @@ cat >"$QUESTIONS" <<'MD'
 - что хотел сделать, но игра не позволила;
 - произношение татарских слов (что прозвучало неверно);
 - кадры-подсказки лежат в `frames/` с отметкой времени.
+- `timing_*.jsonl` содержит монотонные отметки обычного сеанса: чтение и
+  разговоры входят в активное время; паузы, настройки, отсутствие фокуса и
+  загрузки записаны отдельно. Категории исключений пересекаются, их нельзя
+  складывать и повторно вычитать. Загрузка не откатывает журнал хронометража.
+- режим `ordinary-observation` не подтверждает личность или незнакомство
+  игрока с актом; режимы `technical-*` не являются человеческим прохождением.
 
 Результат переносится в `docs/urman_knowledge_base/playtest_plan.md`; при
 противоречии канона — также в `open_questions.md`.
@@ -112,12 +141,16 @@ cat >"$QUESTIONS" <<'MD'
 Наблюдатель фиксирует реальные действия и время; пустые поля не означают PASS.
 MD
 
+printf '\nИдентификатор фактически выбранного приложения: %s\nИсторический/неподтверждённый кандидат выбран явно: %s (1 = да).\n' \
+  "$IDENTITY" "$HISTORICAL" >>"$QUESTIONS"
+
 echo "session output: $OUTPUT_DIR"
+echo "candidate identity: $IDENTITY"
 echo "answer sheet:   $QUESTIONS"
 echo "frames every ${INTERVAL}s, hard stop after ${MAX_MINUTES} minutes"
 echo "starting the candidate under the userdata guard; the guard restores saves and settings afterwards"
 
-python3 "$GUARD" "$BINARY" >"$OUTPUT_DIR/game.log" 2>&1 &
+python3 "$GUARD" --clean "$BINARY" --urman-m10-timing >"$OUTPUT_DIR/game.log" 2>&1 &
 GUARD_PID=$!
 sleep 8
 
@@ -140,10 +173,19 @@ fi
 
 deadline=$((MAX_MINUTES * 60))
 elapsed=0
+frame_number=0
 while kill -0 "$GUARD_PID" 2>/dev/null && [ "$elapsed" -lt "$deadline" ]; do
   if [ "$capture_works" -eq 1 ]; then
-    name=$(date +%03dm%02ds | tr -d ' ')
-    screencapture -x "$OUTPUT_DIR/frames/frame_${name}.png" >/dev/null 2>&1 || true
+    frame_number=$((frame_number + 1))
+    name=$(printf '%06d_%s' "$frame_number" "$(date -u +%Y%m%dT%H%M%SZ)")
+    frame_path="$OUTPUT_DIR/frames/frame_${name}.png"
+    frame_temp=$(mktemp "$OUTPUT_DIR/frames/.capture.XXXXXX")
+    # Capture the same complete screen, then link exclusively into its final
+    # name. A pre-existing frame is never overwritten, even in the same second.
+    if screencapture -x -t png "$frame_temp" >/dev/null 2>&1 && [ -s "$frame_temp" ]; then
+      ln "$frame_temp" "$frame_path" || echo "frame was not retained; destination already exists: $frame_path" >&2
+    fi
+    rm -f "$frame_temp"
   fi
   sleep "$INTERVAL"
   elapsed=$((elapsed + INTERVAL))
@@ -161,6 +203,47 @@ for pid in $(pgrep -f "$BINARY" 2>/dev/null || true); do
   echo "stopping leftover candidate process $pid"
   kill "$pid" 2>/dev/null || true
 done
+
+python3 - "$OUTPUT_DIR/game.log" "$OUTPUT_DIR/timing_$STAMP.jsonl" "$OUTPUT_DIR/timing_$STAMP.summary.json" <<'PY'
+import json
+import pathlib
+import sys
+
+source, timeline, summary = map(pathlib.Path, sys.argv[1:])
+prefix = "act1-m10-time: "
+rows, problems, runs = [], [], {}
+for number, line in enumerate(source.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+    if not line.startswith(prefix):
+        continue
+    try:
+        row = json.loads(line[len(prefix):])
+        run = runs.setdefault(row["run_id"], [])
+        if run and row["elapsed_seconds"] < run[-1]["elapsed_seconds"]:
+            problems.append(f"line {number}: elapsed clock moved backwards")
+        run.append(row)
+        rows.append(row)
+    except (ValueError, KeyError, TypeError) as error:
+        problems.append(f"line {number}: {error}")
+
+with timeline.open("x", encoding="utf-8") as output:
+    for row in rows:
+        output.write(json.dumps(row, ensure_ascii=False) + "\n")
+with summary.open("x", encoding="utf-8") as output:
+    json.dump({
+        "status": "recorded" if rows and not problems else "timing-missing-or-invalid",
+        "human_acceptance": "external/not-run; complete the observer sheet",
+        "categories_overlap": True,
+        "manual_fields": ["player_familiarity", "additional_exploration", "time_lost_to_errors"],
+        "problems": problems,
+        "runs": [{"run_id": run_id,
+                  "modes": sorted({row["mode"] for row in records}),
+                  "terminal_record": records[-1]["event"] == "process-exit",
+                  "last_record": records[-1]}
+                 for run_id, records in runs.items()]
+    }, output, ensure_ascii=False, indent=2)
+    output.write("\n")
+print(f"timing: {len(rows)} records; {summary}")
+PY
 
 frames=$(find "$OUTPUT_DIR/frames" -type f -name '*.png' | wc -l | tr -d ' ')
 echo "session finished: $frames frames in $OUTPUT_DIR/frames"

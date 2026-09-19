@@ -1,0 +1,452 @@
+{
+  "schemaVersion": 1,
+  "stationId": "avyl-fm",
+  "deliveryId": "ecad706f6240158020fe22dad11519cc44a459a5956fbd79d611e921ee280ef7",
+  "origin": "synthetic-preview",
+  "recordedActor": false,
+  "acceptedAsFinalRecording": false,
+  "acceptance": "preview-pending-listening-and-language-review",
+  "model": {
+    "repositoryCommit": "d9355348e2781dc8fa25a135d1602c530afae24c",
+    "modelLicense": "MIT",
+    "licenseScope": "CIS Base exception in pinned README + LICENSE_CIS",
+    "origin": "synthetic-engine-only; no actor recording and no generated audio yet",
+    "entries": [
+      {
+        "path": ".tools/radio-preview/silero-cis-base-d9355348e2781dc8fa25a135d1602c530afae24c/README.md",
+        "sourceUrl": "https://raw.githubusercontent.com/snakers4/silero-models/d9355348e2781dc8fa25a135d1602c530afae24c/README.md",
+        "bytes": 47351,
+        "sha256": "940148cd83182ffcc27a036d2bb6ce2004e2d5cf3884c96dd59e0cf1df993e57"
+      },
+      {
+        "path": ".tools/radio-preview/silero-cis-base-d9355348e2781dc8fa25a135d1602c530afae24c/LICENSE_CIS",
+        "sourceUrl": "https://raw.githubusercontent.com/snakers4/silero-models/d9355348e2781dc8fa25a135d1602c530afae24c/LICENSE_CIS",
+        "bytes": 1076,
+        "sha256": "a27fc071e03323fecda8a6ba416109bf36811801fa0c95e4371cf9105848718d"
+      },
+      {
+        "path": ".tools/radio-preview/silero-cis-base-d9355348e2781dc8fa25a135d1602c530afae24c/models.yml",
+        "sourceUrl": "https://raw.githubusercontent.com/snakers4/silero-models/d9355348e2781dc8fa25a135d1602c530afae24c/models.yml",
+        "bytes": 34798,
+        "sha256": "64ccc436c72fd8c538e1a37de00301cc164a82c3d8ef0356532fe4c662ed1aa7"
+      },
+      {
+        "path": ".tools/radio-preview/silero-cis-base-d9355348e2781dc8fa25a135d1602c530afae24c/v5_cis_base_jit.ipynb",
+        "sourceUrl": "https://raw.githubusercontent.com/snakers4/silero-models/d9355348e2781dc8fa25a135d1602c530afae24c/v5_cis_base_jit.ipynb",
+        "bytes": 1063642,
+        "sha256": "7e4acc21ef18286da21a3a3f87ee5a06ae3c9e1643f29d9f3b3109294cf413cb"
+      },
+      {
+        "path": ".tools/radio-preview/silero-cis-base-d9355348e2781dc8fa25a135d1602c530afae24c/v5_cis_base_nostress.jit",
+        "sourceUrl": "https://models.silero.ai/models/tts/ru/v5_cis_base_nostress.jit",
+        "bytes": 91695221,
+        "sha256": "d7d361caf78b8480bcd65a0c367af665a2bf6f06c8507306e3781dc7c6ce781b"
+      }
+    ]
+  },
+  "credit": "Silero Team, CIS Base MIT; authored URMAN radio scripts; synthetic Albina voice IDs.",
+  "licenseScope": "MIT model/software; no claim of original human performance or accepted pronunciation.",
+  "retainedModelFiles": {
+    "README.md": "model/README.md",
+    "LICENSE_CIS": "model/LICENSE_CIS",
+    "models.yml": "model/models.yml",
+    "v5_cis_base_jit.ipynb": "model/v5_cis_base_jit.ipynb",
+    "v5_cis_base_nostress.jit": "model/v5_cis_base_nostress.jit"
+  },
+  "licenseEvidence": "model/LICENSE_CIS",
+  "previewManifest": "preview-manifest.json",
+  "segments": [
+    {
+      "segmentId": "avyl-ident",
+      "origin": "synthetic-preview",
+      "acceptance": "preview-pending-listening-and-language-review",
+      "audio": {
+        "durationSeconds": 11.817479166666667,
+        "sampleRate": 48000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "frames": 567239,
+        "peakDbfs": -3.0003622493859567,
+        "rmsDbfs": -24.10350195823076,
+        "leadingSilenceSeconds": 0.0,
+        "trailingSilenceSeconds": 0.024666666666666667
+      },
+      "sha256": "520fa1c7b706016c9b542a1bf0146056b074ee91449b6dbfa8d13aa01742a6d3",
+      "transcript": "Хәерле көн, авылдашлар! Авыл FM эфирда. Исәнмесез, Кара-Урман! Рядом с вами — районные новости, музыка и приветы из дома.",
+      "language": "tt-RU",
+      "voicesAndPronunciation": [
+        {
+          "modelSpeaker": "tat_albina",
+          "modelSpeakerId": 50,
+          "pronunciationText": "хәерле көн, авылдашлар! авыл эф эм эфирда. исәнмесез, кара-урман!",
+          "samples": 324600,
+          "sampleRate": 48000
+        },
+        {
+          "modelSpeaker": "ru_albina",
+          "modelSpeakerId": 21,
+          "pronunciationText": "р+ядом с в+ами — рай+онные н+овости, м+узыка и прив+еты из д+ома.",
+          "samples": 252600,
+          "sampleRate": 48000
+        }
+      ],
+      "processing": {
+        "edgeSilenceTrimThreshold": 0.002,
+        "edgePadSeconds": 0.05,
+        "partGapSeconds": 0.12,
+        "normalizationGain": 0.5665288160121618,
+        "format": "PCM16 mono 48000Hz"
+      }
+    },
+    {
+      "segmentId": "winter-weather",
+      "origin": "synthetic-preview",
+      "acceptance": "preview-pending-listening-and-language-review",
+      "audio": {
+        "durationSeconds": 15.164166666666667,
+        "sampleRate": 48000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "frames": 727880,
+        "peakDbfs": -3.0003622493859567,
+        "rmsDbfs": -24.325394083065373,
+        "leadingSilenceSeconds": 0.045083333333333336,
+        "trailingSilenceSeconds": 0.03985416666666667
+      },
+      "sha256": "bc3fb2309e7c6bf00ac3288dcb5506420b7aeb915559b43cf899b25b0b93dcd2",
+      "transcript": "За окном зимний день. К вечеру похолодает; на укатанных поворотах скользко. Водителям — осторожнее у остановок и на подъездах к дворам. Җылы киенегез, юлларда сак булыгыз!",
+      "language": "ru-RU",
+      "voicesAndPronunciation": [
+        {
+          "modelSpeaker": "ru_albina",
+          "modelSpeakerId": 21,
+          "pronunciationText": "за окн+ом з+имний день. к в+ечеру похолод+ает; на ук+атанных повор+отах ск+ользко. вод+ителям — остор+ожнее у остан+овок и на подъ+ездах к двор+ам.",
+          "samples": 564600,
+          "sampleRate": 48000
+        },
+        {
+          "modelSpeaker": "tat_albina",
+          "modelSpeakerId": 50,
+          "pronunciationText": "җылы киенегез, юлларда сак булыгыз!",
+          "samples": 174000,
+          "sampleRate": 48000
+        }
+      ],
+      "processing": {
+        "edgeSilenceTrimThreshold": 0.002,
+        "edgePadSeconds": 0.05,
+        "partGapSeconds": 0.12,
+        "normalizationGain": 0.5829349062906432,
+        "format": "PCM16 mono 48000Hz"
+      }
+    },
+    {
+      "segmentId": "school-bus",
+      "origin": "synthetic-preview",
+      "acceptance": "preview-pending-listening-and-language-review",
+      "audio": {
+        "durationSeconds": 15.542291666666667,
+        "sampleRate": 48000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "frames": 746030,
+        "peakDbfs": -3.0003622493859567,
+        "rmsDbfs": -22.64780746463184,
+        "leadingSilenceSeconds": 0.04002083333333333,
+        "trailingSilenceSeconds": 0.0156875
+      },
+      "sha256": "f36df9d10b04db36c962550aa31c7eb27811beb82289f3f679c0800d62a47740",
+      "transcript": "Напоминание родителям: дети из небольших авылов ездят в соседнюю школу автобусом. Если ребёнок заболел и сегодня не поедет, предупредите сопровождающего. Водителю не нужно зря ждать у остановки.",
+      "language": "ru-RU",
+      "voicesAndPronunciation": [
+        {
+          "modelSpeaker": "ru_albina",
+          "modelSpeakerId": 21,
+          "pronunciationText": "напомин+ание род+ителям: д+ети из небольш+их ав+ылов +ездят в сос+еднюю шк+олу авт+обусом. +если ребёнок забол+ел и сег+одня не по+едет, предупред+ите сопровожда+ющего. вод+ителю не н+ужно зря ждать у остан+овки.",
+          "samples": 762000,
+          "sampleRate": 48000
+        }
+      ],
+      "processing": {
+        "edgeSilenceTrimThreshold": 0.002,
+        "edgePadSeconds": 0.05,
+        "partGapSeconds": 0.12,
+        "normalizationGain": 0.6977808655382883,
+        "format": "PCM16 mono 48000Hz"
+      }
+    },
+    {
+      "segmentId": "family-salam",
+      "origin": "synthetic-preview",
+      "acceptance": "preview-pending-listening-and-language-review",
+      "audio": {
+        "durationSeconds": 15.429104166666667,
+        "sampleRate": 48000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "frames": 740597,
+        "peakDbfs": -3.0003622493859567,
+        "rmsDbfs": -21.857348031458766,
+        "leadingSilenceSeconds": 0.04652083333333333,
+        "trailingSilenceSeconds": 0.04158333333333333
+      },
+      "sha256": "53382ff634b2e7cd0d654d541eb147738159596696420eca112ac9927e4e5e43",
+      "transcript": "Казаннан туган авылына сәлам юллыйлар. Әниләр, әтиләр, әбиләр, бабайлар — исән-сау булыгыз! А Раилю апу поздравляют с днём рождения дети и внуки. Тёплого дома вам и добрых соседей!",
+      "language": "tt-RU",
+      "voicesAndPronunciation": [
+        {
+          "modelSpeaker": "tat_albina",
+          "modelSpeakerId": 50,
+          "pronunciationText": "казаннан туган авылына сәлам юллыйлар. әниләр, әтиләр, әбиләр, бабайлар — исән-сау булыгыз!",
+          "samples": 395400,
+          "sampleRate": 48000
+        },
+        {
+          "modelSpeaker": "ru_albina",
+          "modelSpeakerId": 21,
+          "pronunciationText": "а ра+илю +апу поздравл+яют с днём рожд+ения д+ети и вн+уки. тёплого д+ома вам и д+обрых сос+едей!",
+          "samples": 355800,
+          "sampleRate": 48000
+        }
+      ],
+      "processing": {
+        "edgeSilenceTrimThreshold": 0.002,
+        "edgePadSeconds": 0.05,
+        "partGapSeconds": 0.12,
+        "normalizationGain": 0.7391232833593645,
+        "format": "PCM16 mono 48000Hz"
+      }
+    },
+    {
+      "segmentId": "village-photos",
+      "origin": "synthetic-preview",
+      "acceptance": "preview-pending-listening-and-language-review",
+      "audio": {
+        "durationSeconds": 15.351520833333334,
+        "sampleRate": 48000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "frames": 736873,
+        "peakDbfs": -3.0003622493859567,
+        "rmsDbfs": -22.3861934476641,
+        "leadingSilenceSeconds": 0.04766666666666667,
+        "trailingSilenceSeconds": 0.049895833333333334
+      },
+      "sha256": "8ecce07e26aec8c351345db5439c6de2b441c694881345998956f1d863de30dc",
+      "transcript": "В деревенском клубе собирают подписи к старым фотографиям. Если узнали на снимке родных или соседей, расскажите, где и когда он был сделан. Оригиналы берегите; для стенда достаточно копии.",
+      "language": "ru-RU",
+      "voicesAndPronunciation": [
+        {
+          "modelSpeaker": "ru_albina",
+          "modelSpeakerId": 21,
+          "pronunciationText": "в дерев+енском кл+убе собир+ают п+одписи к ст+арым фотогр+афиям. +если узн+али на сн+имке родн+ых или сос+едей, расскаж+ите, где и когд+а он был сд+елан. оригин+алы берег+ите; для ст+енда дост+аточно к+опии.",
+          "samples": 751800,
+          "sampleRate": 48000
+        }
+      ],
+      "processing": {
+        "edgeSilenceTrimThreshold": 0.002,
+        "edgePadSeconds": 0.05,
+        "partGapSeconds": 0.12,
+        "normalizationGain": 0.741483735478053,
+        "format": "PCM16 mono 48000Hz"
+      }
+    },
+    {
+      "segmentId": "nearby-villages",
+      "origin": "synthetic-preview",
+      "acceptance": "preview-pending-listening-and-language-review",
+      "audio": {
+        "durationSeconds": 14.809645833333333,
+        "sampleRate": 48000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "frames": 710863,
+        "peakDbfs": -3.0003622493859567,
+        "rmsDbfs": -21.226464303177274,
+        "leadingSilenceSeconds": 0.0,
+        "trailingSilenceSeconds": 0.016
+      },
+      "sha256": "181d6f533fbcaba474eaa94d2140efde7845dda345ab0bfeaf9ed1c06da753a0",
+      "transcript": "Сәлам, Яңа Кырлай! Сәлам, Кушлавыч! Слушателям из соседних авылов — хорошего дня. Если возвращаетесь вечером из района, позвоните домой заранее: пусть знают, что вы в пути.",
+      "language": "tt-RU",
+      "voicesAndPronunciation": [
+        {
+          "modelSpeaker": "tat_albina",
+          "modelSpeakerId": 50,
+          "pronunciationText": "сәлам, яңа кырлай! сәлам, кушлавыч!",
+          "samples": 158400,
+          "sampleRate": 48000
+        },
+        {
+          "modelSpeaker": "ru_albina",
+          "modelSpeakerId": 21,
+          "pronunciationText": "сл+ушателям из сос+едних ав+ылов — хор+ошего дня. +если возвращ+аетесь в+ечером из рай+она, позвон+ите дом+ой зар+анее: пусть зн+ают, что вы в пут+и.",
+          "samples": 562200,
+          "sampleRate": 48000
+        }
+      ],
+      "processing": {
+        "edgeSilenceTrimThreshold": 0.002,
+        "edgePadSeconds": 0.05,
+        "partGapSeconds": 0.12,
+        "normalizationGain": 0.7751026156590208,
+        "format": "PCM16 mono 48000Hz"
+      }
+    },
+    {
+      "segmentId": "local-workshop",
+      "origin": "synthetic-preview",
+      "acceptance": "preview-pending-listening-and-language-review",
+      "audio": {
+        "durationSeconds": 15.913520833333333,
+        "sampleRate": 48000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "frames": 763849,
+        "peakDbfs": -3.0003622493859567,
+        "rmsDbfs": -23.228344518058325,
+        "leadingSilenceSeconds": 0.0013125,
+        "trailingSilenceSeconds": 0.04691666666666667
+      },
+      "sha256": "4e0ae5ed25f099782e4ce24ccbc79cc86bf55f9f89767d43233c8eb5fd9c1caa",
+      "transcript": "Бытовой ремонт рядом с домом: заточка инструмента, мелкая сварка, помощь с воротами и замками. Объявления мастеров ищите на доске у магазина. О цене и времени договаривайтесь с мастером заранее.",
+      "language": "ru-RU",
+      "voicesAndPronunciation": [
+        {
+          "modelSpeaker": "ru_albina",
+          "modelSpeakerId": 21,
+          "pronunciationText": "бытов+ой рем+онт р+ядом с д+омом: зат+очка инструм+ента, м+елкая св+арка, п+омощь с вор+отами и замк+ами. объявл+ения мастер+ов ищ+ите на доск+е у магаз+ина. о цен+е и вр+емени догов+аривайтесь с м+астером зар+анее.",
+          "samples": 778800,
+          "sampleRate": 48000
+        }
+      ],
+      "processing": {
+        "edgeSilenceTrimThreshold": 0.002,
+        "edgePadSeconds": 0.05,
+        "partGapSeconds": 0.12,
+        "normalizationGain": 0.6458093823744725,
+        "format": "PCM16 mono 48000Hz"
+      }
+    },
+    {
+      "segmentId": "winter-congratulations",
+      "origin": "synthetic-preview",
+      "acceptance": "preview-pending-listening-and-language-review",
+      "audio": {
+        "durationSeconds": 11.326458333333333,
+        "sampleRate": 48000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "frames": 543670,
+        "peakDbfs": -3.0003622493859567,
+        "rmsDbfs": -21.120271380926845,
+        "leadingSilenceSeconds": 0.04625,
+        "trailingSilenceSeconds": 0.0405625
+      },
+      "sha256": "25f31a592b4a2d159dd427eff163bff71555d95cd5d7b79e536efd4bc2a17e23",
+      "transcript": "Кадерле авылдашлар! Өйләрегез җылы, күңелләрегез тыныч булсын. Бер-берегезне онытмагыз, хәл белешеп торыгыз. Сәламнәрегезне көтеп калабыз!",
+      "language": "tt",
+      "voicesAndPronunciation": [
+        {
+          "modelSpeaker": "tat_albina",
+          "modelSpeakerId": 50,
+          "pronunciationText": "кадерле авылдашлар! өйләрегез җылы, күңелләрегез тыныч булсын. бер-берегезне онытмагыз, хәл белешеп торыгыз. сәламнәрегезне көтеп калабыз!",
+          "samples": 559200,
+          "sampleRate": 48000
+        }
+      ],
+      "processing": {
+        "edgeSilenceTrimThreshold": 0.002,
+        "edgePadSeconds": 0.05,
+        "partGapSeconds": 0.12,
+        "normalizationGain": 0.7522427956835039,
+        "format": "PCM16 mono 48000Hz"
+      }
+    },
+    {
+      "segmentId": "lost-glove",
+      "origin": "synthetic-preview",
+      "acceptance": "preview-pending-listening-and-language-review",
+      "audio": {
+        "durationSeconds": 12.224375,
+        "sampleRate": 48000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "frames": 586770,
+        "peakDbfs": -3.0003622493859567,
+        "rmsDbfs": -24.360203077611754,
+        "leadingSilenceSeconds": 0.019729166666666666,
+        "trailingSilenceSeconds": 0.04777083333333333
+      },
+      "sha256": "a65022fefb337971742b93fe6f304b1c764e7421d84305c6722c09fcbf6d18f8",
+      "transcript": "На лавке у остановки нашли варежку. Кто потерял — спросите в магазине. Маленькие вещи тоже возвращаются домой, если соседи замечают друг друга.",
+      "language": "ru-RU",
+      "voicesAndPronunciation": [
+        {
+          "modelSpeaker": "ru_albina",
+          "modelSpeakerId": 21,
+          "pronunciationText": "на л+авке у остан+овки нашл+и в+арежку. кто потер+ял — спрос+ите в магаз+ине. м+аленькие в+ещи т+оже возвращ+аются дом+ой, +если сос+еди замеч+ают друг др+уга.",
+          "samples": 603000,
+          "sampleRate": 48000
+        }
+      ],
+      "processing": {
+        "edgeSilenceTrimThreshold": 0.002,
+        "edgePadSeconds": 0.05,
+        "partGapSeconds": 0.12,
+        "normalizationGain": 0.6217631858492775,
+        "format": "PCM16 mono 48000Hz"
+      }
+    },
+    {
+      "segmentId": "night-repeat",
+      "origin": "synthetic-preview",
+      "acceptance": "preview-pending-listening-and-language-review",
+      "audio": {
+        "durationSeconds": 11.8884375,
+        "sampleRate": 48000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "frames": 570645,
+        "peakDbfs": -3.0003622493859567,
+        "rmsDbfs": -22.752925829366667,
+        "leadingSilenceSeconds": 0.020729166666666667,
+        "trailingSilenceSeconds": 0.0350625
+      },
+      "sha256": "87aee3fedff5bc6a58cdfaee36a4898b3c6df77fe0c0e3df02a524a4fa845e9d",
+      "transcript": "Вы слушаете Авыл FM. Спасибо всем, кто передаёт приветы и делится деревенскими новостями. Хәерле юл! Следите за дорогой, берегите себя.",
+      "language": "tt-RU",
+      "voicesAndPronunciation": [
+        {
+          "modelSpeaker": "ru_albina",
+          "modelSpeakerId": 21,
+          "pronunciationText": "вы сл+ушаете ав+ыл эф эм. спас+ибо всем, кто передаёт прив+еты и д+елится дерев+енскими н+овостями.",
+          "samples": 372000,
+          "sampleRate": 48000
+        },
+        {
+          "modelSpeaker": "tat_albina",
+          "modelSpeakerId": 50,
+          "pronunciationText": "хәерле юл!",
+          "samples": 64800,
+          "sampleRate": 48000
+        },
+        {
+          "modelSpeaker": "ru_albina",
+          "modelSpeakerId": 21,
+          "pronunciationText": "след+ите за дор+огой, берег+ите себ+я.",
+          "samples": 136200,
+          "sampleRate": 48000
+        }
+      ],
+      "processing": {
+        "edgeSilenceTrimThreshold": 0.002,
+        "edgePadSeconds": 0.05,
+        "partGapSeconds": 0.12,
+        "normalizationGain": 0.701102920760714,
+        "format": "PCM16 mono 48000Hz"
+      }
+    }
+  ]
+}

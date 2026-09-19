@@ -1,0 +1,121 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+vehicle-smoke: radio boundary carries fractional offset into the next segment
+vehicle-smoke: whole-loop advance still reports a playback boundary
+vehicle-smoke: saved radio segment survives input reordering
+vehicle-smoke: non-finite playback offsets are rejected
+vehicle-smoke: a retired unavailable segment starts the remaining programme at zero instead of copying an unrelated offset
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1724 carved_door_slabs=240 flat_slab_skipped=2473 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+zone-loaded: village_day@arrival connected-world=108531814167
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-smoke: background input replay; focus-loss pause isolated from this test scene
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=108531814167
+SaveGameV3 new game session started; existing slots untouched.
+vehicle-smoke: ordinary New Game
+act1-intro: confirmed with E
+vehicle-smoke: three vehicle instances in the actual connected world
+vehicle-smoke: stable unique fleet IDs
+vehicle-smoke: ordinary free control after arrival card
+vehicle-smoke: babay-niva ordinary authored start needs no parking recovery
+vehicle-smoke: babay-niva starts at its authored grounded position
+vehicle-smoke: babay-niva initial chassis and actual support are valid
+vehicle-smoke: village-motorcycle ordinary authored start needs no parking recovery
+vehicle-smoke: village-motorcycle starts at its authored grounded position
+vehicle-smoke: village-motorcycle initial chassis and actual support are valid
+vehicle-smoke: forest-horse-cart ordinary authored start needs no parking recovery
+vehicle-smoke: forest-horse-cart starts at its authored grounded position
+vehicle-smoke: forest-horse-cart initial chassis and actual support are valid
+vehicle-smoke: wheel-only proof enters through the ordinary ray and action
+vehicle-smoke: wheel proof starts in the ordinarily entered parked Niva
+vehicle-smoke: wheel repair retains the authored Niva chassis dimensions
+vehicle-smoke: two front tyre shapes share the existing chassis body
+vehicle-smoke: actual front-wheel model bindings are available to the union audit
+vehicle-smoke: real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases
+vehicle-smoke: actual turned geometry retains its authored track and protrusion beyond the old hull
+vehicle-smoke: straight wheels and chassis clear the actual 40mm post
+vehicle-smoke: full lock would hit the post with the tyre while the unchanged chassis is clear
+vehicle-smoke: ordinary steering stops before the real post at rest
+vehicle-smoke: blocked steering does not displace the parked vehicle sideways
+vehicle-smoke: accepted wheel pose has no full-shape overlap with the post
+vehicle-smoke: steering refusal names the actual post owner
+vehicle-smoke: actual front-wheel model bindings are available to the union audit
+vehicle-smoke: real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases
+vehicle-smoke: wheel-contact diagnostic camera clears the actual world
+state-final-render-sync-begin: label=vehicle/niva-wheel-stationary-contact tick=29831 drawn=33 process=33 physics=90 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/niva-wheel-stationary-contact milliseconds=36 forcedScreenshotRender=False
+vehicle-smoke: ordinary opposite steering leaves the obstruction without ignoring it
+vehicle-smoke: move_left reaches full lock after the post is removed
+vehicle-smoke: physical wheel rolling direction agrees with the ordinary steering action
+vehicle-smoke: actual front-wheel model bindings are available to the union audit
+vehicle-smoke: real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases
+vehicle-smoke: move_right reaches full lock after the post is removed
+vehicle-smoke: physical wheel rolling direction agrees with the ordinary steering action
+vehicle-smoke: actual front-wheel model bindings are available to the union audit
+vehicle-smoke: real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/vehicle-smoke-niva-wheel-steering.savegame-v3.json
+vehicle-smoke: existing snapshot saves the physical steering angle
+zone-loaded: village_day@arrival connected-world=108531814167
+SaveGameV3 restored.
+vehicle-smoke: ordinary occupied load restores the steering snapshot
+vehicle-smoke: held input cannot alter the restored steering angle before neutral release
+vehicle-smoke: saved steering restores both tyre colliders and visible wheels together
+vehicle-smoke: changed saved obstacle occupies only the turned tyre region
+zone-loaded: village_day@arrival connected-world=108531814167
+WARNING: Vehicle babay-niva placement rejected: the actual FrontRightWheelCollision intersects /root/VehicleSmokeTest/ChangedSavedTyrePost; shape=/root/VehicleSmokeTest/ChangedSavedTyrePost/@CollisionShape3D@1637 index=0; chassisOrigin=(-1.65, -0.24535005, 1); recovered to physically checked parking.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:188)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:188)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:109)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+SaveGameV3 restored.
+vehicle-smoke: existing parking recovery handles a saved tyre obstruction
+vehicle-smoke: saved-placement rejection includes the actual tyre shape
+vehicle-smoke: parking recovery checks and commits straight wheels at a physically clear candidate
+zone-loaded: village_day@arrival connected-world=108531814167
+SaveGameV3 restored.
+vehicle-smoke: the same unmodified snapshot loads after removal of the tyre obstacle
+vehicle-smoke: removing the obstacle restores the original saved angle and possession
+vehicle-smoke: steering migration fixture starts from an ordinary safe exit
+vehicle-smoke: legacy version1 vehicle record without steering remains readable
+vehicle-smoke: legacy steering defaults to zero in the physical forms
+vehicle-smoke: out-of-range steering rejects the record before mutation
+vehicle-smoke: rejected steering leaves the complete vehicle record unchanged
+zone-loaded: village_day@arrival connected-world=108531814167
+SaveGameV3 restored.
+vehicle-smoke: ordinary snapshot restores possession after the explicit migration fixture
+vehicle-smoke: wheel fixture returns to the original parked controls without a second state owner
+vehicle-smoke: moving-wheel proof uses ordinary running controls
+vehicle-smoke: moving-wheel proof starts with real full steering lock
+vehicle-smoke: moving-wheel fixture begins with a clear full vehicle volume
+vehicle-smoke: the predicted short path isolates tyre contact from chassis contact
+vehicle-smoke: ordinary throttle produces an actual MoveAndSlide tyre-versus-post contact
+vehicle-smoke: contact follows real vehicle movement rather than an overlapped fixture start
+vehicle-smoke: right-steering wheel contact follows an actual right turn of the chassis
+vehicle-smoke: the chassis is still clear at the actual tyre contact
+vehicle-smoke: actual front-wheel model bindings are available to the union audit
+vehicle-smoke: real tyre, rim and tread vertices fit the chassis-plus-wheel volume at the checked angles and phases
+vehicle-smoke: wheel-contact diagnostic camera clears the actual world
+state-final-render-sync-begin: label=vehicle/niva-wheel-moving-contact tick=35655 drawn=258 process=258 physics=440 windowVisible=True focus=True mode=Windowed renderLoop=True
+state-final-render-sync-end: label=vehicle/niva-wheel-moving-contact milliseconds=18 forcedScreenshotRender=False
+vehicle-smoke: ordinary reverse safely leaves the tyre contact with the post still present
+vehicle-smoke: reversing leaves the complete physical volume clear of the post
+vehicle-smoke: movement proof ends with actual terrain support and clear shapes
+vehicle-smoke: wheel-only proof finishes with an ordinary physically clear exit
+userdata guard: original files and permissions restored and verified

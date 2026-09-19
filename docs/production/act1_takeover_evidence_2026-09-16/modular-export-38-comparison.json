@@ -1,0 +1,2329 @@
+{
+  "oldPath": "/Users/unterlantas/Documents/GitHub/URMAN/docs/production/act1_takeover_evidence_2026-09-16/modular-export-37-before/urman_modular_kit.glb",
+  "newPath": "/Users/unterlantas/Documents/GitHub/URMAN/game/assets/generated/urman_modular_kit.glb",
+  "pass": true,
+  "oldSha256": "0a5a375f8c21275e3330b7556ead1ed8b69ae16737ed8788cba01f049f525e84",
+  "newSha256": "b02fd575ccb3ae1630c5998bb41e8bf20ae8476175a5bfc43ae877c689bd553e",
+  "allowedGeometryNodes": [
+    "HouseInterior_TableKettleLid_LOD0",
+    "HouseInterior_TableKettleLid_LOD1",
+    "HouseInterior_TableKettle_LOD0",
+    "HouseInterior_TableKettle_LOD1",
+    "OldPc_Keyboard_LOD0",
+    "OldPc_Keyboard_LOD1"
+  ],
+  "changedGeometryNodes": [
+    "HouseInterior_TableKettleLid_LOD0",
+    "HouseInterior_TableKettleLid_LOD1",
+    "HouseInterior_TableKettle_LOD0",
+    "HouseInterior_TableKettle_LOD1",
+    "OldPc_Keyboard_LOD0",
+    "OldPc_Keyboard_LOD1"
+  ],
+  "nodeCount": 304,
+  "unchangedGeometryNodes": 298,
+  "metadataOnlyMeshNames": [
+    {
+      "node": "FenceA_Post_00_LOD0",
+      "before": "Cube.098",
+      "after": "Cube.097"
+    },
+    {
+      "node": "FenceA_Post_00_LOD1",
+      "before": "Cube.224",
+      "after": "Cube.221"
+    },
+    {
+      "node": "FenceA_Post_01_LOD0",
+      "before": "Cube.099",
+      "after": "Cube.098"
+    },
+    {
+      "node": "FenceA_Post_01_LOD1",
+      "before": "Cube.225",
+      "after": "Cube.222"
+    },
+    {
+      "node": "FenceA_Post_02_LOD0",
+      "before": "Cube.100",
+      "after": "Cube.099"
+    },
+    {
+      "node": "FenceA_Post_02_LOD1",
+      "before": "Cube.226",
+      "after": "Cube.223"
+    },
+    {
+      "node": "FenceA_Post_03_LOD0",
+      "before": "Cube.101",
+      "after": "Cube.100"
+    },
+    {
+      "node": "FenceA_Post_03_LOD1",
+      "before": "Cube.227",
+      "after": "Cube.224"
+    },
+    {
+      "node": "FenceA_Post_04_LOD0",
+      "before": "Cube.102",
+      "after": "Cube.101"
+    },
+    {
+      "node": "FenceA_Post_04_LOD1",
+      "before": "Cube.228",
+      "after": "Cube.225"
+    },
+    {
+      "node": "FenceA_Rail_LOD0",
+      "before": "Cube.103",
+      "after": "Cube.102"
+    },
+    {
+      "node": "FenceA_Rail_LOD1",
+      "before": "Cube.229",
+      "after": "Cube.226"
+    },
+    {
+      "node": "GateA_Crossbar_LOD0",
+      "before": "Cube.110",
+      "after": "Cube.109"
+    },
+    {
+      "node": "GateA_Crossbar_LOD1",
+      "before": "Cube.236",
+      "after": "Cube.233"
+    },
+    {
+      "node": "GateA_PostLeft_LOD0",
+      "before": "Cube.108",
+      "after": "Cube.107"
+    },
+    {
+      "node": "GateA_PostLeft_LOD1",
+      "before": "Cube.234",
+      "after": "Cube.231"
+    },
+    {
+      "node": "GateA_PostRight_LOD0",
+      "before": "Cube.109",
+      "after": "Cube.108"
+    },
+    {
+      "node": "GateA_PostRight_LOD1",
+      "before": "Cube.235",
+      "after": "Cube.232"
+    },
+    {
+      "node": "GateA_Ribbon_LOD0",
+      "before": "Cube.111",
+      "after": "Cube.110"
+    },
+    {
+      "node": "GateA_Ribbon_LOD1",
+      "before": "Cube.237",
+      "after": "Cube.234"
+    },
+    {
+      "node": "HouseA_DoorFrame_LOD1",
+      "before": "Cube.132",
+      "after": "Cube.130"
+    },
+    {
+      "node": "HouseA_Door_LOD1",
+      "before": "Cube.131",
+      "after": "Cube.129"
+    },
+    {
+      "node": "HouseA_Foundation_LOD1",
+      "before": "Cube.130",
+      "after": "Cube.128"
+    },
+    {
+      "node": "HouseA_FrontEave_LOD1",
+      "before": "Cube.137",
+      "after": "Cube.135"
+    },
+    {
+      "node": "HouseA_PorchStep_LOD1",
+      "before": "Cube.136",
+      "after": "Cube.134"
+    },
+    {
+      "node": "HouseA_Porch_LOD1",
+      "before": "Cube.135",
+      "after": "Cube.133"
+    },
+    {
+      "node": "HouseA_Walls_LOD1",
+      "before": "Cube.127",
+      "after": "Cube.125"
+    },
+    {
+      "node": "HouseA_WindowFrame_LOD1",
+      "before": "Cube.128",
+      "after": "Cube.126"
+    },
+    {
+      "node": "HouseA_WindowGlow_LOD1",
+      "before": "Cube.129",
+      "after": "Cube.127"
+    },
+    {
+      "node": "HouseA_WindowTrimBottom_LOD1",
+      "before": "Cube.134",
+      "after": "Cube.132"
+    },
+    {
+      "node": "HouseA_WindowTrimTop_LOD1",
+      "before": "Cube.133",
+      "after": "Cube.131"
+    },
+    {
+      "node": "HouseInterior_BackWall_HeadEast_LOD1",
+      "before": "Cube.155",
+      "after": "Cube.153"
+    },
+    {
+      "node": "HouseInterior_BackWall_HeadWest_LOD1",
+      "before": "Cube.154",
+      "after": "Cube.152"
+    },
+    {
+      "node": "HouseInterior_BackWall_Left_LOD1",
+      "before": "Cube.149",
+      "after": "Cube.147"
+    },
+    {
+      "node": "HouseInterior_BackWall_Mid_LOD1",
+      "before": "Cube.150",
+      "after": "Cube.148"
+    },
+    {
+      "node": "HouseInterior_BackWall_Right_LOD1",
+      "before": "Cube.151",
+      "after": "Cube.149"
+    },
+    {
+      "node": "HouseInterior_BackWall_UnderSillEast_LOD1",
+      "before": "Cube.153",
+      "after": "Cube.151"
+    },
+    {
+      "node": "HouseInterior_BackWall_UnderSillWest_LOD1",
+      "before": "Cube.152",
+      "after": "Cube.150"
+    },
+    {
+      "node": "HouseInterior_BaseTrimBack_LOD1",
+      "before": "Cube.144",
+      "after": "Cube.142"
+    },
+    {
+      "node": "HouseInterior_BaseTrimFront_LOD1",
+      "before": "Cube.145",
+      "after": "Cube.143"
+    },
+    {
+      "node": "HouseInterior_CeilingBeamLeft_LOD1",
+      "before": "Cube.147",
+      "after": "Cube.145"
+    },
+    {
+      "node": "HouseInterior_CeilingBeamRight_LOD1",
+      "before": "Cube.148",
+      "after": "Cube.146"
+    },
+    {
+      "node": "HouseInterior_CeilingField_LOD1",
+      "before": "Cube.146",
+      "after": "Cube.144"
+    },
+    {
+      "node": "HouseInterior_ChairLegBackLeft_LOD1",
+      "before": "Cube.190",
+      "after": "Cube.188"
+    },
+    {
+      "node": "HouseInterior_ChairLegBackRight_LOD1",
+      "before": "Cube.191",
+      "after": "Cube.189"
+    },
+    {
+      "node": "HouseInterior_ChairLegLeft_LOD1",
+      "before": "Cube.188",
+      "after": "Cube.186"
+    },
+    {
+      "node": "HouseInterior_ChairLegRight_LOD1",
+      "before": "Cube.189",
+      "after": "Cube.187"
+    },
+    {
+      "node": "HouseInterior_ChairSeat_LOD1",
+      "before": "Cube.187",
+      "after": "Cube.185"
+    },
+    {
+      "node": "HouseInterior_CupboardDoor_LOD1",
+      "before": "Cube.192",
+      "after": "Cube.190"
+    },
+    {
+      "node": "HouseInterior_EntryFrameLeft_LOD1",
+      "before": "Cube.161",
+      "after": "Cube.159"
+    },
+    {
+      "node": "HouseInterior_EntryFrameRight_LOD1",
+      "before": "Cube.162",
+      "after": "Cube.160"
+    },
+    {
+      "node": "HouseInterior_EntryFrameTop_LOD1",
+      "before": "Cube.163",
+      "after": "Cube.161"
+    },
+    {
+      "node": "HouseInterior_EntryThreshold_LOD1",
+      "before": "Cube.164",
+      "after": "Cube.162"
+    },
+    {
+      "node": "HouseInterior_FloorBoard_00_LOD1",
+      "before": "Cube.138",
+      "after": "Cube.136"
+    },
+    {
+      "node": "HouseInterior_FloorBoard_01_LOD1",
+      "before": "Cube.139",
+      "after": "Cube.137"
+    },
+    {
+      "node": "HouseInterior_FloorBoard_02_LOD1",
+      "before": "Cube.140",
+      "after": "Cube.138"
+    },
+    {
+      "node": "HouseInterior_FloorBoard_03_LOD1",
+      "before": "Cube.141",
+      "after": "Cube.139"
+    },
+    {
+      "node": "HouseInterior_FloorBoard_04_LOD1",
+      "before": "Cube.142",
+      "after": "Cube.140"
+    },
+    {
+      "node": "HouseInterior_FloorBoard_05_LOD1",
+      "before": "Cube.143",
+      "after": "Cube.141"
+    },
+    {
+      "node": "HouseInterior_FrontWallLeft_LOD1",
+      "before": "Cube.158",
+      "after": "Cube.156"
+    },
+    {
+      "node": "HouseInterior_FrontWallLintel_LOD1",
+      "before": "Cube.160",
+      "after": "Cube.158"
+    },
+    {
+      "node": "HouseInterior_FrontWallRight_LOD1",
+      "before": "Cube.159",
+      "after": "Cube.157"
+    },
+    {
+      "node": "HouseInterior_HearthBase_LOD1",
+      "before": "Cube.203",
+      "after": "Cube.201"
+    },
+    {
+      "node": "HouseInterior_HearthDoor_LOD1",
+      "before": "Cube.205",
+      "after": "Cube.203"
+    },
+    {
+      "node": "HouseInterior_HearthFlueCollar_LOD1",
+      "before": "Cube.208",
+      "after": "Cube.206"
+    },
+    {
+      "node": "HouseInterior_HearthFlue_LOD1",
+      "before": "Cube.207",
+      "after": "Cube.205"
+    },
+    {
+      "node": "HouseInterior_HearthHandle_LOD1",
+      "before": "Cube.206",
+      "after": "Cube.204"
+    },
+    {
+      "node": "HouseInterior_HearthTop_LOD1",
+      "before": "Cube.204",
+      "after": "Cube.202"
+    },
+    {
+      "node": "HouseInterior_LeftWallCupboardDoor_LOD1",
+      "before": "Cube.209",
+      "after": "Cube.207"
+    },
+    {
+      "node": "HouseInterior_LeftWallCupboardTop_LOD1",
+      "before": "Cube.210",
+      "after": "Cube.208"
+    },
+    {
+      "node": "HouseInterior_LeftWallWainscotField_LOD0",
+      "before": "Cube.095",
+      "after": "Cube.094"
+    },
+    {
+      "node": "HouseInterior_LeftWallWainscotField_LOD1",
+      "before": "Cube.221",
+      "after": "Cube.218"
+    },
+    {
+      "node": "HouseInterior_LeftWallWainscotRail_LOD0",
+      "before": "Cube.096",
+      "after": "Cube.095"
+    },
+    {
+      "node": "HouseInterior_LeftWallWainscotRail_LOD1",
+      "before": "Cube.222",
+      "after": "Cube.219"
+    },
+    {
+      "node": "HouseInterior_LeftWall_LOD1",
+      "before": "Cube.156",
+      "after": "Cube.154"
+    },
+    {
+      "node": "HouseInterior_OldPcDocumentFolio_LOD0",
+      "before": "Cube.094",
+      "after": "Cube.093"
+    },
+    {
+      "node": "HouseInterior_OldPcDocumentFolio_LOD1",
+      "before": "Cube.220",
+      "after": "Cube.217"
+    },
+    {
+      "node": "HouseInterior_OldPcHutchCleatLeft_LOD0",
+      "before": "Cube.089",
+      "after": "Cube.088"
+    },
+    {
+      "node": "HouseInterior_OldPcHutchCleatLeft_LOD1",
+      "before": "Cube.215",
+      "after": "Cube.212"
+    },
+    {
+      "node": "HouseInterior_OldPcHutchCleatRight_LOD0",
+      "before": "Cube.090",
+      "after": "Cube.089"
+    },
+    {
+      "node": "HouseInterior_OldPcHutchCleatRight_LOD1",
+      "before": "Cube.216",
+      "after": "Cube.213"
+    },
+    {
+      "node": "HouseInterior_OldPcHutchFolder_LOD0",
+      "before": "Cube.093",
+      "after": "Cube.092"
+    },
+    {
+      "node": "HouseInterior_OldPcHutchFolder_LOD1",
+      "before": "Cube.219",
+      "after": "Cube.216"
+    },
+    {
+      "node": "HouseInterior_OldPcHutchShelf_LOD0",
+      "before": "Cube.091",
+      "after": "Cube.090"
+    },
+    {
+      "node": "HouseInterior_OldPcHutchShelf_LOD1",
+      "before": "Cube.217",
+      "after": "Cube.214"
+    },
+    {
+      "node": "HouseInterior_OldPcHutchTop_LOD0",
+      "before": "Cube.092",
+      "after": "Cube.091"
+    },
+    {
+      "node": "HouseInterior_OldPcHutchTop_LOD1",
+      "before": "Cube.218",
+      "after": "Cube.215"
+    },
+    {
+      "node": "HouseInterior_RightRunnerBand_LOD1",
+      "before": "Cube.201",
+      "after": "Cube.199"
+    },
+    {
+      "node": "HouseInterior_RightRunnerField_LOD1",
+      "before": "Cube.200",
+      "after": "Cube.198"
+    },
+    {
+      "node": "HouseInterior_RightRunnerHem_LOD1",
+      "before": "Cube.202",
+      "after": "Cube.200"
+    },
+    {
+      "node": "HouseInterior_RightShelfBack_LOD1",
+      "before": "Cube.199",
+      "after": "Cube.197"
+    },
+    {
+      "node": "HouseInterior_RightShelfBoard_LOD1",
+      "before": "Cube.198",
+      "after": "Cube.196"
+    },
+    {
+      "node": "HouseInterior_RightWall_LOD1",
+      "before": "Cube.157",
+      "after": "Cube.155"
+    },
+    {
+      "node": "HouseInterior_RugBandA_LOD1",
+      "before": "Cube.194",
+      "after": "Cube.192"
+    },
+    {
+      "node": "HouseInterior_RugBandB_LOD1",
+      "before": "Cube.195",
+      "after": "Cube.193"
+    },
+    {
+      "node": "HouseInterior_RugField_LOD1",
+      "before": "Cube.193",
+      "after": "Cube.191"
+    },
+    {
+      "node": "HouseInterior_ShelfVesselA_LOD1",
+      "before": "Cone.010",
+      "after": "Cone.009"
+    },
+    {
+      "node": "HouseInterior_ShelfVesselB_LOD1",
+      "before": "Cone.011",
+      "after": "Cone.010"
+    },
+    {
+      "node": "HouseInterior_ShelfVesselC_LOD1",
+      "before": "Cone.012",
+      "after": "Cone.011"
+    },
+    {
+      "node": "HouseInterior_StorageBasketBody_LOD0",
+      "before": "Cone.005",
+      "after": "Cone.004"
+    },
+    {
+      "node": "HouseInterior_StorageBasketBody_LOD1",
+      "before": "Cone.015",
+      "after": "Cone.013"
+    },
+    {
+      "node": "HouseInterior_StorageBasketHandle_LOD0",
+      "before": "Cube.088",
+      "after": "Cube.087"
+    },
+    {
+      "node": "HouseInterior_StorageBasketHandle_LOD1",
+      "before": "Cube.214",
+      "after": "Cube.211"
+    },
+    {
+      "node": "HouseInterior_StorageBasketRim_LOD0",
+      "before": "Cube.087",
+      "after": "Cube.086"
+    },
+    {
+      "node": "HouseInterior_StorageBasketRim_LOD1",
+      "before": "Cube.213",
+      "after": "Cube.210"
+    },
+    {
+      "node": "HouseInterior_StorageChestFront_LOD1",
+      "before": "Cube.197",
+      "after": "Cube.195"
+    },
+    {
+      "node": "HouseInterior_StorageChestLid_LOD1",
+      "before": "Cube.196",
+      "after": "Cube.194"
+    },
+    {
+      "node": "HouseInterior_TableApron_LOD1",
+      "before": "Cube.186",
+      "after": "Cube.184"
+    },
+    {
+      "node": "HouseInterior_TableBowl_LOD0",
+      "before": "Cone.004",
+      "after": "Cone.003"
+    },
+    {
+      "node": "HouseInterior_TableBowl_LOD1",
+      "before": "Cone.014",
+      "after": "Cone.012"
+    },
+    {
+      "node": "HouseInterior_TableFootRail_LOD0",
+      "before": "Cube.097",
+      "after": "Cube.096"
+    },
+    {
+      "node": "HouseInterior_TableFootRail_LOD1",
+      "before": "Cube.223",
+      "after": "Cube.220"
+    },
+    {
+      "node": "HouseInterior_TableKettleLid_LOD0",
+      "before": "Cube.086",
+      "after": "HouseInterior_TableKettleLid_LOD0Mesh"
+    },
+    {
+      "node": "HouseInterior_TableKettleLid_LOD1",
+      "before": "Cube.212",
+      "after": "HouseInterior_TableKettleLid_LOD0Mesh.001"
+    },
+    {
+      "node": "HouseInterior_TableKettle_LOD0",
+      "before": "Cone.003",
+      "after": "HouseInterior_TableKettle_LOD0Mesh"
+    },
+    {
+      "node": "HouseInterior_TableKettle_LOD1",
+      "before": "Cone.013",
+      "after": "HouseInterior_TableKettle_LOD0Mesh.001"
+    },
+    {
+      "node": "HouseInterior_TableLegBackLeft_LOD1",
+      "before": "Cube.184",
+      "after": "Cube.182"
+    },
+    {
+      "node": "HouseInterior_TableLegBackRight_LOD1",
+      "before": "Cube.185",
+      "after": "Cube.183"
+    },
+    {
+      "node": "HouseInterior_TableLegLeft_LOD1",
+      "before": "Cube.182",
+      "after": "Cube.180"
+    },
+    {
+      "node": "HouseInterior_TableLegRight_LOD1",
+      "before": "Cube.183",
+      "after": "Cube.181"
+    },
+    {
+      "node": "HouseInterior_TableTop_LOD1",
+      "before": "Cube.181",
+      "after": "Cube.179"
+    },
+    {
+      "node": "HouseInterior_TableTray_LOD1",
+      "before": "Cube.211",
+      "after": "Cube.209"
+    },
+    {
+      "node": "HouseInterior_WindowFrameBottom_East_LOD1",
+      "before": "Cube.178",
+      "after": "Cube.176"
+    },
+    {
+      "node": "HouseInterior_WindowFrameBottom_West_LOD1",
+      "before": "Cube.170",
+      "after": "Cube.168"
+    },
+    {
+      "node": "HouseInterior_WindowFrameLeft_East_LOD1",
+      "before": "Cube.175",
+      "after": "Cube.173"
+    },
+    {
+      "node": "HouseInterior_WindowFrameLeft_West_LOD1",
+      "before": "Cube.167",
+      "after": "Cube.165"
+    },
+    {
+      "node": "HouseInterior_WindowFrameRight_East_LOD1",
+      "before": "Cube.176",
+      "after": "Cube.174"
+    },
+    {
+      "node": "HouseInterior_WindowFrameRight_West_LOD1",
+      "before": "Cube.168",
+      "after": "Cube.166"
+    },
+    {
+      "node": "HouseInterior_WindowFrameTop_East_LOD1",
+      "before": "Cube.177",
+      "after": "Cube.175"
+    },
+    {
+      "node": "HouseInterior_WindowFrameTop_West_LOD1",
+      "before": "Cube.169",
+      "after": "Cube.167"
+    },
+    {
+      "node": "HouseInterior_WindowGlass_East_LOD1",
+      "before": "Cube.174",
+      "after": "Cube.172"
+    },
+    {
+      "node": "HouseInterior_WindowGlass_West_LOD1",
+      "before": "Cube.166",
+      "after": "Cube.164"
+    },
+    {
+      "node": "HouseInterior_WindowMuntin_East_LOD1",
+      "before": "Cube.179",
+      "after": "Cube.177"
+    },
+    {
+      "node": "HouseInterior_WindowMuntin_West_LOD1",
+      "before": "Cube.171",
+      "after": "Cube.169"
+    },
+    {
+      "node": "HouseInterior_WindowRecess_East_LOD1",
+      "before": "Cube.173",
+      "after": "Cube.171"
+    },
+    {
+      "node": "HouseInterior_WindowRecess_West_LOD1",
+      "before": "Cube.165",
+      "after": "Cube.163"
+    },
+    {
+      "node": "HouseInterior_WindowSill_East_LOD1",
+      "before": "Cube.180",
+      "after": "Cube.178"
+    },
+    {
+      "node": "HouseInterior_WindowSill_West_LOD1",
+      "before": "Cube.172",
+      "after": "Cube.170"
+    },
+    {
+      "node": "OldPc-col",
+      "before": "Cube.126",
+      "after": "Cube.124"
+    },
+    {
+      "node": "OldPc_Crt_LOD0",
+      "before": "Cube.118",
+      "after": "Cube.117"
+    },
+    {
+      "node": "OldPc_Crt_LOD1",
+      "before": "Cube.244",
+      "after": "Cube.241"
+    },
+    {
+      "node": "OldPc_DriveSlot_LOD0",
+      "before": "Cube.124",
+      "after": "Cube.122"
+    },
+    {
+      "node": "OldPc_DriveSlot_LOD1",
+      "before": "Cube.250",
+      "after": "Cube.246"
+    },
+    {
+      "node": "OldPc_Glass_LOD0",
+      "before": "Cube.119",
+      "after": "Cube.118"
+    },
+    {
+      "node": "OldPc_Glass_LOD1",
+      "before": "Cube.245",
+      "after": "Cube.242"
+    },
+    {
+      "node": "OldPc_Keyboard_LOD0",
+      "before": "Cube.120",
+      "after": "OldPc_Keyboard_LOD0Mesh"
+    },
+    {
+      "node": "OldPc_Keyboard_LOD1",
+      "before": "Cube.246",
+      "after": "OldPc_Keyboard_LOD0Mesh.001"
+    },
+    {
+      "node": "OldPc_LabelPlate_LOD0",
+      "before": "Cube.125",
+      "after": "Cube.123"
+    },
+    {
+      "node": "OldPc_LabelPlate_LOD1",
+      "before": "Cube.251",
+      "after": "Cube.247"
+    },
+    {
+      "node": "OldPc_PowerButton_LOD0",
+      "before": "Cube.123",
+      "after": "Cube.121"
+    },
+    {
+      "node": "OldPc_PowerButton_LOD1",
+      "before": "Cube.249",
+      "after": "Cube.245"
+    },
+    {
+      "node": "OldPc_TowerPanel_LOD0",
+      "before": "Cube.122",
+      "after": "Cube.120"
+    },
+    {
+      "node": "OldPc_TowerPanel_LOD1",
+      "before": "Cube.248",
+      "after": "Cube.244"
+    },
+    {
+      "node": "OldPc_Tower_LOD0",
+      "before": "Cube.121",
+      "after": "Cube.119"
+    },
+    {
+      "node": "OldPc_Tower_LOD1",
+      "before": "Cube.247",
+      "after": "Cube.243"
+    },
+    {
+      "node": "PineA_Crown_LOD0",
+      "before": "Cone.006",
+      "after": "Cone.005"
+    },
+    {
+      "node": "PineA_Crown_LOD1",
+      "before": "Cone.016",
+      "after": "Cone.014"
+    },
+    {
+      "node": "RoadDirt_Straight_LOD0",
+      "before": "Cube.112",
+      "after": "Cube.111"
+    },
+    {
+      "node": "RoadDirt_Straight_LOD1",
+      "before": "Cube.238",
+      "after": "Cube.235"
+    },
+    {
+      "node": "TableA_Leg_LOD0",
+      "before": "Cube.114",
+      "after": "Cube.113"
+    },
+    {
+      "node": "TableA_Leg_LOD0.001",
+      "before": "Cube.115",
+      "after": "Cube.114"
+    },
+    {
+      "node": "TableA_Leg_LOD0.002",
+      "before": "Cube.116",
+      "after": "Cube.115"
+    },
+    {
+      "node": "TableA_Leg_LOD0.003",
+      "before": "Cube.117",
+      "after": "Cube.116"
+    },
+    {
+      "node": "TableA_Leg_LOD1",
+      "before": "Cube.240",
+      "after": "Cube.237"
+    },
+    {
+      "node": "TableA_Leg_LOD1.001",
+      "before": "Cube.241",
+      "after": "Cube.238"
+    },
+    {
+      "node": "TableA_Leg_LOD1.002",
+      "before": "Cube.242",
+      "after": "Cube.239"
+    },
+    {
+      "node": "TableA_Leg_LOD1.003",
+      "before": "Cube.243",
+      "after": "Cube.240"
+    },
+    {
+      "node": "TableA_Top_LOD0",
+      "before": "Cube.113",
+      "after": "Cube.112"
+    },
+    {
+      "node": "TableA_Top_LOD1",
+      "before": "Cube.239",
+      "after": "Cube.236"
+    },
+    {
+      "node": "WellA_Bucket_LOD0",
+      "before": "Cube.107",
+      "after": "Cube.106"
+    },
+    {
+      "node": "WellA_Bucket_LOD1",
+      "before": "Cube.233",
+      "after": "Cube.230"
+    },
+    {
+      "node": "WellA_Header_LOD0",
+      "before": "Cube.106",
+      "after": "Cube.105"
+    },
+    {
+      "node": "WellA_Header_LOD1",
+      "before": "Cube.232",
+      "after": "Cube.229"
+    },
+    {
+      "node": "WellA_PostLeft_LOD0",
+      "before": "Cube.104",
+      "after": "Cube.103"
+    },
+    {
+      "node": "WellA_PostLeft_LOD1",
+      "before": "Cube.230",
+      "after": "Cube.227"
+    },
+    {
+      "node": "WellA_PostRight_LOD0",
+      "before": "Cube.105",
+      "after": "Cube.104"
+    },
+    {
+      "node": "WellA_PostRight_LOD1",
+      "before": "Cube.231",
+      "after": "Cube.228"
+    }
+  ],
+  "changes": [
+    {
+      "node": "HouseInterior_TableKettleLid_LOD0",
+      "expected": true,
+      "primitiveContractsPreserved": true,
+      "before": [
+        {
+          "contract": {
+            "material": 4,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 96,
+                  "max": [
+                    0.17000000178813934,
+                    0.019999999552965164,
+                    0.17000000178813934
+                  ],
+                  "min": [
+                    -0.17000000178813934,
+                    -0.019999999552965164,
+                    -0.17000000178813934
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 1152,
+                "sha256": "42a13a2932d7b24518af281ac6fc7e7c1c63e29de856430b5f04f398e3ba8836",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 96,
+                  "type": "VEC3"
+                },
+                "componentBytes": 1152,
+                "sha256": "18e98742154e749ef452051aca754101b53a5216fd461d21945b4e9a746ae02d",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 96,
+                  "type": "VEC2"
+                },
+                "componentBytes": 768,
+                "sha256": "fcb2c5473082dff340232d4567d803521a5288138fb4fd2ef8c4de304c8a9000",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 132,
+                "type": "SCALAR"
+              },
+              "componentBytes": 264,
+              "sha256": "7576fc2e42daf302b2df2c42ac44a53358410d7cffd1442f7488b1762af53cd0",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ],
+      "after": [
+        {
+          "contract": {
+            "material": 4,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 738,
+                  "max": [
+                    0.06700000166893005,
+                    0.019999999552965164,
+                    0.06700000166893005
+                  ],
+                  "min": [
+                    -0.06700000166893005,
+                    -0.03400000184774399,
+                    -0.06700000166893005
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 8856,
+                "sha256": "79ac3889a5eab03a78ca945406828a2fb14f93da98b7a997632df594089d1db0",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 738,
+                  "type": "VEC3"
+                },
+                "componentBytes": 8856,
+                "sha256": "7cc3a466ca0e8abb9f06b175977f735fe43687ca8ce16aaba6f08ab9d7ec6f45",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 738,
+                  "type": "VEC2"
+                },
+                "componentBytes": 5904,
+                "sha256": "56f434ff2ddfb0e30856244f391e944a4057192233199c7be8e12d6726097f5b",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 1152,
+                "type": "SCALAR"
+              },
+              "componentBytes": 2304,
+              "sha256": "646ed44e34f6c5b6ada3693579c705f92bfb0e6f6aa4af240cfb47c422050e89",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ]
+    },
+    {
+      "node": "HouseInterior_TableKettleLid_LOD1",
+      "expected": true,
+      "primitiveContractsPreserved": true,
+      "before": [
+        {
+          "contract": {
+            "material": 4,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 50,
+                  "max": [
+                    0.1725263148546219,
+                    0.019999999552965164,
+                    0.17000000178813934
+                  ],
+                  "min": [
+                    -0.1725263148546219,
+                    -0.016262296587228775,
+                    -0.16580328345298767
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 600,
+                "sha256": "d9f903db5ce388ac16759150b1c2cc99927206ebcc66bf17fdd881b2b5a0ca8f",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 50,
+                  "type": "VEC3"
+                },
+                "componentBytes": 600,
+                "sha256": "7131094dc730c79dff1eca86dc1efeddcd6c99d5b37ac89ce21344b8008e25ce",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 50,
+                  "type": "VEC2"
+                },
+                "componentBytes": 400,
+                "sha256": "45601dd07f2679b455bcea8f409072da5cea09fda6616957fdb51ab7294c8d65",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 66,
+                "type": "SCALAR"
+              },
+              "componentBytes": 132,
+              "sha256": "f698588283e1127b7285a05cf5fdfb20508b7ef2c5b35f3b975baa8baea38929",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ],
+      "after": [
+        {
+          "contract": {
+            "material": 4,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 412,
+                  "max": [
+                    0.06700000166893005,
+                    0.019999999552965164,
+                    0.06700000166893005
+                  ],
+                  "min": [
+                    -0.06700000166893005,
+                    -0.03400000184774399,
+                    -0.06700000166893005
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 4944,
+                "sha256": "6dc4a53e2ec99d21056f50426b1766a1a026d4dd88d0020a13be8862aba40f72",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 412,
+                  "type": "VEC3"
+                },
+                "componentBytes": 4944,
+                "sha256": "0429e06020e415ba5da5a1554726959e1179232bade10031a0da3f46a956d0e0",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 412,
+                  "type": "VEC2"
+                },
+                "componentBytes": 3296,
+                "sha256": "8edbfb3783c5878cb10b5dd29d4ef0cdfb6d56b43cedd3bbfed59e0c72980fa0",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 576,
+                "type": "SCALAR"
+              },
+              "componentBytes": 1152,
+              "sha256": "774deaee82c85f75d5b5a9559c7fc8d68bcf571a0cf53d507274e7eff58bc2f9",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ]
+    },
+    {
+      "node": "HouseInterior_TableKettle_LOD0",
+      "expected": true,
+      "primitiveContractsPreserved": true,
+      "before": [
+        {
+          "contract": {
+            "material": 7,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 192,
+                  "max": [
+                    0.17132428288459778,
+                    0.15000000596046448,
+                    0.17132428288459778
+                  ],
+                  "min": [
+                    -0.17132428288459778,
+                    -0.15000000596046448,
+                    -0.17132428288459778
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 2304,
+                "sha256": "87366773c7f5979800a06f1e1ca264fd60c654142fcd69f621343137006570ab",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 192,
+                  "type": "VEC3"
+                },
+                "componentBytes": 2304,
+                "sha256": "18becdc8ed19fec4896343eaa455c7fe22c1d3c783b66b0e2d78bd25c64d792b",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 192,
+                  "type": "VEC2"
+                },
+                "componentBytes": 1536,
+                "sha256": "c2435604226af310ec7a01aa2ed907a5272cdddbb31404e9ef38afb4d8ebd368",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 276,
+                "type": "SCALAR"
+              },
+              "componentBytes": 552,
+              "sha256": "d354bb1066475729080bb91d42ab1f8b3ec39a88fa040959fafe291dbdc9ecd3",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ],
+      "after": [
+        {
+          "contract": {
+            "material": 7,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 1522,
+                  "max": [
+                    0.11599999666213989,
+                    0.15000000596046448,
+                    0.167781800031662
+                  ],
+                  "min": [
+                    -0.11599999666213989,
+                    -0.15000000596046448,
+                    -0.16999271512031555
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 18264,
+                "sha256": "6033f1450a2a40dbe2d06b4e06ee2db8023c1f1023ee5d5ab9ebdaa66a6e9ab2",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 1522,
+                  "type": "VEC3"
+                },
+                "componentBytes": 18264,
+                "sha256": "260c67a337000606f592713c08b709d2b9b99b41a549c6a35a154f850d2bb7ee",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 1522,
+                  "type": "VEC2"
+                },
+                "componentBytes": 12176,
+                "sha256": "0efbbeb1134761c764cfb4d5b6d284c366e7cb0f179f3af9d0b86e1b36c41f34",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 2436,
+                "type": "SCALAR"
+              },
+              "componentBytes": 4872,
+              "sha256": "3f7eaf5deae65c8b58309d5502957b89314366806b6c9bf625e330c491b2ec98",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ]
+    },
+    {
+      "node": "HouseInterior_TableKettle_LOD1",
+      "expected": true,
+      "primitiveContractsPreserved": true,
+      "before": [
+        {
+          "contract": {
+            "material": 7,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 98,
+                  "max": [
+                    0.17351162433624268,
+                    0.15000000596046448,
+                    0.17233066260814667
+                  ],
+                  "min": [
+                    -0.17233066260814667,
+                    -0.15000000596046448,
+                    -0.17233066260814667
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 1176,
+                "sha256": "edeafa9df4291b1c1f2953a69743cdf4bdf14825f14a7066d95987517fbfc969",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 98,
+                  "type": "VEC3"
+                },
+                "componentBytes": 1176,
+                "sha256": "2e092cf812ee269e47a6f1351efef2f580fae48cf65ccf37babcedee5c46281a",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 98,
+                  "type": "VEC2"
+                },
+                "componentBytes": 784,
+                "sha256": "155a6dd33f3e1fb7ad5824bd5a533bf32a87b6e1f9bdf82a18aa588d22213c7d",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 138,
+                "type": "SCALAR"
+              },
+              "componentBytes": 276,
+              "sha256": "5106799cad672d1cdb3766dd43dc65411cfee17f7ec9ab660720c3b4328c61d8",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ],
+      "after": [
+        {
+          "contract": {
+            "material": 7,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 968,
+                  "max": [
+                    0.11402074247598648,
+                    0.15000000596046448,
+                    0.16579456627368927
+                  ],
+                  "min": [
+                    -0.11402074247598648,
+                    -0.15000000596046448,
+                    -0.1707085818052292
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 11616,
+                "sha256": "6b20ff64251ca03ce57b095886340003da402efe623827f7e94dc9362aaab0cd",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 968,
+                  "type": "VEC3"
+                },
+                "componentBytes": 11616,
+                "sha256": "7e0d27d0a69a8039681adcc811703310bed92b24658243ce95bdf5ac4de700d0",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 968,
+                  "type": "VEC2"
+                },
+                "componentBytes": 7744,
+                "sha256": "2532bb1598876cc3996f6b5467456e10dd1cfc2bf53da4177d92a095a11a5692",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 1218,
+                "type": "SCALAR"
+              },
+              "componentBytes": 2436,
+              "sha256": "9b3e7beff1e5cd5005e628531efc20762792782a3e9da9a88d85fbc972e653d5",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ]
+    },
+    {
+      "node": "OldPc_Keyboard_LOD0",
+      "expected": true,
+      "primitiveContractsPreserved": true,
+      "before": [
+        {
+          "contract": {
+            "material": 14,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 96,
+                  "max": [
+                    0.574999988079071,
+                    0.05000000074505806,
+                    0.23999999463558197
+                  ],
+                  "min": [
+                    -0.574999988079071,
+                    -0.05000000074505806,
+                    -0.23999999463558197
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 1152,
+                "sha256": "e483fe50283f183b2612602e7235b2171fc4c602f292a4cd328fff7d1c6d7b4a",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 96,
+                  "type": "VEC3"
+                },
+                "componentBytes": 1152,
+                "sha256": "33e94107c1668ff185b4d4b809e2073e18c71acd064286d42355757092ff9969",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 96,
+                  "type": "VEC2"
+                },
+                "componentBytes": 768,
+                "sha256": "07a2469053b5aecaceb2f8ad239410b85d86dabbb1185c491d15bc11e2a51f7b",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 132,
+                "type": "SCALAR"
+              },
+              "componentBytes": 264,
+              "sha256": "7576fc2e42daf302b2df2c42ac44a53358410d7cffd1442f7488b1762af53cd0",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ],
+      "after": [
+        {
+          "contract": {
+            "material": 14,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 4216,
+                  "max": [
+                    0.574999988079071,
+                    0.04587802290916443,
+                    0.23999999463558197
+                  ],
+                  "min": [
+                    -0.574999988079071,
+                    -0.05000000074505806,
+                    -0.23999999463558197
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 50592,
+                "sha256": "7bb2d8fd65a3dea0e2bd3d54f5c7cd583f10fd1c634ffc4a2c95c78f53214f05",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 4216,
+                  "type": "VEC3"
+                },
+                "componentBytes": 50592,
+                "sha256": "4d3a9bf91080c2f8874f2ec7ddf72a4723701762a8c1b5ef03c1526ee5bb4dc2",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 4216,
+                  "type": "VEC2"
+                },
+                "componentBytes": 33728,
+                "sha256": "29ea79eda6f1f377afd48cd03059c64af96b0daeb3ab1051b00a443d795e9004",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 6324,
+                "type": "SCALAR"
+              },
+              "componentBytes": 12648,
+              "sha256": "c6c20bc7a40591a2015a9d01dcc20b8433b8c70db1a9c4644a43730cd8a38240",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ]
+    },
+    {
+      "node": "OldPc_Keyboard_LOD1",
+      "expected": true,
+      "primitiveContractsPreserved": true,
+      "before": [
+        {
+          "contract": {
+            "material": 14,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 64,
+                  "max": [
+                    0.5765789747238159,
+                    0.05000000074505806,
+                    0.24157895147800446
+                  ],
+                  "min": [
+                    -0.5765789747238159,
+                    -0.05000000074505806,
+                    -0.24157895147800446
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 768,
+                "sha256": "f61213784d8718904db3c6fe1c00b18fd6261b95b3cd0072b5532f411c897d58",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 64,
+                  "type": "VEC3"
+                },
+                "componentBytes": 768,
+                "sha256": "1e5b288d8581ea812160ed7bc1d90dae4acd27ffcf28e1d29149cb6a52e5190d",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 64,
+                  "type": "VEC2"
+                },
+                "componentBytes": 512,
+                "sha256": "ba2a49ea55b9585694a47babb8c7ab1bac4152b8bc6d584fdb6060acf1902e3d",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 84,
+                "type": "SCALAR"
+              },
+              "componentBytes": 168,
+              "sha256": "442e47bcf6ded7ec001eaa3fb6196106b825b0031fe737fa2609f56d90707e46",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ],
+      "after": [
+        {
+          "contract": {
+            "material": 14,
+            "mode": 4,
+            "attributeSemantics": [
+              "NORMAL",
+              "POSITION",
+              "TEXCOORD_0"
+            ],
+            "attributeMetadata": {
+              "POSITION": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "NORMAL": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              },
+              "TEXCOORD_0": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34962
+                }
+              }
+            },
+            "indexMetadata": {
+              "accessor": {},
+              "bufferView": {
+                "target": 34963
+              }
+            },
+            "targetMetadata": []
+          },
+          "geometry": {
+            "attributes": {
+              "POSITION": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 2834,
+                  "max": [
+                    0.574999988079071,
+                    0.04587802290916443,
+                    0.23999999463558197
+                  ],
+                  "min": [
+                    -0.574999988079071,
+                    -0.05000000074505806,
+                    -0.23999999463558197
+                  ],
+                  "type": "VEC3"
+                },
+                "componentBytes": 34008,
+                "sha256": "e989c1fc5a92aec245c7c263b3756968d56254b5af564315a837679f27945669",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "NORMAL": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 2834,
+                  "type": "VEC3"
+                },
+                "componentBytes": 34008,
+                "sha256": "845f1aa60b82df3f0e4975aa92ee878177f6b9d98cdc4a9943716c04df4f3816",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              },
+              "TEXCOORD_0": {
+                "descriptor": {
+                  "componentType": 5126,
+                  "count": 2834,
+                  "type": "VEC2"
+                },
+                "componentBytes": 22672,
+                "sha256": "eb452ae795a311fce873089bd49f45c4dbe5736f47d33721eae8dfc979fcf58a",
+                "metadata": {
+                  "accessor": {},
+                  "bufferView": {
+                    "target": 34962
+                  }
+                }
+              }
+            },
+            "indices": {
+              "descriptor": {
+                "componentType": 5123,
+                "count": 4110,
+                "type": "SCALAR"
+              },
+              "componentBytes": 8220,
+              "sha256": "3fc0606eb412e1abb9974fb3f48a83148893274586f3c0450a3db5ac4712bf7b",
+              "metadata": {
+                "accessor": {},
+                "bufferView": {
+                  "target": 34963
+                }
+              }
+            },
+            "targets": []
+          }
+        }
+      ]
+    }
+  ],
+  "failures": [],
+  "comparison": "ordered accessor component bytes and descriptors; no sorting, float tolerance or winding normalization",
+  "excludedPacking": "buffer offsets, strides and unreferenced padding bytes only",
+  "nativeVisualAcceptance": "not-run",
+  "inputsUnchangedDuringComparison": true
+}

@@ -14,9 +14,11 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     private Control _documentView = null!;
     private Label _title = null!;
     private RichTextLabel _body = null!;
+    private DocumentImageReader _images = null!;
     private Label _status = null!;
     private Button _close = null!;
     private Button _save = null!;
+    private SourceExcerptSelection _excerpts = null!;
     private RuntimeBridge? _bridge;
     private CompiledDocumentContent? _document;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
@@ -37,9 +39,13 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _documentView = GetNode<Control>("Screen/Document");
         _title = GetNode<Label>("Screen/Document/Layout/Header/Title");
         _body = GetNode<RichTextLabel>("Screen/Document/Layout/Reader/Body");
+        _images = DocumentImageReader.Attach(_body);
         _status = GetNode<Label>("Screen/Document/Layout/Footer/Status");
         _close = GetNode<Button>("Screen/Document/Layout/Header/Close");
         _save = GetNode<Button>("Screen/Document/Layout/Footer/Save");
+        _excerpts = SourceExcerptSelection.Attach(_body, _save);
+        var closeLabel = _close.Text;
+        _excerpts.SelectionModeChanged += selecting => _close.Text = selecting ? "Закрыть" : closeLabel;
         _close.Pressed += Close;
         _save.Pressed += SaveToJournal;
         GetViewport().SizeChanged += RefitToViewport;
@@ -73,6 +79,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
             button.AddThemeColorOverride("font_outline_color", Colors.Transparent);
             button.AddThemeConstantOverride("outline_size", 0);
         }
+        _excerpts?.ApplyPresentation();
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
@@ -89,7 +96,9 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _bridge = bridge;
         _document = document;
         _title.Text = document.Title;
-        _body.Text = document.BodyMarkdown;
+        _body.Text = SourceExcerptSelection.FormatSourceText(document.BodyMarkdown);
+        _images.SetImages(document.Images);
+        _excerpts.Bind(bridge, document.Id);
         _status.Text = "Документ найден в зоне · можно добавить в журнал";
         _save.Disabled = false;
         UiFoley.Play(_foley, "paper_open");
@@ -125,6 +134,8 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         UiFoley.Play(_foley, "ui_click");
         _screen.Visible = false;
+        _excerpts.Clear();
+        _images.SetImages(null);
         _bridge = null;
         _document = null;
         SetPlayerModal(false);

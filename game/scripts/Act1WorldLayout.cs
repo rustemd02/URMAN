@@ -61,8 +61,8 @@ public static class Act1WorldLayout
             HouseOrigin,
             true,
             SpawnPoints(
-                ("entry", new SpawnTransform(new(0f, 0.05f, 3.8f), 0f)),
-                ("default", new SpawnTransform(new(0f, 0.05f, 3.8f), 0f)))),
+                ("entry", new SpawnTransform(StyleBenchmarkInteriorFactory.Entry, 0f)),
+                ("default", new SpawnTransform(StyleBenchmarkInteriorFactory.Entry, 0f)))),
         new(
             "fap_clinic",
             "fap-clinic-yard",

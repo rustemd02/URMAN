@@ -13,6 +13,8 @@ public partial class FirstPersonController
 
     public bool IsCrouching { get; private set; }
     internal float BodyHeight => _stanceCapsule?.Height ?? 1.8f;
+    public float StandingBodyHeight => _standingHeight;
+    public float BodyRadius => _stanceCapsule?.Radius ?? .35f;
 
     private void InitializeStance()
     {
@@ -41,22 +43,34 @@ public partial class FirstPersonController
 
     private void ToggleCrouch()
     {
-        if (!IsCrouching) SetCrouched(true);
-        else if (CanStandAt(GlobalPosition)) SetCrouched(false);
+        var crouched = !IsCrouching;
+        if (!crouched && !CanStandAt(GlobalPosition)) return;
+        var targetHead = _standingHeadPosition
+            - Vector3.Up * (crouched ? _standingHeight - CrouchedHeight : 0);
+        _carryCoordinator ??= GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        // Changing the eye height also moves the actual held object. Reject a
+        // blocked sweep before changing either stance: retaining an overhead
+        // lantern after crouching leaves its light and the player's hand apart.
+        if (_carryCoordinator is not null
+            && !_carryCoordinator.TryMoveHeldForStanceChange(GlobalBasis * (targetHead - _head.Position))) return;
+        SetCrouched(crouched);
         // Staying crouched is intentional. Walking back out always remains
         // available, including after releasing the key or loading a save.
     }
 
-    internal bool CanStandAt(Vector3 feet)
+    public bool CanStandAt(Vector3 feet) => CanFitAt(feet, _standingHeight);
+    internal bool CanCrouchAt(Vector3 feet) => CanFitAt(feet, CrouchedHeight);
+
+    private bool CanFitAt(Vector3 feet, float height)
     {
         if (_stanceCapsule is null || !IsInsideTree()) return false;
         using var shape = new CapsuleShape3D
-            { Radius = _stanceCapsule.Radius, Height = _standingHeight - .015f };
+            { Radius = _stanceCapsule.Radius, Height = height - .015f };
         using var query = new PhysicsShapeQueryParameters3D
         {
             Shape = shape,
-            Transform = new(Basis.Identity, feet + Vector3.Up * (_standingHeight * .5f + .01f)),
-            CollisionMask = CollisionMask,
+            Transform = new(Basis.Identity, feet + Vector3.Up * (height * .5f + .01f)),
+            CollisionMask = VehicleControlled ? _walkingCollisionMask : CollisionMask,
             Exclude = new global::Godot.Collections.Array<Rid> { GetRid() },
             Margin = .002f
         };
@@ -74,5 +88,10 @@ public partial class FirstPersonController
             - Vector3.Up * (crouched ? _standingHeight - CrouchedHeight : 0);
         _head.Position = _headBasePosition;
         _headBobPhase = 0;
+        // Capsule and eye height change together. The lower-body pose must use
+        // that same stance immediately, including a restored low-space save;
+        // otherwise the lowered camera can enter the still-standing coat.
+        _bodyCrouch = crouched ? 1f : 0f;
+        UpdateVisibleBody(0, moving: false);
     }
 }

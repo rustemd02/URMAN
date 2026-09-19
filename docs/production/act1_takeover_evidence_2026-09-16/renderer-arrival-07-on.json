@@ -1,0 +1,255 @@
+{
+  "started": "2026-09-17T21:06:00+00:00",
+  "build": "integrated-build-67",
+  "sample": "village_day@arrival",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    ".tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "--urman-perf-probe",
+    "--urman-perf-probe-mode=gameplay",
+    "--urman-perf-sample=village_day@arrival",
+    "--urman-perf-warmup-seconds=12",
+    "--urman-perf-duration-seconds=60",
+    "--urman-perf-request-focus",
+    "--urman-perf-no-vsync"
+  ],
+  "environment": {
+    "URMAN_PERF_RENDER_DIAGNOSTICS": "1",
+    "URMAN_PERF_RENDER_OUTPUT": ".../renderer-arrival-07-on-render.json",
+    "URMAN_PERF_CAPTURE_DIR": ".../images-renderer-arrival-07-on",
+    "URMAN_ADDRESS_GRAPH_PERF": "1",
+    "URMAN_WINDOW_BATCH_PILOT": "1",
+    "DOTNET_ROOT": ".tools/dotnet"
+  },
+  "status": "RECORDED",
+  "acceptance": false,
+  "scope": "Native instrumented Debug diagnosis on B67 (diagnostic record change only); not Release performance or human acceptance.",
+  "exitCode": 2,
+  "guardVerified": true,
+  "performanceReports": [
+    "act1-demo-package-performance: status=DIAGNOSTIC_RENDER mode=gameplay sample=village_day@arrival avg=14.286ms p95=29.269ms p99=36.749ms max=54.979ms long_frame_fraction=0.01619 warmup_avg=28.919ms warmup_max=1197.658ms warmup_seconds=12.00 sample_seconds=60.00 sample_count=4200 focused_sample_count=4200 obscured_sample_count=393 foreground_requested=true focused_sample_fraction=1.00000 fps=70.00 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=60.00 process_ms=14.923 physics_ms=15.395 draw_calls=17617 primitives=6215562 acceptance=false"
+  ],
+  "captures": [
+    {
+      "status": "CAPTURED",
+      "mode": "gameplay",
+      "sample": "village_day@arrival",
+      "path": ".../images-renderer-arrival-07-on/village_day_arrival.png"
+    }
+  ],
+  "engineErrorCount": 0,
+  "engineErrors": [],
+  "windowBatchSummaries": [
+    {
+      "scope": "opt-in exact four-part windows; not performance acceptance",
+      "groups": 255,
+      "batches": 0,
+      "hiddenOriginals": 0,
+      "sourceTriangles": 0,
+      "shadowTriangles": 0,
+      "importedResourceCount": 344,
+      "publishedSharedMeshes": 0,
+      "skipped": {
+        "published-world-geometry-or-frame-differs": 246,
+        "source-not-visible": 9
+      },
+      "refusalExamples": {
+        "published-world-geometry-or-frame-differs": {
+          "parent": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster",
+          "window": "HeroHouse_Left_Window0",
+          "details": {
+            "SourceRole": "render",
+            "Layout": 3,
+            "Vertices": 192,
+            "Triangles": 112,
+            "PointError": 1.9804534e-06,
+            "NormalError": 6.534463e-05,
+            "TangentError": 0.00013891826,
+            "WorstPoint": {
+              "SourcePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Left_Window0_Jamb-1_LOD0",
+              "Part": 0,
+              "SourceVertex": 14,
+              "PublishedVertex": 14,
+              "SourceLocal": "(-0.0475, 0.77, -0.027000763)",
+              "PublishedLocal": "(-2.5399988, 2.4559999, -2.6464999)",
+              "BeforeWorld": "(-31.477688, 2.8041523, -2.2332816)",
+              "AfterWorld": "(-31.47769, 2.804152, -2.2332811)",
+              "Distance": 1.980453362193657e-06,
+              "SourceFrame": "[X: (0.9042487, 0, 0.42700619), Y: (0, 1, 0), Z: (-0.42700619, 0, 0.9042487), O: (-31.446266, 2.0341523, -2.1885834)]",
+              "PublishedFrame": "[X: (0.42700619, 0, -0.9042487), Y: (0, 1, 0), Z: (0.9042487, 0, 0.42700619), O: (-28, 0.3481522, -3.4)]"
+            },
+            "WorstNormal": {
+              "SourcePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Left_Window0_Jamb-1_LOD0",
+              "Part": 0,
+              "SourceVertex": 20,
+              "PublishedVertex": 20,
+              "SourceLocal": "(0.7071007, -6.866455E-05, 0.7071131)",
+              "PublishedLocal": "(-0.7071499, -0.00010790417, 0.7070636)",
+              "BeforeWorld": "(0.3374532, -6.866454E-05, 0.94134235)",
+              "AfterWorld": "(0.33740398, -0.00010790417, 0.94135994)",
+              "Distance": 6.53446331853047e-05,
+              "SourceFrame": "[X: (0.9042487, 0, 0.42700619), Y: (0, 1, 0), Z: (-0.42700619, 0, 0.9042487), O: (-31.446266, 2.0341523, -2.1885834)]",
+              "PublishedFrame": "[X: (0.42700619, 0, -0.9042487), Y: (0, 1, 0), Z: (0.9042487, 0, 0.42700619), O: (-28, 0.3481522, -3.4)]"
+            },
+            "WorstTangent": {
+              "SourcePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Left_Window0_Jamb-1_LOD0",
+              "Part": 0,
+              "SourceVertex": 36,
+              "PublishedVertex": 36,
+              "SourceLocal": "(-0.5772989, -0.5773904, 0.57736164)",
+              "PublishedLocal": "(-0.57727087, -0.5773768, -0.5774032)",
+              "BeforeWorld": "(-0.76855874, -0.5773904, 0.2755683)",
+              "AfterWorld": "(-0.7686143, -0.5773768, 0.2754417)",
+              "Distance": 0.00013891825801692903,
+              "SourceFrame": "[X: (0.9042487, 0, 0.42700619), Y: (0, 1, 0), Z: (-0.42700619, 0, 0.9042487), O: (-31.446266, 2.0341523, -2.1885834)]",
+              "PublishedFrame": "[X: (0.42700619, 0, -0.9042487), Y: (0, 1, 0), Z: (0.9042487, 0, 0.42700619), O: (-28, 0.3481522, -3.4)]"
+            },
+            "OriginalWorldBounds": "(-31.500748, 1.2516521, -2.2370992), (1.130764, 1.5649999, 0.5795481)",
+            "PublishedWorldBounds": "(-31.500748, 1.2516521, -2.2370992), (1.1307621, 1.5649999, 0.57954824)",
+            "PointLimit": 3e-05,
+            "NormalLimit": 0.0001,
+            "TangentLimit": 0.0001,
+            "PointErrorValue": 1.980453362193657e-06,
+            "NormalErrorValue": 6.53446331853047e-05,
+            "TangentErrorValue": 0.00013891825801692903,
+            "FailedPoint": false,
+            "FailedNormal": false,
+            "FailedTangent": true,
+            "Scope": "exact refusal observation; thresholds and publication decisions unchanged"
+          }
+        },
+        "source-not-visible": {
+          "parent": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiYardAuthoredParcels/BabaiYardWestDepthBanyaYardParcel/VillageParcel_VariantC_BanyaYard/VillageParcel_VariantC_BanyaYard_Dwelling",
+          "window": "VariantC_BanyaYard_Dwelling_Left_Window0",
+          "details": null
+        }
+      },
+      "originalPackedShadowResources": 172,
+      "packedShadowReadExamples": [
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_6wv03",
+          "Rid": 355103601071556,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_gneuw",
+          "Rid": 355137960809922,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_4de7g",
+          "Rid": 355206680286374,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_mljer",
+          "Rid": 355241040024740,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_fwwg0",
+          "Rid": 356443630867550,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_udpqs",
+          "Rid": 356477990605916,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.0475, -0.77, -0.035), (0.095, 1.54, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_p2bxo",
+          "Rid": 356546710082648,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        },
+        {
+          "SourceRole": "original-shadow",
+          "Path": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_1ne0d",
+          "Rid": 356581069821014,
+          "PublicFormat": 536875009,
+          "RawFormat": 34896613377,
+          "VertexCount": 16,
+          "IndexCount": 84,
+          "VertexBytes": 128,
+          "IndexBytes": 168,
+          "DecodedVertices": 16,
+          "Bounds": "(-0.61, -0.0475, -0.035), (1.22, 0.095, 0.07)"
+        }
+      ],
+      "unchangedCollisionOwners": true
+    }
+  ],
+  "windowPilotPublicationVerified": false,
+  "batchRefusalCause": "246x published-world-geometry-or-frame-differs: tangent-only failure. Worst TangentError=1.389e-4 > 1e-4 limit; point 1.98e-6 and normal 6.53e-5 pass. WorstTangent vertex36: merged tangent Z sign flips (-0.577Z vs +0.577Z) when bending part-local tangents into one parent frame; the shared-batch authoring (MergeWindowBatchChannels transforms each part by its own local Transform then publishes under parentGlobal) does not preserve per-part tangent frames. Next fix is in the merge math, not the thresholds.",
+  "render": {
+    "path": ".../renderer-arrival-07-on-render.json",
+    "status": "RECORDED",
+    "performanceReport": "act1-demo-package-performance: status=OVERLAY_INVALID mode=gameplay sample=village_day@arrival avg=14.286ms p95=29.269ms p99=36.749ms max=54.979ms long_frame_fraction=0.01619 warmup_avg=28.919ms warmup_max=1197.658ms warmup_seconds=12.00 sample_seconds=60.00 sample_count=4200 focused_sample_count=4200 obscured_sample_count=393 foreground_requested=true focused_sample_fraction=1.00000 fps=70.00 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=60.00 process_ms=14.923 physics_ms=15.395 draw_calls=17617 primitives=6215562",
+    "sampleCount": 4200
+  },
+  "finished": "2026-09-17T21:09:00+00:00",
+  "seconds": 150,
+  "inputsChanged": [],
+  "note": "B67 pilot-ON: focus 4200/4200, obscured 393 (overlay), exit2 OVERLAY_INVALID. Batching still 0/255 with named tangent-frame cause now recorded in-log. No FPS/batching acceptance."
+}

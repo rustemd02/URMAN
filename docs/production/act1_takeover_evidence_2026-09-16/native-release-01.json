@@ -1,0 +1,84 @@
+{
+  "started": "2026-09-17T05:34:16.753437+00:00",
+  "debug_integration": "integrated-build-47.json",
+  "candidate": "/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    "sh",
+    "eng/export-desktop-release.sh",
+    "/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate"
+  ],
+  "scope": "Fresh unsigned Release candidate; no gameplay, performance, audio or human acceptance inferred.",
+  "export_exit_code": 0,
+  "unpack_exit_code": 0,
+  "identity_exit_code": 0,
+  "identity_comparison": {
+    "status": "matches-recorded-inputs",
+    "sourceInputsMatch": true,
+    "artifactSetBoundToExportRun": true,
+    "unpackedAppBoundToReceipt": true,
+    "packs": {
+      "urman.chapter1": "equal",
+      "urman.fullgame": "not-shipped-in-Act-I"
+    },
+    "changedSourcePaths": [],
+    "differences": [],
+    "unknown": []
+  },
+  "release_identity": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate",
+    "binarySha256": "abf480fc96f2ee3ac0d9e2343edcf2d7fafc4bef1b7530bde6efd913878c85a5",
+    "pckSha256": "8a59978f31f63bcfc2dd9e02c08b5461364c3f4806a23975e48021a41605a764",
+    "packs": {
+      "urman.chapter1": {
+        "status": "present",
+        "sha256": "6f067f665765890064a6580328a6a8fe089fb8487575112b408607595aa5d0dc",
+        "campaignId": "urman.chapter1",
+        "campaignFingerprint": "9faa754aa13f4d61020962eb1ed0d57182f051025c64562e718c4141c4f54b46"
+      },
+      "urman.fullgame": {
+        "status": "not-shipped"
+      }
+    },
+    "dllSha256": {
+      "arm64/Urman.Game.dll": "ffdbbed8e77b4a0343ff77ff48b34f3211173ca181625b1ceaaecab69d259111",
+      "arm64/Urman.Core.dll": "8fb724759c62eab99ab076a108e63312523884fa95beee46a7285517598c58e1",
+      "arm64/Urman.Content.dll": "f8cdf64071dce9c887ff85d0a4a1c3b2944b400f9eff144ee8e728d37ef7987b",
+      "x86_64/Urman.Game.dll": "703037f33366aadb50fc13984a1998739ee1a1ef5106282f0c8d653f0b95c197",
+      "x86_64/Urman.Core.dll": "8fb724759c62eab99ab076a108e63312523884fa95beee46a7285517598c58e1",
+      "x86_64/Urman.Content.dll": "f8cdf64071dce9c887ff85d0a4a1c3b2944b400f9eff144ee8e728d37ef7987b"
+    },
+    "receiptPath": "/Users/unterlantas/Documents/GitHub/URMAN/build/native_20260917_release01_candidate/desktop-artifact-receipt.json",
+    "receiptSha256": "96484cf37cb1586c4d1840bbd239354aaab1f64ec88de03a6d922160c4147ab6",
+    "buildProvenance": {
+      "status": "completed",
+      "runId": "72e07c01-e395-4ead-b9d2-18d84b40a1be",
+      "producer": {
+        "script": "eng/export-desktop-release.sh",
+        "mode": "release",
+        "presets": [
+          "Act I Release macOS",
+          "Act I Release Windows"
+        ]
+      }
+    },
+    "source": {
+      "commit": "04f039ee95e6c1320d52d61fff3089fad834393c",
+      "workTree": "dirty",
+      "inputManifest": {
+        "schema": "urman.game_source_manifest.v1",
+        "manifestSha256": "b77188e956edba2b7a7e29f47f4dd4880d25e0bd6db9e9ae2a7151fe805100fb",
+        "fileCount": 1053,
+        "scope": "game sources/assets/import settings; declared content; .NET sources/config"
+      }
+    }
+  },
+  "source_inputs_changed_during_export": [],
+  "guard_restored": true,
+  "status": "PASS",
+  "exit_code": 0,
+  "process_seconds": 123.3,
+  "finished": "2026-09-17T05:36:20.057522+00:00"
+}

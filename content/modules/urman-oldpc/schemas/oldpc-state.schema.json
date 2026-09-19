@@ -4,6 +4,153 @@
   "type": "object",
   "required": ["activeDocumentId", "activeSection", "nextActionSequence", "query", "savedDocumentIds"],
   "properties": {
+    "desktop": {
+  "type": "object",
+  "properties": {
+    "windows": {
+      "type": "array",
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "x",
+          "y",
+          "width",
+          "height",
+          "minimized",
+          "maximized"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "archive",
+              "files",
+              "browser",
+              "notepad",
+              "writer",
+              "pictures",
+              "trash"
+            ]
+          },
+          "x": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "y": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "width": {
+            "type": "number",
+            "minimum": 0.2,
+            "maximum": 1
+          },
+          "height": {
+            "type": "number",
+            "minimum": 0.2,
+            "maximum": 1
+          },
+          "minimized": {
+            "type": "boolean"
+          },
+          "maximized": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "activeWindowId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "files": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "text",
+          "richText",
+          "deleted"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^note-",
+            "maxLength": 64
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 96
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 32768
+          },
+          "richText": {
+            "type": "boolean"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "browserHistory": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "string",
+        "maxLength": 192
+      }
+    },
+    "browserIndex": {
+      "type": "integer",
+      "minimum": -1,
+      "maximum": 63
+    },
+    "visitedDocumentIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "folder": {
+      "type": "string",
+      "minLength": 1
+    },
+    "noteId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "writerId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "elapsedSeconds": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 315360000
+    }
+  },
+  "additionalProperties": false
+},
     "activeDocumentId": { "type": ["string", "null"] },
     "activeSection": { "type": "string", "minLength": 1 },
     "nextActionSequence": { "type": "integer", "minimum": 1 },

@@ -1,0 +1,19 @@
+*** Begin Patch
+*** Update File: /Users/unterlantas/Documents/GitHub/URMAN/game/content/urman.settlement.addresses.v1.json
+@@
+       "cadastral": "URM-Q01-P0167",
+       "role": "residential"
++    },
++    {
++      "sourceName": "ReturnWestBanyaSilhouette",
++      "sourceKey": "act1/holding/ReturnWestBanyaSilhouette",
++      "buildingId": "BLD-478E6ADBD3A5D7CF",
++      "parcelId": "PAR-478E6ADBD3A5D7CF",
++      "addressId": "ADR-478E6ADBD3A5D7CF",
++      "streetId": "tukay",
++      "number": "25Б",
++      "cadastral": "URM-Q01-P0204",
++      "primaryDoor": "VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0",
++      "role": "residential"
+     }
+*** End Patch

@@ -1,0 +1,60 @@
+{
+  "started": "2026-09-17T21:04:00+00:00",
+  "build": "integrated-build-67",
+  "sample": "village_day@arrival",
+  "args": [
+    "python3",
+    "eng/protected_run.py",
+    "--clean",
+    ".tools/godot/Godot_mono.app/Contents/MacOS/Godot",
+    "--path",
+    "game",
+    "--resolution",
+    "1920x1080",
+    "--urman-perf-probe",
+    "--urman-perf-probe-mode=gameplay",
+    "--urman-perf-sample=village_day@arrival",
+    "--urman-perf-warmup-seconds=12",
+    "--urman-perf-duration-seconds=60",
+    "--urman-perf-request-focus",
+    "--urman-perf-no-vsync"
+  ],
+  "environment": {
+    "URMAN_PERF_RENDER_DIAGNOSTICS": "1",
+    "URMAN_PERF_RENDER_OUTPUT": ".../renderer-arrival-06-off-render.json",
+    "URMAN_PERF_CAPTURE_DIR": ".../images-renderer-arrival-06-off",
+    "URMAN_ADDRESS_GRAPH_PERF": "1",
+    "URMAN_WINDOW_BATCH_PILOT": "0",
+    "DOTNET_ROOT": ".tools/dotnet"
+  },
+  "status": "RECORDED",
+  "acceptance": false,
+  "scope": "Native instrumented Debug diagnosis on B67; not Release performance or human acceptance.",
+  "exitCode": 2,
+  "guardVerified": true,
+  "performanceReports": [
+    "act1-demo-package-performance: status=DIAGNOSTIC_RENDER mode=gameplay sample=village_day@arrival avg=28.404ms p95=31.610ms p99=39.124ms max=62.607ms long_frame_fraction=0.03455 warmup_avg=20.728ms warmup_max=505.947ms warmup_seconds=12.02 sample_seconds=60.02 sample_count=2113 focused_sample_count=40 obscured_sample_count=2073 foreground_requested=true focused_sample_fraction=0.01893 fps=35.21 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=33.00 process_ms=25.220 physics_ms=38.124 draw_calls=31888 primitives=9237774 acceptance=false"
+  ],
+  "captures": [
+    {
+      "status": "CAPTURED",
+      "mode": "gameplay",
+      "sample": "village_day@arrival",
+      "path": ".../images-renderer-arrival-06-off/village_day_arrival.png"
+    }
+  ],
+  "engineErrorCount": 0,
+  "engineErrors": [],
+  "windowBatchSummaries": "pilot OFF (URMAN_WINDOW_BATCH_PILOT=0); no batch summary line emitted",
+  "windowPilotPublicationVerified": false,
+  "render": {
+    "path": ".../renderer-arrival-06-off-render.json",
+    "status": "RECORDED",
+    "performanceReport": "act1-demo-package-performance: status=FOCUS_INVALID mode=gameplay sample=village_day@arrival avg=28.404ms p95=31.610ms p99=39.124ms max=62.607ms long_frame_fraction=0.03455 warmup_avg=20.728ms warmup_max=505.947ms warmup_seconds=12.02 sample_seconds=60.02 sample_count=2113 focused_sample_count=40 obscured_sample_count=2073 foreground_requested=true focused_sample_fraction=0.01893 fps=35.21 window_fps_valid=true display_driver=macOS adapter=Apple_M4_Pro_(Apple9) rendering_method=forward_plus preset=medium scale=0.90 msaa=Msaa2X fov=75.0 window=1920x1080 viewport=1920x1080 vsync=Disabled engine_fps=33.00 process_ms=25.220 physics_ms=38.124 draw_calls=31888 primitives=9237774",
+    "sampleCount": 2113
+  },
+  "finished": "2026-09-17T21:06:00+00:00",
+  "seconds": 120,
+  "inputsChanged": [],
+  "note": "B67 pilot-OFF baseline: FOCUS_INVALID (focus 40/2113, obscured 2073); window unfocused in background so FPS 35.21 is not comparable. Batching pilot off by design."
+}

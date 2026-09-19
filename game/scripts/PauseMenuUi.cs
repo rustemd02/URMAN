@@ -25,6 +25,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private Button? _quitButton;
     private Button? _armedButton;
     private bool _open;
+    private bool _backgroundInputReplay;
 
     /// <summary>The demo root decides when the pause shell may open.</summary>
     public Func<bool>? CanOpenPause { get; set; }
@@ -32,7 +33,12 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     /// <summary>Raised when the player confirms returning to the main menu.</summary>
     public event Action? ShowMainMenuRequested;
 
+    /// <summary>Publishes this shell's actual pause state in the same call that changes it.</summary>
+    public event Action<bool>? PauseChanged;
+
     public bool IsOpen => _open;
+    internal string LastTransitionReason { get; private set; } = "none";
+    internal ulong LastTransitionFrame { get; private set; }
 
     public Button? ResumeButton => _resumeButton;
     public Button? SaveButton => _saveButton;
@@ -48,6 +54,14 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         Layer = 90;
         Name = "Act1PauseMenu";
         Visible = false;
+        // Windowed input replay can lose desktop focus to the test host. This
+        // opt-out requires both an explicit diagnostic argument and a test
+        // scene; the normal game always retains automatic focus-loss pause.
+        var arguments = OS.GetCmdlineArgs();
+        _backgroundInputReplay = arguments.Contains("--urman-smoke-background-input", StringComparer.Ordinal)
+            && arguments.Any(argument => argument.StartsWith("res://tests/", StringComparison.Ordinal)
+                && argument.EndsWith(".tscn", StringComparison.Ordinal));
+        if (_backgroundInputReplay) GD.Print("act1-smoke: background input replay; focus-loss pause isolated from this test scene");
         BuildLayout();
         ApplyAccessibilitySettings(
             (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.Accessibility
@@ -57,11 +71,12 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     public override void _Notification(int what)
     {
         if (what == NotificationWMWindowFocusOut
+            && !_backgroundInputReplay
             && !_open
             && CanOpenPause?.Invoke() == true
             && FindPlayer() is { ModalOpen: false })
         {
-            Open();
+            OpenFrom("window-focus-out");
         }
     }
 
@@ -128,6 +143,13 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             return;
         }
 
+        if (!_open && FindPlayer() is { ModalOpen: false, IsClimbingLadder: true } climbingPlayer)
+        {
+            climbingPlayer.RequestLadderReturn();
+            GetViewport().SetInputAsHandled();
+            return;
+        }
+
         var settings = GetTree().GetFirstNodeInGroup("settings_ui") as SettingsUi;
         if (settings is { IsOpen: true })
         {
@@ -152,18 +174,24 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         if (CanOpenPause?.Invoke() == true
             && FindPlayer() is { ModalOpen: false })
         {
-            Open();
+            OpenFrom("pause-action");
             GetViewport().SetInputAsHandled();
         }
     }
 
     public void Open()
+        => OpenFrom("explicit-call");
+
+    private void OpenFrom(string reason)
     {
         _open = true;
+        LastTransitionReason = reason;
+        LastTransitionFrame = Engine.GetProcessFrames();
         Visible = true;
         DisarmAll();
         (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.SetPaused(true);
         UiFoley.SetWorldPaused(GetTree(), true);
+        PauseChanged?.Invoke(true);
         FindPlayer()?.SetModalOpen(true);
         Input.MouseMode = Input.MouseModeEnum.Visible;
         SetStatus(string.Empty);
@@ -173,10 +201,13 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     public void Resume()
     {
         _open = false;
+        LastTransitionReason = "resume";
+        LastTransitionFrame = Engine.GetProcessFrames();
         Visible = false;
         DisarmAll();
         (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.SetPaused(false);
         UiFoley.SetWorldPaused(GetTree(), false);
+        PauseChanged?.Invoke(false);
         FindPlayer()?.SetModalOpen(false);
         Input.MouseMode = Input.MouseModeEnum.Captured;
     }
@@ -351,7 +382,8 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             return;
         }
 
-        SetStatus(await bridge.SaveSlotAsync(ContinueSlot) ? "Сохранено." : "Не удалось сохранить.");
+        SetStatus(await bridge.SaveSlotAsync(ContinueSlot) ? "Сохранено."
+            : FindPlayer()?.SaveBlockReason ?? "Не удалось сохранить.");
     }
 
     private async Task LoadAsync()

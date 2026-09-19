@@ -1,0 +1,3141 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "geometryChangedByObservation": false,
+  "runtimeTerrainOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+  "renderGeometrySource": "SurfaceGetArrays plus indices",
+  "contactGeometrySource": "published GetFaces; Godot TriangleMesh snappedf grid 0.0001m",
+  "renderedAppearance": "separate actual frame review required",
+  "observations": [
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueYardWest",
+      "originalSize": {
+        "x": 0.4,
+        "y": 1.5,
+        "z": 14
+      },
+      "visibleVertices": 684,
+      "publishedContactVertices": 684,
+      "renderCacheError": 6.476916E-05,
+      "geometryError": 0,
+      "contacts": [
+        "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact"
+      ],
+      "VisualOnly": false,
+      "samples": [
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.6090395,
+            "z": -7
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 4.245686,
+            "z": -6.263158
+          },
+          "sourceTerrainMin": 2.6590395,
+          "sourceTerrainMax": 2.745686,
+          "CoveredArea": 0.29473685807550964,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            7.7051735,
+            7.747982,
+            7.7255726,
+            7.6836376,
+            7.661339
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.423058,
+            "z": -41.63158
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.585596,
+            "z": -6.263158
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 4.223276,
+            "z": -5.5263157
+          },
+          "sourceTerrainMin": 2.635596,
+          "sourceTerrainMax": 2.7232764,
+          "CoveredArea": 0.29473684942639977,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            7.681732,
+            7.7255726,
+            7.701519,
+            7.661339,
+            7.6378937
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.399614,
+            "z": -40.894737
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.5562043,
+            "z": -5.5263157
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 4.199224,
+            "z": -4.7894735
+          },
+          "sourceTerrainMin": 2.6062043,
+          "sourceTerrainMax": 2.699224,
+          "CoveredArea": 0.2947368551220251,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            7.65481,
+            7.701519,
+            7.663742,
+            7.6378937,
+            7.6084995
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.376173,
+            "z": -40.157894
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.5200996,
+            "z": -4.7894735
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 4.1614466,
+            "z": -4.0526314
+          },
+          "sourceTerrainMin": 2.5700996,
+          "sourceTerrainMax": 2.6614466,
+          "CoveredArea": 0.2947368665745387,
+          "TerrainTriangles": 1,
+          "actualGroundY": [
+            7.618067,
+            7.663742,
+            7.627638,
+            7.6084995,
+            7.5723934
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.340446,
+            "z": -39.42105
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.4839952,
+            "z": -4.0526314
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 4.125342,
+            "z": -3.3157892
+          },
+          "sourceTerrainMin": 2.5339952,
+          "sourceTerrainMax": 2.625342,
+          "CoveredArea": 0.2947368529885921,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            7.5819626,
+            7.627638,
+            7.5881577,
+            7.5723934,
+            7.536289
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.304342,
+            "z": -38.68421
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.4453354,
+            "z": -3.3157892
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 4.085863,
+            "z": -2.5789475
+          },
+          "sourceTerrainMin": 2.4953353,
+          "sourceTerrainMax": 2.585863,
+          "CoveredArea": 0.29473667661477876,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            7.5412083,
+            7.5881577,
+            7.5494995,
+            7.536289,
+            7.497631
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.265518,
+            "z": -37.94737
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.4109185,
+            "z": -2.5789475
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 4.047203,
+            "z": -1.8421054
+          },
+          "sourceTerrainMin": 2.4609184,
+          "sourceTerrainMax": 2.5472033,
+          "CoveredArea": 0.2947368665745387,
+          "TerrainTriangles": 1,
+          "actualGroundY": [
+            7.5063553,
+            7.5494995,
+            7.5150833,
+            7.497631,
+            7.463215
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.230423,
+            "z": -37.210526
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.3756928,
+            "z": -1.8421054
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 4.0127864,
+            "z": -1.1052632
+          },
+          "sourceTerrainMin": 2.4256928,
+          "sourceTerrainMax": 2.5127864,
+          "CoveredArea": 0.29473682904338006,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            7.471941,
+            7.5150833,
+            7.476053,
+            7.463215,
+            7.42799
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.196007,
+            "z": -36.473686
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.3311133,
+            "z": -1.1052632
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.9737551,
+            "z": -0.36842108
+          },
+          "sourceTerrainMin": 2.3811133,
+          "sourceTerrainMax": 2.4737551,
+          "CoveredArea": 0.29473686991182424,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            7.430441,
+            7.476053,
+            7.4314194,
+            7.42799,
+            7.3834133
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.156441,
+            "z": -35.736843
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.2850618,
+            "z": -0.36842108
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.92912,
+            "z": 0.36842155
+          },
+          "sourceTerrainMin": 2.3350618,
+          "sourceTerrainMax": 2.42912,
+          "CoveredArea": 0.2947370518194994,
+          "TerrainTriangles": 1,
+          "actualGroundY": [
+            7.384388,
+            7.4314194,
+            7.3853683,
+            7.3834133,
+            7.3373623
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.11039,
+            "z": -35
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.2339869,
+            "z": 0.36842155
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.8830686,
+            "z": 1.1052628
+          },
+          "sourceTerrainMin": 2.2839868,
+          "sourceTerrainMax": 2.3830686,
+          "CoveredArea": 0.29473651556334435,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            7.3366566,
+            7.3853683,
+            7.32856,
+            7.3373623,
+            7.2862797
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.064337,
+            "z": -34.263157
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.1681652,
+            "z": 1.1052628
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.8262656,
+            "z": 1.8421049
+          },
+          "sourceTerrainMin": 2.2181652,
+          "sourceTerrainMax": 2.3262656,
+          "CoveredArea": 0.29473688853414615,
+          "TerrainTriangles": 1,
+          "actualGroundY": [
+            7.2745113,
+            7.32856,
+            7.262741,
+            7.2862797,
+            7.220459
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 8.00337,
+            "z": -33.526318
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.1023436,
+            "z": 1.8421049
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.7604442,
+            "z": 2.578947
+          },
+          "sourceTerrainMin": 2.1523435,
+          "sourceTerrainMax": 2.2604442,
+          "CoveredArea": 0.2947368579687186,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            7.2086887,
+            7.262741,
+            7.2005043,
+            7.220459,
+            7.1546383
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 7.9375477,
+            "z": -32.789474
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 2.0353324,
+            "z": 2.578947
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.6982048,
+            "z": 3.3157892
+          },
+          "sourceTerrainMin": 2.0853324,
+          "sourceTerrainMax": 2.1982048,
+          "CoveredArea": 0.29473687194446896,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            7.147043,
+            7.2005043,
+            7.134104,
+            7.1546383,
+            7.0876274
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 7.873806,
+            "z": -32.05263
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 1.9629748,
+            "z": 3.3157892
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.6318095,
+            "z": 4.0526323
+          },
+          "sourceTerrainMin": 2.0129747,
+          "sourceTerrainMax": 2.1318095,
+          "CoveredArea": 0.2947372480442709,
+          "TerrainTriangles": 1,
+          "actualGroundY": [
+            7.074688,
+            7.134104,
+            7.0617466,
+            7.0876274,
+            7.0152683
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 7.801447,
+            "z": -31.315788
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 1.8906175,
+            "z": 4.0526323
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.559452,
+            "z": 4.7894735
+          },
+          "sourceTerrainMin": 1.9406174,
+          "sourceTerrainMax": 2.059452,
+          "CoveredArea": 0.29473647539686176,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            7.002327,
+            7.0617466,
+            6.992777,
+            7.0152683,
+            6.942911
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 7.7290916,
+            "z": -30.578947
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 1.8133658,
+            "z": 4.7894735
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.4904838,
+            "z": 5.5263157
+          },
+          "sourceTerrainMin": 1.8633658,
+          "sourceTerrainMax": 1.9904838,
+          "CoveredArea": 0.2947368722304269,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            6.932661,
+            6.992777,
+            6.916191,
+            6.942911,
+            6.865658
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 7.6573963,
+            "z": -29.842106
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 1.7298962,
+            "z": 5.5263157
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.413898,
+            "z": 6.263158
+          },
+          "sourceTerrainMin": 1.7798961,
+          "sourceTerrainMax": 1.913898,
+          "CoveredArea": 0.29473687206444055,
+          "TerrainTriangles": 1,
+          "actualGroundY": [
+            6.8491917,
+            6.916191,
+            6.8327217,
+            6.865658,
+            6.7821903
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 7.573925,
+            "z": -29.105263
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.2,
+            "y": 1.6452148,
+            "z": 6.263158
+          },
+          "localMax": {
+            "x": 0.2,
+            "y": 3.3304284,
+            "z": 7
+          },
+          "sourceTerrainMin": 1.6952147,
+          "sourceTerrainMax": 1.8304284,
+          "CoveredArea": 0.2947368635628962,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            6.765724,
+            6.8327217,
+            6.743622,
+            6.7821903,
+            6.69751
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardWest_SurfaceContact",
+          "sidePoint": {
+            "x": -62.3,
+            "y": 7.4904556,
+            "z": -28.368422
+          },
+          "paired": true
+        }
+      ]
+    },
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueYardNorth",
+      "originalSize": {
+        "x": 19,
+        "y": 1.5,
+        "z": 0.4
+      },
+      "visibleVertices": 936,
+      "publishedContactVertices": 936,
+      "renderCacheError": 6.644482E-05,
+      "geometryError": 0,
+      "contacts": [
+        "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact"
+      ],
+      "VisualOnly": false,
+      "samples": [
+        {
+          "localMin": {
+            "x": -9.5,
+            "y": 2.5272112,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -8.769231,
+            "y": 4.2181273,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 2.5772111,
+          "sourceTerrainMax": 2.718127,
+          "CoveredArea": 0.2923076501081354,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            7.657034,
+            7.7204247,
+            7.710533,
+            7.5979767,
+            7.579506
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -62.134613,
+            "y": 8.401855,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -8.769231,
+            "y": 2.3394575,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -8.038462,
+            "y": 4.0956793,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 2.3894575,
+          "sourceTerrainMax": 2.5956793,
+          "CoveredArea": 0.2923076319293365,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            7.4948845,
+            7.5979767,
+            7.579506,
+            7.410242,
+            7.391754
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -61.403847,
+            "y": 8.23563,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -8.038462,
+            "y": 2.1517038,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -7.3076925,
+            "y": 3.9079456,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 2.2017038,
+          "sourceTerrainMax": 2.4079456,
+          "CoveredArea": 0.2923076618749363,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            7.30715,
+            7.410242,
+            7.391754,
+            7.2225094,
+            7.2040005
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -60.673077,
+            "y": 8.047876,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -7.3076925,
+            "y": 1.9377838,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -6.576923,
+            "y": 3.720212,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 1.9877838,
+          "sourceTerrainMax": 2.220212,
+          "CoveredArea": 0.29230788202720603,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            7.1161385,
+            7.2225094,
+            7.2040005,
+            7.014391,
+            6.990078
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -59.942307,
+            "y": 7.8579445,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -6.576923,
+            "y": 1.7111069,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -5.8461537,
+            "y": 3.512098,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 1.7611068,
+          "sourceTerrainMax": 2.012098,
+          "CoveredArea": 0.29230765506911816,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            6.8891125,
+            7.014391,
+            6.990078,
+            6.78767,
+            6.763401
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -59.21154,
+            "y": 7.6267395,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -5.8461537,
+            "y": 1.4844298,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -5.1153846,
+            "y": 3.2853777,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 1.5344298,
+          "sourceTerrainMax": 1.7853777,
+          "CoveredArea": 0.2923076544987815,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            6.6624336,
+            6.78767,
+            6.763401,
+            6.560747,
+            6.536724
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -58.48077,
+            "y": 7.4000626,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -5.1153846,
+            "y": 1.2193961,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -4.384615,
+            "y": 3.0584536,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 1.2693961,
+          "sourceTerrainMax": 1.5584536,
+          "CoveredArea": 0.2923078630574918,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            6.420309,
+            6.560747,
+            6.536724,
+            6.2940025,
+            6.2716904
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -57.75,
+            "y": 7.157917,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -4.384615,
+            "y": 0.9469482,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -3.6538458,
+            "y": 2.7917085,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 0.9969482,
+          "sourceTerrainMax": 1.2917086,
+          "CoveredArea": 0.29230766629871807,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            6.1478615,
+            6.2940025,
+            6.2716904,
+            6.0213757,
+            5.999243
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -57.01923,
+            "y": 6.8854675,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -3.6538458,
+            "y": 0.67444414,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -2.9230766,
+            "y": 2.5190787,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 0.72444415,
+          "sourceTerrainMax": 1.0190786,
+          "CoveredArea": 0.2923076324772351,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            5.87537,
+            6.0213757,
+            5.999243,
+            5.750963,
+            5.72674
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -56.28846,
+            "y": 6.613018,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -2.9230766,
+            "y": 0.3758517,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -2.1923075,
+            "y": 2.2486677,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 0.4258517,
+          "sourceTerrainMax": 0.7486678,
+          "CoveredArea": 0.2923076353865879,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            5.586155,
+            5.750963,
+            5.72674,
+            5.445196,
+            5.4281425
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -55.557693,
+            "y": 6.330406,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -2.1923075,
+            "y": 0.07133062,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -1.4615383,
+            "y": 1.9429021,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 0.12133062,
+          "sourceTerrainMax": 0.44290215,
+          "CoveredArea": 0.2923076618749363,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            5.2816315,
+            5.445196,
+            5.4281425,
+            5.139435,
+            5.123623
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -54.826923,
+            "y": 6.0258827,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -1.4615383,
+            "y": -0.22735253,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -0.73076916,
+            "y": 1.6371366,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -0.17735253,
+          "sourceTerrainMax": 0.13713653,
+          "CoveredArea": 0.2923076692848636,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            4.977112,
+            5.139435,
+            5.123623,
+            4.8337917,
+            4.8249435
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -54.096153,
+            "y": 5.721363,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.73076916,
+            "y": -0.5264594,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 0,
+            "y": 1.3314962,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -0.4764594,
+          "sourceTerrainMax": -0.16850378,
+          "CoveredArea": 0.29230768266778995,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            4.677944,
+            4.8337917,
+            4.8249435,
+            4.535755,
+            4.525835
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -53.365383,
+            "y": 5.425865,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 0,
+            "y": -0.8265181,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 0.7307701,
+            "y": 1.033464,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -0.7765181,
+          "sourceTerrainMax": -0.466536,
+          "CoveredArea": 0.2923080378999998,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            4.378811,
+            4.535755,
+            4.525835,
+            4.2377243,
+            4.2257786
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -52.634613,
+            "y": 5.125805,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 0.7307701,
+            "y": -1.1322627,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 1.4615383,
+            "y": 0.73543143,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -1.0822628,
+          "sourceTerrainMax": -0.76456857,
+          "CoveredArea": 0.29230725806227476,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            4.077202,
+            4.2377243,
+            4.2257786,
+            3.922596,
+            3.9201813
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -51.903847,
+            "y": 4.825588,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 1.4615383,
+            "y": -1.4447557,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 2.1923084,
+            "y": 0.4202993,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -1.3947557,
+          "sourceTerrainMax": -1.0797007,
+          "CoveredArea": 0.2923080937077813,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            3.7641258,
+            3.922596,
+            3.9201813,
+            3.6095219,
+            3.6077576
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -51.173077,
+            "y": 4.5139694,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 2.1923084,
+            "y": -1.7561827,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 2.9230766,
+            "y": 0.107224345,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -1.7061827,
+          "sourceTerrainMax": -1.3927757,
+          "CoveredArea": 0.29230724394698093,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            3.4513187,
+            3.6095219,
+            3.6077576,
+            3.2970219,
+            3.2967072
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -50.442307,
+            "y": 4.20154,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 2.9230766,
+            "y": -2.0262794,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 3.6538467,
+            "y": -0.20527601,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -1.9762794,
+          "sourceTerrainMax": -1.705276,
+          "CoveredArea": 0.29230805467567045,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            3.1628246,
+            3.2970219,
+            3.2967072,
+            3.0302334,
+            3.0260181
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -49.71154,
+            "y": 3.9086761,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 3.6538467,
+            "y": -2.2916045,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 4.384615,
+            "y": -0.47206342,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -2.2416046,
+          "sourceTerrainMax": -1.9720634,
+          "CoveredArea": 0.29230729401682964,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            2.8961964,
+            3.0302334,
+            3.0260181,
+            2.7634468,
+            2.7606945
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -48.98077,
+            "y": 3.6433563,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 4.384615,
+            "y": -2.5569303,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 5.115385,
+            "y": -0.7388501,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -2.5069304,
+          "sourceTerrainMax": -2.23885,
+          "CoveredArea": 0.29230796299293615,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            2.6294098,
+            2.7634468,
+            2.7606945,
+            2.496788,
+            2.4953651
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -48.25,
+            "y": 3.3780289,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 5.115385,
+            "y": -2.7832384,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 5.8461533,
+            "y": -1.0055077,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -2.7332385,
+          "sourceTerrainMax": -2.5055077,
+          "CoveredArea": 0.29230729726186055,
+          "TerrainTriangles": 5,
+          "actualGroundY": [
+            2.3826046,
+            2.496788,
+            2.4953651,
+            2.2701855,
+            2.2692642
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -47.51923,
+            "y": 3.1321373,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 5.8461533,
+            "y": -3.009204,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 6.5769234,
+            "y": -1.2321122,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -2.959204,
+          "sourceTerrainMax": -2.7321122,
+          "CoveredArea": 0.2923080406223306,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            2.1565037,
+            2.2701855,
+            2.2692642,
+            2.0440826,
+            2.0435104
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -46.78846,
+            "y": 2.9063835,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 6.5769234,
+            "y": -3.2233324,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 7.3076916,
+            "y": -1.4582157,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -3.1733325,
+          "sourceTerrainMax": -2.9582157,
+          "CoveredArea": 0.2923073090090398,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            1.930399,
+            2.0440826,
+            2.0435104,
+            1.8318195,
+            1.8306179
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -46.057693,
+            "y": 2.6806335,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 7.3076916,
+            "y": -3.406348,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 8.038462,
+            "y": -1.6704767,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -3.356348,
+          "sourceTerrainMax": -3.1704767,
+          "CoveredArea": 0.29230804878932304,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            1.7375717,
+            1.8318195,
+            1.8306179,
+            1.6477776,
+            1.6486664
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -45.326923,
+            "y": 2.4896393,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 8.038462,
+            "y": -3.5893629,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 8.76923,
+            "y": -1.8536305,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -3.539363,
+          "sourceTerrainMax": -3.3536305,
+          "CoveredArea": 0.29230727496056375,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            1.5553856,
+            1.6477776,
+            1.6486664,
+            1.4637356,
+            1.466713
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -44.596153,
+            "y": 2.3076897,
+            "z": -41.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 8.76923,
+            "y": -3.7351413,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 9.5,
+            "y": -2.035584,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -3.6851413,
+          "sourceTerrainMax": -3.535584,
+          "CoveredArea": 0.2923080705757215,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            1.3852882,
+            1.4637356,
+            1.466713,
+            1.3179207,
+            1.3171558
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardNorth_SurfaceContact",
+          "sidePoint": {
+            "x": -43.865387,
+            "y": 2.135992,
+            "z": -41.8
+          },
+          "paired": true
+        }
+      ]
+    },
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueYardSouth",
+      "originalSize": {
+        "x": 19,
+        "y": 1.5,
+        "z": 0.4
+      },
+      "visibleVertices": 936,
+      "publishedContactVertices": 936,
+      "renderCacheError": 6.338037E-05,
+      "geometryError": 0,
+      "contacts": [
+        "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact"
+      ],
+      "VisualOnly": false,
+      "samples": [
+        {
+          "localMin": {
+            "x": -9.5,
+            "y": 1.5319794,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -8.769231,
+            "y": 3.2428865,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 1.5819794,
+          "sourceTerrainMax": 1.7428864,
+          "CoveredArea": 0.2923076675010421,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            6.6770267,
+            6.745182,
+            6.7011833,
+            6.6252613,
+            6.5842743
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -62.134613,
+            "y": 7.4094715,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -8.769231,
+            "y": 1.3846258,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -8.038462,
+            "y": 3.1229663,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 1.4346257,
+          "sourceTerrainMax": 1.6229664,
+          "CoveredArea": 0.2923076673195908,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            6.5284576,
+            6.6252613,
+            6.5842743,
+            6.4762764,
+            6.436922
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -61.403847,
+            "y": 7.260599,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -8.038462,
+            "y": 1.2372721,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -7.3076925,
+            "y": 2.9739807,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 1.2872721,
+          "sourceTerrainMax": 1.4739807,
+          "CoveredArea": 0.292307637373991,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            6.3811073,
+            6.4762764,
+            6.436922,
+            6.3272896,
+            6.28957
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -60.673077,
+            "y": 7.113247,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -7.3076925,
+            "y": 1.0528617,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -6.576923,
+            "y": 2.824995,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 1.1028616,
+          "sourceTerrainMax": 1.324995,
+          "CoveredArea": 0.29230786907725914,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            6.2223244,
+            6.3272896,
+            6.28957,
+            6.1420345,
+            6.105158
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -59.942307,
+            "y": 6.954975,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -6.576923,
+            "y": 0.8538567,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -5.8461537,
+            "y": 2.6397376,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 0.9038567,
+          "sourceTerrainMax": 1.1397377,
+          "CoveredArea": 0.2923076890982088,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            6.0233192,
+            6.1420345,
+            6.105158,
+            5.9433346,
+            5.9061527
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -59.21154,
+            "y": 6.755657,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -5.8461537,
+            "y": 0.65449995,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -5.1153846,
+            "y": 2.4410374,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 0.70449996,
+          "sourceTerrainMax": 0.9410374,
+          "CoveredArea": 0.2923076664917845,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            5.824316,
+            5.9433346,
+            5.9061527,
+            5.742466,
+            5.7067947
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -58.48077,
+            "y": 6.556652,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -5.1153846,
+            "y": 0.42441338,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -4.384615,
+            "y": 2.2401705,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 0.4744134,
+          "sourceTerrainMax": 0.7401706,
+          "CoveredArea": 0.2923078730503086,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            5.607258,
+            5.742466,
+            5.7067947,
+            5.5083637,
+            5.4767075
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -57.75,
+            "y": 6.344881,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -4.384615,
+            "y": 0.18807103,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -3.6538458,
+            "y": 2.0060685,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 0.23807102,
+          "sourceTerrainMax": 0.50606847,
+          "CoveredArea": 0.2923076768477362,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            5.3709145,
+            5.5083637,
+            5.4767075,
+            5.2742615,
+            5.240368
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -57.01923,
+            "y": 6.1085396,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -3.6538458,
+            "y": -0.04772868,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -2.9230766,
+            "y": 1.7719665,
+            "z": 0.2
+          },
+          "sourceTerrainMin": 0.0022713225,
+          "sourceTerrainMax": 0.27196652,
+          "CoveredArea": 0.2923076312632418,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            5.13599,
+            5.2742615,
+            5.240368,
+            5.0323467,
+            5.0045624
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -56.28846,
+            "y": 5.8721943,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -2.9230766,
+            "y": -0.2860119,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -2.1923075,
+            "y": 1.5300496,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -0.23601191,
+          "sourceTerrainMax": 0.030049574,
+          "CoveredArea": 0.29230763161949813,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            4.8968964,
+            5.0323467,
+            5.0045624,
+            4.7924385,
+            4.766281
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -55.557693,
+            "y": 5.635895,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -2.1923075,
+            "y": -0.52523476,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -1.4615383,
+            "y": 1.2901382,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -0.47523475,
+          "sourceTerrainMax": -0.2098617,
+          "CoveredArea": 0.2923076680001726,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            4.6569843,
+            4.7924385,
+            4.766281,
+            4.5525265,
+            4.5270576
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -54.826923,
+            "y": 5.3966675,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -1.4615383,
+            "y": -0.7680989,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": -0.73076916,
+            "y": 1.050227,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -0.7180989,
+          "sourceTerrainMax": -0.44977295,
+          "CoveredArea": 0.29230768964757337,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            4.4174175,
+            4.5525265,
+            4.5270576,
+            4.299408,
+            4.284193
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -54.096153,
+            "y": 5.157448,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": -0.73076916,
+            "y": -1.0235213,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 0,
+            "y": 0.79711413,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -0.9735213,
+          "sourceTerrainMax": -0.70288587,
+          "CoveredArea": 0.2923076564302818,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            4.164295,
+            4.299408,
+            4.284193,
+            4.0441303,
+            4.0287743
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -53.365383,
+            "y": 4.9064846,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 0,
+            "y": -1.278944,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 0.7307701,
+            "y": 0.54183334,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -1.2289441,
+          "sourceTerrainMax": -0.95816666,
+          "CoveredArea": 0.2923080406223306,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            3.9088707,
+            4.0441303,
+            4.0287743,
+            3.788845,
+            3.7733498
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -52.634613,
+            "y": 4.65106,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 0.7307701,
+            "y": -1.5287815,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 1.4615383,
+            "y": 0.2865522,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -1.4787816,
+          "sourceTerrainMax": -1.2134478,
+          "CoveredArea": 0.2923073081202232,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            3.65493,
+            3.788845,
+            3.7733498,
+            3.5296059,
+            3.523512
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -51.903847,
+            "y": 4.3970776,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 1.4615383,
+            "y": -1.7907922,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 2.1923084,
+            "y": 0.027311802,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -1.7407923,
+          "sourceTerrainMax": -1.4726882,
+          "CoveredArea": 0.2923080270106766,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            3.395193,
+            3.5296059,
+            3.523512,
+            3.2683105,
+            3.2615013
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -51.173077,
+            "y": 4.1425056,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 2.1923084,
+            "y": -2.052802,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 2.9230766,
+            "y": -0.233984,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -2.0028021,
+          "sourceTerrainMax": -1.733984,
+          "CoveredArea": 0.29230728040521115,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            3.1331806,
+            3.2683105,
+            3.2615013,
+            3.007019,
+            2.9994926
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -50.442307,
+            "y": 3.8804932,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 2.9230766,
+            "y": -2.2839768,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 3.6538467,
+            "y": -0.4952792,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -2.2339768,
+          "sourceTerrainMax": -1.9952792,
+          "CoveredArea": 0.29230807070205955,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            2.87821,
+            3.007019,
+            2.9994926,
+            2.782215,
+            2.7683163
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -49.71154,
+            "y": 3.623829,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 3.6538467,
+            "y": -2.4923093,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 4.384615,
+            "y": -0.7200768,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -2.4423094,
+          "sourceTerrainMax": -2.2200768,
+          "CoveredArea": 0.29230727768288745,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            2.6695557,
+            2.782215,
+            2.7683163,
+            2.573246,
+            2.5599842
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -48.98077,
+            "y": 3.4141502,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 4.384615,
+            "y": -2.6868958,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 5.115385,
+            "y": -0.92904735,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -2.636896,
+          "sourceTerrainMax": -2.4290473,
+          "CoveredArea": 0.29230806596896386,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            2.4612236,
+            2.573246,
+            2.5599842,
+            2.3671894,
+            2.3654003
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -48.25,
+            "y": 3.2058182,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 5.115385,
+            "y": -2.8677585,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 5.8461533,
+            "y": -1.1351063,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -2.8177586,
+          "sourceTerrainMax": -2.6351063,
+          "CoveredArea": 0.2923072878178914,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            2.2755604,
+            2.3671894,
+            2.3654003,
+            2.1862984,
+            2.186596
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -47.51923,
+            "y": 3.0271454,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 5.8461533,
+            "y": -3.0487776,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 6.5769234,
+            "y": -1.3157008,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -2.9987776,
+          "sourceTerrainMax": -2.8157008,
+          "CoveredArea": 0.2923080378999998,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            2.0944614,
+            2.1862984,
+            2.186596,
+            2.0054092,
+            2.0054932
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -46.78846,
+            "y": 2.8460445,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 6.5769234,
+            "y": -3.2212982,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 7.3076916,
+            "y": -1.4968004,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -3.1712983,
+          "sourceTerrainMax": -2.9968004,
+          "CoveredArea": 0.2923073124660398,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            1.9133606,
+            2.0054092,
+            2.0054932,
+            1.8309975,
+            1.8381767
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -46.057693,
+            "y": 2.6649475,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 7.3076916,
+            "y": -3.3805788,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 8.038462,
+            "y": -1.6641207,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -3.3305788,
+          "sourceTerrainMax": -3.1641207,
+          "CoveredArea": 0.29230804878932304,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            1.7541885,
+            1.8309975,
+            1.8381767,
+            1.6717167,
+            1.6789093
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -45.326923,
+            "y": 2.508541,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 8.038462,
+            "y": -3.5398588,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 8.76923,
+            "y": -1.8233886,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -3.4898589,
+          "sourceTerrainMax": -3.3233886,
+          "CoveredArea": 0.29230728040521115,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            1.5949211,
+            1.6717167,
+            1.6789093,
+            1.5124397,
+            1.51964
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -44.596153,
+            "y": 2.3492737,
+            "z": -27.8
+          },
+          "paired": true
+        },
+        {
+          "localMin": {
+            "x": 8.76923,
+            "y": -3.685952,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 9.5,
+            "y": -1.982656,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -3.635952,
+          "sourceTerrainMax": -3.482656,
+          "CoveredArea": 0.29230807367579814,
+          "TerrainTriangles": 6,
+          "actualGroundY": [
+            1.4411926,
+            1.5124397,
+            1.51964,
+            1.3663445,
+            1.3828468
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardSouth_SurfaceContact",
+          "sidePoint": {
+            "x": -43.865387,
+            "y": 2.1968193,
+            "z": -27.8
+          },
+          "paired": true
+        }
+      ]
+    },
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueYardGateLeft",
+      "originalSize": {
+        "x": 1.1,
+        "y": 1.5,
+        "z": 0.4
+      },
+      "visibleVertices": 36,
+      "publishedContactVertices": 36,
+      "renderCacheError": 4.172352E-06,
+      "geometryError": 0,
+      "contacts": [
+        "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardGateLeft_SurfaceContact"
+      ],
+      "VisualOnly": false,
+      "samples": [
+        {
+          "localMin": {
+            "x": -0.55,
+            "y": -3.1489024,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 0.55,
+            "y": -1.2864041,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -3.0989025,
+          "sourceTerrainMax": -2.7864041,
+          "CoveredArea": 0.44000002766638957,
+          "TerrainTriangles": 3,
+          "actualGroundY": [
+            2.0595627,
+            2.215891,
+            2.2100449,
+            1.9063663,
+            1.9033928
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardGateLeft_SurfaceContact",
+          "sidePoint": {
+            "x": -46.55,
+            "y": 2.807188,
+            "z": -38.399998
+          },
+          "paired": true
+        }
+      ]
+    },
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueYardGateRight",
+      "originalSize": {
+        "x": 1.1,
+        "y": 1.5,
+        "z": 0.4
+      },
+      "visibleVertices": 36,
+      "publishedContactVertices": 36,
+      "renderCacheError": 4.3153766E-05,
+      "geometryError": 0,
+      "contacts": [
+        "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardGateRight_SurfaceContact"
+      ],
+      "VisualOnly": false,
+      "samples": [
+        {
+          "localMin": {
+            "x": -0.55,
+            "y": -3.168543,
+            "z": -0.2
+          },
+          "localMax": {
+            "x": 0.55,
+            "y": -1.3175232,
+            "z": 0.2
+          },
+          "sourceTerrainMin": -3.1185431,
+          "sourceTerrainMax": -2.8175232,
+          "CoveredArea": 0.43999999002199264,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            2.0340996,
+            2.1847706,
+            2.18227,
+            1.8862915,
+            1.8837528
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardGateRight_SurfaceContact",
+          "sidePoint": {
+            "x": -46.55,
+            "y": 2.7828484,
+            "z": -31.199999
+          },
+          "paired": true
+        }
+      ]
+    },
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueYardGatePostLeft",
+      "originalSize": {
+        "x": 0.22,
+        "y": 1.8,
+        "z": 0.22
+      },
+      "visibleVertices": 36,
+      "publishedContactVertices": 36,
+      "renderCacheError": 4.029274E-05,
+      "geometryError": 0,
+      "contacts": [
+        "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardGatePostLeft_SurfaceContact"
+      ],
+      "VisualOnly": false,
+      "samples": [
+        {
+          "localMin": {
+            "x": -0.11,
+            "y": -3.1837597,
+            "z": -0.11
+          },
+          "localMax": {
+            "x": 0.11,
+            "y": -1.2702384,
+            "z": 0.11
+          },
+          "sourceTerrainMin": -3.1337597,
+          "sourceTerrainMax": -3.0702384,
+          "CoveredArea": 0.04840000972002789,
+          "TerrainTriangles": 2,
+          "actualGroundY": [
+            2.0500164,
+            2.0820618,
+            2.079609,
+            2.0209198,
+            2.0185452
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardGatePostLeft_SurfaceContact",
+          "sidePoint": {
+            "x": -46.55,
+            "y": 2.9490743,
+            "z": -37.79
+          },
+          "paired": true
+        }
+      ]
+    },
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueYardGatePostRight",
+      "originalSize": {
+        "x": 0.22,
+        "y": 1.8,
+        "z": 0.22
+      },
+      "visibleVertices": 36,
+      "publishedContactVertices": 36,
+      "renderCacheError": 4.8160553E-05,
+      "geometryError": 0,
+      "contacts": [
+        "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardGatePostRight_SurfaceContact"
+      ],
+      "VisualOnly": false,
+      "samples": [
+        {
+          "localMin": {
+            "x": -0.11,
+            "y": -3.1983519,
+            "z": -0.11
+          },
+          "localMax": {
+            "x": 0.11,
+            "y": -1.2846935,
+            "z": 0.11
+          },
+          "sourceTerrainMin": -3.148352,
+          "sourceTerrainMax": -3.0846934,
+          "CoveredArea": 0.04840000767111799,
+          "TerrainTriangles": 1,
+          "actualGroundY": [
+            2.035778,
+            2.06419,
+            2.0676136,
+            2.0039463,
+            2.007368
+          ],
+          "sideOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueCollisionProxy/MosqueYardGatePostRight_SurfaceContact",
+          "sidePoint": {
+            "x": -46.55,
+            "y": 2.937489,
+            "z": -31.989998
+          },
+          "paired": true
+        }
+      ]
+    },
+    {
+      "mesh": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueYardSnowBank",
+      "originalSize": {
+        "x": 16,
+        "y": 0.42,
+        "z": 0.85
+      },
+      "visibleVertices": 2592,
+      "publishedContactVertices": 2592,
+      "renderCacheError": 8.346375E-05,
+      "geometryError": null,
+      "contacts": [],
+      "VisualOnly": true,
+      "samples": [
+        {
+          "distinctSurfaceVertices": 495,
+          "minimumGap": -0.02500391,
+          "maximumGap": 0.39500523,
+          "visualOnly": true
+        }
+      ]
+    }
+  ],
+  "terrainRayOccluders": [
+    "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_ArchitectureCollision"
+  ],
+  "terrain": {
+    "sourceVertices": 49980,
+    "publishedVertices": 49980,
+    "contactPublicationVertices": 49980,
+    "physicalVertices": 49980,
+    "terrainRenderCacheError": 8.3188614E-05,
+    "ChangedTriangles": 70,
+    "OutputVertices": 49980,
+    "sourceInsideArea": 93.49999999999999,
+    "publishedInsideArea": 0,
+    "sourceArea": 33221.27630414136,
+    "publishedArea": 33127.7763035801,
+    "outsidePreserved": 16590,
+    "outsideMissing": 0,
+    "fragmentFailures": 0,
+    "fragments": [
+      {
+        "triangle": 7284,
+        "Fits": true,
+        "Parent": 7284,
+        "PlaneError": 2.0690704573796723E-07,
+        "MinBarycentric": -2.553671664488997E-07,
+        "MaxBarycentric": 1.0000003420616017,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7285,
+        "Fits": true,
+        "Parent": 7284,
+        "PlaneError": 2.0444392651737063E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000003420616017,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7286,
+        "Fits": true,
+        "Parent": 7285,
+        "PlaneError": 2.0555770752544714E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 0.7957124686567006,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7287,
+        "Fits": true,
+        "Parent": 7285,
+        "PlaneError": 1.9239037039887518E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7288,
+        "Fits": true,
+        "Parent": 7285,
+        "PlaneError": 1.9239037039887518E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7289,
+        "Fits": true,
+        "Parent": 7286,
+        "PlaneError": 1.7700461789621782E-07,
+        "MinBarycentric": -3.3155696475142636E-07,
+        "MaxBarycentric": 0.41818831634707104,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7290,
+        "Fits": true,
+        "Parent": 7287,
+        "PlaneError": 1.8246728496962616E-07,
+        "MinBarycentric": -4.831122455115639E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7291,
+        "Fits": true,
+        "Parent": 7287,
+        "PlaneError": 4.4314591913346816E-07,
+        "MinBarycentric": -4.831122455115639E-07,
+        "MaxBarycentric": 1.0000004821768371,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7292,
+        "Fits": true,
+        "Parent": 7288,
+        "PlaneError": 4.552585259307939E-07,
+        "MinBarycentric": -7.507470283665631E-08,
+        "MaxBarycentric": 0.337314252229438,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7293,
+        "Fits": true,
+        "Parent": 7289,
+        "PlaneError": 2.349915826693424E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7294,
+        "Fits": true,
+        "Parent": 7289,
+        "PlaneError": 4.282469836396188E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000005069073223,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7295,
+        "Fits": true,
+        "Parent": 7290,
+        "PlaneError": 4.428007738965695E-07,
+        "MinBarycentric": -4.5945461090353004E-07,
+        "MaxBarycentric": 0.39136182629049077,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7296,
+        "Fits": true,
+        "Parent": 7291,
+        "PlaneError": 1.749552808245305E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7297,
+        "Fits": true,
+        "Parent": 7291,
+        "PlaneError": 7.90739868340353E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000008266605855,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7298,
+        "Fits": true,
+        "Parent": 7292,
+        "PlaneError": 7.949836747816611E-07,
+        "MinBarycentric": -4.993283367255117E-07,
+        "MaxBarycentric": 0.41692610154865306,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7299,
+        "Fits": true,
+        "Parent": 7293,
+        "PlaneError": 3.556710572125934E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7300,
+        "Fits": true,
+        "Parent": 7293,
+        "PlaneError": 3.9589750862026646E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000006115091677,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7301,
+        "Fits": true,
+        "Parent": 7294,
+        "PlaneError": 6.893021861738801E-07,
+        "MinBarycentric": -9.432796356234544E-07,
+        "MaxBarycentric": 0.3577835508799543,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7302,
+        "Fits": true,
+        "Parent": 7295,
+        "PlaneError": 4.645042205986023E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7303,
+        "Fits": true,
+        "Parent": 7295,
+        "PlaneError": 4.645042205986023E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000003933651818,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7304,
+        "Fits": true,
+        "Parent": 7296,
+        "PlaneError": 7.604271821740761E-08,
+        "MinBarycentric": -2.5507249060493785E-07,
+        "MaxBarycentric": 1.0000000015150496,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7305,
+        "Fits": true,
+        "Parent": 7296,
+        "PlaneError": 1.8064834747338205E-07,
+        "MinBarycentric": -2.5507249060493785E-07,
+        "MaxBarycentric": 0.2931265491256715,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7306,
+        "Fits": true,
+        "Parent": 7296,
+        "PlaneError": 1.8064834747338205E-07,
+        "MinBarycentric": -2.5507249060493785E-07,
+        "MaxBarycentric": 0.30536961883597685,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7307,
+        "Fits": true,
+        "Parent": 7297,
+        "PlaneError": 9.556113963670112E-08,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7308,
+        "Fits": true,
+        "Parent": 7297,
+        "PlaneError": 7.361185923929805E-08,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7309,
+        "Fits": true,
+        "Parent": 7297,
+        "PlaneError": 9.556113963670112E-08,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 0.1828614198157106,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7426,
+        "Fits": true,
+        "Parent": 7414,
+        "PlaneError": 1.6140686227662612E-07,
+        "MinBarycentric": -9.260443896072933E-07,
+        "MaxBarycentric": 1.000000858352293,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7427,
+        "Fits": true,
+        "Parent": 7414,
+        "PlaneError": 4.002170308720837E-09,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.000000858352293,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7428,
+        "Fits": true,
+        "Parent": 7415,
+        "PlaneError": 1.8920930543014242E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 0.7550791061274356,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7429,
+        "Fits": true,
+        "Parent": 7426,
+        "PlaneError": 1.2604375190358654E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000005867898982,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7430,
+        "Fits": true,
+        "Parent": 7427,
+        "PlaneError": 1.1934708714578884E-07,
+        "MinBarycentric": -7.992395790699085E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7431,
+        "Fits": true,
+        "Parent": 7427,
+        "PlaneError": 1.1934708714578884E-07,
+        "MinBarycentric": -7.992395790699085E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7548,
+        "Fits": true,
+        "Parent": 7544,
+        "PlaneError": 6.996933982045764E-08,
+        "MinBarycentric": -3.0473321557295693E-07,
+        "MaxBarycentric": 0.9999999694350381,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7549,
+        "Fits": true,
+        "Parent": 7544,
+        "PlaneError": 4.650284196069358E-08,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7550,
+        "Fits": true,
+        "Parent": 7545,
+        "PlaneError": 6.585432098433454E-08,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 0.7589503477592561,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7551,
+        "Fits": true,
+        "Parent": 7556,
+        "PlaneError": 1.2909325113152962E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000005238474239,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7552,
+        "Fits": true,
+        "Parent": 7557,
+        "PlaneError": 1.154438960666755E-07,
+        "MinBarycentric": -8.376297622168021E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7553,
+        "Fits": true,
+        "Parent": 7557,
+        "PlaneError": 1.154438960666755E-07,
+        "MinBarycentric": -8.376297622168021E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7670,
+        "Fits": true,
+        "Parent": 7674,
+        "PlaneError": 6.488876655734583E-08,
+        "MinBarycentric": -8.992405312289788E-07,
+        "MaxBarycentric": 0.9999998084783395,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7671,
+        "Fits": true,
+        "Parent": 7674,
+        "PlaneError": 3.9462497789185854E-08,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7672,
+        "Fits": true,
+        "Parent": 7675,
+        "PlaneError": 6.91634274863194E-08,
+        "MinBarycentric": -3.3063055713579714E-08,
+        "MaxBarycentric": 0.7935104505710676,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7673,
+        "Fits": true,
+        "Parent": 7686,
+        "PlaneError": 8.465024251915733E-08,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000002069843044,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7674,
+        "Fits": true,
+        "Parent": 7687,
+        "PlaneError": 9.377478230555359E-08,
+        "MinBarycentric": -4.14611694205544E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7675,
+        "Fits": true,
+        "Parent": 7687,
+        "PlaneError": 9.377478230555359E-08,
+        "MinBarycentric": -4.14611694205544E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7792,
+        "Fits": true,
+        "Parent": 7804,
+        "PlaneError": 2.6932641155835194E-07,
+        "MinBarycentric": -4.264231525854456E-07,
+        "MaxBarycentric": 1.0000003073330688,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7793,
+        "Fits": true,
+        "Parent": 7804,
+        "PlaneError": 1.7669148086261655E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000003073330688,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7794,
+        "Fits": true,
+        "Parent": 7804,
+        "PlaneError": 2.6932641155835194E-07,
+        "MinBarycentric": -4.264231525854456E-07,
+        "MaxBarycentric": 1.0000003073330688,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7795,
+        "Fits": true,
+        "Parent": 7805,
+        "PlaneError": 2.521644919340889E-07,
+        "MinBarycentric": -1.9213674189168496E-07,
+        "MaxBarycentric": 0.7778923905772406,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7796,
+        "Fits": true,
+        "Parent": 7805,
+        "PlaneError": 4.912724072493793E-07,
+        "MinBarycentric": 4.0344152946846333E-07,
+        "MaxBarycentric": 1.0000008128229125,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7797,
+        "Fits": true,
+        "Parent": 7805,
+        "PlaneError": 4.912724072493793E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000008128229125,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7798,
+        "Fits": true,
+        "Parent": 7806,
+        "PlaneError": 5.515027265204914E-07,
+        "MinBarycentric": -5.558519137165742E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7799,
+        "Fits": true,
+        "Parent": 7806,
+        "PlaneError": 5.515027265204914E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7800,
+        "Fits": true,
+        "Parent": 7807,
+        "PlaneError": 4.2299198200983346E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7801,
+        "Fits": true,
+        "Parent": 7808,
+        "PlaneError": 4.4640808651145393E-07,
+        "MinBarycentric": -6.910233962718058E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7802,
+        "Fits": true,
+        "Parent": 7808,
+        "PlaneError": 4.4640808651145393E-07,
+        "MinBarycentric": -6.910233962718058E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7803,
+        "Fits": true,
+        "Parent": 7809,
+        "PlaneError": 3.413998106135438E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000001627255874,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7804,
+        "Fits": true,
+        "Parent": 7810,
+        "PlaneError": 2.230282116838796E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7805,
+        "Fits": true,
+        "Parent": 7810,
+        "PlaneError": 1.1393565157690605E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7806,
+        "Fits": true,
+        "Parent": 7811,
+        "PlaneError": 4.6986204747052735E-07,
+        "MinBarycentric": -1.8504882010995791E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7807,
+        "Fits": true,
+        "Parent": 7812,
+        "PlaneError": 4.2083374833437375E-07,
+        "MinBarycentric": -6.450488152260851E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7808,
+        "Fits": true,
+        "Parent": 7812,
+        "PlaneError": 4.2083374833437375E-07,
+        "MinBarycentric": -6.450488152260851E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7809,
+        "Fits": true,
+        "Parent": 7813,
+        "PlaneError": 4.027476662837039E-07,
+        "MinBarycentric": -1.6966929147777336E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7810,
+        "Fits": true,
+        "Parent": 7814,
+        "PlaneError": 4.5477193985949575E-07,
+        "MinBarycentric": -8.314250216415808E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7811,
+        "Fits": true,
+        "Parent": 7814,
+        "PlaneError": 3.5717939192932573E-07,
+        "MinBarycentric": -8.314250216415808E-07,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7812,
+        "Fits": true,
+        "Parent": 7815,
+        "PlaneError": 5.261128696164774E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.0000008720417217,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7813,
+        "Fits": true,
+        "Parent": 7816,
+        "PlaneError": 9.841127625142572E-08,
+        "MinBarycentric": -1.5797662617163937E-07,
+        "MaxBarycentric": 1.000000009330763,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7814,
+        "Fits": true,
+        "Parent": 7816,
+        "PlaneError": 4.541969574431642E-07,
+        "MinBarycentric": 8.129311052621147E-07,
+        "MaxBarycentric": 1.000000009330763,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7815,
+        "Fits": true,
+        "Parent": 7816,
+        "PlaneError": 4.541969574431642E-07,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1.000000009330763,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7816,
+        "Fits": true,
+        "Parent": 7817,
+        "PlaneError": 9.763261225951927E-08,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      },
+      {
+        "triangle": 7817,
+        "Fits": true,
+        "Parent": 7817,
+        "PlaneError": 9.763261225951927E-08,
+        "MinBarycentric": -0,
+        "MaxBarycentric": 1,
+        "WindingAligned": true
+      }
+    ],
+    "terrainError": 0,
+    "SourcePhysicsMaximumError": 0,
+    "roomSamples": [
+      {
+        "local": {
+          "x": 1.2,
+          "y": 0,
+          "z": 0
+        },
+        "world": {
+          "x": -51.8,
+          "y": 4.782295,
+          "z": -35
+        },
+        "floor": true,
+        "floorOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosquePrayerCarpetBody",
+        "carpetTop": 4.798795,
+        "timberPreserved": true,
+        "timberOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+        "timberRayExcludesOnlyPlayerAndCarpet": true,
+        "soilAbsent": true
+      },
+      {
+        "local": {
+          "x": -3.5,
+          "y": 0,
+          "z": 0
+        },
+        "world": {
+          "x": -56.5,
+          "y": 4.782295,
+          "z": -35
+        },
+        "floor": true,
+        "floorOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosquePrayerCarpetBody",
+        "carpetTop": 4.798795,
+        "timberPreserved": true,
+        "timberOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+        "timberRayExcludesOnlyPlayerAndCarpet": true,
+        "soilAbsent": true
+      },
+      {
+        "local": {
+          "x": -3.85,
+          "y": 0,
+          "z": -2.55
+        },
+        "world": {
+          "x": -56.85,
+          "y": 4.782295,
+          "z": -37.55
+        },
+        "floor": true,
+        "floorOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosquePrayerCarpetBody",
+        "carpetTop": 4.798795,
+        "timberPreserved": true,
+        "timberOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+        "timberRayExcludesOnlyPlayerAndCarpet": true,
+        "soilAbsent": true
+      },
+      {
+        "local": {
+          "x": -4.075,
+          "y": 0,
+          "z": 2.8
+        },
+        "world": {
+          "x": -57.075,
+          "y": 4.782295,
+          "z": -32.2
+        },
+        "floor": true,
+        "floorOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosquePrayerCarpetBody",
+        "carpetTop": 4.798795,
+        "timberPreserved": true,
+        "timberOwner": "/root/Act1FacilitiesSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueTimberFloorBody",
+        "timberRayExcludesOnlyPlayerAndCarpet": true,
+        "soilAbsent": true
+      }
+    ]
+  },
+  "failures": []
+}

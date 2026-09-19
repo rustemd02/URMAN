@@ -1,0 +1,17 @@
+{
+  "exitCode": 0,
+  "scope": "real package byte/provenance validation and rejection; no runtime installation/listening claim",
+  "checks": [
+    "real ten-WAV plan preserves IDs and original music; explicit repeat reuses its exact bytes/provenance; full source model stays outside runtime",
+    "rejects false original-actor claim",
+    "rejects false final acceptance",
+    "rejects unreviewed model licence",
+    "rejects changed voice ID",
+    "rejects changed authored transcript",
+    "rejects changed spoken words",
+    "rejects changed WAV digest",
+    "rejects incorrect duration",
+    "rejects duplicate/missing segment",
+    "dry-run and rejected deliveries preserve station and all original preview WAV bytes"
+  ]
+}

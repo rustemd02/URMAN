@@ -1,0 +1,74 @@
+[
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/clue_underdeck_rattle_quiet", "kind": "fact",
+    "title": {"default": "Дребезг прекратился", "translations": {"ru": "Дребезг прекратился"}},
+    "summary": {"default": "После работы с креплением дребезг под этим настилом прекратился. Я проверил изменение на месте. Это следствие выполненной работы, не результат одного осмотра. Теперь можно вернуться к Мансуру и сказать, что здесь изменилось.", "translations": {"ru": "После работы с креплением дребезг под этим настилом прекратился. Я проверил изменение на месте. Это следствие выполненной работы, не результат одного осмотра. Теперь можно вернуться к Мансуру и сказать, что здесь изменилось."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:knowledge/discovery-underdeck-rattle"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {"schemaVersion": 1, "id": "urman.chapter1:text/mark-underdeck-quiet", "value": {"default": "Проверить крепление после работы", "translations": {"ru": "Проверить крепление после работы"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-underdeck-quiet", "value": {"default": "Под настилом дребезжало крепление. Я поправил его и проверил — теперь тихо.", "translations": {"ru": "Под настилом дребезжало крепление. Я поправил его и проверил — теперь тихо."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-underdeck-quiet", "value": {"default": "Мансур на мгновение замолкает, прислушиваясь. «А я уже не замечал. Привык». Он смотрит на мои рукава. «Снег отряхни. Погрей руки сначала». Я вернулся с небольшим сделанным делом, и он его заметил; к разговору о документах можно вернуться отдельно.", "translations": {"ru": "Мансур на мгновение замолкает, прислушиваясь. «А я уже не замечал. Привык». Он смотрит на мои рукава. «Снег отряхни. Погрей руки сначала». Я вернулся с небольшим сделанным делом, и он его заметил; к разговору о документах можно вернуться отдельно."}}, "purpose": "dialogue"},
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/discovery-shed-loft-roofline", "kind": "fact",
+    "title": {"default": "Крыши с верхней площадки", "translations": {"ru": "Крыши с верхней площадки"}},
+    "summary": {"default": "С верхней площадки сарая знакомая улица складывается иначе: за ближним скатом снова видна деревня. Вблизи можно рассмотреть крепление кровли и следы ремонта. Это тот же двор с другого уровня, а не новый путь за его пределы.", "translations": {"ru": "С верхней площадки сарая знакомая улица складывается иначе: за ближним скатом снова видна деревня. Вблизи можно рассмотреть крепление кровли и следы ремонта. Это тот же двор с другого уровня, а не новый путь за его пределы."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:scene/exploration-small-spaces"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/discovery-underdeck-rattle", "kind": "fact",
+    "title": {"default": "Дребезг под настилом", "translations": {"ru": "Дребезг под настилом"}},
+    "summary": {"default": "Я добрался под край настила и нашёл место дребезга у крепления. Отсюда слышно, как звук связан с обычной деревянной конструкцией. Наблюдение относится к этому настилу; оно не объясняет другие звуки деревни или леса.", "translations": {"ru": "Я добрался под край настила и нашёл место дребезга у крепления. Отсюда слышно, как звук связан с обычной деревянной конструкцией. Наблюдение относится к этому настилу; оно не объясняет другие звуки деревни или леса."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:scene/exploration-small-spaces"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:knowledge/discovery-fap-service-cabinet", "kind": "fact",
+    "title": {"default": "Крепление служебного шкафа", "translations": {"ru": "Крепление служебного шкафа"}},
+    "summary": {"default": "В служебном уголке ФАПа осмотрел крепление обычного хозяйственного шкафа. Его приходится поддерживать в порядке, как стол, лампу или калитку. Здесь я не нашёл медицинской записи и не получил сведений о Марате.", "translations": {"ru": "В служебном уголке ФАПа осмотрел крепление обычного хозяйственного шкафа. Его приходится поддерживать в порядке, как стол, лампу или калитку. Здесь я не нашёл медицинской записи и не получил сведений о Марате."}},
+    "initialStatus": "hidden", "sourceIds": ["urman.chapter1:scene/exploration-small-spaces"], "reveals": [], "contradicts": [], "unlocks": []
+  },
+  {"schemaVersion": 1, "id": "urman.chapter1:text/discover-shed-loft-roofline", "value": {"default": "Осмотреть крепление кровли с площадки", "translations": {"ru": "Осмотреть крепление кровли с площадки"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/discover-underdeck-rattle", "value": {"default": "Найти дребезжащее крепление под настилом", "translations": {"ru": "Найти дребезжащее крепление под настилом"}}, "purpose": "ui"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/discover-fap-service-cabinet", "value": {"default": "Осмотреть крепление хозяйственного шкафа", "translations": {"ru": "Осмотреть крепление хозяйственного шкафа"}}, "purpose": "ui"},
+  {
+    "schemaVersion": 1, "id": "urman.chapter1:scene/exploration-small-spaces", "sceneType": "presentation",
+    "title": {"default": "Хозяйственные уголки", "translations": {"ru": "Хозяйственные уголки"}},
+    "assetRefs": [], "textRefs": [], "entryConditions": [], "onEnter": [], "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.chapter1:interaction/mark-underdeck-quiet", "labelTextId": "urman.chapter1:text/mark-underdeck-quiet",
+        "conditions": [
+          {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-underdeck-rattle", "status": "confirmed"},
+          {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_underdeck_rattle_quiet", "status": "confirmed"}}
+        ],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_underdeck_rattle_quiet", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_underdeck_rattle_quiet", "sourceId": "urman.chapter1:knowledge/clue_underdeck_rattle_quiet"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"]
+      },
+      {
+        "id": "urman.chapter1:interaction/discover-shed-loft-roofline", "labelTextId": "urman.chapter1:text/discover-shed-loft-roofline",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-shed-loft-roofline", "status": "confirmed"}}],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/discovery-shed-loft-roofline", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/discovery-shed-loft-roofline", "sourceId": "urman.chapter1:knowledge/discovery-shed-loft-roofline"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetJournalEntryId": "urman.chapter1:knowledge/discovery-shed-loft-roofline"
+      },
+      {
+        "id": "urman.chapter1:interaction/discover-underdeck-rattle", "labelTextId": "urman.chapter1:text/discover-underdeck-rattle",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-underdeck-rattle", "status": "confirmed"}}],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/discovery-underdeck-rattle", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/discovery-underdeck-rattle", "sourceId": "urman.chapter1:knowledge/discovery-underdeck-rattle"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night"], "targetJournalEntryId": "urman.chapter1:knowledge/discovery-underdeck-rattle"
+      },
+      {
+        "id": "urman.chapter1:interaction/discover-fap-service-cabinet", "labelTextId": "urman.chapter1:text/discover-fap-service-cabinet",
+        "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/discovery-fap-service-cabinet", "status": "confirmed"}}],
+        "effects": [
+          {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/discovery-fap-service-cabinet", "status": "confirmed"},
+          {"op": "journal.record", "entryId": "urman.chapter1:knowledge/discovery-fap-service-cabinet", "sourceId": "urman.chapter1:knowledge/discovery-fap-service-cabinet"}
+        ], "worldLocations": ["village_day", "zirat_road", "kara_urman_night", "fap_clinic"], "targetJournalEntryId": "urman.chapter1:knowledge/discovery-fap-service-cabinet"
+      }
+    ]
+  }
+]

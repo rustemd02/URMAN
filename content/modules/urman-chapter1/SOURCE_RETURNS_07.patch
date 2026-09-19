@@ -1,0 +1,1436 @@
+*** Begin Patch
+*** Add File: content/modules/urman-chapter1/investigation-source-returns.json
++[
++ {
++  "contradicts": [],
++  "id": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++  "initialStatus": "hidden",
++  "kind": "fact",
++  "reveals": [],
++  "schemaVersion": 1,
++  "sourceIds": [
++   "urman.oldpc:document/msg_mansur_unsent_note"
++  ],
++  "summary": {
++   "default": "В сохранённых сообщениях нашёл черновик без адресата: «Пусть лучше увидит бумаги здесь, где можно остановить». Он хранится на ПК Мансура. Не стану решать за него, зачем он оставил доступ: можно спросить его самого.",
++   "translations": {
++    "ru": "В сохранённых сообщениях нашёл черновик без адресата: «Пусть лучше увидит бумаги здесь, где можно остановить». Он хранится на ПК Мансура. Не стану решать за него, зачем он оставил доступ: можно спросить его самого."
++   }
++  },
++  "title": {
++   "default": "Черновик, в котором есть моё имя",
++   "translations": {
++    "ru": "Черновик, в котором есть моё имя"
++   }
++  },
++  "unlocks": []
++ },
++ {
++  "contradicts": [],
++  "id": "urman.chapter1:knowledge/clue_accounting_fragment_read",
++  "initialStatus": "hidden",
++  "kind": "fact",
++  "reveals": [],
++  "schemaVersion": 1,
++  "sourceIds": [
++   "urman.oldpc:document/rec_internal_accounting_damaged"
++  ],
++  "summary": {
++   "default": "В повреждённом фрагменте прочитал «Компенсация: принята не полностью». В реестре Марата это же слово стояло рядом с «закрыта». Сохраню оба текста и сравню, что именно в них указано, прежде чем связывать случаи.",
++   "translations": {
++    "ru": "В повреждённом фрагменте прочитал «Компенсация: принята не полностью». В реестре Марата это же слово стояло рядом с «закрыта». Сохраню оба текста и сравню, что именно в них указано, прежде чем связывать случаи."
++   }
++  },
++  "title": {
++   "default": "Две разные отметки",
++   "translations": {
++    "ru": "Две разные отметки"
++   }
++  },
++  "unlocks": []
++ },
++ {
++  "contradicts": [],
++  "id": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++  "initialStatus": "hidden",
++  "kind": "hypothesis",
++  "reveals": [],
++  "schemaVersion": 1,
++  "sourceIds": [
++   "urman.oldpc:document/rec_marat_case_register_conflict",
++   "urman.oldpc:document/rec_internal_accounting_damaged"
++  ],
++  "summary": {
++   "default": "В реестре Марата — «компенсация закрыта». В повреждённом фрагменте — «принята не полностью», но имя и дата не сохранились. Похоже, помимо медицинских справок здесь ведут ещё какой-то учёт. Пока я не знаю, относится ли фрагмент к тому же случаю и что именно в нём называют компенсацией.",
++   "translations": {
++    "ru": "В реестре Марата — «компенсация закрыта». В повреждённом фрагменте — «принята не полностью», но имя и дата не сохранились. Похоже, помимо медицинских справок здесь ведут ещё какой-то учёт. Пока я не знаю, относится ли фрагмент к тому же случаю и что именно в нём называют компенсацией."
++   }
++  },
++  "title": {
++   "default": "Что здесь называют компенсацией?",
++   "translations": {
++    "ru": "Что здесь называют компенсацией?"
++   }
++  },
++  "unlocks": []
++ },
++ {
++  "contradicts": [],
++  "id": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
++  "initialStatus": "hidden",
++  "kind": "fact",
++  "reveals": [],
++  "schemaVersion": 1,
++  "sourceIds": [
++   "urman.chapter1:dialogue/rinat_internal_register",
++   "urman.chapter1:knowledge/clue_village_has_internal_compensation_system"
++  ],
++  "summary": {
++   "default": "Я спросил Рината о двух отметках про компенсацию. Он не объяснил слово: сначала спросил, кому я уже показывал строки, затем попросил оставить записи дома. Его реакция усиливает тревогу, но не подтверждает, что фрагмент относится к Марату, и не раскрывает смысл учёта.",
++   "translations": {
++    "ru": "Я спросил Рината о двух отметках про компенсацию. Он не объяснил слово: сначала спросил, кому я уже показывал строки, затем попросил оставить записи дома. Его реакция усиливает тревогу, но не подтверждает, что фрагмент относится к Марату, и не раскрывает смысл учёта."
++   }
++  },
++  "title": {
++   "default": "Ринат спросил, кому я показал записи",
++   "translations": {
++    "ru": "Ринат спросил, кому я показал записи"
++   }
++  },
++  "unlocks": []
++ },
++ {
++  "id": "urman.chapter1:text/choice-mansur-ask-draft",
++  "purpose": "dialogue",
++  "schemaVersion": 1,
++  "value": {
++   "default": "Бабай, в черновике написано обо мне. Ты оставил эти бумаги, чтобы я их увидел?",
++   "translations": {
++    "ru": "Бабай, в черновике написано обо мне. Ты оставил эти бумаги, чтобы я их увидел?"
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/dialogue-mansur-draft-folder",
++  "purpose": "dialogue",
++  "schemaVersion": 1,
++  "value": {
++   "default": "«Какую папку ты открыл?» Мансур спрашивает сразу, потом замолкает. Не «что ты нашёл», а «какую папку». Я ещё не показал ему текст.",
++   "translations": {
++    "ru": "«Какую папку ты открыл?» Мансур спрашивает сразу, потом замолкает. Не «что ты нашёл», а «какую папку». Я ещё не показал ему текст."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/choice-mansur-name-folder",
++  "purpose": "dialogue",
++  "schemaVersion": 1,
++  "value": {
++   "default": "«Сохранённые сообщения». Там: «Пусть лучше увидит бумаги здесь».",
++   "translations": {
++    "ru": "«Сохранённые сообщения». Там: «Пусть лучше увидит бумаги здесь»."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/choice-mansur-ask-intent",
++  "purpose": "dialogue",
++  "schemaVersion": 1,
++  "value": {
++   "default": "Про папку скажу. Сначала ответь: ты хотел, чтобы я это прочитал?",
++   "translations": {
++    "ru": "Про папку скажу. Сначала ответь: ты хотел, чтобы я это прочитал?"
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/dialogue-mansur-draft-name-result",
++  "purpose": "dialogue",
++  "schemaVersion": 1,
++  "value": {
++   "default": "«До черновиков, значит». Мансур поправляет очки. «В “Кара-Урмане” есть схема. Если будешь спрашивать про дорогу — сначала её посмотри. Не надо искать ночью, Айдар». Он тянется к чайнику. На вопрос о доступе прямого ответа нет; но теперь я знаю, где искать лист, о котором он говорит.",
++   "translations": {
++    "ru": "«До черновиков, значит». Мансур поправляет очки. «В “Кара-Урмане” есть схема. Если будешь спрашивать про дорогу — сначала её посмотри. Не надо искать ночью, Айдар». Он тянется к чайнику. На вопрос о доступе прямого ответа нет; но теперь я знаю, где искать лист, о котором он говорит."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/dialogue-mansur-draft-question-result",
++  "purpose": "dialogue",
++  "schemaVersion": 1,
++  "value": {
++   "default": "Мансур смотрит на меня дольше обычного. «Не сейчас. Ты с дороги». Он подвигает чашку ближе. «Про дорогу хочешь спрашивать — в “Кара-Урмане” есть схема. Сначала её посмотри». Это забота, но вопрос о доступе остался. Похоже, ему спокойнее, пока я ищу здесь, рядом с ним.",
++   "translations": {
++    "ru": "Мансур смотрит на меня дольше обычного. «Не сейчас. Ты с дороги». Он подвигает чашку ближе. «Про дорогу хочешь спрашивать — в “Кара-Урмане” есть схема. Сначала её посмотри». Это забота, но вопрос о доступе остался. Похоже, ему спокойнее, пока я ищу здесь, рядом с ним."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/choice-mansur-draft-later",
++  "purpose": "dialogue",
++  "schemaVersion": 1,
++  "value": {
++   "default": "Я ещё перечитаю. Вернусь к этому вопросу.",
++   "translations": {
++    "ru": "Я ещё перечитаю. Вернусь к этому вопросу."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/compare-accounting-scope",
++  "purpose": "ui",
++  "schemaVersion": 1,
++  "value": {
++   "default": "Две отметки о «компенсации»: что можно связать?",
++   "translations": {
++    "ru": "Две отметки о «компенсации»: что можно связать?"
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/compare-accounting-scope-result",
++  "purpose": "ui",
++  "schemaVersion": 1,
++  "value": {
++   "default": "В реестре Марата — «компенсация закрыта». В повреждённом фрагменте — «принята не полностью», но имя и дата не сохранились. Похоже, помимо медицинских справок здесь ведут ещё какой-то учёт. Пока я не знаю, относится ли фрагмент к тому же случаю и что именно в нём называют компенсацией. Спрошу Рината о самих строках, не выдавая догадку за установленный случай.",
++   "translations": {
++    "ru": "В реестре Марата — «компенсация закрыта». В повреждённом фрагменте — «принята не полностью», но имя и дата не сохранились. Похоже, помимо медицинских справок здесь ведут ещё какой-то учёт. Пока я не знаю, относится ли фрагмент к тому же случаю и что именно в нём называют компенсацией. Спрошу Рината о самих строках, не выдавая догадку за установленный случай."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/compare-accounting-same-case",
++  "purpose": "ui",
++  "schemaVersion": 1,
++  "value": {
++   "default": "«Принята не полностью» доказывает, что дело Марата не закрыто?",
++   "translations": {
++    "ru": "«Принята не полностью» доказывает, что дело Марата не закрыто?"
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/compare-accounting-same-case-result",
++  "purpose": "ui",
++  "schemaVersion": 1,
++  "value": {
++   "default": "В реестре есть имя Марата. В повреждённом фрагменте — только «линия М.» и «внук», без имени и даты. Повтор слова не доказывает, что это одна запись или один случай. Сначала нужно отделить то, что написано, от того, кого я подставил в пропуски.",
++   "translations": {
++    "ru": "В реестре есть имя Марата. В повреждённом фрагменте — только «линия М.» и «внук», без имени и даты. Повтор слова не доказывает, что это одна запись или один случай. Сначала нужно отделить то, что написано, от того, кого я подставил в пропуски."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/choice-rinat-accounting",
++  "purpose": "dialogue",
++  "schemaVersion": 1,
++  "value": {
++   "default": "В реестре «компенсация закрыта», в другом фрагменте — «принята не полностью». О каком учёте речь?",
++   "translations": {
++    "ru": "В реестре «компенсация закрыта», в другом фрагменте — «принята не полностью». О каком учёте речь?"
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/dialogue-rinat-accounting",
++  "purpose": "dialogue",
++  "schemaVersion": 1,
++  "value": {
++   "default": "«Кому ты это показывал?» Ринат произносит вопрос тише прежнего. Я повторяю две строки. Он не берёт лист. «Оставь записи дома, Айдар». Значение слова осталось без ответа; зато теперь его интересует, кто ещё видел найденное.",
++   "translations": {
++    "ru": "«Кому ты это показывал?» Ринат произносит вопрос тише прежнего. Я повторяю две строки. Он не берёт лист. «Оставь записи дома, Айдар». Значение слова осталось без ответа; зато теперь его интересует, кто ещё видел найденное."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/objective-mansur-draft-search",
++  "purpose": "ui",
++  "schemaVersion": 1,
++  "value": {
++   "default": "На ПК в сохранённых сообщениях найти черновик по словам «Мансур» или «черновик».",
++   "translations": {
++    "ru": "На ПК в сохранённых сообщениях найти черновик по словам «Мансур» или «черновик»."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/objective-mansur-draft-question",
++  "purpose": "ui",
++  "schemaVersion": 1,
++  "value": {
++   "default": "Спросить Мансура дома о черновике, в котором упомянуто моё имя.",
++   "translations": {
++    "ru": "Спросить Мансура дома о черновике, в котором упомянуто моё имя."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/objective-accounting-search",
++  "purpose": "ui",
++  "schemaVersion": 1,
++  "value": {
++   "default": "На ПК поискать «компенсация» из реестра; прочитать повреждённый фрагмент.",
++   "translations": {
++    "ru": "На ПК поискать «компенсация» из реестра; прочитать повреждённый фрагмент."
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/objective-accounting-compare",
++  "purpose": "ui",
++  "schemaVersion": 1,
++  "value": {
++   "default": "В журнале сопоставить реестр Марата и повреждённую запись: что означают две разные отметки?",
++   "translations": {
++    "ru": "В журнале сопоставить реестр Марата и повреждённую запись: что означают две разные отметки?"
++   }
++  }
++ },
++ {
++  "id": "urman.chapter1:text/objective-accounting-question",
++  "purpose": "ui",
++  "schemaVersion": 1,
++  "value": {
++   "default": "Спросить Рината у двери дома о двух строках про компенсацию.",
++   "translations": {
++    "ru": "Спросить Рината у двери дома о двух строках про компенсацию."
++   }
++  }
++ },
++ {
++  "assetRefs": [],
++  "entryConditions": [],
++  "id": "urman.chapter1:scene/investigation-source-returns",
++  "interactions": [
++   {
++    "conditions": [
++     {
++      "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
++      "op": "knowledge.status",
++      "status": "confirmed"
++     },
++     {
++      "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
++      "op": "knowledge.status",
++      "status": "confirmed"
++     },
++     {
++      "condition": {
++       "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++       "op": "knowledge.status",
++       "status": "hypothesis"
++      },
++      "op": "not"
++     }
++    ],
++    "effects": [
++     {
++      "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++      "op": "knowledge.set-status",
++      "status": "hypothesis"
++     },
++     {
++      "entryId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++      "op": "journal.record",
++      "sourceId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system"
++     }
++    ],
++    "id": "urman.chapter1:interaction/compare-accounting-scope",
++    "journalAction": {
++     "resultTextId": "urman.chapter1:text/compare-accounting-scope-result",
++     "sourceIds": [
++      "urman.oldpc:document/rec_marat_case_register_conflict",
++      "urman.oldpc:document/rec_internal_accounting_damaged"
++     ]
++    },
++    "labelTextId": "urman.chapter1:text/compare-accounting-scope"
++   },
++   {
++    "conditions": [
++     {
++      "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
++      "op": "knowledge.status",
++      "status": "confirmed"
++     },
++     {
++      "knowledgeId": "urman.chapter1:knowledge/clue_marat_case_boundary_marker",
++      "op": "knowledge.status",
++      "status": "confirmed"
++     },
++     {
++      "condition": {
++       "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++       "op": "knowledge.status",
++       "status": "hypothesis"
++      },
++      "op": "not"
++     }
++    ],
++    "effects": [],
++    "id": "urman.chapter1:interaction/compare-accounting-same-case",
++    "journalAction": {
++     "resultTextId": "urman.chapter1:text/compare-accounting-same-case-result",
++     "sourceIds": [
++      "urman.oldpc:document/rec_marat_case_register_conflict",
++      "urman.oldpc:document/rec_internal_accounting_damaged"
++     ]
++    },
++    "labelTextId": "urman.chapter1:text/compare-accounting-same-case"
++   }
++  ],
++  "onEnter": [],
++  "onExit": [],
++  "sceneType": "presentation",
++  "schemaVersion": 1,
++  "textRefs": [
++   "urman.chapter1:text/compare-accounting-scope",
++   "urman.chapter1:text/compare-accounting-scope-result",
++   "urman.chapter1:text/compare-accounting-same-case",
++   "urman.chapter1:text/compare-accounting-same-case-result"
++  ],
++  "title": {
++   "default": "Возвращение к владельцам записей",
++   "translations": {
++    "ru": "Возвращение к владельцам записей"
++   }
++  }
++ }
++]
+*** Update File: content/modules/urman-chapter1/module.json
+@@
+-    "investigation-revisions.json",
++    "investigation-revisions.json",
++    "investigation-source-returns.json",
+@@
+-  "provides": [
++  "provides": [
++    "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++    "urman.chapter1:knowledge/clue_accounting_fragment_read",
++    "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++    "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
++    "urman.chapter1:text/choice-mansur-ask-draft",
++    "urman.chapter1:text/dialogue-mansur-draft-folder",
++    "urman.chapter1:text/choice-mansur-name-folder",
++    "urman.chapter1:text/choice-mansur-ask-intent",
++    "urman.chapter1:text/dialogue-mansur-draft-name-result",
++    "urman.chapter1:text/dialogue-mansur-draft-question-result",
++    "urman.chapter1:text/choice-mansur-draft-later",
++    "urman.chapter1:text/compare-accounting-scope",
++    "urman.chapter1:text/compare-accounting-scope-result",
++    "urman.chapter1:text/compare-accounting-same-case",
++    "urman.chapter1:text/compare-accounting-same-case-result",
++    "urman.chapter1:text/choice-rinat-accounting",
++    "urman.chapter1:text/dialogue-rinat-accounting",
++    "urman.chapter1:text/objective-mansur-draft-search",
++    "urman.chapter1:text/objective-mansur-draft-question",
++    "urman.chapter1:text/objective-accounting-search",
++    "urman.chapter1:text/objective-accounting-compare",
++    "urman.chapter1:text/objective-accounting-question",
++    "urman.chapter1:scene/investigation-source-returns",
+*** Update File: content/modules/urman-chapter1/definitions.json
+@@
+- {
+-  "schemaVersion": 1,
+-  "id": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
+-  "kind": "hypothesis",
+-  "title": {
+-   "default": "Mansur left access deliberately",
+-   "translations": {
+-    "ru": "Мансур оставил доступ намеренно"
+-   }
+-  },
+-  "summary": {
+-   "default": "The old computer was not simply left open, but Mansur is not made into a villain.",
+-   "translations": {
+-    "ru": "Старый ПК оказался доступен не случайно, но Мансур не становится злодеем."
+-   }
+-  },
+-  "initialStatus": "hidden",
+-  "sourceIds": [
+-   "urman.chapter1:scene/house",
+-   "urman.chapter1:scene/evidence-edge-sketch"
+-  ],
+-  "reveals": [
+-   "urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary"
+-  ],
+-  "contradicts": [],
+-  "unlocks": []
+- },
++ {
++  "contradicts": [],
++  "id": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++  "initialStatus": "hidden",
++  "kind": "hypothesis",
++  "reveals": [],
++  "schemaVersion": 1,
++  "sourceIds": [
++   "urman.oldpc:document/msg_mansur_unsent_note",
++   "urman.chapter1:knowledge/clue_mansur_household_request",
++   "urman.chapter1:dialogue/mansur_pc_request"
++  ],
++  "summary": {
++   "default": "В черновике предлагают дать мне увидеть бумаги дома. Мансур сразу спросил, какую папку я открыл, и указал, где лежит схема, но не объяснил, зачем оставил доступ. Похоже, он хотел держать мои поиски рядом с собой. Это предположение о его намерении, а не признание и не ответ на вопрос о Марате.",
++   "translations": {
++    "ru": "В черновике предлагают дать мне увидеть бумаги дома. Мансур сразу спросил, какую папку я открыл, и указал, где лежит схема, но не объяснил, зачем оставил доступ. Похоже, он хотел держать мои поиски рядом с собой. Это предположение о его намерении, а не признание и не ответ на вопрос о Марате."
++   }
++  },
++  "title": {
++   "default": "Мансур пустил к ПК не случайно?",
++   "translations": {
++    "ru": "Мансур пустил к ПК не случайно?"
++   }
++  },
++  "unlocks": []
++ },
+@@
+-    "id": "ask-for-help",
+-    "speakerRole": "mansur",
+-    "textId": "urman.chapter1:text/dialogue-mansur-pc-request",
+-    "conditions": [],
+-    "effects": [],
+-    "choices": [
++    "id": "ask-for-help",
++    "speakerRole": "mansur",
++    "textId": "urman.chapter1:text/dialogue-mansur-pc-request",
++    "conditions": [],
++    "effects": [],
++    "choices": [
++     {
++      "id": "ask-kept-draft",
++      "textId": "urman.chapter1:text/choice-mansur-ask-draft",
++      "conditions": [
++       {
++        "op": "npc.state",
++        "characterId": "urman.chapter1:character/mansur",
++        "stateKey": "pc_access_granted",
++        "value": true
++       },
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++        "status": "confirmed"
++       },
++       {
++        "op": "not",
++        "condition": {
++         "op": "knowledge.status",
++         "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++         "status": "hypothesis"
++        }
++       }
++      ],
++      "effects": [],
++      "nextNodeId": "draft-folder-question"
++     },
+@@
+-    "id": "follow-up",
+-    "speakerRole": "mansur",
+-    "textId": "urman.chapter1:text/dialogue-mansur-follow-up",
+-    "conditions": [],
+-    "effects": [],
+-    "choices": [
++    "id": "follow-up",
++    "speakerRole": "mansur",
++    "textId": "urman.chapter1:text/dialogue-mansur-follow-up",
++    "conditions": [],
++    "effects": [],
++    "choices": [
++     {
++      "id": "ask-kept-draft",
++      "textId": "urman.chapter1:text/choice-mansur-ask-draft",
++      "conditions": [
++       {
++        "op": "npc.state",
++        "characterId": "urman.chapter1:character/mansur",
++        "stateKey": "pc_access_granted",
++        "value": true
++       },
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++        "status": "confirmed"
++       },
++       {
++        "op": "not",
++        "condition": {
++         "op": "knowledge.status",
++         "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++         "status": "hypothesis"
++        }
++       }
++      ],
++      "effects": [],
++      "nextNodeId": "draft-folder-question"
++     },
+@@
+-   {
+-    "id": "why-reply",
++   {
++    "id": "draft-folder-question",
++    "speakerRole": "mansur",
++    "textId": "urman.chapter1:text/dialogue-mansur-draft-folder",
++    "conditions": [
++     {
++      "op": "npc.state",
++      "characterId": "urman.chapter1:character/mansur",
++      "stateKey": "pc_access_granted",
++      "value": true
++     },
++     {
++      "op": "knowledge.status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++      "status": "confirmed"
++     },
++     {
++      "op": "not",
++      "condition": {
++       "op": "knowledge.status",
++       "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++       "status": "hypothesis"
++      }
++     }
++    ],
++    "effects": [],
++    "choices": [
++     {
++      "id": "name-saved-folder",
++      "textId": "urman.chapter1:text/choice-mansur-name-folder",
++      "conditions": [
++       {
++        "op": "npc.state",
++        "characterId": "urman.chapter1:character/mansur",
++        "stateKey": "pc_access_granted",
++        "value": true
++       },
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++        "status": "confirmed"
++       },
++       {
++        "op": "not",
++        "condition": {
++         "op": "knowledge.status",
++         "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++         "status": "hypothesis"
++        }
++       }
++      ],
++      "effects": [],
++      "nextNodeId": "draft-named-reply"
++     },
++     {
++      "id": "ask-intent-again",
++      "textId": "urman.chapter1:text/choice-mansur-ask-intent",
++      "conditions": [
++       {
++        "op": "npc.state",
++        "characterId": "urman.chapter1:character/mansur",
++        "stateKey": "pc_access_granted",
++        "value": true
++       },
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++        "status": "confirmed"
++       },
++       {
++        "op": "not",
++        "condition": {
++         "op": "knowledge.status",
++         "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++         "status": "hypothesis"
++        }
++       }
++      ],
++      "effects": [],
++      "nextNodeId": "draft-intent-reply"
++     },
++     {
++      "id": "leave-draft",
++      "textId": "urman.chapter1:text/choice-mansur-draft-later",
++      "conditions": [],
++      "effects": [],
++      "nextNodeId": null
++     }
++    ]
++   },
++   {
++    "id": "draft-named-reply",
++    "speakerRole": "mansur",
++    "textId": "urman.chapter1:text/dialogue-mansur-draft-name-result",
++    "conditions": [
++     {
++      "op": "npc.state",
++      "characterId": "urman.chapter1:character/mansur",
++      "stateKey": "pc_access_granted",
++      "value": true
++     },
++     {
++      "op": "knowledge.status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++      "status": "confirmed"
++     },
++     {
++      "op": "not",
++      "condition": {
++       "op": "knowledge.status",
++       "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++       "status": "hypothesis"
++      }
++     }
++    ],
++    "effects": [
++     {
++      "op": "knowledge.set-status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++      "status": "hypothesis"
++     },
++     {
++      "op": "journal.record",
++      "entryId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++      "sourceId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately"
++     }
++    ],
++    "choices": []
++   },
++   {
++    "id": "draft-intent-reply",
++    "speakerRole": "mansur",
++    "textId": "urman.chapter1:text/dialogue-mansur-draft-question-result",
++    "conditions": [
++     {
++      "op": "npc.state",
++      "characterId": "urman.chapter1:character/mansur",
++      "stateKey": "pc_access_granted",
++      "value": true
++     },
++     {
++      "op": "knowledge.status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++      "status": "confirmed"
++     },
++     {
++      "op": "not",
++      "condition": {
++       "op": "knowledge.status",
++       "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++       "status": "hypothesis"
++      }
++     }
++    ],
++    "effects": [
++     {
++      "op": "knowledge.set-status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++      "status": "hypothesis"
++     },
++     {
++      "op": "journal.record",
++      "entryId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++      "sourceId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately"
++     }
++    ],
++    "choices": []
++   },
++   {
++    "id": "why-reply",
+@@
+-    "id": "category-reply",
+-    "speakerRole": "rinat",
+-    "textId": "urman.chapter1:text/dialogue-rinat-danger",
+-    "conditions": [],
+-    "effects": [],
+-    "choices": [
++    "id": "category-reply",
++    "speakerRole": "rinat",
++    "textId": "urman.chapter1:text/dialogue-rinat-danger",
++    "conditions": [],
++    "effects": [],
++    "choices": [
++     {
++      "id": "ask-compensation-records",
++      "textId": "urman.chapter1:text/choice-rinat-accounting",
++      "conditions": [
++       {
++        "op": "npc.state",
++        "characterId": "urman.chapter1:character/rinat",
++        "stateKey": "alerted",
++        "value": true
++       },
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
++        "status": "confirmed"
++       },
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++        "status": "hypothesis"
++       },
++       {
++        "op": "not",
++        "condition": {
++         "op": "knowledge.status",
++         "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
++         "status": "confirmed"
++        }
++       }
++      ],
++      "effects": [],
++      "nextNodeId": "accounting-question-reply"
++     },
+@@
+-   {
+-    "id": "javap-interrupt",
++   {
++    "id": "accounting-question-reply",
++    "speakerRole": "rinat",
++    "textId": "urman.chapter1:text/dialogue-rinat-accounting",
++    "conditions": [
++     {
++      "op": "npc.state",
++      "characterId": "urman.chapter1:character/rinat",
++      "stateKey": "alerted",
++      "value": true
++     },
++     {
++      "op": "knowledge.status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
++      "status": "confirmed"
++     },
++     {
++      "op": "knowledge.status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++      "status": "hypothesis"
++     },
++     {
++      "op": "not",
++      "condition": {
++       "op": "knowledge.status",
++       "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
++       "status": "confirmed"
++      }
++     }
++    ],
++    "effects": [
++     {
++      "op": "knowledge.set-status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
++      "status": "confirmed"
++     },
++     {
++      "op": "journal.record",
++      "entryId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
++      "sourceId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard"
++     }
++    ],
++    "choices": []
++   },
++   {
++    "id": "javap-interrupt",
+@@
+-       {"op": "all", "conditions": [
+-        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "confirmed"},
+-        {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "javap_interrupted", "value": true}}
+-       ]}
+-      ]
+-     }
+-    ],
+-    "effects": [],
+-    "targetDialogueId": "urman.chapter1:dialogue/rinat_internal_register",
++       {"op": "all", "conditions": [
++        {"op": "vocabulary.status", "vocabularyId": "urman.chapter1:vocabulary/tt_javap", "status": "confirmed"},
++        {"op": "not", "condition": {"op": "npc.state", "characterId": "urman.chapter1:character/rinat", "stateKey": "javap_interrupted", "value": true}}
++       ]},
++       {"op": "all", "conditions": [
++        {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system", "status": "hypothesis"},
++        {"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard", "status": "confirmed"}}
++       ]}
++      ]
++     }
++    ],
++    "effects": [],
++    "targetDialogueId": "urman.chapter1:dialogue/rinat_internal_register",
+@@
+-    "id": "urman.chapter1:interaction/reread-to-edge-sketch",
+-    "labelTextId": "urman.chapter1:text/continue",
+-    "conditions": [
++    "id": "urman.chapter1:interaction/reread-to-edge-sketch",
++    "labelTextId": "urman.chapter1:text/continue",
++    "conditions": [
++     {
++      "op": "knowledge.status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++      "status": "hypothesis"
++     },
++     {
++      "op": "knowledge.status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++      "status": "hypothesis"
++     },
++     {
++      "op": "knowledge.status",
++      "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
++      "status": "confirmed"
++     },
+@@
+-  "id": "urman.chapter1:scene/evidence-edge-sketch",
+-  "sceneType": "presentation",
+-  "title": {
+-   "default": "Mansur's edge sketch projection",
+-   "translations": {
+-    "ru": "Проекция схемы Мансура у кромки"
+-   }
+-  },
+-  "assetRefs": [],
+-  "textRefs": [
+-   "urman.chapter1:text/journal-source"
+-  ],
+-  "entryConditions": [
++  "id": "urman.chapter1:scene/evidence-edge-sketch",
++  "sceneType": "presentation",
++  "title": {
++   "default": "Mansur's edge sketch projection",
++   "translations": {
++    "ru": "Проекция схемы Мансура у кромки"
++   }
++  },
++  "assetRefs": [],
++  "textRefs": [
++   "urman.chapter1:text/journal-source"
++  ],
++  "entryConditions": [
++   {
++    "op": "knowledge.status",
++    "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++    "status": "hypothesis"
++   },
++   {
++    "op": "knowledge.status",
++    "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++    "status": "hypothesis"
++   },
++   {
++    "op": "knowledge.status",
++    "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
++    "status": "confirmed"
++   },
+@@
+-      "apply-words"
+-     ]
+-    }
+-   }
+-  ],
+-  "outcomes": {
++      "apply-words"
++     ]
++    }
++   },
++   {
++    "id": "check-owner-draft",
++    "objectives": [
++     {
++      "id": "find-owner-draft",
++      "titleTextId": "urman.chapter1:text/objective-mansur-draft-search",
++      "optional": false,
++      "startConditions": [
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_internal_wording_reread",
++        "status": "confirmed"
++       }
++      ],
++      "completionConditions": [
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++        "status": "confirmed"
++       }
++      ],
++      "completionEffects": [],
++      "failureEffects": []
++     },
++     {
++      "id": "question-owner-draft",
++      "titleTextId": "urman.chapter1:text/objective-mansur-draft-question",
++      "optional": false,
++      "startConditions": [
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_unsent_note_read",
++        "status": "confirmed"
++       }
++      ],
++      "completionConditions": [
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately",
++        "status": "hypothesis"
++       }
++      ],
++      "completionEffects": [],
++      "failureEffects": []
++     }
++    ],
++    "composition": {
++     "mode": "all",
++     "objectiveIds": [
++      "find-owner-draft",
++      "question-owner-draft"
++     ]
++    }
++   },
++   {
++    "id": "check-damaged-accounting",
++    "objectives": [
++     {
++      "id": "find-damaged-fragment",
++      "titleTextId": "urman.chapter1:text/objective-accounting-search",
++      "optional": false,
++      "startConditions": [
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_internal_wording_reread",
++        "status": "confirmed"
++       }
++      ],
++      "completionConditions": [
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
++        "status": "confirmed"
++       }
++      ],
++      "completionEffects": [],
++      "failureEffects": []
++     },
++     {
++      "id": "compare-damaged-fragment",
++      "titleTextId": "urman.chapter1:text/objective-accounting-compare",
++      "optional": false,
++      "startConditions": [
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_accounting_fragment_read",
++        "status": "confirmed"
++       }
++      ],
++      "completionConditions": [
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++        "status": "hypothesis"
++       }
++      ],
++      "completionEffects": [],
++      "failureEffects": []
++     },
++     {
++      "id": "question-damaged-fragment",
++      "titleTextId": "urman.chapter1:text/objective-accounting-question",
++      "optional": false,
++      "startConditions": [
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_village_has_internal_compensation_system",
++        "status": "hypothesis"
++       }
++      ],
++      "completionConditions": [
++       {
++        "op": "knowledge.status",
++        "knowledgeId": "urman.chapter1:knowledge/clue_rinat_accounting_question_heard",
++        "status": "confirmed"
++       }
++      ],
++      "completionEffects": [],
++      "failureEffects": []
++     }
++    ],
++    "composition": {
++     "mode": "all",
++     "objectiveIds": [
++      "find-damaged-fragment",
++      "compare-damaged-fragment",
++      "question-damaged-fragment"
++     ]
++    }
++   }
++  ],
++  "outcomes": {
+*** Update File: content/modules/urman-oldpc/documents/msg_mansur_unsent_note.md
+@@
+-knowledgeRefs: ["urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately"]
++knowledgeRefs: []
+@@
+-openEffects: []
++openEffects: [{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/clue_mansur_unsent_note_read","status":"confirmed"},{"op":"journal.record","entryId":"urman.oldpc:document/msg_mansur_unsent_note","sourceId":"urman.oldpc:document/msg_mansur_unsent_note"}]
+*** Update File: content/modules/urman-oldpc/documents/rec_internal_accounting_damaged.md
+@@
+-knowledgeRefs: ["urman.chapter1:knowledge/clue_marat_case_boundary_marker"]
++knowledgeRefs: []
+@@
+-openEffects: []
++openEffects: [{"op":"knowledge.set-status","knowledgeId":"urman.chapter1:knowledge/clue_accounting_fragment_read","status":"confirmed"},{"op":"journal.record","entryId":"urman.oldpc:document/rec_internal_accounting_damaged","sourceId":"urman.oldpc:document/rec_internal_accounting_damaged"}]
+*** Update File: content/modules/urman-oldpc/documents/doc_kara_urman_edge_sketch.md
+@@
+-accessConditions: [{"op":"all","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_folklore_as_survival_rule","status":"hypothesis"},{"op":"vocabulary.status","vocabularyId":"urman.chapter1:vocabulary/tt_javap","status":"confirmed"},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_internal_wording_reread","status":"confirmed"}]}]
++accessConditions: [{"op":"all","conditions":[{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_folklore_as_survival_rule","status":"hypothesis"},{"op":"vocabulary.status","vocabularyId":"urman.chapter1:vocabulary/tt_javap","status":"confirmed"},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_internal_wording_reread","status":"confirmed"},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately","status":"hypothesis"},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_village_has_internal_compensation_system","status":"hypothesis"},{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_rinat_accounting_question_heard","status":"confirmed"}]}]
+*** Update File: game/tests/Act1Len01FamilyFlowSmokeTest.cs
+@@
+-            Require(await _bridge.DispatchInteractionAsync(Interaction("reread-to-edge-sketch")),
+-                "The interpreted register did not open the sketch step.");
++            if (!await Act1SourceReturnsProof.CompleteAsync(this, _bridge, verifyReturn: true)) return;
++            Require(await _bridge.DispatchInteractionAsync(Interaction("reread-to-edge-sketch")),
++                "The source returns and interpreted register did not open the sketch step.");
+@@
+-                && Status("clue_mansur_allowed_pc_access_deliberately") == "hidden",
+-                "Entering the sketch read it or invented Mansur's motive.");
++                && Status("clue_mansur_allowed_pc_access_deliberately") == "hypothesis",
++                "Entering the sketch read it or changed the bounded inference about Mansur.");
+@@
+-            await Act1ArrivalFlowProof.CompleteAsync(this, _bridge, reply: "keep-silent");
++            await Act1ArrivalFlowProof.CompleteAsync(this, _bridge, reply: "keep-silent");
++            Require(Status("clue_mansur_allowed_pc_access_deliberately") == "hidden"
++                && Status("clue_village_has_internal_compensation_system") == "hidden"
++                && !Known("clue_mansur_unsent_note_read") && !Known("clue_accounting_fragment_read")
++                && !Known("clue_rinat_accounting_question_heard"),
++                "New Game retained the prior source returns or their interpretations.");
+@@
+-    private static void Check(bool condition, string message)
+-    {
+-        if (!condition) throw new InvalidOperationException(message);
+-    }
+-}
++    private static void Check(bool condition, string message)
++    {
++        if (!condition) throw new InvalidOperationException(message);
++    }
++}
++
++internal static class Act1SourceReturnsProof
++{
++    private const string Prefix = "urman.chapter1:";
++    private const string Note = "urman.oldpc:document/msg_mansur_unsent_note";
++    private const string Fragment = "urman.oldpc:document/rec_internal_accounting_damaged";
++    private const string Register = "urman.oldpc:document/rec_marat_case_register_conflict";
++    private const string Sketch = "urman.oldpc:document/doc_kara_urman_edge_sketch";
++    private const string Intent = "clue_mansur_allowed_pc_access_deliberately";
++    private const string Accounting = "clue_village_has_internal_compensation_system";
++    private const string RinatAnswer = "clue_rinat_accounting_question_heard";
++
++    // Uses production targets and modal owners in the real house. It proves
++    // authored source/choice persistence; physical traversal and interest remain
++    // separate checks. Both sources keep their ordinary access conditions.
++    internal static async Task<bool> CompleteAsync(Node owner, RuntimeBridge bridge,
++        bool verifyReturn = false, bool accountingFirst = false, bool askIntentAgain = false)
++    {
++        try
++        {
++            var tree = owner.GetTree();
++            var main = tree.GetFirstNodeInGroup("zone_manager") as Main
++                ?? throw new InvalidOperationException("Source returns have no world owner.");
++            var player = tree.GetFirstNodeInGroup("player_controller") as FirstPersonController
++                ?? throw new InvalidOperationException("Source returns have no player.");
++            var pc = tree.GetFirstNodeInGroup("old_pc_ui") as OldPcUi
++                ?? throw new InvalidOperationException("Source returns have no archive UI.");
++            var dialogue = tree.GetFirstNodeInGroup("dialogue_ui") as DialogueUi
++                ?? throw new InvalidOperationException("Source returns have no dialogue UI.");
++            var journal = tree.GetFirstNodeInGroup("journal_ui") as JournalUi
++                ?? throw new InvalidOperationException("Source returns have no journal UI.");
++            var scene = bridge.ActiveSceneId;
++            var pressure = bridge.SelectRuntimeState().GetProperty("pressure").GetDouble();
++            Check(bridge.CurrentZoneId == "house_old_pc" && !player.ModalOpen
++                && Known("clue_internal_wording_reread") && Known("pressure_council_attention_1")
++                && Status(Intent) == "hidden" && Status(Accounting) == "hidden" && !Known(RinatAnswer),
++                "Source returns started outside the reached house investigation or with fabricated prior results.");
++            Check(!bridge.IsOldPcDocumentAccessible(Sketch)
++                && !await bridge.OpenDocumentAsync(Sketch)
++                && !await bridge.DispatchInteractionAsync(Interaction("reread-to-edge-sketch"))
++                && !await bridge.ChooseDialogueAsync(Prefix + "dialogue/mansur_pc_request", "draft-folder-question", "name-saved-folder")
++                && !await bridge.ChooseDialogueAsync(Prefix + "dialogue/rinat_internal_register", "category-reply", "ask-compensation-records"),
++                "Unread sources were bypassed through a document, scene transition or direct dialogue choice.");
++
++            // A technical caller that previously used the raw document API still
++            // obtains access through Mansur's existing household reply.
++            if (!bridge.IsInteractionAvailable(Interaction("oldpc-power")))
++            {
++                await Talk("talk-mansur");
++                await Choice("choice-mansur-why");
++                await CloseDialogue();
++            }
++            Check(bridge.IsInteractionAvailable(Interaction("oldpc-power")), "Mansur's real access reply did not unlock the physical computer.");
++
++            if (accountingFirst) { await AccountingReturn(); await MansurReturn(); }
++            else { await MansurReturn(); await AccountingReturn(); }
++            Check(Status(Intent) == "hypothesis" && Status(Accounting) == "hypothesis"
++                && Known(RinatAnswer) && bridge.IsOldPcDocumentAccessible(Sketch)
++                && bridge.IsInteractionAvailable(Interaction("reread-to-edge-sketch"))
++                && bridge.ActiveSceneId == scene && !Known("clue_kara_urman_edge_is_rule_boundary")
++                && !Known("clue_do_not_answer_rule") && !player.ModalOpen
++                && bridge.SelectRuntimeState().GetProperty("pressure").GetDouble() == pressure,
++                "Source returns skipped the unread map, changed the scene, supplied the final rule or repeated pressure.");
++            foreach (var entry in new[] { Note, Fragment, Knowledge(Intent), Knowledge(Accounting), Knowledge(RinatAnswer) })
++                Check(bridge.JournalEntries().Count(candidate => candidate.EntryId == entry) == 1,
++                    "Source returns lost or duplicated a journal entry: " + entry);
++            if (verifyReturn)
++            {
++                await RoundTrip("len01-source-returns-completed");
++                Check(Status(Intent) == "hypothesis" && Status(Accounting) == "hypothesis"
++                    && Known(RinatAnswer) && bridge.IsOldPcDocumentAccessible(Sketch),
++                    "Loading the completed returns changed hypotheses or hid the reached sketch.");
++            }
++            GD.Print("source-returns-proof: two actual archive sources, explicit Mansur reply, bounded accounting comparison,"
++                + " actual Rinat question, hypothesis labels; order=" + (accountingFirst ? "accounting-first" : "note-first")
++                + "; no repeated pressure or early rule; traversal, interest and duration remain separate");
++            return true;
++
++            async Task MansurReturn()
++            {
++                await ReadPc("Мансур", Note);
++                Check(Known("clue_mansur_unsent_note_read") && Status(Intent) == "hidden"
++                    && !bridge.IsOldPcDocumentAccessible(Sketch),
++                    "Opening the unsent note silently interpreted Mansur's intent or unlocked the sketch.");
++                await Talk("talk-mansur");
++                await Choice("choice-mansur-ask-draft");
++                Check(dialogue.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text.Contains("Какую папку ты открыл", StringComparison.Ordinal)
++                    && Status(Intent) == "hidden", "Mansur's authored folder question was omitted or auto-answered.");
++                if (verifyReturn)
++                {
++                    await Choice("choice-mansur-draft-later");
++                    await CloseDialogue();
++                    await RoundTrip("len01-mansur-note-unanswered");
++                    Check(Status(Intent) == "hidden" && !bridge.IsOldPcDocumentAccessible(Sketch),
++                        "Abandoning the question or loading supplied Mansur's answer.");
++                    await Talk("talk-mansur");
++                    await Choice("choice-mansur-ask-draft");
++                }
++                await Choice(askIntentAgain ? "choice-mansur-ask-intent" : "choice-mansur-name-folder");
++                Check(Status(Intent) == "hypothesis"
++                    && dialogue.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text.Contains("схема", StringComparison.Ordinal),
++                    "The explicit answer failed to leave a bounded inference and a readable next lead.");
++                await CloseDialogue();
++                await StatusLabel(Intent);
++                Check(!await bridge.ChooseDialogueAsync(Prefix + "dialogue/mansur_pc_request", "draft-folder-question", "name-saved-folder"),
++                    "Mansur's completed inference could be answered a second time.");
++                if (!Known(RinatAnswer)) Check(!bridge.IsOldPcDocumentAccessible(Sketch),
++                    "Mansur's note bypassed the pending damaged-source question.");
++            }
++
++            async Task AccountingReturn()
++            {
++                await ReadPc("компенсация", Fragment);
++                Check(Known("clue_accounting_fragment_read") && Status(Accounting) == "hidden"
++                    && !Known(RinatAnswer) && !bridge.IsOldPcDocumentAccessible(Sketch),
++                    "Opening damaged prose fabricated an interpretation or the human response.");
++                Check(!await bridge.CompareJournalSourcesAsync(Interaction("compare-accounting-scope"),
++                        new[] { Fragment, "urman.oldpc:document/doc_marat_official_death_notice" })
++                    && !await bridge.ChooseDialogueAsync(Prefix + "dialogue/rinat_internal_register", "category-reply", "ask-compensation-records"),
++                    "An unrelated pairing or a question without comparison supplied the result.");
++                if (verifyReturn)
++                {
++                    await Compare("compare-accounting-same-case");
++                    Check(Status(Accounting) == "hidden" && !Known(RinatAnswer),
++                        "The unsupported identification of the damaged case was accepted.");
++                    await RoundTrip("len01-damaged-case-unresolved");
++                    Check(Status(Accounting) == "hidden" && !bridge.IsOldPcDocumentAccessible(Sketch),
++                        "Loading an unresolved comparison supplied the correct inference.");
++                }
++                await Compare("compare-accounting-scope");
++                Check(Status(Accounting) == "hypothesis" && !Known(RinatAnswer)
++                    && !bridge.IsOldPcDocumentAccessible(Sketch),
++                    "The comparison confirmed a world mechanism or silently answered Rinat's question.");
++                await StatusLabel(Accounting);
++                if (verifyReturn) await RoundTrip("len01-accounting-question-pending");
++                await Talk("internal-register-to-rinat");
++                Check(!Known(RinatAnswer), "Opening Rinat's follow-up automatically asked about the fragment.");
++                if (verifyReturn)
++                {
++                    await CloseDialogue();
++                    await RoundTrip("len01-rinat-accounting-abandoned");
++                    Check(!Known(RinatAnswer), "Abandoning Rinat's follow-up supplied his answer.");
++                    await Talk("internal-register-to-rinat");
++                }
++                await Choice("choice-rinat-accounting");
++                Check(Known(RinatAnswer) && Status(Accounting) == "hypothesis"
++                    && dialogue.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text.Contains("Кому ты это показывал", StringComparison.Ordinal),
++                    "Rinat's visible answer was absent or confirmed an unsupported mechanism.");
++                await CloseDialogue();
++                Check(!await bridge.ChooseDialogueAsync(Prefix + "dialogue/rinat_internal_register", "category-reply", "ask-compensation-records")
++                    && bridge.SelectRuntimeState().GetProperty("pressure").GetDouble() == pressure,
++                    "Repeating the new question changed social pressure or repeated its answer.");
++                if (Status(Intent) != "hypothesis") Check(!bridge.IsOldPcDocumentAccessible(Sketch),
++                    "The accounting question bypassed Mansur's missing source episode.");
++            }
++
++            async Task ReadPc(string query, string id)
++            {
++                var target = Target("oldpc-power");
++                Check(target.IsAvailable(), "The actual house computer is unavailable.");
++                target.Interact();
++                for (var frame = 0; frame < 180 && !pc.GetNode<Control>("Screen").Visible; frame++) await Frames(1);
++                Check(pc.GetNode<Control>("Screen").Visible && player.ModalOpen, "The actual computer target did not open its reader.");
++                var field = pc.GetNode<LineEdit>("Screen/Computer/Layout/SearchRow/Query");
++                field.Text = query;
++                field.EmitSignal(LineEdit.SignalName.TextSubmitted, query);
++                var results = pc.GetNode<ItemList>("Screen/Computer/Layout/WorkArea/Results");
++                var index = -1;
++                for (var frame = 0; frame < 180 && index < 0; frame++)
++                {
++                    await Frames(1);
++                    index = Enumerable.Range(0, results.ItemCount).FirstOrDefault(i =>
++                        results.IsItemSelectable(i) && results.GetItemMetadata(i).AsString() == id, -1);
++                }
++                Check(index >= 0, "The ordinary archive search did not find the reachable source: " + id);
++                results.EmitSignal(ItemList.SignalName.ItemSelected, index);
++                for (var frame = 0; frame < 180 && pc.ActiveDocumentId != id; frame++) await Frames(1);
++                await Frames(3);
++                Check(pc.ActiveDocumentId == id && bridge.JournalEntries().Any(entry => entry.EntryId == id),
++                    "The archive did not read and record its selected source: " + id);
++                pc.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
++                await Frames(3);
++                Check(!player.ModalOpen, "The archive retained player input.");
++            }
++
++            async Task Talk(string action)
++            {
++                var target = Target(action);
++                Check(target.IsAvailable(), "The actual source-holder target is unavailable: " + action);
++                target.Interact();
++                for (var frame = 0; frame < 180 && !dialogue.IsOpen; frame++) await Frames(1);
++                await Frames(3);
++                Check(dialogue.IsOpen && player.ModalOpen, "The source-holder target did not open its dialogue: " + action);
++            }
++            async Task Choice(string textId)
++            {
++                var button = dialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices").GetChildren()
++                    .OfType<Button>().SingleOrDefault(candidate => !candidate.Disabled
++                        && candidate.Text == bridge.ResolveText(Prefix + "text/" + textId));
++                Check(button is not null, "The source-holder choice is missing from the actual UI: " + textId);
++                button!.EmitSignal(Button.SignalName.Pressed);
++                await Frames(5);
++            }
++            async Task CloseDialogue()
++            {
++                if (dialogue.IsOpen) dialogue._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
++                await Frames(3);
++                Check(!dialogue.IsOpen && !player.ModalOpen, "Closing the source-holder dialogue retained input.");
++            }
++            async Task Compare(string action)
++            {
++                journal.Open(bridge);
++                await Frames(3);
++                journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 1;
++                var sourceIds = new[] { Register, Fragment };
++                for (var slot = 0; slot < 2; slot++)
++                {
++                    var picker = journal.GetNode<OptionButton>($"Screen/Book/Layout/Comparisons/Layout/Source{slot + 1}/Source");
++                    var index = Enumerable.Range(1, picker.ItemCount - 1).FirstOrDefault(i =>
++                        picker.GetItemMetadata(i).AsString() == sourceIds[slot], -1);
++                    Check(index > 0, "A read source is missing from the journal picker.");
++                    picker.Select(index);
++                    picker.EmitSignal(OptionButton.SignalName.ItemSelected, (long)index);
++                }
++                await Frames(3);
++                var button = journal.GetNode<VBoxContainer>("Screen/Book/Layout/Comparisons/Layout/Hypotheses")
++                    .GetChildren().OfType<Button>().SingleOrDefault(candidate => !candidate.Disabled
++                        && candidate.Text == bridge.ResolveText(Prefix + "text/" + action));
++                Check(button is not null, "The actual journal comparison is unavailable: " + action);
++                button!.EmitSignal(Button.SignalName.Pressed);
++                var firstPicker = journal.GetNode<OptionButton>("Screen/Book/Layout/Comparisons/Layout/Source1/Source");
++                for (var frame = 0; frame < 180 && firstPicker.Disabled; frame++) await Frames(1);
++                Check(!firstPicker.Disabled, "The journal comparison did not finish its transaction.");
++                journal.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
++                await Frames(3);
++                Check(!player.ModalOpen, "Closing a comparison retained input.");
++            }
++            async Task StatusLabel(string id)
++            {
++                journal.Open(bridge, Knowledge(id));
++                await Frames(3);
++                Check(journal.ActiveEntryId == Knowledge(id)
++                    && journal.GetNode<Label>("Screen/Book/Layout/WorkArea/Reader/Source").Text.Contains("Версия", StringComparison.Ordinal),
++                    "The journal displayed an uncertain interpretation as a confirmed fact.");
++                journal.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
++                await Frames(3);
++            }
++            async Task RoundTrip(string slot)
++            {
++                var zone = bridge.CurrentZoneId;
++                var spawn = bridge.CurrentSpawnPointId;
++                Check(!player.ModalOpen && await bridge.SaveSlotAsync(slot) && await bridge.LoadSlotAsync(slot),
++                    "Source return save/load failed: " + slot);
++                await Frames(6);
++                Check(bridge.ActiveSceneId == scene && bridge.CurrentZoneId == zone && bridge.CurrentSpawnPointId == spawn
++                    && (main.ConnectedWorld is null || main.ConnectedWorld.ActiveZoneId == zone),
++                    "Source return load changed the reached scene or physical zone.");
++            }
++            InteractionTarget Target(string action) => Descendants(main).OfType<InteractionTarget>()
++                .SingleOrDefault(target => target.InteractionId == Interaction(action))
++                ?? throw new InvalidOperationException("The house has no unique physical target: " + action);
++            string? Status(string id) => bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty(Knowledge(id)).GetProperty("status").GetString();
++            bool Known(string id) => Status(id) == "confirmed";
++            async Task Frames(int count)
++            {
++                for (var frame = 0; frame < count; frame++) await owner.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
++            }
++        }
++        catch (Exception exception)
++        {
++            GD.PushError("source-returns-proof: " + exception);
++            owner.GetTree().Quit(1);
++            return false;
++        }
++    }
++
++    private static System.Collections.Generic.IEnumerable<Node> Descendants(Node node)
++    {
++        foreach (var child in node.GetChildren())
++        {
++            yield return child;
++            foreach (var descendant in Descendants(child)) yield return descendant;
++        }
++    }
++    private static string Knowledge(string id) => Prefix + "knowledge/" + id;
++    private static string Interaction(string id) => Prefix + "interaction/" + id;
++    private static void Check(bool condition, string message)
++    {
++        if (!condition) throw new InvalidOperationException(message);
++    }
++}
++
+*** Update File: game/tests/ChapterOneFlowSmokeTest.cs
+@@
+-        if (!await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
+-        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_kara_urman_edge_is_rule_boundary") != "hidden"
+-            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_mansur_allowed_pc_access_deliberately") != "hidden"
++        if (!await Act1SourceReturnsProof.CompleteAsync(this, bridge, accountingFirst: true, askIntentAgain: true)) return;
++        if (!await Advance(bridge, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
++        if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_kara_urman_edge_is_rule_boundary") != "hidden"
++            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_mansur_allowed_pc_access_deliberately") != "hypothesis"
+*** Update File: game/tests/FullGameFlowSmokeTest.cs
+@@
+-        if (!await AdvanceChapterOne(bridge, main, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
++        if (!await Act1SourceReturnsProof.CompleteAsync(this, bridge)) return;
++        if (!await AdvanceChapterOne(bridge, main, "reread-to-edge-sketch", "evidence-edge-sketch")) return;
+*** Update File: game/tests/OldPcFlowSmokeTest.cs
+@@
+-        foreach (var unread in new[] { OfficialNotice, InternalRegister })
+-            if (!await RejectUnreadSave(bridge, unread)) return;
++        foreach (var unread in new[] { OfficialNotice, InternalRegister,
++                     "urman.oldpc:document/msg_mansur_unsent_note", "urman.oldpc:document/rec_internal_accounting_damaged" })
++            if (!await RejectUnreadSave(bridge, unread)) return;
++        foreach (var gated in new[] { "urman.oldpc:document/msg_mansur_unsent_note", "urman.oldpc:document/rec_internal_accounting_damaged" })
++            if (bridge.IsOldPcDocumentAccessible(gated) || await bridge.OpenDocumentAsync(gated))
++            { Fail("A fresh archive exposed a source before its existing investigation prerequisites: " + gated); return; }
+*** Update File: game/tests/DialogueFlowSmokeTest.cs
+@@
+-        if (!await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning"))
++        if (await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/mansur_pc_request", "ask-for-help", "ask-kept-draft")
++            || await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/mansur_pc_request", "draft-folder-question", "name-saved-folder")
++            || await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/rinat_internal_register", "category-reply", "ask-compensation-records"))
++        { Fail("Unread archive sources were bypassed through a direct source-holder choice."); return; }
++
++        if (!await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning"))
+*** End Patch

@@ -48,37 +48,14 @@ public partial class Act1ConnectedWorld
         // The targets remain owned by the existing logical village zone. The
         // visible counterparts live in Act1CoreWorldGreybox because the legacy
         // StyleBenchmarkZone presentation is intentionally suppressed.
-        DiscoveryTarget(village, "arrival-bench-race-notches", new(2.0f, 1.2f, .85f),
-            new(4.9f, benchGround + 1.03f, 6.24f), true);
+        DiscoveryTarget(village, "arrival-bench-race-notches", new(1.55f, .23f, .20f),
+            new(4.9f, benchGround + .78f, 6.285f), true);
         DiscoveryTarget(village, "arrival-insulated-well", new(1.6f, 1.7f, 1.2f),
             new(-4.2f, wellGround + 1.35f, 4.6f), true);
         DiscoveryTarget(village, "main-street-sign-reverse", new(1.35f, .95f, .80f),
             new(-2.05f, signGround + 1.68f, 5.8f), true);
 
-        // M1: the personal Marat detail is the player's own action, not an
-        // automatic grant. The photograph he carries stands on the arrival
-        // bench, leaning against the backrest so its silhouette reads from the
-        // street, and opens the existing arrival-photo source whose authored
-        // openEffects confirm the memory keys.
-        var arrivalPhoto = new Node3D
-        {
-            Name = "ArrivalPhotoInRoad",
-            Position = new(5.35f, benchGround + 0.80f, 6.16f),
-            RotationDegrees = new(-16f, 8f, 0f)
-        };
-        village.AddChild(arrivalPhoto);
-        AddVisualBox(arrivalPhoto, "PhotoFrameEdge", new(.235f, .175f, .012f), Vector3.Zero, "6f5a42");
-        AddVisualBox(arrivalPhoto, "PhotoPrint", new(.205f, .145f, .010f), new(0f, 0f, .004f), "d8cdb2");
-        AddVisualBox(arrivalPhoto, "PhotoSkyBand", new(.190f, .070f, .008f), new(0f, .032f, .008f), "9aa8ae");
-        AddVisualBox(arrivalPhoto, "PhotoFigureA", new(.040f, .062f, .008f), new(-.042f, -.026f, .008f), "5f5a4e");
-        AddVisualBox(arrivalPhoto, "PhotoFigureB", new(.040f, .070f, .008f), new(.036f, -.022f, .008f), "7a6a52");
-        AddVisualBox(arrivalPhoto, "PhotoInscription", new(.085f, .014f, .007f), new(.028f, -.052f, .008f), "6a6154");
-        AddVisualBox(arrivalPhoto, "PhotoProp", new(.070f, .080f, .070f), new(-.062f, -.052f, 0f), "7d6a4f");
-        village.MakeInteractionBox("ArrivalPhotoTarget", new(.60f, .60f, .50f),
-            new(5.35f, benchGround + .88f, 6.16f), "665b49", "",
-            "Посмотреть фотографию",
-            documentId: "urman.chapter1:document/arrival-photo-evidence",
-            rayOnly: true);
+        ArrivalPersonalProps.Build(village, benchGround);
     }
 
     private void BuildArrivalBenchDiscovery(Node3D parent, float groundY)

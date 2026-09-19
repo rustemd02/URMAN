@@ -11,6 +11,21 @@ namespace Urman.Experiments.AgentBAct1;
 /// </summary>
 public static class AgentBFoliagePlan
 {
+    internal static Vector2 ResolveYardWorkTree(Vector2 position, string variant)
+    {
+        if (!variant.Contains("Birch", System.StringComparison.Ordinal)) return position;
+        // Two deterministic satellites grew through the later authored repair
+        // cabinet and its working aisle. Move the whole rooted tree before
+        // geometry, all LODs and stem collision are created; retain the seed
+        // and every other planting. The new roots have 0.9 m clearance in the
+        // actual world (yard-plant-probe-12b), beyond the north yard fence.
+        if (position.DistanceSquaredTo(new(-30.183186f, 1.480051f)) < .000001f)
+            return new(-29f, 6.4f);
+        if (position.DistanceSquaredTo(new(-30.125542f, 2.240947f)) < .000001f)
+            return new(-33f, 8.2f);
+        return position;
+    }
+
     public static IReadOnlyList<(Vector2 Position, string Variant)> Entries { get; } = new List<(Vector2, string)>
     {
         // The arrival/main-street near-camera window intentionally has no
