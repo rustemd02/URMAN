@@ -9,6 +9,7 @@ const REGISTRY_BY_KIND = Object.freeze({
   asset: ['assets', 'asset.schema.json'],
   capability: ['capabilities', 'capability.schema.json'],
   character: ['characters', 'character.schema.json'],
+  chat: ['chats', 'chat.schema.json'],
   dialogue: ['dialogues', 'dialogue.schema.json'],
   document: ['documents', 'document.schema.json'],
   knowledge: ['knowledge', 'knowledge.schema.json'],

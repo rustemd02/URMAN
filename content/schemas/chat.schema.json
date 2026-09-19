@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/chat.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "title", "presence", "requires", "startNodeId", "freeTextReply", "nodes"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "title": { "$ref": "common.schema.json#/$defs/LocalizedText" },
+    "bodyMarkdown": { "type": "string", "minLength": 1 },
+    "presence": { "enum": ["recently", "offline", "oneself"] },
+    "requires": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+    "startNodeId": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+    "freeTextReply": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "from", "textId", "requires", "reveals", "choices"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+          "from": { "enum": ["npc", "player"] },
+          "textId": { "$ref": "common.schema.json#/$defs/ContentId" },
+          "requires": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+          "reveals": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[^:]+$" }
+          },
+          "choices": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "required": ["id", "textId", "requires", "reveals", "nextNodeId"],
+              "properties": {
+                "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+                "textId": { "$ref": "common.schema.json#/$defs/ContentId" },
+                "requires": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+                "reveals": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[^:]+$" }
+                },
+                "nextNodeId": { "type": ["string", "null"], "pattern": "^[a-z][a-z0-9._-]*$" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

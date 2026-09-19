@@ -23,12 +23,43 @@ public sealed class ContentCompilerParityTests
         var goldenPath = Path.Combine(root, "tests-dotnet", "fixtures", "content", "urman.chapter1.compiled.v1.json");
         var golden = JsonNode.Parse(await File.ReadAllTextAsync(goldenPath, TestContext.Current.CancellationToken));
         Assert.True(JsonNode.DeepEquals(golden, result.Pack));
-        Assert.Equal("435b8d99c9b9fd7202bf24c8a92aa61944f7d4dddc5772b23247b6b1bf120439", result.Pack["campaignFingerprint"]!.GetValue<string>());
+        Assert.Equal("84c1c945301e73b3f17cbac3bcd3d8b69a6c5c058072ff672afd2689d266042c", result.Pack["campaignFingerprint"]!.GetValue<string>());
         var house = result.Pack["registries"]!["scenes"]!.AsArray()
             .Single(scene => scene!["id"]!.GetValue<string>() == "urman.chapter1:scene/house");
         Assert.Contains(
             house!["interactions"]!.AsArray(),
             interaction => interaction!["id"]!.GetValue<string>() == "urman.chapter1:interaction/oldpc-power");
+    }
+
+    [Fact]
+    public async Task ChapterOne_ChatThreadsHandOutTermsAndNeverDocuments()
+    {
+        var root = FindWorkspaceRoot();
+        var compilation = await new ContentCompiler().CompileAsync(
+            root,
+            "urman.chapter1",
+            ["urman.chapter1", "urman.core", "urman.oldpc"],
+            TestContext.Current.CancellationToken);
+
+        Assert.Empty(compilation.Diagnostics);
+        var chats = compilation.Pack!["registries"]!["chats"]!.AsArray();
+        Assert.Equal(
+            ["urman.oldpc:chat/alsu", "urman.oldpc:chat/mansur", "urman.oldpc:chat/rinat", "urman.oldpc:chat/self"],
+            chats.Select(chat => chat!["id"]!.GetValue<string>()).ToArray());
+        // The rinat thread waits for the same alerted state that opens the saved
+        // message; the others are readable from the first visit.
+        Assert.Single(chats[2]!["requires"]!.AsArray());
+        // A chat hands out search terms, never a document id: the schema forbids
+        // a colon in reveals, and this proves the shipped pack obeys it.
+        foreach (var chat in chats)
+        foreach (var node in chat!["nodes"]!.AsArray())
+        {
+            foreach (var term in node!["reveals"]!.AsArray())
+                Assert.DoesNotContain(':', term!.GetValue<string>());
+            foreach (var choice in node!["choices"]!.AsArray())
+            foreach (var term in choice!["reveals"]!.AsArray())
+                Assert.DoesNotContain(':', term!.GetValue<string>());
+        }
     }
 
     [Fact]

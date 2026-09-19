@@ -1,170 +1,691 @@
 [
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:text/archive-search-art-alt",
-    "value": { "default": "Old computer archive search interface", "translations": { "ru": "Интерфейс архивного поиска на старом компьютере" } },
-    "purpose": "accessibility"
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/archive-search-art-alt",
+  "value": {
+   "default": "Old computer archive search interface",
+   "translations": {
+    "ru": "Интерфейс архивного поиска на старом компьютере"
+   }
   },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:text/corrupted-record-art-alt",
-    "value": { "default": "Corrupted archive record window", "translations": { "ru": "Окно повреждённой архивной записи" } },
-    "purpose": "accessibility"
+  "purpose": "accessibility"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/corrupted-record-art-alt",
+  "value": {
+   "default": "Corrupted archive record window",
+   "translations": {
+    "ru": "Окно повреждённой архивной записи"
+   }
   },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:text/document-viewer-art-alt",
-    "value": { "default": "Old computer document viewer", "translations": { "ru": "Просмотрщик документа на старом компьютере" } },
-    "purpose": "accessibility"
+  "purpose": "accessibility"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/document-viewer-art-alt",
+  "value": {
+   "default": "Old computer document viewer",
+   "translations": {
+    "ru": "Просмотрщик документа на старом компьютере"
+   }
   },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:text/marat-medical-record-art-alt",
-    "value": { "default": "Scanned medical record form for Marat with an editable text overlay", "translations": { "ru": "Скан бланка медсправки Марата с редактируемым текстовым слоем" } },
-    "purpose": "accessibility"
+  "purpose": "accessibility"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/marat-medical-record-art-alt",
+  "value": {
+   "default": "Scanned medical record form for Marat with an editable text overlay",
+   "translations": {
+    "ru": "Скан бланка медсправки Марата с редактируемым текстовым слоем"
+   }
   },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:text/old-pc-desktop-art-alt",
-    "value": { "default": "Mansur's old computer desktop", "translations": { "ru": "Рабочий стол старого компьютера Мансура" } },
-    "purpose": "accessibility"
+  "purpose": "accessibility"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/old-pc-desktop-art-alt",
+  "value": {
+   "default": "Mansur's old computer desktop",
+   "translations": {
+    "ru": "Рабочий стол старого компьютера Мансура"
+   }
   },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:text/saved-marat-message-art-alt",
-    "value": { "default": "Saved archive message window from Marat", "translations": { "ru": "Окно сохранённого архивного сообщения от Марата" } },
-    "purpose": "accessibility"
+  "purpose": "accessibility"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/saved-marat-message-art-alt",
+  "value": {
+   "default": "Saved archive message window from Marat",
+   "translations": {
+    "ru": "Окно сохранённого архивного сообщения от Марата"
+   }
   },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:text/tatarwiki-article-art-alt",
-    "value": { "default": "TatarWiki article template with an editable text overlay", "translations": { "ru": "Шаблон статьи Татарвики с редактируемым текстовым слоем" } },
-    "purpose": "accessibility"
+  "purpose": "accessibility"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/tatarwiki-article-art-alt",
+  "value": {
+   "default": "TatarWiki article template with an editable text overlay",
+   "translations": {
+    "ru": "Шаблон статьи Татарвики с редактируемым текстовым слоем"
+   }
   },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/doc-marat-medical-record-bg",
-    "kind": "image",
-    "file": "logical/doc-marat-medical-record-bg.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/marat-medical-record-art-alt" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-archive-search-empty",
-    "kind": "image",
-    "file": "logical/ui-archive-search-empty.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-archive-search-results",
-    "kind": "image",
-    "file": "logical/ui-archive-search-results.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/archive-search-art-alt" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-document-viewer-template",
-    "kind": "image",
-    "file": "logical/ui-document-viewer-template.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/document-viewer-art-alt" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-old-pc-active-window-base",
-    "kind": "image",
-    "file": "logical/ui-old-pc-active-window-base.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-old-pc-crt-boot",
-    "kind": "image",
-    "file": "logical/ui-old-pc-crt-boot.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-old-pc-crt-close-crop",
-    "kind": "image",
-    "file": "logical/ui-old-pc-crt-close-crop.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-old-pc-crt-off",
-    "kind": "image",
-    "file": "logical/ui-old-pc-crt-off.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-old-pc-crt-power-off",
-    "kind": "image",
-    "file": "logical/ui-old-pc-crt-power-off.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui_old_pc_desktop_base",
-    "kind": "image",
-    "file": "logical/ui_old_pc_desktop_base.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/old-pc-desktop-art-alt" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-old-pc-error-corrupt-file-base",
-    "kind": "image",
-    "file": "logical/ui-old-pc-error-corrupt-file-base.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/corrupted-record-art-alt" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-old-pc-folder-view-base",
-    "kind": "image",
-    "file": "logical/ui-old-pc-folder-view-base.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": true }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-tatarwiki-article-template",
-    "kind": "image",
-    "file": "logical/ui-tatarwiki-article-template.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/tatarwiki-article-art-alt" }
-  },
-  {
-    "schemaVersion": 1,
-    "id": "urman.oldpc:asset/ui-yalkyn-messenger-saved-marat-log",
-    "kind": "image",
-    "file": "logical/ui-yalkyn-messenger-saved-marat-log.ref",
-    "mediaType": "application/vnd.urman.logical-asset-ref",
-    "variants": [],
-    "accessibility": { "decorative": false, "altTextId": "urman.oldpc:text/saved-marat-message-art-alt" }
+  "purpose": "accessibility"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/doc-marat-medical-record-bg",
+  "kind": "image",
+  "file": "logical/doc-marat-medical-record-bg.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.oldpc:text/marat-medical-record-art-alt"
   }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-archive-search-empty",
+  "kind": "image",
+  "file": "logical/ui-archive-search-empty.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-archive-search-results",
+  "kind": "image",
+  "file": "logical/ui-archive-search-results.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.oldpc:text/archive-search-art-alt"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-document-viewer-template",
+  "kind": "image",
+  "file": "logical/ui-document-viewer-template.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.oldpc:text/document-viewer-art-alt"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-old-pc-active-window-base",
+  "kind": "image",
+  "file": "logical/ui-old-pc-active-window-base.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-old-pc-crt-boot",
+  "kind": "image",
+  "file": "logical/ui-old-pc-crt-boot.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-old-pc-crt-close-crop",
+  "kind": "image",
+  "file": "logical/ui-old-pc-crt-close-crop.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-old-pc-crt-off",
+  "kind": "image",
+  "file": "logical/ui-old-pc-crt-off.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-old-pc-crt-power-off",
+  "kind": "image",
+  "file": "logical/ui-old-pc-crt-power-off.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui_old_pc_desktop_base",
+  "kind": "image",
+  "file": "logical/ui_old_pc_desktop_base.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.oldpc:text/old-pc-desktop-art-alt"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-old-pc-error-corrupt-file-base",
+  "kind": "image",
+  "file": "logical/ui-old-pc-error-corrupt-file-base.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.oldpc:text/corrupted-record-art-alt"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-old-pc-folder-view-base",
+  "kind": "image",
+  "file": "logical/ui-old-pc-folder-view-base.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": true
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-tatarwiki-article-template",
+  "kind": "image",
+  "file": "logical/ui-tatarwiki-article-template.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.oldpc:text/tatarwiki-article-art-alt"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:asset/ui-yalkyn-messenger-saved-marat-log",
+  "kind": "image",
+  "file": "logical/ui-yalkyn-messenger-saved-marat-log.ref",
+  "mediaType": "application/vnd.urman.logical-asset-ref",
+  "variants": [],
+  "accessibility": {
+   "decorative": false,
+   "altTextId": "urman.oldpc:text/saved-marat-message-art-alt"
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-hello",
+  "value": {
+   "default": "«Айдар, посмотри компьютер, а? Вчера работал, сегодня молчит. Мне бы только фотографии найти — а он вон что показывает».",
+   "translations": {
+    "ru": "«Айдар, посмотри компьютер, а? Вчера работал, сегодня молчит. Мне бы только фотографии найти — а он вон что показывает»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-choice-what",
+  "value": {
+   "default": "Что он тебе показывал?",
+   "translations": {
+    "ru": "Что он тебе показывал?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-choice-photos",
+  "value": {
+   "default": "Какие фотографии ты искал?",
+   "translations": {
+    "ru": "Какие фотографии ты искал?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-choice-later",
+  "value": {
+   "default": "Посмотрю позже, бабай.",
+   "translations": {
+    "ru": "Посмотрю позже, бабай."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-what",
+  "value": {
+   "default": "«Окошко вылезло: пароль просит. Я его закрыл, а он опять. Я в эти вещи не лезу».",
+   "translations": {
+    "ru": "«Окошко вылезло: пароль просит. Я его закрыл, а он опять. Я в эти вещи не лезу»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-choice-password",
+  "value": {
+   "default": "Пароль? Какой?",
+   "translations": {
+    "ru": "Пароль? Какой?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-choice-ok",
+  "value": {
+   "default": "Понял, разберусь.",
+   "translations": {
+    "ru": "Понял, разберусь."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-password",
+  "value": {
+   "default": "«Не помню. Может, слово какое-то наше, деревенское. Спроси у әби: она такие вещи помнит лучше меня».",
+   "translations": {
+    "ru": "«Не помню. Может, слово какое-то наше, деревенское. Спроси у әби: она такие вещи помнит лучше меня»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-choice-ask-ebi",
+  "value": {
+   "default": "Спрошу у әби.",
+   "translations": {
+    "ru": "Спрошу у әби."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-choice-enough",
+  "value": {
+   "default": "Ладно, потом.",
+   "translations": {
+    "ru": "Ладно, потом."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-ask-ebi",
+  "value": {
+   "default": "«Вот и хорошо. И чай попей, а то с дороги весь белый».",
+   "translations": {
+    "ru": "«Вот и хорошо. И чай попей, а то с дороги весь белый»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-photos",
+  "value": {
+   "default": "«Старые, с Сабантуя. У әби в альбоме такие же есть, посмотри».",
+   "translations": {
+    "ru": "«Старые, с Сабантуя. У әби в альбоме такие же есть, посмотри»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-choice-album",
+  "value": {
+   "default": "Посмотрю альбом.",
+   "translations": {
+    "ru": "Посмотрю альбом."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-choice-thanks",
+  "value": {
+   "default": "Спасибо, бабай.",
+   "translations": {
+    "ru": "Спасибо, бабай."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-album",
+  "value": {
+   "default": "«Только осторожно с ним. Он старый, как я».",
+   "translations": {
+    "ru": "«Только осторожно с ним. Он старый, как я»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-free-text",
+  "value": {
+   "default": "Мансур не понял. Переспроси позже или позвони — я тут.",
+   "translations": {
+    "ru": "Мансур не понял. Переспроси позже или позвони — я тут."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-hello",
+  "value": {
+   "default": "«Айдар, исәнме! С приездом. Надолго к нам?»",
+   "translations": {
+    "ru": "«Айдар, исәнме! С приездом. Надолго к нам?»"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-choice-village",
+  "value": {
+   "default": "Что в деревне нового?",
+   "translations": {
+    "ru": "Что в деревне нового?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-choice-marat",
+  "value": {
+   "default": "Алсу, что с Маратом?",
+   "translations": {
+    "ru": "Алсу, что с Маратом?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-village",
+  "value": {
+   "default": "«Да что нового: школа закрыта, детей мало. Магазин работает через день. Зима в этом году злая».",
+   "translations": {
+    "ru": "«Да что нового: школа закрыта, детей мало. Магазин работает через день. Зима в этом году злая»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-choice-school",
+  "value": {
+   "default": "А школа почему закрыта?",
+   "translations": {
+    "ru": "А школа почему закрыта?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-choice-enough",
+  "value": {
+   "default": "Понятно.",
+   "translations": {
+    "ru": "Понятно."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-school",
+  "value": {
+   "default": "«Учеников нет. Фәридә одна на всех — и то на полставки. Спроси у неё, если интересно».",
+   "translations": {
+    "ru": "«Учеников нет. Фәридә одна на всех — и то на полставки. Спроси у неё, если интересно»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-marat",
+  "value": {
+   "default": "«Про Марата лучше не у меня спрашивай. Он в лес ходил больше всех. Спроси Рината — только не дави на него».",
+   "translations": {
+    "ru": "«Про Марата лучше не у меня спрашивай. Он в лес ходил больше всех. Спроси Рината — только не дави на него»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-choice-rinat",
+  "value": {
+   "default": "Поговорю с Ринатом.",
+   "translations": {
+    "ru": "Поговорю с Ринатом."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-choice-stop",
+  "value": {
+   "default": "Хорошо, не буду.",
+   "translations": {
+    "ru": "Хорошо, не буду."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-rinat",
+  "value": {
+   "default": "«Он тебе скажет, сколько посчитает нужным. Он такой».",
+   "translations": {
+    "ru": "«Он тебе скажет, сколько посчитает нужным. Он такой»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-alsu-free-text",
+  "value": {
+   "default": "Алсу не поняла сообщение. Напиши иначе или позвони.",
+   "translations": {
+    "ru": "Алсу не поняла сообщение. Напиши иначе или позвони."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-rinat-warning",
+  "value": {
+   "default": "«Айдар. Ты видел его сообщение. Одно запомни: если услышишь голос — не отвечай».",
+   "translations": {
+    "ru": "«Айдар. Ты видел его сообщение. Одно запомни: если услышишь голос — не отвечай»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-rinat-choice-why",
+  "value": {
+   "default": "Почему? Что случилось?",
+   "translations": {
+    "ru": "Почему? Что случилось?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-rinat-choice-accept",
+  "value": {
+   "default": "Понял.",
+   "translations": {
+    "ru": "Понял."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-rinat-why",
+  "value": {
+   "default": "«Потому что отвечали уже. Я не буду объяснять в телефоне. Хочешь понять, а не поспорить — сходи к Тимуру хәзрәту».",
+   "translations": {
+    "ru": "«Потому что отвечали уже. Я не буду объяснять в телефоне. Хочешь понять, а не поспорить — сходи к Тимуру хәзрәту»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-rinat-choice-timur",
+  "value": {
+   "default": "Схожу к хәзрәту.",
+   "translations": {
+    "ru": "Схожу к хәзрәту."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-rinat-choice-silent",
+  "value": {
+   "default": "…",
+   "translations": {
+    "ru": "…"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-rinat-timur",
+  "value": {
+   "default": "«И на зират без нужды не ходи. Особенно вечером».",
+   "translations": {
+    "ru": "«И на зират без нужды не ходи. Особенно вечером»."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-rinat-free-text",
+  "value": {
+   "default": "Ринат не в сети. Он прочитает, когда вернётся.",
+   "translations": {
+    "ru": "Ринат не в сети. Он прочитает, когда вернётся."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-self-first",
+  "value": {
+   "default": "Записываю, чтобы не забыть: бабай просил посмотреть компьютер. Марат писал в последний месяц что-то странное — надо найти его сообщения.",
+   "translations": {
+    "ru": "Записываю, чтобы не забыть: бабай просил посмотреть компьютер. Марат писал в последний месяц что-то странное — надо найти его сообщения."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-self-choice-mark",
+  "value": {
+   "default": "Отмечу это.",
+   "translations": {
+    "ru": "Отмечу это."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-self-choice-nothing",
+  "value": {
+   "default": "Просто записал.",
+   "translations": {
+    "ru": "Просто записал."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-self-mark",
+  "value": {
+   "default": "Отдельно: Марат. Не забыть спросить про ночные отлучки — у кого угодно, кроме әби.",
+   "translations": {
+    "ru": "Отдельно: Марат. Не забыть спросить про ночные отлучки — у кого угодно, кроме әби."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-self-free-text",
+  "value": {
+   "default": "Это тред с самим собой: записи остаются здесь, отвечать некому.",
+   "translations": {
+    "ru": "Это тред с самим собой: записи остаются здесь, отвечать некому."
+   }
+  },
+  "purpose": "dialogue"
+ }
 ]

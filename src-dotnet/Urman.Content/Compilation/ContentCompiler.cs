@@ -21,6 +21,7 @@ public sealed partial class ContentCompiler
         ["asset"] = "assets",
         ["capability"] = "capabilities",
         ["character"] = "characters",
+        ["chat"] = "chats",
         ["dialogue"] = "dialogues",
         ["document"] = "documents",
         ["knowledge"] = "knowledge",
