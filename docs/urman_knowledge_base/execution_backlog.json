@@ -2670,7 +2670,7 @@
    "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
   }
  },
- "updated": "2026-09-18",
+ "updated": "2026-09-19",
  "goal_key": "urman-act1-finished-product",
  "goal_statement": "Довести Акт I до законченного игрового результата. Действующее поручение автора 2026-09-15: минимум 60 минут обычного первого основного опыта; все EX00 и EX01–EX14; исправленные физика, геометрия, ассеты, взаимодействия, NPC, звук, сохранения и производительность; связное расследование, культурный код, зима 2026 и высокий непроницаемый лес. Продолжать основной checkout и эту очередь; debug и необходимые локальные проверки разрешены. Технический walkthrough, объём текста и количество PASS не принимают художественное качество, интерес или длительность. Неизмеренный человеческий опыт и недоступное прослушивание — external/not-run; независимые локальные работы продолжаются.",
  "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -5998,7 +5998,8 @@
     "docs/production/act1_takeover_evidence_2026-09-16/carry_frames/"
    ],
    "note": "Рисунок следов можно делать раньше",
-   "progress_2026_09_18": "2026-09-18 verification on the current build. The authored trail, the swept side at the leaf and the worked edge are static presentation as designed; the carried shovel clears only the aimed opening, the service-gap barrier really loses its collision (CollisionLayer 0), the uncovered axe becomes takeable, and the clearing survives save/load while the pristine snapshot resets it. Asserted in the passing carry smoke on HEAD 04f039e + the fixture fix (headless PASS 29 checks, windowed PASS 35 with six capture frames). SnowTrampleField stays session-only and untouched."
+   "progress_2026_09_18": "2026-09-18 verification on the current build. The authored trail, the swept side at the leaf and the worked edge are static presentation as designed; the carried shovel clears only the aimed opening, the service-gap barrier really loses its collision (CollisionLayer 0), the uncovered axe becomes takeable, and the clearing survives save/load while the pristine snapshot resets it. Asserted in the passing carry smoke on HEAD 04f039e + the fixture fix (headless PASS 29 checks, windowed PASS 35 with six capture frames). SnowTrampleField stays session-only and untouched.",
+   "progress_2026_09_19": "2026-09-19 sync slice: the merged tree (origin a301004 + local EX work, merge 21d041e) builds and passes eng/verify-dotnet (53+12) and integrated-build-85; the carry smoke now reaches the EX06 lantern readings, the narrow-placement opening and both ordinary log placements, and stops on the second bath-landing ascent (axe) inside ApproachWoodpileFromBathSteps - the first shovel ascent, clearing and descent pass. The route passed on B42 (2026-09-17, HEAD 04f039e) before the 2026-09-18 movement/step work in 1c1a90c; all synthetic turns report ready=true. Log: docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-19.log; weak_points.md carries the full analysis. No PASS is claimed for this smoke."
   },
   {
    "id": "ACT1-EX06",

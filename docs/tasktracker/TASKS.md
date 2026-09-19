@@ -608,7 +608,8 @@ Evidence: docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §1
 Результат: Цепочка следов, расчистка, устойчивое открытие
 Зависимости: ACT1-EX03. Владелец: root/exploration_runtime.
 Готово когда: Минимальный законченный результат §13.2 достигнут и проверен обычным управлением.
-Evidence: docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13
+Evidence: docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13, docs/production/act1_takeover_evidence_2026-09-16/carry_frames/
+2026-09-19 (срез слияния `21d041e`): carry smoke проходит new game, переносы, узкий проём, EX06-фонарь и save/load, но останавливается на втором подъёме по боковой площадке бани (за топором); первый подъём за лопатой, расчистка и спуск проходят. Маршрут проходил на B42 (2026-09-17) до новой шаговой/обзорной логики `1c1a90c`; разбор — `weak_points.md`, лог — `docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-19.log`. PASS за этот прогон не заявлен.
 
 ### ACT1-EX06 [in_progress]
 

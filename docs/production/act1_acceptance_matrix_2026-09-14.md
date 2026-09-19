@@ -8,6 +8,27 @@
 
 Текущее основание: основной checkout, `main`, HEAD `04f039ee95e6c1320d52d61fff3089fad834393c` с сохранёнными незакоммиченными изменениями. Единственная очередь — `docs/urman_knowledge_base/execution_backlog.json`. Матрица сопоставляет требования и доказательства, не создаёт новую очередь.
 
+## Дополнение 2026-09-19 — синхронизация локальной работы с origin a301004
+
+Локальная `main` и `origin/main` разошлись от `04f039e`: пять локальных коммитов
+EX01–EX14 против двадцати двух коммитов автора (единый `docs/`, `docs/tasktracker/`
+с TASKS.md и ТЗ ПК v2, ассеты, контент, тесты, eng-тулинг). Обе линии сохранены
+merge-коммитом `21d041e`; конфликты разрешены вручную (InteractionTarget,
+FirstPersonController, Act1ConnectedWorld, carry-тест, definitions.json,
+execution_backlog.json, `.uid`).
+
+| Проверка | Фактический результат |
+|---|---|
+| `eng/verify-dotnet.sh` | **PASS**: Urman.Core.Tests 53/53, Urman.Content.Tests 12/12, content CLI validate/report/simulate (17 шагов) |
+| [integrated-build-85](act1_takeover_evidence_2026-09-16/integrated-build-85.json) | **PASS**: content 4.16 с, csharp 1.01 с, guarded Godot import 4.27 с; head `161a162` (сборка до merge-коммита) |
+| [integrated-build-84](act1_takeover_evidence_2026-09-16/integrated-build-84.json) | **FAIL (история)**: прогон без `eng/dotnet-env.sh` — Godot не нашёл dotnet и встал в нативный алерт; прерван, guard восстановил userdata |
+| [carry smoke 2026-09-19](act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-19.log) | **ЧАСТИЧНО**: проходят new game, переносы, узкий проём, EX06-фонарь с двумя прочтениями и save/load; падает на новом маршруте origin по боковой площадке бани — записано в `weak_points.md` |
+| Гейт контента | Красный **до и после** слияния: `UndeclaredDependency` (chapter1 → oldpc в `journalAction.sourceIds`) и `MissingRoleBinding` (`razilya` в dev-кампаниях); слиянием не внесён, решение по графу модулей — открытый вопрос очереди |
+
+Golden-пак обновлён под слитый контент: fingerprint `435b8d99…`, parity-тест и
+ожидание текста «Дорога в Кара-Урман» следуют записи `decision_log` от 2026-09-18
+(деревня — КАРА-УРМАН).
+
 ## Дополнение B81–B83 — эпизод anchor-snap: stale-байты, проверка, откат (18 сентября 2026, 03:00 UTC)
 
 Запись очереди: `continuation_2026_09_16_expanded.native_batch_B81_B83_2026_09_18`.
