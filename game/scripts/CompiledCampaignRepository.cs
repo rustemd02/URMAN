@@ -113,6 +113,31 @@ public sealed record CompiledDialogueContent(
     IReadOnlyDictionary<string, CompiledDialogueNodeContent> Nodes,
     IReadOnlyList<CompiledDialogueEntryContent> EntryRoutes);
 
+public sealed record CompiledChatChoiceContent(
+    string Id,
+    string TextId,
+    JsonElement Requires,
+    IReadOnlyList<string> Reveals,
+    string? NextNodeId);
+
+public sealed record CompiledChatNodeContent(
+    string Id,
+    string From,
+    string TextId,
+    JsonElement Requires,
+    IReadOnlyList<string> Reveals,
+    IReadOnlyList<CompiledChatChoiceContent> Choices,
+    string? NextNodeId);
+
+public sealed record CompiledChatContent(
+    string Id,
+    string Title,
+    string Presence,
+    JsonElement Requires,
+    string StartNodeId,
+    string FreeTextReply,
+    IReadOnlyDictionary<string, CompiledChatNodeContent> Nodes);
+
 public sealed record CompiledQuestContent(string Id, JsonElement Definition);
 
 public sealed class CompiledCampaignRepository
@@ -124,6 +149,7 @@ public sealed class CompiledCampaignRepository
     private readonly IReadOnlyDictionary<string, CompiledSceneContent> _scenesById;
     private readonly IReadOnlyDictionary<string, CompiledInteractionContent> _interactionsById;
     private readonly IReadOnlyDictionary<string, CompiledDialogueContent> _dialoguesById;
+    private readonly IReadOnlyDictionary<string, CompiledChatContent> _chatsById;
     private readonly IReadOnlyDictionary<string, CompiledQuestContent> _questsById;
     private readonly IReadOnlyDictionary<string, JournalSourceContent> _journalSourcesById;
     private readonly TextResolver _texts;
@@ -138,6 +164,7 @@ public sealed class CompiledCampaignRepository
         IReadOnlyList<OldPcDocumentContent> oldPcDocuments,
         IReadOnlyList<CompiledSceneContent> scenes,
         IReadOnlyList<CompiledDialogueContent> dialogues,
+        IReadOnlyList<CompiledChatContent> chats,
         IReadOnlyList<CompiledQuestContent> quests,
         IReadOnlyList<JournalSourceContent> journalSources,
         TextResolver texts,
@@ -155,6 +182,19 @@ public sealed class CompiledCampaignRepository
         _scenesById = scenes.ToDictionary(scene => scene.Id, StringComparer.Ordinal);
         _interactionsById = scenes.SelectMany(scene => scene.Interactions).ToDictionary(interaction => interaction.Id, StringComparer.Ordinal);
         _dialoguesById = dialogues.ToDictionary(dialogue => dialogue.Id, StringComparer.Ordinal);
+        Chats = chats;
+        _chatsById = chats.ToDictionary(chat => chat.Id, StringComparer.Ordinal);
+        foreach (var chat in chats)
+        foreach (var node in chat.Nodes.Values)
+        {
+            if (node.NextNodeId is { } followUp && !chat.Nodes.ContainsKey(followUp))
+                throw new InvalidDataException($"Chat {chat.Id} node {node.Id} leads to unknown node {followUp}.");
+            foreach (var choice in node.Choices)
+            {
+                if (choice.NextNodeId is { } next && !chat.Nodes.ContainsKey(next))
+                    throw new InvalidDataException($"Chat {chat.Id} choice {choice.Id} leads to unknown node {next}.");
+            }
+        }
         _questsById = quests.ToDictionary(quest => quest.Id, StringComparer.Ordinal);
         _journalSourcesById = journalSources.ToDictionary(source => source.Id, StringComparer.Ordinal);
         _texts = texts;
@@ -223,6 +263,13 @@ public sealed class CompiledCampaignRepository
 
     public IReadOnlyList<CompiledInteractionContent> JournalActions => _interactionsById.Values
         .Where(action => action.JournalAction is not null).ToArray();
+
+    public IReadOnlyList<CompiledChatContent> Chats { get; }
+
+    public CompiledChatContent RequireChat(string chatId) =>
+        _chatsById.TryGetValue(chatId, out var chat)
+            ? chat
+            : throw new KeyNotFoundException($"Unknown compiled chat {chatId}.");
 
     public CompiledDialogueContent RequireDialogue(string dialogueId) =>
         _dialoguesById.TryGetValue(dialogueId, out var dialogue)
@@ -346,6 +393,11 @@ public sealed class CompiledCampaignRepository
             .EnumerateArray()
             .Select(ReadDialogue)
             .ToArray();
+        var chats = root.GetProperty("registries").GetProperty("chats")
+            .EnumerateArray()
+            .Select(ReadChat)
+            .OrderBy(chat => chat.Id, StringComparer.Ordinal)
+            .ToArray();
         var quests = root.GetProperty("registries").GetProperty("quests")
             .EnumerateArray()
             .Select(quest => new CompiledQuestContent(quest.GetProperty("id").GetString()!, quest.Clone()))
@@ -362,6 +414,7 @@ public sealed class CompiledCampaignRepository
             oldPcDocuments,
             scenes,
             dialogues,
+            chats,
             quests,
             journalSources,
             texts,
@@ -442,6 +495,33 @@ public sealed class CompiledCampaignRepository
             interaction.TryGetProperty("worldLocations", out var locations)
                 ? locations.EnumerateArray().Select(location => location.GetString()!).ToArray() : null,
             interaction.TryGetProperty("targetJournalEntryId", out var journalEntry) ? journalEntry.GetString() : null)).ToArray());
+
+    private static CompiledChatContent ReadChat(JsonElement chat)
+    {
+        var nodes = chat.GetProperty("nodes").EnumerateArray()
+            .Select(node => new CompiledChatNodeContent(
+                node.GetProperty("id").GetString()!,
+                node.GetProperty("from").GetString()!,
+                node.GetProperty("textId").GetString()!,
+                node.GetProperty("requires").Clone(),
+                node.GetProperty("reveals").EnumerateArray().Select(term => term.GetString()!).ToArray(),
+                node.GetProperty("choices").EnumerateArray().Select(choice => new CompiledChatChoiceContent(
+                    choice.GetProperty("id").GetString()!,
+                    choice.GetProperty("textId").GetString()!,
+                    choice.GetProperty("requires").Clone(),
+                    choice.GetProperty("reveals").EnumerateArray().Select(term => term.GetString()!).ToArray(),
+                    choice.GetProperty("nextNodeId").ValueKind == JsonValueKind.Null
+                        ? null : choice.GetProperty("nextNodeId").GetString())).ToArray(),
+                node.GetProperty("nextNodeId").ValueKind == JsonValueKind.Null
+                    ? null : node.GetProperty("nextNodeId").GetString()))
+            .ToDictionary(node => node.Id, StringComparer.Ordinal);
+        var id = chat.GetProperty("id").GetString()!;
+        var start = chat.GetProperty("startNodeId").GetString()!;
+        if (!nodes.ContainsKey(start))
+            throw new InvalidDataException($"Chat {id} starts at unknown node {start}.");
+        return new(id, Localized(chat.GetProperty("title")), chat.GetProperty("presence").GetString()!,
+            chat.GetProperty("requires").Clone(), start, chat.GetProperty("freeTextReply").GetString()!, nodes);
+    }
 
     private static CompiledDialogueContent ReadDialogue(JsonElement dialogue)
     {

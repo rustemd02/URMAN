@@ -179,7 +179,8 @@
   "urman.oldpc:text/chat-self-choice-mark",
   "urman.oldpc:text/chat-self-choice-nothing",
   "urman.oldpc:text/chat-self-mark",
-  "urman.oldpc:text/chat-self-free-text"
+  "urman.oldpc:text/chat-self-free-text",
+  "urman.oldpc:text/chat-mansur-tea"
  ],
  "requires": []
 }

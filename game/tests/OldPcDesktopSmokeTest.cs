@@ -187,7 +187,8 @@ public partial class OldPcDesktopSmokeTest : Node
                 "Activating the browser moves keyboard input out of the background note.");
             ui._Input(new InputEventKey { Pressed = true, AltPressed = true, Keycode = Key.Tab });
             Check(ui.ActiveApplicationId == "notepad" && editor.HasFocus(),
-                "Alt+Tab returns keyboard input to the foreground note.");
+                $"Alt+Tab returns keyboard input to the foreground note: active={ui.ActiveApplicationId} "
+                + $"focus={(ui.GetViewport().GuiGetFocusOwner() as Node)?.Name} windows={string.Join(",", ui.OpenApplicationIds)}");
             Check(ui.GetNode<OldPcWindowTitleBar>("Screen/App_notepad/Layout/Header").Active
                 && !ui.GetNode<OldPcWindowTitleBar>("Screen/App_browser/Layout/Header").Active,
                 "Window-title appearance follows the application that receives keyboard input.");

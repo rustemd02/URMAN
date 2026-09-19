@@ -51,7 +51,8 @@ public partial class OldPcUi
         _desktopBackground.AddChild(_shortcuts);
         foreach (var (id, label) in new[] {
             ("files", "Мой компьютер"), ("archive", "Архив"), ("browser", "Интернет"),
-            ("pictures", "Фотографии"), ("notepad", "Заметки"), ("trash", "Корзина · Чүплек") })
+            ("pictures", "Фотографии"), ("notepad", "Заметки"), ("chat", "Сообщения"),
+            ("trash", "Корзина · Чүплек") })
         {
             var app = id;
             var button = DesktopButton(_shortcuts, "Icon_" + id, label, () => LaunchApplication(app));
@@ -94,7 +95,7 @@ public partial class OldPcUi
         foreach (var (id, label) in new[] {
             ("archive", "Архивный поиск"), ("files", "Мои документы"), ("browser", "Интернет"),
             ("notepad", "Блокнот"), ("writer", "Текстовый редактор"), ("pictures", "Просмотр изображений"),
-            ("trash", "Корзина · Чүплек") })
+            ("chat", "Ялкын · Сообщения"), ("trash", "Корзина · Чүплек") })
         {
             var app = id;
             DesktopButton(menu, "Launch_" + id, label, () => { _startMenu.Hide(); LaunchApplication(app); });
@@ -192,6 +193,7 @@ public partial class OldPcUi
         window.Task.Show();
         if (id is "files" or "trash") RefreshFileList(id == "trash");
         if (id == "pictures") RefreshPictures();
+        if (id == "chat") RefreshChat();
         if (id is "notepad" or "writer") RestoreEditor(id == "writer");
         if (id == "browser" && (!wasOpen || _browserHistoryAddress is null))
             ShowBrowserAddress(CurrentBrowserAddress(), false, restoreOnly: true);
@@ -241,6 +243,9 @@ public partial class OldPcUi
         if (_windows["browser"].Open) ShowBrowserAddress(CurrentBrowserAddress(), false, restoreOnly: true);
         _startMenu.Hide();
         FrontShell();
+        // Triggers are ordinary conditions: opening the computer is when the
+        // threads receive whatever the world has unlocked since the last visit.
+        RefreshChat();
         _restoringDesktop = false;
         LayoutDesktop();
     }
@@ -279,6 +284,7 @@ public partial class OldPcUi
             "trash" => _trashList,
             "browser" => _browserAddress,
             "pictures" => _pictureList,
+            "chat" => _chatThreadList,
             "writer" when _writerPreview.Visible => _writerPreview,
             "notepad" or "writer" when _editors[window.Id].Editable => _editors[window.Id],
             _ => window.Panel.GetNode<Button>("Layout/Content/Tools/New")
@@ -439,6 +445,9 @@ public partial class OldPcUi
         }
         catch (Exception error)
         {
+            // A rejected desktop write leaves the capability with stale state;
+            // it must be visible instead of failing silently.
+            GD.PrintErr($"oldpc-desktop: desktop state was not saved: {error.Message}");
             if (ReferenceEquals(_desktopSession, bridge.SessionIdentity))
                 _status.Text = "Не удалось сохранить рабочий стол: " + error.Message;
         }

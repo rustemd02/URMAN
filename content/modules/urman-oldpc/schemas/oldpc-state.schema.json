@@ -2,228 +2,268 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schemas.urman.game/capabilities/urman.oldpc/v1/state.schema.json",
   "type": "object",
-  "required": ["activeDocumentId", "activeSection", "nextActionSequence", "query", "savedDocumentIds"],
+  "required": [
+    "activeDocumentId",
+    "activeSection",
+    "nextActionSequence",
+    "query",
+    "savedDocumentIds"
+  ],
   "properties": {
     "desktop": {
-  "type": "object",
-  "properties": {
-    "windows": {
-      "type": "array",
-      "maxItems": 9,
-      "items": {
-        "type": "object",
-        "required": [
-          "id",
-          "x",
-          "y",
-          "width",
-          "height",
-          "minimized",
-          "maximized"
-        ],
-        "properties": {
-          "id": {
-            "enum": [
-              "archive",
-              "files",
-              "browser",
-              "notepad",
-              "writer",
-              "pictures",
-              "trash",
-              "chat",
-              "tetris"
-            ]
-          },
-          "x": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 1
-          },
-          "y": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 1
-          },
-          "width": {
-            "type": "number",
-            "minimum": 0.2,
-            "maximum": 1
-          },
-          "height": {
-            "type": "number",
-            "minimum": 0.2,
-            "maximum": 1
-          },
-          "minimized": {
-            "type": "boolean"
-          },
-          "maximized": {
-            "type": "boolean"
+      "type": "object",
+      "properties": {
+        "windows": {
+          "type": "array",
+          "maxItems": 9,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "x",
+              "y",
+              "width",
+              "height",
+              "minimized",
+              "maximized"
+            ],
+            "properties": {
+              "id": {
+                "enum": [
+                  "archive",
+                  "files",
+                  "browser",
+                  "notepad",
+                  "writer",
+                  "pictures",
+                  "trash",
+                  "chat",
+                  "tetris"
+                ]
+              },
+              "x": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "y": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "width": {
+                "type": "number",
+                "minimum": 0.2,
+                "maximum": 1
+              },
+              "height": {
+                "type": "number",
+                "minimum": 0.2,
+                "maximum": 1
+              },
+              "minimized": {
+                "type": "boolean"
+              },
+              "maximized": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
           }
         },
-        "additionalProperties": false
-      }
+        "activeWindowId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "files": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "text",
+              "richText",
+              "deleted"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^note-",
+                "maxLength": 64
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 96
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 32768
+              },
+              "richText": {
+                "type": "boolean"
+              },
+              "deleted": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "browserHistory": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "string",
+            "maxLength": 192
+          }
+        },
+        "browserIndex": {
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 63
+        },
+        "visitedDocumentIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "folder": {
+          "type": "string",
+          "minLength": 1
+        },
+        "noteId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "writerId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "elapsedSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 315360000
+        },
+        "chat": {
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "unread",
+              "messages"
+            ],
+            "properties": {
+              "id": {
+                "enum": [
+                  "alsu",
+                  "rinat",
+                  "mansur",
+                  "self"
+                ]
+              },
+              "unread": {
+                "type": "boolean"
+              },
+              "nodeId": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 64
+              },
+              "messages": {
+                "type": "array",
+                "maxItems": 64,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "from",
+                    "text"
+                  ],
+                  "properties": {
+                    "from": {
+                      "enum": [
+                        "npc",
+                        "player"
+                      ]
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    "nodeId": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "maxLength": 64
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "hintsSeen": {
+          "type": "array",
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          }
+        },
+        "tetrisHigh": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999999
+        }
+      },
+      "additionalProperties": false
     },
-    "activeWindowId": {
+    "activeDocumentId": {
       "type": [
         "string",
         "null"
       ]
     },
-    "files": {
-      "type": "array",
-      "maxItems": 32,
-      "items": {
-        "type": "object",
-        "required": [
-          "id",
-          "title",
-          "text",
-          "richText",
-          "deleted"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^note-",
-            "maxLength": 64
-          },
-          "title": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 96
-          },
-          "text": {
-            "type": "string",
-            "maxLength": 32768
-          },
-          "richText": {
-            "type": "boolean"
-          },
-          "deleted": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      }
+    "activeSection": {
+      "type": "string",
+      "minLength": 1
     },
-    "browserHistory": {
-      "type": "array",
-      "maxItems": 64,
-      "items": {
-        "type": "string",
-        "maxLength": 192
-      }
-    },
-    "browserIndex": {
+    "nextActionSequence": {
       "type": "integer",
-      "minimum": -1,
-      "maximum": 63
+      "minimum": 1
     },
-    "visitedDocumentIds": {
+    "query": {
+      "type": "string"
+    },
+    "savedDocumentIds": {
       "type": "array",
       "uniqueItems": true,
       "items": {
         "type": "string",
         "minLength": 1
       }
-    },
-    "folder": {
-      "type": "string",
-      "minLength": 1
-    },
-    "noteId": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "writerId": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "elapsedSeconds": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 315360000
-    },
-    "chat": {
-      "type": "array",
-      "maxItems": 4,
-      "items": {
-        "type": "object",
-        "required": [
-          "id",
-          "unread",
-          "messages"
-        ],
-        "properties": {
-          "id": {
-            "enum": [
-              "alsu",
-              "rinat",
-              "mansur",
-              "self"
-            ]
-          },
-          "unread": {
-            "type": "boolean"
-          },
-          "messages": {
-            "type": "array",
-            "maxItems": 64,
-            "items": {
-              "type": "object",
-              "required": [
-                "from",
-                "text"
-              ],
-              "properties": {
-                "from": {
-                  "enum": [
-                    "npc",
-                    "player"
-                  ]
-                },
-                "text": {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 500
-                }
-              },
-              "additionalProperties": false
-            }
-          }
-        },
-        "additionalProperties": false
-      }
-    },
-    "hintsSeen": {
-      "type": "array",
-      "maxItems": 64,
-      "uniqueItems": true,
-      "items": {
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 64
-      }
-    },
-    "tetrisHigh": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 999999
     }
-  },
-  "additionalProperties": false
-},
-    "activeDocumentId": { "type": ["string", "null"] },
-    "activeSection": { "type": "string", "minLength": 1 },
-    "nextActionSequence": { "type": "integer", "minimum": 1 },
-    "query": { "type": "string" },
-    "savedDocumentIds": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
   },
   "additionalProperties": false
 }

@@ -3221,7 +3221,7 @@
    "id": "ACT1-OLDPC-CHAT",
    "title": "Живой чат «Ялкын · Сообщения»: треды Алсу/Ринат/бабай/заметки, варианты ответа, триггеры, unread, bounded-снапшот",
    "milestone": "M5",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "root/expanded-act1",
    "owner": "finished-act1",
    "depends_on": [
@@ -3242,7 +3242,15 @@
     "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
     "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
    ],
-   "evidence": []
+   "evidence": [
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_chat_2026-09-19.md",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_chat_smoke_2026-09-19.log",
+    "content/schemas/chat.schema.json",
+    "content/modules/urman-oldpc/chat",
+    "game/scripts/OldPcUi.Chat.cs",
+    "game/tests/OldPcChatSmokeTest.cs"
+   ],
+   "progress_2026_09_19": "2026-09-19 implemented and verified on this build: a chat content kind (schema, chats registry in the pack, compiler, authored threads alsu/mansur/rinat/self with scripted lines, 2-3 answers each and an authored free-text stub), a real 'Ялкын · Сообщения' window (thread list with honest presence and unread marks, log, answers, free text, N/64 counter), delivery by ordinary requires with per-message node ids so save/load cannot duplicate a line, and snapshot extensions (thread nodeId cursor, message nodeId) with schema and migration. reveals can only carry search terms - the schema forbids a colon, so no document id can leak through the chat; the pack test proves it. old_pc_chat_smoke_test PASS 14 checks (rinat closed until alerted, greeting delivered, two answers, script waits on the node, free text only earns the stub, no knowledge or journal entry, save/load keeps log and cursor, two honest unread marks), old_pc_desktop and old_pc_flow smokes PASS, verify-dotnet green (Core 58, Content 13). The smoke also caught a real defect: the UI wrote the full content id as the snapshot thread key, the capability rejected every desktop write, and the desktop silently kept stale state; the id mapping now lives in the chat window and a rejected write is printed instead of disappearing."
   },
   {
    "id": "ACT1-OLDPC-HINTS",

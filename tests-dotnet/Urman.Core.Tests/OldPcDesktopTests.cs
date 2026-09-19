@@ -124,6 +124,38 @@ public sealed class OldPcDesktopTests
     }
 
     [Fact]
+    public void Desktop_RoundTripsTheChatCursorAndEachDeliveredNode()
+    {
+        using var host = NewHost();
+        host.Handle(InstanceId, DesktopInput(new()
+        {
+            Chat =
+            [
+                new() { Id = "mansur", NodeId = "photos", Messages =
+                    [
+                        new() { From = "npc", Text = "Посмотри компьютер.", NodeId = "hello" },
+                        new() { From = "player", Text = "Посмотрю." },
+                        new() { From = "npc", Text = "Вот и хорошо.", NodeId = "photos" }
+                    ] }
+            ]
+        }));
+        var copy = ReadDesktop(host);
+        var thread = Assert.Single(copy.Chat);
+        Assert.Equal("photos", thread.NodeId);
+        Assert.Equal(["hello", null, "photos"], thread.Messages.Select(message => message.NodeId));
+        // A save written before the cursor existed loads with an unstarted thread;
+        // the runtime then walks it from the beginning instead of failing.
+        var legacy = JsonNode.Parse(host.Capture(InstanceId).State.GetRawText())!["desktop"]!.AsObject();
+        var legacyThread = legacy["chat"]!.AsArray()[0]!.AsObject();
+        Assert.True(legacyThread.Remove("nodeId"));
+        Assert.True(legacyThread["messages"]!.AsArray()[0]!.AsObject().Remove("nodeId"));
+        host.Handle(InstanceId, JsonSerializer.SerializeToElement(new { type = "desktop", desktop = legacy }));
+        var restored = ReadDesktop(host);
+        Assert.Null(Assert.Single(restored.Chat).NodeId);
+        Assert.Null(restored.Chat[0].Messages[0].NodeId);
+    }
+
+    [Fact]
     public void Desktop_DropsWindowsOfProgramsThisBuildDoesNotShip()
     {
         using var host = NewHost();

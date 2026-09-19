@@ -45,6 +45,7 @@ public partial class OldPcUi
         BuildEditor(true);
         BuildBrowser();
         BuildPictures();
+        BuildChat();
     }
 
     private void BuildFiles()

@@ -687,5 +687,16 @@
    }
   },
   "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.oldpc:text/chat-mansur-tea",
+  "value": {
+   "default": "«Кстати, если фотографии найдёшь — покажи. Старые они, я уже и не помню, где кто».",
+   "translations": {
+    "ru": "«Кстати, если фотографии найдёшь — покажи. Старые они, я уже и не помню, где кто»."
+   }
+  },
+  "purpose": "dialogue"
  }
 ]

@@ -118,12 +118,13 @@ public sealed class OldPcDesktopSnapshot
         foreach (var thread in Chat)
         {
             if (thread is null || thread.Id is null || !ChatThreads.Contains(thread.Id, StringComparer.Ordinal)
-                || !threadIds.Add(thread.Id)
+                || !threadIds.Add(thread.Id) || thread.NodeId is { Length: > 64 }
                 || thread.Messages is null || thread.Messages.Count > MaximumChatMessages)
                 throw new InvalidDataException("Old PC chat thread is invalid.");
             foreach (var message in thread.Messages)
             {
                 if (message is null || message.From is not ("npc" or "player") || message.Text is null
+                    || message.NodeId is { Length: > 64 }
                     || message.Text.Length is < 1 or > MaximumChatMessageLength)
                     throw new InvalidDataException("Old PC chat message is invalid.");
             }
@@ -163,6 +164,9 @@ public sealed class OldPcChatThreadSnapshot
     public bool Unread { get; set; }
     [JsonRequired]
     public List<OldPcChatMessageSnapshot> Messages { get; set; } = [];
+    // The script position, not knowledge: a save from before the chat existed
+    // carries none, and the runtime then starts the thread from its beginning.
+    public string? NodeId { get; set; }
 }
 
 public sealed class OldPcChatMessageSnapshot
@@ -173,6 +177,9 @@ public sealed class OldPcChatMessageSnapshot
     public string From { get; set; } = "npc";
     [JsonRequired]
     public string Text { get; set; } = string.Empty;
+    // Which scripted node delivered this line. It makes delivery idempotent
+    // across loads and says which choices the thread is waiting on.
+    public string? NodeId { get; set; }
 }
 
 public sealed class OldPcNoteSnapshot
