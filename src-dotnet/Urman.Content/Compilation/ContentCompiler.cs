@@ -24,6 +24,7 @@ public sealed partial class ContentCompiler
         ["chat"] = "chats",
         ["dialogue"] = "dialogues",
         ["document"] = "documents",
+        ["hint"] = "hints",
         ["knowledge"] = "knowledge",
         ["quest"] = "quests",
         ["scene"] = "scenes",

@@ -597,6 +597,8 @@ public partial class RuntimeBridge : Node
     public IReadOnlyList<CompiledChatContent> OldPcChats => _content.Chats
         .Select(chat => chat with { Title = ResolveWorldText(chat.Title) }).ToArray();
 
+    public IReadOnlyList<CompiledHintContent> OldPcHints => _content.Hints;
+
     /// <summary>
     /// Read-only projection of vocabulary already encountered in the shared
     /// narrative state. The UI can show the first Tatar layer without creating

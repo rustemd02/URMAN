@@ -165,7 +165,15 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
             var found = Enumerable.Range(0, _results.ItemCount).Count(_results.IsItemSelectable);
             _status.Text = $"Найдено записей: {found}";
             if (found == 0)
+            {
+                FruitlessSearches++;
                 _reader.Text = "Совпадений нет. Попробуйте имя, название места или короткое слово из найденной записи.";
+                // §4.1: the archive line is the second hint carrier, and it names
+                // a term to try instead of quoting whatever the record says.
+                if (NextHint() is { } hint && SurfaceNextHint() is { } hintText)
+                    _reader.Text += $"\n\nПодсказка: {hintText}\nПопробуйте поиск: {hint.PointsTo}";
+            }
+            else FruitlessSearches = 0;
         }
         catch (Exception exception)
         {

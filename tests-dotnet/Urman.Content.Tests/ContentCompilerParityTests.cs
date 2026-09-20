@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using Urman.Content.Compilation;
+using Urman.Content.Resolvers;
 using Urman.Content.Simulation;
 using Xunit;
 
@@ -23,7 +24,7 @@ public sealed class ContentCompilerParityTests
         var goldenPath = Path.Combine(root, "tests-dotnet", "fixtures", "content", "urman.chapter1.compiled.v1.json");
         var golden = JsonNode.Parse(await File.ReadAllTextAsync(goldenPath, TestContext.Current.CancellationToken));
         Assert.True(JsonNode.DeepEquals(golden, result.Pack));
-        Assert.Equal("f422a9339060d08f18c9cf61ce3324f888996181f4bd7b2cd2e7a9ef9b37877a", result.Pack["campaignFingerprint"]!.GetValue<string>());
+        Assert.Equal("951983ec69e2b512ccbee1519e8c7b63f814c6a6f67b0b174e1dc4cd4fb3d29c", result.Pack["campaignFingerprint"]!.GetValue<string>());
         var house = result.Pack["registries"]!["scenes"]!.AsArray()
             .Single(scene => scene!["id"]!.GetValue<string>() == "urman.chapter1:scene/house");
         Assert.Contains(
@@ -59,6 +60,30 @@ public sealed class ContentCompilerParityTests
             foreach (var choice in node!["choices"]!.AsArray())
             foreach (var term in choice!["reveals"]!.AsArray())
                 Assert.DoesNotContain(':', term!.GetValue<string>());
+        }
+    }
+
+    [Fact]
+    public async Task ChapterOne_HintsLeadToTermsAndStayWithinTheAuthoredLength()
+    {
+        var root = FindWorkspaceRoot();
+        var compilation = await new ContentCompiler().CompileAsync(
+            root,
+            "urman.chapter1",
+            ["urman.chapter1", "urman.core", "urman.oldpc"],
+            TestContext.Current.CancellationToken);
+
+        Assert.Empty(compilation.Diagnostics);
+        var hints = compilation.Pack!["registries"]!["hints"]!.AsArray();
+        Assert.Equal([1L, 2L, 3L], hints.Select(hint => hint!["level"]!.GetValue<long>()).Order().ToArray());
+        var texts = new TextResolver(compilation.Pack!, validate: false);
+        foreach (var hint in hints)
+        {
+            // A hint leads to a term or a place, never to a document id: the
+            // schema forbids a colon, and this proves the shipped pack obeys it.
+            Assert.DoesNotContain(':', hint!["pointsTo"]!.GetValue<string>());
+            var text = texts.Resolve(hint["textId"]!.GetValue<string>(), "ru").Text;
+            Assert.InRange(text.Length, 1, 300);
         }
     }
 

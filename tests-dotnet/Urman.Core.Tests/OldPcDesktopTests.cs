@@ -156,6 +156,16 @@ public sealed class OldPcDesktopTests
     }
 
     [Fact]
+    public void Desktop_DirectHintWaitsForTwoReadRecords()
+    {
+        // §4.3: level 3 is the almost-answer, and it must not be reachable by a
+        // player who has read nothing or a single record.
+        Assert.False(OldPcDesktopSnapshot.DirectHintAllowed(0));
+        Assert.False(OldPcDesktopSnapshot.DirectHintAllowed(1));
+        Assert.True(OldPcDesktopSnapshot.DirectHintAllowed(OldPcDesktopSnapshot.DocumentsBeforeDirectHint));
+    }
+
+    [Fact]
     public void Desktop_DropsWindowsOfProgramsThisBuildDoesNotShip()
     {
         using var host = NewHost();

@@ -246,6 +246,7 @@ public partial class OldPcUi
         // Triggers are ordinary conditions: opening the computer is when the
         // threads receive whatever the world has unlocked since the last visit.
         RefreshChat();
+        RefreshHints();
         _restoringDesktop = false;
         LayoutDesktop();
     }

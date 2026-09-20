@@ -3256,7 +3256,7 @@
    "id": "ACT1-OLDPC-HINTS",
    "title": "Контекстные подсказки 3 уровней: тред «Заметки Айдара» + строка архива, hints/*.md, gating без спойлеров, hintsSeen",
    "milestone": "M5",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "root/expanded-act1",
    "owner": "finished-act1",
    "depends_on": [
@@ -3278,7 +3278,15 @@
     "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
     "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
    ],
-   "evidence": []
+   "evidence": [
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_hints_2026-09-19.md",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_hints_smoke_2026-09-19.log",
+    "content/schemas/hint.schema.json",
+    "content/modules/urman-oldpc/hints",
+    "game/scripts/OldPcUi.Hints.cs",
+    "game/tests/OldPcHintsSmokeTest.cs"
+   ],
+   "progress_2026_09_19": "2026-09-19 implemented and verified on this build: a hint content kind (schema with the 'leads to a term, never a document' lock, hints registry in the pack, compiler, JS parity), three authored hints - level 1 nudge (no conditions), level 2 direction (after the official notice), level 3 almost-answer (after the found contradiction) - both carriers of §4 (the note in «Заметки Айдара» on opening the computer and the archive line with the term to try on an empty search), one-time recording in hintsSeen that survives save/load, and the level-3 rule as a core function (OldPcDesktopSnapshot.DirectHintAllowed needs two read records) with its own .NET test. Hints carry no effects: no knowledge, no journal entry, no closed-record quote. old_pc_hints_smoke_test PASS, verify-dotnet green (Core 59, Content 14). Boundaries: explicit Tier-A markers arrive with ACT1-OLDPC-DOCS; hint texts await human language review."
   },
   {
    "id": "ACT1-OLDPC-SEARCH",

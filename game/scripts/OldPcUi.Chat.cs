@@ -200,6 +200,16 @@ public partial class OldPcUi
         return thread;
     }
 
+    // A self-note is written by the player character himself: it is presentation
+    // state that survives a load and never asks an answer.
+    internal void AppendChatNote(string threadId, string text)
+    {
+        if (_chatThreadList is null) return;
+        var thread = Thread(threadId, create: true)!;
+        AppendChatMessage(thread, "player", text.Length > OldPcDesktopSnapshot.MaximumChatMessageLength
+            ? text[..OldPcDesktopSnapshot.MaximumChatMessageLength] : text, null);
+    }
+
     private static void AppendChatMessage(OldPcChatThreadSnapshot thread, string from, string text, string? nodeId)
     {
         if (thread.Messages.Count >= OldPcDesktopSnapshot.MaximumChatMessages) thread.Messages.RemoveAt(0);

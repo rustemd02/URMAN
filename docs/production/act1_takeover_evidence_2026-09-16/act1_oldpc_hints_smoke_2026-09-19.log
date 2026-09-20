@@ -1,0 +1,25 @@
+run-smoke-guarded: res://tests/old_pc_hints_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M1 (Apple7)
+
+zone-loaded: village_day@arrival
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+oldpc-hints: check the level-1 hint is recorded on the first visit: urman.oldpc:hint/ask-naila-registry
+oldpc-hints: check the hint arrives as a note in «Заметки Айдара»: Записываю, чтобы не забыть: бабай просил посмотреть компьютер. Марат писал в последний месяц что-то странное — надо найти его сообщения. | Если не знаешь, с чего начать: спроси Наилю про реестр. Она ведёт его не первый год и помнит, что там записано про семьи.
+oldpc-hints: check a fresh reader gets neither the direction nor the direct hint
+oldpc-hints: check reopening the computer repeats neither the hint nor the note
+oldpc-hints: check the official notice is reachable through the ordinary archive search
+oldpc-hints: check reading the notice is what grants its knowledge
+oldpc-hints: check an empty search shows the direction hint and the term to try: Попробуйте поиск: учёт
+oldpc-hints: check the archive carrier records the hint it showed
+oldpc-hints: check the direct hint still waits for two read records (1 fruitless searches)
+oldpc-hints: check the hint itself adds no knowledge
+oldpc-hints: check the hint adds no journal entry: urman.oldpc:document/doc_marat_official_death_notice
+SaveGameV3 written to /Users/kadyrahunov/Library/Application Support/Godot/app_userdata/URMAN/savegames/oldpc-hints-proof.savegame-v3.json
+oldpc-hints: check the hints save with the desktop snapshot
+zone-loaded: village_day@arrival
+SaveGameV3 restored.
+oldpc-hints: check the hints load back
+oldpc-hints: check the shown hints survive the load without repeating
+oldpc-hints-smoke: PASS 14 checks; no human duration or art claim
+userdata guard: original files and permissions restored and verified

@@ -48,7 +48,10 @@
   "chat/alsu.md",
   "chat/mansur.md",
   "chat/rinat.md",
-  "chat/self.md"
+  "chat/self.md",
+  "hints/ask-naila-registry.md",
+  "hints/compare-dates.md",
+  "hints/boundary-not-dates.md"
  ],
  "assets": [
   "urman.oldpc:asset/doc-marat-medical-record-bg",
@@ -180,7 +183,13 @@
   "urman.oldpc:text/chat-self-choice-nothing",
   "urman.oldpc:text/chat-self-mark",
   "urman.oldpc:text/chat-self-free-text",
-  "urman.oldpc:text/chat-mansur-tea"
+  "urman.oldpc:text/chat-mansur-tea",
+  "urman.oldpc:hint/ask-naila-registry",
+  "urman.oldpc:hint/compare-dates",
+  "urman.oldpc:hint/boundary-not-dates",
+  "urman.oldpc:text/hint-ask-naila-registry",
+  "urman.oldpc:text/hint-compare-dates",
+  "urman.oldpc:text/hint-boundary-not-dates"
  ],
  "requires": []
 }

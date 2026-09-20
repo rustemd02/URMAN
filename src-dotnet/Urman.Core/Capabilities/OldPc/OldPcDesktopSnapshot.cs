@@ -20,6 +20,9 @@ public sealed class OldPcDesktopSnapshot
     public const int MaximumChatMessages = 64;
     public const int MaximumChatMessageLength = 500;
     public const int MaximumSeenHints = 64;
+    // 03_oldpc_full_system.md §4.3: the direct hint waits until the player has
+    // really read two archive records, so it can never spoil a fresh player.
+    public const int DocumentsBeforeDirectHint = 2;
     public const int MaximumTetrisScore = 999999;
 
     public List<OldPcWindowSnapshot> Windows { get; set; } = [];
@@ -133,6 +136,9 @@ public sealed class OldPcDesktopSnapshot
         if (HintsSeen.Any(hint => hint is null || hint.Length is < 1 or > 64 || !hints.Add(hint)))
             throw new InvalidDataException("Old PC seen hints are invalid.");
     }
+
+    public static bool DirectHintAllowed(int openedDocuments) =>
+        openedDocuments >= DocumentsBeforeDirectHint;
 
     private static bool FiniteRange(double value, double minimum, double maximum) =>
         double.IsFinite(value) && value >= minimum && value <= maximum;

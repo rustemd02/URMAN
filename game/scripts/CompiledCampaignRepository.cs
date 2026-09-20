@@ -138,6 +138,13 @@ public sealed record CompiledChatContent(
     string FreeTextReply,
     IReadOnlyDictionary<string, CompiledChatNodeContent> Nodes);
 
+public sealed record CompiledHintContent(
+    string Id,
+    int Level,
+    JsonElement Requires,
+    string PointsTo,
+    string TextId);
+
 public sealed record CompiledQuestContent(string Id, JsonElement Definition);
 
 public sealed class CompiledCampaignRepository
@@ -150,6 +157,7 @@ public sealed class CompiledCampaignRepository
     private readonly IReadOnlyDictionary<string, CompiledInteractionContent> _interactionsById;
     private readonly IReadOnlyDictionary<string, CompiledDialogueContent> _dialoguesById;
     private readonly IReadOnlyDictionary<string, CompiledChatContent> _chatsById;
+
     private readonly IReadOnlyDictionary<string, CompiledQuestContent> _questsById;
     private readonly IReadOnlyDictionary<string, JournalSourceContent> _journalSourcesById;
     private readonly TextResolver _texts;
@@ -165,6 +173,7 @@ public sealed class CompiledCampaignRepository
         IReadOnlyList<CompiledSceneContent> scenes,
         IReadOnlyList<CompiledDialogueContent> dialogues,
         IReadOnlyList<CompiledChatContent> chats,
+        IReadOnlyList<CompiledHintContent> hints,
         IReadOnlyList<CompiledQuestContent> quests,
         IReadOnlyList<JournalSourceContent> journalSources,
         TextResolver texts,
@@ -184,6 +193,7 @@ public sealed class CompiledCampaignRepository
         _dialoguesById = dialogues.ToDictionary(dialogue => dialogue.Id, StringComparer.Ordinal);
         Chats = chats;
         _chatsById = chats.ToDictionary(chat => chat.Id, StringComparer.Ordinal);
+        Hints = hints;
         foreach (var chat in chats)
         foreach (var node in chat.Nodes.Values)
         {
@@ -265,6 +275,8 @@ public sealed class CompiledCampaignRepository
         .Where(action => action.JournalAction is not null).ToArray();
 
     public IReadOnlyList<CompiledChatContent> Chats { get; }
+
+    public IReadOnlyList<CompiledHintContent> Hints { get; }
 
     public CompiledChatContent RequireChat(string chatId) =>
         _chatsById.TryGetValue(chatId, out var chat)
@@ -398,6 +410,17 @@ public sealed class CompiledCampaignRepository
             .Select(ReadChat)
             .OrderBy(chat => chat.Id, StringComparer.Ordinal)
             .ToArray();
+        var hints = root.GetProperty("registries").GetProperty("hints")
+            .EnumerateArray()
+            .Select(hint => new CompiledHintContent(
+                hint.GetProperty("id").GetString()!,
+                hint.GetProperty("level").GetInt32(),
+                hint.GetProperty("requires").Clone(),
+                hint.GetProperty("pointsTo").GetString()!,
+                hint.GetProperty("textId").GetString()!))
+            .OrderBy(hint => hint.Level)
+            .ThenBy(hint => hint.Id, StringComparer.Ordinal)
+            .ToArray();
         var quests = root.GetProperty("registries").GetProperty("quests")
             .EnumerateArray()
             .Select(quest => new CompiledQuestContent(quest.GetProperty("id").GetString()!, quest.Clone()))
@@ -415,6 +438,7 @@ public sealed class CompiledCampaignRepository
             scenes,
             dialogues,
             chats,
+            hints,
             quests,
             journalSources,
             texts,

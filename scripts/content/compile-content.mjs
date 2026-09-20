@@ -12,6 +12,7 @@ const REGISTRY_BY_KIND = Object.freeze({
   chat: ['chats', 'chat.schema.json'],
   dialogue: ['dialogues', 'dialogue.schema.json'],
   document: ['documents', 'document.schema.json'],
+  hint: ['hints', 'hint.schema.json'],
   knowledge: ['knowledge', 'knowledge.schema.json'],
   quest: ['quests', 'quest.schema.json'],
   scene: ['scenes', 'scene.schema.json'],

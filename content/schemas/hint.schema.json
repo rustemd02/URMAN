@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/hint.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "level", "requires", "pointsTo", "textId"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "level": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "requires": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+    "pointsTo": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[^:]+$" },
+    "textId": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "bodyMarkdown": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

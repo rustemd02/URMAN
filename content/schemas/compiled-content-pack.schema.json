@@ -99,7 +99,8 @@
         "assets",
         "texts",
         "capabilities",
-        "chats"
+        "chats",
+        "hints"
       ],
       "properties": {
         "characters": {
@@ -166,6 +167,12 @@
           "type": "array",
           "items": {
             "$ref": "chat.schema.json"
+          }
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "$ref": "hint.schema.json"
           }
         }
       },

@@ -1,0 +1,60 @@
+
+compile-content
+  Urman.Core -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll
+  Urman.Content -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll
+  Urman.ContentCli -> /Users/kadyrahunov/Projects/URMAN/tools-dotnet/Urman.ContentCli/bin/Debug/net10.0/Urman.ContentCli.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.87
+document-image: game/assets/images/arrival_marat_childhood_existing_v1.png sha256=c4647904f1aad0ea492858547e3f3493c9356c6ef87270d34d244f4fb882ac20
+document-image: game/assets/images/council-sabantuy-2005.png sha256=5847783c6f7e9127bac529c803fc606b4ab53ed29fad64fa83ecd97db2390617
+document-image: game/assets/images/first_snow_existing_v1.png sha256=8c31f2105170e876e36c02a790c2476cf3aa7d1769c20c98c5ab2ce5c72a0d7b
+document-image: game/assets/images/kara_urman_edge_sketch_candidate_v1.png sha256=04b129ef18b34cc6ef49ee839bdc82e2a4c61f5e9567c1b742d69557079ee92a
+document-image: game/assets/images/school-class-2005.png sha256=e1bb3bc6b854c5fdeddabdf7fa6777d7b5b6255221aa677eda24a2628bcfef3c
+document-images: 5 declared raster files packaged
+
+
+csharp
+  Urman.Core -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll
+  Urman.Content -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll
+  Urman.Game -> /Users/kadyrahunov/Projects/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.80
+
+
+godot-import
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (8 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+userdata guard: original files and permissions restored and verified
