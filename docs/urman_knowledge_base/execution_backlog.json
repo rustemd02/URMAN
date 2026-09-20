@@ -2670,7 +2670,7 @@
    "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
   }
  },
- "updated": "2026-09-19",
+ "updated": "2026-09-20",
  "goal_key": "urman-act1-finished-product",
  "goal_statement": "Довести Акт I до законченного игрового результата. Действующее поручение автора 2026-09-15: минимум 60 минут обычного первого основного опыта; все EX00 и EX01–EX14; исправленные физика, геометрия, ассеты, взаимодействия, NPC, звук, сохранения и производительность; связное расследование, культурный код, зима 2026 и высокий непроницаемый лес. Продолжать основной checkout и эту очередь; debug и необходимые локальные проверки разрешены. Технический walkthrough, объём текста и количество PASS не принимают художественное качество, интерес или длительность. Неизмеренный человеческий опыт и недоступное прослушивание — external/not-run; независимые локальные работы продолжаются.",
  "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -6489,6 +6489,1535 @@
     "Проверки прохода тем же капсулом игрока без ослабления допусков."
    ],
    "notes": "Audit-21 on byte-verified B82 proved the anchor snap fires (both anchors moved to (33.75,-28.4)) but breaks graph attachment (snapped point floats 0.75m off edge). Reverted in B83. H033/H037 need road/fence scene surgery. LESSON: B81 'success' build emitted stale bytes under fresh mtime due to CS0219; always byte-verify DLL symbols after build (utf8 for methods, utf16-le for literals)."
+  },
+  {
+   "id": "ACT1-LANG",
+   "title": "Татарский словарь: автосбор слов и начальная калибровка знания",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-NOTEBOOK",
+    "ACT1-OLDPC"
+   ],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "docs/urman_knowledge_base/language_learning.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Незнакомые татарские слова из диалогов и документов автоматически фиксируются как гипотезы в записную книжку (инвентарь) и синхронно в словарь на ПК бабая; подтверждение значения — контекстом. Игрок не понимает часть реплик и догадывается — это ядро геймплея. Стартовый уровень знания: короткий тест в игровой форме в прологе + ручной выбор в настройках (решение автора 2026-09-20).",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-LANG.1",
+   "title": "Единый реестр татарских слов и статусы в сейве",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-LANG"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/language_learning.md",
+    "game/scripts/RuntimeBridge.Notebook.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Реестр слов: id, написание, перевод, статус (не знаю / гипотеза / подтверждено), источник первого услышания, примеры употребления, уровень начального знания; в снапшоте SaveGameV3 с миграцией старых сейвов.",
+   "done_when": [
+    "Схема и реестр живут в данных; миграция старых сейвов не теряет прогресс; пакетные тесты зелёные."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-LANG.2",
+   "title": "Автосбор услышанных слов в записную книжку",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-LANG.1"
+   ],
+   "scope": [
+    "game/scripts/Act1ConnectedWorld.Notebook.cs",
+    "game/scripts/RuntimeBridge.Notebook.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Первое услышанное/прочитанное слово само попадает в записную книжку как гипотеза с указанием источника.",
+   "done_when": [
+    "Слово появляется ровно один раз (идемпотентно, без дублей); автосбор сам по себе не подтверждает значение и не пишет журнал."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-LANG.3",
+   "title": "Словарь на ПК бабая",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-LANG.1",
+    "ACT1-OLDPC-SHELL"
+   ],
+   "scope": [
+    "game/scripts/OldPcUi.Apps.cs",
+    "game/scripts/OldPcUi.cs",
+    "game/scripts/OldPcUi.Desktop.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Раздел/окно словаря на старом ПК с теми же словами: статус, источник, примеры употребления.",
+   "done_when": [
+    "Словарь показывает только реально собранные слова; не выдаёт незаслуженных знаний; доступность (крупный текст/контраст) держит окно в столе."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-LANG.4",
+   "title": "Калибровочный тест в прологе (игровая форма)",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-LANG.1"
+   ],
+   "scope": [
+    "game/scripts/RuntimeBridge.Notebook.cs",
+    "docs/urman_knowledge_base/language_learning.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Короткий тест в начале новой игры: 5–8 вопросов в игровой форме (в мире, не меню-экзамен), определяет стартовые статусы слов; пропускаем.",
+   "done_when": [
+    "Результат теста различимо меняет стартовый набор известного; пропуск даёт уровень по умолчанию; тест не выдаёт сюжетных знаний."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-LANG.5",
+   "title": "Ручной выбор уровня знания в настройках",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-LANG.4"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/language_learning.md",
+    "game/scripts/InputBindingService.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Настройка «не знаю / немного знаю / свободно» (+ пропустить тест), действует при старте новой игры.",
+   "done_when": [
+    "Каждый уровень даёт различимый стартовый набор; выбор сохраняется; сочетание с тестом определено (тест предлагает, игрок может переопределить)."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-LANG.6",
+   "title": "Подтверждение гипотез и видимый прогресс",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-LANG.2",
+    "ACT1-LANG.3"
+   ],
+   "scope": [
+    "game/scripts/Act1ConnectedWorld.Notebook.cs",
+    "game/scripts/OldPcUi.Apps.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Документ/указатель/повторная сцена переводят гипотезу в подтверждённое; прогресс виден в книжке и на ПК.",
+   "done_when": [
+    "Smoke полного цикла «услышал → гипотеза в книжке и на ПК → подтверждение → прогресс» проходит; save/load целостен."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-LANG.7",
+   "title": "Разметка татарских слов в авторском контенте",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-LANG.1"
+   ],
+   "scope": [
+    "content/",
+    "docs/urman_knowledge_base/language_learning.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Инвентаризация всех татарских слов Акта I (диалоги/документы/указатели): теги автосбора и уровни начального знания.",
+   "done_when": [
+    "Каждое слово контента размечено; контент-пак проверяет разметку; слов без уровня начального знания нет."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-QUEST-ADDR",
+   "title": "Квесты ведутся адресной системой (без маркеров и автопути)",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-ADDR"
+   ],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "game/scripts/SettlementRegistry.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Ориентирование только через адресную систему: адрес узнаваем со слов NPC, из записной книжки или из файлов ПК бабая; игрок сам находит цель по табличкам и номерам. На обязательном пути нет GPS-маркеров и автопути.",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-QUEST-ADDR.1",
+   "title": "Аудит квестов на адресность",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-QUEST-ADDR"
+   ],
+   "scope": [
+    "docs/production/",
+    "game/scripts/SettlementRegistry.cs",
+    "content/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Таблица «квест/цель → как игрок узнаёт, куда идти → есть ли маркер или автопуть → вердикт» по всем обязательным и значимым добровольным маршрутам.",
+   "done_when": [
+    "Таблица покрывает 100% квестовых целей; каждое нарушение помечено."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-QUEST-ADDR.2",
+   "title": "Убрать маркеры и автопуть с обязательного пути",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-QUEST-ADDR.1"
+   ],
+   "scope": [
+    "game/scripts/Act1ConnectedWorld.Addresses.cs",
+    "content/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Удаление маркеров/автопути с обязательного пути по итогам аудита.",
+   "done_when": [
+    "На обязательном пути нет маркеров/автопути; игрок не может «потеряться намертво» — источники адресов покрывают все цели."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-QUEST-ADDR.3",
+   "title": "Источники адресов для всех квестовых целей (data-driven)",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-QUEST-ADDR.1"
+   ],
+   "scope": [
+    "content/",
+    "game/scripts/Act1ConnectedWorld.Notebook.cs",
+    "game/scripts/OldPcUi.Apps.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Для каждой квестовой цели — минимум один работающий источник адреса: реплика NPC / документ ПК / запись книжки.",
+   "done_when": [
+    "100% обязательных целей имеют работающий источник адреса, проверяемый тестом контента."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-QUEST-ADDR.4",
+   "title": "Приёмочный адресный проход квестов",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-QUEST-ADDR.2",
+    "ACT1-QUEST-ADDR.3"
+   ],
+   "scope": [
+    "game/tests/",
+    "docs/production/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Каждый обязательный маршрут проходится цепочкой «источник адреса → самостоятельный поиск по табличкам».",
+   "done_when": [
+    "Проход воспроизводим и автоматизирован; evidence зафиксирован на текущей сборке."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-UI",
+   "title": "Полный редизайн UI в духе Persona, включая словарь татарского",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "FINISH-06"
+   ],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "docs/urman_knowledge_base/design_style.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Оверхолл всех экранов (меню, настройки, HUD, диалоги, журнал, книжка, инвентарь, ПК бабая): стильный, узнаваемый, не перегруженный и удобный интерфейс по ориентиру Persona 5 / Persona 3 Reload (decision_log 2026-09-13). Обязательный блок — удобный словарь татарского как одна из ключевых механик.",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-UI.1",
+   "title": "Стиль-гайд UI: тема, типографика, анимации",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-UI"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/design_style.md",
+    "assets/",
+    "game/scenes/act1_demo.tscn"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Документ + Godot-тема: палитра, типографика (кириллица + татарские глифы), сетка/отступы, анимации и переходы, правила звука интерфейса; 2–3 эталонных экрана-примера.",
+   "done_when": [
+    "Тема и гайд приняты; эталонные экраны рендерятся из темы, а не разовых стилей; татарские глифы не ломают вёрстку."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-UI.2",
+   "title": "Главное меню и настройки в новом стиле",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-UI.1"
+   ],
+   "scope": [
+    "game/scenes/act1_demo.tscn",
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Главное меню и экран настроек переведены на новую тему.",
+   "done_when": [
+    "Все существующие функции и доступность (крупный текст, контраст, переназначение ввода) сохранены; smoke меню зелёный."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-UI.3",
+   "title": "HUD и диалоги в новом стиле",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-UI.1"
+   ],
+   "scope": [
+    "game/scripts/",
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Прицел, взаимодействия, субтитры, реплики NPC, индикаторы — на новой теме без перегруза.",
+   "done_when": [
+    "Информация читается за секунды, перегруза нет; регресс диалоговых проверок зелёный."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-UI.4",
+   "title": "Журнал и записная книжка в новом стиле",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-UI.1"
+   ],
+   "scope": [
+    "game/scripts/JournalUi.cs",
+    "game/scripts/JournalUi.Notebook.cs",
+    "game/scripts/Act1ConnectedWorld.Notebook.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Журнал и записная книжка переведены на новую тему, включая различение прочитанного/непрочитанного.",
+   "done_when": [
+    "Регресс журнала/книжки зелёный; различение статусов сохранено."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-UI.5",
+   "title": "ПК бабая в новом стиле",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-UI.1",
+    "ACT1-OLDPC-SHELL"
+   ],
+   "scope": [
+    "game/scripts/OldPcUi.cs",
+    "game/scripts/OldPcUi.Desktop.cs",
+    "game/scripts/OldPcWallpaper.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Стиль-гайд применён к оболочке и всем окнам ПК, XP-подобный характер сохранён.",
+   "done_when": [
+    "Регресс old_pc smoke зелёный; окна не теряют доступность и z-order."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-UI.6",
+   "title": "Экран татарского словаря (быстрый доступ, поиск, статусы)",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-UI.1",
+    "ACT1-LANG.1"
+   ],
+   "scope": [
+    "game/scripts/JournalUi.Notebook.cs",
+    "game/scripts/Act1ConnectedWorld.Notebook.cs",
+    "docs/urman_knowledge_base/language_learning.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Словарь как первоклассный экран: быстрый доступ из HUD и книжки, поиск, фильтры «гипотеза/подтверждено», контекст употребления.",
+   "done_when": [
+    "Словарём можно пользоваться без обучения; открытие — не более 2 действий."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-UI.7",
+   "title": "Сквозная приёмка UI",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-UI.2",
+    "ACT1-UI.3",
+    "ACT1-UI.4",
+    "ACT1-UI.5",
+    "ACT1-UI.6"
+   ],
+   "scope": [
+    "docs/production/",
+    "game/scripts/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Чек-лист «экран за экраном»: консистентность, доступность, отсутствие перегруза.",
+   "done_when": [
+    "Чек-лист закрыт на текущей сборке; каждое отклонение закрыто фиксом или осознанным исключением."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-MECH-AUDIT",
+   "title": "Аудит механик: ни одна не висит без дела",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Ни одна механика не «висит»: каждая реализованная механика доведена, работает и применяется больше одного-двух раз; висячие/недоделанные/нерабочие — доработать до осмысленного применения или убрать.",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-MECH-AUDIT.1",
+   "title": "Инвентаризация всех механик с частотой применения",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-MECH-AUDIT"
+   ],
+   "scope": [
+    "docs/production/",
+    "game/scripts/",
+    "content/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Полный список реализованных механик: где используется, фактическая частота применения (по коду и контенту).",
+   "done_when": [
+    "Список полный и проверяем (каждая строка со ссылками на код/контент); механик без строки нет."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-MECH-AUDIT.2",
+   "title": "Классификация механик и решения доработать/убрать",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-MECH-AUDIT.1"
+   ],
+   "scope": [
+    "docs/production/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Каждая механика: рабочая / недоделанная / нерабочая × используется N раз → решение «доработать» или «убрать»; спорные — отдельным списком автору.",
+   "done_when": [
+    "Каждая механика имеет решение; спорные вынесены автору явно, не молча."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-MECH-AUDIT.3",
+   "title": "Доработка выбранных механик до ≥3 применений",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-MECH-AUDIT.2"
+   ],
+   "scope": [
+    "game/scripts/",
+    "content/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Механики из списка «доработать» получают осмысленное повторное применение в основной игре.",
+   "done_when": [
+    "Каждая доработанная механика имеет ≥3 осмысленных применений (не искусственные повторы)."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-MECH-AUDIT.4",
+   "title": "Удаление выбранных механик без следов",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-MECH-AUDIT.2"
+   ],
+   "scope": [
+    "game/scripts/",
+    "content/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Механики из списка «убрать» удаляются из кода/контента/сейва с миграцией.",
+   "done_when": [
+    "Код/контент/поля сейва убраны с миграцией; регресс зелёный; игрок не встречает мёртвых зацепок."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-TECH",
+   "title": "Техническое ревью мира: свет, коллизии, мерцание текстур",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "game/scenes/act1_demo.tscn"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Технический проход: коллизии (застревания, провалы, проходы сквозь геометрию), мерцание и просвечивание текстур (z-fighting, прозрачность, сортировка), нереалистичное освещение интерьеров (свет «протекает» с улицы, плоская засветка).",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-TECH.1",
+   "title": "Аудит технических проблем по зонам",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-TECH"
+   ],
+   "scope": [
+    "docs/production/",
+    "game/scenes/act1_demo.tscn"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Чек-лист по всем зонам: коллизии, мерцание/просветы текстур, свет интерьеров; каждая проблема с местом и способом воспроизведения.",
+   "done_when": [
+    "Чек-лист покрывает все зоны обязательного пути и основные интерьеры; каждая строка воспроизводима."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-TECH.2",
+   "title": "Фиксы коллизий",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-TECH.1"
+   ],
+   "scope": [
+    "game/scripts/Act1ConnectedWorld.AuthoredKitCollision.cs",
+    "game/scenes/act1_demo.tscn"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Исправление всех позиций аудита коллизий.",
+   "done_when": [
+    "Повторный аудит обязательного пути: 0 застреваний/провалов/проходов сквозь геометрию."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-TECH.3",
+   "title": "Фиксы мерцания и просвечивания текстур",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-TECH.1"
+   ],
+   "scope": [
+    "assets/",
+    "game/scenes/act1_demo.tscn"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Исправление z-fighting, прозрачности, сортировки по списку аудита.",
+   "done_when": [
+    "Повторный осмотр по списку: мерцаний и просветов нет на обязательном пути и в основных интерьерах."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-TECH.4",
+   "title": "Освещение интерьеров",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-TECH.1"
+   ],
+   "scope": [
+    "game/scenes/act1_demo.tscn",
+    "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Локальные источники света с направлением и теплом для каждого основного интерьера; уличный свет не «протекает» внутрь.",
+   "done_when": [
+    "Каждый основной интерьер освещён собственными источниками; ночь/день не ломают интерьерный свет."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-DEPTH",
+   "title": "Настоящие объёмные объекты вместо плоских заглушек",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ASSET-004"
+   ],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "assets/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Убрать примитивы и плоские «нарисованные» текстуры там, где они изображают объёмные вещи (мебель, утварь, техника, заборы, столбы, лавки, дрова): заменяются цельными 3D-объектами с формой и материалами. Развивает ASSET-004/ASSET-009 до полного покрытия видимого мира.",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-DEPTH.1",
+   "title": "Инвентаризация плоских заглушек",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-DEPTH"
+   ],
+   "scope": [
+    "docs/production/",
+    "assets/",
+    "game/scenes/act1_demo.tscn"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Список плоских текстур/примитивов, изображающих объём, с приоритетами (обязательный путь → интерьеры → остальное).",
+   "done_when": [
+    "Список полный по обязательному пути и основным интерьерам; у каждой строки — объект-замена."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-DEPTH.2",
+   "title": "Дом бабая: объёмные объекты интерьера",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-DEPTH.1"
+   ],
+   "scope": [
+    "assets/",
+    "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Мебель/утварь дома бабая заменена цельными 3D-объектами с материалами.",
+   "done_when": [
+    "По списку ACT1-DEPTH.1 для дома бабая замкнуто; коллизии и производительность не деградировали."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-DEPTH.3",
+   "title": "ФАП: объёмные объекты интерьера",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-DEPTH.1"
+   ],
+   "scope": [
+    "assets/",
+    "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Мебель/оборудование ФАП заменены цельными 3D-объектами.",
+   "done_when": [
+    "Аналогично ACT1-DEPTH.2 для ФАП."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-DEPTH.4",
+   "title": "Магазин: объёмные объекты интерьера",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-DEPTH.1",
+    "ACT1-SHOP"
+   ],
+   "scope": [
+    "assets/",
+    "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Мебель/прилавок/полки магазина заменены цельными 3D-объектами.",
+   "done_when": [
+    "Аналогично ACT1-DEPTH.2 для магазина."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-DEPTH.5",
+   "title": "Школа и сельсовет/ДК: объёмные объекты интерьеров",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-DEPTH.1",
+    "ACT1-PUBLIC"
+   ],
+   "scope": [
+    "assets/",
+    "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Интерьеры школы и сельсовета/ДК заменены цельными 3D-объектами.",
+   "done_when": [
+    "Аналогично ACT1-DEPTH.2 для школы и сельсовета/ДК."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-DEPTH.6",
+   "title": "Мечеть и баня: объёмные объекты интерьеров",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-DEPTH.1",
+    "ACT1-PUBLIC"
+   ],
+   "scope": [
+    "assets/",
+    "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Интерьеры мечети и бани заменены цельными 3D-объектами.",
+   "done_when": [
+    "Аналогично ACT1-DEPTH.2 для мечети и бани; канон мечети (Тимур хәзрәт — опора, не декорация) соблюдён."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-DEPTH.7",
+   "title": "Улица и дворы: объёмные объекты",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-DEPTH.1"
+   ],
+   "scope": [
+    "assets/",
+    "game/scenes/act1_demo.tscn"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Заборы, столбы, лавки, дрова, техника, вывески — объёмные объекты с материалами.",
+   "done_when": [
+    "Обязательная улица и дворы без плоских имитаций объёма."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-DEPTH.8",
+   "title": "Приёмка глубины: нет плоских имитаций объёма",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-DEPTH.2",
+    "ACT1-DEPTH.3",
+    "ACT1-DEPTH.4",
+    "ACT1-DEPTH.5",
+    "ACT1-DEPTH.6",
+    "ACT1-DEPTH.7"
+   ],
+   "scope": [
+    "docs/production/",
+    "assets/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Сквозная проверка замен по списку ACT1-DEPTH.1.",
+   "done_when": [
+    "На обязательном пути и в основных интерьерах нет плоских имитаций объёма; кадры зафиксированы."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-CHAR",
+   "title": "Персонажи на грани uncanny valley (весь каст)",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ASSET-002"
+   ],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "docs/urman_knowledge_base/design_style.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Модели персонажей довести от «просто плохо прорисованы» до выразительно-тревожных — на грани uncanny valley, в духе этно-хоррора. Решение автора 2026-09-20: весь каст, включая близких NPC; люди остаются людьми, канон «существа — не мобы» не меняется.",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-CHAR.1",
+   "title": "Арт-эталон uncanny по всему касту",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-CHAR"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/design_style.md",
+    "docs/research_shurale_package/",
+    "docs/urman_knowledge_base/decision_log.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Референс-документ на базе research_shurale_package: пропорции, лица, глаза, кожа, материалы, приёмы и запреты; как эталон читается на каждом сюжетном NPC.",
+   "done_when": [
+    "Документ принят; для каждого сюжетного NPC указано, как эталон на нём читается; ревью автором — внешний гейт, помечен честно."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-CHAR.2",
+   "title": "Лица и головы до эталона",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-CHAR.1"
+   ],
+   "scope": [
+    "assets/",
+    "docs/urman_knowledge_base/characters.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Лица/головы всех сюжетных персонажей доведены до эталона (глаза, асимметрия, возраст).",
+   "done_when": [
+    "Близкий план выдерживается; LOD-бюджеты и реестр ассетов не нарушены."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-CHAR.3",
+   "title": "Материалы кожи, глаз, волос, одежды",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-CHAR.1"
+   ],
+   "scope": [
+    "assets/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Материалы дают тревожную выразительность в зимнем свете — и вблизи, и вдали.",
+   "done_when": [
+    "Материалы согласованы со стайл-гайдом; скриншоты вблизи/вдали по каждому NPC."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-CHAR.4",
+   "title": "Тревожная пластика движения",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-CHAR.1"
+   ],
+   "scope": [
+    "assets/",
+    "game/scripts/Act1ConnectedWorld.NpcStaging.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Idle, походка, жесты, взгляд — удерживают uncanny без превращения в хоррор-мобов.",
+   "done_when": [
+    "Анимации не ломают коллизии/навигацию; приёмка по каждому NPC."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-CHAR.5",
+   "title": "Приёмка персонажей по эталону",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-CHAR.2",
+    "ACT1-CHAR.3",
+    "ACT1-CHAR.4"
+   ],
+   "scope": [
+    "docs/production/",
+    "assets/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Сравнение каждого сюжетного NPC с эталоном (рендер-ревью вблизи/вдали).",
+   "done_when": [
+    "Каждый сюжетный NPC сравнён с эталоном; отклонения закрыты или осознанно приняты."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-CUTSCENE",
+   "title": "Катсцены с пролётами камеры и вступление над Кырлаем",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Система катсцен (сценарные пролёты камеры, тайминги, звук, леттербокс, пропускаемость) и вступительная катсцена: пролёт камеры над заснеженным Кырлаем к прибытию Айдара. Не выдаёт закрытых знаний, пропускается, честно работает при старте новой игры.",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-CUTSCENE.1",
+   "title": "Движковая система катсцен",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-CUTSCENE"
+   ],
+   "scope": [
+    "game/scripts/",
+    "game/scenes/act1_demo.tscn"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Треки камеры по контрольным точкам, таймлайн, звук, леттербокс/титры, пропуск с первого кадра, пометка «просмотрено» в сейве.",
+   "done_when": [
+    "Катсцена не даёт знаний и не пишет журнал; save/load и повторный старт устойчивы; кривые/тайминги — в данных, не в коде."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-CUTSCENE.2",
+   "title": "Вступительная катсцена: пролёт над Кырлаем",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-CUTSCENE.1"
+   ],
+   "scope": [
+    "game/scenes/act1_demo.tscn",
+    "content/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Авторский пролёт над зимней деревней к остановке прибытия.",
+   "done_when": [
+    "Пролёт читается (силуэты деревни, лес, дым), скорость комфортна; звук синхронизирован."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-CUTSCENE.3",
+   "title": "Приёмка катсцен",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-CUTSCENE.2"
+   ],
+   "scope": [
+    "docs/production/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Приёмочный проход: старт новой игры, пропуск, повторный просмотр, производительность.",
+   "done_when": [
+    "Старт новой игры, пропуск, повторный просмотр, FPS на слабом железе проверены; закрытых знаний нет."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-NPC",
+   "title": "Живая деревня: NPC с распорядком и занятиями",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "game/scripts/Act1ConnectedWorld.NpcStaging.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "NPC перестают быть декорациями: много жителей, каждый занят своим делом по распорядку (двор, дрова, чистка снега, поход в магазин, разговоры) с учётом времени суток и сюжетных событий. Новые жители добавляются данными, не кодом.",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-NPC.1",
+   "title": "Data-driven распорядок NPC (routine)",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-NPC"
+   ],
+   "scope": [
+    "game/scripts/Act1ConnectedWorld.NpcStaging.cs",
+    "content/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Модель routine «интервал времени суток → занятие + место» с миграцией сейва; существующие сюжетные NPC получают авторские расписания.",
+   "done_when": [
+    "Сюжетные обязанности NPC (диалоги, квесты) не ломаются от routine; миграция сейвов чистая."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-NPC.2",
+   "title": "Набор занятий и поз с переходами",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-NPC.1"
+   ],
+   "scope": [
+    "game/scripts/Act1ConnectedWorld.NpcStaging.cs",
+    "assets/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "6–8 простых занятий с анимацией/позой; переходы между занятиями без телепортов на глазах игрока.",
+   "done_when": [
+    "Каждое занятие читается с улицы; NPC не проваливается сквозь снег/пол."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-NPC.3",
+   "title": "Новые жители деревни из данных",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-NPC.1",
+    "ACT1-NPC.2"
+   ],
+   "scope": [
+    "content/",
+    "game/scripts/FullGameNpcDressing.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Население деревни увеличено, жилые дворы оживлены; добавление жителя = запись в данных.",
+   "done_when": [
+    "Каждый новый житель имеет routine и занятие; новых «стоящих колом» нет."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-NPC.4",
+   "title": "Реакции NPC на события и время суток",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-NPC.1"
+   ],
+   "scope": [
+    "content/",
+    "game/scripts/Act1ConnectedWorld.NpcStaging.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Лёгкие реакции на сюжетные флаги (после финала, тревога деревни) и время суток (ночь).",
+   "done_when": [
+    "Реакции не спойлерят закрытый лор; ночью/после финала улица меняется заметно, но без новых сюжетных обещаний."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-NPC.5",
+   "title": "Приёмка живой деревни",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-NPC.2",
+    "ACT1-NPC.3",
+    "ACT1-NPC.4"
+   ],
+   "scope": [
+    "game/tests/",
+    "docs/production/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Аудит живости: каждый размещённый NPC видимо занят.",
+   "done_when": [
+    "Аудит всех жителей закрыт; smoke распределения по времени суток зелёный."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-FOOTSTEP",
+   "title": "Звук шагов вне основной дороги: лаг",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "game/scripts/FootstepAudioController.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Баг: при уходе с основной дороги звук шагов начинает лагать и заикаться. Кандидатные причины: переключение материалов поверхности, пул/стриминг сэмплов, спам аудиособытий (FootstepAudioController.cs, FirstPersonController.Steps.cs).",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-FOOTSTEP.1",
+   "title": "Диагностика лага шагов вне основной дороги",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-FOOTSTEP"
+   ],
+   "scope": [
+    "game/scripts/FootstepAudioController.cs",
+    "game/scripts/FirstPersonController.Steps.cs",
+    "docs/production/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Стабильное воспроизведение лага, метрики (частота аудиособытий, пул голосов, GC), зафиксированная причина.",
+   "done_when": [
+    "Воспроизведение детерминировано (маршрут/условия); причина подтверждена данными, не догадкой."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-FOOTSTEP.2",
+   "title": "Фикс лага шагов и проверка проходом",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-FOOTSTEP.1"
+   ],
+   "scope": [
+    "game/scripts/FootstepAudioController.cs",
+    "game/scripts/FirstPersonController.Steps.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Исправление причины лага.",
+   "done_when": [
+    "Длинный проход по всем типам поверхностей — без заиканий; регресс аудио-проверок зелёный на текущей сборке."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-LEGS",
+   "title": "Правдоподобные ноги при взгляде вниз",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-PLAYER"
+   ],
+   "scope": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "game/scripts/FirstPersonController.Body.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Баг: при взгляде вниз видимые ноги/нижняя часть тела двигаются нелепо (рассинхрон анимации с фактическим перемещением, FirstPersonController.Body.cs). Отдельный приёмочный пункт к ACT1-PLAYER («видимое тело»).",
+   "done_when": [
+    "Все подзадачи направления completed.",
+    "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
+    "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-LEGS.1",
+   "title": "Синхронизация ног с фактическим движением",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-LEGS"
+   ],
+   "scope": [
+    "game/scripts/FirstPersonController.Body.cs",
+    "game/scripts/FirstPersonController.Movement.cs"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Анимация ног соответствует фактической скорости и поворотам; нет скольжения/ломки при взгляде вниз.",
+   "done_when": [
+    "Рассинхрон устранён на ходьбе/беге/поворотах; присед не ломает позу."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-LEGS.2",
+   "title": "Приёмка походки (ходьба/бег/присед/повороты)",
+   "milestone": "M5",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "owner": "finished-act1",
+   "depends_on": [
+    "ACT1-LEGS.1"
+   ],
+   "scope": [
+    "game/scripts/FirstPersonController.Body.cs",
+    "docs/production/"
+   ],
+   "source_requirements": [
+    "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
+    "author/2026-09-20-gamefeel-overhaul"
+   ],
+   "deliverable": "Кадровое ревью походки по всем режимам движения.",
+   "done_when": [
+    "Кадровое ревью ходьба/бег/присед/повороты — правдоподобно; регресс ACT1-PLAYER зелёный."
+   ],
+   "evidence": []
   }
  ]
 }
