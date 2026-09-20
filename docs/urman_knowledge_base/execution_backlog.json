@@ -3292,7 +3292,7 @@
    "id": "ACT1-OLDPC-SEARCH",
    "title": "Глобальный поиск: поле в «Пуске» + «Искать везде»; доки+чат+заметки+история; татарские ключи",
    "milestone": "M5",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "root/expanded-act1",
    "owner": "finished-act1",
    "depends_on": [
@@ -3312,7 +3312,13 @@
     "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
     "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
    ],
-   "evidence": []
+   "evidence": [
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_search_2026-09-19.md",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_search_smoke_2026-09-19.log",
+    "game/scripts/OldPcUi.Search.cs",
+    "game/tests/OldPcSearchSmokeTest.cs"
+   ],
+   "progress_2026_09_19": "2026-09-19 implemented and verified on this build: the Start menu gets a real search field and the archive gets an «Искать везде» button (no tenth window, the ТЗ keeps the desktop at nine); one query covers the readable documents by title and body, the *delivered* chat history, Aidar's own notes and the browser pages he really visited. A locked record never enters the results - its title appears in no row, only the archive's non-selectable «🔒 Закрытые записи» line; every result opens through the ordinary gate (document access condition, thread gate, editor, browser) and the search itself grants no knowledge. Zero results offer three term keys: learned Tatar words first, then hint terms, then the accessible documents' suggested terms; a term link repeats the query on the same path. old_pc_search_smoke_test PASS 12 checks; old_pc_chat/hints/desktop smokes PASS as regression; verify-dotnet green; integrated-build-88 PASS."
   },
   {
    "id": "ACT1-OLDPC-DOCS",
@@ -3344,7 +3350,7 @@
    "id": "ACT1-OLDPC-TETRIS",
    "title": "Тетрис-пасхалка: стакан 10×20, 7 фигур, уровни/пауза, только tetrisHigh, изоляция от knowledge",
    "milestone": "M5",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "root/expanded-act1",
    "owner": "finished-act1",
    "depends_on": [
@@ -3364,7 +3370,13 @@
     "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
     "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
    ],
-   "evidence": []
+   "evidence": [
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_tetris_2026-09-19.md",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_tetris_smoke_2026-09-19.log",
+    "game/scripts/OldPcTetris.cs",
+    "game/tests/OldPcTetrisSmokeTest.cs"
+   ],
+   "progress_2026_09_19": "2026-09-19 implemented and verified on this build: a standalone tetris control (10x20 well, seven pieces with rotations, level gravity, score/lines/level, pause, game over) with arrows, Z/X/space/P and the same actions on mouse buttons; the class never sees the runtime bridge, so it cannot reach knowledge, the journal, hints or the search. Pausing is real (window minimize, close and application focus loss all pause; opening resumes). The record is the only persistent field: it travels through the ordinary desktop snapshot (tetrisHigh, bounded 0..999999), the window re-reads it on every restore, and no middle of a game is ever saved. old_pc_tetris_smoke_test PASS, old_pc_desktop_smoke_test PASS 102 checks as layout/regression, verify-dotnet green. Boundary: the proof wires the record sink directly instead of clearing a line on purpose."
   },
   {
    "id": "ACT1-OLDPC-SHELL",

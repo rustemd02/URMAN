@@ -1,0 +1,20 @@
+run-smoke-guarded: res://tests/old_pc_search_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M1 (Apple7)
+
+zone-loaded: village_day@arrival
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+oldpc-search: check the archive button runs the global search: Искать везде · найдено: 6
+oldpc-search: check readable documents take part: Документ: Надписи на коробках с фотографиями | Документ: Письмо из Казани | Документ: Справка о смерти Марата Н. | Документ: Страница из школьной тетради | Документ: Реестр дома: линия Мансура | Чат: Заметки Айдара | 🔒 Закрытые записи
+oldpc-search: check a locked record never shows its title
+oldpc-search: check a matching locked record raises the same non-selectable line the archive uses
+oldpc-search: check the delivered chat history takes part: Чат: Заметки Айдара
+oldpc-search: check a chat result opens its thread: urman.oldpc:chat/self
+oldpc-search: check personal notes take part: Заметка: Заметка 1.txt
+oldpc-search: check a note result opens it in the ordinary editor
+oldpc-search: check the visited page takes part by its readable title: Документ: Ялкын: Алсу Равил кызы | Документ: Ялкын: сообщество «Наш авыл» | Документ: Ялкын: Мансур | Документ: TatWiki: люди и семейные записи | Интернет: Ялкын · соцсеть | 🔒 Закрытые записи
+oldpc-search: check an empty search asks the player to rephrase and offers terms: Совпадений нет. Переформулируйте запрос или попробуйте: урман  реестр  учёт
+oldpc-search: check a term link re-runs the query through the same path: Марат
+oldpc-search: check the search itself grants no knowledge
+oldpc-search-smoke: PASS 12 checks; no human duration or art claim
+userdata guard: original files and permissions restored and verified

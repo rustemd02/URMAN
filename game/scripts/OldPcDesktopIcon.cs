@@ -48,6 +48,12 @@ public partial class OldPcDesktopIcon : Control
                 Box(19, 4, 11, 5, "bac8c5", outline);
                 for (var x = 18; x <= 31; x += 6) DrawLine(new(x, 18), new(x, 38), new Color("6b8b91"), 1.5f);
                 break;
+            case "tetris":
+                Box(4, 8, 40, 26, "e8e3d4", outline);
+                for (var x = 7; x <= 27; x += 7)
+                for (var y = 11; y <= 25; y += 7)
+                    if ((x + y) % 3 != 0) Box(x, y, 6, 6, "377ca3", outline);
+                break;
             case "chat":
                 Box(4, 8, 40, 26, "e8e3d4", outline);
                 DrawColoredPolygon([new(12, 34), new(24, 34), new(14, 43)], new Color("e8e3d4"));

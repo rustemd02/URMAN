@@ -46,6 +46,8 @@ public partial class OldPcUi
         BuildBrowser();
         BuildPictures();
         BuildChat();
+        BuildGlobalSearch();
+        BuildTetris();
     }
 
     private void BuildFiles()

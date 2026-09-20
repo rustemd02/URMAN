@@ -38,7 +38,11 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _results = GetNode<ItemList>("Screen/Computer/Layout/WorkArea/Results");
         _documentTitle = GetNode<Label>("Screen/Computer/Layout/WorkArea/ReaderArea/DocumentTitle");
         _reader = GetNode<RichTextLabel>("Screen/Computer/Layout/WorkArea/ReaderArea/Reader");
-        _reader.MetaClicked += meta => NavigateBrowser(meta.AsString());
+        _reader.MetaClicked += meta =>
+        {
+            if (HandleSearchTermMeta(meta.AsString())) return;
+            NavigateBrowser(meta.AsString());
+        };
         _images = DocumentImageReader.Attach(_reader);
         _status = GetNode<Label>("Screen/Computer/Layout/Footer/Status");
         _save = GetNode<Button>("Screen/Computer/Layout/Footer/Save");
@@ -144,6 +148,9 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async void Search()
     {
+        // The archive's own search leaves the global mode: it is the ordinary
+        // keyword search over the archive sections.
+        _globalSearch = false;
         PlayFoley("keyboard_key");
         if (_bridge is not { } bridge)
         {
@@ -191,6 +198,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         }
 
         var documentId = _results.GetItemMetadata((int)index).AsString();
+        if (OpenGlobalTarget(documentId)) return;
         var version = ++_readerVersion;
         var session = bridge.SessionIdentity;
         _excerpts.Clear();
@@ -250,6 +258,11 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         if (_bridge is null)
         {
+            return;
+        }
+        if (_globalSearch)
+        {
+            RefreshGlobalResults();
             return;
         }
 

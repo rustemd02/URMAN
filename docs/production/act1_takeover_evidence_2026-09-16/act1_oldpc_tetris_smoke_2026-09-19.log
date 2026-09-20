@@ -1,0 +1,22 @@
+run-smoke-guarded: res://tests/old_pc_tetris_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M1 (Apple7)
+
+zone-loaded: village_day@arrival
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+oldpc-tetris: check the desktop state carries the stored record
+oldpc-tetris: check the tetris window opens a fresh game
+oldpc-tetris: check the game starts from the stored record and an empty score: record=500
+oldpc-tetris: check the keys reach the game and a hard drop lands one piece: pieces=1 cells=4
+oldpc-tetris: check a pause stops the fall: pieces=1 paused=True
+oldpc-tetris: check the same key resumes the game
+oldpc-tetris: check ordinary drops lose the well: pieces=11 cells=44
+oldpc-tetris: check the game touches no knowledge, journal entry or personal note
+SaveGameV3 written to /Users/kadyrahunov/Library/Application Support/Godot/app_userdata/URMAN/savegames/oldpc-tetris-proof.savegame-v3.json
+oldpc-tetris: check the desktop with the record saves
+zone-loaded: village_day@arrival
+SaveGameV3 restored.
+oldpc-tetris: check the desktop with the record loads
+oldpc-tetris: check the record is the only thing that leaves the window: 777
+oldpc-tetris-smoke: PASS 11 checks; no human duration or art claim
+userdata guard: original files and permissions restored and verified

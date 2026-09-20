@@ -34,6 +34,7 @@ public partial class OldPcUi
     private double _clockCheckpoint;
     private object? _desktopSession;
     private GridContainer _shortcuts = null!;
+    private VBoxContainer _startMenuBody = null!;
     private float DesktopBarHeight => 44f * (float)_accessibility.TextScale + 14f;
 
     public IReadOnlyList<string> OpenApplicationIds =>
@@ -52,7 +53,7 @@ public partial class OldPcUi
         foreach (var (id, label) in new[] {
             ("files", "Мой компьютер"), ("archive", "Архив"), ("browser", "Интернет"),
             ("pictures", "Фотографии"), ("notepad", "Заметки"), ("chat", "Сообщения"),
-            ("trash", "Корзина · Чүплек") })
+            ("tetris", "Тетрис"), ("trash", "Корзина · Чүплек") })
         {
             var app = id;
             var button = DesktopButton(_shortcuts, "Icon_" + id, label, () => LaunchApplication(app));
@@ -90,12 +91,13 @@ public partial class OldPcUi
         _screen.AddChild(_startMenu);
         _startMenu.Resized += LayoutDesktop;
         var menu = new VBoxContainer();
+        _startMenuBody = menu;
         _startMenu.AddChild(menu);
         menu.AddChild(new Label { Text = "Мансур · Кара-Урман" });
         foreach (var (id, label) in new[] {
             ("archive", "Архивный поиск"), ("files", "Мои документы"), ("browser", "Интернет"),
             ("notepad", "Блокнот"), ("writer", "Текстовый редактор"), ("pictures", "Просмотр изображений"),
-            ("chat", "Ялкын · Сообщения"), ("trash", "Корзина · Чүплек") })
+            ("chat", "Ялкын · Сообщения"), ("tetris", "Тетрис"), ("trash", "Корзина · Чүплек") })
         {
             var app = id;
             DesktopButton(menu, "Launch_" + id, label, () => { _startMenu.Hide(); LaunchApplication(app); });
@@ -194,6 +196,7 @@ public partial class OldPcUi
         if (id is "files" or "trash") RefreshFileList(id == "trash");
         if (id == "pictures") RefreshPictures();
         if (id == "chat") RefreshChat();
+        if (id == "tetris") _tetris.Resume();
         if (id is "notepad" or "writer") RestoreEditor(id == "writer");
         if (id == "browser" && (!wasOpen || _browserHistoryAddress is null))
             ShowBrowserAddress(CurrentBrowserAddress(), false, restoreOnly: true);
@@ -247,6 +250,7 @@ public partial class OldPcUi
         // threads receive whatever the world has unlocked since the last visit.
         RefreshChat();
         RefreshHints();
+        RestoreTetrisRecord();
         _restoringDesktop = false;
         LayoutDesktop();
     }
@@ -286,6 +290,7 @@ public partial class OldPcUi
             "browser" => _browserAddress,
             "pictures" => _pictureList,
             "chat" => _chatThreadList,
+            "tetris" => _tetris,
             "writer" when _writerPreview.Visible => _writerPreview,
             "notepad" or "writer" when _editors[window.Id].Editable => _editors[window.Id],
             _ => window.Panel.GetNode<Button>("Layout/Content/Tools/New")
@@ -308,6 +313,7 @@ public partial class OldPcUi
         window.Panel.Hide();
         window.Header.Active = false;
         window.Task.ButtonPressed = false;
+        if (id == "tetris") _tetris.Pause();
         if (_focusedWindow == id) _focusedWindow = _desktop.ActiveWindowId = null;
         FocusActiveDesktopWindow();
         MarkDesktopChanged();
@@ -323,6 +329,7 @@ public partial class OldPcUi
         window.Task.Hide();
         window.Header.Active = false;
         window.Task.ButtonPressed = false;
+        if (id == "tetris") _tetris.Pause();
         _desktop.Windows.Remove(window.State);
         if (_focusedWindow == id) _focusedWindow = _desktop.ActiveWindowId = null;
         if (id == "browser") { _browserVersion++; _browserExcerpts.Clear(); }
