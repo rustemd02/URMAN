@@ -1056,7 +1056,7 @@ public partial class RuntimeBridge : Node
 
     private void CreateNewSession()
     {
-        var kernel = new RuntimeKernel(_content.CreateInitialNarrativeState(), CreateHandlers());
+        var kernel = new RuntimeKernel(SeedStartingVocabulary(_content.CreateInitialNarrativeState()), CreateHandlers());
         var capabilities = CreateCapabilities();
         var questCapabilities = new QuestCapabilitySessionOrchestrator(capabilities);
         try
@@ -1079,6 +1079,73 @@ public partial class RuntimeBridge : Node
         _scheduler = new DeterministicScheduler();
         _playTimeSeconds = 0;
         _interactionSequence = 0;
+    }
+
+    /// <summary>
+    /// ACT1-LANG.1/.5: a chosen starting Tatar level seeds hypotheses only —
+    /// never confirmations — so every confirmation-gated quest, question and
+    /// reread keeps its gameplay gate. "none" (the default) and debug
+    /// sessions seed nothing and preserve the historical arrival state.
+    /// </summary>
+    private JsonElement SeedStartingVocabulary(JsonElement initialState)
+    {
+        var level = FindPlayer()?.TatarLanguageLevel ?? "none";
+        if (IsDebugSession || level is not ("some" or "fluent"))
+        {
+            return initialState;
+        }
+
+        var allowed = level == "fluent"
+            ? new[] { "family", "everyday", "literary" }
+            : new[] { "family" };
+        var node = System.Text.Json.Nodes.JsonNode.Parse(initialState.GetRawText())!.AsObject();
+        var vocabulary = node["vocabulary"]!.AsObject();
+        foreach (var entry in _content.VocabularyEntries)
+        {
+            if (!allowed.Contains(entry.StartingKnowledge)) continue;
+            vocabulary[entry.Id] = new System.Text.Json.Nodes.JsonObject
+            {
+                ["status"] = "guessed",
+                ["sourceId"] = $"urman.starting-knowledge:{level}"
+            };
+        }
+
+        return JsonSerializer.SerializeToElement(node);
+    }
+
+    /// <summary>
+    /// ACT1-LANG.2: presentation surfaces report every text the player
+    /// actually reads; unknown Tatar terms in it become heard hypotheses with
+    /// their source. The kernel ladder keeps words from downgrading, and no
+    /// journal, quest or confirmed knowledge is written here.
+    /// </summary>
+    public async Task ObserveVocabularyTextAsync(string text, string sourceId)
+    {
+        if (_kernel is null || _content is null || string.IsNullOrEmpty(text))
+        {
+            return;
+        }
+
+        var known = LearnedVocabulary().Select(entry => entry.Id).ToHashSet();
+        var lowered = text.ToLowerInvariant();
+        foreach (var entry in _content.VocabularyEntries)
+        {
+            if (known.Contains(entry.Id) || !lowered.Contains(entry.Term.ToLowerInvariant(), StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var result = await _kernel.DispatchAsync(new GameCommand(
+                $"vocabulary-observe:{entry.Id}:{sourceId}:{Interlocked.Increment(ref _interactionSequence):D8}",
+                NarrativeCommandHandlers.VocabularyLearn,
+                JsonSerializer.SerializeToElement(new { wordId = entry.Id, sourceId, status = "guessed" })));
+            GD.Print($"vocabulary.observe: term={entry.Term} status={result.Status} error={result.Error?.Message}");
+            if (result.Status == CommandStatus.Committed)
+            {
+                PresentRuntimeEvents(result.Events);
+                QueueRuntimeStateChanged();
+            }
+        }
     }
 
     private async Task InitializeEntrypointAsync()

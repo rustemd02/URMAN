@@ -216,6 +216,8 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
             _status.Text = $"Мои документы · {SectionLabel(document.Section)}";
             _save.Disabled = false;
             RefreshResults();
+            // ACT1-LANG.2: an opened PC document auto-collects unknown words.
+            _ = bridge.ObserveVocabularyTextAsync(document.Title + "\n" + document.BodyMarkdown, documentId);
         }
         catch (Exception exception)
         {

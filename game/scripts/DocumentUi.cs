@@ -105,6 +105,8 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _screen.Visible = true;
         SetPlayerModal(true);
         _close.GrabFocus();
+        // ACT1-LANG.2: reading a document auto-collects unknown Tatar words.
+        _ = bridge.ObserveVocabularyTextAsync(document.Title + "\n" + document.BodyMarkdown, document.Id);
     }
 
     private async void SaveToJournal()

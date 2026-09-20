@@ -11,6 +11,10 @@
     "language": { "type": "string", "pattern": "^[a-z]{2,3}$" },
     "meaning": { "$ref": "common.schema.json#/$defs/LocalizedText" },
     "initialStatus": { "enum": ["unknown", "guessed", "confirmed"] },
+    "startingKnowledge": {
+      "description": "Which starting language level already holds this word as a hypothesis. Never pre-confirms: confirmation stays gameplay-gated.",
+      "enum": ["none", "family", "everyday", "literary"]
+    },
     "rereadTargets": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
     "applicationTargets": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
     "consultantReview": {

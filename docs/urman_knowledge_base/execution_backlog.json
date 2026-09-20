@@ -6521,7 +6521,7 @@
    "id": "ACT1-LANG.1",
    "title": "Единый реестр татарских слов и статусы в сейве",
    "milestone": "M5",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "root/expanded-act1",
    "owner": "finished-act1",
    "depends_on": [
@@ -6539,13 +6539,19 @@
    "done_when": [
     "Схема и реестр живут в данных; миграция старых сейвов не теряет прогресс; пакетные тесты зелёные."
    ],
-   "evidence": []
+   "evidence": [],
+   "progress_2026_09_20_lang": {
+    "note": "2026-09-20: startingKnowledge в схеме+паке (12/12), TatarLanguageLevel в GameSettingsSnapshot с дефолтом none (старые settings.json и сейвы читаются, историческое поведение сохранено); verify-dotnet зелёный (Core 59, Content 14).",
+    "evidence": [
+     "docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md"
+    ]
+   }
   },
   {
    "id": "ACT1-LANG.2",
    "title": "Автосбор услышанных слов в записную книжку",
    "milestone": "M5",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "root/expanded-act1",
    "owner": "finished-act1",
    "depends_on": [
@@ -6563,7 +6569,13 @@
    "done_when": [
     "Слово появляется ровно один раз (идемпотентно, без дублей); автосбор сам по себе не подтверждает значение и не пишет журнал."
    ],
-   "evidence": []
+   "evidence": [],
+   "progress_2026_09_20_lang": {
+    "note": "2026-09-20: ObserveVocabularyTextAsync — автосбор гипотез с sourceId из документов, реплик диалога и документов ПК; лесенка unknown→guessed→confirmed ядра не даёт деградации; смок фиксирует source.",
+    "evidence": [
+     "docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md"
+    ]
+   }
   },
   {
    "id": "ACT1-LANG.3",
@@ -6637,13 +6649,19 @@
    "done_when": [
     "Каждый уровень даёт различимый стартовый набор; выбор сохраняется; сочетание с тестом определено (тест предлагает, игрок может переопределить)."
    ],
-   "evidence": []
+   "evidence": [],
+   "progress_2026_09_20_lang": {
+    "note": "2026-09-20: свойство + персистентность в UserSettingsStore/сейвах; сидирование none/some/fluent при новой игре (some проверено смоком, fluent реализован тем же механизмом); остался UI-ряд в настройках и различимый смок fluent.",
+    "evidence": [
+     "docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md"
+    ]
+   }
   },
   {
    "id": "ACT1-LANG.6",
    "title": "Подтверждение гипотез и видимый прогресс",
    "milestone": "M5",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "root/expanded-act1",
    "owner": "finished-act1",
    "depends_on": [
@@ -6662,13 +6680,19 @@
    "done_when": [
     "Smoke полного цикла «услышал → гипотеза в книжке и на ПК → подтверждение → прогресс» проходит; save/load целостен."
    ],
-   "evidence": []
+   "evidence": [],
+   "progress_2026_09_20_lang": {
+    "note": "2026-09-20: act1_vocabulary_cycle_smoke_test PASS — сид some → автосбор юл с источником → авторское подтверждение через физическую находку-указатель → проекция журнала (услышано/подтверждено) → save/load целостен.",
+    "evidence": [
+     "docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md"
+    ]
+   }
   },
   {
    "id": "ACT1-LANG.7",
    "title": "Разметка татарских слов в авторском контенте",
    "milestone": "M5",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "root/expanded-act1",
    "owner": "finished-act1",
    "depends_on": [
@@ -6686,7 +6710,13 @@
    "done_when": [
     "Каждое слово контента размечено; контент-пак проверяет разметку; слов без уровня начального знания нет."
    ],
-   "evidence": []
+   "evidence": [],
+   "progress_2026_09_20_lang": {
+    "note": "2026-09-20: 12/12 слов размечены startingKnowledge (family/everyday/literary/none); пакеты пересобраны eng/compile-game-content.sh; ContentCli validate зелёный; golden-фикстура и fingerprint паритет-теста обновлены на новый компилят.",
+    "evidence": [
+     "docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md"
+    ]
+   }
   },
   {
    "id": "ACT1-QUEST-ADDR",

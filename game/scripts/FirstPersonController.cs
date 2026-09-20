@@ -46,6 +46,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private bool _headBob;
     private string _graphicsPreset = "medium";
     private string _inputDevice = "keyboard-mouse";
+    /// <summary>ACT1-LANG.5: chosen starting Tatar knowledge level (none/some/fluent).</summary>
+    public string TatarLanguageLevel { get; set; } = "none";
     private string _keyboardInteractionHint = "[E]";
     private string _gamepadInteractionHint = "[A]";
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
@@ -240,7 +242,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         InputDevice: _inputDevice,
         InputBindings: InputBindingService.Capture())
     {
-        Accessibility = _accessibility
+        Accessibility = _accessibility,
+        TatarLanguageLevel = TatarLanguageLevel
     };
 
     public void ApplySettings(GameSettingsSnapshot settings)

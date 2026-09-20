@@ -36,6 +36,13 @@ public sealed record GameSettingsSnapshot(
     IReadOnlyList<InputBindingSnapshot> InputBindings)
 {
     public AccessibilitySettingsSnapshot Accessibility { get; init; } = AccessibilitySettingsSnapshot.Default;
+
+    /// <summary>
+    /// ACT1-LANG.5: starting Tatar knowledge chosen by the player
+    /// ("none" | "some" | "fluent"). Older settings files and saves without
+    /// this field mean "none", the historical behaviour.
+    /// </summary>
+    public string TatarLanguageLevel { get; init; } = "none";
 }
 
 public sealed record SaveGameV3(

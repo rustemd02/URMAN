@@ -47,7 +47,8 @@ public sealed record VocabularyEntryContent(
     string Id,
     string Term,
     string Language,
-    string Meaning);
+    string Meaning,
+    string StartingKnowledge = "none");
 
 public sealed record ResolvedVocabularyEntry(
     string Id,
@@ -461,7 +462,10 @@ public sealed class CompiledCampaignRepository
         vocabulary.GetProperty("id").GetString()!,
         vocabulary.GetProperty("term").GetString()!,
         vocabulary.GetProperty("language").GetString()!,
-        Localized(vocabulary.GetProperty("meaning")));
+        Localized(vocabulary.GetProperty("meaning")),
+        vocabulary.TryGetProperty("startingKnowledge", out var startingKnowledge)
+            ? startingKnowledge.GetString() ?? "none"
+            : "none");
 
     private static OldPcDocumentContent ReadOldPcDocument(JsonElement document, AssetResolver assets, TextResolver texts)
     {
