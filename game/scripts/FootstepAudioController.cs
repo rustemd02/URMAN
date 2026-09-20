@@ -5,9 +5,9 @@ namespace Urman.Godot;
 
 /// <summary>
 /// AUDIO-004: presentation-only footstep cadence driven by the player's real
-/// XZ displacement. Holds no gameplay state — surface selection follows the
-/// actual floor contact, then the zone/space fallback; steps use SFX and reduced motion does
-/// not mute sound.
+/// XZ displacement per rendered frame. Holds no gameplay state — surface
+/// selection follows the actual floor contact, then the zone/space fallback;
+/// steps use SFX and reduced motion does not mute sound.
 /// </summary>
 public partial class FootstepAudioController : Node
 {
@@ -19,11 +19,15 @@ public partial class FootstepAudioController : Node
     private int _transformRevision = -1;
     private string? _activeSurface;
 
-    /// <summary>Metres of travel between steps (walk cadence).</summary>
-    public float StepIntervalMeters { get; set; } = .55f;
+    /// <summary>Metres of travel between steps (walk cadence). Half the
+    /// visible body's stride cycle, so a heard step and a planted foot agree.</summary>
+    public float StepIntervalMeters { get; set; } = FirstPersonController.GaitCycleMeters * .5f;
 
     /// <summary>Last resolved surface, exposed for the existing smoke contract.</summary>
     internal string LastSurface { get; private set; } = string.Empty;
+
+    /// <summary>Total real PlayStep triggers, for cadence diagnostics.</summary>
+    internal int StepTriggerCount { get; private set; }
 
     public override void _Ready()
     {
@@ -58,8 +62,13 @@ public partial class FootstepAudioController : Node
         _activeSurface = null;
     }
 
-    public override void _PhysicsProcess(double delta)
+    public override void _Process(double delta)
     {
+        // Frame time, not physics ticks: when the frame rate drops (dense
+        // forest off-road), several physics ticks run inside one frame and a
+        // tick-driven cadence would bunch steps into the same audible moment.
+        // Accumulating real displacement per rendered frame keeps every step
+        // evenly spaced in wall time even during hitches.
         if (_actor is null)
         {
             _actor = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
@@ -128,6 +137,7 @@ public partial class FootstepAudioController : Node
     public void PlayStep(string surface)
     {
         LastSurface = surface;
+        StepTriggerCount++;
         if (_stepPlayer is null
             || !_bySurface.TryGetValue(surface, out var randomizer)
             || randomizer.StreamsCount == 0)
