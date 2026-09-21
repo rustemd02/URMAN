@@ -6232,9 +6232,12 @@
     "ручной сценарий карточки"
    ],
    "evidence": [
-    "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+    "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-21.log",
+    "docs/production/act1_player_evidence_2026-09-21/player-movement-receipt.json"
    ],
-   "note": "T1-T3 §13.2: EX01 для переносной лестницы; опирается на принятые T1–T3."
+   "note": "T1-T3 §13.2: EX01 для переносной лестницы; опирается на принятые T1–T3.",
+   "progress_2026_09_21": "2026-09-21 verified on integrated-build-90: bath stairs climbed both ways with carried items inside the green carry smoke (320/320 x2), ladder ascent/descent inside green yard-mechanisms (214), plus act1_player_movement_smoke_test exit 0 with passed=true, 70 checks (capsule/stance/vehicle handover/exit restore). Note: movement receipt also refuses overwrite - reruns need URMAN_PLAYER_OUTPUT=new dir (used act1_player_evidence_2026-09-21). Limits: headless logic only; low-passage comfort stays human-gated."
   },
   {
    "id": "ACT1-EX10",
