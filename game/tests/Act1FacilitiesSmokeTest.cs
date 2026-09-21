@@ -261,7 +261,13 @@ public partial class Act1FacilitiesSmokeTest : Node
     {
         var owners = _bath.GetMeta("roofSuppressedFoliageOwners").AsStringArray();
         var contacts = _bath.GetMeta("roofSuppressedFoliageContacts").AsStringArray();
-        Check(owners.Any(path => path.EndsWith("/WinterBirch_1_Plant25", StringComparison.Ordinal)),
+        GD.Print($"act1-facilities-roof-foliage: bath={_bath.GetPath()} owners=[{string.Join(" | ", owners)}] contacts=[{string.Join(" | ", contacts)}]");
+        // Match the indoor birch by variant, not by generated Plant number:
+        // plan order shifts as the world evolves (B90 plants it as Plant24).
+        static bool IsIndoorBirch(string path) =>
+            path.Contains("/WinterBirch_1_Plant", StringComparison.Ordinal)
+            && path[(path.LastIndexOf("_Plant", StringComparison.Ordinal) + 6)..].All(char.IsAsciiDigit);
+        Check(owners.Any(IsIndoorBirch),
             "the actual Facilities06 indoor birch is covered by the bath roof rule");
         foreach (var path in owners)
         {
@@ -271,7 +277,7 @@ public partial class Act1FacilitiesSmokeTest : Node
             var stems = contacts.Select(contact => GetNode<CollisionShape3D>(contact))
                 .Where(stem => stem.GetMeta("geometryOwner").AsString() == path).ToArray();
             Check(stems.All(stem => stem.Disabled), "every recorded stem belonging to that plant is disabled");
-            if (path.EndsWith("/WinterBirch_1_Plant25", StringComparison.Ordinal))
+            if (IsIndoorBirch(path))
                 Check(stems.Length == 1 && stems[0].GetParent() is CollisionObject3D sharedBody
                     && (sharedBody.CollisionLayer & 3) != 0,
                     "the known indoor birch retains its exact paired stem while the shared scenery body remains active");

@@ -6158,9 +6158,12 @@
     "ручной сценарий карточки"
    ],
    "evidence": [
-    "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+    "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13",
+    "docs/production/act1_takeover_evidence_2026-09-16/facilities-11.log",
+    "docs/production/act1_takeover_evidence_2026-09-16/images-facilities-11/facilities-receipt.json"
    ],
-   "note": "Вторая партия §13.2: зависит от EX00 и выбранного инструмента/предмета; вторая партия."
+   "note": "Вторая партия §13.2: зависит от EX00 и выбранного инструмента/предмета; вторая партия.",
+   "progress_2026_09_21": "2026-09-21 verified on integrated-build-90: act1_facilities_smoke_test windowed PASS 1161 checks, 111.33 m local input traversal. Bath stove finite fuel/water, steam/condensation/observation/journal, door angles, save/load restore; mosque observations, books, clothing, footwear geometry; matches; New Game clears. Two fixes this slice: (1) roof-foliage check matched the indoor birch by hardcoded Plant25 while B90 plants it as Plant24 - test now matches WinterBirch_1_Plant<number> by variant (plan order shifts as the world evolves); (2) run requires URMAN_FACILITY_CAPTURE=1 for 09e framing plus an undisturbed focused window (3/6 windowed starts fell to focus-loss pause on a busy laptop). Limits: native windowed only, no human/art/listening/performance acceptance."
   },
   {
    "id": "ACT1-EX08",
