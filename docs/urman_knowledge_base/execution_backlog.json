@@ -5837,11 +5837,13 @@
    ],
    "evidence": [
     "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13",
-    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_fixture_fix_2026-09-18.md"
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_fixture_fix_2026-09-18.md",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-21.log"
    ],
    "note": "Unblocked by the EX00 confirmation: the ownership layer (CustodyStore) and the wiring point are named; the Godot-side carry/place owner is the next design slice before EX01 code.",
    "progress_2026_09_15": "EX01 implemented as the vertical slice of the carry system per act1_ex01_carry_owner_design_2026-09-15.md: CarryableProp (StaticBody3D prop, state machine world/held/placed, footprint for placement checks) and CarryCoordinator (focus cone 2.4 m / 40 degrees, camera hold point, ground ray-cast with slope rejection, rotate step). Take/place is context-sensitive on the existing interact action; rotation adds one new remappable carry_rotate (R / gamepad X) registered in project.godot and InputBindingService.RemappableActions. InputBindingService.Apply no longer throws when a save predates a new remappable action - such actions keep their project-default binding, which is what makes the new action loadable for existing players. Three items live at the hero yard (log by the woodpile, crate by the shed, bucket by the porch), one per EX01 class, session-local by design: the world.custody handler and snapshot persistence land with the EX00 follow-up wiring. The capture audit gains the declared carryable-prop collision owner; the SettingsUi gains the carry_rotate label - both caught by the full-route capture after the initial implementation. Verified: capture gate PASS 404 frames, physical walkthrough PASS 424.88 m, world-edge probe PASS.",
-   "progress_2026_09_18": "2026-09-18 verification on the current build. The carry smoke failed here for a harness reason, not a game one: every fixture stood a fixed 1.25 m behind its target, which for carry-log lands inside the yard canopy post added by BuildYardSupportContacts, and the solver's push-out differs per machine. The fixture now walks a ring of directions and natural reaches, needs the real capsule to fit and the aim ray to find the named target, and holds the interact action until the coordinator picks it up. Verified on HEAD 04f039e + that change (Urman.Game.dll sha256 5adc8f4d...f23ba): headless PASS 29 checks, windowed three consecutive PASS runs. Covers take, blocked aim, one held item, rejected second ownership, modal gating, checked placement, re-take and pickup after New Game re-registration."
+   "progress_2026_09_18": "2026-09-18 verification on the current build. The carry smoke failed here for a harness reason, not a game one: every fixture stood a fixed 1.25 m behind its target, which for carry-log lands inside the yard canopy post added by BuildYardSupportContacts, and the solver's push-out differs per machine. The fixture now walks a ring of directions and natural reaches, needs the real capsule to fit and the aim ray to find the named target, and holds the interact action until the coordinator picks it up. Verified on HEAD 04f039e + that change (Urman.Game.dll sha256 5adc8f4d...f23ba): headless PASS 29 checks, windowed three consecutive PASS runs. Covers take, blocked aim, one held item, rejected second ownership, modal gating, checked placement, re-take and pickup after New Game re-registration.",
+   "progress_2026_09_21": "2026-09-21 re-verified on integrated-build-90: act1_carry_interaction_smoke_test 2x green, 320/320 checks each. Take/carry/place across three item classes (shovel, axe, crate, board, lantern) with blocked aim, single custody, modal gating, checked placement, re-take and post-New-Game pickup."
   },
   {
    "id": "ACT1-EX02",
@@ -5878,10 +5880,12 @@
     "ручной сценарий карточки"
    ],
    "evidence": [
-    "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+    "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-21.log"
    ],
    "note": "Нужные действия EX01/EX03/EX05",
-   "progress_2026_09_15": "EX02 implemented at the east holding's south boundary: the ReturnEastFieldBoundary fence is split into two runs with a 1.2 m gap at x 25.8-27.0, and a carryable crate (carry-gap-crate, class Medium) stands in the gap. Two different solutions solve the same optional access: carry the crate aside (EX01 system) and walk through, or walk the long way around the fence's east end. Verified: physical walkthrough PASS 424.88 m, capture of the zone on one SHA. Session-local by design: world.custody persistence lands with the EX00 follow-up wiring."
+   "progress_2026_09_15": "EX02 implemented at the east holding's south boundary: the ReturnEastFieldBoundary fence is split into two runs with a 1.2 m gap at x 25.8-27.0, and a carryable crate (carry-gap-crate, class Medium) stands in the gap. Two different solutions solve the same optional access: carry the crate aside (EX01 system) and walk through, or walk the long way around the fence's east end. Verified: physical walkthrough PASS 424.88 m, capture of the zone on one SHA. Session-local by design: world.custody persistence lands with the EX00 follow-up wiring.",
+   "progress_2026_09_21": "2026-09-21 re-verified on integrated-build-90 inside the green carry smoke (320/320 x2): MoveAccessCrate both orders - crate aside then direct gap, and long way around first then gap - with no story transition and pristine/cleared snapshot restore."
   },
   {
    "id": "ACT1-EX03",
@@ -5920,12 +5924,14 @@
    ],
    "evidence": [
     "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13",
-    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-18.log"
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-18.log",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-21.log"
    ],
    "note": "",
    "blocked_reason": null,
    "progress_2026_09_15": "EX03 implemented with the carry system's own pattern instead of kernel interactions: YardTool is a presentation-only tool driven by the same focus cone and interact input as the carryables, and each tool cycles two uses with a visible result - the porch shovel clears the side-gate snow pile then the woodpile pile; the porch pail fills with water then pours it on the kitchen bed and clears its snow patch. Verified: physical walkthrough PASS 424.88 m, world-edge probe PASS, capture on one SHA. Session-local like the carryables; the world.custody slice brings both under the snapshot.",
-   "progress_2026_09_18": "2026-09-18 verification on the current build. The carried shovel is taken physically rather than through a remote switch, one aimed shovelling clears only the aimed snow opening, and the second aimed use uncovers the axe; all three are asserted in the passing carry smoke (headless PASS 29 checks; windowed PASS). No code change was needed for EX03 itself."
+   "progress_2026_09_18": "2026-09-18 verification on the current build. The carried shovel is taken physically rather than through a remote switch, one aimed shovelling clears only the aimed snow opening, and the second aimed use uncovers the axe; all three are asserted in the passing carry smoke (headless PASS 29 checks; windowed PASS). No code change was needed for EX03 itself.",
+   "progress_2026_09_21": "2026-09-21 re-verified on integrated-build-90 inside the green carry smoke (320/320 x2): shovel taken physically, first aimed use clears only the aimed opening, second aimed use uncovers the axe; no code change needed for EX03 itself."
   },
   {
    "id": "ACT1-EX04",
@@ -5953,9 +5959,11 @@
     "ручной сценарий карточки"
    ],
    "evidence": [
-    "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+    "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-21.log"
    ],
-   "note": "Вторая партия определяет последовательность, не исключает реализацию. Потребление/передача настоящих предметов и результат фиксируются одной атомарной операцией существующего runtime."
+   "note": "Вторая партия определяет последовательность, не исключает реализацию. Потребление/передача настоящих предметов и результат фиксируются одной атомарной операцией существующего runtime.",
+   "progress_2026_09_21": "2026-09-21 verified on integrated-build-90 inside the green carry smoke (320/320 x2) as the two useful combinations: (1) crate moved aside + walked through the cleared gap, (2) board carried + laid over the drain + walked across; both keep custody/pose and survive save/load, New Game clears them."
   },
   {
    "id": "ACT1-EX05",
@@ -6029,11 +6037,13 @@
    ],
    "evidence": [
     "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13",
-    "docs/production/act1_takeover_evidence_2026-09-16/carry_frames/"
+    "docs/production/act1_takeover_evidence_2026-09-16/carry_frames/",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-21.log"
    ],
    "note": "Рисунок следов можно делать раньше",
    "progress_2026_09_18": "2026-09-18 verification on the current build. The authored trail, the swept side at the leaf and the worked edge are static presentation as designed; the carried shovel clears only the aimed opening, the service-gap barrier really loses its collision (CollisionLayer 0), the uncovered axe becomes takeable, and the clearing survives save/load while the pristine snapshot resets it. Asserted in the passing carry smoke on HEAD 04f039e + the fixture fix (headless PASS 29 checks, windowed PASS 35 with six capture frames). SnowTrampleField stays session-only and untouched.",
-   "progress_2026_09_19": "2026-09-19 sync slice: the merged tree (origin a301004 + local EX work, merge 21d041e) builds and passes eng/verify-dotnet (53+12) and integrated-build-85; the carry smoke now reaches the EX06 lantern readings, the narrow-placement opening and both ordinary log placements, and stops on the second bath-landing ascent (axe) inside ApproachWoodpileFromBathSteps - the first shovel ascent, clearing and descent pass. The route passed on B42 (2026-09-17, HEAD 04f039e) before the 2026-09-18 movement/step work in 1c1a90c; all synthetic turns report ready=true. Log: docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-19.log; weak_points.md carries the full analysis. No PASS is claimed for this smoke."
+   "progress_2026_09_19": "2026-09-19 sync slice: the merged tree (origin a301004 + local EX work, merge 21d041e) builds and passes eng/verify-dotnet (53+12) and integrated-build-85; the carry smoke now reaches the EX06 lantern readings, the narrow-placement opening and both ordinary log placements, and stops on the second bath-landing ascent (axe) inside ApproachWoodpileFromBathSteps - the first shovel ascent, clearing and descent pass. The route passed on B42 (2026-09-17, HEAD 04f039e) before the 2026-09-18 movement/step work in 1c1a90c; all synthetic turns report ready=true. Log: docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-19.log; weak_points.md carries the full analysis. No PASS is claimed for this smoke.",
+   "progress_2026_09_21": "2026-09-21 re-verified on integrated-build-90 inside the green carry smoke (320/320 x2): drift blocks the uncleared gap, aimed clearing opens only the aimed passage, loaded held snapshot keeps the physical clearing. The 2026-09-19 bath-ascent note stays as observation; ascents passed 3/3 runs on this build."
   },
   {
    "id": "ACT1-EX06",
@@ -6075,15 +6085,15 @@
     "docs/production/act1_takeover_evidence_2026-09-16/act1_ex06_portable_light_2026-09-18.md",
     "docs/production/act1_takeover_evidence_2026-09-16/act1_ex06_carry_smoke_2026-09-18.log",
     "docs/production/act1_takeover_evidence_2026-09-16/ex06_lantern_frames/",
-     "content/modules/urman-chapter1/definitions.json",
-     "game/scripts/Act1ConnectedWorld.LanternDetails.cs",
-     "game/scripts/PortableLight.cs",
-     "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-21.log",
-     "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-90.json"
-    ],
+    "content/modules/urman-chapter1/definitions.json",
+    "game/scripts/Act1ConnectedWorld.LanternDetails.cs",
+    "game/scripts/PortableLight.cs",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-21.log",
+    "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-90.json"
+   ],
    "note": "",
    "progress_2026_09_18": "2026-09-18 EX06 implemented and mechanically verified on this build. Two authored lit readings exist in the geometry at the hero dwelling's entrance: the flattened paint tin at the dark foot of the entrance step (discover-babai-yard-porch-paint-tin) and the long scratch with two filled rail holes on the street wall beside the door (discover-babai-yard-entry-wall-joint). The authored hero dwelling has no porch by design - the kit generator rejects Porch/TimberPost meshes - so 'look under the porch' is realised at the entrance step's dark foot; that is a recorded design decision, not a gap. PortableLight answers only whether the lamp reaches a place (lit, not concealed, within 3.4 m, no wall on the line, layers 1|2); it grants nothing itself. The reading stays the ordinary interaction: in the dark the target is still aimable and answers with urman.chapter1:text/needs-light, and only a lit lantern - carried or left standing on a support, hands free - opens it. The interaction router now follows AuthoredAvailable so a shut world gate no longer zeroes the collider and the hint stays reachable. State owners are unchanged: the found state is the authored knowledge status and the lamp's light/placement is the existing world.props snapshot. The carry smoke gained the EX06 block and passes headless (49 checks) and windowed with captures (58 checks); save/load keeps both readings and the burning lamp, New Game clears them. Limits: the heavy view with the lamp against the same view without it was NOT measured, and no human viewing was done, so those stay open. Separately: the frozen content golden pack under tests-dotnet/fixtures was stale since 04f039e (definitions.json changed by 899 lines while the fixture was not touched), which kept two content tests red on this build independently of EX06; the fixture, the campaign fingerprint and the 17-step simulation count were refreshed to the current authored content.",
-    "progress_2026_09_21": "2026-09-21 lamp-occlusion fix verified on integrated-build-90 (content0/csharp0/import0 PASS, 308 artifacts). PortableLight.ReachesWithSight no longer lets the .22 m graze margin leak a real wall: only the mark's own near face may use graze, any other body on the lamp-to-mark line blocks. Gate closure passes the target as markBody. act1_carry_interaction_smoke_test passes twice in a row, 320/320 checks each (carry/place, bath stairs both ways with ordinary mouse turns, lamp two readings + wall occlusion + standing lamp, save/load, New Game). Observed variance on this host: 1/4 runs failed the axe-return settle and 2/4 reached-then-failed the old graze leak before the fix; post-fix runs are 2/2 green. SettleWoodpileFeet now reports stableFrames/canStand/feet on failure. Limits: native headless only, no human viewing/listening/art acceptance; EX00 contract still open until EX01-14 all green."
+   "progress_2026_09_21": "2026-09-21 lamp-occlusion fix verified on integrated-build-90 (content0/csharp0/import0 PASS, 308 artifacts). PortableLight.ReachesWithSight no longer lets the .22 m graze margin leak a real wall: only the mark's own near face may use graze, any other body on the lamp-to-mark line blocks. Gate closure passes the target as markBody. act1_carry_interaction_smoke_test passes twice in a row, 320/320 checks each (carry/place, bath stairs both ways with ordinary mouse turns, lamp two readings + wall occlusion + standing lamp, save/load, New Game). Observed variance on this host: 1/4 runs failed the axe-return settle and 2/4 reached-then-failed the old graze leak before the fix; post-fix runs are 2/2 green. SettleWoodpileFeet now reports stableFrames/canStand/feet on failure. Limits: native headless only, no human viewing/listening/art acceptance; EX00 contract still open until EX01-14 all green."
   },
   {
    "id": "ACT1-EX07",

@@ -1,5 +1,21 @@
 # Weak Points
 
+## Boundary-архитектура: 5 новых падений на B90 (2026-09-21, открыто)
+
+`act1_boundary_architecture_smoke_test` на `integrated-build-90`, exit 1,
+1018 записанных проверок, лог
+`../production/act1_takeover_evidence_2026-09-16/act1_boundary_smoke_2026-09-21.log`:
+
+- `BabaiFirewoodShelterPost`: обычный контроллер не касается стены столба
+  (`wall contact=False, separation=1.017m`);
+- `MosqueEntranceDoor`: видимая створка без физической опоры на 0.90 м
+  (расхождение 0.027 м) и на 1.55 м (0.028 м);
+- `fap_window_right`: вид закрыт раньше своей поверхности телом
+  `FapFurniturePartitionCollision`;
+- Пересаженное дерево в `(-33, 8.2)`: потерян LOD или физический ствол остался.
+Связанные задачи: TECH/DEPTH/CHAR-блоки. Не блокирует EX01–EX06 (carry-смоук
+зелёный), чинить отдельным проходом с кадрами до/после.
+
 ## Лампа просвечивала сквозь стену у метки — исправлено 2026-09-21 (EX06)
 
 `PortableLight.ReachesWithSight` считал заслонённой стеной луч «дошедшим», если
