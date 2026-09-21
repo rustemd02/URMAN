@@ -105,7 +105,7 @@ public partial class Act1ConnectedWorld
     {
         target.SetMeta("lightGateRole", role);
         target.SetMeta("lightGateTextId", NeedsLightTextId);
-        target.PresentationGate = () => PortableLight.IsLit(this, target.GlobalPosition);
+        target.PresentationGate = () => PortableLight.IsLit(this, target.GlobalPosition, target);
     }
 
     private static MeshInstance3D? WidestNamed(Node3D root, string suffix) =>

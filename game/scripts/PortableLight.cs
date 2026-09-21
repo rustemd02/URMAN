@@ -16,7 +16,7 @@ public static class PortableLight
     private const uint Occluders = 3u;
     private const float GrazeMargin = .22f;
 
-    public static bool IsLit(Node3D owner, Vector3 point)
+    public static bool IsLit(Node3D owner, Vector3 point, Node? markBody = null)
     {
         var coordinator = owner.GetTree()?.GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
         if (coordinator is null) return false;
@@ -26,12 +26,12 @@ public static class PortableLight
                 || item.IsConcealed || !item.IsVisibleInTree()) continue;
             var lamp = item.GlobalPosition + Vector3.Up * (item.Height * .5f);
             if (lamp.DistanceTo(point) > Reach) continue;
-            if (ReachesWithSight(owner, item, lamp, point)) return true;
+            if (ReachesWithSight(owner, item, lamp, point, markBody)) return true;
         }
         return false;
     }
 
-    private static bool ReachesWithSight(Node3D owner, CarryableProp item, Vector3 lamp, Vector3 point)
+    private static bool ReachesWithSight(Node3D owner, CarryableProp item, Vector3 lamp, Vector3 point, Node? markBody)
     {
         var space = owner.GetWorld3D()?.DirectSpaceState;
         if (space is null) return false;
@@ -40,6 +40,14 @@ public static class PortableLight
         ray.Exclude = new global::Godot.Collections.Array<Rid> { item.GetRid() };
         var hit = space.IntersectRay(ray);
         if (hit.Count == 0) return true;
+        // A real wall between the lamp and the mark shadows it no matter how
+        // close to the mark it stands. Only the mark's own near face may use
+        // the graze margin: aiming at a body's centre legitimately clips its
+        // front surface just before the measured point.
+        var collider = hit["collider"].AsGodotObject() as Node;
+        if (markBody is not null && collider is not null
+            && !ReferenceEquals(collider, markBody) && !markBody.IsAncestorOf(collider))
+            return false;
         return hit["position"].AsVector3().DistanceTo(point) <= GrazeMargin;
     }
 }
