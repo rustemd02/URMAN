@@ -1,0 +1,407 @@
+run-smoke-guarded: res://tests/act1_yard_mechanisms_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-zirat-fence-source: owner=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=7 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-source: owner=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=7 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-post-source: owner=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost0 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost1 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost2 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost3 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost4 meshType=BoxMesh surfaces=1
+act1-zirat-shed-fence-junction: wall=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0 attachmentZ=-46.915245 retainedFirstSpans=2 hiddenPost=3 retainedFarPost=4 frontCut=(-0.99987423, 0.015860919, -2.3291499E-07), -14.446598 rearCut=(0.99986124, 0.016654668, 0), 17.218063
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1597 carved_door_slabs=116 flat_slab_skipped=2460 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-zirat-foundation-contact: owner=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy/OutbuildingShed_Foundation_LOD0_SurfaceContact source=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Foundation_LOD0 policy=exact-existing-mesh-triangles
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=116886869256
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 new game session started; existing slots untouched.
+act1-yard-mechanisms: ordinary New Game
+act1-intro: confirmed with E
+act1-yard-mechanisms: eleven actual local mechanisms, ordinary standing controls
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-mechanisms-pristine.savegame-v3.json
+act1-yard-mechanisms: pristine reachable save
+act1-yard-mechanisms: six terrain-resting carry items use the shared authored support owner
+act1-yard-mechanisms: carry-log authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.90124553, -0.16354421, -0.40126038), Y: (0.12671697, 0.9850308, -0.11686417), Z: (0.41436628, 0.05447681, 0.9084784), O: (-32.17394, 0.67658806, 4.706752)]
+act1-yard-mechanisms: carry-log has actual ground support across 9 footprint samples, gaps 0,0030–0,0030m
+act1-yard-mechanisms: carry-crate authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.9776721, 0.031176694, 0.20781063), Y: (-0.011615854, 0.9954389, -0.09469197), Z: (-0.20981497, 0.0901638, 0.973575), O: (-27.5, 0.3315878, 2.8)]
+act1-yard-mechanisms: carry-crate has actual ground support across 12 footprint samples, gaps 0,0030–0,0059m
+act1-yard-mechanisms: carry-bucket authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.98839056, 0.061550256, -0.13890925), Y: (-0.05954554, 0.9980533, 0.018545846), Z: (0.13978034, -0.010059113, 0.9901315), O: (-26.6, 0.26607022, 0.2)]
+act1-yard-mechanisms: carry-bucket has actual ground support across 9 footprint samples, gaps 0,0030–0,0069m
+act1-yard-mechanisms: carry-axe authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.46482128, -0.14040194, -0.8742016), Y: (0.06272975, 0.99008816, -0.12566002), Z: (0.88317955, 0.0035709962, 0.46902144), O: (-31.6, 0.5715371, 4.3)]
+act1-yard-mechanisms: carry-axe has actual ground support across 9 footprint samples, gaps 0,0030–0,0033m
+act1-yard-mechanisms: carry-tool-shovel authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (-0.104479425, -0.030640919, -0.9940549), Y: (-0.04023672, 0.9988371, -0.026559275), Z: (0.9937128, 0.037222613, -0.10559083), O: (-27.6, 0.22954099, 0.9)]
+act1-yard-mechanisms: carry-tool-shovel has actual ground support across 9 footprint samples, gaps 0,0030–0,0030m
+act1-yard-mechanisms: carry-tool-pole authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)]
+act1-yard-mechanisms: carry-tool-pole has actual ground support across 30 footprint samples, gaps 0,0030–0,0050m
+act1-yard-mechanisms: empty hand does not thaw the window
+act1-yard-mechanisms: actual aimed take carry-cloth
+act1-yard-mechanisms: cold cloth explains refusal without an effect
+WARNING: Interaction urman.chapter1:interaction/arrival-enter-house rejected: ContentConditionRejected Content conditions rejected this action.
+     at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__135.MoveNext() (res://scripts/RuntimeBridge.cs:1211)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__135.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:1211)
+         [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+         [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+         [5] void Urman.Godot.RuntimeBridge+<DispatchInteractionAsync>d__91.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:534)
+         [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+         [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchInteractionAsync(string)
+         [9] void Urman.Godot.Tests.Act1ArrivalFlowProof+<CompleteAsync>d__1.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1Len01FamilyFlowSmokeTest.cs:1509)
+         [10] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.Start<TStateMachine>(TStateMachine&)
+         [11] System.Threading.Tasks.Task Urman.Godot.Tests.Act1ArrivalFlowProof.CompleteAsync(Godot.Node, Urman.Godot.RuntimeBridge, string, bool)
+         [12] void Urman.Godot.Tests.Act1YardMechanismsSmokeTest+<_Ready>d__9.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1YardMechanismsSmokeTest.cs:67)
+         [13] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [14] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [15] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [16] void System.Threading.Tasks.Task.RunContinuations(object)
+         [17] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+         [18] void Urman.Godot.Tests.Act1YardMechanismsSmokeTest+<Press>d__39.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1YardMechanismsSmokeTest.cs:1102)
+         [19] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [20] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [21] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [22] void System.Threading.Tasks.Task.RunContinuations(object)
+         [23] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+         [24] void Urman.Godot.Tests.Act1YardMechanismsSmokeTest+<Frames>d__43.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1YardMechanismsSmokeTest.cs:1139)
+         [25] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [26] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [27] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+vocabulary.observe: term=әби status=Committed error=
+arrival-flow: source UI, remembered phrase, distinct help-babai, explicit house continuation
+[39] scene.entered: urman.chapter1:interaction/arrival-enter-house
+act1-yard-mechanisms: ordinary house entry gate
+zone-loaded: house_old_pc@entry connected-world=116886869256
+act1-yard-mechanisms: carried cloth crosses actual presentation boundary
+act1-yard-mechanisms: held cloth follows the player through the actual doorway
+act1-yard-mechanisms: Mansur answers the actual household request
+family-meal-proof: actual invitation, source-dependent personal reply, explicit meal acceptance; topic=photo; decline/return/load=False; no timer, movement automation or human-duration claim
+act1-yard-mechanisms: read notice, actual family question and home pause make outdoor return attainable
+act1-yard-mechanisms: warm water affects the cloth only after the action
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-warm-cloth.savegame-v3.json
+act1-yard-mechanisms: warm held cloth saved
+[93] scene.entered: urman.chapter1:interaction/house-to-route
+act1-yard-mechanisms: ordinary first house exit is earned before the outdoor heat attempt
+zone-loaded: village_day@arrival connected-world=116886869256
+act1-yard-mechanisms: thaw consumes local warmth and clears the hidden frost ray skin
+act1-yard-mechanisms: supported put carry-cloth
+act1-yard-mechanisms: actual aimed take carry-lantern
+act1-yard-mechanisms: unlit lamp grants no observation
+act1-yard-mechanisms: modal blocks lamp input
+act1-yard-mechanisms: the modal-close physics frame cannot also toggle the held lamp
+act1-yard-mechanisms: mapped lamp switch works while aiming at the glass
+act1-yard-mechanisms: actual lit unobstructed lamp reveals the repair detail
+act1-yard-mechanisms: light does not melt the frozen latch
+act1-yard-mechanisms: supported put carry-lantern
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-thawed-window.savegame-v3.json
+act1-yard-mechanisms: window and placed light save together
+zone-loaded: house_old_pc@entry connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-warm-cloth
+act1-yard-mechanisms: older warm save resets future observations
+[93] scene.entered: urman.chapter1:interaction/house-to-route
+act1-yard-mechanisms: alternate branch also uses the earned house exit
+zone-loaded: village_day@arrival connected-world=116886869256
+act1-yard-mechanisms: same heat tool opens a second physical latch
+act1-yard-mechanisms: supported put carry-cloth
+act1-yard-mechanisms: actual aimed take carry-lantern
+act1-yard-mechanisms: relocated held lamp stays lit and physically beside the player
+act1-yard-mechanisms: shelf blocks light from above even when the eye can see the card
+act1-yard-mechanisms: the clear approach permits the actual crouch input
+act1-yard-mechanisms: lamp follows the lowered eye: before (-30.08, 1.6073077, 2.154), after (-30.08, 0.88730794, 2.154), eye (-30.08, 1.3273079, 2.934)
+act1-yard-mechanisms: opened cabinet can be inspected with the same lamp
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-thawed-window
+act1-yard-mechanisms: branch load restores light pose and correct independent mechanisms
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-mechanisms-pristine
+act1-yard-mechanisms: bare hand cannot move the far shelf box; refusal keeps its real pose
+act1-yard-mechanisms: actual aimed take carry-tool-pole
+act1-yard-mechanisms: panel-before-pole: actual visible wind source and ray are available
+act1-yard-mechanisms: panel-before-pole: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge
+act1-yard-mechanisms: plain pole secures the loose panel
+act1-yard-mechanisms: panel-after-pole: actual visible wind source and ray are available
+act1-yard-mechanisms: panel-after-pole: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge
+act1-yard-mechanisms: same plain pole moves the light box along the upper shelf to its edge
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-plain-pole-results.savegame-v3.json
+act1-yard-mechanisms: both plain-pole uses saved together
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-mechanisms-pristine
+act1-yard-mechanisms: earlier save restores both independent physical pole results
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-plain-pole-results
+act1-yard-mechanisms: both pole uses and the reusable held tool restore together
+act1-yard-mechanisms: panel-after-load: actual visible wind source and ray are available
+act1-yard-mechanisms: panel-after-load: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge
+act1-yard-mechanisms: latch-before-hook: actual visible wind source and ray are available
+act1-yard-mechanisms: latch-before-hook: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge
+act1-yard-mechanisms: plain pole cannot pull the hook latch
+act1-yard-mechanisms: visible local clearance fixture clears the player and plain pole but intersects the full hooked tool
+act1-yard-mechanisms: the clearance fixture leaves the actual hook interaction ray open
+act1-yard-mechanisms: blocked assembly poleHasHook=False hookConcealed=False hookState=World poleCustody=player hookCustody=world propsChanged=False
+act1-yard-mechanisms: a physically blocked enlarged assembly preserves both parts and custody; poleHasHook=False hookConcealed=False hookState=World poleCustody=player hookCustody=world
+act1-yard-mechanisms: the unchanged clear shelf approach still aims at the real loose hook
+act1-yard-mechanisms: clear shelf assembly poleHasHook=True hookConcealed=True hookState=World poleCustody=player hookCustody=attachment/carry-tool-pole
+act1-yard-mechanisms: two real parts become one carried assembly atomically; poleHasHook=True hookConcealed=True hookState=World poleCustody=player hookCustody=attachment/carry-tool-pole
+act1-yard-mechanisms: hook is not duplicated in world or held custody
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-hooked-pole.savegame-v3.json
+act1-yard-mechanisms: combined tool saved
+act1-yard-mechanisms: hooked pole secures the high shutter
+act1-yard-mechanisms: latch-after-hook: actual visible wind source and ray are available
+act1-yard-mechanisms: latch-after-hook: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-quiet-hook-latch.savegame-v3.json
+act1-yard-mechanisms: repaired sound source saved
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-quiet-hook-latch
+act1-yard-mechanisms: latch-after-load: actual visible wind source and ray are available
+act1-yard-mechanisms: latch-after-load: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge
+act1-yard-mechanisms: pole retains its second practical use
+act1-yard-mechanisms: item=carry-hook feet=(-31.22, 1.0852437, 1.54) accepted=True reason=; full-body margin2mm=[]; carried-margin8mm=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/RepairShelf/SolidContact / @CollisionShape3D@1323]
+act1-yard-mechanisms: hook detaches back to a supported shelf without consuming it; item=carry-hook feet=(-31.22, 1.0852437, 1.54) accepted=True reason=; full-body margin2mm=[]; carried-margin8mm=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/RepairShelf/SolidContact / @CollisionShape3D@1323]
+act1-yard-mechanisms: the dedicated hook rest remains accessible beside the unchanged physical parked lamp
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-hooked-pole
+act1-yard-mechanisms: combined save restores exact assembly, not later shutter state
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-mechanisms-pristine
+act1-yard-mechanisms: standing clearance at the local walk start (-28.199999, 0.2453978, 0.19999993)
+act1-yard-mechanisms: walk around the work stand without crossing it by ordinary input, without placement or recovery; at (-28.200197, 0.22585136, 1.7289338), expected (-28.199999, 0.29474366, 1.8)
+act1-yard-mechanisms: walk around the workshop to the side-panel hand access by ordinary input, without placement or recovery; at (-28.933807, 0.21811697, 1.7966589), expected (-28.97, 0.29474366, 1.8)
+act1-yard-mechanisms: walking around gives the genuine bare-hand alternative
+act1-yard-mechanisms: leave the hand access between the crossbars by ordinary input, without placement or recovery; at (-28.253967, 0.22759846, 1.799623), expected (-28.199999, 0.29474366, 1.8)
+act1-yard-mechanisms: return from the hand access by ordinary input, without placement or recovery; at (-28.202364, 0.18763758, 0.27005243), expected (-28.199999, 0.29474366, 0.19999993)
+act1-yard-mechanisms: the alternate hand route returns without moving or using the pole
+act1-yard-mechanisms: standing clearance at the local walk start (-20.04801, 0.26404008, -1.6898689)
+act1-yard-mechanisms: standing outside cannot inspect the concealed underdeck source
+act1-yard-mechanisms: ordinary crouch prepares the small passage with free hands
+act1-yard-mechanisms: crouch through the supported front underdeck entrance by ordinary input, without placement or recovery; at (-21.290915, 0.4814368, -2.860306), expected (-21.34392, 0.51586366, -2.910122)
+act1-yard-mechanisms: approach the rattling board within the real small space by ordinary input, without placement or recovery; at (-22.080591, 0.4814368, -3.6037908), expected (-22.144764, 0.51586366, -3.6642108)
+act1-yard-mechanisms: before-repair: the actual board has its expected cause and crouching approach
+act1-yard-mechanisms: before-repair: step across the real hollow board by ordinary input, without placement or recovery; at (-23.290148, 0.48051125, -4.742622), expected (-23.34603, 0.59086365, -4.7953463)
+act1-yard-mechanisms: before-repair: return across the same board to the inspection view by ordinary input, without placement or recovery; at (-22.20598, 0.48170367, -3.7217722), expected (-22.144764, 0.51586366, -3.6642108)
+act1-yard-mechanisms: before-repair: moving feet contacted the board; cue and visible pulse follow its repaired state
+act1-yard-mechanisms: the reached crouching view aims at the actual underdeck observation target
+[10] journal.changed: urman.chapter1:interaction/discover-underdeck-rattle
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/arrival_vehicle_dusk
+act1-yard-mechanisms: finding the sound opens its actual journal source without repairing the board
+act1-yard-mechanisms: a held accept/interact across source close cannot repair the board; camera=(-22.337019, 1.4617032, -3.8451762) ray=(-0.54335946, -0.66552496, -0.5117001) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_loose-footboard shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_loose-footboard/SurfaceRayShape at=(-23.022224, 0.62244105, -4.490454) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=3832/3841 interactPresses=25 feedback=Доска встала под перекладину. Стук прекратился; на кромке видно, что её поправляли и раньше. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);
+underdeck-after-source-close: solved=False worldFlag=False semantic=False physical=False quietKnown=False interactionPresses=25/25
+act1-yard-mechanisms: released source controls leave the unrepaired board and quiet observation unchanged; camera=(-22.337019, 1.4617034, -3.8451762) ray=(-0.54335946, -0.66552496, -0.5117001) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_loose-footboard shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_loose-footboard/SurfaceRayShape at=(-23.022224, 0.62244105, -4.4904547) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=3842/3843 interactPresses=25 feedback=Доска встала под перекладину. Стук прекратился; на кромке видно, что её поправляли и раньше. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-underdeck-observed.savegame-v3.json
+act1-yard-mechanisms: an observed but unrepaired source can be saved
+act1-yard-mechanisms: leave the unrepaired underdeck source by ordinary input, without placement or recovery; at (-21.392374, 0.48170367, -2.9557462), expected (-21.34392, 0.51586366, -2.910122)
+act1-yard-mechanisms: return to open ground from the inspected source by ordinary input, without placement or recovery; at (-20.104477, 0.23785597, -1.7430378), expected (-20.04801, 0.44086367, -1.6898689)
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-underdeck-observed
+act1-yard-mechanisms: returning to the reached saved pose preserves the unfinished physical repair
+act1-yard-mechanisms: unfinished-load: the actual board has its expected cause and crouching approach
+act1-yard-mechanisms: unfinished-load: step across the real hollow board by ordinary input, without placement or recovery; at (-23.299847, 0.48167947, -4.7517805), expected (-23.34603, 0.59086365, -4.7953463)
+act1-yard-mechanisms: unfinished-load: return across the same board to the inspection view by ordinary input, without placement or recovery; at (-22.204487, 0.48168132, -3.7203782), expected (-22.144764, 0.51586366, -3.6642108)
+act1-yard-mechanisms: unfinished-load: moving feet contacted the board; cue and visible pulse follow its repaired state
+act1-yard-mechanisms: the one-shot source exposes the actual loose board beneath it
+act1-yard-mechanisms: the aimed hollow-board caption remains usable without hearing its sound
+[21] journal.changed: urman.chapter1:interaction/mark-underdeck-quiet
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/arrival_vehicle_dusk
+act1-yard-mechanisms: the physical repair and local recheck record the quiet consequence exactly once
+act1-yard-mechanisms: after-repair: the actual board has its expected cause and crouching approach
+act1-yard-mechanisms: after-repair: step across the real hollow board by ordinary input, without placement or recovery; at (-23.297916, 0.48115504, -4.7500377), expected (-23.34603, 0.59086365, -4.7953463)
+act1-yard-mechanisms: after-repair: return across the same board to the inspection view by ordinary input, without placement or recovery; at (-22.19685, 0.48166248, -3.7132542), expected (-22.144764, 0.51586366, -3.6642108)
+act1-yard-mechanisms: after-repair: moving feet contacted the board; cue and visible pulse follow its repaired state
+act1-yard-mechanisms: leave the repaired board without crossing its geometry by ordinary input, without placement or recovery; at (-21.40723, 0.48166248, -2.9697332), expected (-21.34392, 0.51586366, -2.910122)
+act1-yard-mechanisms: return from the repaired underdeck to the yard by ordinary input, without placement or recovery; at (-20.095818, 0.2355589, -1.7348839), expected (-20.04801, 0.44086367, -1.6898689)
+act1-yard-mechanisms: the open approach allows the player to stand again
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-quiet-corner.savegame-v3.json
+act1-yard-mechanisms: quiet corner saved
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-mechanisms-pristine
+act1-yard-mechanisms: earlier save restores sound causes
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-quiet-corner
+act1-yard-mechanisms: return restores the inspected and repaired board without another sound source's repair
+act1-yard-mechanisms: quiet-source save restores the actually reached outdoor return position
+act1-yard-mechanisms: re-enter the small space after loading the repaired source by ordinary input, without placement or recovery; at (-21.293896, 0.48169518, -2.8631008), expected (-21.34392, 0.51586366, -2.910122)
+act1-yard-mechanisms: return to the same repaired board after loading by ordinary input, without placement or recovery; at (-22.083572, 0.48169518, -3.6065948), expected (-22.144764, 0.51586366, -3.6642108)
+act1-yard-mechanisms: repaired-load: the actual board has its expected cause and crouching approach
+act1-yard-mechanisms: repaired-load: step across the real hollow board by ordinary input, without placement or recovery; at (-23.295464, 0.48097512, -4.747735), expected (-23.34603, 0.59086365, -4.7953463)
+act1-yard-mechanisms: repaired-load: return across the same board to the inspection view by ordinary input, without placement or recovery; at (-22.191816, 0.48167706, -3.7085152), expected (-22.144764, 0.51586366, -3.6642108)
+act1-yard-mechanisms: repaired-load: moving feet contacted the board; cue and visible pulse follow its repaired state
+act1-yard-mechanisms: loaded quiet board remains an actual aimed object
+act1-yard-mechanisms: rechecking the quiet board after load cannot duplicate its result
+act1-yard-mechanisms: leave the loaded repaired board by ordinary input, without placement or recovery; at (-21.402197, 0.48167706, -2.9649937), expected (-21.34392, 0.51586366, -2.910122)
+act1-yard-mechanisms: return to the yard after the quiet-source recheck by ordinary input, without placement or recovery; at (-20.091911, 0.23416452, -1.7312047), expected (-20.04801, 0.44086367, -1.6898689)
+WARNING: Interaction urman.chapter1:interaction/arrival-enter-house rejected: ContentConditionRejected Content conditions rejected this action.
+     at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__135.MoveNext() (res://scripts/RuntimeBridge.cs:1211)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__135.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:1211)
+         [2] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [3] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+         [4] void Urman.Godot.RuntimeBridge+<DispatchInteractionAsync>d__91.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:534)
+         [5] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [6] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchInteractionAsync(string)
+         [7] void Urman.Godot.Tests.Act1ArrivalFlowProof+<CompleteAsync>d__1.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1Len01FamilyFlowSmokeTest.cs:1509)
+         [8] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.Start<TStateMachine>(TStateMachine&)
+         [9] System.Threading.Tasks.Task Urman.Godot.Tests.Act1ArrivalFlowProof.CompleteAsync(Godot.Node, Urman.Godot.RuntimeBridge, string, bool)
+         [10] void Urman.Godot.Tests.Act1YardMechanismsSmokeTest+<_Ready>d__9.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1YardMechanismsSmokeTest.cs:270)
+         [11] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [12] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [13] void System.Threading.Tasks.Task.RunContinuations(object)
+         [14] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+         [15] void Urman.Godot.Tests.Act1YardMechanismsSmokeTest+<CheckQuietFootboardReturn>d__17.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1YardMechanismsSmokeTest.cs:556)
+         [16] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [17] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [18] void System.Threading.Tasks.Task.RunContinuations(object)
+         [19] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+         [20] void Urman.Godot.Tests.Act1YardMechanismsSmokeTest+<Press>d__39.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1YardMechanismsSmokeTest.cs:1102)
+         [21] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [22] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [23] void System.Threading.Tasks.Task.RunContinuations(object)
+         [24] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+         [25] void Urman.Godot.Tests.Act1YardMechanismsSmokeTest+<Frames>d__43.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1YardMechanismsSmokeTest.cs:1139)
+         [26] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [27] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [28] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+vocabulary.observe: term=әби status=Committed error=
+arrival-flow: source UI, remembered phrase, distinct help-babai, explicit house continuation
+[60] scene.entered: urman.chapter1:interaction/arrival-enter-house
+act1-yard-mechanisms: the completed ordinary arrival permits reporting the repaired board inside the house
+zone-loaded: house_old_pc@entry connected-world=116886869256
+local-reaction-target-before: action=talk-mansur zone=house_old_pc semantic=True cached=True physical=True
+act1-yard-mechanisms: the local source-holder fixture uses the actual aimed NPC interaction
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/local-reaction-underdeck-unanswered.savegame-v3.json
+zone-loaded: house_old_pc@entry connected-world=116886869256
+SaveGameV3 restored.
+local-reaction-target-before: action=talk-mansur zone=house_old_pc semantic=True cached=True physical=True
+act1-yard-mechanisms: the local source-holder fixture uses the actual aimed NPC interaction
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/local-reaction-underdeck-answered.savegame-v3.json
+zone-loaded: house_old_pc@entry connected-world=116886869256
+SaveGameV3 restored.
+local-reaction-proof: underdeck; real source, exact visible reply, return choice and repeat rejection; save-return=True
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-mechanisms-pristine
+act1-yard-mechanisms: actual aimed take carry-board
+act1-yard-board-rest: occupied-before-attempt; item=carry-board feet=(-28.949999, 0.94274366, 1.8) accepted=False reason=Место занято. Отойдите в сторону и освободите опору.; full-body margin2mm=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/Player / CollisionShape3D]; carried-margin8mm=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/TrestleCrossbar-1/SolidContact / @CollisionShape3D@1355 | /root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/TrestleCrossbar1/SolidContact / @CollisionShape3D@1358 | /root/Act1YardMechanismsSmokeTest/Act1Demo/Main/Player / CollisionShape3D]
+act1-yard-mechanisms: board assembly cannot be placed through the player's body between the trestles
+act1-yard-board-rest: free-before-attempt; item=carry-board feet=(-28.949999, 0.94274366, 1.8) accepted=True reason=; full-body margin2mm=[]; carried-margin8mm=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/TrestleCrossbar-1/SolidContact / @CollisionShape3D@1355 | /root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/TrestleCrossbar1/SolidContact / @CollisionShape3D@1358]
+act1-yard-mechanisms: same board rests physically on both trestles
+act1-yard-mechanisms: actual aimed take carry-lantern
+act1-yard-mechanisms: the lamp is lit before placing it on the work board
+act1-yard-mechanisms: board supports actual lamp placement: 
+act1-yard-mechanisms: assembled board holds the lit lamp and frees the player's hands
+act1-yard-mechanisms: the board cannot be removed from under its lamp
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-board-with-lamp.savegame-v3.json
+act1-yard-mechanisms: board, light and assembly saved together
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-board-with-lamp
+act1-yard-mechanisms: loaded board retains its lit supported object
+act1-yard-mechanisms: actual aimed take carry-lantern
+act1-yard-mechanisms: supported put carry-lantern
+act1-yard-mechanisms: standing clearance at the local walk start (-28.949999, 0.54928994, 4.55)
+act1-yard-mechanisms: walk up the visible gangway onto the assembled board by ordinary input, without placement or recovery; at (-28.949865, 1.0183268, 2.367513), expected (-28.949999, 1.0177437, 2.3)
+act1-yard-mechanisms: walk along the board to the upper latch by ordinary input, without placement or recovery; at (-28.949987, 1.0183268, 1.4608498), expected (-28.949999, 1.0177437, 1.38)
+act1-yard-mechanisms: ordinary ascent ends standing on the real board collider
+act1-yard-mechanisms: the player cannot pull the board out from under their own feet
+act1-yard-mechanisms: the plain-hand branch starts with the same unsolved latch
+act1-yard-mechanisms: the reached stable work stand gives the real bare-hand alternative to the hooked pole
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-board-player-above.savegame-v3.json
+act1-yard-mechanisms: supported player and repaired latch saved
+act1-yard-mechanisms: return along the board by ordinary input, without placement or recovery; at (-28.949999, 1.0183268, 2.2541802), expected (-28.949999, 1.0177437, 2.3)
+act1-yard-mechanisms: walk down the visible gangway to the yard by ordinary input, without placement or recovery; at (-28.948322, 0.48331392, 4.465011), expected (-28.949999, 0.9467437, 4.55)
+act1-yard-mechanisms: return from the work stand reaches ordinary ground
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-board-with-lamp
+act1-yard-mechanisms: earlier board save removes the later hand repair
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-board-player-above
+act1-yard-mechanisms: save above the yard restores the same real support and consequence
+act1-yard-mechanisms: loaded player returns along the board by ordinary input, without placement or recovery; at (-28.949999, 1.0183268, 2.2541802), expected (-28.949999, 1.0177437, 2.3)
+act1-yard-mechanisms: loaded player walks down to the yard by ordinary input, without placement or recovery; at (-28.948322, 0.4833103, 4.4650116), expected (-28.949999, 0.9467437, 4.55)
+act1-yard-mechanisms: actual aimed take carry-board
+act1-yard-mechanisms: unoccupied board removes the assembly atomically
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-mechanisms-pristine
+act1-yard-mechanisms: all local consequences reset on pristine restore
+act1-yard-mechanisms: actual aimed take carry-log
+act1-yard-mechanisms: supported local approach to lower ladder landing
+act1-yard-mechanisms: ladder refuses occupied hands without dropping or duplicating the carried thing
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-mechanisms-pristine
+act1-yard-mechanisms: supported local approach to lower ladder landing
+act1-yard-mechanisms: occupied upper landing refuses entry without moving the player
+act1-yard-mechanisms: ordinary interact takes the actual fixed ladder
+act1-yard-mechanisms: forward input physically advances the capsule up the ladder
+act1-yard-mechanisms: modal suspends ladder motion
+act1-yard-mechanisms: mid-ladder save is explicitly refused
+act1-yard-mechanisms: ladder movement finishes without a blocked or orphaned capsule
+act1-yard-mechanisms: cancel physically returns to the nearby supported landing
+act1-yard-mechanisms: supported local approach to lower ladder landing
+act1-yard-mechanisms: returned ladder can be entered again
+act1-yard-mechanisms: ladder movement finishes without a blocked or orphaned capsule
+act1-yard-mechanisms: complete ascent exits onto the real upper floor with head clearance
+act1-yard-mechanisms: earned ascent alone does not inspect the roof repair
+act1-yard-mechanisms: walk from the earned loft landing to the bolted roof repair by ordinary input, without placement or recovery; at (-20.516817, 1.9013324, -3.7108903), expected (-20.555555, 1.9408636, -3.7473671)
+act1-yard-mechanisms: earned standing loft view reaches the actual roof repair ray
+[9] journal.changed: urman.chapter1:interaction/discover-shed-loft-roofline
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+checkpoint: auto-saved at urman.chapter1:scene/arrival_vehicle_dusk
+act1-yard-mechanisms: manual roof inspection gives its visible source once without advancing the investigation
+act1-yard-mechanisms: return from the roof repair to the earned upper ladder landing by ordinary input, without placement or recovery; at (-20.516817, 1.9013324, -3.7108903), expected (-20.519154, 1.9408636, -3.7130904)
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/yard-ladder-upper.savegame-v3.json
+act1-yard-mechanisms: supported upper landing can be saved
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-mechanisms-pristine
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 restored.
+act1-yard-mechanisms: restore yard-ladder-upper
+act1-yard-mechanisms: upper save restores a supported ordinary player, not an orphaned traversal
+act1-yard-mechanisms: loaded earned upper landing offers the real ladder without a position fixture
+act1-yard-mechanisms: upper landing offers the return descent
+act1-yard-mechanisms: ladder movement finishes without a blocked or orphaned capsule
+act1-yard-mechanisms: backward input descends the same physical route to the lower landing
+zone-loaded: village_day@arrival connected-world=116886869256
+SaveGameV3 new game session started; existing slots untouched.
+act1-yard-mechanisms: new kernel resets yard mechanics
+act1-yard-mechanisms: New Game re-registers clean ownership
+act1-yard-mechanisms: PASS 214 local checks; human/art/listening/duration not measured
+userdata guard: original files and permissions restored and verified

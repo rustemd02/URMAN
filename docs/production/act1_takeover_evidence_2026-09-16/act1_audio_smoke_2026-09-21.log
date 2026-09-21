@@ -1,0 +1,143 @@
+run-smoke-guarded: res://tests/act1_audio_settings_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-zirat-fence-source: owner=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=7 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-source: owner=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=7 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-post-source: owner=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost0 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost1 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost2 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost3 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost4 meshType=BoxMesh surfaces=1
+act1-zirat-shed-fence-junction: wall=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0 attachmentZ=-46.915245 retainedFirstSpans=2 hiddenPost=3 retainedFarPost=4 frontCut=(-0.99987423, 0.015860919, -2.3291499E-07), -14.446598 rearCut=(0.99986124, 0.016654668, 0), 17.218063
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1597 carved_door_slabs=116 flat_slab_skipped=2460 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-zirat-foundation-contact: owner=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy/OutbuildingShed_Foundation_LOD0_SurfaceContact source=/root/Act1AudioSettingsSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Foundation_LOD0 policy=exact-existing-mesh-triangles
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=116568102333
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+act1-voice-native: external/not-run; current assets are logical references or the renderer is headless
+act1-audio-settings: PASS buses + routing + live volumes + persistence + muted-voice captions + audio-description fallback + settings rows
+userdata guard: original files and permissions restored and verified
+run-smoke-guarded: res://tests/act1_audio_transition_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-zirat-fence-source: owner=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=7 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-source: owner=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=7 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-post-source: owner=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost0 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost1 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost2 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost3 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost4 meshType=BoxMesh surfaces=1
+act1-zirat-shed-fence-junction: wall=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0 attachmentZ=-46.915245 retainedFirstSpans=2 hiddenPost=3 retainedFarPost=4 frontCut=(-0.99987423, 0.015860919, -2.3291499E-07), -14.446598 rearCut=(0.99986124, 0.016654668, 0), 17.218063
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1597 carved_door_slabs=116 flat_slab_skipped=2460 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-zirat-foundation-contact: owner=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy/OutbuildingShed_Foundation_LOD0_SurfaceContact source=/root/Act1AudioTransitionSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Foundation_LOD0 policy=exact-existing-mesh-triangles
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=116886869444
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=116886869444
+SaveGameV3 new game session started; existing slots untouched.
+act1-intro: confirmed with E
+act1-rinat-audio-pause: menu=True nativePaused=True cursor=0,096->0,107 retained=True
+act1-rinat-audio-request-before-pause: playing=True retainedPlayback=True cursor=0,000000 menu=True controlsPaused=True
+act1-rinat-audio-queued-pause: menu=True nativePlayback=False nativePaused=False cursor=0,000000->0,000000
+act1-rinat-audio-after-natural-end: playing=False cursor=0,000000 finishes=1->1 retained=True
+act1-rinat-audio: PASS native landing replay + Escape pause + Resume + natural-end no replay + pending cancel + retained player; physical step is a separate finale check
+act1-world-foley-paused-start: menuOpen=True queuedPlaying=False nativePlayback=False nativePaused=False cursor=0,000->0,000
+act1-world-foley: PASS source position + SFX routing + unit/max distance + pause/resume + StopWorld + Finished cleanup
+WARNING: Interaction urman.chapter1:interaction/arrival-enter-house rejected: ContentConditionRejected Content conditions rejected this action.
+     at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__135.MoveNext() (res://scripts/RuntimeBridge.cs:1211)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__135.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:1211)
+         [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+         [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+         [5] void Urman.Godot.RuntimeBridge+<DispatchInteractionAsync>d__91.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:534)
+         [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+         [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchInteractionAsync(string)
+         [9] void Urman.Godot.Tests.Act1ArrivalFlowProof+<CompleteAsync>d__1.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1Len01FamilyFlowSmokeTest.cs:1509)
+         [10] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.Start<TStateMachine>(TStateMachine&)
+         [11] System.Threading.Tasks.Task Urman.Godot.Tests.Act1ArrivalFlowProof.CompleteAsync(Godot.Node, Urman.Godot.RuntimeBridge, string, bool)
+         [12] void Urman.Godot.Tests.Act1AudioTransitionSmokeTest+<VerifyHouseDoorInteraction>d__6.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1AudioTransitionSmokeTest.cs:531)
+         [13] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+         [14] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [15] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.Tests.Act1AudioTransitionSmokeTest.VerifyHouseDoorInteraction(Urman.Godot.Main)
+         [16] void Urman.Godot.Tests.Act1AudioTransitionSmokeTest+<_Ready>d__0.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1AudioTransitionSmokeTest.cs:52)
+         [17] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [18] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [19] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [20] void System.Threading.Tasks.Task.RunContinuations(object)
+         [21] bool System.Threading.Tasks.Task`1.TrySetResult(TResult)
+         [22] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+         [23] void Urman.Godot.Tests.Act1AudioTransitionSmokeTest+<VerifyWorldFoley>d__1.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1AudioTransitionSmokeTest.cs:317)
+         [24] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [25] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [26] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [27] void System.Threading.Tasks.Task.RunContinuations(object)
+         [28] bool System.Threading.Tasks.Task`1.TrySetResult(TResult)
+         [29] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+         [30] void Urman.Godot.Tests.Act1AudioTransitionSmokeTest+<Frames>d__8.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1AudioTransitionSmokeTest.cs:654)
+         [31] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [32] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [33] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+vocabulary.observe: term=әби status=Committed error=
+arrival-flow: source UI, remembered phrase, distinct help-babai, explicit house continuation
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/act1-audio-house-interaction.savegame-v3.json
+[38] scene.entered: urman.chapter1:interaction/arrival-enter-house
+zone-loaded: house_old_pc@entry connected-world=116886869444
+zone-loaded: village_day@arrival connected-world=116886869444
+SaveGameV3 restored.
+act1-world-foley: PASS actual HouseDoor.Interact -> HouseExit source + load silence
+zone-loaded: village_day@arrival connected-world=116886869444
+zone-loaded: village_day@from_house connected-world=116886869444
+zone-loaded: village_day@from_forest connected-world=116886869444
+zone-loaded: house_old_pc@entry connected-world=116886869444
+zone-loaded: fap_clinic@waiting_room connected-world=116886869444
+zone-loaded: zirat_road@village_side connected-world=116886869444
+zone-loaded: kara_urman_night@village_path connected-world=116886869444
+act1-audio-transitions: PASS 5 zones -> manifest beds + world foley spatial lifecycle
+WARNING: 7 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:8900)
+userdata guard: original files and permissions restored and verified

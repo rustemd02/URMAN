@@ -6190,9 +6190,12 @@
     "ручной сценарий карточки"
    ],
    "evidence": [
-    "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13"
+    "docs/research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_PLAN_RU.md §13",
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_audio_smoke_2026-09-21.log",
+    "docs/production/act1_yard_mechanisms_evidence_2026-09-21/mechanisms-receipt.json"
    ],
-   "note": "Существующий звук + изменяемые состояния §13.2: существующий звук + EX00 для изменяемых состояний."
+   "note": "Существующий звук + изменяемые состояния §13.2: существующий звук + EX00 для изменяемых состояний.",
+   "progress_2026_09_21": "2026-09-21 verified on integrated-build-90: act1_audio_settings_smoke_test + act1_audio_transition_smoke_test green headless (buses/routing/volumes/persistence/captions/foley lifecycle, 5 zone beds), and act1_yard_mechanisms_smoke_test PASS 214 local checks incl. the underdeck-rattle sound-search chain (discovery/clue, repair rejects re-emit, quiet clue via dialogue) with save/load and New Game. Note: yard-mechanisms receipt refuses to overwrite - reruns need URMAN_MECHANISM_OUTPUT=new dir (used act1_yard_mechanisms_evidence_2026-09-21). Limits: headless logic only; human listening/art acceptance stays external/not-run."
   },
   {
    "id": "ACT1-EX09",
