@@ -1,0 +1,1702 @@
+{
+  "scope": "clinic",
+  "checks": [
+    {
+      "kind": "fap-opening-correspondence",
+      "inside": "WindowFrontLeftGlass",
+      "outside": "WindowLeft_Glass",
+      "error": 2.3841858E-07,
+      "matched": true,
+      "roomCentre": {
+        "x": 23.25,
+        "y": 2.0104713,
+        "z": -28.35
+      },
+      "facadeCentre": {
+        "x": 23.25,
+        "y": 2.010471,
+        "z": -28.35
+      }
+    },
+    {
+      "kind": "fap-opening-correspondence",
+      "inside": "WindowFrontRightGlass",
+      "outside": "WindowRight_Glass",
+      "error": 2.3841858E-07,
+      "matched": true,
+      "roomCentre": {
+        "x": 30.150002,
+        "y": 2.0104713,
+        "z": -28.35
+      },
+      "facadeCentre": {
+        "x": 30.150002,
+        "y": 2.010471,
+        "z": -28.35
+      }
+    },
+    {
+      "kind": "fap-opening-correspondence",
+      "inside": "WindowLeftGlass",
+      "outside": "SideWindowLeft_Glass",
+      "error": 2.3841858E-07,
+      "matched": true,
+      "roomCentre": {
+        "x": 20.92,
+        "y": 2.0104713,
+        "z": -35.030003
+      },
+      "facadeCentre": {
+        "x": 20.92,
+        "y": 2.010471,
+        "z": -35.030003
+      }
+    },
+    {
+      "kind": "fap-opening-correspondence",
+      "inside": "WindowRightGlass",
+      "outside": "SideWindowRight_Glass",
+      "error": 2.3841858E-07,
+      "matched": true,
+      "roomCentre": {
+        "x": 32.48,
+        "y": 2.0104713,
+        "z": -35.030003
+      },
+      "facadeCentre": {
+        "x": 32.48,
+        "y": 2.010471,
+        "z": -35.030003
+      }
+    },
+    {
+      "kind": "fap-opening-correspondence",
+      "inside": "DoorInset",
+      "outside": "DoorPanel",
+      "error": 1.1920929E-07,
+      "matched": true,
+      "roomCentre": {
+        "x": 26.7,
+        "y": 1.4804711,
+        "z": -28.43
+      },
+      "facadeCentre": {
+        "x": 26.7,
+        "y": 1.4804713,
+        "z": -28.43
+      }
+    },
+    {
+      "kind": "fap-opening-correspondence",
+      "inside": "ServiceDoorPanel",
+      "outside": "ServiceDoor",
+      "error": 0,
+      "matched": true,
+      "roomCentre": {
+        "x": 32.48,
+        "y": 1.0854712,
+        "z": -38.98
+      },
+      "facadeCentre": {
+        "x": 32.48,
+        "y": 1.0854712,
+        "z": -38.98
+      }
+    },
+    {
+      "kind": "fap-door-bottom-support",
+      "threshold": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_Threshold_LOD0",
+      "thresholdTop": 0.58000004,
+      "doorBottom": 0.57000005,
+      "closesGap": true
+    },
+    {
+      "kind": "fap-door-bottom-support",
+      "threshold": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapEntryPorch/FapEntryPorch_Threshold_LOD0",
+      "thresholdTop": 0.58000004,
+      "doorBottom": 0.57000005,
+      "closesGap": true
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameLeft_LOD0",
+      "foot": {
+        "x": 25.95,
+        "y": 0.1604712,
+        "z": -27.988
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameLeft_LOD0",
+      "foot": {
+        "x": 25.828001,
+        "y": 0.1604712,
+        "z": -27.970001
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameLeft_LOD0",
+      "foot": {
+        "x": 25.932001,
+        "y": 0.1604712,
+        "z": -27.970001
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameLeft_LOD0",
+      "foot": {
+        "x": 25.810001,
+        "y": 0.1604712,
+        "z": -27.988
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameLeft_LOD0",
+      "foot": {
+        "x": 25.810001,
+        "y": 0.1604712,
+        "z": -28.332003
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameLeft_LOD0",
+      "foot": {
+        "x": 25.95,
+        "y": 0.1604712,
+        "z": -28.332003
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameLeft_LOD0",
+      "foot": {
+        "x": 25.932001,
+        "y": 0.1604712,
+        "z": -28.350002
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameLeft_LOD0",
+      "foot": {
+        "x": 25.828001,
+        "y": 0.1604712,
+        "z": -28.350002
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameRight_LOD0",
+      "foot": {
+        "x": 27.59,
+        "y": 0.1604712,
+        "z": -27.988
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameRight_LOD0",
+      "foot": {
+        "x": 27.468,
+        "y": 0.1604712,
+        "z": -27.970001
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameRight_LOD0",
+      "foot": {
+        "x": 27.572,
+        "y": 0.1604712,
+        "z": -27.970001
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameRight_LOD0",
+      "foot": {
+        "x": 27.45,
+        "y": 0.1604712,
+        "z": -27.988
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameRight_LOD0",
+      "foot": {
+        "x": 27.45,
+        "y": 0.1604712,
+        "z": -28.332003
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameRight_LOD0",
+      "foot": {
+        "x": 27.59,
+        "y": 0.1604712,
+        "z": -28.332003
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameRight_LOD0",
+      "foot": {
+        "x": 27.572,
+        "y": 0.1604712,
+        "z": -28.350002
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-jamb-full-foot-support",
+      "jamb": "FapFacade_DoorFrameRight_LOD0",
+      "foot": {
+        "x": 27.468,
+        "y": 0.1604712,
+        "z": -28.350002
+      },
+      "supported": true,
+      "error": 2.9802322E-08
+    },
+    {
+      "kind": "fap-floor-foundation-seat",
+      "local": [
+        -5.25,
+        -5.25
+      ],
+      "coversFinish": false,
+      "seated": true
+    },
+    {
+      "kind": "fap-floor-foundation-seat",
+      "local": [
+        -5.25,
+        0
+      ],
+      "coversFinish": false,
+      "seated": true
+    },
+    {
+      "kind": "fap-floor-foundation-seat",
+      "local": [
+        -5.25,
+        5.25
+      ],
+      "coversFinish": false,
+      "seated": true
+    },
+    {
+      "kind": "fap-floor-foundation-seat",
+      "local": [
+        0,
+        -5.25
+      ],
+      "coversFinish": false,
+      "seated": true
+    },
+    {
+      "kind": "fap-floor-foundation-seat",
+      "local": [
+        0,
+        0
+      ],
+      "coversFinish": false,
+      "seated": true
+    },
+    {
+      "kind": "fap-floor-foundation-seat",
+      "local": [
+        0,
+        5.25
+      ],
+      "coversFinish": false,
+      "seated": true
+    },
+    {
+      "kind": "fap-floor-foundation-seat",
+      "local": [
+        5.25,
+        -5.25
+      ],
+      "coversFinish": false,
+      "seated": true
+    },
+    {
+      "kind": "fap-floor-foundation-seat",
+      "local": [
+        5.25,
+        0
+      ],
+      "coversFinish": false,
+      "seated": true
+    },
+    {
+      "kind": "fap-floor-foundation-seat",
+      "local": [
+        5.25,
+        5.25
+      ],
+      "coversFinish": false,
+      "seated": true
+    },
+    {
+      "kind": "camera",
+      "label": "fap_aligned_entry_approach",
+      "position": {
+        "x": 26.7,
+        "y": 1.312991,
+        "z": -25.890001
+      },
+      "rotation": {
+        "x": 3.772458,
+        "y": 0,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "camera",
+      "label": "fap_aligned_door_contact",
+      "position": {
+        "x": 26.699955,
+        "y": 1.8586001,
+        "z": -27.926846
+      },
+      "rotation": {
+        "x": -36.85854,
+        "y": 0.0013031738,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "fap-porch-normal-walk",
+      "entryDeckFeet": {
+        "x": -4.196167E-05,
+        "y": 0.5002165,
+        "z": 6.383156
+      },
+      "door": {
+        "x": 26.7,
+        "y": 1.4804713,
+        "z": -28.43
+      },
+      "facadeOrigin": {
+        "x": 26.7,
+        "y": -0.33952883,
+        "z": -34.13
+      },
+      "roomOrigin": {
+        "x": 26.7,
+        "y": 0.060471177,
+        "z": -34.13
+      },
+      "porchOrigin": {
+        "x": 26.82,
+        "y": -0.33952883,
+        "z": -28.4
+      },
+      "stepsClimbed": 5,
+      "lastStepRejection": ""
+    },
+    {
+      "kind": "clinic-mirror-human-height-and-bearing",
+      "frameGap": 0,
+      "frameBearing": 0.84000015,
+      "mirrorLowerEdge": 1.41,
+      "mirrorUpperEdge": 2.3899999,
+      "faucetClear": true,
+      "faucetVerticalGap": 0.31999993
+    },
+    {
+      "kind": "fap-floor-finish-support",
+      "mesh": "FapInteriorFloor_EntryRunner_LOD0",
+      "gap": 2.3283064E-10,
+      "height": 0.0040000007
+    },
+    {
+      "kind": "fap-floor-finish-support",
+      "mesh": "FapInteriorFloor_EntryRunner_LOD1",
+      "gap": 2.3283064E-10,
+      "height": 0.0040000007
+    },
+    {
+      "kind": "fap-floor-finish-support",
+      "mesh": "FapInteriorFloor_ExamMat_LOD0",
+      "gap": 2.3283064E-10,
+      "height": 0.0040000007
+    },
+    {
+      "kind": "fap-floor-finish-support",
+      "mesh": "FapInteriorFloor_ExamMat_LOD1",
+      "gap": 2.3283064E-10,
+      "height": 0.0040000007
+    },
+    {
+      "kind": "fap-floor-finish-support",
+      "mesh": "FapInteriorFloor_RecordsMat_LOD0",
+      "gap": 2.3283064E-10,
+      "height": 0.0040000007
+    },
+    {
+      "kind": "fap-floor-finish-support",
+      "mesh": "FapInteriorFloor_RecordsMat_LOD1",
+      "gap": 2.3283064E-10,
+      "height": 0.0040000007
+    },
+    {
+      "kind": "fap-floor-finish-support",
+      "mesh": "FapInteriorFloor_WaitingMat_LOD0",
+      "gap": 2.3283064E-10,
+      "height": 0.0040000007
+    },
+    {
+      "kind": "fap-floor-finish-support",
+      "mesh": "FapInteriorFloor_WaitingMat_LOD1",
+      "gap": 2.3283064E-10,
+      "height": 0.0040000007
+    },
+    {
+      "kind": "fap-floor-finish-support",
+      "mesh": "FapInteriorShell_EntryMat_LOD0",
+      "gap": 3.7252903E-09,
+      "height": 0.018
+    },
+    {
+      "kind": "fap-furniture-floor-support",
+      "group": "Bench",
+      "bottom": 0,
+      "floorY": 0
+    },
+    {
+      "kind": "fap-furniture-floor-support",
+      "group": "Cot",
+      "bottom": 0,
+      "floorY": 0
+    },
+    {
+      "kind": "fap-furniture-floor-support",
+      "group": "Screen",
+      "bottom": 0,
+      "floorY": 0
+    },
+    {
+      "kind": "fap-furniture-floor-support",
+      "group": "Stool",
+      "bottom": 0,
+      "floorY": 0
+    },
+    {
+      "kind": "fap-furniture-floor-support",
+      "group": "ReceptionCounter",
+      "bottom": 0,
+      "floorY": 0
+    },
+    {
+      "kind": "fap-furniture-floor-support",
+      "group": "RecordsDesk",
+      "bottom": 0,
+      "floorY": 0
+    },
+    {
+      "kind": "fap-furniture-floor-support",
+      "group": "Trolley",
+      "bottom": 3.7252903E-09,
+      "floorY": 0
+    },
+    {
+      "kind": "fap-furniture-floor-support",
+      "group": "Partition",
+      "bottom": 0,
+      "floorY": 0
+    },
+    {
+      "kind": "fap-furniture-floor-support",
+      "group": "TallStorage",
+      "bottom": 0,
+      "floorY": 0
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "Bench_Seat",
+      "rendered": true,
+      "error": 0,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "Cot_Mattress",
+      "rendered": true,
+      "error": 0,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "Screen_PanelCenter",
+      "rendered": true,
+      "error": 0.0049839807,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "Stool_Seat",
+      "rendered": true,
+      "error": 5.9604645E-08,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "ReceptionCounter_Top",
+      "rendered": true,
+      "error": 0,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "RecordsDesk_Top",
+      "rendered": true,
+      "error": 1.1920929E-07,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "Trolley_TopTray",
+      "rendered": true,
+      "error": 0.00999999,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "Partition_Panel",
+      "rendered": true,
+      "error": 0,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "Cabinet_DoorRight",
+      "rendered": true,
+      "error": 0.0009994507,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "WashUnit_Body",
+      "rendered": true,
+      "error": 0,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "Radiator_Body",
+      "rendered": true,
+      "error": 0,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "SupplyShelf_Low",
+      "rendered": true,
+      "error": 0,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "ExamChart_Panel",
+      "rendered": true,
+      "error": 0,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "NoticeBoard_Panel",
+      "rendered": true,
+      "error": 0,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-furniture-visible-contact",
+      "suffix": "CoatHookRail",
+      "rendered": true,
+      "error": 0,
+      "actualOwner": "fap-interior-furniture"
+    },
+    {
+      "kind": "fap-selection-volume",
+      "name": "WaitingRoomToDesk",
+      "layer": 0,
+      "mask": 0,
+      "available": false
+    },
+    {
+      "kind": "fap-selection-volume",
+      "name": "DeskToOfficialRecord",
+      "layer": 0,
+      "mask": 0,
+      "available": false
+    },
+    {
+      "kind": "fap-lamp-table-contact",
+      "foot": 0.94,
+      "tabletop": 0.94
+    },
+    {
+      "kind": "fap-trolley-upright-bearing",
+      "localFoot": {
+        "x": 3.9099998,
+        "y": 1.04,
+        "z": -2.0200005
+      },
+      "supported": true,
+      "tray": {
+        "x": 30.61,
+        "y": 1.1804712,
+        "z": -36.15
+      }
+    },
+    {
+      "kind": "fap-trolley-upright-bearing",
+      "localFoot": {
+        "x": 3.8449993,
+        "y": 1.04,
+        "z": -2.0200005
+      },
+      "supported": true,
+      "tray": {
+        "x": 30.545,
+        "y": 1.1804712,
+        "z": -36.15
+      }
+    },
+    {
+      "kind": "fap-trolley-upright-bearing",
+      "localFoot": {
+        "x": 2.9300003,
+        "y": 1.04,
+        "z": -2.0200005
+      },
+      "supported": true,
+      "tray": {
+        "x": 29.630001,
+        "y": 1.1804712,
+        "z": -36.15
+      }
+    },
+    {
+      "kind": "fap-trolley-upright-bearing",
+      "localFoot": {
+        "x": 2.994999,
+        "y": 1.04,
+        "z": -2.0200005
+      },
+      "supported": true,
+      "tray": {
+        "x": 29.695,
+        "y": 1.1804712,
+        "z": -36.15
+      }
+    },
+    {
+      "kind": "fap-trolley-upright-bearing",
+      "localFoot": {
+        "x": 2.9300003,
+        "y": 1.04,
+        "z": -2.119999
+      },
+      "supported": true,
+      "tray": {
+        "x": 29.630001,
+        "y": 1.1804712,
+        "z": -36.25
+      }
+    },
+    {
+      "kind": "fap-trolley-upright-bearing",
+      "localFoot": {
+        "x": 2.994999,
+        "y": 1.04,
+        "z": -2.119999
+      },
+      "supported": true,
+      "tray": {
+        "x": 29.695,
+        "y": 1.1804712,
+        "z": -36.25
+      }
+    },
+    {
+      "kind": "fap-trolley-upright-bearing",
+      "localFoot": {
+        "x": 3.9099998,
+        "y": 1.04,
+        "z": -2.119999
+      },
+      "supported": true,
+      "tray": {
+        "x": 30.61,
+        "y": 1.1804712,
+        "z": -36.25
+      }
+    },
+    {
+      "kind": "fap-trolley-upright-bearing",
+      "localFoot": {
+        "x": 3.8449993,
+        "y": 1.04,
+        "z": -2.119999
+      },
+      "supported": true,
+      "tray": {
+        "x": 30.545,
+        "y": 1.1804712,
+        "z": -36.25
+      }
+    },
+    {
+      "kind": "fap-wash-bowl-volume-and-support",
+      "depth": 0.16000003,
+      "collisionDepth": 0.157,
+      "owner": "fap-interior-furniture",
+      "rim": 0.94,
+      "supports": [
+        {
+          "sign": -1,
+          "underFound": true,
+          "supportFound": true,
+          "gap": 0
+        },
+        {
+          "sign": 1,
+          "underFound": true,
+          "supportFound": true,
+          "gap": 0
+        }
+      ],
+      "mounted": true,
+      "aimsIntoBowl": true,
+      "lodHasBowl": true
+    },
+    {
+      "kind": "fap-wash-assembly-bearing",
+      "foldedOnBar": 2,
+      "wallFastenings": 8
+    },
+    {
+      "kind": "camera",
+      "label": "fap_furniture_waiting_aisle",
+      "position": {
+        "x": 26.74067,
+        "y": 1.7612784,
+        "z": -33.33193
+      },
+      "rotation": {
+        "x": -0,
+        "y": -87.293,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "fap-controller-furniture-contact",
+      "label": "Bench",
+      "fixture": {
+        "x": 3.07,
+        "y": 0.04,
+        "z": 3.5
+      },
+      "end": {
+        "x": 3.0699997,
+        "y": 0.00046874955,
+        "z": 3.0601654
+      },
+      "contacted": true
+    },
+    {
+      "kind": "fap-controller-furniture-contact",
+      "label": "Screen",
+      "fixture": {
+        "x": -1.4,
+        "y": 0.04,
+        "z": -0.4
+      },
+      "end": {
+        "x": -1.3999996,
+        "y": -0.00082031265,
+        "z": -1.1568184
+      },
+      "contacted": true
+    },
+    {
+      "kind": "fap-controller-furniture-contact",
+      "label": "RecordsDesk",
+      "fixture": {
+        "x": 0,
+        "y": 0.04,
+        "z": -2.35
+      },
+      "end": {
+        "x": 0,
+        "y": 0.00046874955,
+        "z": -3.143341
+      },
+      "contacted": true
+    },
+    {
+      "kind": "fap-controller-furniture-contact",
+      "label": "Trolley",
+      "fixture": {
+        "x": 3.4,
+        "y": 0.04,
+        "z": -0.65
+      },
+      "end": {
+        "x": 3.3999996,
+        "y": -0.00029400364,
+        "z": -1.199852
+      },
+      "contacted": true
+    },
+    {
+      "kind": "camera",
+      "label": "fap_service_cabinet_fixing",
+      "position": {
+        "x": 23.096619,
+        "y": 1.76094,
+        "z": -37.255184
+      },
+      "rotation": {
+        "x": -61.21022,
+        "y": 82.4658,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "fap-optical-runtime-state",
+      "phase": "after-eight-active-process-frames",
+      "activeZone": "fap_clinic",
+      "rootEnvironmentCount": 1,
+      "rootEnvironmentPaths": [
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/WorldEnvironment"
+      ],
+      "coreVisible": true,
+      "cameraCurrent": true,
+      "probeVisible": true,
+      "updateMode": "Once",
+      "probeInterior": false,
+      "sourceMask": 262144,
+      "reflectionMask": 524288,
+      "sourceCount": 125,
+      "sourcePaths": [
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_ArmLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_ArmRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_Back_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_BackRail_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_FootRail_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_LegBackLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_LegBackRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_LegFrontLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_LegFrontRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_LowerBrace_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorBench_Seat_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCabinet_Body_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCabinet_DoorLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCabinet_DoorRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCabinet_HandleLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCabinet_HandleRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCabinet_InsetLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCabinet_InsetRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCabinet_TopShelf_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_Backboard_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_FootRail_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_Frame_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_HeadRail_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_InstrumentShelf_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_LegBackLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_LegBackRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_LegFrontLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_LegFrontRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_LowerBrace_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_Mattress_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_Pillow_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorCot_UnderShelf_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorPartition_Panel_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorPartition_PostBack_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorPartition_PostFront_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorPartition_RailBottom_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorPartition_RailTop_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorReceptionCounter_Base_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorReceptionCounter_Body_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorReceptionCounter_DrawerBand_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorReceptionCounter_EndPanelLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorReceptionCounter_EndPanelRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorReceptionCounter_KickPanel_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorReceptionCounter_ServiceShelf_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorReceptionCounter_Top_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_BackRail_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_Base_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_Body_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_CubbyBody_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_CubbyShelfHigh_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_CubbyShelfLow_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_DrawerBand_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_FrontApron_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_FrontLegLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_FrontLegRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_PaperStack_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_RecordTray_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorRecordsDesk_Top_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_BackWall_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_BaseCapBack_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_BaseCapFrontLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_BaseCapFrontRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_BaseCapLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_BaseCapRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_Ceiling_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CeilingCorniceBack_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CeilingCorniceFrontLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CeilingCorniceFrontRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CeilingCorniceLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CeilingCorniceRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CeilingFixtureHousing_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CeilingFixtureLens_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CornerPostBackLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CornerPostBackRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CornerPostFrontLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CornerPostFrontRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_DoorFrameLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_DoorFrameRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_DoorFrameTop_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_DoorHandle_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_DoorInset_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_EntryMat_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_Floor_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_FrontWallHeader_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_FrontWallLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_FrontWallRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_LeftWall_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_LowerBandBack_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_LowerBandFrontLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_LowerBandFrontRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_LowerBandLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_LowerBandRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_RevealLeftBack_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_RevealLeftFront_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_RevealLeftSill_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_RevealRightBack_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_RevealRightFront_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_RevealRightSill_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_RightWall_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_ServiceDoorHandle_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_ServiceDoorHeader_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_ServiceDoorJambBack_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_ServiceDoorJambFront_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_ServiceDoorPanel_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_Threshold_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontLeftMuntinHorizontal_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontLeftMuntinVertical_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontLeftTrimBottom_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontLeftTrimLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontLeftTrimRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontLeftTrimTop_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontRightMuntinHorizontal_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontRightMuntinVertical_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontRightTrimBottom_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontRightTrimLeft_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontRightTrimRight_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowFrontRightTrimTop_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowLeftTrimBack_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowLeftTrimBottom_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowLeftTrimFront_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowLeftTrimTop_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowRightTrimBack_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowRightTrimBottom_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowRightTrimFront_LOD0",
+        "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_WindowRightTrimTop_LOD0"
+      ],
+      "lightSources": [
+        {
+          "path": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/ColdCeilingLamp",
+          "layers": 262145,
+          "includedByProbe": true
+        },
+        {
+          "path": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapWindowColdFill",
+          "layers": 262145,
+          "includedByProbe": true
+        },
+        {
+          "path": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapDocumentTaskLight",
+          "layers": 262145,
+          "includedByProbe": true
+        },
+        {
+          "path": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapNailaPractical",
+          "layers": 262145,
+          "includedByProbe": true
+        },
+        {
+          "path": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapWindowOppositeFill",
+          "layers": 262145,
+          "includedByProbe": true
+        }
+      ],
+      "excludedDynamicLights": [
+        {
+          "path": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/DiscoveryRepairedLamp/RepairedDeskLight",
+          "layers": 1
+        }
+      ],
+      "exteriorCards": [
+        {
+          "name": "FapFacade_SideWindowLeft_Glass_LOD0",
+          "visible": false
+        },
+        {
+          "name": "FapFacade_SideWindowRight_Glass_LOD0",
+          "visible": false
+        },
+        {
+          "name": "FapFacade_WindowLeft_Glass_LOD0",
+          "visible": false
+        },
+        {
+          "name": "FapFacade_WindowRight_Glass_LOD0",
+          "visible": false
+        },
+        {
+          "name": "FapFacade_WindowRight_WarmInset_LOD0",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "kind": "fap-optical-standing-view",
+      "label": "fap_windows_front_pair",
+      "fixture": {
+        "x": 0,
+        "y": 0.04,
+        "z": 0
+      },
+      "actualFeet": {
+        "x": 0,
+        "y": 0.00046874955,
+        "z": 0
+      },
+      "eye": {
+        "x": 0,
+        "y": 1.7004688,
+        "z": 0.1800003
+      },
+      "aim": {
+        "x": 0,
+        "y": 1.95,
+        "z": 5.78
+      },
+      "fits": true,
+      "standing": true,
+      "clear": true,
+      "blocker": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapAuthoredInteriorShellCollision"
+    },
+    {
+      "kind": "camera",
+      "label": "fap_windows_front_pair",
+      "position": {
+        "x": 26.7,
+        "y": 1.76094,
+        "z": -33.95
+      },
+      "rotation": {
+        "x": 2.3974226,
+        "y": 179.99998,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "fap-optical-standing-view",
+      "label": "fap_window_left",
+      "fixture": {
+        "x": -3.35,
+        "y": 0.04,
+        "z": -0.55
+      },
+      "actualFeet": {
+        "x": -3.3500004,
+        "y": 0.00046874955,
+        "z": -0.54999924
+      },
+      "eye": {
+        "x": -3.52956,
+        "y": 1.7004688,
+        "z": -0.56256104
+      },
+      "aim": {
+        "x": -5.78,
+        "y": 1.95,
+        "z": -0.9
+      },
+      "fits": true,
+      "standing": true,
+      "clear": true,
+      "blocker": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapAuthoredInteriorShellCollision"
+    },
+    {
+      "kind": "camera",
+      "label": "fap_window_left",
+      "position": {
+        "x": 23.17044,
+        "y": 1.76094,
+        "z": -34.692562
+      },
+      "rotation": {
+        "x": 5.848784,
+        "y": 85.99813,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "fap-optical-standing-view",
+      "label": "fap_window_right",
+      "fixture": {
+        "x": 4.75,
+        "y": 0.04,
+        "z": -0.9
+      },
+      "actualFeet": {
+        "x": 4.75,
+        "y": 0.00046874955,
+        "z": -0.9000015
+      },
+      "eye": {
+        "x": 4.927311,
+        "y": 1.7004688,
+        "z": -0.86901474
+      },
+      "aim": {
+        "x": 5.78,
+        "y": 1.95,
+        "z": -0.9
+      },
+      "fits": true,
+      "standing": true,
+      "clear": true,
+      "blocker": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapAuthoredInteriorShellCollision"
+    },
+    {
+      "kind": "camera",
+      "label": "fap_window_right",
+      "position": {
+        "x": 31.627312,
+        "y": 1.76094,
+        "z": -34.999016
+      },
+      "rotation": {
+        "x": 13.422307,
+        "y": -99.91277,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "fap-optical-standing-view",
+      "label": "fap_mirror_front",
+      "fixture": {
+        "x": 3.8,
+        "y": 0.04,
+        "z": 3.2
+      },
+      "actualFeet": {
+        "x": 3.7999992,
+        "y": 0.00046874955,
+        "z": 3.2000008
+      },
+      "eye": {
+        "x": 3.9342594,
+        "y": 1.7004688,
+        "z": 3.0801105
+      },
+      "aim": {
+        "x": 5.4350014,
+        "y": 1.9,
+        "z": 1.5600014
+      },
+      "fits": true,
+      "standing": true,
+      "clear": true,
+      "blocker": null
+    },
+    {
+      "kind": "camera",
+      "label": "fap_mirror_front",
+      "position": {
+        "x": 30.63426,
+        "y": 1.76094,
+        "z": -31.04989
+      },
+      "rotation": {
+        "x": 5.2011046,
+        "y": -48.236233,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "fap-optical-standing-view",
+      "label": "fap_mirror_oblique",
+      "fixture": {
+        "x": 4.75,
+        "y": 0.04,
+        "z": 3.1
+      },
+      "actualFeet": {
+        "x": 4.75,
+        "y": 0.00046874955,
+        "z": 3.1000004
+      },
+      "eye": {
+        "x": 4.830971,
+        "y": 1.7004688,
+        "z": 2.9392414
+      },
+      "aim": {
+        "x": 5.4350014,
+        "y": 1.9,
+        "z": 1.5600014
+      },
+      "fits": true,
+      "standing": true,
+      "clear": true,
+      "blocker": null
+    },
+    {
+      "kind": "camera",
+      "label": "fap_mirror_oblique",
+      "position": {
+        "x": 31.530972,
+        "y": 1.76094,
+        "z": -31.19076
+      },
+      "rotation": {
+        "x": 7.4649773,
+        "y": -26.733356,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "camera",
+      "label": "fap_mirror_oblique_after_settle",
+      "position": {
+        "x": 31.530972,
+        "y": 1.76094,
+        "z": -31.19076
+      },
+      "rotation": {
+        "x": 7.4649773,
+        "y": -26.733356,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "camera",
+      "label": "fap_mirror_oblique_diagnostic_standard_material",
+      "position": {
+        "x": 31.530972,
+        "y": 1.76094,
+        "z": -31.19076
+      },
+      "rotation": {
+        "x": 7.4649773,
+        "y": -26.733356,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "fap-mirror-normal-standing-view",
+      "standing": true,
+      "insideGlass": true,
+      "clear": true,
+      "blocker": null,
+      "feet": {
+        "x": 4.3148384,
+        "y": 0.00046874955,
+        "z": 1.5643921
+      },
+      "eye": {
+        "x": 31.194742,
+        "y": 1.76094,
+        "z": -32.571457
+      },
+      "aim": {
+        "x": 32.115,
+        "y": 1.76094,
+        "z": -32.571457
+      },
+      "planePoint": {
+        "x": 32.115,
+        "y": 1.9604712,
+        "z": -32.57
+      },
+      "normal": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "probeInterior": false
+    },
+    {
+      "kind": "fap-mirror-static-source-reflected-ray",
+      "sample": "eye-projection",
+      "surfacePoint": {
+        "x": 32.115,
+        "y": 1.76094,
+        "z": -32.571457
+      },
+      "eye": {
+        "x": 31.194742,
+        "y": 1.76094,
+        "z": -32.571457
+      },
+      "normal": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "reflected": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "captureSourceHit": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_LeftWall_LOD0",
+      "worldHit": {
+        "x": 21.070004,
+        "y": 1.76094,
+        "z": -32.571457
+      },
+      "distance": 11.042,
+      "scope": "rendered triangles of registered static capture sources; not a physical ray or proof of reflection pixels"
+    },
+    {
+      "kind": "fap-mirror-static-source-reflected-ray",
+      "sample": "centre",
+      "surfacePoint": {
+        "x": 32.115,
+        "y": 1.9604712,
+        "z": -32.57
+      },
+      "eye": {
+        "x": 31.194742,
+        "y": 1.76094,
+        "z": -32.571457
+      },
+      "normal": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "reflected": {
+        "x": -0.9772908,
+        "y": 0.21189676,
+        "z": 0.0015475225
+      },
+      "captureSourceHit": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_Ceiling_LOD0",
+      "worldHit": {
+        "x": 25.793415,
+        "y": 3.3304713,
+        "z": -32.559994
+      },
+      "distance": 6.465412,
+      "scope": "rendered triangles of registered static capture sources; not a physical ray or proof of reflection pixels"
+    },
+    {
+      "kind": "fap-mirror-static-source-reflected-ray",
+      "sample": "u0,22-v0,50",
+      "surfacePoint": {
+        "x": 32.115,
+        "y": 1.9604712,
+        "z": -32.7884
+      },
+      "eye": {
+        "x": 31.194742,
+        "y": 1.76094,
+        "z": -32.571457
+      },
+      "normal": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "reflected": {
+        "x": -0.9523445,
+        "y": 0.2064879,
+        "z": -0.22450556
+      },
+      "captureSourceHit": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_CeilingFixtureLens_LOD0",
+      "worldHit": {
+        "x": 26.923382,
+        "y": 3.0854712,
+        "z": -34.011562
+      },
+      "distance": 5.448261,
+      "scope": "rendered triangles of registered static capture sources; not a physical ray or proof of reflection pixels"
+    },
+    {
+      "kind": "fap-mirror-static-source-reflected-ray",
+      "sample": "u0,78-v0,50",
+      "surfacePoint": {
+        "x": 32.115,
+        "y": 1.9604712,
+        "z": -32.3516
+      },
+      "eye": {
+        "x": 31.194742,
+        "y": 1.76094,
+        "z": -32.571457
+      },
+      "normal": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "reflected": {
+        "x": -0.951696,
+        "y": 0.20634727,
+        "z": 0.22736666
+      },
+      "captureSourceHit": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_Ceiling_LOD0",
+      "worldHit": {
+        "x": 25.793415,
+        "y": 3.330471,
+        "z": -30.842047
+      },
+      "distance": 6.6392927,
+      "scope": "rendered triangles of registered static capture sources; not a physical ray or proof of reflection pixels"
+    },
+    {
+      "kind": "fap-mirror-static-source-reflected-ray",
+      "sample": "u0,50-v0,22",
+      "surfacePoint": {
+        "x": 32.115,
+        "y": 1.6860712,
+        "z": -32.57
+      },
+      "eye": {
+        "x": 31.194742,
+        "y": 1.76094,
+        "z": -32.571457
+      },
+      "normal": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "reflected": {
+        "x": -0.99670565,
+        "y": -0.08108816,
+        "z": 0.0015782655
+      },
+      "captureSourceHit": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_LowerBandLeft_LOD0",
+      "worldHit": {
+        "x": 21.14,
+        "y": 0.79343086,
+        "z": -32.552628
+      },
+      "distance": 11.008269,
+      "scope": "rendered triangles of registered static capture sources; not a physical ray or proof of reflection pixels"
+    },
+    {
+      "kind": "fap-mirror-static-source-reflected-ray",
+      "sample": "u0,50-v0,78",
+      "surfacePoint": {
+        "x": 32.115,
+        "y": 2.2348711,
+        "z": -32.57
+      },
+      "eye": {
+        "x": 31.194742,
+        "y": 1.76094,
+        "z": -32.571457
+      },
+      "normal": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "reflected": {
+        "x": -0.88902944,
+        "y": 0.4578478,
+        "z": 0.0014077622
+      },
+      "captureSourceHit": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorShell_Ceiling_LOD0",
+      "worldHit": {
+        "x": 29.984613,
+        "y": 3.3304713,
+        "z": -32.56663
+      },
+      "distance": 2.3929353,
+      "scope": "rendered triangles of registered static capture sources; not a physical ray or proof of reflection pixels"
+    },
+    {
+      "kind": "camera",
+      "label": "fap_mirror_normal",
+      "position": {
+        "x": 31.194838,
+        "y": 1.76094,
+        "z": -32.56561
+      },
+      "rotation": {
+        "x": -0,
+        "y": -90,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "camera",
+      "label": "fap_mirror_normal_diagnostic_roughness005",
+      "position": {
+        "x": 31.194838,
+        "y": 1.76094,
+        "z": -32.56561
+      },
+      "rotation": {
+        "x": -0,
+        "y": -90,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "camera",
+      "label": "fap_wash_basin_close",
+      "position": {
+        "x": 31.194834,
+        "y": 1.76094,
+        "z": -32.566685
+      },
+      "rotation": {
+        "x": -49.324463,
+        "y": -89.65781,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "fap-optical-exit-restored",
+      "activeZone": "village_day",
+      "restored": true,
+      "probeVisible": false,
+      "exteriorCards": [
+        {
+          "name": "FapFacade_SideWindowLeft_Glass_LOD0",
+          "visible": true,
+          "original": true
+        },
+        {
+          "name": "FapFacade_SideWindowRight_Glass_LOD0",
+          "visible": true,
+          "original": true
+        },
+        {
+          "name": "FapFacade_WindowLeft_Glass_LOD0",
+          "visible": true,
+          "original": true
+        },
+        {
+          "name": "FapFacade_WindowRight_Glass_LOD0",
+          "visible": true,
+          "original": true
+        },
+        {
+          "name": "FapFacade_WindowRight_WarmInset_LOD0",
+          "visible": true,
+          "original": true
+        }
+      ]
+    }
+  ],
+  "failures": [],
+  "physicallyWalkedMeters": 48.21217,
+  "humanPlaytest": false
+}

@@ -10,8 +10,15 @@
   (`wall contact=False, separation=1.017m`);
 - `MosqueEntranceDoor`: видимая створка без физической опоры на 0.90 м
   (расхождение 0.027 м) и на 1.55 м (0.028 м);
-- `fap_window_right`: вид закрыт раньше своей поверхности телом
-  `FapFurniturePartitionCollision`;
+- `fap_window_right`: **проверочная точка исправлена 2026-09-22**. Старый луч
+  действительно пересекал видимую рейку перегородки (контакты совпадают с
+  треугольниками меша), это не лишняя production-коллизия. Перенесена только
+  standing fixture x=3.35 → 4.75, сохранены CanStandAt/settle/clear-ray.
+  На `integrated-build-20260922-texture-lang-02` узкий native clinic scope
+  прошёл 113 проверок; `fits/standing/clear=true`, failures=[] в
+  `../production/act1_takeover_evidence_2026-09-16/texture-clinic-20260922-02/architecture-receipt.json`.
+  Подход к этой fixture не выдан за человеческий маршрут; остальные B90-падения
+  не перепроверены этим clinic scope;
 - Пересаженное дерево в `(-33, 8.2)`: потерян LOD или физический ствол остался.
 Связанные задачи: TECH/DEPTH/CHAR-блоки. Не блокирует EX01–EX06 (carry-смоук
 зелёный), чинить отдельным проходом с кадрами до/после.

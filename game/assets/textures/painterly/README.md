@@ -1,5 +1,112 @@
 # Painterly texture provenance
 
+## T08 — domestic upholstery, 2026-09-22
+
+Selected `urman_t08_v01_basecolor.png`, 1254 × 1254 RGB; SHA-256 `0d711435c9f9525b86c868272f54e2ac2fa29b4333e413860e657cea672fea1e`. Built-in ImageGen source `exec-37a5eb77-78cc-46bd-b1d4-c451eca5e82b.png`, unchanged pixels, no external references. Source inspection: brown-olive woven geometric repeat, no painted seams or cushion. Source gate PASS: seam means .0316/.0410, maxima .1843/.2078, no clipping, mean saturation .4432. The existing daybed cushion/back now use cached `fabric_upholstery`, scale 2 × 2 and the existing fabric response. Other fabric roles unchanged; import mipmaps/1024 cap explicit. Runtime pattern density/tint and art pending.
+
+W08 is also assigned to the existing home table, daybed frame, storage chest and PC hutch/backboard members that previously used `wood_furniture`. Floors, walls, ordinary chairs and exterior furniture retain their owners. This additional home assignment is newer than clinic-01.
+
+Exact built-in generation prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Muted brown-olive domestic upholstery fabric with a small low-contrast woven geometric repeat. Slight broad color fade, readable weave groups, no button tufting, seams, cushion silhouette, holes, folds or baked seat wear.
+```
+
+
+## M05 — aged computer ABS, 2026-09-22
+
+Selected `urman_m05_v01_basecolor.png`, 1254 × 1254 RGB, SHA-256 `fdc055f27878a249a519c69d0ffa0006bfe45b9f028946caaa6fd5998d9a597a`; built-in ImageGen source `exec-ab346c15-7d28-4e53-b8fb-7aabe4ff87db.png`. No external reference, original pixels retained. Source inspection: warm ivory fine-grained field, no modeled keys/vents/logo; grain visibility on actual shell must still be judged in game. Source gate PASS: mean seam V/H .0247/.0272, max .1451/.1686, no clipping, mean saturation .1929.
+
+Cached `plastic_abs` scale 2 × 2; only existing `OldPc_Crt*`, `OldPc_Keyboard*`, `OldPc_Tower*` receive it. Earlier TowerPanel and independent Glass/DriveSlot/PowerButton rules are preserved; no text/screen content replaced. Roughness .72/specular .22, no metallic or wet response, variation .04. Import mipmaps and 1024 cap travel in the sidecar. New build/capture/art still pending.
+
+Exact built-in generation prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Aged warm ivory ABS plastic for a late-1990s or early-2000s home computer, subtle uneven yellowing and very fine soft manufacturing grain. Quiet mid-light color, not dirty orange. No keys, vents, monitor frame, logo, label, screen content, reflection or shadows.
+```
+
+
+## B03 — maintained clinic wall paint, 2026-09-22
+
+Selected `urman_b03_v01_basecolor.png`, 1254 × 1254 RGB; SHA-256 `e96d19f902c167da4b268a25555721b7a7c15728237093412d7dfc35102966a7`. Built-in ImageGen source `exec-0b7eaaa6-2c8c-4b76-9836-85c1abac88fd.png`, no external reference or pixel processing. Source inspection: quiet celadon-grey brush variation, no wall division or peeling ruin. Source gate PASS: mean seam V/H .0203/.0189, max .1529/.0902, no clipping, mean saturation .0909. `wall_institution` at scale 1 × 1 replaces the more distressed v1 only for the existing FAP shell/wall panels and FAP benchmark walls. Tint `7b8d86` and geometry remain unchanged; actual new wall appearance still awaits the next build/capture. Runtime import retains mipmaps and size_limit 1024.
+
+Exact built-in generation prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Maintained rural clinic wall paint, soft desaturated celadon-grey with gentle brush and age variation. Practical washable painted finish, used but hygienic. No blood, mold, abandonment, flaking ruin, complete wall, horizontal dado border or medical labels.
+```
+
+## Import and verification corrections, 2026-09-22
+
+The selected catalogue `.png.import` sidecars have explicit `.gitignore` exceptions, following existing painterly imports. They must travel with the selected PNGs; otherwise a clean checkout would lose mipmaps/size caps. Source verifier now maps exact version filenames, rejects unassigned vNN versions, and explicitly labels density as **source** pixels before import. It is not a proof of runtime assignment or art quality.
+
+The first B04/T10/W08 runtime capture is `docs/production/act1_takeover_evidence_2026-09-16/texture-clinic-20260922-01/`, from `integrated-build-20260922-texture-lang-01`. Floor and furniture were visually inspected in the aisle frame. Whole clinic scope **FAIL**: known B90 right-window view blocked by `FapFurniturePartitionCollision`; no art-lock claim. B03 is newer and is not present in that capture.
+
+
+## T10 — clinic cotton, 2026-09-22
+
+Selected `urman_t10_v02_basecolor.png`, 1254 × 1254 RGB, SHA-256 `3d5ee791975442bd247d8771e42db410c7f3b80e44d1aceb504a898662b2c754`; source output `exec-dd0bf5da-ec25-4111-9a36-12a82245da3e.png`. Built-in ImageGen edit of its own original T10 output; no third-party reference. The workspace selected file retains source pixels; mipmaps and runtime 1024 limit are in import settings. Consumer: cached `cloth_clinic` at world scale 2 × 2, only the existing `FapInteriorScreen_Panel*` assignment. General clothing/upholstery and quality switching remain with their original cached owners. Visual source inspection: light dusty-blue plain weave, no painted folds; near/far shimmer and in-game tint pending.
+
+The first source `exec-0790b10b-14c6-43b9-8750-2b7d95a6168f.png` (SHA `776eb0c33864028091f3ec3c5907663c28d915a570e666965e2d97d318cef61c`) failed edge-max 0.4353 > 0.4. Its unused workspace copy/import descriptor were removed after byte-identical original was confirmed retained in the generating task's ImageGen directory. v02 passes unchanged thresholds: mean V/H 0.0519/0.0747, max 0.2784/0.3804, no exact clipping. Technical PASS is not visual seam/art acceptance.
+
+Original prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Clean pale cool-blue cotton medical-screen fabric, quiet plain weave with modest color variation, not sheer lace or heavy upholstery. No folds, curtain frame, blood, mildew, symbols, seam lines or strong hospital-blue saturation.
+```
+
+Exact correction prompt (input: original T10 PNG):
+
+```text
+Edit the attached T10 clinic cotton base-color texture to remove visible seams in BOTH horizontal and vertical tiling, including all four corners. Preserve the light dusty-blue cotton material, plain weave, broad calm pigment variation, scale and most of the interior. The thread pattern at the left edge must flow continuously into the right edge, and top into bottom. Reduce tiny high-contrast fibre noise slightly; do not add sharp dark pinholes. Change only the edge transition areas needed for continuity and this restrained noise reduction. No border, vignette, directional lighting, new motif, folds, perspective, text, background or collage. Return one square opaque RGB seamless material texture, not a tiled preview. Do not change the material identity.
+```
+
+## W08 — finished furniture wood, 2026-09-22
+
+`urman_w08_v01_basecolor.png`, 1254 × 1254 RGB, SHA-256 `88546942069a47b12d21c0eba19d69cc64038677d4fdee7cb949c55a647d37ff`; source `exec-14794c1f-a5ef-428f-b74c-2480b6de23c9.png`. Built-in ImageGen, no reference image, no pixel edits; project-generated. Mipmaps and runtime 1024 cap. New opt-in `wood_furniture_interior` uses scale 1/0.75; first assigned through `FapPaintedTimber`. The legacy furniture owner also serves floors/exterior benches and is intentionally unchanged. Home furniture application remains a later mapped slice, not silently claimed here. Image gate PASS: mean V/H 0.0263/0.0304, max 0.1569/0.1647, no exact clipping; saturation mean 0.6020. Source has quiet warm grain without plank borders; real tint/wood orientation and art acceptance remain pending.
+
+Exact prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Old cared-for furniture wood, restrained warm walnut brown, finer quieter grain than a fence, gentle rubbed pigment variation from long use. No outdoor decay, snow, plank seams, glossy reflection, table silhouette, handles or knots dominating the tile.
+```
+
+## B04 — FAP linoleum, 2026-09-22
+
+`urman_b04_v01_basecolor.png`: original built-in ImageGen result, 1254 × 1254 RGB, no reference image; copied without pixel edits. SHA-256 `3f64843593ad8b33462e568410ca669f3911b2fd20857778c0911c491098ae09`. Source output: `exec-ee47cc36-03cc-419a-9c95-8f9f1237c103.png` in the generating task's ImageGen directory. Project-generated; no third-party source image. The workspace file is the retained source; import generates mipmaps and limits runtime size to 1024.
+
+Consumer: `PainterlyMaterialLibrary/floor_institution`, world-space scale 1 × 1. The clinic shell floor and four `FapInteriorFloor_*` linoleum fields use it; wall plaster stays separate. Shape, collision, gameplay and saves are unchanged. Low still skips albedo sampling. Technical image check passed (opposite-edge mean V/H 0.0248/0.0194, max 0.1843/0.1137, no exact channel clipping); `aged_plaster_v3_albedo.png` was checked alongside as the legacy-gate regression. Visual source inspection: calm blue-grey manufactured marbling, no tile grid or baked highlights. In-game/Low/art acceptance remains pending until recorded separately.
+
+Exact built-in prompt (catalogue B04):
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Quiet old sheet linoleum, subdued blue-grey with sparse tiny irregular warm-grey marbling. Smooth manufactured flooring with rubbed color variation, clearly different from plaster, stone or fabric. No tile grid, plank seams, strong terrazzo chips, dirt footprints, floor perspective or reflections.
+```
+
 Status: project-bound material sources generated with the built-in ImageGen tool on 2026-08-10, then resized to 1 024 × 1 024 px for the environment texture budget. These images are albedo inputs, not screenshots or style-acceptance evidence. The `_v2_albedo.png` siblings below are non-destructive production candidates generated on 2026-08-11; the focused `_v3_albedo.png` siblings are an additional 2026-08-13 comparison pass; the two `_v4_albedo.png` siblings are a focused 2026-08-14 earth/wood comparison; the two `_v5_albedo.png` siblings are a 2026-08-14 relief-aware rework. The four original surface mappings remain v1; the new stone/fabric surfaces have explicit v2-only presentation owners in the benchmark scenes, pending art-lock review.
 
 | File | Intended surface | SHA-256 |

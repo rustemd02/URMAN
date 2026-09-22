@@ -335,6 +335,9 @@ public static class PainterlyMaterialLibrary
         ["wood_facade"] = ("res://assets/textures/painterly/weathered_wood_boards_v4_albedo.png", new Vector2(0.65f, 0.65f)),
         ["wood_fence"] = ("res://assets/textures/painterly/weathered_wood_boards_v2_albedo.png", new Vector2(0.8f, 0.8f)),
         ["wood_furniture"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.95f, 0.95f)),
+        // W08: opt-in finished furniture; the legacy owner also serves floors
+        // and exterior benches, which must not be varnished by a global swap.
+        ["wood_furniture_interior"] = ("res://assets/textures/painterly/urman_w08_v01_basecolor.png", new Vector2(1f / 0.75f, 1f / 0.75f)),
         ["wood_prop"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.9f, 0.9f)),
         ["wood_bark"] = ("res://assets/textures/painterly/bark_pine_v1_albedo.png", new Vector2(1.05f, 1.05f)),
         // The profile provides three repeats around the stack and .75 V per
@@ -356,18 +359,20 @@ public static class PainterlyMaterialLibrary
         // existing wood/plaster/earth/foliage mappings remain v1.
         ["stone"] = ("res://assets/textures/painterly/mossy_stone_v3_albedo.png", new Vector2(1.5f, 1.5f)),
         ["fabric"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.0f, 2.0f)),
+        ["fabric_upholstery"] = ("res://assets/textures/painterly/urman_t08_v01_basecolor.png", new Vector2(2.0f, 2.0f)),
+        // T10 has its own semantic owner; clothes and upholstery keep theirs.
+        ["cloth_clinic"] = ("res://assets/textures/painterly/urman_t10_v02_basecolor.png", new Vector2(2.0f, 2.0f)),
+        ["plastic_abs"] = ("res://assets/textures/painterly/urman_m05_v01_basecolor.png", new Vector2(2.0f, 2.0f)),
         // Folded privacy curtains share the woven source with upholstery,
         // but use a finer physical repeat. The sheer layer owns transparency.
         ["fabric_pattern"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.6f, 2.6f)),
         ["carpet"] = ("res://assets/textures/painterly/carpet_palas_v1_albedo.png", new Vector2(0.25f, 0.40f)),
         ["wallpaper"] = ("res://assets/textures/painterly/wallpaper_old_v1_albedo.png", new Vector2(1.1f, 1.1f)),
         ["log_wall"] = ("res://assets/textures/painterly/log_wall_v1_albedo.png", new Vector2(0.9f, 0.9f)),
-        ["wall_institution"] = ("res://assets/textures/painterly/wall_institution_v1_albedo.png", new Vector2(1.3f, 1.0f)),
-        // A walked-on institutional floor. The FAP room previously bound the floor to a
-        // texture-less flat colour, so a third of the frame read as an empty plane. Reuse
-        // the aged-plaster family at a much larger tiling rather than authoring a new
-        // albedo: at floor angle it reads as worn lino with soft mottling.
-        ["floor_institution"] = ("res://assets/textures/painterly/aged_plaster_v3_albedo.png", new Vector2(2.6f, 2.6f)),
+        ["wall_institution"] = ("res://assets/textures/painterly/urman_b03_v01_basecolor.png", Vector2.One),
+        // B04: a dedicated one-metre linoleum field, not the wall plaster.
+        // Keep actual floor panels and contact wear in their existing owners.
+        ["floor_institution"] = ("res://assets/textures/painterly/urman_b04_v01_basecolor.png", Vector2.One),
         // GeneratedCharacterKitDressing keeps the semantic name `cloth` in
         // node metadata. Make that owner explicit instead of silently
         // falling back to a texture-less shader material.
@@ -555,7 +560,7 @@ public static class PainterlyMaterialLibrary
             "earth" => 0.34f,
             "wet_ground" => 0.30f,
             "wood" or "wood_facade" or "wood_fence" => 0.32f,
-            "wood_furniture" or "wood_prop" => 0.28f,
+            "wood_furniture" or "wood_furniture_interior" or "wood_prop" => 0.28f,
             "wood_bark" => 0.25f,
             "plaster" => 0.26f,
             "floor_institution" => 0.30f,
@@ -567,8 +572,8 @@ public static class PainterlyMaterialLibrary
             "log_wall" or "wallpaper" or "wall_institution" => 0.22f,
             "ornament_trim" or "carpet" or "fabric_pattern" or "wood_carved" => 0.18f,
             "stone" => 0.27f,
-            "fabric" or "cloth" => 0.24f,
-            "iron" or "enamel" => 0.18f,
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" => 0.24f,
+            "iron" or "enamel" or "plastic_abs" => 0.18f,
             "water" => 0.18f,
             _ => 0.30f
         });
@@ -577,7 +582,7 @@ public static class PainterlyMaterialLibrary
             "earth" => 0.14f,
             "wet_ground" => 0.11f,
             "wood" or "wood_facade" or "wood_fence" => 0.14f,
-            "wood_furniture" or "wood_prop" => 0.11f,
+            "wood_furniture" or "wood_furniture_interior" or "wood_prop" => 0.11f,
             "wood_bark" => 0.13f,
             "plaster" => 0.10f,
             "foliage" => 0.15f,
@@ -586,9 +591,9 @@ public static class PainterlyMaterialLibrary
             "log_wall" or "wallpaper" or "wall_institution" => 0.08f,
             "ornament_trim" or "carpet" or "fabric_pattern" or "wood_carved" => 0.06f,
             "stone" => 0.12f,
-            "fabric" or "cloth" => 0.08f,
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" => 0.08f,
             "hay_fibers" or "hay_bundle" => 0.06f,
-            "iron" or "enamel" => 0.04f,
+            "iron" or "enamel" or "plastic_abs" => 0.04f,
             "water" => 0.06f,
             _ => 0.10f
         });
@@ -608,13 +613,13 @@ public static class PainterlyMaterialLibrary
             "wood" => 0.95f,
             "wood_facade" => 0.95f,
             "wood_fence" => 0.95f,
-            "wood_furniture" => 0.92f,
+            "wood_furniture" or "wood_furniture_interior" => 0.92f,
             "wood_prop" => 0.92f,
             "wood_bark" => 0.95f,
             "plaster" => 0.95f,
             "stone" => 0.95f,
-            "fabric" => 0.88f,
-            "cloth" => 0.88f,
+            "fabric" or "fabric_upholstery" => 0.88f,
+            "cloth" or "cloth_clinic" => 0.88f,
             "water" => 0.0f,
             _ => 0.90f
         });
@@ -627,7 +632,7 @@ public static class PainterlyMaterialLibrary
             "wood" or "wood_facade" or "wood_fence" => 0.16f,
             "plaster" => 0.16f,
             "wood_prop" => 0.10f,
-            "wood_furniture" => 0.0f,
+            "wood_furniture" or "wood_furniture_interior" => 0.0f,
             "wood_bark" => 0.22f,
             "stone" => 0.14f,
             _ => 0.0f
@@ -661,7 +666,7 @@ public static class PainterlyMaterialLibrary
             "bark_birch" or "bark_birch_winter" or "bark_pine" => 0.30f,
             "foliage" or "leaf_birch" or "rowan_berries" => 0.34f,
             "grass" or "grass_tuft" => 0.72f,
-            "fabric" or "cloth" or "fabric_pattern" => 0.30f,
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" or "fabric_pattern" => 0.30f,
             _ => 0.0f
         };
         material.SetShaderParameter("snow_coverage", sheltered ? 0f : snowCoverage);
@@ -706,6 +711,7 @@ public static class PainterlyMaterialLibrary
             // Worn lino keeps a faint sheen the walls do not have, but stays far from
             // the wet-weather response: this is indoor surface wear, not water.
             "floor_institution" => (Roughness: 0.87f, Specular: 0.15f, WetGrade: 0.05f),
+            "plastic_abs" => (Roughness: 0.72f, Specular: 0.22f, WetGrade: 0.0f),
             "carpet" => (Roughness: 0.98f, Specular: 0.04f, WetGrade: 0.0f),
             "fabric_pattern" => (Roughness: 0.96f, Specular: 0.05f, WetGrade: 0.02f),
             "ornament_trim" or "wood_carved" => (Roughness: 0.88f, Specular: 0.10f, WetGrade: 0.15f),
@@ -717,13 +723,13 @@ public static class PainterlyMaterialLibrary
             "wood" => (Roughness: 0.84f, Specular: 0.15f, WetGrade: 0.36f),
             "wood_facade" => (Roughness: 0.82f, Specular: 0.17f, WetGrade: 0.42f),
             "wood_fence" => (Roughness: 0.84f, Specular: 0.14f, WetGrade: 0.44f),
-            "wood_furniture" => (Roughness: 0.89f, Specular: 0.10f, WetGrade: 0.16f),
+            "wood_furniture" or "wood_furniture_interior" => (Roughness: 0.89f, Specular: 0.10f, WetGrade: 0.16f),
             "wood_prop" => (Roughness: 0.86f, Specular: 0.12f, WetGrade: 0.28f),
             "wood_bark" => (Roughness: 0.90f, Specular: 0.08f, WetGrade: 0.24f),
             "stone" => (Roughness: 0.91f, Specular: 0.12f, WetGrade: 0.22f),
             "foliage" => (Roughness: 0.95f, Specular: 0.07f, WetGrade: 0.12f),
             "plaster" => (Roughness: 0.96f, Specular: 0.06f, WetGrade: 0.04f),
-            "fabric" or "cloth" => (Roughness: 0.98f, Specular: 0.04f, WetGrade: 0.01f),
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" => (Roughness: 0.98f, Specular: 0.04f, WetGrade: 0.01f),
             "iron" => (Roughness: 0.74f, Specular: 0.28f, WetGrade: 0.0f),
             "enamel" => (Roughness: 0.34f, Specular: 0.36f, WetGrade: 0.0f),
             "water" => (Roughness: 0.38f, Specular: 0.45f, WetGrade: 0.98f),

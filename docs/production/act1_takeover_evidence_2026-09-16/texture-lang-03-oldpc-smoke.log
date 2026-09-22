@@ -1,0 +1,30 @@
+run-smoke-guarded: res://tests/old_pc_desktop_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+zone-loaded: village_day@arrival
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+vocabulary.observe: term=урман status=Committed error=
+{"test":"oldpc-large-desktop-glyphs","screen":"(0, 0), (1920, 1080)","glyphs":[{"button":"Icon_files","buttonRect":"(18, 18), (304, 201.6)","glyph":"(144, 24), (52, 52)","position":"(126, 6)","size":"(52, 52)","anchors":[0.5,0,0.5,0],"offsets":[-26,6,26,58]},{"button":"Icon_archive","buttonRect":"(326, 18), (304, 201.6)","glyph":"(452, 24), (52, 52)","position":"(126, 6)","size":"(52, 52)","anchors":[0.5,0,0.5,0],"offsets":[-26,6,26,58]},{"button":"Icon_browser","buttonRect":"(18, 229), (304, 201.6)","glyph":"(144, 235), (52, 52)","position":"(126, 6)","size":"(52, 52)","anchors":[0.5,0,0.5,0],"offsets":[-26,6,26,58]},{"button":"Icon_pictures","buttonRect":"(326, 229), (304, 201.6)","glyph":"(452, 235), (52, 52)","position":"(126, 6)","size":"(52, 52)","anchors":[0.5,0,0.5,0],"offsets":[-26,6,26,58]},{"button":"Icon_notepad","buttonRect":"(18, 440), (304, 201.6)","glyph":"(144, 446), (52, 52)","position":"(126, 6)","size":"(52, 52)","anchors":[0.5,0,0.5,0],"offsets":[-26,6,26,58]},{"button":"Icon_chat","buttonRect":"(326, 440), (304, 201.6)","glyph":"(452, 446), (52, 52)","position":"(126, 6)","size":"(52, 52)","anchors":[0.5,0,0.5,0],"offsets":[-26,6,26,58]},{"button":"Icon_tetris","buttonRect":"(18, 651), (304, 201.6)","glyph":"(144, 657), (52, 52)","position":"(126, 6)","size":"(52, 52)","anchors":[0.5,0,0.5,0],"offsets":[-26,6,26,58]},{"button":"Icon_trash","buttonRect":"(326, 651), (304, 201.6)","glyph":"(452, 657), (52, 52)","position":"(126, 6)","size":"(52, 52)","anchors":[0.5,0,0.5,0],"offsets":[-26,6,26,58]}]}
+ERROR: oldpc-desktop-smoke: System.InvalidOperationException: Alt+Tab returns keyboard input to the foreground note: active=archive focus=Query windows=notepad,browser,archive
+   at Urman.Godot.Tests.OldPcDesktopSmokeTest.Check(Boolean condition, String description) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/OldPcDesktopSmokeTest.cs:line 478
+   at Urman.Godot.Tests.OldPcDesktopSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/OldPcDesktopSmokeTest.cs:line 219
+   at: void Urman.Godot.Tests.OldPcDesktopSmokeTest+<_Ready>d__6.MoveNext() (res://tests/OldPcDesktopSmokeTest.cs:312)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.Tests.OldPcDesktopSmokeTest+<_Ready>d__6.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/OldPcDesktopSmokeTest.cs:312)
+       [2] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [4] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [5] void System.Threading.Tasks.Task.RunContinuations(object)
+       [6] bool System.Threading.Tasks.Task`1.TrySetResult(TResult)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+       [8] void Urman.Godot.Tests.OldPcDesktopSmokeTest+<Frames>d__15.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/OldPcDesktopSmokeTest.cs:485)
+       [9] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [10] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [11] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+userdata guard: original files and permissions restored and verified

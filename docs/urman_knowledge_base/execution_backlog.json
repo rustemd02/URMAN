@@ -2670,7 +2670,7 @@
    "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
   }
  },
- "updated": "2026-09-20",
+ "updated": "2026-09-22",
  "goal_key": "urman-act1-finished-product",
  "goal_statement": "Довести Акт I до законченного игрового результата. Действующее поручение автора 2026-09-15: минимум 60 минут обычного первого основного опыта; все EX00 и EX01–EX14; исправленные физика, геометрия, ассеты, взаимодействия, NPC, звук, сохранения и производительность; связное расследование, культурный код, зима 2026 и высокий непроницаемый лес. Продолжать основной checkout и эту очередь; debug и необходимые локальные проверки разрешены. Технический walkthrough, объём текста и количество PASS не принимают художественное качество, интерес или длительность. Неизмеренный человеческий опыт и недоступное прослушивание — external/not-run; независимые локальные работы продолжаются.",
  "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -2870,6 +2870,7 @@
     "ASSET-007",
     "ASSET-008",
     "ASSET-009",
+    "ACT1-TEXTURE",
     "AUDIO-001"
    ]
   },
@@ -2902,6 +2903,626 @@
   }
  ],
  "tasks": [
+  {
+   "id": "ACT1-TEXTURE",
+   "title": "Сгенерировать и внедрить разнообразную библиотеку текстур",
+   "milestone": "M4",
+   "status": "in_progress",
+   "active_owner": "root/texture-tracker-2026-09-22",
+   "owner": "art/materials/qa",
+   "depends_on": [],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Все 132 карточки учтены: создан и проверен пригодный кандидат либо зафиксировано обоснованное переиспользование/условная неприменимость. Приоритет — красивый Акт I; новые поверхности следующих актов только по принятому содержимому.",
+   "done_when": [
+    "Все дочерние задачи завершены по собственным критериям; изображения не заменяют реальные меши, текст и gameplay.",
+    "Художественная/культурная приёмка человеком не подменена автоматизацией, старые PASS не перенесены на новую сборку."
+   ],
+   "evidence": [],
+   "child_tasks": [
+    "ACT1-TEXTURE.00",
+    "ACT1-TEXTURE.01",
+    "ACT1-TEXTURE.02",
+    "ACT1-TEXTURE.03",
+    "ACT1-TEXTURE.04",
+    "ACT1-TEXTURE.05",
+    "ACT1-TEXTURE.06",
+    "ACT1-TEXTURE.07",
+    "ACT1-TEXTURE.08",
+    "ACT1-TEXTURE.09",
+    "ACT1-TEXTURE.10",
+    "ACT1-TEXTURE.11",
+    "ACT1-TEXTURE.12",
+    "ACT1-TEXTURE.13"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.00",
+   "title": "Сопоставить 132 карточки с текущими файлами и потребителями",
+   "progress_2026_09_22": "Все 16 карт первой партии сопоставлены с текущими файлами, кодовыми потребителями, масштабом и причинами new/edit/reuse candidate в docs/tasktracker/05_texture_production_2026-09-22.md. T01 требует геометрии скатерти; остальные 116 карточек ещё не инвентаризированы.",
+   "milestone": "M4",
+   "status": "in_progress",
+   "active_owner": "root/texture-tracker-2026-09-22",
+   "owner": "art/materials/qa",
+   "depends_on": [],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Для каждой карточки: текущий файл/потребитель, reuse/new/edit/conditional и причина; нужны ли референс, UV, маска или решение автора.",
+   "done_when": [
+    "Каждая карточка покрыта ровно одной группой генерации; нет автоматически созданных лишних ассетов.",
+    "Для активной партии проверены фактические material slots, UV/scale/tint и прежние источники; текущие файлы не перезаписываются вслепую."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-TEXTURE.01",
+   "title": "Первая партия: 16 опорных текстур",
+   "progress_2026_09_22": "6/16 выбранных PNG: B03/B04/M05/T08/T10 v02/W08; source-gate PASS, точные промпты/SHA в painterly README и registry. Native clinic-02 PASS113 и house-02 boundary PASS105 на build texture-lang-02; кадры просмотрены. High/Low/движение/человеческая художественная приёмка и остальные 10 карт открыты.",
+   "milestone": "M4",
+   "status": "in_progress",
+   "active_owner": "root/texture-tracker-2026-09-22",
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.00"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Карточки: S01, S02, W01, W03, W04, W08, W09, B01, B03, B04, T01, T08, T10, M05, F01, F02. Один вызов встроенного ImageGen на новый ассет; versioned-файлы в репозитории с точным промптом и источником. Удачные существующие карты переиспользовать с объяснением.",
+   "done_when": [
+    "Для каждой карточки есть пригодный кандидат с исходником/промптом/размером/SHA либо обоснованное reuse/conditional с конкретной причиной, а не молчаливый пропуск.",
+    "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
+    "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
+   ],
+   "evidence": [],
+   "texture_cards": [
+    "S01",
+    "S02",
+    "W01",
+    "W03",
+    "W04",
+    "W08",
+    "W09",
+    "B01",
+    "B03",
+    "B04",
+    "T01",
+    "T08",
+    "T10",
+    "M05",
+    "F01",
+    "F02"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.02",
+   "title": "Экстерьеры, снег, дерево, камень и растения",
+   "milestone": "M4",
+   "status": "todo",
+   "active_owner": null,
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.01"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Карточки: S03, S04, S05, S06, S07, S08, S09, S10, S11, S12, W02, W05, W06, W07, W10, W11, W12, B02, B05, B06, B07, B08, B09, B10, F03, F04, F05, F06, F07, F08, F09. Один вызов встроенного ImageGen на новый ассет; versioned-файлы в репозитории с точным промптом и источником. Удачные существующие карты переиспользовать с объяснением.",
+   "done_when": [
+    "Для каждой карточки есть пригодный кандидат с исходником/промптом/размером/SHA либо обоснованное reuse/conditional с конкретной причиной, а не молчаливый пропуск.",
+    "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
+    "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
+   ],
+   "evidence": [],
+   "texture_cards": [
+    "S03",
+    "S04",
+    "S05",
+    "S06",
+    "S07",
+    "S08",
+    "S09",
+    "S10",
+    "S11",
+    "S12",
+    "W02",
+    "W05",
+    "W06",
+    "W07",
+    "W10",
+    "W11",
+    "W12",
+    "B02",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B09",
+    "B10",
+    "F03",
+    "F04",
+    "F05",
+    "F06",
+    "F07",
+    "F08",
+    "F09"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.03",
+   "title": "Интерьеры: ткани, металл, пластик и утварь",
+   "milestone": "M4",
+   "status": "todo",
+   "active_owner": null,
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.01"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Карточки: M01, M02, M03, M04, M06, M07, M08, M09, M10, M11, M12, M13, M14, M15, M16, T02, T03, T04, T05, T06, T07, T09, T11, T12. Один вызов встроенного ImageGen на новый ассет; versioned-файлы в репозитории с точным промптом и источником. Удачные существующие карты переиспользовать с объяснением.",
+   "done_when": [
+    "Для каждой карточки есть пригодный кандидат с исходником/промптом/размером/SHA либо обоснованное reuse/conditional с конкретной причиной, а не молчаливый пропуск.",
+    "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
+    "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
+   ],
+   "evidence": [],
+   "texture_cards": [
+    "M01",
+    "M02",
+    "M03",
+    "M04",
+    "M06",
+    "M07",
+    "M08",
+    "M09",
+    "M10",
+    "M11",
+    "M12",
+    "M13",
+    "M14",
+    "M15",
+    "M16",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T09",
+    "T11",
+    "T12"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.04",
+   "title": "Бумага, документы и сюжетные изображения",
+   "milestone": "M4",
+   "status": "todo",
+   "active_owner": null,
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.00"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Карточки: P01, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14. Один вызов встроенного ImageGen на новый ассет; versioned-файлы в репозитории с точным промптом и источником. Удачные существующие карты переиспользовать с объяснением.",
+   "done_when": [
+    "Для каждой карточки есть пригодный кандидат с исходником/промптом/размером/SHA либо обоснованное reuse/conditional с конкретной причиной, а не молчаливый пропуск.",
+    "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
+    "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
+   ],
+   "evidence": [],
+   "texture_cards": [
+    "P01",
+    "P02",
+    "P03",
+    "P04",
+    "P05",
+    "P06",
+    "P07",
+    "P08",
+    "P09",
+    "P10",
+    "P11",
+    "P12",
+    "P13",
+    "P14"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.05",
+   "title": "Адресные декали и изменяемые состояния",
+   "milestone": "M4",
+   "status": "todo",
+   "active_owner": null,
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.01",
+    "ACT1-EX00"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Карточки: D01, D02, D03, D04, D05, D06, D07, D08, D09, D10. Один вызов встроенного ImageGen на новый ассет; versioned-файлы в репозитории с точным промптом и источником. Удачные существующие карты переиспользовать с объяснением.",
+   "done_when": [
+    "Для каждой карточки есть пригодный кандидат с исходником/промптом/размером/SHA либо обоснованное reuse/conditional с конкретной причиной, а не молчаливый пропуск.",
+    "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
+    "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
+   ],
+   "evidence": [],
+   "texture_cards": [
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "D05",
+    "D06",
+    "D07",
+    "D08",
+    "D09",
+    "D10"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.06",
+   "title": "Персонажи, одежда и первое лицо по реальным UV",
+   "milestone": "M4",
+   "status": "todo",
+   "active_owner": null,
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.00"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Карточки: C01, C02, C03, C04, C05, C06, C07, C08, C09, C10, C11, C12. Один вызов встроенного ImageGen на новый ассет; versioned-файлы в репозитории с точным промптом и источником. Удачные существующие карты переиспользовать с объяснением.",
+   "done_when": [
+    "Для каждой карточки есть пригодный кандидат с исходником/промптом/размером/SHA либо обоснованное reuse/conditional с конкретной причиной, а не молчаливый пропуск.",
+    "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
+    "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
+   ],
+   "evidence": [],
+   "texture_cards": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08",
+    "C09",
+    "C10",
+    "C11",
+    "C12"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.07",
+   "title": "Крупные предметы, ПК и транспорт по реальным UV",
+   "milestone": "M4",
+   "status": "todo",
+   "active_owner": null,
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.00"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Карточки: O01, O02, O03, O04, O05, O06. Один вызов встроенного ImageGen на новый ассет; versioned-файлы в репозитории с точным промптом и источником. Удачные существующие карты переиспользовать с объяснением.",
+   "done_when": [
+    "Для каждой карточки есть пригодный кандидат с исходником/промптом/размером/SHA либо обоснованное reuse/conditional с конкретной причиной, а не молчаливый пропуск.",
+    "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
+    "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
+   ],
+   "evidence": [],
+   "texture_cards": [
+    "O01",
+    "O02",
+    "O03",
+    "O04",
+    "O05",
+    "O06"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.08",
+   "title": "Экранные подложки и условные эффекты",
+   "milestone": "M4",
+   "status": "todo",
+   "active_owner": null,
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.00"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Карточки: U01, U02, U03, V01, V02. Один вызов встроенного ImageGen на новый ассет; versioned-файлы в репозитории с точным промптом и источником. Удачные существующие карты переиспользовать с объяснением.",
+   "done_when": [
+    "Для каждой карточки есть пригодный кандидат с исходником/промптом/размером/SHA либо обоснованное reuse/conditional с конкретной причиной, а не молчаливый пропуск.",
+    "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
+    "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
+   ],
+   "evidence": [],
+   "texture_cards": [
+    "U01",
+    "U02",
+    "U03",
+    "V01",
+    "V02"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.09",
+   "title": "Уникальные носители Актов II–V",
+   "milestone": "M4",
+   "status": "todo",
+   "active_owner": null,
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.01",
+    "NARR-001"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Карточки: A2-01, A2-02, A2-03, A2-04, A3-01, A3-02, A3-03, A4-01, A4-02, A4-03, A5-01, A5-02. Один вызов встроенного ImageGen на новый ассет; versioned-файлы в репозитории с точным промптом и источником. Удачные существующие карты переиспользовать с объяснением.",
+   "done_when": [
+    "Для каждой карточки есть пригодный кандидат с исходником/промптом/размером/SHA либо обоснованное reuse/conditional с конкретной причиной, а не молчаливый пропуск.",
+    "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
+    "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
+   ],
+   "evidence": [],
+   "texture_cards": [
+    "A2-01",
+    "A2-02",
+    "A2-03",
+    "A2-04",
+    "A3-01",
+    "A3-02",
+    "A3-03",
+    "A4-01",
+    "A4-02",
+    "A4-03",
+    "A5-01",
+    "A5-02"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.10",
+   "title": "Утверждённые поверхности Шурале и Су Анасы",
+   "milestone": "M4",
+   "status": "todo",
+   "active_owner": null,
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.00"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Карточки: K01, K02. Один вызов встроенного ImageGen на новый ассет; versioned-файлы в репозитории с точным промптом и источником. Удачные существующие карты переиспользовать с объяснением.",
+   "done_when": [
+    "Для каждой карточки есть пригодный кандидат с исходником/промптом/размером/SHA либо обоснованное reuse/conditional с конкретной причиной, а не молчаливый пропуск.",
+    "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
+    "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
+   ],
+   "evidence": [],
+   "texture_cards": [
+    "K01",
+    "K02"
+   ]
+  },
+  {
+   "id": "ACT1-TEXTURE.11",
+   "title": "Подключить карты к правильным семантическим материалам",
+   "milestone": "M4",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "progress_2026_09_22": "B03/B04/T10 v02/W08 адресно в ФАП; M05/T08 и W08 — корпуса ПК/обивка/семь групп мебели дома. Не менялись общие ткани, стены, полы и уличная мебель. Source/import и native кадры build texture-lang-02 в docs/tasktracker/05_texture_production_2026-09-22.md; остальные карточки и профили открыты.",
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.01"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md",
+    "game/scripts/PainterlyMaterialLibrary.cs",
+    "game/scripts/Act1ConnectedWorld*.cs"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Итеративное подключение принятых кандидатов, начиная с первой партии: отдельные линолеум ФАПа, мебельное дерево и ткани; остальные — по роли.",
+   "done_when": [
+    "Потребитель реально использует новую/выбранную карту, масштаб/направление/tint корректны; нет общей подмены всех тканей или деревянных поверхностей.",
+    "Учтён low_quality: отсутствие чтения карты не скрыто; High и Low оцениваются отдельно.",
+    "Сохранены канон, контент, коллизии и предметное состояние; новые UV не выдуманы."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-TEXTURE.12",
+   "title": "Проверить текстуры и игровые кадры каждой интегрированной партии",
+   "milestone": "M4",
+   "status": "in_progress",
+   "active_owner": "root/expanded-act1",
+   "progress_2026_09_22": "Шесть source-gate PASS; build texture-lang-02/import PASS. Clinic-01 исторический FAIL; исправлена только оптическая fixture за реальной рейкой. Clinic-02 PASS113, house-02 boundary PASS105 на build02 с восстановлением userdata. Последний функциональный build04/oldPC smoke PASS с отдельными cleanup-предупреждениями. Не переносить визуальный PASS между build receipts; art/High/Low/движение открыты.",
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.11"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Узкая актуальная сборка и защищённые сравнения обычных кадров дома, ФАПа, улицы и леса; затем покрытие остальных потребителей без гигабайтов повторных захватов.",
+   "done_when": [
+    "Есть конкретные source/build hashes, сценарий и ограничение каждого результата; нет stale PASS.",
+    "Проверены швы/альфа/направление/масштаб, близко/средне/в движении и применимые игровые состояния.",
+    "Проверки используют действующий guard, пользовательские saves/preferences сохранены; сохраняются только необходимые итоговые свидетельства."
+   ],
+   "evidence": []
+  },
+  {
+   "id": "ACT1-TEXTURE.13",
+   "title": "Человеческая художественная и культурная приёмка библиотеки",
+   "milestone": "M4",
+   "status": "blocked",
+   "active_owner": null,
+   "owner": "art/materials/qa",
+   "depends_on": [
+    "ACT1-TEXTURE.12"
+   ],
+   "scope": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "game/assets/textures/",
+    "game/assets/textures/painterly/README.md",
+    "assets/asset_registry.json",
+    "docs/urman_knowledge_base/assets.md"
+   ],
+   "source_requirements": [
+    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "author/2026-09-22-full-tasktracker"
+   ],
+   "deliverable": "Автор/ревьюер оценивает цельность и красоту обычных игровых кадров; культурно значимые поверхности отдельно проверены подходящим человеком.",
+   "done_when": [
+    "Человек реально посмотрел актуальную сборку/кадры, замечания устранены или явно согласованы.",
+    "Список PNG, метрики и технический PASS не считаются художественной приёмкой."
+   ],
+   "evidence": [],
+   "blocked_reason": "Нужен реальный человеческий художественный/культурный просмотр актуальной интеграции; external/not-run."
+  },
   {
    "id": "ACT1-PLAYER",
    "title": "Игрок: прыжок, бег, приседание и видимое тело",
@@ -6602,6 +7223,7 @@
   {
    "id": "ACT1-LANG.3",
    "title": "Словарь на ПК бабая",
+   "progress_2026_09_22": "Реализовано окно словаря: collected guessed/confirmed, firstsource/history, реальные body-примеры без заголовков/doc: IDs, live refresh, save/load. Исправлен source-less прологовый guessed backfill и защита от delayed guessed downgrade в общем handler. Build04/old_pc_desktop_smoke PASS; один NarrativeStateTests PASS. Осталась визуальная приёмка нового окна на крупном тексте/контрасте; вся LANG ещё не завершена.",
    "milestone": "M5",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
@@ -6654,6 +7276,7 @@
    "title": "Ручной выбор уровня знания в настройках",
    "milestone": "M5",
    "status": "in_progress",
+   "progress_2026_09_22": "Реализованы UI none/some/fluent, Apply/Cancel, нормализация и восстановление настройки; act1_settings_navigation_smoke_test PASS на integrated-build-20260922-texture-lang-01, guard userdata restored. Калибровка пролога, skip и quiz/manual precedence остаются открыты; задача целиком не закрыта.",
    "active_owner": "root/expanded-act1",
    "owner": "finished-act1",
    "depends_on": [

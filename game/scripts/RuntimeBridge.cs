@@ -618,18 +618,121 @@ public partial class RuntimeBridge : Node
             return [];
         }
 
-        return _content.VocabularyEntries
-            .Where(entry => vocabulary.TryGetProperty(entry.Id, out var value)
-                && value.ValueKind == JsonValueKind.Object
-                && value.TryGetProperty("status", out var status)
-                && status.GetString() is "guessed" or "confirmed")
-            .Select(entry => new ResolvedVocabularyEntry(
+        var firstSources = FirstVocabularySources();
+        var learned = new List<ResolvedVocabularyEntry>();
+        foreach (var entry in _content.VocabularyEntries)
+        {
+            if (!vocabulary.TryGetProperty(entry.Id, out var value)
+                || value.ValueKind != JsonValueKind.Object
+                || !value.TryGetProperty("status", out var status)
+                || status.GetString() is not ("guessed" or "confirmed"))
+            {
+                continue;
+            }
+
+            var sourceId = firstSources.TryGetValue(entry.Id, out var historicalSource)
+                ? historicalSource
+                : value.TryGetProperty("sourceId", out var currentSource)
+                    ? currentSource.GetString() ?? string.Empty
+                    : string.Empty;
+            var sourceWasObserved = firstSources.ContainsKey(entry.Id)
+                || WasVocabularyDocumentOpened(sourceId);
+            var source = sourceWasObserved ? _content.ResolveVocabularySource(sourceId) : null;
+            var sourceText = source is null ? string.Empty : ResolveWorldText(source.Text);
+            learned.Add(new ResolvedVocabularyEntry(
                 entry.Id,
                 entry.Term,
                 entry.Language,
                 entry.Meaning,
-                vocabulary.GetProperty(entry.Id).GetProperty("status").GetString()!))
+                status.GetString()!)
+            {
+                SourceId = sourceId,
+                SourceTitle = source is null
+                    ? VocabularySourceTitle(sourceId)
+                    : ResolveWorldText(source.Title),
+                Examples = VocabularyExamples(sourceText, entry.Term)
+            });
+        }
+
+        return learned;
+    }
+
+    private bool WasVocabularyDocumentOpened(string sourceId)
+    {
+        if (_kernel is null || string.IsNullOrEmpty(sourceId)) return false;
+        var state = _kernel.SelectState();
+        return state.TryGetProperty("presentation", out var presentation)
+            && presentation.TryGetProperty("openedDocumentIds", out var opened)
+            && opened.ValueKind == JsonValueKind.Array
+            && opened.EnumerateArray().Any(item => item.GetString() == sourceId);
+    }
+
+    private Dictionary<string, string> FirstVocabularySources()
+    {
+        var first = new Dictionary<string, string>(StringComparer.Ordinal);
+        if (_kernel is null) return first;
+
+        var events = new List<(long Sequence, string WordId, string SourceId)>();
+        foreach (var occurrence in _kernel.CaptureSnapshot().Occurrences)
+        {
+            if (!TryGetJsonProperty(occurrence.Result, "Events", out var resultEvents)
+                || resultEvents.ValueKind != JsonValueKind.Array) continue;
+            foreach (var gameEvent in resultEvents.EnumerateArray())
+            {
+                if (JsonString(gameEvent, "Type") != "vocabulary.learned"
+                    || !TryGetJsonProperty(gameEvent, "Payload", out var payload)) continue;
+                var wordId = JsonString(payload, "wordId");
+                var sourceId = JsonString(payload, "sourceId");
+                if (string.IsNullOrEmpty(wordId) || string.IsNullOrEmpty(sourceId)) continue;
+                var sequence = TryGetJsonProperty(gameEvent, "Sequence", out var sequenceValue)
+                    && sequenceValue.ValueKind == JsonValueKind.Number
+                    && sequenceValue.TryGetInt64(out var parsedSequence)
+                    ? parsedSequence
+                    : long.MaxValue;
+                events.Add((sequence, wordId, sourceId));
+            }
+        }
+
+        foreach (var item in events.OrderBy(item => item.Sequence))
+        {
+            if (!first.ContainsKey(item.WordId)) first[item.WordId] = item.SourceId;
+        }
+        return first;
+    }
+
+    private static string VocabularySourceTitle(string sourceId) =>
+        string.IsNullOrEmpty(sourceId)
+            ? "Источник не записан"
+            : sourceId.StartsWith("urman.starting-knowledge:", StringComparison.Ordinal)
+                ? "Начальный уровень знания"
+                : "Источник пока не разрешён";
+
+    private static IReadOnlyList<string> VocabularyExamples(string text, string term)
+    {
+        if (string.IsNullOrWhiteSpace(text) || string.IsNullOrWhiteSpace(term)) return [];
+        return text.Replace("\r\n", "\n")
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(line => line.Trim())
+            .Where(line => line.Length > 0
+                && !line.StartsWith("#", StringComparison.Ordinal)
+                && line.Contains(term, StringComparison.OrdinalIgnoreCase))
+            .Select(line => SourceExcerptSelection.FormatPlainSourceText(line).Trim().TrimStart('>', '-', ' '))
+            .Distinct(StringComparer.Ordinal)
+            .Take(2)
             .ToArray();
+    }
+
+    private static string JsonString(JsonElement element, string name) =>
+        TryGetJsonProperty(element, name, out var value) && value.ValueKind == JsonValueKind.String
+            ? value.GetString() ?? string.Empty
+            : string.Empty;
+
+    private static bool TryGetJsonProperty(JsonElement element, string name, out JsonElement value)
+    {
+        if (element.TryGetProperty(name, out value)) return true;
+        if (name.Length == 0) return false;
+        var camelName = char.ToLowerInvariant(name[0]) + name[1..];
+        return element.TryGetProperty(camelName, out value);
     }
 
     public JsonElement SelectRuntimeState() => _kernel?.SelectState()
@@ -1121,24 +1224,46 @@ public partial class RuntimeBridge : Node
     /// </summary>
     public async Task ObserveVocabularyTextAsync(string text, string sourceId)
     {
-        if (_kernel is null || _content is null || string.IsNullOrEmpty(text))
+        if (_kernel is null || _content is null || string.IsNullOrEmpty(text) || string.IsNullOrEmpty(sourceId))
         {
             return;
         }
 
-        var known = LearnedVocabulary().Select(entry => entry.Id).ToHashSet();
+        var state = _kernel.SelectState();
+        if (!state.TryGetProperty("vocabulary", out var vocabulary)
+            || vocabulary.ValueKind != JsonValueKind.Object) return;
+        var firstSources = FirstVocabularySources();
         var lowered = text.ToLowerInvariant();
         foreach (var entry in _content.VocabularyEntries)
         {
-            if (known.Contains(entry.Id) || !lowered.Contains(entry.Term.ToLowerInvariant(), StringComparison.Ordinal))
+            if (!lowered.Contains(entry.Term.ToLowerInvariant(), StringComparison.Ordinal))
             {
                 continue;
+            }
+
+            var status = "guessed";
+            if (vocabulary.TryGetProperty(entry.Id, out var existing)
+                && existing.ValueKind == JsonValueKind.Object)
+            {
+                var existingStatus = existing.TryGetProperty("status", out var statusValue)
+                    ? statusValue.GetString()
+                    : null;
+                var hasSource = existing.TryGetProperty("sourceId", out var existingSource)
+                    && existingSource.ValueKind == JsonValueKind.String
+                    && !string.IsNullOrWhiteSpace(existingSource.GetString());
+                // Keep a first source already recorded either in the state or
+                // in the runtime event ledger. A status-only content effect is
+                // the one safe backfill case: preserve its ladder position and
+                // attach the actual text source through the same handler.
+                if (hasSource || firstSources.ContainsKey(entry.Id)) continue;
+                if (existingStatus is "guessed" or "confirmed") status = existingStatus;
+                else if (existingStatus is not null && existingStatus != "unknown") continue;
             }
 
             var result = await _kernel.DispatchAsync(new GameCommand(
                 $"vocabulary-observe:{entry.Id}:{sourceId}:{Interlocked.Increment(ref _interactionSequence):D8}",
                 NarrativeCommandHandlers.VocabularyLearn,
-                JsonSerializer.SerializeToElement(new { wordId = entry.Id, sourceId, status = "guessed" })));
+                JsonSerializer.SerializeToElement(new { wordId = entry.Id, sourceId, status })));
             GD.Print($"vocabulary.observe: term={entry.Term} status={result.Status} error={result.Error?.Message}");
             if (result.Status == CommandStatus.Committed)
             {

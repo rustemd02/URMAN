@@ -4,6 +4,126 @@
  "sourceTool": "Blender 4.5 LTS",
  "assets": [
   {
+   "id": "texture.painterly.t08.v01",
+   "source": "ImageGen built-in, 2026-09-22; exact prompt/source in game/assets/textures/painterly/README.md (T08)",
+   "derived": "game/assets/textures/painterly/urman_t08_v01_basecolor.png",
+   "derivedSha256": "0d711435c9f9525b86c868272f54e2ac2fa29b4333e413860e657cea672fea1e",
+   "generator": "OpenAI ImageGen built-in; unchanged source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 2,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "fabric_upholstery"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/fabric_upholstery; GeneratedModularKitDressing HouseInterior_DaybedCushion/Back only",
+   "collision": "not applicable; unchanged geometry",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; runtime/art pending",
+   "status": "integrated-candidate; source-gate-pass; runtime-and-art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.m05.v01",
+   "source": "ImageGen built-in, 2026-09-22; exact prompt and source in game/assets/textures/painterly/README.md (M05)",
+   "derived": "game/assets/textures/painterly/urman_m05_v01_basecolor.png",
+   "derivedSha256": "fdc055f27878a249a519c69d0ffa0006bfe45b9f028946caaa6fd5998d9a597a",
+   "generator": "OpenAI ImageGen built-in; unchanged source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 2,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "plastic_abs"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/plastic_abs; GeneratedModularKitDressing OldPc_Crt, Keyboard, Tower; glass and controls unchanged",
+   "collision": "not applicable; unchanged geometry",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; new runtime/art pending",
+   "status": "integrated-candidate; source-gate-pass; runtime-and-art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.b03.v01",
+   "source": "ImageGen built-in, 2026-09-22; exact prompt and source filename in game/assets/textures/painterly/README.md (B03)",
+   "derived": "game/assets/textures/painterly/urman_b03_v01_basecolor.png",
+   "derivedSha256": "e96d19f902c167da4b268a25555721b7a7c15728237093412d7dfc35102966a7",
+   "generator": "OpenAI ImageGen built-in; unchanged source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 1,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "wall_institution"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/wall_institution; FAP shell walls and panels, FAP benchmark walls",
+   "collision": "not applicable; unchanged geometry",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; runtime/art pending",
+   "status": "integrated-candidate; source-gate-pass; runtime-and-art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.t10.v02",
+   "source": "ImageGen built-in, 2026-09-22; original and seam-edit prompts in game/assets/textures/painterly/README.md (T10)",
+   "derived": "game/assets/textures/painterly/urman_t10_v02_basecolor.png",
+   "derivedSha256": "3d5ee791975442bd247d8771e42db410c7f3b80e44d1aceb504a898662b2c754",
+   "generator": "OpenAI ImageGen built-in; one seam-edit iteration; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 2,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "cloth_clinic"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/cloth_clinic; FapInteriorScreen_Panel* only",
+   "collision": "not applicable; unchanged existing screen geometry",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "eng/verify-painterly-textures.sh: v01 edge-max FAIL, v02 PASS; runtime/art pending",
+   "status": "integrated-candidate; image-gate-pass; runtime-and-art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.w08.v01",
+   "source": "ImageGen built-in, 2026-09-22; exact prompt in game/assets/textures/painterly/README.md (W08)",
+   "derived": "game/assets/textures/painterly/urman_w08_v01_basecolor.png",
+   "derivedSha256": "88546942069a47b12d21c0eba19d69cc64038677d4fdee7cb949c55a647d37ff",
+   "generator": "OpenAI ImageGen built-in; source unchanged, importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 1.3333333333333333,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "wood_furniture_interior"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/wood_furniture_interior; FapPaintedTimber opt-in; other wood_furniture consumers unchanged",
+   "collision": "not applicable; existing mesh/collision unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "eng/verify-painterly-textures.sh on W08; source visual inspection; runtime/art pending",
+   "status": "integrated-candidate; image-gate-pass; runtime-and-art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.b04.v01",
+   "source": "ImageGen built-in, 2026-09-22; exact prompt in game/assets/textures/painterly/README.md (B04)",
+   "derived": "game/assets/textures/painterly/urman_b04_v01_basecolor.png",
+   "derivedSha256": "3f64843593ad8b33462e568410ca669f3911b2fd20857778c0911c491098ae09",
+   "generator": "OpenAI ImageGen built-in; source unchanged, runtime importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 1,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "floor_institution"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/floor_institution; StyleBenchmarkZone FAP shell floor and FapInteriorFloor_*",
+   "collision": "not applicable; existing geometry/contact unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "eng/verify-painterly-textures.sh on B04 and legacy aged_plaster_v3; source visual inspection; runtime/art acceptance pending",
+   "status": "integrated-candidate; image-gate-pass; runtime-and-art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
    "id": "env.house.a",
    "source": "assets/source/blender/urman_modular_kit.blend",
    "derived": "game/assets/generated/urman_modular_kit.glb",

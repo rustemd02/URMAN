@@ -1126,7 +1126,9 @@ public partial class Act1BoundaryArchitectureSmokeTest : Node
         {
             ("fap_windows_front_pair", new Vector3(0, .04f, 0), new Vector3(0, 1.95f, 5.78f)),
             ("fap_window_left", new Vector3(-3.35f, .04f, -.55f), new Vector3(-5.78f, 1.95f, -.90f)),
-            ("fap_window_right", new Vector3(3.35f, .04f, -.90f), new Vector3(5.78f, 1.95f, -.90f)),
+            // Stand east of the real partition rail, rather than aim through it.
+            // Clearance/settling/ray checks below still use production collisions.
+            ("fap_window_right", new Vector3(4.75f, .04f, -.90f), new Vector3(5.78f, 1.95f, -.90f)),
             ("fap_mirror_front", new Vector3(3.8f, .04f, 3.20f), mirrorAim),
             ("fap_mirror_oblique", new Vector3(4.75f, .04f, 3.1f), mirrorAim)
         };

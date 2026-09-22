@@ -25,7 +25,7 @@ public partial class GeneratedModularKitContractSmokeTest : Node
         new("RoadDirt_", 1, ["earth"]),
         new("PineA_", 2, ["bark_pine", "foliage"]),
         new("TableA_", 5, ["wood_furniture"]),
-        new("OldPc_", 8, ["plaster", "shader"]),
+        new("OldPc_", 8, ["plastic_abs", "shader"]),
         new("WellA_", 7, ["stone", "wood_prop", "shader"]),
         new("WoodpileA_", 4, ["wood_bark"]),
         new("GateA_", 4, ["wood_fence", "cloth"])

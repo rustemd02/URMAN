@@ -91,7 +91,63 @@ public partial class Act1SettingsNavigationSmokeTest : Node
             return;
         }
 
-        // 4) Each accessibility row must write its own field. Nothing else in the
+        // 4) The manual starting-language choice is a profile setting: it
+        // round-trips through the live snapshot and user store, survives an
+        // unrelated setting change, and remains unchanged when a later edit
+        // is cancelled.
+        var tatarLevel = settings.GetNode<OptionButton>(
+            "Screen/Panel/Layout/BodyScroll/Body/TatarLanguageLevelRow/TatarLanguageLevel");
+        if (tatarLevel.ItemCount != 3)
+        {
+            Fail($"Starting Tatar level choice did not expose three options (count={tatarLevel.ItemCount}).");
+            return;
+        }
+
+        tatarLevel.Select(2);
+        settings.GetNode<Button>("Screen/Panel/Layout/Buttons/Apply").EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        if (player.CaptureSettings().TatarLanguageLevel != "fluent"
+            || UserSettingsStore.TryLoad()?.TatarLanguageLevel != "fluent")
+        {
+            Fail("Applied starting Tatar level did not round-trip through live settings and the user store.");
+            return;
+        }
+
+        settings.GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/FovRow/Fov").Value = 87;
+        settings.GetNode<Button>("Screen/Panel/Layout/Buttons/Apply").EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        if (player.CaptureSettings().TatarLanguageLevel != "fluent")
+        {
+            Fail("Changing an unrelated setting reset the applied starting Tatar level.");
+            return;
+        }
+
+        tatarLevel.Select(0);
+        settings._UnhandledInput(new InputEventKey
+        {
+            Keycode = Key.Escape,
+            PhysicalKeycode = Key.Escape,
+            Pressed = true,
+            Echo = false
+        });
+        await Frames(2);
+        if (settings.IsOpen || player.CaptureSettings().TatarLanguageLevel != "fluent")
+        {
+            Fail("Cancelling an unapplied starting Tatar level changed the applied profile.");
+            return;
+        }
+
+        demo.MainMenu.SettingsButton?.EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        tatarLevel = settings.GetNode<OptionButton>(
+            "Screen/Panel/Layout/BodyScroll/Body/TatarLanguageLevelRow/TatarLanguageLevel");
+        if (!settings.IsOpen || tatarLevel.Selected != 2)
+        {
+            Fail("Reopening settings did not restore the applied fluent starting Tatar level.");
+            return;
+        }
+
+        // 5) Each accessibility row must write its own field. Nothing else in the
         //    suite touches these controls, so a mis-wired checkbox would be invisible.
         //    The slider value is taken from the widget's own range and step instead of
         //    assuming one.
@@ -115,7 +171,6 @@ public partial class Act1SettingsNavigationSmokeTest : Node
 
         GD.Print("act1-settings-navigation: PASS menu-safe open + entry focus + rollback without apply + explicit apply persists + accessibility rows map to their fields");
         RestoreStore(storeBackup);
-        UserSettingsStore.Delete();
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
     }
@@ -127,6 +182,7 @@ public partial class Act1SettingsNavigationSmokeTest : Node
     {
         if (payload is null)
         {
+            UserSettingsStore.Delete();
             return;
         }
 

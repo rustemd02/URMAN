@@ -1384,7 +1384,7 @@ public partial class StyleBenchmarkZone : Node3D
                 // institutional mood instead of collapsing into green-black.
                 ["FapPaintedSage"] = PainterlyMaterialLibrary.ForColor("7b8d86", "plaster", sheltered: true),
                 ["FapPaintedDustyBlue"] = PainterlyMaterialLibrary.ForColor("5f7a83", "plaster", sheltered: true),
-                ["FapPaintedTimber"] = PainterlyMaterialLibrary.ForColor("806f58", "wood_furniture", sheltered: true),
+                ["FapPaintedTimber"] = PainterlyMaterialLibrary.ForColor("806f58", "wood_furniture_interior", sheltered: true),
                 ["FapDarkTimber"] = PainterlyMaterialLibrary.ForColor("50473b", "wood_bark", sheltered: true),
                 ["FapBirchPale"] = PainterlyMaterialLibrary.ForColor("a39579", "bark_birch", sheltered: true),
                 ["FapBirchBarkMark"] = PainterlyMaterialLibrary.ForColor("6e604d", "bark_birch", sheltered: true),
@@ -1437,7 +1437,8 @@ public partial class StyleBenchmarkZone : Node3D
             }
 
             var meshName = mesh.Name.ToString();
-            var fapFloor = meshName.StartsWith("FapInteriorShell_Floor", StringComparison.Ordinal);
+            var fapFloor = meshName.StartsWith("FapInteriorShell_Floor", StringComparison.Ordinal)
+                || meshName.StartsWith("FapInteriorFloor_", StringComparison.Ordinal);
             var fapCeiling = meshName.StartsWith("FapInteriorShell_Ceiling", StringComparison.Ordinal);
             if (isFap
                 && ((meshName.StartsWith("FapInteriorShell_", StringComparison.Ordinal)
@@ -1464,7 +1465,7 @@ public partial class StyleBenchmarkZone : Node3D
 
             if (isFap && meshName.StartsWith("FapInteriorScreen_Panel", StringComparison.Ordinal))
             {
-                material = PainterlyMaterialLibrary.ForColor("5f7a83", "cloth", sheltered: true);
+                material = PainterlyMaterialLibrary.ForColor("5f7a83", "cloth_clinic", sheltered: true);
             }
 
             for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)

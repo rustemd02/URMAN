@@ -19,7 +19,9 @@ usage() {
     cat <<'EOF'
 Usage: eng/verify-painterly-textures.sh [options] [candidate.png ...]
 
-Checks versioned *_v2_albedo.png through *_v6_albedo.png candidates without touching Godot/runtime files.
+Checks legacy *_v2_albedo.png through *_v6_albedo.png and explicitly mapped
+urman_*_vNN_basecolor.png TILE candidates without touching Godot/runtime files.
+Legacy sources remain 1024 square; catalogue masters may be 512–2048 square RGB.
 With no paths, candidates are discovered under game/assets/textures/painterly.
 
 Options:
@@ -92,7 +94,7 @@ if ((${#INPUT_PATHS[@]} == 0)); then
     if [[ -d "$DISCOVERY_DIR" ]]; then
         while IFS= read -r candidate; do
             INPUT_PATHS+=("$candidate")
-        done < <(find "$DISCOVERY_DIR" -maxdepth 1 -type f \( -name '*_v2_albedo.png' -o -name '*_v3_albedo.png' -o -name '*_v4_albedo.png' -o -name '*_v5_albedo.png' -o -name '*_v6_albedo.png' \) -print | LC_ALL=C sort)
+        done < <(find "$DISCOVERY_DIR" -maxdepth 1 -type f \( -name '*_v2_albedo.png' -o -name '*_v3_albedo.png' -o -name '*_v4_albedo.png' -o -name '*_v5_albedo.png' -o -name '*_v6_albedo.png' -o -name 'urman_*_v??_basecolor.png' \) -print | LC_ALL=C sort)
     fi
 fi
 
@@ -144,6 +146,17 @@ EXPECTED = {
     "old_fabric": ("fabric", 3.0, 3.0),
 }
 NAME_RE = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*_v[23456]_albedo\.png$")
+CATALOG_NAME_RE = re.compile(r"^(urman_[a-z][0-9]{2})_v[0-9]{2}_basecolor\.png$")
+# Only integrated TILE consumers belong here. Unique sheets, UV atlases and
+# alpha decals need their own acceptance, not an automatic seam PASS.
+CATALOG_EXPECTED = {
+    "urman_b03_v01_basecolor.png": ("wall_institution", 1.0, 1.0),
+    "urman_b04_v01_basecolor.png": ("floor_institution", 1.0, 1.0),
+    "urman_m05_v01_basecolor.png": ("plastic_abs", 2.0, 2.0),
+    "urman_t10_v02_basecolor.png": ("cloth_clinic", 2.0, 2.0),
+    "urman_t08_v01_basecolor.png": ("fabric_upholstery", 2.0, 2.0),
+    "urman_w08_v01_basecolor.png": ("wood_furniture_interior", 1.0 / 0.75, 1.0 / 0.75),
+}
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
 
@@ -271,8 +284,9 @@ def analyse(path):
         "status": "PASS",
         "issues": [],
     }
-    if not NAME_RE.fullmatch(path.name):
-        result["issues"].append("name is not a supported *_v2_albedo.png through *_v6_albedo.png candidate")
+    catalog_match = CATALOG_NAME_RE.fullmatch(path.name)
+    if not NAME_RE.fullmatch(path.name) and catalog_match is None:
+        result["issues"].append("name is not a supported legacy albedo or catalogue TILE candidate")
     if not path.exists():
         result["status"] = "OPEN"
         result["issues"].append("file is missing")
@@ -290,11 +304,17 @@ def analyse(path):
         return result
     result.update({"width": width, "height": height, "channels": channels, "color": "RGB" if channels == 3 else "RGBA"})
     result["chunks"] = ",".join(chunks)
-    if (width, height) != (1024, 1024):
+    if catalog_match is not None:
+        if width != height or not 512 <= width <= 2048:
+            result["issues"].append(f"size {width}x{height}; catalogue TILE master must be square, 512–2048 px")
+        if channels != 3:
+            result["issues"].append("catalogue base-color TILE requires opaque RGB; alpha needs separate acceptance")
+    elif (width, height) != (1024, 1024):
         result["issues"].append(f"size {width}x{height}; expected 1024x1024")
-    # Candidate names are mapped to the exact current material-library scale.
+    # Catalogue versions have explicit intended consumers; legacy scales are
+    # historical comparison scales. This is a source-image gate, not runtime QA.
     stem = re.sub(r"_v[23456]_albedo\.png$", "", path.name)
-    material = EXPECTED.get(stem)
+    material = CATALOG_EXPECTED.get(path.name) if catalog_match else EXPECTED.get(stem)
     if material is None:
         result["issues"].append("no PainterlyMaterialLibrary material/scale mapping")
     else:
@@ -388,13 +408,13 @@ lines = [
     "",
     f"- Status: **{status}**",
     f"- Summary: {summary}",
-    f"- Gate: 1 024 × 1 024, 8-bit RGB/RGBA, non-indexed/non-gray, opposite-edge seam mean ≤ {max_mean_seam:g} and max ≤ {max_max_seam:g}, clipping fraction ≤ {max_clip_fraction:g}, HSV saturation mean ≤ {max_mean_sat:g} and high-saturation fraction ≤ {max_high_sat_fraction:g}.",
-    "- Texel-density check: each known filename is mapped to the existing `PainterlyMaterialLibrary` triplanar scale; this gate does not edit the shader.",
+    f"- Gate: legacy 1 024 × 1 024 RGB/RGBA; mapped catalogue TILE masters square 512–2048 RGB; 8-bit non-indexed/non-gray, opposite-edge seam mean ≤ {max_mean_seam:g} and max ≤ {max_max_seam:g}, clipping fraction ≤ {max_clip_fraction:g}, HSV saturation mean ≤ {max_mean_sat:g} and high-saturation fraction ≤ {max_high_sat_fraction:g}.",
+    "- Source-only density: exact catalogue filenames use declared consumer scales; legacy scales are historical previews. Texels/world below are source pixels, before import size caps. PASS does not prove runtime binding, imported density or art acceptance.",
     "",
 ]
 if results:
     lines += [
-        "| File | Status | Size/mode | Seam mean V/H | Seam max V/H | Clip low/high | Sat mean/high | Scale | Texels/world | SHA-256 |",
+        "| File | Status | Size/mode | Seam mean V/H | Seam max V/H | Clip low/high | Sat mean/high | Scale | Source texels/world | SHA-256 |",
         "|---|---|---|---:|---:|---:|---:|---|---:|---|",
     ]
     for result in results:
