@@ -373,6 +373,7 @@ public static class PainterlyMaterialLibrary
         // authored stone/fabric presentation anchors in the benchmark scenes;
         // existing wood/plaster/earth/foliage mappings remain v1.
         ["stone"] = ("res://assets/textures/painterly/mossy_stone_v3_albedo.png", new Vector2(1.5f, 1.5f)),
+        ["stone_foundation"] = ("res://assets/textures/painterly/urman_b07_v02_basecolor.png", Vector2.One),
         ["fabric"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.0f, 2.0f)),
         ["fabric_upholstery"] = ("res://assets/textures/painterly/urman_t08_v01_basecolor.png", new Vector2(2.0f, 2.0f)),
         // T10 has its own semantic owner; clothes and upholstery keep theirs.
@@ -559,6 +560,7 @@ public static class PainterlyMaterialLibrary
             "wood_floor_painted" => "wood_furniture_interior",
             "wood_fence_vertical" or "wood_fence_rail" or "wood_fence_uv" => "wood_fence",
             "plaster_domestic" => "wall_institution",
+            "stone_foundation" => "stone",
             "cloth_table" or "cloth_curtain" => "cloth",
             _ => surface
         };

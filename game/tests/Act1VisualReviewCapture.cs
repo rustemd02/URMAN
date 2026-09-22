@@ -31,6 +31,10 @@ public partial class Act1VisualReviewCapture : Node
     private static readonly IReadOnlyDictionary<string, FrameSpec> FrameSpecs =
         new Dictionary<string, FrameSpec>(StringComparer.Ordinal)
         {
+            ["fap_foundation_material"] = new(
+                "fap_foundation_material", "village_day", "arrival",
+                new Vector3(32f, AgentBAct1HeightField.CollisionGround(32f, -24.2f) + .05f, -24.2f),
+                Vector3.Zero), // existing FapServiceLoopPoints approach, target resolved below
             ["house_exterior_trim"] = new(
                 "house_exterior_trim", "village_day", "from_house", Vector3.Zero, Vector3.Zero),
             ["house_exterior_trim_street"] = new(
@@ -265,6 +269,24 @@ public partial class Act1VisualReviewCapture : Node
         var space = spec.LocalSpace is null ? null : connectedWorld.GetNode<Node3D>(spec.LocalSpace);
         var position = space is null ? spec.PlayerPosition : space.ToGlobal(spec.PlayerPosition);
         var target = space is null ? spec.Target : space.ToGlobal(spec.Target);
+
+        if (frameId == "fap_foundation_material")
+        {
+            var facade = connectedWorld.GetNode<Node3D>("Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade");
+            var subject = facade.FindChildren("FapFacade_Foundation_LOD0", "MeshInstance3D", true, false)
+                .OfType<MeshInstance3D>().SingleOrDefault();
+            if (subject?.Mesh is null || !subject.IsVisibleInTree()
+                || subject.GetActiveMaterial(0) is not ShaderMaterial material
+                || material.GetShaderParameter("albedo_texture").AsGodotObject() is not Texture2D texture
+                || !texture.ResourcePath.EndsWith("urman_b07_v02_basecolor.png", StringComparison.Ordinal)
+                || material.GetShaderParameter("texture_scale").AsVector2() != Vector2.One)
+                throw new InvalidOperationException("B07 capture lacks its visible metre-mapped clinic foundation.");
+            var bounds = subject.Mesh.GetAabb();
+            target = subject.ToGlobal(new Vector3(bounds.GetCenter().X + 3f, bounds.GetCenter().Y, bounds.End.Z));
+            if (!player.CanStandAt(position))
+                throw new InvalidOperationException("B07 requires the existing service-loop standing approach.");
+            GD.Print($"act1-foundation-material-subject: {subject.GetPath()} texture={texture.ResourcePath} scale={material.GetShaderParameter("texture_scale")}");
+        }
 
         if (frameId is "house_exterior_trim" or "house_exterior_trim_street")
         {

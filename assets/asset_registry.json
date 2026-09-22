@@ -4,6 +4,24 @@
  "sourceTool": "Blender 4.5 LTS",
  "assets": [
   {
+   "id": "texture.painterly.b07.v02",
+   "source": "ImageGen built-in, 2026-09-22; exec-0aea5211-11d9-4c15-90e9-b00c8a1049a0.png; exact initial/edit prompts in game/assets/textures/painterly/README.md (B07)",
+   "derived": "game/assets/textures/painterly/urman_b07_v02_basecolor.png",
+   "derivedSha256": "5a43ad685e6e47ce0ff8d15fad710b296de02d79faac7cb50bdfa8ab3e649ad7",
+   "generator": "OpenAI ImageGen built-in; selected source pixels unchanged",
+   "license": "Project-generated",
+   "scale": 1,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": ["stone_foundation"],
+   "materialOwner": "PainterlyMaterialLibrary; connected-world FapFoundationStone and BuildPublicEntrySteps treads/nosings only. Global forest stone and mixed FapWetStone remain unchanged.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime cap 1024",
+   "qa": "source-gate PASS1/1; build/native scope in docs/tasktracker/05_texture_production_2026-09-22.md",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced on mapped foundations and public steps; remaining consumers and final art pending"
+  },
+  {
    "id": "texture.painterly.w05.v02",
    "source": "ImageGen built-in, 2026-09-22; exec-8fcdfc7d-ba63-421a-a480-1eb6355ceea5.png; exact initial/edit prompts in game/assets/textures/painterly/README.md (W05)",
    "derived": "game/assets/textures/painterly/urman_w05_v02_basecolor.png",

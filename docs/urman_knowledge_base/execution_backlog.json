@@ -3033,7 +3033,7 @@
   {
    "id": "ACT1-TEXTURE.02",
    "title": "Экстерьеры, снег, дерево, камень и растения",
-   "progress_2026_09_22": "W02 v02 на оградах и W05 v02 на существующих оконных наличниках; source PASS1/1 каждого, 2 кандидата группы из 31. W05-02 build/import PASS346, близкие High/Low crouching. Первый native-запуск упал в .NET BGC до сцены, точный повтор прошёл; причина не закрыта. Предыдущие W02-кадры относятся к fence-uv-02. Остальные 29 карточек, оставшиеся потребители, движение и art открыты; подробности в журнале 05_texture_production.",
+   "progress_2026_09_22": "B07 v02: source PASS1/1, b07-03 PASS348 без drift; High/Low ФАП стоя просмотрены. В группе 3 кандидата из 31, другие 28 карточек и оставшиеся потребители открыты. Точные исходники, промпты, SHA и границы в 05_texture_production_2026-09-22.md. Предыдущие W05/W02 и их незакрытые ограничения сохранены в журнале; прежняя авария .NET BGC не объявлена исправленной.",
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/texture-tracker-2026-09-22",
@@ -3454,7 +3454,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "19 новых карт адресно подключены, плюс T12 reuse. W05 v02: действующий фильтр четырёх Jamb/Rail наличников, scale2, finish wood_facade, согласованный opt-in batch. W02 v02: вертикальные детали AddVisualFenceRun, составные рейки с метровыми UV и сохранением в стыке зирата, шесть реек бокового прохода. Импортированные mixed-fence/плетень не заменены. Геометрия досок пола, повёрнутая кора, снежное альбедо и остальные карточки открыты; свидетельства/ограничения в журнале.",
+   "progress_2026_09_22": "20 новых карт плюс T12 reuse. B07 stone_foundation/scale1 на connected-world FapFoundationStone и BuildPublicEntrySteps treads/nosings. Finish stone сохранён; глобальные камни, FapWetStone, геометрия и коллизии не изменены. Прочие потребители, close/motion/art открыты. Предыдущие W05/W02 и их незакрытые ограничения сохранены в журнале; прежняя авария .NET BGC не объявлена исправленной.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.01"
@@ -3487,7 +3487,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "W05 source PASS1/1; w05-02 PASS346 и близкие High/Low из приседа. w05-04 PASS346/street-02 exit0: стоячий вид штатного from_house; промежуточный перекрытый street-01 отвергнут. Первый native запуск упал в .NET BGC, точный повтор прошёл, причина не закрыта. W02 source неизменен. Fence-uv-02 PASS344, три кадра East High/Low стоя и North High из приседа, UV/хеши/guard PASS. Fence-settle-02 PASS344; на той же DLL без background-input ModalOpen=true/onFloor=false у трёх сараев, с существующим тестовым флагом PASS432/нет отказов. Стык зирата allValid=true, подходы обычным контроллером пройдены, три достигнутых вида просмотрены; физика/автопауза игры не менялись. Прежние результаты остаются историей своих сборок; движение/остальные потребители и human art открыты.",
+   "progress_2026_09_22": "Source PASS1/1, 20260922-texture-b07-03.json PASS348 input/source drift/errors=[]; texture-b07-20260922-01 High/Low exit0, стоя, guard restored, SHA проверены и оба кадра просмотрены. Средний вид узкой открытой полосы цоколя, не close/motion/ступени/сарай или human art. Ошибка первого capture MaterialOverride исправлена на GetActiveMaterial(0); build02 input drift не принят как финальное свидетельство. Журнал сохраняет историю отказов. Предыдущие W05/W02 и их незакрытые ограничения сохранены в журнале; прежняя авария .NET BGC не объявлена исправленной.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.11"

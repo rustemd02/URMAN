@@ -1,5 +1,28 @@
 # Painterly texture provenance
 
+## B07 — quiet mineral foundations, 2026-09-22
+
+Selected `urman_b07_v02_basecolor.png`, unchanged 1254 × 1254 RGB, SHA-256 `5a43ad685e6e47ce0ff8d15fad710b296de02d79faac7cb50bdfa8ab3e649ad7`. Built-in ImageGen only; source `/Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/exec-0aea5211-11d9-4c15-90e9-b00c8a1049a0.png`. Initial `exec-3d9462e7-14d0-4cec-80e1-fff738937c19.png` in the same directory was rejected for photographic grit and sharp chip rims, never imported. No external references or offline pixel edits.
+
+Exact initial prompt:
+
+```text
+Use case: stylized-concept. Asset type: seamless game base-color texture B07, mineral foundation stone.
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Quiet grey limestone or weathered rural masonry stone surface, soft warm-cool mineral fields and sparse restrained inclusions. Natural matte midtone, not marble, granite countertop or green moss carpet. No separate stones, mortar seams, carved symbols, silhouette or deep crevices. This tile represents one by one metre of continuous stone surface, not a whole wall or a grid of blocks.
+```
+
+Exact edit, referencing only that initial generated image:
+
+```text
+Use case: precise-object-edit. Edit this B07 mineral foundation base-color texture for URMAN. Keep its continuous opaque square grey limestone surface, neutral warm/cool palette, no moss, no block joints and four-edge seamless repeat. Change only the texture treatment: simplify aggressively into broad soft hand-painted mineral pigment fields. Remove the photographic grit, tiny chips, sharp white rims, sparkling speckles and apparent lit relief. Reduce local contrast by about half; retain just a few soft medium-sized muted mineral inclusions with no prominent focal patch. Make it quiet painterly matte stone for a low-poly game, not a photo, granite countertop or marble. One-by-one metre continuous surface. Flat even illumination, no highlights, shadows, cracks, outlines, seams, text, objects, panels or collage. Output only the single opaque RGB base-color texture.
+```
+
+Source-gate PASS1/1 at unchanged thresholds, mean seam .0271/.0285, max .1373/.1176, no clipping. `stone_foundation`: metre world-space triplanar repeat, existing `stone` finish response, mipmaps and 1024 import cap. Scoped to current connected-world `FapFoundationStone` and `BuildPublicEntrySteps` treads/nosings. Generic forest stone, mixed FapWetStone (which also labels an entry mat), benchmark interiors, wells and burial markers remain unchanged. No geometry/collision changes. Runtime evidence and limits belong to the production journal; final art is pending.
+
 ## W05 — maintained ivory window paint, 2026-09-22
 
 Selected `urman_w05_v02_basecolor.png`, unchanged 1254 × 1254 RGB, SHA-256 `c2170588472b77aab0f560818d34349cc4397d1793f0e5d06a7cbd73ee2ac317`. Built-in ImageGen only; source `/Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/exec-8fcdfc7d-ba63-421a-a480-1eb6355ceea5.png`. Initial `exec-76cfecb9-23f6-4c49-919c-846f2d832d31.png` in that directory was rejected for complete boards, seams and knots; it was not imported. No external reference or offline pixel editing.

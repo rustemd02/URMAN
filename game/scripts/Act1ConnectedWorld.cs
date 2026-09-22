@@ -1943,7 +1943,7 @@ public partial class Act1ConnectedWorld : Node3D
             ["FapOldRoof"] = PainterlyMaterialLibrary.ForColor("5e6862", "roof_metal"),
             ["FapRoofEdge"] = PainterlyMaterialLibrary.ForColor("687169", "roof_metal"),
             ["FapShedWall"] = PainterlyMaterialLibrary.ForColor("778073", "plaster"),
-            ["FapFoundationStone"] = PainterlyMaterialLibrary.ForColor("777970", "stone"),
+            ["FapFoundationStone"] = PainterlyMaterialLibrary.ForColor("777970", "stone_foundation"),
             ["FapWetStone"] = PainterlyMaterialLibrary.ForColor("60685f", "stone"),
             ["FapDarkTimber"] = PainterlyMaterialLibrary.ForColor("514737", "wood"),
             ["FapDoorWood"] = PainterlyMaterialLibrary.ForColor("74604a", "wood"),

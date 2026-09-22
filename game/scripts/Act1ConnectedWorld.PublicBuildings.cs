@@ -227,9 +227,9 @@ public partial class Act1ConnectedWorld
             var z = threshold.Z + .045f + (steps - i - 1) * .32f;
             var baseY = Math.Min(bottom - .035f, top - .025f);
             PublicSolid(parent, name + "EntryTread" + i, new(1.13f, top - baseY, depth),
-                new(threshold.X, (top + baseY) * .5f, z), "817a68", "stone");
+                new(threshold.X, (top + baseY) * .5f, z), "817a68", "stone_foundation");
             PublicBox(parent, name + "TreadNosing" + i, new(1.10f, .022f, .055f),
-                new(threshold.X, top - .011f, z + depth * .5f - .025f), "696557", "stone");
+                new(threshold.X, top - .011f, z + depth * .5f - .025f), "696557", "stone_foundation");
         }
         // Address04 measured a standing capsule touching the first tread at
         // school/council: their three treads extend farther than the shop's two.

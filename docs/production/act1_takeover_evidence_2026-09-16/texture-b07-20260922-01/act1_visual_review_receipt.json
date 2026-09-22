@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_visual_review_capture",
+  "captured_at_utc": "2026-09-22T17:03:58.2878030\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 2,
+  "frame_count": 2,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "frames": [
+    {
+      "frame_id": "fap_foundation_material_high",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.4825858175754547,
+          "y": -0.3715805411338806,
+          "z": -0.7931197285652161
+        },
+        "up": {
+          "x": -0.19314879179000854,
+          "y": 0.9284007549285889,
+          "z": -0.31743600964546204
+        },
+        "global_position": {
+          "x": 31.906435012817383,
+          "y": 1.5593769550323486,
+          "z": -24.35377311706543
+        },
+        "target": {
+          "x": 29.700000762939453,
+          "y": -0.13952882587909698,
+          "z": -27.98000144958496
+        }
+      },
+      "output": "fap_foundation_material_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "75be6cf8de06ef52e7812c1775b9b85a2a3b920fbc9158ac8d0ac37308365a35"
+    },
+    {
+      "frame_id": "fap_foundation_material_low",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "graphics_preset": "low",
+      "scaling_3d_scale": 0.75,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.4825858175754547,
+          "y": -0.3715805411338806,
+          "z": -0.7931197285652161
+        },
+        "up": {
+          "x": -0.19314879179000854,
+          "y": 0.9284007549285889,
+          "z": -0.31743600964546204
+        },
+        "global_position": {
+          "x": 31.906435012817383,
+          "y": 1.5593769550323486,
+          "z": -24.35377311706543
+        },
+        "target": {
+          "x": 29.700000762939453,
+          "y": -0.13952882587909698,
+          "z": -27.98000144958496
+        }
+      },
+      "output": "fap_foundation_material_low.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "883a09a57d13acee72ddac35ab585ddfe05d2454f6a0ab098ece52b5dea7d710"
+    }
+  ]
+}
