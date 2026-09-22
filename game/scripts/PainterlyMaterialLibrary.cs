@@ -341,6 +341,7 @@ public static class PainterlyMaterialLibrary
         ["wood_furniture_interior"] = ("res://assets/textures/painterly/urman_w08_v01_basecolor.png", new Vector2(1f / 0.75f, 1f / 0.75f)),
         ["wood_prop"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.9f, 0.9f)),
         ["wood_bark"] = ("res://assets/textures/painterly/bark_pine_v1_albedo.png", new Vector2(1.05f, 1.05f)),
+        ["bark_pine"] = ("res://assets/textures/painterly/urman_f02_v02_basecolor.png", Vector2.One),
         // The profile provides three repeats around the stack and .75 V per
         // local metre. Unit scale retains that existing physical UV mapping.
         ["hay_fibers"] = ("res://assets/textures/painterly/hay_fibers_v1_albedo.png", Vector2.One),
@@ -386,13 +387,13 @@ public static class PainterlyMaterialLibrary
     // painterly base; the moment the file exists it is picked up.
     private static readonly Dictionary<string, (string Path, Vector2 Scale)> WinterTextures = new(StringComparer.Ordinal)
     {
-        ["snow_ground"] = ("res://assets/textures/painterly/snow_fresh_v1_albedo.png", new Vector2(1.2f, 1.2f)),
+        ["snow_ground"] = ("res://assets/textures/painterly/urman_s01_v01_basecolor.png", new Vector2(.5f, .5f)),
         ["snow_grass"] = ("res://assets/textures/painterly/snow_grass_peek_v1_albedo.png", new Vector2(1.0f, 1.0f)),
-        ["snow_road"] = ("res://assets/textures/painterly/snow_road_v1_albedo.png", new Vector2(1.1f, 2.2f)),
+        ["snow_road"] = ("res://assets/textures/painterly/urman_s02_v02_basecolor.png", new Vector2(.5f, .5f)),
         ["snow_trampled"] = ("res://assets/textures/painterly/snow_trampled_v1_albedo.png", new Vector2(1.6f, 1.6f)),
         ["snow_roof"] = ("res://assets/textures/painterly/snow_roof_v1_albedo.png", new Vector2(1.0f, 1.0f)),
         ["ice"] = ("res://assets/textures/painterly/ice_patch_v1_albedo.png", new Vector2(1.4f, 1.4f)),
-        ["bark_birch_winter"] = ("res://assets/textures/painterly/bark_birch_v2_albedo.png", new Vector2(0.55f, 1.1f)),
+        ["bark_birch_winter"] = ("res://assets/textures/painterly/urman_f01_v03_basecolor.png", new Vector2(1f / .75f, 1f / 1.5f)),
         ["rowan_berries"] = ("res://assets/textures/painterly/rowan_berries_v1_albedo.png", new Vector2(1.0f, 1.0f)),
         ["wattle"] = ("res://assets/textures/painterly/wattle_weave_v1_albedo.png", new Vector2(0.9f, 0.9f)),
         ["frost_window"] = ("res://assets/textures/painterly/frost_window_v1_albedo.png", new Vector2(1.0f, 1.0f))
@@ -549,7 +550,8 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("base_color", color);
         material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
         material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle"
-            or "wood_facade" or "wood_painted_blue" or "wood_painted_green" or "wood_floor_painted");
+            or "wood_facade" or "wood_painted_blue" or "wood_painted_green" or "wood_floor_painted"
+            or "bark_birch_winter" or "bark_pine");
         material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
         material.SetShaderParameter("local_floor_texture", surface == "wood_floor_painted");
         material.SetShaderParameter("authored_uv_texture", surface == "hay_fibers");
@@ -761,7 +763,7 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("wind_enabled", _windMotion);
         material.SetShaderParameter("low_quality", _lowQualityMaterials);
         if (!SuppressTextureLoadsForHeadlessTests
-            && SurfaceTextures.TryGetValue(surface == "bark_pine" ? "wood_bark" : surface, out var textureDescriptor))
+            && SurfaceTextures.TryGetValue(surface, out var textureDescriptor))
         {
             var texture = ResourceLoader.Load<Texture2D>(textureDescriptor.Path)
                 ?? throw new InvalidOperationException($"Painterly texture is missing: {textureDescriptor.Path}.");

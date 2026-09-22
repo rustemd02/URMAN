@@ -1,5 +1,89 @@
 # Painterly texture provenance
 
+## S01/S02/F01/F02 — snow and bark, 2026-09-22
+
+Four selected built-in ImageGen outputs, 1254 × 1254 RGB, copied unchanged; no external references. Source-gate 4/4 PASS on unchanged thresholds; mipmaps and 1024 import cap. Original outputs are retained under `/Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/`. Snow still uses the existing restrained albedo influence: this source gate does not establish visible improvement, flawless tiling or art approval. Build/capture scope is recorded in the texture production journal.
+
+### S01 v01
+
+Selected `urman_s01_v01_basecolor.png`; SHA-256 `570d10fee0b0cd5340598817c9a5bce435e27964edebf68b45111a7df7dba1e1`; source `exec-9c614bc2-3058-49ae-87ef-68c322901012.png`; cached owner `snow_ground`, scale 0.5 × 0.5. Settled ground snow; existing snow micro response, trample and Low branch unchanged.
+
+Exact initial prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Soft settled powder snow, pearl ivory with restrained cool mineral-blue color variation. Broad quiet fields, a few soft wind-compressed patches and readable shallow grain groups. Keep the surface bright but retain mid-light detail; no pure-white clipping. No blue cast shadows, glitter, snowflakes, footsteps, branches, terrain silhouette or large dunes.
+```
+
+### S02 v02
+
+Selected `urman_s02_v02_basecolor.png`; SHA-256 `c582b4a78a1af483b50f891f1a7573886bbde7df1deb397cbdd9fa11b35d85ec`; source `exec-311f92d3-8fd8-4f82-b4dd-5715bbe062a3.png`; cached owner `snow_road`, scale 0.5 × 0.5. Compacted road snow; physical ruts and footprint response unchanged.
+
+Exact initial prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Compacted village road snow, pale limestone-grey with subdued ivory compressed granules and small dispersed mineral-brown inclusions. Slight longitudinal wear in the grain, but no tire tracks, grooves, ruts or roadway composition. A firmer and slightly darker material than fresh snow, still predominantly snow. No puddle reflections or baked glints.
+```
+
+The first source `exec-67858067-b4d4-42af-8869-9c50ecbf62d6.png` was visually rejected as gravel-like. Selected v02 uses this exact edit:
+
+```text
+Edit this compacted-snow base-color texture. It currently reads as noisy gravel. Preserve its predominantly pale limestone-grey and ivory snow palette, square material-only composition and seamless four-edge tiling. Replace the sharp photographic gravel granules with broad soft hand-painted compressed-snow pigment patches. At least 85% should be calm connected matte snow, with only sparse very small low-contrast mineral-brown flecks. Use simplified painterly brush groups at medium scale, not individual pebbles or crystals. No dark cracks, directional shadows, baked relief, glints, tire tracks, footsteps, gradients across the whole tile, border, snowdrifts, lettering or collage. Return one seamless opaque RGB base-color map, not a preview sheet.
+```
+
+### F01 v03
+
+Selected `urman_f01_v03_basecolor.png`; SHA-256 `d300b3ad7ac42629a326b7160fa96e0640c6b5af1b31efecc2605b45ab398732`; source `exec-a6b10c15-2010-4ee8-988e-619132be2281.png`; cached owner `bark_birch_winter`, scale 1.3333333333333333 × 0.6666666666666666. Regional winter birch trunks; upright side projection retains horizontal lenticels. Generic bark_birch furniture unchanged.
+
+Exact initial prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Winter birch bark color, warm chalk-white with irregular restrained horizontal charcoal-grey lenticel groups and quiet cream age variation. Break the spacing and size naturally. No complete trunk, black eye-like knots, face, carved letters, leafy branches, snow cap or lighting bands.
+```
+
+v01 `exec-7fd5a356-b30c-436b-88fc-a6450f688e45.png` failed seam max .4039; v02 `exec-19e13081-ea88-4b7a-8a59-e764d40b93c1.png` failed .4902. Neither was imported. Their redundant workspace copies were removed; originals remain. First exact edit:
+
+```text
+Edit only the edge continuity of this birch-bark base-color map. Preserve the warm chalk-white and cream ground, restrained horizontal charcoal-grey lenticels, quiet hand-painted character and their irregular spacing. Match opposite left/right and top/bottom edges, including corners, with continuous pigment and lenticels; no dark marks abruptly entering or leaving a mismatched opposite edge. Keep the entire square balanced without a blank border or edge fade. No trunk silhouette, eyes, knots, face, text, snow cap, baked lighting, relief shading, collage or preview. Return one opaque RGB seamless square material-only texture.
+```
+
+The seam edit did not solve the problem. The second edit reduced the contrast of lenticels; v03 max seam .2784, still subject to actual repetition review:
+
+```text
+Edit this seamless birch bark base-color map by reducing only the contrast of the dark horizontal lenticels. They must be soft medium warm-grey pigment, not charcoal-black: no mark darker than roughly RGB 150,145,132. Keep the cream/chalk ground and existing horizontal irregular short mark layout, recognizable birch bark, restrained painterly surface. Preserve square flat material-only composition. Make left and right edges and top and bottom edges continue naturally, without border or edge fade. No highlights, relief shadows, eyes, knots, text, trunk silhouette, snow or collage. Output one opaque RGB texture.
+```
+
+### F02 v02
+
+Selected `urman_f02_v02_basecolor.png`; SHA-256 `f3f5d2ec8af667e9d4eef509f8aeee313431c84d1065ce0ad05918cbdfcf6151`; source `exec-e10d39b6-c2a6-44e4-bcc9-82bf461f6ad3.png`; cached owner `bark_pine`, scale 1 × 1. Existing bark_pine consumers and WinterPine regional trunks; separate from wood_bark furniture, spruce, roots and other deciduous stems. World upright projection on standing trunks; fallen rotated geometry still requires motion review.
+
+Exact initial prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Old pine bark color, subdued rust-brown and cool grey-brown with broad irregular scaly pigment groups and shallow quiet separations. No deep black fissures, face, eyes, carved signs, moss carpet, trunk silhouette or dramatic relief shading.
+```
+
+The first source `exec-9921d0ab-aa2e-42a5-a2a8-aca619882315.png` was visually rejected for photographic relief and fine noise. Selected v02 is quieter, but scale separation still needs in-game art review. Exact edit:
+
+```text
+Edit this pine bark color texture into a restrained hand-painted GAME BASE COLOR. Preserve the subdued rust-brown and cool grey-brown palette and large irregular scaly bark groupings. Remove the photographic relief shading and tiny crisp scale noise: paint the interior of each group as a broad quiet matte pigment wash, with shallow soft grey-brown separations only, no black crack network and no highlighted bevel rims. Keep a recognizable pine-bark identity, not wooden boards or stone blocks. Flat neutral illumination, no cast shadows or directional light. Maintain square opaque RGB material-only output and make all four edges wrap seamlessly including corners. No tree silhouette, object, face, lettering, moss, border, collage or preview grid.
+```
+
 ## W01/W03/W04/W09 — facade finishes and house floor, 2026-09-22
 
 Four selected built-in ImageGen outputs, each 1254 × 1254 RGB, copied unchanged into this directory; no third-party references. Import sidecars retain mipmaps and a 1024 runtime size cap. All four pass the unchanged source gate (`texture-wood-20260922-source.md`). This is source acceptance, not a claim of perfect tiling in motion or human art approval. Exact generation prompts follow; source files are retained under `/Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/`.

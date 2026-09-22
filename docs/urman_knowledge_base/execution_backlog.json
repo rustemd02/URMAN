@@ -2949,7 +2949,7 @@
   {
    "id": "ACT1-TEXTURE.00",
    "title": "Сопоставить 132 карточки с текущими файлами и потребителями",
-   "progress_2026_09_22": "16 опорных карт сопоставлены в docs/tasktracker/05_texture_production_2026-09-22.md. Исправлена прежняя ошибка W09: видимый пол — StyleBenchmarkInteriorFactory/Floor, а не старые FloorBoard; к нему подключена карта. T01 требует реальной поверхности скатерти, W09 — формы отдельных досок; остальные 116 карточек ещё не инвентаризированы.",
+   "progress_2026_09_22": "16 опорных карт сопоставлены в журнале. Уточнены реальные владельцы пола и WinterPine: региональная сосна теперь использует bark_pine, общий wood_bark сохраняется для других ролей. T01 требует реальной поверхности скатерти, W09 — формы отдельных досок; остальные 116 карточек ещё не инвентаризированы.",
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/texture-tracker-2026-09-22",
@@ -2977,7 +2977,7 @@
   {
    "id": "ACT1-TEXTURE.01",
    "title": "Первая партия: 16 опорных текстур",
-   "progress_2026_09_22": "10/16 выбранных PNG: B03/B04/M05/T08/T10 v02/W08 плюс W01/W03/W04 v02/W09; source-gate PASS, точные версии/промпты/SHA в painterly README и registry. House-03 PASS105 на wood-01, фасадные кадры отдельно в журнале. Оставшиеся S01/S02/B01/T01/F01/F02, High/Low/движение и человеческая художественная приёмка открыты.",
+   "progress_2026_09_22": "14/16 выбранных PNG, добавлены S01 v01/S02 v02/F01 v03/F02 v02; source-gate 4/4, build snow-bark-02 PASS336, два guarded native-кадра просмотрены. Точные версии/промпты/SHA в painterly README/registry. B01/T01 ещё нужны; снег сильно приглушён shader, сосна вблизи, High/Low/движение и художественная приёмка открыты.",
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/texture-tracker-2026-09-22",
@@ -3435,7 +3435,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "Первые шесть карт в ФАП/мебели/ПК; добавлены W01 wood_facade, адресные W03/W04 для синего/зелёного дерева и W09 действующего пола дома. Проекция пола локальная, фасадных вертикалей upright; hay/loosewood/общий wood не изменены. Базовые оттенки различимы в Low, но Low-кадры ещё не сняты. Точный объём и геометрия досок pending в docs/tasktracker/05_texture_production_2026-09-22.md.",
+   "progress_2026_09_22": "14 карт подключены; S01/S02 scale .5, F01 upright 1.333/.667, F02 отдельный bark_pine и реальная WinterPine/Light/Far региональная роль. Общий wood_bark, ели/лиственные и мебель сохранены. Сила снежной карты не менялась, визуальный эффект сдержан. Проекция повёрнутых брёвен, Low/High и форма досок/скатерть остаются в журнале.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.01"
@@ -3468,7 +3468,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "10 source-gate PASS; wood-04 build/import PASS328 без drift/errors. House-03 на wood-01 PASS105; свежие фасады texture-facades-20260922-03 на wood-04 просмотрены, два guarded процесса exit0, userdata восстановлены. Исправлен старый фиксированный счётчик6: свежий receipt честно содержит2. W04 в тени/на расстоянии, не близкая art-приёмка. Точная хронология в docs/tasktracker/05_texture_production_2026-09-22.md; art/High/Low/движение открыты.",
+   "progress_2026_09_22": "14 source-gate PASS; latest snow-bark-02 build/import PASS336 без drift/errors. Два свежих кадра дороги/берёзы на этой сборке, guarded exit0/userdata restored, просмотрены. Близкая сосна, обе стороны ствола, High/Low/движение и достаточность художественной разницы не подтверждены. История wood/house/clinic хранится отдельно в журнале без переноса PASS.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.11"

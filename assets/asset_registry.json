@@ -4,6 +4,89 @@
  "sourceTool": "Blender 4.5 LTS",
  "assets": [
   {
+   "id": "texture.painterly.s01.v01",
+   "source": "ImageGen built-in, 2026-09-22; exec-9c614bc2-3058-49ae-87ef-68c322901012.png; exact prompts in game/assets/textures/painterly/README.md (S01)",
+   "derived": "game/assets/textures/painterly/urman_s01_v01_basecolor.png",
+   "derivedSha256": "570d10fee0b0cd5340598817c9a5bce435e27964edebf68b45111a7df7dba1e1",
+   "generator": "OpenAI ImageGen built-in; unchanged selected source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 0.5,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "snow_ground"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/snow_ground; Settled ground snow; existing snow micro response, trample and Low branch unchanged.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; build/capture scope in docs/tasktracker/05_texture_production_2026-09-22.md; High/Low/motion/art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.s02.v02",
+   "source": "ImageGen built-in, 2026-09-22; exec-311f92d3-8fd8-4f82-b4dd-5715bbe062a3.png; exact prompts in game/assets/textures/painterly/README.md (S02)",
+   "derived": "game/assets/textures/painterly/urman_s02_v02_basecolor.png",
+   "derivedSha256": "c582b4a78a1af483b50f891f1a7573886bbde7df1deb397cbdd9fa11b35d85ec",
+   "generator": "OpenAI ImageGen built-in; unchanged selected source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 0.5,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "snow_road"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/snow_road; Compacted road snow; physical ruts and footprint response unchanged.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; build/capture scope in docs/tasktracker/05_texture_production_2026-09-22.md; High/Low/motion/art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.f01.v03",
+   "source": "ImageGen built-in, 2026-09-22; exec-a6b10c15-2010-4ee8-988e-619132be2281.png; exact prompts in game/assets/textures/painterly/README.md (F01)",
+   "derived": "game/assets/textures/painterly/urman_f01_v03_basecolor.png",
+   "derivedSha256": "d300b3ad7ac42629a326b7160fa96e0640c6b5af1b31efecc2605b45ab398732",
+   "generator": "OpenAI ImageGen built-in; unchanged selected source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": [
+    1.3333333333333333,
+    0.6666666666666666
+   ],
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "bark_birch_winter"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/bark_birch_winter; Regional winter birch trunks; upright side projection retains horizontal lenticels. Generic bark_birch furniture unchanged.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; build/capture scope in docs/tasktracker/05_texture_production_2026-09-22.md; High/Low/motion/art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.f02.v02",
+   "source": "ImageGen built-in, 2026-09-22; exec-e10d39b6-c2a6-44e4-bcc9-82bf461f6ad3.png; exact prompts in game/assets/textures/painterly/README.md (F02)",
+   "derived": "game/assets/textures/painterly/urman_f02_v02_basecolor.png",
+   "derivedSha256": "f3f5d2ec8af667e9d4eef509f8aeee313431c84d1065ce0ad05918cbdfcf6151",
+   "generator": "OpenAI ImageGen built-in; unchanged selected source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 1,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "bark_pine"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/bark_pine; Existing bark_pine consumers and WinterPine regional trunks; separate from wood_bark furniture, spruce, roots and other deciduous stems. World upright projection on standing trunks; fallen rotated geometry still requires motion review.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; build/capture scope in docs/tasktracker/05_texture_production_2026-09-22.md; High/Low/motion/art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
    "id": "texture.painterly.w01.v01",
    "source": "ImageGen built-in, 2026-09-22; exec-2f0a7250-736a-486f-8f82-c646e50b8573.png; exact prompts in game/assets/textures/painterly/README.md (W01)",
    "derived": "game/assets/textures/painterly/urman_w01_v01_basecolor.png",

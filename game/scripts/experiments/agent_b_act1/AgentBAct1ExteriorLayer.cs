@@ -1450,12 +1450,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private static Material RegionalFoliageMaterial(string variant, string kind, string region)
     {
         var birch = variant.Contains("Birch", StringComparison.Ordinal);
-        var conifer = variant.Contains("Spruce", StringComparison.Ordinal);
+        var pine = variant.Contains("Pine", StringComparison.Ordinal);
+        var conifer = pine || variant.Contains("Spruce", StringComparison.Ordinal);
         return kind switch
         {
             "snow" => PainterlyMaterialLibrary.ForColor("e8edf0", "snow_roof"),
             "berries" => PainterlyMaterialLibrary.ForColor("784239", "rowan_berries"),
-            "bark" => PainterlyMaterialLibrary.ForColor(birch ? "c9c2ad" : !conifer ? "9b9487" : region == "kara" ? "504c43" : "685e50", birch ? "bark_birch_winter" : "wood_bark"),
+            "bark" => PainterlyMaterialLibrary.ForColor(birch ? "c9c2ad" : !conifer ? "9b9487" : region == "kara" ? "504c43" : "685e50", birch ? "bark_birch_winter" : pine ? "bark_pine" : "wood_bark"),
             "stone" => PainterlyMaterialLibrary.ForColor("74766d", "stone"),
             _ => PainterlyMaterialLibrary.ForColor(conifer ? "455749" : "827a65", conifer ? "foliage" : "grass")
         };

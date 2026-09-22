@@ -31,6 +31,14 @@ public partial class Act1VisualReviewCapture : Node
         {
             // Material review uses the existing production-camera capture,
             // without changing the six-frame forest acceptance contract.
+            ["snow_arrival_ground"] = new(
+                "snow_arrival_ground", "village_day", "arrival",
+                new Vector3(0f, AgentBAct1HeightField.CollisionGround(0f, 4f) + .05f, 4f),
+                new Vector3(1.5f, AgentBAct1HeightField.CollisionGround(1.5f, 1f), 1f)),
+            ["birch_rear_house"] = new(
+                "birch_rear_house", "village_day", "from_house",
+                new Vector3(-31.6f, AgentBAct1HeightField.CollisionGround(-31.6f, -10.5f) + .05f, -10.5f),
+                new Vector3(-33.82144f, AgentBAct1HeightField.CollisionGround(-33.82144f, -12.23175f) + 1.3f, -12.23175f)),
             ["painted_arrival_west"] = new(
                 "painted_arrival_west", "village_day", "arrival",
                 new Vector3(0f, AgentBAct1HeightField.CollisionGround(0f, 4f) + .05f, 4f),
