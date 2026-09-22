@@ -1,5 +1,43 @@
 # Painterly texture provenance
 
+## B01/T01 — domestic plaster and cotton, 2026-09-22
+
+Two selected built-in ImageGen outputs, 1254 × 1254 RGB, copied unchanged; no external references. Source gate 2/2 PASS at existing thresholds. Mipmaps and 1024 import cap; physical scales below are imported map repeats per metre. Exact build/capture and acceptance limits are in the production journal. Original output directory remains `/Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/`.
+
+### B01 v01
+
+Selected `urman_b01_v01_basecolor.png`; SHA-256 `16fdff059dba5815101b038e0bd0a2b2f28f2dc39c52c0c299945df6b8bc8158`; source `exec-17d291cd-c5ca-4c87-a0e9-58422ab4c769.png`; owner `plaster_domestic`, scale 1 × 1. Existing Factory LeftWallPier0 beside the stove. Other wallpaper panels and metallic stove unchanged; numeric response reuses wall_institution, sheltered.
+
+Exact initial prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Maintained lime plaster, warm chalk and pale cream, broad hand-applied irregularities and subtle pigment pooling. Low contrast with readable material softness. No room corners, cracks forming symbols, mold, peeling wallpaper, cast shadows or simulated relief.
+```
+
+### T01 v02
+
+Selected `urman_t01_v02_basecolor.png`; SHA-256 `f3fa91c57468ea4034a126f55d1971303361cf0aceb5c70f644a561093127627`; source `exec-ce8ff63e-d42b-4dcd-9dcd-98e569bfeea4.png`; owner `cloth_table`, scale 2 × 2. Factory TeaTablecloth: actual tabletop bounds, flat support plus folded front overhang, 672 triangles, double-sided smooth groups, unrolled metre UVs. Existing table/props/contact unchanged; cloth response, sheltered.
+
+Exact initial prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Washed cotton tablecloth fabric, soft unbleached ivory, restrained visible plain weave and a few broad faded fibre variations. No fold shadows, lace edge, border, objects, stains or embroidered centerpiece. Tactile but quiet enough not to shimmer at a distance.
+```
+
+T01 initial `exec-81614b5e-265a-4178-90fc-c9ff756da4af.png` was visually too coarse/burlap-like. The selected v02 softens this weave; in-game scale and shimmer still require review. Exact built-in edit:
+
+```text
+Edit this cotton tablecloth base-color texture to reduce the coarse burlap-like weave contrast. Keep soft unbleached ivory, flat square material-only composition and fine plain woven structure. Make the fibres closely woven and mostly the same light value: a quiet soft washed domestic cotton, not open mesh, burlap, linen sack or raised checkerboard. Reduce dark inter-thread holes and sharp repeated dots substantially; retain only very subtle low-contrast weave and broad faded fibre variation. Seamless four-edge continuity, even neutral illumination, no folds, shadows, stains, border, lace, embroidery, objects or collage. Output one opaque RGB base-color image.
+```
+
 ## S01/S02/F01/F02 — snow and bark, 2026-09-22
 
 Four selected built-in ImageGen outputs, 1254 × 1254 RGB, copied unchanged; no external references. Source-gate 4/4 PASS on unchanged thresholds; mipmaps and 1024 import cap. Original outputs are retained under `/Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/`. Snow still uses the existing restrained albedo influence: this source gate does not establish visible improvement, flawless tiling or art approval. Build/capture scope is recorded in the texture production journal.

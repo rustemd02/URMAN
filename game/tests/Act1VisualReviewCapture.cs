@@ -22,6 +22,7 @@ public partial class Act1VisualReviewCapture : Node
     // Optional animation-phase hold: extra frames waited after the production
     // camera is set, so the same subject can be captured at different moments.
     private const string HoldFramesArgumentPrefix = "--urman-act1-hold-frames=";
+    private const string GraphicsArgumentPrefix = "--urman-act1-graphics=";
     private const string ReceiptFileName = "act1_visual_review_receipt.json";
 
     private static readonly Vector2I CaptureSize = new(CaptureWidth, CaptureHeight);
@@ -31,6 +32,14 @@ public partial class Act1VisualReviewCapture : Node
         {
             // Material review uses the existing production-camera capture,
             // without changing the six-frame forest acceptance contract.
+            ["house_table_materials"] = new(
+                "house_table_materials", "house_old_pc", "entry",
+                new Vector3(.1f, .05f, -1.40f), new Vector3(0, .87f, -2.30f),
+                "house_interior", "babay-abi-house"),
+            ["house_plaster_materials"] = new(
+                "house_plaster_materials", "house_old_pc", "entry",
+                new Vector3(-1.90f, .05f, -1.15f), new Vector3(-4f, 1.10f, -1.60f),
+                "house_interior", "babay-abi-house"),
             ["snow_arrival_ground"] = new(
                 "snow_arrival_ground", "village_day", "arrival",
                 new Vector3(0f, AgentBAct1HeightField.CollisionGround(0f, 4f) + .05f, 4f),
@@ -151,8 +160,17 @@ public partial class Act1VisualReviewCapture : Node
         }
 
         var holdFrames = 0;
+        string? requestedGraphics = null;
         foreach (var argument in OS.GetCmdlineArgs())
         {
+            if (argument.StartsWith(GraphicsArgumentPrefix, StringComparison.Ordinal))
+            {
+                if (requestedGraphics is not null)
+                    throw new InvalidOperationException("Graphics preset was specified more than once.");
+                requestedGraphics = argument[GraphicsArgumentPrefix.Length..];
+                if (requestedGraphics is not ("low" or "medium" or "high"))
+                    throw new InvalidOperationException($"Invalid graphics preset: '{requestedGraphics}'.");
+            }
             if (!argument.StartsWith(HoldFramesArgumentPrefix, StringComparison.Ordinal)) continue;
             if (!int.TryParse(argument[HoldFramesArgumentPrefix.Length..], out holdFrames)
                 || holdFrames < 0 || holdFrames > 600)
@@ -209,14 +227,29 @@ public partial class Act1VisualReviewCapture : Node
         var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController
             ?? throw new InvalidOperationException("Main did not expose the production first-person player.");
         var camera = player.GetNode<Camera3D>("Head/Camera3D");
+        // Exercise the same application/persistence path as Settings. This
+        // scene must run under protected_run so preferences are restored.
+        if (requestedGraphics is not null)
+            player.ApplySettings(player.CaptureSettings() with { GraphicsPreset = requestedGraphics });
+        var space = spec.LocalSpace is null ? null : connectedWorld.GetNode<Node3D>(spec.LocalSpace);
+        var position = space is null ? spec.PlayerPosition : space.ToGlobal(spec.PlayerPosition);
+        var target = space is null ? spec.Target : space.ToGlobal(spec.Target);
 
-        // Freeze only the test-owned player process after applying the actual
-        // production camera transform. The PNG is still rendered by this
-        // Camera3D through the root viewport, not by a substitute camera.
-        player.ApplyZoneSpawn(spec.PlayerPosition, 0f);
+        // Let the production spawn resolve its initially crouched stance before
+        // freezing. Ignore OS mouse warps while the capture window gains focus;
+        // otherwise they can rotate Head beneath a separately aimed camera.
+        player.SetProcessUnhandledInput(false);
+        player.SetModalOpen(true);
+        player.ApplyZoneSpawn(position, 0f);
+        for (var frame = 0; frame < 2; frame++)
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         player.SetPhysicsProcess(false);
         camera.Current = true;
-        camera.LookAt(spec.Target, Vector3.Up);
+        camera.Rotation = Vector3.Zero;
+        var yaw = Mathf.RadToDeg(Mathf.Atan2(-(target.X - player.GlobalPosition.X), -(target.Z - player.GlobalPosition.Z)));
+        player.ApplySmokeLook(0, yaw);
+        var delta = target - camera.GlobalPosition;
+        player.ApplySmokeLook(Mathf.RadToDeg(Mathf.Atan2(delta.Y, new Vector2(delta.X, delta.Z).Length())), yaw);
         await WaitForFramesAsync(WarmupFrames);
         if (holdFrames > 0)
         {
@@ -227,6 +260,10 @@ public partial class Act1VisualReviewCapture : Node
         {
             throw new InvalidOperationException("The production camera is not the camera rendering the root viewport.");
         }
+
+        var lookAlignment = (-camera.GlobalBasis.Z).Normalized().Dot((target - camera.GlobalPosition).Normalized());
+        if (lookAlignment < .999f || Math.Abs(camera.GlobalBasis.X.Normalized().Y) > .001f)
+            throw new InvalidOperationException($"Capture camera drifted or rolled: alignment={lookAlignment}, rightY={camera.GlobalBasis.X.Y}.");
 
         var image = viewport.GetTexture().GetImage();
         if (image is null || image.IsEmpty())
@@ -242,7 +279,8 @@ public partial class Act1VisualReviewCapture : Node
 
         image.Convert(Image.Format.Rgba8);
         var phaseId = holdFrames > 0 ? $"{spec.Id}_h{holdFrames}" : spec.Id;
-        var outputName = holdFrames > 0 ? $"{phaseId}.png" : spec.FileName;
+        if (requestedGraphics is not null) phaseId += "_" + requestedGraphics;
+        var outputName = phaseId + ".png";
         var outputPath = Path.Combine(outputDirectory, outputName);
         if (File.Exists(outputPath))
         {
@@ -264,10 +302,15 @@ public partial class Act1VisualReviewCapture : Node
                 Zone = spec.Label,
                 ActiveZoneId = connectedWorld.ActiveZoneId,
                 SpawnPointId = spec.SpawnPointId,
+                GraphicsPreset = player.GraphicsPreset,
+                Scaling3DScale = viewport.Scaling3DScale,
+                Crouching = player.IsCrouching,
                 Camera = new CameraReceipt
                 {
                     GlobalPosition = ScalarVector.From(camera.GlobalPosition),
-                    Target = ScalarVector.From(spec.Target)
+                    Target = ScalarVector.From(target),
+                    Forward = ScalarVector.From(-camera.GlobalBasis.Z),
+                    Up = ScalarVector.From(camera.GlobalBasis.Y)
                 },
                 Output = outputName,
                 Width = image.GetWidth(),
@@ -281,7 +324,8 @@ public partial class Act1VisualReviewCapture : Node
             $"frame={phaseId}",
             $"zone={connectedWorld.ActiveZoneId}",
             $"camera_global_position={FormatVector(camera.GlobalPosition)}",
-            $"target={FormatVector(spec.Target)}",
+            $"target={FormatVector(target)}",
+            $"graphics={player.GraphicsPreset}",
             $"output={outputPath}",
             $"sha256={sha256}"));
 
@@ -396,10 +440,9 @@ public partial class Act1VisualReviewCapture : Node
         // Interiors are entered through their logical Main zone (fap_clinic,
         // house_old_pc) while the connected world reports the visual zone label
         // (fap_interior, house_interior). Exteriors use the same value for both.
-        string? VisualZone = null)
+        string? VisualZone = null,
+        string? LocalSpace = null)
     {
-        public string FileName => $"{Id}.png";
-
         // Receipt label: the authored visual zone, which differs from the logical
         // zone for interiors (fap_interior vs fap_clinic).
         public string Label => VisualZone ?? ZoneId;
@@ -464,6 +507,15 @@ public partial class Act1VisualReviewCapture : Node
         [JsonPropertyName("spawn_point_id")]
         public string SpawnPointId { get; set; } = string.Empty;
 
+        [JsonPropertyName("graphics_preset")]
+        public string GraphicsPreset { get; set; } = string.Empty;
+
+        [JsonPropertyName("scaling_3d_scale")]
+        public double Scaling3DScale { get; set; }
+
+        [JsonPropertyName("crouching")]
+        public bool Crouching { get; set; }
+
         [JsonPropertyName("camera")]
         public CameraReceipt Camera { get; set; } = new();
 
@@ -482,6 +534,12 @@ public partial class Act1VisualReviewCapture : Node
 
     private sealed class CameraReceipt
     {
+        [JsonPropertyName("forward")]
+        public ScalarVector Forward { get; set; } = new();
+
+        [JsonPropertyName("up")]
+        public ScalarVector Up { get; set; } = new();
+
         [JsonPropertyName("global_position")]
         public ScalarVector GlobalPosition { get; set; } = new();
 

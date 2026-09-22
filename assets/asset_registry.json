@@ -4,6 +4,46 @@
  "sourceTool": "Blender 4.5 LTS",
  "assets": [
   {
+   "id": "texture.painterly.b01.v01",
+   "source": "ImageGen built-in, 2026-09-22; exec-17d291cd-c5ca-4c87-a0e9-58422ab4c769.png; exact prompts in game/assets/textures/painterly/README.md (B01)",
+   "derived": "game/assets/textures/painterly/urman_b01_v01_basecolor.png",
+   "derivedSha256": "16fdff059dba5815101b038e0bd0a2b2f28f2dc39c52c0c299945df6b8bc8158",
+   "generator": "OpenAI ImageGen built-in; unchanged selected source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 1,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "plaster_domestic"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/plaster_domestic; Existing Factory LeftWallPier0 beside the stove. Other wallpaper panels and metallic stove unchanged; numeric response reuses wall_institution, sheltered.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; build/capture scope in docs/tasktracker/05_texture_production_2026-09-22.md; High/Low/motion/art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.t01.v02",
+   "source": "ImageGen built-in, 2026-09-22; exec-ce8ff63e-d42b-4dcd-9dcd-98e569bfeea4.png; exact prompts in game/assets/textures/painterly/README.md (T01)",
+   "derived": "game/assets/textures/painterly/urman_t01_v02_basecolor.png",
+   "derivedSha256": "f3fa91c57468ea4034a126f55d1971303361cf0aceb5c70f644a561093127627",
+   "generator": "OpenAI ImageGen built-in; unchanged selected source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 2,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "cloth_table"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/cloth_table; Factory TeaTablecloth: actual tabletop bounds, flat support plus folded front overhang, 672 triangles, double-sided smooth groups, unrolled metre UVs. Existing table/props/contact unchanged; cloth response, sheltered.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; build/capture scope in docs/tasktracker/05_texture_production_2026-09-22.md; High/Low/motion/art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
    "id": "texture.painterly.s01.v01",
    "source": "ImageGen built-in, 2026-09-22; exec-9c614bc2-3058-49ae-87ef-68c322901012.png; exact prompts in game/assets/textures/painterly/README.md (S01)",
    "derived": "game/assets/textures/painterly/urman_s01_v01_basecolor.png",

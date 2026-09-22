@@ -2,7 +2,27 @@
 
 Прямой запрос автора: включить генерацию в Task Tracker и выполнять всю оставшуюся очередь. Источник промптов — [132 карточки](../urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md). Единственная живая очередь — [execution_backlog.json](../urman_knowledge_base/execution_backlog.json); TASKS.md — её человекочитаемое зеркало.
 
-## Текущий срез: снег и кора, 22 сентября
+## Текущий срез: штукатурка и скатерть, 22 сентября
+
+Подключены **16/16 карт первой партии**, но не завершена их полная приёмка. Добавлены B01 v01 и T01 v02: [source-gate 2/2 PASS](../production/act1_takeover_evidence_2026-09-16/texture-home-finish-20260922-source.md), 1254 × 1254 RGB, исходные пиксели, mipmaps и лимит импорта 1024. Точные промпты/редактирование/SHA — в painterly README и asset_registry. T01 v01 визуально отвергнута за грубую сетку, v02 мягче; исходная версия не импортировалась.
+
+B01 — отдельная роль plaster_domestic, scale 1, только существующий Factory/LeftWallPier0 у печи. Остальные обои, пол и металлическая печь сохранены. Это художественное решение текущего среза, не новый факт лора и не изменение архитектурных размеров. Старые WindowRecess не загружаются текущим домом, поэтому привязка только к ним не считалась бы интеграцией.
+
+T01 — отдельная TeaTablecloth, scale 2. Сетка строится по границам настоящей перемещённой столешницы, лежит на 3 мм выше её верхней поверхности, оставляет деревянный край с боков/сзади и свисает спереди на 25 см с небольшими складками. 672 треугольника, две стороны с раздельными группами нормалей; UV в развёрнутых метрах, не мировая проекция сквозь изгиб. Это тонкая статичная ткань без симуляции и новых коллизий; стол, предметы и интерактивные цели не изменены.
+
+[Сборка home-finish-01](../production/act1_takeover_evidence_2026-09-16/integrated-build-20260922-texture-home-finish-01.json): PASS340, C# 9,28 с, импорт 2,41 с, drift/errors пусты. [House-01](../production/act1_takeover_evidence_2026-09-16/texture-home-finish-20260922-01/architecture-receipt.json) на этой сборке: 105 проверок, failures=[], 22,464788 м автоматического движения, exit0/userdata restored. Просмотрены wall_back (ткань под ПК/документами и свисающий край) и wall_left (штукатурка отличается от обоев, металл печи сохранён). Это medium, не человеческая художественная приёмка.
+
+Для Low/High расширен существующий Act1VisualReviewCapture: строгий параметр --urman-act1-graphics=low|medium|high применяет обычные настройки через контроллер, отдельные имена кадров и фактический preset/scale в receipt; два вида дома используют координаты действующей комнаты. Первая партия профилей на home-finish-02 **отвергнута**: заваленный горизонт и стойка, замороженная до окончания ApplyZoneSpawn. В исходном capture оставались _UnhandledInput и отдельный camera.LookAt. Исправлено только в захвате: ожидание двух physics-кадров восстановления стойки с modal, отключение mouse-ввода, штатный ApplySmokeLook вместо независимого поворота Camera, проверка направления и нулевого крена перед записью. Обычное управление/сохранения не менялись. Актуальный повтор на home-finish-03 проверяется отдельно; старый receipt с четырьмя файлами не означает четыре принятых кадра.
+
+Актуальный повтор: [home-finish-03](../production/act1_takeover_evidence_2026-09-16/integrated-build-20260922-texture-home-finish-03.json) PASS340, C# 9,09 с / импорт 2,39 с, без drift/errors. [Четыре кадра профилей](../production/act1_takeover_evidence_2026-09-16/texture-home-profiles-20260922-02/act1_visual_review_receipt.json) на этой сборке: все exit0, userdata/permissions restored, crouching=false, Low scale=.75, High scale=1. Проверки направления/крена прошли перед записью; четыре изображения просмотрены. В High различимы плетение и штукатурка, в Low остаются базовые цвета/форма без карт. Это статичные близкие виды B01/T01, а не проверка в движении и не Low/High-приёмка остальных 14 карт. Старые кадры этого harness, снятые до исправления стойки/наведения, не доказывают стоячий ракурс; не переносить их художественные выводы на новый захват.
+
+Независимое ревью геометрии/материалов: конкретных Critical/Important дефектов исходников не осталось. Первоначальное замечание о перевёрнутых нормалях отозвано после проверки алгоритма [SurfaceTool](https://github.com/godotengine/godot/blob/master/scene/resources/surface_tool.cpp) и [Plane](https://github.com/godotengine/godot/blob/master/core/math/plane.h): пары обратных граней разделены smooth groups и получают соответствующие противоположные нормали. Геометрию ради смены условных имён сторон не переворачивали. Ревью подтверждает границы/UV/назначения, не заменяет художественную приёмку.
+
+Удалён только собственный отвергнутый профильный набор 01: четыре PNG, четыре лога и receipt, около 2,5 МБ. Сохранены актуальный набор 02, сборочные receipts 01–03 и записи о причине отбраковки. Оригиналы ImageGen и пользовательские файлы не удалялись.
+
+Диск после среза: около 7 ГБ свободно. Read-only проверка: .git 3,1 ГБ, .tools 2,8 ГБ, game/.godot 766 МБ, graphify-out 519 МБ, docs/production 1,9 ГБ; все исходники ImageGen этой задачи — 58 МБ. Оставшихся protected-run recovery-папок не найдено. Это не доказывает источник общего снижения свободного места; не удалять сохранения, инструменты, пользовательские данные или старые доказательства вслепую. Следующий безопасный шаг — задачи кода/контента без полного экспорта и длинных захватов.
+
+## Предыдущий срез: снег и кора, 22 сентября
 
 Выбраны и подключены **14/16** карт первой партии: добавлены S01 v01, S02 v02, F01 v03, F02 v02. Точные промпты всех генераций/редактирований, исходники и SHA — в [README материалов](../../game/assets/textures/painterly/README.md), четыре записи — в asset_registry. Все исходники 1254 × 1254 RGB; [source-gate](../production/act1_takeover_evidence_2026-09-16/texture-snow-bark-20260922-source.md) **4/4 PASS** на прежних порогах. Импорт: уникальные UID, mipmaps=true, size_limit=1024.
 
@@ -89,10 +109,10 @@ W01 назначена существующей роли `wood_facade`, не о�
 | W04 | `urman_w04_v02_basecolor.png`, MainStreetEastNeighbor/VariantB Dark | source PASS после визуальной коррекции, wood_painted_green, scale 1, base 9da98f. |
 | W08 | `urman_w08_v01_basecolor.png` | source PASS, FapPaintedTimber и семь групп домашней мебели, кадры build texture-lang-02; scale 1/.75. |
 | W09 | `urman_w09_v01_basecolor.png`, действующий Factory/Floor и старые FloorBoard | source PASS, scale 1, локальная Z; текущий пол просмотрен на wood-01. Геометрии отдельных досок в действующем полу ещё нет. |
-| B01 | `aged_plaster_v3_albedo.png`, `HouseInterior_WindowRecess*` | reuse/edit candidate: кремовая штукатурка с мелкими трещинами; scale 1.5×1.15 → 1. Основные стены — обои/брёвна, текущая печь металлическая, не белить её PNG. |
+| B01 | `urman_b01_v01_basecolor.png`, Factory/LeftWallPier0 | source PASS, plaster_domestic, scale 1; действующая стена у печи, остальные обои/металл неизменны. Medium и статичные Low/High просмотрены; старые WindowRecess не потребитель текущей комнаты. |
 | B03 | `urman_b03_v01_basecolor.png`, wall_institution | source PASS; спокойная краска просмотрена на clinic-02/build texture-lang-02. Scale 1. |
 | B04 | Новый `urman_b04_v01_basecolor.png`, все поля пола ФАПа | source PASS, первое runtime-подключение/кадр; scale 1. |
-| T01 | Скатерти/consumer нет; столешница — настоящее дерево | требуется сначала отдельная поверхность скатерти. Не назначать ткань деревянному столу; не объявлять карточку неприменимой навсегда. Scale 2 после появления поверхности. |
+| T01 | `urman_t01_v02_basecolor.png`, Factory/TeaTablecloth | source PASS, cloth_table, scale 2 по развёрнутым метровым UV; отдельная сетка по реальному столу, свисающий край, без новых коллизий. Medium и статичные Low/High просмотрены; мерцание/движение ещё не приняты. |
 | T08 | `urman_t08_v01_basecolor.png`, `HouseInterior_DaybedCushion/Back*` | source PASS, адресная обивка просмотрена в house-02/build texture-lang-02; scale 2. |
 | T10 | Новый `urman_t10_v02_basecolor.png`, `FapInteriorScreen_Panel*` | source PASS после исправления шва; scale 2. Одежда и прочие ткани неизменны. |
 | M05 | `urman_m05_v01_basecolor.png`, OldPc_Crt/Keyboard/Tower | source PASS, светлый ABS просмотрен в house-02/build texture-lang-02. Glass/TowerPanel/DriveSlot/PowerButton сохраняют роли; scale 2. |
