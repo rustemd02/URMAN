@@ -1,5 +1,67 @@
 # Painterly texture provenance
 
+## W01/W03/W04/W09 — facade finishes and house floor, 2026-09-22
+
+Four selected built-in ImageGen outputs, each 1254 × 1254 RGB, copied unchanged into this directory; no third-party references. Import sidecars retain mipmaps and a 1024 runtime size cap. All four pass the unchanged source gate (`texture-wood-20260922-source.md`). This is source acceptance, not a claim of perfect tiling in motion or human art approval. Exact generation prompts follow; source files are retained under `/Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/`.
+
+All four mappings use scale 1 × 1. Painted blue/green retain the existing facade response; restrained base hues `9eabb9`/`9da98f` avoid the former dark tint and preserve a distinction when Low omits maps. W09 uses `777068` and the existing sheltered furniture response. Other generic wood/fence/fabric roles are untouched. Facade maps use upright side projection. The floor uses unswizzled local position/normal, independent of the legacy hay/loose-wood projection.
+
+### W01 v01
+
+Selected `urman_w01_v01_basecolor.png`; SHA-256 `0a205444a6413b9a4a420ecd5660c2a6ee3016285e58f14c1a5aaa1569a8ba75`; source `exec-2f0a7250-736a-486f-8f82-c646e50b8573.png`; cached owner `wood_facade`. Maintained facade timber, existing wood_facade consumers only; generic wood/fences remain unchanged.
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Maintained old softwood surface, grey honey-brown with quiet short longitudinal grain groups and thin traces of old protective finish. Clearly cared for, neither new construction nor rotten ruin. Grain runs vertically in the image. No plank boundaries, board count, knots with black rings, nail heads, bevels or cast shadows.
+```
+
+### W03 v01
+
+Selected `urman_w03_v01_basecolor.png`; SHA-256 `e0cabef7cc30329e9a121024eb0a11e74959e6126c5a4a30fdee66ab0e843d37`; source `exec-fae9c74b-d15e-4ee9-9227-790ca7858bcd.png`; cached owner `wood_painted_blue`. ArrivalForwardWestFacade/ArrivalForwardEastFacade URMAN_Wood_Weathered slots only.
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Muted cornflower-blue paint on maintained old wood, predominantly intact matte color with sparse irregular worn pigment patches exposing grey timber. Balanced blue pigment that stays identifiable in winter light, not neon and not entirely grey. Soft vertical wood suggestion, no boards, cracks, nails, carved shapes or shadows.
+```
+
+### W04 v02
+
+Selected `urman_w04_v02_basecolor.png`; SHA-256 `6f5d792acbeffaf1a713ca77cfa0642576d1ec85e5028cfdb1fc16c41bf3e983`; source `exec-72873f09-39e3-4880-88fd-2b69198d3779.png`; cached owner `wood_painted_green`. MainStreetEastNeighborFacade/VariantB URMAN_Wood_Dark slots only.
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Sage and subdued bottle-green painted timber, quiet medium-value pigment, light hand-brushed variation and occasional small weathered patches. Preserve clear green identity without swamp-black darkness or fluorescent saturation. No plank divisions, continuous peeling seams, carvings, symbols, bolts or edge shadows.
+```
+
+The first output `exec-bb7d99d1-4064-4e3a-bf13-0f844ee2328c.png` was visually rejected as excessively mottled; it was never integrated or copied into the repository. v02 is the built-in edit of that source, preserving the material and calming the pigment:
+
+```text
+Edit this green painted timber base-color material. Change only the excessive mottled camouflage-like paint variation: make at least 90 percent of the surface one calm medium sage-green paint field with very subtle vertical hand-brushed pigment texture. Retain only a few tiny low-contrast worn flecks, not large irregular patches. Maintain a clearly green, muted, matte maintained household paint identity. Seamless square opaque RGB texture with exact continuity on all four edges, flat neutral illumination, no grain noise, plank divisions, bevels, cracks, symbols, shadows, highlights or object silhouettes. No collage, no tiled preview. Keep the original square composition and single-material purpose.
+```
+
+### W09 v01
+
+Selected `urman_w09_v01_basecolor.png`; SHA-256 `b606047aff0776239d5b164d1113b47a9797ae19ee3c7ae3dd72e785639f8697`; source `exec-9b276a11-4013-40a8-889f-0e2a04b17786.png`; cached owner `wood_floor_painted`. Actual StyleBenchmarkInteriorFactory Floor plus legacy HouseInterior_FloorBoard. Room-local grain follows local Z, not world axes. Actual room floor is still a single slab; board geometry remains open.
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Old painted timber floor surface in subdued brown-grey, softly rubbed medium-value areas and occasional worn paint revealing warm wood. Long grain follows one axis, but no complete boards, board gaps, nail pattern, room perimeter or directional footpath.
+
+Orientation: grain runs vertically in the image, so image V follows the physical board length.
+```
+
 ## T08 — domestic upholstery, 2026-09-22
 
 Selected `urman_t08_v01_basecolor.png`, 1254 × 1254 RGB; SHA-256 `0d711435c9f9525b86c868272f54e2ac2fa29b4333e413860e657cea672fea1e`. Built-in ImageGen source `exec-37a5eb77-78cc-46bd-b1d4-c451eca5e82b.png`, unchanged pixels, no external references. Source inspection: brown-olive woven geometric repeat, no painted seams or cushion. Source gate PASS: seam means .0316/.0410, maxima .1843/.2078, no clipping, mean saturation .4432. The existing daybed cushion/back now use cached `fabric_upholstery`, scale 2 × 2 and the existing fabric response. Other fabric roles unchanged; import mipmaps/1024 cap explicit. Runtime pattern density/tint and art pending.

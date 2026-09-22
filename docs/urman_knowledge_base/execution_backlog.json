@@ -2949,7 +2949,7 @@
   {
    "id": "ACT1-TEXTURE.00",
    "title": "Сопоставить 132 карточки с текущими файлами и потребителями",
-   "progress_2026_09_22": "Все 16 карт первой партии сопоставлены с текущими файлами, кодовыми потребителями, масштабом и причинами new/edit/reuse candidate в docs/tasktracker/05_texture_production_2026-09-22.md. T01 требует геометрии скатерти; остальные 116 карточек ещё не инвентаризированы.",
+   "progress_2026_09_22": "16 опорных карт сопоставлены в docs/tasktracker/05_texture_production_2026-09-22.md. Исправлена прежняя ошибка W09: видимый пол — StyleBenchmarkInteriorFactory/Floor, а не старые FloorBoard; к нему подключена карта. T01 требует реальной поверхности скатерти, W09 — формы отдельных досок; остальные 116 карточек ещё не инвентаризированы.",
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/texture-tracker-2026-09-22",
@@ -2977,7 +2977,7 @@
   {
    "id": "ACT1-TEXTURE.01",
    "title": "Первая партия: 16 опорных текстур",
-   "progress_2026_09_22": "6/16 выбранных PNG: B03/B04/M05/T08/T10 v02/W08; source-gate PASS, точные промпты/SHA в painterly README и registry. Native clinic-02 PASS113 и house-02 boundary PASS105 на build texture-lang-02; кадры просмотрены. High/Low/движение/человеческая художественная приёмка и остальные 10 карт открыты.",
+   "progress_2026_09_22": "10/16 выбранных PNG: B03/B04/M05/T08/T10 v02/W08 плюс W01/W03/W04 v02/W09; source-gate PASS, точные версии/промпты/SHA в painterly README и registry. House-03 PASS105 на wood-01, фасадные кадры отдельно в журнале. Оставшиеся S01/S02/B01/T01/F01/F02, High/Low/движение и человеческая художественная приёмка открыты.",
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/texture-tracker-2026-09-22",
@@ -3435,7 +3435,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "B03/B04/T10 v02/W08 адресно в ФАП; M05/T08 и W08 — корпуса ПК/обивка/семь групп мебели дома. Не менялись общие ткани, стены, полы и уличная мебель. Source/import и native кадры build texture-lang-02 в docs/tasktracker/05_texture_production_2026-09-22.md; остальные карточки и профили открыты.",
+   "progress_2026_09_22": "Первые шесть карт в ФАП/мебели/ПК; добавлены W01 wood_facade, адресные W03/W04 для синего/зелёного дерева и W09 действующего пола дома. Проекция пола локальная, фасадных вертикалей upright; hay/loosewood/общий wood не изменены. Базовые оттенки различимы в Low, но Low-кадры ещё не сняты. Точный объём и геометрия досок pending в docs/tasktracker/05_texture_production_2026-09-22.md.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.01"
@@ -3468,7 +3468,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "Шесть source-gate PASS; build texture-lang-02/import PASS. Clinic-01 исторический FAIL; исправлена только оптическая fixture за реальной рейкой. Clinic-02 PASS113, house-02 boundary PASS105 на build02 с восстановлением userdata. Последний функциональный build04/oldPC smoke PASS с отдельными cleanup-предупреждениями. Не переносить визуальный PASS между build receipts; art/High/Low/движение открыты.",
+   "progress_2026_09_22": "10 source-gate PASS; wood-04 build/import PASS328 без drift/errors. House-03 на wood-01 PASS105; свежие фасады texture-facades-20260922-03 на wood-04 просмотрены, два guarded процесса exit0, userdata восстановлены. Исправлен старый фиксированный счётчик6: свежий receipt честно содержит2. W04 в тени/на расстоянии, не близкая art-приёмка. Точная хронология в docs/tasktracker/05_texture_production_2026-09-22.md; art/High/Low/движение открыты.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.11"
@@ -7985,6 +7985,7 @@
   {
    "id": "ACT1-DEPTH.2",
    "title": "Дом бабая: объёмные объекты интерьера",
+   "progress_2026_09_22": "При интеграции W09 подтверждено: действующий Factory/Floor — цельная плита, старые FloorBoard не определяют вид комнаты. Карта подключена и просмотрена, но отдельная форма досок и адресный износ ещё нужны. T01 требует настоящей поверхности скатерти над столом; нельзя просто окрасить деревянную столешницу тканью. Остальная приёмка объёмных объектов сохраняется.",
    "milestone": "M5",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",

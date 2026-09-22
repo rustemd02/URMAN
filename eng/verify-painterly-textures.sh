@@ -150,6 +150,10 @@ CATALOG_NAME_RE = re.compile(r"^(urman_[a-z][0-9]{2})_v[0-9]{2}_basecolor\.png$"
 # Only integrated TILE consumers belong here. Unique sheets, UV atlases and
 # alpha decals need their own acceptance, not an automatic seam PASS.
 CATALOG_EXPECTED = {
+    "urman_w01_v01_basecolor.png": ("wood_facade", 1.0, 1.0),
+    "urman_w03_v01_basecolor.png": ("wood_painted_blue", 1.0, 1.0),
+    "urman_w04_v02_basecolor.png": ("wood_painted_green", 1.0, 1.0),
+    "urman_w09_v01_basecolor.png": ("wood_floor_painted", 1.0, 1.0),
     "urman_b03_v01_basecolor.png": ("wall_institution", 1.0, 1.0),
     "urman_b04_v01_basecolor.png": ("floor_institution", 1.0, 1.0),
     "urman_m05_v01_basecolor.png": ("plastic_abs", 2.0, 2.0),

@@ -55,7 +55,7 @@ public static class StyleBenchmarkInteriorFactory
     {
         room.SetMeta("heroHouseContract", ContractVersion);
         room.SetMeta("heroHouseClearDimensions", new Vector3(ClearWidth, CeilingHeight, ClearDepth));
-        Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "57483b", "wood");
+        Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "777068", "wood_floor_painted");
         Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "695746", "wood");
 
         Wall(room, "FrontWall", 4.2f, 3.6f, false,

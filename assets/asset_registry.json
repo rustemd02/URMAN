@@ -4,6 +4,86 @@
  "sourceTool": "Blender 4.5 LTS",
  "assets": [
   {
+   "id": "texture.painterly.w01.v01",
+   "source": "ImageGen built-in, 2026-09-22; exec-2f0a7250-736a-486f-8f82-c646e50b8573.png; exact prompts in game/assets/textures/painterly/README.md (W01)",
+   "derived": "game/assets/textures/painterly/urman_w01_v01_basecolor.png",
+   "derivedSha256": "0a205444a6413b9a4a420ecd5660c2a6ee3016285e58f14c1a5aaa1569a8ba75",
+   "generator": "OpenAI ImageGen built-in; unchanged selected source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 1,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "wood_facade"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/wood_facade; Maintained facade timber, existing wood_facade consumers only; generic wood/fences remain unchanged.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; current captures in docs/tasktracker/05_texture_production_2026-09-22.md; High/Low/motion/art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.w03.v01",
+   "source": "ImageGen built-in, 2026-09-22; exec-fae9c74b-d15e-4ee9-9227-790ca7858bcd.png; exact prompts in game/assets/textures/painterly/README.md (W03)",
+   "derived": "game/assets/textures/painterly/urman_w03_v01_basecolor.png",
+   "derivedSha256": "e0cabef7cc30329e9a121024eb0a11e74959e6126c5a4a30fdee66ab0e843d37",
+   "generator": "OpenAI ImageGen built-in; unchanged selected source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 1,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "wood_painted_blue"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/wood_painted_blue; ArrivalForwardWestFacade/ArrivalForwardEastFacade URMAN_Wood_Weathered slots only.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; current captures in docs/tasktracker/05_texture_production_2026-09-22.md; High/Low/motion/art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.w04.v02",
+   "source": "ImageGen built-in, 2026-09-22; exec-72873f09-39e3-4880-88fd-2b69198d3779.png; exact prompts in game/assets/textures/painterly/README.md (W04)",
+   "derived": "game/assets/textures/painterly/urman_w04_v02_basecolor.png",
+   "derivedSha256": "6f5d792acbeffaf1a713ca77cfa0642576d1ec85e5028cfdb1fc16c41bf3e983",
+   "generator": "OpenAI ImageGen built-in; unchanged selected source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 1,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "wood_painted_green"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/wood_painted_green; MainStreetEastNeighborFacade/VariantB URMAN_Wood_Dark slots only.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; current captures in docs/tasktracker/05_texture_production_2026-09-22.md; High/Low/motion/art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
+   "id": "texture.painterly.w09.v01",
+   "source": "ImageGen built-in, 2026-09-22; exec-9b276a11-4013-40a8-889f-0e2a04b17786.png; exact prompts in game/assets/textures/painterly/README.md (W09)",
+   "derived": "game/assets/textures/painterly/urman_w09_v01_basecolor.png",
+   "derivedSha256": "b606047aff0776239d5b164d1113b47a9797ae19ee3c7ae3dd72e785639f8697",
+   "generator": "OpenAI ImageGen built-in; unchanged selected source; importer size_limit 1024",
+   "license": "Project-generated",
+   "scale": 1,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": [
+    "wood_floor_painted"
+   ],
+   "materialOwner": "PainterlyMaterialLibrary/wood_floor_painted; Actual StyleBenchmarkInteriorFactory Floor plus legacy HouseInterior_FloorBoard. Room-local grain follows local Z, not world axes. Actual room floor is still a single slab; board geometry remains open.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime size capped to 1024",
+   "qa": "source gate PASS; current captures in docs/tasktracker/05_texture_production_2026-09-22.md; High/Low/motion/art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
    "id": "texture.painterly.t08.v01",
    "source": "ImageGen built-in, 2026-09-22; exact prompt/source in game/assets/textures/painterly/README.md (T08)",
    "derived": "game/assets/textures/painterly/urman_t08_v01_basecolor.png",

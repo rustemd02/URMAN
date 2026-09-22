@@ -686,6 +686,8 @@ Material request: Muted cornflower-blue paint on maintained old wood, predominan
 Тип: TILE · бесшовная RGB-карта. Масштаб / формат: 1 × 1 м.\
 Имя кандидата: `urman_w04_v01_basecolor.png`.
 
+Исполнение 22 сентября: первый результат оказался слишком пятнистым; выбран `urman_w04_v02_basecolor.png` после встроенного редактирования. Исходный и корректирующий промпты, SHA и назначения — в [реестре генерации](../../../game/assets/textures/painterly/README.md). Имя v01 выше остаётся именем первого кандидата, не текущего подключённого файла.
+
 ```text
 For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
 

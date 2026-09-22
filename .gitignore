@@ -88,6 +88,10 @@ graphify-out/.rebuild.lock
 !game/assets/textures/painterly/hay_fibers_v1_albedo.png.import
 
 # Selected catalogue TILE candidates keep their mipmaps and 1024 import cap.
+!game/assets/textures/painterly/urman_w01_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_w03_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_w04_v02_basecolor.png.import
+!game/assets/textures/painterly/urman_w09_v01_basecolor.png.import
 !game/assets/textures/painterly/urman_b03_v01_basecolor.png.import
 !game/assets/textures/painterly/urman_b04_v01_basecolor.png.import
 !game/assets/textures/painterly/urman_m05_v01_basecolor.png.import

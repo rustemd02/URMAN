@@ -16,7 +16,6 @@ public partial class Act1VisualReviewCapture : Node
 {
     private const int CaptureWidth = 1280;
     private const int CaptureHeight = 720;
-    private const int ExpectedFrameCount = 6;
     private const int WarmupFrames = 24;
     private const string FrameArgumentPrefix = "--urman-act1-frame=";
     private const string OutputArgumentPrefix = "--urman-act1-output=";
@@ -30,6 +29,16 @@ public partial class Act1VisualReviewCapture : Node
     private static readonly IReadOnlyDictionary<string, FrameSpec> FrameSpecs =
         new Dictionary<string, FrameSpec>(StringComparer.Ordinal)
         {
+            // Material review uses the existing production-camera capture,
+            // without changing the six-frame forest acceptance contract.
+            ["painted_arrival_west"] = new(
+                "painted_arrival_west", "village_day", "arrival",
+                new Vector3(0f, AgentBAct1HeightField.CollisionGround(0f, 4f) + .05f, 4f),
+                new Vector3(-7.2f, 2.2f, 3.2f)),
+            ["painted_street_east"] = new(
+                "painted_street_east", "village_day", "from_house",
+                new Vector3(1f, AgentBAct1HeightField.CollisionGround(1f, -9f) + .05f, -9f),
+                new Vector3(9.8f, 1.8f, -10.5f)),
             ["kara_forest_forward"] = new(
                 "kara_forest_forward",
                 "kara_urman_night",
@@ -333,7 +342,9 @@ public partial class Act1VisualReviewCapture : Node
         receipt.Frames.Add(frame);
         receipt.Frames = receipt.Frames.OrderBy(existing => existing.FrameId, StringComparer.Ordinal).ToList();
         receipt.FrameCount = receipt.Frames.Count;
-        receipt.CaptureProcessCount = ExpectedFrameCount;
+        // This harness writes exactly one distinct frame per process; partial
+        // and material-only runs must not claim the full six-frame campaign.
+        receipt.CaptureProcessCount = receipt.Frames.Count;
         receipt.Viewport = new ViewportReceipt { Width = CaptureWidth, Height = CaptureHeight };
         receipt.Kind = "urman.godot_act1_visual_review_capture";
         receipt.SchemaVersion = 1;

@@ -251,7 +251,7 @@ public static class GeneratedModularKitDressing
             _ when name.StartsWith("PineA_Trunk", StringComparison.Ordinal) => ("40352d", "bark_pine"),
             _ when name.StartsWith("PineA_Crown", StringComparison.Ordinal) => ("263a35", "foliage"),
             _ when name.StartsWith("TableA_", StringComparison.Ordinal) => ("57402e", "wood_furniture"),
-            _ when name.StartsWith("HouseInterior_FloorBoard", StringComparison.Ordinal) => ("57483b", "wood"),
+            _ when name.StartsWith("HouseInterior_FloorBoard", StringComparison.Ordinal) => ("777068", "wood_floor_painted"),
             _ when name.StartsWith("HouseInterior_BaseTrim", StringComparison.Ordinal) => ("493629", "wood"),
             _ when name.StartsWith("HouseInterior_CeilingField", StringComparison.Ordinal) => ("695746", "wood"),
             _ when name.StartsWith("HouseInterior_CeilingBeam", StringComparison.Ordinal) => ("493629", "wood"),

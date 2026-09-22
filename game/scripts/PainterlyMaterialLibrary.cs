@@ -33,6 +33,7 @@ public static class PainterlyMaterialLibrary
         // preserves local Y as the vertical fiber axis on both side faces.
         // Lighting, weather and snow continue to use the world-space varyings.
         uniform bool local_wood_texture = false;
+        uniform bool local_floor_texture = false;
         uniform vec3 local_wood_offset = vec3(0.0);
         // Packed hay already has a continuous circumferential/vertical UV
         // layout; preserve it instead of projecting fibers through the stack.
@@ -118,8 +119,8 @@ public static class PainterlyMaterialLibrary
         }
 
         void vertex() {
-            local_wood_position = (VERTEX + local_wood_offset).zyx;
-            local_wood_normal = NORMAL.zyx;
+            local_wood_position = local_floor_texture ? VERTEX : (VERTEX + local_wood_offset).zyx;
+            local_wood_normal = local_floor_texture ? NORMAL : NORMAL.zyx;
             world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
             world_normal = normalize(MODEL_NORMAL_MATRIX * NORMAL);
             // Ground microrelief is normal detail: its sub-centimetre height
@@ -174,8 +175,8 @@ public static class PainterlyMaterialLibrary
                 0.55,
                 1.0);
             float upward = clamp(dot(normalize(world_normal), vec3(0.0, 1.0, 0.0)) * 0.08 + 0.92, 0.84, 1.0);
-            vec3 albedo_position = local_wood_texture ? local_wood_position : world_position;
-            vec3 albedo_normal = local_wood_texture ? local_wood_normal : world_normal;
+            vec3 albedo_position = (local_wood_texture || local_floor_texture) ? local_wood_position : world_position;
+            vec3 albedo_normal = (local_wood_texture || local_floor_texture) ? local_wood_normal : world_normal;
             vec3 texture_color = has_albedo_texture
                 ? (authored_uv_texture
                     ? texture(albedo_texture, UV * texture_scale).rgb
@@ -327,12 +328,12 @@ public static class PainterlyMaterialLibrary
         // cleaner planks (v3); road keeps painterly ruts (v3), open terrain
         // the softer mottle (v5).
         ["wood"] = ("res://assets/textures/painterly/weathered_wood_boards_v4_albedo.png", new Vector2(0.65f, 0.65f)),
-        // Imported Blender modules have different real-world repetition
-        // scales. Keep one shared albedo source, but give the facade, fence,
-        // furniture and bark semantic owners so a board tile is not repeated
-        // at the same density on every surface. This is a material-library
-        // calibration; all mappings reuse the same source texture.
-        ["wood_facade"] = ("res://assets/textures/painterly/weathered_wood_boards_v4_albedo.png", new Vector2(0.65f, 0.65f)),
+        // Catalogue maps are scoped by actual finish. Legacy wood/fence/prop
+        // owners remain independent; new paint does not recolor every house.
+        ["wood_facade"] = ("res://assets/textures/painterly/urman_w01_v01_basecolor.png", Vector2.One),
+        ["wood_painted_blue"] = ("res://assets/textures/painterly/urman_w03_v01_basecolor.png", Vector2.One),
+        ["wood_painted_green"] = ("res://assets/textures/painterly/urman_w04_v02_basecolor.png", Vector2.One),
+        ["wood_floor_painted"] = ("res://assets/textures/painterly/urman_w09_v01_basecolor.png", Vector2.One),
         ["wood_fence"] = ("res://assets/textures/painterly/weathered_wood_boards_v2_albedo.png", new Vector2(0.8f, 0.8f)),
         ["wood_furniture"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.95f, 0.95f)),
         // W08: opt-in finished furniture; the legacy owner also serves floors
@@ -535,12 +536,22 @@ public static class PainterlyMaterialLibrary
         }
 
         var color = Color.FromHtml(htmlColor);
+        // New maps keep the established wood responses; texture/projection and
+        // cache identity remain specific to each actual surface.
+        var finishSurface = surface switch
+        {
+            "wood_painted_blue" or "wood_painted_green" => "wood_facade",
+            "wood_floor_painted" => "wood_furniture_interior",
+            _ => surface
+        };
         var shadow = new Color(color.R * 0.54f, color.G * 0.56f, color.B * 0.58f, color.A);
         var material = new ShaderMaterial { Shader = PainterlyShader };
         material.SetShaderParameter("base_color", color);
         material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
-        material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle");
+        material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle"
+            or "wood_facade" or "wood_painted_blue" or "wood_painted_green" or "wood_floor_painted");
         material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
+        material.SetShaderParameter("local_floor_texture", surface == "wood_floor_painted");
         material.SetShaderParameter("authored_uv_texture", surface == "hay_fibers");
         material.SetShaderParameter("metallic_value", surface == "iron" ? 0.65f : 0f);
         material.SetShaderParameter("finish_grain", surface switch
@@ -555,7 +566,7 @@ public static class PainterlyMaterialLibrary
         // Keep the brush rhythm stable for a semantic surface. The old cache
         // count made the same material change appearance with call order and
         // amplified broad world-space banding on long walls and roads.
-        material.SetShaderParameter("brush_scale", surface switch
+        material.SetShaderParameter("brush_scale", finishSurface switch
         {
             "earth" => 0.34f,
             "wet_ground" => 0.30f,
@@ -577,7 +588,7 @@ public static class PainterlyMaterialLibrary
             "water" => 0.18f,
             _ => 0.30f
         });
-        material.SetShaderParameter("variation", surface switch
+        material.SetShaderParameter("variation", finishSurface switch
         {
             "earth" => 0.14f,
             "wet_ground" => 0.11f,
@@ -597,7 +608,7 @@ public static class PainterlyMaterialLibrary
             "water" => 0.06f,
             _ => 0.10f
         });
-        material.SetShaderParameter("texture_strength", surface switch
+        material.SetShaderParameter("texture_strength", finishSurface switch
         {
             "hay_fibers" or "hay_bundle" => 1.0f,
             "foliage" => 0.95f,
@@ -625,7 +636,7 @@ public static class PainterlyMaterialLibrary
         });
         // Phase 2: grounding darken near the dirt line + world-cell tint
         // jitter that de-clones repeated houses/fences/trees.
-        material.SetShaderParameter("ground_darken", surface switch
+        material.SetShaderParameter("ground_darken", finishSurface switch
         {
             "bark_birch" or "bark_pine" => 0.25f,
             "roof" or "roof_metal" => 0.0f,
@@ -637,7 +648,7 @@ public static class PainterlyMaterialLibrary
             "stone" => 0.14f,
             _ => 0.0f
         });
-        var snowSparkle = surface switch
+        var snowSparkle = finishSurface switch
         {
             "snow_ground" => 0.55f,
             "snow_roof" => 0.65f,
@@ -653,7 +664,7 @@ public static class PainterlyMaterialLibrary
             _ => 0.0f
         };
         material.SetShaderParameter("snow_sparkle", sheltered ? 0f : snowSparkle);
-        var snowCoverage = surface switch
+        var snowCoverage = finishSurface switch
         {
             // Full-snow families own their own albedo, no blanket needed.
             "snow_ground" or "snow_road" or "snow_trampled" or "snow_grass" or "snow_roof" or "ice" => 0.0f,
@@ -670,7 +681,7 @@ public static class PainterlyMaterialLibrary
             _ => 0.0f
         };
         material.SetShaderParameter("snow_coverage", sheltered ? 0f : snowCoverage);
-        material.SetShaderParameter("cell_jitter", surface switch
+        material.SetShaderParameter("cell_jitter", finishSurface switch
         {
             "grass" => 0.20f,
             "grass_tuft" => 0.0f,
@@ -691,7 +702,7 @@ public static class PainterlyMaterialLibrary
         // Keep the wet-weather response semantic and bounded: authored relief
         // owns puddle/rut silhouettes, while these values only separate surface
         // response without adding textures or a second material owner.
-        var surfaceGrade = surface switch
+        var surfaceGrade = finishSurface switch
         {
             "snow_ground" => (Roughness: 0.90f, Specular: 0.28f, WetGrade: 0.0f),
             "snow_road" => (Roughness: 0.68f, Specular: 0.28f, WetGrade: 0.0f),

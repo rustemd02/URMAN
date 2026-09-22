@@ -2103,8 +2103,18 @@ public partial class Act1ConnectedWorld : Node3D
                     if (path.Contains(marker, System.StringComparison.Ordinal)
                         && string.Equals(sourceName, tintedSource, System.StringComparison.Ordinal))
                     {
-                        material = PainterlyMaterialLibrary.ForColor(tint,
-                            sourceName.Contains("Wood", System.StringComparison.Ordinal) ? "wood" : "plaster");
+                        var surfaceKind = (marker, tintedSource) switch
+                        {
+                            ("ArrivalForwardWestFacade" or "ArrivalForwardEastFacade", "URMAN_Wood_Weathered") => "wood_painted_blue",
+                            ("MainStreetEastNeighborFacade" or "VariantB", "URMAN_Wood_Dark") => "wood_painted_green",
+                            _ => sourceName.Contains("Wood", System.StringComparison.Ordinal) ? "wood" : "plaster"
+                        };
+                        // Restrained base hues avoid the former dark tint,
+                        // while keeping both paints distinct when Low omits maps.
+                        material = PainterlyMaterialLibrary.ForColor(
+                            surfaceKind == "wood_painted_blue" ? "9eabb9"
+                                : surfaceKind == "wood_painted_green" ? "9da98f" : tint,
+                            surfaceKind);
                         break;
                     }
                 }
