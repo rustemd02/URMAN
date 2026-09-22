@@ -4,6 +4,24 @@
  "sourceTool": "Blender 4.5 LTS",
  "assets": [
   {
+   "id": "texture.painterly.w05.v02",
+   "source": "ImageGen built-in, 2026-09-22; exec-8fcdfc7d-ba63-421a-a480-1eb6355ceea5.png; exact initial/edit prompts in game/assets/textures/painterly/README.md (W05)",
+   "derived": "game/assets/textures/painterly/urman_w05_v02_basecolor.png",
+   "derivedSha256": "c2170588472b77aab0f560818d34349cc4397d1793f0e5d06a7cbd73ee2ac317",
+   "generator": "OpenAI ImageGen built-in; selected source pixels unchanged",
+   "license": "Project-generated",
+   "scale": 2,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": ["wood_painted_trim"],
+   "materialOwner": "PainterlyMaterialLibrary; existing DressPaintedWindowSurrounds exact Jamb/Rail members and matching opt-in BatchPaintedWindowSurrounds. Doors, walls and global wood slots unchanged.",
+   "collision": "unchanged",
+   "lod": "mipmaps; runtime cap 1024",
+   "qa": "source-gate PASS1/1; build/native capture scope in docs/tasktracker/05_texture_production_2026-09-22.md",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced on mapped window surrounds; remaining catalogue consumers and final art pending"
+  },
+  {
    "id": "texture.painterly.w02.v02",
    "source": "ImageGen built-in, 2026-09-22; exec-29f2791d-0b6b-4a89-9466-f33242536524.png; initial/edit prompts in game/assets/textures/painterly/README.md (W02)",
    "derived": "game/assets/textures/painterly/urman_w02_v02_basecolor.png",

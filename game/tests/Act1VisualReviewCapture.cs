@@ -31,6 +31,10 @@ public partial class Act1VisualReviewCapture : Node
     private static readonly IReadOnlyDictionary<string, FrameSpec> FrameSpecs =
         new Dictionary<string, FrameSpec>(StringComparer.Ordinal)
         {
+            ["house_exterior_trim"] = new(
+                "house_exterior_trim", "village_day", "from_house", Vector3.Zero, Vector3.Zero),
+            ["house_exterior_trim_street"] = new(
+                "house_exterior_trim_street", "village_day", "from_house", Vector3.Zero, Vector3.Zero),
             ["fence_service_grain"] = new(
                 "fence_service_grain", "village_day", "arrival",
                 Vector3.Zero, Vector3.Zero), // resolved from the visible material owner below
@@ -261,6 +265,35 @@ public partial class Act1VisualReviewCapture : Node
         var space = spec.LocalSpace is null ? null : connectedWorld.GetNode<Node3D>(spec.LocalSpace);
         var position = space is null ? spec.PlayerPosition : space.ToGlobal(spec.PlayerPosition);
         var target = space is null ? spec.Target : space.ToGlobal(spec.Target);
+
+        if (frameId is "house_exterior_trim" or "house_exterior_trim_street")
+        {
+            var facade = connectedWorld.FindChild("BabaiApproachDwellingFacade", true, false) as Node3D
+                ?? throw new InvalidOperationException("W05 capture lacks the current house facade.");
+            var subject = facade.FindChildren("HeroHouse_Street_Window2_Jamb1_LOD0", "MeshInstance3D", true, false)
+                .OfType<MeshInstance3D>().SingleOrDefault();
+            if (subject?.Mesh is null || !subject.IsVisibleInTree()
+                || subject.MaterialOverride is not ShaderMaterial material
+                || material.GetShaderParameter("albedo_texture").AsGodotObject() is not Texture2D texture
+                || !texture.ResourcePath.EndsWith("urman_w05_v02_basecolor.png", StringComparison.Ordinal)
+                || material.GetShaderParameter("texture_scale").AsVector2() != new Vector2(2f, 2f))
+                throw new InvalidOperationException("W05 capture lacks its visible half-metre mapped window jamb.");
+            target = subject.ToGlobal(subject.Mesh.GetAabb().GetCenter());
+            if (frameId == "house_exterior_trim_street")
+            {
+                // Use the ordinary from_house spawn, already settled by Main,
+                // rather than guessing another point beneath the porch canopy.
+                position = player.GlobalPosition;
+                if (!player.CanStandAt(position))
+                    throw new InvalidOperationException("W05 street view requires a clear ordinary standing spawn.");
+            }
+            else
+            {
+                position = target + facade.GlobalBasis.Z.Normalized() * 1.8f;
+                position.Y = AgentBAct1HeightField.CollisionGround(position.X, position.Z) + .05f;
+            }
+            GD.Print($"act1-trim-material-subject: {subject.GetPath()} texture={texture.ResourcePath} scale={material.GetShaderParameter("texture_scale")}");
+        }
 
         // These materials need a close view of their actual current owner,
         // not nominal authoring coordinates of a subsequently hidden fence.

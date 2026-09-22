@@ -337,6 +337,7 @@ public static class PainterlyMaterialLibrary
         ["wood_facade"] = ("res://assets/textures/painterly/urman_w01_v01_basecolor.png", Vector2.One),
         ["wood_painted_blue"] = ("res://assets/textures/painterly/urman_w03_v01_basecolor.png", Vector2.One),
         ["wood_painted_green"] = ("res://assets/textures/painterly/urman_w04_v02_basecolor.png", Vector2.One),
+        ["wood_painted_trim"] = ("res://assets/textures/painterly/urman_w05_v02_basecolor.png", new Vector2(2f, 2f)),
         ["wood_floor_painted"] = ("res://assets/textures/painterly/urman_w09_v01_basecolor.png", Vector2.One),
         ["wood_fence"] = ("res://assets/textures/painterly/weathered_wood_boards_v2_albedo.png", new Vector2(0.8f, 0.8f)),
         // Opt-in pieces with known local grain axes. Mixed imported fence
@@ -554,7 +555,7 @@ public static class PainterlyMaterialLibrary
         // cache identity remain specific to each actual surface.
         var finishSurface = surface switch
         {
-            "wood_painted_blue" or "wood_painted_green" => "wood_facade",
+            "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim" => "wood_facade",
             "wood_floor_painted" => "wood_furniture_interior",
             "wood_fence_vertical" or "wood_fence_rail" or "wood_fence_uv" => "wood_fence",
             "plaster_domestic" => "wall_institution",
@@ -566,7 +567,7 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("base_color", color);
         material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
         material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle"
-            or "wood_facade" or "wood_painted_blue" or "wood_painted_green" or "wood_floor_painted"
+            or "wood_facade" or "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim" or "wood_floor_painted"
             or "bark_birch_winter" or "bark_pine" or "wallpaper" or "wood_fence_vertical" or "wood_fence_rail");
         material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
         material.SetShaderParameter("local_floor_texture", surface is "wood_floor_painted" or "wood_fence_vertical" or "wood_fence_rail");

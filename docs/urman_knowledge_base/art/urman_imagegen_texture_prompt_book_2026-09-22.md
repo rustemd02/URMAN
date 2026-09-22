@@ -717,7 +717,7 @@ For URMAN, an original painterly low-poly mystery game set in a living Tatar vil
 
 Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
 
-Material request: Warm ivory painted wood, fine subdued brush variation and minimal rubbed grey wear. Bright readable surface, not pure white. Almost intact maintained paint with no large stains. No painted carving, cutout holes, trim silhouette, bead molding, labels or specular highlights.
+Material request: Warm ivory painted wood, fine subdued brush variation and minimal rubbed grey wear. Bright readable surface, not pure white. Almost intact maintained paint with no large stains. One continuous painted surface: no board boundaries, seams, gaps, knots, exposed wood grain or full-width stripes. No painted carving, cutout holes, trim silhouette, bead molding, labels or specular highlights.
 ```
 
 Подключение и контроль: Ажур и выступающие профили — форма наличника, не рисунок.

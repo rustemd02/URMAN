@@ -3033,7 +3033,7 @@
   {
    "id": "ACT1-TEXTURE.02",
    "title": "Экстерьеры, снег, дерево, камень и растения",
-   "progress_2026_09_22": "W02 v02 source PASS1/1, первый кандидат группы из 31. Подключены вертикальные детали и составные рейки AddVisualFenceRun (метровые UV, сохранены в стыке с сараем зирата), шесть реек бокового прохода. Fence-uv-02 PASS344, три новых кадра: East High/Low standing, North High crouching. Остальные 30 карточек, импортированные mixed-fence/плетень, движение и art открыты.",
+   "progress_2026_09_22": "W02 v02 на оградах и W05 v02 на существующих оконных наличниках; source PASS1/1 каждого, 2 кандидата группы из 31. W05-02 build/import PASS346, близкие High/Low crouching. Первый native-запуск упал в .NET BGC до сцены, точный повтор прошёл; причина не закрыта. Предыдущие W02-кадры относятся к fence-uv-02. Остальные 29 карточек, оставшиеся потребители, движение и art открыты; подробности в журнале 05_texture_production.",
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/texture-tracker-2026-09-22",
@@ -3061,6 +3061,9 @@
    ],
    "evidence": [
     "docs/production/act1_takeover_evidence_2026-09-16/texture-fence-20260922-source.md",
+    "docs/production/act1_takeover_evidence_2026-09-16/texture-w05-20260922-source.md",
+    "docs/production/act1_takeover_evidence_2026-09-16/20260922-texture-w05-02.json",
+    "docs/production/act1_takeover_evidence_2026-09-16/texture-w05-20260922-01",
     "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-20260922-fence-04.json",
     "docs/production/act1_takeover_evidence_2026-09-16/texture-fence-20260922-02",
     "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-20260922-fence-uv-02.json",
@@ -3451,7 +3454,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "18 новых карт адресно подключены, плюс T12 reuse. W02 v02: вертикальные детали AddVisualFenceRun, составные рейки с метровыми UV и сохранением в стыке зирата, шесть реек бокового прохода. Тот же PML/числовой отклик, neutral tint Low/High. Импортированные mixed-fence/плетень не заменены. Геометрия досок пола, повёрнутая кора, снежное альбедо и остальные карточки открыты; свидетельства/ограничения в журнале.",
+   "progress_2026_09_22": "19 новых карт адресно подключены, плюс T12 reuse. W05 v02: действующий фильтр четырёх Jamb/Rail наличников, scale2, finish wood_facade, согласованный opt-in batch. W02 v02: вертикальные детали AddVisualFenceRun, составные рейки с метровыми UV и сохранением в стыке зирата, шесть реек бокового прохода. Импортированные mixed-fence/плетень не заменены. Геометрия досок пола, повёрнутая кора, снежное альбедо и остальные карточки открыты; свидетельства/ограничения в журнале.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.01"
@@ -3484,7 +3487,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "W02 source неизменен. Fence-uv-02 PASS344, три кадра East High/Low стоя и North High из приседа, UV/хеши/guard PASS. Fence-settle-02 PASS344; на той же DLL без background-input ModalOpen=true/onFloor=false у трёх сараев, с существующим тестовым флагом PASS432/нет отказов. Стык зирата allValid=true, подходы обычным контроллером пройдены, три достигнутых вида просмотрены; физика/автопауза игры не менялись. Прежние результаты остаются историей своих сборок; движение/остальные потребители и human art открыты.",
+   "progress_2026_09_22": "W05 source PASS1/1; w05-02 PASS346 и близкие High/Low из приседа. w05-04 PASS346/street-02 exit0: стоячий вид штатного from_house; промежуточный перекрытый street-01 отвергнут. Первый native запуск упал в .NET BGC, точный повтор прошёл, причина не закрыта. W02 source неизменен. Fence-uv-02 PASS344, три кадра East High/Low стоя и North High из приседа, UV/хеши/guard PASS. Fence-settle-02 PASS344; на той же DLL без background-input ModalOpen=true/onFloor=false у трёх сараев, с существующим тестовым флагом PASS432/нет отказов. Стык зирата allValid=true, подходы обычным контроллером пройдены, три достигнутых вида просмотрены; физика/автопауза игры не менялись. Прежние результаты остаются историей своих сборок; движение/остальные потребители и human art открыты.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.11"

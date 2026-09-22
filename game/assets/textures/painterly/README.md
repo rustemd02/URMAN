@@ -1,5 +1,29 @@
 # Painterly texture provenance
 
+## W05 — maintained ivory window paint, 2026-09-22
+
+Selected `urman_w05_v02_basecolor.png`, unchanged 1254 × 1254 RGB, SHA-256 `c2170588472b77aab0f560818d34349cc4397d1793f0e5d06a7cbd73ee2ac317`. Built-in ImageGen only; source `/Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/exec-8fcdfc7d-ba63-421a-a480-1eb6355ceea5.png`. Initial `exec-76cfecb9-23f6-4c49-919c-846f2d832d31.png` in that directory was rejected for complete boards, seams and knots; it was not imported. No external reference or offline pixel editing.
+
+Exact initial prompt:
+
+```text
+Use case: stylized-concept. Asset type: tileable game base-color texture, W05 light painted window wood, representing a 0.5 by 0.5 metre surface.
+
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Warm ivory painted wood, fine subdued brush variation and minimal rubbed grey wear. Bright readable surface, not pure white. Almost intact maintained paint with no large stains. No painted carving, cutout holes, trim silhouette, bead molding, labels or specular highlights.
+```
+
+Exact edit, referencing the initial generated image:
+
+```text
+Use case: precise-object-edit. Edit the provided W05 painted wood base-color texture for URMAN. Preserve its warm ivory palette, opaque square canvas, neutral even lighting, and softly painted finish. Change only the material continuity: remove ALL board boundaries, seams, full-width horizontal lines, gaps, edge wear bands, knots and visible exposed wood grain. Make this a single uninterrupted painted surface with almost intact maintained ivory paint. Retain only sparse, very subtle short multidirectional brush strokes and faint soft grey rubbed pigment, no dominant grain direction. Four-edge seamless tile for a 0.5 by 0.5 metre painted trim surface. Broad calm painterly pigment, not photographic or noisy. No boards, panels, cracks, dark flecks, carving, objects, text, perspective, shadows, highlights, border or collage. Output only the flat RGB base-color texture.
+```
+
+Source-gate PASS1/1: mean seams .0120/.0182, maximum .1176/.0784; no clipping. Mipmaps, import cap 1024; `wood_painted_trim` scale 2 × 2, existing world-space upright projection and `wood_facade` finish response. Only existing DressPaintedWindowSurrounds four Jamb/Rail members per window and the matching opt-in batch material use it. Tint `b8b9b4` tempers the shader's albedo amplification; Low retains this neutral paint and geometry without sampling the PNG. Generic wood, facades, doors, carved ornaments, collisions and gameplay remain unchanged. Static runtime evidence and remaining acceptance limits are in the production journal; this is not final art approval.
+
 ## T04 / T12 — curtains and retained wallpaper, 2026-09-22
 
 T04: built-in ImageGen, original `exec-cb00fd97-2bbf-45d8-be31-53d2d7a27b48.png` in the thread's generated_images directory. Selected `urman_t04_v01_basecolor.png`, unchanged 1254 × 1254 RGB; SHA-256 `01d96aa2ff9e10974984ce64ba05f637e48f80dc55bc00ecc353876e7df70e45`. Mipmaps, 1024 import cap. Separate `cloth_curtain` semantic, scale 2 × 2 on metre UVs, only the two opaque drapes on each of seven Factory windows. Existing folds, thin closed mesh, glass, sheer alpha, shadows and collision unchanged; cloth finish response reused. Base tint `94aaa4` remains a muted green-grey in Low, which omits the bitmap.

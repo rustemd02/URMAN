@@ -12,7 +12,7 @@ public partial class Act1ConnectedWorld
     {
         if (System.Environment.GetEnvironmentVariable("URMAN_WINDOW_BATCH_PILOT") != "1"
             || presentation.HasMeta("windowBatchPilotCompleted")) return;
-        var material = PainterlyMaterialLibrary.ForColor("ded3c2", "wood_facade");
+        var material = PainterlyMaterialLibrary.ForColor("b8b9b4", "wood_painted_trim");
         var contacts = FindDescendants<CollisionShape3D>(this).Where(shape => shape.HasMeta("authoredSourceMesh"))
             .Select(shape => shape.GetMeta("authoredSourceMesh").AsString()).ToHashSet(StringComparer.Ordinal);
         var cache = new Dictionary<(ulong Rid, bool OriginalShadow), WindowBatchChannels>();
@@ -82,7 +82,7 @@ public partial class Act1ConnectedWorld
                     throw new WindowBatchRefusal("publication-changed-source-or-parent-pose");
                 var sourcePaths = members.Select(member => member.GetPath().ToString()).ToArray();
                 var sourceIds = members.Select(member => member.GetInstanceId()).ToArray();
-                batch.SetMeta("windowSurroundPaint", "ded3c2");
+                batch.SetMeta("windowSurroundPaint", "b8b9b4");
                 batch.SetMeta("windowBatchPilot", true);
                 batch.SetMeta("windowBatchSourcePaths", sourcePaths);
                 batch.SetMeta("windowBatchSourceInstanceIds", string.Join("|", sourceIds));

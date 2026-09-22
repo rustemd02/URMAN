@@ -10305,8 +10305,8 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static void DressPaintedWindowSurrounds(Node3D presentation)
     {
-        const string paint = "ded3c2";
-        var material = PainterlyMaterialLibrary.ForColor(paint, "wood_facade");
+        const string paint = "b8b9b4";
+        var material = PainterlyMaterialLibrary.ForColor(paint, "wood_painted_trim");
         var painted = 0;
         foreach (var mesh in FindDescendants<MeshInstance3D>(presentation))
         {
