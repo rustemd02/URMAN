@@ -37,6 +37,10 @@ public partial class Act1VisualReviewCapture : Node
             ["fence_babai_rail_grain"] = new(
                 "fence_babai_rail_grain", "village_day", "from_house",
                 Vector3.Zero, Vector3.Zero),
+            ["fence_service_rail_east"] = new(
+                "fence_service_rail_east", "village_day", "arrival", Vector3.Zero, Vector3.Zero),
+            ["fence_service_rail_north"] = new(
+                "fence_service_rail_north", "village_day", "arrival", Vector3.Zero, Vector3.Zero),
             ["house_window_rear"] = new(
                 "house_window_rear", "house_old_pc", "entry",
                 new Vector3(-1.7f, .05f, -1.4f), new Vector3(-2.55f, 1.45f, -3.4f),
@@ -264,6 +268,8 @@ public partial class Act1VisualReviewCapture : Node
         {
             "fence_service_grain" => "BabaiEastDepthServiceBoundaryEastSlat7",
             "fence_babai_rail_grain" => "LowerFenceRailHigh",
+            "fence_service_rail_east" => "BabaiEastDepthServiceBoundaryEastRail",
+            "fence_service_rail_north" => "BabaiEastDepthServiceBoundaryNorthRail",
             _ => null
         };
         if (fenceSubject is not null)
@@ -277,8 +283,30 @@ public partial class Act1VisualReviewCapture : Node
                 throw new InvalidOperationException($"W02 capture lacks its visible mapped owner: {fenceSubject}");
             target = subject.ToGlobal(subject.Mesh.GetAabb().GetCenter());
             position = target + subject.GlobalBasis.X.Normalized() * 1.5f + subject.GlobalBasis.Z.Normalized() * .35f;
+            if (frameId == "fence_service_rail_north")
+                position = target - subject.GlobalBasis.Z.Normalized() * 1.5f + subject.GlobalBasis.X.Normalized() * .35f;
             position.Y = AgentBAct1HeightField.CollisionGround(position.X, position.Z) + .05f;
-            GD.Print($"act1-fence-material-subject: {subject.GetPath()} texture={texture.ResourcePath} localRail={material.GetShaderParameter("local_fence_rail")}");
+            GD.Print($"act1-fence-material-subject: {subject.GetPath()} texture={texture.ResourcePath} localRail={material.GetShaderParameter("local_fence_rail")} authoredUV={material.GetShaderParameter("authored_uv_texture")}");
+            if (frameId.StartsWith("fence_service_rail_", StringComparison.Ordinal))
+            {
+                if (!material.GetShaderParameter("authored_uv_texture").AsBool())
+                    throw new InvalidOperationException("Terrain rails must sample their authored UVs.");
+                var arrays = subject.Mesh.SurfaceGetArrays(0);
+                var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                var uv = arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();
+                if (uv.Length != vertices.Length || uv.Length % 36 != 0)
+                    throw new InvalidOperationException("Terrain rail UV/face layout is incomplete.");
+                for (var index = 0; index < uv.Length; index += 3)
+                    if (!uv[index].IsFinite() || !uv[index + 1].IsFinite() || !uv[index + 2].IsFinite()
+                        || Mathf.Abs((uv[index + 1] - uv[index]).Cross(uv[index + 2] - uv[index])) < .00001f)
+                        throw new InvalidOperationException($"Degenerate terrain rail UV triangle {index / 3}.");
+                // First bottom-face triangle joins the two ends of each span.
+                for (var index = 0; index < uv.Length; index += 36)
+                    if (Mathf.Abs((uv[index + 13].Y - uv[index + 14].Y)
+                        - vertices[index + 13].DistanceTo(vertices[index + 14])) > .001f)
+                        throw new InvalidOperationException("Rail texture V is not the actual sloped span length.");
+                GD.Print($"act1-fence-uv: spans={uv.Length / 36} triangles={uv.Length / 3} finite/nondegenerate/metre-length=PASS");
+            }
         }
 
         // Let the production spawn resolve its initially crouched stance before

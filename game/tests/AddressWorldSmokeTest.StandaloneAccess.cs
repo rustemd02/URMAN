@@ -101,6 +101,12 @@ public partial class AddressWorldSmokeTest
                     _player.ApplyZoneSpawn(start, 0);
                 }
                 await Frames(6);
+                _checks.Add(new { kind = "standalone-road-fixture-settled", sample.Name,
+                    position = P(_player.GlobalPosition), velocity = P(_player.Velocity),
+                    onFloor = _player.IsOnFloor(), _player.IsCrouching, _player.ModalOpen,
+                    _player.VehicleControlled, physicsProcessing = _player.IsPhysicsProcessing(),
+                    canStand = _player.CanStandAt(_player.GlobalPosition),
+                    introVisible = _demo?.IntroVisible, mainMenuVisible = _demo?.MainMenuVisible });
                 Require(_player.IsOnFloor() && !_player.IsCrouching && _player.CanStandAt(_player.GlobalPosition),
                     sample.Name + ": local road fixture settles with the ordinary standing capsule");
                 var props = _bridge.SelectWorldProps().GetRawText();

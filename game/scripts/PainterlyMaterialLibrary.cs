@@ -343,6 +343,7 @@ public static class PainterlyMaterialLibrary
         // meshes keep the legacy material until their individual axes are mapped.
         ["wood_fence_vertical"] = ("res://assets/textures/painterly/urman_w02_v02_basecolor.png", Vector2.One),
         ["wood_fence_rail"] = ("res://assets/textures/painterly/urman_w02_v02_basecolor.png", Vector2.One),
+        ["wood_fence_uv"] = ("res://assets/textures/painterly/urman_w02_v02_basecolor.png", Vector2.One),
         ["wood_furniture"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.95f, 0.95f)),
         // W08: opt-in finished furniture; the legacy owner also serves floors
         // and exterior benches, which must not be varnished by a global swap.
@@ -555,7 +556,7 @@ public static class PainterlyMaterialLibrary
         {
             "wood_painted_blue" or "wood_painted_green" => "wood_facade",
             "wood_floor_painted" => "wood_furniture_interior",
-            "wood_fence_vertical" or "wood_fence_rail" => "wood_fence",
+            "wood_fence_vertical" or "wood_fence_rail" or "wood_fence_uv" => "wood_fence",
             "plaster_domestic" => "wall_institution",
             "cloth_table" or "cloth_curtain" => "cloth",
             _ => surface
@@ -570,7 +571,7 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
         material.SetShaderParameter("local_floor_texture", surface is "wood_floor_painted" or "wood_fence_vertical" or "wood_fence_rail");
         material.SetShaderParameter("local_fence_rail", surface == "wood_fence_rail");
-        material.SetShaderParameter("authored_uv_texture", surface is "hay_fibers" or "cloth_table" or "cloth_curtain");
+        material.SetShaderParameter("authored_uv_texture", surface is "hay_fibers" or "cloth_table" or "cloth_curtain" or "wood_fence_uv");
         material.SetShaderParameter("metallic_value", surface == "iron" ? 0.65f : 0f);
         material.SetShaderParameter("finish_grain", surface switch
         {

@@ -3033,7 +3033,7 @@
   {
    "id": "ACT1-TEXTURE.02",
    "title": "Экстерьеры, снег, дерево, камень и растения",
-   "progress_2026_09_22": "W02 v02 source PASS1/1, первый кандидат группы из 31. Частично подключены вертикальные детали AddVisualFenceRun и шесть реек бокового прохода с локальными осями и нейтральными tint. Fence-04 PASS344; три актуальных High/Low-кадра просмотрены, у реек crouching=true/центральный столб. Остальные 30 карточек, смешанные ограды W02, движение и art открыты.",
+   "progress_2026_09_22": "W02 v02 source PASS1/1, первый кандидат группы из 31. Подключены вертикальные детали и составные рейки AddVisualFenceRun (метровые UV, сохранены в стыке с сараем зирата), шесть реек бокового прохода. Fence-uv-02 PASS344, три новых кадра: East High/Low standing, North High crouching. Остальные 30 карточек, импортированные mixed-fence/плетень, движение и art открыты.",
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/texture-tracker-2026-09-22",
@@ -3063,6 +3063,8 @@
     "docs/production/act1_takeover_evidence_2026-09-16/texture-fence-20260922-source.md",
     "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-20260922-fence-04.json",
     "docs/production/act1_takeover_evidence_2026-09-16/texture-fence-20260922-02",
+    "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-20260922-fence-uv-02.json",
+    "docs/production/act1_takeover_evidence_2026-09-16/texture-fence-uv-20260922-02",
     "game/assets/textures/painterly/README.md"
    ],
    "texture_cards": [
@@ -3449,7 +3451,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "18 новых карт адресно подключены, плюс T12 reuse. W02 v02 добавлена к вертикальным деталям AddVisualFenceRun и шести рейкам бокового прохода; материал и локальные оси разделены, neutral tint действует Low/High. Остальные mixed-fence не заменены. Геометрия досок пола, повёрнутая кора, снежное альбедо и остальные карточки открыты; текущие свидетельства/ограничения в журнале.",
+   "progress_2026_09_22": "18 новых карт адресно подключены, плюс T12 reuse. W02 v02: вертикальные детали AddVisualFenceRun, составные рейки с метровыми UV и сохранением в стыке зирата, шесть реек бокового прохода. Тот же PML/числовой отклик, neutral tint Low/High. Импортированные mixed-fence/плетень не заменены. Геометрия досок пола, повёрнутая кора, снежное альбедо и остальные карточки открыты; свидетельства/ограничения в журнале.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.01"
@@ -3482,7 +3484,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "W02 source PASS1/1, Fence-04 build/import PASS344 без drift/errors; три свежих кадра High/Low просмотрены: service standing, side rails crouched с перекрытым столбом центром. Все guard restored. Прежние результаты первых16/T04/T12 остаются историей своих сборок. Движение, Low штакетников, остальные потребители и human art открыты.",
+   "progress_2026_09_22": "W02 source неизменен. Fence-uv-02 PASS344, три кадра East High/Low стоя и North High из приседа, UV/хеши/guard PASS. Fence-settle-02 PASS344; на той же DLL без background-input ModalOpen=true/onFloor=false у трёх сараев, с существующим тестовым флагом PASS432/нет отказов. Стык зирата allValid=true, подходы обычным контроллером пройдены, три достигнутых вида просмотрены; физика/автопауза игры не менялись. Прежние результаты остаются историей своих сборок; движение/остальные потребители и human art открыты.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.11"

@@ -9145,6 +9145,7 @@ public partial class Act1ConnectedWorld : Node3D
             var rawPoints = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             var normalValue = arrays[(int)Mesh.ArrayType.Normal];
             var rawNormals = normalValue.VariantType == Variant.Type.Nil ? Array.Empty<Vector3>() : normalValue.AsVector3Array();
+            var rawUv = arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();
             var tangentValue = arrays[(int)Mesh.ArrayType.Tangent];
             var rawTangents = tangentValue.VariantType == Variant.Type.Nil ? Array.Empty<float>() : tangentValue.AsFloat32Array();
             var indexValue = arrays[(int)Mesh.ArrayType.Index];
@@ -9156,29 +9157,32 @@ public partial class Act1ConnectedWorld : Node3D
             var failures = new List<string>();
             if (expandedCount != 144) failures.Add("expanded-triangle-stream-count");
             if (rawNormals.Length != rawPoints.Length) failures.Add("normal-count");
+            if (rawUv.Length != rawPoints.Length || rawUv.Any(uv => !uv.IsFinite())) failures.Add("uv-count-or-finite");
             if (rawTangents.Length != rawPoints.Length * 4) failures.Add("tangent-count");
             if (indexed != (indices.Length > 0) || indices.Any(i => i < 0 || i >= rawPoints.Length)) failures.Add("index-buffer");
             if (imported.GetSurfaceLodCount(0) != 0) failures.Add("unexpected-LOD");
             if (source.ShadowMesh is not null) failures.Add("unexpected-shadow-mesh");
             if (source.SurfaceGetPrimitiveType(0) != Mesh.PrimitiveType.Triangles) failures.Add("primitive");
-            // RenderingServer requires tangents when normals are supplied and
-            // synthesizes this real published channel even without authored UVs.
+            // The producer now publishes metre UVs; require and preserve them
+            // through the existing clipping path, alongside normals/tangents.
             var channels = (1UL << (int)Mesh.ArrayType.Vertex) | (1UL << (int)Mesh.ArrayType.Normal) | (1UL << (int)Mesh.ArrayType.Tangent)
+                | (1UL << (int)Mesh.ArrayType.TexUV)
                 | (indexed ? 1UL << (int)Mesh.ArrayType.Index : 0UL);
             if ((format & ((1UL << (int)Mesh.ArrayType.Max) - 1)) != channels) failures.Add("unexpected-attribute-channel");
             GD.Print($"act1-zirat-fence-source: owner={mesh.GetPath()} rawVertices={rawPoints.Length} normals={rawNormals.Length} tangents={rawTangents.Length} indices={indices.Length} expandedVertices={expandedCount} format={format} indexed={indexed} primitive={source.SurfaceGetPrimitiveType(0)} lods={imported.GetSurfaceLodCount(0)} shadow={source.ShadowMesh is not null} failedTerms={string.Join(',', failures)}");
             if (failures.Count != 0) throw new InvalidOperationException("Unsupported measured Zirat rail source: " + string.Join(',', failures));
             var points = indexed ? indices.Select(i => rawPoints[i]).ToArray() : rawPoints;
             var normals = indexed ? indices.Select(i => rawNormals[i]).ToArray() : rawNormals;
+            var uvs = indexed ? indices.Select(i => rawUv[i]).ToArray() : rawUv;
             var tangents = Enumerable.Range(0, rawPoints.Length).Select(i => new Plane(
                 new Vector3(rawTangents[i * 4], rawTangents[i * 4 + 1], rawTangents[i * 4 + 2]), rawTangents[i * 4 + 3])).ToArray();
             var expandedTangents = indexed ? indices.Select(i => tangents[i]).ToArray() : tangents;
-            FenceCutVertex Vertex(Vector3 point, Vector3 normal)
+            FenceCutVertex Vertex(Vector3 point, Vector3 normal, Vector2 uv)
             {
                 var tangent = (Math.Abs(normal.Y) < .9f ? Vector3.Up : Vector3.Right).Cross(normal).Normalized();
-                return new(point, normal, Vector2.Zero, new Plane(tangent, 1), Colors.White, Vector2.Zero);
+                return new(point, normal, uv, new Plane(tangent, 1), Colors.White, Vector2.Zero);
             }
-            var original = points.Select((p, i) => new FenceCutVertex(p, normals[i], Vector2.Zero,
+            var original = points.Select((p, i) => new FenceCutVertex(p, normals[i], uvs[i],
                 expandedTangents[i], Colors.White, Vector2.Zero)).ToArray();
             // Decode any actual index buffer, then validate the triangle stream
             // against the posts before preserving its first two spans.
@@ -9209,7 +9213,14 @@ public partial class Act1ConnectedWorld : Node3D
             {
                 var p = corners[order[i]]; var q = corners[order[i + 1]]; var r = corners[order[i + 2]];
                 var normal = -(q - p).Cross(r - p).Normalized();
-                link.Add(Vertex(p, normal)); link.Add(Vertex(q, normal)); link.Add(Vertex(r, normal));
+                for (var corner = 0; corner < 3; corner++)
+                {
+                    var index = i + corner;
+                    var uv = original[prefix + index].Uv;
+                    if (index >= 12)
+                        uv.Y = original[prefix + 12].Uv.Y + (order[index] < 4 ? 0f : (toLocal * end).DistanceTo(toLocal * a));
+                    link.Add(Vertex(corners[order[index]], normal, uv));
+                }
             }
             var (near, frontCaps) = ClipCouncilFenceRail(link.ToArray(), Enumerable.Range(0, link.Count).ToArray(),
                 StandaloneFenceCutCoordinates(front) * toWorld, 0);
@@ -9219,6 +9230,7 @@ public partial class Act1ConnectedWorld : Node3D
             var published = new global::Godot.Collections.Array(); published.Resize((int)Mesh.ArrayType.Max);
             published[(int)Mesh.ArrayType.Vertex] = output.Select(v => v.Point).ToArray();
             published[(int)Mesh.ArrayType.Normal] = output.Select(v => v.Normal).ToArray();
+            published[(int)Mesh.ArrayType.TexUV] = output.Select(v => v.Uv).ToArray();
             published[(int)Mesh.ArrayType.Tangent] = output.SelectMany(v =>
                 new[] { v.Tangent.Normal.X, v.Tangent.Normal.Y, v.Tangent.Normal.Z, v.Tangent.D }).ToArray();
             if (indexed) published[(int)Mesh.ArrayType.Index] = Enumerable.Range(0, output.Length).ToArray();
@@ -9371,12 +9383,13 @@ public partial class Act1ConnectedWorld : Node3D
         var posts = Math.Clamp((int)(length / 2.8f), 2, 8);
         var across = new Vector3(direction.Z, 0f, -direction.X).Normalized() * 0.06f;
         foreach (var (suffix, railHeight, color) in new[]
-                 { ("Rail", 0.72f, "594a39"), ("LowerRail", 0.30f, "514737") })
+                 { ("Rail", 0.72f, "979a92"), ("LowerRail", 0.30f, "888c84") })
         {
             // One mesh keeps existing presentation-suppression names intact;
             // its spans follow the same sampled ground as the posts.
             var surface = new SurfaceTool();
             surface.Begin(Mesh.PrimitiveType.Triangles);
+            var along = 0f;
             for (var span = 0; span < posts; span++)
             {
                 var a = Grounded(start.Lerp(end, span / (float)posts)) + Vector3.Up * railHeight;
@@ -9384,16 +9397,27 @@ public partial class Act1ConnectedWorld : Node3D
                 var up = Vector3.Up * 0.05f;
                 var corners = new[] { a - across - up, a + across - up, a + across + up, a - across + up,
                     b - across - up, b + across - up, b + across + up, b - across + up };
-                // Godot front faces use clockwise winding.
-                foreach (var vertex in new[] { 0, 1, 2, 0, 2, 3, 4, 6, 5, 4, 7, 6,
-                    0, 5, 1, 0, 4, 5, 3, 6, 7, 3, 2, 6, 1, 6, 2, 1, 5, 6, 0, 7, 4, 0, 3, 7 })
+                var spanLength = a.DistanceTo(b);
+                // Keep the exact faces/winding. Side UV V follows each sloped
+                // span in metres; U crosses its thickness, not the world axes.
+                var indices = new[] { 0, 1, 2, 0, 2, 3, 4, 6, 5, 4, 7, 6,
+                    0, 5, 1, 0, 4, 5, 3, 6, 7, 3, 2, 6, 1, 6, 2, 1, 5, 6, 0, 7, 4, 0, 3, 7 };
+                for (var index = 0; index < indices.Length; index++)
                 {
+                    var vertex = indices[index];
+                    var offset = corners[vertex] - (vertex < 4 ? a : b);
+                    var cross = offset.Dot(across.Normalized()) + .06f;
+                    var height = offset.Y + .05f;
+                    surface.SetUV(index < 12
+                        ? new Vector2(cross, height)
+                        : new Vector2(index < 24 ? cross : height, along + (vertex < 4 ? 0f : spanLength)));
                     surface.AddVertex(corners[vertex]);
                 }
+                along += spanLength;
             }
             surface.GenerateNormals();
             var rail = new MeshInstance3D { Name = $"{name}{suffix}", Mesh = surface.Commit(),
-                MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "wood_fence") };
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "wood_fence_uv") };
             rail.SetMeta("visualOnly", true);
             // Replacement passes hide the named Rail subtree. Keep the
             // lower member inside that owner instead of leaving an orphan

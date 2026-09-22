@@ -1,5 +1,44 @@
 # Weak Points
 
+## Подходы к трём сараям: отказ фонового запуска разобран, 22 сентября
+
+Разрешено на `integrated-build-20260922-fence-settle-02`: причина начального
+отказа — модальная блокировка при потере фокуса тестовым окном. На одной DLL
+(`2bd467e3af4c99c003de2e55076351c5e09f19e5ddf057336be72156bf2d1ba2`)
+без фонового флага у всех трёх адресов `ModalOpen=true`, `onFloor=false`,
+`canStand=true`, присед/транспорт/intro/menu выключены; с уже существующим
+`--urman-smoke-background-input` — `ModalOpen=false`, `onFloor=true` и PASS432,
+failures=[] в `fence-settle-background-20260922-02/address-world-receipt.json`.
+Пройдены все опубликованные точки подходов обычным контроллером; стык зирата
+`allValid=true`. Этот флаг действует только вместе с `res://tests/*.tscn`;
+обычная focus-loss автопауза, коллизии и прежний standing-критерий не менялись.
+Guard восстановил userdata. Это техническое прохождение, не человеческая
+навигационная или художественная приёмка.
+
+История обнаружения:
+
+На `integrated-build-20260922-fence-uv-02` существующий `AddressWorldSmokeTest`
+со scope `standalone-access` записал 50 проверок и завершился exit1: у
+`PerimeterWestStreetShed`, `ZiratVillageEdgeEastShed` и
+`ArrivalReverseEastDomesticShed` не прошла начальная проверка
+`local road fixture settles with the ordinary standing capsule`
+(`AddressWorldSmokeTest.StandaloneAccess.cs:104`). В receipt шесть записей
+ошибок: по check и exception на каждый адрес. Это не доказанный дефект коллизии
+и не объявленная прежняя ошибка: сравнение с исходным состоянием не выполнено.
+Маршруты далее не проверены. Отдельный `zirat-shed-fence-junction.json` из того
+же запуска: `allValid=true`, две рейки, четыре опёртых торца, точная физика;
+его результат не закрывает подходы. Данные восстановлены guard.
+
+Копии файла стыка трёх запусков побайтно совпали; оставлена одна в
+`fence-settle-background-20260922-02/zirat-shed-fence-junction.json`,
+SHA `36fd75df3cfb89be537698f16196ba130069a34192da188e1569b6d62561e05a`.
+
+Связанный остаток действующих TECH/DEPTH-задач, без новой параллельной очереди:
+проверить постановку/стойку обычного контроллера и доступность этих точек, не
+ослаблять standing-критерий и не менять коллизии без подтверждения.
+Свидетельства: `../production/act1_takeover_evidence_2026-09-16/texture-fence-uv-standalone-20260922-02.log`
+и одноимённый каталог без `.log`.
+
 ## Boundary-архитектура: 5 новых падений на B90 (2026-09-21, открыто)
 
 `act1_boundary_architecture_smoke_test` на `integrated-build-90`, exit 1,
