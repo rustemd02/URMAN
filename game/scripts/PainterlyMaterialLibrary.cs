@@ -344,6 +344,7 @@ public static class PainterlyMaterialLibrary
         ["bark_pine"] = ("res://assets/textures/painterly/urman_f02_v02_basecolor.png", Vector2.One),
         ["plaster_domestic"] = ("res://assets/textures/painterly/urman_b01_v01_basecolor.png", Vector2.One),
         ["cloth_table"] = ("res://assets/textures/painterly/urman_t01_v02_basecolor.png", new Vector2(2f, 2f)),
+        ["cloth_curtain"] = ("res://assets/textures/painterly/urman_t04_v01_basecolor.png", new Vector2(2f, 2f)),
         // The profile provides three repeats around the stack and .75 V per
         // local metre. Unit scale retains that existing physical UV mapping.
         ["hay_fibers"] = ("res://assets/textures/painterly/hay_fibers_v1_albedo.png", Vector2.One),
@@ -371,7 +372,8 @@ public static class PainterlyMaterialLibrary
         // but use a finer physical repeat. The sheer layer owns transparency.
         ["fabric_pattern"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.6f, 2.6f)),
         ["carpet"] = ("res://assets/textures/painterly/carpet_palas_v1_albedo.png", new Vector2(0.25f, 0.40f)),
-        ["wallpaper"] = ("res://assets/textures/painterly/wallpaper_old_v1_albedo.png", new Vector2(1.1f, 1.1f)),
+        // Image V runs downward; wall height runs upward. Keep stems below flowers.
+        ["wallpaper"] = ("res://assets/textures/painterly/wallpaper_old_v1_albedo.png", new Vector2(1.1f, -1.1f)),
         ["log_wall"] = ("res://assets/textures/painterly/log_wall_v1_albedo.png", new Vector2(0.9f, 0.9f)),
         ["wall_institution"] = ("res://assets/textures/painterly/urman_b03_v01_basecolor.png", Vector2.One),
         // B04: a dedicated one-metre linoleum field, not the wall plaster.
@@ -546,7 +548,7 @@ public static class PainterlyMaterialLibrary
             "wood_painted_blue" or "wood_painted_green" => "wood_facade",
             "wood_floor_painted" => "wood_furniture_interior",
             "plaster_domestic" => "wall_institution",
-            "cloth_table" => "cloth",
+            "cloth_table" or "cloth_curtain" => "cloth",
             _ => surface
         };
         var shadow = new Color(color.R * 0.54f, color.G * 0.56f, color.B * 0.58f, color.A);
@@ -555,10 +557,10 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
         material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle"
             or "wood_facade" or "wood_painted_blue" or "wood_painted_green" or "wood_floor_painted"
-            or "bark_birch_winter" or "bark_pine");
+            or "bark_birch_winter" or "bark_pine" or "wallpaper");
         material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
         material.SetShaderParameter("local_floor_texture", surface == "wood_floor_painted");
-        material.SetShaderParameter("authored_uv_texture", surface is "hay_fibers" or "cloth_table");
+        material.SetShaderParameter("authored_uv_texture", surface is "hay_fibers" or "cloth_table" or "cloth_curtain");
         material.SetShaderParameter("metallic_value", surface == "iron" ? 0.65f : 0f);
         material.SetShaderParameter("finish_grain", surface switch
         {

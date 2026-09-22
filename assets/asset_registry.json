@@ -4,6 +4,24 @@
  "sourceTool": "Blender 4.5 LTS",
  "assets": [
   {
+   "id": "texture.painterly.t04.v01",
+   "source": "ImageGen built-in, 2026-09-22; exec-cb00fd97-2bbf-45d8-be31-53d2d7a27b48.png; exact prompt in game/assets/textures/painterly/README.md (T04)",
+   "derived": "game/assets/textures/painterly/urman_t04_v01_basecolor.png",
+   "derivedSha256": "01d96aa2ff9e10974984ce64ba05f637e48f80dc55bc00ecc353876e7df70e45",
+   "generator": "OpenAI ImageGen built-in; selected source pixels unchanged",
+   "license": "Project-generated",
+   "scale": 2,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": ["cloth_curtain"],
+   "materialOwner": "PainterlyMaterialLibrary/cloth_curtain; StyleBenchmarkInteriorFactory seven windows, two opaque curtains each; metre UVs. Sheers and clothing unchanged.",
+   "collision": "unchanged",
+   "lod": "mipmaps; size_limit 1024",
+   "qa": "source-gate PASS; current build/capture evidence in docs/tasktracker/05_texture_production_2026-09-22.md; final art pending",
+   "status": "integrated-candidate; source-gate-pass; art-pending",
+   "releaseDisposition": "runtime-referenced; final art acceptance pending"
+  },
+  {
    "id": "texture.painterly.b01.v01",
    "source": "ImageGen built-in, 2026-09-22; exec-17d291cd-c5ca-4c87-a0e9-58422ab4c769.png; exact prompts in game/assets/textures/painterly/README.md (B01)",
    "derived": "game/assets/textures/painterly/urman_b01_v01_basecolor.png",
@@ -1918,7 +1936,7 @@
    "derivedSha256": "f80e97c330e2a7e8237a8f7fed860c233da3a2f6678a8ad882acb89a93806a3c",
    "license": "Project-generated through OpenAI ImageGen; no third-party reference image",
    "textureBudget": 1024,
-   "runtimeBinding": "PainterlyMaterialLibrary wallpaper semantic; HouseInterior_LeftWall/RightWall",
+   "runtimeBinding": "T12 reuse: PainterlyMaterialLibrary wallpaper; current Factory walls except plastered LeftWallPier0. Upright X projection and negative V; retained magnitude 1.1 repeats/metre.",
    "status": "runtime-bound and native-frame reviewed; cultural review and final art lock open",
    "releaseDisposition": "include-in-act1-release; runtime-referenced",
    "generator": "OpenAI ImageGen; original prompt in painterly README",

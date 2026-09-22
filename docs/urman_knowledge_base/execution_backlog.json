@@ -2949,7 +2949,7 @@
   {
    "id": "ACT1-TEXTURE.00",
    "title": "Сопоставить 132 карточки с текущими файлами и потребителями",
-   "progress_2026_09_22": "16 опорных карт сопоставлены с действующими потребителями. Для B01 выбрана текущая LeftWallPier0, старые WindowRecess дом не загружает; T01 получила отдельную TeaTablecloth по границам реального стола. W09 ещё требует формы отдельных досок; остальные 116 карточек требуют инвентаризации.",
+   "progress_2026_09_22": "18 карточек сопоставлены: 16 опорных, T04 new на 14 плотных шторах семи окон Factory, T12 reuse существующих обоев с исправлением V/боковой проекции. B01 — текущая LeftWallPier0, T01 — отдельная TeaTablecloth по реальному столу. W09 ещё требует формы отдельных досок; остальные 114 карточек требуют инвентаризации.",
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/texture-tracker-2026-09-22",
@@ -2979,7 +2979,7 @@
    "title": "Первая партия: 16 опорных текстур",
    "progress_2026_09_22": "16/16 выбранных PNG подключены, включая B01 v01/T01 v02; source-gate всех16 PASS. Дом на home-finish-01 PASS105, 22.46м; два вида B01/T01 в Low/High на home-finish-03 просмотрены с исправленной стоячей камерой. Все точные версии/промпты/SHA в painterly README/registry. Это не полная приёмка: движение/профили остальных14/сосна/брёвна и human art открыты.",
    "milestone": "M4",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "root/texture-tracker-2026-09-22",
    "owner": "art/materials/qa",
    "depends_on": [
@@ -3003,7 +3003,11 @@
     "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
     "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
    ],
-   "evidence": [],
+   "evidence": [
+    "docs/production/act1_takeover_evidence_2026-09-16/texture-first-party-20260922-consolidated-source.md",
+    "game/assets/textures/painterly/README.md",
+    "docs/tasktracker/05_texture_production_2026-09-22.md"
+   ],
    "texture_cards": [
     "S01",
     "S02",
@@ -3089,9 +3093,10 @@
   {
    "id": "ACT1-TEXTURE.03",
    "title": "Интерьеры: ткани, металл, пластик и утварь",
+   "progress_2026_09_22": "2/24 карточки обработаны: T04 v01 (new, cloth_curtain, 14 штор семи Factory-окон) и T12 (reuse старых обоев, исправлено направление проекции). Source-gate PASS2/2, curtains-01 build/import PASS342; три High/Low-кадра просмотрены с отмеченной crouched-стойкой Rear High. Остальные 22 карточки, движение и art lock открыты. Точный промпт, SHA и границы в painterly README/production journal.",
    "milestone": "M4",
-   "status": "todo",
-   "active_owner": null,
+   "status": "in_progress",
+   "active_owner": "root/texture-tracker-2026-09-22",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.01"
@@ -3435,7 +3440,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "16 карт подключены. Новые plaster_domestic на стене у печи, cloth_table на отдельной сетке скатерти с метрическими UV и передним свесом; стол/предметы/контакты/металл сохранены. B01/T01 статично просмотрены Low/High. Прежняя геометрия пола, проекция повёрнутой коры, сила снежного альбедо и другие acceptance пункты остаются в журнале.",
+   "progress_2026_09_22": "17 новых карт подключены (16 опорных + T04 cloth_curtain); T12 использует существующие обои с исправленной проекцией. Новые домашние материалы сохраняют контакты/предметы/металл/тюль. B01/T01 и T04 статично просмотрены Low/High. Геометрия досок пола, проекция повёрнутой коры, сила снежного альбедо и другие acceptance пункты остаются в журнале.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.01"
@@ -3468,7 +3473,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "16 source-gate PASS; latest home-finish-03 build/import PASS340 без drift/errors. House-01 на home-finish-01 PASS105. Четыре Low/High-кадра двух домашних поверхностей на home-finish-03 проверены: guardrestored, crouchingfalse, scale.75/1, direction/roll checks. Первый профильный набор отвергнут из-за capture-камеры; прежние кадры этого harness не подтверждают стоячий ракурс. Движение/остальные материалы/человеческая художественная приёмка открыты.",
+   "progress_2026_09_22": "Consolidated source-gate первых16 PASS16/16; T04 и T12 reuse отдельно PASS2/2. Curtains-01 build/import PASS342 без drift/errors. Три кадра окон просмотрены: Rear High crouched, Right High/Low standing, guardrestored. Прежние home-finish-01/03 и house105 остаются отдельной историей, не перенесены на новую сборку. Движение, остальные ракурсы/материалы и человеческая художественная приёмка открыты; полный объём .12 не закрыт.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.11"

@@ -31,6 +31,14 @@ public partial class Act1VisualReviewCapture : Node
     private static readonly IReadOnlyDictionary<string, FrameSpec> FrameSpecs =
         new Dictionary<string, FrameSpec>(StringComparer.Ordinal)
         {
+            ["house_window_rear"] = new(
+                "house_window_rear", "house_old_pc", "entry",
+                new Vector3(-1.7f, .05f, -1.4f), new Vector3(-2.55f, 1.45f, -3.4f),
+                "house_interior", "babay-abi-house"),
+            ["house_window_right"] = new(
+                "house_window_right", "house_old_pc", "entry",
+                new Vector3(1.9f, .05f, .8f), new Vector3(4f, 1.5f, .9f),
+                "house_interior", "babay-abi-house"),
             ["oldpc_vocabulary"] = new(
                 "oldpc_vocabulary", "house_old_pc", "entry",
                 new Vector3(.1f, .05f, -1.40f), new Vector3(0, .87f, -2.30f),

@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_visual_review_capture",
+  "captured_at_utc": "2026-09-22T14:35:13.8050220\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 3,
+  "frame_count": 3,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "frames": [
+    {
+      "frame_id": "house_window_rear_high",
+      "zone": "house_interior",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": true,
+      "camera": {
+        "forward": {
+          "x": -0.9777550101280212,
+          "y": 0.20619527995586395,
+          "z": -0.03845413029193878
+        },
+        "up": {
+          "x": 0.20603598654270172,
+          "y": 0.978510856628418,
+          "z": 0.008103189058601856
+        },
+        "global_position": {
+          "x": -31.845535278320312,
+          "y": 1.624152421951294,
+          "z": -5.091638565063477
+        },
+        "target": {
+          "x": -33.837127685546875,
+          "y": 2.04415225982666,
+          "z": -5.169965744018555
+        }
+      },
+      "output": "house_window_rear_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "99cc5459f9c367a910c01a4829d883aa7471c350d6310a4c2d5d616946d48390"
+    },
+    {
+      "frame_id": "house_window_right_high",
+      "zone": "house_interior",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": 0.46561315655708313,
+          "y": -0.1289612203836441,
+          "z": -0.8755418062210083
+        },
+        "up": {
+          "x": 0.060551661998033524,
+          "y": 0.9916496276855469,
+          "z": -0.11386170983314514
+        },
+        "global_position": {
+          "x": -28.054588317871094,
+          "y": 2.3441522121429443,
+          "z": -7.559370994567871
+        },
+        "target": {
+          "x": -27.151966094970703,
+          "y": 2.0941522121429443,
+          "z": -9.256668090820312
+        }
+      },
+      "output": "house_window_right_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "642009da8385f50a4e81a53a9a8e01ab77cfc0939718355d964158128de85236"
+    },
+    {
+      "frame_id": "house_window_right_low",
+      "zone": "house_interior",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "graphics_preset": "low",
+      "scaling_3d_scale": 0.75,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": 0.46561315655708313,
+          "y": -0.1289612203836441,
+          "z": -0.8755418062210083
+        },
+        "up": {
+          "x": 0.060551661998033524,
+          "y": 0.9916496276855469,
+          "z": -0.11386170983314514
+        },
+        "global_position": {
+          "x": -28.054588317871094,
+          "y": 2.3441522121429443,
+          "z": -7.559370994567871
+        },
+        "target": {
+          "x": -27.151966094970703,
+          "y": 2.0941522121429443,
+          "z": -9.256668090820312
+        }
+      },
+      "output": "house_window_right_low.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "eb3b86a5d7e845bacc9837b774c979ee16484d7b15b1fa4a4aa7ce5ff685a8ab"
+    }
+  ]
+}

@@ -150,6 +150,8 @@ CATALOG_NAME_RE = re.compile(r"^(urman_[a-z][0-9]{2})_v[0-9]{2}_basecolor\.png$"
 # Only integrated TILE consumers belong here. Unique sheets, UV atlases and
 # alpha decals need their own acceptance, not an automatic seam PASS.
 CATALOG_EXPECTED = {
+    "wallpaper_old_v1_albedo.png": ("wallpaper (T12 reuse)", 1.1, -1.1),
+    "urman_t04_v01_basecolor.png": ("cloth_curtain", 2.0, 2.0),
     "urman_b01_v01_basecolor.png": ("plaster_domestic", 1.0, 1.0),
     "urman_t01_v02_basecolor.png": ("cloth_table", 2.0, 2.0),
     "urman_s01_v01_basecolor.png": ("snow_ground", 0.5, 0.5),
@@ -295,7 +297,8 @@ def analyse(path):
         "issues": [],
     }
     catalog_match = CATALOG_NAME_RE.fullmatch(path.name)
-    if not NAME_RE.fullmatch(path.name) and catalog_match is None:
+    mapped_tile = path.name in CATALOG_EXPECTED
+    if not NAME_RE.fullmatch(path.name) and catalog_match is None and not mapped_tile:
         result["issues"].append("name is not a supported legacy albedo or catalogue TILE candidate")
     if not path.exists():
         result["status"] = "OPEN"
@@ -314,7 +317,7 @@ def analyse(path):
         return result
     result.update({"width": width, "height": height, "channels": channels, "color": "RGB" if channels == 3 else "RGBA"})
     result["chunks"] = ",".join(chunks)
-    if catalog_match is not None:
+    if catalog_match is not None or mapped_tile:
         if width != height or not 512 <= width <= 2048:
             result["issues"].append(f"size {width}x{height}; catalogue TILE master must be square, 512–2048 px")
         if channels != 3:
@@ -324,15 +327,15 @@ def analyse(path):
     # Catalogue versions have explicit intended consumers; legacy scales are
     # historical comparison scales. This is a source-image gate, not runtime QA.
     stem = re.sub(r"_v[23456]_albedo\.png$", "", path.name)
-    material = CATALOG_EXPECTED.get(path.name) if catalog_match else EXPECTED.get(stem)
+    material = CATALOG_EXPECTED.get(path.name) if catalog_match or mapped_tile else EXPECTED.get(stem)
     if material is None:
         result["issues"].append("no PainterlyMaterialLibrary material/scale mapping")
     else:
         result["surface"], scale_x, scale_y = material
         result["scale_x"] = scale_x
         result["scale_y"] = scale_y
-        result["texels_per_world_x"] = width * scale_x
-        result["texels_per_world_y"] = height * scale_y
+        result["texels_per_world_x"] = width * abs(scale_x)
+        result["texels_per_world_y"] = height * abs(scale_y)
         # The candidate keeps the existing scale; no shader edit is required.
         if width <= 0 or height <= 0:
             result["issues"].append("non-positive dimensions cannot provide texel density")

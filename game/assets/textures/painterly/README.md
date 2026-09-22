@@ -1,5 +1,24 @@
 # Painterly texture provenance
 
+## T04 / T12 — curtains and retained wallpaper, 2026-09-22
+
+T04: built-in ImageGen, original `exec-cb00fd97-2bbf-45d8-be31-53d2d7a27b48.png` in the thread's generated_images directory. Selected `urman_t04_v01_basecolor.png`, unchanged 1254 × 1254 RGB; SHA-256 `01d96aa2ff9e10974984ce64ba05f637e48f80dc55bc00ecc353876e7df70e45`. Mipmaps, 1024 import cap. Separate `cloth_curtain` semantic, scale 2 × 2 on metre UVs, only the two opaque drapes on each of seven Factory windows. Existing folds, thin closed mesh, glass, sheer alpha, shadows and collision unchanged; cloth finish response reused. Base tint `94aaa4` remains a muted green-grey in Low, which omits the bitmap.
+
+Exact built-in prompt:
+
+```text
+Use case: stylized-concept. Asset type: seamless game base-color texture T04, domestic curtain cloth.
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Heavy domestic woven curtain in muted dusty teal, soft broad weave groups with very low-contrast lighter threads. No folded curtain silhouette, vertical lighting bands, drape shadows, embroidery, tassels or outdoor grime. This tile represents 0.5 by 0.5 metres of cloth. Keep the weave soft and small at this scale, not a chunky grid. No floral motifs: this quiet solid textile will sit beside small floral wallpaper.
+```
+
+T12: **reuse**, not another generation. Existing `wallpaper_old_v1_albedo.png` already provides cream ground, small sage/dusty-rose botanical sprigs and a clean repeat. SHA-256 `f80e97c330e2a7e8237a8f7fed860c233da3a2f6678a8ad882acb89a93806a3c`; source 1024 × 1024 RGB. Keep the existing density (1.1 repeats/m, a 0.91 m tile; the prompt-book's 0.75 m is a proposed starting point). Runtime now uses upright X projection and negative V scale: image-down is world-down, stems remain below flowers on both wall orientations. No replacement PNG or lore change. Plastered stove wall remains B01.
+
+Source-gate: 2/2 PASS, unchanged thresholds, report `texture-curtains-20260922-source.md`. Exact legacy reuse is explicitly allowlisted; arbitrary v1 names remain rejected. Density is the magnitude of scale, not a negative texel count when V is flipped. Build/capture and art limits remain in the production journal.
+
 ## B01/T01 — domestic plaster and cotton, 2026-09-22
 
 Two selected built-in ImageGen outputs, 1254 × 1254 RGB, copied unchanged; no external references. Source gate 2/2 PASS at existing thresholds. Mipmaps and 1024 import cap; physical scales below are imported map repeats per metre. Exact build/capture and acceptance limits are in the production journal. Original output directory remains `/Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/`.

@@ -246,7 +246,7 @@ public static class StyleBenchmarkInteriorFactory
             Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
             AlbedoColor = new Color(.81f, .79f, .71f, .10f), Roughness = .95f,
             MetallicSpecular = 0f, CullMode = BaseMaterial3D.CullModeEnum.Disabled
-        } : PainterlyMaterialLibrary.ForColor("aca590", "fabric_pattern", sheltered: true);
+        } : PainterlyMaterialLibrary.ForColor("94aaa4", "cloth_curtain", sheltered: true);
         var fabric = new MeshInstance3D { Name = name, Mesh = surface.Commit(), MaterialOverride = material,
             CastShadow = sheer ? GeometryInstance3D.ShadowCastingSetting.Off : GeometryInstance3D.ShadowCastingSetting.On };
         fabric.SetMeta("householdRole", sheer ? "light transmitting sheer on rod" : "short privacy curtain gathered on rod");
@@ -256,7 +256,8 @@ public static class StyleBenchmarkInteriorFactory
         {
             foreach (var vertex in new[] { a,b,c, a,c,d })
             {
-                surface.SetUV(new((vertex.X - centerX) / width + .5f, (top - vertex.Y) / (top - bottom)));
+                // Metres, not one stretched square per tall narrow curtain.
+                surface.SetUV(new(vertex.X - centerX, top - vertex.Y));
                 surface.AddVertex(vertex);
             }
         }
