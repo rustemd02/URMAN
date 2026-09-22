@@ -4,6 +4,24 @@
  "sourceTool": "Blender 4.5 LTS",
  "assets": [
   {
+   "id": "texture.painterly.w02.v02",
+   "source": "ImageGen built-in, 2026-09-22; exec-29f2791d-0b6b-4a89-9466-f33242536524.png; initial/edit prompts in game/assets/textures/painterly/README.md (W02)",
+   "derived": "game/assets/textures/painterly/urman_w02_v02_basecolor.png",
+   "derivedSha256": "73d9883cdc094f70f720a0246e6a6d7a10e3f19cc8a20ad39a92a9c4f7e0f148",
+   "generator": "OpenAI ImageGen built-in; selected source pixels unchanged",
+   "license": "Project-generated",
+   "scale": 1,
+   "triangleBudget": 0,
+   "textureBudget": 1024,
+   "materials": ["wood_fence_vertical", "wood_fence_rail"],
+   "materialOwner": "PainterlyMaterialLibrary; AddVisualFenceRun slats/posts local Y and BabaiYardSideGate replacement rails local Z. Other mixed fence meshes retain previous maps pending axis audit.",
+   "collision": "unchanged",
+   "lod": "mipmaps; intended runtime cap 1024",
+   "qa": "source-gate PASS1/1; build/native captures tracked in docs/tasktracker/05_texture_production_2026-09-22.md",
+   "status": "partially-integrated-candidate; source-gate-pass; motion/art-pending",
+   "releaseDisposition": "runtime-referenced on mapped pieces only; remaining fence consumers and final art pending"
+  },
+  {
    "id": "texture.painterly.t04.v01",
    "source": "ImageGen built-in, 2026-09-22; exec-cb00fd97-2bbf-45d8-be31-53d2d7a27b48.png; exact prompt in game/assets/textures/painterly/README.md (T04)",
    "derived": "game/assets/textures/painterly/urman_t04_v01_basecolor.png",

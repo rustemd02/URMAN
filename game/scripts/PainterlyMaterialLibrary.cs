@@ -34,6 +34,8 @@ public static class PainterlyMaterialLibrary
         // Lighting, weather and snow continue to use the world-space varyings.
         uniform bool local_wood_texture = false;
         uniform bool local_floor_texture = false;
+        // W02 rails are authored along local Z; map that length to texture V.
+        uniform bool local_fence_rail = false;
         uniform vec3 local_wood_offset = vec3(0.0);
         // Packed hay already has a continuous circumferential/vertical UV
         // layout; preserve it instead of projecting fibers through the stack.
@@ -119,8 +121,10 @@ public static class PainterlyMaterialLibrary
         }
 
         void vertex() {
-            local_wood_position = local_floor_texture ? VERTEX : (VERTEX + local_wood_offset).zyx;
-            local_wood_normal = local_floor_texture ? NORMAL : NORMAL.zyx;
+            local_wood_position = local_fence_rail ? VERTEX.xzy
+                : (local_floor_texture ? VERTEX : (VERTEX + local_wood_offset).zyx);
+            local_wood_normal = local_fence_rail ? NORMAL.xzy
+                : (local_floor_texture ? NORMAL : NORMAL.zyx);
             world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
             world_normal = normalize(MODEL_NORMAL_MATRIX * NORMAL);
             // Ground microrelief is normal detail: its sub-centimetre height
@@ -335,6 +339,10 @@ public static class PainterlyMaterialLibrary
         ["wood_painted_green"] = ("res://assets/textures/painterly/urman_w04_v02_basecolor.png", Vector2.One),
         ["wood_floor_painted"] = ("res://assets/textures/painterly/urman_w09_v01_basecolor.png", Vector2.One),
         ["wood_fence"] = ("res://assets/textures/painterly/weathered_wood_boards_v2_albedo.png", new Vector2(0.8f, 0.8f)),
+        // Opt-in pieces with known local grain axes. Mixed imported fence
+        // meshes keep the legacy material until their individual axes are mapped.
+        ["wood_fence_vertical"] = ("res://assets/textures/painterly/urman_w02_v02_basecolor.png", Vector2.One),
+        ["wood_fence_rail"] = ("res://assets/textures/painterly/urman_w02_v02_basecolor.png", Vector2.One),
         ["wood_furniture"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.95f, 0.95f)),
         // W08: opt-in finished furniture; the legacy owner also serves floors
         // and exterior benches, which must not be varnished by a global swap.
@@ -547,6 +555,7 @@ public static class PainterlyMaterialLibrary
         {
             "wood_painted_blue" or "wood_painted_green" => "wood_facade",
             "wood_floor_painted" => "wood_furniture_interior",
+            "wood_fence_vertical" or "wood_fence_rail" => "wood_fence",
             "plaster_domestic" => "wall_institution",
             "cloth_table" or "cloth_curtain" => "cloth",
             _ => surface
@@ -557,9 +566,10 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
         material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle"
             or "wood_facade" or "wood_painted_blue" or "wood_painted_green" or "wood_floor_painted"
-            or "bark_birch_winter" or "bark_pine" or "wallpaper");
+            or "bark_birch_winter" or "bark_pine" or "wallpaper" or "wood_fence_vertical" or "wood_fence_rail");
         material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
-        material.SetShaderParameter("local_floor_texture", surface == "wood_floor_painted");
+        material.SetShaderParameter("local_floor_texture", surface is "wood_floor_painted" or "wood_fence_vertical" or "wood_fence_rail");
+        material.SetShaderParameter("local_fence_rail", surface == "wood_fence_rail");
         material.SetShaderParameter("authored_uv_texture", surface is "hay_fibers" or "cloth_table" or "cloth_curtain");
         material.SetShaderParameter("metallic_value", surface == "iron" ? 0.65f : 0f);
         material.SetShaderParameter("finish_grain", surface switch

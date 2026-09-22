@@ -9418,7 +9418,7 @@ public partial class Act1ConnectedWorld : Node3D
             AddVisualBox(parent.GetNode<MeshInstance3D>($"{name}Rail"), $"{name}Slat{index}",
                 new Vector3(0.075f, slatHeight, 0.16f),
                 new Vector3(point.X, point.Y + 0.06f + slatHeight * 0.5f, point.Z),
-                weathering < 0.35f ? "615b49" : "514b3e", "wood_fence", yaw,
+                weathering < 0.35f ? "9b9d95" : "898d86", "wood_fence_vertical", yaw,
                 rollDegrees: Mathf.Lerp(-2.5f, 2.5f, weathering));
         }
         for (var index = 0; index <= posts; index++)
@@ -9429,8 +9429,8 @@ public partial class Act1ConnectedWorld : Node3D
                 $"{name}Post{index}",
                 new Vector3(0.13f, 1.15f, 0.13f),
                 new Vector3(point.X, point.Y + 0.575f, point.Z),
-                "594a39",
-                "wood");
+                "93968f",
+                "wood_fence_vertical");
         }
     }
 

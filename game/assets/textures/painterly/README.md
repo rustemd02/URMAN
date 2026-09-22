@@ -875,3 +875,27 @@ Material: painted carved wood of old Tatar village gates and window surrounds
  with small chips showing bare wood. Hand-painted, respectful, not glossy,
  not folkloric overload, seamless in both directions.
 ```
+## W02 — silver-grey fence wood, 2026-09-22
+
+Selected `urman_w02_v02_basecolor.png`, 1254 × 1254 RGB, copied unchanged from built-in ImageGen `exec-29f2791d-0b6b-4a89-9466-f33242536524.png`. SHA-256 `73d9883cdc094f70f720a0246e6a6d7a10e3f19cc8a20ad39a92a9c4f7e0f148`. Both generated sources remain under `/Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/`; no external reference. Initial `exec-c5dfb3ea-2b90-4fea-961a-6519c9fb4afc.png` was too finely photographic; only selected v02 is copied into the game.
+
+Initial exact prompt:
+
+```text
+Use case: stylized-concept.
+Asset type: one tileable game base-color texture, URMAN catalogue W02.
+
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Weathered unpainted fence wood, silver-grey and subdued brown, broken vertical grain, a few soft dry abrasion patches. More exposed and cooler than indoor wood. No complete boards, gaps, nail rows, moss clumps, rot cavities or black continuous grain bands. This is the surface pigment of one continuous piece of wood, not a picture of a fence. All grain runs primarily vertically in the image; broken tapered fiber groups, no full-height dark lines or evenly spaced stripes. One image covers 1 by 1 metre. Keep the overall value medium-light and the variation restrained.
+```
+
+Exact built-in edit, referencing the initial image:
+
+```text
+Edit the supplied W02 wood material, changing only the rendering/detail frequency. Keep its quiet silver-grey and subdued taupe palette, flat material-only square composition and vertical grain direction. Replace the dense photographic micro-lines and rough relief with sparse broad painterly tapered fiber groups, soft irregular brush fields and large quiet areas. About one tenth as many individual fine lines. Flat diffuse pigment only; absolutely no bark-like raised texture, no highlights, no shadows, no full-height black bands, no board boundaries or gaps, no objects, text, labels or framing. Edges must tile seamlessly in both directions with balanced detail and no central focal feature. The result is one opaque RGB game base-color map covering 1 x 1 metre, not a photograph, normal map or preview render.
+```
+
+Source-gate PASS1/1: mean seams .0523/.0374, maximum .1961/.1882, no clipping. Intended import cap 1024 with mipmaps. One metre per repeat. Partial integration: `wood_fence_vertical` on AddVisualFenceRun slats/posts (local Y); `wood_fence_rail` on six replacement side-gate rails (local Z mapped to V by XZY permutation). Both reuse `wood_fence` numeric response; Low keeps the new neutral-grey palette and unchanged forms without the bitmap. Mixed imported fences, procedural terrain-following rails, wattle and other `wood_fence` consumers remain unchanged until their grain axes are mapped. Local top/end faces are not claimed as separately modeled end grain. Build/capture limits remain in the production journal; no art approval implied.

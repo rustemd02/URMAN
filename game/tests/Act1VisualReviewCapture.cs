@@ -31,6 +31,12 @@ public partial class Act1VisualReviewCapture : Node
     private static readonly IReadOnlyDictionary<string, FrameSpec> FrameSpecs =
         new Dictionary<string, FrameSpec>(StringComparer.Ordinal)
         {
+            ["fence_service_grain"] = new(
+                "fence_service_grain", "village_day", "arrival",
+                Vector3.Zero, Vector3.Zero), // resolved from the visible material owner below
+            ["fence_babai_rail_grain"] = new(
+                "fence_babai_rail_grain", "village_day", "from_house",
+                Vector3.Zero, Vector3.Zero),
             ["house_window_rear"] = new(
                 "house_window_rear", "house_old_pc", "entry",
                 new Vector3(-1.7f, .05f, -1.4f), new Vector3(-2.55f, 1.45f, -3.4f),
@@ -251,6 +257,29 @@ public partial class Act1VisualReviewCapture : Node
         var space = spec.LocalSpace is null ? null : connectedWorld.GetNode<Node3D>(spec.LocalSpace);
         var position = space is null ? spec.PlayerPosition : space.ToGlobal(spec.PlayerPosition);
         var target = space is null ? spec.Target : space.ToGlobal(spec.Target);
+
+        // These materials need a close view of their actual current owner,
+        // not nominal authoring coordinates of a subsequently hidden fence.
+        var fenceSubject = frameId switch
+        {
+            "fence_service_grain" => "BabaiEastDepthServiceBoundaryEastSlat7",
+            "fence_babai_rail_grain" => "LowerFenceRailHigh",
+            _ => null
+        };
+        if (fenceSubject is not null)
+        {
+            var subject = connectedWorld.FindChildren(fenceSubject, "MeshInstance3D", true, false)
+                .OfType<MeshInstance3D>().SingleOrDefault();
+            if (subject?.Mesh is null || !subject.IsVisibleInTree()
+                || subject.MaterialOverride is not ShaderMaterial material
+                || material.GetShaderParameter("albedo_texture").AsGodotObject() is not Texture2D texture
+                || !texture.ResourcePath.EndsWith("urman_w02_v02_basecolor.png", StringComparison.Ordinal))
+                throw new InvalidOperationException($"W02 capture lacks its visible mapped owner: {fenceSubject}");
+            target = subject.ToGlobal(subject.Mesh.GetAabb().GetCenter());
+            position = target + subject.GlobalBasis.X.Normalized() * 1.5f + subject.GlobalBasis.Z.Normalized() * .35f;
+            position.Y = AgentBAct1HeightField.CollisionGround(position.X, position.Z) + .05f;
+            GD.Print($"act1-fence-material-subject: {subject.GetPath()} texture={texture.ResourcePath} localRail={material.GetShaderParameter("local_fence_rail")}");
+        }
 
         // Let the production spawn resolve its initially crouched stance before
         // freezing. Ignore OS mouse warps while the capture window gains focus;

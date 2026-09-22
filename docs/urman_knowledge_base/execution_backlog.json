@@ -3033,9 +3033,10 @@
   {
    "id": "ACT1-TEXTURE.02",
    "title": "Экстерьеры, снег, дерево, камень и растения",
+   "progress_2026_09_22": "W02 v02 source PASS1/1, первый кандидат группы из 31. Частично подключены вертикальные детали AddVisualFenceRun и шесть реек бокового прохода с локальными осями и нейтральными tint. Fence-04 PASS344; три актуальных High/Low-кадра просмотрены, у реек crouching=true/центральный столб. Остальные 30 карточек, смешанные ограды W02, движение и art открыты.",
    "milestone": "M4",
-   "status": "todo",
-   "active_owner": null,
+   "status": "in_progress",
+   "active_owner": "root/texture-tracker-2026-09-22",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.01"
@@ -3058,7 +3059,12 @@
     "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
     "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
    ],
-   "evidence": [],
+   "evidence": [
+    "docs/production/act1_takeover_evidence_2026-09-16/texture-fence-20260922-source.md",
+    "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-20260922-fence-04.json",
+    "docs/production/act1_takeover_evidence_2026-09-16/texture-fence-20260922-02",
+    "game/assets/textures/painterly/README.md"
+   ],
    "texture_cards": [
     "S03",
     "S04",
@@ -3443,7 +3449,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "17 новых карт подключены (16 опорных + T04 cloth_curtain); T12 использует существующие обои с исправленной проекцией. Новые домашние материалы сохраняют контакты/предметы/металл/тюль. B01/T01 и T04 статично просмотрены Low/High. Геометрия досок пола, проекция повёрнутой коры, сила снежного альбедо и другие acceptance пункты остаются в журнале.",
+   "progress_2026_09_22": "18 новых карт адресно подключены, плюс T12 reuse. W02 v02 добавлена к вертикальным деталям AddVisualFenceRun и шести рейкам бокового прохода; материал и локальные оси разделены, neutral tint действует Low/High. Остальные mixed-fence не заменены. Геометрия досок пола, повёрнутая кора, снежное альбедо и остальные карточки открыты; текущие свидетельства/ограничения в журнале.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.01"
@@ -3476,7 +3482,7 @@
    "milestone": "M4",
    "status": "in_progress",
    "active_owner": "root/expanded-act1",
-   "progress_2026_09_22": "Consolidated source-gate первых16 PASS16/16; T04 и T12 reuse отдельно PASS2/2. Curtains-01 build/import PASS342 без drift/errors. Три кадра окон просмотрены: Rear High crouched, Right High/Low standing, guardrestored. Прежние home-finish-01/03 и house105 остаются отдельной историей, не перенесены на новую сборку. Движение, остальные ракурсы/материалы и человеческая художественная приёмка открыты; полный объём .12 не закрыт.",
+   "progress_2026_09_22": "W02 source PASS1/1, Fence-04 build/import PASS344 без drift/errors; три свежих кадра High/Low просмотрены: service standing, side rails crouched с перекрытым столбом центром. Все guard restored. Прежние результаты первых16/T04/T12 остаются историей своих сборок. Движение, Low штакетников, остальные потребители и human art открыты.",
    "owner": "art/materials/qa",
    "depends_on": [
     "ACT1-TEXTURE.11"
