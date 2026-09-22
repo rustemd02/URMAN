@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Godot;
 using Urman.Experiments.AgentBAct1;
+using Urman.Core.Persistence;
 
 namespace Urman.Godot.Tests;
 
@@ -30,6 +31,14 @@ public partial class Act1VisualReviewCapture : Node
     private static readonly IReadOnlyDictionary<string, FrameSpec> FrameSpecs =
         new Dictionary<string, FrameSpec>(StringComparer.Ordinal)
         {
+            ["oldpc_vocabulary"] = new(
+                "oldpc_vocabulary", "house_old_pc", "entry",
+                new Vector3(.1f, .05f, -1.40f), new Vector3(0, .87f, -2.30f),
+                "house_interior", "babay-abi-house"),
+            ["oldpc_vocabulary_large_contrast"] = new(
+                "oldpc_vocabulary_large_contrast", "house_old_pc", "entry",
+                new Vector3(.1f, .05f, -1.40f), new Vector3(0, .87f, -2.30f),
+                "house_interior", "babay-abi-house"),
             // Material review uses the existing production-camera capture,
             // without changing the six-frame forest acceptance contract.
             ["house_table_materials"] = new(
@@ -265,6 +274,51 @@ public partial class Act1VisualReviewCapture : Node
         if (lookAlignment < .999f || Math.Abs(camera.GlobalBasis.X.Normalized().Y) > .001f)
             throw new InvalidOperationException($"Capture camera drifted or rolled: alignment={lookAlignment}, rightY={camera.GlobalBasis.X.Y}.");
 
+        object? uiEvidence = null;
+        if (frameId is "oldpc_vocabulary" or "oldpc_vocabulary_large_contrast")
+        {
+            var accessibility = AccessibilitySettingsSnapshot.Default with
+            {
+                TextScale = frameId == "oldpc_vocabulary_large_contrast" ? 1.6 : 1,
+                HighContrast = frameId == "oldpc_vocabulary_large_contrast"
+            };
+            player.ApplySettings(player.CaptureSettings() with { Accessibility = accessibility });
+            var ui = GetTree().GetFirstNodeInGroup("old_pc_ui") as OldPcUi
+                ?? throw new InvalidOperationException("Missing production old-PC UI.");
+            ui.Open(bridge);
+            // Ordinary accessible-source read: no injected vocabulary or plot flags.
+            ui.OpenArchiveSource("urman.oldpc:document/doc_household_radio_log");
+            for (var frame = 0; frame < 120 && !bridge.LearnedVocabulary().Any(entry => entry.Id.EndsWith("tt_urman", StringComparison.Ordinal)); frame++)
+                await WaitForFramesAsync(1);
+            ui.LaunchApplication("vocabulary");
+            await WaitForFramesAsync(8);
+            var list = ui.GetNode<ItemList>("Screen/App_vocabulary/Layout/Content/Layout/Entries");
+            var selected = Enumerable.Range(0, list.ItemCount)
+                .FirstOrDefault(index => list.GetItemMetadata(index).AsString().EndsWith("tt_urman", StringComparison.Ordinal), -1);
+            if (selected < 0) throw new InvalidOperationException("The opened source did not collect урман.");
+            list.Select(selected);
+            list.EmitSignal(ItemList.SignalName.ItemSelected, (long)selected);
+            list.GrabFocus();
+            await WaitForFramesAsync(8);
+            var reader = ui.GetNode<RichTextLabel>("Screen/App_vocabulary/Layout/Content/Layout/Reader/Text");
+            var window = ui.GetNode<Control>("Screen/App_vocabulary");
+            uiEvidence = new
+            {
+                application = ui.ActiveApplicationId,
+                text_scale = accessibility.TextScale,
+                high_contrast = accessibility.HighContrast,
+                selected_word = ui.ActiveVocabularyId,
+                reader_text = reader.GetParsedText(),
+                list_font_size = list.GetThemeFontSize("font_size"),
+                reader_font_size = reader.GetThemeFontSize("normal_font_size"),
+                window_rect = window.GetGlobalRect().ToString(),
+                list_rect = list.GetGlobalRect().ToString(),
+                reader_rect = reader.GetGlobalRect().ToString(),
+                window_inside_screen = ui.GetNode<Control>("Screen").GetGlobalRect().Encloses(window.GetGlobalRect()),
+                list_has_focus = list.HasFocus()
+            };
+        }
+
         var image = viewport.GetTexture().GetImage();
         if (image is null || image.IsEmpty())
         {
@@ -305,6 +359,7 @@ public partial class Act1VisualReviewCapture : Node
                 GraphicsPreset = player.GraphicsPreset,
                 Scaling3DScale = viewport.Scaling3DScale,
                 Crouching = player.IsCrouching,
+                Ui = uiEvidence,
                 Camera = new CameraReceipt
                 {
                     GlobalPosition = ScalarVector.From(camera.GlobalPosition),
@@ -518,6 +573,10 @@ public partial class Act1VisualReviewCapture : Node
 
         [JsonPropertyName("camera")]
         public CameraReceipt Camera { get; set; } = new();
+
+        [JsonPropertyName("ui")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public object? Ui { get; set; }
 
         [JsonPropertyName("output")]
         public string Output { get; set; } = string.Empty;

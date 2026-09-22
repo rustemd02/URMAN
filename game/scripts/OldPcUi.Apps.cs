@@ -96,7 +96,7 @@ public partial class OldPcUi
 
         _vocabularyStatus.Text = _vocabularyEntries.Count == 0
             ? "В словаре пока нет найденных слов."
-            : $"В словаре: {_vocabularyEntries.Count} слов · показываются только найденные слова";
+            : $"Слов в словаре: {_vocabularyEntries.Count} · показываются только найденные слова";
         if (_vocabularyEntries.Count == 0)
         {
             _activeVocabularyId = null;

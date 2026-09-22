@@ -7223,9 +7223,9 @@
   {
    "id": "ACT1-LANG.3",
    "title": "Словарь на ПК бабая",
-   "progress_2026_09_22": "Реализовано окно словаря: collected guessed/confirmed, firstsource/history, реальные body-примеры без заголовков/doc: IDs, live refresh, save/load. Исправлен source-less прологовый guessed backfill и защита от delayed guessed downgrade в общем handler. Build04/old_pc_desktop_smoke PASS; один NarrativeStateTests PASS. Осталась визуальная приёмка нового окна на крупном тексте/контрасте; вся LANG ещё не завершена.",
+   "progress_2026_09_22": "Окно словаря: collected guessed/confirmed, firstsource/history, реальные body-примеры, live refresh, save/load. Функциональный build04/old_pc_desktop_smoke и один NarrativeStateTests PASS сохранены как отдельные свидетельства. Новая сборка vocabulary-accessibility-01 PASS340 без drift/errors; два native-кадра 1280×720 просмотрены: 1.0/обычный и 1.6/высокий контраст, шрифт 24/38 design px, окно внутри экрана, слово из обычного чтения доступного документа, фокус в списке. После кадров только текстовый счётчик исправлен с '1 слов' на 'Слов в словаре: 1'; это проверено исходником, не выдано за новый runtime-кадр. Закрыта узкая LANG.3; LANG.4/.5, UI.6 и человеческий проход остаются открыты.",
    "milestone": "M5",
-   "status": "in_progress",
+   "status": "completed",
    "active_owner": "root/expanded-act1",
    "owner": "finished-act1",
    "depends_on": [
@@ -7245,7 +7245,11 @@
    "done_when": [
     "Словарь показывает только реально собранные слова; не выдаёт незаслуженных знаний; доступность (крупный текст/контраст) держит окно в столе."
    ],
-   "evidence": []
+   "evidence": [
+    "docs/tasktracker/05_texture_production_2026-09-22.md",
+    "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-20260922-vocabulary-accessibility-01.json",
+    "docs/production/act1_takeover_evidence_2026-09-16/vocabulary-accessibility-20260922-01/act1_visual_review_receipt.json"
+   ]
   },
   {
    "id": "ACT1-LANG.4",

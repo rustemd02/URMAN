@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_visual_review_capture",
+  "captured_at_utc": "2026-09-22T14:22:17.3964510\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 2,
+  "frame_count": 2,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "frames": [
+    {
+      "frame_id": "oldpc_vocabulary",
+      "zone": "house_interior",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "graphics_preset": "medium",
+      "scaling_3d_scale": 0.8999999761581421,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.6017088890075684,
+          "y": -0.771572470664978,
+          "z": -0.2064516842365265
+        },
+        "up": {
+          "x": -0.7298094630241394,
+          "y": 0.6361414194107056,
+          "z": -0.25040411949157715
+        },
+        "global_position": {
+          "x": -31.067319869995117,
+          "y": 2.3441522121429443,
+          "z": -6.770628929138184
+        },
+        "target": {
+          "x": -31.753585815429688,
+          "y": 1.464152216911316,
+          "z": -7.0060930252075195
+        }
+      },
+      "ui": {
+        "application": "vocabulary",
+        "text_scale": 1,
+        "high_contrast": false,
+        "selected_word": "urman.chapter1:vocabulary/tt_urman",
+        "reader_text": "\u0443\u0440\u043C\u0430\u043D\n\u0421\u0442\u0430\u0442\u0443\u0441: \u0413\u0438\u043F\u043E\u0442\u0435\u0437\u0430\n\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435: \u043B\u0435\u0441\n\u041F\u0435\u0440\u0432\u044B\u0439 \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A: \u0417\u0430\u043C\u0435\u0442\u043A\u0438 \u043E \u043F\u0440\u0438\u0451\u043C\u0435 \u0440\u0430\u0434\u0438\u043E\u043F\u0440\u0438\u0451\u043C\u043D\u0438\u043A\u0430\n\u041F\u0440\u0438\u043C\u0435\u0440\u044B \u0438\u0437 \u043F\u0435\u0440\u0432\u043E\u0433\u043E \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A\u0430:\n\u2022 \u041D\u0438\u0436\u0435, \u0442\u0435\u043C \u0436\u0435 \u043A\u0430\u0440\u0430\u043D\u0434\u0430\u0448\u043E\u043C: \u00AB\u0412 \u0441\u0442\u043E\u0440\u043E\u043D\u0443 \u0443\u0440\u043C\u0430\u043D\u0430 \u043F\u0440\u0438\u0451\u043C \u0432\u0441\u0435\u0433\u0434\u0430 \u0433\u043B\u043E\u0445\u043D\u0435\u0442, \u0438 \u043D\u0435 \u0442\u043E\u043B\u044C\u043A\u043E \u0443 \u043D\u0430\u0441. \u0423 \u0413\u0430\u0440\u0430\u0435\u0432\u044B\u0445 \u0442\u0430\u043A \u0436\u0435. \u042D\u043B\u0435\u043A\u0442\u0440\u0438\u043A \u0433\u043E\u0432\u043E\u0440\u0438\u0442 \u2014 \u0440\u0435\u043B\u044C\u0435\u0444. \u0420\u0430\u043D\u044C\u0448\u0435 \u043B\u043E\u0432\u0438\u043B\u043E, \u0442\u0435\u043F\u0435\u0440\u044C \u043D\u0435\u0442. \u041A\u0442\u043E \u0435\u0433\u043E \u0437\u043D\u0430\u0435\u0442\u00BB.",
+        "list_font_size": 24,
+        "reader_font_size": 24,
+        "window_rect": "(288, 71.26), (1574.4, 855.12)",
+        "list_rect": "(298, 128.26001), (220, 788)",
+        "reader_rect": "(530, 128.26001), (1322, 753)",
+        "window_inside_screen": true,
+        "list_has_focus": true
+      },
+      "output": "oldpc_vocabulary.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "edc1448e9b50ff93d746712b2ca41461774bcf804919c1b8c8c7d5bd26dce833"
+    },
+    {
+      "frame_id": "oldpc_vocabulary_large_contrast",
+      "zone": "house_interior",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "graphics_preset": "medium",
+      "scaling_3d_scale": 0.8999999761581421,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.6017088890075684,
+          "y": -0.771572470664978,
+          "z": -0.2064516842365265
+        },
+        "up": {
+          "x": -0.7298094630241394,
+          "y": 0.6361414194107056,
+          "z": -0.25040411949157715
+        },
+        "global_position": {
+          "x": -31.067319869995117,
+          "y": 2.3441522121429443,
+          "z": -6.770628929138184
+        },
+        "target": {
+          "x": -31.753585815429688,
+          "y": 1.464152216911316,
+          "z": -7.0060930252075195
+        }
+      },
+      "ui": {
+        "application": "vocabulary",
+        "text_scale": 1.6,
+        "high_contrast": true,
+        "selected_word": "urman.chapter1:vocabulary/tt_urman",
+        "reader_text": "\u0443\u0440\u043C\u0430\u043D\n\u0421\u0442\u0430\u0442\u0443\u0441: \u0413\u0438\u043F\u043E\u0442\u0435\u0437\u0430\n\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435: \u043B\u0435\u0441\n\u041F\u0435\u0440\u0432\u044B\u0439 \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A: \u0417\u0430\u043C\u0435\u0442\u043A\u0438 \u043E \u043F\u0440\u0438\u0451\u043C\u0435 \u0440\u0430\u0434\u0438\u043E\u043F\u0440\u0438\u0451\u043C\u043D\u0438\u043A\u0430\n\u041F\u0440\u0438\u043C\u0435\u0440\u044B \u0438\u0437 \u043F\u0435\u0440\u0432\u043E\u0433\u043E \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A\u0430:\n\u2022 \u041D\u0438\u0436\u0435, \u0442\u0435\u043C \u0436\u0435 \u043A\u0430\u0440\u0430\u043D\u0434\u0430\u0448\u043E\u043C: \u00AB\u0412 \u0441\u0442\u043E\u0440\u043E\u043D\u0443 \u0443\u0440\u043C\u0430\u043D\u0430 \u043F\u0440\u0438\u0451\u043C \u0432\u0441\u0435\u0433\u0434\u0430 \u0433\u043B\u043E\u0445\u043D\u0435\u0442, \u0438 \u043D\u0435 \u0442\u043E\u043B\u044C\u043A\u043E \u0443 \u043D\u0430\u0441. \u0423 \u0413\u0430\u0440\u0430\u0435\u0432\u044B\u0445 \u0442\u0430\u043A \u0436\u0435. \u042D\u043B\u0435\u043A\u0442\u0440\u0438\u043A \u0433\u043E\u0432\u043E\u0440\u0438\u0442 \u2014 \u0440\u0435\u043B\u044C\u0435\u0444. \u0420\u0430\u043D\u044C\u0448\u0435 \u043B\u043E\u0432\u0438\u043B\u043E, \u0442\u0435\u043F\u0435\u0440\u044C \u043D\u0435\u0442. \u041A\u0442\u043E \u0435\u0433\u043E \u0437\u043D\u0430\u0435\u0442\u00BB.",
+        "list_font_size": 38,
+        "reader_font_size": 38,
+        "window_rect": "(288, 69.411995), (1574.4, 832.944)",
+        "list_rect": "(298, 144.41199), (220, 747)",
+        "reader_rect": "(530, 144.41199), (1322, 694)",
+        "window_inside_screen": true,
+        "list_has_focus": true
+      },
+      "output": "oldpc_vocabulary_large_contrast.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "b67c24686be14d673f86ec0e6378a5027cabcc68fde16acbe8aeac1a87f3521d"
+    }
+  ]
+}
