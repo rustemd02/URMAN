@@ -8,6 +8,8 @@ cd "$URMAN_ROOT"
 
 GODOT="$URMAN_ROOT/.tools/godot/Godot_mono.app/Contents/MacOS/Godot"
 GUARD=${URMAN_GUARD:-$URMAN_ROOT/eng/protected_run.py}
+# A smoke that throws inside async void never quits; fail it instead of hanging the run.
+SMOKE_TIMEOUT=${URMAN_SMOKE_TIMEOUT:-900}
 [ -f "$GUARD" ] || { echo "userdata guard not found: $GUARD" >&2; exit 1; }
 GODOT_LOG=$(mktemp "${TMPDIR:-/tmp}/urman-godot-smoke.XXXXXX")
 IMPORT_LOG=$(mktemp "${TMPDIR:-/tmp}/urman-godot-import.XXXXXX")
@@ -78,7 +80,7 @@ for TEST_SCENE in \
 do
   : > "$GODOT_LOG"
   : > "$TEST_OUTPUT"
-  if ! python3 "$GUARD" --clean "$GODOT" --headless --log-file "$GODOT_LOG" --path game "$TEST_SCENE" >"$TEST_OUTPUT" 2>&1; then
+  if ! python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" "$GODOT" --headless --log-file "$GODOT_LOG" --path game "$TEST_SCENE" >"$TEST_OUTPUT" 2>&1; then
     cat "$TEST_OUTPUT"
     cat "$GODOT_LOG"
     exit 1

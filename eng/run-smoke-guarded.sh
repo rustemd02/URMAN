@@ -12,6 +12,8 @@ set -eu
 URMAN_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 GODOT="$URMAN_ROOT/.tools/godot/Godot_mono.app/Contents/MacOS/Godot"
 GUARD=${URMAN_GUARD:-$URMAN_ROOT/eng/protected_run.py}
+# A smoke that throws inside async void never quits; fail it instead of hanging the run.
+SMOKE_TIMEOUT=${URMAN_SMOKE_TIMEOUT:-900}
 
 if [ "$#" -lt 1 ]; then
   echo "usage: $0 <smoke-scene> [smoke-scene ...]" >&2
@@ -39,7 +41,7 @@ for scene in "$@"; do
     *) path="res://tests/$scene.tscn" ;;
   esac
   echo "run-smoke-guarded: $path"
-  python3 "$GUARD" --clean "$GODOT" --headless --display-driver macos --path game "$path" || status=$?
+  python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" "$GODOT" --headless --display-driver macos --path game "$path" || status=$?
 done
 
 exit "$status"

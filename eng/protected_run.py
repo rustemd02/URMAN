@@ -68,6 +68,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--clean", action="store_true")
     parser.add_argument("--userdata", type=Path, help="explicit userdata path for an isolated guard test")
+    parser.add_argument("--timeout", type=float, default=0.0,
+                        help="stop the child after this many seconds and exit 124; userdata is still restored")
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
@@ -101,6 +103,7 @@ def main() -> int:
         interrupted = 0
         interrupted_at = 0.0
         original_moved = False
+        timed_out = False
         code = 1
 
         def interrupt(signum: int, _frame: object) -> None:
@@ -124,8 +127,16 @@ def main() -> int:
                 shutil.copytree(original, userdata, symlinks=False)
             if not interrupted:
                 child = subprocess.Popen(command, start_new_session=True)
+                started = time.monotonic()
                 while child.poll() is None:
-                    if interrupted and time.monotonic() - interrupted_at >= 5:
+                    # A smoke that throws inside async void can keep its window
+                    # alive forever; a deadline turns that into a failure.
+                    if args.timeout > 0 and not timed_out and time.monotonic() - started >= args.timeout:
+                        timed_out = True
+                        interrupted_at = time.monotonic()
+                        print(f"userdata guard: child exceeded {args.timeout:g}s; stopping it", file=sys.stderr, flush=True)
+                        signal_group(child.pid, signal.SIGTERM)
+                    if (interrupted or timed_out) and time.monotonic() - interrupted_at >= 5:
                         signal_group(child.pid, signal.SIGKILL)
                     try:
                         child.wait(timeout=0.25)
@@ -158,7 +169,11 @@ def main() -> int:
             finally:
                 for sig, handler in previous.items():
                     signal.signal(sig, handler)
-        return 128 + interrupted if interrupted else (code if code >= 0 else 128 - code)
+        if interrupted:
+            return 128 + interrupted
+        if timed_out:
+            return 124
+        return code if code >= 0 else 128 - code
 
 
 if __name__ == "__main__":
