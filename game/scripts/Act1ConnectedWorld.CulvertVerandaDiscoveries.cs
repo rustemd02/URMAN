@@ -390,19 +390,22 @@ public partial class Act1ConnectedWorld
             ?? throw new InvalidOperationException(
                 "The authored distant minaret is required for the rear-corner view discovery.");
 
-        // Use the actual rear corner posts of the authored dwelling. The
+        // Use the actual rear corners of the authored dwelling. Since the hero
+        // srub replaced its four plywood corner posts with the alternating log
+        // corner bond, the visible end-grain blocks own this anchor; both the
+        // retired posts and their replacements share the real corner XZ. The
         // player walks around the house and looks toward the existing
         // silhouette; no window, glass override or extra post participates in
         // this discovery.
         var rearCorners = FindDescendants<MeshInstance3D>(facade)
             .Where(mesh => mesh.Mesh is not null
-                && (mesh.Name.ToString().StartsWith("HeroHouse_Corner_", StringComparison.Ordinal)
+                && (mesh.Name.ToString().StartsWith("HeroHouse_Corner", StringComparison.Ordinal)
                     || mesh.Name.ToString().StartsWith("DwellingFacade_Corner_", StringComparison.Ordinal))
                 && facade.ToLocal(mesh.GlobalTransform * mesh.Mesh.GetAabb().GetCenter()).Z < -4f)
             .ToArray();
         if (rearCorners.Length < 2)
             throw new InvalidOperationException(
-                "The authored dwelling is missing its two rear corner posts for the minaret view.");
+                "The authored dwelling is missing its two rear corner joints for the minaret view.");
 
         var rearCorner = rearCorners
             .OrderBy(mesh => mesh.GlobalPosition.DistanceSquaredTo(minaret.GlobalPosition))

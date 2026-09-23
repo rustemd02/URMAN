@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_visual_review_capture",
+  "captured_at_utc": "2026-09-22T17:28:39.4637510\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 1,
+  "frame_count": 1,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "frames": [
+    {
+      "frame_id": "house_exterior_trim_street_high",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": 0.11242790520191193,
+          "y": 0.00565358204767108,
+          "z": -0.9936438202857971
+        },
+        "up": {
+          "x": -0.0006356305093504488,
+          "y": 0.9999840259552002,
+          "z": 0.0056177363730967045
+        },
+        "global_position": {
+          "x": -26.13813018798828,
+          "y": 2.0089635848999023,
+          "z": -1.421499252319336
+        },
+        "target": {
+          "x": -25.637224197387695,
+          "y": 2.0341522693634033,
+          "z": -5.848529815673828
+        }
+      },
+      "output": "house_exterior_trim_street_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "a59eafeb7910388b67e40d5ca9480f749d1a3324958309c185bbfa08282d637c"
+    }
+  ]
+}

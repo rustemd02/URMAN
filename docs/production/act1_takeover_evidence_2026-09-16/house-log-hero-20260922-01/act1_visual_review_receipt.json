@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_visual_review_capture",
+  "captured_at_utc": "2026-09-22T18:21:10.7804660\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 6,
+  "frame_count": 6,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "frames": [
+    {
+      "frame_id": "house_exterior_trim_street_high",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": 0.11242790520191193,
+          "y": 0.00565358204767108,
+          "z": -0.9936438202857971
+        },
+        "up": {
+          "x": -0.0006356305093504488,
+          "y": 0.9999840259552002,
+          "z": 0.0056177363730967045
+        },
+        "global_position": {
+          "x": -26.13813018798828,
+          "y": 2.0089635848999023,
+          "z": -1.421499252319336
+        },
+        "target": {
+          "x": -25.637224197387695,
+          "y": 2.0341522693634033,
+          "z": -5.848529815673828
+        }
+      },
+      "output": "house_exterior_trim_street_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "1230483964dc9c8a07893ebcd369e02b5c12b90f49ad92a630caf38d652a0612"
+    },
+    {
+      "frame_id": "house_exterior_trim_street_low",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "low",
+      "scaling_3d_scale": 0.75,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": 0.11242790520191193,
+          "y": 0.005653581582009792,
+          "z": -0.9936438202857971
+        },
+        "up": {
+          "x": -0.0006356304511427879,
+          "y": 0.9999840259552002,
+          "z": 0.005617735907435417
+        },
+        "global_position": {
+          "x": -26.13813018798828,
+          "y": 2.0089635848999023,
+          "z": -1.421499252319336
+        },
+        "target": {
+          "x": -25.637224197387695,
+          "y": 2.0341522693634033,
+          "z": -5.848529815673828
+        }
+      },
+      "output": "house_exterior_trim_street_low.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "69474fe2fe1b7a7f98c5341a2bc7c813b8a4b51972406f002e3a4b703f389ad2"
+    },
+    {
+      "frame_id": "house_log_oblique_high",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.2840867340564728,
+          "y": 0.0034003297332674265,
+          "z": -0.9587925672531128
+        },
+        "up": {
+          "x": 0.0009659940260462463,
+          "y": 0.9999942183494568,
+          "z": 0.003260229714214802
+        },
+        "global_position": {
+          "x": -24.051136016845703,
+          "y": 2.3527348041534424,
+          "z": 7.32741641998291
+        },
+        "target": {
+          "x": -28,
+          "y": 2.4000000953674316,
+          "z": -6
+        }
+      },
+      "output": "house_log_oblique_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "d6391453f7cd762f81feb272fe84d18601e99bb88561431a6f55a9b343aef4c4"
+    },
+    {
+      "frame_id": "house_log_oblique_low",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "low",
+      "scaling_3d_scale": 0.75,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.2840867340564728,
+          "y": 0.0034003297332674265,
+          "z": -0.9587925672531128
+        },
+        "up": {
+          "x": 0.0009659940260462463,
+          "y": 0.9999942183494568,
+          "z": 0.003260229714214802
+        },
+        "global_position": {
+          "x": -24.051136016845703,
+          "y": 2.3527348041534424,
+          "z": 7.32741641998291
+        },
+        "target": {
+          "x": -28,
+          "y": 2.4000000953674316,
+          "z": -6
+        }
+      },
+      "output": "house_log_oblique_low.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "25ed7178bacabd84000f9c217ae77a1461f1a98085ac890948382f0263b1c271"
+    },
+    {
+      "frame_id": "house_log_overview_high",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0,
+          "y": -0.007804281078279018,
+          "z": -0.9999695420265198
+        },
+        "up": {
+          "x": 0,
+          "y": 0.9999695420265198,
+          "z": -0.007804281078279018
+        },
+        "global_position": {
+          "x": -28,
+          "y": 2.461031436920166,
+          "z": 6.820000171661377
+        },
+        "target": {
+          "x": -28,
+          "y": 2.4000000953674316,
+          "z": -1
+        }
+      },
+      "output": "house_log_overview_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "4881fc8ebda4334bdf37e206eb42e502ab92529b33d429a60c1c3490e305ef23"
+    },
+    {
+      "frame_id": "house_log_overview_low",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "low",
+      "scaling_3d_scale": 0.75,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0,
+          "y": -0.007804281078279018,
+          "z": -0.9999695420265198
+        },
+        "up": {
+          "x": 0,
+          "y": 0.9999695420265198,
+          "z": -0.007804281078279018
+        },
+        "global_position": {
+          "x": -28,
+          "y": 2.461031436920166,
+          "z": 6.820000171661377
+        },
+        "target": {
+          "x": -28,
+          "y": 2.4000000953674316,
+          "z": -1
+        }
+      },
+      "output": "house_log_overview_low.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "a8ccbe657915e2a4a8146e92839f57599bc7aa05c362ad46bbcc6910ccce3aed"
+    }
+  ]
+}
