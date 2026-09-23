@@ -847,7 +847,10 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             || bridge.CurrentZoneId != zone
             || bridge.ActiveSceneId != $"{ChapterPrefix}scene/{sceneLocalId}")
         {
-            Fail($"First-person corridor state mismatch: zone={bridge.CurrentZoneId}, scene={bridge.ActiveSceneId}, path={main.ActiveZoneScenePath}; expected {zone}/{sceneLocalId}/{scenePath}.");
+            var pause = GetTree().GetFirstNodeInGroup("pause_menu") as PauseMenuUi;
+            var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+            Fail($"First-person corridor state mismatch: zone={bridge.CurrentZoneId}, scene={bridge.ActiveSceneId}, path={main.ActiveZoneScenePath}; expected {zone}/{sceneLocalId}/{scenePath}; "
+                + $"windowFocused={DisplayServer.WindowIsFocused()} pauseOpen={pause?.IsOpen} modal={player?.ModalOpen}.");
         }
     }
 

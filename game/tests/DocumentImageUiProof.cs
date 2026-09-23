@@ -67,6 +67,20 @@ internal static class DocumentImageUiProof
     private static async Task VerifyReaderAsync(Node owner, DocumentImageReader reader, DocumentImageContent expected, string tag)
     {
         var player = (FirstPersonController)owner.GetTree().GetFirstNodeInGroup("player_controller");
+        if (string.Equals(DisplayServer.GetName(), "headless", StringComparison.OrdinalIgnoreCase))
+        {
+            // Headless cannot resize or render the window, so pixel layout is
+            // not measurable here (as in SourceExcerptUiProof). Still prove the
+            // reader holds the declared, actually imported source image.
+            Require(reader.IsVisibleInTree() && reader.ImageCount == 1 && reader.ActiveAssetId == expected.AssetId,
+                "Reader dropped or substituted the source image: " + tag);
+            reader.GetNode<Button>("Tabs/Image").EmitSignal(BaseButton.SignalName.Pressed);
+            await Frames(owner, 4);
+            Require(reader.ShowingImage && reader.DisplayedTexture is { } headlessTexture && headlessTexture.GetWidth() > 100,
+                "Reader has no actual imported texture: " + tag);
+            GD.Print($"document-image-ui: {tag} source image present; external/not-run 720p/1080p layout requires a windowed display");
+            return;
+        }
         var window = DisplayServer.WindowGetSize();
         var preferences = player.Accessibility;
         try
