@@ -729,7 +729,7 @@ public partial class RuntimeBridge : Node
     // stay as authored IDs; readers resolve again after a street-name change.
     public string ResolveWorldText(string text) =>
         (GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld)
-            ?.AddressRegistry?.ResolveText(text) ?? text;
+            ?.AddressRegistry?.ResolveText(text) ?? AuthoredAddressText.Resolve(text);
 
     public IReadOnlyList<ResolvedJournalEntry> JournalEntries()
     {
