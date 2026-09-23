@@ -29,9 +29,12 @@ public static partial class VehicleVisualFactory
     private static Visual Niva(Node3D root)
     {
         var mesh = new Batch(root, "Chassis");
-        const string paint = "596c59";
-        BuildNivaExterior(mesh,paint);
-        root.SetMeta("roadVehicleGeometryRevision",2);
+        // Body, glass, trim and the car radio are the Blender-authored model
+        // (tools/blender/generate_niva.py); the cabin furniture stays procedural.
+        NivaModelPart(root,"NivaBody","NivaBody");
+        NivaModelPart(root,"NivaRadio","NivaRadio");
+        root.SetMeta("roadVehicleGeometryRevision",3);
+        root.SetMeta("assetOrigin","project-original Blender model urman_niva.glb + procedural cabin");
         // Practical cabin: two seats, rear bench, floor mat, dash, controls.
         foreach(var x in new[]{-.40f,.40f})
         {
@@ -45,8 +48,6 @@ public static partial class VehicleVisualFactory
         mesh.Box(new(1.26f,.13f,.42f),new(0,.69f,1.13f),"343630","vinyl");
         mesh.Box(new(1.26f,.43f,.10f),new(0,.91f,1.41f),"343630","vinyl");
         mesh.Box(new(1.38f,.17f,.31f),new(0,1.0f,-.56f),"30342e","rubber");
-        mesh.Box(new(.34f,.10f,.02f),new(.10f,.997f,-.392f),"171e19","metal");
-        mesh.Box(new(.20f,.038f,.012f),new(.10f,1.008f,-.377f),"9b9851","metal");
         mesh.Box(new(.39f,.16f,.095f),new(-.43f,1.10f,-.455f),"242723","vinyl");
         mesh.Box(new(.40f,.018f,.11f),new(-.43f,1.188f,-.448f),"272b25","vinyl");
         foreach(var vent in new[]{-.08f,.52f})
@@ -56,8 +57,6 @@ public static partial class VehicleVisualFactory
         }
         mesh.Box(new(.34f,.003f,.012f),new(.46f,.943f,-.395f),"84877b","metal");
         mesh.Box(new(.055f,.018f,.023f),new(.46f,.923f,-.385f),"63695d","metal");
-        foreach(var x in new[]{-.035f,.235f})mesh.Disc(.017f,.016f,new(x,.989f,-.373f),"596153",true);
-        mesh.Box(new(.14f,.014f,.015f),new(.1f,.963f,-.374f),"797f6a","metal");
         mesh.Beam(new(-.40f,.88f,-.53f),new(-.40f,1.04f,-.25f),.047f,"383d34","metal");
         mesh.Beam(new(.015f,.53f,-.20f),new(.015f,.84f,-.13f),.028f,"77796d","metal");
         mesh.Sphere(new(.055f,.055f,.055f),new(.015f,.85f,-.13f),"242922","rubber");
@@ -67,7 +66,7 @@ public static partial class VehicleVisualFactory
         mesh.Finish();
         var speed=Gauge(root,"Speedometer",new(-.52f,1.102f,-.397f),.061f,"км/ч",160);
         var revs=Gauge(root,"Tachometer",new(-.36f,1.102f,-.397f),.061f,"×1000",8);
-        var radioDisplay=CabinLabel(root,"RadioTuningDisplay","101.4",new(.10f,1.008f,-.367f),.00025f,new(.76f,.83f,.43f));
+        var radioDisplay=CabinLabel(root,"RadioTuningDisplay","101.4",new(.10f,1.008f,-.362f),.00025f,new(.76f,.83f,.43f));
         var steering = new Node3D { Name="SteeringWheel", Position=new(-.40f,1.04f,-.25f), RotationDegrees=new(70,0,0) };
         root.AddChild(steering);
         var sw = new Batch(steering,"SteeringRim");
@@ -79,9 +78,19 @@ public static partial class VehicleVisualFactory
         sw.Finish();
         var wheels = new List<Node3D>(); var front=new List<Node3D>();
         foreach(var x in new[]{-.78f,.78f}) foreach(var z in new[]{-1.18f,1.10f})
-        {var wheel=RoadWheel(root,new(x,.345f,z),.345f,.19f); wheels.Add(wheel);if(z<0)front.Add(wheel);}
+        {var wheel=NivaWheel(root,new(x,.345f,z)); wheels.Add(wheel);if(z<0)front.Add(wheel);}
         var lamps=Headlights(root,new[]{new Vector3(-.60f,1.01f,-2.04f),new Vector3(.60f,1.01f,-2.04f)});
         return new(root,wheels,front,Array.Empty<Node3D>(),null,steering,lamps,speed,revs,radioDisplay);
+    }
+
+    // Same pivot contract as RoadWheel (metadata, axle on X); the mesh is the
+    // authored stamped steel wheel with its hubcap and tyre.
+    private static Node3D NivaWheel(Node3D root,Vector3 position)
+    {
+        var pivot=new Node3D{Name="Wheel"+root.GetChildCount(),Position=position};root.AddChild(pivot);
+        pivot.SetMeta("roadTyreRadius",.345f);pivot.SetMeta("roadTyreWidth",.19f);
+        NivaModelPart(pivot,"NivaWheel","RoadWheelMesh");
+        return pivot;
     }
 
     private static Visual Motorcycle(Node3D root) => BuildMotorcycleModel(root);

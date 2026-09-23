@@ -2741,6 +2741,30 @@
       "status": "Actual PCM/WAV bytes, hashes, declared model licence, authored transcript, idempotent installation and negative delivery validation passed. Native playback/seek/save, listening, Tatar pronunciation and cultural acceptance pending. Not an original actor recording; neither finale voice is supplied.",
       "validationEvidence": "docs/production/act1_takeover_evidence_2026-09-16/radio-preview-install-01/receipt.json",
       "releaseDisposition": "preview pending listening, native-language and runtime acceptance; preserve synthetic origin and MIT model attribution"
+    },
+    {
+      "id": "vehicle.niva.body",
+      "source": "assets/source/blender/urman_niva.blend",
+      "derived": "game/assets/generated/urman_niva.glb",
+      "sourceSha256": "d519b541671bd57791f5fc92626ed4dee4be7de466ffd01bbac761e923d9bd9c",
+      "derivedSha256": "0385f483a314acee33b54ce34033d3fdad6c6818db2a2d09308c987d29ef01e4",
+      "generator": "tools/blender/generate_niva.py",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 18000,
+      "textureBudget": 0,
+      "materials": [
+        "Paint",
+        "Chrome",
+        "Glass",
+        "Rubber",
+        "Lamp",
+        "LCD"
+      ],
+      "collision": "none; VehicleController hull and wheel shapes stay authoritative",
+      "lod": "single LOD; vehicle is a near-camera hero prop",
+      "status": "art candidate 2026-09-23: hollow body with window openings, flared arches, chrome bumpers, stamped steel wheels, 1-DIN cassette radio",
+      "releaseDisposition": "include-in-act1-release; runtime-loaded by VehicleVisualFactory.NivaModelPart"
     }
   ]
 }
