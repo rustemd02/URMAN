@@ -734,23 +734,45 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         }
 
         var targetPosition = expected.GlobalPosition;
-        var playerPosition = ApproachPosition(player, expected, InteriorFrame(expected));
-        var cameraPosition = playerPosition + Vector3.Up * 1.7f;
-        var delta = targetPosition - cameraPosition;
-        var horizontal = new Vector2(delta.X, delta.Z).Length();
-        var pitch = Mathf.RadToDeg(Mathf.Atan2(delta.Y, horizontal));
-        var yaw = Mathf.RadToDeg(Mathf.Atan2(-delta.X, -delta.Z));
-        player.ApplyPortableTransform(new PlayerTransform(
-            new(playerPosition.X, playerPosition.Y, playerPosition.Z),
-            new(pitch, yaw, 0)));
-        await PhysicsFrames(3);
-        ray.ForceRaycastUpdate();
+        var frame = InteriorFrame(expected);
+        var first = ApproachPosition(player, expected, frame);
+        var standings = new List<Vector3> { first };
+        // Inside the rebuilt, rotated rooms the side facing the player's last
+        // spot can be behind furniture. Try the room's other sides, on floor
+        // that fits the standing capsule; the real ray must still hit the target.
+        if (frame != Basis.Identity)
+            foreach (var reach in new[] { InteractionStandOff, 1.1f })
+            foreach (var axis in new[] { Vector3.Back, Vector3.Forward, Vector3.Right, Vector3.Left,
+                         (Vector3.Back + Vector3.Right).Normalized(), (Vector3.Back + Vector3.Left).Normalized(),
+                         (Vector3.Forward + Vector3.Right).Normalized(), (Vector3.Forward + Vector3.Left).Normalized() })
+            {
+                var side = frame * axis;
+                var candidate = new Vector3(targetPosition.X + side.X * reach, first.Y,
+                    targetPosition.Z + side.Z * reach);
+                if (candidate.DistanceTo(first) > .05f && player.CanStandAt(candidate)) standings.Add(candidate);
+            }
+        var tried = new List<string>();
+        foreach (var playerPosition in standings)
+        {
+            var cameraPosition = playerPosition + Vector3.Up * 1.7f;
+            var delta = targetPosition - cameraPosition;
+            var horizontal = new Vector2(delta.X, delta.Z).Length();
+            var pitch = Mathf.RadToDeg(Mathf.Atan2(delta.Y, horizontal));
+            var yaw = Mathf.RadToDeg(Mathf.Atan2(-delta.X, -delta.Z));
+            player.ApplyPortableTransform(new PlayerTransform(
+                new(playerPosition.X, playerPosition.Y, playerPosition.Z),
+                new(pitch, yaw, 0)));
+            await PhysicsFrames(3);
+            ray.ForceRaycastUpdate();
+            if (ray.GetCollider() is InteractionTarget reached && reached.InteractionId == interactionId) break;
+            tried.Add($"{playerPosition}->{(ray.GetCollider() as Node)?.Name.ToString() ?? "none"}");
+        }
         if (!ray.IsColliding() || ray.GetCollider() is not InteractionTarget target
             || target.InteractionId != interactionId || !target.IsAvailable())
         {
             var actual = ray.GetCollider() switch { InteractionTarget hit => hit.InteractionId, Node other => "blocker " + other.GetPath(), _ => "<none>" };
             var expectedInfo = $"target-node={expected.GlobalPosition} layer={expected.CollisionLayer} available={expected.IsAvailable()}";
-            Fail($"First-person corridor ray expected {interactionId}, got {actual} at connected-world target {targetPosition}; player={player.GlobalPosition} rayEnabled={ray.Enabled} {expectedInfo}.");
+            Fail($"First-person corridor ray expected {interactionId}, got {actual} at connected-world target {targetPosition}; player={player.GlobalPosition} rayEnabled={ray.Enabled} {expectedInfo}; tried=[{string.Join(" | ", tried)}].");
             return;
         }
 

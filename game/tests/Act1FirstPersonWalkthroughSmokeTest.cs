@@ -1108,8 +1108,18 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         }
         // Retrace positions actually reached by CharacterBody movement. This
         // returns from the optional probe without writing the player's transform.
+        // A body that slid down a bank cannot always climb the same face back;
+        // a player would walk out another way. Retrace first, and if a leg is
+        // too steep walk straight back to the probe start. Only when both fail
+        // is the player actually stuck at the edge.
         for (var index = walkedTrace.Count - 1; index >= 0; index--)
-            if (!await WalkTo(player, walkedTrace[index], $"edge-probe-return-{index}")) return false;
+        {
+            if (await WalkTo(player, walkedTrace[index], $"edge-probe-return-{index}", reportFailure: false)) continue;
+            var retrace = _lastWalkFailure;
+            if (await WalkTo(player, headingProbeStart, "edge-probe-return-direct", reportFailure: false)) break;
+            Fail($"Edge probe left the player stuck (possible soft-lock): retrace {retrace}; direct {_lastWalkFailure}.");
+            return false;
+        }
         GD.Print($"act1-world-edge-probe: headings=8 before-final-trigger frames_outside_window={outsideWindow} "
             + $"worst_below_ground={worstBelowGround:F2}m edge_clamps_observed={player.EdgeClamps}; returned by physical walk");
         return true;
@@ -1120,7 +1130,10 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             .TryGetProperty(ChapterPrefix + "beat/cliffhanger-hard-cut", out var beat)
         && beat.GetString() == "completed";
 
-    private async Task<bool> WalkTo(FirstPersonController player, Vector3 destination, string label, float arrivalRadius = .30f)
+    private string _lastWalkFailure = string.Empty;
+
+    private async Task<bool> WalkTo(FirstPersonController player, Vector3 destination, string label, float arrivalRadius = .30f,
+        bool reportFailure = true)
     {
         var start = player.GlobalPosition;
         var initialDistance = HorizontalDistance(player.GlobalPosition, destination);
@@ -1227,7 +1240,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             }
         }
 
-        Fail($"Physical walkthrough could not reach {label}: start={start}, target={destination}, actual={player.GlobalPosition}, remaining={HorizontalDistance(player.GlobalPosition, destination):F2}m, blocker={lastBlockingShape}.");
+        _lastWalkFailure = $"could not reach {label}: start={start}, target={destination}, actual={player.GlobalPosition}, remaining={HorizontalDistance(player.GlobalPosition, destination):F2}m, blocker={lastBlockingShape}";
+        if (reportFailure) Fail("Physical walkthrough " + _lastWalkFailure + ".");
         return false;
     }
 
@@ -1427,7 +1441,9 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
 
         // Use the common, physics-verified access graph only as test input. It is
         // never drawn in the player's notebook, and it cannot grant knowledge.
-        for (var frame = 0; frame < 600
+        // The verifier walks the whole village queue at ~2 ms per physics frame
+        // and restarts after a load; the mosque can be late in that queue.
+        for (var frame = 0; frame < 3000
             && registry.AccessPoints[address.AccessId].State.StartsWith("pending", StringComparison.Ordinal); frame++)
             await PhysicsFrames(1);
         var access = registry.AccessPoints[address.AccessId];
@@ -1435,7 +1451,11 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             node.Position.DistanceXZ(new(player.GlobalPosition.X, player.GlobalPosition.Y, player.GlobalPosition.Z))).FirstOrDefault();
         if (access.State != "verified" || origin is null
             || origin.Position.DistanceXZ(new(player.GlobalPosition.X, player.GlobalPosition.Y, player.GlobalPosition.Z)) > .60)
-        { Fail("The reached street has no verified mosque access: " + access.State); return false; }
+        {
+            var verifier = world.GetNodeOrNull<AddressAccessVerifier>("AddressAccessVerification");
+            Fail($"The reached street has no verified mosque access: {access.State}; verifier {verifier?.DescribeProgress() ?? "missing"}");
+            return false;
+        }
         var route = registry.DiagnosticRoute(origin.Id, address.AddressId, SettlementTravelMode.Foot)
             .Select(point => new Vector3((float)point.X, (float)point.Y, (float)point.Z)).ToArray();
         var approach = room.GetMeta("entryApproachPath").AsVector3Array();
