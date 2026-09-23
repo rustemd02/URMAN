@@ -52,6 +52,18 @@ def default_userdata() -> Path:
     raise RuntimeError("protected_run currently supports the macOS/Linux development host")
 
 
+def signal_group(pid: int, sig: int) -> None:
+    """Signal the child's process group; a group that is already gone is fine.
+
+    macOS answers EPERM rather than ESRCH for a group whose leader has exited,
+    and an escaping error here used to skip the restore below entirely.
+    """
+    try:
+        os.killpg(pid, sig)
+    except (ProcessLookupError, PermissionError):
+        pass
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--clean", action="store_true")
@@ -97,10 +109,7 @@ def main() -> int:
                 interrupted_at = time.monotonic()
             interrupted = signum
             if child is not None and child.poll() is None:
-                try:
-                    os.killpg(child.pid, signal.SIGTERM)
-                except ProcessLookupError:
-                    pass
+                signal_group(child.pid, signal.SIGTERM)
 
         previous = {sig: signal.signal(sig, interrupt) for sig in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP)}
         try:
@@ -117,7 +126,7 @@ def main() -> int:
                 child = subprocess.Popen(command, start_new_session=True)
                 while child.poll() is None:
                     if interrupted and time.monotonic() - interrupted_at >= 5:
-                        os.killpg(child.pid, signal.SIGKILL)
+                        signal_group(child.pid, signal.SIGKILL)
                     try:
                         child.wait(timeout=0.25)
                     except subprocess.TimeoutExpired:
@@ -125,14 +134,11 @@ def main() -> int:
                 code = child.returncode
         finally:
             if child is not None:
-                try:
-                    os.killpg(child.pid, signal.SIGTERM)
-                except ProcessLookupError:
-                    pass
+                signal_group(child.pid, signal.SIGTERM)
                 try:
                     child.wait(timeout=5)
                 except subprocess.TimeoutExpired:
-                    os.killpg(child.pid, signal.SIGKILL)
+                    signal_group(child.pid, signal.SIGKILL)
                     child.wait(timeout=5)
             try:
                 if original_moved or not existed:
