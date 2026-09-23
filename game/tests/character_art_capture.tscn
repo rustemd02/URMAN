@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://tests/CharacterArtCapture.cs" type="Script" id="1_people_art"]
+
+[node name="CharacterArtCapture" type="Node"]
+script = ExtResource("1_people_art")

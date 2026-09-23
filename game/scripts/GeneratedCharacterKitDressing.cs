@@ -11,6 +11,18 @@ public static class GeneratedCharacterKitDressing
 {
     public const string ScenePath = "res://assets/generated/urman_character_kit.glb";
 
+    /// <summary>
+    /// Human bodies with a full humanoid skeleton, winter clothing and library
+    /// motion (tools/blender/generate_character_kit_v2.py). Prefixes move here
+    /// one by one; walkers and the player's own body stay on the first kit
+    /// until their foot rigs are ported.
+    /// </summary>
+    public const string HumanScenePath = "res://assets/generated/urman_character_kit_v2.glb";
+    private static readonly HashSet<string> HumanPrefixes = new(StringComparer.Ordinal) { "Mansur", "Gulsina", "Naila" };
+    private static PackedScene? _humanKit;
+
+    public static bool UsesHumanKit(string prefix) => HumanPrefixes.Contains(prefix);
+
     // Every NPC instantiates this one kit. Without a managed owner its C#
     // wrapper can be collected between two loads while Godot still caches the
     // native scene; the next Load then swaps a dead GC handle ("Handle is not
@@ -25,7 +37,12 @@ public static class GeneratedCharacterKitDressing
     private const float Lod1EndMargin = 4f;
 
     /// <summary>Test-only: release the retained kit so shutdown leak checks stay clean.</summary>
-    public static void ClearCacheForHeadlessTests() => _kit = null;
+    public static void ClearCacheForHeadlessTests()
+    {
+        _kit = null;
+        _humanKit = null;
+        HumanMaterials.Clear();
+    }
 
     public static Node3D Attach(
         Node3D parent,
@@ -34,17 +51,20 @@ public static class GeneratedCharacterKitDressing
         Vector3 anchor,
         bool sheltered = false)
     {
-        var packed = _kit is not null && GodotObject.IsInstanceValid(_kit)
-            ? _kit
-            : _kit = ResourceLoader.Load<PackedScene>(ScenePath);
+        var human = UsesHumanKit(prefix);
+        var source = human ? HumanScenePath : ScenePath;
+        var packed = human
+            ? _humanKit is not null && GodotObject.IsInstanceValid(_humanKit) ? _humanKit : _humanKit = ResourceLoader.Load<PackedScene>(source)
+            : _kit is not null && GodotObject.IsInstanceValid(_kit) ? _kit : _kit = ResourceLoader.Load<PackedScene>(source);
         if (packed is null)
         {
-            throw new InvalidOperationException($"Generated character kit could not be loaded: {ScenePath}");
+            throw new InvalidOperationException($"Generated character kit could not be loaded: {source}");
         }
 
         var instance = packed.Instantiate<Node3D>();
         instance.Name = $"GeneratedCharacterKit_{characterId}";
-        instance.SetMeta("assetSource", ScenePath);
+        instance.SetMeta("assetSource", source);
+        instance.SetMeta("characterKit", human ? "human-v2" : "procedural-v1");
         instance.SetMeta("characterId", characterId);
         instance.SetMeta("characterPrefix", prefix);
         instance.SetMeta("sheltered", sheltered);
@@ -78,7 +98,8 @@ public static class GeneratedCharacterKitDressing
             }
 
             ConfigureVisibilityRange(mesh);
-            ApplyPainterlyMaterial(mesh, prefix, sheltered);
+            if (human) ApplyHumanMaterials(mesh, sheltered);
+            else ApplyPainterlyMaterial(mesh, prefix, sheltered);
         }
 
         var lod0 = selected.Count(mesh => mesh.Visible && NodeName(mesh).Contains("_LOD0", StringComparison.Ordinal));
@@ -285,6 +306,49 @@ public static class GeneratedCharacterKitDressing
         // shoulders and boots. Reuse the existing no-deposit material variant.
         mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true);
         mesh.SetMeta("painterlyMaterial", surface.Length == 0 ? "shader" : surface);
+    }
+
+    private static readonly Dictionary<string, Material> HumanMaterials = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Human kit materials are named "&lt;hex&gt;__&lt;surface&gt;": clothing and hair
+    /// take the world's painterly shader; the textured skin, eyes and brows keep
+    /// their CC0 albedo under the same toon diffuse the first kit's faces use.
+    /// </summary>
+    private static void ApplyHumanMaterials(MeshInstance3D mesh, bool sheltered)
+    {
+        for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
+        {
+            var authored = mesh.Mesh.SurfaceGetMaterial(surface);
+            var name = authored?.ResourceName ?? string.Empty;
+            var key = $"{name}|{sheltered}";
+            if (!HumanMaterials.TryGetValue(key, out var material))
+            {
+                var parts = name.Split("__", 2);
+                if (parts.Length == 2 && parts[0].Length == 6 && parts[1] != "skin_textured")
+                {
+                    var surfaceKind = parts[1] is "hair" ? string.Empty : "cloth";
+                    material = PainterlyMaterialLibrary.ForColor(parts[0], surfaceKind, sheltered: true);
+                }
+                else if (authored is StandardMaterial3D textured)
+                {
+                    var toon = (StandardMaterial3D)textured.Duplicate();
+                    toon.DiffuseMode = BaseMaterial3D.DiffuseModeEnum.Toon;
+                    toon.SpecularMode = BaseMaterial3D.SpecularModeEnum.Disabled;
+                    toon.Roughness = 1f;
+                    toon.Metallic = 0f;
+                    toon.MetallicSpecular = 0f;
+                    material = toon;
+                }
+                else
+                {
+                    material = authored ?? PainterlyMaterialLibrary.ForColor("808080", "cloth", sheltered: true);
+                }
+                HumanMaterials[key] = material;
+            }
+            mesh.SetSurfaceOverrideMaterial(surface, material);
+        }
+        mesh.SetMeta("painterlyMaterial", "human-kit named materials");
     }
 
     private static AnimationPlayer? FindAnimationPlayer(Node3D instance, string prefix)
