@@ -6902,6 +6902,7 @@
         "game/tests/OldPcHeroDetailMotionSweep.cs",
         "docs/tasktracker/01_production_tracker.md (§0 контракт запуска; архив aegis удалён при чистке 2026-09-18) #90-evidence.md"
       ],
+      "progress_2026_09_23": "Pinned Blender 4.5.12 LTS installed from the toolchain URL with a matching sha256; verify-asset-registry PASS (92/92) and verify-assets PASS: the kit has grown to 151 LOD1 meshes (the 49-mesh wording in done_when predates the growth) with WellA, WoodpileA, GateA and the OldPc DriveSlot/LabelPlate details present. Acceptance paused behind the verify-godot repair (see weak_points 2026-09-23); fresh captures and the visual near/mid/far review are still to run on the repaired build.",
       "blocked_reason": "Technical slice and runtime-backed marker-camera receipt are verified; visual near/mid/far traversal, repetition, authored family coverage, cultural review and release-host performance remain review gates."
     },
     {
