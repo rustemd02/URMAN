@@ -45,7 +45,8 @@
         "suggestedTerms": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
-        }
+        },
+        "tier": { "enum": ["A", "B", "C"] }
       },
       "additionalProperties": false
     },

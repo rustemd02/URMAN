@@ -24,7 +24,7 @@ public sealed class ContentCompilerParityTests
         var goldenPath = Path.Combine(root, "tests-dotnet", "fixtures", "content", "urman.chapter1.compiled.v1.json");
         var golden = JsonNode.Parse(await File.ReadAllTextAsync(goldenPath, TestContext.Current.CancellationToken));
         Assert.True(JsonNode.DeepEquals(golden, result.Pack));
-        Assert.Equal("951983ec69e2b512ccbee1519e8c7b63f814c6a6f67b0b174e1dc4cd4fb3d29c", result.Pack["campaignFingerprint"]!.GetValue<string>());
+        Assert.Equal("4bf7d0a8648b6c20d4efd12a800642f890ab9c81a1d37050d1a04753a3802e12", result.Pack["campaignFingerprint"]!.GetValue<string>());
         var house = result.Pack["registries"]!["scenes"]!.AsArray()
             .Single(scene => scene!["id"]!.GetValue<string>() == "urman.chapter1:scene/house");
         Assert.Contains(
@@ -84,6 +84,55 @@ public sealed class ContentCompilerParityTests
             Assert.DoesNotContain(':', hint!["pointsTo"]!.GetValue<string>());
             var text = texts.Resolve(hint["textId"]!.GetValue<string>(), "ru").Text;
             Assert.InRange(text.Length, 1, 300);
+        }
+    }
+
+    [Fact]
+    public async Task ChapterOne_TierADocumentsCarryTheirAuthoredDepth()
+    {
+        var root = FindWorkspaceRoot();
+        var compilation = await new ContentCompiler().CompileAsync(
+            root,
+            "urman.chapter1",
+            ["urman.chapter1", "urman.core", "urman.oldpc"],
+            TestContext.Current.CancellationToken);
+
+        Assert.Empty(compilation.Diagnostics);
+        var documents = compilation.Pack!["registries"]!["documents"]!.AsArray();
+        var tatarTerms = compilation.Pack!["registries"]!["vocabulary"]!.AsArray()
+            .Where(entry => entry!["language"]!.GetValue<string>() == "tt")
+            .Select(entry => entry!["term"]!.GetValue<string>())
+            .ToHashSet(StringComparer.Ordinal);
+        var tierA = documents
+            .Where(document => document!["oldPc"]?["tier"]?.GetValue<string>() == "A")
+            .ToArray();
+        // The first authored batch of §6.2. The remaining tier-A records join the
+        // same rule as they land, and this list grows with them.
+        foreach (var id in new[]
+                 {
+                     "urman.oldpc:document/doc_marat_official_death_notice",
+                     "urman.oldpc:document/rec_marat_case_register_conflict",
+                     "urman.oldpc:document/rec_internal_accounting_line_1987",
+                     "urman.oldpc:document/rec_internal_accounting_damaged",
+                     "urman.oldpc:document/doc_kara_urman_edge_sketch"
+                 })
+            Assert.Contains(tierA, document => document!["id"]!.GetValue<string>() == id);
+
+        foreach (var document in tierA)
+        {
+            var id = document!["id"]!.GetValue<string>();
+            var body = document["bodyMarkdown"]!.GetValue<string>();
+            Assert.True(body.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length >= 350,
+                id + " keeps the authored tier-A depth of at least 350 words");
+            var terms = document["oldPc"]!["searchTerms"]!.AsArray()
+                .Select(term => term!.GetValue<string>()).ToArray();
+            Assert.True(terms.Length >= 5, id + " carries at least five search terms");
+            Assert.Contains(terms, term => tatarTerms.Contains(term));
+            Assert.True(document["oldPc"]!["suggestedTerms"]!.AsArray().Count >= 2,
+                id + " suggests at least two terms to the player");
+            var bodyText = document["bodyMarkdown"]!.GetValue<string>();
+            var links = bodyText.Split("doc:urman.oldpc:document/", StringSplitOptions.None).Length - 1;
+            Assert.True(links >= 2, id + " links at least two related records");
         }
     }
 

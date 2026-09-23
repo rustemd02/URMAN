@@ -3344,7 +3344,10 @@
     "Повтор/отказ/возврат/save/load/new game не дают дублей или преждевременного прогресса.",
     "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
    ],
-   "evidence": []
+   "evidence": [
+    "docs/production/act1_takeover_evidence_2026-09-16/act1_oldpc_docs_batch1_2026-09-19.md"
+   ],
+   "progress_2026_09_19": "Batch 1 of three. The document schema gains an optional oldPc.tier marker so §6.2's depth rule can be checked and held in later batches, and five existing records are deepened without touching their canon, reliability or access conditions: the FAP death notice 36->359 words, the case register line 30->406, the 1987 accounting line 79->367, the damaged accounting record 56->398 and the Kara-Urman edge sketch 56->395. Each keeps at least seven search terms including one Tatar word from the game vocabulary (зират, урман, тавыш), at least two suggested terms and at least two cross-links, and the existing gating chains are unchanged and unweakened. New pack test ChapterOne_TierADocumentsCarryTheirAuthoredDepth holds the rule; verify-dotnet green (Core 59, Content 15) with the golden fingerprint moved to 4bf7d0a8, and the flow, search and desktop smokes stay green. Remaining: seven more tier-A records, then tier B (10) and tier C (10+)."
   },
   {
    "id": "ACT1-OLDPC-TETRIS",
