@@ -67,6 +67,16 @@ internal static class Act1AlsuWalkProof
                         verifyStandingGoal: point == new Vector2(-26.05f,2.2f) || point.X == -.1f,
                         standingPurpose: point.X == -.1f ? "niva-bypass" : "yard-turn");
             }
+            else if (main.ConnectedWorld is null && player.GlobalPosition.X < -4)
+            {
+                // The one-zone street leaves the house from its west porch step
+                // (Main.SpawnTransform). Its x=-8.8 fence covers z .83..7.79,
+                // clothesline posts sit at x=-6, z .7/-4.5 and the x=-4.4 fence
+                // ends at z=-1.75: keep to z≈-.05 until past them instead of the
+                // straight line into Fence3.
+                foreach (var point in new Vector2[] { new(-3.5f,-.05f) }.Where(point => point.X > player.GlobalPosition.X))
+                    await WalkTo(new(point.X, player.GlobalPosition.Y, point.Y));
+            }
             await WalkTo(walk.Actor.GlobalPosition + Vector3.Back * 1.65f);
             Check(Horizontal(walk.Actor.GlobalPosition, npcStart) < .02f && Known("alsu_walk_invitation") == invitationBefore,
                 "Approaching Alsu automatically invited, moved, or informed the player.");

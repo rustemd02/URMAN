@@ -124,26 +124,27 @@ public partial class JournalFlowSmokeTest : Node
         await Act1ArrivalFlowProof.CompleteAsync(this, bridge);
         if (!await Move(bridge, main, "arrival-enter-house", "house", "house_old_pc", "entry")) return;
         await bridge.HandleOldPcInputAsync(Input("open"));
-        if (!await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-gulsina")
-            || !await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning")
-            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning", "ask-marat")
-            || !await Act1FamilyMealProof.CompleteAsync(this, bridge)
-            || !await Move(bridge, main, "house-to-route", "crossroad_signs_inspect", "village_day", "from_house")
-            || !await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-alsu")
-            || !await Act1AlsuWalkProof.CompleteAsync(this, bridge)
-            || !await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/alsu_route_context", "name-road")
-            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/alsu_route_context", "name-road", "ask-versions")
-            || !await bridge.CompareJournalSourcesAsync("urman.chapter1:interaction/compare-versions-scope",
-                new[] { OfficialNotice, "urman.chapter1:knowledge/clue_alsu_heard_versions" })
-            || !await Move(bridge, main, "route-to-fap", "fap_waiting_room_day", "fap_clinic", "waiting_room")
-            || !await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-naila")
-            || !await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/naila_medical_record", "official-wording")
-            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "official-wording", "ask-wording")
-            || !bridge.IsOldPcDocumentAccessible(register)
-            || !await Move(bridge, main, "fap-to-document-desk", "fap_pressure_document_desk")
-            || !await Move(bridge, main, "fap-document-desk-to-official-record", "evidence-official-death")
-            || !await Move(bridge, main, "official-to-internal-register", "evidence-internal-register", "house_old_pc", "entry"))
-        { Fail("Journal flow did not reach the register through the authored family, account check and Naila permission."); return; }
+        var journalStage = "none";
+        bool Step(string name, bool ok) { if (!ok) journalStage = name; return ok; }
+        if (!Step("1:talk-gulsina", await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-gulsina"))
+            || !Step("2:gulsina_yaramyy", await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning"))
+            || !Step("3:gulsina_yaramyy", await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning", "ask-marat"))
+            || !Step("4:Act1FamilyMealProof", await Act1FamilyMealProof.CompleteAsync(this, bridge))
+            || !Step("5:house-to-route", await Move(bridge, main, "house-to-route", "crossroad_signs_inspect", "village_day", "from_house"))
+            || !Step("6:talk-alsu", await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-alsu"))
+            || !Step("7:Act1AlsuWalkProof", await Act1AlsuWalkProof.CompleteAsync(this, bridge))
+            || !Step("8:alsu_route_context", await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/alsu_route_context", "name-road"))
+            || !Step("9:alsu_route_context", await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/alsu_route_context", "name-road", "ask-versions"))
+            || !Step("10:compare-versions-scope", await bridge.CompareJournalSourcesAsync("urman.chapter1:interaction/compare-versions-scope", new[] { OfficialNotice, "urman.chapter1:knowledge/clue_alsu_heard_versions" }))
+            || !Step("11:route-to-fap", await Move(bridge, main, "route-to-fap", "fap_waiting_room_day", "fap_clinic", "waiting_room"))
+            || !Step("12:talk-naila", await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-naila"))
+            || !Step("13:naila_medical_record", await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/naila_medical_record", "official-wording"))
+            || !Step("14:naila_medical_record", await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/naila_medical_record", "official-wording", "ask-wording"))
+            || !Step("15:register-accessible", bridge.IsOldPcDocumentAccessible(register))
+            || !Step("16:fap-to-document-desk", await Move(bridge, main, "fap-to-document-desk", "fap_pressure_document_desk"))
+            || !Step("17:fap-document-desk-to-official-record", await Move(bridge, main, "fap-document-desk-to-official-record", "evidence-official-death"))
+            || !Step("18:official-to-internal-register", await Move(bridge, main, "official-to-internal-register", "evidence-internal-register", "house_old_pc", "entry")))
+        { Fail($"Journal flow did not reach the register through the authored family, account check and Naila permission: failed at {journalStage}."); return; }
         await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "open", documentId = register }));
         var before = bridge.ActiveSceneId;
         if (bridge.SelectRuntimeState().GetProperty("knowledge").GetProperty("urman.chapter1:knowledge/contradiction_marat_official_vs_internal").GetProperty("status").GetString() == "confirmed")

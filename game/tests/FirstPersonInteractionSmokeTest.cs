@@ -70,10 +70,8 @@ public partial class FirstPersonInteractionSmokeTest : Node
         // The old PC is deliberately gated by the family request in the
         // authored house scene. Prove the player-facing order first: Mansur's
         // physical target -> dialogue state -> old PC availability.
-        player.GlobalPosition = new Vector3(2.8f, 0.05f, 0.15f);
-        player.RotationDegrees = Vector3.Zero;
-        await PhysicsFrames(2);
-        if (!AssertRayTarget(ray, "urman.chapter1:interaction/talk-mansur"))
+        if (!await StandFacing(player, "urman.chapter1:interaction/talk-mansur", 1.3f)
+            || !AssertRayTarget(ray, "urman.chapter1:interaction/talk-mansur"))
         {
             return;
         }
@@ -81,10 +79,12 @@ public partial class FirstPersonInteractionSmokeTest : Node
         await PressKeyAndRelease(Key.E);
         await Frames(4);
         var mansurDialogue = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
+        // Since the family conversations gained alternatives, opening Mansur's
+        // request only asks; access is the player's answer (offer-help below).
         if (mansurDialogue is null || !mansurDialogue.IsOpen
-            || !bridge.IsInteractionAvailable("urman.chapter1:interaction/oldpc-power"))
+            || bridge.IsInteractionAvailable("urman.chapter1:interaction/oldpc-power"))
         {
-            Fail("Mansur's request did not grant the RuntimeBridge-owned old-PC access state.");
+            Fail("Mansur's request did not open, or granted old-PC access before the player offered help.");
             return;
         }
         var mansurChoices = mansurDialogue.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices")
@@ -98,15 +98,18 @@ public partial class FirstPersonInteractionSmokeTest : Node
         }
         offerHelp.EmitSignal(Button.SignalName.Pressed);
         await Frames(3);
+        if (!bridge.IsInteractionAvailable("urman.chapter1:interaction/oldpc-power"))
+        {
+            Fail("Offering help did not grant the RuntimeBridge-owned old-PC access state.");
+            return;
+        }
         mansurDialogue.GetNode<Button>("Screen/Panel/Layout/Continue").EmitSignal(Button.SignalName.Pressed);
         await Frames(2);
 
         // Approach the desk and look down at the tabletop-sized CRT, within
         // the production ray's 2.7 m reach. Its physical target must receive E.
-        player.GlobalPosition = new Vector3(0, 0.05f, -1.2f);
-        player.ApplySmokeLook(-14f, 0f);
-        await PhysicsFrames(2);
-        if (!AssertRayTarget(ray, "urman.chapter1:interaction/oldpc-power"))
+        if (!await StandFacing(player, "urman.chapter1:interaction/oldpc-power", 1.2f)
+            || !AssertRayTarget(ray, "urman.chapter1:interaction/oldpc-power"))
         {
             return;
         }
@@ -187,6 +190,36 @@ public partial class FirstPersonInteractionSmokeTest : Node
             Pressed = false
         });
         await PhysicsFrames(1);
+    }
+
+    // The house interior was rebuilt (StyleBenchmarkInteriorFactory), so fixed
+    // room coordinates go stale. Stand on the entry side of the actual target,
+    // at a reach the production ray covers, and look straight at it.
+    private async Task<bool> StandFacing(FirstPersonController player, string interactionId, float standOff)
+    {
+        var target = GetTree().Root.FindChildren("*", "", true, false)
+            .OfType<InteractionTarget>().FirstOrDefault(candidate => candidate.InteractionId == interactionId);
+        if (target is null)
+        {
+            Fail($"First-person interaction smoke could not locate {interactionId}.");
+            return false;
+        }
+
+        var house = target.GetParent<Node>();
+        while (house is not null && house.SceneFilePath != HouseScenePath) house = house.GetParent();
+        var entry = house is Node3D room ? room.ToGlobal(StyleBenchmarkInteriorFactory.Entry) : player.GlobalPosition;
+        var away = entry - target.GlobalPosition;
+        away.Y = 0f;
+        away = away.LengthSquared() > 0.0001f ? away.Normalized() : Vector3.Back;
+        var stand = target.GlobalPosition + away * standOff;
+        player.GlobalPosition = new Vector3(stand.X, entry.Y, stand.Z);
+        player.RotationDegrees = Vector3.Zero;
+        await PhysicsFrames(1);
+        var toward = target.GlobalPosition - player.GetNode<Camera3D>("Head/Camera3D").GlobalPosition;
+        player.ApplySmokeLook(Mathf.RadToDeg(Mathf.Atan2(toward.Y, new Vector2(toward.X, toward.Z).Length())),
+            Mathf.RadToDeg(Mathf.Atan2(-toward.X, -toward.Z)));
+        await PhysicsFrames(2);
+        return true;
     }
 
     private async Task PhysicsFrames(int count)

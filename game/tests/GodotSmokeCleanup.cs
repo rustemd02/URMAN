@@ -19,8 +19,15 @@ internal static class GodotSmokeCleanup
             await tree.ToSignal(tree, SceneTree.SignalName.PhysicsFrame);
             await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
             await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+            // Stopped players hand their AudioStreamPlayback back only on the
+            // audio server's next mix, which headless frames can outrun; give
+            // it real time so a playing ambience or click is not reported as a
+            // leaked resource at exit.
+            await tree.ToSignal(tree.CreateTimer(.15, processAlways: true, ignoreTimeScale: true), SceneTreeTimer.SignalName.Timeout);
         }
 
+        UiFoley.ClearCacheForHeadlessTests();
+        GeneratedCharacterKitDressing.ClearCacheForHeadlessTests();
         PainterlyMaterialLibrary.ClearCacheForHeadlessTests();
     }
 }

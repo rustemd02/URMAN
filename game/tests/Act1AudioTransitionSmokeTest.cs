@@ -239,7 +239,9 @@ public partial class Act1AudioTransitionSmokeTest : Node
         await Frames(1);
         if (GetTree().GetNodesInGroup(worldFoleyGroup).Count != 0)
         {
-            Fail("StopWorld retained an in-flight source-positioned player.");
+            var retained = GetTree().GetNodesInGroup(worldFoleyGroup)
+                .Select(node => $"{node.GetPath()} queued={node.IsQueuedForDeletion()} type={node.GetType().Name}");
+            Fail("StopWorld retained an in-flight source-positioned player: " + string.Join(" | ", retained));
             return false;
         }
 

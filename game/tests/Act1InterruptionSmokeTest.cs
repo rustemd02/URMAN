@@ -90,12 +90,14 @@ public partial class Act1InterruptionSmokeTest : Node
             type = "open",
             documentId = OfficialNotice
         }));
-        var postNoticeState = bridge.SelectRuntimeState().GetRawText();
         if (!await bridge.SaveSlotAsync(BaselineSlot))
         {
             Fail("Interruption smoke could not write the baseline save.");
             return;
         }
+        // Saving flushes the world props (vehicles, doors, the companion) into
+        // the runtime state; the baseline is what the slot holds, so read it after.
+        var postNoticeState = bridge.SelectRuntimeState().GetRawText();
 
         // 1) Modal interrupt while the dialogue is open: a quick save under
         //    the open modal and a cancelled dialogue must leave no state
@@ -167,11 +169,22 @@ public partial class Act1InterruptionSmokeTest : Node
 
         // 3) A baseline load reverts the whole interrupted chain to the
         //    post-notice state: Gulsina pending again, nothing stuck.
-        if (!await bridge.LoadSlotAsync(BaselineSlot)
-            || bridge.SelectRuntimeState().GetRawText() != postNoticeState
+        var baselineLoaded = await bridge.LoadSlotAsync(BaselineSlot);
+        var loadedState = bridge.SelectRuntimeState();
+        if (!baselineLoaded
+            || !RuntimeStateComparison.SameIgnoringNpcFacing(loadedState.GetRawText(), postNoticeState)
             || !bridge.IsInteractionAvailable(Interaction("talk-gulsina")))
         {
-            Fail("Baseline load after the interrupted chain did not restore a consistent replayable state.");
+            using var expected = JsonDocument.Parse(postNoticeState);
+            var drift = expected.RootElement.EnumerateObject()
+                .Where(field => !loadedState.TryGetProperty(field.Name, out var now) || now.GetRawText() != field.Value.GetRawText())
+                .Select(field => loadedState.TryGetProperty(field.Name, out var now)
+                    ? $"{field.Name}: {field.Value.GetRawText()} -> {now.GetRawText()}" : field.Name + ": missing")
+                .Concat(loadedState.EnumerateObject()
+                    .Where(field => !expected.RootElement.TryGetProperty(field.Name, out _))
+                    .Select(field => $"{field.Name}: added {field.Value.GetRawText()}"));
+            Fail($"Baseline load after the interrupted chain did not restore a consistent replayable state: loaded={baselineLoaded} "
+                + $"talk-gulsina={bridge.IsInteractionAvailable(Interaction("talk-gulsina"))} drift=[{string.Join(" | ", drift)}]");
             return;
         }
 

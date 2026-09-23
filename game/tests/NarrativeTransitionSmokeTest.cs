@@ -34,6 +34,11 @@ public partial class NarrativeTransitionSmokeTest : Node
             Fail("Arrival interaction did not enter the authored house scene.");
             return;
         }
+        // The physical door moves the player into house_old_pc; a programmatic
+        // dispatch changes only the story scene. Household interactions such as
+        // talk-gulsina are owned by the zone, so enter it the way the door does.
+        main.SwitchZone("house_old_pc", "entry");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
         await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new
         {
@@ -47,18 +52,18 @@ public partial class NarrativeTransitionSmokeTest : Node
             return;
         }
 
-        if (!bridge.IsInteractionAvailable("urman.chapter1:interaction/talk-gulsina")
-            || !await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-gulsina")
-            || !await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning")
-            || bridge.IsInteractionAvailable("urman.chapter1:interaction/house-to-route")
-            || !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning", "ask-marat"))
+        var gulsinaStage = !bridge.IsInteractionAvailable("urman.chapter1:interaction/talk-gulsina") ? "talk-gulsina unavailable"
+            : !await bridge.DispatchInteractionAsync("urman.chapter1:interaction/talk-gulsina") ? "talk-gulsina dispatch refused"
+            : !await bridge.EnterDialogueNodeAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning") ? "home-warning node refused"
+            : bridge.IsInteractionAvailable("urman.chapter1:interaction/house-to-route") ? "house exit opened early"
+            : !await bridge.ChooseDialogueAsync("urman.chapter1:dialogue/gulsina_yaramyy", "home-warning", "ask-marat") ? "ask-marat choice refused"
+            : string.Empty;
+        if (gulsinaStage.Length > 0)
         {
-            Fail("Gulsina's greeting replaced her family answer or the actual question was rejected.");
+            Fail($"Gulsina's greeting replaced her family answer or the actual question was rejected: {gulsinaStage}.");
             return;
         }
 
-        main.SwitchZone("house_old_pc", "entry");
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         if (!await Act1FamilyMealProof.CompleteAsync(this, bridge)
             || !bridge.IsInteractionAvailable("urman.chapter1:interaction/house-to-route"))
         { Fail("The actual home pause did not complete the authored house exit conditions."); return; }

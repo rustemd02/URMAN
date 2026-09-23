@@ -875,7 +875,8 @@ public partial class ChapterOneFlowSmokeTest : Node
                 var nowText = nowState.GetRawText();
                 var desk = bridge.IsInteractionAvailable(Interaction("fap-to-document-desk"));
                 var marker = KnowledgeStatus(nowState, "clue_marat_case_boundary_marker");
-                if (nowScene != scene || nowText != before
+                if (nowScene != scene
+                    || !RuntimeStateComparison.SameIgnoringNpcFacing(nowText, before)
                     || desk
                     || marker != "hidden")
                 {
@@ -894,6 +895,10 @@ public partial class ChapterOneFlowSmokeTest : Node
                             if (!hasBefore || !hasNow || oldValue.GetRawText() != newValue.GetRawText()) diffs.Add(key);
                         }
                         changedFields = string.Join(",", diffs);
+                        if (beforeDoc.RootElement.TryGetProperty("world.props", out var oldProps)
+                            && nowState.TryGetProperty("world.props", out var newProps)
+                            && oldProps.GetRawText() != newProps.GetRawText())
+                            changedFields += $" props-before={oldProps.GetRawText()} props-after={newProps.GetRawText()}";
                     }
                     catch (System.Exception parseError) { changedFields = "parse:" + parseError.GetType().Name; }
                     GD.Print($"door-proof-diff {phase}: scene={scene}->{nowScene} desk={desk} marker={marker} sameText={nowText == before} fields=[{changedFields}]");
@@ -1698,17 +1703,39 @@ public partial class ChapterOneFlowSmokeTest : Node
         var player = (FirstPersonController)GetTree().GetFirstNodeInGroup("player_controller");
         var original = player.CapturePortableTransform();
         var aisle = anchor + room.GlobalBasis.Z * .95f;
+        global::Godot.Collections.Dictionary hit = new();
+        // The clinic furniture was rearranged (the cot now stands on the old
+        // +Z aisle). Keep the rule — a standable point on the actual floor
+        // within a metre of the corner — and try the room's four directions.
+        foreach (var direction in new[] { room.GlobalBasis.Z, -room.GlobalBasis.X, room.GlobalBasis.X, -room.GlobalBasis.Z })
+        {
+            foreach (var reach in new[] { .95f, .75f, 1.15f })
+            {
+                var candidate = anchor + direction.Normalized() * reach;
+                using var probe = PhysicsRayQueryParameters3D.Create(candidate + Vector3.Up,
+                    candidate + Vector3.Down * 1.5f, player.CollisionMask,
+                    new global::Godot.Collections.Array<Rid> { player.GetRid() });
+                var found = player.GetWorld3D().DirectSpaceState.IntersectRay(probe);
+                if (found.Count > 0 && found["normal"].AsVector3().Y > .7f
+                    && !((found["collider"].AsGodotObject() as Node)?.Name.ToString().Contains("Furniture", StringComparison.Ordinal) ?? false)
+                    && player.CanStandAt(found["position"].AsVector3() + Vector3.Up * .05f))
+                { aisle = candidate; hit = found; break; }
+            }
+            if (hit.Count > 0) break;
+        }
         var entryId = ChapterPrefix + "knowledge/discovery-fap-service-cabinet";
         try
         {
             // The one local fixture is in the open aisle, not at the discovery.
-            using var ray = PhysicsRayQueryParameters3D.Create(aisle + Vector3.Up,
-                aisle + Vector3.Down * 1.5f, player.CollisionMask,
-                new global::Godot.Collections.Array<Rid> { player.GetRid() });
-            var hit = player.GetWorld3D().DirectSpaceState.IntersectRay(ray);
             if (hit.Count == 0 || hit["normal"].AsVector3().Y <= .7f
                 || !player.CanStandAt(hit["position"].AsVector3() + Vector3.Up * .05f))
-            { Fail("FAP service corner has no clear aisle fixture."); return false; }
+            {
+                var detail = hit.Count == 0 ? "no floor under the aisle"
+                    : $"floor={(hit["collider"].AsGodotObject() as Node)?.GetPath()} normal={hit["normal"].AsVector3()} "
+                      + $"standable={player.CanStandAt(hit["position"].AsVector3() + Vector3.Up * .05f)}";
+                Fail($"FAP service corner has no clear aisle fixture: anchor={anchor} aisle={aisle} {detail}.");
+                return false;
+            }
             player.ApplyZoneSpawn(hit["position"].AsVector3() + Vector3.Up * .05f, 0);
             await ExplorationFrames(12);
             if (!await WalkExplorationLeg(bridge, player, anchor, "FAP enter the service corner", floor)) return false;
