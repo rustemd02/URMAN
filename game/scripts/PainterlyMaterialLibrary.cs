@@ -335,6 +335,7 @@ public static class PainterlyMaterialLibrary
         // Catalogue maps are scoped by actual finish. Legacy wood/fence/prop
         // owners remain independent; new paint does not recolor every house.
         ["wood_facade"] = ("res://assets/textures/painterly/urman_w01_v01_basecolor.png", Vector2.One),
+        ["wood_log_uv"] = ("res://assets/textures/painterly/urman_w01_v01_basecolor.png", Vector2.One),
         ["wood_painted_blue"] = ("res://assets/textures/painterly/urman_w03_v01_basecolor.png", Vector2.One),
         ["wood_painted_green"] = ("res://assets/textures/painterly/urman_w04_v02_basecolor.png", Vector2.One),
         ["wood_painted_trim"] = ("res://assets/textures/painterly/urman_w05_v02_basecolor.png", new Vector2(2f, 2f)),
@@ -556,7 +557,7 @@ public static class PainterlyMaterialLibrary
         // cache identity remain specific to each actual surface.
         var finishSurface = surface switch
         {
-            "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim" => "wood_facade",
+            "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim" or "wood_log_uv" => "wood_facade",
             "wood_floor_painted" => "wood_furniture_interior",
             "wood_fence_vertical" or "wood_fence_rail" or "wood_fence_uv" => "wood_fence",
             "plaster_domestic" => "wall_institution",
@@ -574,7 +575,7 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
         material.SetShaderParameter("local_floor_texture", surface is "wood_floor_painted" or "wood_fence_vertical" or "wood_fence_rail");
         material.SetShaderParameter("local_fence_rail", surface == "wood_fence_rail");
-        material.SetShaderParameter("authored_uv_texture", surface is "hay_fibers" or "cloth_table" or "cloth_curtain" or "wood_fence_uv");
+        material.SetShaderParameter("authored_uv_texture", surface is "hay_fibers" or "cloth_table" or "cloth_curtain" or "wood_fence_uv" or "wood_log_uv");
         material.SetShaderParameter("metallic_value", surface == "iron" ? 0.65f : 0f);
         material.SetShaderParameter("finish_grain", surface switch
         {

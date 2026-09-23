@@ -39,6 +39,14 @@ public partial class Act1VisualReviewCapture : Node
                 "house_exterior_trim", "village_day", "from_house", Vector3.Zero, Vector3.Zero),
             ["house_exterior_trim_street"] = new(
                 "house_exterior_trim_street", "village_day", "from_house", Vector3.Zero, Vector3.Zero),
+            ["house_log_overview"] = new(
+                "house_log_overview", "village_day", "from_house",
+                new Vector3(-28f, AgentBAct1HeightField.CollisionGround(-28f, 7f) + .05f, 7f),
+                new Vector3(-28f, 2.4f, -1f)),
+            ["house_log_oblique"] = new(
+                "house_log_oblique", "village_day", "from_house",
+                new Vector3(-24f, AgentBAct1HeightField.CollisionGround(-24f, 7.5f) + .05f, 7.5f),
+                new Vector3(-28f, 2.4f, -6f)),
             ["fence_service_grain"] = new(
                 "fence_service_grain", "village_day", "arrival",
                 Vector3.Zero, Vector3.Zero), // resolved from the visible material owner below
@@ -295,7 +303,7 @@ public partial class Act1VisualReviewCapture : Node
             var subject = facade.FindChildren("HeroHouse_Street_Window2_Jamb1_LOD0", "MeshInstance3D", true, false)
                 .OfType<MeshInstance3D>().SingleOrDefault();
             if (subject?.Mesh is null || !subject.IsVisibleInTree()
-                || subject.MaterialOverride is not ShaderMaterial material
+                || subject.GetActiveMaterial(0) is not ShaderMaterial material
                 || material.GetShaderParameter("albedo_texture").AsGodotObject() is not Texture2D texture
                 || !texture.ResourcePath.EndsWith("urman_w05_v02_basecolor.png", StringComparison.Ordinal)
                 || material.GetShaderParameter("texture_scale").AsVector2() != new Vector2(2f, 2f))
@@ -315,6 +323,15 @@ public partial class Act1VisualReviewCapture : Node
                 position.Y = AgentBAct1HeightField.CollisionGround(position.X, position.Z) + .05f;
             }
             GD.Print($"act1-trim-material-subject: {subject.GetPath()} texture={texture.ResourcePath} scale={material.GetShaderParameter("texture_scale")}");
+        }
+
+        if (frameId is "house_log_overview" or "house_log_oblique")
+        {
+            var facade = connectedWorld.FindChild("BabaiApproachDwellingFacade", true, false) as Node3D
+                ?? throw new InvalidOperationException("House capture lacks the actual Babai facade.");
+            if (!facade.IsVisibleInTree() || !player.CanStandAt(position))
+                throw new InvalidOperationException("House overview requires a visible facade and a clear standing position.");
+            GD.Print($"act1-house-subject: {facade.GetPath()} standing={position} target={target}");
         }
 
         // These materials need a close view of their actual current owner,

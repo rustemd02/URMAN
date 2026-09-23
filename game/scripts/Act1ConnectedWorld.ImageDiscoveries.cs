@@ -129,6 +129,11 @@ public partial class Act1ConnectedWorld
             camera => ObservationHorizontal(camera.GlobalPosition - windows[1]).Dot(front) > .35f
                 && windows.All(point => ObservationFramed(camera, point)));
         facadeView.SetMeta("observationLandmarks", new global::Godot.Collections.Array<Vector3>(windows));
+        // The eye stays at the gate-side corner where a player can actually
+        // stand (centring it puts the capsule inside the yard fence; stepping
+        // further out leaves walkable support). Framing all three windows in
+        // FOV75 needs a slight human turn from the box aim; the flow proof
+        // sweeps for it.
         facadeView.SetMeta("observationReferenceEye", windows[1] + front * 1.2f - facadeSide * 2.4f);
         facadeView.SetMeta("observationLookAt", windows[0]);
 
@@ -152,16 +157,27 @@ public partial class Act1ConnectedWorld
             camera =>
             {
                 var offset = ObservationHorizontal(camera.GlobalPosition - gateCenter);
-                return offset.Length() is > 1.3f and < 7.2f
+                var birchFramed = ObservationFramed(camera, birchPoint);
+                var gateFramed = ObservationFramed(camera, gateCenter);
+                var allWindows = windows.All(point => ObservationFramed(camera, point));
+                var facadeKnown = ObservationKnown("clue_photo_facade_windows_observed");
+                var ok = offset.Length() is > 1.3f and < 7.2f
                     && offset.Dot(front) > 1.1f
-                    && ObservationFramed(camera, birchPoint)
-                    && ObservationFramed(camera, gateCenter)
-                    && (windows.All(point => ObservationFramed(camera, point))
-                        || ObservationKnown("clue_photo_facade_windows_observed"));
+                    && birchFramed
+                    && gateFramed
+                    && (allWindows || facadeKnown);
+                GD.Print($"photo-yard-guard: len={offset.Length():F3} dot={offset.Dot(front):F3} birch={birchFramed} gate={gateFramed} allWindows={allWindows} facadeKnown={facadeKnown} ok={ok} eye={camera.GlobalPosition}");
+                return ok;
             });
         view.SetMeta("observationLandmarks", new global::Godot.Collections.Array<Vector3>(
             new[] { birchPoint, gateCenter }.Concat(windows)));
-        view.SetMeta("observationReferenceEye", gateCenter + front * 3.1f + new Vector3(-.8f, .7f, 0) - facadeSide);
+        // Probed visibility map (ProbeYardVisibility, B90): the gate-side
+        // corner sees the birch through the new bathhouse front wall, and the
+        // only all-landmarks sector sits south of the gate, where birch+gate
+        // span ~80 degrees. This eye keeps that sector with standing support;
+        // the flow proof sweeps the human aim. Facade windows stay exempt
+        // once observed, exactly as the hint describes.
+        view.SetMeta("observationReferenceEye", gateCenter + new Vector3(2f, 0f, 3.46f));
         view.SetMeta("observationLookAt", (birchPoint + gateCenter + windows[1]) / 3f);
 
         var repairPoint = _photoGateInsert.GlobalPosition + front * .07f;

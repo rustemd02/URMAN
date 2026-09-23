@@ -52,10 +52,16 @@ public partial class ChapterOneFlowSmokeTest : Node
 
         var people = main.ConnectedWorld!.GetNode<Node3D>("Act1CoreWorldGreybox/Act1People");
         var rinatActor = people.GetNode<Node3D>("Npc_rinat");
+        var peopleNames = string.Join(",", people.GetChildren().OfType<Node3D>().Select(child => child.Name.ToString()));
+        // No duplicate imam: BuildMosqueInterior reparents the staged Timur
+        // into the prayer hall at world build, so the exterior proof checks
+        // Alsu outside and Timur at his mosque post instead of under Act1People.
+        var mosqueTimur = main.ConnectedWorld.GetNodeOrNull<Node3D>(
+            "Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/Npc_timur_hazrat");
         if (!people.GetNode<Node3D>("Act1NpcPresentation/Npc_alsu").IsVisibleInTree()
-            || !people.GetNode<Node3D>("Npc_timur_hazrat").IsVisibleInTree()
+            || mosqueTimur is not { } timurActor || !timurActor.IsVisibleInTree()
             || rinatActor.GlobalPosition.Z < -5f)
-        { Fail("Act I exterior people are hidden or Rinat starts at the late position."); return; }
+        { Fail($"Act I people are misplaced: Alsu/Timur hidden or Rinat starts at the late position. Act1People=[{peopleNames}]"); return; }
 
         for (var frame = 0; frame < 2; frame++)
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -239,20 +245,47 @@ public partial class ChapterOneFlowSmokeTest : Node
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         if (!await VerifyPhotoReturn(bridge, main)) return;
 
-        if (bridge.IsInteractionAvailable(Interaction("route-to-fap"))
-            || !bridge.IsInteractionAvailable(Interaction("talk-alsu"))
-            || !await bridge.DispatchInteractionAsync(Interaction("talk-alsu"))
-            || !await Act1AlsuWalkProof.CompleteAsync(this, bridge)
-            || !await bridge.EnterDialogueNodeAsync(Dialogue("alsu_route_context"), "name-road")
-            || bridge.IsInteractionAvailable(Interaction("route-to-fap"))
-            || !await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-versions")
-            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_alsu_heard_versions") != "confirmed"
-            || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_versions_conflict") != "hidden"
-            || bridge.IsInteractionAvailable(Interaction("route-to-fap"))
-            || !await bridge.CompareJournalSourcesAsync(Interaction("compare-versions-scope"), new[] { OfficialNotice, ChapterPrefix + "knowledge/clue_alsu_heard_versions" })
-            || !bridge.IsInteractionAvailable(Interaction("route-to-fap")))
+        var alsuStep = "start";
+        if (bridge.IsInteractionAvailable(Interaction("route-to-fap"))) alsuStep = "route-to-fap early available";
+        else if (!bridge.IsInteractionAvailable(Interaction("talk-alsu"))) alsuStep = "talk-alsu unavailable";
+        else
         {
-            Fail("Chapter 1 skipped checking Alsu's secondhand accounts against the notice before the FAP route.");
+            // A fresh load re-projects vehicles and Alsu's feet over a couple
+            // of physics frames; a real player never talks in the same tick.
+            // Wait for the world to settle instead of racing it.
+            var walkReady = false;
+            for (var frame = 0; frame < 120 && !walkReady; frame++)
+            {
+                var walk = AlsuStreetWalkPresentation.SessionOwner(GetTree());
+                if (walk is not null && walk.PhysicalAccessReady) walkReady = true;
+                else await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            }
+            if (!walkReady)
+            {
+                var walk = AlsuStreetWalkPresentation.SessionOwner(GetTree());
+                GD.Print("alsu-never-ready: " + (walk is null ? "no-session-owner" : walk.DescribeWalkEligibility()));
+                alsuStep = "alsu never physically ready";
+            }
+            else if (!await bridge.DispatchInteractionAsync(Interaction("talk-alsu")))
+            {
+                var walk = AlsuStreetWalkPresentation.SessionOwner(GetTree());
+                GD.Print("alsu-dispatch-refused: " + (walk is null ? "no-session-owner" : walk.DescribeWalkEligibility()));
+                alsuStep = "talk-alsu dispatch";
+            }
+        }
+        if (alsuStep == "start" && !await Act1AlsuWalkProof.CompleteAsync(this, bridge)) alsuStep = "alsu-walk-proof";
+        if (alsuStep == "start" && !await bridge.EnterDialogueNodeAsync(Dialogue("alsu_route_context"), "name-road")) alsuStep = "enter name-road";
+        if (alsuStep == "start" && bridge.IsInteractionAvailable(Interaction("route-to-fap"))) alsuStep = "route-to-fap after enter";
+        if (alsuStep == "start" && !await bridge.ChooseDialogueAsync(Dialogue("alsu_route_context"), "name-road", "ask-versions")) alsuStep = "ask-versions";
+        if (alsuStep == "start" && KnowledgeStatus(bridge.SelectRuntimeState(), "clue_alsu_heard_versions") != "confirmed") alsuStep = "heard-versions not confirmed";
+        if (alsuStep == "start" && KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_versions_conflict") != "hidden") alsuStep = "conflict not hidden";
+        if (alsuStep == "start" && bridge.IsInteractionAvailable(Interaction("route-to-fap"))) alsuStep = "route-to-fap before compare";
+        if (alsuStep == "start" && !await bridge.CompareJournalSourcesAsync(Interaction("compare-versions-scope"), new[] { OfficialNotice, ChapterPrefix + "knowledge/clue_alsu_heard_versions" })) alsuStep = "compare-versions";
+        if (alsuStep == "start" && !bridge.IsInteractionAvailable(Interaction("route-to-fap"))) alsuStep = "route-to-fap still locked";
+        if (alsuStep == "start") alsuStep = "ok";
+        if (alsuStep != "ok")
+        {
+            Fail("Chapter 1 skipped checking Alsu's secondhand accounts against the notice before the FAP route (" + alsuStep + ").");
             return;
         }
 
@@ -837,10 +870,35 @@ public partial class ChapterOneFlowSmokeTest : Node
 
             void RequireUnchanged(string phase)
             {
-                if (bridge.ActiveSceneId != scene || bridge.SelectRuntimeState().GetRawText() != before
-                    || bridge.IsInteractionAvailable(Interaction("fap-to-document-desk"))
-                    || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_case_boundary_marker") != "hidden")
+                var nowScene = bridge.ActiveSceneId;
+                var nowState = bridge.SelectRuntimeState();
+                var nowText = nowState.GetRawText();
+                var desk = bridge.IsInteractionAvailable(Interaction("fap-to-document-desk"));
+                var marker = KnowledgeStatus(nowState, "clue_marat_case_boundary_marker");
+                if (nowScene != scene || nowText != before
+                    || desk
+                    || marker != "hidden")
+                {
+                    var changedFields = "?";
+                    try
+                    {
+                        using var beforeDoc = System.Text.Json.JsonDocument.Parse(before);
+                        var names = new System.Collections.Generic.HashSet<string>();
+                        foreach (var field in beforeDoc.RootElement.EnumerateObject()) names.Add(field.Name);
+                        foreach (var field in nowState.EnumerateObject()) names.Add(field.Name);
+                        var diffs = new System.Collections.Generic.List<string>();
+                        foreach (var key in names)
+                        {
+                            var hasBefore = beforeDoc.RootElement.TryGetProperty(key, out var oldValue);
+                            var hasNow = nowState.TryGetProperty(key, out var newValue);
+                            if (!hasBefore || !hasNow || oldValue.GetRawText() != newValue.GetRawText()) diffs.Add(key);
+                        }
+                        changedFields = string.Join(",", diffs);
+                    }
+                    catch (System.Exception parseError) { changedFields = "parse:" + parseError.GetType().Name; }
+                    GD.Print($"door-proof-diff {phase}: scene={scene}->{nowScene} desk={desk} marker={marker} sameText={nowText == before} fields=[{changedFields}]");
                     throw new InvalidOperationException("A local door invented progress " + phase + ".");
+                }
             }
             async Task UseReturn(string name, string zone)
             {
@@ -966,6 +1024,29 @@ public partial class ChapterOneFlowSmokeTest : Node
                     player.ApplySmokeLook(pitch, yaw);
                     await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
                     var ray = player.GetNode<RayCast3D>("Head/Camera3D/InteractionRay");
+                    // A human counts the row with a slight turn from the box
+                    // aim: the corner eye that fits a standing player cannot
+                    // frame all three windows while staring at the end one.
+                    // Sweep a small deterministic yaw range for an aim where
+                    // the ray still hits the box AND the live guard passes.
+                    var sweptYaw = yaw;
+                    var swept = false;
+                    for (var step = 0; step <= 30 && !swept; step++)
+                    {
+                        foreach (var offset in step == 0 ? new[] { 0f } : new[] { step * .5f, -step * .5f })
+                        {
+                            player.ApplySmokeLook(pitch, yaw + offset);
+                            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                            ray.ForceRaycastUpdate();
+                            var sweepHit = ray.IsColliding() ? ray.GetCollider() as Node : null;
+                            if (sweepHit == target && main.ConnectedWorld!.CanUseObservationInteraction(Interaction(action)))
+                            { sweptYaw = yaw + offset; swept = true; break; }
+                        }
+                    }
+                    GD.Print("photo-source-sweep action=" + action + " baseYaw=" + yaw + " sweptYaw=" + sweptYaw + " swept=" + swept);
+                    player.ApplySmokeLook(pitch, sweptYaw);
+                    await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                    ray.ForceRaycastUpdate();
                     ray.ForceRaycastUpdate();
                     var hit = ray.IsColliding() ? ray.GetCollider() as Node : null;
                     var semantic = bridge.IsInteractionAvailable(Interaction(action));
@@ -1167,6 +1248,12 @@ public partial class ChapterOneFlowSmokeTest : Node
                 {
                     "arrival-insulated-well" => question.GlobalPosition + Vector3.Right * 1.55f,
                     "zirat-outer-rest-bench" => reference + Vector3.Back * .60f,
+                    // The retained FallenLog_K1 trunk spans X 1.50-3.69 at
+                    // Z -116.92..-116.13 (kit bounds); the default Back*2.05
+                    // stance at X 3.87 overlaps its east end with the player
+                    // capsule, and the ground just north stays lumpy. Stand
+                    // east of the trunk and south of the mound instead.
+                    "kara-branch-profile" => reference + Vector3.Back * .75f + Vector3.Right * .6f,
                     _ => reference + Vector3.Back * 2.05f
                 };
                 if (!await PlaceStanding(questionReference)) return false;
@@ -1192,7 +1279,12 @@ public partial class ChapterOneFlowSmokeTest : Node
                     || !await Act1LocalReactionProof.ChooseVisibleAsync(this, bridge, "observation-leave")) return false;
                 if (dialogue.IsOpen || !Unfinished() || !await bridge.SaveSlotAsync(unfinishedSlot))
                 { Fail("Leaving the question completed it or prevented an unfinished save: " + slug); return false; }
-                var retreat = questionReference + (shortName == "well" ? Vector3.Right : Vector3.Back) * .65f;
+                // The kara ground north of the profile start rises into the
+                // capsule (terrain mound by the deadfall); step back toward
+                // the eye side instead of further north.
+                var retreat = shortName == "profile" ? questionReference - Vector3.Back * .65f
+                    : shortName == "well" ? questionReference + Vector3.Right * .65f
+                    : questionReference + Vector3.Back * .65f;
                 if (!await WalkExplorationLeg(bridge, player, retreat, shortName + " leave unanswered question")) return false;
                 if (!Unfinished() || !await bridge.LoadSlotAsync(unfinishedSlot))
                 { Fail("An unfinished observation was lost on return: " + slug); return false; }
@@ -1208,8 +1300,12 @@ public partial class ChapterOneFlowSmokeTest : Node
                 await CaptureExplorationView("ex11_" + shortName + "_unfinished_return");
                 journal.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
                 await ExplorationFrames(3);
+                // The authored Niva parking overlaps the well's east stance at
+                // reference Z (hull tail corner). Stand 0.6 m further out on the
+                // same open side; the rear-fastening view is taken from `reference`.
+                var wellOpenSide = new Vector3(questionReference.X, reference.Y, reference.Z + .6f);
                 if (shortName == "well"
-                    && !await WalkExplorationLeg(bridge, player, new(questionReference.X, reference.Y, reference.Z),
+                    && !await WalkExplorationLeg(bridge, player, wellOpenSide,
                         "well walk around the open side before viewing the rear fastening")) return false;
                 if (!await WalkExplorationLeg(bridge, player, reference, shortName + " change the actual observation angle")) return false;
                 AimObservation(target.GetMeta("observationLookAt").AsVector3());
@@ -1222,9 +1318,13 @@ public partial class ChapterOneFlowSmokeTest : Node
                     return false;
                 }
                 await PressExplorationInteract();
-                for (var frame = 0; frame < 180 && KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-" + slug) != "confirmed"; frame++)
+                // The kara branch profile stays ambiguous by design: its
+                // authored result is a hypothesis (plus the tt_shurale word),
+                // not a confirmation. Every other manual observation confirms.
+                var expectedDiscoveryStatus = slug == "kara-branch-profile" ? "hypothesis" : "confirmed";
+                for (var frame = 0; frame < 180 && KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-" + slug) != expectedDiscoveryStatus; frame++)
                     await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-                if (bridge.ActiveSceneId != scene || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-" + slug) != "confirmed"
+                if (bridge.ActiveSceneId != scene || KnowledgeStatus(bridge.SelectRuntimeState(), "discovery-" + slug) != expectedDiscoveryStatus
                     || bridge.IsInteractionAvailable(target.InteractionId)
                     || bridge.JournalEntries().Count(entry => entry.EntryId == ChapterPrefix + "knowledge/discovery-" + slug) != 1)
                 { Fail("Manual observation did not record exactly one grounded result: " + slug); return false; }
@@ -1247,7 +1347,7 @@ public partial class ChapterOneFlowSmokeTest : Node
                     || bridge.JournalEntries().Count(entry => entry.EntryId == ChapterPrefix + "knowledge/discovery-" + slug) != 1)
                 { Fail("Loaded observation duplicated its result: " + slug); return false; }
                 if (shortName == "well"
-                    && !await WalkExplorationLeg(bridge, player, new(questionReference.X, reference.Y, reference.Z), "well return around the same open side")) return false;
+                    && !await WalkExplorationLeg(bridge, player, wellOpenSide, "well return around the same open side")) return false;
                 if (!await WalkExplorationLeg(bridge, player, questionReference, shortName + " return from checked observation")) return false;
                 GD.Print("ex11-observation-proof: " + shortName + "; wrong/leave/unfinished-load/manual-check/checked-load/physical-return passed; human interest not measured");
                 return true;
@@ -1280,7 +1380,21 @@ public partial class ChapterOneFlowSmokeTest : Node
                     if (ground.Count == 0 || ground["normal"].AsVector3().Dot(Vector3.Up) <= .7f)
                     { Fail("Observation has no standing collision surface: " + slug + " at=" + point); return false; }
                     var feet = ground["position"].AsVector3() + Vector3.Up * .05f;
-                    if (!player.CanStandAt(feet)) { Fail("Observation start is not a clear standing capsule: " + slug); return false; }
+                    if (!player.CanStandAt(feet))
+                    {
+                        var space = player.GetWorld3D().DirectSpaceState;
+                        using var shape = new CapsuleShape3D { Radius = player.BodyRadius, Height = player.StandingBodyHeight - .015f };
+                        using var query = new PhysicsShapeQueryParameters3D { Shape = shape, CollisionMask = player.CollisionMask,
+                            Exclude = new global::Godot.Collections.Array<Rid> { player.GetRid() }, Margin = .002f };
+                        query.Transform = new(Basis.Identity, feet + Vector3.Up * (player.StandingBodyHeight * .5f + .01f));
+                        var blockers = space.IntersectShape(query, 8).Select(hitShape =>
+                        {
+                            var collider = hitShape["collider"].AsGodotObject() as CollisionObject3D;
+                            var owner = collider?.ShapeOwnerGetOwner(collider.ShapeFindOwner(hitShape["shape"].AsInt32())) as Node3D;
+                            return $"{collider?.GetPath()} shape={hitShape["shape"].AsInt32()} owner={owner?.GetPath()} at={owner?.GlobalPosition} geo={(owner?.HasMeta("geometryOwner") == true ? owner.GetMeta("geometryOwner").AsString() : "-")}";
+                        }).ToArray();
+                        Fail($"Observation start is not a clear standing capsule: {slug}; at={point} feet={feet} blockers=[{string.Join(" | ", blockers)}]"); return false;
+                    }
                     player.ApplyZoneSpawn(feet, 0f);
                     for (var frame = 0; frame < 12; frame++)
                         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
@@ -1424,7 +1538,30 @@ public partial class ChapterOneFlowSmokeTest : Node
         { Fail("Exploration destination has no actual required floor: " + phase + "; requested=" + requested + "; owner=" + body?.GetPath() + "; source=" + source); return false; }
         var destination = hit["position"].AsVector3();
         if (!player.CanStandAt(destination + Vector3.Up * .015f))
-        { Fail("Exploration destination does not fit a standing capsule: " + phase); return false; }
+        {
+            var space = player.GetWorld3D().DirectSpaceState;
+            using var shape = new CapsuleShape3D { Radius = player.BodyRadius, Height = player.StandingBodyHeight - .015f };
+            using var query = new PhysicsShapeQueryParameters3D { Shape = shape, CollisionMask = player.CollisionMask,
+                Exclude = new global::Godot.Collections.Array<Rid> { player.GetRid() }, Margin = .002f };
+            query.Transform = new(Basis.Identity, destination + Vector3.Up * (player.StandingBodyHeight * .5f + .025f));
+            var blockers = space.IntersectShape(query, 8).Select(hitShape =>
+                $"{(hitShape["collider"].AsGodotObject() as Node)?.GetPath()} shape={hitShape["shape"].AsInt32()}").ToArray();
+            var ring = new List<string>();
+            foreach (var offset in new[] { new Vector2(.65f, 0), new Vector2(-.65f, 0), new Vector2(0, .65f), new Vector2(0, -.65f),
+                new Vector2(.45f, .45f), new Vector2(-.45f, .45f), new Vector2(.45f, -.45f), new Vector2(-.45f, -.45f) })
+            {
+                var probe = destination + new Vector3(offset.X, 0, offset.Y);
+                using var groundProbe = PhysicsRayQueryParameters3D.Create(probe + Vector3.Up * 1.8f,
+                    probe + Vector3.Down * 3f, player.CollisionMask,
+                    new global::Godot.Collections.Array<Rid> { player.GetRid() });
+                var groundHit = space.IntersectRay(groundProbe);
+                var verdict = "no-ground";
+                if (groundHit.Count > 0 && groundHit["normal"].AsVector3().Y > .7f)
+                    verdict = player.CanStandAt(groundHit["position"].AsVector3() + Vector3.Up * .015f) ? "fit" : "blocked";
+                ring.Add($"{offset}={verdict}");
+            }
+            Fail($"Exploration destination does not fit a standing capsule: {phase}; requested={requested} ground={destination} blockers=[{string.Join(" | ", blockers)}] ring=[{string.Join(" ", ring)}]"); return false;
+        }
         var started = player.GlobalPosition;
         var revision = player.PresentationTransformRevision;
         var recoveries = player.FallRecoveries;

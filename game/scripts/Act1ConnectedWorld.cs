@@ -1931,6 +1931,11 @@ public partial class Act1ConnectedWorld : Node3D
             ["URMAN_Plaster_Shadow"] = PainterlyMaterialLibrary.ForColor("66685f", "plaster"),
             ["URMAN_Wood_Dark"] = PainterlyMaterialLibrary.ForColor("605044", "wood"),
             ["URMAN_Wood_Weathered"] = PainterlyMaterialLibrary.ForColor("6f6353", "wood_facade"),
+            ["URMAN_Hero_Log"] = PainterlyMaterialLibrary.ForColor("594d40", "wood_log_uv"),
+            ["URMAN_Hero_LogEnd"] = PainterlyMaterialLibrary.ForColor("88745a", "wood_cut"),
+            ["URMAN_Hero_Trim_Teal"] = PainterlyMaterialLibrary.ForColor("547e76", "wood_painted_trim"),
+            ["URMAN_Hero_Trim_Ivory"] = PainterlyMaterialLibrary.ForColor("c8c5b1", "wood_painted_trim"),
+            ["URMAN_Hero_RoofSnow"] = PainterlyMaterialLibrary.ForColor("e8edf0", "snow_roof"),
             ["URMAN_Wood_WetShadow"] = PainterlyMaterialLibrary.ForColor("554e40", "wood_facade"),
             ["URMAN_Roof_WetSlate"] = PainterlyMaterialLibrary.ForColor("626b66", "roof"),
             ["URMAN_Roof_MossTone"] = PainterlyMaterialLibrary.ForColor("656d5e", "roof"),
@@ -5928,26 +5933,8 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static void ApplyHeroWarmWindow(Node3D facade)
     {
-        if (string.Equals(facade.Name.ToString(), "BabaiApproachDwellingFacade", StringComparison.Ordinal))
-        {
-            foreach (var mesh in FindDescendants<MeshInstance3D>(facade))
-            {
-                var name = mesh.Name.ToString();
-                if (name.Contains("_Window", StringComparison.Ordinal)
-                    && (name.Contains("Jamb", StringComparison.Ordinal)
-                        || name.Contains("Rail", StringComparison.Ordinal)
-                        || name.Contains("Mullion", StringComparison.Ordinal)
-                        || name.Contains("Sill", StringComparison.Ordinal)))
-                {
-                    mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("718078", "wood_carved");
-                }
-                else if (name is "HeroHouse_Front_VergeLeft_LOD0" or "HeroHouse_Front_VergeRight_LOD0")
-                {
-                    mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("8a765b", "ornament_trim");
-                }
-            }
-        }
-
+        // Joinery color belongs to the hero's authored material slots. This
+        // pass owns only the inhabited warm window, not another trim repaint.
         var warmWindow = FindDescendants<MeshInstance3D>(facade)
             .FirstOrDefault(mesh => mesh.Name == "HeroHouse_Street_Window2_Glass_LOD0");
         if (warmWindow is null)
@@ -10311,7 +10298,10 @@ public partial class Act1ConnectedWorld : Node3D
         foreach (var mesh in FindDescendants<MeshInstance3D>(presentation))
         {
             var name = mesh.Name.ToString();
-            if (!name.Contains("Window", StringComparison.Ordinal))
+            // The hero's teal/ivory slots also stay out of the ivory-only
+            // batching pilot, whose membership uses windowSurroundPaint.
+            if (name.StartsWith("HeroHouse_", StringComparison.Ordinal)
+                || !name.Contains("Window", StringComparison.Ordinal))
             {
                 continue;
             }
