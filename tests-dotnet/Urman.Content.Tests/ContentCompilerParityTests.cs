@@ -24,7 +24,7 @@ public sealed class ContentCompilerParityTests
         var goldenPath = Path.Combine(root, "tests-dotnet", "fixtures", "content", "urman.chapter1.compiled.v1.json");
         var golden = JsonNode.Parse(await File.ReadAllTextAsync(goldenPath, TestContext.Current.CancellationToken));
         Assert.True(JsonNode.DeepEquals(golden, result.Pack));
-        Assert.Equal("f530787b29f73de3279196ad208401d7dba4597009d0b612f0050a3057c698ac", result.Pack["campaignFingerprint"]!.GetValue<string>());
+        Assert.Equal("34be1a008016704e1d54d6080b24135abca739a367f658eb4f81299b3903c794", result.Pack["campaignFingerprint"]!.GetValue<string>());
         var house = result.Pack["registries"]!["scenes"]!.AsArray()
             .Single(scene => scene!["id"]!.GetValue<string>() == "urman.chapter1:scene/house");
         Assert.Contains(
@@ -84,6 +84,39 @@ public sealed class ContentCompilerParityTests
             Assert.DoesNotContain(':', hint!["pointsTo"]!.GetValue<string>());
             var text = texts.Resolve(hint["textId"]!.GetValue<string>(), "ru").Text;
             Assert.InRange(text.Length, 1, 300);
+        }
+    }
+
+    [Fact]
+    public async Task ChapterOne_SourceExcerptFieldsStayWholeParagraphs()
+    {
+        // RuntimeBridge.SourceExcerpts accepts a selection only when it equals a
+        // whole paragraph starting with the binding's heading (Naila's register
+        // step and Alsu's voice note depend on it). Deepening a document must
+        // keep each heading at the start of exactly one paragraph; merging the
+        // fields into prose once blocked the investigation.
+        var root = FindWorkspaceRoot();
+        var compilation = await new ContentCompiler().CompileAsync(
+            root,
+            "urman.chapter1",
+            ["urman.chapter1", "urman.core", "urman.oldpc"],
+            TestContext.Current.CancellationToken);
+
+        Assert.Empty(compilation.Diagnostics);
+        var documents = compilation.Pack!["registries"]!["documents"]!.AsArray();
+        foreach (var (id, heading) in new[]
+                 {
+                     ("urman.oldpc:document/doc_marat_official_death_notice", "Причина закрытия дела:"),
+                     ("urman.oldpc:document/rec_marat_case_register_conflict", "Внешняя формулировка:"),
+                     ("urman.oldpc:document/rec_marat_case_register_conflict", "Категория:"),
+                     ("urman.oldpc:document/msg_marat_saved_last_normal", "Сегодня опять слышал")
+                 })
+        {
+            var body = documents.Single(document => document!["id"]!.GetValue<string>() == id)!["bodyMarkdown"]!.GetValue<string>();
+            var paragraphs = System.Text.RegularExpressions.Regex.Split(body, @"\r?\n\s*\r?\n")
+                .Select(paragraph => paragraph.Trim());
+            Assert.True(paragraphs.Count(paragraph => paragraph.StartsWith(heading, StringComparison.Ordinal)) == 1,
+                $"{id} must start exactly one paragraph with '{heading}'");
         }
     }
 
