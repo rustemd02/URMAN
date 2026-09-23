@@ -52,7 +52,9 @@ internal static class SourceExcerptUiProof
             await KeyAsync(host, Key.Space, "begin");
             Require(selection.Selecting && editor.IsVisibleInTree() && editor.HasFocus()
                 && !editor.Editable && editor.Text == sourceText,
-                "Begin did not focus the actual source text in read-only selection mode.");
+                "Begin did not focus the actual source text in read-only selection mode: "
+                + $"selecting={selection.Selecting}, visible={editor.IsVisibleInTree()}, focus={editor.HasFocus()}, "
+                + $"editable={editor.Editable}, sameText={editor.Text == sourceText} ({editor.Text.Length}/{sourceText.Length}).");
             var excerpt = await SelectWithShiftAsync(host, editor);
             Require(!record.Disabled, "A real keyboard selection did not enable the excerpt button.");
 

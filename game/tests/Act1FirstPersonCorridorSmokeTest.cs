@@ -86,7 +86,7 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         await InteractAt(player, ray, Interaction("arrival-enter-house"));
         await Frames(4);
         AssertState(main, bridge, "house_old_pc", "house", "res://scenes/zones/style_benchmark_house_pc.tscn");
-        AssertRouteFacing(main, 0f, "house-entry");
+        AssertInteriorFacing(main, bridge, "house-entry");
         if (KnowledgeStatus(bridge.SelectRuntimeState(), "clue_family_avoids_marat") != "hidden")
         { Fail("Entering the house inferred the family's answer before asking about Marat."); return; }
 
@@ -337,7 +337,7 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         await InteractAt(player, ray, Interaction("route-to-fap"));
         await Frames(4);
         AssertState(main, bridge, "fap_clinic", "fap_waiting_room_day", "res://scenes/zones/chapter1_fap_clinic.tscn");
-        AssertRouteFacing(main, 0f, "fap-entry-to-desk");
+        AssertInteriorFacing(main, bridge, "fap-entry-to-desk");
 
         if (bridge.IsInteractionAvailable(Interaction("fap-to-document-desk")))
         {
@@ -384,7 +384,7 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         await InteractAt(player, ray, Interaction("official-to-internal-register"));
         await Frames(5);
         AssertState(main, bridge, "house_old_pc", "evidence-internal-register", "res://scenes/zones/style_benchmark_house_pc.tscn");
-        AssertRouteFacing(main, 0f, "return-to-house-pc");
+        AssertInteriorFacing(main, bridge, "return-to-house-pc");
 
         await InteractAt(player, ray, Interaction("oldpc-power"));
         await Frames(4);
@@ -734,7 +734,7 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         }
 
         var targetPosition = expected.GlobalPosition;
-        var playerPosition = ApproachPosition(player, expected);
+        var playerPosition = ApproachPosition(player, expected, InteriorFrame(expected));
         var cameraPosition = playerPosition + Vector3.Up * 1.7f;
         var delta = targetPosition - cameraPosition;
         var horizontal = new Vector2(delta.X, delta.Z).Length();
@@ -748,7 +748,7 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         if (!ray.IsColliding() || ray.GetCollider() is not InteractionTarget target
             || target.InteractionId != interactionId || !target.IsAvailable())
         {
-            var actual = ray.GetCollider() is InteractionTarget hit ? hit.InteractionId : "<none>";
+            var actual = ray.GetCollider() switch { InteractionTarget hit => hit.InteractionId, Node other => "blocker " + other.GetPath(), _ => "<none>" };
             var expectedInfo = $"target-node={expected.GlobalPosition} layer={expected.CollisionLayer} available={expected.IsAvailable()}";
             Fail($"First-person corridor ray expected {interactionId}, got {actual} at connected-world target {targetPosition}; player={player.GlobalPosition} rayEnabled={ray.Enabled} {expectedInfo}.");
             return;
@@ -818,6 +818,20 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
     private static bool NpcState(System.Text.Json.JsonElement state, string localId, string stateKey) =>
         state.GetProperty("npc").GetProperty($"{ChapterPrefix}character/{localId}").GetProperty(stateKey).GetBoolean();
 
+    // The house and FAP interiors sit inside their rotated village buildings,
+    // so "facing into the room" is the building's yaw plus the authored local
+    // yaw. Only the connected world knows that mapping.
+    private void AssertInteriorFacing(Main main, RuntimeBridge bridge, string transition)
+    {
+        if (main.ConnectedWorld is not { } world
+            || !world.TryGetWorldSpawn(bridge.CurrentZoneId, bridge.CurrentSpawnPointId, out var spawn))
+        {
+            Fail($"Act 1 route transition {transition} has no world spawn for {bridge.CurrentZoneId}@{bridge.CurrentSpawnPointId}.");
+            return;
+        }
+        AssertRouteFacing(main, spawn.YawDegrees, transition);
+    }
+
     private void AssertRouteFacing(Main main, float expectedYaw, string transition)
     {
         var difference = Mathf.Abs(Mathf.PosMod(main.LastSpawnYawDegrees - expectedYaw + 180f, 360f) - 180f);
@@ -875,11 +889,24 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         }
     }
 
-    private static Vector3 ApproachPosition(FirstPersonController player, InteractionTarget target)
+    // The house and FAP interiors are rotated with their village buildings,
+    // so "stand in front of it" snaps to the room's axes, not the world's.
+    private Basis InteriorFrame(InteractionTarget target)
+    {
+        var world = GetTree().Root.FindChild("Act1ConnectedWorld", true, false) as Act1ConnectedWorld;
+        foreach (var zoneId in new[] { "house_old_pc", "fap_clinic" })
+        {
+            if (world?.GetZoneInstance(zoneId) is { } room && room.IsAncestorOf(target))
+                return Basis.FromEuler(new(0f, room.GlobalRotation.Y, 0f));
+        }
+        return Basis.Identity;
+    }
+
+    private static Vector3 ApproachPosition(FirstPersonController player, InteractionTarget target, Basis frame)
     {
         if (target.InteractionId == Interaction("route-to-fap"))
             return new Vector3(target.GlobalPosition.X, player.GlobalPosition.Y, target.GlobalPosition.Z + 1.50f);
-        var delta = player.GlobalPosition - target.GlobalPosition;
+        var delta = frame.Inverse() * (player.GlobalPosition - target.GlobalPosition);
         var direction = Mathf.Abs(delta.Z) >= Mathf.Abs(delta.X)
             ? new Vector3(0f, 0f, Mathf.Sign(delta.Z))
             : new Vector3(Mathf.Sign(delta.X), 0f, 0f);
@@ -887,6 +914,7 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         {
             direction = new Vector3(0f, 0f, 1f);
         }
+        direction = frame * direction;
 
         return new Vector3(
             target.GlobalPosition.X + direction.X * InteractionStandOff,

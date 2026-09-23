@@ -309,16 +309,26 @@ public partial class SceneSmokeTest : Node
         }
 
         var npc = npcs[0];
-        if (npc.GetMeta("characterId").AsString() != expectedCharacterId
-            || npc.GetMeta("characterPrefix").AsString() != expectedPrefix
-            || npc.GetMeta("presentationStatus").AsString() != "generated-character-kit-v1"
-            || npc.GetMeta("interactionOwnership").AsString() != "none"
-            || npc.GetMeta("collisionLayer").AsInt32() != 0
-            || npc.GetMeta("animationClip").AsString() != $"{expectedPrefix}_Idle"
-            || !npc.GetMeta("animationClips").AsString().Contains($"{expectedPrefix}_Tension", StringComparison.Ordinal)
-            || npc.FindChildren("*", nameof(CollisionObject3D), recursive: true, owned: false).Count != 0)
+        var contractFailures = new List<string>();
+        if (npc.GetMeta("characterId").AsString() != expectedCharacterId) contractFailures.Add($"characterId={npc.GetMeta("characterId").AsString()}");
+        if (npc.GetMeta("characterPrefix").AsString() != expectedPrefix) contractFailures.Add($"characterPrefix={npc.GetMeta("characterPrefix").AsString()}");
+        if (npc.GetMeta("presentationStatus").AsString() != "generated-character-kit-v1") contractFailures.Add($"presentationStatus={npc.GetMeta("presentationStatus").AsString()}");
+        if (npc.GetMeta("interactionOwnership").AsString() != "none") contractFailures.Add($"interactionOwnership={npc.GetMeta("interactionOwnership").AsString()}");
+        if (npc.GetMeta("collisionLayer").AsInt32() != 0) contractFailures.Add($"collisionLayer={npc.GetMeta("collisionLayer").AsInt32()}");
+        if (npc.GetMeta("animationClip").AsString() != $"{expectedPrefix}_Idle") contractFailures.Add($"animationClip={npc.GetMeta("animationClip").AsString()}");
+        if (!npc.GetMeta("animationClips").AsString().Contains($"{expectedPrefix}_Tension", StringComparison.Ordinal)) contractFailures.Add($"animationClips={npc.GetMeta("animationClips").AsString()}");
+        // A live NPC (Alsu's street walk, Rinat's landing) owns exactly one
+        // contact capsule so the player cannot walk through her; its layer and
+        // lifecycle are proven by the walk proofs. Anything else is a leak.
+        var strayColliders = npc.FindChildren("*", nameof(CollisionObject3D), recursive: true, owned: false)
+            .Where(node => !(node is AnimatableBody3D body
+                             && body.Name.ToString() == $"{expectedPrefix}PhysicalContact"
+                             && body.HasMeta("collisionOwner")))
+            .ToArray();
+        if (strayColliders.Length != 0) contractFailures.Add($"colliders={string.Join(",", strayColliders.Select(node => node.Name.ToString()))}");
+        if (contractFailures.Count != 0)
         {
-            return "NPC metadata, animation clips, or zero-physics contract failed";
+            return $"NPC metadata, animation clips, or single-contact-body contract failed: {string.Join("; ", contractFailures)}";
         }
 
         var player = npc.FindChildren("*", nameof(AnimationPlayer), recursive: true, owned: false)

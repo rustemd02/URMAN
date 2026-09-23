@@ -49,7 +49,7 @@ public partial class Act1SpawnMatrixSmokeTest : Node
         var checkedRows = 0;
         foreach (var placement in Act1WorldLayout.Placements)
         {
-            foreach (var (spawnPointId, spawn) in placement.SpawnPoints)
+            foreach (var (spawnPointId, _) in placement.SpawnPoints)
             {
                 main.SwitchZone(placement.ZoneId, spawnPointId);
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -62,18 +62,26 @@ public partial class Act1SpawnMatrixSmokeTest : Node
                 }
 
                 var position = player.GlobalPosition;
-                // Layout spawn positions are placement-local; the connected
-                // world applies them as origin + local (TryGetWorldSpawn).
-                var expectedWorld = placement.Origin + spawn.Position;
+                // Layout spawn positions are placement-local. The connected
+                // world owns the mapping: exterior zones use origin + local,
+                // while the house and FAP interiors live inside their rotated
+                // village buildings, so only TryGetWorldSpawn knows the answer.
+                if (main.ConnectedWorld is not { } world
+                    || !world.TryGetWorldSpawn(placement.ZoneId, spawnPointId, out var worldSpawn))
+                {
+                    Fail($"Spawn matrix {placement.ZoneId}@{spawnPointId}: the connected world cannot resolve the declared spawn.");
+                    return;
+                }
+                var expectedWorld = worldSpawn.Position;
                 if (position.DistanceTo(expectedWorld) > PositionTolerance)
                 {
                     Fail($"Spawn matrix {placement.ZoneId}@{spawnPointId}: player at {position}, expected {expectedWorld}.");
                     return;
                 }
 
-                if (Mathf.Abs(Mathf.Wrap(main.LastSpawnYawDegrees - spawn.YawDegrees, -180f, 180f)) > 0.01f)
+                if (Mathf.Abs(Mathf.Wrap(main.LastSpawnYawDegrees - worldSpawn.YawDegrees, -180f, 180f)) > 0.01f)
                 {
-                    Fail($"Spawn matrix {placement.ZoneId}@{spawnPointId}: yaw {main.LastSpawnYawDegrees} != declared {spawn.YawDegrees}.");
+                    Fail($"Spawn matrix {placement.ZoneId}@{spawnPointId}: yaw {main.LastSpawnYawDegrees} != declared {worldSpawn.YawDegrees}.");
                     return;
                 }
 
@@ -91,7 +99,7 @@ public partial class Act1SpawnMatrixSmokeTest : Node
 
                 checkedRows++;
                 GD.Print(
-                    $"act1-spawn-matrix: {placement.ZoneId}@{spawnPointId} pos=({position.X:F2},{position.Y:F2},{position.Z:F2}) yaw={spawn.YawDegrees:F0} floor={floorDistance:F2}m");
+                    $"act1-spawn-matrix: {placement.ZoneId}@{spawnPointId} pos=({position.X:F2},{position.Y:F2},{position.Z:F2}) yaw={worldSpawn.YawDegrees:F0} floor={floorDistance:F2}m");
             }
         }
 

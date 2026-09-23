@@ -288,7 +288,7 @@ public partial class Act1DemoLaunchSmokeTest : Node
             ray.ForceRaycastUpdate();
             if (ray.GetCollider() != target || !target.IsAvailable())
             {
-                Fail($"Standing arrival ray cannot inspect {targetName}: collider={ray.GetCollider()}, player={player.GlobalPosition}.");
+                Fail($"Standing arrival ray cannot inspect {targetName}: collider={(ray.GetCollider() as Node)?.GetPath().ToString() ?? "none"}, target={target.GlobalPosition}, available={target.IsAvailable()}, player={player.GlobalPosition}.");
                 return false;
             }
             Input.ParseInputEvent(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });

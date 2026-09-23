@@ -53,7 +53,9 @@ public partial class ChapterOneFlowSmokeTest : Node
         var people = main.ConnectedWorld!.GetNode<Node3D>("Act1CoreWorldGreybox/Act1People");
         var rinatActor = people.GetNode<Node3D>("Npc_rinat");
         if (!people.GetNode<Node3D>("Act1NpcPresentation/Npc_alsu").IsVisibleInTree()
-            || !people.GetNode<Node3D>("Npc_timur_hazrat").IsVisibleInTree()
+            // Timur is reparented into the mosque hall (MosqueInterior), not left with the street people.
+            || main.ConnectedWorld.FindChild("Npc_timur_hazrat", true, false) is not Node3D { } timurActor
+            || !timurActor.IsVisibleInTree()
             || rinatActor.GlobalPosition.Z < -5f)
         { Fail("Act I exterior people are hidden or Rinat starts at the late position."); return; }
 

@@ -1578,7 +1578,8 @@ internal static class Act1ArrivalFlowProof
         Check(replyLine.Contains("Пора найти дом", StringComparison.Ordinal)
             && !homeAddress.Contains("{address:", StringComparison.Ordinal)
             && replyLine.Contains(homeAddress, StringComparison.Ordinal),
-            "The response did not name the same home address as the registry before independent navigation.");
+            "The response did not name the same home address as the registry before independent navigation: "
+            + $"line='{replyLine}', registry='{homeAddress}'.");
         await CloseDialogue();
         Check(bridge.IsInteractionAvailable(Interaction("arrival-enter-house"))
             && !bridge.IsInteractionAvailable(Interaction("arrival-answer-mother"))
