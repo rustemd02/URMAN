@@ -11,12 +11,21 @@ public static class GeneratedCharacterKitDressing
 {
     public const string ScenePath = "res://assets/generated/urman_character_kit.glb";
 
+    // Every NPC instantiates this one kit. Without a managed owner its C#
+    // wrapper can be collected between two loads while Godot still caches the
+    // native scene; the next Load then swaps a dead GC handle ("Handle is not
+    // initialized") and the NPC is not attached. Keep the wrapper alive.
+    private static PackedScene? _kit;
+
     private const float Lod0End = 18f;
     private const float Lod0EndMargin = 2f;
     private const float Lod1Begin = 14f;
     private const float Lod1BeginMargin = 2f;
     private const float Lod1End = 48f;
     private const float Lod1EndMargin = 4f;
+
+    /// <summary>Test-only: release the retained kit so shutdown leak checks stay clean.</summary>
+    public static void ClearCacheForHeadlessTests() => _kit = null;
 
     public static Node3D Attach(
         Node3D parent,
@@ -25,7 +34,9 @@ public static class GeneratedCharacterKitDressing
         Vector3 anchor,
         bool sheltered = false)
     {
-        var packed = ResourceLoader.Load<PackedScene>(ScenePath);
+        var packed = _kit is not null && GodotObject.IsInstanceValid(_kit)
+            ? _kit
+            : _kit = ResourceLoader.Load<PackedScene>(ScenePath);
         if (packed is null)
         {
             throw new InvalidOperationException($"Generated character kit could not be loaded: {ScenePath}");

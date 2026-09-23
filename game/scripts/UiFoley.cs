@@ -115,6 +115,11 @@ public static class UiFoley
         }
     }
 
+    /// <summary>Test-only, like PainterlyMaterialLibrary.ClearCacheForHeadlessTests:
+    /// the static stream cache would otherwise outlive the smoke scene and be
+    /// reported as a resource still in use at exit.</summary>
+    public static void ClearCacheForHeadlessTests() => Cache.Clear();
+
     private static AudioStream? LoadStream(string sample)
     {
         if (!Cache.TryGetValue(sample, out var stream))

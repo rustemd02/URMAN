@@ -238,7 +238,12 @@ public partial class StyleBenchmarkZone : Node3D
         woodpile.Name = "GeneratedWoodpileA";
         woodpile.SetMeta("stylePresentationModule", "WoodpileA_project_original");
         SetMeta("stylePresentationModules", "WellA_project_original|WoodpileA_project_original");
-        MakeBox("BenchByFence", new(1.8f, 0.14f, 0.42f), new(4.9f, 0.7f, 6.1f), "6f543c", surface: "wood");
+        // Like the well: the connected world grounds its own bench seat on the
+        // sloped street (ArrivalDiscoveryCollision). This flat-ground seat would
+        // stay live but invisible about a metre above it and swallow the view
+        // ray to the phone and the photograph lying on the real bench.
+        MakeBox("BenchByFence", new(1.8f, 0.14f, 0.42f), new(4.9f, 0.7f, 6.1f), "6f543c", surface: "wood",
+            collision: GetParent() is not Act1ConnectedWorld);
         MakeBox("BenchBack", new(1.8f, 0.7f, 0.12f), new(4.9f, 1.0f, 6.27f), "604a37", surface: "wood", collision: false);
         if (GetParent() is not Act1ConnectedWorld)
             ArrivalPersonalProps.Build(this, .166f);
