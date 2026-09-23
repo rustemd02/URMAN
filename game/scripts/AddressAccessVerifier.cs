@@ -27,6 +27,9 @@ public partial class AddressAccessVerifier : Node3D
     private ulong _presentationRevision;
 
     internal void NotifyPresentationChanged()=>_presentationRevision++;
+    /// <summary>Diagnostic summary for smokes waiting on one access point.</summary>
+    internal string DescribeProgress()=>$"pending={_pending.Count} current={_current?.AccessId ?? "none"} "
+        +$"job={(_job is not null)} processing={IsPhysicsProcessing()} completed={GetMeta("completed",false)}";
 
     private AuditContext Context()
     {

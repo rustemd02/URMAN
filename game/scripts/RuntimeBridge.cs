@@ -382,7 +382,10 @@ public partial class RuntimeBridge : Node
         }
         catch (Exception exception)
         {
-            GD.PushError($"SaveGameV3 load failed: {exception.Message}");
+            // A slot that was never written is an ordinary answer (nothing to
+            // continue); an existing but unreadable slot is a real fault.
+            if (StoreHasSlot(store, slot)) GD.PushError($"SaveGameV3 load failed: {exception.Message}");
+            else GD.PushWarning($"SaveGameV3 load skipped: slot '{slot}' does not exist ({exception.Message})");
             if (projectionApplied && previousSave is not null)
             {
                 try
